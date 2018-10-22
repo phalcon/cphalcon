@@ -11,8 +11,8 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Db\Adapter;
-use Phalcon\Db\Exception;
 use Phalcon\Db\Column;
+use Phalcon\Db\Exception;
 use Phalcon\Db\Result\Pdo as ResultPdo;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;

@@ -11,12 +11,12 @@
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db;
-use Phalcon\Db\Column;
-use Phalcon\Db\Index;
-use Phalcon\Db\Reference;
-use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
-use Phalcon\Application\Exception;
+use Phalcon\Db\Column;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Index;
+use Phalcon\Db\IndexInterface;
+use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
@@ -41,9 +41,24 @@ use Phalcon\Db\ReferenceInterface;
 class Mysql extends PdoAdapter
 {
 
+	protected _dialectType = "mysql";
+
 	protected _type = "mysql";
 
-	protected _dialectType = "mysql";
+	/**
+	 * Adds a foreign key to a table
+	 */
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	{
+		var foreignKeyCheck;
+
+		let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
+		if !foreignKeyCheck->execute() {
+			throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
+		}
+
+		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
+	}
 
 	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
@@ -369,20 +384,5 @@ class Mysql extends PdoAdapter
 		}
 
 		return referenceObjects;
-	}
-
-	/**
-	 * Adds a foreign key to a table
-	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
-	{
-		var foreignKeyCheck;
-
-		let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
-		if !foreignKeyCheck->execute() {
-			throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
-		}
-
-		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
 }

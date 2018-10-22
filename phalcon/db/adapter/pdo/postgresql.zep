@@ -11,11 +11,11 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db\Column;
-use Phalcon\Db\RawValue;
-use Phalcon\Db\Adapter\Pdo as PdoAdapter;
-use Phalcon\Db\Exception;
 use Phalcon\Db;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+use Phalcon\Db\Column;
+use Phalcon\Db\Exception;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
@@ -41,9 +41,9 @@ use Phalcon\Db\ReferenceInterface;
 class Postgresql extends PdoAdapter
 {
 
-	protected _type = "pgsql";
-
 	protected _dialectType = "postgresql";
+
+	protected _type = "pgsql";
 
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
@@ -77,6 +77,46 @@ class Postgresql extends PdoAdapter
 		}
 
 		return status;
+	}
+
+	/**
+	 * Creates a table
+	 */
+	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
+	{
+		var sql,queries,query,exception,columns;
+
+		if !fetch columns, definition["columns"] {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		if !count(columns) {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		let sql = this->_dialect->createTable(tableName, schemaName, definition);
+
+		let queries = explode(";",sql);
+
+		if count(queries) > 1 {
+			try {
+				this->{"begin"}();
+				for query in queries {
+					if empty query {
+						continue;
+					}
+					this->{"query"}(query . ";");
+				}
+				return this->{"commit"}();
+			} catch \Throwable, exception {
+
+				this->{"rollback"}();
+				 throw exception;
+			 }
+		} else {
+			return this->{"execute"}(queries[0] . ";");
+		}
+		return true;
 	}
 
 	/**
@@ -279,121 +319,6 @@ class Postgresql extends PdoAdapter
 	}
 
 	/**
-	 * Creates a table
-	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
-	{
-		var sql,queries,query,exception,columns;
-
-		if !fetch columns, definition["columns"] {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		if !count(columns) {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		let sql = this->_dialect->createTable(tableName, schemaName, definition);
-
-		let queries = explode(";",sql);
-
-		if count(queries) > 1 {
-			try {
-				this->{"begin"}();
-				for query in queries {
-					if empty query {
-						continue;
-					}
-					this->{"query"}(query . ";");
-				}
-				return this->{"commit"}();
-			} catch \Throwable, exception {
-
-				this->{"rollback"}();
-				 throw exception;
-			 }
-		} else {
-			return this->{"execute"}(queries[0] . ";");
-		}
-		return true;
-	}
-
-	/**
-	 * Modifies a table column based on a definition
-	 */
-	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
-	{
-		var sql,queries,query,exception;
-
-		let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
-		let queries = explode(";",sql);
-
-		if count(queries) > 1 {
-			try {
-
-				this->{"begin"}();
-				for query in queries {
-					if empty query {
-						continue;
-					}
-					this->{"query"}(query . ";");
-				}
-				return this->{"commit"}();
-
-			} catch \Throwable, exception {
-
-				this->{"rollback"}();
-				 throw exception;
-			 }
-
-		} else {
-			return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
-		}
-		return true;
-	}
-
-	/**
-	 * Check whether the database system requires an explicit value for identity columns
-	 */
-	public function useExplicitIdValue() -> boolean
-	{
-		return true;
-	}
-
-	/**
-	 * Returns the default identity value to be inserted in an identity column
-	 *
-	 *<code>
-	 * // Inserting a new robot with a valid default value for the column 'id'
-	 * $success = $connection->insert(
-	 *     "robots",
-	 *     [
-	 *         $connection->getDefaultIdValue(),
-	 *         "Astro Boy",
-	 *         1952,
-	 *     ],
-	 *     [
-	 *         "id",
-	 *         "name",
-	 *         "year",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function getDefaultIdValue() -> <RawValue>
-	{
-		return new RawValue("DEFAULT");
-	}
-
-	/**
-	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 */
-	public function supportSequences() -> boolean
-	{
-		return true;
-	}
-
-	/**
 	 * Lists table references
 	 *
 	 *<code>
@@ -457,5 +382,80 @@ class Postgresql extends PdoAdapter
 		}
 
 		return referenceObjects;
+	}
+
+	/**
+	 * Returns the default identity value to be inserted in an identity column
+	 *
+	 *<code>
+	 * // Inserting a new robot with a valid default value for the column 'id'
+	 * $success = $connection->insert(
+	 *     "robots",
+	 *     [
+	 *         $connection->getDefaultIdValue(),
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function getDefaultIdValue() -> <RawValue>
+	{
+		return new RawValue("DEFAULT");
+	}
+
+	/**
+	 * Modifies a table column based on a definition
+	 */
+	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
+	{
+		var sql,queries,query,exception;
+
+		let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
+		let queries = explode(";",sql);
+
+		if count(queries) > 1 {
+			try {
+
+				this->{"begin"}();
+				for query in queries {
+					if empty query {
+						continue;
+					}
+					this->{"query"}(query . ";");
+				}
+				return this->{"commit"}();
+
+			} catch \Throwable, exception {
+
+				this->{"rollback"}();
+				 throw exception;
+			 }
+
+		} else {
+			return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
+		}
+		return true;
+	}
+
+	/**
+	 * Check whether the database system requires a sequence to produce auto-numeric values
+	 */
+	public function supportSequences() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * Check whether the database system requires an explicit value for identity columns
+	 */
+	public function useExplicitIdValue() -> boolean
+	{
+		return true;
 	}
 }

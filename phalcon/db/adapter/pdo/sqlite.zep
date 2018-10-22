@@ -11,14 +11,14 @@
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Index;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\Index;
-use Phalcon\Db\IndexInterface;
-use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
@@ -38,9 +38,9 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 class Sqlite extends PdoAdapter
 {
 
-	protected _type = "sqlite";
-
 	protected _dialectType = "sqlite";
+
+	protected _type = "sqlite";
 
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
@@ -347,14 +347,6 @@ class Sqlite extends PdoAdapter
 	}
 
 	/**
-	 * Check whether the database system requires an explicit value for identity columns
-	 */
-	public function useExplicitIdValue() -> boolean
-	{
-		return true;
-	}
-
-	/**
 	 * Returns the default value to make the RBDM use the default value declared in the table definition
 	 *
 	 *<code>
@@ -375,5 +367,13 @@ class Sqlite extends PdoAdapter
 	public function getDefaultValue() -> <RawValue>
 	{
 		return new RawValue("NULL");
+	}
+
+	/**
+	 * Check whether the database system requires an explicit value for identity columns
+	 */
+	public function useExplicitIdValue() -> boolean
+	{
+		return true;
 	}
 }
