@@ -25,6 +25,7 @@ use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
@@ -589,9 +590,52 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array parameters
 	 * @return double
 	 */
-	public static function average(var parameters = null)
+	public static function average(var parameters = null) -> float
 	{
 		return self::_groupResult("AVG", "average", parameters);
+	}
+
+	/**
+	 * Assigns values to a model from an array returning a new model
+	 *
+	 *<code>
+	 * $robot = Phalcon\Mvc\Model::cloneResult(
+	 *     new Robots(),
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
+	{
+		var instance, key, value;
+
+		/**
+		 * Clone the base record
+		 */
+		let instance = clone base;
+
+		/**
+		 * Mark the object as persistent
+		 */
+		instance->setDirtyState(dirtyState);
+
+		for key, value in data {
+			if typeof key != "string" {
+				throw new Exception("Invalid key in array data provided to dumpResult()");
+			}
+			let instance->{key} = value;
+		}
+
+		/**
+		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
+		 */
+		(<ModelInterface> instance)->fireEvent("afterFetch");
+
+		return instance;
 	}
 
 	/**
@@ -611,7 +655,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
 	 * @param array columnMap
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
+	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <ModelInterface>
 	{
 		var instance, attribute, key, value, castValue, attributeName;
 
@@ -701,49 +745,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		if method_exists(instance, "fireEvent") {
 			instance->{"fireEvent"}("afterFetch");
 		}
-
-		return instance;
-	}
-
-	/**
-	 * Assigns values to a model from an array returning a new model
-	 *
-	 *<code>
-	 * $robot = Phalcon\Mvc\Model::cloneResult(
-	 *     new Robots(),
-	 *     [
-	 *         "type" => "mechanical",
-	 *         "name" => "Astro Boy",
-	 *         "year" => 1952,
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
-	{
-		var instance, key, value;
-
-		/**
-		 * Clone the base record
-		 */
-		let instance = clone base;
-
-		/**
-		 * Mark the object as persistent
-		 */
-		instance->setDirtyState(dirtyState);
-
-		for key, value in data {
-			if typeof key != "string" {
-				throw new Exception("Invalid key in array data provided to dumpResult()");
-			}
-			let instance->{key} = value;
-		}
-
-		/**
-		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
-		 */
-		(<ModelInterface> instance)->fireEvent("afterFetch");
 
 		return instance;
 	}
@@ -842,7 +843,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function count(var parameters = null)
+	public static function count(var parameters = null) -> integer
 	{
 		var result;
 
@@ -1248,7 +1249,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array parameters
 	 */
-	public static function findFirst(var parameters = null) -> <Model>
+	public static function findFirst(var parameters = null) -> <ModelInterface>
 	{
 		var params, query;
 
@@ -1599,7 +1600,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * print_r($robots->getUpdatedFields()); // ["deleted"]
 	 * </code>
 	 */
-	public function getUpdatedFields()
+	public function getUpdatedFields() -> array
 	{
 		var updated, name, snapshot,
 			oldSnapshot, value;
@@ -1785,7 +1786,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function maximum(var parameters = null)
+	public static function maximum(var parameters = null) -> var
 	{
 		return self::_groupResult("MAX", "maximum", parameters);
 	}
@@ -1817,7 +1818,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function minimum(parameters = null)
+	public static function minimum(parameters = null) -> var
 	{
 		return self::_groupResult("MIN", "minimum", parameters);
 	}
@@ -1870,7 +1871,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */
-	public function refresh() -> <Model>
+	public function refresh() -> <ModelInterface>
 	{
 		var metaData, readConnection, schema, source, table,
 			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute, manager, columnMap;
@@ -2287,7 +2288,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param array columnMap
 	 */
-	public function setSnapshotData(array! data, columnMap = null)
+	public function setSnapshotData(array! data, columnMap = null) -> void
 	{
 		var key, value, snapshot, attribute;
 
@@ -2476,7 +2477,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip)
+	public function skipOperation(boolean skip) -> void
 	{
 		let this->_skipped = skip;
 	}
@@ -2506,9 +2507,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @return mixed
+	 * @return double
 	 */
-	public static function sum(var parameters = null)
+	public static function sum(var parameters = null) -> float
 	{
 		return self::_groupResult("SUM", "sumatory", parameters);
 	}

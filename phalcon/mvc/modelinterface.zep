@@ -9,9 +9,11 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Db\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
@@ -42,7 +44,7 @@ interface ModelInterface
 	 * @param array parameters
 	 * @return double
 	 */
-	public static function average(parameters = null);
+	public static function average(parameters = null) -> float;
 
 	/**
 	 * Assigns values to a model from an array returning a new model
@@ -56,7 +58,7 @@ interface ModelInterface
 	 * @param array columnMap
 	 * @return \Phalcon\Mvc\Model result
 	 */
-	public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null);
+	public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <ModelInterface>;
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
@@ -71,7 +73,7 @@ interface ModelInterface
 	 * @param array parameters
 	 * @return int
 	 */
-	public static function count(parameters = null);
+	public static function count(parameters = null) -> integer;
 
 	/**
 	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
@@ -131,7 +133,7 @@ interface ModelInterface
 	/**
 	 * Gets internal database connection
 	 */
-	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>;
+	public function getReadConnection() -> <AdapterInterface>;
 
 	/**
 	 * Returns DependencyInjection connection service used to read data
@@ -158,7 +160,7 @@ interface ModelInterface
 	/**
 	 * Gets internal database connection
 	 */
-	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
+	public function getWriteConnection() -> <AdapterInterface>;
 
 	/**
 	 * Returns DependencyInjection connection service used to write data
@@ -171,7 +173,7 @@ interface ModelInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function maximum(parameters = null);
+	public static function maximum(parameters = null) -> var;
 
 	/**
 	 * Allows to get the minimum value of a column that match the specified conditions
@@ -179,7 +181,7 @@ interface ModelInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function minimum(parameters = null);
+	public static function minimum(parameters = null) -> var;
 
 	/**
 	 * Create a criteria for a specific model
@@ -189,7 +191,7 @@ interface ModelInterface
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */
-	public function refresh();
+	public function refresh() -> <ModelInterface>;
 
 	/**
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
@@ -217,7 +219,7 @@ interface ModelInterface
 	 *
 	 * @param array columnMap
 	 */
-	public function setSnapshotData(array! data, columnMap = null);
+	public function setSnapshotData(array! data, columnMap = null) -> void;
 
 	/**
 	 * Sets a transaction related to the Model instance
@@ -232,7 +234,7 @@ interface ModelInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip);
+	public function skipOperation(boolean skip) -> void;
 
 	/**
 	 * Allows to calculate a sum on a column that match the specified conditions
@@ -240,7 +242,7 @@ interface ModelInterface
 	 * @param array parameters
 	 * @return double
 	 */
-	public static function sum(parameters = null);
+	public static function sum(parameters = null) -> float;
 
 	/**
 	 * Check whether validation process has generated any messages
