@@ -25,7 +25,6 @@ use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
