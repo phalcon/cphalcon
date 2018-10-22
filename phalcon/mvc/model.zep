@@ -442,7 +442,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 * </code>
 	 */
-	public function appendMessage(<MessageInterface> message) -> <Model>
+	public function appendMessage(<MessageInterface> message) -> <ModelInterface>
 	{
 		let this->_errorMessages[] = message;
 		return this;

@@ -29,7 +29,7 @@ interface ModelInterface
 	/**
 	 * Appends a customized message on the validation process
 	 */
-	public function appendMessage(<MessageInterface> message);
+	public function appendMessage(<MessageInterface> message) ->  <ModelInterface>;
 
 	/**
 	 * Assigns values to a model from an array
