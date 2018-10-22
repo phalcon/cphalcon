@@ -28,7 +28,7 @@ interface ColumnInterface
 	 *
 	 * @return string
 	 */
-	public function getAfterPosition();
+	public function getAfterPosition() -> string;
 
 	/**
 	 * Returns the type of bind handling

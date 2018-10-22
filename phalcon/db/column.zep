@@ -493,7 +493,7 @@ class Column implements ColumnInterface
 	 *
 	 * @return string
 	 */
-	public function getAfterPosition()
+	public function getAfterPosition() -> string
 	{
 		return this->_after;
 	}
