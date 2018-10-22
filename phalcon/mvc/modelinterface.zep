@@ -73,7 +73,7 @@ interface ModelInterface
 	 * @param array parameters
 	 * @return int
 	 */
-	public static function count(parameters = null) -> integer;
+	public static function count(parameters = null) -> int;
 
 	/**
 	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception

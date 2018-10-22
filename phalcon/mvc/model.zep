@@ -843,7 +843,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function count(var parameters = null) -> integer
+	public static function count(var parameters = null) -> int
 	{
 		var result;
 
