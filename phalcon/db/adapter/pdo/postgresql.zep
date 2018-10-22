@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
@@ -40,49 +41,9 @@ use Phalcon\Db\ReferenceInterface;
 class Postgresql extends PdoAdapter
 {
 
-	protected _dialectType = "postgresql";
-
 	protected _type = "pgsql";
 
-	/**
-	 * Creates a table
-	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
-	{
-		var sql,queries,query,exception,columns;
-
-		if !fetch columns, definition["columns"] {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		if !count(columns) {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		let sql = this->_dialect->createTable(tableName, schemaName, definition);
-
-		let queries = explode(";",sql);
-
-		if count(queries) > 1 {
-			try {
-				this->{"begin"}();
-				for query in queries {
-					if empty query {
-						continue;
-					}
-					this->{"query"}(query . ";");
-				}
-				return this->{"commit"}();
-			} catch \Throwable, exception {
-
-				this->{"rollback"}();
-				 throw exception;
-			 }
-		} else {
-			return this->{"execute"}(queries[0] . ";");
-		}
-		return true;
-	}
+	protected _dialectType = "postgresql";
 
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
@@ -148,53 +109,24 @@ class Postgresql extends PdoAdapter
 			/**
 			 * By checking every column type we convert it to a Phalcon\Db\Column
 			 */
-			let columnType   = field[1],
-				charSize     = field[2],
-				numericSize  = field[3],
+			let columnType = field[1],
+				charSize = field[2],
+				numericSize = field[3],
 				numericScale = field[4];
 
-			if memstr(columnType, "bigint") {
+			if memstr(columnType, "smallint(1)") {
+				/**
+				 * Smallint(1) is boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Bigint
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "bool") {
-				/**
-				 * Boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["size"] = 0,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "char") {
-				/**
-				 * Chars are chars
-				 */
-				let definition["type"] = Column::TYPE_CHAR,
-					definition["size"] = charSize;
-			} elseif memstr(columnType, "date") {
-				/**
-				 * Special type for datetime
-				 */
-				let definition["type"] = Column::TYPE_DATE,
-					definition["size"] = 0;
-			} elseif memstr(columnType, "double precision") {
-				/**
-				 * Double Precision
-				 */
-				let definition["type"] = Column::TYPE_DOUBLE,
-					definition["isNumeric"] = true,
-					definition["size"] = numericSize,
-					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "float") {
-				/**
-				 * Float/Smallfloats/Decimals are float
-				 */
-				let definition["type"] = Column::TYPE_FLOAT,
-					definition["isNumeric"] = true,
-					definition["size"] = numericSize,
-					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 			} elseif memstr(columnType, "int") {
 				/**
 				 * Int
@@ -203,24 +135,13 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "json") {
+			} elseif memstr(columnType, "double precision") {
 				/**
-				 * Json
+				 * Double Precision
 				 */
-				let definition["type"] = Column::TYPE_JSON;
-			} elseif memstr(columnType, "jsonb") {
-				/**
-				 * Jsonb
-				 */
-				let definition["type"] = Column::TYPE_JSONB;
-			} elseif memstr(columnType, "numeric") {
-				/**
-				 * Numeric
-				 */
-				let definition["type"] = Column::TYPE_DECIMAL,
+				let definition["type"] = Column::TYPE_DOUBLE,
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
-					definition["scale"] = numericScale,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
             } elseif memstr(columnType, "real") {
 				/**
@@ -230,35 +151,75 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "smallint(1)") {
-				/**
-				 * Smallint(1) is boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "text") {
-				/**
-				 * Text are varchars
-				 */
-				let definition["type"] = Column::TYPE_TEXT,
-					definition["size"] = charSize;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Timestamp
-				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "uuid") {
-				/**
-				 * UUID
-				 */
-				let definition["type"] = Column::TYPE_CHAR,
-					definition["size"] = 36;
 			} elseif memstr(columnType, "varying") {
 				/**
 				 * Varchar
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR,
 					definition["size"] = charSize;
+			} elseif memstr(columnType, "date") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATE,
+					definition["size"] = 0;
+			} elseif memstr(columnType, "timestamp") {
+				/**
+				 * Timestamp
+				 */
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+			} elseif memstr(columnType, "numeric") {
+				/**
+				 * Numeric
+				 */
+				let definition["type"] = Column::TYPE_DECIMAL,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["scale"] = numericScale,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "char") {
+				/**
+				 * Chars are chars
+				 */
+				let definition["type"] = Column::TYPE_CHAR,
+					definition["size"] = charSize;
+			} elseif memstr(columnType, "text") {
+				/**
+				 * Text are varchars
+				 */
+				let definition["type"] = Column::TYPE_TEXT,
+					definition["size"] = charSize;
+			} elseif memstr(columnType, "float") {
+				/**
+				 * Float/Smallfloats/Decimals are float
+				 */
+				let definition["type"] = Column::TYPE_FLOAT,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "bool") {
+				/**
+				 * Boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["size"] = 0,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "jsonb") {
+				/**
+				 * Jsonb
+				 */
+				let definition["type"] = Column::TYPE_JSONB;
+			} elseif memstr(columnType, "json") {
+				/**
+				 * Json
+				 */
+				let definition["type"] = Column::TYPE_JSON;
+			} elseif memstr(columnType, "uuid") {
+				/**
+				 * UUID
+				 */
+				let definition["type"] = Column::TYPE_CHAR,
+					definition["size"] = 36;
 			} else {
 				/**
 				 * By default is string
@@ -316,6 +277,122 @@ class Postgresql extends PdoAdapter
 
 		return columns;
 	}
+
+	/**
+	 * Creates a table
+	 */
+	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
+	{
+		var sql,queries,query,exception,columns;
+
+		if !fetch columns, definition["columns"] {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		if !count(columns) {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		let sql = this->_dialect->createTable(tableName, schemaName, definition);
+
+		let queries = explode(";",sql);
+
+		if count(queries) > 1 {
+			try {
+				this->{"begin"}();
+				for query in queries {
+					if empty query {
+						continue;
+					}
+					this->{"query"}(query . ";");
+				}
+				return this->{"commit"}();
+			} catch \Throwable, exception {
+
+				this->{"rollback"}();
+				 throw exception;
+			 }
+		} else {
+			return this->{"execute"}(queries[0] . ";");
+		}
+		return true;
+	}
+
+	/**
+	 * Modifies a table column based on a definition
+	 */
+	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
+	{
+		var sql,queries,query,exception;
+
+		let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
+		let queries = explode(";",sql);
+
+		if count(queries) > 1 {
+			try {
+
+				this->{"begin"}();
+				for query in queries {
+					if empty query {
+						continue;
+					}
+					this->{"query"}(query . ";");
+				}
+				return this->{"commit"}();
+
+			} catch \Throwable, exception {
+
+				this->{"rollback"}();
+				 throw exception;
+			 }
+
+		} else {
+			return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
+		}
+		return true;
+	}
+
+	/**
+	 * Check whether the database system requires an explicit value for identity columns
+	 */
+	public function useExplicitIdValue() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * Returns the default identity value to be inserted in an identity column
+	 *
+	 *<code>
+	 * // Inserting a new robot with a valid default value for the column 'id'
+	 * $success = $connection->insert(
+	 *     "robots",
+	 *     [
+	 *         $connection->getDefaultIdValue(),
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function getDefaultIdValue() -> <RawValue>
+	{
+		return new RawValue("DEFAULT");
+	}
+
+	/**
+	 * Check whether the database system requires a sequence to produce auto-numeric values
+	 */
+	public function supportSequences() -> boolean
+	{
+		return true;
+	}
+
 	/**
 	 * Lists table references
 	 *
@@ -381,80 +458,4 @@ class Postgresql extends PdoAdapter
 
 		return referenceObjects;
 	}
-
-	/**
-	 * Returns the default identity value to be inserted in an identity column
-	 *
-	 *<code>
-	 * // Inserting a new robot with a valid default value for the column 'id'
-	 * $success = $connection->insert(
-	 *     "robots",
-	 *     [
-	 *         $connection->getDefaultIdValue(),
-	 *         "Astro Boy",
-	 *         1952,
-	 *     ],
-	 *     [
-	 *         "id",
-	 *         "name",
-	 *         "year",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function getDefaultIdValue() -> <RawValue>
-	{
-		return new RawValue("DEFAULT");
-	}
-
-	/**
-	 * Modifies a table column based on a definition
-	 */
-	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
-	{
-		var sql,queries,query,exception;
-
-		let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
-		let queries = explode(";",sql);
-
-		if count(queries) > 1 {
-			try {
-
-				this->{"begin"}();
-				for query in queries {
-					if empty query {
-						continue;
-					}
-					this->{"query"}(query . ";");
-				}
-				return this->{"commit"}();
-
-			} catch \Throwable, exception {
-
-				this->{"rollback"}();
-				 throw exception;
-			 }
-
-		} else {
-			return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
-		}
-		return true;
-	}
-
-	/**
-	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 */
-	public function supportSequences() -> boolean
-	{
-		return true;
-	}
-
-	/**
-	 * Check whether the database system requires an explicit value for identity columns
-	 */
-	public function useExplicitIdValue() -> boolean
-	{
-		return true;
-	}
-
 }

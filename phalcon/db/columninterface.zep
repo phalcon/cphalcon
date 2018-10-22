@@ -18,39 +18,6 @@ namespace Phalcon\Db;
 interface ColumnInterface
 {
 	/**
-	 * Check whether field absolute to position in table
-	 *
-	 * @return string
-	 */
-	public function getAfterPosition();
-
-	/**
-	 * Returns the type of bind handling
-	 */
-	public function getBindType() -> int;
-
-	/**
-	 * Returns default value of column
-	 *
-	 * @return int
-	 */
-	public function getDefault();
-
-	/**
-	 * Returns column name
-	 *
-	 * @return string
-	 */
-	public function getName();
-
-	/**
-	 * Returns column scale
-	 *
-	 * @return int
-	 */
-	public function getScale();
-
-	/**
 	 * Returns schema's table related to column
 	 *
 	 * @return string
@@ -58,11 +25,11 @@ interface ColumnInterface
 	public function getSchemaName();
 
 	/**
-	 * Returns column size
+	 * Returns column name
 	 *
-	 * @return int
+	 * @return string
 	 */
-	public function getSize();
+	public function getName();
 
 	/**
 	 * Returns column type
@@ -86,24 +53,23 @@ interface ColumnInterface
 	public function getTypeValues();
 
 	/**
-	 * Check whether column has default value
+	 * Returns column size
+	 *
+	 * @return int
 	 */
-	public function hasDefault() -> boolean;
+	public function getSize();
 
 	/**
-	 * Auto-Increment
+	 * Returns column scale
+	 *
+	 * @return int
 	 */
-	public function isAutoIncrement() -> boolean;
+	public function getScale();
 
 	/**
-	 * Check whether column have first position in table
+	 * Returns true if number column is unsigned
 	 */
-	public function isFirst() -> boolean;
-
-	/**
-	 * Check whether column have an numeric type
-	 */
-	public function isNumeric() -> boolean;
+	public function isUnsigned() -> boolean;
 
 	/**
 	 * Not null
@@ -116,9 +82,43 @@ interface ColumnInterface
 	public function isPrimary() -> boolean;
 
 	/**
-	 * Returns true if number column is unsigned
+	 * Auto-Increment
 	 */
-	public function isUnsigned() -> boolean;
+	public function isAutoIncrement() -> boolean;
+
+	/**
+	 * Check whether column have an numeric type
+	 */
+	public function isNumeric() -> boolean;
+
+	/**
+	 * Check whether column have first position in table
+	 */
+	public function isFirst() -> boolean;
+
+	/**
+	 * Check whether field absolute to position in table
+	 *
+	 * @return string
+	 */
+	public function getAfterPosition();
+
+	/**
+	 * Returns the type of bind handling
+	 */
+	public function getBindType() -> int;
+
+	/**
+	 * Returns default value of column
+	 *
+	 * @return int
+	 */
+	public function getDefault();
+
+	/**
+	 * Check whether column has default value
+	 */
+	public function hasDefault() -> boolean;
 
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object

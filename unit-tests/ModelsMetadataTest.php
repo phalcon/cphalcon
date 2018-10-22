@@ -180,7 +180,7 @@ class ModelsMetadataTest extends TestCase
 			'ciudad_id' => 0,
 			'creado_at' => 1,
 			'cupo' => 3,
-			'estado' => 18,
+			'estado' => 5,
 		);
 
 		$dtAttributes = $metaData->getDataTypes($personas);

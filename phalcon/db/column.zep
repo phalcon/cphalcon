@@ -42,6 +42,111 @@ class Column implements ColumnInterface
 {
 
 	/**
+	 * Integer abstract type
+	 */
+	const TYPE_INTEGER = 0;
+
+	/**
+	 * Date abstract type
+	 */
+	const TYPE_DATE = 1;
+
+	/**
+	 * Varchar abstract type
+	 */
+	const TYPE_VARCHAR = 2;
+
+	/**
+	 * Decimal abstract type
+	 */
+	const TYPE_DECIMAL = 3;
+
+	/**
+	 * Datetime abstract type
+	 */
+	const TYPE_DATETIME = 4;
+
+	/**
+	 * Char abstract type
+	 */
+	const TYPE_CHAR = 5;
+
+	/**
+	 * Text abstract data type
+	 */
+	const TYPE_TEXT = 6;
+
+	/**
+	 * Float abstract data type
+	 */
+	const TYPE_FLOAT = 7;
+
+	/**
+	 * Boolean abstract data type
+	 */
+	const TYPE_BOOLEAN = 8;
+
+	/**
+	 * Double abstract data type
+	 */
+	const TYPE_DOUBLE = 9;
+
+	/**
+	 * Tinyblob abstract data type
+	 */
+	const TYPE_TINYBLOB = 10;
+
+	/**
+	 * Blob abstract data type
+	 */
+	const TYPE_BLOB = 11;
+
+	/**
+	 * Mediumblob abstract data type
+	 */
+	const TYPE_MEDIUMBLOB = 12;
+
+	/**
+	 * Longblob abstract data type
+	 */
+	const TYPE_LONGBLOB = 13;
+
+	/**
+	 * Big integer abstract data type
+	 */
+	const TYPE_BIGINTEGER = 14;
+
+	/**
+	 * Json abstract type
+	 */
+	const TYPE_JSON = 15;
+
+	/**
+	 * Jsonb abstract type
+	 */
+	const TYPE_JSONB = 16;
+
+	/**
+	 * Datetime abstract type
+	 */
+	const TYPE_TIMESTAMP = 17;
+
+	/**
+	 * Bind Type Null
+	 */
+	const BIND_PARAM_NULL = 0;
+
+	/**
+	 * Bind Type Integer
+	 */
+	const BIND_PARAM_INT = 1;
+
+	/**
+	 * Bind Type String
+	 */
+	const BIND_PARAM_STR = 2;
+
+	/**
 	 * Bind Type Blob
 	 */
 	const BIND_PARAM_BLOB = 3;
@@ -57,156 +162,9 @@ class Column implements ColumnInterface
 	const BIND_PARAM_DECIMAL = 32;
 
 	/**
-	 * Bind Type Integer
-	 */
-	const BIND_PARAM_INT = 1;
-
-	/**
-	 * Bind Type Null
-	 */
-	const BIND_PARAM_NULL = 0;
-
-	/**
-	 * Bind Type String
-	 */
-	const BIND_PARAM_STR = 2;
-
-	/**
 	 * Skip binding by type
 	 */
 	const BIND_SKIP = 1024;
-
-	/**
-	 * Big integer abstract data type
-	 */
-	const TYPE_BIGINTEGER = 14;
-
-	/**
-	 * Blob abstract data type
-	 */
-	const TYPE_BLOB = 11;
-
-	/**
-	 * Boolean abstract data type
-	 */
-	const TYPE_BOOLEAN = 8;
-
-	/**
-	 * Char abstract type
-	 */
-	const TYPE_CHAR = 5;
-
-	/**
-	 * Date abstract type
-	 */
-	const TYPE_DATE = 1;
-
-	/**
-	 * Datetime abstract type
-	 */
-	const TYPE_DATETIME = 4;
-
-	/**
-	 * Decimal abstract type
-	 */
-	const TYPE_DECIMAL = 3;
-
-	/**
-	 * Double abstract data type
-	 */
-	const TYPE_DOUBLE = 9;
-
-	/**
-	 * Enum abstract type
-	 */
-	const TYPE_ENUM = 18;
-
-	/**
-	 * Float abstract data type
-	 */
-	const TYPE_FLOAT = 7;
-
-	/**
-	 * Integer abstract type
-	 */
-	const TYPE_INTEGER = 0;
-
-	/**
-	 * Json abstract type
-	 */
-	const TYPE_JSON = 15;
-
-	/**
-	 * Jsonb abstract type
-	 */
-	const TYPE_JSONB = 16;
-
-	/**
-	 * Mediumblob abstract data type
-	 */
-	const TYPE_MEDIUMBLOB = 12;
-
-	/**
-	 * Longblob abstract data type
-	 */
-	const TYPE_LONGBLOB = 13;
-
-	/**
-	 * Text abstract data type
-	 */
-	const TYPE_TEXT = 6;
-
-	/**
-	 * Datetime abstract type
-	 */
-	const TYPE_TIMESTAMP = 17;
-
-	/**
-	 * Tinyblob abstract data type
-	 */
-	const TYPE_TINYBLOB = 10;
-
-	/**
-	 * Varchar abstract type
-	 */
-	const TYPE_VARCHAR = 2;
-
-
-	/**
-	 * Column Position
-	 *
-	 * @var string
-	 */
-	protected _after;
-
-	/**
-	 * Column is autoIncrement?
-	 *
-	 * @var boolean
-	 */
-	protected _autoIncrement = false;
-
-	/**
-	 * Bind Type
-	 */
-	protected _bindType = 2;
-
-	/**
-	 * Default column value
-	 */
-	protected _default = null { get };
-
-	/**
-	 * Position is first
-	 *
-	 * @var boolean
-	 */
-	protected _first = false;
-
-	/**
-	 * The column have some numeric type?
-	 */
-	protected _isNumeric = false;
 
 	/**
 	 * Column's name
@@ -216,37 +174,11 @@ class Column implements ColumnInterface
 	protected _name { get };
 
 	/**
-	 * Column not nullable?
-	 *
-	 * @var boolean
-	 */
-	protected _notNull = false;
-
-	/**
-	 * Column is part of the primary key?
-	 */
-	protected _primary = false;
-
-	/**
 	 * Schema which table related is
 	 *
 	 * @var string
 	 */
 	protected _schemaName { get };
-
-	/**
-	 * Integer column number scale
-	 *
-	 * @var int
-	 */
-	protected _scale = 0 { get };
-
-	/**
-	 * Integer column size
-	 *
-	 * @var int
-	 */
-	protected _size = 0 { get };
 
 	/**
 	 * Column data type
@@ -270,11 +202,73 @@ class Column implements ColumnInterface
 	protected _typeValues { get };
 
 	/**
+	 * The column have some numeric type?
+	 */
+	protected _isNumeric = false;
+
+	/**
+	 * Integer column size
+	 *
+	 * @var int
+	 */
+	protected _size = 0 { get };
+
+	/**
+	 * Integer column number scale
+	 *
+	 * @var int
+	 */
+	protected _scale = 0 { get };
+
+	/**
+	 * Default column value
+	 */
+	protected _default = null { get };
+
+	/**
 	 * Integer column unsigned?
 	 *
 	 * @var boolean
 	 */
 	protected _unsigned = false;
+
+	/**
+	 * Column not nullable?
+	 *
+	 * @var boolean
+	 */
+	protected _notNull = false;
+
+	/**
+	 * Column is part of the primary key?
+	 */
+	protected _primary = false;
+
+	/**
+	 * Column is autoIncrement?
+	 *
+	 * @var boolean
+	 */
+	protected _autoIncrement = false;
+
+	/**
+	 * Position is first
+	 *
+	 * @var boolean
+	 */
+	protected _first = false;
+
+	/**
+	 * Column Position
+	 *
+	 * @var string
+	 */
+	protected _after;
+
+	/**
+	 * Bind Type
+	 */
+	protected _bindType = 2;
 
 	/**
 	 * Phalcon\Db\Column constructor
@@ -406,57 +400,11 @@ class Column implements ColumnInterface
 	}
 
 	/**
-	 * Check whether field absolute to position in table
-	 *
-	 * @return string
+	 * Returns true if number column is unsigned
 	 */
-	public function getAfterPosition()
+	public function isUnsigned() -> boolean
 	{
-		return this->_after;
-	}
-
-	/**
-	 * Returns the type of bind handling
-	 */
-	public function getBindType() -> int
-	{
-		return this->_bindType;
-	}
-
-	/**
-	 * Check whether column has default value
-	 */
-	public function hasDefault() -> boolean
-	{
-		if this->isAutoIncrement() {
-			return false;
-		}
-
-		return this->_default !== null;
-	}
-
-	/**
-	 * Auto-Increment
-	 */
-	public function isAutoIncrement() -> boolean
-	{
-		return this->_autoIncrement;
-	}
-
-	/**
-	 * Check whether column have first position in table
-	 */
-	public function isFirst() -> boolean
-	{
-		return this->_first;
-	}
-
-	/**
-	 * Check whether column have an numeric type
-	 */
-	public function isNumeric() -> boolean
-	{
-		return this->_isNumeric;
+		return this->_unsigned;
 	}
 
 	/**
@@ -476,11 +424,45 @@ class Column implements ColumnInterface
 	}
 
 	/**
-	 * Returns true if number column is unsigned
+	 * Auto-Increment
 	 */
-	public function isUnsigned() -> boolean
+	public function isAutoIncrement() -> boolean
 	{
-		return this->_unsigned;
+		return this->_autoIncrement;
+	}
+
+	/**
+	 * Check whether column have an numeric type
+	 */
+	public function isNumeric() -> boolean
+	{
+		return this->_isNumeric;
+	}
+
+	/**
+	 * Check whether column have first position in table
+	 */
+	public function isFirst() -> boolean
+	{
+		return this->_first;
+	}
+
+	/**
+	 * Check whether field absolute to position in table
+	 *
+	 * @return string
+	 */
+	public function getAfterPosition()
+	{
+		return this->_after;
+	}
+
+	/**
+	 * Returns the type of bind handling
+	 */
+	public function getBindType() -> int
+	{
+		return this->_bindType;
 	}
 
 	/**
@@ -570,5 +552,17 @@ class Column implements ColumnInterface
 		}
 
 		return new self(columnName, definition);
+	}
+
+	/**
+	 * Check whether column has default value
+	 */
+	public function hasDefault() -> boolean
+	{
+		if this->isAutoIncrement() {
+			return false;
+		}
+
+		return this->_default !== null;
 	}
 }

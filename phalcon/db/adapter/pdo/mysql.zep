@@ -41,25 +41,9 @@ use Phalcon\Db\ReferenceInterface;
 class Mysql extends PdoAdapter
 {
 
-	protected _dialectType = "mysql";
-
 	protected _type = "mysql";
 
-
-	/**
-	 * Adds a foreign key to a table
-	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
-	{
-		var foreignKeyCheck;
-
-		let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
-		if !foreignKeyCheck->execute() {
-			throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
-		}
-
-		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
-	}
+	protected _dialectType = "mysql";
 
 	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
@@ -98,12 +82,11 @@ class Mysql extends PdoAdapter
 			 */
 			let columnType = field[1];
 
-			if memstr(columnType, "bit") {
+			if memstr(columnType, "enum") {
 				/**
-				 * Boolean
+				 * Enum are treated as char
 				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
+				let definition["type"] = Column::TYPE_CHAR;
 			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
@@ -111,16 +94,43 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "blob") {
+			} elseif memstr(columnType, "int") {
 				/**
-				 * Blob
+				 * Smallint/Bigint/Integers/Int are int
 				 */
-				let definition["type"] = Column::TYPE_BLOB;
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "varchar") {
+				/**
+				 * Varchar are varchars
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR;
+			} elseif memstr(columnType, "datetime") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
 				 */
 				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "date") {
+				/**
+				 * Date are dates
+				 */
+				let definition["type"] = Column::TYPE_DATE;
+			} elseif memstr(columnType, "timestamp") {
+				/**
+				 * Timestamp are dates
+				 */
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+			} elseif memstr(columnType, "text") {
+				/**
+				 * Text are varchars
+				 */
+				let definition["type"] = Column::TYPE_TEXT;
 			} elseif memstr(columnType, "decimal") {
 				/**
 				 * Decimals are floats
@@ -128,11 +138,6 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_DECIMAL,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "date") {
-				/**
-				 * Date are dates
-				 */
-				let definition["type"] = Column::TYPE_DATE;
 			} elseif memstr(columnType, "double") {
 				/**
 				 * Doubles
@@ -140,16 +145,6 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_DOUBLE,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "datetime") {
-				/**
-				 * Special type for datetime
-				 */
-				let definition["type"] = Column::TYPE_DATETIME;
-			} elseif memstr(columnType, "enum") {
-				/**
-				 * Enum are enum
-				 */
-				let definition["type"] = Column::TYPE_ENUM;
 			} elseif memstr(columnType, "float") {
 				/**
 				 * Float/Smallfloats/Decimals are float
@@ -157,6 +152,17 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "bit") {
+				/**
+				 * Boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "tinyblob") {
+				/**
+				 * Tinyblob
+				 */
+				let definition["type"] = Column::TYPE_TINYBLOB;
 			} elseif memstr(columnType, "mediumblob") {
 				/**
 				 * Mediumblob
@@ -167,33 +173,11 @@ class Mysql extends PdoAdapter
 				 * Longblob
 				 */
 				let definition["type"] = Column::TYPE_LONGBLOB;
-			} elseif memstr(columnType, "int") {
+			} elseif memstr(columnType, "blob") {
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Blob
 				 */
-				let definition["type"] = Column::TYPE_INTEGER,
-					definition["isNumeric"] = true,
-					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "text") {
-				/**
-				 * Text are varchars
-				 */
-				let definition["type"] = Column::TYPE_TEXT;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Timestamp are dates
-				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "tinyblob") {
-				/**
-				 * Tinyblob
-				 */
-				let definition["type"] = Column::TYPE_TINYBLOB;
-			} elseif memstr(columnType, "varchar") {
-				/**
-				 * Varchar are varchars
-				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
+				let definition["type"] = Column::TYPE_BLOB;
 			} else {
 				/**
 				 * By default is string
@@ -206,10 +190,7 @@ class Mysql extends PdoAdapter
 			 */
 			if memstr(columnType, "(") {
 				let matches = null;
-
-				if definition["type"] == Column::TYPE_ENUM {
-					let definition["size"] = substr(columnType, 5, -1);
-				} elseif preg_match(sizePattern, columnType, matches) {
+				if preg_match(sizePattern, columnType, matches) {
 					if fetch matchOne, matches[1] {
 						let definition["size"] = (int) matchOne;
 					}
@@ -388,5 +369,20 @@ class Mysql extends PdoAdapter
 		}
 
 		return referenceObjects;
+	}
+
+	/**
+	 * Adds a foreign key to a table
+	 */
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	{
+		var foreignKeyCheck;
+
+		let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
+		if !foreignKeyCheck->execute() {
+			throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
+		}
+
+		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
 }
