@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit;
 
+use Phalcon\Db\RawValue;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Module\UnitTest;
@@ -229,7 +230,7 @@ class ValidationTest extends UnitTest
             }
         );
     }
-    
+
     /**
      * Tests that empty values behaviour.
      *
@@ -259,35 +260,51 @@ class ValidationTest extends UnitTest
                     ->add('email', new Validation\Validator\Email(array(
                         'message' => 'The email is not valid.',
                         'allowEmpty' => [null, false],
+                    )))
+                    ->add('price', new Validation\Validator\Numericality(array(
+                        'message' => 'The price is not valid.',
+                        'allowEmpty' => [null, new RawValue('NULL')],
                     )));
 
                 $messages = $validation->validate([
                     'name' => '',
                     'url' => null,
                     'email' => '',
+                    'price' => null,
                 ]);
                 expect($messages)->count(2);
-                
+
                 $messages = $validation->validate([
                     'name' => 'MyName',
                     'url' => '',
                     'email' => '',
+                    'price' => null,
                 ]);
                 expect($messages)->count(1);
-                
+
                 $messages = $validation->validate([
                     'name' => 'MyName',
                     'url' => false,
                     'email' => null,
+                    'price' => null,
                 ]);
                 expect($messages)->count(0);
-                
+
                 $messages = $validation->validate([
                     'name' => 'MyName',
                     'url' => 0,
                     'email' => 0,
+                    'price' => null,
                 ]);
                 expect($messages)->count(1);
+
+                $messages = $validation->validate([
+                    'name' => 'MyName',
+                    'url' => '',
+                    'email' => null,
+                    'price' => new RawValue('NULL'),
+                ]);
+                expect($messages)->count(0);
             }
         );
     }
