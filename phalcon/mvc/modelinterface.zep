@@ -17,6 +17,7 @@ use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
