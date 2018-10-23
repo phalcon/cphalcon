@@ -209,12 +209,12 @@ class Postgresql extends PdoAdapter
 				let definition["type"] = Column::TYPE_INTEGER,
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_INT;
 			} elseif memstr(columnType, "json") {
 				/**
 				 * Json
 				 */
 				let definition["type"] = Column::TYPE_JSON;
-					definition["bindType"] = Column::BIND_PARAM_INT;
 			} elseif memstr(columnType, "jsonb") {
 				/**
 				 * Jsonb
