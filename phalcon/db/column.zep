@@ -117,6 +117,11 @@ class Column implements ColumnInterface
 	const TYPE_DOUBLE = 9;
 
 	/**
+	 * Enum abstract data type
+	 */
+	const TYPE_ENUM = 18;
+
+	/**
 	 * Float abstract data type
 	 */
 	const TYPE_FLOAT = 7;

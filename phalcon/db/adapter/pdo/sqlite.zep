@@ -97,20 +97,47 @@ class Sqlite extends PdoAdapter
 			 */
 			let columnType = field[2];
 
-			if memstr(columnType, "tinyint(1)") {
-				/**
-				 * Tinyint(1) is boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL,
-					columnType = "boolean"; // Change column type to skip size check
-			} elseif memstr(columnType, "bigint") {
+			if memstr(columnType, "bigint") {
 				/**
 				 * Bigint are int
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "char") {
+				/**
+				 * Chars are chars
+				 */
+				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "date") {
+				/**
+				 * Date/Datetime are varchars
+				 */
+				let definition["type"] = Column::TYPE_DATE;
+			} elseif memstr(columnType, "datetime") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATETIME;
+			} elseif memstr(columnType, "decimal") {
+				/**
+				 * Decimals are floats
+				 */
+				let definition["type"] = Column::TYPE_DECIMAL,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "enum") {
+				/**
+				 * Enum are treated as char
+				 */
+				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "float") {
+				/**
+				 * Float/Smallfloats/Decimals are float
+				 */
+				let definition["type"] = Column::TYPE_FLOAT,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::TYPE_DECIMAL;
 			} elseif memstr(columnType, "int") || memstr(columnType, "INT") {
 				/**
 				 * Smallint/Integers/Int are int
@@ -122,58 +149,26 @@ class Sqlite extends PdoAdapter
 				if field[5] {
 					let definition["autoIncrement"] = true;
 				}
-			} elseif memstr(columnType, "varchar") {
-				/**
-				 * Varchar are varchars
-				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
-			} elseif memstr(columnType, "date") {
-				/**
-				 * Date/Datetime are varchars
-				 */
-				let definition["type"] = Column::TYPE_DATE;
 			} elseif memstr(columnType, "timestamp") {
 				/**
 				 * Timestamp as date
 				 */
 				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "decimal") {
-				/**
-				 * Decimals are floats
-				 */
-				let definition["type"] = Column::TYPE_DECIMAL,
-					definition["isNumeric"] = true,
-					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "char") {
-				/**
-				 * Chars are chars
-				 */
-				let definition["type"] = Column::TYPE_CHAR;
-			} elseif memstr(columnType, "datetime") {
-				/**
-				 * Special type for datetime
-				 */
-				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "text") {
 				/**
 				 * Text are varchars
 				 */
 				let definition["type"] = Column::TYPE_TEXT;
-			} elseif memstr(columnType, "float") {
+			} elseif memstr(columnType, "tinyint(1)") {
 				/**
-				 * Float/Smallfloats/Decimals are float
+				 * Tinyint(1) is boolean
 				 */
-				let definition["type"] = Column::TYPE_FLOAT,
-					definition["isNumeric"] = true,
-					definition["bindType"] = Column::TYPE_DECIMAL;
-			} elseif memstr(columnType, "enum") {
-				/**
-				 * Enum are treated as char
-				 */
-				let definition["type"] = Column::TYPE_CHAR;
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL,
+					columnType = "boolean"; // Change column type to skip size check
 			} else {
 				/**
-				 * By default is string
+				 * By default is string. Also used for VARCHAR
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
 			}
