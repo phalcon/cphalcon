@@ -352,9 +352,9 @@ class DbDescribeTest extends TestCase
 			10 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'estado',
 				'_schemaName' => NULL,
-				'_type' => 5,
+				'_type' => 18,
 				'_isNumeric' => false,
-				'_size' => 1,
+				'_size' => "'A','I','X'",
 				'_scale' => 0,
 				'_default' => NULL,
 				'_unsigned' => false,
