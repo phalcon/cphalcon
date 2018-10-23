@@ -24,9 +24,6 @@ SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;
 
--- Enum type
-create type enum_type as enum ('A', 'I', 'X')
-
 --
 -- Name: customers; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
@@ -83,6 +80,9 @@ ALTER TABLE public.images OWNER TO postgres;
 --
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
+-- Enum type
+drop type if exists enum_type;
+create type enum_type as enum ('A', 'I', 'X')
 
 DROP TABLE IF EXISTS personas;
 CREATE TABLE personas (
