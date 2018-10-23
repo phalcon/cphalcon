@@ -80,9 +80,6 @@ ALTER TABLE public.images OWNER TO postgres;
 --
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
--- Enum type
-drop type if exists enum_type;
-create type enum_type as enum ('A', 'I', 'X')
 
 DROP TABLE IF EXISTS personas;
 CREATE TABLE personas (
@@ -96,7 +93,7 @@ CREATE TABLE personas (
     ciudad_id integer DEFAULT 0,
     creado_at date,
     cupo numeric(16,2) NOT NULL,
-    estado estado enum_type not null
+    estado character(1) NOT NULL
 );
 
 ALTER TABLE public.personas OWNER TO postgres;
