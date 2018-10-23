@@ -97,12 +97,11 @@ class Mysql extends PdoAdapter
 			 */
 			let columnType = field[1];
 
-			if memstr(columnType, "bit") {
+			if memstr(columnType, "enum") {
 				/**
-				 * Boolean
+				 * Enum are treated as char
 				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
+				let definition["type"] = Column::TYPE_ENUM;
 			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
@@ -110,11 +109,23 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "blob") {
+			} elseif memstr(columnType, "int") {
 				/**
-				 * Blob
+				 * Smallint/Bigint/Integers/Int are int
 				 */
-				let definition["type"] = Column::TYPE_BLOB;
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "varchar") {
+				/**
+				 * Varchar are varchars
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR;
+			} elseif memstr(columnType, "datetime") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
@@ -125,11 +136,16 @@ class Mysql extends PdoAdapter
 				 * Date are dates
 				 */
 				let definition["type"] = Column::TYPE_DATE;
-			} elseif memstr(columnType, "datetime") {
+			} elseif memstr(columnType, "timestamp") {
 				/**
-				 * Special type for datetime
+				 * Timestamp are dates
 				 */
-				let definition["type"] = Column::TYPE_DATETIME;
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+			} elseif memstr(columnType, "text") {
+				/**
+				 * Text are varchars
+				 */
+				let definition["type"] = Column::TYPE_TEXT;
 			} elseif memstr(columnType, "decimal") {
 				/**
 				 * Decimals are floats
@@ -144,11 +160,6 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_DOUBLE,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "enum") {
-				/**
-				 * Enum are treated as char
-				 */
-				let definition["type"] = Column::TYPE_ENUM;
 			} elseif memstr(columnType, "float") {
 				/**
 				 * Float/Smallfloats/Decimals are float
@@ -156,41 +167,35 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "int") {
+			} elseif memstr(columnType, "bit") {
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Boolean
 				 */
-				let definition["type"] = Column::TYPE_INTEGER,
-					definition["isNumeric"] = true,
-					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "longblob") {
-				/**
-				 * Longblob
-				 */
-				let definition["type"] = Column::TYPE_LONGBLOB;
-			} elseif memstr(columnType, "mediumblob") {
-				/**
-				 * Mediumblob
-				 */
-				let definition["type"] = Column::TYPE_MEDIUMBLOB;
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
 			} elseif memstr(columnType, "tinyblob") {
 				/**
 				 * Tinyblob
 				 */
 				let definition["type"] = Column::TYPE_TINYBLOB;
-			} elseif memstr(columnType, "timestamp") {
+			} elseif memstr(columnType, "mediumblob") {
 				/**
-				 * Timestamp are dates
+				 * Mediumblob
 				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "text") {
+				let definition["type"] = Column::TYPE_MEDIUMBLOB;
+			} elseif memstr(columnType, "longblob") {
 				/**
-				 * Text are varchars
+				 * Longblob
 				 */
-				let definition["type"] = Column::TYPE_TEXT;
+				let definition["type"] = Column::TYPE_LONGBLOB;
+			} elseif memstr(columnType, "blob") {
+				/**
+				 * Blob
+				 */
+				let definition["type"] = Column::TYPE_BLOB;
 			} else {
 				/**
-				 * By default is string. Varchar is handled here
+				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
 			}
