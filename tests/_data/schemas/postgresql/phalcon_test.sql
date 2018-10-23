@@ -93,7 +93,7 @@ CREATE TABLE personas (
     ciudad_id integer DEFAULT 0,
     creado_at date,
     cupo numeric(16,2) NOT NULL,
-    estado character(1) NOT NULL
+    estado enum('A','I','X') NOT NULL
 );
 
 ALTER TABLE public.personas OWNER TO postgres;
