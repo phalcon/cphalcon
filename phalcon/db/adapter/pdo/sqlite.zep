@@ -1,34 +1,24 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Rack Lin <racklin@gmail.com>                                  |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Index;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\Index;
-use Phalcon\Db\IndexInterface;
-use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
@@ -48,9 +38,9 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 class Sqlite extends PdoAdapter
 {
 
-	protected _type = "sqlite";
-
 	protected _dialectType = "sqlite";
+
+	protected _type = "sqlite";
 
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
@@ -357,14 +347,6 @@ class Sqlite extends PdoAdapter
 	}
 
 	/**
-	 * Check whether the database system requires an explicit value for identity columns
-	 */
-	public function useExplicitIdValue() -> boolean
-	{
-		return true;
-	}
-
-	/**
 	 * Returns the default value to make the RBDM use the default value declared in the table definition
 	 *
 	 *<code>
@@ -385,5 +367,13 @@ class Sqlite extends PdoAdapter
 	public function getDefaultValue() -> <RawValue>
 	{
 		return new RawValue("NULL");
+	}
+
+	/**
+	 * Check whether the database system requires an explicit value for identity columns
+	 */
+	public function useExplicitIdValue() -> boolean
+	{
+		return true;
 	}
 }

@@ -1,20 +1,10 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc;
@@ -27,13 +17,13 @@ use Phalcon\Db\RawValue;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
-use Phalcon\Messages\Message;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -46,6 +36,7 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
 
 /**
@@ -87,15 +78,23 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 {
 	protected _dependencyInjector;
 
+	protected _dirtyState = 1;
+
+	protected _errorMessages = [];
+
 	protected _modelsManager;
 
 	protected _modelsMetaData;
 
-	protected _errorMessages = [];
+	protected _related;
 
 	protected _operationMade = 0;
 
-	protected _dirtyState = 1;
+	protected _oldSnapshot = [];
+
+	protected _skipped;
+
+	protected _snapshot;
 
 	protected _transaction { get };
 
@@ -105,29 +104,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _uniqueTypes;
 
-	protected _skipped;
-
-	protected _related;
-
-	protected _snapshot;
-
-	protected _oldSnapshot = [];
-
-	const TRANSACTION_INDEX = "transaction";
-
-	const OP_NONE = 0;
-
-	const OP_CREATE = 1;
-
-	const OP_UPDATE = 2;
-
-	const OP_DELETE = 3;
+	const DIRTY_STATE_DETACHED = 2;
 
 	const DIRTY_STATE_PERSISTENT = 0;
 
 	const DIRTY_STATE_TRANSIENT = 1;
 
-	const DIRTY_STATE_DETACHED = 2;
+	const OP_CREATE = 1;
+
+	const OP_DELETE = 3;
+
+	const OP_NONE = 0;
+
+	const OP_UPDATE = 2;
+
+	const TRANSACTION_INDEX = "transaction";
 
 	/**
 	 * Phalcon\Mvc\Model constructor
@@ -180,238 +171,281 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets the dependency injection container
+	 * Handles method calls when a method is not implemented
+	 *
+	 * @return	mixed
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function __call(string method, array arguments)
 	{
-		let this->_dependencyInjector = dependencyInjector;
+		var modelName, status, records;
+
+		let records = self::_invokeFinder(method, arguments);
+		if records !== null {
+			return records;
+		}
+
+		let modelName = get_class(this);
+
+		/**
+		 * Check if there is a default action using the magic getter
+		 */
+		let records = this->_getRelatedRecords(modelName, method, arguments);
+		if records !== null {
+			return records;
+		}
+
+		/**
+		 * Try to find a replacement for the missing method in a behavior/listener
+		 */
+		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
+		if status !== null {
+			return status;
+		}
+
+		/**
+		 * The method doesn't exist throw an exception
+		 */
+		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
 	}
 
 	/**
-	 * Returns the dependency injection container
+	 * Handles method calls when a static method is not implemented
+	 *
+	 * @return	mixed
 	 */
-	public function getDI() -> <DiInterface>
+	public static function __callStatic(string method, array arguments)
 	{
-		return this->_dependencyInjector;
+		var records;
+
+		let records = self::_invokeFinder(method, arguments);
+		if records === null {
+			throw new Exception("The static method '" . method . "' doesn't exist");
+		}
+
+		return records;
 	}
 
-	/**
-	 * Sets a custom events manager
-	 */
-	protected function setEventsManager(<EventsManagerInterface> eventsManager)
-	{
-		this->_modelsManager->setCustomEventsManager(this, eventsManager);
-	}
 
 	/**
-	 * Returns the custom events manager
+	 * Magic method to get related records using the relation alias as a property
+	 *
+	 * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
 	 */
-	protected function getEventsManager() -> <EventsManagerInterface>
+	public function __get(string! property)
 	{
-		return this->_modelsManager->getCustomEventsManager(this);
-	}
+		var modelName, manager, lowerProperty, relation, result, method;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getModelsMetaData() -> <MetaDataInterface>
-	{
-		var metaData, dependencyInjector;
+		let modelName = get_class(this),
+			manager = this->getModelsManager(),
+			lowerProperty = strtolower(property);
 
-		let metaData = this->_modelsMetaData;
-		if typeof metaData != "object" {
+		/**
+		 * Check if the property is a relationship
+		 */
+		let relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
+		if typeof relation == "object" {
 
-			let dependencyInjector = <DiInterface> this->_dependencyInjector;
+			/*
+			 Not fetch a relation if it is on CamelCase
+			 */
+			if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
+				return this->{lowerProperty};
+			}
+			/**
+			 * Get the related records
+			 */
+			let result = manager->getRelationRecords(relation, null, this, null);
 
 			/**
-			 * Obtain the models-metadata service from the DI
+			 * Assign the result to the object
 			 */
-			let metaData = <MetaDataInterface> dependencyInjector->getShared("modelsMetadata");
-			if typeof metaData != "object" {
-				throw new Exception("The injected service 'modelsMetadata' is not valid");
+			if typeof result == "object" {
+
+				/**
+				 * We assign the result to the instance avoiding future queries
+				 */
+				let this->{lowerProperty} = result;
+
+				/**
+				 * For belongs-to relations we store the object in the related bag
+				 */
+				if result instanceof ModelInterface {
+					let this->_related[lowerProperty] = result;
+				}
 			}
 
-			/**
-			 * Update the models-metadata property
-			 */
-			let this->_modelsMetaData = metaData;
+			return result;
 		}
-		return metaData;
+
+		/**
+		 * Check if the property has getters
+		 */
+		let method = "get" . camelize(property);
+
+		if method_exists(this, method) {
+			return this->{method}();
+		}
+
+		/**
+		 * A notice is shown if the property is not defined and it isn't a relationship
+		 */
+		trigger_error("Access to undefined property " . modelName . "::" . property);
+		return null;
 	}
 
 	/**
-	 * Returns the models manager related to the entity instance
+	 * Magic method to check if a property is a valid relation
 	 */
-	public function getModelsManager() -> <ManagerInterface>
+	public function __isset(string! property) -> boolean
 	{
-		return this->_modelsManager;
+		var modelName, manager, relation;
+
+		let modelName = get_class(this),
+			manager = <ManagerInterface> this->getModelsManager();
+
+		/**
+		 * Check if the property is a relationship
+		 */
+		let relation = <RelationInterface> manager->getRelationByAlias(modelName, property);
+		return typeof relation == "object";
 	}
 
 	/**
-	 * Sets a transaction related to the Model instance
+	 * Magic method to assign values to the the model
+	 *
+	 * @param mixed value
+	 */
+	public function __set(string property, value)
+	{
+		var lowerProperty, related, modelName, manager, lowerKey,
+			relation, referencedModel, key, item, dirtyState;
+
+		/**
+		 * Values are probably relationships if they are objects
+		 */
+		if typeof value == "object" {
+			if value instanceof ModelInterface {
+				let dirtyState = this->_dirtyState;
+				if (value->getDirtyState() != dirtyState) {
+					let dirtyState = self::DIRTY_STATE_TRANSIENT;
+				}
+				let lowerProperty = strtolower(property),
+					this->{lowerProperty} = value,
+					this->_related[lowerProperty] = value,
+					this->_dirtyState = dirtyState;
+				return value;
+			}
+		}
+
+		/**
+		 * Check if the value is an array
+		 */
+		if typeof value == "array" {
+
+			let lowerProperty = strtolower(property),
+				modelName = get_class(this),
+				manager = this->getModelsManager();
+
+			let related = [];
+			for key, item in value {
+				if typeof item == "object" {
+					if item instanceof ModelInterface {
+						let related[] = item;
+					}
+				} else {
+					let lowerKey = strtolower(key),
+						this->{lowerKey} = item,
+						relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
+					if typeof relation == "object" {
+						let referencedModel = manager->load(relation->getReferencedModel());
+						referencedModel->writeAttribute(lowerKey, item);
+					}
+				}
+			}
+
+			if count(related) > 0 {
+				let this->_related[lowerProperty] = related,
+					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+			}
+
+			return value;
+		}
+
+		// Use possible setter.
+		if this->_possibleSetter(property, value) {
+			return value;
+		}
+
+		// Throw an exception if there is an attempt to set a non-public property.
+		if property_exists(this, property) {
+			let manager = this->getModelsManager();
+			if !manager->isVisibleModelProperty(this, property) {
+				throw new Exception("Property '" . property . "' does not have a setter.");
+			}
+		}
+
+		let this->{property} = value;
+
+		return value;
+	}
+
+	/**
+	 * Setups a behavior in a model
 	 *
 	 *<code>
-	 * use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
-	 * use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 	 *
-	 * try {
-	 *     $txManager = new TxManager();
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Behavior\Timestampable;
 	 *
-	 *     $transaction = $txManager->get();
-	 *
-	 *     $robot = new Robots();
-	 *
-	 *     $robot->setTransaction($transaction);
-	 *
-	 *     $robot->name       = "WALL·E";
-	 *     $robot->created_at = date("Y-m-d");
-	 *
-	 *     if ($robot->save() === false) {
-	 *         $transaction->rollback("Can't save robot");
+	 * class Robots extends Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->addBehavior(
+	 *             new Timestampable(
+	 *                [
+	 *                    "onCreate" => [
+	 *                         "field"  => "created_at",
+	 *                         "format" => "Y-m-d",
+	 * 	                   ],
+	 *                 ]
+	 *             )
+	 *         );
 	 *     }
-	 *
-	 *     $robotPart = new RobotParts();
-	 *
-	 *     $robotPart->setTransaction($transaction);
-	 *
-	 *     $robotPart->type = "head";
-	 *
-	 *     if ($robotPart->save() === false) {
-	 *         $transaction->rollback("Robot part cannot be saved");
-	 *     }
-	 *
-	 *     $transaction->commit();
-	 * } catch (TxFailed $e) {
-	 *     echo "Failed, reason: ", $e->getMessage();
 	 * }
 	 *</code>
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	public function addBehavior(<BehaviorInterface> behavior) -> void
 	{
-		let this->_transaction = transaction;
+		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
+	}
+
+	/**
+	 * Appends a customized message on the validation process
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Messages\Message as Message;
+	 *
+	 * class Robots extends Model
+	 * {
+	 *     public function beforeSave()
+	 *     {
+	 *         if ($this->name === "Peter") {
+	 *             $message = new Message(
+	 *                 "Sorry, but a robot cannot be named Peter"
+	 *             );
+	 *
+	 *             $this->appendMessage($message);
+	 *         }
+	 *     }
+	 * }
+	 * </code>
+	 */
+	public function appendMessage(<MessageInterface> message) -> <ModelInterface>
+	{
+		let this->_errorMessages[] = message;
 		return this;
-	}
-
-	/**
-	 * Sets the table name to which model should be mapped
-	 */
-	protected function setSource(string! source) -> <Model>
-	{
-		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
-		return this;
-	}
-
-	/**
-	 * Returns the table name mapped in the model
-	 */
-	public function getSource() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
-	}
-
-	/**
-	 * Sets schema name where the mapped table is located
-	 */
-	protected function setSchema(string! schema) -> <Model>
-	{
-		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
-	}
-
-	/**
-	 * Returns schema name where the mapped table is located
-	 */
-	public function getSchema() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this);
-	}
-
-	/**
-	 * Sets the DependencyInjection connection service name
-	 */
-	public function setConnectionService(string! connectionService) -> <Model>
-	{
-		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
-		return this;
-	}
-
-	/**
-	 * Sets the DependencyInjection connection service name used to read data
-	 */
-	public function setReadConnectionService(string! connectionService) -> <Model>
-	{
-		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
-		return this;
-	}
-
-	/**
-	 * Sets the DependencyInjection connection service name used to write data
-	 */
-	public function setWriteConnectionService(string! connectionService) -> <Model>
-	{
-		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
-	}
-
-	/**
-	 * Returns the DependencyInjection connection service name used to read data related the model
-	 */
-	public function getReadConnectionService() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
-	}
-
-	/**
-	 * Returns the DependencyInjection connection service name used to write data related to the model
-	 */
-	public function getWriteConnectionService() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
-	}
-
-	/**
-	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface>
-	{
-		let this->_dirtyState = dirtyState;
-		return this;
-	}
-
-	/**
-	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-	 */
-	public function getDirtyState() -> int
-	{
-		return this->_dirtyState;
-	}
-
-	/**
-	 * Gets the connection used to read data for the model
-	 */
-	public function getReadConnection() -> <AdapterInterface>
-	{
-		var transaction;
-
-		let transaction = <TransactionInterface> this->_transaction;
-		if typeof transaction == "object" {
-			return transaction->getConnection();
-		}
-
-		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
-	}
-
-	/**
-	 * Gets the connection used to write data to the model
-	 */
-	public function getWriteConnection() -> <AdapterInterface>
-	{
-		var transaction;
-
-		let transaction = <TransactionInterface> this->_transaction;
-		if typeof transaction == "object" {
-			return transaction->getConnection();
-		}
-
-		return (<ManagerInterface> this->_modelsManager)->getWriteConnection(this);
 	}
 
 	/**
@@ -530,6 +564,81 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Returns the average value on a column for a result-set of rows matching the specified conditions
+	 *
+	 * <code>
+	 * // What's the average price of robots?
+	 * $average = Robots::average(
+	 *     [
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The average price is ", $average, "\n";
+	 *
+	 * // What's the average price of mechanical robots?
+	 * $average = Robots::average(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The average price of mechanical robots is ", $average, "\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return double
+	 */
+	public static function average(var parameters = null) -> float
+	{
+		return self::_groupResult("AVG", "average", parameters);
+	}
+
+	/**
+	 * Assigns values to a model from an array returning a new model
+	 *
+	 *<code>
+	 * $robot = Phalcon\Mvc\Model::cloneResult(
+	 *     new Robots(),
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
+	{
+		var instance, key, value;
+
+		/**
+		 * Clone the base record
+		 */
+		let instance = clone base;
+
+		/**
+		 * Mark the object as persistent
+		 */
+		instance->setDirtyState(dirtyState);
+
+		for key, value in data {
+			if typeof key != "string" {
+				throw new Exception("Invalid key in array data provided to dumpResult()");
+			}
+			let instance->{key} = value;
+		}
+
+		/**
+		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
+		 */
+		(<ModelInterface> instance)->fireEvent("afterFetch");
+
+		return instance;
+	}
+
+	/**
 	 * Assigns values to a model from an array, returning a new model.
 	 *
 	 *<code>
@@ -546,7 +655,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
 	 * @param array columnMap
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
+	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <ModelInterface>
 	{
 		var instance, attribute, key, value, castValue, attributeName;
 
@@ -717,46 +826,253 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Assigns values to a model from an array returning a new model
+	 * Counts how many records match the specified conditions
+	 *
+	 * <code>
+	 * // How many robots are there?
+	 * $number = Robots::count();
+	 *
+	 * echo "There are ", $number, "\n";
+	 *
+	 * // How many mechanical robots are there?
+	 * $number = Robots::count("type = 'mechanical'");
+	 *
+	 * echo "There are ", $number, " mechanical robots\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public static function count(var parameters = null) -> int
+	{
+		var result;
+
+		let result = self::_groupResult("COUNT", "rowcount", parameters);
+		if typeof result == "string" {
+			return (int) result;
+		}
+		return result;
+	}
+
+	/**
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
-	 * $robot = Phalcon\Mvc\Model::cloneResult(
-	 *     new Robots(),
+	 * // Creating a new robot
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->create();
+	 *
+	 * // Passing an array to create
+	 * $robot = new Robots();
+	 *
+	 * $robot->assign(
 	 *     [
 	 *         "type" => "mechanical",
 	 *         "name" => "Astro Boy",
 	 *         "year" => 1952,
 	 *     ]
 	 * );
+	 *
+	 * $robot->create();
 	 *</code>
 	 */
-	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
+	public function create() -> boolean
 	{
-		var instance, key, value;
+		var metaData;
+
+		let metaData = this->getModelsMetaData();
 
 		/**
-		 * Clone the base record
+		 * Get the current connection
+		 * If the record already exists we must throw an exception
 		 */
-		let instance = clone base;
-
-		/**
-		 * Mark the object as persistent
-		 */
-		instance->setDirtyState(dirtyState);
-
-		for key, value in data {
-			if typeof key != "string" {
-				throw new Exception("Invalid key in array data provided to dumpResult()");
-			}
-			let instance->{key} = value;
+		if this->_exists(metaData, this->getReadConnection()) {
+			let this->_errorMessages = [
+				new Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
+			];
+			return false;
 		}
 
 		/**
-		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
+		 * Using save() anyways
 		 */
-		(<ModelInterface> instance)->fireEvent("afterFetch");
+		return this->save();
+	}
 
-		return instance;
+	/**
+	 * Deletes a model instance. Returning true on success or false otherwise.
+	 *
+	 * <code>
+	 * $robot = Robots::findFirst("id=100");
+	 *
+	 * $robot->delete();
+	 *
+	 * $robots = Robots::find("type = 'mechanical'");
+	 *
+	 * foreach ($robots as $robot) {
+	 *     $robot->delete();
+	 * }
+	 * </code>
+	 */
+	public function delete() -> boolean
+	{
+		var metaData, writeConnection, values, bindTypes, primaryKeys,
+			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
+			bindType, value, schema, source, table, success;
+
+		let metaData = this->getModelsMetaData(),
+			writeConnection = this->getWriteConnection();
+
+		/**
+		 * Operation made is OP_DELETE
+		 */
+		let this->_operationMade = self::OP_DELETE,
+			this->_errorMessages = [];
+
+		/**
+		 * Check if deleting the record violates a virtual foreign key
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysReverseRestrict() === false {
+				return false;
+			}
+		}
+
+		let values = [],
+			bindTypes = [],
+			conditions = [];
+
+		let primaryKeys = metaData->getPrimaryKeyAttributes(this),
+			bindDataTypes = metaData->getBindTypes(this);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(this);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * We can't create dynamic SQL without a primary key
+		 */
+		if !count(primaryKeys) {
+			throw new Exception("A primary key must be defined in the model in order to perform the operation");
+		}
+
+		/**
+		 * Create a condition from the primary keys
+		 */
+		for primaryKey in primaryKeys {
+
+			/**
+			 * Every column part of the primary key must be in the bind data types
+			 */
+			if !fetch bindType, bindDataTypes[primaryKey] {
+				throw new Exception("Column '" . primaryKey . "' have not defined a bind data type");
+			}
+
+			/**
+			 * Take the column values based on the column map if any
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[primaryKey] {
+					throw new Exception("Column '" . primaryKey . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = primaryKey;
+			}
+
+			/**
+			 * If the attribute is currently set in the object add it to the conditions
+			 */
+			if !fetch value, this->{attributeField} {
+				throw new Exception(
+					"Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
+				);
+			}
+
+			/**
+			 * Escape the column identifier
+			 */
+			let values[] = value,
+				conditions[] = writeConnection->escapeIdentifier(primaryKey) . " = ?",
+				bindTypes[] = bindType;
+		}
+
+		if globals_get("orm.events") {
+
+			let this->_skipped = false;
+
+			/**
+			 * Fire the beforeDelete event
+			 */
+			if this->fireEventCancel("beforeDelete") === false {
+				return false;
+			} else {
+				/**
+				 * The operation can be skipped
+				 */
+				if this->_skipped === true {
+					return true;
+				}
+			}
+		}
+
+		let schema = this->getSchema(),
+			source = this->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Join the conditions in the array using an AND operator
+		 * Do the deletion
+		 */
+		let success = writeConnection->delete(table, join(" AND ", conditions), values, bindTypes);
+
+		/**
+		 * Check if there is virtual foreign keys with cascade action
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysReverseCascade() === false {
+				return false;
+			}
+		}
+
+		if globals_get("orm.events") {
+			if success {
+				this->fireEvent("afterDelete");
+			}
+		}
+
+		/**
+		 * Force perform the record existence checking again
+		 */
+		let this->_dirtyState = self::DIRTY_STATE_DETACHED;
+
+		return success;
+	}
+
+	/**
+	 * Returns a simple representation of the object that can be used with var_dump
+	 *
+	 *<code>
+	 * var_dump(
+	 *     $robot->dump()
+	 * );
+	 *</code>
+	 */
+	public function dump() -> array
+	{
+		return get_object_vars(this);
 	}
 
 	/**
@@ -933,7 +1249,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array parameters
 	 */
-	public static function findFirst(var parameters = null) -> <Model>
+	public static function findFirst(var parameters = null) -> <ModelInterface>
 	{
 		var params, query;
 
@@ -957,474 +1273,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Execute the query passing the bind-params and casting-types
 		 */
 		return query->execute();
-	}
-
-
-	/**
-	 * shared prepare query logic for find and findFirst method
-	 */
-	private static function getPreparedQuery(var params, var limit = null) -> <Query> {
-		var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
-
-		let dependencyInjector = Di::getDefault();
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = <BuilderInterface> manager->createBuilder(params);
-		builder->from(get_called_class());
-
-		if limit != null {
-			builder->limit(limit);
-		}
-
-		let query = <QueryInterface> builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		if fetch bindParams, params["bind"] {
-			if typeof bindParams == "array" {
-				query->setBindParams(bindParams, true);
-			}
-
-			if fetch bindTypes, params["bindTypes"] {
-				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes, true);
-				}
-			}
-		}
-
-		if fetch transaction, params[self::TRANSACTION_INDEX] {
-			if transaction instanceof TransactionInterface {
-				query->setTransaction(transaction);
-			}
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
-
-		return query;
-	}
-
-	/**
-	 * Create a criteria for a specific model
-	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <Criteria>
-	{
-		var criteria;
-
-		/**
-		 * Use the global dependency injector if there is no one defined
-		 */
-		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Di::getDefault();
-		}
-
-		/**
-		 * Gets Criteria instance from DI container
-		 */
-		if dependencyInjector instanceof DiInterface {
-			let criteria = <CriteriaInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Criteria");
-		} else {
-			let criteria = new Criteria();
-			criteria->setDI(dependencyInjector);
-		}
-
-		criteria->setModelName(get_called_class());
-
-		return criteria;
-	}
-
-	/**
-	 * Checks whether the current record already exists
-	 *
-	 * @param string|array table
-	 */
-	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
-	{
-		int numberEmpty, numberPrimary;
-		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
-			wherePk, field, attributeField, value, bindDataTypes,
-			joinWhere, num, type, schema, source;
-
-		let uniqueParams = null,
-			uniqueTypes = null;
-
-		/**
-		 * Builds a unique primary key condition
-		 */
-		let uniqueKey = this->_uniqueKey;
-		if uniqueKey === null {
-
-			let primaryKeys = metaData->getPrimaryKeyAttributes(this),
-				bindDataTypes = metaData->getBindTypes(this);
-
-			let numberPrimary = count(primaryKeys);
-			if !numberPrimary {
-				return false;
-			}
-
-			/**
-			 * Check if column renaming is globally activated
-			 */
-			if globals_get("orm.column_renaming") {
-				let columnMap = metaData->getColumnMap(this);
-			} else {
-				let columnMap = null;
-			}
-
-			let numberEmpty = 0,
-				wherePk = [],
-				uniqueParams = [],
-				uniqueTypes = [];
-
-			/**
-			 * We need to create a primary key based on the current data
-			 */
-			for field in primaryKeys {
-
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
-
-				/**
-				 * If the primary key attribute is set append it to the conditions
-				 */
-				let value = null;
-				if fetch value, this->{attributeField} {
-
-					/**
-					 * We count how many fields are empty, if all fields are empty we don't perform an 'exist' check
-					 */
-					if value === null || value === "" {
-						let numberEmpty++;
-					}
-					let uniqueParams[] = value;
-
-				} else {
-					let uniqueParams[] = null,
-						numberEmpty++;
-				}
-
-				if !fetch type, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' isn't part of the table columns");
-				}
-
-				let uniqueTypes[] = type,
-					wherePk[] = connection->escapeIdentifier(field) . " = ?";
-			}
-
-			/**
-			 * There are no primary key fields defined, assume the record does not exist
-			 */
-			if numberPrimary == numberEmpty {
-				return false;
-			}
-
-			let joinWhere = join(" AND ", wherePk);
-
-			/**
-			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
-			 */
-			let this->_uniqueKey = joinWhere,
-				this->_uniqueParams = uniqueParams,
-				this->_uniqueTypes = uniqueTypes,
-				uniqueKey = joinWhere;
-		}
-
-		/**
-		 * If we already know if the record exists we don't check it
-		 */
-		if !this->_dirtyState {
-			return true;
-		}
-
-		if uniqueKey === null {
-			let uniqueKey = this->_uniqueKey;
-		}
-
-		if uniqueParams === null {
-			let uniqueParams = this->_uniqueParams;
-		}
-
-		if uniqueTypes === null {
-			let uniqueTypes = this->_uniqueTypes;
-		}
-
-		let schema = this->getSchema(), source = this->getSource();
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
-
-		/**
-		 * Here we use a single COUNT(*) without PHQL to make the execution faster
-		 */
-		let num = connection->fetchOne(
-			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
-			null,
-			uniqueParams,
-			uniqueTypes
-		);
-		if num["rowcount"] {
-			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
-			return true;
-		} else {
-			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Generate a PHQL SELECT statement for an aggregate
-	 *
-	 * @param array parameters
-	 */
-	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
-	{
-		var params, distinctColumn, groupColumn, columns,
-			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
-			builder, query, dependencyInjector, manager;
-
-		let dependencyInjector = Di::getDefault();
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		if typeof parameters != "array" {
-			let params = [];
-			if parameters !== null {
-				let params[] = parameters;
-			}
-		} else {
-			let params = parameters;
-		}
-
-		if !fetch groupColumn, params["column"] {
-			let groupColumn = "*";
-		}
-
-		/**
-		 * Builds the columns to query according to the received parameters
-		 */
-		if fetch distinctColumn, params["distinct"] {
-			let columns = functionName . "(DISTINCT " . distinctColumn . ") AS " . alias;
-		} else {
-			if fetch groupColumns, params["group"] {
-				let columns = groupColumns . ", " . functionName . "(" . groupColumn . ") AS " . alias;
-			} else {
-				let columns = functionName . "(" . groupColumn . ") AS " . alias;
-			}
-		}
-
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = <BuilderInterface> manager->createBuilder(params);
-		builder->columns(columns);
-		builder->from(get_called_class());
-
-		let query = <QueryInterface> builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		let bindParams = null, bindTypes = null;
-		if fetch bindParams, params["bind"] {
-			fetch bindTypes, params["bindTypes"];
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
-
-		/**
-		 * Execute the query
-		 */
-		let resultset = query->execute(bindParams, bindTypes);
-
-		/**
-		 * Return the full resultset if the query is grouped
-		 */
-		if isset params["group"] {
-			return resultset;
-		}
-
-		/**
-		 * Return only the value in the first result
-		 */
-		let firstRow = resultset->getFirst();
-		return firstRow->{alias};
-	}
-
-	/**
-	 * Counts how many records match the specified conditions
-	 *
-	 * <code>
-	 * // How many robots are there?
-	 * $number = Robots::count();
-	 *
-	 * echo "There are ", $number, "\n";
-	 *
-	 * // How many mechanical robots are there?
-	 * $number = Robots::count("type = 'mechanical'");
-	 *
-	 * echo "There are ", $number, " mechanical robots\n";
-	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function count(var parameters = null)
-	{
-		var result;
-
-		let result = self::_groupResult("COUNT", "rowcount", parameters);
-		if typeof result == "string" {
-			return (int) result;
-		}
-		return result;
-	}
-
-	/**
-	 * Calculates the sum on a column for a result-set of rows that match the specified conditions
-	 *
-	 * <code>
-	 * // How much are all robots?
-	 * $sum = Robots::sum(
-	 *     [
-	 *         "column" => "price",
-	 *     ]
-	 * );
-	 *
-	 * echo "The total price of robots is ", $sum, "\n";
-	 *
-	 * // How much are mechanical robots?
-	 * $sum = Robots::sum(
-	 *     [
-	 *         "type = 'mechanical'",
-	 *         "column" => "price",
-	 *     ]
-	 * );
-	 *
-	 * echo "The total price of mechanical robots is  ", $sum, "\n";
-	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function sum(var parameters = null)
-	{
-		return self::_groupResult("SUM", "sumatory", parameters);
-	}
-
-	/**
-	 * Returns the maximum value of a column for a result-set of rows that match the specified conditions
-	 *
-	 * <code>
-	 * // What is the maximum robot id?
-	 * $id = Robots::maximum(
-	 *     [
-	 *         "column" => "id",
-	 *     ]
-	 * );
-	 *
-	 * echo "The maximum robot id is: ", $id, "\n";
-	 *
-	 * // What is the maximum id of mechanical robots?
-	 * $sum = Robots::maximum(
-	 *     [
-	 *         "type = 'mechanical'",
-	 *         "column" => "id",
-	 *     ]
-	 * );
-	 *
-	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
-	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function maximum(var parameters = null)
-	{
-		return self::_groupResult("MAX", "maximum", parameters);
-	}
-
-	/**
-	 * Returns the minimum value of a column for a result-set of rows that match the specified conditions
-	 *
-	 * <code>
-	 * // What is the minimum robot id?
-	 * $id = Robots::minimum(
-	 *     [
-	 *         "column" => "id",
-	 *     ]
-	 * );
-	 *
-	 * echo "The minimum robot id is: ", $id;
-	 *
-	 * // What is the minimum id of mechanical robots?
-	 * $sum = Robots::minimum(
-	 *     [
-	 *         "type = 'mechanical'",
-	 *         "column" => "id",
-	 *     ]
-	 * );
-	 *
-	 * echo "The minimum robot id of mechanical robots is ", $id;
-	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function minimum(parameters = null)
-	{
-		return self::_groupResult("MIN", "minimum", parameters);
-	}
-
-	/**
-	 * Returns the average value on a column for a result-set of rows matching the specified conditions
-	 *
-	 * <code>
-	 * // What's the average price of robots?
-	 * $average = Robots::average(
-	 *     [
-	 *         "column" => "price",
-	 *     ]
-	 * );
-	 *
-	 * echo "The average price is ", $average, "\n";
-	 *
-	 * // What's the average price of mechanical robots?
-	 * $average = Robots::average(
-	 *     [
-	 *         "type = 'mechanical'",
-	 *         "column" => "price",
-	 *     ]
-	 * );
-	 *
-	 * echo "The average price of mechanical robots is ", $average, "\n";
-	 * </code>
-	 *
-	 * @param array parameters
-	 * @return double
-	 */
-	public static function average(var parameters = null)
-	{
-		return self::_groupResult("AVG", "average", parameters);
 	}
 
 	/**
@@ -1471,137 +1319,103 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Cancel the current operation
-	 */
-	protected function _cancelOperation()
-	{
-		if this->_operationMade == self::OP_DELETE {
-			this->fireEvent("notDeleted");
-		} else {
-			this->fireEvent("notSaved");
-		}
-	}
-
-	/**
-	 * Appends a customized message on the validation process
+	 * Returns a list of changed values.
 	 *
 	 * <code>
-	 * use Phalcon\Mvc\Model;
-	 * use Phalcon\Messages\Message as Message;
+	 * $robots = Robots::findFirst();
+	 * print_r($robots->getChangedFields()); // []
 	 *
-	 * class Robots extends Model
-	 * {
-	 *     public function beforeSave()
-	 *     {
-	 *         if ($this->name === "Peter") {
-	 *             $message = new Message(
-	 *                 "Sorry, but a robot cannot be named Peter"
-	 *             );
+	 * $robots->deleted = 'Y';
 	 *
-	 *             $this->appendMessage($message);
-	 *         }
-	 *     }
-	 * }
+	 * $robots->getChangedFields();
+	 * print_r($robots->getChangedFields()); // ["deleted"]
 	 * </code>
 	 */
-	public function appendMessage(<MessageInterface> message) -> <Model>
+	public function getChangedFields() -> array
 	{
-		let this->_errorMessages[] = message;
-		return this;
+		var metaData, changed, name, snapshot,
+			columnMap, allAttributes, value;
+
+		let snapshot = this->_snapshot;
+		if typeof snapshot != "array" {
+			throw new Exception("The record doesn't have a valid data snapshot");
+		}
+
+		/**
+		 * Return the models meta-data
+		 */
+		let metaData = this->getModelsMetaData();
+
+		/**
+		 * The reversed column map is an array if the model has a column map
+		 */
+		let columnMap = metaData->getReverseColumnMap(this);
+
+		/**
+		 * Data types are field indexed
+		 */
+		if typeof columnMap != "array" {
+			let allAttributes = metaData->getDataTypes(this);
+		} else {
+			let allAttributes = columnMap;
+		}
+
+		/**
+		 * Check every attribute in the model
+		 */
+		let changed = [];
+
+		for name, _ in allAttributes {
+			/**
+			 * If some attribute is not present in the snapshot, we assume the record as changed
+			 */
+			if !isset snapshot[name] {
+				let changed[] = name;
+				continue;
+			}
+
+			/**
+			 * If some attribute is not present in the model, we assume the record as changed
+			 */
+			if !fetch value, this->{name} {
+				let changed[] = name;
+				continue;
+			}
+
+			/**
+			 * Check if the field has changed
+			 */
+			if value !== snapshot[name] {
+				let changed[] = name;
+				continue;
+			}
+		}
+
+		return changed;
 	}
 
 	/**
-	 * Executes validators on every validation call
-	 *
-	 *<code>
-	 * use Phalcon\Mvc\Model;
-	 * use Phalcon\Validation;
-	 * use Phalcon\Validation\Validator\ExclusionIn;
-	 *
-	 * class Subscriptors extends Model
-	 * {
-	 *     public function validation()
-	 *     {
-	 *         $validator = new Validation();
-	 *
-	 *         $validator->add(
-	 *             "status",
-	 *             new ExclusionIn(
-	 *                 [
-	 *                     "domain" => [
-	 *                         "A",
-	 *                         "I",
-	 *                     ],
-	 *                 ]
-	 *             )
-	 *         );
-	 *
-	 *         return $this->validate($validator);
-	 *     }
-	 * }
-	 *</code>
+	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
 	 */
-	protected function validate(<ValidationInterface> validator) -> boolean
+	public function getDirtyState() -> int
 	{
-		var messages, message;
-
-		let messages = validator->validate(null, this);
-
-		// Call the validation, if it returns not the boolean
-		// we append the messages to the current object
-		if typeof messages == "boolean" {
-			return messages;
-		}
-
-		for message in iterator(messages) {
-			this->appendMessage(
-				new Message(
-					message->getMessage(),
-					message->getField(),
-					message->getType(),
-					message->getCode()
-				)
-			);
-		}
-
-		// If there is a message, it returns false otherwise true
-		return !count(messages);
+		return this->_dirtyState;
 	}
 
 	/**
-	 * Check whether validation process has generated any messages
-	 *
-	 *<code>
-	 * use Phalcon\Mvc\Model;
-	 * use Phalcon\Validation;
-	 * use Phalcon\Validation\Validator\ExclusionIn;
-	 *
-	 * class Subscriptors extends Model
-	 * {
-	 *     public function validation()
-	 *     {
-	 *         $validator = new Validation();
-	 *
-	 *         $validator->validate(
-	 *             "status",
-	 *             new ExclusionIn(
-	 *                 [
-	 *                     "domain" => [
-	 *                         "A",
-	 *                         "I",
-	 *                     ],
-	 *                 ]
-	 *             )
-	 *         );
-	 *
-	 *         return $this->validate($validator);
-	 *     }
-	 * }
-	 *</code>
+	 * Returns the dependency injection container
 	 */
-	public function validationHasFailed() -> boolean
+	public function getDI() -> <DiInterface>
 	{
-		return count(this->_errorMessages) > 0;
+		return this->_dependencyInjector;
+	}
+
+	/**
+	 * Returns the custom events manager
+	 */
+	public function getEventsManager() -> <EventsManagerInterface>
+	{
+		return this->_modelsManager->getCustomEventsManager(this);
 	}
 
 	/**
@@ -1642,6 +1456,1170 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return this->_errorMessages;
+	}
+
+	/**
+	 * Returns the models manager related to the entity instance
+	 */
+	public function getModelsManager() -> <ManagerInterface>
+	{
+		return this->_modelsManager;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getModelsMetaData() -> <MetaDataInterface>
+	{
+		var metaData, dependencyInjector;
+
+		let metaData = this->_modelsMetaData;
+		if typeof metaData != "object" {
+
+			let dependencyInjector = <DiInterface> this->_dependencyInjector;
+
+			/**
+			 * Obtain the models-metadata service from the DI
+			 */
+			let metaData = <MetaDataInterface> dependencyInjector->getShared("modelsMetadata");
+			if typeof metaData != "object" {
+				throw new Exception("The injected service 'modelsMetadata' is not valid");
+			}
+
+			/**
+			 * Update the models-metadata property
+			 */
+			let this->_modelsMetaData = metaData;
+		}
+		return metaData;
+	}
+
+	/**
+	 * Returns the type of the latest operation performed by the ORM
+	 * Returns one of the OP_* class constants
+	 */
+	public function getOperationMade() -> int
+	{
+		return this->_operationMade;
+	}
+
+	/**
+	 * Returns the internal old snapshot data
+	 */
+	public function getOldSnapshotData() -> array
+	{
+		return this->_oldSnapshot;
+	}
+
+	/**
+	 * Gets the connection used to read data for the model
+	 */
+	public function getReadConnection() -> <AdapterInterface>
+	{
+		var transaction;
+
+		let transaction = <TransactionInterface> this->_transaction;
+		if typeof transaction == "object" {
+			return transaction->getConnection();
+		}
+
+		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
+	}
+
+	/**
+	 * Returns the DependencyInjection connection service name used to read data related the model
+	 */
+	public function getReadConnectionService() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
+	}
+
+	/**
+	 * Returns related records based on defined relations
+	 *
+	 * @param array arguments
+	 */
+	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
+	{
+		var relation, className, manager;
+
+		/**
+		 * Query the relation by alias
+		 */
+		let className = get_class(this),
+			manager = <ManagerInterface> this->_modelsManager,
+			relation = <RelationInterface> manager->getRelationByAlias(className, alias);
+		if typeof relation != "object" {
+			throw new Exception("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
+		}
+
+		/**
+		 * Call the 'getRelationRecords' in the models manager
+		 */
+		return manager->getRelationRecords(relation, null, this, arguments);
+	}
+
+	/**
+	 * Returns schema name where the mapped table is located
+	 */
+	public function getSchema() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this);
+	}
+
+	/**
+	 * Returns the internal snapshot data
+	 */
+	public function getSnapshotData() -> array
+	{
+		return this->_snapshot;
+	}
+
+	/**
+	 * Returns the table name mapped in the model
+	 */
+	public function getSource() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
+	}
+
+
+	/**
+	 * Returns a list of updated values.
+	 *
+	 * <code>
+	 * $robots = Robots::findFirst();
+	 * print_r($robots->getChangedFields()); // []
+	 *
+	 * $robots->deleted = 'Y';
+	 *
+	 * $robots->getChangedFields();
+	 * print_r($robots->getChangedFields()); // ["deleted"]
+	 * $robots->save();
+	 * print_r($robots->getChangedFields()); // []
+	 * print_r($robots->getUpdatedFields()); // ["deleted"]
+	 * </code>
+	 */
+	public function getUpdatedFields() -> array
+	{
+		var updated, name, snapshot,
+			oldSnapshot, value;
+
+		let snapshot = this->_snapshot;
+		let oldSnapshot = this->_oldSnapshot;
+
+		if !globals_get("orm.update_snapshot_on_save") {
+			throw new Exception("Update snapshot on save must be enabled for this method to work properly");
+		}
+
+		if typeof snapshot != "array" {
+			throw new Exception("The record doesn't have a valid data snapshot");
+		}
+
+		/**
+		 * Dirty state must be DIRTY_PERSISTENT to make the checking
+		 */
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+		}
+
+		let updated = [];
+
+		for name, value in snapshot {
+			/**
+			 * If some attribute is not present in the oldSnapshot, we assume the record as changed
+			 */
+			if !isset oldSnapshot[name] {
+				let updated[] = name;
+				continue;
+			}
+
+			if value !== oldSnapshot[name] {
+				let updated[] = name;
+				continue;
+			}
+		}
+
+		return updated;
+	}
+
+	/**
+	 * Gets the connection used to write data to the model
+	 */
+	public function getWriteConnection() -> <AdapterInterface>
+	{
+		var transaction;
+
+		let transaction = <TransactionInterface> this->_transaction;
+		if typeof transaction == "object" {
+			return transaction->getConnection();
+		}
+
+		return (<ManagerInterface> this->_modelsManager)->getWriteConnection(this);
+	}
+
+	/**
+	 * Returns the DependencyInjection connection service name used to write data related to the model
+	 */
+	public function getWriteConnectionService() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
+	}
+
+	/**
+	 * Check if a specific attribute has changed
+	 * This only works if the model is keeping data snapshots
+	 *
+	 *<code>
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->create();
+	 * $robot->type = "hydraulic";
+	 * $hasChanged = $robot->hasChanged("type"); // returns true
+	 * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
+	 * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
+	 *</code>
+	 *
+	 * @param string|array fieldName
+	 */
+	public function hasChanged(var fieldName = null, boolean allFields = false) -> boolean
+	{
+		var changedFields;
+
+		let changedFields = this->getChangedFields();
+
+		/**
+		 * If a field was specified we only check it
+		 */
+		if typeof fieldName == "string" {
+			return in_array(fieldName, changedFields);
+		} elseif typeof fieldName == "array" {
+		    if allFields {
+		        return array_intersect(fieldName, changedFields) == fieldName;
+		    }
+
+		    return count(array_intersect(fieldName, changedFields)) > 0;
+		}
+
+		return count(changedFields) > 0;
+	}
+
+	/**
+	 * Checks if the object has internal snapshot data
+	 */
+	public function hasSnapshotData() -> boolean
+	{
+		var snapshot;
+		let snapshot = this->_snapshot;
+
+		return typeof snapshot == "array";
+	}
+
+	/**
+	 * Check if a specific attribute was updated
+	 * This only works if the model is keeping data snapshots
+	 *
+	 * @param string|array fieldName
+	 */
+	public function hasUpdated(var fieldName = null, boolean allFields = false) -> boolean
+	{
+		var updatedFields;
+
+		let updatedFields = this->getUpdatedFields();
+
+		/**
+		 * If a field was specified we only check it
+		 */
+		if typeof fieldName == "string" {
+			return in_array(fieldName, updatedFields);
+		} elseif typeof fieldName == "array" {
+			if allFields {
+				return array_intersect(fieldName, updatedFields) == fieldName;
+			}
+
+			return count(array_intersect(fieldName, updatedFields)) > 0;
+		}
+
+		return count(updatedFields) > 0;
+	}
+
+	/**
+	* Serializes the object for json_encode
+	*
+	*<code>
+	* echo json_encode($robot);
+	*</code>
+	*/
+	public function jsonSerialize() -> array
+	{
+		return this->toArray();
+	}
+
+	/**
+	 * Returns the maximum value of a column for a result-set of rows that match the specified conditions
+	 *
+	 * <code>
+	 * // What is the maximum robot id?
+	 * $id = Robots::maximum(
+	 *     [
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The maximum robot id is: ", $id, "\n";
+	 *
+	 * // What is the maximum id of mechanical robots?
+	 * $sum = Robots::maximum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public static function maximum(var parameters = null) -> var
+	{
+		return self::_groupResult("MAX", "maximum", parameters);
+	}
+
+	/**
+	 * Returns the minimum value of a column for a result-set of rows that match the specified conditions
+	 *
+	 * <code>
+	 * // What is the minimum robot id?
+	 * $id = Robots::minimum(
+	 *     [
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The minimum robot id is: ", $id;
+	 *
+	 * // What is the minimum id of mechanical robots?
+	 * $sum = Robots::minimum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The minimum robot id of mechanical robots is ", $id;
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public static function minimum(parameters = null) -> var
+	{
+		return self::_groupResult("MIN", "minimum", parameters);
+	}
+
+	/**
+	 * Create a criteria for a specific model
+	 */
+	public static function query(<DiInterface> dependencyInjector = null) -> <Criteria>
+	{
+		var criteria;
+
+		/**
+		 * Use the global dependency injector if there is no one defined
+		 */
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = Di::getDefault();
+		}
+
+		/**
+		 * Gets Criteria instance from DI container
+		 */
+		if dependencyInjector instanceof DiInterface {
+			let criteria = <CriteriaInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Criteria");
+		} else {
+			let criteria = new Criteria();
+			criteria->setDI(dependencyInjector);
+		}
+
+		criteria->setModelName(get_called_class());
+
+		return criteria;
+	}
+
+	/**
+	 * Reads an attribute value by its name
+	 *
+	 * <code>
+	 * echo $robot->readAttribute("name");
+	 * </code>
+	 */
+	public function readAttribute(string! attribute) -> var | null
+	{
+		if !isset this->{attribute} {
+			return null;
+		}
+
+		return this->{attribute};
+	}
+
+	/**
+	 * Refreshes the model attributes re-querying the record from the database
+	 */
+	public function refresh() -> <ModelInterface>
+	{
+		var metaData, readConnection, schema, source, table,
+			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute, manager, columnMap;
+
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
+		}
+
+		let metaData = this->getModelsMetaData(),
+			readConnection = this->getReadConnection(),
+			manager = <ManagerInterface> this->_modelsManager;
+
+		let schema = this->getSchema(),
+			source = this->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		let uniqueKey = this->_uniqueKey;
+		if !uniqueKey {
+
+			/**
+			 * We need to check if the record exists
+			 */
+			if !this->_exists(metaData, readConnection, table) {
+				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
+			}
+
+			let uniqueKey = this->_uniqueKey;
+		}
+
+		let uniqueParams = this->_uniqueParams;
+		if typeof uniqueParams != "array" {
+			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
+		}
+
+		/**
+		 * We only refresh the attributes in the model's metadata
+		 */
+		let fields = [];
+		for attribute in metaData->getAttributes(this) {
+			let fields[] = [attribute];
+		}
+
+		/**
+		 * We directly build the SELECT to save resources
+		 */
+		let dialect = readConnection->getDialect(),
+			tables = dialect->select([
+				"columns": fields,
+				"tables":  readConnection->escapeIdentifier(table),
+				"where":   uniqueKey
+			]),
+			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+
+		/**
+		 * Get a column map if any
+		 * Assign the resulting array to the this object
+		 */
+		if typeof row == "array" {
+			let columnMap = metaData->getColumnMap(this);
+			this->assign(row, columnMap);
+			if manager->isKeepingSnapshots(this) {
+				this->setSnapshotData(row, columnMap);
+				this->setOldSnapshotData(row, columnMap);
+			}
+		}
+
+		this->fireEvent("afterFetch");
+
+		return this;
+	}
+
+	/**
+	 * Inserts or updates a model instance. Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 * // Creating a new robot
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->save();
+	 *
+	 * // Updating a robot name
+	 * $robot = Robots::findFirst("id = 100");
+	 *
+	 * $robot->name = "Biomass";
+	 *
+	 * $robot->save();
+	 *</code>
+	 */
+	public function save() -> boolean
+	{
+		var metaData, related, schema, writeConnection, readConnection,
+			source, table, identityField, exists, success;
+
+		let metaData = this->getModelsMetaData();
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let writeConnection = this->getWriteConnection();
+
+		/**
+		 * Fire the start event
+		 */
+		this->fireEvent("prepareSave");
+
+		/**
+		 * Save related records in belongsTo relationships
+		 */
+		let related = this->_related;
+		if typeof related == "array" {
+			if this->_preSaveRelatedRecords(writeConnection, related) === false {
+				return false;
+			}
+		}
+
+		let schema = this->getSchema(),
+			source = this->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let readConnection = this->getReadConnection();
+
+		/**
+		 * We need to check if the record exists
+		 */
+		let exists = this->_exists(metaData, readConnection, table);
+
+		if exists {
+			let this->_operationMade = self::OP_UPDATE;
+		} else {
+			let this->_operationMade = self::OP_CREATE;
+		}
+
+		/**
+		 * Clean the messages
+		 */
+		let this->_errorMessages = [];
+
+		/**
+		 * Query the identity field
+		 */
+		let identityField = metaData->getIdentityField(this);
+
+		/**
+		 * _preSave() makes all the validations
+		 */
+		if this->_preSave(metaData, exists, identityField) === false {
+
+			/**
+			 * Rollback the current transaction if there was validation errors
+			 */
+			if typeof related == "array" {
+				writeConnection->rollback(false);
+			}
+
+			/**
+			 * Throw exceptions on failed saves?
+			 */
+			if globals_get("orm.exception_on_failed_save") {
+				/**
+				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
+				 */
+				throw new ValidationFailed(this, this->getMessages());
+			}
+
+			return false;
+		}
+
+		/**
+		 * Depending if the record exists we do an update or an insert operation
+		 */
+		if exists {
+			let success = this->_doLowUpdate(metaData, writeConnection, table);
+		} else {
+			let success = this->_doLowInsert(metaData, writeConnection, table, identityField);
+		}
+
+		/**
+		 * Change the dirty state to persistent
+		 */
+		if success {
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+		}
+
+		if typeof related == "array" {
+
+			/**
+			 * Rollbacks the implicit transaction if the master save has failed
+			 */
+			if success === false {
+				writeConnection->rollback(false);
+			} else {
+				/**
+				 * Save the post-related records
+				 */
+				let success = this->_postSaveRelatedRecords(writeConnection, related);
+			}
+		}
+
+		/**
+		 * _postSave() invokes after* events if the operation was successful
+		 */
+		if globals_get("orm.events") {
+			let success = this->_postSave(success, exists);
+		}
+
+		if success === false {
+			this->_cancelOperation();
+		} else {
+			this->fireEvent("afterSave");
+		}
+
+		return success;
+	}
+
+
+	/**
+	 * Serializes the object ignoring connections, services, related objects or static properties
+	 */
+	public function serialize() -> string
+	{
+		/**
+		 * Use the standard serialize function to serialize the array data
+		 */
+		var attributes, snapshot, manager;
+
+		let attributes = this->toArray(),
+		    manager = <ManagerInterface> this->getModelsManager();
+
+		if manager->isKeepingSnapshots(this) {
+			let snapshot = this->_snapshot;
+			/**
+			 * If attributes is not the same as snapshot then save snapshot too
+			 */
+			if snapshot != null && attributes != snapshot {
+				return serialize(["_attributes": attributes, "_snapshot": snapshot]);
+			}
+		}
+
+		return serialize(attributes);
+	}
+
+	/**
+	 * Unserializes the object from a serialized string
+	 */
+	public function unserialize(string! data)
+	{
+		var attributes, dependencyInjector, manager, key, value, snapshot;
+
+		let attributes = unserialize(data);
+		if typeof attributes == "array" {
+
+			/**
+			 * Obtain the default DI
+			 */
+			let dependencyInjector = Di::getDefault();
+			if typeof dependencyInjector != "object" {
+				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+			}
+
+			/**
+			 * Update the dependency injector
+			 */
+			let this->_dependencyInjector = dependencyInjector;
+
+			/**
+			 * Gets the default modelsManager service
+			 */
+			let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+			if typeof manager != "object" {
+				throw new Exception("The injected service 'modelsManager' is not valid");
+			}
+
+			/**
+			 * Update the models manager
+			 */
+			let this->_modelsManager = manager;
+
+			/**
+			 * Try to initialize the model
+			 */
+			manager->initialize(this);
+			if manager->isKeepingSnapshots(this) {
+				if fetch snapshot, attributes["_snapshot"] {
+					let this->_snapshot = snapshot;
+					let attributes = attributes["_attributes"];
+				}
+				else {
+					let this->_snapshot = attributes;
+				}
+			}
+
+			/**
+			 * Update the objects attributes
+			 */
+			for key, value in attributes {
+				let this->{key} = value;
+			}
+		}
+	}
+
+	/**
+	 * Sets the DependencyInjection connection service name
+	 */
+	public function setConnectionService(string! connectionService) -> <Model>
+	{
+		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
+		return this;
+	}
+
+	/**
+	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+	 */
+	public function setDirtyState(int dirtyState) -> <ModelInterface>
+	{
+		let this->_dirtyState = dirtyState;
+		return this;
+	}
+
+	/**
+	 * Sets the dependency injection container
+	 */
+	public function setDI(<DiInterface> dependencyInjector)
+	{
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Sets a custom events manager
+	 */
+	public function setEventsManager(<EventsManagerInterface> eventsManager)
+	{
+		this->_modelsManager->setCustomEventsManager(this, eventsManager);
+	}
+
+	/**
+	 * Sets the DependencyInjection connection service name used to read data
+	 */
+	public function setReadConnectionService(string! connectionService) -> <Model>
+	{
+		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
+		return this;
+	}
+
+	/**
+	 * Sets the record's old snapshot data.
+	 * This method is used internally to set old snapshot data when the model was set up to keep snapshot data
+	 *
+	 * @param array data
+	 * @param array columnMap
+	 */
+	public function setOldSnapshotData(array! data, columnMap = null)
+	{
+		var key, value, snapshot, attribute;
+		/**
+		 * Build the snapshot based on a column map
+		 */
+		if typeof columnMap == "array" {
+			let snapshot = [];
+			for key, value in data {
+				/**
+				 * Use only strings
+				 */
+				if typeof key != "string" {
+					continue;
+				}
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+					} else {
+						continue;
+					}
+				}
+				if typeof attribute == "array" {
+					if !fetch attribute, attribute[0] {
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
+					}
+				}
+				let snapshot[attribute] = value;
+			}
+		} else {
+			let snapshot = data;
+		}
+
+		let this->_oldSnapshot = snapshot;
+	}
+
+	/**
+	 * Sets the record's snapshot data.
+	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+	 *
+	 * @param array columnMap
+	 */
+	public function setSnapshotData(array! data, columnMap = null) -> void
+	{
+		var key, value, snapshot, attribute;
+
+		/**
+		 * Build the snapshot based on a column map
+		 */
+		if typeof columnMap == "array" {
+
+			let snapshot = [];
+			for key, value in data {
+
+				/**
+				 * Use only strings
+				 */
+				if typeof key != "string" {
+					continue;
+				}
+
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+					} else {
+						continue;
+					}
+				}
+
+				if typeof attribute == "array" {
+					if !fetch attribute, attribute[0] {
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
+					}
+				}
+
+				let snapshot[attribute] = value;
+			}
+		} else {
+			let snapshot = data;
+		}
+
+
+		let this->_snapshot = snapshot;
+	}
+
+	/**
+	 * Sets a transaction related to the Model instance
+	 *
+	 *<code>
+	 * use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
+	 * use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
+	 *
+	 * try {
+	 *     $txManager = new TxManager();
+	 *
+	 *     $transaction = $txManager->get();
+	 *
+	 *     $robot = new Robots();
+	 *
+	 *     $robot->setTransaction($transaction);
+	 *
+	 *     $robot->name       = "WALL·E";
+	 *     $robot->created_at = date("Y-m-d");
+	 *
+	 *     if ($robot->save() === false) {
+	 *         $transaction->rollback("Can't save robot");
+	 *     }
+	 *
+	 *     $robotPart = new RobotParts();
+	 *
+	 *     $robotPart->setTransaction($transaction);
+	 *
+	 *     $robotPart->type = "head";
+	 *
+	 *     if ($robotPart->save() === false) {
+	 *         $transaction->rollback("Robot part cannot be saved");
+	 *     }
+	 *
+	 *     $transaction->commit();
+	 * } catch (TxFailed $e) {
+	 *     echo "Failed, reason: ", $e->getMessage();
+	 * }
+	 *</code>
+	 */
+	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	{
+		let this->_transaction = transaction;
+		return this;
+	}
+
+	/**
+	 * Enables/disables options in the ORM
+	 */
+	public static function setup(array! options) -> void
+	{
+		var disableEvents, columnRenaming, notNullValidations,
+			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
+			updateSnapshotOnSave, disableAssignSetters;
+
+		/**
+		 * Enables/Disables globally the internal events
+		 */
+		if fetch disableEvents, options["events"] {
+			globals_set("orm.events", disableEvents);
+		}
+
+		/**
+		 * Enables/Disables virtual foreign keys
+		 */
+		if fetch virtualForeignKeys, options["virtualForeignKeys"] {
+			globals_set("orm.virtual_foreign_keys", virtualForeignKeys);
+		}
+
+		/**
+		 * Enables/Disables column renaming
+		 */
+		if fetch columnRenaming, options["columnRenaming"] {
+			globals_set("orm.column_renaming", columnRenaming);
+		}
+
+		/**
+		 * Enables/Disables automatic not null validation
+		 */
+		if fetch notNullValidations, options["notNullValidations"] {
+			globals_set("orm.not_null_validations", notNullValidations);
+		}
+
+		/**
+		 * Enables/Disables throws an exception if the saving process fails
+		 */
+		if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
+			globals_set("orm.exception_on_failed_save", exceptionOnFailedSave);
+		}
+
+		/**
+		 * Enables/Disables literals in PHQL this improves the security of applications
+		 */
+		if fetch phqlLiterals, options["phqlLiterals"] {
+			globals_set("orm.enable_literals", phqlLiterals);
+		}
+
+		/**
+		 * Enables/Disables late state binding on model hydration
+		 */
+		if fetch lateStateBinding, options["lateStateBinding"] {
+			globals_set("orm.late_state_binding", lateStateBinding);
+		}
+
+		/**
+		 * Enables/Disables automatic cast to original types on hydration
+		 */
+		if fetch castOnHydrate, options["castOnHydrate"] {
+			globals_set("orm.cast_on_hydrate", castOnHydrate);
+		}
+
+		/**
+		 * Allows to ignore unknown columns when hydrating objects
+		 */
+		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
+			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+		}
+
+		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
+			globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
+		}
+
+		if fetch disableAssignSetters, options["disableAssignSetters"] {
+		    globals_set("orm.disable_assign_setters", disableAssignSetters);
+		}
+	}
+
+	/**
+	 * Sets the DependencyInjection connection service name used to write data
+	 */
+	public function setWriteConnectionService(string! connectionService) -> <Model>
+	{
+		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
+	}
+
+
+	/**
+	 * Skips the current operation forcing a success state
+	 */
+	public function skipOperation(boolean skip) -> void
+	{
+		let this->_skipped = skip;
+	}
+
+	/**
+	 * Calculates the sum on a column for a result-set of rows that match the specified conditions
+	 *
+	 * <code>
+	 * // How much are all robots?
+	 * $sum = Robots::sum(
+	 *     [
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The total price of robots is ", $sum, "\n";
+	 *
+	 * // How much are mechanical robots?
+	 * $sum = Robots::sum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The total price of mechanical robots is  ", $sum, "\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return double
+	 */
+	public static function sum(var parameters = null) -> float
+	{
+		return self::_groupResult("SUM", "sumatory", parameters);
+	}
+
+	/**
+	 * Returns the instance as an array representation
+	 *
+	 *<code>
+	 * print_r(
+	 *     $robot->toArray()
+	 * );
+	 *</code>
+	 *
+	 * @param array $columns
+	 */
+	public function toArray(columns = null) -> array
+	{
+		var data, metaData, columnMap, attribute,
+			attributeField, value;
+
+		let data = [],
+			metaData = this->getModelsMetaData(),
+			columnMap = metaData->getColumnMap(this);
+
+		for attribute in metaData->getAttributes(this) {
+
+			/**
+			 * Check if the columns must be renamed
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[attribute] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
+					} else {
+						continue;
+					}
+				}
+			} else {
+				let attributeField = attribute;
+			}
+
+			if typeof columns == "array" {
+				if !in_array(attributeField, columns) {
+					continue;
+				}
+			}
+
+			if fetch value, this->{attributeField} {
+				let data[attributeField] = value;
+			} else {
+				let data[attributeField] = null;
+			}
+		}
+
+		return data;
+	}
+
+	/**
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 * // Updating a robot name
+	 * $robot = Robots::findFirst("id = 100");
+	 *
+	 * $robot->name = "Biomass";
+	 *
+	 * $robot->update();
+	 *</code>
+	 */
+	public function update() -> boolean
+	{
+		var metaData;
+
+		/**
+		 * We don't check if the record exists if the record is already checked
+		 */
+		if this->_dirtyState {
+
+			let metaData = this->getModelsMetaData();
+
+			if !this->_exists(metaData, this->getReadConnection()) {
+				let this->_errorMessages = [
+					new Message(
+						"Record cannot be updated because it does not exist",
+						null,
+						"InvalidUpdateAttempt"
+					)
+				];
+
+				return false;
+			}
+		}
+
+		/**
+		 * Call save() anyways
+		 */
+		return this->save();
+	}
+
+	/**
+	 * Writes an attribute value by its name
+	 *
+	 *<code>
+	 * $robot->writeAttribute("name", "Rosey");
+	 *</code>
+	 */
+	public function writeAttribute(string! attribute, var value)
+	{
+		let this->{attribute} = value;
 	}
 
 	/**
@@ -2023,254 +3001,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return true;
-	}
-
-	/**
-	 * Executes internal hooks before save a record
-	 */
-	protected function _preSave(<MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
-	{
-		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
-			field, attributeField, value, emptyStringValues;
-		boolean error, isNull;
-
-		/**
-		 * Run Validation Callbacks Before
-		 */
-		if globals_get("orm.events") {
-
-			/**
-			 * Call the beforeValidation
-			 */
-			if this->fireEventCancel("beforeValidation") === false {
-				return false;
-			}
-
-			/**
-			 * Call the specific beforeValidation event for the current action
-			 */
-			if !exists {
-				if this->fireEventCancel("beforeValidationOnCreate") === false {
-					return false;
-				}
-			} else {
-				if this->fireEventCancel("beforeValidationOnUpdate") === false {
-					return false;
-				}
-			}
-		}
-
-		/**
-		 * Check for Virtual foreign keys
-		 */
-		if globals_get("orm.virtual_foreign_keys") {
-			if this->_checkForeignKeysRestrict() === false {
-				return false;
-			}
-		}
-
-		/**
-		 * Columns marked as not null are automatically validated by the ORM
-		 */
-		if globals_get("orm.not_null_validations") {
-
-			let notNull = metaData->getNotNullAttributes(this);
-			if typeof notNull == "array" {
-
-				/**
-				 * Gets the fields that are numeric, these are validated in a different way
-				 */
-				let dataTypeNumeric = metaData->getDataTypesNumeric(this);
-
-				if globals_get("orm.column_renaming") {
-					let columnMap = metaData->getColumnMap(this);
-				} else {
-					let columnMap = null;
-				}
-
-				/**
-				 * Get fields that must be omitted from the SQL generation
-				 */
-				if exists {
-					let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
-				} else {
-					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
-				}
-
-				let defaultValues = metaData->getDefaultValues(this);
-
-				/**
-				 * Get string attributes that allow empty strings as defaults
-				 */
-				let emptyStringValues = metaData->getEmptyStringAttributes(this);
-
-				let error = false;
-				for field in notNull {
-
-					/**
-					 * We don't check fields that must be omitted
-					 */
-					if !isset automaticAttributes[field] {
-
-						let isNull = false;
-
-						if typeof columnMap == "array" {
-							if !fetch attributeField, columnMap[field] {
-								throw new Exception("Column '" . field . "' isn't part of the column map");
-							}
-						} else {
-							let attributeField = field;
-						}
-
-						/**
-						 * Field is null when: 1) is not set, 2) is numeric but
-						 * its value is not numeric, 3) is null or 4) is empty string
-						 * Read the attribute from the this_ptr using the real or renamed name
-						 */
-						if fetch value, this->{attributeField} {
-
-							/**
-							 * Objects are never treated as null, numeric fields must be numeric to be accepted as not null
-							 */
-							if typeof value != "object" {
-								if !isset dataTypeNumeric[field] {
-									if isset emptyStringValues[field] {
-										if value === null {
-											let isNull = true;
-										}
-									} else {
-										if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
-											let isNull = true;
-										}
-									}
-								} else {
-									if !is_numeric(value) {
-										let isNull = true;
-									}
-								}
-							}
-
-						} else {
-							let isNull = true;
-						}
-
-						if isNull === true {
-
-							if !exists {
-								/**
-								 * The identity field can be null
-								 */
-								if field == identityField {
-									continue;
-								}
-
-								/**
-								 * The field have default value can be null
-								 */
-								if isset defaultValues[field] {
-									continue;
-								}
-							}
-
-							/**
-							 * An implicit PresenceOf message is created
-							 */
-							let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
-								error = true;
-						}
-					}
-				}
-
-				if error === true {
-					if globals_get("orm.events") {
-						this->fireEvent("onValidationFails");
-						this->_cancelOperation();
-					}
-					return false;
-				}
-			}
-		}
-
-		/**
-		 * Call the main validation event
-		 */
-		if this->fireEventCancel("validation") === false {
-			if globals_get("orm.events") {
-				this->fireEvent("onValidationFails");
-			}
-			return false;
-		}
-
-		/**
-		 * Run Validation
-		 */
-		if globals_get("orm.events") {
-
-			/**
-			 * Run Validation Callbacks After
-			 */
-			if !exists {
-				if this->fireEventCancel("afterValidationOnCreate") === false {
-					return false;
-				}
-			} else {
-				if this->fireEventCancel("afterValidationOnUpdate") === false {
-					return false;
-				}
-			}
-
-			if this->fireEventCancel("afterValidation") === false {
-				return false;
-			}
-
-			/**
-			 * Run Before Callbacks
-			 */
-			if this->fireEventCancel("beforeSave") === false {
-				return false;
-			}
-
-			let this->_skipped = false;
-
-			/**
-			 * The operation can be skipped here
-			 */
-			if exists {
-				if this->fireEventCancel("beforeUpdate") === false {
-					return false;
-				}
-			} else {
-				if this->fireEventCancel("beforeCreate") === false {
-					return false;
-				}
-			}
-
-			/**
-			 * Always return true if the operation is skipped
-			 */
-			if this->_skipped === true {
-				return true;
-			}
-
-		}
-
-		return true;
-	}
-
-	/**
-	 * Executes internal events after save a record
-	 */
-	protected function _postSave(boolean success, boolean exists) -> boolean
-	{
-		if success === true {
-			if exists {
-				this->fireEvent("afterUpdate");
-			} else {
-				this->fireEvent("afterCreate");
-			}
-		}
-
-		return success;
 	}
 
 	/**
@@ -2709,6 +3439,623 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  	}
 
 	/**
+	 * Checks whether the current record already exists
+	 *
+	 * @param string|array table
+	 */
+	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	{
+		int numberEmpty, numberPrimary;
+		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
+			wherePk, field, attributeField, value, bindDataTypes,
+			joinWhere, num, type, schema, source;
+
+		let uniqueParams = null,
+			uniqueTypes = null;
+
+		/**
+		 * Builds a unique primary key condition
+		 */
+		let uniqueKey = this->_uniqueKey;
+		if uniqueKey === null {
+
+			let primaryKeys = metaData->getPrimaryKeyAttributes(this),
+				bindDataTypes = metaData->getBindTypes(this);
+
+			let numberPrimary = count(primaryKeys);
+			if !numberPrimary {
+				return false;
+			}
+
+			/**
+			 * Check if column renaming is globally activated
+			 */
+			if globals_get("orm.column_renaming") {
+				let columnMap = metaData->getColumnMap(this);
+			} else {
+				let columnMap = null;
+			}
+
+			let numberEmpty = 0,
+				wherePk = [],
+				uniqueParams = [],
+				uniqueTypes = [];
+
+			/**
+			 * We need to create a primary key based on the current data
+			 */
+			for field in primaryKeys {
+
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				/**
+				 * If the primary key attribute is set append it to the conditions
+				 */
+				let value = null;
+				if fetch value, this->{attributeField} {
+
+					/**
+					 * We count how many fields are empty, if all fields are empty we don't perform an 'exist' check
+					 */
+					if value === null || value === "" {
+						let numberEmpty++;
+					}
+					let uniqueParams[] = value;
+
+				} else {
+					let uniqueParams[] = null,
+						numberEmpty++;
+				}
+
+				if !fetch type, bindDataTypes[field] {
+					throw new Exception("Column '" . field . "' isn't part of the table columns");
+				}
+
+				let uniqueTypes[] = type,
+					wherePk[] = connection->escapeIdentifier(field) . " = ?";
+			}
+
+			/**
+			 * There are no primary key fields defined, assume the record does not exist
+			 */
+			if numberPrimary == numberEmpty {
+				return false;
+			}
+
+			let joinWhere = join(" AND ", wherePk);
+
+			/**
+			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
+			 */
+			let this->_uniqueKey = joinWhere,
+				this->_uniqueParams = uniqueParams,
+				this->_uniqueTypes = uniqueTypes,
+				uniqueKey = joinWhere;
+		}
+
+		/**
+		 * If we already know if the record exists we don't check it
+		 */
+		if !this->_dirtyState {
+			return true;
+		}
+
+		if uniqueKey === null {
+			let uniqueKey = this->_uniqueKey;
+		}
+
+		if uniqueParams === null {
+			let uniqueParams = this->_uniqueParams;
+		}
+
+		if uniqueTypes === null {
+			let uniqueTypes = this->_uniqueTypes;
+		}
+
+		let schema = this->getSchema(), source = this->getSource();
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Here we use a single COUNT(*) without PHQL to make the execution faster
+		 */
+		let num = connection->fetchOne(
+			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
+			null,
+			uniqueParams,
+			uniqueTypes
+		);
+		if num["rowcount"] {
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+			return true;
+		} else {
+			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns related records defined relations depending on the method name
+	 *
+	 * @param array arguments
+	 * @return mixed
+	 */
+	protected function _getRelatedRecords(string! modelName, string! method, var arguments)
+	{
+		var manager, relation, queryMethod, extraArgs;
+
+		let manager = <ManagerInterface> this->_modelsManager;
+
+		let relation = false,
+			queryMethod = null;
+
+		/**
+		 * Calling find/findFirst if the method starts with "get"
+		 */
+		if starts_with(method, "get") {
+			let relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 3));
+		}
+
+		/**
+		 * Calling count if the method starts with "count"
+		 */
+		elseif starts_with(method, "count") {
+			let queryMethod = "count",
+				relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
+		}
+
+		/**
+		 * If the relation was found perform the query via the models manager
+		 */
+		if typeof relation != "object" {
+			return null;
+		}
+
+		fetch extraArgs, arguments[0];
+
+		return manager->getRelationRecords(
+			relation,
+			queryMethod,
+			this,
+			extraArgs
+		);
+	}
+
+	/**
+	 * Generate a PHQL SELECT statement for an aggregate
+	 *
+	 * @param array parameters
+	 */
+	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
+	{
+		var params, distinctColumn, groupColumn, columns,
+			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
+			builder, query, dependencyInjector, manager;
+
+		let dependencyInjector = Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		if typeof parameters != "array" {
+			let params = [];
+			if parameters !== null {
+				let params[] = parameters;
+			}
+		} else {
+			let params = parameters;
+		}
+
+		if !fetch groupColumn, params["column"] {
+			let groupColumn = "*";
+		}
+
+		/**
+		 * Builds the columns to query according to the received parameters
+		 */
+		if fetch distinctColumn, params["distinct"] {
+			let columns = functionName . "(DISTINCT " . distinctColumn . ") AS " . alias;
+		} else {
+			if fetch groupColumns, params["group"] {
+				let columns = groupColumns . ", " . functionName . "(" . groupColumn . ") AS " . alias;
+			} else {
+				let columns = functionName . "(" . groupColumn . ") AS " . alias;
+			}
+		}
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = <BuilderInterface> manager->createBuilder(params);
+		builder->columns(columns);
+		builder->from(get_called_class());
+
+		let query = <QueryInterface> builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		let bindParams = null, bindTypes = null;
+		if fetch bindParams, params["bind"] {
+			fetch bindTypes, params["bindTypes"];
+		}
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		/**
+		 * Execute the query
+		 */
+		let resultset = query->execute(bindParams, bindTypes);
+
+		/**
+		 * Return the full resultset if the query is grouped
+		 */
+		if isset params["group"] {
+			return resultset;
+		}
+
+		/**
+		 * Return only the value in the first result
+		 */
+		let firstRow = resultset->getFirst();
+		return firstRow->{alias};
+	}
+
+	/**
+	 * Try to check if the query must invoke a finder
+	 *
+	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
+	 */
+	protected final static function _invokeFinder(string method, array arguments)
+	{
+		var extraMethod, type, modelName, value, model,
+			attributes, field, extraMethodFirst, metaData;
+
+		let extraMethod = null;
+
+		/**
+		 * Check if the method starts with "findFirst"
+		 */
+		if starts_with(method, "findFirstBy") {
+			let type = "findFirst",
+				extraMethod = substr(method, 11);
+		}
+
+		/**
+		 * Check if the method starts with "find"
+		 */
+		elseif starts_with(method, "findBy") {
+			let type = "find",
+				extraMethod = substr(method, 6);
+		}
+
+		/**
+		 * Check if the method starts with "count"
+		 */
+		elseif starts_with(method, "countBy") {
+			let type = "count",
+				extraMethod = substr(method, 7);
+		}
+
+		/**
+		 * The called class is the model
+		 */
+		let modelName = get_called_class();
+
+		if !extraMethod {
+			return null;
+		}
+
+		if !fetch value, arguments[0] {
+			throw new Exception("The static method '" . method . "' requires one argument");
+		}
+
+		let model = new {modelName}(),
+			metaData = model->getModelsMetaData();
+
+		/**
+		 * Get the attributes
+		 */
+		let attributes = metaData->getReverseColumnMap(model);
+		if typeof attributes != "array" {
+			let attributes = metaData->getDataTypes(model);
+		}
+
+		/**
+		 * Check if the extra-method is an attribute
+		 */
+		if isset attributes[extraMethod] {
+			let field = extraMethod;
+		} else {
+
+			/**
+			 * Lowercase the first letter of the extra-method
+			 */
+			let extraMethodFirst = lcfirst(extraMethod);
+			if isset attributes[extraMethodFirst] {
+				let field = extraMethodFirst;
+			} else {
+
+				/**
+				 * Get the possible real method name
+				 */
+				let field = uncamelize(extraMethod);
+				if !isset attributes[field] {
+					throw new Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
+				}
+			}
+		}
+
+		/**
+		 * Execute the query
+		 */
+		return {modelName}::{type}([
+			"conditions": "[" . field . "] = ?0",
+			"bind"		: [value]
+		]);
+	}
+
+	/**
+	 * Check for, and attempt to use, possible setter.
+	 */
+	protected final function _possibleSetter(string property, var value) -> boolean
+	{
+		var possibleSetter;
+
+		let possibleSetter = "set" . camelize(property);
+		if method_exists(this, possibleSetter) {
+			this->{possibleSetter}(value);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Executes internal hooks before save a record
+	 */
+	protected function _preSave(<MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
+	{
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
+			field, attributeField, value, emptyStringValues;
+		boolean error, isNull;
+
+		/**
+		 * Run Validation Callbacks Before
+		 */
+		if globals_get("orm.events") {
+
+			/**
+			 * Call the beforeValidation
+			 */
+			if this->fireEventCancel("beforeValidation") === false {
+				return false;
+			}
+
+			/**
+			 * Call the specific beforeValidation event for the current action
+			 */
+			if !exists {
+				if this->fireEventCancel("beforeValidationOnCreate") === false {
+					return false;
+				}
+			} else {
+				if this->fireEventCancel("beforeValidationOnUpdate") === false {
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Check for Virtual foreign keys
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysRestrict() === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Columns marked as not null are automatically validated by the ORM
+		 */
+		if globals_get("orm.not_null_validations") {
+
+			let notNull = metaData->getNotNullAttributes(this);
+			if typeof notNull == "array" {
+
+				/**
+				 * Gets the fields that are numeric, these are validated in a different way
+				 */
+				let dataTypeNumeric = metaData->getDataTypesNumeric(this);
+
+				if globals_get("orm.column_renaming") {
+					let columnMap = metaData->getColumnMap(this);
+				} else {
+					let columnMap = null;
+				}
+
+				/**
+				 * Get fields that must be omitted from the SQL generation
+				 */
+				if exists {
+					let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+				} else {
+					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+				}
+
+				let defaultValues = metaData->getDefaultValues(this);
+
+				/**
+				 * Get string attributes that allow empty strings as defaults
+				 */
+				let emptyStringValues = metaData->getEmptyStringAttributes(this);
+
+				let error = false;
+				for field in notNull {
+
+					/**
+					 * We don't check fields that must be omitted
+					 */
+					if !isset automaticAttributes[field] {
+
+						let isNull = false;
+
+						if typeof columnMap == "array" {
+							if !fetch attributeField, columnMap[field] {
+								throw new Exception("Column '" . field . "' isn't part of the column map");
+							}
+						} else {
+							let attributeField = field;
+						}
+
+						/**
+						 * Field is null when: 1) is not set, 2) is numeric but
+						 * its value is not numeric, 3) is null or 4) is empty string
+						 * Read the attribute from the this_ptr using the real or renamed name
+						 */
+						if fetch value, this->{attributeField} {
+
+							/**
+							 * Objects are never treated as null, numeric fields must be numeric to be accepted as not null
+							 */
+							if typeof value != "object" {
+								if !isset dataTypeNumeric[field] {
+									if isset emptyStringValues[field] {
+										if value === null {
+											let isNull = true;
+										}
+									} else {
+										if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
+											let isNull = true;
+										}
+									}
+								} else {
+									if !is_numeric(value) {
+										let isNull = true;
+									}
+								}
+							}
+
+						} else {
+							let isNull = true;
+						}
+
+						if isNull === true {
+
+							if !exists {
+								/**
+								 * The identity field can be null
+								 */
+								if field == identityField {
+									continue;
+								}
+
+								/**
+								 * The field have default value can be null
+								 */
+								if isset defaultValues[field] {
+									continue;
+								}
+							}
+
+							/**
+							 * An implicit PresenceOf message is created
+							 */
+							let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
+								error = true;
+						}
+					}
+				}
+
+				if error === true {
+					if globals_get("orm.events") {
+						this->fireEvent("onValidationFails");
+						this->_cancelOperation();
+					}
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Call the main validation event
+		 */
+		if this->fireEventCancel("validation") === false {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+			}
+			return false;
+		}
+
+		/**
+		 * Run Validation
+		 */
+		if globals_get("orm.events") {
+
+			/**
+			 * Run Validation Callbacks After
+			 */
+			if !exists {
+				if this->fireEventCancel("afterValidationOnCreate") === false {
+					return false;
+				}
+			} else {
+				if this->fireEventCancel("afterValidationOnUpdate") === false {
+					return false;
+				}
+			}
+
+			if this->fireEventCancel("afterValidation") === false {
+				return false;
+			}
+
+			/**
+			 * Run Before Callbacks
+			 */
+			if this->fireEventCancel("beforeSave") === false {
+				return false;
+			}
+
+			let this->_skipped = false;
+
+			/**
+			 * The operation can be skipped here
+			 */
+			if exists {
+				if this->fireEventCancel("beforeUpdate") === false {
+					return false;
+				}
+			} else {
+				if this->fireEventCancel("beforeCreate") === false {
+					return false;
+				}
+			}
+
+			/**
+			 * Always return true if the operation is skipped
+			 */
+			if this->_skipped === true {
+				return true;
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
 	 * Saves related records that must be stored prior to save the master record
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface[] related
@@ -2800,6 +4147,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * Executes internal events after save a record
+	 */
+	protected function _postSave(boolean success, boolean exists) -> boolean
+	{
+		if success === true {
+			if exists {
+				this->fireEvent("afterUpdate");
+			} else {
+				this->fireEvent("afterCreate");
+			}
+		}
+
+		return success;
 	}
 
 	/**
@@ -2993,533 +4356,249 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Inserts or updates a model instance. Returning true on success or false otherwise.
+	 * Sets a list of attributes that must be skipped from the
+	 * generated UPDATE statement
 	 *
 	 *<code>
-	 * // Creating a new robot
-	 * $robot = new Robots();
 	 *
-	 * $robot->type = "mechanical";
-	 * $robot->name = "Astro Boy";
-	 * $robot->year = 1952;
-	 *
-	 * $robot->save();
-	 *
-	 * // Updating a robot name
-	 * $robot = Robots::findFirst("id = 100");
-	 *
-	 * $robot->name = "Biomass";
-	 *
-	 * $robot->save();
-	 *</code>
-	 */
-	public function save() -> boolean
-	{
-		var metaData, related, schema, writeConnection, readConnection,
-			source, table, identityField, exists, success;
-
-		let metaData = this->getModelsMetaData();
-
-		/**
-		 * Create/Get the current database connection
-		 */
-		let writeConnection = this->getWriteConnection();
-
-		/**
-		 * Fire the start event
-		 */
-		this->fireEvent("prepareSave");
-
-		/**
-		 * Save related records in belongsTo relationships
-		 */
-		let related = this->_related;
-		if typeof related == "array" {
-			if this->_preSaveRelatedRecords(writeConnection, related) === false {
-				return false;
-			}
-		}
-
-		let schema = this->getSchema(),
-			source = this->getSource();
-
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
-
-		/**
-		 * Create/Get the current database connection
-		 */
-		let readConnection = this->getReadConnection();
-
-		/**
-		 * We need to check if the record exists
-		 */
-		let exists = this->_exists(metaData, readConnection, table);
-
-		if exists {
-			let this->_operationMade = self::OP_UPDATE;
-		} else {
-			let this->_operationMade = self::OP_CREATE;
-		}
-
-		/**
-		 * Clean the messages
-		 */
-		let this->_errorMessages = [];
-
-		/**
-		 * Query the identity field
-		 */
-		let identityField = metaData->getIdentityField(this);
-
-		/**
-		 * _preSave() makes all the validations
-		 */
-		if this->_preSave(metaData, exists, identityField) === false {
-
-			/**
-			 * Rollback the current transaction if there was validation errors
-			 */
-			if typeof related == "array" {
-				writeConnection->rollback(false);
-			}
-
-			/**
-			 * Throw exceptions on failed saves?
-			 */
-			if globals_get("orm.exception_on_failed_save") {
-				/**
-				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
-				 */
-				throw new ValidationFailed(this, this->getMessages());
-			}
-
-			return false;
-		}
-
-		/**
-		 * Depending if the record exists we do an update or an insert operation
-		 */
-		if exists {
-			let success = this->_doLowUpdate(metaData, writeConnection, table);
-		} else {
-			let success = this->_doLowInsert(metaData, writeConnection, table, identityField);
-		}
-
-		/**
-		 * Change the dirty state to persistent
-		 */
-		if success {
-			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
-		}
-
-		if typeof related == "array" {
-
-			/**
-			 * Rollbacks the implicit transaction if the master save has failed
-			 */
-			if success === false {
-				writeConnection->rollback(false);
-			} else {
-				/**
-				 * Save the post-related records
-				 */
-				let success = this->_postSaveRelatedRecords(writeConnection, related);
-			}
-		}
-
-		/**
-		 * _postSave() invokes after* events if the operation was successful
-		 */
-		if globals_get("orm.events") {
-			let success = this->_postSave(success, exists);
-		}
-
-		if success === false {
-			this->_cancelOperation();
-		} else {
-			this->fireEvent("afterSave");
-		}
-
-		return success;
-	}
-
-	/**
-	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 *
-	 *<code>
-	 * // Creating a new robot
-	 * $robot = new Robots();
-	 *
-	 * $robot->type = "mechanical";
-	 * $robot->name = "Astro Boy";
-	 * $robot->year = 1952;
-	 *
-	 * $robot->create();
-	 *
-	 * // Passing an array to create
-	 * $robot = new Robots();
-	 *
-	 * $robot->assign(
-	 *     [
-	 *         "type" => "mechanical",
-	 *         "name" => "Astro Boy",
-	 *         "year" => 1952,
-	 *     ]
-	 * );
-	 *
-	 * $robot->create();
-	 *</code>
-	 */
-	public function create() -> boolean
-	{
-		var metaData;
-
-		let metaData = this->getModelsMetaData();
-
-		/**
-		 * Get the current connection
-		 * If the record already exists we must throw an exception
-		 */
-		if this->_exists(metaData, this->getReadConnection()) {
-			let this->_errorMessages = [
-				new Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
-			];
-			return false;
-		}
-
-		/**
-		 * Using save() anyways
-		 */
-		return this->save();
-	}
-
-	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 *
-	 *<code>
-	 * // Updating a robot name
-	 * $robot = Robots::findFirst("id = 100");
-	 *
-	 * $robot->name = "Biomass";
-	 *
-	 * $robot->update();
-	 *</code>
-	 */
-	public function update() -> boolean
-	{
-		var metaData;
-
-		/**
-		 * We don't check if the record exists if the record is already checked
-		 */
-		if this->_dirtyState {
-
-			let metaData = this->getModelsMetaData();
-
-			if !this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [
-					new Message(
-						"Record cannot be updated because it does not exist",
-						null,
-						"InvalidUpdateAttempt"
-					)
-				];
-
-				return false;
-			}
-		}
-
-		/**
-		 * Call save() anyways
-		 */
-		return this->save();
-	}
-
-	/**
-	 * Deletes a model instance. Returning true on success or false otherwise.
-	 *
-	 * <code>
-	 * $robot = Robots::findFirst("id=100");
-	 *
-	 * $robot->delete();
-	 *
-	 * $robots = Robots::find("type = 'mechanical'");
-	 *
-	 * foreach ($robots as $robot) {
-	 *     $robot->delete();
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->allowEmptyStringValues(
+	 *             [
+	 *                 "name",
+	 *             ]
+	 *         );
+	 *     }
 	 * }
-	 * </code>
-	 */
-	public function delete() -> boolean
-	{
-		var metaData, writeConnection, values, bindTypes, primaryKeys,
-			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
-			bindType, value, schema, source, table, success;
-
-		let metaData = this->getModelsMetaData(),
-			writeConnection = this->getWriteConnection();
-
-		/**
-		 * Operation made is OP_DELETE
-		 */
-		let this->_operationMade = self::OP_DELETE,
-			this->_errorMessages = [];
-
-		/**
-		 * Check if deleting the record violates a virtual foreign key
-		 */
-		if globals_get("orm.virtual_foreign_keys") {
-			if this->_checkForeignKeysReverseRestrict() === false {
-				return false;
-			}
-		}
-
-		let values = [],
-			bindTypes = [],
-			conditions = [];
-
-		let primaryKeys = metaData->getPrimaryKeyAttributes(this),
-			bindDataTypes = metaData->getBindTypes(this);
-
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
-
-		/**
-		 * We can't create dynamic SQL without a primary key
-		 */
-		if !count(primaryKeys) {
-			throw new Exception("A primary key must be defined in the model in order to perform the operation");
-		}
-
-		/**
-		 * Create a condition from the primary keys
-		 */
-		for primaryKey in primaryKeys {
-
-			/**
-			 * Every column part of the primary key must be in the bind data types
-			 */
-			if !fetch bindType, bindDataTypes[primaryKey] {
-				throw new Exception("Column '" . primaryKey . "' have not defined a bind data type");
-			}
-
-			/**
-			 * Take the column values based on the column map if any
-			 */
-			if typeof columnMap == "array" {
-				if !fetch attributeField, columnMap[primaryKey] {
-					throw new Exception("Column '" . primaryKey . "' isn't part of the column map");
-				}
-			} else {
-				let attributeField = primaryKey;
-			}
-
-			/**
-			 * If the attribute is currently set in the object add it to the conditions
-			 */
-			if !fetch value, this->{attributeField} {
-				throw new Exception(
-					"Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
-				);
-			}
-
-			/**
-			 * Escape the column identifier
-			 */
-			let values[] = value,
-				conditions[] = writeConnection->escapeIdentifier(primaryKey) . " = ?",
-				bindTypes[] = bindType;
-		}
-
-		if globals_get("orm.events") {
-
-			let this->_skipped = false;
-
-			/**
-			 * Fire the beforeDelete event
-			 */
-			if this->fireEventCancel("beforeDelete") === false {
-				return false;
-			} else {
-				/**
-				 * The operation can be skipped
-				 */
-				if this->_skipped === true {
-					return true;
-				}
-			}
-		}
-
-		let schema = this->getSchema(),
-			source = this->getSource();
-
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
-
-		/**
-		 * Join the conditions in the array using an AND operator
-		 * Do the deletion
-		 */
-		let success = writeConnection->delete(table, join(" AND ", conditions), values, bindTypes);
-
-		/**
-		 * Check if there is virtual foreign keys with cascade action
-		 */
-		if globals_get("orm.virtual_foreign_keys") {
-			if this->_checkForeignKeysReverseCascade() === false {
-				return false;
-			}
-		}
-
-		if globals_get("orm.events") {
-			if success {
-				this->fireEvent("afterDelete");
-			}
-		}
-
-		/**
-		 * Force perform the record existence checking again
-		 */
-		let this->_dirtyState = self::DIRTY_STATE_DETACHED;
-
-		return success;
-	}
-
-	/**
-	 * Returns the type of the latest operation performed by the ORM
-	 * Returns one of the OP_* class constants
-	 */
-	public function getOperationMade() -> int
-	{
-		return this->_operationMade;
-	}
-
-	/**
-	 * Refreshes the model attributes re-querying the record from the database
-	 */
-	public function refresh() -> <Model>
-	{
-		var metaData, readConnection, schema, source, table,
-			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute, manager, columnMap;
-
-		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
-		}
-
-		let metaData = this->getModelsMetaData(),
-			readConnection = this->getReadConnection(),
-			manager = <ManagerInterface> this->_modelsManager;
-
-		let schema = this->getSchema(),
-			source = this->getSource();
-
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
-
-		let uniqueKey = this->_uniqueKey;
-		if !uniqueKey {
-
-			/**
-			 * We need to check if the record exists
-			 */
-			if !this->_exists(metaData, readConnection, table) {
-				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
-			}
-
-			let uniqueKey = this->_uniqueKey;
-		}
-
-		let uniqueParams = this->_uniqueParams;
-		if typeof uniqueParams != "array" {
-			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
-		}
-
-		/**
-		 * We only refresh the attributes in the model's metadata
-		 */
-		let fields = [];
-		for attribute in metaData->getAttributes(this) {
-			let fields[] = [attribute];
-		}
-
-		/**
-		 * We directly build the SELECT to save resources
-		 */
-		let dialect = readConnection->getDialect(),
-			tables = dialect->select([
-				"columns": fields,
-				"tables":  readConnection->escapeIdentifier(table),
-				"where":   uniqueKey
-			]),
-			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
-
-		/**
-		 * Get a column map if any
-		 * Assign the resulting array to the this object
-		 */
-		if typeof row == "array" {
-			let columnMap = metaData->getColumnMap(this);
-			this->assign(row, columnMap);
-			if manager->isKeepingSnapshots(this) {
-				this->setSnapshotData(row, columnMap);
-				this->setOldSnapshotData(row, columnMap);
-			}
-		}
-
-		this->fireEvent("afterFetch");
-
-		return this;
-	}
-
-	/**
-	 * Skips the current operation forcing a success state
-	 */
-	public function skipOperation(boolean skip)
-	{
-		let this->_skipped = skip;
-	}
-
-	/**
-	 * Reads an attribute value by its name
-	 *
-	 * <code>
-	 * echo $robot->readAttribute("name");
-	 * </code>
-	 */
-	public function readAttribute(string! attribute) -> var | null
-	{
-		if !isset this->{attribute} {
-			return null;
-		}
-
-		return this->{attribute};
-	}
-
-	/**
-	 * Writes an attribute value by its name
-	 *
-	 *<code>
-	 * $robot->writeAttribute("name", "Rosey");
 	 *</code>
 	 */
-	public function writeAttribute(string! attribute, var value)
+	protected function allowEmptyStringValues(array! attributes) -> void
 	{
-		let this->{attribute} = value;
+		var keysAttributes, attribute;
+
+		let keysAttributes = [];
+		for attribute in attributes {
+			let keysAttributes[attribute] = true;
+		}
+
+		this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
+	}
+
+	/**
+	 * Cancel the current operation
+	 */
+	protected function _cancelOperation()
+	{
+		if this->_operationMade == self::OP_DELETE {
+			this->fireEvent("notDeleted");
+		} else {
+			this->fireEvent("notSaved");
+		}
+	}
+
+	/**
+	 * Setup a reverse 1-1 or n-1 relation between two models
+	 *
+	 *<code>
+	 *
+	 * class RobotsParts extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->belongsTo("robots_id", "Robots", "id");
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
+			this,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
+
+	/**
+	 * shared prepare query logic for find and findFirst method
+	 */
+	private static function getPreparedQuery(var params, var limit = null) -> <Query>
+	{
+		var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
+
+		let dependencyInjector = Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = <BuilderInterface> manager->createBuilder(params);
+		builder->from(get_called_class());
+
+		if limit != null {
+			builder->limit(limit);
+		}
+
+		let query = <QueryInterface> builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		if fetch bindParams, params["bind"] {
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams, true);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes, true);
+				}
+			}
+		}
+
+		if fetch transaction, params[self::TRANSACTION_INDEX] {
+			if transaction instanceof TransactionInterface {
+				query->setTransaction(transaction);
+			}
+		}
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		return query;
+	}
+
+	/**
+	 * Setup a 1-n relation between two models
+	 *
+	 *<code>
+	 *
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->hasMany("id", "RobotsParts", "robots_id");
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addHasMany(
+			this,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
+
+	/**
+	 * Setup an n-n relation between two models, through an intermediate relation
+	 *
+	 *<code>
+	 *
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         // Setup a many-to-many relation to Parts through RobotsParts
+	 *         $this->hasManyToMany(
+	 *             "id",
+	 *             "RobotsParts",
+	 *             "robots_id",
+	 *             "parts_id",
+	 *             "Parts",
+	 *             "id",
+	 *         );
+	 *     }
+	 * }
+	 *</code>
+	 *
+	 * @param	string|array fields
+	 * @param	string|array intermediateFields
+	 * @param	string|array intermediateReferencedFields
+	 * @param   string|array referencedFields
+	 * @param   array options
+	 */
+	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
+		string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
+			this,
+			fields,
+			intermediateModel,
+			intermediateFields,
+			intermediateReferencedFields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
+
+	/**
+	 * Setup a 1-1 relation between two models
+	 *
+	 *<code>
+	 *
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->hasOne("id", "RobotsDescription", "robots_id");
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
+	}
+
+	/**
+	 * Sets if the model must keep the original record snapshot in memory
+	 *
+	 *<code>
+	 *
+	 * use Phalcon\Mvc\Model;
+	 *
+	 * class Robots extends Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->keepSnapshots(true);
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function keepSnapshots(boolean keepSnapshot) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
+	}
+
+	/**
+	 * Sets schema name where the mapped table is located
+	 */
+	protected function setSchema(string! schema) -> <Model>
+	{
+		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
+	}
+
+	/**
+	 * Sets the table name to which model should be mapped
+	 */
+	protected function setSource(string! source) -> <Model>
+	{
+		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
+		return this;
 	}
 
 	/**
@@ -3610,539 +4689,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets a list of attributes that must be skipped from the
-	 * generated UPDATE statement
-	 *
-	 *<code>
-	 *
-	 * class Robots extends \Phalcon\Mvc\Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->allowEmptyStringValues(
-	 *             [
-	 *                 "name",
-	 *             ]
-	 *         );
-	 *     }
-	 * }
-	 *</code>
-	 */
-	protected function allowEmptyStringValues(array! attributes) -> void
-	{
-		var keysAttributes, attribute;
-
-		let keysAttributes = [];
-		for attribute in attributes {
-			let keysAttributes[attribute] = true;
-		}
-
-		this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
-	}
-
-	/**
-	 * Setup a 1-1 relation between two models
-	 *
-	 *<code>
-	 *
-	 * class Robots extends \Phalcon\Mvc\Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->hasOne("id", "RobotsDescription", "robots_id");
-	 *     }
-	 * }
-	 *</code>
-	 */
-	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
-	{
-		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
-	}
-
-	/**
-	 * Setup a reverse 1-1 or n-1 relation between two models
-	 *
-	 *<code>
-	 *
-	 * class RobotsParts extends \Phalcon\Mvc\Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->belongsTo("robots_id", "Robots", "id");
-	 *     }
-	 * }
-	 *</code>
-	 */
-	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
-	{
-		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
-			this,
-			fields,
-			referenceModel,
-			referencedFields,
-			options
-		);
-	}
-
-	/**
-	 * Setup a 1-n relation between two models
-	 *
-	 *<code>
-	 *
-	 * class Robots extends \Phalcon\Mvc\Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->hasMany("id", "RobotsParts", "robots_id");
-	 *     }
-	 * }
-	 *</code>
-	 */
-	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
-	{
-		return (<ManagerInterface> this->_modelsManager)->addHasMany(
-			this,
-			fields,
-			referenceModel,
-			referencedFields,
-			options
-		);
-	}
-
-	/**
-	 * Setup an n-n relation between two models, through an intermediate relation
-	 *
-	 *<code>
-	 *
-	 * class Robots extends \Phalcon\Mvc\Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         // Setup a many-to-many relation to Parts through RobotsParts
-	 *         $this->hasManyToMany(
-	 *             "id",
-	 *             "RobotsParts",
-	 *             "robots_id",
-	 *             "parts_id",
-	 *             "Parts",
-	 *             "id",
-	 *         );
-	 *     }
-	 * }
-	 *</code>
-	 *
-	 * @param	string|array fields
-	 * @param	string|array intermediateFields
-	 * @param	string|array intermediateReferencedFields
-	 * @param   string|array referencedFields
-	 * @param   array options
-	 */
-	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-		string! referenceModel, var referencedFields, options = null) -> <Relation>
-	{
-		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
-			this,
-			fields,
-			intermediateModel,
-			intermediateFields,
-			intermediateReferencedFields,
-			referenceModel,
-			referencedFields,
-			options
-		);
-	}
-
-	/**
-	 * Setups a behavior in a model
-	 *
-	 *<code>
-	 *
-	 * use Phalcon\Mvc\Model;
-	 * use Phalcon\Mvc\Model\Behavior\Timestampable;
-	 *
-	 * class Robots extends Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->addBehavior(
-	 *             new Timestampable(
-	 *                [
-	 *                    "onCreate" => [
-	 *                         "field"  => "created_at",
-	 *                         "format" => "Y-m-d",
-	 * 	                   ],
-	 *                 ]
-	 *             )
-	 *         );
-	 *     }
-	 * }
-	 *</code>
-	 */
-	public function addBehavior(<BehaviorInterface> behavior) -> void
-	{
-		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
-	}
-
-	/**
-	 * Sets if the model must keep the original record snapshot in memory
-	 *
-	 *<code>
-	 *
-	 * use Phalcon\Mvc\Model;
-	 *
-	 * class Robots extends Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->keepSnapshots(true);
-	 *     }
-	 * }
-	 *</code>
-	 */
-	protected function keepSnapshots(boolean keepSnapshot) -> void
-	{
-		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
-	}
-
-	/**
-	 * Sets the record's snapshot data.
-	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
-	 *
-	 * @param array columnMap
-	 */
-	public function setSnapshotData(array! data, columnMap = null)
-	{
-		var key, value, snapshot, attribute;
-
-		/**
-		 * Build the snapshot based on a column map
-		 */
-		if typeof columnMap == "array" {
-
-			let snapshot = [];
-			for key, value in data {
-
-				/**
-				 * Use only strings
-				 */
-				if typeof key != "string" {
-					continue;
-				}
-
-				/**
-				 * Every field must be part of the column map
-				 */
-				if !fetch attribute, columnMap[key] {
-					if !globals_get("orm.ignore_unknown_columns") {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
-					} else {
-						continue;
-					}
-				}
-
-				if typeof attribute == "array" {
-					if !fetch attribute, attribute[0] {
-						if !globals_get("orm.ignore_unknown_columns") {
-							throw new Exception("Column '" . key . "' doesn't make part of the column map");
-						} else {
-							continue;
-						}
-					}
-				}
-
-				let snapshot[attribute] = value;
-			}
-		} else {
-			let snapshot = data;
-		}
-
-
-		let this->_snapshot = snapshot;
-	}
-
-	/**
-	 * Sets the record's old snapshot data.
-	 * This method is used internally to set old snapshot data when the model was set up to keep snapshot data
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 */
-	public function setOldSnapshotData(array! data, columnMap = null)
-	{
-		var key, value, snapshot, attribute;
-		/**
-		 * Build the snapshot based on a column map
-		 */
-		if typeof columnMap == "array" {
-			let snapshot = [];
-			for key, value in data {
-				/**
-				 * Use only strings
-				 */
-				if typeof key != "string" {
-					continue;
-				}
-				/**
-				 * Every field must be part of the column map
-				 */
-				if !fetch attribute, columnMap[key] {
-					if !globals_get("orm.ignore_unknown_columns") {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
-					} else {
-						continue;
-					}
-				}
-				if typeof attribute == "array" {
-					if !fetch attribute, attribute[0] {
-						if !globals_get("orm.ignore_unknown_columns") {
-							throw new Exception("Column '" . key . "' doesn't make part of the column map");
-						} else {
-							continue;
-						}
-					}
-				}
-				let snapshot[attribute] = value;
-			}
-		} else {
-			let snapshot = data;
-		}
-
-		let this->_oldSnapshot = snapshot;
-	}
-
-	/**
-	 * Checks if the object has internal snapshot data
-	 */
-	public function hasSnapshotData() -> boolean
-	{
-		var snapshot;
-		let snapshot = this->_snapshot;
-
-		return typeof snapshot == "array";
-	}
-
-	/**
-	 * Returns the internal snapshot data
-	 */
-	public function getSnapshotData() -> array
-	{
-		return this->_snapshot;
-	}
-
-	/**
-	 * Returns the internal old snapshot data
-	 */
-	public function getOldSnapshotData() -> array
-	{
-		return this->_oldSnapshot;
-	}
-
-	/**
-	 * Check if a specific attribute has changed
-	 * This only works if the model is keeping data snapshots
-	 *
-	 *<code>
-	 * $robot = new Robots();
-	 *
-	 * $robot->type = "mechanical";
-	 * $robot->name = "Astro Boy";
-	 * $robot->year = 1952;
-	 *
-	 * $robot->create();
-	 * $robot->type = "hydraulic";
-	 * $hasChanged = $robot->hasChanged("type"); // returns true
-	 * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
-	 * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
-	 *</code>
-	 *
-	 * @param string|array fieldName
-	 */
-	public function hasChanged(var fieldName = null, boolean allFields = false) -> boolean
-	{
-		var changedFields;
-
-		let changedFields = this->getChangedFields();
-
-		/**
-		 * If a field was specified we only check it
-		 */
-		if typeof fieldName == "string" {
-			return in_array(fieldName, changedFields);
-		} elseif typeof fieldName == "array" {
-		    if allFields {
-		        return array_intersect(fieldName, changedFields) == fieldName;
-		    }
-
-		    return count(array_intersect(fieldName, changedFields)) > 0;
-		}
-
-		return count(changedFields) > 0;
-	}
-
-	/**
-	 * Check if a specific attribute was updated
-	 * This only works if the model is keeping data snapshots
-	 *
-	 * @param string|array fieldName
-	 */
-	public function hasUpdated(var fieldName = null, boolean allFields = false) -> boolean
-	{
-		var updatedFields;
-
-		let updatedFields = this->getUpdatedFields();
-
-		/**
-		 * If a field was specified we only check it
-		 */
-		if typeof fieldName == "string" {
-			return in_array(fieldName, updatedFields);
-		} elseif typeof fieldName == "array" {
-			if allFields {
-				return array_intersect(fieldName, updatedFields) == fieldName;
-			}
-
-			return count(array_intersect(fieldName, updatedFields)) > 0;
-		}
-
-		return count(updatedFields) > 0;
-	}
-
-	/**
-	 * Returns a list of changed values.
-	 *
-	 * <code>
-	 * $robots = Robots::findFirst();
-	 * print_r($robots->getChangedFields()); // []
-	 *
-	 * $robots->deleted = 'Y';
-	 *
-	 * $robots->getChangedFields();
-	 * print_r($robots->getChangedFields()); // ["deleted"]
-	 * </code>
-	 */
-	public function getChangedFields() -> array
-	{
-		var metaData, changed, name, snapshot,
-			columnMap, allAttributes, value;
-
-		let snapshot = this->_snapshot;
-		if typeof snapshot != "array" {
-			throw new Exception("The record doesn't have a valid data snapshot");
-		}
-
-		/**
-		 * Return the models meta-data
-		 */
-		let metaData = this->getModelsMetaData();
-
-		/**
-		 * The reversed column map is an array if the model has a column map
-		 */
-		let columnMap = metaData->getReverseColumnMap(this);
-
-		/**
-		 * Data types are field indexed
-		 */
-		if typeof columnMap != "array" {
-			let allAttributes = metaData->getDataTypes(this);
-		} else {
-			let allAttributes = columnMap;
-		}
-
-		/**
-		 * Check every attribute in the model
-		 */
-		let changed = [];
-
-		for name, _ in allAttributes {
-			/**
-			 * If some attribute is not present in the snapshot, we assume the record as changed
-			 */
-			if !isset snapshot[name] {
-				let changed[] = name;
-				continue;
-			}
-
-			/**
-			 * If some attribute is not present in the model, we assume the record as changed
-			 */
-			if !fetch value, this->{name} {
-				let changed[] = name;
-				continue;
-			}
-
-			/**
-			 * Check if the field has changed
-			 */
-			if value !== snapshot[name] {
-				let changed[] = name;
-				continue;
-			}
-		}
-
-		return changed;
-	}
-
-	/**
-	 * Returns a list of updated values.
-	 *
-	 * <code>
-	 * $robots = Robots::findFirst();
-	 * print_r($robots->getChangedFields()); // []
-	 *
-	 * $robots->deleted = 'Y';
-	 *
-	 * $robots->getChangedFields();
-	 * print_r($robots->getChangedFields()); // ["deleted"]
-	 * $robots->save();
-	 * print_r($robots->getChangedFields()); // []
-	 * print_r($robots->getUpdatedFields()); // ["deleted"]
-	 * </code>
-	 */
-	public function getUpdatedFields()
-	{
-		var updated, name, snapshot,
-			oldSnapshot, value;
-
-		let snapshot = this->_snapshot;
-		let oldSnapshot = this->_oldSnapshot;
-
-		if !globals_get("orm.update_snapshot_on_save") {
-			throw new Exception("Update snapshot on save must be enabled for this method to work properly");
-		}
-
-		if typeof snapshot != "array" {
-			throw new Exception("The record doesn't have a valid data snapshot");
-		}
-
-		/**
-		 * Dirty state must be DIRTY_PERSISTENT to make the checking
-		 */
-		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
-		}
-
-		let updated = [];
-
-		for name, value in snapshot {
-			/**
-			 * If some attribute is not present in the oldSnapshot, we assume the record as changed
-			 */
-			if !isset oldSnapshot[name] {
-				let updated[] = name;
-				continue;
-			}
-
-			if value !== oldSnapshot[name] {
-				let updated[] = name;
-				continue;
-			}
-		}
-
-		return updated;
-	}
-
-	/**
 	 * Sets if a model must use dynamic update instead of the all-field update
 	 *
 	 *<code>
@@ -4164,647 +4710,96 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns related records based on defined relations
-	 *
-	 * @param array arguments
-	 */
-	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
-	{
-		var relation, className, manager;
-
-		/**
-		 * Query the relation by alias
-		 */
-		let className = get_class(this),
-			manager = <ManagerInterface> this->_modelsManager,
-			relation = <RelationInterface> manager->getRelationByAlias(className, alias);
-		if typeof relation != "object" {
-			throw new Exception("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
-		}
-
-		/**
-		 * Call the 'getRelationRecords' in the models manager
-		 */
-		return manager->getRelationRecords(relation, null, this, arguments);
-	}
-
-	/**
-	 * Returns related records defined relations depending on the method name
-	 *
-	 * @param array arguments
-	 * @return mixed
-	 */
-	protected function _getRelatedRecords(string! modelName, string! method, var arguments)
-	{
-		var manager, relation, queryMethod, extraArgs;
-
-		let manager = <ManagerInterface> this->_modelsManager;
-
-		let relation = false,
-			queryMethod = null;
-
-		/**
-		 * Calling find/findFirst if the method starts with "get"
-		 */
-		if starts_with(method, "get") {
-			let relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 3));
-		}
-
-		/**
-		 * Calling count if the method starts with "count"
-		 */
-		elseif starts_with(method, "count") {
-			let queryMethod = "count",
-				relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
-		}
-
-		/**
-		 * If the relation was found perform the query via the models manager
-		 */
-		if typeof relation != "object" {
-			return null;
-		}
-
-		fetch extraArgs, arguments[0];
-
-		return manager->getRelationRecords(
-			relation,
-			queryMethod,
-			this,
-			extraArgs
-		);
-	}
-
-	/**
-	 * Try to check if the query must invoke a finder
-	 *
-	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
-	 */
-	protected final static function _invokeFinder(string method, array arguments)
-	{
-		var extraMethod, type, modelName, value, model,
-			attributes, field, extraMethodFirst, metaData;
-
-		let extraMethod = null;
-
-		/**
-		 * Check if the method starts with "findFirst"
-		 */
-		if starts_with(method, "findFirstBy") {
-			let type = "findFirst",
-				extraMethod = substr(method, 11);
-		}
-
-		/**
-		 * Check if the method starts with "find"
-		 */
-		elseif starts_with(method, "findBy") {
-			let type = "find",
-				extraMethod = substr(method, 6);
-		}
-
-		/**
-		 * Check if the method starts with "count"
-		 */
-		elseif starts_with(method, "countBy") {
-			let type = "count",
-				extraMethod = substr(method, 7);
-		}
-
-		/**
-		 * The called class is the model
-		 */
-		let modelName = get_called_class();
-
-		if !extraMethod {
-			return null;
-		}
-
-		if !fetch value, arguments[0] {
-			throw new Exception("The static method '" . method . "' requires one argument");
-		}
-
-		let model = new {modelName}(),
-			metaData = model->getModelsMetaData();
-
-		/**
-		 * Get the attributes
-		 */
-		let attributes = metaData->getReverseColumnMap(model);
-		if typeof attributes != "array" {
-			let attributes = metaData->getDataTypes(model);
-		}
-
-		/**
-		 * Check if the extra-method is an attribute
-		 */
-		if isset attributes[extraMethod] {
-			let field = extraMethod;
-		} else {
-
-			/**
-			 * Lowercase the first letter of the extra-method
-			 */
-			let extraMethodFirst = lcfirst(extraMethod);
-			if isset attributes[extraMethodFirst] {
-				let field = extraMethodFirst;
-			} else {
-
-				/**
-				 * Get the possible real method name
-				 */
-				let field = uncamelize(extraMethod);
-				if !isset attributes[field] {
-					throw new Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
-				}
-			}
-		}
-
-		/**
-		 * Execute the query
-		 */
-		return {modelName}::{type}([
-			"conditions": "[" . field . "] = ?0",
-			"bind"		: [value]
-		]);
-	}
-
-	/**
-	 * Handles method calls when a method is not implemented
-	 *
-	 * @return	mixed
-	 */
-	public function __call(string method, array arguments)
-	{
-		var modelName, status, records;
-
-		let records = self::_invokeFinder(method, arguments);
-		if records !== null {
-			return records;
-		}
-
-		let modelName = get_class(this);
-
-		/**
-		 * Check if there is a default action using the magic getter
-		 */
-		let records = this->_getRelatedRecords(modelName, method, arguments);
-		if records !== null {
-			return records;
-		}
-
-		/**
-		 * Try to find a replacement for the missing method in a behavior/listener
-		 */
-		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
-		if status !== null {
-			return status;
-		}
-
-		/**
-		 * The method doesn't exist throw an exception
-		 */
-		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
-	}
-
-	/**
-	 * Handles method calls when a static method is not implemented
-	 *
-	 * @return	mixed
-	 */
-	public static function __callStatic(string method, array arguments)
-	{
-		var records;
-
-		let records = self::_invokeFinder(method, arguments);
-		if records === null {
-			throw new Exception("The static method '" . method . "' doesn't exist");
-		}
-
-		return records;
-	}
-
-	/**
-	 * Magic method to assign values to the the model
-	 *
-	 * @param mixed value
-	 */
-	public function __set(string property, value)
-	{
-		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item, dirtyState;
-
-		/**
-		 * Values are probably relationships if they are objects
-		 */
-		if typeof value == "object" {
-			if value instanceof ModelInterface {
-				let dirtyState = this->_dirtyState;
-				if (value->getDirtyState() != dirtyState) {
-					let dirtyState = self::DIRTY_STATE_TRANSIENT;
-				}
-				let lowerProperty = strtolower(property),
-					this->{lowerProperty} = value,
-					this->_related[lowerProperty] = value,
-					this->_dirtyState = dirtyState;
-				return value;
-			}
-		}
-
-		/**
-		 * Check if the value is an array
-		 */
-		if typeof value == "array" {
-
-			let lowerProperty = strtolower(property),
-				modelName = get_class(this),
-				manager = this->getModelsManager();
-
-			let related = [];
-			for key, item in value {
-				if typeof item == "object" {
-					if item instanceof ModelInterface {
-						let related[] = item;
-					}
-				} else {
-					let lowerKey = strtolower(key),
-						this->{lowerKey} = item,
-						relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
-					if typeof relation == "object" {
-						let referencedModel = manager->load(relation->getReferencedModel());
-						referencedModel->writeAttribute(lowerKey, item);
-					}
-				}
-			}
-
-			if count(related) > 0 {
-				let this->_related[lowerProperty] = related,
-					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
-			}
-
-			return value;
-		}
-
-		// Use possible setter.
-		if this->_possibleSetter(property, value) {
-			return value;
-		}
-
-		// Throw an exception if there is an attempt to set a non-public property.
-		if property_exists(this, property) {
-			let manager = this->getModelsManager();
-			if !manager->isVisibleModelProperty(this, property) {
-				throw new Exception("Property '" . property . "' does not have a setter.");
-			}
-		}
-
-		let this->{property} = value;
-
-		return value;
-	}
-
-	/**
-	 * Check for, and attempt to use, possible setter.
-	 */
-	protected final function _possibleSetter(string property, var value) -> boolean
-	{
-		var possibleSetter;
-
-		let possibleSetter = "set" . camelize(property);
-		if method_exists(this, possibleSetter) {
-			this->{possibleSetter}(value);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Magic method to get related records using the relation alias as a property
-	 *
-	 * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
-	 */
-	public function __get(string! property)
-	{
-		var modelName, manager, lowerProperty, relation, result, method;
-
-		let modelName = get_class(this),
-			manager = this->getModelsManager(),
-			lowerProperty = strtolower(property);
-
-		/**
-		 * Check if the property is a relationship
-		 */
-		let relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
-		if typeof relation == "object" {
-
-			/*
-			 Not fetch a relation if it is on CamelCase
-			 */
-			if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
-				return this->{lowerProperty};
-			}
-			/**
-			 * Get the related records
-			 */
-			let result = manager->getRelationRecords(relation, null, this, null);
-
-			/**
-			 * Assign the result to the object
-			 */
-			if typeof result == "object" {
-
-				/**
-				 * We assign the result to the instance avoiding future queries
-				 */
-				let this->{lowerProperty} = result;
-
-				/**
-				 * For belongs-to relations we store the object in the related bag
-				 */
-				if result instanceof ModelInterface {
-					let this->_related[lowerProperty] = result;
-				}
-			}
-
-			return result;
-		}
-
-		/**
-		 * Check if the property has getters
-		 */
-		let method = "get" . camelize(property);
-
-		if method_exists(this, method) {
-			return this->{method}();
-		}
-
-		/**
-		 * A notice is shown if the property is not defined and it isn't a relationship
-		 */
-		trigger_error("Access to undefined property " . modelName . "::" . property);
-		return null;
-	}
-
-	/**
-	 * Magic method to check if a property is a valid relation
-	 */
-	public function __isset(string! property) -> boolean
-	{
-		var modelName, manager, relation;
-
-		let modelName = get_class(this),
-			manager = <ManagerInterface> this->getModelsManager();
-
-		/**
-		 * Check if the property is a relationship
-		 */
-		let relation = <RelationInterface> manager->getRelationByAlias(modelName, property);
-		return typeof relation == "object";
-	}
-
-	/**
-	 * Serializes the object ignoring connections, services, related objects or static properties
-	 */
-	public function serialize() -> string
-	{
-		/**
-		 * Use the standard serialize function to serialize the array data
-		 */
-		var attributes, snapshot, manager;
-
-		let attributes = this->toArray(),
-		    manager = <ManagerInterface> this->getModelsManager();
-
-		if manager->isKeepingSnapshots(this) {
-			let snapshot = this->_snapshot;
-			/**
-			 * If attributes is not the same as snapshot then save snapshot too
-			 */
-			if snapshot != null && attributes != snapshot {
-				return serialize(["_attributes": attributes, "_snapshot": snapshot]);
-			}
-		}
-
-		return serialize(attributes);
-	}
-
-	/**
-	 * Unserializes the object from a serialized string
-	 */
-	public function unserialize(string! data)
-	{
-		var attributes, dependencyInjector, manager, key, value, snapshot;
-
-		let attributes = unserialize(data);
-		if typeof attributes == "array" {
-
-			/**
-			 * Obtain the default DI
-			 */
-			let dependencyInjector = Di::getDefault();
-			if typeof dependencyInjector != "object" {
-				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-			}
-
-			/**
-			 * Update the dependency injector
-			 */
-			let this->_dependencyInjector = dependencyInjector;
-
-			/**
-			 * Gets the default modelsManager service
-			 */
-			let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-			if typeof manager != "object" {
-				throw new Exception("The injected service 'modelsManager' is not valid");
-			}
-
-			/**
-			 * Update the models manager
-			 */
-			let this->_modelsManager = manager;
-
-			/**
-			 * Try to initialize the model
-			 */
-			manager->initialize(this);
-			if manager->isKeepingSnapshots(this) {
-				if fetch snapshot, attributes["_snapshot"] {
-					let this->_snapshot = snapshot;
-					let attributes = attributes["_attributes"];
-				}
-				else {
-					let this->_snapshot = attributes;
-				}
-			}
-
-			/**
-			 * Update the objects attributes
-			 */
-			for key, value in attributes {
-				let this->{key} = value;
-			}
-		}
-	}
-
-	/**
-	 * Returns a simple representation of the object that can be used with var_dump
+	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 * var_dump(
-	 *     $robot->dump()
-	 * );
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Validation;
+	 * use Phalcon\Validation\Validator\ExclusionIn;
+	 *
+	 * class Subscriptors extends Model
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $validator = new Validation();
+	 *
+	 *         $validator->add(
+	 *             "status",
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "domain" => [
+	 *                         "A",
+	 *                         "I",
+	 *                     ],
+	 *                 ]
+	 *             )
+	 *         );
+	 *
+	 *         return $this->validate($validator);
+	 *     }
+	 * }
 	 *</code>
 	 */
-	public function dump() -> array
+	protected function validate(<ValidationInterface> validator) -> boolean
 	{
-		return get_object_vars(this);
+		var messages, message;
+
+		let messages = validator->validate(null, this);
+
+		// Call the validation, if it returns not the boolean
+		// we append the messages to the current object
+		if typeof messages == "boolean" {
+			return messages;
+		}
+
+		for message in iterator(messages) {
+			this->appendMessage(
+				new Message(
+					message->getMessage(),
+					message->getField(),
+					message->getType(),
+					message->getCode()
+				)
+			);
+		}
+
+		// If there is a message, it returns false otherwise true
+		return !count(messages);
 	}
 
 	/**
-	 * Returns the instance as an array representation
+	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
-	 * print_r(
-	 *     $robot->toArray()
-	 * );
-	 *</code>
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Validation;
+	 * use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 * @param array $columns
+	 * class Subscriptors extends Model
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $validator = new Validation();
+	 *
+	 *         $validator->validate(
+	 *             "status",
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "domain" => [
+	 *                         "A",
+	 *                         "I",
+	 *                     ],
+	 *                 ]
+	 *             )
+	 *         );
+	 *
+	 *         return $this->validate($validator);
+	 *     }
+	 * }
+	 *</code>
 	 */
-	public function toArray(columns = null) -> array
+	public function validationHasFailed() -> boolean
 	{
-		var data, metaData, columnMap, attribute,
-			attributeField, value;
-
-		let data = [],
-			metaData = this->getModelsMetaData(),
-			columnMap = metaData->getColumnMap(this);
-
-		for attribute in metaData->getAttributes(this) {
-
-			/**
-			 * Check if the columns must be renamed
-			 */
-			if typeof columnMap == "array" {
-				if !fetch attributeField, columnMap[attribute] {
-					if !globals_get("orm.ignore_unknown_columns") {
-						throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
-					} else {
-						continue;
-					}
-				}
-			} else {
-				let attributeField = attribute;
-			}
-
-			if typeof columns == "array" {
-				if !in_array(attributeField, columns) {
-					continue;
-				}
-			}
-
-			if fetch value, this->{attributeField} {
-				let data[attributeField] = value;
-			} else {
-				let data[attributeField] = null;
-			}
-		}
-
-		return data;
-	}
-
-	/**
-	* Serializes the object for json_encode
-	*
-	*<code>
-	* echo json_encode($robot);
-	*</code>
-	*/
-	public function jsonSerialize() -> array
-	{
-		return this->toArray();
-	}
-
-	/**
-	 * Enables/disables options in the ORM
-	 */
-	public static function setup(array! options) -> void
-	{
-		var disableEvents, columnRenaming, notNullValidations,
-			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-			updateSnapshotOnSave, disableAssignSetters;
-
-		/**
-		 * Enables/Disables globally the internal events
-		 */
-		if fetch disableEvents, options["events"] {
-			globals_set("orm.events", disableEvents);
-		}
-
-		/**
-		 * Enables/Disables virtual foreign keys
-		 */
-		if fetch virtualForeignKeys, options["virtualForeignKeys"] {
-			globals_set("orm.virtual_foreign_keys", virtualForeignKeys);
-		}
-
-		/**
-		 * Enables/Disables column renaming
-		 */
-		if fetch columnRenaming, options["columnRenaming"] {
-			globals_set("orm.column_renaming", columnRenaming);
-		}
-
-		/**
-		 * Enables/Disables automatic not null validation
-		 */
-		if fetch notNullValidations, options["notNullValidations"] {
-			globals_set("orm.not_null_validations", notNullValidations);
-		}
-
-		/**
-		 * Enables/Disables throws an exception if the saving process fails
-		 */
-		if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
-			globals_set("orm.exception_on_failed_save", exceptionOnFailedSave);
-		}
-
-		/**
-		 * Enables/Disables literals in PHQL this improves the security of applications
-		 */
-		if fetch phqlLiterals, options["phqlLiterals"] {
-			globals_set("orm.enable_literals", phqlLiterals);
-		}
-
-		/**
-		 * Enables/Disables late state binding on model hydration
-		 */
-		if fetch lateStateBinding, options["lateStateBinding"] {
-			globals_set("orm.late_state_binding", lateStateBinding);
-		}
-
-		/**
-		 * Enables/Disables automatic cast to original types on hydration
-		 */
-		if fetch castOnHydrate, options["castOnHydrate"] {
-			globals_set("orm.cast_on_hydrate", castOnHydrate);
-		}
-
-		/**
-		 * Allows to ignore unknown columns when hydrating objects
-		 */
-		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
-			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
-		}
-
-		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
-			globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
-		}
-
-		if fetch disableAssignSetters, options["disableAssignSetters"] {
-		    globals_set("orm.disable_assign_setters", disableAssignSetters);
-		}
+		return count(this->_errorMessages) > 0;
 	}
 }

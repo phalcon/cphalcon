@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Db;
@@ -32,31 +23,9 @@ use Phalcon\Events\ManagerInterface;
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
 	/**
-	 * Event Manager
-	 *
-	 * @var Phalcon\Events\Manager
+	 * Connection ID
 	 */
-	protected _eventsManager;
-
-	/**
-	 * Descriptor used to connect to a database
-	 */
-	protected _descriptor = [];
-
-	/**
-	 * Name of the dialect used
-	 */
-	protected _dialectType { get };
-
-	/**
-	 * Type of database system the adapter is used for
-	 */
-	protected _type { get };
-
-	/**
-	 * Dialect instance
-	 */
-	protected _dialect;
+	protected static _connectionConsecutive = 0;
 
 	/**
 	 * Active connection ID
@@ -64,6 +33,35 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @var long
 	 */
 	protected _connectionId;
+
+	/**
+	 * Descriptor used to connect to a database
+	 */
+	protected _descriptor = [];
+
+	/**
+	 * Dialect instance
+	 */
+	protected _dialect;
+
+	/**
+	 * Name of the dialect used
+	 */
+	protected _dialectType { get };
+
+	/**
+	 * Event Manager
+	 *
+	 * @var Phalcon\Events\Manager
+	 */
+	protected _eventsManager;
+
+	/**
+	 * Active SQL Bind Types
+	 *
+	 * @var array
+	 */
+	protected _sqlBindTypes;
 
 	/**
 	 * Active SQL Statement
@@ -80,13 +78,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	protected _sqlVariables { get };
 
 	/**
-	 * Active SQL Bind Types
-	 *
-	 * @var array
-	 */
-	protected _sqlBindTypes;
-
-	/**
 	 * Current transaction level
 	 */
 	protected _transactionLevel = 0;
@@ -97,9 +88,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	protected _transactionsWithSavepoints = false;
 
 	/**
-	 * Connection ID
+	 * Type of database system the adapter is used for
 	 */
-	protected static _connectionConsecutive = 0;
+	protected _type { get };
 
 	/**
 	 * Phalcon\Db\Adapter constructor
@@ -134,62 +125,289 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	}
 
 	/**
-	 * Sets the event manager
+	 * Adds a column to a table
 	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
 	{
-		let this->_eventsManager = eventsManager;
+		return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
 	}
 
 	/**
-	 * Returns the internal event manager
+	 * Adds a foreign key to a table
 	 */
-	public function getEventsManager() -> <ManagerInterface>
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
 	{
-		return this->_eventsManager;
+		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
 
 	/**
-	 * Sets the dialect used to produce the SQL
+	 * Adds an index to a table
 	 */
-	public function setDialect(<DialectInterface> dialect)
+	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> boolean
 	{
-		let this->_dialect = dialect;
+		return this->{"execute"}(this->_dialect->addIndex(tableName, schemaName, index));
 	}
 
 	/**
-	 * Returns internal dialect instance
+	 * Adds a primary key to a table
 	 */
-	public function getDialect() -> <DialectInterface>
+	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> boolean
 	{
-		return this->_dialect;
+		return this->{"execute"}(this->_dialect->addPrimaryKey(tableName, schemaName, index));
 	}
 
 	/**
-	 * Returns the first row in a SQL query result
+	 * Creates a new savepoint
+	 */
+	public function createSavepoint(string! name) -> boolean
+	{
+		var dialect;
+
+		let dialect = this->_dialect;
+
+		if !dialect->supportsSavePoints() {
+			throw new Exception("Savepoints are not supported by this database adapter.");
+		}
+
+		return this->{"execute"}(dialect->createSavepoint(name));
+	}
+
+	/**
+	 * Creates a table
+	 */
+	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
+	{
+		var columns;
+
+		if !fetch columns, definition["columns"] {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		if !count(columns) {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		return this->{"execute"}(this->_dialect->createTable(tableName, schemaName, definition));
+	}
+
+	/**
+	 * Creates a view
+	 */
+	public function createView(string! viewName, array! definition, var schemaName = null) -> boolean
+	{
+		if !isset definition["sql"] {
+			throw new Exception("The table must contain at least one column");
+		}
+
+		return this->{"execute"}(this->_dialect->createView(viewName, definition, schemaName));
+	}
+
+	/**
+	 * Deletes data from a table using custom RBDM SQL syntax
+	 *
+	 * <code>
+	 * // Deleting existing robot
+	 * $success = $connection->delete(
+	 *     "robots",
+	 *     "id = 101"
+	 * );
+	 *
+	 * // Next SQL sentence is generated
+	 * DELETE FROM `robots` WHERE `id` = 101
+	 * </code>
+	 *
+	 * @param  string whereCondition
+	 * @param  array placeholders
+	 * @param  array dataTypes
+	 */
+	public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> boolean
+	{
+		var sql, escapedTable;
+
+		let escapedTable = this->escapeIdentifier(table);
+
+		if !empty whereCondition {
+			let sql = "DELETE FROM " . escapedTable . " WHERE " . whereCondition;
+		} else {
+			let sql = "DELETE FROM " . escapedTable;
+		}
+
+		/**
+		 * Perform the update via PDO::execute
+		 */
+		return this->{"execute"}(sql, placeholders, dataTypes);
+	}
+
+	/**
+	 * Lists table indexes
 	 *
 	 *<code>
-	 * // Getting first robot
-	 * $robot = $connection->fetchOne("SELECT * FROM robots");
-	 * print_r($robot);
+	 * print_r(
+	 *     $connection->describeIndexes("robots_parts")
+	 * );
+	 *</code>
 	 *
-	 * // Getting first robot with associative indexes only
-	 * $robot = $connection->fetchOne("SELECT * FROM robots", \Phalcon\Db::FETCH_ASSOC);
-	 * print_r($robot);
+	 * @param	string schema
+	 */
+	public function describeIndexes(string! table, schema = null) -> <Index[]>
+	{
+		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
+
+		let indexes = [];
+		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
+
+			let keyName = index[2];
+			if !isset indexes[keyName] {
+				let columns = [];
+			} else {
+				let columns = indexes[keyName];
+			}
+
+			let columns[] = index[4];
+			let indexes[keyName] = columns;
+		}
+
+		let indexObjects = [];
+		for name, indexColumns in indexes {
+
+			/**
+			 * Every index is abstracted using a Phalcon\Db\Index instance
+			 */
+			let indexObjects[name] = new Index(name, indexColumns);
+		}
+
+		return indexObjects;
+	}
+
+	/**
+	 * Lists table references
+	 *
+	 *<code>
+	 * print_r(
+	 *     $connection->describeReferences("robots_parts")
+	 * );
 	 *</code>
 	 */
-	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
 	{
-		var result;
+		var references, reference,
+			arrayReference, constraintName, referenceObjects, name,
+			referencedSchema, referencedTable, columns, referencedColumns;
 
-		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
-		if typeof result == "object" {
-			if typeof fetchMode !== "null" {
-				result->setFetchMode(fetchMode);
+		let references = [];
+
+		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema),Db::FETCH_NUM) {
+
+			let constraintName = reference[2];
+			if !isset references[constraintName] {
+				let referencedSchema = reference[3];
+				let referencedTable = reference[4];
+				let columns = [];
+				let referencedColumns = [];
+			} else {
+				let referencedSchema = references[constraintName]["referencedSchema"];
+				let referencedTable = references[constraintName]["referencedTable"];
+				let columns = references[constraintName]["columns"];
+				let referencedColumns = references[constraintName]["referencedColumns"];
 			}
-			return result->$fetch();
+
+			let columns[] = reference[1],
+				referencedColumns[] = reference[5];
+
+			let references[constraintName] = [
+				"referencedSchema"  : referencedSchema,
+				"referencedTable"   : referencedTable,
+				"columns"           : columns,
+				"referencedColumns" : referencedColumns
+			];
 		}
-		return [];
+
+		let referenceObjects = [];
+		for name, arrayReference in references {
+			let referenceObjects[name] = new Reference(name, [
+				"referencedSchema"  : arrayReference["referencedSchema"],
+				"referencedTable"   : arrayReference["referencedTable"],
+				"columns"           : arrayReference["columns"],
+				"referencedColumns" : arrayReference["referencedColumns"]
+			]);
+		}
+
+		return referenceObjects;
+	}
+
+	/**
+	 * Drops a column from a table
+	 */
+	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->dropColumn(tableName, schemaName, columnName));
+	}
+
+	/**
+	 * Drops a foreign key from a table
+	 */
+	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->dropForeignKey(tableName, schemaName, referenceName));
+	}
+
+	/**
+	 * Drop an index from a table
+	 */
+	public function dropIndex(string! tableName, string! schemaName, indexName) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->dropIndex(tableName, schemaName, indexName));
+	}
+
+	/**
+	 * Drops a table's primary key
+	 */
+	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->dropPrimaryKey(tableName, schemaName));
+	}
+
+	/**
+	 * Drops a table from a schema/database
+	 */
+	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
+	}
+
+	/**
+	 * Drops a view
+	 */
+	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
+	}
+
+	/**
+	 * Escapes a column/table/schema name
+	 *
+	 *<code>
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     "robots"
+	 * );
+	 *
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     [
+	 *         "store",
+	 *         "robots",
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * @param array|string identifier
+	 */
+	public function escapeIdentifier(var identifier) -> string
+	{
+		if typeof identifier == "array" {
+			return this->_dialect->escape(identifier[0]) . "." . this->_dialect->escape(identifier[1]);
+		}
+
+		return this->_dialect->escape(identifier);
 	}
 
 	/**
@@ -275,6 +493,171 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the first row in a SQL query result
+	 *
+	 *<code>
+	 * // Getting first robot
+	 * $robot = $connection->fetchOne("SELECT * FROM robots");
+	 * print_r($robot);
+	 *
+	 * // Getting first robot with associative indexes only
+	 * $robot = $connection->fetchOne("SELECT * FROM robots", \Phalcon\Db::FETCH_ASSOC);
+	 * print_r($robot);
+	 *</code>
+	 */
+	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+	{
+		var result;
+
+		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
+		if typeof result == "object" {
+			if typeof fetchMode !== "null" {
+				result->setFetchMode(fetchMode);
+			}
+			return result->$fetch();
+		}
+		return [];
+	}
+
+	/**
+	 * Returns a SQL modified with a FOR UPDATE clause
+	 */
+	public function forUpdate(string! sqlQuery) -> string
+	{
+		return this->_dialect->forUpdate(sqlQuery);
+	}
+
+	/**
+	 * Returns the SQL column definition from a column
+	 */
+	public function getColumnDefinition(<ColumnInterface> column) -> string
+	{
+		return this->_dialect->getColumnDefinition(column);
+	}
+
+	/**
+	 * Gets a list of columns
+	 *
+	 * @param	array columnList
+	 */
+	public function getColumnList(var columnList) -> string
+	{
+		return this->_dialect->getColumnList(columnList);
+	}
+
+	/**
+	 * Gets the active connection unique identifier
+	 */
+	public function getConnectionId() -> string
+	{
+		return this->_connectionId;
+	}
+
+	/**
+	 * Returns the default identity value to be inserted in an identity column
+	 *
+	 *<code>
+	 * // Inserting a new robot with a valid default value for the column 'id'
+	 * $success = $connection->insert(
+	 *     "robots",
+	 *     [
+	 *         $connection->getDefaultIdValue(),
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function getDefaultIdValue() -> <RawValue>
+	{
+		return new RawValue("null");
+	}
+
+	/**
+	 * Returns the default value to make the RBDM use the default value declared in the table definition
+	 *
+	 *<code>
+	 * // Inserting a new robot with a valid default value for the column 'year'
+	 * $success = $connection->insert(
+	 *     "robots",
+	 *     [
+	 *         "Astro Boy",
+	 *         $connection->getDefaultValue()
+	 *     ],
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function getDefaultValue() -> <RawValue>
+	{
+		return new RawValue("DEFAULT");
+	}
+
+	/**
+	 * Return descriptor used to connect to the active database
+	 */
+	public function getDescriptor() -> array
+	{
+		return this->_descriptor;
+	}
+
+	/**
+	 * Returns internal dialect instance
+	 */
+	public function getDialect() -> <DialectInterface>
+	{
+		return this->_dialect;
+	}
+
+	/**
+	 * Returns the internal event manager
+	 */
+	public function getEventsManager() -> <ManagerInterface>
+	{
+		return this->_eventsManager;
+	}
+
+	/**
+	 * Returns the savepoint name to use for nested transactions
+	 */
+	public function getNestedTransactionSavepointName() -> string
+	{
+		return "PHALCON_SAVEPOINT_" . this->_transactionLevel;
+	}
+
+	/**
+	 * Active SQL statement in the object without replace bound parameters
+	 */
+	public function getRealSQLStatement() -> string
+	{
+		return this->_sqlStatement;
+	}
+
+	/**
+	 * Active SQL statement in the object
+	 */
+	public function getSQLBindTypes() -> array
+	{
+		return this->_sqlBindTypes;
+	}
+
+	/**
+	 * Active SQL statement in the object
+	 */
+	public function getSQLStatement() -> string
+	{
+		return this->_sqlStatement;
 	}
 
 	/**
@@ -397,6 +780,194 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		}
 
 		return this->insert(table, values, fields, dataTypes);
+	}
+
+	/**
+	 * Returns if nested transactions should use savepoints
+	 */
+	public function isNestedTransactionsWithSavepoints() -> boolean
+	{
+		return this->_transactionsWithSavepoints;
+	}
+
+	/**
+	 * Appends a LIMIT clause to $sqlQuery argument
+	 *
+	 * <code>
+	 * echo $connection->limit("SELECT * FROM robots", 5);
+	 * </code>
+	 */
+	public function limit(string! sqlQuery, int number) -> string
+	{
+		return this->_dialect->limit(sqlQuery, number);
+	}
+
+	/**
+	 * List all tables on a database
+	 *
+	 *<code>
+	 * print_r(
+	 *     $connection->listTables("blog")
+	 * );
+	 *</code>
+	 */
+	public function listTables(string! schemaName = null) -> array
+	{
+		var table, allTables;
+
+		let allTables = [];
+		for table in this->fetchAll(this->_dialect->listTables(schemaName), Db::FETCH_NUM) {
+			let allTables[] = table[0];
+		}
+		return allTables;
+	}
+
+	/**
+	 * List all views on a database
+	 *
+	 *<code>
+	 * print_r(
+	 *     $connection->listViews("blog")
+	 * );
+	 *</code>
+	 */
+	public function listViews(string! schemaName = null) -> array
+	{
+		var table, allTables;
+
+		let allTables = [];
+		for table in this->fetchAll(this->_dialect->listViews(schemaName), Db::FETCH_NUM) {
+			let allTables[] = table[0];
+		}
+		return allTables;
+	}
+
+	/**
+	 * Modifies a table column based on a definition
+	 */
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> boolean
+	{
+		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn));
+	}
+
+	/**
+	 * Releases given savepoint
+	 */
+	public function releaseSavepoint(string! name) -> boolean
+	{
+		var dialect;
+
+		let dialect = this->_dialect;
+
+		if !dialect->supportsSavePoints() {
+			throw new Exception("Savepoints are not supported by this database adapter");
+		}
+
+		if !dialect->supportsReleaseSavePoints() {
+			return false;
+		}
+
+		return this->{"execute"}(dialect->releaseSavepoint(name));
+	}
+
+	/**
+	 * Rollbacks given savepoint
+	 */
+	public function rollbackSavepoint(string! name) -> boolean
+	{
+		var dialect;
+
+		let dialect = this->_dialect;
+
+		if !dialect->supportsSavePoints() {
+			throw new Exception("Savepoints are not supported by this database adapter");
+		}
+
+		return this->{"execute"}(dialect->rollbackSavepoint(name));
+	}
+
+	/**
+	 * Sets the event manager
+	 */
+	public function setEventsManager(<ManagerInterface> eventsManager)
+	{
+		let this->_eventsManager = eventsManager;
+	}
+
+	/**
+	 * Sets the dialect used to produce the SQL
+	 */
+	public function setDialect(<DialectInterface> dialect)
+	{
+		let this->_dialect = dialect;
+	}
+
+	/**
+	 * Set if nested transactions should use savepoints
+	 */
+	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>
+	{
+
+		if this->_transactionLevel > 0 {
+			throw new Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
+		}
+
+		if !this->_dialect->supportsSavePoints() {
+			throw new Exception("Savepoints are not supported by this database adapter");
+		}
+
+		let this->_transactionsWithSavepoints = nestedTransactionsWithSavepoints;
+		return this;
+	}
+
+	/**
+	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
+	 */
+	public function sharedLock(string! sqlQuery) -> string
+	{
+		return this->_dialect->sharedLock(sqlQuery);
+	}
+
+	/**
+	 * Check whether the database system requires a sequence to produce auto-numeric values
+	 */
+	public function supportSequences() -> boolean
+	{
+		return false;
+	}
+
+	/**
+	 * Generates SQL checking for the existence of a schema.table
+	 *
+	 *<code>
+	 * var_dump(
+	 *     $connection->tableExists("blog", "posts")
+	 * );
+	 *</code>
+	 */
+	public function tableExists(string! tableName, string! schemaName = null) -> boolean
+	{
+		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), Db::FETCH_NUM)[0] > 0;
+	}
+
+	/**
+	 * Gets creation options from a table
+	 *
+	 *<code>
+	 * print_r(
+	 *     $connection->tableOptions("robots")
+	 * );
+	 *</code>
+	 */
+	public function tableOptions(string! tableName, string schemaName = null) -> array
+	{
+		var sql;
+
+		let sql = this->_dialect->tableOptions(tableName, schemaName);
+		if sql {
+			return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
+		}
+		return [];
 	}
 
 	/**
@@ -575,102 +1146,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	}
 
 	/**
-	 * Deletes data from a table using custom RBDM SQL syntax
-	 *
-	 * <code>
-	 * // Deleting existing robot
-	 * $success = $connection->delete(
-	 *     "robots",
-	 *     "id = 101"
-	 * );
-	 *
-	 * // Next SQL sentence is generated
-	 * DELETE FROM `robots` WHERE `id` = 101
-	 * </code>
-	 *
-	 * @param  string whereCondition
-	 * @param  array placeholders
-	 * @param  array dataTypes
+	 * Check whether the database system requires an explicit value for identity columns
 	 */
-	public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> boolean
+	public function useExplicitIdValue() -> boolean
 	{
-		var sql, escapedTable;
-
-		let escapedTable = this->escapeIdentifier(table);
-
-		if !empty whereCondition {
-			let sql = "DELETE FROM " . escapedTable . " WHERE " . whereCondition;
-		} else {
-			let sql = "DELETE FROM " . escapedTable;
-		}
-
-		/**
-		 * Perform the update via PDO::execute
-		 */
-		return this->{"execute"}(sql, placeholders, dataTypes);
-	}
-
-	/**
-	 * Escapes a column/table/schema name
-	 *
-	 *<code>
-	 * $escapedTable = $connection->escapeIdentifier(
-	 *     "robots"
-	 * );
-	 *
-	 * $escapedTable = $connection->escapeIdentifier(
-	 *     [
-	 *         "store",
-	 *         "robots",
-	 *     ]
-	 * );
-	 *</code>
-	 *
-	 * @param array|string identifier
-	 */
-	public function escapeIdentifier(var identifier) -> string
-	{
-		if typeof identifier == "array" {
-			return this->_dialect->escape(identifier[0]) . "." . this->_dialect->escape(identifier[1]);
-		}
-
-		return this->_dialect->escape(identifier);
-	}
-
-	/**
-	 * Gets a list of columns
-	 *
-	 * @param	array columnList
-	 */
-	public function getColumnList(var columnList) -> string
-	{
-		return this->_dialect->getColumnList(columnList);
-	}
-
-	/**
-	 * Appends a LIMIT clause to $sqlQuery argument
-	 *
-	 * <code>
-	 * echo $connection->limit("SELECT * FROM robots", 5);
-	 * </code>
-	 */
-	public function limit(string! sqlQuery, int number) -> string
-	{
-		return this->_dialect->limit(sqlQuery, number);
-	}
-
-	/**
-	 * Generates SQL checking for the existence of a schema.table
-	 *
-	 *<code>
-	 * var_dump(
-	 *     $connection->tableExists("blog", "posts")
-	 * );
-	 *</code>
-	 */
-	public function tableExists(string! tableName, string! schemaName = null) -> boolean
-	{
-		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), Db::FETCH_NUM)[0] > 0;
+		return false;
 	}
 
 	/**
@@ -685,494 +1165,5 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	public function viewExists(string! viewName, string! schemaName = null) -> boolean
 	{
 		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), Db::FETCH_NUM)[0] > 0;
-	}
-
-	/**
-	 * Returns a SQL modified with a FOR UPDATE clause
-	 */
-	public function forUpdate(string! sqlQuery) -> string
-	{
-		return this->_dialect->forUpdate(sqlQuery);
-	}
-
-	/**
-	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
-	 */
-	public function sharedLock(string! sqlQuery) -> string
-	{
-		return this->_dialect->sharedLock(sqlQuery);
-	}
-
-	/**
-	 * Creates a table
-	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
-	{
-		var columns;
-
-		if !fetch columns, definition["columns"] {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		if !count(columns) {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		return this->{"execute"}(this->_dialect->createTable(tableName, schemaName, definition));
-	}
-
-	/**
-	 * Drops a table from a schema/database
-	 */
-	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
-	}
-
-	/**
-	 * Creates a view
-	 */
-	public function createView(string! viewName, array! definition, var schemaName = null) -> boolean
-	{
-		if !isset definition["sql"] {
-			throw new Exception("The table must contain at least one column");
-		}
-
-		return this->{"execute"}(this->_dialect->createView(viewName, definition, schemaName));
-	}
-
-	/**
-	 * Drops a view
-	 */
-	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
-	}
-
-	/**
-	 * Adds a column to a table
-	 */
-	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
-	}
-
-	/**
-	 * Modifies a table column based on a definition
-	 */
-	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn));
-	}
-
-	/**
-	 * Drops a column from a table
-	 */
-	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->dropColumn(tableName, schemaName, columnName));
-	}
-
-	/**
-	 * Adds an index to a table
-	 */
-	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->addIndex(tableName, schemaName, index));
-	}
-
-	/**
-	 * Drop an index from a table
-	 */
-	public function dropIndex(string! tableName, string! schemaName, indexName) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->dropIndex(tableName, schemaName, indexName));
-	}
-
-	/**
-	 * Adds a primary key to a table
-	 */
-	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->addPrimaryKey(tableName, schemaName, index));
-	}
-
-	/**
-	 * Drops a table's primary key
-	 */
-	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->dropPrimaryKey(tableName, schemaName));
-	}
-
-	/**
-	 * Adds a foreign key to a table
-	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
-	}
-
-	/**
-	 * Drops a foreign key from a table
-	 */
-	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> boolean
-	{
-		return this->{"execute"}(this->_dialect->dropForeignKey(tableName, schemaName, referenceName));
-	}
-
-	/**
-	 * Returns the SQL column definition from a column
-	 */
-	public function getColumnDefinition(<ColumnInterface> column) -> string
-	{
-		return this->_dialect->getColumnDefinition(column);
-	}
-
-	/**
-	 * List all tables on a database
-	 *
-	 *<code>
-	 * print_r(
-	 *     $connection->listTables("blog")
-	 * );
-	 *</code>
-	 */
-	public function listTables(string! schemaName = null) -> array
-	{
-		var table, allTables;
-
-		let allTables = [];
-		for table in this->fetchAll(this->_dialect->listTables(schemaName), Db::FETCH_NUM) {
-			let allTables[] = table[0];
-		}
-		return allTables;
-	}
-
-	/**
-	 * List all views on a database
-	 *
-	 *<code>
-	 * print_r(
-	 *     $connection->listViews("blog")
-	 * );
-	 *</code>
-	 */
-	public function listViews(string! schemaName = null) -> array
-	{
-		var table, allTables;
-
-		let allTables = [];
-		for table in this->fetchAll(this->_dialect->listViews(schemaName), Db::FETCH_NUM) {
-			let allTables[] = table[0];
-		}
-		return allTables;
-	}
-
-	/**
-	 * Lists table indexes
-	 *
-	 *<code>
-	 * print_r(
-	 *     $connection->describeIndexes("robots_parts")
-	 * );
-	 *</code>
-	 *
-	 * @param	string schema
-	 */
-	public function describeIndexes(string! table, schema = null) -> <Index[]>
-	{
-		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
-
-		let indexes = [];
-		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
-
-			let keyName = index[2];
-			if !isset indexes[keyName] {
-				let columns = [];
-			} else {
-				let columns = indexes[keyName];
-			}
-
-			let columns[] = index[4];
-			let indexes[keyName] = columns;
-		}
-
-		let indexObjects = [];
-		for name, indexColumns in indexes {
-
-			/**
-			 * Every index is abstracted using a Phalcon\Db\Index instance
-			 */
-			let indexObjects[name] = new Index(name, indexColumns);
-		}
-
-		return indexObjects;
-	}
-
-	/**
-	 * Lists table references
-	 *
-	 *<code>
-	 * print_r(
-	 *     $connection->describeReferences("robots_parts")
-	 * );
-	 *</code>
-	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
-	{
-		var references, reference,
-			arrayReference, constraintName, referenceObjects, name,
-			referencedSchema, referencedTable, columns, referencedColumns;
-
-		let references = [];
-
-		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema),Db::FETCH_NUM) {
-
-			let constraintName = reference[2];
-			if !isset references[constraintName] {
-				let referencedSchema = reference[3];
-				let referencedTable = reference[4];
-				let columns = [];
-				let referencedColumns = [];
-			} else {
-				let referencedSchema = references[constraintName]["referencedSchema"];
-				let referencedTable = references[constraintName]["referencedTable"];
-				let columns = references[constraintName]["columns"];
-				let referencedColumns = references[constraintName]["referencedColumns"];
-			}
-
-			let columns[] = reference[1],
-				referencedColumns[] = reference[5];
-
-			let references[constraintName] = [
-				"referencedSchema"  : referencedSchema,
-				"referencedTable"   : referencedTable,
-				"columns"           : columns,
-				"referencedColumns" : referencedColumns
-			];
-		}
-
-		let referenceObjects = [];
-		for name, arrayReference in references {
-			let referenceObjects[name] = new Reference(name, [
-				"referencedSchema"  : arrayReference["referencedSchema"],
-				"referencedTable"   : arrayReference["referencedTable"],
-				"columns"           : arrayReference["columns"],
-				"referencedColumns" : arrayReference["referencedColumns"]
-			]);
-		}
-
-		return referenceObjects;
-	}
-
-	/**
-	 * Gets creation options from a table
-	 *
-	 *<code>
-	 * print_r(
-	 *     $connection->tableOptions("robots")
-	 * );
-	 *</code>
-	 */
-	public function tableOptions(string! tableName, string schemaName = null) -> array
-	{
-		var sql;
-
-		let sql = this->_dialect->tableOptions(tableName, schemaName);
-		if sql {
-			return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
-		}
-		return [];
-	}
-
-	/**
-	 * Creates a new savepoint
-	 */
-	public function createSavepoint(string! name) -> boolean
-	{
-		var dialect;
-
-		let dialect = this->_dialect;
-
-		if !dialect->supportsSavePoints() {
-			throw new Exception("Savepoints are not supported by this database adapter.");
-		}
-
-		return this->{"execute"}(dialect->createSavepoint(name));
-	}
-
-	/**
-	 * Releases given savepoint
-	 */
-	public function releaseSavepoint(string! name) -> boolean
-	{
-		var dialect;
-
-		let dialect = this->_dialect;
-
-		if !dialect->supportsSavePoints() {
-			throw new Exception("Savepoints are not supported by this database adapter");
-		}
-
-		if !dialect->supportsReleaseSavePoints() {
-			return false;
-		}
-
-		return this->{"execute"}(dialect->releaseSavepoint(name));
-	}
-
-	/**
-	 * Rollbacks given savepoint
-	 */
-	public function rollbackSavepoint(string! name) -> boolean
-	{
-		var dialect;
-
-		let dialect = this->_dialect;
-
-		if !dialect->supportsSavePoints() {
-			throw new Exception("Savepoints are not supported by this database adapter");
-		}
-
-		return this->{"execute"}(dialect->rollbackSavepoint(name));
-	}
-
-	/**
-	 * Set if nested transactions should use savepoints
-	 */
-	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>
-	{
-
-		if this->_transactionLevel > 0 {
-			throw new Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
-		}
-
-		if !this->_dialect->supportsSavePoints() {
-			throw new Exception("Savepoints are not supported by this database adapter");
-		}
-
-		let this->_transactionsWithSavepoints = nestedTransactionsWithSavepoints;
-		return this;
-	}
-
-	/**
-	 * Returns if nested transactions should use savepoints
-	 */
-	public function isNestedTransactionsWithSavepoints() -> boolean
-	{
-		return this->_transactionsWithSavepoints;
-	}
-
-	/**
-	 * Returns the savepoint name to use for nested transactions
-	 */
-	public function getNestedTransactionSavepointName() -> string
-	{
-		return "PHALCON_SAVEPOINT_" . this->_transactionLevel;
-	}
-
-	/**
-	 * Returns the default identity value to be inserted in an identity column
-	 *
-	 *<code>
-	 * // Inserting a new robot with a valid default value for the column 'id'
-	 * $success = $connection->insert(
-	 *     "robots",
-	 *     [
-	 *         $connection->getDefaultIdValue(),
-	 *         "Astro Boy",
-	 *         1952,
-	 *     ],
-	 *     [
-	 *         "id",
-	 *         "name",
-	 *         "year",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function getDefaultIdValue() -> <RawValue>
-	{
-		return new RawValue("null");
-	}
-
-	/**
-	 * Returns the default value to make the RBDM use the default value declared in the table definition
-	 *
-	 *<code>
-	 * // Inserting a new robot with a valid default value for the column 'year'
-	 * $success = $connection->insert(
-	 *     "robots",
-	 *     [
-	 *         "Astro Boy",
-	 *         $connection->getDefaultValue()
-	 *     ],
-	 *     [
-	 *         "name",
-	 *         "year",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function getDefaultValue() -> <RawValue>
-	{
-		return new RawValue("DEFAULT");
-	}
-
-	/**
-	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 */
-	public function supportSequences() -> boolean
-	{
-		return false;
-	}
-
-	/**
-	 * Check whether the database system requires an explicit value for identity columns
-	 */
-	public function useExplicitIdValue() -> boolean
-	{
-		return false;
-	}
-
-	/**
-	 * Return descriptor used to connect to the active database
-	 */
-	public function getDescriptor() -> array
-	{
-		return this->_descriptor;
-	}
-
-	/**
-	 * Gets the active connection unique identifier
-	 */
-	public function getConnectionId() -> string
-	{
-		return this->_connectionId;
-	}
-
-	/**
-	 * Active SQL statement in the object
-	 */
-	public function getSQLStatement() -> string
-	{
-		return this->_sqlStatement;
-	}
-
-	/**
-	 * Active SQL statement in the object without replace bound parameters
-	 */
-	public function getRealSQLStatement() -> string
-	{
-		return this->_sqlStatement;
-	}
-
-	/**
-	 * Active SQL statement in the object
-	 */
-	public function getSQLBindTypes() -> array
-	{
-		return this->_sqlBindTypes;
 	}
 }
