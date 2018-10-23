@@ -97,35 +97,29 @@ class Mysql extends PdoAdapter
 			 */
 			let columnType = field[1];
 
-			if memstr(columnType, "enum") {
-				/**
-				 * Enum are treated as char
-				 */
-				let definition["type"] = Column::TYPE_ENUM;
-			} elseif memstr(columnType, "bigint") {
+			if memstr(columnType, "bigint") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "int") {
+			} elseif memstr(columnType, "bit") {
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Boolean
 				 */
-				let definition["type"] = Column::TYPE_INTEGER,
-					definition["isNumeric"] = true,
-					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "varchar") {
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "blob") {
 				/**
-				 * Varchar are varchars
+				 * Blob
 				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
-			} elseif memstr(columnType, "datetime") {
+				let definition["type"] = Column::TYPE_BLOB;
+			} elseif memstr(columnType, "enum") {
 				/**
-				 * Special type for datetime
+				 * Enum are treated as char
 				 */
-				let definition["type"] = Column::TYPE_DATETIME;
+				let definition["type"] = Column::TYPE_ENUM;
 			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
@@ -136,16 +130,11 @@ class Mysql extends PdoAdapter
 				 * Date are dates
 				 */
 				let definition["type"] = Column::TYPE_DATE;
-			} elseif memstr(columnType, "timestamp") {
+			} elseif memstr(columnType, "datetime") {
 				/**
-				 * Timestamp are dates
+				 * Special type for datetime
 				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "text") {
-				/**
-				 * Text are varchars
-				 */
-				let definition["type"] = Column::TYPE_TEXT;
+				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "decimal") {
 				/**
 				 * Decimals are floats
@@ -167,17 +156,13 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "bit") {
+			} elseif memstr(columnType, "int") {
 				/**
-				 * Boolean
+				 * Smallint/Bigint/Integers/Int are int
 				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "tinyblob") {
-				/**
-				 * Tinyblob
-				 */
-				let definition["type"] = Column::TYPE_TINYBLOB;
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
 			} elseif memstr(columnType, "mediumblob") {
 				/**
 				 * Mediumblob
@@ -188,11 +173,26 @@ class Mysql extends PdoAdapter
 				 * Longblob
 				 */
 				let definition["type"] = Column::TYPE_LONGBLOB;
-			} elseif memstr(columnType, "blob") {
+			} elseif memstr(columnType, "timestamp") {
 				/**
-				 * Blob
+				 * Timestamp are dates
 				 */
-				let definition["type"] = Column::TYPE_BLOB;
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+			} elseif memstr(columnType, "tinyblob") {
+				/**
+				 * Tinyblob
+				 */
+				let definition["type"] = Column::TYPE_TINYBLOB;
+			} elseif memstr(columnType, "text") {
+				/**
+				 * Text are varchars
+				 */
+				let definition["type"] = Column::TYPE_TEXT;
+			} elseif memstr(columnType, "varchar") {
+				/**
+				 * Varchar are varchars
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR;
 			} else {
 				/**
 				 * By default is string
