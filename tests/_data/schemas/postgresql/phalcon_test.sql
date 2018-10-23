@@ -24,6 +24,9 @@ SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;
 
+-- Enum type
+create type enum_type as enum ('A', 'I', 'X')
+
 --
 -- Name: customers; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
@@ -93,7 +96,7 @@ CREATE TABLE personas (
     ciudad_id integer DEFAULT 0,
     creado_at date,
     cupo numeric(16,2) NOT NULL,
-    estado enum('A','I','X') NOT NULL
+    estado estado enum_type not null
 );
 
 ALTER TABLE public.personas OWNER TO postgres;
