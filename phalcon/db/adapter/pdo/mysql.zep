@@ -97,25 +97,35 @@ class Mysql extends PdoAdapter
 			 */
 			let columnType = field[1];
 
-
-			if memstr(columnType, "bigint") {
+			if memstr(columnType, "enum") {
+				/**
+				 * Enum are treated as char
+				 */
+				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "bit") {
+			} elseif memstr(columnType, "int") {
 				/**
-				 * Boolean
+				 * Smallint/Bigint/Integers/Int are int
 				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "blob") {
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "varchar") {
 				/**
-				 * Blob
+				 * Varchar are varchars
 				 */
-				let definition["type"] = Column::TYPE_BLOB;
+				let definition["type"] = Column::TYPE_VARCHAR;
+			} elseif memstr(columnType, "datetime") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
@@ -126,11 +136,16 @@ class Mysql extends PdoAdapter
 				 * Date are dates
 				 */
 				let definition["type"] = Column::TYPE_DATE;
-			} elseif memstr(columnType, "datetime") {
+			} elseif memstr(columnType, "timestamp") {
 				/**
-				 * Special type for datetime
+				 * Timestamp are dates
 				 */
-				let definition["type"] = Column::TYPE_DATETIME;
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+			} elseif memstr(columnType, "text") {
+				/**
+				 * Text are varchars
+				 */
+				let definition["type"] = Column::TYPE_TEXT;
 			} elseif memstr(columnType, "decimal") {
 				/**
 				 * Decimals are floats
@@ -152,46 +167,35 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "enum") {
+			} elseif memstr(columnType, "bit") {
 				/**
-				 * Enum are treated as char
+				 * Boolean
 				 */
-				let definition["type"] = Column::TYPE_ENUM;
-			} elseif memstr(columnType, "longblob") {
-				/**
-				 * Longblob
-				 */
-				let definition["type"] = Column::TYPE_LONGBLOB;
-			} elseif memstr(columnType, "mediumblob") {
-				/**
-				 * Mediumblob
-				 */
-				let definition["type"] = Column::TYPE_MEDIUMBLOB;
-			} elseif memstr(columnType, "int") {
-				/**
-				 * Smallint/Bigint/Integers/Int are int
-				 */
-				let definition["type"] = Column::TYPE_INTEGER,
-					definition["isNumeric"] = true,
-					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Timestamp are dates
-				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
 			} elseif memstr(columnType, "tinyblob") {
 				/**
 				 * Tinyblob
 				 */
 				let definition["type"] = Column::TYPE_TINYBLOB;
-			} elseif memstr(columnType, "text") {
+			} elseif memstr(columnType, "mediumblob") {
 				/**
-				 * Text are varchars
+				 * Mediumblob
 				 */
-				let definition["type"] = Column::TYPE_TEXT;
+				let definition["type"] = Column::TYPE_MEDIUMBLOB;
+			} elseif memstr(columnType, "longblob") {
+				/**
+				 * Longblob
+				 */
+				let definition["type"] = Column::TYPE_LONGBLOB;
+			} elseif memstr(columnType, "blob") {
+				/**
+				 * Blob
+				 */
+				let definition["type"] = Column::TYPE_BLOB;
 			} else {
 				/**
-				 * By default is string. Also used for VARCHAR
+				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
 			}
@@ -201,9 +205,7 @@ class Mysql extends PdoAdapter
 			 */
 			if memstr(columnType, "(") {
 				let matches = null;
-				if definition["type"] == Column::TYPE_ENUM {
-					let definition["size"] = substr(columnType, 5, -1);
-				} elseif preg_match(sizePattern, columnType, matches) {
+				if preg_match(sizePattern, columnType, matches) {
 					if fetch matchOne, matches[1] {
 						let definition["size"] = (int) matchOne;
 					}
