@@ -38,7 +38,7 @@ interface ColumnInterface
 	/**
 	 * Returns default value of column
 	 *
-	 * @return int
+	 * @return mixed|null
 	 */
 	public function getDefault();
 
@@ -47,49 +47,49 @@ interface ColumnInterface
 	 *
 	 * @return string
 	 */
-	public function getName();
+	public function getName() -> string;
 
 	/**
 	 * Returns column scale
 	 *
 	 * @return int
 	 */
-	public function getScale();
+	public function getScale() -> int;
 
 	/**
 	 * Returns schema's table related to column
 	 *
 	 * @return string
 	 */
-	public function getSchemaName();
+	public function getSchemaName() -> string;
 
 	/**
 	 * Returns column size
 	 *
 	 * @return int
 	 */
-	public function getSize();
+	public function getSize() -> int;
 
 	/**
 	 * Returns column type
 	 *
 	 * @return int
 	 */
-	public function getType();
+	public function getType() -> int;
 
 	/**
 	 * Returns column type reference
 	 *
 	 * @return int
 	 */
-	public function getTypeReference();
+	public function getTypeReference() -> int;
 
 	/**
 	 * Returns column type values
 	 *
 	 * @return int
 	 */
-	public function getTypeValues();
+	public function getTypeValues() -> int;
 
 
 	/**
