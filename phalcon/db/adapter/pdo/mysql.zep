@@ -125,13 +125,23 @@ class Mysql extends PdoAdapter
 					definition["bindType"] = Column::BIND_PARAM_INT;
 
 			/**
+			 * BOOL
+			 */
+			} elseif memstr(columnType, "bool") {
+				/**
+				 * Smallint(1) is boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+
+			/**
 			 * BIT
 			 */
 			} elseif memstr(columnType, "bit") {
 				/**
 				 * Boolean
 				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
+				let definition["type"] = Column::TYPE_BIT,
 					definition["bindType"] = Column::BIND_PARAM_BOOL;
 			/**
 			 * ENUM

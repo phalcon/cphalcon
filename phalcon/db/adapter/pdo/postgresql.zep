@@ -173,12 +173,6 @@ class Postgresql extends PdoAdapter
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "smallint(1)") {
-				/**
-				 * Smallint(1) is boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
 			} elseif memstr(columnType, "int") {
 				/**
 				 * Int
@@ -187,6 +181,27 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+
+			/**
+			 * BOOL
+			 */
+			} elseif memstr(columnType, "boolean") {
+				/**
+				 * Smallint(1) is boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+
+			/**
+			 * BIT
+			 */
+			} elseif memstr(columnType, "bit") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_BIT,
+					definition["size"] = numericSize;
+
 			/**
 			 * DATE
 			 */

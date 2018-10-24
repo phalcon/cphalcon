@@ -84,6 +84,11 @@ class Column implements ColumnInterface
 	/**
 	 * Blob abstract data type
 	 */
+	const TYPE_BIT = 19;
+
+	/**
+	 * Blob abstract data type
+	 */
 	const TYPE_BLOB = 11;
 
 	/**
