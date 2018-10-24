@@ -277,7 +277,7 @@ class DescribeCest
                 [
                     '_columnName'    => 'field_int_default',
                     '_schemaName'    => null,
-                    '_type'          => Column::TYPE_NTEGER,
+                    '_type'          => Column::TYPE_INTEGER,
                     '_isNumeric'     => true,
                     '_size'          => 10,
                     '_scale'         => 0,
