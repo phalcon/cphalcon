@@ -54,48 +54,28 @@ class Mysql extends Dialect
 
 		switch type {
 
-			case Column::TYPE_INTEGER:
+			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
-					let columnSql .= "INT";
+					let columnSql .= "BIGINT";
 				}
-				let columnSql .= "(" . column->getSize() . ")";
+				let scale = column->getSize();
+				if scale {
+					let columnSql .= "(" . column->getSize() . ")";
+				}
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
 
-			case Column::TYPE_DATE:
+			case Column::TYPE_BLOB:
 				if empty columnSql {
-					let columnSql .= "DATE";
+					let columnSql .= "BLOB";
 				}
 				break;
 
-			case Column::TYPE_VARCHAR:
+			case Column::TYPE_BOOLEAN:
 				if empty columnSql {
-					let columnSql .= "VARCHAR";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_DECIMAL:
-				if empty columnSql {
-					let columnSql .= "DECIMAL";
-				}
-				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
-				if column->isUnsigned() {
-					let columnSql .= " UNSIGNED";
-				}
-				break;
-
-			case Column::TYPE_DATETIME:
-				if empty columnSql {
-					let columnSql .= "DATETIME";
-				}
-				break;
-
-			case Column::TYPE_TIMESTAMP:
-				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
+					let columnSql .= "TINYINT(1)";
 				}
 				break;
 
@@ -106,31 +86,23 @@ class Mysql extends Dialect
 				let columnSql .= "(" . column->getSize() . ")";
 				break;
 
-			case Column::TYPE_TEXT:
+			case Column::TYPE_DATE:
 				if empty columnSql {
-					let columnSql .= "TEXT";
+					let columnSql .= "DATE";
 				}
 				break;
 
-			case Column::TYPE_BOOLEAN:
+			case Column::TYPE_DATETIME:
 				if empty columnSql {
-					let columnSql .= "TINYINT(1)";
+					let columnSql .= "DATETIME";
 				}
 				break;
 
-			case Column::TYPE_FLOAT:
+			case Column::TYPE_DECIMAL:
 				if empty columnSql {
-					let columnSql .= "FLOAT";
+					let columnSql .= "DECIMAL";
 				}
-				let size = column->getSize();
-				if size {
-					let scale = column->getScale();
-					if scale {
-						let columnSql .= "(" . size . "," . scale . ")";
-					} else {
-						let columnSql .= "(" . size . ")";
-					}
-				}
+				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
@@ -155,28 +127,27 @@ class Mysql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BIGINTEGER:
+			case Column::TYPE_FLOAT:
 				if empty columnSql {
-					let columnSql .= "BIGINT";
+					let columnSql .= "FLOAT";
 				}
-				let scale = column->getSize();
-				if scale {
-					let columnSql .= "(" . column->getSize() . ")";
+				let size = column->getSize();
+				if size {
+					let scale = column->getScale();
+					if scale {
+						let columnSql .= "(" . size . "," . scale . ")";
+					} else {
+						let columnSql .= "(" . size . ")";
+					}
 				}
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
 
-			case Column::TYPE_TINYBLOB:
+			case Column::TYPE_LONGBLOB:
 				if empty columnSql {
-					let columnSql .= "TINYBLOB";
-				}
-				break;
-
-			case Column::TYPE_BLOB:
-				if empty columnSql {
-					let columnSql .= "BLOB";
+					let columnSql .= "LONGBLOB";
 				}
 				break;
 
@@ -186,10 +157,39 @@ class Mysql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_LONGBLOB:
+			case Column::TYPE_INTEGER:
 				if empty columnSql {
-					let columnSql .= "LONGBLOB";
+					let columnSql .= "INT";
 				}
+				let columnSql .= "(" . column->getSize() . ")";
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
+			case Column::TYPE_TEXT:
+				if empty columnSql {
+					let columnSql .= "TEXT";
+				}
+				break;
+
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
+			case Column::TYPE_TINYBLOB:
+				if empty columnSql {
+					let columnSql .= "TINYBLOB";
+				}
+				break;
+
+			case Column::TYPE_VARCHAR:
+				if empty columnSql {
+					let columnSql .= "VARCHAR";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
 				break;
 
 			default:
