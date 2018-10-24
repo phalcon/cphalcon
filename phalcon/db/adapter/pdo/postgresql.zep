@@ -154,19 +154,31 @@ class Postgresql extends PdoAdapter
 				numericSize = field[3],
 				numericScale = field[4];
 
-			if memstr(columnType, "smallint(1)") {
-				/**
-				 * Smallint(1) is boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "bigint") {
+			/**
+			 * The order of these IF statements matters. Since we are using memstr
+			 * to figure out whether a particular string exists in the columnType
+			 * we will end up with false positives if the order changes.
+			 *
+			 * For instance if we have a `varchar` column and we check for `char`
+			 * first, then that will match. Therefore we have firs the IF
+			 * statements that are "unique" and further down the ones that can
+			 * appear a substrings of the columnType above them.
+			 *
+			 * BIGINT/INT
+			 */
+			if memstr(columnType, "bigint") {
 				/**
 				 * Bigint
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "smallint(1)") {
+				/**
+				 * Smallint(1) is boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
 			} elseif memstr(columnType, "int") {
 				/**
 				 * Int
@@ -175,11 +187,49 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			/**
+			 * DATE
+			 */
+			} elseif memstr(columnType, "date") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATE,
+					definition["size"] = 0;
+			/**
+			 * ENUM
+			 */
+			} elseif memstr(columnType, "enum") {
+				/**
+				 * Enum are enum
+				 */
+				let definition["type"] = Column::TYPE_ENUM;
+
+			/**
+			 * FLOAT/DECIMAL/DOUBLE
+			 */
 			} elseif memstr(columnType, "double precision") {
 				/**
 				 * Double Precision
 				 */
 				let definition["type"] = Column::TYPE_DOUBLE,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "numeric") {
+				/**
+				 * Numeric
+				 */
+				let definition["type"] = Column::TYPE_DECIMAL,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["scale"] = numericScale,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "float") {
+				/**
+				 * Float/Smallfloats/Decimals are float
+				 */
+				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
@@ -191,32 +241,39 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
+			/**
+			 * TIMESTAMP
+			 */
+			} elseif memstr(columnType, "timestamp") {
+				/**
+				 * Timestamp
+				 */
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+
+			/**
+			 * JSON/JSONB
+			 */
+			} elseif memstr(columnType, "jsonb") {
+				/**
+				 * Jsonb
+				 */
+				let definition["type"] = Column::TYPE_JSONB;
+			} elseif memstr(columnType, "json") {
+				/**
+				 * Json
+				 */
+				let definition["type"] = Column::TYPE_JSON;
+
+			/**
+			 * TEXT/VARCHAR/CHAR
+			 */
 			} elseif memstr(columnType, "varying") {
 				/**
 				 * Varchar
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR,
 					definition["size"] = charSize;
-			} elseif memstr(columnType, "date") {
-				/**
-				 * Special type for datetime
-				 */
-				let definition["type"] = Column::TYPE_DATE,
-					definition["size"] = 0;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Timestamp
-				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "numeric") {
-				/**
-				 * Numeric
-				 */
-				let definition["type"] = Column::TYPE_DECIMAL,
-					definition["isNumeric"] = true,
-					definition["size"] = numericSize,
-					definition["scale"] = numericScale,
-					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
@@ -229,14 +286,10 @@ class Postgresql extends PdoAdapter
 				 */
 				let definition["type"] = Column::TYPE_TEXT,
 					definition["size"] = charSize;
-			} elseif memstr(columnType, "float") {
-				/**
-				 * Float/Smallfloats/Decimals are float
-				 */
-				let definition["type"] = Column::TYPE_FLOAT,
-					definition["isNumeric"] = true,
-					definition["size"] = numericSize,
-					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
+			/**
+			 * BOOL
+			 */
 			} elseif memstr(columnType, "bool") {
 				/**
 				 * Boolean
@@ -244,16 +297,10 @@ class Postgresql extends PdoAdapter
 				let definition["type"] = Column::TYPE_BOOLEAN,
 					definition["size"] = 0,
 					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "jsonb") {
-				/**
-				 * Jsonb
-				 */
-				let definition["type"] = Column::TYPE_JSONB;
-			} elseif memstr(columnType, "json") {
-				/**
-				 * Json
-				 */
-				let definition["type"] = Column::TYPE_JSON;
+
+			/**
+			 * UUID
+			 */
 			} elseif memstr(columnType, "uuid") {
 				/**
 				 * UUID

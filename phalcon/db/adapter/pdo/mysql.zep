@@ -98,6 +98,15 @@ class Mysql extends PdoAdapter
 			let columnType = field[1];
 
 			/**
+			 * The order of these IF statements matters. Since we are using memstr
+			 * to figure out whether a particular string exists in the columnType
+			 * we will end up with false positives if the order changes.
+			 *
+			 * For instance if we have a `varchar` column and we check for `char`
+			 * first, then that will match. Therefore we have firs the IF
+			 * statements that are "unique" and further down the ones that can
+			 * appear a substrings of the columnType above them.
+			 *
 			 * BIGINT/INT
 			 */
 			if memstr(columnType, "bigint") {
@@ -171,6 +180,7 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
 			/**
 			 * BLOB
 			 */
@@ -194,6 +204,7 @@ class Mysql extends PdoAdapter
 				 * Blob
 				 */
 				let definition["type"] = Column::TYPE_BLOB;
+
 			/**
 			 * TIMESTAMP
 			 */
@@ -202,6 +213,16 @@ class Mysql extends PdoAdapter
 				 * Timestamp are dates
 				 */
 				let definition["type"] = Column::TYPE_TIMESTAMP;
+
+			/**
+			 * JSON/JSONB
+			 */
+			} elseif memstr(columnType, "json") {
+				/**
+				 * Json
+				 */
+				let definition["type"] = Column::TYPE_JSON;
+
 			/**
 			 * TEXT/VARCHAR/CHAR
 			 */
