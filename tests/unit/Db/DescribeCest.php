@@ -72,7 +72,7 @@ class DescribeCest
                     '_primary'       => false,
                     '_first'         => false,
                     '_after'         => null,
-                    '_bindType'      => Column::BIND_PARAM_STRING,
+                    '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
             2  =>  Column::__set_state(
@@ -198,7 +198,7 @@ class DescribeCest
                     '_primary'       => false,
                     '_first'         => false,
                     '_after'         => null,
-                    '_bindType'      => Column::BIND_PARAM_STRING,
+                    '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
             9  =>  Column::__set_state(
@@ -216,7 +216,7 @@ class DescribeCest
                     '_primary'       => false,
                     '_first'         => false,
                     '_after'         => null,
-                    '_bindType'      => Column::BIND_PARAM_STRING,
+                    '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
             10 =>  Column::__set_state(
