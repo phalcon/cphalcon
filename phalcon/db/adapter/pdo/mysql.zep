@@ -111,15 +111,15 @@ class Mysql extends PdoAdapter
 			/**
 			 * BOOL
 			 */
-			if memstr(columnType, "tinyint(1)") {
+			if memstr(columnType, "smallint(1)") {
 				/**
-				 * Smallint(1) is boolean
+				 * tinyint(1) is boolean
 				 */
 				let definition["type"] = Column::TYPE_BOOLEAN,
 					definition["bindType"] = Column::BIND_PARAM_BOOL;
 
 			/**
-			 * BOOL
+			 * BIGINT
 			 */
 			} elseif memstr(columnType, "bigint") {
 				/**
