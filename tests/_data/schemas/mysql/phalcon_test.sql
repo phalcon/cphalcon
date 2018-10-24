@@ -654,9 +654,8 @@ INSERT INTO `table_with_string_field` VALUES
 UNLOCK TABLES;
 
 
-LOCK TABLES `dialect` WRITE;
-/*!40000 ALTER TABLE `dialect` DISABLE KEYS */;
-create table dialect
+DROP TABLE IF EXISTS `dialect_table`;
+create table dialect_table
 (
   field_primary           int auto_increment primary key,
   field_blob              blob                                        null,
@@ -692,15 +691,8 @@ create table dialect
   field_text              text                                        null,
   field_varchar           varchar(10)                                 null,
   field_varchar_default   varchar(10)   default 'D'                   null
-  )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;
-/*!40000 ALTER TABLE `dialect` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
-
-
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

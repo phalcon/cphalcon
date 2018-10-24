@@ -32,9 +32,10 @@ class DescribeCest
 
     public function checkColumnNames(\UnitTester $I)
     {
-        $I->assertTrue($this->connection->tableExists('dialect'));
+        $table = 'dialect_table';
+        $I->assertTrue($this->connection->tableExists($table));
         $expected = $this->getExpectedColumns();
-        $I->assertEquals($expected, $this->connection->describeColumns('dialect'));
+        $I->assertEquals($expected, $this->connection->describeColumns($table));
     }
 
     private function getExpectedColumns(): array
