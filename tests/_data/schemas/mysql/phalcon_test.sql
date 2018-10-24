@@ -653,6 +653,55 @@ INSERT INTO `table_with_string_field` VALUES
 /*!40000 ALTER TABLE `table_with_string_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+LOCK TABLES `dialect` WRITE;
+/*!40000 ALTER TABLE `dialect` DISABLE KEYS */;
+create table dialect
+(
+  field_primary           int auto_increment primary key,
+  field_blob              blob                                        null,
+  field_bit               bit                                         null,
+  field_bit_default       bit           default b'1'                  null,
+  field_bigint            bigint                                      null,
+  field_bigint_default    bigint        default 1                     null,
+  field_boolean           tinyint(1)                                  null,
+  field_boolean_default   tinyint(1)    default 1                     null,
+  field_char              char(10)                                    null,
+  field_char_default      char(10)      default 'ABC'                 null,
+  field_decimal           decimal(10,4)                               null,
+  field_decimal_default   decimal(10,4) default 14.5600               null,
+  field_integer           int(10)                                     null,
+  field_integer_default   int(10)       default 1                     null,
+  field_json              json                                        null,
+  field_float             float(10,4)                                 null,
+  field_float_default     float(10,4)   default 14.5600               null,
+  field_date              date                                        null,
+  field_date_default      date          default '2018-10-01'          null,
+  field_datetime          datetime                                    null,
+  field_datetime_default  datetime      default '2018-10-01 12:34:56' null,
+  field_time              time                                        null,
+  field_time_default      time          default '12:34:56'            null,
+  field_timestamp         timestamp                                   null,
+  field_timestamp_default timestamp     default '2018-10-01 12:34:56' null,
+  field_mediumint         mediumint(10)                               null,
+  field_mediumint_default mediumint(10) default 1                     null,
+  field_smallint          smallint(10)                                null,
+  field_smallint_default  smallint(10)  default 1                     null,
+  field_tinyint           tinyint(10)                                 null,
+  field_tinyint_default   tinyint(10)   default 1                     null,
+  field_text              text                                        null,
+  field_varchar           varchar(10)                                 null,
+  field_varchar_default   varchar(10)   default 'D'                   null
+  )
+;
+/*!40000 ALTER TABLE `dialect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+
+
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

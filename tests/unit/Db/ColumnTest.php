@@ -28,7 +28,7 @@ class ColumnTest extends UnitTest
     use DialectTrait;
 
     /** @test */
-    public function shouldWorkPerfectlyWithCoulmnAsObject()
+    public function shouldWorkPerfectlyWithColumnAsObject()
     {
         $columns = $this->getColumns();
 
