@@ -101,7 +101,7 @@ class DescribeCest
                     '_isNumeric'     => false,
                     '_size'          => 1,
                     '_scale'         => 0,
-                    '_default'       => "b'1",
+                    '_default'       => "'b\'1'",
                     '_unsigned'      => false,
                     '_notNull'       => false,
                     '_autoIncrement' => false,

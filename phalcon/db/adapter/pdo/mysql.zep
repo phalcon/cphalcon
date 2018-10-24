@@ -106,10 +106,22 @@ class Mysql extends PdoAdapter
 			 * first, then that will match. Therefore we have firs the IF
 			 * statements that are "unique" and further down the ones that can
 			 * appear a substrings of the columnType above them.
-			 *
-			 * BIGINT/INT
 			 */
-			if memstr(columnType, "bigint") {
+
+			/**
+			 * BOOL
+			 */
+			if memstr(columnType, "tinyint(1)") {
+				/**
+				 * Smallint(1) is boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+
+			/**
+			 * BOOL
+			 */
+			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
@@ -123,16 +135,6 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_INTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-
-			/**
-			 * BOOL
-			 */
-			} elseif memstr(columnType, "bool") {
-				/**
-				 * Smallint(1) is boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
 
 			/**
 			 * BIT
