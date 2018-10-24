@@ -694,6 +694,10 @@ create table dialect_table
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;
 
+LOCK TABLES `dialect_table` WRITE;
+
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
