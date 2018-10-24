@@ -120,11 +120,6 @@ class Mysql extends PdoAdapter
 				 * Enum are treated as char
 				 */
 				let definition["type"] = Column::TYPE_ENUM;
-			} elseif memstr(columnType, "char") {
-				/**
-				 * Chars are chars
-				 */
-				let definition["type"] = Column::TYPE_CHAR;
 			} elseif memstr(columnType, "date") {
 				/**
 				 * Date are dates
@@ -193,6 +188,12 @@ class Mysql extends PdoAdapter
 				 * Varchar are varchars
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
+			} elseif memstr(columnType, "char") {
+				/**
+				 * Chars are chars - This has to be below VARCHAR so as not to
+				 * have false positives
+				 */
+				let definition["type"] = Column::TYPE_CHAR;
 			} else {
 				/**
 				 * By default is string
