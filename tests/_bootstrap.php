@@ -49,7 +49,7 @@ $defaults = [
     "TEST_BT_PORT"              => 11300,
 
     // Memcached
-    "TEST_MC_HOST"              => '127.0.0.1',
+    "TEST_MC_HOST"              => defined('DATA_MEMCACHED_HOST') ? getenv('DATA_MEMCACHED_HOST') : '127.0.0.1',
     "TEST_MC_PORT"              => 11211,
     "TEST_MC_WEIGHT"            => 1,
 
@@ -58,35 +58,37 @@ $defaults = [
     "TEST_DB_I18N_SQLITE_NAME"  => PATH_OUTPUT . 'translations.sqlite',
 
     // MySQL
-    "TEST_DB_MYSQL_HOST"        => '127.0.0.1',
+    "TEST_DB_MYSQL_HOST"        => defined('DATA_MYSQL_HOST')            ? getenv('DATA_MYSQL_HOST') : '127.0.0.1',
     "TEST_DB_MYSQL_PORT"        => 3306,
     "TEST_DB_MYSQL_USER"        => 'root',
-    "TEST_DB_MYSQL_PASSWD"      => '',
-    "TEST_DB_MYSQL_NAME"        => 'phalcon_test',
+    "TEST_DB_MYSQL_PASSWD"      => defined('DATA_MYSQL_ROOT_PASS')       ? getenv('DATA_MYSQL_ROOT_PASS') : '',
+    "TEST_DB_MYSQL_NAME"        => defined('DATA_MYSQL_HOST') ? 'gonano' : 'phalcon_test',
     "TEST_DB_MYSQL_CHARSET"     => 'utf8',
 
     // Postgresql
-    "TEST_DB_POSTGRESQL_HOST"   => '127.0.0.1',
+    "TEST_DB_POSTGRESQL_HOST"   => defined('DATA_POSTGRES_HOST')         ? getenv('DATA_POSTGRES_HOST') : '127.0.0.1',
     "TEST_DB_POSTGRESQL_PORT"   => 5432,
-    "TEST_DB_POSTGRESQL_USER"   => 'postgres',
-    "TEST_DB_POSTGRESQL_PASSWD" => '',
-    "TEST_DB_POSTGRESQL_NAME"   => 'phalcon_test',
+    "TEST_DB_POSTGRESQL_USER"   => defined('DATA_POSTGRES_NANOBOX_USER') ? getenv('DATA_POSTGRES_NANOBOX_USER') : 'postgres',
+    "TEST_DB_POSTGRESQL_PASSWD" => defined('DATA_POSTGRES_NANOBOX_PASS') ? getenv('DATA_POSTGRES_NANOBOX_PASS') : '',
+    "TEST_DB_POSTGRESQL_NAME"   => defined('DATA_POSTGRES_HOST')         ? 'gonano' : 'phalcon_test',
     "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
 
     // Mongo
-    "TEST_DB_MONGO_HOST"        => '127.0.0.1',
+    "TEST_DB_MONGO_HOST"        => defined('DATA_MONGODB_HOST') ? getenv('DATA_MONGODB_HOST') : '127.0.0.1',
     "TEST_DB_MONGO_PORT"        => 27017,
     "TEST_DB_MONGO_USER"        => 'admin',
     "TEST_DB_MONGO_PASSWD"      => '',
     "TEST_DB_MONGO_NAME"        => 'phalcon_test',
 
     // Redis
-    "TEST_RS_HOST"              => '127.0.0.1',
+    "TEST_RS_HOST"              => defined('DATA_REDIS_HOST') ? getenv('DATA_REDIS_HOST') : '127.0.0.1',
     "TEST_RS_PORT"              => 6379,
     "TEST_RS_DB"                => 0,
 ];
 
-
+/**
+ * Check if this is running in nanobox and adjust the above
+ */
 
 foreach ($defaults as $key => $defaultValue) {
     if (defined($key)) {
