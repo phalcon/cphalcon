@@ -68,6 +68,7 @@ class MysqlTest extends UnitTest
                     'artists',
                     'childs',
                     'customers',
+                    'dialect_table',
                     'foreign_key_child',
                     'foreign_key_parent',
                     'identityless_requests',

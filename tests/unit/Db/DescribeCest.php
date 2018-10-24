@@ -14,8 +14,6 @@ class DescribeCest
 
     public function _before(\UnitTester $I)
     {
-        parent::_before();
-
         try {
             $this->connection = new Mysql([
                 'host'     => TEST_DB_MYSQL_HOST,
