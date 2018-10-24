@@ -30,15 +30,16 @@ run.config:
   extra_packages:
     - autoconf
     - re2c
-#    - |
-#      (
-#        set -e
-#        phpize
-#        ./configure --with-php-config=$(which php-config)
-#        make -j"$(getconf _NPROCESSORS_ONLN)"
-#        make install
-#      )
-#    - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
+  extra_steps:
+    - |
+      (
+        set -e
+        phpize
+        ./configure --with-php-config=$(which php-config)
+        make -j"$(getconf _NPROCESSORS_ONLN)"
+        make install
+      )
+    - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
 
 #data.beanstalkd:
 #  image: phalcon/beanstalkd
