@@ -115,7 +115,7 @@ class DescribeCest
                 [
                     '_columnName'    => 'field_bigint',
                     '_schemaName'    => null,
-                    '_type'          => Column::TYPE_BIGINT,
+                    '_type'          => Column::TYPE_BIGINTEGER,
                     '_isNumeric'     => true,
                     '_size'          => 20,
                     '_scale'         => 0,
@@ -133,7 +133,7 @@ class DescribeCest
                 [
                     '_columnName'    => 'field_bigint_default',
                     '_schemaName'    => null,
-                    '_type'          => Column::TYPE_BIGINT,
+                    '_type'          => Column::TYPE_BIGINTEGER,
                     '_isNumeric'     => true,
                     '_size'          => 20,
                     '_scale'         => 0,
@@ -151,7 +151,7 @@ class DescribeCest
                 [
                     '_columnName'    => 'field_boolean',
                     '_schemaName'    => null,
-                    '_type'          => Column::TYPE_BOOL,
+                    '_type'          => Column::TYPE_BOOLEAN,
                     '_isNumeric'     => true,
                     '_size'          => 1,
                     '_scale'         => 0,
@@ -169,7 +169,7 @@ class DescribeCest
                 [
                     '_columnName'    => 'field_boolean',
                     '_schemaName'    => null,
-                    '_type'          => Column::TYPE_BOOL,
+                    '_type'          => Column::TYPE_BOOLEAN,
                     '_isNumeric'     => true,
                     '_size'          => 1,
                     '_scale'         => 0,
@@ -253,6 +253,42 @@ class DescribeCest
                     '_first'         => false,
                     '_after'         => null,
                     '_bindType'      => Column::BIND_PARAM_DECIMAL,
+                ]
+            ),
+            12 =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_int',
+                    '_schemaName'    => null,
+                    '_type'          => Column::TYPE_INTEGER,
+                    '_isNumeric'     => true,
+                    '_size'          => 10,
+                    '_scale'         => 0,
+                    '_default'       => null,
+                    '_unsigned'      => false,
+                    '_notNull'       => true,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => null,
+                    '_bindType'      => Column::BIND_PARAM_INT,
+                ]
+            ),
+            13 =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_int_default',
+                    '_schemaName'    => null,
+                    '_type'          => Column::TYPE_NTEGER,
+                    '_isNumeric'     => true,
+                    '_size'          => 10,
+                    '_scale'         => 0,
+                    '_default'       => 1,
+                    '_unsigned'      => false,
+                    '_notNull'       => true,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => null,
+                    '_bindType'      => Column::BIND_PARAM_INT,
                 ]
             ),
         ];
