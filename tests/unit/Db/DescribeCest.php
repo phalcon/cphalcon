@@ -287,11 +287,65 @@ class DescribeCest
                     '_autoIncrement' => false,
                     '_primary'       => false,
                     '_first'         => false,
-                    '_after'         => 'field_int',
+                    '_after'         => 'field_integer',
                     '_bindType'      => Column::BIND_PARAM_INT,
                 ]
             ),
-            14 =>  Column::__set_state(
+            15 =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_json',
+                    '_schemaName'    => false,
+                    '_type'          => Column::TYPE_VARCHAR,
+                    '_isNumeric'     => false,
+                    '_size'          => 0,
+                    '_scale'         => 0,
+                    '_default'       => null,
+                    '_unsigned'      => false,
+                    '_notNull'       => false,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => 'field_integer_default',
+                    '_bindType'      => Column::BIND_PARAM_STR,
+                ]
+            ),
+            16 =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_float',
+                    '_schemaName'    => null,
+                    '_type'          => Column::TYPE_FLOAT,
+                    '_isNumeric'     => true,
+                    '_size'          => 10,
+                    '_scale'         => 4,
+                    '_default'       => null,
+                    '_unsigned'      => false,
+                    '_notNull'       => false,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => 'field_json',
+                    '_bindType'      => Column::BIND_PARAM_DECIMAL,
+                ]
+            ),
+            17 =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_float_default',
+                    '_schemaName'    => null,
+                    '_type'          => Column::TYPE_FLOAT,
+                    '_isNumeric'     => true,
+                    '_size'          => 10,
+                    '_scale'         => 4,
+                    '_default'       => 14.5600,
+                    '_unsigned'      => false,
+                    '_notNull'       => false,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => 'field_float',
+                    '_bindType'      => Column::BIND_PARAM_DECIMAL,
+                ]
+            ),
+            18 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_date',
                     '_schemaName'    => null,
@@ -305,16 +359,16 @@ class DescribeCest
                     '_autoIncrement' => false,
                     '_primary'       => false,
                     '_first'         => false,
-                    '_after'         => 'field_int_default',
+                    '_after'         => 'field_integer_default',
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            15 =>  Column::__set_state(
+            19 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_date_default',
                     '_schemaName'    => false,
                     '_type'          => Column::TYPE_DATE,
-                    '_isNumeric'     => true,
+                    '_isNumeric'     => false,
                     '_size'          => 0,
                     '_scale'         => 0,
                     '_default'       => '2018-10-01',
@@ -327,7 +381,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            16 =>  Column::__set_state(
+            20 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_datetime',
                     '_schemaName'    => null,
@@ -345,12 +399,12 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            17 =>  Column::__set_state(
+            21 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_datetime_default',
                     '_schemaName'    => false,
                     '_type'          => Column::TYPE_DATE,
-                    '_isNumeric'     => true,
+                    '_isNumeric'     => false,
                     '_size'          => 0,
                     '_scale'         => 0,
                     '_default'       => '2018-10-01 12:34:56',
