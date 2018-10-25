@@ -262,6 +262,10 @@ class Mysql extends PdoAdapter
 			}
 
 			/**
+			 * Debuggins
+			*/
+			let definition["type"] = columnType;
+			/**
 			 * If the column type has a parentheses we try to get the column size from it
 			 */
 			if memstr(columnType, "(") {

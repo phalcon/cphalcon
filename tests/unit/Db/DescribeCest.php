@@ -147,42 +147,42 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_INT,
                 ]
             ),
-//            6  =>  Column::__set_state(
-//                [
-//                    '_columnName'    => 'field_boolean',
-//                    '_schemaName'    => null,
-//                    '_type'          => Column::TYPE_BOOLEAN,
-//                    '_isNumeric'     => true,
-//                    '_size'          => 1,
-//                    '_scale'         => 0,
-//                    '_default'       => null,
-//                    '_unsigned'      => false,
-//                    '_notNull'       => false,
-//                    '_autoIncrement' => false,
-//                    '_primary'       => false,
-//                    '_first'         => false,
-//                    '_after'         => 'field_bigint_default',
-//                    '_bindType'      => Column::BIND_PARAM_BOOL,
-//                ]
-//            ),
-//            7  =>  Column::__set_state(
-//                [
-//                    '_columnName'    => 'field_boolean_default',
-//                    '_schemaName'    => null,
-//                    '_type'          => Column::TYPE_BOOLEAN,
-//                    '_isNumeric'     => true,
-//                    '_size'          => 1,
-//                    '_scale'         => 0,
-//                    '_default'       => 1,
-//                    '_unsigned'      => false,
-//                    '_notNull'       => false,
-//                    '_autoIncrement' => false,
-//                    '_primary'       => false,
-//                    '_first'         => false,
-//                    '_after'         => 'field_boolean',
-//                    '_bindType'      => Column::BIND_PARAM_BOOL,
-//                ]
-//            ),
+            6  =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_boolean',
+                    '_schemaName'    => null,
+                    '_type'          => Column::TYPE_BOOLEAN,
+                    '_isNumeric'     => true,
+                    '_size'          => 1,
+                    '_scale'         => 0,
+                    '_default'       => null,
+                    '_unsigned'      => false,
+                    '_notNull'       => false,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => 'field_bigint_default',
+                    '_bindType'      => Column::BIND_PARAM_BOOL,
+                ]
+            ),
+            7  =>  Column::__set_state(
+                [
+                    '_columnName'    => 'field_boolean_default',
+                    '_schemaName'    => null,
+                    '_type'          => Column::TYPE_BOOLEAN,
+                    '_isNumeric'     => true,
+                    '_size'          => 1,
+                    '_scale'         => 0,
+                    '_default'       => 1,
+                    '_unsigned'      => false,
+                    '_notNull'       => false,
+                    '_autoIncrement' => false,
+                    '_primary'       => false,
+                    '_first'         => false,
+                    '_after'         => 'field_boolean',
+                    '_bindType'      => Column::BIND_PARAM_BOOL,
+                ]
+            ),
 //            8  =>  Column::__set_state(
 //                [
 //                    '_columnName'    => 'field_char',
