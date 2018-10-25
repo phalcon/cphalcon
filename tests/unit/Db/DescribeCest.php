@@ -335,7 +335,7 @@ class DescribeCest
                     '_isNumeric'     => true,
                     '_size'          => 10,
                     '_scale'         => 4,
-                    '_default'       => 14.5600,
+                    '_default'       => floatval(14.56),
                     '_unsigned'      => false,
                     '_notNull'       => false,
                     '_autoIncrement' => false,
@@ -359,7 +359,7 @@ class DescribeCest
                     '_autoIncrement' => false,
                     '_primary'       => false,
                     '_first'         => false,
-                    '_after'         => 'field_integer_default',
+                    '_after'         => 'field_float_default',
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
