@@ -291,7 +291,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_INT,
                 ]
             ),
-            15 =>  Column::__set_state(
+            14 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_json',
                     '_schemaName'    => false,
@@ -309,7 +309,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            16 =>  Column::__set_state(
+            15 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_float',
                     '_schemaName'    => null,
@@ -327,7 +327,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_DECIMAL,
                 ]
             ),
-            17 =>  Column::__set_state(
+            16 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_float_default',
                     '_schemaName'    => null,
@@ -335,7 +335,7 @@ class DescribeCest
                     '_isNumeric'     => true,
                     '_size'          => 10,
                     '_scale'         => 4,
-                    '_default'       => floatval(14.56),
+                    '_default'       => floatval(14.5600),
                     '_unsigned'      => false,
                     '_notNull'       => false,
                     '_autoIncrement' => false,
@@ -345,7 +345,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_DECIMAL,
                 ]
             ),
-            18 =>  Column::__set_state(
+            17 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_date',
                     '_schemaName'    => null,
@@ -363,7 +363,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            19 =>  Column::__set_state(
+            18 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_date_default',
                     '_schemaName'    => false,
@@ -381,7 +381,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            20 =>  Column::__set_state(
+            19 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_datetime',
                     '_schemaName'    => null,
@@ -399,7 +399,7 @@ class DescribeCest
                     '_bindType'      => Column::BIND_PARAM_STR,
                 ]
             ),
-            21 =>  Column::__set_state(
+            20 =>  Column::__set_state(
                 [
                     '_columnName'    => 'field_datetime_default',
                     '_schemaName'    => false,
