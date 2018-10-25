@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Db;
 
 use Phalcon\Db\Column;
+use Phalcon\Db\Index;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 
 class DescribeCest
@@ -28,6 +29,11 @@ class DescribeCest
         }
     }
 
+    /**
+     * Test the `tableExists`
+     *
+     * @param \UnitTester $I
+     */
     public function checkTableExists(\UnitTester $I)
     {
         $table = 'dialect_table';
@@ -37,16 +43,55 @@ class DescribeCest
         $I->assertFalse($this->connection->tableExists('unknown-table', 'unknown-db'));
     }
 
+    /**
+     * Test the `tableOptions`
+     *
+     * @param \UnitTester $I
+     */
+    public function checkTableOptions(\UnitTester $I)
+    {
+        $table    = 'dialect_table';
+        $expected = [
+            'table_type'      => 'BASE TABLE',
+            'auto_increment'  => null,
+            'engine'          => 'InnoDB',
+            'table_collation' => 'utf8_unicode_ci',
+        ];
+
+        $I->assertEquals($expected, ($this->connection->tableOptions($table, TEST_DB_MYSQL_NAME));
+    }
+
+    /**
+     * Test the `describeColumns`
+     *
+     * @param \UnitTester $I
+     */
     public function checkColumnNames(\UnitTester $I)
     {
         $table = 'dialect_table';
         $expected = $this->getExpectedColumns();
         $I->assertEquals($expected, $this->connection->describeColumns($table));
-
-        $expected = $this->getExpectedColumns();
         $I->assertEquals($expected, $this->connection->describeColumns($table, TEST_DB_MYSQL_NAME));
     }
 
+    /**
+     * Test the `describeIndexes`
+     *
+     * @param \UnitTester $I
+     */
+    public function checkColumnIndexes(\UnitTester $I)
+    {
+        $table = 'dialect_table';
+        $expected = $this->getExpectedIndexes();
+        $I->assertEquals($expected, $this->connection->describeIndexes($table));
+        $I->assertEquals($expected, $this->connection->describeIndexes($table, TEST_DB_MYSQL_NAME));
+    }
+
+    /**
+     * Return the array of expected columns
+     *
+     * @return array
+     */
     private function getExpectedColumns(): array
     {
         return [
@@ -665,57 +710,47 @@ class DescribeCest
         ];
     }
 
+    /**
+     * Return the array of expected indexes
+     *
+     * @return array
+     */
+    private function getExpectedIndexes(): array
+    {
+        return [
+            0  =>  Index::__set_state(
+                [
+                    '_name'    => 'PRIMARY',
+                    '_columns' => ['field_primary'],
+                    '_type'    => 'PRIMARY',
+                ]
+            ),
+            1  =>  Index::__set_state(
+                [
+                    '_name'    => 'dialect_table_unique',
+                    '_columns' => ['field_mediumint'],
+                    '_type'    => 'UNIQUE',
+                ]
+            ),
+            2  =>  Index::__set_state(
+                [
+                    '_name'    => 'dialect_table_index',
+                    '_columns' => ['field_integer'],
+                    '_type'    => 'INDEX',
+                ]
+            ),
+            3  =>  Index::__set_state(
+                [
+                    '_name'    => 'dialect_table_two_fields',
+                    '_columns' => ['field_char', 'field_char_default'],
+                    '_type'    => 'INDEX',
+                ]
+            ),
+        ];
+    }
+
 //    public function testDbMysql()
 //    {
-//
-//        //Table Options
-//        $expectedOptions = [
-//            'table_type' => 'BASE TABLE',
-//            'auto_increment' => NULL,
-//            'engine' => 'InnoDB',
-//            'table_collation' => 'utf8_unicode_ci',
-//        ];
-//
-//        $options = $connection->tableOptions('personas', 'phalcon_test');
-//        $this->assertEquals($options, $expectedOptions);
-//
-//        //Indexes
-//        $expectedIndexes = [
-//            'PRIMARY' => Phalcon\Db\Index::__set_state([
-//                '_name' => 'PRIMARY',
-//                '_columns' => ['id'],
-//                '_type' => 'PRIMARY',
-//            ]),
-//            'robots_id' => Phalcon\Db\Index::__set_state([
-//                '_name' => 'robots_id',
-//                '_columns' => ['robots_id']
-//            ]),
-//            'parts_id' => Phalcon\Db\Index::__set_state([
-//                '_name' => 'parts_id',
-//                '_columns' => ['parts_id']
-//            ])
-//        ];
-//
-//        $describeIndexes = $connection->describeIndexes('robots_parts');
-//        $this->assertEquals($describeIndexes, $expectedIndexes);
-//
-//        $describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');
-//        $this->assertEquals($describeIndexes, $expectedIndexes);
-//
-//        //Indexes
-//        $expectedIndexes = [
-//            'PRIMARY' => Phalcon\Db\Index::__set_state([
-//                '_name' => 'PRIMARY',
-//                '_columns' => ['id'],
-//                '_type' => 'PRIMARY',
-//            ]),
-//            'issue_11036_token_UNIQUE' => Phalcon\Db\Index::__set_state([
-//                '_name' => 'issue_11036_token_UNIQUE',
-//                '_columns' => ['token'],
-//                '_type' => 'UNIQUE'
-//            ])
-//        ];
-//
 //        $describeIndexes = $connection->describeIndexes('issue_11036');
 //        $this->assertEquals($describeIndexes, $expectedIndexes);
 //

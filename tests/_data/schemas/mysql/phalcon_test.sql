@@ -654,10 +654,12 @@ INSERT INTO `table_with_string_field` VALUES
 UNLOCK TABLES;
 
 
-DROP TABLE IF EXISTS `dialect_table`;
+drop table if exists `dialect_table`;
+-- auto-generated definition
 create table dialect_table
 (
-  field_primary           int auto_increment primary key,
+  field_primary           int auto_increment
+    primary key,
   field_blob              blob                                        null,
   field_bit               bit                                         null,
   field_bit_default       bit           default b'1'                  null,
@@ -690,9 +692,27 @@ create table dialect_table
   field_tinyint_default   tinyint(10)   default 1                     null,
   field_text              text                                        null,
   field_varchar           varchar(10)                                 null,
-  field_varchar_default   varchar(10)   default 'D'                   null
+  field_varchar_default   varchar(10)   default 'D'                   null,
+  constraint dialect_table_unique
+  unique (field_integer)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+create index dialect_table_index
+on dialect_table (field_bigint);
+
+create index dialect_table_two_fields
+on dialect_table (field_char, field_char_default);
+
+drop table if exists `dialect_table_remote`;
+-- auto-generated definition
+create table dialect_table_remote
+(
+  field_remote_primary int auto_increment
+    primary key,
+  field_remote_integer int null,
+  constraint dialect_table_remote_dialect_table_field_integer_fk
+    foreign key (field_remote_integer) references dialect_table (field_integer)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
