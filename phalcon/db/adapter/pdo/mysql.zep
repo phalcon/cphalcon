@@ -111,7 +111,7 @@ class Mysql extends PdoAdapter
 			/**
 			 * BOOL
 			 */
-			if memstr(columnType, "smallint(1)") {
+			if memstr(columnType, "tinyint(1)") {
 				/**
 				 * tinyint(1) is boolean
 				 */
@@ -122,12 +122,22 @@ class Mysql extends PdoAdapter
 			 * BIGINT
 			 */
 			} elseif memstr(columnType, "bigint") {
-				/**
-				 * Smallint/Bigint/Integers/Int are int
-				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			/**
+			 * TINYINT
+			 */
+			} elseif memstr(columnType, "tinyint") {
+				/**
+				 * Smallint/Bigint/Integers/Int are int
+				 */
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			/**
+			 * INT
+			 */
 			} elseif memstr(columnType, "int") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
@@ -261,10 +271,6 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_VARCHAR;
 			}
 
-			/**
-			 * Debuggins
-			*/
-			let definition["type"] = columnType;
 			/**
 			 * If the column type has a parentheses we try to get the column size from it
 			 */
