@@ -90,7 +90,7 @@ class DescribeCest
                     '_primary'       => false,
                     '_first'         => false,
                     '_after'         => 'field_blob',
-                    '_bindType'      => Column::BIND_PARAM_BOOL,
+                    '_bindType'      => Column::BIND_PARAM_INT,
                 ]
             ),
             3  =>  Column::__set_state(
@@ -101,14 +101,14 @@ class DescribeCest
                     '_isNumeric'     => false,
                     '_size'          => 1,
                     '_scale'         => 0,
-                    '_default'       => "b'1",
+                    '_default'       => "b'1'",
                     '_unsigned'      => false,
                     '_notNull'       => false,
                     '_autoIncrement' => false,
                     '_primary'       => false,
                     '_first'         => false,
                     '_after'         => 'field_bit',
-                    '_bindType'      => Column::BIND_PARAM_BOOL,
+                    '_bindType'      => Column::BIND_PARAM_INT,
                 ]
             ),
             4  =>  Column::__set_state(

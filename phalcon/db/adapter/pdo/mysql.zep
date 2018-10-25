@@ -144,7 +144,7 @@ class Mysql extends PdoAdapter
 				 * Boolean
 				 */
 				let definition["type"] = Column::TYPE_BIT,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
+					definition["bindType"] = Column::BIND_PARAM_INT;
 			/**
 			 * ENUM
 			 */
