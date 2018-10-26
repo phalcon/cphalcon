@@ -655,7 +655,6 @@ UNLOCK TABLES;
 
 
 drop table if exists `dialect_table`;
--- auto-generated definition
 create table dialect_table
 (
   field_primary           int auto_increment
@@ -704,15 +703,26 @@ create index dialect_table_two_fields
 on dialect_table (field_char, field_char_default);
 
 drop table if exists `dialect_table_remote`;
--- auto-generated definition
 create table dialect_table_remote
 (
-  field_remote_primary int auto_increment
+  field_primary int auto_increment
     primary key,
-  field_remote_integer int null,
-  constraint dialect_table_remote_dialect_table_field_integer_fk
-    foreign key (field_remote_integer) references dialect_table (field_integer)
+  field_text    varchar(20) null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+drop table if exists `dialect_table_intermediate`;
+create table dialect_table_intermediate
+(
+  field_primary_id int null,
+  field_remote_id  int null,
+  constraint dialect_table_intermediate_primary__fk
+    foreign key (field_primary_id) references dialect_table (field_primary),
+  constraint dialect_table_intermediate_remote__fk
+    foreign key (field_remote_id) references dialect_table_remote (field_primary)
+      on update cascade on delete set null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

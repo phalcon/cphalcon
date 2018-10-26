@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Db\Adapter\Pdo\Mysql;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
+use Phalcon\Db\Reference;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 
 class ColumnsCest
@@ -35,7 +36,7 @@ class ColumnsCest
      * @param \UnitTester $I
      * @since 2018-10-26
      */
-    public function checkColumnNames(\UnitTester $I)
+    public function checkColumns(\UnitTester $I)
     {
         $table = 'dialect_table';
         $expected = $this->getExpectedColumns();
@@ -55,6 +56,40 @@ class ColumnsCest
         $expected = $this->getExpectedIndexes();
         $I->assertEquals($expected, $this->connection->describeIndexes($table));
         $I->assertEquals($expected, $this->connection->describeIndexes($table, TEST_DB_MYSQL_NAME));
+    }
+
+    /**
+     * Test the `describeReferences` count
+     *
+     * @param \UnitTester $I
+     * @since 2018-10-26
+     */
+    public function checkReferencesCount(\UnitTester $I)
+    {
+        $table      = 'dialect_table_intermediate';
+        $references = $this->connection->describeReferences($table);
+        $I->assertEquals(2, count($references));
+        $references = $this->connection->describeReferences($table, TEST_DB_MYSQL_NAME);
+        $I->assertEquals(2, count($references));
+
+        /** @var Reference $reference */
+        foreach ($references as $reference) {
+            $I->assertEquals(1, count($reference->getColumns()));
+        }
+    }
+
+    /**
+     * Test the `describeReferences`
+     *
+     * @param \UnitTester $I
+     * @since 2018-10-26
+     */
+    public function checkReferences(\UnitTester $I)
+    {
+        $table    = 'dialect_table_intermediate';
+        $expected = $this->getExpectedReferences();
+        $I->assertEquals($expected, $this->connection->describeReferences($table));
+        $I->assertEquals($expected, $this->connection->describeReferences($table, TEST_DB_MYSQL_NAME));
     }
 
     /**
@@ -721,6 +756,33 @@ class ColumnsCest
         ];
     }
 
+    private function getExpectedReferences(): array
+    {
+        return [
+            'dialect_table_intermediate_primary__fk' => Reference::__set_state(
+                [
+                    '_referenceName'     => 'dialect_table_intermediate_primary__fk',
+                    '_referencedTable'   => 'dialect_table',
+                    '_columns'           => ['field_primary_id'],
+                    '_referencedColumns' => ['field_primary'],
+                    '_referencedSchema'  => TEST_DB_MYSQL_NAME,
+                    '_onUpdate'          => 'RESTRICT',
+                    '_onDelete'          => 'RESTRICT'
+                ]
+            ),
+            'dialect_table_intermediate_remote__fk' => Reference::__set_state(
+                [
+                    '_referenceName'     => 'dialect_table_intermediate_remote__fk',
+                    '_referencedTable'   => 'dialect_table_remote',
+                    '_columns'           => ['field_remote_id'],
+                    '_referencedColumns' => ['field_primary'],
+                    '_referencedSchema'  => TEST_DB_MYSQL_NAME,
+                    '_onUpdate'          => 'CASCADE',
+                    '_onDelete'          => 'SET NULL'
+                ]
+            ),
+        ];
+    }
 //    public function testDbMysql()
 //    {
 //        $describeIndexes = $connection->describeIndexes('issue_11036');

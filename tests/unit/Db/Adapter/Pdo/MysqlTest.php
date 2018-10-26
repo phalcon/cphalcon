@@ -53,29 +53,6 @@ class MysqlTest extends UnitTest
     }
 
     /**
-     * Tests Mysql::describeReferences
-     *
-     * @author Wojciechj Ślawski <jurigag@gmail.com>
-     * @since  2016-09-28
-     */
-    public function testDescribeReferencesColumnsCount()
-    {
-        $this->specify(
-            'The table references list contains wrong number of columns',
-            function () {
-                $references = $this->connection->describeReferences('robots_parts', TEST_DB_MYSQL_NAME);
-                expect($references)->count(2);
-                expect($this->connection->describeReferences('robots_parts', null))->count(2);
-
-                /** @var Reference $reference */
-                foreach ($references as $reference) {
-                    expect($reference->getColumns())->count(1);
-                }
-            }
-        );
-    }
-
-    /**
      * Tests Mysql::escapeIdentifier
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
