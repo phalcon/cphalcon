@@ -2,95 +2,16 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo\Mysql;
 
+use Helper\Db\Adapter\Pdo\MysqlTrait;
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Test\Unit\Db\Adapter\Pdo\ColumnsBase;
 
-class ColumnsCest
+class ColumnsCest extends ColumnsBase
 {
-    /**
-     * @var Mysql
-     */
-    protected $connection;
-
-    public function _before(\UnitTester $I)
-    {
-        try {
-            $this->connection = new Mysql([
-                'host'     => TEST_DB_MYSQL_HOST,
-                'username' => TEST_DB_MYSQL_USER,
-                'password' => TEST_DB_MYSQL_PASSWD,
-                'dbname'   => TEST_DB_MYSQL_NAME,
-                'port'     => TEST_DB_MYSQL_PORT,
-                'charset'  => TEST_DB_MYSQL_CHARSET,
-            ]);
-        } catch (\PDOException $e) {
-            throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Test the `describeColumns`
-     *
-     * @param \UnitTester $I
-     * @since 2018-10-26
-     */
-    public function checkColumns(\UnitTester $I)
-    {
-        $table = 'dialect_table';
-        $expected = $this->getExpectedColumns();
-        $I->assertEquals($expected, $this->connection->describeColumns($table));
-        $I->assertEquals($expected, $this->connection->describeColumns($table, TEST_DB_MYSQL_NAME));
-    }
-
-    /**
-     * Test the `describeIndexes`
-     *
-     * @param \UnitTester $I
-     * @since 2018-10-26
-     */
-    public function checkColumnIndexes(\UnitTester $I)
-    {
-        $table = 'dialect_table';
-        $expected = $this->getExpectedIndexes();
-        $I->assertEquals($expected, $this->connection->describeIndexes($table));
-        $I->assertEquals($expected, $this->connection->describeIndexes($table, TEST_DB_MYSQL_NAME));
-    }
-
-    /**
-     * Test the `describeReferences` count
-     *
-     * @param \UnitTester $I
-     * @since 2018-10-26
-     */
-    public function checkReferencesCount(\UnitTester $I)
-    {
-        $table      = 'dialect_table_intermediate';
-        $references = $this->connection->describeReferences($table);
-        $I->assertEquals(2, count($references));
-        $references = $this->connection->describeReferences($table, TEST_DB_MYSQL_NAME);
-        $I->assertEquals(2, count($references));
-
-        /** @var Reference $reference */
-        foreach ($references as $reference) {
-            $I->assertEquals(1, count($reference->getColumns()));
-        }
-    }
-
-    /**
-     * Test the `describeReferences`
-     *
-     * @param \UnitTester $I
-     * @since 2018-10-26
-     */
-    public function checkReferences(\UnitTester $I)
-    {
-        $table    = 'dialect_table_intermediate';
-        $expected = $this->getExpectedReferences();
-        $I->assertEquals($expected, $this->connection->describeReferences($table));
-        $I->assertEquals($expected, $this->connection->describeReferences($table, TEST_DB_MYSQL_NAME));
-    }
+    use MysqlTrait;
 
     /**
      * Return the array of expected columns
@@ -98,7 +19,7 @@ class ColumnsCest
      * @return array
      * @since 2018-10-26
      */
-    private function getExpectedColumns(): array
+    protected function getExpectedColumns(): array
     {
         return [
             0  =>  Column::__set_state(
@@ -722,7 +643,7 @@ class ColumnsCest
      * @return array
      * @since 2018-10-26
      */
-    private function getExpectedIndexes(): array
+    protected function getExpectedIndexes(): array
     {
         return [
             'PRIMARY'  =>  Index::__set_state(
@@ -756,7 +677,12 @@ class ColumnsCest
         ];
     }
 
-    private function getExpectedReferences(): array
+    /**
+     * Return the array of expected references
+     *
+     * @return array
+     */
+    protected function getExpectedReferences(): array
     {
         return [
             'dialect_table_intermediate_primary__fk' => Reference::__set_state(
@@ -765,9 +691,9 @@ class ColumnsCest
                     '_referencedTable'   => 'dialect_table',
                     '_columns'           => ['field_primary_id'],
                     '_referencedColumns' => ['field_primary'],
-                    '_referencedSchema'  => TEST_DB_MYSQL_NAME,
-                    '_onUpdate'          => 'RESTRICT1',
-                    '_onDelete'          => 'RESTRICT1'
+                    '_referencedSchema'  => $this->databaseName,
+                    '_onUpdate'          => 'RESTRICT',
+                    '_onDelete'          => 'RESTRICT'
                 ]
             ),
             'dialect_table_intermediate_remote__fk' => Reference::__set_state(
@@ -776,52 +702,11 @@ class ColumnsCest
                     '_referencedTable'   => 'dialect_table_remote',
                     '_columns'           => ['field_remote_id'],
                     '_referencedColumns' => ['field_primary'],
-                    '_referencedSchema'  => TEST_DB_MYSQL_NAME,
-                    '_onUpdate'          => 'CASCADE1',
-                    '_onDelete'          => 'SET NULL1'
+                    '_referencedSchema'  => $this->databaseName,
+                    '_onUpdate'          => 'CASCADE',
+                    '_onDelete'          => 'SET NULL'
                 ]
             ),
         ];
     }
-//    public function testDbMysql()
-//    {
-//        $describeIndexes = $connection->describeIndexes('issue_11036');
-//        $this->assertEquals($describeIndexes, $expectedIndexes);
-//
-//        $describeIndexes = $connection->describeIndexes('issue_11036', 'phalcon_test');
-//        $this->assertEquals($describeIndexes, $expectedIndexes);
-//
-//        //References
-//        $expectedReferences = [
-//            'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(
-//                [
-//                    '_referenceName' => 'robots_parts_ibfk_1',
-//                    '_referencedTable' => 'robots',
-//                    '_columns' => ['robots_id'],
-//                    '_referencedColumns' => ['id'],
-//                    '_referencedSchema' => 'phalcon_test',
-//                    '_onUpdate' => 'RESTRICT',
-//                    '_onDelete' => 'RESTRICT'
-//                ]
-//            ),
-//            'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(
-//                [
-//                    '_referenceName' => 'robots_parts_ibfk_2',
-//                    '_referencedTable' => 'parts',
-//                    '_columns' => ['parts_id'],
-//                    '_referencedColumns' => ['id'],
-//                    '_referencedSchema' => 'phalcon_test',
-//                    '_onUpdate' => 'RESTRICT',
-//                    '_onDelete' => 'RESTRICT'
-//                ]
-//            ),
-//        ];
-//
-//        $describeReferences = $connection->describeReferences('robots_parts');
-//        $this->assertEquals($describeReferences, $expectedReferences);
-//
-//        $describeReferences = $connection->describeReferences('robots_parts', 'phalcon_test');
-//        $this->assertEquals($describeReferences, $expectedReferences);
-//
-//    }
 }

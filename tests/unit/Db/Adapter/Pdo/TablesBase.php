@@ -2,14 +2,32 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo\Mysql;
 
-use Helper\Db\Adapter\Pdo\MysqlTrait;
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 
-class TablesCest
+class TablesBase
 {
-    use MysqlTrait;
+    /**
+     * @var Mysql
+     */
+    protected $connection;
+
+    public function _before(\UnitTester $I)
+    {
+        try {
+            $this->connection = new Mysql([
+                'host'     => TEST_DB_MYSQL_HOST,
+                'username' => TEST_DB_MYSQL_USER,
+                'password' => TEST_DB_MYSQL_PASSWD,
+                'dbname'   => TEST_DB_MYSQL_NAME,
+                'port'     => TEST_DB_MYSQL_PORT,
+                'charset'  => TEST_DB_MYSQL_CHARSET,
+            ]);
+        } catch (\PDOException $e) {
+            throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+        }
+    }
 
     /**
      * Test the `listTables`
