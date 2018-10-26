@@ -44,12 +44,12 @@ class Column implements ColumnInterface
 	/**
 	 * Bind Type Blob
 	 */
-	const BIND_PARAM_BLOB = 3;
+	const BIND_PARAM_BLOB    = 3;
 
 	/**
 	 * Bind Type Bool
 	 */
-	const BIND_PARAM_BOOL = 5;
+	const BIND_PARAM_BOOL    = 5;
 
 	/**
 	 * Bind Type Decimal
@@ -59,17 +59,17 @@ class Column implements ColumnInterface
 	/**
 	 * Bind Type Integer
 	 */
-	const BIND_PARAM_INT = 1;
+	const BIND_PARAM_INT     = 1;
 
 	/**
 	 * Bind Type Null
 	 */
-	const BIND_PARAM_NULL = 0;
+	const BIND_PARAM_NULL    = 0;
 
 	/**
 	 * Bind Type String
 	 */
-	const BIND_PARAM_STR = 2;
+	const BIND_PARAM_STR     = 2;
 
 	/**
 	 * Skip binding by type
@@ -79,137 +79,137 @@ class Column implements ColumnInterface
 	/**
 	 * Big integer abstract data type
 	 */
-	const TYPE_BIGINTEGER 		= 14;
+	const TYPE_BIGINTEGER 	 = 14;
 
 	/**
 	 * Bit abstract data type
 	 */
-	const TYPE_BIT 				= 19;
+	const TYPE_BIT 			 = 19;
 
 	/**
 	 * Blob abstract data type
 	 */
-	const TYPE_BLOB 			= 11;
+	const TYPE_BLOB 		 = 11;
 
 	/**
 	 * Bool abstract data type
 	 */
-	const TYPE_BOOLEAN 			= 8;
+	const TYPE_BOOLEAN 		 = 8;
 
 	/**
 	 * Char abstract data type
 	 */
-	const TYPE_CHAR 			= 5;
+	const TYPE_CHAR 		 = 5;
 
 	/**
 	 * Date abstract data type
 	 */
-	const TYPE_DATE 			= 1;
+	const TYPE_DATE 		 = 1;
 
 	/**
 	 * Datetime abstract data type
 	 */
-	const TYPE_DATETIME 		= 4;
+	const TYPE_DATETIME 	 = 4;
 
 	/**
 	 * Decimal abstract data type
 	 */
-	const TYPE_DECIMAL 			= 3;
+	const TYPE_DECIMAL 		 = 3;
 
 	/**
 	 * Double abstract data type
 	 */
-	const TYPE_DOUBLE 			= 9;
+	const TYPE_DOUBLE 		 = 9;
 
 	/**
 	 * Enum abstract data type
 	 */
-	const TYPE_ENUM 			= 18;
+	const TYPE_ENUM 		 = 18;
 
 	/**
 	 * Float abstract data type
 	 */
-	const TYPE_FLOAT 			= 7;
+	const TYPE_FLOAT 		 = 7;
 
 	/**
 	 * Int abstract data type
 	 */
-	const TYPE_INTEGER 			= 0;
+	const TYPE_INTEGER 		 = 0;
 
 	/**
 	 * Json abstract data type
 	 */
-	const TYPE_JSON 			= 15;
+	const TYPE_JSON 		 = 15;
 
 	/**
 	 * Jsonb abstract data type
 	 */
-	const TYPE_JSONB 			= 16;
+	const TYPE_JSONB 		 = 16;
 
 	/**
 	 * Longblob abstract data type
 	 */
-	const TYPE_LONGBLOB 		= 13;
+	const TYPE_LONGBLOB 	 = 13;
 
 	/**
 	 * Longtext abstract data type
 	 */
-	const TYPE_LONGTEXT 		= 24;
+	const TYPE_LONGTEXT 	 = 24;
 
 	/**
 	 * Mediumblob abstract data type
 	 */
-	const TYPE_MEDIUMBLOB 		= 12;
+	const TYPE_MEDIUMBLOB 	 = 12;
 
 	/**
 	 * Mediumintegerr abstract data type
 	 */
-	const TYPE_MEDIUMINTEGER 	= 21;
+	const TYPE_MEDIUMINTEGER = 21;
 
 	/**
 	 * Mediumtext abstract data type
 	 */
-	const TYPE_MEDIUMTEXT 		= 23;
+	const TYPE_MEDIUMTEXT 	 = 23;
 
 	/**
 	 * Smallint abstract data type
 	 */
-	const TYPE_SMALLINTEGER 	= 22;
+	const TYPE_SMALLINTEGER  = 22;
 
 	/**
 	 * Text abstract data type
 	 */
-	const TYPE_TEXT 			= 6;
+	const TYPE_TEXT 		 = 6;
 
 	/**
 	 * Time abstract data type
 	 */
-	const TYPE_TIME 			= 20;
+	const TYPE_TIME 		 = 20;
 
 	/**
 	 * Timestamp abstract data type
 	 */
-	const TYPE_TIMESTAMP 		= 17;
+	const TYPE_TIMESTAMP 	 = 17;
 
 	/**
 	 * Tinyblob abstract data type
 	 */
-	const TYPE_TINYBLOB 		= 10;
+	const TYPE_TINYBLOB 	 = 10;
 
 	/**
 	 * Tinyint abstract data type
 	 */
-	const TYPE_TINYINTEGER 		= 26;
+	const TYPE_TINYINTEGER 	 = 26;
 
 	/**
 	 * Tinytext abstract data type
 	 */
-	const TYPE_TINYTEXT 		= 25;
+	const TYPE_TINYTEXT 	 = 25;
 
 	/**
 	 * Varchar abstract data type
 	 */
-	const TYPE_VARCHAR 			= 2;
+	const TYPE_VARCHAR 		 = 2;
 
 	/**
 	 * Column Position
