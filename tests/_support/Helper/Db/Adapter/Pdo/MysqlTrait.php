@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Helper\Db\Adapter\Pdo;
 
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -10,8 +19,6 @@ trait MysqlTrait
      * @var Mysql
      */
     protected $connection;
-
-    protected $databaseName = TEST_DB_MYSQL_HOST;
 
     public function _before(\UnitTester $I)
     {
@@ -27,5 +34,15 @@ trait MysqlTrait
         } catch (\PDOException $e) {
             throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Returns the database name
+     *
+     * @return string
+     */
+    protected function getDatabaseName(): string
+    {
+        return TEST_DB_MYSQL_NAME;
     }
 }

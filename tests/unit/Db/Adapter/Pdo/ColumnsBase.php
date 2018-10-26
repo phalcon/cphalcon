@@ -1,18 +1,18 @@
 <?php
 
-namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Phalcon\Db\Column;
-use Phalcon\Db\Index;
-use Phalcon\Db\Reference;
-use Phalcon\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
 class ColumnsBase
 {
-    protected $connection;
-
-    protected $databaseName;
-
     /**
      * Test the `describeColumns`
      *
@@ -24,8 +24,25 @@ class ColumnsBase
         $table = 'dialect_table';
         $expected = $this->getExpectedColumns();
         $I->assertEquals($expected, $this->connection->describeColumns($table));
-        $I->assertEquals($expected, $this->connection->describeColumns($table, $this->databaseName));
+        $I->assertEquals($expected, $this->connection->describeColumns($table, $this->getDatabaseName()));
     }
+
+    public function checkColumnsAsObject(\UnitTester $I)
+    {
+        $columns         = $this->getColumns();
+        $expectedColumns = $this->getExpectedColumns();
+
+        foreach ($expectedColumns as $index => $column) {
+            $I->assertEquals($columns[$index]['_columnName'], $column->getName());
+            $I->assertEquals($columns[$index]['_type'], $column->getType());
+            $I->assertEquals($columns[$index]['_isNumeric'], $column->isNumeric());
+            $I->assertEquals($columns[$index]['_size'], $column->getSize());
+            $I->assertEquals($columns[$index]['_scale'], $column->getScale());
+            $I->assertEquals($columns[$index]['_notNull'], $column->isNotNull());
+            $I->assertEquals($columns[$index]['_unsigned'], $column->isUnsigned());
+        }
+    }
+
 
     /**
      * Test the `describeIndexes`
@@ -38,7 +55,7 @@ class ColumnsBase
         $table = 'dialect_table';
         $expected = $this->getExpectedIndexes();
         $I->assertEquals($expected, $this->connection->describeIndexes($table));
-        $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->databaseName));
+        $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->getDatabaseName()));
     }
 
     /**
@@ -52,7 +69,7 @@ class ColumnsBase
         $table      = 'dialect_table_intermediate';
         $references = $this->connection->describeReferences($table);
         $I->assertEquals(2, count($references));
-        $references = $this->connection->describeReferences($table, $this->databaseName);
+        $references = $this->connection->describeReferences($table, $this->getDatabaseName());
         $I->assertEquals(2, count($references));
 
         /** @var Reference $reference */
@@ -72,6 +89,6 @@ class ColumnsBase
         $table    = 'dialect_table_intermediate';
         $expected = $this->getExpectedReferences();
         $I->assertEquals($expected, $this->connection->describeReferences($table));
-        $I->assertEquals($expected, $this->connection->describeReferences($table, $this->databaseName));
+        $I->assertEquals($expected, $this->connection->describeReferences($table, $this->getDatabaseName()));
     }
 }
