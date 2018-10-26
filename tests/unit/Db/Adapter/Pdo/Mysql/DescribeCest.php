@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Db;
+namespace Phalcon\Test\Unit\Db\Adapter\Pdo\Mysql;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -30,9 +30,58 @@ class DescribeCest
     }
 
     /**
+     * Test the `listTables`
+     *
+     * @param \UnitTester $I
+     * @since  2016-08-03
+     */
+    public function checkListTables(\UnitTester $I)
+    {
+        $expected = [
+            'albums',
+            'artists',
+            'childs',
+            'customers',
+            'dialect_table',
+            'dialect_table_remote',
+            'foreign_key_child',
+            'foreign_key_parent',
+            'identityless_requests',
+            'issue12071_body',
+            'issue12071_head',
+            'issue_11036',
+            'issue_1534',
+            'issue_2019',
+            'm2m_parts',
+            'm2m_robots',
+            'm2m_robots_parts',
+            'package_details',
+            'packages',
+            'parts',
+            'personas',
+            'personnes',
+            'ph_select',
+            'prueba',
+            'robots',
+            'robots_parts',
+            'songs',
+            'stats',
+            'stock',
+            'subscriptores',
+            'table_with_string_field',
+            'tipo_documento',
+            'users',
+        ];
+
+        $I->assertEquals($expected, $this->connection->listTables());
+        $I->assertEquals($expected, $this->connection->listTables(TEST_DB_MYSQL_NAME));
+    }
+
+    /**
      * Test the `tableExists`
      *
      * @param \UnitTester $I
+     * @since 2018-10-26
      */
     public function checkTableExists(\UnitTester $I)
     {
@@ -47,15 +96,17 @@ class DescribeCest
      * Test the `tableOptions`
      *
      * @param \UnitTester $I
+     * @since 2018-10-26
      */
     public function checkTableOptions(\UnitTester $I)
     {
         $table    = 'dialect_table';
         $expected = [
             'table_type'      => 'BASE TABLE',
-            'auto_increment'  => null,
+            'auto_increment'  => '1',
             'engine'          => 'InnoDB',
-            'table_collation' => 'utf8_unicode_ci',
+            'table_collation' => 'utf8_general_ci',
+            'table_type' => 'BASE TABLE'
         ];
 
         $I->assertEquals($expected, $this->connection->tableOptions($table, TEST_DB_MYSQL_NAME));
@@ -65,6 +116,7 @@ class DescribeCest
      * Test the `describeColumns`
      *
      * @param \UnitTester $I
+     * @since 2018-10-26
      */
     public function checkColumnNames(\UnitTester $I)
     {
@@ -78,6 +130,7 @@ class DescribeCest
      * Test the `describeIndexes`
      *
      * @param \UnitTester $I
+     * @since 2018-10-26
      */
     public function checkColumnIndexes(\UnitTester $I)
     {
@@ -91,6 +144,7 @@ class DescribeCest
      * Return the array of expected columns
      *
      * @return array
+     * @since 2018-10-26
      */
     private function getExpectedColumns(): array
     {
@@ -714,32 +768,33 @@ class DescribeCest
      * Return the array of expected indexes
      *
      * @return array
+     * @since 2018-10-26
      */
     private function getExpectedIndexes(): array
     {
         return [
-            0  =>  Index::__set_state(
+            'PRIMARY'  =>  Index::__set_state(
                 [
                     '_name'    => 'PRIMARY',
                     '_columns' => ['field_primary'],
                     '_type'    => 'PRIMARY',
                 ]
             ),
-            1  =>  Index::__set_state(
+            'dialect_table_unique'  =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_unique',
                     '_columns' => ['field_mediumint'],
                     '_type'    => 'UNIQUE',
                 ]
             ),
-            2  =>  Index::__set_state(
+            'dialect_table_index'  =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_index',
                     '_columns' => ['field_integer'],
                     '_type'    => 'INDEX',
                 ]
             ),
-            3  =>  Index::__set_state(
+            'dialect_table_two_fields'  =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_two_fields',
                     '_columns' => ['field_char', 'field_char_default'],
