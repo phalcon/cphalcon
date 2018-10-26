@@ -700,22 +700,22 @@ class ColumnsCest
             'dialect_table_unique'  =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_unique',
-                    '_columns' => ['field_mediumint'],
+                    '_columns' => ['field_integer'],
                     '_type'    => 'UNIQUE',
                 ]
             ),
             'dialect_table_index'  =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_index',
-                    '_columns' => ['field_integer'],
-                    '_type'    => 'INDEX',
+                    '_columns' => ['field_bigint'],
+                    '_type'    => '',
                 ]
             ),
             'dialect_table_two_fields'  =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_two_fields',
                     '_columns' => ['field_char', 'field_char_default'],
-                    '_type'    => 'INDEX',
+                    '_type'    => '',
                 ]
             ),
         ];

@@ -53,58 +53,6 @@ class MysqlTest extends UnitTest
     }
 
     /**
-     * Tests Mysql::listTables
-     *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-08-03
-     */
-    public function testListTables()
-    {
-        $this->specify(
-            'List all tables on a database does not return correct result',
-            function () {
-                $expected = [
-                    'albums',
-                    'artists',
-                    'childs',
-                    'customers',
-                    'dialect_table',
-                    'foreign_key_child',
-                    'foreign_key_parent',
-                    'identityless_requests',
-                    'issue12071_body',
-                    'issue12071_head',
-                    'issue_11036',
-                    'issue_1534',
-                    'issue_2019',
-                    'm2m_parts',
-                    'm2m_robots',
-                    'm2m_robots_parts',
-                    'package_details',
-                    'packages',
-                    'parts',
-                    'personas',
-                    'personnes',
-                    'ph_select',
-                    'prueba',
-                    'robots',
-                    'robots_parts',
-                    'songs',
-                    'stats',
-                    'stock',
-                    'subscriptores',
-                    'table_with_string_field',
-                    'tipo_documento',
-                    'users',
-                ];
-
-                expect($this->connection->listTables())->equals($expected);
-                expect($this->connection->listTables(env('TEST_DB_MYSQL_NAME', 'phalcon_test')))->equals($expected);
-            }
-        );
-    }
-
-    /**
      * Tests Mysql::describeReferences
      *
      * @author Wojciechj Ślawski <jurigag@gmail.com>

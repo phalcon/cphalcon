@@ -37,42 +37,7 @@ class TablesCest
      */
     public function checkListTables(\UnitTester $I)
     {
-        $expected = [
-            'albums',
-            'artists',
-            'childs',
-            'customers',
-            'dialect_table',
-            'dialect_table_remote',
-            'foreign_key_child',
-            'foreign_key_parent',
-            'identityless_requests',
-            'issue12071_body',
-            'issue12071_head',
-            'issue_11036',
-            'issue_1534',
-            'issue_2019',
-            'm2m_parts',
-            'm2m_robots',
-            'm2m_robots_parts',
-            'package_details',
-            'packages',
-            'parts',
-            'personas',
-            'personnes',
-            'ph_select',
-            'prueba',
-            'robots',
-            'robots_parts',
-            'songs',
-            'stats',
-            'stock',
-            'subscriptores',
-            'table_with_string_field',
-            'tipo_documento',
-            'users',
-        ];
-
+        $expected = $this->getListTables();
         $I->assertEquals($expected, $this->connection->listTables());
         $I->assertEquals($expected, $this->connection->listTables(TEST_DB_MYSQL_NAME));
     }
@@ -110,5 +75,49 @@ class TablesCest
         ];
 
         $I->assertEquals($expected, $this->connection->tableOptions($table, TEST_DB_MYSQL_NAME));
+    }
+
+    /**
+     * Returns the list of the tables in the database
+     *
+     * @return array
+     */
+    public function getListTables(): array
+    {
+        return [
+            'albums',
+            'artists',
+            'childs',
+            'customers',
+            'dialect_table',
+            'dialect_table_remote',
+            'foreign_key_child',
+            'foreign_key_parent',
+            'identityless_requests',
+            'issue12071_body',
+            'issue12071_head',
+            'issue_11036',
+            'issue_1534',
+            'issue_2019',
+            'm2m_parts',
+            'm2m_robots',
+            'm2m_robots_parts',
+            'package_details',
+            'packages',
+            'parts',
+            'personas',
+            'personnes',
+            'ph_select',
+            'prueba',
+            'robots',
+            'robots_parts',
+            'songs',
+            'stats',
+            'stock',
+            'subscriptores',
+            'table_with_string_field',
+            'tipo_documento',
+            'users',
+        ];
     }
 }
