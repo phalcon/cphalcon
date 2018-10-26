@@ -152,9 +152,29 @@ class Column implements ColumnInterface
 	const TYPE_LONGBLOB = 13;
 
 	/**
+	 * Longtext abstract data type
+	 */
+	const TYPE_LONGTEXT = 23;
+
+	/**
 	 * Mediumblob abstract data type
 	 */
 	const TYPE_MEDIUMBLOB = 12;
+
+	/**
+	 * Mediumint abstract data type
+	 */
+	const TYPE_MEDIUMINTEGER = 20;
+
+	/**
+	 * Mediumtext abstract data type
+	 */
+	const TYPE_MEDIUMTEXT = 22;
+
+	/**
+	 * Smallint abstract data type
+	 */
+	const TYPE_SMALLINTEGER = 21;
 
 	/**
 	 * Text abstract data type
@@ -162,7 +182,12 @@ class Column implements ColumnInterface
 	const TYPE_TEXT = 6;
 
 	/**
-	 * Datetime abstract type
+	 * Time abstract type
+	 */
+	const TYPE_TIME = 19;
+
+	/**
+	 * Timestamp abstract type
 	 */
 	const TYPE_TIMESTAMP = 17;
 
@@ -170,6 +195,11 @@ class Column implements ColumnInterface
 	 * Tinyblob abstract data type
 	 */
 	const TYPE_TINYBLOB = 10;
+
+	/**
+	 * Tinytext abstract data type
+	 */
+	const TYPE_TINYTEXT = 24;
 
 	/**
 	 * Varchar abstract type

@@ -131,13 +131,31 @@ class Mysql extends PdoAdapter
 					break;
 
 				/**
+				 * MEDIUMINT
+				 */
+				case memstr(columnType, "mediumint"):
+					let definition["type"] = Column::TYPE_MEDIUMINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+
+				/**
+				 * SMALLINT
+				 */
+				case memstr(columnType, "smallint"):
+					let definition["type"] = Column::TYPE_SMALLINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+
+				/**
 				 * TINYINT
 				 */
 				case memstr(columnType, "tinyint"):
 					/**
 					 * Smallint/Bigint/Integers/Int are int
 					 */
-					let definition["type"] = Column::TYPE_INTEGER,
+					let definition["type"] = Column::TYPE_TINYINTEGER,
 						definition["isNumeric"] = true,
 						definition["bindType"] = Column::BIND_PARAM_INT;
 					break;
@@ -234,9 +252,6 @@ class Mysql extends PdoAdapter
 				 * BLOB
 				 */
 				case memstr(columnType, "blob"):
-					/**
-					 * Blob
-					 */
 					let definition["type"] = Column::TYPE_BLOB;
 					break;
 
@@ -244,10 +259,14 @@ class Mysql extends PdoAdapter
 				 * TIMESTAMP
 				 */
 				case memstr(columnType, "timestamp"):
-					/**
-					 * Timestamp are dates
-					 */
 					let definition["type"] = Column::TYPE_TIMESTAMP;
+					break;
+
+				/**
+				 * TIME
+				 */
+				case memstr(columnType, "time"):
+					let definition["type"] = Column::TYPE_TIME;
 					break;
 
 				/**
@@ -255,6 +274,27 @@ class Mysql extends PdoAdapter
 				 */
 				case memstr(columnType, "json"):
 					let definition["type"] = Column::TYPE_JSON;
+					break;
+
+				/**
+				 * LONGTEXT
+				 */
+				case memstr(columnType, "longtext"):
+					let definition["type"] = Column::TYPE_LONGTEXT;
+					break;
+
+				/**
+				 * MEDIUMTEXT
+				 */
+				case memstr(columnType, "mediumtext"):
+					let definition["type"] = Column::TYPE_MEDIUMTEXT;
+					break;
+
+				/**
+				 * TINYTEXT
+				 */
+				case memstr(columnType, "tinytext"):
+					let definition["type"] = Column::TYPE_TINYTEXT;
 					break;
 
 				/**
@@ -275,10 +315,6 @@ class Mysql extends PdoAdapter
 				 * CHAR
 				 */
 				case memstr(columnType, "char"):
-					/**
-					 * Chars are chars - This has to be below VARCHAR so as not to
-					 * have false positives
-					 */
 					let definition["type"] = Column::TYPE_CHAR;
 					break;
 
@@ -286,176 +322,9 @@ class Mysql extends PdoAdapter
 				 * Default
 				 */
 				default:
-					/**
-					 * By default is string
-					 */
 					let definition["type"] = Column::TYPE_VARCHAR;
 					break;
 			}
-
-//			/**
-//			 * BOOL
-//			 */
-//			if memstr(columnType, "tinyint(1)") {
-//				/**
-//				 * tinyint(1) is boolean
-//				 */
-//				let definition["type"] = Column::TYPE_BOOLEAN,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_BOOL;
-//
-//			/**
-//			 * BIGINT
-//			 */
-//			} elseif memstr(columnType, "bigint") {
-//				let definition["type"] = Column::TYPE_BIGINTEGER,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_INT;
-//			/**
-//			 * TINYINT
-//			 */
-//			} elseif memstr(columnType, "tinyint") {
-//				/**
-//				 * Smallint/Bigint/Integers/Int are int
-//				 */
-//				let definition["type"] = Column::TYPE_INTEGER,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_INT;
-//			/**
-//			 * INT
-//			 */
-//			} elseif memstr(columnType, "int") {
-//				/**
-//				 * Smallint/Bigint/Integers/Int are int
-//				 */
-//				let definition["type"] = Column::TYPE_INTEGER,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_INT;
-//
-//			/**
-//			 * BIT
-//			 */
-//			} elseif memstr(columnType, "bit") {
-//				/**
-//				 * Boolean
-//				 */
-//				let definition["type"] = Column::TYPE_BIT,
-//					definition["bindType"] = Column::BIND_PARAM_INT;
-//			/**
-//			 * ENUM
-//			 */
-//			} elseif memstr(columnType, "enum") {
-//				/**
-//				 * Enum are enum
-//				 */
-//				let definition["type"] = Column::TYPE_ENUM;
-//
-//			/**
-//			 * DATE/DATETIME
-//			 */
-//			} elseif memstr(columnType, "datetime") {
-//				/**
-//				 * Special type for datetime
-//				 */
-//				let definition["type"] = Column::TYPE_DATETIME;
-//			} elseif memstr(columnType, "date") {
-//				/**
-//				 * Date are dates
-//				 */
-//				let definition["type"] = Column::TYPE_DATE;
-//
-//			/**
-//			 * FLOAT/DECIMAL/DOUBLE
-//			 */
-//			} elseif memstr(columnType, "decimal") {
-//				/**
-//				 * Decimals are floats
-//				 */
-//				let definition["type"] = Column::TYPE_DECIMAL,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-//			} elseif memstr(columnType, "double") {
-//				/**
-//				 * Doubles
-//				 */
-//				let definition["type"] = Column::TYPE_DOUBLE,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-//			} elseif memstr(columnType, "float") {
-//				/**
-//				 * Float/Smallfloats/Decimals are float
-//				 */
-//				let definition["type"] = Column::TYPE_FLOAT,
-//					definition["isNumeric"] = true,
-//					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-//
-//			/**
-//			 * BLOB
-//			 */
-//			} elseif memstr(columnType, "mediumblob") {
-//				/**
-//				 * Mediumblob
-//				 */
-//				let definition["type"] = Column::TYPE_MEDIUMBLOB;
-//			} elseif memstr(columnType, "longblob") {
-//				/**
-//				 * Longblob
-//				 */
-//				let definition["type"] = Column::TYPE_LONGBLOB;
-//			} elseif memstr(columnType, "tinyblob") {
-//				/**
-//				 * Tinyblob
-//				 */
-//				let definition["type"] = Column::TYPE_TINYBLOB;
-//			} elseif memstr(columnType, "blob") {
-//				/**
-//				 * Blob
-//				 */
-//				let definition["type"] = Column::TYPE_BLOB;
-//
-//			/**
-//			 * TIMESTAMP
-//			 */
-//			} elseif memstr(columnType, "timestamp") {
-//				/**
-//				 * Timestamp are dates
-//				 */
-//				let definition["type"] = Column::TYPE_TIMESTAMP;
-//
-//			/**
-//			 * JSON/JSONB
-//			 */
-//			} elseif memstr(columnType, "json") {
-//				/**
-//				 * Json
-//				 */
-//				let definition["type"] = Column::TYPE_JSON;
-//
-//			/**
-//			 * TEXT/VARCHAR/CHAR
-//			 */
-//			} elseif memstr(columnType, "text") {
-//				/**
-//				 * Text are varchars
-//				 */
-//				let definition["type"] = Column::TYPE_TEXT;
-//			} elseif memstr(columnType, "varchar") {
-//				/**
-//				 * Varchar are varchars
-//				 */
-//				let definition["type"] = Column::TYPE_VARCHAR;
-//			} elseif memstr(columnType, "char") {
-//				/**
-//				 * Chars are chars - This has to be below VARCHAR so as not to
-//				 * have false positives
-//				 */
-//				let definition["type"] = Column::TYPE_CHAR;
-//			} else {
-//				/**
-//				 * By default is string
-//				 */
-//				let definition["type"] = Column::TYPE_VARCHAR;
-//			}
 
 			/**
 			 * If the column type has a parentheses we try to get the column size from it
