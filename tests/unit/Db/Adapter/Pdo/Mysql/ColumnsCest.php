@@ -766,8 +766,8 @@ class ColumnsCest
                     '_columns'           => ['field_primary_id'],
                     '_referencedColumns' => ['field_primary'],
                     '_referencedSchema'  => TEST_DB_MYSQL_NAME,
-                    '_onUpdate'          => 'RESTRICT',
-                    '_onDelete'          => 'RESTRICT'
+                    '_onUpdate'          => 'RESTRICT1',
+                    '_onDelete'          => 'RESTRICT1'
                 ]
             ),
             'dialect_table_intermediate_remote__fk' => Reference::__set_state(
@@ -777,8 +777,8 @@ class ColumnsCest
                     '_columns'           => ['field_remote_id'],
                     '_referencedColumns' => ['field_primary'],
                     '_referencedSchema'  => TEST_DB_MYSQL_NAME,
-                    '_onUpdate'          => 'CASCADE',
-                    '_onDelete'          => 'SET NULL'
+                    '_onUpdate'          => 'CASCADE1',
+                    '_onDelete'          => 'SET NULL1'
                 ]
             ),
         ];

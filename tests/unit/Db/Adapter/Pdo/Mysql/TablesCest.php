@@ -71,7 +71,7 @@ class TablesCest
             'auto_increment'  => '1',
             'engine'          => 'InnoDB',
             'table_collation' => 'utf8_general_ci',
-            'table_type' => 'BASE TABLE'
+            'table_type'      => 'BASE TABLE'
         ];
 
         $I->assertEquals($expected, $this->connection->tableOptions($table, TEST_DB_MYSQL_NAME));
@@ -90,6 +90,7 @@ class TablesCest
             'childs',
             'customers',
             'dialect_table',
+            'dialect_table_intermediate',
             'dialect_table_remote',
             'foreign_key_child',
             'foreign_key_parent',
