@@ -58,7 +58,7 @@ class DescribeCest
             'table_collation' => 'utf8_unicode_ci',
         ];
 
-        $I->assertEquals($expected, ($this->connection->tableOptions($table, TEST_DB_MYSQL_NAME));
+        $I->assertEquals($expected, $this->connection->tableOptions($table, TEST_DB_MYSQL_NAME));
     }
 
     /**
