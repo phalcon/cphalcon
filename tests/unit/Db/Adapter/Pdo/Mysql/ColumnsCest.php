@@ -370,7 +370,7 @@ class ColumnsCest extends ColumnsBase
             21 =>  [
                 '_columnName'    => 'field_time',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_ΤΙΜΕ,
+                '_type'          => Column::TYPE_TIME,
                 '_isNumeric'     => false,
                 '_size'          => 0,
                 '_scale'         => 0,
@@ -386,7 +386,7 @@ class ColumnsCest extends ColumnsBase
             22 =>  [
                 '_columnName'    => 'field_time_default',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_ΤΙΜΕ,
+                '_type'          => Column::TYPE_TIME,
                 '_isNumeric'     => false,
                 '_size'          => 0,
                 '_scale'         => 0,

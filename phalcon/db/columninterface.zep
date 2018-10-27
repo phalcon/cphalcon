@@ -17,7 +17,6 @@ namespace Phalcon\Db;
  */
 interface ColumnInterface
 {
-
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
 	 */
@@ -125,6 +124,4 @@ interface ColumnInterface
 	 * Returns true if number column is unsigned
 	 */
 	public function isUnsigned() -> boolean;
-
-
 }

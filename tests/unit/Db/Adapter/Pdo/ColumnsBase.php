@@ -31,18 +31,26 @@ class ColumnsBase
     {
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
-
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals($columns[$index]['_columnName'], $column->getName());
+            $I->assertEquals($columns[$index]['_schemaName'], $column->getSchemaName());
             $I->assertEquals($columns[$index]['_type'], $column->getType());
             $I->assertEquals($columns[$index]['_isNumeric'], $column->isNumeric());
             $I->assertEquals($columns[$index]['_size'], $column->getSize());
             $I->assertEquals($columns[$index]['_scale'], $column->getScale());
-            $I->assertEquals($columns[$index]['_notNull'], $column->isNotNull());
+            $I->assertEquals($columns[$index]['_default'], $column->getDefault());
             $I->assertEquals($columns[$index]['_unsigned'], $column->isUnsigned());
+            $I->assertEquals($columns[$index]['_notNull'], $column->isNotNull());
+            $I->assertEquals($columns[$index]['_autoIncrement'], $column->isAutoIncrement());
+            $I->assertEquals($columns[$index]['_primary'], $column->isPrimary());
+            $I->assertEquals($columns[$index]['_first'], $column->isFirst());
+            $I->assertEquals($columns[$index]['_after'], $column->getAfterPosition());
+            $I->assertEquals($columns[$index]['_bindType'], $column->getBindType());
+            $I->assertTrue(null !== $column->hasDefault());
+//            public function getTypeReference() -> int;
+//            public function getTypeValues() -> int;
         }
     }
-
 
     /**
      * Test the `describeIndexes`
