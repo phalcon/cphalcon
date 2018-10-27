@@ -84,10 +84,10 @@ install:
   # For more see: http://en.wikipedia.org/wiki/Precompiled_header
   - cd ${TRAVIS_BUILD_DIR}/ext
   - |
-      for file in `find kernel -name "*.h"`; do
-          echo -e "Creating a precompiled header: ext/${file} => ext/${file}.ghc ...";
-          $CC "$file" -I. $(php-config --includes) -o "$file.ghc";
-      done
+    for file in `find kernel -name "*.h"`; do
+        echo -e "Creating a precompiled header: ext/${file} => ext/${file}.ghc ...";
+        $CC "$file" -I. $(php-config --includes) -o "$file.ghc";
+    done
   # You may need to remove all `&> /dev/null' and `--silent' for debug purposes
   - $(phpenv which phpize) &> /dev/null
   - ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null
@@ -117,12 +117,12 @@ script:
   - ln -s $TRAVIS_BUILD_DIR/ext/libtool $TRAVIS_BUILD_DIR/libtool
   # Syntax recognize tests
   - |
-      $(phpenv which php) $TRAVIS_BUILD_DIR/ext/run-tests.php \
-          -p $(phpenv which php) \
-          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
-          --offline \
-          --show-diff \
-          --set-timeout 120
+    $(phpenv which php) $TRAVIS_BUILD_DIR/ext/run-tests.php \
+        -p $(phpenv which php) \
+        -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
+        --offline \
+        --show-diff \
+        --set-timeout 120
   # Run code style tests
   - vendor/bin/phpcs
   # TODO: Refacto legacy unit tests from the "unit-tests" directory
@@ -136,14 +136,18 @@ script:
 #  - bash tests/_ci/after_failure.sh
 
 notifications:
-    # Stop spam me. I already live on Travis CI and GitHub
-    email:
-        on_success: never
-        on_failure: never
+  # Stop spam me. I already live on Travis CI and GitHub
+  email:
+    on_success: never
+    on_failure: never
 
 addons:
-    apt:
-        packages:
-            - beanstalkd
-            # Uncomment for debug
-            # - gdb
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+        - beanstalkd
+        # Uncomment for debug
+      # - gdb

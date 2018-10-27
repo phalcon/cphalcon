@@ -258,7 +258,7 @@ class ColumnsCest extends ColumnsBase
             14 =>  [
                 '_columnName'    => 'field_json',
                 '_schemaName'    => false,
-                '_type'          => Column::TYPE_TEXT,
+                '_type'          => Column::TYPE_JSON,
                 '_isNumeric'     => false,
                 '_size'          => 0,
                 '_scale'         => 0,
