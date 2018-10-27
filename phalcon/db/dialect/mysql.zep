@@ -816,15 +816,13 @@ class Mysql extends Dialect
 
 		if column->getSize() {
 			let columnSql .= "(" . column->getSize();
-			if checkScale {
-				if column->getScale() {
-					let columnSql .= "," . column->getScale() . ")";
-				} else {
-					let columnSql .= ")";
-				}
+			if column->getScale() {
+				let columnSql .= "," . column->getScale() . ")";
 			} else {
 				let columnSql .= ")";
 			}
+		} else {
+			let columnSql .= ")";
 		}
 
 		return columnSql;
