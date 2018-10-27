@@ -15,11 +15,6 @@ CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 
 
-echo -e "Setup password for MySQL..."
-mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-mysql_upgrade -u root -p
-sudo service mysql restart
-
 echo -e "Create MySQL database..."
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;"
 cat "${TRAVIS_BUILD_DIR}/tests/_data/schemas/mysql/phalcon_test.sql" | mysql -u root phalcon_test
