@@ -58,14 +58,14 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "BIGINT";
 				}
-				let columnSql .= this->checkColumnSize(column) . this->checkColumnUnsigned(column);
+				let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_BLOB:
 				if empty columnSql {
 					let columnSql .= "ΒΙΤ";
 				}
-				let columnSql .= this->checkColumnSize(column);
+				let columnSql .= this->getColumnSize(column);
 				break;
 
 			case Column::TYPE_BLOB:
@@ -84,7 +84,7 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "CHAR";
 				}
-				let columnSql .= this->checkColumnSize(column);
+				let columnSql .= this->getColumnSize(column);
 				break;
 
 			case Column::TYPE_DATE:
@@ -103,35 +103,35 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "DECIMAL";
 				}
-				let columnSql .= this->checkColumnSize(column, true) . this->checkColumnUnsigned(column);
+				let columnSql .= this->getColumnSizeAndScale(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_DOUBLE:
 				if empty columnSql {
 					let columnSql .= "DOUBLE";
 				}
-				let columnSql .= this->checkColumnSize(column, true) . this->checkColumnUnsigned(column);
+				let columnSql .= this->checkColumnSizeAndScale(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_ENUM:
 				if empty columnSql {
 					let columnSql .= "ENUM";
 				}
-				let columnSql .= this->checkColumnSize(column);
+				let columnSql .= this->getColumnSize(column);
 				break;
 
 			case Column::TYPE_FLOAT:
 				if empty columnSql {
 					let columnSql .= "FLOAT";
 				}
-				let columnSql .= this->checkColumnSize(column, true) . this->checkColumnUnsigned(column);
+				let columnSql .= this->checkColumnSizeAndScale(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_INTEGER:
 				if empty columnSql {
 					let columnSql .= "INT";
 				}
-				let columnSql .= this->checkColumnSize(column) . this->checkColumnUnsigned(column);
+				let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_JSON:
@@ -162,7 +162,7 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "MEDIUMINT";
 				}
-				let columnSql .= this->checkColumnSize(column) . this->checkColumnUnsigned(column);
+				let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_MEDIUMTEXT:
@@ -175,7 +175,7 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "SMALLINT";
 				}
-				let columnSql .= this->checkColumnSize(column) . this->checkColumnUnsigned(column);
+				let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_TEXT:
@@ -206,7 +206,7 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "TINYINT";
 				}
-				let columnSql .= this->checkColumnSize(column) . this->checkColumnUnsigned(column);
+				let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
 				break;
 
 			case Column::TYPE_TINYTEXT:
@@ -219,7 +219,7 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "VARCHAR";
 				}
-				let columnSql .= this->checkColumnSize(column);
+				let columnSql .= this->getColumnSize(column);
 				break;
 
 			default:
@@ -790,7 +790,27 @@ class Mysql extends Dialect
 		return sqlQuery . " LOCK IN SHARE MODE";
 	}
 
-	private function checkColumnSize(<ColumnInterface> column, bool checkScale = false) -> string
+	/**
+	 * Returns the size of the column enclosed in parentheses
+	 */
+	private function getColumnSize(<ColumnInterface> column) -> string
+	{
+		return "(" . column->getSize() . ")";
+	}
+
+	/**
+	 * Returns the column size and scale enclosed in parentheses
+	 */
+	private function getColumnSizeAndScale(<ColumnInterface> column) -> string
+	{
+		return "(" . column->getSize() . "," . column->getScale() . ")";
+	}
+
+	/**
+	 * Checks if the size and/or scale are present and encloses those values
+	 * in parentheses if need be
+	 */
+	private function checkColumnSizeAndScale(<ColumnInterface> column) -> string
 	{
 		var columnSql;
 
@@ -810,6 +830,9 @@ class Mysql extends Dialect
 		return columnSql;
 	}
 
+	/**
+	 * Checks if a column is unsigned or not and returns the relevant SQL syntax
+	 */
 	private function checkColumnUnsigned(<ColumnInterface> column) -> string
 	{
 		if column->isUnsigned() {
