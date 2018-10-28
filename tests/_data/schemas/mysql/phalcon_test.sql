@@ -669,7 +669,7 @@ create table dialect_table
   field_char              char(10)                                    null,
   field_char_default      char(10)      default 'ABC'                 null,
   field_decimal           decimal(10,4)                               null,
-  field_decimal_default   decimal(10,4) default 14.5600               null,
+  field_decimal_default   decimal(10,4) default 14.5678               null,
   field_integer           int(10)                                     null,
   field_integer_default   int(10)       default 1                     null,
   field_json              json                                        null,

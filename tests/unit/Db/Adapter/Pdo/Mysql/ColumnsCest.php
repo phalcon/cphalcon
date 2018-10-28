@@ -214,7 +214,7 @@ class ColumnsCest extends ColumnsBase
                 '_isNumeric'     => true,
                 '_size'          => 10,
                 '_scale'         => 4,
-                '_default'       => 14.5600,
+                '_default'       => '14.5678',
                 '_unsigned'      => false,
                 '_notNull'       => false,
                 '_autoIncrement' => false,
