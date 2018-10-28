@@ -205,7 +205,7 @@ class ColumnsCest extends ColumnsBase
                 '_primary'       => false,
                 '_first'         => false,
                 '_after'         => 'field_char_default',
-                '_bindType'      => Column::BIND_PARAM_DECIMAL,
+                '_bindType'      => Column::BIND_PARAM_STR,
             ],
             11 =>  [
                 '_columnName'    => 'field_decimal_default',
@@ -221,7 +221,7 @@ class ColumnsCest extends ColumnsBase
                 '_primary'       => false,
                 '_first'         => false,
                 '_after'         => 'field_decimal',
-                '_bindType'      => Column::BIND_PARAM_DECIMAL,
+                '_bindType'      => Column::BIND_PARAM_STR,
             ],
             12 =>  [
                 '_columnName'    => 'field_integer',
