@@ -672,7 +672,7 @@ create table dialect_table
   field_decimal_default   decimal(10,4) default 14.5600               null,
   field_integer           int(10)                                     null,
   field_integer_default   int(10)       default 1                     null,
-  field_json              text                                        null,
+  field_json              json                                        null,
   field_float             float(10,4)                                 null,
   field_float_default     float(10,4)   default 14.5600               null,
   field_date              date                                        null,

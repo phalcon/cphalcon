@@ -201,12 +201,12 @@ class Mysql extends PdoAdapter
 					break;
 
 				/**
-				 * DECIMAL
+				 * DECIMAL - This will need to be a string so as not to lose
+				 * the decimals
 				 */
 				case memstr(columnType, "decimal"):
 					let definition["type"] = Column::TYPE_DECIMAL,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+						definition["isNumeric"] = true;
 					break;
 
 				/**
