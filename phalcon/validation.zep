@@ -250,7 +250,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Adds filters to the field
 	 *
-	 * @param string field
+	 * @param array|string field
 	 * @param array|string filters
 	 * @return \Phalcon\Validation
 	 */
