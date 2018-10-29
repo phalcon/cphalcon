@@ -224,6 +224,22 @@ class ColumnsCest extends ColumnsBase
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
             12 =>  [
+                '_columnName'    => 'field_enum',
+                '_schemaName'    => null,
+                '_type'          => Column::TYPE_ENUM,
+                '_isNumeric'     => false,
+                '_size'          => 0,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_primary'       => false,
+                '_first'         => false,
+                '_after'         => 'field_decimal_default',
+                '_bindType'      => Column::BIND_PARAM_STR,
+            ],
+            13 =>  [
                 '_columnName'    => 'field_integer',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -236,10 +252,10 @@ class ColumnsCest extends ColumnsBase
                 '_autoIncrement' => false,
                 '_primary'       => false,
                 '_first'         => false,
-                '_after'         => 'field_decimal_default',
+                '_after'         => 'field_enum',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            13 =>  [
+            14 =>  [
                 '_columnName'    => 'field_integer_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -255,7 +271,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_integer',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            14 =>  [
+            15 =>  [
                 '_columnName'    => 'field_json',
                 '_schemaName'    => false,
                 '_type'          => Column::TYPE_JSON,
@@ -271,7 +287,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_integer_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            15 =>  [
+            16 =>  [
                 '_columnName'    => 'field_float',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_FLOAT,
@@ -287,7 +303,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_json',
                 '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
-            16 =>  [
+            17 =>  [
                 '_columnName'    => 'field_float_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_FLOAT,
@@ -303,7 +319,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_float',
                 '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
-            17 =>  [
+            18 =>  [
                 '_columnName'    => 'field_date',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DATE,
@@ -319,7 +335,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_float_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            18 =>  [
+            19 =>  [
                 '_columnName'    => 'field_date_default',
                 '_schemaName'    => false,
                 '_type'          => Column::TYPE_DATE,
@@ -335,7 +351,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_date',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            19 =>  [
+            20 =>  [
                 '_columnName'    => 'field_datetime',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DATETIME,
@@ -351,7 +367,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_date_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            20 =>  [
+            21 =>  [
                 '_columnName'    => 'field_datetime_default',
                 '_schemaName'    => false,
                 '_type'          => Column::TYPE_DATETIME,
@@ -367,7 +383,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_datetime',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            21 =>  [
+            22 =>  [
                 '_columnName'    => 'field_time',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIME,
@@ -383,7 +399,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_datetime_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            22 =>  [
+            23 =>  [
                 '_columnName'    => 'field_time_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIME,
@@ -399,7 +415,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_time',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            23 =>  [
+            24 =>  [
                 '_columnName'    => 'field_timestamp',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
@@ -415,7 +431,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_time_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            24 =>  [
+            25 =>  [
                 '_columnName'    => 'field_timestamp_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
@@ -431,7 +447,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_timestamp',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            25 =>  [
+            26 =>  [
                 '_columnName'    => 'field_mediumint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_MEDIUMINTEGER,
@@ -447,7 +463,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_timestamp_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            26 =>  [
+            27 =>  [
                 '_columnName'    => 'field_mediumint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_MEDIUMINTEGER,
@@ -463,7 +479,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_mediumint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            27 =>  [
+            28 =>  [
                 '_columnName'    => 'field_smallint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
@@ -479,7 +495,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_mediumint_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            28 =>  [
+            29 =>  [
                 '_columnName'    => 'field_smallint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
@@ -495,7 +511,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_smallint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            29 =>  [
+            30 =>  [
                 '_columnName'    => 'field_tinyint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TINYINTEGER,
@@ -511,7 +527,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_smallint_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            30 =>  [
+            31 =>  [
                 '_columnName'    => 'field_tinyint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TINYINTEGER,
@@ -527,7 +543,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_tinyint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            31 =>  [
+            32 =>  [
                 '_columnName'    => 'field_longtext',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_LONGTEXT,
@@ -543,7 +559,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_tinyint_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            32 =>  [
+            33 =>  [
                 '_columnName'    => 'field_mediumtext',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_MEDIUMTEXT,
@@ -559,7 +575,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_longtext',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            33 =>  [
+            34 =>  [
                 '_columnName'    => 'field_tinytext',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TINYTEXT,
@@ -575,7 +591,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_mediumtext',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            34 =>  [
+            35 =>  [
                 '_columnName'    => 'field_text',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
@@ -591,7 +607,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_tinytext',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            35 =>  [
+            36 =>  [
                 '_columnName'    => 'field_varchar',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
@@ -607,7 +623,7 @@ class ColumnsCest extends ColumnsBase
                 '_after'         => 'field_text',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            36 =>  [
+            37 =>  [
                 '_columnName'    => 'field_varchar_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
