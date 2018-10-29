@@ -496,10 +496,10 @@ abstract class Pdo extends Adapter
 			if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
 
 				/**
-				 * The bind type is double so we try to get the double value
+				 * The bind type needs to be string because the precision
+				 * is lost if it is casted as a double
 				 */
 				if type == Column::BIND_PARAM_DECIMAL {
-//					let castValue = doubleval(value),
 					let castValue = (string) value,
 						type = Column::BIND_SKIP;
 				} else {

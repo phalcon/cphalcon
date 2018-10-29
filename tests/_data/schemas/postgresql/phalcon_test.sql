@@ -6937,6 +6937,70 @@ CREATE TABLE table_with_string_field (
     field character varying(70) NOT NULL
 );
 
+drop table if exists dialect_table;
+create table dialect_table
+(
+    field_primary           serial not null,
+    field_blob              text,
+    field_bit               bit,
+    field_bit_default       bit           default B'1'::"bit",
+    field_bigint            bigint,
+    field_bigint_default    bigint        default 1,
+    field_boolean           boolean,
+    field_boolean_default   boolean       default true,
+    field_char              char(10),
+    field_char_default      char(10)      default 'ABC'::bpchar,
+    field_decimal           numeric(10,4),
+    field_decimal_default   numeric(10,4) default 14.5600,
+    field_integer           integer,
+    field_integer_default   integer       default 1,
+    field_json              text,
+    field_float             numeric(10,4),
+    field_float_default     numeric(10,4) default 14.5600,
+    field_date              date,
+    field_date_default      date          default '2018-10-01'::date,
+    field_datetime          timestamp,
+    field_datetime_default  timestamp     default '2018-10-01 12:34:56'::timestamp without time zone,
+    field_time              time,
+    field_time_default      time          default '12:34:56'::time without time zone,
+    field_timestamp         timestamp,
+    field_timestamp_default timestamp     default '2018-10-01 12:34:56'::timestamp without time zone,
+    field_mediumint         integer,
+    field_mediumint_default integer       default 1,
+    field_smallint          smallint,
+    field_smallint_default  smallint      default 1,
+    field_tinyint           smallint,
+    field_tinyint_default   smallint      default 1,
+    field_text              text,
+    field_varchar           varchar(10),
+    field_varchar_default   varchar(10)   default 'D'::character varying
+);
+
+drop table if exists dialect_table_remote;
+create table dialect_table_remote
+(
+    field_primary serial not null
+        constraint dialect_table_remote_pk
+            primary key,
+    field_text    varchar(20)
+);
+
+drop table if exists dialect_table_intermediate;
+create table dialect_table_intermediate
+(
+    field_primary_id integer
+        constraint dialect_table_intermediate_primary__fk
+            references dialect_table,
+    field_remote_id  integer
+        constraint dialect_table_intermediate_remote__fk
+            references dialect_table_remote
+                on update cascade on delete set null
+);
+
+
+
+
+
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
