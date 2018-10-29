@@ -6940,7 +6940,9 @@ CREATE TABLE table_with_string_field (
 drop table if exists dialect_table;
 create table dialect_table
 (
-    field_primary           serial not null,
+    field_primary           serial not null
+        constraint dialect_table_pk
+            primary key,
     field_blob              text,
     field_bit               bit,
     field_bit_default       bit           default B'1'::"bit",

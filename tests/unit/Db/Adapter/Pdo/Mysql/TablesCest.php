@@ -18,6 +18,27 @@ class TablesCest extends TablesBase
 {
     use MysqlTrait;
 
+
+    /**
+     * Test the `tableOptions`
+     *
+     * @param \UnitTester $I
+     * @since 2018-10-26
+     */
+    public function checkTableOptions(\UnitTester $I)
+    {
+        $table    = 'dialect_table';
+        $expected = [
+            'table_type'      => 'BASE TABLE',
+            'auto_increment'  => '1',
+            'engine'          => 'InnoDB',
+            'table_collation' => 'utf8_general_ci',
+            'table_type'      => 'BASE TABLE'
+        ];
+
+        $I->assertEquals($expected, $this->connection->tableOptions($table, $this->getDatabaseName()));
+    }
+
     /**
      * Returns the list of the tables in the database
      *
