@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Test\Unit\Db\Adapter\Pdo\Postgresql;
 
 use Helper\Db\Adapter\Pdo\PostgresqlTrait;
 use Phalcon\Test\Unit\Db\Adapter\Pdo\TablesBase;
@@ -31,8 +31,8 @@ class TablesCest extends TablesBase
             'childs',
             'customers',
             'dialect_table',
-//            'dialect_table_intermediate',
-//            'dialect_table_remote',
+            'dialect_table_intermediate',
+            'dialect_table_remote',
             'foreign_key_child',
             'foreign_key_parent',
             'identityless_requests',
