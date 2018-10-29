@@ -227,7 +227,7 @@ class ColumnsCest extends ColumnsBase
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
-                '_size'          => 10,
+                '_size'          => 0,
                 '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
@@ -243,7 +243,7 @@ class ColumnsCest extends ColumnsBase
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
-                '_size'          => 10,
+                '_size'          => 0,
                 '_scale'         => 0,
                 '_default'       => 1,
                 '_unsigned'      => false,
@@ -293,7 +293,7 @@ class ColumnsCest extends ColumnsBase
                 '_isNumeric'     => true,
                 '_size'          => 10,
                 '_scale'         => 0,
-                '_default'       => floatval(14.5678),
+                '_default'       => '14.5678',
                 '_unsigned'      => false,
                 '_notNull'       => false,
                 '_autoIncrement' => false,
@@ -653,16 +653,16 @@ class ColumnsCest extends ColumnsBase
         return [
             'dialect_table_pk'         =>  Index::__set_state(
                 [
-                    '_name'    => 'PRIMARY',
+                    '_name'    => 'dialect_table_pk',
                     '_columns' => ['field_primary'],
-                    '_type'    => 'PRIMARY',
+                    '_type'    => '',
                 ]
             ),
             'dialect_table_unique'     =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_unique',
                     '_columns' => ['field_integer'],
-                    '_type'    => 'UNIQUE',
+                    '_type'    => '',
                 ]
             ),
             'dialect_table_index'      =>  Index::__set_state(
