@@ -43,6 +43,6 @@ trait PostgresqlTrait
      */
     protected function getDatabaseName(): string
     {
-        return TEST_DB_POSTGRESQL_HOST;
+        return TEST_DB_POSTGRESQL_NAME;
     }
 }

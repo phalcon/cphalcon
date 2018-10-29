@@ -196,7 +196,7 @@ class ColumnsCest extends ColumnsBase
                 '_type'          => Column::TYPE_DECIMAL,
                 '_isNumeric'     => true,
                 '_size'          => 10,
-                '_scale'         => 4,
+                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -204,7 +204,7 @@ class ColumnsCest extends ColumnsBase
                 '_primary'       => false,
                 '_first'         => false,
                 '_after'         => 'field_char_default',
-                '_bindType'      => Column::BIND_PARAM_STR,
+                '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
             11 =>  [
                 '_columnName'    => 'field_decimal_default',
@@ -212,7 +212,7 @@ class ColumnsCest extends ColumnsBase
                 '_type'          => Column::TYPE_DECIMAL,
                 '_isNumeric'     => true,
                 '_size'          => 10,
-                '_scale'         => 4,
+                '_scale'         => 0,
                 '_default'       => '14.5678',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -220,7 +220,7 @@ class ColumnsCest extends ColumnsBase
                 '_primary'       => false,
                 '_first'         => false,
                 '_after'         => 'field_decimal',
-                '_bindType'      => Column::BIND_PARAM_STR,
+                '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
             12 =>  [
                 '_columnName'    => 'field_integer',
@@ -276,7 +276,7 @@ class ColumnsCest extends ColumnsBase
                 '_type'          => Column::TYPE_FLOAT,
                 '_isNumeric'     => true,
                 '_size'          => 10,
-                '_scale'         => 4,
+                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -292,8 +292,8 @@ class ColumnsCest extends ColumnsBase
                 '_type'          => Column::TYPE_FLOAT,
                 '_isNumeric'     => true,
                 '_size'          => 10,
-                '_scale'         => 4,
-                '_default'       => floatval(14.5600),
+                '_scale'         => 0,
+                '_default'       => floatval(14.5678),
                 '_unsigned'      => false,
                 '_notNull'       => false,
                 '_autoIncrement' => false,
@@ -651,28 +651,28 @@ class ColumnsCest extends ColumnsBase
     protected function getExpectedIndexes(): array
     {
         return [
-            'PRIMARY'  =>  Index::__set_state(
+            'dialect_table_pk'         =>  Index::__set_state(
                 [
                     '_name'    => 'PRIMARY',
                     '_columns' => ['field_primary'],
                     '_type'    => 'PRIMARY',
                 ]
             ),
-            'dialect_table_unique'  =>  Index::__set_state(
+            'dialect_table_unique'     =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_unique',
                     '_columns' => ['field_integer'],
                     '_type'    => 'UNIQUE',
                 ]
             ),
-            'dialect_table_index'  =>  Index::__set_state(
+            'dialect_table_index'      =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_index',
                     '_columns' => ['field_bigint'],
                     '_type'    => '',
                 ]
             ),
-            'dialect_table_two_fields'  =>  Index::__set_state(
+            'dialect_table_two_fields' =>  Index::__set_state(
                 [
                     '_name'    => 'dialect_table_two_fields',
                     '_columns' => ['field_char', 'field_char_default'],
@@ -697,8 +697,8 @@ class ColumnsCest extends ColumnsBase
                     '_columns'           => ['field_primary_id'],
                     '_referencedColumns' => ['field_primary'],
                     '_referencedSchema'  => $this->getDatabaseName(),
-                    '_onUpdate'          => 'RESTRICT',
-                    '_onDelete'          => 'RESTRICT'
+                    '_onUpdate'          => 'NO ACTION',
+                    '_onDelete'          => 'NO ACTION'
                 ]
             ),
             'dialect_table_intermediate_remote__fk' => Reference::__set_state(
