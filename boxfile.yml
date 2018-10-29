@@ -19,7 +19,10 @@ run.config:
       - pdo_pgsql
       - gmp
       - mbstring
+      - memcached
+      - memcache
       - mongodb
+      - redis
     zend_extensions:
       - opcache
     dev_zend_extensions:
@@ -42,9 +45,17 @@ run.config:
         ./configure --with-php-config=$(which php-config)
         make -j"$(getconf _NPROCESSORS_ONLN)"
         make install
+        cd ../
         rm -fR ./build/php-psr
       )
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
+    - |
+      (
+        cd ./ext
+        ./install
+        cd ../
+      )
+    - echo -e 'extension=phalcon.so' >> "/data/etc/php/dev_php.ini"
 
 #data.beanstalkd:
 #  image: phalcon/beanstalkd

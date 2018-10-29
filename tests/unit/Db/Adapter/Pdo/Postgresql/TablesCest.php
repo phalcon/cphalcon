@@ -43,7 +43,6 @@ class TablesCest extends TablesBase
             'subscriptores',
             'table_with_string_field',
             'tipo_documento',
-
         ];
     }
 }

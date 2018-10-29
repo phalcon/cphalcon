@@ -6940,7 +6940,7 @@ CREATE TABLE table_with_string_field (
 drop table if exists dialect_table;
 create table dialect_table
 (
-    field_primary           serial not null
+    field_primary serial not null
         constraint dialect_table_pk
             primary key,
     field_blob              text,
@@ -6977,6 +6977,15 @@ create table dialect_table
     field_varchar           varchar(10),
     field_varchar_default   varchar(10)   default 'D'::character varying
 );
+
+create index dialect_table_index
+on dialect_table (field_bigint);
+
+create index dialect_table_two_fields
+on dialect_table (field_char, field_char_default);
+
+create unique index dialect_table_unique
+on dialect_table (field_integer);
 
 drop table if exists dialect_table_remote;
 create table dialect_table_remote

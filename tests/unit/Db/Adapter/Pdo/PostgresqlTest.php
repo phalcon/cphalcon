@@ -61,40 +61,6 @@ class PostgresqlTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-09-29
      */
-    public function testListTables()
-    {
-        $this->specify(
-            'List all tables on a database does not return correct result',
-            function () {
-                $expected = [
-                    'customers',
-                    'foreign_key_child',
-                    'foreign_key_parent',
-                    'images',
-                    'parts',
-                    'personas',
-                    'personnes',
-                    'ph_select',
-                    'prueba',
-                    'robots',
-                    'robots_parts',
-                    'subscriptores',
-                    'table_with_string_field',
-                    'tipo_documento',
-                ];
-
-                expect($this->connection->listTables())->equals($expected);
-                expect($this->connection->listTables(env('TEST_DB_POSTGRESQL_SCHEMA', 'public')))->equals($expected);
-            }
-        );
-    }
-
-    /**
-     * Tests Postgresql::listTables
-     *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-09-29
-     */
     public function testTableExists()
     {
         $this->specify(
