@@ -279,7 +279,10 @@ class Memory extends Adapter
              * Deep check if the role to inherit is valid
              */
             if isset this->_roleInherits[roleInheritName] {
-                let checkRoleToInherits = this->_roleInherits[roleInheritName];
+                let checkRoleToInherits = [];
+                for usedRoleToInherit in this->_roleInherits[roleInheritName] {
+                    array_push(checkRoleToInherits,usedRoleToInherit);
+                }
                 let usedRoleToInherits = [];
                 while !empty checkRoleToInherits {
                     let checkRoleToInherit = array_shift(checkRoleToInherits);
@@ -779,7 +782,10 @@ class Memory extends Adapter
          * Deep check if the role to inherit is valid
          */
         if isset this->_roleInherits[roleName] {
-            let checkRoleToInherits = this->_roleInherits[roleName];
+            let checkRoleToInherits = [];
+            for usedRoleToInherit in this->_roleInherits[roleName] {
+                array_push(checkRoleToInherits,usedRoleToInherit);
+            }
             let usedRoleToInherits = [];
             while !empty checkRoleToInherits {
                 let checkRoleToInherit = array_shift(checkRoleToInherits);
