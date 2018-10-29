@@ -28,14 +28,14 @@ class TablesCest extends TablesBase
         return [
             'customers',
             'dialect_table',
-            'dialect_table_remote',
             'dialect_table_intermediate',
+            'dialect_table_remote',
             'foreign_key_child',
             'foreign_key_parent',
             'images',
+            'parts',
             'personas',
             'personnes',
-            'parts',
             'ph_select',
             'prueba',
             'robots',
@@ -43,6 +43,7 @@ class TablesCest extends TablesBase
             'subscriptores',
             'table_with_string_field',
             'tipo_documento',
+
         ];
     }
 }
