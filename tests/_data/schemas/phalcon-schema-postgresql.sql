@@ -11074,6 +11074,6 @@ alter table only dialect_table_intermediate
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM posrgres;
-GRANT ALL ON SCHEMA public TO posrgres;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
