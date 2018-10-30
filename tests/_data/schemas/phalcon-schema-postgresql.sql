@@ -6938,7 +6938,7 @@ CREATE TABLE table_with_string_field (
 );
 
 drop type if exists type_enum_size;
-create type type_enum_size
+create type type_enum_size as enum
 (
     'xs',
     's',
