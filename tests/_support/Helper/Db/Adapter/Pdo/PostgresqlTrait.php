@@ -45,4 +45,14 @@ trait PostgresqlTrait
     {
         return TEST_DB_POSTGRESQL_NAME;
     }
+
+    /**
+     * Returns the database schema;
+     *
+     * @return string
+     */
+    protected function getSchemaName(): string
+    {
+        return TEST_DB_POSTGRESQL_SCHEMA;
+    }
 }

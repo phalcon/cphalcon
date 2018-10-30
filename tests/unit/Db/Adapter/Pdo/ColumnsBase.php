@@ -74,14 +74,15 @@ class ColumnsBase
      */
     public function checkReferencesCount(\UnitTester $I)
     {
-        $table      = 'dialect_table_intermediate';
-        $references = $this->connection->describeReferences($table);
-        $I->assertEquals(2, count($references));
-        $references = $this->connection->describeReferences($table, $this->getDatabaseName());
-        $I->assertEquals(2, count($references));
+        $table            = 'dialect_table_intermediate';
+        $directReferences = $this->connection->describeReferences($table);
+        $schemaReferences = $this->connection->describeReferences($table, $this->getSchemaName());
+        $I->assertEquals($directReferences, $schemaReferences);
+        $I->assertEquals(2, count($directReferences));
+        $I->assertEquals(2, count($schemaReferences));
 
         /** @var Reference $reference */
-        foreach ($references as $reference) {
+        foreach ($directReferences as $reference) {
             $I->assertEquals(1, count($reference->getColumns()));
         }
     }

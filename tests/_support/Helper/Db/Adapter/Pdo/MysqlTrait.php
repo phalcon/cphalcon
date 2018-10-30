@@ -45,4 +45,14 @@ trait MysqlTrait
     {
         return TEST_DB_MYSQL_NAME;
     }
+
+    /**
+     * Returns the database schema; MySql does not have a schema
+     *
+     * @return string
+     */
+    protected function getSchemaName(): string
+    {
+        return TEST_DB_MYSQL_NAME;
+    }
 }
