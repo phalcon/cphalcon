@@ -51,7 +51,7 @@ CREATE INDEX customers_customer_id_idx ON customers (customer_id);
 CREATE INDEX customers_credit_line_idx ON customers (credit_line);
 CREATE INDEX customers_status_idx ON customers (status);
 
-ALTER TABLE public.customers OWNER TO nanobox;
+ALTER TABLE public.customers OWNER TO posrgres;
 
 --
 -- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -63,7 +63,7 @@ CREATE TABLE parts (
                      name character varying(70) NOT NULL
 );
 
-ALTER TABLE public.parts OWNER TO nanobox;
+ALTER TABLE public.parts OWNER TO posrgres;
 
 --
 -- Name: images; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -75,7 +75,7 @@ CREATE TABLE images (
                       base64 TEXT
 );
 
-ALTER TABLE public.images OWNER TO nanobox;
+ALTER TABLE public.images OWNER TO posrgres;
 
 --
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -96,7 +96,7 @@ CREATE TABLE personas (
                         estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personas OWNER TO nanobox;
+ALTER TABLE public.personas OWNER TO posrgres;
 
 --
 -- Name: personnes; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -117,7 +117,7 @@ CREATE TABLE personnes (
                          estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personnes OWNER TO nanobox;
+ALTER TABLE public.personnes OWNER TO posrgres;
 
 --
 -- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -130,7 +130,7 @@ CREATE TABLE prueba (
                       estado character(1) NOT NULL
 );
 
-ALTER TABLE public.prueba OWNER TO nanobox;
+ALTER TABLE public.prueba OWNER TO posrgres;
 
 --
 -- Name: prueba_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -144,7 +144,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.prueba_id_seq OWNER TO nanobox;
+ALTER TABLE public.prueba_id_seq OWNER TO posrgres;
 
 --
 -- Name: prueba_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -173,7 +173,7 @@ CREATE TABLE robots (
                       text text NOT NULL
 );
 
-ALTER TABLE public.robots OWNER TO nanobox;
+ALTER TABLE public.robots OWNER TO posrgres;
 
 --
 -- Name: robots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -187,7 +187,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.robots_id_seq OWNER TO nanobox;
+ALTER TABLE public.robots_id_seq OWNER TO posrgres;
 
 --
 -- Name: robots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -212,7 +212,7 @@ CREATE TABLE robots_parts (
                             parts_id integer NOT NULL
 );
 
-ALTER TABLE public.robots_parts OWNER TO nanobox;
+ALTER TABLE public.robots_parts OWNER TO posrgres;
 
 --
 -- Name: robots_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -226,7 +226,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.robots_parts_id_seq OWNER TO nanobox;
+ALTER TABLE public.robots_parts_id_seq OWNER TO posrgres;
 
 --
 -- Name: robots_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -252,7 +252,7 @@ CREATE TABLE subscriptores (
                              status character(1) NOT NULL
 );
 
-ALTER TABLE public.subscriptores OWNER TO nanobox;
+ALTER TABLE public.subscriptores OWNER TO posrgres;
 
 --
 -- Name: subscriptores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -266,7 +266,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.subscriptores_id_seq OWNER TO nanobox;
+ALTER TABLE public.subscriptores_id_seq OWNER TO posrgres;
 
 --
 -- Name: subscriptores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -290,7 +290,7 @@ CREATE TABLE tipo_documento (
                               detalle character varying(32) NOT NULL
 );
 
-ALTER TABLE public.tipo_documento OWNER TO nanobox;
+ALTER TABLE public.tipo_documento OWNER TO posrgres;
 
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -317,7 +317,7 @@ CREATE TABLE foreign_key_parent (
                                   UNIQUE (refer_int)
 );
 
-ALTER TABLE public.foreign_key_parent OWNER TO nanobox;
+ALTER TABLE public.foreign_key_parent OWNER TO posrgres;
 
 --
 -- Name: ph_select; Type: TABLE TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -341,7 +341,7 @@ INSERT INTO ph_select (sel_id, sel_name, sel_text) VALUES
 (7, 'Saturn', 'A car'),
 (8, 'Uranus', 'Loads of jokes for this one');
 
-ALTER TABLE public.ph_select OWNER TO nanobox;
+ALTER TABLE public.ph_select OWNER TO posrgres;
 
 --
 -- Name: foreign_key_child; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -356,8 +356,8 @@ CREATE TABLE foreign_key_child (
                                  UNIQUE (child_int)
 );
 
-ALTER TABLE public.foreign_key_child OWNER TO nanobox;
-ALTER TABLE public.tipo_documento_id_seq OWNER TO nanobox;
+ALTER TABLE public.foreign_key_child OWNER TO posrgres;
+ALTER TABLE public.tipo_documento_id_seq OWNER TO posrgres;
 
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -7031,6 +7031,6 @@ ALTER TABLE ONLY dialect_table_intermediate
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM nanobox;
-GRANT ALL ON SCHEMA public TO nanobox;
+REVOKE ALL ON SCHEMA public FROM posrgres;
+GRANT ALL ON SCHEMA public TO posrgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
