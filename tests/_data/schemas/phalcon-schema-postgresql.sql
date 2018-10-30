@@ -11034,6 +11034,9 @@ create table dialect_table
 
 alter table public.dialect_table OWNER TO postgres;
 
+create index dialect_table_index
+on dialect_table (field_bigint);
+
 create index dialect_table_two_fields
 on dialect_table (field_char, field_char_default);
 
