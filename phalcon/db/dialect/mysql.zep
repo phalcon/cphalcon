@@ -42,7 +42,8 @@ class Mysql extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var columnSql, size, scale, type, typeValues;
+		var columnSql, type, typeValues;
+		//var columnSql, scale, type, typeValues;
 
 		let columnSql = "";
 
@@ -788,22 +789,6 @@ class Mysql extends Dialect
 	public function sharedLock(string! sqlQuery) -> string
 	{
 		return sqlQuery . " LOCK IN SHARE MODE";
-	}
-
-	/**
-	 * Returns the size of the column enclosed in parentheses
-	 */
-	private function getColumnSize(<ColumnInterface> column) -> string
-	{
-		return "(" . column->getSize() . ")";
-	}
-
-	/**
-	 * Returns the column size and scale enclosed in parentheses
-	 */
-	private function getColumnSizeAndScale(<ColumnInterface> column) -> string
-	{
-		return "(" . column->getSize() . "," . column->getScale() . ")";
 	}
 
 	/**

@@ -523,6 +523,22 @@ abstract class Dialect implements DialectInterface
 	}
 
 	/**
+	 * Returns the size of the column enclosed in parentheses
+	 */
+	protected function getColumnSize(<ColumnInterface> column) -> string
+	{
+		return "(" . column->getSize() . ")";
+	}
+
+	/**
+	 * Returns the column size and scale enclosed in parentheses
+	 */
+	protected function getColumnSizeAndScale(<ColumnInterface> column) -> string
+	{
+		return "(" . column->getSize() . "," . column->getScale() . ")";
+	}
+
+	/**
 	 * Resolve Column expressions
 	 */
 	protected final function getSqlExpressionScalar(array! expression, string escapeChar = null, bindCounts = null) -> string

@@ -225,9 +225,9 @@ class ColumnsCest extends ColumnsBase
             12 =>  [
                 '_columnName'    => 'field_enum',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_ENUM,
+                '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => true,
-                '_size'          => "'xs','s','m','l','xl'",
+                '_size'          => 0,
                 '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
@@ -235,7 +235,7 @@ class ColumnsCest extends ColumnsBase
                 '_autoIncrement' => false,
                 '_primary'       => false,
                 '_first'         => false,
-                '_after'         => 'field_decimal',
+                '_after'         => 'field_decimal_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
             13 =>  [
@@ -353,7 +353,7 @@ class ColumnsCest extends ColumnsBase
             20 =>  [
                 '_columnName'    => 'field_datetime',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_DATETIME,
+                '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
                 '_scale'         => 0,
@@ -369,7 +369,7 @@ class ColumnsCest extends ColumnsBase
             21 =>  [
                 '_columnName'    => 'field_datetime_default',
                 '_schemaName'    => false,
-                '_type'          => Column::TYPE_DATETIME,
+                '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
                 '_scale'         => 0,
@@ -449,7 +449,7 @@ class ColumnsCest extends ColumnsBase
             26 =>  [
                 '_columnName'    => 'field_mediumint',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_MEDIUMINTEGER,
+                '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 10,
                 '_scale'         => 0,
@@ -465,7 +465,7 @@ class ColumnsCest extends ColumnsBase
             27 =>  [
                 '_columnName'    => 'field_mediumint_default',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_MEDIUMINTEGER,
+                '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 10,
                 '_scale'         => 0,
@@ -481,7 +481,7 @@ class ColumnsCest extends ColumnsBase
             28 =>  [
                 '_columnName'    => 'field_smallint',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_SMALLINTEGER,
+                '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 10,
                 '_scale'         => 0,
@@ -497,7 +497,7 @@ class ColumnsCest extends ColumnsBase
             29 =>  [
                 '_columnName'    => 'field_smallint_default',
                 '_schemaName'    => null,
-                '_type'          => Column::TYPE_SMALLINTEGER,
+                '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 10,
                 '_scale'         => 0,
