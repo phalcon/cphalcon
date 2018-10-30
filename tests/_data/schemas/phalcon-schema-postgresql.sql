@@ -6937,6 +6937,16 @@ CREATE TABLE table_with_string_field (
     field character varying(70) NOT NULL
 );
 
+drop type if exists type_enum_size;
+create type type_enum_size
+(
+    'xs',
+    's',
+    'm',
+    'l',
+    'xl'
+);
+
 drop table if exists dialect_table;
 create table dialect_table
 (
@@ -6954,6 +6964,7 @@ create table dialect_table
     field_char_default      char(10)      default 'ABC'::bpchar,
     field_decimal           numeric(10,4),
     field_decimal_default   numeric(10,4) default 14.5678,
+    field_enum              type_enum_size,
     field_integer           integer,
     field_integer_default   integer       default 1,
     field_json              json,
