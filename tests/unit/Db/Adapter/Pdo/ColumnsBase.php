@@ -24,7 +24,7 @@ class ColumnsBase
         $table = 'dialect_table';
         $expected = $this->getExpectedColumns();
         $I->assertEquals($expected, $this->connection->describeColumns($table));
-        $I->assertEquals($expected, $this->connection->describeColumns($table, $this->getDatabaseName()));
+        $I->assertEquals($expected, $this->connection->describeColumns($table, $this->getSchemaName()));
     }
 
     public function checkColumnsAsObject(\UnitTester $I)
@@ -63,7 +63,7 @@ class ColumnsBase
         $table = 'dialect_table';
         $expected = $this->getExpectedIndexes();
         $I->assertEquals($expected, $this->connection->describeIndexes($table));
-        $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->getDatabaseName()));
+        $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->getSchemaName()));
     }
 
     /**
@@ -98,6 +98,6 @@ class ColumnsBase
         $table    = 'dialect_table_intermediate';
         $expected = $this->getExpectedReferences();
         $I->assertEquals($expected, $this->connection->describeReferences($table));
-        $I->assertEquals($expected, $this->connection->describeReferences($table, $this->getDatabaseName()));
+        $I->assertEquals($expected, $this->connection->describeReferences($table, $this->getSchemaName()));
     }
 }

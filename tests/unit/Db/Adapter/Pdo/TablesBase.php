@@ -23,7 +23,7 @@ class TablesBase
     {
         $expected = $this->getListTables();
         $I->assertEquals($expected, $this->connection->listTables());
-        $I->assertEquals($expected, $this->connection->listTables($this->getDatabaseName()));
+        $I->assertEquals($expected, $this->connection->listTables($this->getSchemaName()));
     }
 
     /**
@@ -37,7 +37,7 @@ class TablesBase
         $table = 'dialect_table';
         $I->assertTrue($this->connection->tableExists($table));
         $I->assertFalse($this->connection->tableExists('unknown-table'));
-        $I->assertTrue($this->connection->tableExists($table, $this->getDatabaseName()));
+        $I->assertTrue($this->connection->tableExists($table, $this->getSchemaName()));
         $I->assertFalse($this->connection->tableExists('unknown-table', 'unknown-db'));
     }
 }
