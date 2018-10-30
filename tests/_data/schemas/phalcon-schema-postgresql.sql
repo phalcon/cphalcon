@@ -51,7 +51,7 @@ CREATE INDEX customers_customer_id_idx ON customers (customer_id);
 CREATE INDEX customers_credit_line_idx ON customers (credit_line);
 CREATE INDEX customers_status_idx ON customers (status);
 
-ALTER TABLE public.customers OWNER TO postgres;
+ALTER TABLE public.customers OWNER TO nanobox;
 
 --
 -- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -63,7 +63,7 @@ CREATE TABLE parts (
                      name character varying(70) NOT NULL
 );
 
-ALTER TABLE public.parts OWNER TO postgres;
+ALTER TABLE public.parts OWNER TO nanobox;
 
 --
 -- Name: images; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -75,7 +75,7 @@ CREATE TABLE images (
                       base64 TEXT
 );
 
-ALTER TABLE public.images OWNER TO postgres;
+ALTER TABLE public.images OWNER TO nanobox;
 
 --
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -96,7 +96,7 @@ CREATE TABLE personas (
                         estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personas OWNER TO postgres;
+ALTER TABLE public.personas OWNER TO nanobox;
 
 --
 -- Name: personnes; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -117,7 +117,7 @@ CREATE TABLE personnes (
                          estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personnes OWNER TO postgres;
+ALTER TABLE public.personnes OWNER TO nanobox;
 
 --
 -- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -130,7 +130,7 @@ CREATE TABLE prueba (
                       estado character(1) NOT NULL
 );
 
-ALTER TABLE public.prueba OWNER TO postgres;
+ALTER TABLE public.prueba OWNER TO nanobox;
 
 --
 -- Name: prueba_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -144,7 +144,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.prueba_id_seq OWNER TO postgres;
+ALTER TABLE public.prueba_id_seq OWNER TO nanobox;
 
 --
 -- Name: prueba_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -173,7 +173,7 @@ CREATE TABLE robots (
                       text text NOT NULL
 );
 
-ALTER TABLE public.robots OWNER TO postgres;
+ALTER TABLE public.robots OWNER TO nanobox;
 
 --
 -- Name: robots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -187,7 +187,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.robots_id_seq OWNER TO postgres;
+ALTER TABLE public.robots_id_seq OWNER TO nanobox;
 
 --
 -- Name: robots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -212,7 +212,7 @@ CREATE TABLE robots_parts (
                             parts_id integer NOT NULL
 );
 
-ALTER TABLE public.robots_parts OWNER TO postgres;
+ALTER TABLE public.robots_parts OWNER TO nanobox;
 
 --
 -- Name: robots_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -226,7 +226,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.robots_parts_id_seq OWNER TO postgres;
+ALTER TABLE public.robots_parts_id_seq OWNER TO nanobox;
 
 --
 -- Name: robots_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -252,7 +252,7 @@ CREATE TABLE subscriptores (
                              status character(1) NOT NULL
 );
 
-ALTER TABLE public.subscriptores OWNER TO postgres;
+ALTER TABLE public.subscriptores OWNER TO nanobox;
 
 --
 -- Name: subscriptores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -266,7 +266,7 @@ NO MINVALUE
 NO MAXVALUE
 CACHE 1;
 
-ALTER TABLE public.subscriptores_id_seq OWNER TO postgres;
+ALTER TABLE public.subscriptores_id_seq OWNER TO nanobox;
 
 --
 -- Name: subscriptores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -290,7 +290,7 @@ CREATE TABLE tipo_documento (
                               detalle character varying(32) NOT NULL
 );
 
-ALTER TABLE public.tipo_documento OWNER TO postgres;
+ALTER TABLE public.tipo_documento OWNER TO nanobox;
 
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -317,7 +317,7 @@ CREATE TABLE foreign_key_parent (
                                   UNIQUE (refer_int)
 );
 
-ALTER TABLE public.foreign_key_parent OWNER TO postgres;
+ALTER TABLE public.foreign_key_parent OWNER TO nanobox;
 
 --
 -- Name: ph_select; Type: TABLE TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -341,7 +341,7 @@ INSERT INTO ph_select (sel_id, sel_name, sel_text) VALUES
 (7, 'Saturn', 'A car'),
 (8, 'Uranus', 'Loads of jokes for this one');
 
-ALTER TABLE public.ph_select OWNER TO postgres;
+ALTER TABLE public.ph_select OWNER TO nanobox;
 
 --
 -- Name: foreign_key_child; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -356,8 +356,8 @@ CREATE TABLE foreign_key_child (
                                  UNIQUE (child_int)
 );
 
-ALTER TABLE public.foreign_key_child OWNER TO postgres;
-ALTER TABLE public.tipo_documento_id_seq OWNER TO postgres;
+ALTER TABLE public.foreign_key_child OWNER TO nanobox;
+ALTER TABLE public.tipo_documento_id_seq OWNER TO nanobox;
 
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -7013,21 +7013,24 @@ create table dialect_table_remote
 drop table if exists dialect_table_intermediate;
 create table dialect_table_intermediate
 (
-    field_primary_id integer
-        constraint dialect_table_intermediate_primary__fk
-            references dialect_table,
+    field_primary_id integer,
     field_remote_id  integer
-        constraint dialect_table_intermediate_remote__fk
-            references dialect_table_remote
-                on update cascade on delete set null
 );
 
+ALTER TABLE ONLY dialect_table_intermediate
+  ADD CONSTRAINT dialect_table_intermediate_primary__fk
+  FOREIGN KEY (field_primary_id);
+  REFERENCES dialect_table (field_primary);
+ALTER TABLE ONLY dialect_table_intermediate
+  ADD CONSTRAINT dialect_table_intermediate_remote__fk
+  FOREIGN KEY (field_remote_id)
+  REFERENCES dialect_table_remote(field_primary);
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
+REVOKE ALL ON SCHEMA public FROM nanobox;
+GRANT ALL ON SCHEMA public TO nanobox;
 GRANT ALL ON SCHEMA public TO PUBLIC;
