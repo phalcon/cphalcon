@@ -523,6 +523,30 @@ abstract class Dialect implements DialectInterface
 	}
 
 	/**
+	 * Checks the column type and if not string it returns the type reference
+	 */
+	protected function checkColumnType(<ColumnInterface> column) -> string
+	{
+		if typeof column->getType() == "string" {
+			return column->getTypeReference();
+		}
+
+		return column->getType();
+	}
+
+	/**
+	 * Checks the column type and returns the updated SQL statement
+	 */
+	protected function checkColumnTypeSql(<ColumnInterface> column) -> string
+	{
+		if typeof column->getType() == "string" {
+			return column->getType();
+		}
+
+		return "";
+	}
+
+	/**
 	 * Returns the size of the column enclosed in parentheses
 	 */
 	protected function getColumnSize(<ColumnInterface> column) -> string

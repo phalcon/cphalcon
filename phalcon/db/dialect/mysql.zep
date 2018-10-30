@@ -42,18 +42,12 @@ class Mysql extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var columnSql, type, typeValues;
-		//var columnSql, scale, type, typeValues;
+		var columnType, columnSql, typeValues;
 
-		let columnSql = "";
+		let columnSql  = this->checkColumnTypeSql(column);
+		let columnType = this->checkColumnType(column);
 
-		let type = column->getType();
-		if typeof type == "string" {
-			let columnSql .= type;
-			let type = column->getTypeReference();
-		}
-
-		switch type {
+		switch columnType {
 
 			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {

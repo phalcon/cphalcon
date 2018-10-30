@@ -43,16 +43,10 @@ class Postgresql extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var size, columnType, columnSql, typeValues;
+		var columnType, columnSql, typeValues;
 
-		let size = column->getSize();
-		let columnType = column->getType();
-		let columnSql = "";
-
-		if typeof columnType == "string" {
-			let columnSql .= columnType;
-			let columnType = column->getTypeReference();
-		}
+		let columnSql  = this->checkColumnTypeSql(column);
+		let columnType = this->checkColumnType(column);
 
 		switch columnType {
 
