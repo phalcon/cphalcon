@@ -188,7 +188,7 @@ class Redis extends Backend
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, frontend, redis, cachedContent, preparedContent,
-			tt1, success, isBuffering;
+			tt1, success;
 
 		if keyName === null {
 			let prefixedKey = substr(this->_lastKey, 5);
@@ -250,16 +250,14 @@ class Redis extends Backend
 		}
 
 		if this->getSpecialKey() != "" {
-			redis->sAdd(specialKey, prefixedKey);
+			redis->sAdd(this->getSpecialKey(), prefixedKey);
 		}
-
-		let isBuffering = frontend->isBuffering();
 
 		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if isBuffering === true {
+		if frontend->isBuffering() === true {
 			echo cachedContent;
 		}
 
