@@ -416,7 +416,7 @@ class Redis extends Backend
 	/**
 	 * Returns the Redis client. Connects if not set
 	 */
-	private function getClient() -> <\Redis>
+	protected function getClient() -> <\Redis>
 	{
 		var redis;
 
