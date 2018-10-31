@@ -319,7 +319,7 @@ class Redis extends Backend
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if this->getSpecialKey() == "" {
+		if specialKey == "" {
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
@@ -432,7 +432,7 @@ class Redis extends Backend
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = this->getPrefixedKey(keyName);
+				let lastKey = this->getPrefixedKey(key);
 				redis->sRem(specialKey, key);
 				redis->delete(lastKey);
 			}
