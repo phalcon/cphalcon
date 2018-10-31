@@ -226,7 +226,7 @@ class Redis extends Backend
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var nonePrefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
-			ttl, success, options, specialKey, isBuffering;
+			ttl, success, specialKey, isBuffering;
 
 		if keyName === null {
 			let lastKey         = this->_lastKey,
@@ -281,18 +281,10 @@ class Redis extends Backend
 
 		// Don't set expiration for negative ttl or zero
 		if ttl >= 1 {
-			redis->settimeout(lastKey, ttl);
+			redis->setTimeout(lastKey, ttl);
 		}
 
-		let options = this->_options;
-
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
-		}
-
-		if specialKey != "" {
-			redis->sAdd(specialKey, nonePrefixedKey);
-		}
+		this->setSpecialKey(nonePrefixedKey);
 
 		let isBuffering = frontend->isBuffering();
 
@@ -319,16 +311,9 @@ class Redis extends Backend
 		var redis, lastKey, options, specialKey;
 
 		let redis   = this->getClient(),
-			lastKey = this->getLastKey(keyName),
-			options = this->_options;
+			lastKey = this->getLastKey(keyName);
 
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
-		}
-
-		if specialKey != "" {
-			redis->sRem(specialKey, keyName);
-		}
+		this->removeSpecialKey(keyName);
 
 		/**
 		* Delete the key from redis
@@ -482,5 +467,37 @@ class Redis extends Backend
 	private function getLastKey(string key) -> string
 	{
 		return this->_options["statsKey"] . this->_prefix . key;
+	}
+
+	/**
+	 * Removes the key from the special key if available
+	 */
+	private function removeSpecialKey(string key) -> void
+	{
+		var redis;
+
+		let redis = this->getClient();
+
+		if fetch specialKey, this->_options["statsKey"] {
+			if specialKey != "" {
+				redis->sRem(specialKey, key);
+			}
+		}
+	}
+
+	/**
+	 * Stores the key in the special key if available
+	 */
+	private function setSpecialKey(string key) -> void
+	{
+		var redis;
+
+		let redis = this->getClient();
+
+		if fetch specialKey, this->_options["statsKey"] {
+			if specialKey != "" {
+				redis->sAdd(specialKey, key);
+			}
+		}
 	}
 }
