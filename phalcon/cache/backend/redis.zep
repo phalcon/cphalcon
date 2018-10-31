@@ -28,8 +28,10 @@ use Phalcon\Cache\FrontendInterface;
  *
  * Allows to cache output fragments, PHP data or raw data to a redis backend
  *
+ * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
+ *
  *<code>
- * use Phalcon\Cache\Backend\Redis as PhRedis;
+ * use Phalcon\Cache\Backend\Redis;
  * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
@@ -40,7 +42,7 @@ use Phalcon\Cache\FrontendInterface;
  * );
  *
  * // Create the Cache setting redis connection options
- * $cache = new PhRedis(
+ * $cache = new Redis(
  *     $frontCache,
  *     [
  *         "host"       => "localhost",
@@ -48,16 +50,6 @@ use Phalcon\Cache\FrontendInterface;
  *         "auth"       => "foobared",
  *         "persistent" => false,
  *         "index"      => 0,
- *     ]
- * );
- *
- * // You can also pass a redis client
- * $redisClient = new \Redis();
- * $redis->connect('localhost', 6379);
- * $cache = new PhRedis(
- *     $frontCache,
- *     [
- *         'client' => $redisClient
  *     ]
  * );
  *
@@ -66,22 +58,6 @@ use Phalcon\Cache\FrontendInterface;
  *
  * // Get data
  * $data = $cache->get("my-data");
- *
- * // If you want to store the keys in a special key for stat purposes you can use `statsKey`
- * $cache = new PhRedis(
- *     $frontCache,
- *     [
- *         "host"       => "localhost",
- *         "port"       => 6379,
- *         "auth"       => "foobared",
- *         "persistent" => false,
- *         "statsKey"   => "_PHCR",
- *         "index"      => 0,
- *     ]
- * );
- *
- *
- *
  *</code>
  */
 class Redis extends Backend
@@ -90,16 +66,15 @@ class Redis extends Backend
 
 	/**
 	 * Phalcon\Cache\Backend\Redis constructor
+	 *
+	 * @param	Phalcon\Cache\FrontendInterface frontend
+	 * @param	array options
 	 */
-	public function __construct(<FrontendInterface> frontend, array options = [])
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		if typeof options != "array" {
 			let options = [];
 		}
-
-		if isset options["client"] && typeof options["client"] == "object" && options["client"] instanceof \Redis {
- 			let this->_redis = options["client"];
- 		}
 
 		if !isset options["host"] {
 			let options["host"] = "127.0.0.1";
@@ -175,28 +150,23 @@ class Redis extends Backend
 	}
 
 	/**
-	 * Returns the Redis client back. If not set, it will call connect()
-	 */
-	public function getClient() -> <\Redis>
-	{
-		if typeof this->_redis != "object" {
-			this->_connect();
-		}
-
-		return this->_redis;
-	}
-	/**
 	 * Returns a cached content
 	 */
 	public function get(string keyName, int lifetime = null) -> var | null
 	{
-		var redis, frontend, lastKey, cachedContent;
+		var redis, frontend, prefix, lastKey, cachedContent;
 
-		let redis          = this->getClient(),
-			frontend       = this->_frontend,
-			lastKey        = this->getLastKey(keyName),
-			this->_lastKey = lastKey,
-			cachedContent  = redis->get(lastKey);
+		let redis = this->_redis;
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
+
+		let frontend = this->_frontend;
+		let prefix = this->_prefix;
+		let lastKey = "_PHCR" . prefix . keyName;
+		let this->_lastKey = lastKey;
+		let cachedContent = redis->get(lastKey);
 
 		if cachedContent === false {
 			return null;
@@ -222,19 +192,20 @@ class Redis extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
+	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var nonePrefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
-			ttl, success, specialKey, isBuffering;
+		var prefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
+			tmp, tt1, success, options, specialKey, isBuffering;
 
 		if keyName === null {
-			let lastKey         = this->_lastKey,
-				nonePrefixedKey = substr(lastKey, 5 + strlen(this->_prefix));
+			let lastKey = this->_lastKey;
+			let prefixedKey = substr(lastKey, 5);
 		} else {
-			let nonePrefixedKey = keyName,
-				lastKey         = this->getLastKey(keyName),
-				this->_lastKey  = lastKey;
+			let prefixedKey = this->_prefix . keyName,
+				lastKey = "_PHCR" . prefixedKey,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -246,7 +217,11 @@ class Redis extends Backend
 		/**
 		 * Check if a connection is created or make a new one
 		 */
-		let redis = this->getClient();
+		let redis = this->_redis;
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
 
 		if content === null {
 			let cachedContent = frontend->getContent();
@@ -264,13 +239,15 @@ class Redis extends Backend
 		}
 
 		if lifetime === null {
-			if !this->_lastLifetime {
-				let ttl = frontend->getLifetime();
+			let tmp = this->_lastLifetime;
+
+			if !tmp {
+				let tt1 = frontend->getLifetime();
 			} else {
-				let ttl = this->_lastLifetime;
+				let tt1 = tmp;
 			}
 		} else {
-			let ttl = lifetime;
+			let tt1 = lifetime;
 		}
 
 		let success = redis->set(lastKey, preparedContent);
@@ -280,11 +257,19 @@ class Redis extends Backend
 		}
 
 		// Don't set expiration for negative ttl or zero
-		if ttl >= 1 {
-			redis->setTimeout(lastKey, ttl);
+		if tt1 >= 1 {
+			redis->settimeout(lastKey, tt1);
 		}
 
-		this->setSpecialKey(nonePrefixedKey);
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey != "" {
+			redis->sAdd(specialKey, prefixedKey);
+		}
 
 		let isBuffering = frontend->isBuffering();
 
@@ -308,12 +293,26 @@ class Redis extends Backend
 	 */
 	public function delete(keyName) -> boolean
 	{
-		var redis, lastKey, options, specialKey;
+		var redis, prefix, prefixedKey, lastKey, options, specialKey;
 
-		let redis   = this->getClient(),
-			lastKey = this->getLastKey(keyName);
+		let redis = this->_redis;
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
 
-		this->removeSpecialKey(keyName);
+		let prefix = this->_prefix;
+		let prefixedKey = prefix . keyName;
+		let lastKey = "_PHCR" . prefixedKey;
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey != "" {
+			redis->sRem(specialKey, prefixedKey);
+		}
 
 		/**
 		* Delete the key from redis
@@ -335,8 +334,14 @@ class Redis extends Backend
 	{
 		var redis, options, keys, specialKey, key, idx;
 
-		let redis   = this->getClient(),
-			options = this->_options;
+		let redis = this->_redis;
+
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
+
+		let options = this->_options;
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
@@ -371,16 +376,21 @@ class Redis extends Backend
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
-		var lastKey, redis;
+		var lastKey, redis, prefix;
 
-		if keyName === null {
+		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->getLastKey(keyName);
+			let prefix = this->_prefix;
+			let lastKey = "_PHCR" . prefix . keyName;
 		}
 
 		if lastKey {
-			let redis = this->getClient();
+			let redis = this->_redis;
+			if typeof redis != "object" {
+				this->_connect();
+				let redis = this->_redis;
+			}
 
 			return (bool) redis->exists(lastKey);
 		}
@@ -395,15 +405,21 @@ class Redis extends Backend
 	 */
 	public function increment(keyName = null, int value = 1) -> int
 	{
-		var redis, lastKey;
+		var redis, prefix, lastKey;
 
-		let redis = this->getClient();
+		let redis = this->_redis;
 
-		if keyName === null {
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
+
+		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey        = this->getLastKey(keyName),
-				this->_lastKey = lastKey;
+			let prefix = this->_prefix;
+			let lastKey = "_PHCR" . prefix . keyName;
+			let this->_lastKey = lastKey;
 		}
 
 		return redis->incrBy(lastKey, value);
@@ -416,15 +432,21 @@ class Redis extends Backend
 	 */
 	public function decrement(keyName = null, int value = 1) -> int
 	{
-		var redis, lastKey;
+		var redis, prefix, lastKey;
 
-		let redis = this->getClient();
+		let redis = this->_redis;
 
-		if keyName === null {
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
+
+		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey        = this->getLastKey(keyName),
-				this->_lastKey = lastKey;
+			let prefix = this->_prefix;
+			let lastKey = "_PHCR" . prefix . keyName;
+			let this->_lastKey = lastKey;
 		}
 
 		return redis->decrBy(lastKey, value);
@@ -443,7 +465,12 @@ class Redis extends Backend
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let redis = this->getClient();
+		let redis = this->_redis;
+
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
 
 		if specialKey == "" {
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
@@ -452,52 +479,12 @@ class Redis extends Backend
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = this->getLastKey(keyName);
+				let lastKey = "_PHCR" . key;
 				redis->sRem(specialKey, key);
 				redis->delete(lastKey);
 			}
 		}
 
 		return true;
-	}
-
-	/**
-	 * Returns the stats key with the prefix
-	 */
-	private function getLastKey(string key) -> string
-	{
-		return this->_options["statsKey"] . this->_prefix . key;
-	}
-
-	/**
-	 * Removes the key from the special key if available
-	 */
-	private function removeSpecialKey(string key) -> void
-	{
-		var redis;
-
-		let redis = this->getClient();
-
-		if fetch specialKey, this->_options["statsKey"] {
-			if specialKey != "" {
-				redis->sRem(specialKey, key);
-			}
-		}
-	}
-
-	/**
-	 * Stores the key in the special key if available
-	 */
-	private function setSpecialKey(string key) -> void
-	{
-		var redis;
-
-		let redis = this->getClient();
-
-		if fetch specialKey, this->_options["statsKey"] {
-			if specialKey != "" {
-				redis->sAdd(specialKey, key);
-			}
-		}
 	}
 }
