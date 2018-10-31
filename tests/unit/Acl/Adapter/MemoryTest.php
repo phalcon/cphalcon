@@ -820,6 +820,7 @@ class MemoryTest extends UnitTest
             }
         );
     }
+
     /**
      * Tests negation of multilayer inherited roles
      *
@@ -864,5 +865,4 @@ class MemoryTest extends UnitTest
             }
         );
     }
-
 }
