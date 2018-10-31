@@ -206,12 +206,7 @@ class Redis extends Backend
 		/**
 		 * Check if a connection is created or make a new one
 		 */
-		let redis = this->_redis;
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
-		//let redis = this->getClient();
+		let redis = this->getClient();
 
 		if content === null {
 			let cachedContent = frontend->getContent();
@@ -423,7 +418,10 @@ class Redis extends Backend
 	 */
 	private function getClient() -> <\Redis>
 	{
-		if typeof this->_redis != "object" {
+		var redis;
+
+		let redis = this->_redis;
+		if typeof redis != "object" {
 			this->_connect();
 		}
 
