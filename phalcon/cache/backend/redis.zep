@@ -197,7 +197,7 @@ class Redis extends Backend
 		var prefixedKey, frontend, redis, cachedContent, preparedContent,
 			tt1, success;
 
-		if keyName === null {
+		if keyName === null || keyName === "" {
 			let prefixedKey = substr(this->_lastKey, 5);
 		} else {
 			let prefixedKey    = this->getPrefixedKey(keyName),
