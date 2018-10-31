@@ -123,20 +123,20 @@ class RedisCest
     {
         $I->wantTo('Check if cache exists in cache by using Redis as cache backend');
 
-        $key = 'data-exists';
-
+        $key  = 'data-exists';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => env('TEST_RS_HOST', '127.0.0.1'),
-                'port'     => env('TEST_RS_PORT', 6379),
-                'index'    => env('TEST_RS_DB', 0),
+                'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+                'port'  => env('TEST_RS_PORT', 6379),
+                'index' => env('TEST_RS_DB', 0),
             ]
         );
 
-        $I->haveInRedis('string', $key, serialize($data));
+        $I->dontSeeInRedis($key);
+        $cache->save($key, serialize($data));
 
         $I->assertTrue($cache->exists('data-exists'));
         $I->assertFalse($cache->exists('_PHCRdata-exists'));

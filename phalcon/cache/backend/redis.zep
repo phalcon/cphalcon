@@ -192,14 +192,16 @@ class Redis extends Backend
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var prefixedKey, frontend, redis, cachedContent, preparedContent,
+		var prefixedKey, frontend, redis, lastKey, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
 
 		if keyName === null {
-			let prefixedKey = substr(lastKey, 5);
+			let prefixedKey = substr(lastKey, 5),
+				lastKey     = this->_lastKey;
 		} else {
 			let prefixedKey    = this->getPrefixedKey(keyName),
-				this->_lastKey = this->getStoreKey(keyName);
+				lastKey        = this->getStoreKey(keyName),
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -366,7 +368,7 @@ class Redis extends Backend
 			let this->_lastKey = this->getStoreKey(keyName);
 		}
 
-		if lastKey {
+		if this->_lastKey {
 			let redis = this->_redis;
 			if typeof redis != "object" {
 				this->_connect();
