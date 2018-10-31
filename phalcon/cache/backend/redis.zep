@@ -244,7 +244,7 @@ class Redis extends Backend
 
 		// Don't set expiration for negative ttl or zero
 		if tt1 >= 1 {
-			redis->settimeout(lastKey, tt1);
+			redis->setTimeout(lastKey, tt1);
 		}
 
 		if this->getSpecialKey() != "" {
