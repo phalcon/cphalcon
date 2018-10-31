@@ -28,8 +28,6 @@ use Phalcon\Cache\FrontendInterface;
  *
  * Allows to cache output fragments, PHP data or raw data to a redis backend
  *
- * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
- *
  *<code>
  * use Phalcon\Cache\Backend\Redis;
  * use Phalcon\Cache\Frontend\Data as FrontData;
@@ -156,12 +154,7 @@ class Redis extends Backend
 	{
 		var redis, frontend, prefix, lastKey, cachedContent;
 
-		let redis = this->_redis;
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
-
+		let redis = this->getClient();
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
 		let lastKey = "_PHCR" . prefix . keyName;
@@ -217,11 +210,7 @@ class Redis extends Backend
 		/**
 		 * Check if a connection is created or make a new one
 		 */
-		let redis = this->_redis;
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
+		let redis = this->getClient();
 
 		if content === null {
 			let cachedContent = frontend->getContent();
@@ -295,12 +284,7 @@ class Redis extends Backend
 	{
 		var redis, prefix, prefixedKey, lastKey, options, specialKey;
 
-		let redis = this->_redis;
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
-
+		let redis = this->getClient();
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
 		let lastKey = "_PHCR" . prefixedKey;
@@ -334,13 +318,7 @@ class Redis extends Backend
 	{
 		var redis, options, keys, specialKey, key, idx;
 
-		let redis = this->_redis;
-
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
-
+		let redis = this->getClient();
 		let options = this->_options;
 
 		if !fetch specialKey, options["statsKey"] {
@@ -386,11 +364,7 @@ class Redis extends Backend
 		}
 
 		if lastKey {
-			let redis = this->_redis;
-			if typeof redis != "object" {
-				this->_connect();
-				let redis = this->_redis;
-			}
+			let redis = this->getClient();
 
 			return (bool) redis->exists(lastKey);
 		}
@@ -407,12 +381,7 @@ class Redis extends Backend
 	{
 		var redis, prefix, lastKey;
 
-		let redis = this->_redis;
-
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
+		let redis = this->getClient();
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -434,12 +403,7 @@ class Redis extends Backend
 	{
 		var redis, prefix, lastKey;
 
-		let redis = this->_redis;
-
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
+		let redis = this->getClient();
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -465,17 +429,11 @@ class Redis extends Backend
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let redis = this->_redis;
-
-		if typeof redis != "object" {
-			this->_connect();
-			let redis = this->_redis;
-		}
-
 		if specialKey == "" {
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
+		let redis = this->getClient();
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
@@ -486,5 +444,33 @@ class Redis extends Backend
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns the Redis client. Connects if not set
+	 */
+	private function getClient() -> <\Redis>
+	{
+		if typeof this->_redis != "object" {
+			this->_connect();
+		}
+
+		return this->_redis
+	}
+
+	/**
+	 * Returns the store key with the special key and prefix
+	 */
+	private function getStoreKey(string keyName) -> string
+	{
+		string specialKey;
+
+		if fetch specialKey, options["statsKey"] {
+			let specialKey = (string) specialKey;
+		} else {
+			let specialKey = "";
+		}
+
+		return specialKey . this->_prefix . keyName;
 	}
 }
