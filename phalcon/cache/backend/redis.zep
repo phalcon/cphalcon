@@ -152,14 +152,13 @@ class Redis extends Backend
 	 */
 	public function get(string keyName, int lifetime = null) -> var | null
 	{
-		var redis, frontend, prefix, lastKey, cachedContent;
+		var redis, frontend, lastKey, cachedContent;
 
-		let redis = this->getClient();
-		let frontend = this->_frontend;
-		let prefix = this->_prefix;
-		let lastKey = "_PHCR" . prefix . keyName;
+		let redis          = this->getClient();
+		let frontend       = this->_frontend;
+		let lastKey        = this->getStoreKey(keyName);
 		let this->_lastKey = lastKey;
-		let cachedContent = redis->get(lastKey);
+		let cachedContent  = redis->get(lastKey);
 
 		if cachedContent === false {
 			return null;
@@ -190,14 +189,14 @@ class Redis extends Backend
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
-			tmp, tt1, success, options, specialKey, isBuffering;
+			tt1, success, isBuffering;
 
 		if keyName === null {
-			let lastKey = this->_lastKey;
-			let prefixedKey = substr(lastKey, 5);
+			let lastKey     = this->_lastKey,
+				prefixedKey = substr(lastKey, 5);
 		} else {
-			let prefixedKey = this->_prefix . keyName,
-				lastKey = "_PHCR" . prefixedKey,
+			let prefixedKey    = this->getPrefixedKey(keyName),
+				lastKey        = this->getStoreKey(keyName),
 				this->_lastKey = lastKey;
 		}
 
@@ -228,12 +227,10 @@ class Redis extends Backend
 		}
 
 		if lifetime === null {
-			let tmp = this->_lastLifetime;
-
-			if !tmp {
+			if !this->_lastLifetime {
 				let tt1 = frontend->getLifetime();
 			} else {
-				let tt1 = tmp;
+				let tt1 = this->_lastLifetime;
 			}
 		} else {
 			let tt1 = lifetime;
@@ -250,13 +247,7 @@ class Redis extends Backend
 			redis->settimeout(lastKey, tt1);
 		}
 
-		let options = this->_options;
-
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
-		}
-
-		if specialKey != "" {
+		if this->getSpecialKey() != "" {
 			redis->sAdd(specialKey, prefixedKey);
 		}
 
@@ -282,19 +273,14 @@ class Redis extends Backend
 	 */
 	public function delete(keyName) -> boolean
 	{
-		var redis, prefix, prefixedKey, lastKey, options, specialKey;
+		var redis, prefixedKey, lastKey, options, specialKey;
 
-		let redis = this->getClient();
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let lastKey = "_PHCR" . prefixedKey;
-		let options = this->_options;
+		let redis       = this->getClient(),
+			prefixedKey = this->getPrefixedKey(keyName),
+			lastKey     = this->getStoreKey(keyName);
+		let options     = this->_options;
 
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
-		}
-
-		if specialKey != "" {
+		if this->getSpecialKey() != "" {
 			redis->sRem(specialKey, prefixedKey);
 		}
 
@@ -318,7 +304,7 @@ class Redis extends Backend
 	{
 		var redis, options, keys, specialKey, key, idx;
 
-		let redis = this->getClient();
+		let redis   = this->getClient();
 		let options = this->_options;
 
 		if !fetch specialKey, options["statsKey"] {
@@ -354,13 +340,12 @@ class Redis extends Backend
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
-		var lastKey, redis, prefix;
+		var lastKey, redis;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = this->getStoreKey(keyName);
 		}
 
 		if lastKey {
@@ -379,16 +364,15 @@ class Redis extends Backend
 	 */
 	public function increment(keyName = null, int value = 1) -> int
 	{
-		var redis, prefix, lastKey;
+		var redis, lastKey;
 
 		let redis = this->getClient();
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
-			let this->_lastKey = lastKey;
+			let lastKey        = this->getStoreKey(keyName),
+				this->_lastKey = lastKey;
 		}
 
 		return redis->incrBy(lastKey, value);
@@ -401,16 +385,15 @@ class Redis extends Backend
 	 */
 	public function decrement(keyName = null, int value = 1) -> int
 	{
-		var redis, prefix, lastKey;
+		var redis, lastKey;
 
 		let redis = this->getClient();
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
-			let this->_lastKey = lastKey;
+			let lastKey        = this->getStoreKey(keyName),
+				this->_lastKey = lastKey;
 		}
 
 		return redis->decrBy(lastKey, value);
@@ -437,7 +420,7 @@ class Redis extends Backend
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = "_PHCR" . key;
+				let lastKey = this->getPrefixedKey(keyName);
 				redis->sRem(specialKey, key);
 				redis->delete(lastKey);
 			}
@@ -455,7 +438,29 @@ class Redis extends Backend
 			this->_connect();
 		}
 
-		return this->_redis
+		return this->_redis;
+	}
+
+	/**
+	 * Returns the key with its prefix
+	 */
+	private function getPrefixedKey(string keyName) -> string
+	{
+		return this->_prefix . keyName;
+	}
+
+	/**
+	 * Returns the special key if set; empty string otherwise
+	 */
+	private function getSpecialKey() -> string
+	{
+		var specialKey;
+
+		if fetch specialKey, this->_options["statsKey"] {
+			return specialKey;
+		}
+
+		return "";
 	}
 
 	/**
@@ -471,6 +476,6 @@ class Redis extends Backend
 			let specialKey = "";
 		}
 
-		return specialKey . this->_prefix . keyName;
+		return specialKey . this->getPrefixedKey(keyName);
 	}
 }
