@@ -192,16 +192,14 @@ class Redis extends Backend
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var prefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
+		var prefixedKey, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
 
 		if keyName === null {
-			let lastKey     = this->_lastKey;
 			let prefixedKey = substr(lastKey, 5);
 		} else {
 			let prefixedKey    = this->getPrefixedKey(keyName),
-				lastKey        = this->getStoreKey(keyName),
-				this->_lastKey = lastKey;
+				this->_lastKey = this->getStoreKey(keyName);
 		}
 
 		if !lastKey {
@@ -246,7 +244,7 @@ class Redis extends Backend
 			let tt1 = lifetime;
 		}
 
-		let success = redis->set(lastKey, preparedContent);
+		let success = redis->set(this->_lastKey, preparedContent);
 
 		if !success {
 			throw new Exception("Failed storing the data in redis");
@@ -254,15 +252,10 @@ class Redis extends Backend
 
 		// Don't set expiration for negative ttl or zero
 		if tt1 >= 1 {
-			redis->settimeout(lastKey, tt1);
+			redis->setTimeout(lastKey, tt1);
 		}
 
-		let options = this->_options;
-
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
-		}
-
+		let specialKey = this->getSpecialKey();
 		if specialKey != "" {
 			redis->sAdd(specialKey, prefixedKey);
 		}
@@ -367,12 +360,10 @@ class Redis extends Backend
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
-		var lastKey, redis, prefix;
+		var redis;
 
-		if !keyName {
-			let lastKey = this->_lastKey;
-		} else {
-			let lastKey = this->getStoreKey(keyName);
+		if keyName {
+			let this->_lastKey = this->getStoreKey(keyName);
 		}
 
 		if lastKey {
@@ -382,7 +373,7 @@ class Redis extends Backend
 				let redis = this->_redis;
 			}
 
-			return (bool) redis->exists(lastKey);
+			return (bool) redis->exists(this->_lastKey);
 		}
 
 		return false;
@@ -395,7 +386,7 @@ class Redis extends Backend
 	 */
 	public function increment(keyName = null, int value = 1) -> int
 	{
-		var redis, lastKey;
+		var redis;
 
 		let redis = this->_redis;
 
@@ -404,14 +395,11 @@ class Redis extends Backend
 			let redis = this->_redis;
 		}
 
-		if !keyName {
-			let lastKey = this->_lastKey;
-		} else {
-			let lastKey        = this->getStoreKey(keyName);
-			let this->_lastKey = lastKey;
+		if keyName {
+			let this->_lastKey = this->getStoreKey(keyName);
 		}
 
-		return redis->incrBy(lastKey, value);
+		return redis->incrBy(this->_lastKey, value);
 	}
 
 	/**
@@ -421,7 +409,7 @@ class Redis extends Backend
 	 */
 	public function decrement(keyName = null, int value = 1) -> int
 	{
-		var redis, lastKey;
+		var redis;
 
 		let redis = this->_redis;
 
@@ -430,14 +418,11 @@ class Redis extends Backend
 			let redis = this->_redis;
 		}
 
-		if !keyName {
-			let lastKey = this->_lastKey;
-		} else {
-			let lastKey        = this->getStoreKey(keyName);
-			let this->_lastKey = lastKey;
+		if keyName {
+			let this->_lastKey = this->getStoreKey(keyName);
 		}
 
-		return redis->decrBy(lastKey, value);
+		return redis->decrBy(this->_lastKey, value);
 	}
 
 	/**
