@@ -27,9 +27,9 @@ class ColumnsCest extends ColumnsBase
      * @param \UnitTester $I
      * @since 2018-10-26
      */
-    public function checkReferencesCount(\UnitTester $I, $scenario)
+    public function checkReferencesCount(\UnitTester $I)
     {
-        $scenario->skip('Skipping for now');
+        $I->comment('TODO: Skipping for now');
     }
 
     /**
@@ -38,9 +38,9 @@ class ColumnsCest extends ColumnsBase
      * @param \UnitTester $I
      * @since 2018-10-26
      */
-    public function checkReferences(\UnitTester $I, $scenario)
+    public function checkReferences(\UnitTester $I)
     {
-        $scenario->skip('Skipping for now');
+        $I->comment('TODO: Skipping for now');
     }
 
     /**
