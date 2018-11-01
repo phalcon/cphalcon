@@ -580,6 +580,8 @@ class Memory extends Adapter
 	 *
 	 * @param  RoleInterface|RoleAware|string roleName
 	 * @param  ResourceInterface|ResourceAware|string resourceName
+	 * @param  string access
+	 * @param  array parameters
 	 */
 	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
 	{
