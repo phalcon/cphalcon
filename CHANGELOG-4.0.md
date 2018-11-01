@@ -26,7 +26,7 @@
 - Changed `Phalcon\Mvc\Model` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Changed `Phalcon\Validation\*` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Collections now use the Validation component [#12376](https://github.com/phalcon/cphalcon/pull/12376)
-- Made the `specialKey` (`_PHCR`) optional for the `Phalcon\Cache\Backend\Redis` [#10905](https://github.com/phalcon/cphalcon/issues/10905) [11608](https://github.com/phalcon/cphalcon/pull/11608)
+- Made the `specialKey` (`_PHCR`) optional for the `Phalcon\Cache\Backend\Redis` adapter [#10905](https://github.com/phalcon/cphalcon/issues/10905) [11608](https://github.com/phalcon/cphalcon/pull/11608)
 
 ## Removed
 - PHP < 7.0 no longer supported

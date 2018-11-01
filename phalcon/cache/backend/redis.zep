@@ -68,7 +68,7 @@ class Redis extends Backend
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, array options = [])
 	{
 		if typeof options != "array" {
 			let options = [];
