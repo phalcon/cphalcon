@@ -10,7 +10,6 @@
 - Added ability to set a custom template for the Flash Messenger. [#13445](https://github.com/phalcon/cphalcon/issues/13445)
 - Added `forUpdate` in the Sqlite dialect to override the method from the base dialect. [#13539](https://github.com/phalcon/cphalcon/issues/13539)
 - Added `TYPE_ENUM` in the Mysql adapter. [#11368](https://github.com/phalcon/cphalcon/issues/11368)
-- Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [#13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -27,6 +26,7 @@
 - Changed `Phalcon\Mvc\Model` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Changed `Phalcon\Validation\*` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Collections now use the Validation component [#12376](https://github.com/phalcon/cphalcon/pull/12376)
+- Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
 
 ## Removed
 - PHP < 7.0 no longer supported
