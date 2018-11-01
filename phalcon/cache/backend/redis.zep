@@ -193,7 +193,7 @@ class Redis extends Backend
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, frontend, redis, lastKey, cachedContent, preparedContent,
-			tmp, tt1, success, options, specialKey, isBuffering;
+			tmp, ttl, success, options, specialKey, isBuffering;
 
 		if keyName === null {
 			let prefixedKey = substr(lastKey, 5),
@@ -238,12 +238,12 @@ class Redis extends Backend
 			let tmp = this->_lastLifetime;
 
 			if !tmp {
-				let tt1 = frontend->getLifetime();
+				let ttl = frontend->getLifetime();
 			} else {
-				let tt1 = tmp;
+				let ttl = tmp;
 			}
 		} else {
-			let tt1 = lifetime;
+			let ttl = lifetime;
 		}
 
 		let success = redis->set(this->_lastKey, preparedContent);
@@ -253,8 +253,8 @@ class Redis extends Backend
 		}
 
 		// Don't set expiration for negative ttl or zero
-		if tt1 >= 1 {
-			redis->setTimeout(lastKey, tt1);
+		if ttl >= 1 {
+			redis->setTimeout(lastKey, ttl);
 		}
 
 		let specialKey = this->getSpecialKey();
