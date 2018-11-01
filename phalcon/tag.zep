@@ -1237,7 +1237,7 @@ class Tag
 	 * {{ render_title() }}
 	 * </code>
 	 */
-	public static function getRenderTitle() -> string
+	public static function renderTitle() -> string
 	{
 		return "<title>" . self::getTitle() . "</title>" . PHP_EOL;
 	}

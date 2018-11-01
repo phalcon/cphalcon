@@ -40,7 +40,7 @@ class TagTitleTest extends UnitTest
                 $value = "Hello </title><script>alert('Got your nose!');</script><title>";
 
                 Tag::setTitle($value);
-                $expected = "Hello &lt;/title&gt;&lt;script&gt;alert(&#039;Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;" . PHP_EOL;
+                $expected = "Hello &lt;/title&gt;&lt;script&gt;alert(&#039;Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;";
 
                 expect(Tag::getTitle())->equals($expected);
             }
@@ -105,8 +105,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle('Title');
                 Tag::appendTitle('Class');
 
-                expect(Tag::getTitle(false, false))->equals("Title" . PHP_EOL);
-                expect(Tag::getTitle(false, true))->equals("TitleClass" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Title");
+                expect(Tag::getTitle(false, true))->equals("TitleClass");
                 expect(Tag::renderTitle())->equals("<title>TitleClass</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -114,8 +114,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle('This is my title');
                 Tag::appendTitle(' - Welcome!');
 
-                expect(Tag::getTitle(false, false))->equals("This is my title" . PHP_EOL);
-                expect(Tag::getTitle(false, true))->equals("This is my title - Welcome!" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("This is my title");
+                expect(Tag::getTitle(false, true))->equals("This is my title - Welcome!");
                 expect(Tag::renderTitle())->equals("<title>This is my title - Welcome!</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -124,8 +124,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitleSeparator('|');
                 Tag::appendTitle('Class');
 
-                expect(Tag::getTitle(false, false))->equals("Title" . PHP_EOL);
-                expect(Tag::getTitle(false, true))->equals("Title|Class" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Title");
+                expect(Tag::getTitle(false, true))->equals("Title|Class");
                 expect(Tag::renderTitle())->equals("<title>Title|Class</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -135,8 +135,8 @@ class TagTitleTest extends UnitTest
                 Tag::appendTitle('Category');
                 Tag::appendTitle('Title');
 
-                expect(Tag::getTitle(false, false))->equals("Main" . PHP_EOL);
-                expect(Tag::getTitle(false, true))->equals("Main - Category - Title" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Main");
+                expect(Tag::getTitle(false, true))->equals("Main - Category - Title");
                 expect(Tag::renderTitle())->equals("<title>Main - Category - Title</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -145,8 +145,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitleSeparator(' - ');
                 Tag::appendTitle(['Category', 'Title']);
 
-                expect(Tag::getTitle(false, false))->equals("Main" . PHP_EOL);
-                expect(Tag::getTitle(false, true))->equals("Main - Category - Title" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Main");
+                expect(Tag::getTitle(false, true))->equals("Main - Category - Title");
                 expect(Tag::renderTitle())->equals("<title>Main - Category - Title</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -156,8 +156,8 @@ class TagTitleTest extends UnitTest
                 Tag::appendTitle('Category');
                 Tag::appendTitle([]);
 
-                expect(Tag::getTitle(false, false))->equals("Main" . PHP_EOL);
-                expect(Tag::getTitle(false, true))->equals("Main" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Main");
+                expect(Tag::getTitle(false, true))->equals("Main");
                 expect(Tag::renderTitle())->equals("<title>Main</title>" . PHP_EOL);
             }
         );
@@ -180,8 +180,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle('This is my title');
                 Tag::prependTitle('PhalconPHP - ');
 
-                expect(Tag::getTitle(false, false))->equals("This is my title" . PHP_EOL);
-                expect(Tag::getTitle(true, false))->equals("PhalconPHP - This is my title" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("This is my title");
+                expect(Tag::getTitle(true, false))->equals("PhalconPHP - This is my title");
                 expect(Tag::renderTitle())->equals("<title>PhalconPHP - This is my title</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -190,8 +190,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitleSeparator('|');
                 Tag::prependTitle('Class');
 
-                expect(Tag::getTitle(false, false))->equals("Title" . PHP_EOL);
-                expect(Tag::getTitle(true, false))->equals("Class|Title" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Title");
+                expect(Tag::getTitle(true, false))->equals("Class|Title");
                 expect(Tag::renderTitle())->equals("<title>Class|Title</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -201,8 +201,8 @@ class TagTitleTest extends UnitTest
                 Tag::prependTitle('Category');
                 Tag::prependTitle('Title');
 
-                expect(Tag::getTitle(false, false))->equals("Main" . PHP_EOL);
-                expect(Tag::getTitle(true, false))->equals("Title - Category - Main" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Main");
+                expect(Tag::getTitle(true, false))->equals("Title - Category - Main");
                 expect(Tag::renderTitle())->equals("<title>Title - Category - Main</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -211,8 +211,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitleSeparator(' - ');
                 Tag::prependTitle(['Category', 'Title']);
 
-                expect(Tag::getTitle(false, false))->equals("Main" . PHP_EOL);
-                expect(Tag::getTitle(true, false))->equals("Title - Category - Main" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Main");
+                expect(Tag::getTitle(true, false))->equals("Title - Category - Main");
                 expect(Tag::renderTitle())->equals("<title>Title - Category - Main</title>" . PHP_EOL);
 
                 Tag::resetInput();
@@ -222,8 +222,8 @@ class TagTitleTest extends UnitTest
                 Tag::prependTitle('Category');
                 Tag::prependTitle([]);
 
-                expect(Tag::getTitle(false, false))->equals("Main" . PHP_EOL);
-                expect(Tag::getTitle(true, false))->equals("Main" . PHP_EOL);
+                expect(Tag::getTitle(false, false))->equals("Main");
+                expect(Tag::getTitle(true, false))->equals("Main");
                 expect(Tag::renderTitle())->equals("<title>Main</title>" . PHP_EOL);
             }
         );
