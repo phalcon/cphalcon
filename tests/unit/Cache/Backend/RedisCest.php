@@ -139,7 +139,7 @@ class RedisCest
         $cache->save($key, serialize($data));
 
         $I->assertTrue($cache->exists('data-exists'));
-        $I->assertFalse($cache->exists('_PHCRdata-exists'));
+        $I->assertFalse($cache->exists('_PHCR'));
     }
 
     /**
@@ -481,7 +481,7 @@ class RedisCest
                 'port'     => env('TEST_RS_PORT', 6379),
                 'index'    => env('TEST_RS_DB', 0),
                 'statsKey' => '_PHCR',
-                'prefix'   => 'prefix',
+                'prefix'   => 'phalcon-',
             ]
         );
         $cache->flush();
@@ -492,7 +492,7 @@ class RedisCest
         $keys = $cache->queryKeys();
         sort($keys);
 
-        $I->assertEquals(['a', 'b'], $keys);
+        $I->assertEquals(['phalcon-a', 'phalcon-b'], $keys);
         $I->assertEquals($data, $cache->get('a'));
         $I->assertEquals($data, $cache->get('b'));
     }
