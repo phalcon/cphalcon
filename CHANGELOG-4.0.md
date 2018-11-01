@@ -27,6 +27,7 @@
 - Changed `Phalcon\Mvc\Model` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Changed `Phalcon\Validation\*` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Collections now use the Validation component [#12376](https://github.com/phalcon/cphalcon/pull/12376)
+- Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
 
 ## Removed
 - PHP < 7.0 no longer supported
