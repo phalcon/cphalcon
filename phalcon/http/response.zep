@@ -296,13 +296,10 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function hasHeader(string name) -> boolean
 	{
-		var header;
+		var headers;
+		let headers = this->getHeaders();
 
-		if !fetch header, this->_headers[name] {
-			return false;
-		}
-
-		return true;
+		return headers->has(name);
 	}
 
 	/**
