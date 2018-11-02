@@ -80,7 +80,7 @@ class ResponseTest extends HttpBase
     }
 
     /**
-     * Tests the setStatusCode
+     * Tests the hasHeader
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
@@ -92,17 +92,10 @@ class ResponseTest extends HttpBase
             function () {
                 $response = $this->getResponseObject();
                 $response->resetHeaders();
-                $response->setStatusCode(404, "Not Found");
+                $response->setHeader('Content-Type', 'text/html');
 
-                $expected = Headers::__set_state(
-                    [
-                        '_headers' => [
-                            'HTTP/1.1 404 Not Found' => '',
-                            'Status'                 => '404 Not Found'
-                        ]
-                    ]
-                );
-                expect($response->getHeaders())->equals($expected);
+                expect($response->hasHeader('Content-Type'))->true();
+                expect($response->hasHeader('some-unknown-header'))->false();
             }
         );
     }
@@ -120,10 +113,16 @@ class ResponseTest extends HttpBase
             function () {
                 $response = $this->getResponseObject();
                 $response->resetHeaders();
-                $response->setHeader('Content-Type', 'text/html');
-
-                expect($response->hasHeader('Content-Type'))->true();
-                expect($response->hasHeader('some-unknown-header'))->false();
+                $response->setStatusCode(404, "Not Found");
+                $expected = Headers::__set_state(
+                    [
+                        '_headers' => [
+                            'HTTP/1.1 404 Not Found' => '',
+                            'Status'                 => '404 Not Found'
+                        ]
+                    ]
+                );
+                expect($response->getHeaders())->equals($expected);
             }
         );
     }

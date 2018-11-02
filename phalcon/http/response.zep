@@ -298,7 +298,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	{
 		var header;
 
-		if fetch header, this->_headers[name] {
+		if !fetch header, this->_headers[name] {
 			return false;
 		}
 
