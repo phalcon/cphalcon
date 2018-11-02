@@ -529,6 +529,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		for attribute in metaData->getAttributes(this) {
 
+			// Try to find case-insensitive key variant
+			if !isset columnMap[key] && globals_get("orm.case_insensitive_column_map") {
+				let key = self::caseInsensitiveColumnMap(columnMap, key);
+			}
+
 			// Check if we need to rename the field
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[attribute] {
@@ -783,6 +788,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 
 			if typeof columnMap == "array" {
+
+				// Try to find case-insensitive key variant
+				if !isset columnMap[key] && globals_get("orm.case_insensitive_column_map") {
+					let key = self::caseInsensitiveColumnMap(columnMap, key);
+				}
 
 				/**
 				 * Every field must be part of the column map
@@ -2307,6 +2317,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					continue;
 				}
 
+				// Try to find case-insensitive key variant
+				if !isset columnMap[key] && globals_get("orm.case_insensitive_column_map") {
+					let key = self::caseInsensitiveColumnMap(columnMap, key);
+				}
+
 				/**
 				 * Every field must be part of the column map
 				 */
@@ -2391,7 +2406,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
 			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-			updateSnapshotOnSave, disableAssignSetters;
+			updateSnapshotOnSave, disableAssignSetters, caseInsensitiveColumnMap;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -2454,6 +2469,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
 			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+		}
+
+		if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
+			globals_set("orm.case_insensitive_column_map", caseInsensitiveColumnMap);
 		}
 
 		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
@@ -2540,6 +2559,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * Check if the columns must be renamed
 			 */
 			if typeof columnMap == "array" {
+				// Try to find case-insensitive key variant
+				if !isset columnMap[attribute] && globals_get("orm.case_insensitive_column_map") {
+					let attribute = self::caseInsensitiveColumnMap(columnMap, attribute);
+				}
+
 				if !fetch attributeField, columnMap[attribute] {
 					if !globals_get("orm.ignore_unknown_columns") {
 						throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
@@ -4801,5 +4825,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function validationHasFailed() -> boolean
 	{
 		return count(this->_errorMessages) > 0;
+	}
+
+	/**
+	 * Attempts to find key case-insensitively
+	 */
+	private static function caseInsensitiveColumnMap(var columnMap, var key) -> string
+	{
+		var cmKey;
+
+		for cmKey in array_keys(columnMap) {
+			if strtolower(cmKey) == strtolower(key) {
+				return cmKey;
+			}
+		}
+
+		return key;
 	}
 }
