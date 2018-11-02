@@ -288,6 +288,24 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Checks if a header exists
+	 *
+	 *<code>
+	 * $response->hasHeader("Content-Type");
+	 *</code>
+	 */
+	public function hasHeader(string name) -> boolean
+	{
+		var header;
+
+		if fetch header, this->_headers[name] {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Overwrites a header in the response
 	 *
 	 *<code>
