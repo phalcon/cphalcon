@@ -65,6 +65,26 @@ class HeadersTest extends HttpBase
     }
 
     /**
+     * Tests the hasHeader
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2018-11-02
+     */
+    public function testHttpResponseHasHeader()
+    {
+        $this->specify(
+            "hasHeader does not return the correct result",
+            function () {
+                $responseHeaders = new Headers();
+                $responseHeaders->set('Content-Type', 'text/html');
+
+                expect($responseHeaders->hasHeader('Content-Type'))->true();
+                expect($responseHeaders->hasHeader('some-random-stuff'))->false();
+            }
+        );
+    }
+
+    /**
      * Tests the set of the response status headers
      *
      * @test
