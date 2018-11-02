@@ -782,4 +782,87 @@ class MemoryTest extends UnitTest
         expect($acl->isAllowed($role, $role, 'update'))->true();
         expect($acl->isAllowed($resource, $resource, 'update'))->true();
     }
+
+
+    /**
+     * Tests negation of multiple inherited roles
+     *
+     *
+     * @author  cq-z <64899484@qq.com>
+     * @since   2018-10-10
+     */
+    public function testAclNegationOfMultipleInheritedRoles()
+    {
+        $this->specify(
+            'Negation of multiple inherited roles does not return the correct result',
+            function () {
+                $acl = new Memory;
+                $acl->setDefaultAction(Acl::DENY);
+
+                $acl->addRole('Guests');
+                $acl->addRole('Guests2');
+                $acl->addRole('Members', ['Guests', 'Guests2']);
+
+                $acl->addResource('Login', ['help', 'index']);
+
+                $acl->allow('Guests', 'Login', '*');
+                $acl->deny('Guests2', 'Login', ['help']);
+                $acl->deny('Members', 'Login', ['index']);
+
+                $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+                expect($actual)->false();
+
+                $actual = (bool)$acl->isAllowed('Guests', 'Login', 'help');
+                expect($actual)->true();
+
+                $actual = (bool)$acl->isAllowed('Members', 'Login', 'help');
+                expect($actual)->true();
+            }
+        );
+    }
+
+    /**
+     * Tests negation of multilayer inherited roles
+     *
+     *
+     * @author  cq-z <64899484@qq.com>
+     * @since   2018-10-10
+     */
+    public function testAclNegationOfMultilayerInheritedRoles()
+    {
+        $this->specify(
+            'Negation of multiple inherited roles does not return the correct result',
+            function () {
+                $acl = new Memory;
+                $acl->setDefaultAction(Acl::DENY);
+
+                $acl->addRole('Guests1');
+                $acl->addRole('Guests12', 'Guests1');
+                $acl->addRole('Guests2');
+                $acl->addRole('Guests22', 'Guests2');
+                $acl->addRole('Members', ['Guests12','Guests22']);
+
+                $acl->addResource('Login', ['help', 'index']);
+                $acl->addResource('Logout', ['help', 'index']);
+
+                $acl->allow('Guests1', 'Login', '*');
+                $acl->deny('Guests12', 'Login', ['help']);
+
+                $acl->deny('Guests2', 'Logout', '*');
+                $acl->allow('Guests22', 'Logout', ['index']);
+
+                $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+                expect($actual)->true();
+
+                $actual = (bool)$acl->isAllowed('Members', 'Login', 'help');
+                expect($actual)->false();
+
+                $actual = (bool)$acl->isAllowed('Members', 'Logout', 'help');
+                expect($actual)->false();
+
+                $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+                expect($actual)->true();
+            }
+        );
+    }
 }
