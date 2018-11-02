@@ -530,8 +530,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		for attribute in metaData->getAttributes(this) {
 
 			// Try to find case-insensitive key variant
-			if !isset columnMap[key] && globals_get("orm.case_insensitive_column_map") {
-				let key = self::caseInsensitiveColumnMap(columnMap, key);
+			if !isset columnMap[attribute] && globals_get("orm.case_insensitive_column_map") {
+				let attribute = self::caseInsensitiveColumnMap(columnMap, attribute);
 			}
 
 			// Check if we need to rename the field
