@@ -12,6 +12,7 @@
 - Added `TYPE_ENUM` in the Mysql adapter. [#11368](https://github.com/phalcon/cphalcon/issues/11368)
 - Added `Phalcon\Acl\Adapter\Memory::addRole` support multiple inherited
 - Added `Phalcon\Tag::renderTitle()` that renders the title enclosed in `<title>` tags. [13547](https://github.com/phalcon/cphalcon/issues/13547)
+- Added global setting `orm.case_insensitive_column_map` to attempt to find value in the column map case-insensitively. Can be also enabled by setting `caseInsensitiveColumnMap` key in `\Phalcon\Mvc\Model::setup()`. [#11802](https://github.com/phalcon/cphalcon/pull/11802)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [#13456](https://github.com/phalcon/cphalcon/pull/13456)
