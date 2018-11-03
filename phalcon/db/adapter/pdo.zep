@@ -694,7 +694,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
 	{
-		var eventsManager, pdo, statement;
+		var eventsManager, pdo, statement, params, types;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -712,13 +712,19 @@ abstract class Pdo extends Adapter
 
 		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
-			let statement = pdo->prepare(sqlStatement);
-			if typeof statement == "object" {
-				let statement = this->executePrepared(statement, bindParams, bindTypes);
-			}
-		} else {
-			let statement = pdo->query(sqlStatement);
-		}
+            let params = bindParams;
+            let types = bindTypes;
+        } else {
+            let params = [];
+            let types = [];
+        }
+
+        let statement = pdo->prepare(sqlStatement);
+        if typeof statement == "object" {
+            let statement = this->executePrepared(statement, params, types);
+        } else {
+            throw new Exception("Cannot prepare statement");
+        }
 
 		/**
 		 * Execute the afterQuery event if an EventsManager is available
