@@ -64,7 +64,7 @@ class Redis extends Backend
 
 	/**
 	 * @var string
-     */
+	 */
 	protected statsKey = "";
 
 	/**
