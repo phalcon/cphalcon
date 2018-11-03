@@ -10,7 +10,8 @@
 - Added ability to set a custom template for the Flash Messenger. [#13445](https://github.com/phalcon/cphalcon/issues/13445)
 - Added `forUpdate` in the Sqlite dialect to override the method from the base dialect. [#13539](https://github.com/phalcon/cphalcon/issues/13539)
 - Added `TYPE_ENUM` in the Mysql adapter. [#11368](https://github.com/phalcon/cphalcon/issues/11368)
-- Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
+- Added `Phalcon\Acl\Adapter\Memory::addRole` support multiple inherited
+- Added `Phalcon\Tag::renderTitle()` that renders the title enclosed in `<title>` tags. [13547](https://github.com/phalcon/cphalcon/issues/13547)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [#13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -28,7 +29,9 @@
 - Changed `Phalcon\Validation\*` to use the `Phalcon\Messages\Message` object for its messages [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Collections now use the Validation component [#12376](https://github.com/phalcon/cphalcon/pull/12376)
 - Made the `specialKey` (`_PHCR`) optional for the `Phalcon\Cache\Backend\Redis` adapter [#10905](https://github.com/phalcon/cphalcon/issues/10905) [11608](https://github.com/phalcon/cphalcon/pull/11608)
+- Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
+- Changed `Phalcon\Tag::getTitle()`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [13547](https://github.com/phalcon/cphalcon/issues/13547) 
 
 ## Removed
 - PHP < 7.0 no longer supported
