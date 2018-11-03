@@ -227,7 +227,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 */
 	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
-		var results, result, row;
+		var results, result;
 
 		let results = [],
 			result = this->{"query"}(sqlQuery, bindParams, bindTypes);

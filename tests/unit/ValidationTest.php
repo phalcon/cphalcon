@@ -247,24 +247,24 @@ class ValidationTest extends UnitTest
                 $validation->setDI(new FactoryDefault());
 
                 $validation
-                    ->add('name', new Validation\Validator\Alpha(array(
+                    ->add('name', new Validation\Validator\Alpha([
                         'message' => 'The name is not valid',
-                    )))
-                    ->add('name', new Validation\Validator\PresenceOf(array(
+                    ]))
+                    ->add('name', new Validation\Validator\PresenceOf([
                         'message' => 'The name is required',
-                    )))
-                    ->add('url', new Validation\Validator\Url(array(
+                    ]))
+                    ->add('url', new Validation\Validator\Url([
                         'message' => 'The url is not valid.',
                         'allowEmpty' => true,
-                    )))
-                    ->add('email', new Validation\Validator\Email(array(
+                    ]))
+                    ->add('email', new Validation\Validator\Email([
                         'message' => 'The email is not valid.',
                         'allowEmpty' => [null, false],
-                    )))
-                    ->add('price', new Validation\Validator\Numericality(array(
+                    ]))
+                    ->add('price', new Validation\Validator\Numericality([
                         'message' => 'The price is not valid.',
                         'allowEmpty' => [null, new RawValue('NULL')],
-                    )));
+                    ]));
 
                 $messages = $validation->validate([
                     'name' => '',
