@@ -22,7 +22,6 @@ namespace Phalcon\Cache\Backend;
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\FrontendInterface;
-use \Redis as RedisServer;
 
 /**
  * Phalcon\Cache\Backend\Redis
@@ -49,6 +48,19 @@ use \Redis as RedisServer;
  *         "auth"       => "foobared",
  *         "persistent" => false,
  *         "index"      => 0,
+ *     ]
+ * );
+ *
+ * // Create the Cache setting redis connection options with statsKey
+ * $cache = new Redis(
+ *     $frontCache,
+ *     [
+ *         "host"       => "localhost",
+ *         "port"       => 6379,
+ *         "auth"       => "foobared",
+ *         "persistent" => false,
+ *         "index"      => 0,
+ *         "statsKey"   => "_PHCR_",
  *     ]
  * );
  *
@@ -118,7 +130,7 @@ class Redis extends Backend
 		var options, redis, persistent, success, host, port, auth, index, timeout;
 
 		let options = this->_options;
-		let redis = new RedisServer();
+		let redis   = new \Redis();
 
 		if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] || !fetch timeout, options["timeout"] {
 			throw new Exception("Unexpected inconsistency in options");
@@ -199,7 +211,7 @@ class Redis extends Backend
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, frontend, redis, cachedContent, preparedContent,
-			tmp, ttl, success, options, isBuffering;
+			tmp, ttl, success, isBuffering;
 
 		if keyName === null {
 			let prefixedKey = substr(this->_lastKey, strlen(this->statsKey));
@@ -319,7 +331,7 @@ class Redis extends Backend
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
-		var redis, options, keys, specialKey, key, idx;
+		var redis, options, keys, key, idx;
 
 		let redis = this->redis;
  		if typeof redis != "object" {
@@ -424,9 +436,7 @@ class Redis extends Backend
 	 */
 	public function flush() -> boolean
 	{
-		var options, specialKey, redis, keys, key, lastKey;
-
-		let options = this->_options;
+		var redis, keys, key, lastKey;
 
 		if this->statsKey == "" {
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
