@@ -63,10 +63,12 @@ class Redis extends Backend
 	protected _redis = null;
 
 	/**
+	 * @var string
+     */
+	protected statsKey = "";
+
+	/**
 	 * Phalcon\Cache\Backend\Redis constructor
-	 *
-	 * @param	Phalcon\Cache\FrontendInterface frontend
-	 * @param	array options
 	 */
 	public function __construct(<FrontendInterface> frontend, array options = [])
 	{
@@ -101,6 +103,9 @@ class Redis extends Backend
 		if !isset options["timeout"] {
 			let options["timeout"] = 0;
 		}
+
+		let this->statsKey = options["statsKey"];
+
 		parent::__construct(frontend, options);
 	}
 
@@ -193,11 +198,11 @@ class Redis extends Backend
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, frontend, redis, lastKey, cachedContent, preparedContent,
-			tmp, ttl, success, options, specialKey, isBuffering;
+			tmp, ttl, success, options, isBuffering;
 
 		if keyName === null {
-			let prefixedKey = substr(lastKey, 5),
-				lastKey     = this->_lastKey;
+			let lastKey     = this->_lastKey,
+				prefixedKey = substr(lastKey, strlen(this->statsKey));
 		} else {
 			let prefixedKey    = this->getPrefixedKey(keyName),
 				lastKey        = this->getStoreKey(keyName),
@@ -257,9 +262,8 @@ class Redis extends Backend
 			redis->setTimeout(lastKey, ttl);
 		}
 
-		let specialKey = this->getSpecialKey();
-		if specialKey != "" {
-			redis->sAdd(specialKey, prefixedKey);
+		if this->statsKey != "" {
+			redis->sAdd(this->statsKey, prefixedKey);
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -284,7 +288,7 @@ class Redis extends Backend
 	 */
 	public function delete(keyName) -> boolean
 	{
-		var redis, prefixedKey, lastKey, specialKey;
+		var redis, prefixedKey, lastKey;
 
 		let redis = this->_redis;
 		if typeof redis != "object" {
@@ -294,10 +298,9 @@ class Redis extends Backend
 
 		let prefixedKey = this->getPrefixedKey(keyName);
 		let lastKey     = this->getStoreKey(keyName);
-		let specialKey  = this->getSpecialKey();
 
-		if specialKey != "" {
-			redis->sRem(specialKey, prefixedKey);
+		if this->statsKey != "" {
+			redis->sRem(this->statsKey, prefixedKey);
 		}
 
 		/**
@@ -472,24 +475,10 @@ class Redis extends Backend
 	}
 
 	/**
-	 * Returns the special key if set; empty string otherwise
-	 */
-	private function getSpecialKey() -> string
-	{
-		var specialKey;
-
-		if fetch specialKey, this->_options["statsKey"] {
-			return specialKey;
-		}
-
-		return "";
-	}
-
-	/**
 	 * Returns the store key with the special key and prefix
 	 */
 	private function getStoreKey(string keyName) -> string
 	{
-		return this->getSpecialKey() . this->getPrefixedKey(keyName);
+		return this->statsKey . this->getPrefixedKey(keyName);
 	}
 }
