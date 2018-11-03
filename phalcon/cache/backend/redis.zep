@@ -117,42 +117,40 @@ class Redis extends Backend
 	{
 		var options, redis, persistent, success, host, port, auth, index, timeout;
 
-		if typeof this->redis != "object" {
-			let options = this->_options;
-			let redis = new RedisServer();
-	
-			if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] || !fetch timeout, options["timeout"] {
-				throw new Exception("Unexpected inconsistency in options");
-			}
-	
-			if persistent {
-				let success = redis->pconnect(host, port, timeout);
-			} else {
-				let success = redis->connect(host, port, timeout);
-			}
-	
-			if !success {
-				throw new Exception("Could not connect to the Redisd server ".host.":".port);
-			}
-	
-			if fetch auth, options["auth"] && !empty options["auth"] {
-				let success = redis->auth(auth);
-	
-				if !success {
-					throw new Exception("Failed to authenticate with the Redisd server");
-				}
-			}
-	
-			if fetch index, options["index"] && index > 0 {
-				let success = redis->select(index);
-	
-				if !success {
-					throw new Exception("Redis server selected database failed");
-				}
-			}
-	
-			let this->redis = redis;
+		let options = this->_options;
+		let redis = new RedisServer();
+
+		if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] || !fetch timeout, options["timeout"] {
+			throw new Exception("Unexpected inconsistency in options");
 		}
+
+		if persistent {
+			let success = redis->pconnect(host, port, timeout);
+		} else {
+			let success = redis->connect(host, port, timeout);
+		}
+
+		if !success {
+			throw new Exception("Could not connect to the Redisd server ".host.":".port);
+		}
+
+		if fetch auth, options["auth"] && !empty options["auth"] {
+			let success = redis->auth(auth);
+
+			if !success {
+				throw new Exception("Failed to authenticate with the Redisd server");
+			}
+		}
+
+		if fetch index, options["index"] && index > 0 {
+			let success = redis->select(index);
+
+			if !success {
+				throw new Exception("Redis server selected database failed");
+			}
+		}
+
+		let this->redis = redis;
 	}
 
 	/**
@@ -162,8 +160,12 @@ class Redis extends Backend
 	{
 		var redis, frontend, cachedContent;
 
-		this->connect();
-		let redis 		   = this->redis;
+		let redis = this->redis;
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
+
 		let frontend       = this->_frontend;
 		let this->_lastKey = this->getStoreKey(keyName);
 		let cachedContent  = redis->get(this->_lastKey);
@@ -214,8 +216,11 @@ class Redis extends Backend
 		/**
 		 * Check if a connection is created or make a new one
 		 */
-		this->connect();
 		let redis = this->redis;
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
 
 		if content === null {
 			let cachedContent = frontend->getContent();
@@ -283,8 +288,12 @@ class Redis extends Backend
 	{
 		var redis, prefixedKey;
 
-		this->connect();
-		let redis          = this->redis;
+		let redis = this->redis;
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
+
 		let prefixedKey    = this->getPrefixedKey(keyName);
 		let this->_lastKey = this->getStoreKey(keyName);
 
@@ -312,8 +321,11 @@ class Redis extends Backend
 	{
 		var redis, options, keys, specialKey, key, idx;
 
-		this->connect();
 		let redis = this->redis;
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
 
 		if this->statsKey == "" {
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
@@ -351,8 +363,11 @@ class Redis extends Backend
 		}
 
 		if this->_lastKey {
-			this->connect();
 			let redis = this->redis;
+			if typeof redis != "object" {
+				this->connect();
+				let redis = this->redis;
+			}
 
 			return (bool) redis->exists(this->_lastKey);
 		}
@@ -369,8 +384,11 @@ class Redis extends Backend
 	{
 		var redis;
 
-		this->connect();
 		let redis = this->redis;
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
 
 		if keyName {
 			let this->_lastKey = this->getStoreKey(keyName);
@@ -388,8 +406,11 @@ class Redis extends Backend
 	{
 		var redis;
 
-		this->connect();
 		let redis = this->redis;
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
 
 		if keyName {
 			let this->_lastKey = this->getStoreKey(keyName);
@@ -411,9 +432,13 @@ class Redis extends Backend
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
-		this->connect();
 		let redis = this->redis;
-		let keys  = redis->sMembers(this->statsKey);
+ 		if typeof redis != "object" {
+ 			this->connect();
+ 			let redis = this->redis;
+ 		}
+
+		let keys = redis->sMembers(this->statsKey);
 		if typeof keys == "array" {
 			for key in keys {
 				let lastKey = this->statsKey . key;
