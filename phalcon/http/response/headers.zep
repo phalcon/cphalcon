@@ -35,13 +35,7 @@ class Headers implements HeadersInterface
 	 */
 	public function has(string name) -> boolean
 	{
-		var header;
-
-		if !fetch header, this->_headers[name] {
-			return false;
-		}
-
-		return true;
+		return isset(this->_headers);
 	}
 
 	/**

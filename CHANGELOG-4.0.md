@@ -31,7 +31,7 @@
 - Collections now use the Validation component [PR-12376](https://github.com/phalcon/cphalcon/pull/12376)
 - Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
-- Changed `Phalcon\Tag::getTitle()`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [13547](https://github.com/phalcon/cphalcon/issues/13547) 
+- Changed `Phalcon\Tag::getTitle()`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [#13547](https://github.com/phalcon/cphalcon/issues/13547) 
 
 ## Removed
 - PHP < 7.0 no longer supported
