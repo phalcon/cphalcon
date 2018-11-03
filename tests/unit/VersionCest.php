@@ -17,7 +17,7 @@ class VersionCest
     {
         $actual = Version::get();
         $I->assertTrue(
-            $actual,
+            is_string($actual),
             "get() does not return a string"
         );
     }

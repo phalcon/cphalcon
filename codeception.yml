@@ -1,0 +1,33 @@
+actor_suffix: Tester
+
+paths:
+    # where the modules stored
+    tests: tests
+    log: tests/_output
+    # directory for fixture data
+    data: tests/_data
+    # directory for custom modules (helpers)
+    support: tests/_support
+    envs: tests/_envs
+
+settings:
+    # name of bootstrap that will be used
+    # each bootstrap file should be
+    # inside a suite directory.
+    bootstrap: _bootstrap.php
+    colors: true
+    # Tests (especially functional) can take a lot of memory
+    # We set a high limit for them by default.
+    memory_limit: 1024M
+
+coverage:
+    # Disable Code Coverage by default to speed up Travis tests
+    enabled: false
+
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+
+#params:
+#    # get params from environment vars
+#    - env
