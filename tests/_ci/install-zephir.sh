@@ -7,17 +7,11 @@
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 
-# Ensure that this is being run inside a CI container
-if [ "${CI}" != "true" ]; then
-	echo "This script is designed to run inside a CI container only. Stop."
-	exit 1
-fi
-
 PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
 ZEPHIRDIR=${PROJECT_ROOT}/vendor/phalcon/zephir
 
 if [ ! -d "${ZEPHIRDIR}" ]; then
-	echo -e "The ${ZEPHIRDIR} directory does not exists. First run 'composer install --dev'"
+	echo -e "The ${ZEPHIRDIR} directory does not exists. First run 'composer install'"
 	exit 1
 fi
 
