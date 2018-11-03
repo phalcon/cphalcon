@@ -4,7 +4,7 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE
+# For the full copyright and license information, please view the LICENSE.txt
 # file that was distributed with this source code.
 
 # trace ERR through pipes
@@ -18,12 +18,6 @@ set -o nounset
 
 # set -e : exit the script if any statement returns a non-true return value
 set -o errexit
-
-# Ensure that this is being run inside a CI
-if [ ! -n "$CI" ] || [ "${CI}" != "true" ]; then
-	echo "This script is designed to run inside a CI container only. Exiting"
-	exit 1
-fi
 
 mkdir -p "$HOME/pear"
 

@@ -4,24 +4,32 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE
+# For the full copyright and license information, please view the LICENSE.txt
 # file that was distributed with this source code.
 
-# Ensure that this is being run inside a CI container
-if [ "${CI}" != "true" ]; then
-	echo "This script is designed to run inside a CI container only. Stop."
-	exit 1
+if [ -z "${CC}" ]; then
+	echo "The CC variable is unset or set to the empty string. Skip"
+	exit 0
 fi
 
 PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
 
 cd ${PROJECT_ROOT}
 
-# Creating precompiled headers.
-#
-# If a `*.gch' file is not found then the normal header files will be used.
-# For more see: http://en.wikipedia.org/wiki/Precompiled_header
-for file in `find kernel -name "*.h"`; do
-	echo -e "Creating a precompiled header: ext/${file} => ext/${file}.ghc ..."
-	${CC} "$file" -I. $(php-config --includes) -o "$file.ghc"
+echo "Creating precompiled headers..."
+if [ "${CC:0:5}" = "clang" ]; then
+	_ext="pch"
+	_option="-emit-pch"
+	_arg="-cc1"
+else
+	_ext="ghc"
+	_option=
+	_arg=
+fi
+
+# If a `*.gch' (or a `*.pch') file is not found then the normal header files
+# will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
+for file in `find ./ext/kernel -name "*.h"`; do
+	printf "\t>>> ${file}\n\t<<< ${file}.ghc\n"
+	${CC} ${_arg} "${file}" -I. -I${PROJECT_ROOT}/ext $(php-config --includes) ${_option} -o "${file}.${_ext}"
 done

@@ -4,15 +4,8 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE
+# For the full copyright and license information, please view the LICENSE.txt
 # file that was distributed with this source code.
-
-echo -e "Install a tool for writing fast and flexible scanners in C from regular expressions"
-
-if [ "${CI}" != "true" ]; then
-	echo "This script is designed to run inside a CI container only. Stop."
-	exit 1
-fi
 
 if [ -z ${RE2C_VERSION+x} ]; then
 	echo "The RE2C_VERSION is unset. Stop."
