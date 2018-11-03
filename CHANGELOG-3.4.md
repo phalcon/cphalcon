@@ -2,6 +2,7 @@
 - Fixed `Phalcon\Validation\Validator\Numericality` to accept float numbers on locales with comma decimal point [#13450](https://github.com/phalcon/cphalcon/issues/13450)
 - Fixed `Phalcon\Tag` so it unsets `parameters` before passing options array to `self::renderAttributes`
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename; when file downloaded it had an extra `_`
+- Added `Phalcon\Validation\Validator\Ip`, class used to validate ip address fields. It allows to validate a field selecting IPv4 or IPv6, allowing private or reserved ranges and empty values if necessary.
 - Added the ability to explicitly define nullable columns (especially timestamp ones). [#13099](https://github.com/phalcon/cphalcon/issues/13099)
 - Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
 - Fixed `Phalcon\Mvc\Model\Query::execute` to properly bind parameters to sub queries [#11605](https://github.com/phalcon/cphalcon/issues/11605)
