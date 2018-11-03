@@ -35,7 +35,7 @@ class Headers implements HeadersInterface
 	 */
 	public function has(string name) -> boolean
 	{
-		return isset(this->_headers);
+		return isset(this->_headers[name]);
 	}
 
 	/**
