@@ -17,7 +17,7 @@ echo
 $(phpenv which php) -v
 echo
 
-$(phpenv which php-config)  --vernum
+$(phpenv which php-config) --vernum
 echo
 
 $(phpenv which php) -m
