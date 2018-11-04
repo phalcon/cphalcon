@@ -1,3 +1,10 @@
+# This file is part of the Phalcon.
+#
+# (c) Phalcon Team <team@phalconphp.com>
+#
+# For the full copyright and license information, please view the LICENSE.txt
+# file that was distributed with this source code.
+
 Function PrepareReleaseNote {
 	$ReleaseFile = "${Env:APPVEYOR_BUILD_FOLDER}\package\RELEASE.txt"
 	$ReleaseDate = Get-Date -Format g
@@ -78,6 +85,20 @@ Function InstallBuildDependencies {
 		Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
 		& cmd /c ".\install-php-deps.bat"
 	}
+
+    $BuildFile = "${Env:ZEPHIR_PATH}\install-php-deps.bat"
+
+    If (-not (Test-Path "${Env:ZEPHIR_PATH}\vendor")) {
+        $Php = "${Env:PHP_PATH}\php.exe"
+        $ComposerOptions = "--quiet --no-interaction --no-progress --optimize-autoloader --prefer-dist --no-suggest --ignore-platform-reqs"
+
+        Write-Output "@echo off" | Out-File -Encoding "ASCII" -Append $BuildFile
+        Write-Output "${Php} -r `"readfile('https://getcomposer.org/installer');`" | ${Env:PHP_PATH}\php.exe" | Out-File -Encoding "ASCII" -Append $BuildFile
+        Write-Output "${Php} ${Env:APPVEYOR_BUILD_FOLDER}\composer.phar install ${ComposerOptions}" | Out-File -Encoding "ASCII" -Append $BuildFile
+
+        Set-Location "${Env:ZEPHIR_PATH}"
+        & cmd /c ".\install-php-deps.bat"
+    }
 }
 
 Function EnsurePandocIsInstalled {
@@ -359,6 +380,28 @@ Function InstallParser {
 	}
 }
 
+Function InstallZephir {
+    $BaseUri = "https://github.com/phalcon/zephir/archive"
+    $RemoteUrl = "${BaseUri}/${Env:ZEPHIR_VERSION}.zip"
+
+    $DestinationPath = "C:\Downloads\zephir-${Env:ZEPHIR_VERSION}.zip"
+
+    If (-not (Test-Path ${Env:ZEPHIR_PATH})) {
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Host "Downloading Zephir: ${RemoteUrl} ..."
+            DownloadFile $RemoteUrl $DestinationPath
+        }
+
+        $DestinationUnzipPath = "${Env:Temp}\zephir-${Env:ZEPHIR_VERSION}"
+
+        If (-not (Test-Path "$DestinationUnzipPath")) {
+            Expand-Item7zip $DestinationPath $Env:Temp
+        }
+
+        Move-Item -Path "$DestinationUnzipPath" -Destination "${Env:ZEPHIR_PATH}"
+    }
+}
+
 Function InstallPhp {
 	Write-Host "Install PHP: ${Env:PHP_VERSION}" -foregroundcolor Cyan
 
@@ -466,6 +509,7 @@ Function AppendSessionPath {
 	$PathsCollection += "${Env:PHP_SDK_PATH}\bin"
 	$PathsCollection += "${Env:PHP_PATH}\bin"
 	$PathsCollection += "${Env:PHP_PATH}"
+	$PathsCollection += "${Env:ZEPHIR_PATH}\bin"
 
 	$CurrentPath = (Get-Item -Path ".\" -Verbose).FullName
 

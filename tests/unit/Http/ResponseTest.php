@@ -80,6 +80,27 @@ class ResponseTest extends HttpBase
     }
 
     /**
+     * Tests the hasHeader
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-08
+     */
+    public function testHttpResponseHasHeader()
+    {
+        $this->specify(
+            "hasHeader is not returning the correct value",
+            function () {
+                $response = $this->getResponseObject();
+                $response->resetHeaders();
+                $response->setHeader('Content-Type', 'text/html');
+
+                expect($response->hasHeader('Content-Type'))->true();
+                expect($response->hasHeader('some-unknown-header'))->false();
+            }
+        );
+    }
+
+    /**
      * Tests the setStatusCode
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -93,7 +114,6 @@ class ResponseTest extends HttpBase
                 $response = $this->getResponseObject();
                 $response->resetHeaders();
                 $response->setStatusCode(404, "Not Found");
-
                 $expected = Headers::__set_state(
                     [
                         '_headers' => [
