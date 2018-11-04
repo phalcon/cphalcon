@@ -1,12 +1,5 @@
 <?php
 
-namespace Phalcon\Test\Unit;
-
-use const ENT_XHTML;
-use Phalcon\Escaper;
-use Phalcon\Test\Module\UnitTest;
-use UnitTester;
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -15,6 +8,14 @@ use UnitTester;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Phalcon\Test\Unit;
+
+use const ENT_XHTML;
+use Phalcon\Escaper;
+use Phalcon\Test\Module\UnitTest;
+use UnitTester;
+
 class EscaperCest
 {
     /**
