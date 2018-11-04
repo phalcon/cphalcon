@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit;
 
+use function is_string;
 use Phalcon\Version;
 use UnitTester;
 
@@ -15,11 +16,8 @@ class VersionCest
      */
     public function testVersionGet(UnitTester $I)
     {
-        $actual = Version::get();
-        $I->assertTrue(
-            is_string($actual),
-            "get() does not return a string"
-        );
+        $actual = is_string(Version::get());
+        $I->assertTrue($actual);
     }
 
     /**
@@ -30,11 +28,8 @@ class VersionCest
      */
     public function testVersionGetId(UnitTester $I)
     {
-        $actual = Version::getId();
-        $I->assertTrue(
-            is_string($actual),
-            "getId() does not return a string"
-        );
+        $actual = is_string(Version::getId());
+        $I->assertTrue($actual);
     }
 
     /**
@@ -65,8 +60,7 @@ class VersionCest
 
         $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
         $actual   = Version::getId();
-
-        $I->assertEquals($expected, $actual, "get() to getId() does not produce the same result");
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -86,7 +80,7 @@ class VersionCest
 
         $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
         $actual   = Version::get();
-        $I->assertEquals($expected, $actual, "getId() to get() does not produce the same result");
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -97,11 +91,11 @@ class VersionCest
      */
     public function testVersionConstants(UnitTester $I)
     {
-        $I->assertEquals(0, Version::VERSION_MAJOR, "VERSION_MAJOR does not return 0");
-        $I->assertEquals(1, Version::VERSION_MEDIUM, "VERSION_MAJOR does not return 1");
-        $I->assertEquals(2, Version::VERSION_MINOR, "VERSION_MAJOR does not return 2");
-        $I->assertEquals(3, Version::VERSION_SPECIAL, "VERSION_MAJOR does not return 3");
-        $I->assertEquals(4, Version::VERSION_SPECIAL_NUMBER, "VERSION_MAJOR does not return 4");
+        $I->assertEquals(0, Version::VERSION_MAJOR);
+        $I->assertEquals(1, Version::VERSION_MEDIUM);
+        $I->assertEquals(2, Version::VERSION_MINOR);
+        $I->assertEquals(3, Version::VERSION_SPECIAL);
+        $I->assertEquals(4, Version::VERSION_SPECIAL_NUMBER);
     }
 
     /**
@@ -122,28 +116,28 @@ class VersionCest
         $id       = Version::getId();
         $expected = intval($id[0]); //The major version is the first digit
         $actual   = Version::getPart(Version::VERSION_MAJOR);
-        $I->assertEquals($expected, $actual, "getPart(VERSION_MAJOR) does not return the correct result");
+        $I->assertEquals($expected, $actual);
 
         $expected = intval($id[1].$id[2]); //The medium version is the second and third digits
         $actual   = Version::getPart(Version::VERSION_MEDIUM);
-        $I->assertEquals($expected, $actual, "getPart(VERSION_MEDIUM) does not return the correct result");
+        $I->assertEquals($expected, $actual);
 
         $expected = intval($id[3].$id[4]); //The minor version is the fourth and fifth digits
         $actual   = Version::getPart(Version::VERSION_MINOR);
-        $I->assertEquals($expected, $actual, "getPart(VERSION_MINOR) does not return the correct result");
+        $I->assertEquals($expected, $actual);
 
         $expected = $this->numberToSpecial($id[5]);
         $actual   = Version::getPart(Version::VERSION_SPECIAL);
-        $I->assertEquals($expected, $actual, "getPart(VERSION_SPECIAL) does not return the correct result");
+        $I->assertEquals($expected, $actual);
 
         $special  = $this->numberToSpecial($id[5]);
         $expected = ($special) ? $id[6] : 0;
         $actual   = Version::getPart(Version::VERSION_SPECIAL_NUMBER);
-        $I->assertEquals($expected, $actual, "getPart(VERSION_SPECIAL_NUMBER) does not return the correct result");
+        $I->assertEquals($expected, $actual);
 
         $expected = Version::get();
         $actual   = Version::getPart(7);
-        $I->assertEquals($expected, $actual, "getPart() with incorrect parameters does not return get()");
+        $I->assertEquals($expected, $actual);
     }
 
     /**
