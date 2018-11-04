@@ -29,6 +29,7 @@ environment:
     PHP_PATH: C:\Projects\php
     PHP_SDK_PATH: C:\Projects\php-sdk
     PHP_DEVPACK: C:\Projects\php-devpack
+    ZEPHIR_PATH: C:\Projects\zephir
     TEST_PHP_EXECUTABLE: C:\Projects\php\php.exe
     PHP_SDK_VERSION: 2.0.7
     PACKAGE_PREFIX: phalcon
@@ -40,7 +41,8 @@ environment:
     PARSER_VERSION: 1.1.2
     PARSER_RELEASE: 290
     PHALCON_STABLE_VERSION: 3.3.2
-    PSR_PECL_VERSION: 0.4.0
+    PSR_PECL_VERSION: 0.5.1
+    ZEPHIR_VERSION: 0.10.12
 
 matrix:
     fast_finish: true
@@ -76,6 +78,7 @@ install:
     - ps: InstallPsrExtension
     - ps: InstallStablePhalcon
     - ps: InstallParser
+    - ps: InstallZephir
     - ps: TuneUpPhp
 
 build_script:
@@ -85,7 +88,7 @@ build_script:
     - '"%VSCOMNTOOLS%\VsDevCmd" %PLATFORM%'
     - '"%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%'
     - '%PHP_SDK_PATH%\bin\phpsdk_setvars'
-    - 'vendor\bin\zephir generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
+    - '%ZEPHIR_PATH%\bin\zephir.bat generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
     - 'cd %APPVEYOR_BUILD_FOLDER%\build'
     - 'php gen-build.php'
     - 'cd %APPVEYOR_BUILD_FOLDER%\build\php7\safe'
@@ -103,14 +106,8 @@ artifacts:
       name: Phalcon
 
 on_failure :
+    - ps: PrintLogs "${Env:APPVEYOR_BUILD_FOLDER}"
     - ps: PrintLogs "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
     - ps: PrintVars
     - ps: PrintDirectoriesContent
     - ps: PrintPhpInfo
-
-notifications:
-    - provider: Email
-      to:
-        - build@phalconphp.com
-      subject: "Build Phalcon [{{status}}]"
-      on_build_status_changed: true

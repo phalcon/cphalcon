@@ -1154,14 +1154,21 @@ class Tag
 	 * The title will be automatically escaped.
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::getTitle();
+	 * Tag::prependTitle('Hello');
+	 * Tag::setTitle('World');
+	 * Tag::appendTitle('from Phalcon');
+	 *
+	 * echo Tag::getTitle();             // Hello World from Phalcon
+	 * echo Tag::getTitle(false);        // World from Phalcon
+	 * echo Tag::getTitle(true, false);  // Hello World
+	 * echo Tag::getTitle(false, false); // World
 	 * </code>
 	 *
 	 * <code>
 	 * {{ get_title() }}
 	 * </code>
 	 */
-	public static function getTitle(boolean tags = true) -> string
+	public static function getTitle(boolean prepend = true, boolean append = true) -> string
 	{
 		var items, output, title, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
 
@@ -1171,22 +1178,18 @@ class Tag
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
-		if typeof self::_documentAppendTitle == "null" {
-			let self::_documentAppendTitle = [];
-		}
+		if prepend {
+			if typeof self::_documentPrependTitle == "null" {
+				let self::_documentPrependTitle = [];
+			}
 
-		let documentAppendTitle = self::_documentAppendTitle;
+			let documentPrependTitle = self::_documentPrependTitle;
 
-		if typeof self::_documentPrependTitle == "null" {
-			let self::_documentPrependTitle = [];
-		}
-
-		let documentPrependTitle = self::_documentPrependTitle;
-
-		if !empty documentPrependTitle {
-			var tmp = array_reverse(documentPrependTitle);
-			for title in tmp {
-				let items[] = escaper->escapeHtml(title);
+			if !empty documentPrependTitle {
+				var tmp = array_reverse(documentPrependTitle);
+				for title in tmp {
+					let items[] = escaper->escapeHtml(title);
+				}
 			}
 		}
 
@@ -1194,9 +1197,17 @@ class Tag
 			let items[] = documentTitle;
 		}
 
-		if !empty documentAppendTitle {
-			for title in documentAppendTitle {
-				let items[] = escaper->escapeHtml(title);
+		if append {
+			if typeof self::_documentAppendTitle == "null" {
+				let self::_documentAppendTitle = [];
+			}
+
+			let documentAppendTitle = self::_documentAppendTitle;
+
+			if !empty documentAppendTitle {
+				for title in documentAppendTitle {
+					let items[] = escaper->escapeHtml(title);
+				}
 			}
 		}
 
@@ -1208,11 +1219,27 @@ class Tag
 			let output = implode(documentTitleSeparator, items);
 		}
 
-		if tags {
-			return "<title>" . output . "</title>" . PHP_EOL;
-		}
-
 		return output;
+	}
+
+	/**
+	 * Renders the title with title tags. The title is automaticall escaped
+	 *
+	 * <code>
+	 * Tag::prependTitle('Hello');
+	 * Tag::setTitle('World');
+	 * Tag::appendTitle('from Phalcon');
+	 *
+	 * echo Tag::renderTitle(); // <title>Hello World From Phalcon</title>
+	 * </code>
+	 *
+	 * <code>
+	 * {{ render_title() }}
+	 * </code>
+	 */
+	public static function renderTitle() -> string
+	{
+		return "<title>" . self::getTitle() . "</title>" . PHP_EOL;
 	}
 
 	/**

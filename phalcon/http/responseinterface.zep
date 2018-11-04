@@ -41,6 +41,11 @@ interface ResponseInterface
 	public function getHeaders() -> <HeadersInterface>;
 
 	/**
+	 * Checks if a header exists
+	 */
+	public function hasHeader(string name) -> boolean;
+
+	/**
 	 * Overwrites a header in the response
 	 */
 	public function setHeader(string name, value) -> <ResponseInterface>;
