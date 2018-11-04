@@ -3,16 +3,16 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Crypt;
-use Phalcon\Test\Module\UnitTest;
+use Phalcon\Crypt\Exception;
 use UnitTester;
 
 class CryptCest
@@ -29,21 +29,25 @@ class CryptCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
-     * @author <k@yejune.com>
-     * @since  2018-05-16
+     * @author                   <k@yejune.com>
+     * @since                    2018-05-16
      *
      * @expectedException        \Phalcon\Crypt\Mismatch
      * @expectedExceptionMessage Hash does not match.
      */
     public function shouldThrowExceptionIfHashMismatch(UnitTester $I, $scenario)
     {
-        $scenario->skip('TODO - Check exception');
-        $crypt = new Crypt();
-        $crypt->useSigning(true);
+        $I->expectThrowable(
+            Exception::class,
+            function () {
+                $crypt = new Crypt();
+                $crypt->useSigning(true);
 
-        $crypt->decrypt(
-            $crypt->encrypt('le text', 'encrypt key'),
-            'wrong key'
+                $crypt->decrypt(
+                    $crypt->encrypt('le text', 'encrypt key'),
+                    'wrong key'
+                );
+            }
         );
     }
 
@@ -94,17 +98,22 @@ class CryptCest
      * Tests the Crypt::setCipher
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2018-05-06
+     * @author                   Serghei Iakovlev <serghei@phalconphp.com>
+     * @since                    2018-05-06
      *
      * @expectedException        \Phalcon\Crypt\Exception
-     * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not supported on this system.
+     * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not
+     *                           supported on this system.
      */
     public function shouldThrowExceptionIfCipherIsUnknown(UnitTester $I, $scenario)
     {
-        $scenario->skip('TODO - Check exception');
-        $crypt = new Crypt();
-        $crypt->setCipher('xxx-yyy-zzz');
+        $I->expectThrowable(
+            Exception::class,
+            function () {
+                $crypt = new Crypt();
+                $crypt->setCipher('xxx-yyy-zzz');
+            }
+        );
     }
 
     /**
@@ -134,7 +143,7 @@ class CryptCest
     {
         $tests   = [
             md5(uniqid())            => str_repeat('x', mt_rand(1, 255)),
-            time().time()            => str_shuffle('abcdefeghijklmnopqrst'),
+            time() . time()          => str_shuffle('abcdefeghijklmnopqrst'),
             'le$ki12432543543543543' => "",
         ];
         $ciphers = [
@@ -172,20 +181,20 @@ class CryptCest
      */
     public function testCryptPadding(UnitTester $I)
     {
-        $texts = [''];
-        $key   = '0123456789ABCDEF0123456789ABCDEF';
+        $texts   = [''];
+        $key     = '0123456789ABCDEF0123456789ABCDEF';
         $ciphers = [
             'AES-256-ECB',
             'AES-256-CBC',
             'AES-256-CFB',
         ];
-        $pads  = [
+        $pads    = [
             Crypt::PADDING_ANSI_X_923,
             Crypt::PADDING_PKCS7,
             Crypt::PADDING_ISO_10126,
             Crypt::PADDING_ISO_IEC_7816_4,
             Crypt::PADDING_ZERO,
-            Crypt::PADDING_SPACE
+            Crypt::PADDING_SPACE,
         ];
 
         for ($i = 1; $i < 128; ++$i) {

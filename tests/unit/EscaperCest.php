@@ -3,18 +3,17 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit;
 
-use const ENT_XHTML;
 use Phalcon\Escaper;
-use Phalcon\Test\Module\UnitTest;
 use UnitTester;
+use const ENT_XHTML;
 
 class EscaperCest
 {
@@ -56,7 +55,7 @@ class EscaperCest
      */
     public function testEscapeAttrWithDifferentEncodings(UnitTester $I)
     {
-        $escaper  = new Escaper();
+        $escaper = new Escaper();
 
         $escaper->setHtmlQuoteType(ENT_HTML401);
         $expected = "That&#039;s right";

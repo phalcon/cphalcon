@@ -3,17 +3,17 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit;
 
-use function is_string;
 use Phalcon\Version;
 use UnitTester;
+use function is_string;
 
 class VersionCest
 {
@@ -63,13 +63,43 @@ class VersionCest
 
         // Now the version itself
         $verChunks = explode('.', $chunks[0]);
-        $major = intval($verChunks[0]);
-        $med   = substr("00" . intval($verChunks[1]), -2);
-        $min   = substr("00" . intval($verChunks[2]), -2);
+        $major     = intval($verChunks[0]);
+        $med       = substr("00" . intval($verChunks[1]), -2);
+        $min       = substr("00" . intval($verChunks[2]), -2);
 
         $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
         $actual   = Version::getId();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Translates a special version (ALPHA, BETA, RC) to a version number
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param $input
+     *
+     * @return string
+     */
+    private function specialToNumber($input)
+    {
+        switch ($input) {
+            case 'ALPHA':
+                $special = '1';
+                break;
+            case 'BETA':
+                $special = '2';
+                break;
+            case 'RC':
+                $special = '3';
+                break;
+            default:
+                $special = '4';
+                break;
+        }
+
+        return $special;
     }
 
     /**
@@ -90,6 +120,35 @@ class VersionCest
         $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
         $actual   = Version::get();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Translates a number to a special version string (ALPHA, BETA, RC)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param $number
+     *
+     * @return string
+     */
+    private function numberToSpecial($number)
+    {
+        $special = '';
+
+        switch ($number) {
+            case '1':
+                $special = 'ALPHA';
+                break;
+            case '2':
+                $special = 'BETA';
+                break;
+            case '3':
+                $special = 'RC';
+                break;
+        }
+
+        return $special;
     }
 
     /**
@@ -127,11 +186,11 @@ class VersionCest
         $actual   = Version::getPart(Version::VERSION_MAJOR);
         $I->assertEquals($expected, $actual);
 
-        $expected = intval($id[1].$id[2]); //The medium version is the second and third digits
+        $expected = intval($id[1] . $id[2]); //The medium version is the second and third digits
         $actual   = Version::getPart(Version::VERSION_MEDIUM);
         $I->assertEquals($expected, $actual);
 
-        $expected = intval($id[3].$id[4]); //The minor version is the fourth and fifth digits
+        $expected = intval($id[3] . $id[4]); //The minor version is the fourth and fifth digits
         $actual   = Version::getPart(Version::VERSION_MINOR);
         $I->assertEquals($expected, $actual);
 
@@ -147,64 +206,5 @@ class VersionCest
         $expected = Version::get();
         $actual   = Version::getPart(7);
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Translates a special version (ALPHA, BETA, RC) to a version number
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param $input
-     *
-     * @return string
-     */
-    private function specialToNumber($input)
-    {
-        switch ($input) {
-            case 'ALPHA':
-                $special = '1';
-                break;
-            case 'BETA':
-                $special = '2';
-                break;
-            case 'RC':
-                $special = '3';
-                break;
-            default:
-                $special = '4';
-                break;
-        }
-
-        return $special;
-    }
-
-    /**
-     * Translates a number to a special version string (ALPHA, BETA, RC)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param $number
-     *
-     * @return string
-     */
-    private function numberToSpecial($number)
-    {
-        $special = '';
-
-        switch ($number) {
-            case '1':
-                $special = 'ALPHA';
-                break;
-            case '2':
-                $special = 'BETA';
-                break;
-            case '3':
-                $special = 'RC';
-                break;
-        }
-
-        return $special;
     }
 }

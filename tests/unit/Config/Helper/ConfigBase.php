@@ -3,33 +3,33 @@
 namespace Phalcon\Test\Unit\Config\Helper;
 
 use Phalcon\Config;
-use Phalcon\Test\Module\UnitTest;
+use UnitTester;
 
 class ConfigBase
 {
     protected $config = [
-        'phalcon' => [
-            'baseuri' => '/phalcon/'
+        'phalcon'  => [
+            'baseuri' => '/phalcon/',
         ],
-        'models' => [
-            'metadata' => 'memory'
+        'models'   => [
+            'metadata' => 'memory',
         ],
         'database' => [
             'adapter'  => 'mysql',
             'host'     => 'localhost',
             'username' => 'user',
             'password' => 'passwd',
-            'name'     => 'demo'
+            'name'     => 'demo',
         ],
-        'test' => [
+        'test'     => [
             'parent' => [
-                'property' => 1,
-                'property2' => 'yeah'
+                'property'  => 1,
+                'property2' => 'yeah',
             ],
         ],
     ];
 
-    protected function compareConfig(\UnitTester $I, array $actual, Config $expected)
+    protected function compareConfig(UnitTester $I, array $actual, Config $expected)
     {
         $I->assertEquals($actual, $expected->toArray());
 

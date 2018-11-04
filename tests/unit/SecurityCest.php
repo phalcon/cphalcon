@@ -3,31 +3,21 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Di;
-use Phalcon\Security;
 use Phalcon\Http\Request;
+use Phalcon\Security;
 use UnitTester;
 
 class SecurityCest
 {
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I, $scenario)
-    {
-        if (!extension_loaded('openssl')) {
-            $scenario->skip('Warning: openssl extension is not loaded');
-        }
-    }
-
     /**
      * Tests the Security constants
      *
@@ -87,11 +77,11 @@ class SecurityCest
     public function testSecurityDefaults(UnitTester $I)
     {
         $security = new Security();
-        
+
         $expected = null;
         $actual   = $security->getDefaultHash();
         $I->assertEquals($expected, $actual);
-        
+
         $expected = 16;
         $actual   = $security->getRandomBytes();
         $I->assertEquals($expected, $actual);
@@ -108,7 +98,8 @@ class SecurityCest
     }
 
     /**
-     * Tests Security::getToken and Security::getTokenKey for generating only one token per request
+     * Tests Security::getToken and Security::getTokenKey for generating only
+     * one token per request
      */
     public function testOneTokenPerRequest(UnitTester $I, $scenario)
     {
@@ -119,7 +110,7 @@ class SecurityCest
         $security->setDI($di);
 
         $tokenKey = $security->getTokenKey();
-        $token = $security->getToken();
+        $token    = $security->getToken();
 
         $expected = $tokenKey;
         $actual   = $security->getTokenKey();
@@ -148,6 +139,28 @@ class SecurityCest
         $I->assertNotEquals($expected, $actual);
 
         $security->destroyToken();
+    }
+
+    /**
+     * Set up the environment.
+     *
+     * @return Di
+     */
+    private function setupDI()
+    {
+        Di::reset();
+
+        $di = new Di();
+
+//        $di->setShared('session', function () {
+//            return new Files();
+//        });
+
+        $di->setShared('request', function () {
+            return new Request();
+        });
+
+        return $di;
     }
 
     /**
@@ -240,24 +253,12 @@ class SecurityCest
     }
 
     /**
-     * Set up the environment.
-     *
-     * @return Di
+     * executed before each test
      */
-    private function setupDI()
+    protected function _before(UnitTester $I, $scenario)
     {
-        Di::reset();
-
-        $di = new Di();
-
-//        $di->setShared('session', function () {
-//            return new Files();
-//        });
-
-        $di->setShared('request', function () {
-            return new Request();
-        });
-
-        return $di;
+        if (!extension_loaded('openssl')) {
+            $scenario->skip('Warning: openssl extension is not loaded');
+        }
     }
 }
