@@ -28,6 +28,11 @@ interface HeadersInterface
 {
 
 	/**
+	 * Returns true if the header is set, false otherwise
+	 */
+	public function has(string name) -> boolean;
+
+	/**
 	 * Sets a header to be sent at the end of the request
 	 */
 	public function set(string name, string value);

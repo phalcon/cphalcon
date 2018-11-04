@@ -33,6 +33,14 @@ class Headers implements HeadersInterface
 	/**
 	 * Sets a header to be sent at the end of the request
 	 */
+	public function has(string name) -> boolean
+	{
+		return isset(this->_headers[name]);
+	}
+
+	/**
+	 * Sets a header to be sent at the end of the request
+	 */
 	public function set(string name, string value)
 	{
 		let this->_headers[name] = value;

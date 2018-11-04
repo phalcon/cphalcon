@@ -231,7 +231,7 @@ class Memory extends Adapter
      */
 	public function addInherit(string roleName, var roleToInherits) -> boolean
 	{
-		var roleInheritName, rolesNames, deepInheritName, roleToInherit, checkRoleToInherit,
+		var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
 		 checkRoleToInherits, usedRoleToInherits, roleToInheritList, usedRoleToInherit;
 
 		let rolesNames = this->_rolesNames;
@@ -584,7 +584,7 @@ class Memory extends Adapter
 	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
-			haveAccess = null, roleInherits, inheritedRole, rolesNames,
+			haveAccess = null, rolesNames,
 			funcAccess = null, resourceObject = null, roleObject = null, funcList,
 			reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
 			numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,

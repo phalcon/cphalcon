@@ -65,6 +65,26 @@ class HeadersTest extends HttpBase
     }
 
     /**
+     * Tests the has of the response headers
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2018-11-02
+     */
+    public function testHttpResponseHeadersHas()
+    {
+        $this->specify(
+            "Has Response Headers is not correct",
+            function () {
+                $responseHeaders = new Headers();
+                $responseHeaders->set('Content-Type', 'text/html');
+
+                expect($responseHeaders->has('Content-Type'))->true();
+                expect($responseHeaders->has('unknown-header'))->false();
+            }
+        );
+    }
+
+    /**
      * Tests the set of the response status headers
      *
      * @test
