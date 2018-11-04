@@ -11,7 +11,7 @@ insert_final_newline = true
 indent_style = space
 indent_size = 4
 
-[*.{c,h,awk,w32,bat,mk,Makefile,frag,zep,lemon,re}]
+[*.{c,h,awk,w32,bat,mk,Makefile,frag,zep,lemon,re,sh}]
 charset                  = utf-8
 end_of_line              = lf
 indent_size              = 4
@@ -20,7 +20,7 @@ tab_width                = 4
 trim_trailing_whitespace = true
 insert_final_newline     = true
 
-[*.{yml,m4,sh,json,xml}]
+[*.{yml,m4,json,xml}]
 charset                  = utf-8
 end_of_line              = lf
 indent_size              = 2

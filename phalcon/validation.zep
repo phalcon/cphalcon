@@ -250,7 +250,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Adds filters to the field
 	 *
-	 * @param string field
+	 * @param array|string field
 	 * @param array|string filters
 	 * @return \Phalcon\Validation
 	 */
@@ -580,6 +580,7 @@ class Validation extends Injectable implements ValidationInterface
 	protected function preChecking(var field, <ValidatorInterface> validator) -> boolean
 	{
 		var singleField, allowEmpty, emptyValue, value, result;
+
 		if typeof field == "array" {
 			for singleField in field {
 				let result = this->preChecking(singleField, validator);
@@ -587,22 +588,41 @@ class Validation extends Injectable implements ValidationInterface
 					return result;
 				}
 			}
-		}
-		else {
+		} else {
 			let allowEmpty = validator->getOption("allowEmpty", false);
+
 			if allowEmpty {
 				if method_exists(validator, "isAllowEmpty") {
 					return validator->isAllowEmpty(this, field);
 				}
+
 				let value = this->getValue(field);
+
+				// 'allowEmpty' => [null, false, RawValue('NULL')]
 				if typeof allowEmpty == "array" {
 					for emptyValue in allowEmpty {
 						if emptyValue === value {
 							return true;
+						} elseif typeof emptyValue == "object" && typeof value == "object" && emptyValue == value {
+							return true;
 						}
 					}
-					return false;						
+
+					return false;
 				}
+
+				var raw;
+
+				// Workaround for \Phalcon\Db\RawValue('NULL')
+				if unlikely typeof value == "object" && method_exists(value, "__toString") {
+					// NULL -> null
+					let raw = strtolower(value->__toString());
+
+					if in_array(raw, ["null", "false", ""], true) {
+						return true;
+					}
+				}
+
 				return empty value;
 			}
 		}

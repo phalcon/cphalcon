@@ -6,7 +6,12 @@
 [![OpenCollective](https://opencollective.com/phalcon/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/phalcon/sponsors/badge.svg)](#sponsors)
 
-Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
+Phalcon is an open source web framework delivered as a C extension for the PHP language providing high
+performance and lower resource consumption.
+
+Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind.
+As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS.
+You can either download a binary package for the system of your choice or build it from source.
 
 A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md); you rock!
 
@@ -19,22 +24,17 @@ A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master
       - [Ubuntu](#ubuntu)
       - [Suse](#suse)
       - [CentOS/Fedora/RHEL](#centosfedorarhel)
-      - [macOS(Sierra / El Capitan / Yosemite)](#macossierra--el-capitan--yosemite)
-  - [OSX MAMP ready extensions](#osx-mamp-ready-extensions)
-  - [Gentoo](#gentoo)
-  - [Compilation](#compilation)
-  - [Contributing](#contributing)
-  - [External Links](#external-links)
-  - [Meet the Incubator](#meet-the-incubator)
-  - [Sponsors](#sponsors)
-  - [Backers](#backers)
-  - [License](#license)
+    - [macOS](#macos)
+    - [Gentoo](#gentoo)
+    - [Compilation](#compilation)
+- [Contributing](#contributing)
+- [External Links](#external-links)
+- [Meet the Incubator](#meet-the-incubator)
+- [Sponsors](#sponsors)
+- [Backers](#backers)
+- [License](#license)
 
 ## Get Started
-
-Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind.
-As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS.
-You can either download a binary package for the system of your choice or build it from source.
 
 ### Windows
 
@@ -90,26 +90,16 @@ sudo zypper install php5-devel gcc make re2c
 sudo yum install php-devel pcre-devel gcc make re2c
 ```
 
-##### macOS(Sierra / El Capitan / Yosemite)
+#### macOS
 
-Using [Homebrew](https://brew.sh/)
+We recommend to use command line to build Phalcon extension suitable for your system.
+Another way is to use OSX MAMP ready extension: https://github.com/majksner/php-phalcon-mamp
 
-```bash
-# brew install php<version>-phalcon
-# available versions 56, 70, 71
-
-brew install php71-phalcon
-```
-
-## OSX MAMP ready extensions
-
-https://github.com/majksner/php-phalcon-mamp
-
-## Gentoo
+#### Gentoo
 
 There is Gentoo ebuilds maintained for the Phalcon Framework: https://github.com/smoke/phalcon-gentoo-overlay
 
-## Compilation
+#### Compilation
 
 Follow these instructions to generate a binary extension for your platform:
 

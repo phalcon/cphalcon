@@ -1,32 +1,24 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-class ModelsResultsetTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsResultsetTest extends TestCase
 {
-
-	public function __construct()
+	public function setUp()
 	{
 		spl_autoload_register(array($this, 'modelsAutoloader'));
 	}
 
-	public function __destruct()
+	public function tearDown()
 	{
 		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
@@ -542,51 +534,51 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse(isset($robots[0]));
 	}
-	
+
 	public function testResultsetAppendIterator()
 	{
 		if (!$this->_prepareTestMysql()) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
-		
+
 		// see http://php.net/manual/en/appenditerator.construct.php
 		$iterator = new \AppendIterator();
 		$robots_first = Robots::find(array('limit' => 2));
 		$robots_second = Robots::find(array('limit' => 1, 'offset' => 2));
-		
+
 		$robots_first_0 = $robots_first[0];
 		$robots_first_1 = $robots_first[1];
 		$robots_second_0 = $robots_second[0];
-		
+
 		$iterator->append($robots_first);
 		$iterator->append($robots_second);
-		
+
 		$iterator->rewind();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 0);
 		$this->assertEquals($iterator->getIteratorIndex(), 0);
 		$this->assertEquals(get_class($iterator->current()), 'Robots');
 		$this->assertEquals($robots_first_0->name, $iterator->current()->name);
-		
+
 		$iterator->next();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 1);
 		$this->assertEquals($iterator->getIteratorIndex(), 0);
 		$this->assertEquals(get_class($iterator->current()), 'Robots');
 		$this->assertEquals($robots_first_1->name, $iterator->current()->name);
-		
+
 		$iterator->next();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 0);
 		$this->assertEquals($iterator->getIteratorIndex(), 1);
 		$this->assertEquals(get_class($iterator->current()), 'Robots');
 		$this->assertEquals($robots_second_0->name, $iterator->current()->name);
-		
+
 		$iterator->next();
 		$this->assertFalse($iterator->valid());
 	}
-	
+
 	public function testBigResultsetIteration() {
 		if (!$this->_prepareTestSqlite()) {
 			$this->markTestSkipped("Skipped");
@@ -597,31 +589,31 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::find(array(
 			'limit' => 33
 		));
-		
+
 		$this->assertEquals(count($personas), 33);
-		
+
 		$this->assertEquals(get_class($personas->getLast()), 'Personas');
-		
+
 		// take first object as reference
 		$persona_first = $personas[0];
 		$this->assertEquals(get_class($persona_first), 'Personas');
-		
+
 		// make sure objects are the same -> object was not recreared
 		$this->assertSame($personas[0], $persona_first);
 		$this->assertSame($personas->current(), $persona_first);
 		$personas->rewind();
 		$this->assertTrue($personas->valid());
 		$this->assertSame($personas->current(), $persona_first);
-		
+
 		// second element
 		$personas->next();
 		$this->assertTrue($personas->valid());
 		$persona_second = $personas->current();
 		$this->assertSame($persona_second, $personas[1]);
-		
+
 		// move to last element
 		$this->assertSame($personas->getLast(), $personas[32]);
-		
+
 		// invalid element
 		$personas->seek(33);
 		$this->assertFalse($personas->valid());
@@ -633,28 +625,28 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		catch(Exception $e){
 			$this->assertEquals($e->getMessage(), 'The index does not exist in the cursor');
 		}
-		
+
 		// roll-back-cursor -> query needs to be reexecuted
 		// first object was now recreated... different instance, but equal content
 		$this->assertNotSame($personas[0], $persona_first);
 		$this->assertEquals($personas[0], $persona_first);
 		$persona_first = $personas[0];
-		
+
 		// toArray also re-executes the query and invalidates internal pointer
 		$array = $personas->toArray();
 		$this->assertEquals(count($array), 33);
-		
-		// internal query is re-executed again and set to first 
+
+		// internal query is re-executed again and set to first
 		$this->assertNotSame($personas[0], $persona_first);
 		$this->assertEquals($personas[0], $persona_first);
-		
+
 		// move to second element and validate
 		$personas->next();
 		$this->assertTrue($personas->valid());
 		$this->assertEquals(get_class($personas[1]), 'Personas');
 		$this->assertSame($personas->current(), $personas[1]);
 		$this->assertEquals($persona_second, $personas[1]);
-		
+
 		// pick some random indices
 		$this->assertEquals(get_class($personas[12]), 'Personas');
 		$this->assertEquals(get_class($personas[23]), 'Personas');

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use Phalcon\Di;
@@ -7,23 +16,13 @@ use IntegrationTester;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Output;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
- * \Phalcon\Test\Integration\Mvc\View\SimpleCest
+ * Phalcon\Test\Integration\Mvc\View\SimpleCest
  * Tests the Phalcon\Mvc\View\Simple component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc\View
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\View
  */
 class SimpleCest
 {
@@ -52,7 +51,7 @@ class SimpleCest
         $I->wantToTest('Render by using simple view with cache');
 
         if (PHP_MAJOR_VERSION == 7) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Skipped in view of the experimental support for PHP 7.'
             );
         }

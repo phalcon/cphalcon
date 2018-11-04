@@ -146,19 +146,6 @@ abstract class Dialect implements DialectInterface
 	}
 
 	/**
-	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
-	 *
-	 *<code>
-	 * $sql = $dialect->sharedLock("SELECT * FROM robots");
-	 * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
-	 *</code>
-	 */
-	public function sharedLock(string! sqlQuery) -> string
-	{
-		return sqlQuery . " LOCK IN SHARE MODE";
-	}
-
-	/**
 	 * Gets a list of columns with escaped identifiers
 	 *
 	 * <code>
