@@ -320,19 +320,19 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		 */
 		for position, value in values {
 			if typeof value == "object" {
-				let placeholders[] = (string) value;
+				let value = (string) value;
+			}
+			
+			if typeof value == "null" {
+				let placeholders[] = "null";
 			} else {
-				if typeof value == "null" {
-					let placeholders[] = "null";
-				} else {
-					let placeholders[] = "?";
-					let insertValues[] = value;
-					if typeof dataTypes == "array" {
-						if !fetch bindType, dataTypes[position] {
-							throw new Exception("Incomplete number of bind types");
-						}
-						let bindDataTypes[] = bindType;
+				let placeholders[] = "?";
+				let insertValues[] = value;
+				if typeof dataTypes == "array" {
+					if !fetch bindType, dataTypes[position] {
+						throw new Exception("Incomplete number of bind types");
 					}
+					let bindDataTypes[] = bindType;
 				}
 			}
 		}
@@ -465,22 +465,21 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			}
 
 			let escapedField = this->escapeIdentifier(field);
-
 			if typeof value == "object" {
-				let placeholders[] = escapedField . " = " . value;
+				let value = (string) value;
+			}
+
+			if typeof value == "null" {
+				let placeholders[] = escapedField . " = null";
 			} else {
-				if typeof value == "null" {
-					let placeholders[] = escapedField . " = null";
-				} else {
-					let updateValues[] = value;
-					if typeof dataTypes == "array" {
-						if !fetch bindType, dataTypes[position] {
-							throw new Exception("Incomplete number of bind types");
-						}
-						let bindDataTypes[] = bindType;
+				let updateValues[] = value;
+				if typeof dataTypes == "array" {
+					if !fetch bindType, dataTypes[position] {
+						throw new Exception("Incomplete number of bind types");
 					}
-					let placeholders[] = escapedField . " = ?";
+					let bindDataTypes[] = bindType;
 				}
+				let placeholders[] = escapedField . " = ?";
 			}
 		}
 
