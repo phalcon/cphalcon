@@ -4,14 +4,8 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE
+# For the full copyright and license information, please view the LICENSE.txt
 # file that was distributed with this source code.
-
-# Ensure that this is being run inside a CI container
-if [ "${CI}" != "true" ]; then
-	echo "This script is designed to run inside a CI container only. Exiting"
-	exit 1
-fi
 
 ZEPHIR_PARSER_VERSION=${ZEPHIR_PARSER_VERSION:-development}
 PHP_MAJOR=`$(phpenv which php-config) --version | cut -d '.' -f 1,2`

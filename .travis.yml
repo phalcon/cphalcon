@@ -9,96 +9,98 @@ php:
   - '7.0'
   - '5.6'
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: 'master'
-    - php: '7.3'
-
-addons:
-  apt:
-    packages:
-      - beanstalkd
-      - gdb
+git:
+  depth: 1
 
 branches:
   only:
     - master
     - /^(3|4)\.\d+\.(\d+|x)$/
 
-git:
-  depth: 1
+addons:
+  apt:
+    packages:
+      - beanstalkd
+      - gdb
+      - lcov
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 'master'
+    - php: '7.3'
 
 cache:
   apt: true
-  ccache: true
   timeout: 604800
   directories:
-    - .temp
-    - $HOME/beanstalk
-    - $HOME/.composer/cache
-    - $HOME/pear
-    - $HOME/.local/opt/re2c
-    - $HOME/.cache/re2c
+    - ${HOME}/beanstalk
+    - ${HOME}/.composer/cache
+    - ${HOME}/pear
+    - ${HOME}/.local/opt
 
 services:
   - beanstalkd
   - mongodb
   - redis-server
   - postgresql
-  - mysql
 
 env:
   global:
     - CC="gcc"
-    - PATH="$PATH:$HOME/bin"
     - ZEPHIR_PARSER_VERSION="v1.1.2"
+    - ZEPHIR_VERSION="0.10.12"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
     - NO_INTERACTION=1
     - TEST_PHP_ARGS="--show-diff"
     - CFLAGS="-g -O0 -Wall -std=gnu90"
     - BACKEND="ZendEngine3"
+    - PATH="${HOME}/bin:${PATH}"
+    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
-  - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
+  - '[[ -z "${GH_TOKEN}" ]] || composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"'
   - export PHP_MAJOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 1)"
   - export PHP_MINOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 2)"
-  - if [ "${PHP_MAJOR}" = "5" ]; then export BACKEND="ZendEngine2"; fi;
+  - export PHP_VERNUM="$(`phpenv which php-config` --vernum)"
+  - '[[ "${PHP_MAJOR}" == "7" ]] || export BACKEND="ZendEngine2"'
   - ./tests/_ci/pear-setup.sh
   - ./tests/_ci/setup-dbs.sh
-  - source $TRAVIS_BUILD_DIR/tests/_ci/environment
-  - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
+  - source "${TRAVIS_BUILD_DIR}/tests/_ci/environment"
+  - export $(cut -d= -f1 "${TRAVIS_BUILD_DIR}/tests/_ci/environment")
 
 install:
   - ./tests/_ci/install-prereqs-$PHP_MAJOR.sh
-  - ./tests/_ci/install-php-prereqs.sh
-  - ./tests/_ci/install-re2c.sh $RE2C_VERSION
+  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
+  - travis_retry composer global require "phalcon/zephir:${ZEPHIR_VERSION}"
+  - ( cd ${HOME}/.composer/vendor/phalcon/zephir; ./install-nosudo )
+  - ./tests/_ci/install-re2c.sh
   - ./tests/_ci/install-zephir-parser.sh
-  - ./tests/_ci/install-zephir.sh
   - zephir generate --backend=${BACKEND}
   - ./tests/_ci/precompile-headers.sh
-  - cd ${TRAVIS_BUILD_DIR}/ext
-  - $(phpenv which phpize)
-  - ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
-  - make -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
-  - make install
-  - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/phalcon.ini
-  - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/ci.ini
+  - |
+      cd "${TRAVIS_BUILD_DIR}/ext"
+      $(phpenv which phpize)
+      ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
+      make -j"$(getconf _NPROCESSORS_ONLN)" > "${TRAVIS_BUILD_DIR}/compile.log" 2> "${TRAVIS_BUILD_DIR}/compile-errors.log"
+      make install
+      cd "${TRAVIS_BUILD_DIR}"
+  - phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/phalcon.ini"
+  - phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/ci.ini"
 
 before_script:
   - ulimit -c unlimited -S || true
   # see: https://github.com/sebastianbergmann/phpunit/pull/3359
-  - |
-    if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ] || [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.4" ]; then
-      export USE_ZEND_ALLOC=1
-    fi
+  - '[[ "${PHP_VERNUM}" -lt 70300 ]] || export USE_ZEND_ALLOC=1'
 
 script:
-  - cd $TRAVIS_BUILD_DIR
+  # To avoud this:
+  # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
+  - ln -s ${TRAVIS_BUILD_DIR}/ext/libtool ${TRAVIS_BUILD_DIR}/libtool
   # Syntax recognize tests
   - |
-      $(phpenv which php) $TRAVIS_BUILD_DIR/ext/run-tests.php \
+      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
           -p $(phpenv which php) \
           -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
           --offline \
@@ -106,15 +108,7 @@ script:
           --set-timeout 120
   - vendor/bin/phpcs
   # We'll drop or rewrite them for Phalcon 4.x
-  - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.2" ] && [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.3" ] && [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.4" ]; then
-          vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
-      fi
-  # We'll enable memcached tests on 7.3 release
-  - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ] || [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.4" ]; then
-          mv tests/unit.suite-rc.yml tests/unit.suite.yml
-      fi
+  - '[[ "${PHP_VERNUM}" -lt 70200 ]] || vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/'
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
   - vendor/bin/codecept run -v -n tests/integration/
