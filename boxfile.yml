@@ -6,24 +6,26 @@ run.config:
       - ctype
       - curl
       - dom
-      - tokenizer
-      - zlib
-      - xml
-      - xmlwriter
-      - simplexml
-      - session
-      - zephir_parser
-      - pdo
-      - pdo_sqlite
-      - pdo_mysql
-      - pdo_pgsql
+      - json
       - gmp
       - mbstring
       - memcached
       - memcache
       - mongodb
+      - pdo
+      - pdo_mysql
+      - pdo_pgsql
+      - pdo_sqlite
       - redis
+      - session
+      - simplexml
+      - tokenizer
+      - yaml
+      - zephir_parser
+      - xml
+      - xmlwriter
       - zip
+      - zlib
     zend_extensions:
       - opcache
     dev_zend_extensions:

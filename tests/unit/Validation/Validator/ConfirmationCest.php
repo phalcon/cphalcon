@@ -1,0 +1,263 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Unit\Validation\Validator;
+
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Confirmation;
+use UnitTester;
+
+class ConfirmationCest
+{
+    /**
+     * Tests confirmation validator with single field
+     *
+     * @test
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function shouldValidateSingleField(UnitTester $I)
+    {
+        $validation = new Validation();
+        $validation->add(
+            'name',
+            new Confirmation(
+                [
+                    'with' => 'nameWith',
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue',
+            ]
+        );
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue123',
+            ]
+        );
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests confirmation validator with multiple field
+     *
+     * @test
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function shouldValidateMultipleField(UnitTester $I)
+    {
+        $validation = new Validation();
+        $validationMessages = [
+            'name' => 'Name must be same as nameWith.',
+            'type' => 'Type must be same as typeWith.',
+        ];
+        $validation->add(
+            ['name', 'type'],
+            new Confirmation(
+                [
+                    'with' => [
+                        'name' => 'nameWith',
+                        'type' => 'typeWith',
+                    ],
+                    'message' => $validationMessages,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue',
+                'type'     => 'SomeValue',
+                'typeWith' => 'SomeValue',
+            ]
+        );
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue123',
+                'type'     => 'SomeValue',
+                'typeWith' => 'SomeValue',
+            ]
+        );
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue123',
+                'type'     => 'SomeValue',
+                'typeWith' => 'SomeValue123',
+            ]
+        );
+
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests allowing empty value
+     *
+     * @test
+     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
+     * @since  2015-09-06
+     */
+    public function shouldAllowEmptyValues(UnitTester $I)
+    {
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type' => 'Confirmation',
+                            '_message' => 'Field password must be the same as password2',
+                            '_field' => 'password',
+                            '_code' => '0',
+                        ]
+                    ),
+                ]
+            ]
+        );
+
+        $validation = new Validation();
+        $validation->add(
+            'password',
+            new Confirmation(
+                [
+                    'allowEmpty' => true,
+                    'with'       => 'password2'
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'password'  => 'test123',
+                'password2' => 'test123'
+            ]
+        );
+
+        $actual   = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $messages = $validation->validate(
+            [
+                'password'  => null,
+                'password2' => 'test123'
+            ]
+        );
+
+        $actual   = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $validation = new Validation();
+        $validation->add(
+            'password',
+            new Confirmation(
+                [
+                    'allowEmpty' => false,
+                    'with'       => 'password2'
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'password'  => 'test123',
+                'password2' => 'test123'
+            ]
+        );
+
+        $actual   = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $messages = $validation->validate(
+            [
+                'password'  => null,
+                'password2' => 'test123'
+            ]
+        );
+
+        $actual   = $messages->count();
+        $I->assertEquals(1, $actual);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+
+        $validation = new Validation();
+        $validation->add(
+            'password',
+            new Confirmation(
+                [
+                    'with' => 'password2'
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'password'  => 'test123',
+                'password2' => 'test123'
+            ]
+        );
+
+        $actual   = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $messages = $validation->validate(
+            [
+                'password'  => null,
+                'password2' => 'test123'
+            ]
+        );
+
+        $actual   = $messages->count();
+        $I->assertEquals(1, $actual);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+    }
+}

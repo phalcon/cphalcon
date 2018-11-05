@@ -1,35 +1,27 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Validation\Validator;
 
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Between;
 use Phalcon\Validation\Validator\Callback;
+use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Validation\Validator\CallbackTest
- * Tests the \Phalcon\Validation\Validator\Callback component
- *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @author    Wojciech Ślawski <jurigag@gmail.com>
- * @package   Phalcon\Test\Unit\Validation\Validator
- * @group     validation
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class CallbackTest extends UnitTest
+class CallbackCest
 {
     /**
      * Tests single field using boolean
@@ -37,7 +29,7 @@ class CallbackTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testSingleFieldBoolean()
+    public function testSingleFieldBoolean(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -52,14 +44,24 @@ class CallbackTest extends UnitTest
                 ]
             )
         );
-        $messages = $validation->validate(["user" => "user", "admin" => null]);
-        expect($messages)->count(0);
-        $messages = $validation->validate(["user" => null, "admin" => "admin"]);
-        expect($messages)->count(0);
-        $messages = $validation->validate(["user" => "user", "admin" => "admin"]);
-        expect($messages)->count(1);
 
-        $expectedMessages = Messages::__set_state(
+        $messages = $validation->validate(["user" => "user", "admin" => null]);
+
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(["user" => null, "admin" => "admin"]);
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(["user" => "user", "admin" => "admin"]);
+        $expected = 1;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -73,8 +75,8 @@ class CallbackTest extends UnitTest
                 ],
             ]
         );
-
-        expect($messages)->equals($expectedMessages);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -83,7 +85,7 @@ class CallbackTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testSingleFieldValidator()
+    public function testSingleFieldValidator(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -106,12 +108,24 @@ class CallbackTest extends UnitTest
             )
         );
         $messages = $validation->validate(['user' => 'u', 'admin' => 'admin']);
-        expect($messages)->count(0);
+
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
         $messages = $validation->validate(['user' => 'user', 'admin' => null]);
-        expect($messages)->count(0);
+
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
         $messages = $validation->validate(['user' => 'u', 'admin' => null]);
-        expect($messages)->count(1);
-        $expectedMessages = Messages::__set_state(
+
+        $expected = 1;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -125,7 +139,8 @@ class CallbackTest extends UnitTest
                 ],
             ]
         );
-        expect($messages)->equals($expectedMessages);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -134,7 +149,7 @@ class CallbackTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testMultipleFieldBoolean()
+    public function testMultipleFieldBoolean(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -152,13 +167,25 @@ class CallbackTest extends UnitTest
                 ]
             )
         );
+
         $messages = $validation->validate(['user' => null, 'admin' => 'admin']);
-        expect($messages)->count(0);
+
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
         $messages = $validation->validate(['user' => 'user', 'admin' => null]);
-        expect($messages)->count(0);
+
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
         $messages = $validation->validate(['user' => 'user', 'admin' => 'admin']);
-        expect($messages)->count(2);
-        $expectedMessages = Messages::__set_state(
+
+        $expected = 2;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -180,7 +207,8 @@ class CallbackTest extends UnitTest
                 ],
             ]
         );
-        expect($messages)->equals($expectedMessages);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -189,7 +217,7 @@ class CallbackTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testMultipleFieldValidator()
+    public function testMultipleFieldValidator(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -217,8 +245,12 @@ class CallbackTest extends UnitTest
         );
 
         $messages = $validation->validate(['admin' => null, 'user' => null]);
-        expect($messages)->count(2);
-        $expectedMessages = Messages::__set_state(
+
+        $expected = 2;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -240,14 +272,25 @@ class CallbackTest extends UnitTest
                 ],
             ]
         );
-        expect($messages)->equals($expectedMessages);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+
         $messages = $validation->validate(['admin' => 'admin', 'user' => null]);
-        expect($messages)->count(0);
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
         $messages = $validation->validate(['admin' => null, 'user' => 'user']);
-        expect($messages)->count(0);
+        $expected = 0;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
         $messages = $validation->validate(['admin' => 'admin', 'user' => 'user']);
-        expect($messages)->count(2);
-        $expectedMessages = Messages::__set_state(
+        $expected = 2;
+        $actual   = count($messages);
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -269,7 +312,8 @@ class CallbackTest extends UnitTest
                 ],
             ]
         );
-        expect($messages)->equals($expectedMessages);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -277,23 +321,26 @@ class CallbackTest extends UnitTest
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
-     * @expectedException \Phalcon\Validation\Validator\Exception
-     * @expectedExceptionMessage Callback must return boolean or Phalcon\Validation\Validator object
      */
-    public function testException()
+    public function testException(UnitTester $I)
     {
-        $validation = new Validation();
-        $validation->add(
-            'user',
-            new Callback(
-                [
-                    "callback" => function ($data) {
-                        return new Validation();
-                    },
-                ]
-            )
-        );
+        $I->expectThrowable(
+            new Exception('Callback must return boolean or Phalcon\Validation\Validator object'),
+            function () {
+                $validation = new Validation();
+                $validation->add(
+                    'user',
+                    new Callback(
+                        [
+                            "callback" => function ($data) {
+                                return new Validation();
+                            },
+                        ]
+                    )
+                );
 
-        $validation->validate(['user' => 'user']);
+                $validation->validate(['user' => 'user']);
+            }
+        );
     }
 }

@@ -111,7 +111,7 @@ script:
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
   # TODO: Add `integration` suite and refactor tests
-  # - vendor/bin/codecept run -v -n tests/unit/
+  # - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v
   # TODO: Refactor legacy unit tests from the "unit-tests" directory
 
