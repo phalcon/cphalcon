@@ -96,7 +96,7 @@ before_script:
   - '[[ "${PHP_VERNUM}" -lt 70300 ]] || export USE_ZEND_ALLOC=1'
 
 script:
-  # To avoud this:
+  # To avoid this:
   # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
   - ln -s ${TRAVIS_BUILD_DIR}/ext/libtool ${TRAVIS_BUILD_DIR}/libtool
   # Syntax recognize tests
