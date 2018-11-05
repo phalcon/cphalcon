@@ -30,6 +30,8 @@ use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
 use Phalcon\ValidationInterface;
+use Phalcon\Cache\FrontendInterface;
+
 
 /**
  * Phalcon\Mvc\Collection
@@ -1594,6 +1596,21 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function serialize() -> string
 	{
+		var dependencyInjector, serializer;
+
+		/**
+		 * Obtain the default DI
+		 */
+		let dependencyInjector = Di::getDefault();
+		if typeof dependencyInjector != "object" {
+			throw new Exception("The dependency injector container is not valid");
+		}
+
+		if dependencyInjector->has("serializer") {
+			let serializer = <FrontendInterface> this->_dependencyInjector->getShared("serializer");
+			return serializer->beforeStore(this->toArray());
+		}
+
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */
@@ -1605,24 +1622,27 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function unserialize(string! data)
 	{
-		var attributes, dependencyInjector, manager, key, value;
+		var attributes, dependencyInjector, manager, key, value, serializer;
 
-		let attributes = unserialize(data);
+		/**
+		 * Obtain the default DI
+		 */
+		let dependencyInjector = Di::getDefault();
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+		}
+
+		/**
+		 * Update the dependency injector
+		 */
+		let this->_dependencyInjector = dependencyInjector;
+		if dependencyInjector->has("serializer") {
+			let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
+			let attributes = serializer->afterRetrieve(data);
+		} else {
+			let attributes = unserialize(data);
+		}
 		if typeof attributes == "array" {
-
-			/**
-			 * Obtain the default DI
-			 */
-			let dependencyInjector = Di::getDefault();
-			if typeof dependencyInjector != "object" {
-				throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
-			}
-
-			/**
-			 * Update the dependency injector
-			 */
-			let this->_dependencyInjector = dependencyInjector;
-
 			/**
 			 * Gets the default modelsManager service
 			 */

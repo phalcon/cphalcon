@@ -26,6 +26,9 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\DiInterface;
+use Phalcon\Di;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -270,8 +273,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public function serialize() -> string
 	{
-		var records, cache, columnTypes, hydrateMode, serialized;
-
+		var records, cache, columnTypes, hydrateMode, dependencyInjector, serializer;
 		/**
 		 * Obtain the records as an array
 		 */
@@ -280,15 +282,26 @@ class Complex extends Resultset implements ResultsetInterface
 		let cache = this->_cache,
 			columnTypes = this->_columnTypes,
 			hydrateMode = this->_hydrateMode;
+		let dependencyInjector = Di::getDefault();
+		if typeof dependencyInjector != "object" {
+        	throw new Exception("The dependency injector container is not valid");
+        }
+		if dependencyInjector->has("serializer") {
+			let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
+			return serializer->beforeStore([
+				"cache"	      : cache,
+				"rows"		  : records,
+				"columnTypes" : columnTypes,
+				"hydrateMode" : hydrateMode
+			]);
+		}
 
-		let serialized = serialize([
+		return serialize([
 			"cache"	      : cache,
 			"rows"		  : records,
 			"columnTypes" : columnTypes,
 			"hydrateMode" : hydrateMode
 		]);
-
-		return serialized;
 	}
 
 	/**
@@ -296,14 +309,21 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public function unserialize(string! data) -> void
 	{
-		var resultset;
-
+		var resultset, dependencyInjector, serializer;
 		/**
 		* Rows are already hydrated
 		*/
 		let this->_disableHydration = true;
-
-		let resultset = unserialize(data);
+		let dependencyInjector = Di::getDefault();
+		if typeof dependencyInjector != "object" {
+			throw new Exception("The dependency injector container is not valid");
+		}
+		if dependencyInjector->has("serializer") {
+			let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
+			let resultset = serializer->afterRetrieve(data);
+		} else {
+			let resultset = unserialize(data);
+		}
 		if typeof resultset != "array" {
 			throw new Exception("Invalid serialization data");
 		}
