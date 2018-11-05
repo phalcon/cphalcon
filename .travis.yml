@@ -13,10 +13,11 @@ php:
 git:
   depth: 1
 
-branches:
-  only:
-    - master
-    - /^(4|5)\.\d+\.(\d+|x)$/
+# TODO - Remove this when we go deploy this
+#branches:
+#  only:
+#    - master
+#    - /^(4|5)\.\d+\.(\d+|x)$/
 
 addons:
   apt:
