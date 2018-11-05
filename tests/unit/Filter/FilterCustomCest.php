@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Unit\Filter;
 
 use Phalcon\Filter;
-use Phalcon\Test\Unit\Filter\Helper\IPv4;
 use Phalcon\Test\Unit\Filter\Helper\FilterBase;
+use Phalcon\Test\Unit\Filter\Helper\IPv4;
 use UnitTester;
 
 class FilterCustomCest extends FilterBase
@@ -67,7 +67,7 @@ class FilterCustomCest extends FilterBase
             }
         );
 
-        $actual= $filter->sanitize('Lladlad12', 'md5');
+        $actual = $filter->sanitize('Lladlad12', 'md5');
         $I->assertFalse($actual);
     }
 
