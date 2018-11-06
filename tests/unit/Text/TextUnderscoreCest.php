@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Unit\Text;
+
+use Phalcon\Text;
+use UnitTester;
+
+class TextUnderscoreCest
+{
+    /**
+     * Tests the uderscore function
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2015-11-09
+     */
+    public function testUnderscore(UnitTester $I)
+    {
+        $expected = 'start_a_horse';
+        $actual   = Text::underscore('start a horse');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'five_cats';
+        $actual   = Text::underscore("five\tcats");
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'look_behind';
+        $actual   = Text::underscore(' look behind ');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Awesome_Phalcon';
+        $actual   = Text::underscore(" \t Awesome \t  \t Phalcon ");
+        $I->assertEquals($expected, $actual);
+    }
+}
