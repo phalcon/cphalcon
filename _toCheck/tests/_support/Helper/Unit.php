@@ -93,38 +93,4 @@ class Unit extends Module
             unlink($file);
         }
     }
-
-    /**
-     * Runs the test for a Tag::$function with $options
-     *
-     * @param string  $function
-     * @param mixed   $options
-     * @param string  $expected
-     * @param boolean $xhtml
-     * @param string  $set
-     */
-    public function testFieldParameter($function, $options, $expected, $xhtml, $set = '')
-    {
-        Tag::resetInput();
-
-        if ($xhtml) {
-            Tag::setDocType(Tag::XHTML10_STRICT);
-            $expected .= ' />';
-        } else {
-            Tag::setDocType(Tag::HTML5);
-            $expected .= '>';
-        }
-
-        if ($set) {
-            Tag::displayTo('x_name', 'x_value');
-        }
-
-        $actual = Tag::$function($options);
-
-        if ($set) {
-            Tag::$set('x_name', '');
-        }
-
-        $this->assertEquals($expected, $actual);
-    }
 }
