@@ -55,12 +55,12 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputArrayParameter(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="image" value="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
@@ -70,12 +70,12 @@ class TagImageInputCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="image" value="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
@@ -94,14 +94,14 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputArrayParameterWithId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="image" id="x_id" value="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -111,14 +111,14 @@ class TagImageInputCest extends TagBase
             true
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="image" id="x_id" value="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -137,14 +137,14 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputArrayParameterWithNameNoId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" value="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -154,14 +154,14 @@ class TagImageInputCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" value="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -180,14 +180,14 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputWithSetDefault(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -198,14 +198,14 @@ class TagImageInputCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -225,14 +225,14 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputWithDisplayTo(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -243,14 +243,14 @@ class TagImageInputCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -270,14 +270,14 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -288,14 +288,14 @@ class TagImageInputCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -315,14 +315,14 @@ class TagImageInputCest extends TagBase
      */
     public function testImageInputWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -333,14 +333,14 @@ class TagImageInputCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,

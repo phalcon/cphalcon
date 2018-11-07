@@ -329,7 +329,7 @@ class TagImageCest extends TagBase
         $expected = '<img src="/img/hello.gif" />';
 
         Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual   = Tag::image($options, true);
+        $actual = Tag::image($options, true);
 
         $I->assertEquals($expected, $actual);
 
@@ -337,7 +337,7 @@ class TagImageCest extends TagBase
         $expected = '<img src="/img/hello.gif">';
 
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::image($options, true);
+        $actual = Tag::image($options, true);
 
         $I->assertEquals($expected, $actual);
     }
@@ -354,7 +354,7 @@ class TagImageCest extends TagBase
         $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
 
         Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual   = Tag::image($options, false);
+        $actual = Tag::image($options, false);
 
         $I->assertEquals($expected, $actual);
 
@@ -362,7 +362,7 @@ class TagImageCest extends TagBase
         $expected = '<img src="http://phalconphp.com/img/hello.gif">';
 
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::image($options, false);
+        $actual = Tag::image($options, false);
 
         $I->assertEquals($expected, $actual);
     }
@@ -377,23 +377,23 @@ class TagImageCest extends TagBase
     {
         $options  = [
             'img/hello.gif',
-            'alt' => 'Hello'
+            'alt' => 'Hello',
         ];
         $expected = '<img src="/img/hello.gif" alt="Hello" />';
 
         Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual   = Tag::image($options, true);
+        $actual = Tag::image($options, true);
 
         $I->assertEquals($expected, $actual);
 
         $options  = [
             'img/hello.gif',
-            'alt' => 'Hello'
+            'alt' => 'Hello',
         ];
         $expected = '<img src="/img/hello.gif" alt="Hello">';
 
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::image($options, true);
+        $actual = Tag::image($options, true);
 
         $I->assertEquals($expected, $actual);
     }
@@ -408,25 +408,25 @@ class TagImageCest extends TagBase
     {
         $options  = [
             'http://phalconphp.com/img/hello.gif',
-            'alt' => 'Hello'
+            'alt' => 'Hello',
         ];
         $expected = '<img src="http://phalconphp.com/img/hello.gif" '
-                  . 'alt="Hello" />';
+            . 'alt="Hello" />';
 
         Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual   = Tag::image($options, false);
+        $actual = Tag::image($options, false);
 
         $I->assertEquals($expected, $actual);
 
         $options  = [
             'http://phalconphp.com/img/hello.gif',
-            'alt' => 'Hello'
+            'alt' => 'Hello',
         ];
         $expected = '<img src="http://phalconphp.com/img/hello.gif" '
-                  . 'alt="Hello">';
+            . 'alt="Hello">';
 
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::image($options, false);
+        $actual = Tag::image($options, false);
 
         $I->assertEquals($expected, $actual);
     }

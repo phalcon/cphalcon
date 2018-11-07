@@ -14,24 +14,7 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Test\Unit\Tag\Helper\TagBase;
 use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Tag\TagUrlFieldTest
- * Tests the \Phalcon\Tag component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Tag
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class TagUrlFieldTest extends TagBase
+class TagUrlFieldCest extends TagBase
 {
     /**
      * Tests urlField with string as a parameter
@@ -41,36 +24,26 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldStringParameter(UnitTester $I)
     {
-        $this->specify(
-            "urlField with string parameter returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options  = 'x_name';
-                $expected = '<input type="url" id="x_name" name="x_name"';
+        $options  = 'x_name';
+        $expected = '<input type="url" id="x_name" name="x_name"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false
-                );
-            }
+            $options,
+            $expected,
+            false
         );
 
-        $this->specify(
-            "urlField with string parameter returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options  = 'x_name';
-                $expected = '<input type="url" id="x_name" name="x_name"';
+        $options  = 'x_name';
+        $expected = '<input type="url" id="x_name" name="x_name"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true
-                );
-            }
+            $options,
+            $expected,
+            true
         );
     }
 
@@ -82,44 +55,34 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldArrayParameter(UnitTester $I)
     {
-        $this->specify(
-            "urlField with array parameter returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'class' => 'x_class',
-                ];
-                $expected = '<input type="url" id="x_name" name="x_name" '
-                          . 'class="x_class"';
+        $options  = [
+            'x_name',
+            'class' => 'x_class',
+        ];
+        $expected = '<input type="url" id="x_name" name="x_name" '
+            . 'class="x_class"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false
-                );
-            }
+            $options,
+            $expected,
+            false
         );
 
-        $this->specify(
-            "urlField with array parameter returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'class' => 'x_class',
-                ];
-                $expected = '<input type="url" id="x_name" name="x_name" '
-                          . 'class="x_class"';
+        $options  = [
+            'x_name',
+            'class' => 'x_class',
+        ];
+        $expected = '<input type="url" id="x_name" name="x_name" '
+            . 'class="x_class"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true
-                );
-            }
+            $options,
+            $expected,
+            true
         );
     }
 
@@ -131,48 +94,38 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldArrayParameterWithId(UnitTester $I)
     {
-        $this->specify(
-            "urlField with array parameter with id returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'id'    => 'x_id',
-                    'class' => 'x_class',
-                    'size'  => '10'
-                ];
-                $expected = '<input type="url" id="x_id" name="x_name" '
-                          . 'class="x_class" size="10"';
+        $options  = [
+            'x_name',
+            'id'    => 'x_id',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_id" name="x_name" '
+            . 'class="x_class" size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true
-                );
-            }
+            $options,
+            $expected,
+            true
         );
 
-        $this->specify(
-            "urlField with array parameter with id returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'id'    => 'x_id',
-                    'class' => 'x_class',
-                    'size'  => '10'
-                ];
-                $expected = '<input type="url" id="x_id" name="x_name" '
-                          . 'class="x_class" size="10"';
+        $options  = [
+            'x_name',
+            'id'    => 'x_id',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_id" name="x_name" '
+            . 'class="x_class" size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true
-                );
-            }
+            $options,
+            $expected,
+            true
         );
     }
 
@@ -184,48 +137,38 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldArrayParameterWithNameNoId(UnitTester $I)
     {
-        $this->specify(
-            "urlField with array parameter with name no id returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" class="x_class" size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" class="x_class" size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false
-                );
-            }
+            $options,
+            $expected,
+            false
         );
 
-        $this->specify(
-            "urlField with array parameter with name no id returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" class="x_class" size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" class="x_class" size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false
-                );
-            }
+            $options,
+            $expected,
+            false
         );
     }
 
@@ -237,52 +180,42 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldWithSetDefault(UnitTester $I)
     {
-        $this->specify(
-            "urlField with setDefault returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false,
-                    'setDefault'
-                );
-            }
+            $options,
+            $expected,
+            false,
+            'setDefault'
         );
 
-        $this->specify(
-            "urlField with setDefault returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true,
-                    'setDefault'
-                );
-            }
+            $options,
+            $expected,
+            true,
+            'setDefault'
         );
     }
 
@@ -294,52 +227,42 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldWithDisplayTo(UnitTester $I)
     {
-        $this->specify(
-            "urlField with displayTo returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false,
-                    'displayTo'
-                );
-            }
+            $options,
+            $expected,
+            false,
+            'displayTo'
         );
 
-        $this->specify(
-            "urlField with displayTo returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true,
-                    'displayTo'
-                );
-            }
+            $options,
+            $expected,
+            true,
+            'displayTo'
         );
     }
 
@@ -351,52 +274,42 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $this->specify(
-            "urlField with setDefault and element not present returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false,
-                    'setDefault'
-                );
-            }
+            $options,
+            $expected,
+            false,
+            'setDefault'
         );
 
-        $this->specify(
-            "urlField with setDefault and element not present returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true,
-                    'setDefault'
-                );
-            }
+            $options,
+            $expected,
+            true,
+            'setDefault'
         );
     }
 
@@ -408,52 +321,42 @@ class TagUrlFieldTest extends TagBase
      */
     public function testUrlFieldWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $this->specify(
-            "urlField with displayTo and element not present returns invalid HTML Strict",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    false,
-                    'displayTo'
-                );
-            }
+            $options,
+            $expected,
+            false,
+            'displayTo'
         );
 
-        $this->specify(
-            "urlField with displayTo and element not present returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                $options = [
-                    'x_name',
-                    'name'  => 'x_other',
-                    'class' => 'x_class',
-                    'size'  => '10',
-                ];
-                $expected = '<input type="url" id="x_name" '
-                          . 'name="x_other" value="x_value" class="x_class" '
-                          . 'size="10"';
+        $options  = [
+            'x_name',
+            'name'  => 'x_other',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+        $expected = '<input type="url" id="x_name" '
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
-                $this->testFieldParameter(
+        $this->testFieldParameter(
             $I,
             'urlField',
-                    $options,
-                    $expected,
-                    true,
-                    'displayTo'
-                );
-            }
+            $options,
+            $expected,
+            true,
+            'displayTo'
         );
     }
 }

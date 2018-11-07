@@ -15,24 +15,7 @@ use Phalcon\Tag;
 use Phalcon\Test\Unit\Tag\Helper\TagBase;
 use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Tag\TagSetDefaultTest
- * Tests the \Phalcon\Tag component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Tag
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class TagSetDefaultTest extends TagBase
+class TagSetDefaultCest extends TagBase
 {
     /**
      * Tests setDefault
@@ -43,22 +26,17 @@ class TagSetDefaultTest extends TagBase
      */
     public function testDisplayValues(UnitTester $I)
     {
-        $this->specify(
-            "setDefault does not assigns default values to generated tags by helpers",
-            function (UnitTester $I) {
-                Tag::setDefault('property1', 'testVal1');
-                Tag::setDefault('property2', 'testVal2');
-                Tag::setDefault('property3', 'testVal3');
+        Tag::setDefault('property1', 'testVal1');
+        Tag::setDefault('property2', 'testVal2');
+        Tag::setDefault('property3', 'testVal3');
 
-                expect(Tag::hasValue('property1'))->true(UnitTester $I);
-                expect(Tag::hasValue('property2'))->true(UnitTester $I);
-                expect(Tag::hasValue('property3'))->true(UnitTester $I);
-                expect(Tag::hasValue('property4'))->false(UnitTester $I);
+        $I->assertTrue(Tag::hasValue('property1'));
+        $I->assertTrue(Tag::hasValue('property2'));
+        $I->assertTrue(Tag::hasValue('property3'));
+        $I->assertFalse(Tag::hasValue('property4'));
 
-                expect(Tag::getValue('property1'))->equals('testVal1');
-                expect(Tag::getValue('property2'))->equals('testVal2');
-                expect(Tag::getValue('property3'))->equals('testVal3');
-            }
-        );
+        $I->assertEquals('testVal1', Tag::getValue('property1'));
+        $I->assertEquals('testVal2', Tag::getValue('property2'));
+        $I->assertEquals('testVal3', Tag::getValue('property3'));
     }
 }

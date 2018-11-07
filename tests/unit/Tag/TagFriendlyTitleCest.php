@@ -41,12 +41,12 @@ class TagFriendlyTitleCest extends TagBase
      */
     public function testFriendlyTitleStringParameterSeparator(UnitTester $I)
     {
-            Tag::resetInput();
-            $options  = 'This is a Test';
-            $expected = 'this_is_a_test';
-            $actual   = Tag::friendlyTitle($options, '_');
+        Tag::resetInput();
+        $options  = 'This is a Test';
+        $expected = 'this_is_a_test';
+        $actual   = Tag::friendlyTitle($options, '_');
 
-            $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -128,9 +128,9 @@ class TagFriendlyTitleCest extends TagBase
     {
         Tag::resetInput();
         $options  = "Mess'd up --text-- just (to) stress /test/ ?our! "
-                  . "`little` \\clean\\ url fun.ction!?-->";
+            . "`little` \\clean\\ url fun.ction!?-->";
         $expected = 'messd-up-text-just-to-stress-test-our-little-'
-                  . 'clean-url-function';
+            . 'clean-url-function';
         $actual   = Tag::friendlyTitle($options);
 
         $I->assertEquals($expected, $actual);

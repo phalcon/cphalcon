@@ -39,7 +39,7 @@ class TagCheckFieldCest extends TagBase
         $expected = '<input type="checkbox" id="x_name" name="x_name"';
         $this->testFieldParameter(
             $I,
-    'checkField',
+            'checkField',
             $options,
             $expected,
             true
@@ -54,12 +54,12 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldArrayParameter(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -68,12 +68,12 @@ class TagCheckFieldCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -91,14 +91,14 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldArrayParameterWithId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_id" name="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -107,14 +107,14 @@ class TagCheckFieldCest extends TagBase
             true
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_id" name="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -132,14 +132,14 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldArrayParameterWithNameNoId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_other" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -148,14 +148,14 @@ class TagCheckFieldCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_other" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -173,15 +173,15 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldWithSetDefault(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10" checked="checked"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10" checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -191,15 +191,15 @@ class TagCheckFieldCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10" checked="checked"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10" checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -218,15 +218,15 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldWithDisplayTo(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10" checked="checked"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10" checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -236,15 +236,15 @@ class TagCheckFieldCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10" checked="checked"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10" checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -263,15 +263,15 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_other" '
-                  . 'value="x_value" class="x_class" size="10" '
-                  . 'checked="checked"';
+            . 'value="x_value" class="x_class" size="10" '
+            . 'checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -281,15 +281,15 @@ class TagCheckFieldCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_other" '
-                  . 'value="x_value" class="x_class" size="10" '
-                  . 'checked="checked"';
+            . 'value="x_value" class="x_class" size="10" '
+            . 'checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -308,15 +308,15 @@ class TagCheckFieldCest extends TagBase
      */
     public function testCheckFieldWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_other" '
-                  . 'value="x_value" class="x_class" size="10" '
-                  . 'checked="checked"';
+            . 'value="x_value" class="x_class" size="10" '
+            . 'checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -326,15 +326,15 @@ class TagCheckFieldCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="checkbox" id="x_name" name="x_other" '
-                  . 'value="x_value" class="x_class" size="10" '
-                  . 'checked="checked"';
+            . 'value="x_value" class="x_class" size="10" '
+            . 'checked="checked"';
         $this->testFieldParameter(
             $I,
             'checkField',
@@ -356,9 +356,9 @@ class TagCheckFieldCest extends TagBase
     public function shouldGenerateCheckFieldAsCheckedWhenValueIsZeroAndDefaultIsZero(UnitTester $I)
     {
         $examples = [
-            [ 0,  "0", '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
-            [ 0,   0,  '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
-            ["0",  0,  '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+            [0, "0", '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+            [0, 0, '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+            ["0", 0, '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
             ["0", "0", '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
         ];
 

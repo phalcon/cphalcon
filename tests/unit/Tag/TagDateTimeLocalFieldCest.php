@@ -26,7 +26,7 @@ class TagDateTimeLocalFieldCest extends TagBase
     {
         $options  = 'x_name';
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_name"';
+            . 'name="x_name"';
 
         $this->testFieldParameter(
             $I,
@@ -38,7 +38,7 @@ class TagDateTimeLocalFieldCest extends TagBase
 
         $options  = 'x_name';
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_name"';
+            . 'name="x_name"';
 
         $this->testFieldParameter(
             $I,
@@ -57,12 +57,12 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldArrayParameter(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="datetime-local" id="x_name" name="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
@@ -72,12 +72,12 @@ class TagDateTimeLocalFieldCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="datetime-local" id="x_name" name="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
@@ -96,14 +96,14 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldArrayParameterWithId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_id" name="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -113,14 +113,14 @@ class TagDateTimeLocalFieldCest extends TagBase
             true
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_id" name="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -139,14 +139,14 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldArrayParameterWithNameNoId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" class="x_class" size="10"';
+            . 'name="x_other" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -156,14 +156,14 @@ class TagDateTimeLocalFieldCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" class="x_class" size="10"';
+            . 'name="x_other" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -182,15 +182,15 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldWithSetDefault(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -201,15 +201,15 @@ class TagDateTimeLocalFieldCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -229,15 +229,15 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldWithDisplayTo(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -248,15 +248,15 @@ class TagDateTimeLocalFieldCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -276,15 +276,15 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -295,15 +295,15 @@ class TagDateTimeLocalFieldCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -323,15 +323,15 @@ class TagDateTimeLocalFieldCest extends TagBase
      */
     public function testDateTimeLocalFieldWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -342,15 +342,15 @@ class TagDateTimeLocalFieldCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="datetime-local" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,

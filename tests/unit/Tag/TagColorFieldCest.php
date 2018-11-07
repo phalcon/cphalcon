@@ -55,12 +55,12 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldArrayParameter(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="color" id="x_name" name="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
@@ -70,12 +70,12 @@ class TagColorFieldCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'class' => 'x_class',
         ];
         $expected = '<input type="color" id="x_name" name="x_name" '
-                  . 'class="x_class"';
+            . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
@@ -94,14 +94,14 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldArrayParameterWithId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="color" id="x_id" name="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -111,14 +111,14 @@ class TagColorFieldCest extends TagBase
             true
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
-            'size'  => '10'
+            'size'  => '10',
         ];
         $expected = '<input type="color" id="x_id" name="x_name" '
-                  . 'class="x_class" size="10"';
+            . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -137,14 +137,14 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldArrayParameterWithNameNoId(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" class="x_class" size="10"';
+            . 'name="x_other" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -154,14 +154,14 @@ class TagColorFieldCest extends TagBase
             false
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" class="x_class" size="10"';
+            . 'name="x_other" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -180,15 +180,15 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldWithSetDefault(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -199,15 +199,15 @@ class TagColorFieldCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -227,15 +227,15 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldWithDisplayTo(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -246,15 +246,15 @@ class TagColorFieldCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -274,15 +274,15 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -293,15 +293,15 @@ class TagColorFieldCest extends TagBase
             'setDefault'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -321,15 +321,15 @@ class TagColorFieldCest extends TagBase
      */
     public function testColorFieldWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -340,15 +340,15 @@ class TagColorFieldCest extends TagBase
             'displayTo'
         );
 
-        $options = [
+        $options  = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
         $expected = '<input type="color" id="x_name" '
-                  . 'name="x_other" value="x_value" class="x_class" '
-                  . 'size="10"';
+            . 'name="x_other" value="x_value" class="x_class" '
+            . 'size="10"';
 
         $this->testFieldParameter(
             $I,

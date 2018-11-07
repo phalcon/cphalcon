@@ -15,24 +15,7 @@ use Phalcon\Tag;
 use Phalcon\Test\Unit\Tag\Helper\TagBase;
 use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Tag\TagResetInputTest
- * Tests the \Phalcon\Tag component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Tag
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class TagResetInputTest extends TagBase
+class TagResetInputCest extends TagBase
 {
     /**
      * Tests Tag::resetInput
@@ -46,14 +29,12 @@ class TagResetInputTest extends TagBase
      */
     public function testResetInput(UnitTester $I)
     {
-        $this->specify(
-            'The resetInput does not work as expected',
-            function (UnitTester $I) {
-                $_POST = ['a' => '1', 'b' => '2'];
-                Tag::resetInput();
-                expect($_POST)->equals(['a' => '1', 'b' => '2']);
-            }
-        );
+        $_POST = ['a' => '1', 'b' => '2'];
+        Tag::resetInput();
+        $expected = ['a' => '1', 'b' => '2'];
+        $actual   = $_POST;
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -65,46 +46,36 @@ class TagResetInputTest extends TagBase
      */
     public function testResetInputWithSetDefault(UnitTester $I)
     {
-        $this->specify(
-            "resetInput with setDefault returns invalid HTML Strict",
-            function (UnitTester $I) {
-                Tag::setDocType(Tag::XHTML10_STRICT);
+        Tag::setDocType(Tag::XHTML10_STRICT);
 
-                $options  = 'x_name';
-                $expected = '<input type="text" id="x_name" name="x_name" value="x_other" />';
-                Tag::setDefault('x_name', 'x_other');
-                $actual   = Tag::textField($options);
-                Tag::resetInput();
+        $options  = 'x_name';
+        $expected = '<input type="text" id="x_name" name="x_name" value="x_other" />';
+        Tag::setDefault('x_name', 'x_other');
+        $actual = Tag::textField($options);
+        Tag::resetInput();
 
-                $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
-                $expected = '<input type="text" id="x_name" name="x_name" />';
-                $actual   = Tag::textField($options);
+        $expected = '<input type="text" id="x_name" name="x_name" />';
+        $actual   = Tag::textField($options);
 
-                $I->assertEquals($expected, $actual);
-            }
-        );
+        $I->assertEquals($expected, $actual);
 
-        $this->specify(
-            "resetInput with setDefault returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                Tag::setDocType(Tag::HTML5);
+        Tag::setDocType(Tag::HTML5);
 
-                $options  = 'x_name';
-                $expected = '<input type="text" id="x_name" '
-                          . 'name="x_name" value="x_other">';
-                Tag::setDefault('x_name', 'x_other');
-                $actual   = Tag::textField($options);
-                Tag::resetInput();
+        $options  = 'x_name';
+        $expected = '<input type="text" id="x_name" '
+            . 'name="x_name" value="x_other">';
+        Tag::setDefault('x_name', 'x_other');
+        $actual = Tag::textField($options);
+        Tag::resetInput();
 
-                $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
-                $expected = '<input type="text" id="x_name" name="x_name">';
-                $actual   = Tag::textField($options);
+        $expected = '<input type="text" id="x_name" name="x_name">';
+        $actual   = Tag::textField($options);
 
-                $I->assertEquals($expected, $actual);
-            }
-        );
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -115,46 +86,36 @@ class TagResetInputTest extends TagBase
      */
     public function testResetInputWithDisplayTo(UnitTester $I)
     {
-        $this->specify(
-            "resetInput with displayTo returns invalid HTML Strict",
-            function (UnitTester $I) {
-                Tag::setDocType(Tag::XHTML10_STRICT);
+        Tag::setDocType(Tag::XHTML10_STRICT);
 
-                $options  = 'x_name';
-                $expected = '<input type="text" id="x_name" name="x_name" '
-                          . 'value="x_other" />';
-                Tag::displayTo('x_name', 'x_other');
-                $actual   = Tag::textField($options);
-                Tag::resetInput();
+        $options  = 'x_name';
+        $expected = '<input type="text" id="x_name" name="x_name" '
+            . 'value="x_other" />';
+        Tag::displayTo('x_name', 'x_other');
+        $actual = Tag::textField($options);
+        Tag::resetInput();
 
-                $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
-                $expected = '<input type="text" id="x_name" name="x_name" />';
-                $actual   = Tag::textField($options);
+        $expected = '<input type="text" id="x_name" name="x_name" />';
+        $actual   = Tag::textField($options);
 
-                $I->assertEquals($expected, $actual);
-            }
-        );
+        $I->assertEquals($expected, $actual);
 
-        $this->specify(
-            "resetInput with displayTo returns invalid HTML XHTML",
-            function (UnitTester $I) {
-                Tag::setDocType(Tag::HTML5);
+        Tag::setDocType(Tag::HTML5);
 
-                $options  = 'x_name';
-                $expected = '<input type="text" id="x_name" name="x_name" '
-                          . 'value="x_other">';
-                Tag::displayTo('x_name', 'x_other');
-                $actual   = Tag::textField($options);
-                Tag::resetInput();
+        $options  = 'x_name';
+        $expected = '<input type="text" id="x_name" name="x_name" '
+            . 'value="x_other">';
+        Tag::displayTo('x_name', 'x_other');
+        $actual = Tag::textField($options);
+        Tag::resetInput();
 
-                $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
-                $expected = '<input type="text" id="x_name" name="x_name">';
-                $actual   = Tag::textField($options);
+        $expected = '<input type="text" id="x_name" name="x_name">';
+        $actual   = Tag::textField($options);
 
-                $I->assertEquals($expected, $actual);
-            }
-        );
+        $I->assertEquals($expected, $actual);
     }
 }
