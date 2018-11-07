@@ -895,4 +895,29 @@ class ModelTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests binding of non-scalar values by casting to string and binding them.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/13058
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2018-11-06
+     */
+    public function testIssue13058()
+    {
+        $this->specify(
+            'Issue 13058 is happening, non-scalar values are not being casted and bound.',
+            function () {
+
+                $robots = new Robots();
+                $robots->name = '';
+                $robots->save(
+                    [
+                        'datetime' => new \Phalcon\Test\Db\DateTime(),
+                        'text'     => 'text',
+                    ]
+                );
+            }
+        );
+    }
 }
