@@ -50,7 +50,7 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_PARSER_VERSION="v1.1.2"
+    - ZEPHIR_PARSER_VERSION="development"
     - ZEPHIR_VERSION="0.10.12"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
