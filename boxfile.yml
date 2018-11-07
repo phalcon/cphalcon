@@ -6,6 +6,7 @@ run.config:
       - ctype
       - curl
       - dom
+      - iconv
       - json
       - gmp
       - mbstring

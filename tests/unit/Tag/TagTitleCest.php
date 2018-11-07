@@ -80,118 +80,113 @@ class TagTitleCest extends TagBase
      */
     public function testAppendTitle(UnitTester $I)
     {
-        $this->specify(
-            "appendTitle returns incorrect result",
-            function (UnitTester $I) {
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Title');
-                Tag::appendTitle('Class');
+        Tag::setTitle('Title');
+        Tag::appendTitle('Class');
 
-                $expected = "Title";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Title";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Title";
-                $actual   = Tag::getTitle(false, true);
-                $I->assertEquals($expected, $actual);
+        $expected = "TitleClass";
+        $actual   = Tag::getTitle(false, true);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>TitleClass</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>TitleClass</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('This is my title');
-                Tag::appendTitle(' - Welcome!');
+        Tag::setTitle('This is my title');
+        Tag::appendTitle(' - Welcome!');
 
-                $expected = "This is my title";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "This is my title";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "This is my title - Welcome!";
-                $actual   = Tag::getTitle(false, true);
-                $I->assertEquals($expected, $actual);
+        $expected = "This is my title - Welcome!";
+        $actual   = Tag::getTitle(false, true);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>This is my title - Welcome!</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>This is my title - Welcome!</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Title');
-                Tag::setTitleSeparator('|');
-                Tag::appendTitle('Class');
+        Tag::setTitle('Title');
+        Tag::setTitleSeparator('|');
+        Tag::appendTitle('Class');
 
-                $expected = "Title";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Title";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Title|Class";
-                $actual   = Tag::getTitle(false, true);
-                $I->assertEquals($expected, $actual);
+        $expected = "Title|Class";
+        $actual   = Tag::getTitle(false, true);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Title|Class</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>Title|Class</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Main');
-                Tag::setTitleSeparator(' - ');
-                Tag::appendTitle('Category');
-                Tag::appendTitle('Title');
+        Tag::setTitle('Main');
+        Tag::setTitleSeparator(' - ');
+        Tag::appendTitle('Category');
+        Tag::appendTitle('Title');
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Main - Category - Title";
-                $actual   = Tag::getTitle(false, true);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main - Category - Title";
+        $actual   = Tag::getTitle(false, true);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Main');
-                Tag::setTitleSeparator(' - ');
-                Tag::appendTitle(['Category', 'Title']);
+        Tag::setTitle('Main');
+        Tag::setTitleSeparator(' - ');
+        Tag::appendTitle(['Category', 'Title']);
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Main - Category - Title";
-                $actual   = Tag::getTitle(false, true);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main - Category - Title";
+        $actual   = Tag::getTitle(false, true);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Main');
-                Tag::setTitleSeparator(' - ');
-                Tag::appendTitle('Category');
-                Tag::appendTitle([]);
+        Tag::setTitle('Main');
+        Tag::setTitleSeparator(' - ');
+        Tag::appendTitle('Category');
+        Tag::appendTitle([]);
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, true);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, true);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Main</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
-            }
-        );
+        $expected = "<title>Main</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -202,102 +197,97 @@ class TagTitleCest extends TagBase
      */
     public function testPrependTitle(UnitTester $I)
     {
-        $this->specify(
-            "prependTitle returns incorrect result",
-            function (UnitTester $I) {
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitleSeparator('');
-                Tag::setTitle('This is my title');
-                Tag::prependTitle('PhalconPHP - ');
+        Tag::setTitleSeparator('');
+        Tag::setTitle('This is my title');
+        Tag::prependTitle('PhalconPHP - ');
 
-                $expected = "This is my title";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "This is my title";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "PhalconPHP - This is my title";
-                $actual   = Tag::getTitle(true, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "PhalconPHP - This is my title";
+        $actual   = Tag::getTitle(true, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>PhalconPHP - This is my title</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>PhalconPHP - This is my title</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Title');
-                Tag::setTitleSeparator('|');
-                Tag::prependTitle('Class');
+        Tag::setTitle('Title');
+        Tag::setTitleSeparator('|');
+        Tag::prependTitle('Class');
 
-                $expected = "Title";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Title";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Class|Title";
-                $actual   = Tag::getTitle(true, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Class|Title";
+        $actual   = Tag::getTitle(true, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Class|Title</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>Class|Title</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Main');
-                Tag::setTitleSeparator(' - ');
-                Tag::prependTitle('Category');
-                Tag::prependTitle('Title');
+        Tag::setTitle('Main');
+        Tag::setTitleSeparator(' - ');
+        Tag::prependTitle('Category');
+        Tag::prependTitle('Title');
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Title - Category - Main";
-                $actual   = Tag::getTitle(true, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Title - Category - Main";
+        $actual   = Tag::getTitle(true, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Main');
-                Tag::setTitleSeparator(' - ');
-                Tag::prependTitle(['Category', 'Title']);
+        Tag::setTitle('Main');
+        Tag::setTitleSeparator(' - ');
+        Tag::prependTitle(['Category', 'Title']);
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Title - Category - Main";
-                $actual   = Tag::getTitle(true, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Title - Category - Main";
+        $actual   = Tag::getTitle(true, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
+        $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
 
-                Tag::resetInput();
+        Tag::resetInput();
 
-                Tag::setTitle('Main');
-                Tag::setTitleSeparator(' - ');
-                Tag::prependTitle('Category');
-                Tag::prependTitle([]);
+        Tag::setTitle('Main');
+        Tag::setTitleSeparator(' - ');
+        Tag::prependTitle('Category');
+        Tag::prependTitle([]);
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(false, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(false, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "Main";
-                $actual   = Tag::getTitle(true, false);
-                $I->assertEquals($expected, $actual);
+        $expected = "Main";
+        $actual   = Tag::getTitle(true, false);
+        $I->assertEquals($expected, $actual);
 
-                $expected = "<title>Main</title>" . PHP_EOL;
-                $actual   = Tag::renderTitle();
-                $I->assertEquals($expected, $actual);
-            }
-        );
+        $expected = "<title>Main</title>" . PHP_EOL;
+        $actual   = Tag::renderTitle();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
