@@ -49,7 +49,8 @@
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/",
-            "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
+            "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
+            "Phalcon\\Test\\Db\\": "tests/_data/db/"
         }
     },
     "support": {
