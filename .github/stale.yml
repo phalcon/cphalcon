@@ -9,6 +9,9 @@ daysUntilClose: 1
 
 # Issues or Pull Requests with these labels will never be considered stale. Set to `[]` to disable
 exemptLabels:
+  - "Bug - Low"
+  - "Bug - Medium"
+  - "Bug - High"
   - WIP
   - Locked
 
