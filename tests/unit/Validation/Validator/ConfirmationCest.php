@@ -70,7 +70,7 @@ class ConfirmationCest
      */
     public function shouldValidateMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name must be same as nameWith.',
             'type' => 'Type must be same as typeWith.',
@@ -79,7 +79,7 @@ class ConfirmationCest
             ['name', 'type'],
             new Confirmation(
                 [
-                    'with' => [
+                    'with'    => [
                         'name' => 'nameWith',
                         'type' => 'typeWith',
                     ],
@@ -154,13 +154,13 @@ class ConfirmationCest
                 '_messages' => [
                     Message::__set_state(
                         [
-                            '_type' => 'Confirmation',
+                            '_type'    => 'Confirmation',
                             '_message' => 'Field password must be the same as password2',
-                            '_field' => 'password',
-                            '_code' => '0',
+                            '_field'   => 'password',
+                            '_code'    => '0',
                         ]
                     ),
-                ]
+                ],
             ]
         );
 
@@ -170,7 +170,7 @@ class ConfirmationCest
             new Confirmation(
                 [
                     'allowEmpty' => true,
-                    'with'       => 'password2'
+                    'with'       => 'password2',
                 ]
             )
         );
@@ -178,21 +178,21 @@ class ConfirmationCest
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
-                'password2' => 'test123'
+                'password2' => 'test123',
             ]
         );
 
-        $actual   = $messages->count();
+        $actual = $messages->count();
         $I->assertEquals(0, $actual);
 
         $messages = $validation->validate(
             [
                 'password'  => null,
-                'password2' => 'test123'
+                'password2' => 'test123',
             ]
         );
 
-        $actual   = $messages->count();
+        $actual = $messages->count();
         $I->assertEquals(0, $actual);
 
         $validation = new Validation();
@@ -201,7 +201,7 @@ class ConfirmationCest
             new Confirmation(
                 [
                     'allowEmpty' => false,
-                    'with'       => 'password2'
+                    'with'       => 'password2',
                 ]
             )
         );
@@ -209,23 +209,23 @@ class ConfirmationCest
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
-                'password2' => 'test123'
+                'password2' => 'test123',
             ]
         );
 
-        $actual   = $messages->count();
+        $actual = $messages->count();
         $I->assertEquals(0, $actual);
 
         $messages = $validation->validate(
             [
                 'password'  => null,
-                'password2' => 'test123'
+                'password2' => 'test123',
             ]
         );
 
-        $actual   = $messages->count();
+        $actual = $messages->count();
         $I->assertEquals(1, $actual);
-        $actual   = $messages;
+        $actual = $messages;
         $I->assertEquals($expected, $actual);
 
         $validation = new Validation();
@@ -233,7 +233,7 @@ class ConfirmationCest
             'password',
             new Confirmation(
                 [
-                    'with' => 'password2'
+                    'with' => 'password2',
                 ]
             )
         );
@@ -241,23 +241,23 @@ class ConfirmationCest
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
-                'password2' => 'test123'
+                'password2' => 'test123',
             ]
         );
 
-        $actual   = $messages->count();
+        $actual = $messages->count();
         $I->assertEquals(0, $actual);
 
         $messages = $validation->validate(
             [
                 'password'  => null,
-                'password2' => 'test123'
+                'password2' => 'test123',
             ]
         );
 
-        $actual   = $messages->count();
+        $actual = $messages->count();
         $I->assertEquals(1, $actual);
-        $actual   = $messages;
+        $actual = $messages;
         $I->assertEquals($expected, $actual);
     }
 }

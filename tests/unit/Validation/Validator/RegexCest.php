@@ -33,7 +33,7 @@ class RegexCest
             'car_plate',
             new Regex(
                 [
-                    'pattern' => '/[A-Z]{3}\-[0-9]{3}/'
+                    'pattern' => '/[A-Z]{3}\-[0-9]{3}/',
                 ]
             )
         );
@@ -49,8 +49,8 @@ class RegexCest
                             '_field'   => 'car_plate',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $actual   = $messages;
@@ -70,7 +70,7 @@ class RegexCest
      */
     public function testMultipleFieldSinglePattern(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name can be only lowercase letters.',
             'type' => 'Type can be only lowercase letters.',
@@ -79,7 +79,7 @@ class RegexCest
             [
                 'name',
                 'type',
-                ],
+            ],
             new Regex(
                 [
                     'pattern' => '/^[a-z]+$/',
@@ -123,7 +123,7 @@ class RegexCest
      */
     public function testMultipleFieldMultiplePattern(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name can be only lowercase letters.',
             'type' => 'Type can be only uppercase letters.',
@@ -189,7 +189,7 @@ class RegexCest
             new Validation\Validator\Regex(
                 [
                     'pattern' => '/[A-Z]{3}\-[0-9]{3}/',
-                    'message' => 'The car plate is not valid'
+                    'message' => 'The car plate is not valid',
                 ]
             )
         );
@@ -205,8 +205,8 @@ class RegexCest
                             '_field'   => 'car_plate',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $actual   = $messages;

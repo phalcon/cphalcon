@@ -51,7 +51,7 @@ class PresenceOfCest
      */
     public function shouldValidateMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name cant be empty.',
             'type' => 'Type cant be empty.',
@@ -84,12 +84,12 @@ class PresenceOfCest
                 '_messages' => [
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'Name cant be empty.',
-                            '_field' => 'name',
-                            '_code' => '0',
+                            '_field'   => 'name',
+                            '_code'    => '0',
                         ]
-                    )
+                    ),
                 ],
             ]
         );
@@ -114,20 +114,20 @@ class PresenceOfCest
                 '_messages' => [
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'Name cant be empty.',
-                            '_field' => 'name',
-                            '_code' => '0',
+                            '_field'   => 'name',
+                            '_code'    => '0',
                         ]
                     ),
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'Type cant be empty.',
-                            '_field' => 'type',
-                            '_code' => '0',
+                            '_field'   => 'type',
+                            '_code'    => '0',
                         ]
-                    )
+                    ),
                 ],
             ]
         );
@@ -149,7 +149,8 @@ class PresenceOfCest
         $validation
             ->add('name', new PresenceOf(['message' => 'The name is required']))
             ->add('email', new PresenceOf(['message' => 'The email is required']))
-            ->add('login', new PresenceOf(['message' => 'The login is required']));
+            ->add('login', new PresenceOf(['message' => 'The login is required']))
+        ;
 
         $actual = $validation->validate([]);
 
@@ -158,26 +159,26 @@ class PresenceOfCest
                 '_messages' => [
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'The name is required',
-                            '_field' => 'name',
-                            '_code' => '0',
+                            '_field'   => 'name',
+                            '_code'    => '0',
                         ]
                     ),
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'The email is required',
-                            '_field' => 'email',
-                            '_code' => '0',
+                            '_field'   => 'email',
+                            '_code'    => '0',
                         ]
                     ),
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'The login is required',
-                            '_field' => 'login',
-                            '_code' => '0',
+                            '_field'   => 'login',
+                            '_code'    => '0',
                         ]
                     ),
                 ],
@@ -202,9 +203,10 @@ class PresenceOfCest
             ->add('name', new PresenceOf(['message' => 'The name is required']))
             ->add('email', new PresenceOf([
                 'message'      => 'The email is required',
-                'cancelOnFail' => true
+                'cancelOnFail' => true,
             ]))
-            ->add('login', new PresenceOf(['message' => 'The login is required']));
+            ->add('login', new PresenceOf(['message' => 'The login is required']))
+        ;
 
         $actual = $validation->validate([]);
 
@@ -213,20 +215,20 @@ class PresenceOfCest
                 '_messages' => [
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'The name is required',
-                            '_field' => 'name',
-                            '_code' => '0',
+                            '_field'   => 'name',
+                            '_code'    => '0',
                         ]
                     ),
                     Message::__set_state(
                         [
-                            '_type' => 'PresenceOf',
+                            '_type'    => 'PresenceOf',
                             '_message' => 'The email is required',
-                            '_field' => 'email',
-                            '_code' => '0',
+                            '_field'   => 'email',
+                            '_code'    => '0',
                         ]
-                    )
+                    ),
                 ],
             ]
         );

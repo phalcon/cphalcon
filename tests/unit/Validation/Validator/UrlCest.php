@@ -41,12 +41,12 @@ class UrlCest
                             '_field'   => 'url',
                             '_code'    => 0,
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
 
-        $actual   = $messages;
+        $actual = $messages;
         $I->assertEquals($expected, $actual);
 
         $messages = $validation->validate(['url' => 'x=1']);
@@ -67,9 +67,9 @@ class UrlCest
      */
     public function testMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'url' => 'Url must be correct url.',
+            'url'        => 'Url must be correct url.',
             'anotherUrl' => 'AnotherUrl must be correct url.',
         ];
         $validation->add(
@@ -119,7 +119,7 @@ class UrlCest
             'url',
             new Url(
                 [
-                    'message' => 'The url is not valid'
+                    'message' => 'The url is not valid',
                 ]
             )
         );
@@ -135,12 +135,12 @@ class UrlCest
                             '_field'   => 'url',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
 
-        $actual   = $messages;
+        $actual = $messages;
         $I->assertEquals($expected, $actual);
 
         $messages = $validation->validate(['url' => 'x=1']);

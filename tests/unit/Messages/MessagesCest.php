@@ -181,10 +181,10 @@ class MessagesCest
                             '_code'    => 0,
                         ]
                     ),
-                ]
+                ],
             ]
         );
-        $actual = $messages;
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
 
         $validation->appendMessage(new Message('error d', 'myField', 'MyValidator'));
@@ -221,10 +221,10 @@ class MessagesCest
                             '_code'    => 0,
                         ]
                     ),
-                ]
+                ],
             ]
         );
-        $actual = $validation->getMessages();
+        $actual   = $validation->getMessages();
         $I->assertEquals($expected, $actual);
     }
 
@@ -262,7 +262,7 @@ class MessagesCest
             'type'    => 'Type1',
             'code'    => 1,
         ];
-        $actual    = $message1->jsonSerialize();
+        $actual   = $message1->jsonSerialize();
         $I->assertEquals($expected, $actual);
 
         $data      = $messages->jsonSerialize();

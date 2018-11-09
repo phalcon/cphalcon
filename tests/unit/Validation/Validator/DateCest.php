@@ -49,21 +49,21 @@ class DateCest
      */
     public function testMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'date'       =>'Date must be correct date format Y-m-d.',
-            'anotherDate'=>'AnotherDate must be correct date format d-m-Y.'
+            'date'        => 'Date must be correct date format Y-m-d.',
+            'anotherDate' => 'AnotherDate must be correct date format d-m-Y.',
         ];
 
         $validation->add(
             ['date', 'anotherDate'],
             new Date(
                 [
-                    'format'=>[
-                        'date'=>'Y-m-d',
-                        'anotherDate'=>'d-m-Y'
+                    'format'  => [
+                        'date'        => 'Y-m-d',
+                        'anotherDate' => 'd-m-Y',
                     ],
-                    'message'=>$validationMessages
+                    'message' => $validationMessages,
                 ]
             )
         );
@@ -113,8 +113,8 @@ class DateCest
         ];
 
         foreach ($dates as $item) {
-            $date   = $item[0];
-            $format = $item[1];
+            $date       = $item[0];
+            $format     = $item[1];
             $validation = new Validation();
             $validation->add('date', new Date(['format' => $format]));
 
@@ -135,14 +135,14 @@ class DateCest
     public function shouldDetectInvalidDates(UnitTester $I)
     {
         $dates = [
-            ['',            'Y-m-d'],
-            [false,         'Y-m-d'],
-            [null,          'Y-m-d'],
+            ['', 'Y-m-d'],
+            [false, 'Y-m-d'],
+            [null, 'Y-m-d'],
             [new \stdClass, 'Y-m-d'],
-            ['2015-13-01',  'Y-m-d'],
-            ['2015-01-32',  'Y-m-d'],
-            ['2015-01',     'Y-m-d'],
-            ['2015-01-01',  'd-m-Y'],
+            ['2015-13-01', 'Y-m-d'],
+            ['2015-01-32', 'Y-m-d'],
+            ['2015-01', 'Y-m-d'],
+            ['2015-01-01', 'd-m-Y'],
         ];
 
         foreach ($dates as $item) {
@@ -161,8 +161,8 @@ class DateCest
                                 '_field'   => 'date',
                                 '_code'    => '0',
                             ]
-                        )
-                    ]
+                        ),
+                    ],
                 ]
             );
 

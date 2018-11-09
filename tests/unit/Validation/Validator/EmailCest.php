@@ -51,11 +51,11 @@ class EmailCest
                             '_field'   => 'email',
                             '_code'    => 0,
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
-        $actual = $messages;
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
     }
 
@@ -67,9 +67,9 @@ class EmailCest
      */
     public function testMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'email' => 'Email must be correct email.',
+            'email'        => 'Email must be correct email.',
             'anotherEmail' => 'AnotherEmail must be correct email.',
         ];
         $validation->add(
@@ -119,24 +119,24 @@ class EmailCest
             'email',
             new Email(
                 [
-                   'message' => 'The email is not valid'
+                    'message' => 'The email is not valid',
                 ]
             )
         );
 
-        $actual = $validation->validate([]);
+        $actual   = $validation->validate([]);
         $expected = Messages::__set_state(
             [
                 '_messages' => [
                     0 => Message::__set_state(
                         [
-                            '_type' => 'Email',
+                            '_type'    => 'Email',
                             '_message' => 'The email is not valid',
-                            '_field' => 'email',
-                            '_code' => '0',
+                            '_field'   => 'email',
+                            '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $I->assertEquals($expected, $actual);

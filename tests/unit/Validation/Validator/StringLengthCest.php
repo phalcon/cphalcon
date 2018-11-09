@@ -77,8 +77,8 @@ class StringLengthCest
                             '_field'   => 'name',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
 
@@ -117,8 +117,8 @@ class StringLengthCest
                             '_field'   => 'message',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
 
@@ -155,8 +155,8 @@ class StringLengthCest
                             '_field'   => 'name',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
 
@@ -195,8 +195,8 @@ class StringLengthCest
                             '_field'   => 'message',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
 
@@ -214,7 +214,7 @@ class StringLengthCest
      */
     public function shouldValidateMultipleFieldSingleMinMax(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation                = new Validation();
         $validationMinimumMessages = [
             'name' => 'Name length must be minimum 0.',
             'type' => 'Type length must be minimum 0.',
@@ -230,10 +230,10 @@ class StringLengthCest
             ],
             new StringLength(
                 [
-                    'min' => 0,
-                    'max' => 9,
+                    'min'            => 0,
+                    'max'            => 9,
                     'messageMinimum' => $validationMinimumMessages,
-                    'messageMaximum' => $validationMaximumMessages
+                    'messageMaximum' => $validationMaximumMessages,
                 ]
             )
         );
@@ -274,7 +274,7 @@ class StringLengthCest
      */
     public function testMultipleFieldMultipleMinMax(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation                = new Validation();
         $validationMinimumMessages = [
             'name' => 'Name length must be minimum 0.',
             'type' => 'Type length must be minimum 0.',
@@ -290,16 +290,16 @@ class StringLengthCest
             ],
             new StringLength(
                 [
-                    'min' => [
+                    'min'            => [
                         'name' => 0,
                         'type' => 0,
                     ],
-                    'max' => [
+                    'max'            => [
                         'name' => 9,
                         'type' => 4,
                     ],
                     'messageMinimum' => $validationMinimumMessages,
-                    'messageMaximum' => $validationMaximumMessages
+                    'messageMaximum' => $validationMaximumMessages,
                 ]
             )
         );

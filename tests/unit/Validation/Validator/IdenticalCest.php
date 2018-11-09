@@ -58,11 +58,11 @@ class IdenticalCest
                             '_field'   => 'name',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
-        $actual = $messages;
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
     }
 
@@ -74,9 +74,9 @@ class IdenticalCest
      */
     public function testMultipleFieldSingleAccepted(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'name' => 'Name must be SomeValue.',
+            'name'        => 'Name must be SomeValue.',
             'anotherName' => 'AnotherName must be SomeValue.',
         ];
         $validation->add(
@@ -87,7 +87,7 @@ class IdenticalCest
             new Identical(
                 [
                     'accepted' => 'SomeValue',
-                    'message' => $validationMessages,
+                    'message'  => $validationMessages,
                 ]
             )
         );
@@ -127,9 +127,9 @@ class IdenticalCest
      */
     public function testMultipleFieldMultipleAccepted(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'name' => 'Name must be SomeValue.',
+            'name'        => 'Name must be SomeValue.',
             'anotherName' => 'AnotherName must be SomeAnotherValue.',
         ];
         $validation->add(
@@ -140,10 +140,10 @@ class IdenticalCest
             new Identical(
                 [
                     'accepted' => [
-                        'name' => 'SomeValue',
+                        'name'        => 'SomeValue',
                         'anotherName' => 'SomeAnotherValue',
                     ],
-                    'message' => $validationMessages,
+                    'message'  => $validationMessages,
                 ]
             )
         );
@@ -210,8 +210,8 @@ class IdenticalCest
                             '_field'   => 'name',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $actual   = $messages;

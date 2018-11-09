@@ -59,10 +59,10 @@ class NumericalityCest
      */
     public function testMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
             'amount' => 'Amount must be digit.',
-            'price' => 'Price must be digit.',
+            'price'  => 'Price must be digit.',
         ];
         $validation->add(
             [
@@ -75,12 +75,12 @@ class NumericalityCest
                 ]
             )
         );
-        $messages = $validation->validate(['amount'=>123, 'price' => 123]);
+        $messages = $validation->validate(['amount' => 123, 'price' => 123]);
         $expected = 0;
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['amount'=>'123abc', 'price' => 123]);
+        $messages = $validation->validate(['amount' => '123abc', 'price' => 123]);
         $expected = 1;
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
@@ -89,7 +89,7 @@ class NumericalityCest
         $actual   = $messages->offsetGet(0)->getMessage();
         $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['amount'=>'123abc', 'price' => '123abc']);
+        $messages = $validation->validate(['amount' => '123abc', 'price' => '123abc']);
         $expected = 2;
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
@@ -106,7 +106,7 @@ class NumericalityCest
     /**
      * Tests numericality validator for custom locales
      *
-     * @link https://github.com/phalcon/cphalcon/issues/13450
+     * @link   https://github.com/phalcon/cphalcon/issues/13450
      *
      * @author Andrey Izman <izmanw@gmail.com>
      * @since  2018-08-08
@@ -150,6 +150,7 @@ class NumericalityCest
      * Set locale
      *
      * @param string $locale
+     *
      * @return string
      *
      * @author Andrey Izman <izmanw@gmail.com>

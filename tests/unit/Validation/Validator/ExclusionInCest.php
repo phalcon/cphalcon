@@ -33,7 +33,7 @@ class ExclusionInCest
             'status',
             new ExclusionIn(
                 [
-                    'domain' => ['A', 'I']
+                    'domain' => ['A', 'I'],
                 ]
             )
         );
@@ -49,14 +49,14 @@ class ExclusionInCest
                             '_field'   => 'status',
                             '_code'    => 0,
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
-        $actual = $messages;
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
 
-        $messages =  $validation->validate(['status' => 'A']);
+        $messages = $validation->validate(['status' => 'A']);
         $actual   = $messages;
         $I->assertEquals($expected, $actual);
 
@@ -74,19 +74,19 @@ class ExclusionInCest
      */
     public function testMultipleFieldSingleDomain(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'type' => 'Type cant be mechanic or cyborg.',
+            'type'        => 'Type cant be mechanic or cyborg.',
             'anotherType' => 'AnotherType cant by mechanic or cyborg.',
         ];
         $validation->add(
             [
                 'type',
                 'anotherType',
-                ],
+            ],
             new ExclusionIn(
                 [
-                    'domain' => ['mechanic', 'cyborg'],
+                    'domain'  => ['mechanic', 'cyborg'],
                     'message' => $validationMessages,
                 ]
             )
@@ -127,9 +127,9 @@ class ExclusionInCest
      */
     public function testMultipleFieldMultipleDomain(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'type' => 'Type cant be mechanic or cyborg.',
+            'type'        => 'Type cant be mechanic or cyborg.',
             'anotherType' => 'AnotherType cant by mechanic or hydraulic.',
         ];
         $validation->add(
@@ -139,11 +139,11 @@ class ExclusionInCest
             ],
             new ExclusionIn(
                 [
-                'domain' => [
-                    'type' => ['mechanic', 'cyborg'],
-                    'anotherType' => ['mechanic', 'hydraulic'],
-                ],
-                'message' => $validationMessages,
+                    'domain'  => [
+                        'type'        => ['mechanic', 'cyborg'],
+                        'anotherType' => ['mechanic', 'hydraulic'],
+                    ],
+                    'message' => $validationMessages,
                 ]
             )
         );
@@ -193,7 +193,7 @@ class ExclusionInCest
             new ExclusionIn(
                 [
                     'message' => 'The status must not be A=Active or I=Inactive',
-                    'domain' => ['A', 'I']
+                    'domain'  => ['A', 'I'],
                 ]
             )
         );
@@ -209,8 +209,8 @@ class ExclusionInCest
                             '_field'   => 'status',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $actual   = $messages;

@@ -33,7 +33,7 @@ class InclusionInCest
             'status',
             new InclusionIn(
                 [
-                    'domain' => ['A', 'I']
+                    'domain' => ['A', 'I'],
                 ]
             )
         );
@@ -49,8 +49,8 @@ class InclusionInCest
                             '_field'   => 'status',
                             '_code'    => 0,
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $actual   = $messages;
@@ -74,9 +74,9 @@ class InclusionInCest
      */
     public function testMultipleFieldSingleDomain(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'type' => 'Type must be mechanical or cyborg.',
+            'type'        => 'Type must be mechanical or cyborg.',
             'anotherType' => 'AnotherType must be mechanical or cyborg.',
         ];
         $validation->add(
@@ -86,7 +86,7 @@ class InclusionInCest
             ],
             new InclusionIn(
                 [
-                    'domain' => ['mechanical', 'cyborg'],
+                    'domain'  => ['mechanical', 'cyborg'],
                     'message' => $validationMessages,
                 ]
             )
@@ -127,9 +127,9 @@ class InclusionInCest
      */
     public function testMultipleFieldMultipleDomain(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
-            'type' => 'Type must be mechanic or cyborg.',
+            'type'        => 'Type must be mechanic or cyborg.',
             'anotherType' => 'AnotherType must be mechanic or hydraulic.',
         ];
         $validation->add(
@@ -139,8 +139,8 @@ class InclusionInCest
             ],
             new InclusionIn(
                 [
-                    'domain' => [
-                        'type' => ['cyborg', 'mechanic'],
+                    'domain'  => [
+                        'type'        => ['cyborg', 'mechanic'],
                         'anotherType' => ['mechanic', 'hydraulic'],
                     ],
                     'message' => $validationMessages,
@@ -194,7 +194,7 @@ class InclusionInCest
             new InclusionIn(
                 [
                     'message' => 'The status must be A=Active or I=Inactive',
-                    'domain' => ['A', 'I']
+                    'domain'  => ['A', 'I'],
                 ]
             )
         );
@@ -210,8 +210,8 @@ class InclusionInCest
                             '_field'   => 'status',
                             '_code'    => '0',
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $actual   = $messages;

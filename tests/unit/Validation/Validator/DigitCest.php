@@ -49,10 +49,10 @@ class DigitCest
      */
     public function testMultipleField(UnitTester $I)
     {
-        $validation = new Validation();
+        $validation         = new Validation();
         $validationMessages = [
             'amount' => 'Amount must be digit.',
-            'price' => 'Price must be digit.',
+            'price'  => 'Price must be digit.',
         ];
         $validation->add(
             ['amount', 'price'],

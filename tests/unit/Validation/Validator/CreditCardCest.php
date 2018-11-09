@@ -169,8 +169,8 @@ class CreditCardCest
                                 '_field'   => 'creditCard',
                                 '_code'    => '0',
                             ]
-                        )
-                    ]
+                        ),
+                    ],
                 ]
             );
 

@@ -17,23 +17,6 @@ use UnitTester;
 class RandomCest
 {
     /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I, $scenario)
-    {
-        if (!function_exists('random_bytes') &&
-            !extension_loaded('openssl') &&
-            !extension_loaded('libsodium') &&
-            !file_exists('/dev/urandom')) {
-            $scenario->skip(
-                'Warning: libsodium and openssl extensions is not loaded or ' .
-                '/dev/urandom file does not exist or ' .
-                'random_bytes function does not exists'
-            );
-        }
-    }
-
-    /**
      * Tests the random number generation
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
@@ -48,7 +31,7 @@ class RandomCest
             8777,
             123456789,
             1,
-            9999999999999
+            9999999999999,
         ];
 
         $random = new Random();
@@ -115,7 +98,7 @@ class RandomCest
                     range("1", "9")
                 );
 
-                return (preg_match('#^[^'.join('', $alphabet).']+$#i', $base58) === 0);
+                return (preg_match('#^[^' . join('', $alphabet) . ']+$#i', $base58) === 0);
             };
 
             $base58 = $random->base58($len);
@@ -181,6 +164,26 @@ class RandomCest
     }
 
     /**
+     * Size formula: 4 * ($n / 3) and this need to be rounded up to a multiple
+     * of 4.
+     *
+     * @param string $string
+     * @param int    $n
+     *
+     * @return bool
+     */
+    protected function checkSize($string, $n)
+    {
+        if (round(4 * ($n / 3)) % 4 === 0) {
+            $len = round(4 * ($n / 3));
+        } else {
+            $len = round((4 * ($n / 3) + 4 / 2) / 4) * 4;
+        }
+
+        return strlen($string) == $len;
+    }
+
+    /**
      * Tests the random base64 generation
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
@@ -189,20 +192,20 @@ class RandomCest
     public function testRandomBase64Safe(UnitTester $I)
     {
         $examples = [
-            [null, false, 'a-z0-9_-' ],
-            [null, true,  'a-z0-9_=-'],
-            [2,    false, 'a-z0-9_-' ],
-            [2,    true,  'a-z0-9_=-'],
-            [12,   false, 'a-z0-9_-' ],
-            [12,   true,  'a-z0-9_=-'],
-            [16,   false, 'a-z0-9_-' ],
-            [16,   true,  'a-z0-9_=-'],
-            [24,   false, 'a-z0-9_-' ],
-            [24,   true,  'a-z0-9_=-'],
-            [48,   false, 'a-z0-9_-' ],
-            [48,   true,  'a-z0-9_=-'],
-            [100,  false, 'a-z0-9_-' ],
-            [100,  true,  'a-z0-9_=-'],
+            [null, false, 'a-z0-9_-'],
+            [null, true, 'a-z0-9_=-'],
+            [2, false, 'a-z0-9_-'],
+            [2, true, 'a-z0-9_=-'],
+            [12, false, 'a-z0-9_-'],
+            [12, true, 'a-z0-9_=-'],
+            [16, false, 'a-z0-9_-'],
+            [16, true, 'a-z0-9_=-'],
+            [24, false, 'a-z0-9_-'],
+            [24, true, 'a-z0-9_=-'],
+            [48, false, 'a-z0-9_-'],
+            [48, true, 'a-z0-9_=-'],
+            [100, false, 'a-z0-9_-'],
+            [100, true, 'a-z0-9_=-'],
         ];
 
         foreach ($examples as $example) {
@@ -235,7 +238,7 @@ class RandomCest
             130,
             19,
             710,
-            943087
+            943087,
         ];
 
         $random = new Random();
@@ -282,10 +285,10 @@ class RandomCest
             222,
             100,
             9090909,
-            12312312
+            12312312,
         ];
 
-        $random = new Random();
+        $random  = new Random();
         $isValid = function ($bytes) {
             return (preg_match('#^[^\x00-\xFF]+$#', $bytes) === 0);
         };
@@ -308,21 +311,19 @@ class RandomCest
     }
 
     /**
-     * Size formula: 4 * ($n / 3) and this need to be rounded up to a multiple of 4.
-     *
-     * @param string $string
-     * @param int $n
-     *
-     * @return bool
+     * executed before each test
      */
-    protected function checkSize($string, $n)
+    protected function _before(UnitTester $I, $scenario)
     {
-        if (round(4 * ($n / 3)) % 4 === 0) {
-            $len = round(4 * ($n / 3));
-        } else {
-            $len = round((4 * ($n / 3) + 4 / 2) / 4) * 4;
+        if (!function_exists('random_bytes') &&
+            !extension_loaded('openssl') &&
+            !extension_loaded('libsodium') &&
+            !file_exists('/dev/urandom')) {
+            $scenario->skip(
+                'Warning: libsodium and openssl extensions is not loaded or ' .
+                '/dev/urandom file does not exist or ' .
+                'random_bytes function does not exists'
+            );
         }
-
-        return strlen($string) == $len;
     }
 }
