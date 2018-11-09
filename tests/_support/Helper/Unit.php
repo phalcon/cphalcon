@@ -73,7 +73,7 @@ class Unit extends \Codeception\Module
     public function getNewFileName($prefix = '', $suffix = 'log')
     {
         $prefix = ($prefix) ? $prefix . '_' : '';
-        $suffix = ($suffix) ? $suffix       : 'log';
+        $suffix = ($suffix) ? $suffix : 'log';
 
         return uniqid($prefix, true) . '.' . $suffix;
     }
@@ -89,7 +89,7 @@ class Unit extends \Codeception\Module
      */
     public function cleanFile($path, $fileName)
     {
-        $file  = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
+        $file = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
         $file .= $fileName;
 
         $actual = file_exists($file);

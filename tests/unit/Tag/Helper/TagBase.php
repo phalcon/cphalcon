@@ -11,30 +11,20 @@
 
 namespace Phalcon\Test\Unit\Tag\Helper;
 
-use Phalcon\Di;
-use Phalcon\Escaper;
-use Phalcon\Mvc\Url;
+use Helper\Traits\DiTrait;
 use Phalcon\Tag;
 use UnitTester;
 
 class TagBase
 {
+    use DiTrait;
+
     public function _before(UnitTester $I)
     {
-        $container = new Di();
-        $container->setShared('escaper', new Escaper());
-        $container->setShared(
-            'url',
-            function () {
-                $url = new Url();
-                $url->setBaseUri('/');
-
-                return $url;
-            }
-        );
-
-        Di::reset();
-        Di::setDefault($container);
+        $this->resetDi();
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
     }
 
     /**

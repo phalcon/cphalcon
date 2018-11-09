@@ -39,6 +39,9 @@ run.config:
         - opcache
   extra_packages:
     - autoconf
+    - freefonts
+    - freetype2
+    - fontconfig
     - re2c
   extra_steps:
     # PSR extension compilation

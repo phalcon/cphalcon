@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Module\UnitTest;
 use UnitTester;
 
 class InlineCest
@@ -26,13 +25,10 @@ class InlineCest
      */
     public function getResourceKey(UnitTester $I)
     {
-        $this->specify(
-            "Unable to get inline resource key or resorce key is incorrect",
-            function () {
-                $resource = new Inline('js', '<script>alert("Hello");</script>');
+        $resource = new Inline('js', '<script>alert("Hello");</script>');
 
-                expect(md5('js:<script>alert("Hello");</script>'))->equals($resource->getResourceKey());
-            }
-        );
+        $expected = $resource->getResourceKey();
+        $actual   = md5('js:<script>alert("Hello");</script>');
+        $I->assertEquals($expected, $actual);
     }
 }
