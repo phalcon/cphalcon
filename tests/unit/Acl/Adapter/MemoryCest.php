@@ -377,7 +377,7 @@ class MemoryCest
         $acl->addResource(new Resource('11'), ['index']);
 
         $actual = $acl->isResource('11');
-        $I->assertFalse($actual);
+        $I->assertTrue($actual);
     }
 
     /**
@@ -510,18 +510,14 @@ class MemoryCest
      * @issue  https://github.com/phalcon/cphalcon/issues/12094
      * @author                   Wojciech Slawski <jurigag@gmail.com>
      * @since                    2016-06-05
-     *
-     * @expectedException        \PHPUnit\Framework\Exception
-     * @expectedExceptionMessage You didn't provide any parameters when check
-     *                           Guests can update Post. We will use default
-     *                           action when no arguments.
      */
     public function testAclAllowFunctionNoArgumentsWithWarning(UnitTester $I)
     {
         $I->expectThrowable(
             new Exception(
-                 "You didn't provide any parameters when check Guests can " .
-                "update Post. We will use default action when no arguments."
+                "You didn't provide any parameters when check Guests can " .
+                "update Post. We will use default action when no arguments.",
+                1024
             ),
             function () {
                 $acl = new Memory;
