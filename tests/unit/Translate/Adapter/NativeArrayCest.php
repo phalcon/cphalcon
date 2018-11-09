@@ -1,35 +1,27 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Translate\Adapter\NativeArray;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Translate\Adapter\NativeArrayTest
- * Tests the \Phalcon\Translate\Adapter\NativeArray component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Translate\Adapter
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class NativeArrayTest extends UnitTest
+class NativeArrayTest
 {
     private $config = null;
 
     /**
      * Initialize data for the tests
      */
-    public function _before()
+    public function _before(UnitTester $I)
     {
         $this->config = [
             'en' => [
@@ -63,7 +55,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testExists()
+    public function testExists(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with exists",
@@ -81,7 +73,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testOffsetExists()
+    public function testOffsetExists(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with offsetExists",
@@ -99,7 +91,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testOffsetGet()
+    public function testOffsetGet(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with offsetGet",
@@ -117,7 +109,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testQueryEnglish()
+    public function testQueryEnglish(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with query in English",
@@ -148,7 +140,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testQuerySpanish()
+    public function testQuerySpanish(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with query in Spanish",
@@ -179,7 +171,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testQueryFrench()
+    public function testQueryFrench(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with query in French",
@@ -210,7 +202,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionInStringWithNoVariablesEnglish()
+    public function testVariableSubstitutionInStringWithNoVariablesEnglish(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate English correctly with passed params and no variables",
@@ -229,7 +221,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionOneEnglish()
+    public function testVariableSubstitutionOneEnglish(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate English correctly with parameters",
@@ -248,7 +240,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionTwoEnglish()
+    public function testVariableSubstitutionTwoEnglish(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate English correctly - many parameters",
@@ -272,7 +264,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionInStringWithNoVariablesSpanish()
+    public function testVariableSubstitutionInStringWithNoVariablesSpanish(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate Spanish correctly with passed params and no variables",
@@ -291,7 +283,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionOneSpanish()
+    public function testVariableSubstitutionOneSpanish(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate Spanish correctly with parameters",
@@ -310,7 +302,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionTwoSpanish()
+    public function testVariableSubstitutionTwoSpanish(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate Spanish correctly - many parameters",
@@ -334,7 +326,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionInStringWithNoVariablesFrench()
+    public function testVariableSubstitutionInStringWithNoVariablesFrench(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate French correctly with passed params and no variables",
@@ -353,7 +345,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionOneFrench()
+    public function testVariableSubstitutionOneFrench(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate French correctly with parameters",
@@ -372,7 +364,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionTwoFrench()
+    public function testVariableSubstitutionTwoFrench(UnitTester $I)
     {
         $this->specify(
             "Translator does not translate French correctly - many parameters",
@@ -396,7 +388,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testWithArrayAccess()
+    public function testWithArrayAccess(UnitTester $I)
     {
         $this->specify(
             "Translator with array access",
@@ -417,7 +409,7 @@ class NativeArrayTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testWithArrayAccessAndUTF8Strings()
+    public function testWithArrayAccessAndUTF8Strings(UnitTester $I)
     {
         $this->specify(
             "Translator with array access and UTF8 strings",

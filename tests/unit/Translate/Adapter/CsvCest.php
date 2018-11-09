@@ -1,37 +1,28 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Translate\Adapter\Csv;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Translate\Adapter\CsvTest
- * Tests the \Phalcon\Translate\Adapter\Csv component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Ivan Zubok <chi_no@ukr.net>
- * @package   Phalcon\Test\Unit\Translate\Adapter
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class CsvTest extends UnitTest
+class CsvTest
 {
     private $config = null;
 
     /**
      * executed before each test
      */
-    public function _before()
+    public function _before(UnitTester $I)
     {
-        parent::_before();
-
         $this->config = ['ru' => ['content' => PATH_DATA . 'translation/csv/ru_RU.csv']];
     }
 
@@ -44,7 +35,7 @@ class CsvTest extends UnitTest
      * @expectedException        \Phalcon\Translate\Exception
      * @expectedExceptionMessage Parameter 'content' is required
      */
-    public function testContentParamExist()
+    public function testContentParamExist(UnitTester $I)
     {
         $this->specify(
             "Parameter 'content' is required",
@@ -60,7 +51,7 @@ class CsvTest extends UnitTest
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
      */
-    public function testNotExists()
+    public function testNotExists(UnitTester $I)
     {
         $this->specify(
             "The key does not exist with exists",
@@ -79,7 +70,7 @@ class CsvTest extends UnitTest
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
      */
-    public function testExists()
+    public function testExists(UnitTester $I)
     {
         $this->specify(
             "The key exist with expect",
@@ -98,7 +89,7 @@ class CsvTest extends UnitTest
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
      */
-    public function testRuTranslate()
+    public function testRuTranslate(UnitTester $I)
     {
         $this->specify(
             "The key exist with expect with additional params",
