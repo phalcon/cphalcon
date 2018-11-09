@@ -35,7 +35,6 @@ class TextUpperLowerCest
         $expected = '1234';
         $actual   = Text::upper('1234');
         $I->assertEquals($expected, $actual);
-
     }
 
     /**
@@ -69,7 +68,6 @@ class TextUpperLowerCest
         $expected = 'MÄNNER';
         $actual   = Text::upper('männer');
         $I->assertEquals($expected, $actual);
-
     }
 
     /**

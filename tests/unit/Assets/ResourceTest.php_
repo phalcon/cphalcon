@@ -1,28 +1,21 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Assets\Resource;
 use Phalcon\Test\Module\UnitTest;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Assets\ResourceTest
- * Tests the \Phalcon\Assets\Resource component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Asset
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class ResourceTest extends UnitTest
+class ResourceTest
 {
     /**
      * Tests getType
@@ -30,7 +23,7 @@ class ResourceTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-10
      */
-    public function testAssetsResourceGetType()
+    public function testAssetsResourceGetType(UnitTester $I)
     {
         $this->specify(
             "The resource getType is not correct",
@@ -51,7 +44,7 @@ class ResourceTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */
-    public function getResourceKey()
+    public function getResourceKey(UnitTester $I)
     {
         $this->specify(
             "Unable to get resource key or resorce key is incorrect",
@@ -69,7 +62,7 @@ class ResourceTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-10
      */
-    public function testAssetsResourceGetPath()
+    public function testAssetsResourceGetPath(UnitTester $I)
     {
         $this->specify(
             "The resource getPath is not correct",
@@ -89,7 +82,7 @@ class ResourceTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-10
      */
-    public function testAssetsResourceGetLocal()
+    public function testAssetsResourceGetLocal(UnitTester $I)
     {
         $this->specify(
             "The resource getLocal is not correct",

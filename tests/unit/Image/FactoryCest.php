@@ -11,21 +11,22 @@
 
 namespace Phalcon\Test\Unit\Image;
 
-use Phalcon\Image\Factory;
+use Helper\Traits\FactoryTrait;
 use Phalcon\Image\Adapter\Imagick;
-use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
+use Phalcon\Image\Factory;
 use UnitTester;
 
-class FactoryTest
+class FactoryCest
 {
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I, $scenario)
+    use FactoryTrait;
+
+    public function _before(UnitTester $I, $scenario)
     {
-        if (!class_exists('imagick')) {
+        if (!extension_loaded('imagick')) {
             $scenario->skip('Warning: imagick extension is not loaded');
         }
+
+        $this->init();
     }
 
     /**
@@ -38,9 +39,14 @@ class FactoryTest
     {
         $options = $this->config->image;
         /** @var Imagick $image */
-        $image = Factory::load($options);
-        expect($image)->isInstanceOf(Imagick::class);
-        expect($image->getRealpath())->equals(realpath($options->file));
+        $image  = Factory::load($options);
+        $class  = Imagick::class;
+        $actual = $image;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = realpath($options->file);
+        $actual   = $image->getRealpath();
+        $I->assertEquals($expected, $actual);
     }
 
     /**

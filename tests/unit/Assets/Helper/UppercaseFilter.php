@@ -22,6 +22,7 @@ class UppercaseFilter implements FilterInterface
      * @since  2014-10-05
      *
      * @param string $content
+     *
      * @return string
      */
     public function filter(string $content): string

@@ -1,29 +1,22 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Assets\Resource;
 use Phalcon\Assets\Collection;
 use Phalcon\Test\Module\UnitTest;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Assets\CollectionTest
- * Tests the \Phalcon\Assets\Collection component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Asset
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class CollectionTest extends UnitTest
+class CollectionCest
 {
     /**
      * Tests Collection
@@ -31,7 +24,7 @@ class CollectionTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-10
      */
-    public function testAssetsResourceCollection()
+    public function testAssetsResourceCollection(UnitTester $I)
     {
         $this->specify(
             "The resource collection is not correct",
@@ -59,7 +52,7 @@ class CollectionTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */
-    public function hasReource()
+    public function hasReource(UnitTester $I)
     {
         $this->specify(
             "Unable to find resource in collection",
@@ -85,7 +78,7 @@ class CollectionTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */
-    public function doNotAddTheSameRecources()
+    public function doNotAddTheSameRecources(UnitTester $I)
     {
         $this->specify(
             "The assets collection incorrectly stores resources",

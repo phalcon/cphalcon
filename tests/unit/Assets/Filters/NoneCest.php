@@ -11,9 +11,8 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
-use Phalcon\Assets\Manager;
 use Phalcon\Assets\Filters\None;
-use Phalcon\Test\Module\UnitTest;
+use Phalcon\Assets\Manager;
 use Phalcon\Test\Unit\Assets\Helper\TrimFilter;
 use Phalcon\Test\Unit\Assets\Helper\UppercaseFilter;
 use UnitTester;

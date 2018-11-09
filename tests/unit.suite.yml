@@ -6,4 +6,5 @@ actor: UnitTester
 modules:
     enabled:
         - Asserts
+        - Filesystem
         - \Helper\Unit

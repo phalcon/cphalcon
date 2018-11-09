@@ -11,12 +11,11 @@
 
 namespace Phalcon\Test\Unit\Translate\Interpolator;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Interpolator\IndexedArray;
 use UnitTester;
 
-class IndexedArrayTest
+class IndexedArrayCest
 {
     private $config = null;
 
@@ -25,8 +24,6 @@ class IndexedArrayTest
      */
     public function _before(UnitTester $I)
     {
-        parent::_before();
-
         $this->config = [
             'ru' => [
                 'Hello!'          => 'Привет!',
@@ -37,41 +34,33 @@ class IndexedArrayTest
 
     public function testIndexedArrayInterpolator(UnitTester $I)
     {
-        $this->specify(
-            "Test Translator with IndexedArray interpolator fails",
-            function () {
-                $language   = $this->config['ru'];
-                $params     = ['content' => $language, 'interpolator' => new IndexedArray()];
-                $translator = new NativeArray($params);
+        $language   = $this->config['ru'];
+        $params     = ['content' => $language, 'interpolator' => new IndexedArray()];
+        $translator = new NativeArray($params);
 
-                $expected = 'Привет, John D. Doe!';
-                $actual = $translator->_(
-                    'Hello %s %s %s!',
-                    [
-                        'John',
-                        'D.',
-                        'Doe',
-                    ]
-                );
-                expect($actual)->equals($expected);
-            }
+        $expected = 'Привет, John D. Doe!';
+        $actual   = $translator->_(
+            'Hello %s %s %s!',
+            [
+                'John',
+                'D.',
+                'Doe',
+            ]
         );
+
+        $I->assertEquals($expected, $actual);
     }
 
     public function testReplacePlaceholders(UnitTester $I)
     {
-        $this->specify(
-            "replacePlaceholders returns incorrect result",
-            function () {
-                $interpolator = new IndexedArray();
+        $interpolator = new IndexedArray();
 
-                $expected = 'Hello, John D. Doe!';
+        $expected = 'Hello, John D. Doe!';
 
-                $stringFrom = 'Hello, %s %s %s!';
-                $actual = $interpolator->replacePlaceholders($stringFrom, ['John', 'D.', 'Doe']);
+        $stringFrom = 'Hello, %s %s %s!';
+        $actual     = $interpolator->replacePlaceholders($stringFrom, ['John', 'D.', 'Doe']);
 
-                expect($expected)->equals($actual);
-            }
-        );
+
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter;
 use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
-class NativeArrayTest
+class NativeArrayCest
 {
     private $config = null;
 
@@ -57,14 +57,11 @@ class NativeArrayTest
      */
     public function testExists(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with exists",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
-                expect($translator->exists('hi'))->true();
-            }
-        );
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
+
+        $actual = $translator->exists('hi');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -75,14 +72,11 @@ class NativeArrayTest
      */
     public function testOffsetExists(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with offsetExists",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
-                expect($translator->offsetExists('hi'))->true();
-            }
-        );
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
+
+        $actual = $translator->offsetExists('hi');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -93,14 +87,12 @@ class NativeArrayTest
      */
     public function testOffsetGet(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with offsetGet",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
-                expect($translator->offsetGet('hi'))->equals('Hello');
-            }
-        );
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
+
+        $expected = 'Hello';
+        $actual   = $translator->offsetGet('hi');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -111,27 +103,24 @@ class NativeArrayTest
      */
     public function testQueryEnglish(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with query in English",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->query('hi'))->equals('Hello');
-                expect($translator->query('bye'))->equals('Good Bye');
-            }
-        );
+        $expected = 'Hello';
+        $actual   = $translator->query('hi');
+        $I->assertEquals($expected, $actual);
 
-        $this->specify(
-            "The key does not exist with query in English with alternative syntax",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
+        $expected = 'Good Bye';
+        $actual   = $translator->query('bye');
+        $I->assertEquals($expected, $actual);
 
-                expect($translator->_('hi'))->equals('Hello');
-                expect($translator->_('bye'))->equals('Good Bye');
-            }
-        );
+        $expected = 'Hello';
+        $actual   = $translator->_('hi');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Good Bye';
+        $actual   = $translator->_('bye');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -142,27 +131,24 @@ class NativeArrayTest
      */
     public function testQuerySpanish(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with query in Spanish",
-            function () {
-                $language   = $this->config['es'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['es'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->query('hi'))->equals('Hola');
-                expect($translator->query('bye'))->equals('Adiós');
-            }
-        );
+        $expected = 'Hola';
+        $actual   = $translator->query('hi');
+        $I->assertEquals($expected, $actual);
 
-        $this->specify(
-            "The key does not exist with query in Spanish with alternative syntax",
-            function () {
-                $language   = $this->config['es'];
-                $translator = new NativeArray(['content' => $language]);
+        $expected = 'Adiós';
+        $actual   = $translator->query('bye');
+        $I->assertEquals($expected, $actual);
 
-                expect($translator->_('hi'))->equals('Hola');
-                expect($translator->_('bye'))->equals('Adiós');
-            }
-        );
+        $expected = 'Hola';
+        $actual   = $translator->_('hi');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Adiós';
+        $actual   = $translator->_('bye');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -173,27 +159,24 @@ class NativeArrayTest
      */
     public function testQueryFrench(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with query in French",
-            function () {
-                $language   = $this->config['fr'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['fr'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->query('hi'))->equals('Bonjour');
-                expect($translator->query('bye'))->equals('Au revoir');
-            }
-        );
+        $expected = 'Bonjour';
+        $actual   = $translator->query('hi');
+        $I->assertEquals($expected, $actual);
 
-        $this->specify(
-            "The key does not exist with query in French with alternative syntax",
-            function () {
-                $language   = $this->config['fr'];
-                $translator = new NativeArray(['content' => $language]);
+        $expected = 'Au revoir';
+        $actual   = $translator->query('bye');
+        $I->assertEquals($expected, $actual);
 
-                expect($translator->_('hi'))->equals('Bonjour');
-                expect($translator->_('bye'))->equals('Au revoir');
-            }
-        );
+        $expected = 'Bonjour';
+        $actual   = $translator->_('hi');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Au revoir';
+        $actual   = $translator->_('bye');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -204,15 +187,16 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionInStringWithNoVariablesEnglish(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate English correctly with passed params and no variables",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->_('hi', ['name' => 'my friend']))->equals('Hello');
-            }
-        );
+        $expected = 'Hello';
+        $actual   = $translator->query('hi', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Hello';
+        $actual   = $translator->_('hi', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -223,15 +207,16 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionOneEnglish(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate English correctly with parameters",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->_('hello-key', ['name' => 'my friend']))->equals('Hello my friend');
-            }
-        );
+        $expected = 'Hello my friend';
+        $actual   = $translator->query('hello-key', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Hello my friend';
+        $actual   = $translator->_('hello-key', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -242,20 +227,21 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionTwoEnglish(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate English correctly - many parameters",
-            function () {
-                $language   = $this->config['en'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['en'];
+        $translator = new NativeArray(['content' => $language]);
 
-                $vars = [
-                    'song'   => 'Dust in the wind',
-                    'artist' => 'Kansas',
-                ];
+        $vars = [
+            'song'   => 'Dust in the wind',
+            'artist' => 'Kansas',
+        ];
 
-                expect($translator->_('song-key', $vars))->equals('This song is Dust in the wind (Kansas)');
-            }
-        );
+        $expected = 'This song is Dust in the wind (Kansas)';
+        $actual   = $translator->query('song-key', $vars);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'This song is Dust in the wind (Kansas)';
+        $actual   = $translator->_('song-key', $vars);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -266,15 +252,16 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionInStringWithNoVariablesSpanish(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate Spanish correctly with passed params and no variables",
-            function () {
-                $language   = $this->config['es'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['es'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->_('hi', ['name' => 'my friend']))->equals('Hola');
-            }
-        );
+        $expected = 'Hola';
+        $actual   = $translator->query('hi', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Hola';
+        $actual   = $translator->_('hi', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -285,15 +272,16 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionOneSpanish(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate Spanish correctly with parameters",
-            function () {
-                $language   = $this->config['es'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['es'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->_('hello-key', ['name' => 'my friend']))->equals('Hola my friend');
-            }
-        );
+        $expected = 'Hola my friend';
+        $actual   = $translator->query('hello-key', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Hola my friend';
+        $actual   = $translator->_('hello-key', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -304,20 +292,21 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionTwoSpanish(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate Spanish correctly - many parameters",
-            function () {
-                $language   = $this->config['es'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['es'];
+        $translator = new NativeArray(['content' => $language]);
 
-                $vars = [
-                    'song'   => 'Dust in the wind',
-                    'artist' => 'Kansas',
-                ];
+        $vars = [
+            'song'   => 'Dust in the wind',
+            'artist' => 'Kansas',
+        ];
 
-                expect($translator->_('song-key', $vars))->equals('La canción es Dust in the wind (Kansas)');
-            }
-        );
+        $expected = 'La canción es Dust in the wind (Kansas)';
+        $actual   = $translator->query('song-key', $vars);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'La canción es Dust in the wind (Kansas)';
+        $actual   = $translator->_('song-key', $vars);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -328,15 +317,16 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionInStringWithNoVariablesFrench(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate French correctly with passed params and no variables",
-            function () {
-                $language   = $this->config['fr'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['fr'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->_('hi', ['name' => 'my friend']))->equals('Bonjour');
-            }
-        );
+        $expected = 'Bonjour';
+        $actual   = $translator->query('hi', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Bonjour';
+        $actual   = $translator->_('hi', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -347,15 +337,16 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionOneFrench(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate French correctly with parameters",
-            function () {
-                $language   = $this->config['fr'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['fr'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect($translator->_('hello-key', ['name' => 'my friend']))->equals('Bonjour my friend');
-            }
-        );
+        $expected = 'Bonjour my friend';
+        $actual   = $translator->query('hello-key', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Bonjour my friend';
+        $actual   = $translator->_('hello-key', ['name' => 'my friend']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -366,20 +357,26 @@ class NativeArrayTest
      */
     public function testVariableSubstitutionTwoFrench(UnitTester $I)
     {
-        $this->specify(
-            "Translator does not translate French correctly - many parameters",
-            function () {
-                $language   = $this->config['fr'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['fr'];
+        $translator = new NativeArray(['content' => $language]);
 
-                $vars = [
-                    'song'   => 'Dust in the wind',
-                    'artist' => 'Kansas',
-                ];
+        $vars = [
+            'song'   => 'Dust in the wind',
+            'artist' => 'Kansas',
+        ];
 
-                expect($translator->_('song-key', $vars))->equals('La chanson est Dust in the wind (Kansas)');
-            }
-        );
+        $vars = [
+            'song'   => 'Dust in the wind',
+            'artist' => 'Kansas',
+        ];
+
+        $expected = 'La chanson est Dust in the wind (Kansas)';
+        $actual   = $translator->query('song-key', $vars);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'La chanson est Dust in the wind (Kansas)';
+        $actual   = $translator->_('song-key', $vars);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -390,17 +387,18 @@ class NativeArrayTest
      */
     public function testWithArrayAccess(UnitTester $I)
     {
-        $this->specify(
-            "Translator with array access",
-            function () {
-                $language   = $this->config['ru'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['ru'];
+        $translator = new NativeArray(['content' => $language]);
 
-                expect(isset($translator['Hello!']))->true();
-                expect(isset($translator['Hi there!']))->false();
-                expect($translator['Hello!'])->equals($language['Hello!']);
-            }
-        );
+        $actual = isset($translator['Hello!']);
+        $I->assertTrue($actual);
+
+        $actual = isset($translator['Hi there!']);
+        $I->assertFalse($actual);
+
+        $expected = $language['Hello!'];
+        $actual   = $translator['Hello!'];
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -411,20 +409,21 @@ class NativeArrayTest
      */
     public function testWithArrayAccessAndUTF8Strings(UnitTester $I)
     {
-        $this->specify(
-            "Translator with array access and UTF8 strings",
-            function () {
-                $language   = $this->config['ru'];
-                $translator = new NativeArray(['content' => $language]);
+        $language   = $this->config['ru'];
+        $translator = new NativeArray(['content' => $language]);
 
-                $vars = [
-                    'fname' => 'John',
-                    'lname' => 'Doe',
-                    'mname' => 'D.',
-                ];
+        $vars = [
+            'fname' => 'John',
+            'lname' => 'Doe',
+            'mname' => 'D.',
+        ];
 
-                expect($translator->_('Hello %fname% %mname% %lname%!', $vars))->equals('Привет, John D. Doe!');
-            }
-        );
+        $expected = 'Привет, John D. Doe!';
+        $actual   = $translator->query('Hello %fname% %mname% %lname%!', $vars);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Привет, John D. Doe!';
+        $actual   = $translator->_('Hello %fname% %mname% %lname%!', $vars);
+        $I->assertEquals($expected, $actual);
     }
 }

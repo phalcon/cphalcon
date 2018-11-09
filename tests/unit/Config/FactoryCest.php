@@ -11,24 +11,18 @@
 
 namespace Phalcon\Test\Unit\Config;
 
+use Helper\Traits\FactoryTrait;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Factory;
-use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 use UnitTester;
 
 class FactoryCest
 {
-    protected $config;
+    use FactoryTrait;
 
-    /**
-     * @var array
-     */
-    protected $arrayConfig;
-
-    public function _before(UnitTester $I)
+    public function _before(UnitTester $I, $scenario)
     {
-        $this->config      = new Ini(PATH_DATA . "config/factory.ini", INI_SCANNER_NORMAL);
-        $this->arrayConfig = $this->config->toArray();
+        $this->init();
     }
 
     /**

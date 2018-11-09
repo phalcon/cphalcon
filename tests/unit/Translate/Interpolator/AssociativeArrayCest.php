@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Translate\Interpolator;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use UnitTester;
 
-class AssociativeArrayTest
+class AssociativeArrayCest
 {
     public function testIndexedArrayInterpolator(UnitTester $I)
     {
@@ -23,12 +23,12 @@ class AssociativeArrayTest
         $expected = 'Hello, John D. Doe!';
 
         $stringFrom = 'Hello, %fname% %mname% %lname%!';
-        $actual = $interpolator->replacePlaceholders(
+        $actual     = $interpolator->replacePlaceholders(
             $stringFrom,
             [
                 'fname' => 'John',
                 'lname' => 'Doe',
-                'mname' => 'D.'
+                'mname' => 'D.',
             ]
         );
 

@@ -8,7 +8,10 @@ run.config:
       - dom
       - iconv
       - json
+      - gd
       - gmp
+      - gettext
+      - imagick
       - mbstring
       - memcached
       - memcache

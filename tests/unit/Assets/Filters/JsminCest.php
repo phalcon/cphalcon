@@ -94,8 +94,8 @@ class JsminCest
      */
     public function testFilterJsminEmptyString(UnitTester $I)
     {
-        $jsmin = new Jsmin();
-        $actual   = $jsmin->filter('');
+        $jsmin  = new Jsmin();
+        $actual = $jsmin->filter('');
         $I->assertIsEmpty($actual);
     }
 
@@ -109,7 +109,7 @@ class JsminCest
     {
         $jsmin = new Jsmin();
 
-        $actual   = $jsmin->filter('/** this is a comment */');
+        $actual = $jsmin->filter('/** this is a comment */');
         $I->assertIsEmpty($actual);
     }
 
@@ -128,7 +128,7 @@ class JsminCest
         $actual   = $jsmin->filter('{}}');
         $I->assertEquals($expected, $actual);
 
-        $expected ="\n" . 'if(a==b){document.writeln("hello");}';
+        $expected = "\n" . 'if(a==b){document.writeln("hello");}';
         $actual   = $jsmin->filter('if ( a == b ) {    document . writeln("hello") ; }');
         $I->assertEquals($expected, $actual);
 

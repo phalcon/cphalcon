@@ -11,21 +11,22 @@
 
 namespace Phalcon\Test\Unit\Translate;
 
-use Phalcon\Translate\Factory;
+use Helper\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
-use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
+use Phalcon\Translate\Factory;
 use UnitTester;
 
 class FactoryCest
 {
-    /**
-     * executed before each test
-     */
+    use FactoryTrait;
+
     public function _before(UnitTester $I, $scenario)
     {
-        if (!class_exists('gettext')) {
+        if (!extension_loaded('gettext')) {
             $scenario->skip('Warning: gettext extension is not loaded');
         }
+
+        $this->init();
     }
 
     /**
@@ -40,8 +41,8 @@ class FactoryCest
         /** @var Gettext $translate */
         $translate = Factory::load($options);
 
-        $class = Gettext::class;
-        $actual   = $translate;
+        $class  = Gettext::class;
+        $actual = $translate;
         $I->assertInstanceOf($class, $actual);
 
         $expected = $options->category;
@@ -73,8 +74,8 @@ class FactoryCest
         /** @var Gettext $translate */
         $translate = Factory::load($options);
 
-        $class = Gettext::class;
-        $actual   = $translate;
+        $class  = Gettext::class;
+        $actual = $translate;
         $I->assertInstanceOf($class, $actual);
 
         $expected = $options->category;

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Tag;
@@ -9,30 +18,14 @@ use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Assets\Filters\Jsmin;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Assets\ManagerTest
- * Tests the \Phalcon\Assets\Manager component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Assets
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class ManagerTest extends UnitTest
+class ManagerTest
 {
     /**
      * executed after each test
      */
-    protected function _after()
+    protected function _after(UnitTester $I)
     {
         // Setting the doctype to XHTML5 for other tests to run smoothly
         Tag::setDocType(Tag::XHTML5);
@@ -48,7 +41,7 @@ class ManagerTest extends UnitTest
      * @expectedException        \Phalcon\Assets\Exception
      * @expectedExceptionMessage The collection does not exist in the manager
      */
-    public function assetsManagerShouldThrowExceptionIfThereIsNoCollection()
+    public function assetsManagerShouldThrowExceptionIfThereIsNoCollection(UnitTester $I)
     {
         $this->specify(
             'The Assets Manager does not throw exception in case of absence of a collection',
@@ -66,7 +59,7 @@ class ManagerTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-03-16
      */
-    public function assetsManagerShouldDetectAbsenceOfACollection()
+    public function assetsManagerShouldDetectAbsenceOfACollection(UnitTester $I)
     {
         $this->specify(
             'The Assets Manager does not return valid status case of absence of a collection',
@@ -84,7 +77,7 @@ class ManagerTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-03-16
      */
-    public function assetsManagerShouldDetectCollection()
+    public function assetsManagerShouldDetectCollection(UnitTester $I)
     {
         $this->specify(
             'The Assets Manager does not return valid status case of presence of a collection',
@@ -105,7 +98,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerAddingCss()
+    public function testAssetsManagerAddingCss(UnitTester $I)
     {
         $this->specify(
             "The addCss on assets manager does add resources correctly",
@@ -134,7 +127,7 @@ class ManagerTest extends UnitTest
      * @author Paul Scarrone <paul@savvysoftworks.com>
      * @since  2017-06-20
      */
-    public function testAssetsManagerAddingCssAndJs()
+    public function testAssetsManagerAddingCssAndJs(UnitTester $I)
     {
         $this->specify(
             "The combination of addCss and addJs on assets manager does add resources correctly",
@@ -172,7 +165,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerAddingJs()
+    public function testAssetsManagerAddingJs(UnitTester $I)
     {
         $this->specify(
             "The addJs on assets manager does add resources correctly",
@@ -201,7 +194,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerAddingCssWithAddResource()
+    public function testAssetsManagerAddingCssWithAddResource(UnitTester $I)
     {
         $this->specify(
             "The addResource on assets manager does add resources correctly",
@@ -225,7 +218,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerOutputCssWithImplicitOutput()
+    public function testAssetsManagerOutputCssWithImplicitOutput(UnitTester $I)
     {
         $this->specify(
             "The outputCss with implicitOutput does not produce the correct result",
@@ -257,7 +250,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerOutputJsWithImplicitOutput()
+    public function testAssetsManagerOutputJsWithImplicitOutput(UnitTester $I)
     {
         $this->specify(
             "The outputJs with implicitOutput does not produce the correct result",
@@ -289,7 +282,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerOutputCssWithoutImplicitOutput()
+    public function testAssetsManagerOutputCssWithoutImplicitOutput(UnitTester $I)
     {
         $this->specify(
             "The outputCss with implicitOutput does not produce the correct result",
@@ -320,7 +313,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerOutputJsWithoutImplicitOutput()
+    public function testAssetsManagerOutputJsWithoutImplicitOutput(UnitTester $I)
     {
         $this->specify(
             "The outputJs with implicitOutput does not produce the correct result",
@@ -351,7 +344,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection()
+    public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection(UnitTester $I)
     {
         $this->specify(
             "The outputCss using a collection does not produce the correct result",
@@ -381,7 +374,7 @@ class ManagerTest extends UnitTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-    public function testAssetsManagerOutputJsWithoutImplicitOutputFromCollectionRemote()
+    public function testAssetsManagerOutputJsWithoutImplicitOutputFromCollectionRemote(UnitTester $I)
     {
         $this->specify(
             "The outputJs using a collection does not produce the correct result",
@@ -414,7 +407,7 @@ class ManagerTest extends UnitTest
      * @author Paul Scarrone <paul@savvysoftworks.com>
      * @since  2017-06-20
      */
-    public function testAssetsManagerOutputJsWithMixedResourceCollection()
+    public function testAssetsManagerOutputJsWithMixedResourceCollection(UnitTester $I)
     {
         $this->specify(
             "The outputJs using a mixed resource collection returns only JS resources",
@@ -458,7 +451,7 @@ class ManagerTest extends UnitTest
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25
      */
-    public function testTargetLocal()
+    public function testTargetLocal(UnitTester $I)
     {
         $this->specify(
             "Setting local target does not works correctly",
@@ -491,7 +484,7 @@ class ManagerTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
-    public function testBasicOutput()
+    public function testBasicOutput(UnitTester $I)
     {
         $this->specify(
             "The outputJs using a collection does not produce the correct result",
@@ -521,7 +514,7 @@ class ManagerTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
-    public function testOutputWithEnabledJoin()
+    public function testOutputWithEnabledJoin(UnitTester $I)
     {
         $this->specify(
             "The outputJs using a collection and with enabled join does not produce the correct result",
@@ -552,7 +545,7 @@ class ManagerTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
-    public function testOutputWithDisabledJoin()
+    public function testOutputWithDisabledJoin(UnitTester $I)
     {
         $this->specify(
             "The outputJs using a collection and with disabled join does not produce the correct result",
@@ -583,7 +576,7 @@ class ManagerTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
-    public function testOutputWithJoinAndFilter()
+    public function testOutputWithJoinAndFilter(UnitTester $I)
     {
         $this->specify(
             "The outputJs using a collection and with enabled join and filter does not produce the correct result",
@@ -618,7 +611,7 @@ class ManagerTest extends UnitTest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */
-    public function doNotAddTheSameRecources()
+    public function doNotAddTheSameRecources(UnitTester $I)
     {
         $this->specify(
             "The assets collection incorrectly stores resources",

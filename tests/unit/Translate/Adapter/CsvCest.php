@@ -12,9 +12,10 @@
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\Csv;
+use Phalcon\Translate\Exception;
 use UnitTester;
 
-class CsvTest
+class CsvCest
 {
     private $config = null;
 
@@ -31,14 +32,11 @@ class CsvTest
      *
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
-     *
-     * @expectedException        \Phalcon\Translate\Exception
-     * @expectedExceptionMessage Parameter 'content' is required
      */
     public function testContentParamExist(UnitTester $I)
     {
-        $this->specify(
-            "Parameter 'content' is required",
+        $I->expectThrowable(
+            new Exception("Parameter 'content' is required"),
             function () {
                 new Csv([]);
             }
@@ -53,15 +51,11 @@ class CsvTest
      */
     public function testNotExists(UnitTester $I)
     {
-        $this->specify(
-            "The key does not exist with exists",
-            function () {
-                $params = $this->config['ru'];
-                $translator = new Csv($params);
+        $params     = $this->config['ru'];
+        $translator = new Csv($params);
 
-                expect($translator->exists('Hi!'))->false();
-            }
-        );
+        $actual = $translator->exists('Hi!');
+        $I->assertFalse($actual);
     }
 
     /**
@@ -72,15 +66,11 @@ class CsvTest
      */
     public function testExists(UnitTester $I)
     {
-        $this->specify(
-            "The key exist with expect",
-            function () {
-                $params = $this->config['ru'];
-                $translator = new Csv($params);
+        $params     = $this->config['ru'];
+        $translator = new Csv($params);
 
-                expect($translator->exists('Hello!'))->true();
-            }
-        );
+        $actual = $translator->exists('Hello!');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -91,18 +81,18 @@ class CsvTest
      */
     public function testRuTranslate(UnitTester $I)
     {
-        $this->specify(
-            "The key exist with expect with additional params",
-            function () {
-                $params = $this->config['ru'];
-                $translator = new Csv($params);
+        $params     = $this->config['ru'];
+        $translator = new Csv($params);
 
-                expect($translator->query('Hello!'))->equals('Привет!');
-                expect($translator->query(
-                    'Hello %fname% %mname% %lname%!',
-                    ["fname" => "TestFname", "mname" => "TestMname", "lname" => "TestLname"]
-                ))->equals('Привет, TestFname TestMname TestLname!');
-            }
+        $expect = 'Привет!';
+        $actual = $translator->query('Hello!');
+        $I->assertEquals($expect, $actual);
+
+        $expect = 'Привет, TestFname TestMname TestLname!';
+        $actual = $translator->query(
+            'Hello %fname% %mname% %lname%!',
+            ["fname" => "TestFname", "mname" => "TestMname", "lname" => "TestLname"]
         );
+        $I->assertEquals($expect, $actual);
     }
 }
