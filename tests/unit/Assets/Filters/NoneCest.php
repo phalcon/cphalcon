@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
+use Helper\Traits\DiTrait;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Unit\Assets\Helper\TrimFilter;
@@ -19,6 +20,16 @@ use UnitTester;
 
 class NoneCest
 {
+    use DiTrait;
+
+    public function _before(UnitTester $I)
+    {
+        $this->resetDi();
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
     /**
      * Tests none filter
      *
@@ -42,10 +53,8 @@ class NoneCest
      */
     public function testAssetsFilterChainCustomFilterWithCssmin(UnitTester $I, $scenario)
     {
-        $scenario->skip('TODO: Check DI');
         $fileName = $I->getNewFileName('assets_', 'css');
-
-        $assets = new Manager();
+        $assets   = new Manager();
         $assets->useImplicitOutput(false);
         $css = $assets->collection('css');
 
