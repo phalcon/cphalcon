@@ -78,19 +78,19 @@ class FactoryCest
         $actual = $translate;
         $I->assertInstanceOf($class, $actual);
 
-        $expected = $options->category;
+        $expected = $options['category'];
         $actual   = $translate->getCategory();
         $I->assertEquals($expected, $actual);
 
-        $expected = $options->locale;
+        $expected = $options['locale'];
         $actual   = $translate->getLocale();
         $I->assertEquals($expected, $actual);
 
-        $expected = $options->defaultDomain;
+        $expected = $options['defaultDomain'];
         $actual   = $translate->getDefaultDomain();
         $I->assertEquals($expected, $actual);
 
-        $expected = $options->directory;
+        $expected = $options['directory'];
         $actual   = $translate->getDirectory();
         $I->assertEquals($expected, $actual);
     }
