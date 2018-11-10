@@ -25,5 +25,5 @@ interface FactoryInterface
 	/**
 	 * @param \Phalcon\Config|array config
 	 */
-	public static function load(var config) -> object;
+	public static function load(var config) -> var;
 }

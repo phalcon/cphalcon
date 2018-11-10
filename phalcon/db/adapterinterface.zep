@@ -95,7 +95,7 @@ interface AdapterInterface
 	 * @param 	int number
 	 * @return 	string
 	 */
-	public function limit(var sqlQuery, number);
+	public function limit(string sqlQuery, int number);
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table

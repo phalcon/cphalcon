@@ -70,14 +70,14 @@ interface ResultInterface
 	 *
 	 * @param int number
 	 */
-	public function dataSeek(number);
+	public function dataSeek(long number) -> void;
 
 	/**
 	 * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
 	 *
 	 * @param int fetchMode
 	 */
-	public function setFetchMode(fetchMode) -> boolean;
+	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> boolean;
 
 	/**
 	 * Gets the internal PDO result object

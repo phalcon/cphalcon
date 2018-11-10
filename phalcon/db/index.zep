@@ -87,7 +87,7 @@ class Index implements IndexInterface
 	/**
 	 * Restore a Phalcon\Db\Index object from export
 	 */
-	public static function __set_state(array! data) -> <Index>
+	public static function __set_state(array! data) -> <IndexInterface>
 	{
 		var indexName, columns, type;
 

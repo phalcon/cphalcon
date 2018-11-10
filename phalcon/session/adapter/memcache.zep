@@ -124,7 +124,7 @@ class Memcache extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function destroy(string sessionId = null) -> boolean
+	public function destroy(var sessionId = null) -> boolean
 	{
 		var id;
 

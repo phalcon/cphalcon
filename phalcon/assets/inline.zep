@@ -31,13 +31,19 @@ namespace Phalcon\Assets;
 class $Inline implements ResourceInterface
 {
 
+	/**
+	 * @var string
+	 */
 	protected _type { get };
 
 	protected _content { get };
 
+	/**
+	 * @var bool
+	 */
 	protected _filter { get };
 
-	protected _attributes { get };
+	protected _attributes;
 
 	/**
 	 * Phalcon\Assets\Inline constructor
@@ -60,7 +66,7 @@ class $Inline implements ResourceInterface
 	/**
 	 * Sets the inline's type
 	 */
-	public function setType(string type) -> <$Inline>
+	public function setType(string type) -> <ResourceInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -69,7 +75,7 @@ class $Inline implements ResourceInterface
 	/**
 	 * Sets if the resource must be filtered or not
 	 */
-	public function setFilter(boolean filter) -> <$Inline>
+	public function setFilter(boolean filter) -> <ResourceInterface>
 	{
 		let this->_filter = filter;
 		return this;
@@ -78,10 +84,18 @@ class $Inline implements ResourceInterface
 	/**
 	 * Sets extra HTML attributes
 	 */
-	public function setAttributes(array attributes) -> <$Inline>
+	public function setAttributes(array attributes) -> <ResourceInterface>
 	{
 		let this->_attributes = attributes;
 		return this;
+	}
+
+	/**
+	 * returns extra HTML attributes
+	 */
+	public function getAttributes() -> array | null
+	{
+		return this->_attributes;
 	}
 
 	/**

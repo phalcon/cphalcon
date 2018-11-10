@@ -477,7 +477,7 @@ class Column implements ColumnInterface
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
 	 */
-	public static function __set_state(array! data) -> <Column>
+	public static function __set_state(array! data) -> <ColumnInterface>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary, columnName, scale,
