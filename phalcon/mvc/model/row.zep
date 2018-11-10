@@ -83,7 +83,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 *
 	 * @param string|int offset
 	 */
-	public function offsetUnset(int offset)
+	public function offsetUnset(offset)
 	{
 		throw new Exception("Row is an immutable ArrayAccess object");
 	}

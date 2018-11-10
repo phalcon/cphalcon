@@ -64,7 +64,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param boolean shared
 	 * @return \Phalcon\Di\ServiceInterface
 	 */
-	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface>;
+	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface> | boolean;
 
 	/**
 	 * Resolves the service based on its configuration

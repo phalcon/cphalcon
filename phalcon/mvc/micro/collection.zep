@@ -65,7 +65,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets a prefix for all routes added to the collection
 	 */
-	public function setPrefix(string! prefix) -> <Collection>
+	public function setPrefix(string! prefix) -> <CollectionInterface>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -105,7 +105,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets if the main handler must be lazy loaded
 	 */
-	public function setLazy(boolean! lazy) -> <Collection>
+	public function setLazy(boolean! lazy) -> <CollectionInterface>
 	{
 		let this->_lazy = lazy;
 		return this;

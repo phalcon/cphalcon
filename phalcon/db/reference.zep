@@ -144,7 +144,7 @@ class Reference implements ReferenceInterface
 	/**
 	 * Restore a Phalcon\Db\Reference object from export
 	 */
-	public static function __set_state(array! data) -> <Reference>
+	public static function __set_state(array! data) -> <ReferenceInterface>
 	{
 		var referencedSchema, referencedTable, columns,
 			referencedColumns, constraintName,

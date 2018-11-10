@@ -40,7 +40,7 @@ interface BackendInterface
 	 *
 	 * @param boolean stopBuffer
 	 */
-	public function stop(stopBuffer = true);
+	public function stop(bool stopBuffer = true);
 
 	/**
 	 * Returns front-end instance adapter related to the back-end
@@ -94,15 +94,15 @@ interface BackendInterface
 	 * @param boolean stopBuffer
 	 * @return boolean true on success/false otherwise
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true) -> boolean;
+	public function save(var keyName = null, var content = null, var lifetime = null, bool stopBuffer = true) -> boolean;
 
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
+	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName);
+	public function delete(string! keyName);
 
 	/**
 	 * Query the existing cached keys
@@ -110,7 +110,7 @@ interface BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix = null);
+	public function queryKeys(string prefix = null) -> array;
 
 	/**
 	 * Checks if cache exists and it hasn't expired
@@ -119,5 +119,5 @@ interface BackendInterface
 	 * @param  int lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName = null, lifetime = null);
+	public function exists(var keyName = null, int lifetime = null) -> boolean;
 }

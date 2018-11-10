@@ -512,7 +512,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Clears every element in the form to its default value
 	 */
-	public function clear() -> <Element>
+	public function clear() -> <ElementInterface>
 	{
 		Tag::setDefault(this->_name, null);
 		return this;

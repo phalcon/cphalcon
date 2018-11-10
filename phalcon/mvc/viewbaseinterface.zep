@@ -35,7 +35,7 @@ interface ViewBaseInterface
 	/**
 	 * Gets views directory
 	 */
-	public function getViewsDir() -> string;
+	public function getViewsDir() -> string | array;
 
 	/**
 	 * Adds parameters to views (alias of setVar)
@@ -78,5 +78,5 @@ interface ViewBaseInterface
 	/**
 	 * Renders a partial view
 	 */
-	public function partial(string! partialPath, var params = null) -> string;
+	public function partial(string! partialPath, var params = null);
 }

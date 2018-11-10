@@ -695,7 +695,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->inWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
-	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionIn("Where", operator, expr, values);
 	}
@@ -707,7 +707,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->notInWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
-	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionNotIn("Where", operator, expr, values);
 	}
