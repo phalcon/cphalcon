@@ -111,7 +111,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->setStatusCode(404, "Not Found");
 	 *</code>
 	 */
-	public function setStatusCode(int code, string message = null) -> <Response>
+	public function setStatusCode(int code, string message = null) -> <ResponseInterface>
 	{
 		var headers, currentHeadersRaw, key, statusCodes, defaultMessage;
 
@@ -256,7 +256,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Sets a headers bag for the response externally
 	 */
-	public function setHeaders(<HeadersInterface> headers) -> <Response>
+	public function setHeaders(<HeadersInterface> headers) -> <ResponseInterface>
 	{
 		let this->_headers = headers;
 		return this;
@@ -296,7 +296,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->setHeader("Content-Type", "text/plain");
 	 *</code>
 	 */
-	public function setHeader(string name, value) -> <Response>
+	public function setHeader(string name, value) -> <ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -311,7 +311,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->setRawHeader("HTTP/1.1 404 Not Found");
 	 *</code>
 	 */
-	public function setRawHeader(string header) -> <Response>
+	public function setRawHeader(string header) -> <ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -322,7 +322,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Resets all the established headers
 	 */
-	public function resetHeaders() -> <Response>
+	public function resetHeaders() -> <ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -339,7 +339,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function setExpires(<\DateTime> datetime) -> <Response>
+	public function setExpires(<\DateTime> datetime) -> <ResponseInterface>
 	{
 		var date;
 
@@ -409,7 +409,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Sends a Not-Modified response
 	 */
-	public function setNotModified() -> <Response>
+	public function setNotModified() -> <ResponseInterface>
 	{
 		this->setStatusCode(304, "Not modified");
 		return this;
@@ -423,7 +423,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->setContentType("text/plain", "UTF-8");
 	 *</code>
 	 */
-	public function setContentType(string contentType, charset = null) -> <Response>
+	public function setContentType(string contentType, charset = null) -> <ResponseInterface>
 	{
 		if charset === null {
 			this->setHeader("Content-Type", contentType);
@@ -441,7 +441,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->setContentLength(2048);
 	 *</code>
 	 */
-	public function setContentLength(int contentLength) -> <Response>
+	public function setContentLength(int contentLength) -> <ResponseInterface>
 	{
 		this->setHeader("Content-Length", contentLength);
 
@@ -481,7 +481,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
+	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
 	{
 		var header, url, dependencyInjector, matched, view;
 
@@ -542,7 +542,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->setContent("<h1>Hello!</h1>");
 	 *</code>
 	 */
-	public function setContent(string content) -> <Response>
+	public function setContent(string content) -> <ResponseInterface>
 	{
 		let this->_content = content;
 		return this;
@@ -560,7 +560,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <Response>
+	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
 	{
 		this->setContentType("application/json", "UTF-8");
 		this->setContent(json_encode(content, jsonOptions, depth));
@@ -570,7 +570,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Appends a string to the HTTP response body
 	 */
-	public function appendContent(content) -> <Response>
+	public function appendContent(content) -> <ResponseInterface>
 	{
 		let this->_content = this->getContent() . content;
 		return this;
@@ -595,7 +595,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Sends headers to the client
 	 */
-	public function sendHeaders() -> <Response>
+	public function sendHeaders() -> <ResponseInterface>
 	{
 		this->_headers->send();
 
@@ -605,7 +605,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Sends cookies to the client
 	 */
-	public function sendCookies() -> <Response>
+	public function sendCookies() -> <ResponseInterface>
 	{
 		var cookies;
 		let cookies = this->_cookies;
@@ -618,7 +618,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Prints out HTTP response to the client
 	 */
-	public function send() -> <Response>
+	public function send() -> <ResponseInterface>
 	{
 		var content, file;
 
@@ -651,7 +651,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Sets an attached file to be sent at the end of the request
 	 */
-	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <Response>
+	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
 	{
 		var basePath;
 

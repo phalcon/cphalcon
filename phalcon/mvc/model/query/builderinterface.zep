@@ -77,7 +77,7 @@ interface BuilderInterface
 	 * @param string type
 	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function join(model, conditions = null, alias = null, type = null);
+	public function join(string! model, var conditions = null, var alias = null, var type = null);
 
 	/**
 	 * Adds an INNER join to the query
@@ -88,7 +88,7 @@ interface BuilderInterface
 	 * @param string type
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function innerJoin(model, conditions = null, alias = null);
+	public function innerJoin(string! model, var conditions = null, var alias = null);
 
 	/**
 	 * Adds a LEFT join to the query
@@ -98,7 +98,7 @@ interface BuilderInterface
 	 * @param string alias
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function leftJoin(model, conditions = null, alias = null);
+	public function leftJoin(string! model, var conditions = null, var alias = null);
 
 	/**
 	 * Adds a RIGHT join to the query
@@ -108,7 +108,7 @@ interface BuilderInterface
 	 * @param string alias
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function rightJoin(model, conditions = null, alias = null);
+	public function rightJoin(string! model, var conditions = null, var alias = null);
 
 	/**
 	 * Return join parts of the query
@@ -135,7 +135,7 @@ interface BuilderInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function andWhere(conditions, bindParams = null, bindTypes = null);
+	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null);
 
 	/**
 	 * Appends a condition to the current conditions using an OR operator
@@ -145,7 +145,7 @@ interface BuilderInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orWhere(conditions, bindParams = null, bindTypes = null);
+	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null);
 
 	/**
 	 * Appends a BETWEEN condition to the current conditions
@@ -155,7 +155,7 @@ interface BuilderInterface
 	 * @param mixed maximum
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function betweenWhere(expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND);
+	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND);
 
 	/**
 	 * Appends a NOT BETWEEN condition to the current conditions
@@ -165,7 +165,7 @@ interface BuilderInterface
 	 * @param mixed maximum
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notBetweenWhere(expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND);
+	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND);
 
 	/**
 	 * Appends an IN condition to the current conditions

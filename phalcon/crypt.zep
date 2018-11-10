@@ -119,7 +119,7 @@ class Crypt implements CryptInterface
 	 * The `aes-256-ctr' is arguably the best choice for cipher
 	 * algorithm for current openssl library version.
 	 */
-	public function setCipher(string! cipher) -> <Crypt>
+	public function setCipher(string! cipher) -> <CryptInterface>
 	{
 		this->assertCipherIsAvailable(cipher);
 
@@ -153,7 +153,7 @@ class Crypt implements CryptInterface
 	 *
 	 * @see \Phalcon\Security\Random
 	 */
-	public function setKey(string! key) -> <Crypt>
+	public function setKey(string! key) -> <CryptInterface>
 	{
 		let this->_key = key;
 		return this;

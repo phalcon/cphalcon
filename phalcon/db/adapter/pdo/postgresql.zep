@@ -94,7 +94,7 @@ class Postgresql extends PdoAdapter
 	 * );
 	 * </code>
 	 */
-	public function describeColumns(string table, string schema = null) -> <Column[]>
+	public function describeColumns(string table, string schema = null) -> <\Phalcon\Db\ColumnInterface[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, columnName, charSize, numericSize, numericScale;

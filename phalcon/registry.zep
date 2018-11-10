@@ -85,7 +85,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Checks if the element is present in the registry
 	 */
-	public final function offsetExists(string! offset) -> boolean
+	public final function offsetExists(var offset) -> boolean
 	{
 		return isset this->_data[offset];
 	}
@@ -93,7 +93,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Returns an index in the registry
 	 */
-	public final function offsetGet(string! offset) -> var
+	public final function offsetGet(var offset) -> var
 	{
 		return this->_data[offset];
 	}
@@ -101,7 +101,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Sets an element in the registry
 	 */
-	public final function offsetSet(string! offset, var value) -> void
+	public final function offsetSet(var offset, var value) -> void
 	{
 		let this->_data[offset] = value;
 	}
@@ -109,7 +109,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Unsets an element in the registry
 	 */
-	public final function offsetUnset(string! offset) -> void
+	public final function offsetUnset(var offset) -> void
 	{
 		unset this->_data[offset];
 	}

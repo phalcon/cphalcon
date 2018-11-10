@@ -63,7 +63,7 @@ class Mysql extends PdoAdapter
 	 * );
 	 * </code>
 	 */
-	public function describeColumns(string table, string schema = null) -> <Column[]>
+	public function describeColumns(string! table, string schema = null) -> <\Phalcon\Db\ColumnInterface[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
@@ -277,7 +277,7 @@ class Mysql extends PdoAdapter
 	 * @param  string schema
 	 * @return \Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
+	public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexType, indexObjects, columns, name;
 
@@ -327,7 +327,7 @@ class Mysql extends PdoAdapter
 	 * );
 	 *</code>
 	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	public function describeReferences(string! table, string schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

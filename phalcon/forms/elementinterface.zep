@@ -113,7 +113,7 @@ interface ElementInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getAttribute(attribute, defaultValue = null);
+	public function getAttribute(string attribute, defaultValue = null);
 
 	/**
 	 * Sets default attributes for the element

@@ -134,7 +134,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Set if cookies in the bag must be automatically encrypted/decrypted
 	 */
-	public function useEncryption(boolean useEncryption) -> <Cookies>
+	public function useEncryption(boolean useEncryption) -> <CookiesInterface>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -175,7 +175,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		boolean secure = null,
 		string! domain = null,
 		boolean httpOnly = null
-	) -> <Cookies> {
+	) -> <CookiesInterface> {
 		var cookie, encryption, dependencyInjector, response;
 
 		let encryption = this->_useEncryption;
@@ -244,7 +244,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Gets a cookie from the bag
 	 */
-	public function get(string! name) -> <CookieInterface>
+	public function get(string! name) -> <\Phalcon\Http\Response\CookiesInterface>
 	{
 		var dependencyInjector, encryption, cookie;
 
@@ -347,7 +347,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Reset set cookies
 	 */
-	public function reset() -> <Cookies>
+	public function reset() -> <CookiesInterface>
 	{
 		let this->_cookies = [];
 		return this;
