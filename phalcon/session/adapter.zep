@@ -114,7 +114,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>
 	{
 		session_regenerate_id(deleteOldSession);
 		return this;
@@ -260,9 +260,9 @@ abstract class Adapter implements AdapterInterface
 	 * );
 	 *</code>
 	 */
-	public function destroy(boolean removeData = false) -> boolean
+	public function destroy(var removeData = null) -> boolean
 	{
-		if removeData {
+		if removeData && removeData !== null {
 			this->removeSessionData();
 		}
 

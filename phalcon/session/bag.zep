@@ -287,22 +287,22 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		return new \ArrayIterator(this->_data);
 	}
 
-	public final function offsetSet(string! property, var value)
+	public final function offsetSet(var property, var value)
 	{
 		return this->set(property, value);
 	}
 
-	public final function offsetExists(string! property) -> boolean
+	public final function offsetExists(var property) -> boolean
 	{
 		return this->has(property);
 	}
 
-	public final function offsetUnset(string! property)
+	public final function offsetUnset(var property)
 	{
 		return this->remove(property);
 	}
 
-	public final function offsetGet(string! property) -> var
+	public final function offsetGet(var property) -> var
 	{
 		return this->get(property);
 	}

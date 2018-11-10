@@ -118,7 +118,7 @@ interface ModelInterface
 	 * @param boolean keepSnapshots
 	 * @return \Phalcon\Mvc\Model result
 	 */
-	public static function cloneResultMap(base, array! data, var columnMap, dirtyState = 0, keepSnapshots = null);
+	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null);
 
 	/**
 	 * Assigns values to a model from an array returning a new model
@@ -128,7 +128,7 @@ interface ModelInterface
 	 * @param int dirtyState
 	 * @return \Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, array! data, dirtyState = 0);
+	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0);
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
@@ -208,7 +208,7 @@ interface ModelInterface
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEvent(eventName);
+	public function fireEvent(string! eventName);
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
@@ -217,7 +217,7 @@ interface ModelInterface
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEventCancel(eventName);
+	public function fireEventCancel(string! eventName);
 
 	/**
 	 * Appends a customized message on the validation process
@@ -299,7 +299,7 @@ interface ModelInterface
 	 * @param array arguments
 	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getRelated(alias, arguments = null);
+	public function getRelated(string alias, arguments = null);
 
 	/**
 	 * Sets the record's snapshot data.

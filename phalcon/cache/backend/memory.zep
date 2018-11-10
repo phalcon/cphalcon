@@ -183,7 +183,7 @@ class Memory extends Backend implements \Serializable
 	 * @param string|int keyName
 	 * @param int lifetime
 	 */
-	public function exists(var keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> boolean
 	{
 		var lastKey;
 

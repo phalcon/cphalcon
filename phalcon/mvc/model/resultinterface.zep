@@ -30,7 +30,7 @@ interface ResultInterface
 	/**
 	 * Sets the object's state
 	 *
-	 * @param boolean dirtyState
+	 * @param integer dirtyState
 	 */
-	public function setDirtyState(dirtyState);
+	public function setDirtyState(int dirtyState);
 }

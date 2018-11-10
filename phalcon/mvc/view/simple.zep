@@ -617,7 +617,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *
 	 * @return array
 	 */
-	public function getParamsToView()
+	public function getParamsToView() -> array
 	{
 		return this->_viewParams;
 	}
