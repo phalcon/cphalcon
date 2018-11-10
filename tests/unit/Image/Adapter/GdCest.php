@@ -25,8 +25,6 @@ class GdCest
         if (!extension_loaded('gd')) {
             $scenario->skip('Warning: gd extension is not loaded');
         }
-
-        @mkdir(PATH_OUTPUT . 'image/gd/', 0777, true);
     }
 
     /**
@@ -37,10 +35,10 @@ class GdCest
      */
     public function testGdSave(UnitTester $I)
     {
-        $image = new Gd(PATH_OUTPUT . 'image/gd/new.jpg', 100, 100);
+        $image = new Gd(PATH_OUTPUT . 'tests/image/gd/new.jpg', 100, 100);
         $image->save();
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd');
         $I->seeFileFound('new.jpg');
         $I->deleteFile('new.jpg');
     }
@@ -56,12 +54,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Resize to 200 pixels on the shortest side
-        $image->resize(200, 200)->save(PATH_OUTPUT . 'image/gd/resize.jpg');
+        $image->resize(200, 200)->save(PATH_OUTPUT . 'tests/image/gd/resize.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('resize.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/resize.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/resize.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -83,12 +81,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Crop the image to 200x200 pixels, from the center
-        $image->crop(200, 200)->save(PATH_OUTPUT . 'image/gd/crop.jpg');
+        $image->crop(200, 200)->save(PATH_OUTPUT . 'tests/image/gd/crop.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('crop.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/crop.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/crop.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -117,12 +115,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Rotate 45 degrees clockwise
-        $image->rotate(45)->save(PATH_OUTPUT . 'image/gd/rotate.jpg');
+        $image->rotate(45)->save(PATH_OUTPUT . 'tests/image/gd/rotate.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('rotate.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/rotate.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/rotate.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -150,12 +148,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Flip the image from top to bottom
-        $image->flip(Image::HORIZONTAL)->save(PATH_OUTPUT . 'image/gd/flip.jpg');
+        $image->flip(Image::HORIZONTAL)->save(PATH_OUTPUT . 'tests/image/gd/flip.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('flip.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/flip.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/flip.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -183,12 +181,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Sharpen the image by 20%
-        $image->sharpen(20)->save(PATH_OUTPUT . 'image/gd/sharpen.jpg');
+        $image->sharpen(20)->save(PATH_OUTPUT . 'tests/image/gd/sharpen.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('sharpen.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/sharpen.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/sharpen.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -216,12 +214,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Create a 50 pixel reflection that fades from 0-100% opacity
-        $image->reflection(50)->save(PATH_OUTPUT . 'image/gd/reflection.jpg');
+        $image->reflection(50)->save(PATH_OUTPUT . 'tests/image/gd/reflection.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('reflection.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/reflection.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/reflection.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -250,12 +248,12 @@ class GdCest
         $mark  = new Gd(PATH_DATA . 'assets/images/logo.png');
 
         // Add a watermark to the bottom right of the image
-        $image->watermark($mark, true, true)->save(PATH_OUTPUT . 'image/gd/watermark.jpg');
+        $image->watermark($mark, true, true)->save(PATH_OUTPUT . 'tests/image/gd/watermark.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('watermark.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/watermark.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/watermark.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -284,12 +282,12 @@ class GdCest
         $mask  = new Gd(PATH_DATA . 'assets/images/logo.png');
 
         // Add a watermark to the bottom right of the image
-        $image->mask($mask)->save(PATH_OUTPUT . 'image/gd/mask.jpg');
+        $image->mask($mask)->save(PATH_OUTPUT . 'tests/image/gd/mask.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('mask.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/mask.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/mask.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 
@@ -317,12 +315,12 @@ class GdCest
         $image = new Gd(PATH_DATA . 'assets/images/phalconphp.jpg');
 
         // Add a watermark to the bottom right of the image
-        $image->background('#000')->save(PATH_OUTPUT . 'image/gd/background.jpg');
+        $image->background('#000')->save(PATH_OUTPUT . 'tests/image/gd/background.jpg');
 
-        $I->amInPath(PATH_OUTPUT . 'image/gd/');
+        $I->amInPath(PATH_OUTPUT . 'tests/image/gd/');
         $I->seeFileFound('background.jpg');
 
-        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'image/gd/background.jpg');
+        $tmp    = imagecreatefromjpeg(PATH_OUTPUT . 'tests/image/gd/background.jpg');
         $width  = imagesx($tmp);
         $height = imagesy($tmp);
 

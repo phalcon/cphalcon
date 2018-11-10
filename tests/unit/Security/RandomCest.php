@@ -313,7 +313,7 @@ class RandomCest
     /**
      * executed before each test
      */
-    protected function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I, $scenario)
     {
         if (!function_exists('random_bytes') &&
             !extension_loaded('openssl') &&

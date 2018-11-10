@@ -255,7 +255,7 @@ class SecurityCest
     /**
      * executed before each test
      */
-    protected function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I, $scenario)
     {
         if (!extension_loaded('openssl')) {
             $scenario->skip('Warning: openssl extension is not loaded');

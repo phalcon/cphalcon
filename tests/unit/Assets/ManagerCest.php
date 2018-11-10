@@ -38,6 +38,15 @@ class ManagerCest
     }
 
     /**
+     * executed after each test
+     */
+    public function _after(UnitTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
+    /**
      * Test Manager::get
      *
      * @test
@@ -422,7 +431,7 @@ class ManagerCest
                ->addJs(PATH_DATA . 'assets/assets/jquery.js')
                ->join(true)
                ->addFilter(new Jsmin())
-               ->setTargetPath(PATH_OUTPUT . "assets/{$file}")
+               ->setTargetPath(PATH_OUTPUT . "tests/assets/{$file}")
                ->setTargetLocal(false)
                ->setPrefix('//phalconphp.com/')
                ->setTargetUri('js/jquery.js')
@@ -432,8 +441,8 @@ class ManagerCest
         $actual   = $assets->outputJs('js');
         $I->assertEquals($expected, $actual);
 
-        $I->seeFileFound(PATH_OUTPUT . "assets/{$file}");
-        $I->deleteFile(PATH_OUTPUT . "assets/{$file}");
+        $I->seeFileFound(PATH_OUTPUT . "tests/assets/{$file}");
+        $I->deleteFile(PATH_OUTPUT . "tests/assets/{$file}");
     }
 
     /**
@@ -449,7 +458,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs(PATH_DATA . 'assets/assets/jquery.js', false, false)
-               ->setTargetPath(PATH_OUTPUT . "assets/combined.js")
+               ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
                ->setTargetUri('production/combined.js')
         ;
 
@@ -475,7 +484,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs(PATH_DATA . 'assets/assets/jquery.js', false, false)
-               ->setTargetPath(PATH_OUTPUT . "assets/combined.js")
+               ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
                ->setTargetUri('production/combined.js')
                ->join(true)
         ;
@@ -587,11 +596,22 @@ class ManagerCest
     }
 
     /**
-     * executed after each test
+     * @issue https://github.com/phalcon/cphalcon/issues/11409
+     * @param UnitTester $I
      */
-    protected function _after(UnitTester $I)
+    public function addInlineJs(UnitTester $I)
     {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
+        $manager = new Manager();
+
+        $js = file_get_contents(PATH_DATA . 'assets/assets/signup.js');
+        $manager->addInlineJs($js);
+        $expected = "<script type=\"text/javascript\">{$js}</script>\n";
+
+        ob_start();
+        $manager->outputInlineJs();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertSame($expected, $actual);
     }
 }

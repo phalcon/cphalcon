@@ -236,7 +236,7 @@ class TagDoctypeCest extends TagBase
     /**
      * executed after each test
      */
-    protected function _after(UnitTester $I)
+    public function _after(UnitTester $I)
     {
         // Setting the doctype to HTML5 for other tests to run smoothly
         Tag::setDocType(Tag::HTML5);
