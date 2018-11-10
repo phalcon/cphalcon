@@ -76,7 +76,7 @@ abstract class Adapter implements AdapterInterface
 	 *
 	 * @param string value
 	 */
-	public function offsetSet(string! offset, var value)
+	public function offsetSet(var offset, var value)
 	{
 		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
@@ -84,7 +84,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Check whether a translation key exists
 	 */
-	public function offsetExists(string! translateKey) -> boolean
+	public function offsetExists(var translateKey) -> boolean
 	{
 		return this->{"exists"}(translateKey);
 	}
@@ -92,7 +92,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Unsets a translation from the dictionary
 	 */
-	public function offsetUnset(string! offset)
+	public function offsetUnset(var offset)
 	{
 		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
@@ -100,7 +100,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Returns the translation related to the given key
 	 */
-	public function offsetGet(string! translateKey) -> string
+	public function offsetGet(var translateKey)
 	{
 		return this->{"query"}(translateKey, null);
 	}

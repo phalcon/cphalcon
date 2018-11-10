@@ -325,7 +325,7 @@ class Di implements DiInterface
 	/**
 	 * Return the services registered in the DI
 	 */
-	public function getServices() -> <Service[]>
+	public function getServices() -> <ServiceInterface[]>
 	{
 		return this->_services;
 	}
@@ -333,7 +333,7 @@ class Di implements DiInterface
 	/**
 	 * Check if a service is registered using the array syntax
 	 */
-	public function offsetExists(string! name) -> boolean
+	public function offsetExists(var name) -> boolean
 	{
 		return this->has(name);
 	}
@@ -345,7 +345,7 @@ class Di implements DiInterface
 	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(string! name, var definition) -> boolean
+	public function offsetSet(var name, var definition) -> boolean
 	{
 		this->setShared(name, definition);
 		return true;
@@ -358,7 +358,7 @@ class Di implements DiInterface
 	 * var_dump($di["request"]);
 	 *</code>
 	 */
-	public function offsetGet(string! name) -> var
+	public function offsetGet(var name) -> var
 	{
 		return this->getShared(name);
 	}
@@ -366,7 +366,7 @@ class Di implements DiInterface
 	/**
 	 * Removes a service from the services container using the array syntax
 	 */
-	public function offsetUnset(string! name) -> boolean
+	public function offsetUnset(var name) -> boolean
 	{
 		return false;
 	}

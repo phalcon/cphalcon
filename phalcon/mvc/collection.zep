@@ -1196,7 +1196,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 * </code>
 	 */
-	public static function findById(var id) -> <Collection> | null
+	public static function findById(var id) -> <CollectionInterface> | null
 	{
 		var className, collection, mongoId;
 
@@ -1620,7 +1620,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize(data)
 	{
 		var attributes, dependencyInjector, manager, key, value, serializer;
 

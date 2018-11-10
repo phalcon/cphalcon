@@ -46,7 +46,7 @@ class $Resource implements ResourceInterface
 	protected _local { get };
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _filter { get };
 
@@ -76,7 +76,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets the resource's type
 	 */
-	public function setType(string type) -> <$Resource>
+	public function setType(string type) -> <ResourceInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -103,7 +103,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets if the resource must be filtered or not
 	 */
-	public function setFilter(boolean filter) -> <$Resource>
+	public function setFilter(boolean filter) -> <ResourceInterface>
 	{
 		let this->_filter = filter;
 		return this;
@@ -112,7 +112,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets extra HTML attributes
 	 */
-	public function setAttributes(array attributes) -> <$Resource>
+	public function setAttributes(array attributes) -> <ResourceInterface>
 	{
 		let this->_attributes = attributes;
 		return this;

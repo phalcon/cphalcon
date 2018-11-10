@@ -118,7 +118,7 @@ interface CollectionInterface
 	 *
 	 * @param string id
 	 */
-	public static function findById(id) -> <CollectionInterface>;
+	public static function findById(var id) -> <CollectionInterface> | null;
 
 	/**
 	 * Allows to query the first record that match the specified conditions
@@ -133,7 +133,7 @@ interface CollectionInterface
 	/**
 	 * Perform a count over a collection
 	 */
-	public static function count(array parameters = null) -> array;
+	public static function count(array parameters = null) -> int;
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise

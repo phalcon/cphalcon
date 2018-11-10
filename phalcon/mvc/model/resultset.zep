@@ -211,7 +211,7 @@ abstract class Resultset
 	 * Changes the internal pointer to a specific position in the resultset.
 	 * Set the new position if required, and then set this->_row
 	 */
-	public final function seek(int position) -> void
+	public final function seek(position) -> void
 	{
 		var result, row;
 
@@ -277,7 +277,7 @@ abstract class Resultset
 	/**
 	 * Checks whether offset exists in the resultset
 	 */
-	public function offsetExists(int index) -> boolean
+	public function offsetExists(var index) -> boolean
 	{
 		return index < this->_count;
 	}
@@ -285,7 +285,7 @@ abstract class Resultset
 	/**
 	 * Gets row in a specific position of the resultset
 	 */
-	public function offsetGet(int! index) -> <ModelInterface> | boolean
+	public function offsetGet(var index) -> <ModelInterface> | boolean
 	{
 		if index < this->_count {
 	   		/**
@@ -313,7 +313,7 @@ abstract class Resultset
 	/**
 	 * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 	 */
-	public function offsetUnset(int offset)
+	public function offsetUnset(var offset)
 	{
 		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}
@@ -391,7 +391,7 @@ abstract class Resultset
 	/**
 	 * Returns the associated cache for the resultset
 	 */
-	public function getCache() -> <BackendInterface>
+	public function getCache() -> <\Phalcon\Mvc\Model\BackendInterface>
 	{
 		return this->_cache;
 	}

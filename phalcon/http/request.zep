@@ -25,6 +25,7 @@ use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Http\Request\FileInterface;
 
 /**
  * Phalcon\Http\Request
@@ -842,7 +843,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(boolean onlySuccessful = false) -> <File[]>
+	public function getUploadedFiles(boolean onlySuccessful = false) -> <FileInterface[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -1139,7 +1140,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
-	public function getClientCharsets() -> var
+	public function getClientCharsets() -> array
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}

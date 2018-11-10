@@ -34,6 +34,8 @@ class Binder implements BinderInterface
 {
 	/**
 	 * Array for storing active bound models
+	 *
+	 * @var array
 	 */
 	protected boundModels = [] { get };
 

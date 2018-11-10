@@ -32,7 +32,7 @@ interface EngineInterface
 	/**
 	 * Returns cached output on another view stage
 	 */
-	public function getContent() -> array;
+	public function getContent() -> string;
 
 	/**
 	 * Renders a partial inside another view

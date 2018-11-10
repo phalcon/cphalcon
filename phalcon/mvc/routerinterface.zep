@@ -168,10 +168,10 @@ interface RouterInterface
 	/**
 	 * Returns a route object by its id
 	 */
-	public function getRouteById(var id) -> <RouteInterface>;
+	public function getRouteById(var id) -> <RouteInterface> | boolean;
 
 	/**
 	 * Returns a route object by its name
 	 */
-	public function getRouteByName(string! name) -> <RouteInterface>;
+	public function getRouteByName(string! name) -> <RouteInterface> | boolean;
 }

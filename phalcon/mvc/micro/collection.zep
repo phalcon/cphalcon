@@ -63,7 +63,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets a prefix for all routes added to the collection
 	 */
-	public function setPrefix(string! prefix) -> <Collection>
+	public function setPrefix(string! prefix) -> <CollectionInterface>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -90,7 +90,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function setHandler(var handler, boolean lazy = false) -> <Collection>
+	public function setHandler(var handler, boolean lazy = false) -> <CollectionInterface>
 	{
 		let this->_handler = handler, this->_lazy = lazy;
 		return this;
@@ -99,7 +99,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets if the main handler must be lazy loaded
 	 */
-	public function setLazy(boolean! lazy) -> <Collection>
+	public function setLazy(boolean! lazy) -> <CollectionInterface>
 	{
 		let this->_lazy = lazy;
 		return this;
@@ -126,7 +126,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function map(string! routePattern, var handler, string name = null) -> <Collection>
+	public function map(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap(null, routePattern, handler, name);
 		return this;
@@ -142,7 +142,7 @@ class Collection implements CollectionInterface
 	 * @param callable handler
 	 * @param string|array method
 	 */
-	public function mapVia(string! routePattern, var handler, var method, string name = null) -> <Collection>
+	public function mapVia(string! routePattern, var handler, var method, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap(method, routePattern, handler, name);
 
@@ -154,7 +154,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function get(string! routePattern, var handler, string name = null) -> <Collection>
+	public function get(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("GET", routePattern, handler, name);
 		return this;
@@ -165,7 +165,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function post(string! routePattern, var handler, string name = null) -> <Collection>
+	public function post(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("POST", routePattern, handler, name);
 		return this;
@@ -176,7 +176,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function put(string! routePattern, var handler, string name = null) -> <Collection>
+	public function put(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("PUT", routePattern, handler, name);
 		return this;
@@ -187,7 +187,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function patch(string! routePattern, var handler, string name = null) -> <Collection>
+	public function patch(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("PATCH", routePattern, handler, name);
 		return this;
@@ -198,7 +198,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function head(string! routePattern, var handler, string name = null) -> <Collection>
+	public function head(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("HEAD", routePattern, handler, name);
 		return this;
@@ -209,7 +209,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function delete(string! routePattern, var handler, string name = null) -> <Collection>
+	public function delete(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("DELETE", routePattern, handler, name);
 		return this;
@@ -220,7 +220,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function options(string! routePattern, var handler, string name = null) -> <Collection>
+	public function options(string! routePattern, var handler, string name = null) -> <CollectionInterface>
 	{
 		this->_addMap("OPTIONS", routePattern, handler, name);
 		return this;

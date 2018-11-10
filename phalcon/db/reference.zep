@@ -52,8 +52,14 @@ class Reference implements ReferenceInterface
 	 */
 	protected _name  { get };
 
+	/**
+	 * @var string
+	 */
 	protected _schemaName { get };
 
+	/**
+	 * @var string
+	 */
 	protected _referencedSchema { get };
 
 	/**
@@ -80,14 +86,14 @@ class Reference implements ReferenceInterface
 	/**
 	 * ON DELETE
 	 *
-	 * @var array
+	 * @var string | null
 	 */
 	protected _onDelete { get };
 
 	/**
 	 * ON UPDATE
 	 *
-	 * @var array
+	 * @var string | null
 	 */
 	protected _onUpdate { get };
 
@@ -144,7 +150,7 @@ class Reference implements ReferenceInterface
 	/**
 	 * Restore a Phalcon\Db\Reference object from export
 	 */
-	public static function __set_state(array! data) -> <Reference>
+	public static function __set_state(array! data) -> <ReferenceInterface>
 	{
 		var referencedSchema, referencedTable, columns,
 			referencedColumns, constraintName,

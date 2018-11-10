@@ -1036,7 +1036,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Check if a service is registered in the internal services container using the array syntax
 	 */
-	public function offsetExists(string! alias) -> boolean
+	public function offsetExists(var alias) -> boolean
 	{
 		return this->hasService(alias);
 	}
@@ -1048,7 +1048,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *	$app["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(string! alias, var definition)
+	public function offsetSet(var alias, var definition)
 	{
 		this->setService(alias, definition);
 	}
@@ -1064,7 +1064,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet(string! alias)
+	public function offsetGet(var alias)
 	{
 		return this->getService(alias);
 	}
@@ -1072,7 +1072,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Removes a service from the internal services container using the array syntax
 	 */
-	public function offsetUnset(string! alias)
+	public function offsetUnset(var alias)
 	{
 		return alias;
 	}

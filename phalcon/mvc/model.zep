@@ -497,7 +497,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array dataColumnMap array to transform keys of data to another
 	 * @param array whiteList
 	 */
-	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
+	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
 	{
 		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
 
@@ -1841,7 +1841,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Create a criteria for a specific model
 	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <Criteria>
+	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>
 	{
 		var criteria;
 
@@ -2148,7 +2148,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize( data)
 	{
 		var attributes, dependencyInjector, manager, key, value, snapshot;
 
@@ -2397,7 +2397,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
 	{
 		let this->_transaction = transaction;
 		return this;

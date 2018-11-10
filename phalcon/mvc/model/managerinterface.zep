@@ -114,7 +114,7 @@ interface ManagerInterface
 	 * @param	mixed  referencedFields
 	 * @param	array  options
 	 */
-	public function addHasOne(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
+	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel, var referencedFields, array! options = null) -> <RelationInterface>;
 
 	/**
 	 * Setup a relation reverse 1-1  between two models
@@ -123,7 +123,7 @@ interface ManagerInterface
 	 * @param	mixed  referencedFields
 	 * @param	array  options
 	 */
-	public function addBelongsTo(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
+	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel, var referencedFields, array! options = null) -> <RelationInterface>;
 
 	/**
 	 * Setup a relation 1-n between two models
@@ -132,7 +132,7 @@ interface ManagerInterface
 	 * @param	mixed  referencedFields
 	 * @param	array  options
 	 */
-	public function addHasMany(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
+	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel, var referencedFields, array! options = null) -> <RelationInterface>;
 
 	/**
 	 * Checks whether a model has a belongsTo relation with another model
@@ -176,17 +176,17 @@ interface ManagerInterface
 	/**
 	 * Gets belongsTo relations defined on a model
 	 */
-	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasMany relations defined on a model
 	 */
-	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasOne relations defined on a model
 	 */
-	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -233,7 +233,7 @@ interface ManagerInterface
 	 *
 	 * @param string $eventName
 	 */
-	public function notifyEvent(eventName, <ModelInterface> model);
+	public function notifyEvent(string! eventName, <ModelInterface> model);
 
 	/**
 	 * Dispatch an event to the listeners and behaviors
@@ -243,7 +243,7 @@ interface ManagerInterface
 	 * @param array data
 	 * @return boolean
 	 */
-	public function missingMethod(<ModelInterface> model, string! eventName, data);
+	public function missingMethod(<ModelInterface> model, string! eventName, var data);
 
 	/**
 	 * Returns the last query created or executed in the models manager

@@ -685,7 +685,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, array! options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -766,7 +766,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, array! options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
 
@@ -847,7 +847,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, array! options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, hasMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -932,7 +932,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param   array options
 	 */
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
-		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
+		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;

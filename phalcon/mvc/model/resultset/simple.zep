@@ -260,7 +260,7 @@ class Simple extends Resultset
 	/**
 	 * Unserializing a resultset will allow to only works on the rows present in the saved state
 	 */
-	public function unserialize(string! data) -> void
+	public function unserialize(var data) -> void
 	{
 		var resultset, keepSnapshots, dependencyInjector, serializer;
 		let dependencyInjector = Di::getDefault();

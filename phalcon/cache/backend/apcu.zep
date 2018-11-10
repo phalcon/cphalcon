@@ -231,7 +231,7 @@ class Apcu extends Backend
 	 * @param  string|int keyName
 	 * @param  int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> boolean
 	{
 		var lastKey;
 

@@ -29,18 +29,36 @@ use Phalcon\Cache\FrontendInterface;
 abstract class Backend implements BackendInterface
 {
 
-	protected _frontend { get, set };
+	protected _frontend { set };
 
+	/**
+	 * @var array
+	 */
 	protected _options { get, set };
 
+	/**
+	 * @var string
+	 */
 	protected _prefix = "";
 
+	/**
+	 * @var string
+	 */
 	protected _lastKey = "" { get, set };
 
+	/**
+	 * @var int
+	 */
 	protected _lastLifetime = null;
 
+	/**
+	 * @var bool
+	 */
 	protected _fresh = false;
 
+	/**
+	 * @var bool
+	 */
 	protected _started = false;
 
 	/**
@@ -125,9 +143,17 @@ abstract class Backend implements BackendInterface
 	}
 
 	/**
+	 * Returns front-end instance adapter related to the back-end
+	 */
+	public function getFrontend() -> <FrontendInterface>
+	{
+		return this->_frontend;
+	}
+
+	/**
 	 * Gets the last lifetime set
 	 */
-	public function getLifetime() -> int
+	 public function getLifetime() -> int
 	{
 		return this->_lastLifetime;
 	}

@@ -195,7 +195,7 @@ class Xcache extends Backend
 	 * @param int|string keyName
 	 * @return boolean
 	 */
-	public function delete(var keyName)
+	public function delete(var keyName) -> boolean
 	{
 		var prefixedKey, specialKey, keys;
 
@@ -213,8 +213,10 @@ class Xcache extends Backend
 
 			unset keys[prefixedKey];
 
-			xcache_set(specialKey, keys);
+			return xcache_set(specialKey, keys);
 		}
+
+		return false;
 	}
 
 	/**
@@ -274,7 +276,7 @@ class Xcache extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(var keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> boolean
 	{
 		var lastKey;
 

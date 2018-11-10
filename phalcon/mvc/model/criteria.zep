@@ -81,7 +81,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Set a model on which the query will be executed
 	 */
-	public function setModelName(string! modelName) -> <Criteria>
+	public function setModelName(string! modelName) -> <CriteriaInterface>
 	{
 		let this->_model = modelName;
 		return this;
@@ -99,7 +99,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Sets the bound parameters in the criteria
 	 * This method replaces all previously set bound parameters
 	 */
-	public function bind(array! bindParams, boolean merge = false) -> <Criteria>
+	public function bind(array! bindParams, boolean merge = false) -> <CriteriaInterface>
 	{
 		var bind;
 
@@ -125,7 +125,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Sets the bind types in the criteria
 	 * This method replaces all previously set bound parameters
 	 */
-	public function bindTypes(array! bindTypes) -> <Criteria>
+	public function bindTypes(array! bindTypes) -> <CriteriaInterface>
 	{
 		let this->_params["bindTypes"] = bindTypes;
 		return this;
@@ -231,7 +231,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Sets the conditions parameter in the criteria
 	 */
-	public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
+	public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
 	{
 		var currentBindParams, currentBindTypes;
 
@@ -265,7 +265,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Appends a condition to the current conditions using an AND operator
 	 */
-	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
+	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
 	{
 		var currentConditions;
 
@@ -279,7 +279,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Appends a condition to the current conditions using an OR operator
 	 */
-	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
+	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
 	{
 		var currentConditions;
 
@@ -297,7 +297,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * $criteria->betweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
-	public function betweenWhere(string! expr, var minimum, var maximum) -> <Criteria>
+	public function betweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
 	{
 		var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
 
@@ -334,7 +334,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * $criteria->notBetweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
-	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Criteria>
+	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
 
@@ -375,7 +375,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * $criteria->inWhere("id", [1, 2, 3]);
 	 * </code>
 	 */
-	public function inWhere(string! expr, array! values) -> <Criteria>
+	public function inWhere(string! expr, array! values) -> <CriteriaInterface>
 	{
 		var hiddenParam, bindParams, bindKeys, value, key, queryKey;
 
@@ -419,7 +419,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * $criteria->notInWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
-	public function notInWhere(string! expr, array! values) -> <Criteria>
+	public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
 	{
 		var hiddenParam, bindParams, bindKeys, value, key;
 
@@ -451,7 +451,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the conditions parameter to the criteria
 	 */
-	public function conditions(string! conditions) -> <Criteria>
+	public function conditions(string! conditions) -> <CriteriaInterface>
 	{
 		let this->_params["conditions"] = conditions;
 		return this;
@@ -460,7 +460,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the order-by clause to the criteria
 	 */
-	public function orderBy(string! orderColumns) -> <Criteria>
+	public function orderBy(string! orderColumns) -> <CriteriaInterface>
 	{
 		let this->_params["order"] = orderColumns;
 		return this;
@@ -493,7 +493,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * $criteria->limit("100", "200");
 	 * </code>
 	 */
-	public function limit(int limit, var offset = null) -> <Criteria>
+	public function limit(int limit, var offset = null) -> <CriteriaInterface>
 	{
 		let limit = abs(limit);
 
@@ -514,7 +514,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the "for_update" parameter to the criteria
 	 */
-	public function forUpdate(boolean forUpdate = true) -> <Criteria>
+	public function forUpdate(boolean forUpdate = true) -> <CriteriaInterface>
 	{
 		let this->_params["for_update"] = forUpdate;
 		return this;
@@ -523,7 +523,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the "shared_lock" parameter to the criteria
 	 */
-	public function sharedLock(boolean sharedLock = true) -> <Criteria>
+	public function sharedLock(boolean sharedLock = true) -> <CriteriaInterface>
 	{
 		let this->_params["shared_lock"] = sharedLock;
 		return this;
@@ -713,7 +713,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	public function createBuilder() -> <BuilderInterface>
 	{
 		var dependencyInjector, manager, builder;
-
 		let dependencyInjector = this->getDI();
 		if typeof dependencyInjector != "object" {
 			let dependencyInjector = Di::getDefault();

@@ -114,7 +114,7 @@ interface BuilderInterface
 	 * @param mixed minimum
 	 * @param mixed maximum
 	 */
-	public function betweenWhere(string! expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
 	/**
 	 * Appends a NOT BETWEEN condition to the current conditions
@@ -122,7 +122,7 @@ interface BuilderInterface
 	 * @param mixed minimum
 	 * @param mixed maximum
 	 */
-	public function notBetweenWhere(string! expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
 	/**
 	 * Appends an IN condition to the current conditions
@@ -195,7 +195,7 @@ interface BuilderInterface
 	/**
 	 * Returns the query built
 	 */
-	public function getQuery() -> <QueryInterface>;
+	public function getQuery() -> <\Phalcon\Mvc\Model\QueryInterface>;
 
 	/**
 	 * Sets an OFFSET clause

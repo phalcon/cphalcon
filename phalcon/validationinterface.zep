@@ -43,24 +43,24 @@ interface ValidationInterface
 	/**
 	 * Adds a validator to a field
 	 */
-	public function add(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
+	public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>;
 
 	/**
 	 * Alias of `add` method
 	 */
-	public function rule(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
+	public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>;
 
 	/**
 	 * Adds the validators to a field
 	 */
-	public function rules(string! field, array! validators) -> <ValidationInterface>;
+	public function rules(var field, array! validators) -> <ValidationInterface>;
 
 	/**
 	 * Adds filters to the field
 	 *
 	 * @param array|string filters
 	 */
-	public function setFilters(string field, filters) -> <ValidationInterface>;
+	public function setFilters(var field, filters) -> <ValidationInterface>;
 
 	/**
 	 * Returns all the filters or a specific one

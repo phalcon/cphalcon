@@ -211,7 +211,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Tells to the query if only the first row in the resultset must be returned
 	 */
-	public function setUniqueRow(boolean uniqueRow) -> <Query>
+	public function setUniqueRow(boolean uniqueRow) -> <QueryInterface>
 	{
 		let this->_uniqueRow = uniqueRow;
 		return this;
@@ -3546,7 +3546,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Sets the cache parameters of the query
 	 */
-	public function cache(array cacheOptions) -> <Query>
+	public function cache(array cacheOptions) -> <QueryInterface>
 	{
 		let this->_cacheOptions = cacheOptions;
 		return this;

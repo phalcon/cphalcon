@@ -59,12 +59,12 @@ interface ReferenceInterface
 	/**
 	 * Gets the referenced on delete
 	 */
-	public function getOnDelete() -> string;
+	public function getOnDelete() -> string | null;
 
 	/**
 	 * Gets the referenced on update
 	 */
-	public function getOnUpdate() -> string;
+	public function getOnUpdate() -> string | null;
 
 	/**
 	 * Restore a Phalcon\Db\Reference object from export

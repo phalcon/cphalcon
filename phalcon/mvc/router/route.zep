@@ -574,7 +574,7 @@ class Route implements RouteInterface
 	 * $route->setHttpMethods(["GET", "POST"]);
 	 *</code>
 	 */
-	public function setHttpMethods(var httpMethods) -> <Route>
+	public function setHttpMethods(var httpMethods) -> <RouteInterface>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -595,7 +595,7 @@ class Route implements RouteInterface
 	 * $route->setHostname("localhost");
 	 *</code>
 	 */
-	public function setHostname(string! hostname) -> <Route>
+	public function setHostname(string! hostname) -> <RouteInterface>
 	{
 		let this->_hostname = hostname;
 		return this;
@@ -629,7 +629,7 @@ class Route implements RouteInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function convert(string! name, var converter) -> <Route>
+	public function convert(string! name, var converter) -> <RouteInterface>
 	{
 		let this->_converters[name] = converter;
 

@@ -197,7 +197,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>
 	{
 		session_regenerate_id(deleteOldSession);
 		return this;

@@ -56,7 +56,7 @@ interface DiInterface extends \ArrayAccess
 	 *
 	 * @param mixed definition
 	 */
-	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface>;
+	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface> | boolean;
 
 	/**
 	 * Resolves the service based on its configuration

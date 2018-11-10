@@ -87,9 +87,9 @@ interface ColumnInterface
 	/**
 	 * Returns column type values
 	 *
-	 * @return int
+	 * @return array
 	 */
-	public function getTypeValues() -> int;
+	public function getTypeValues() -> array;
 
 
 	/**

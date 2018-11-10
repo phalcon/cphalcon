@@ -141,7 +141,7 @@ class Message implements MessageInterface, \JsonSerializable
 	/**
 	 * Magic __set_state helps to re-build messages variable exporting
 	 */
-	public static function __set_state(array! message) -> <Message>
+	public static function __set_state(array! message) -> <MessageInterface>
 	{
 		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
 	}
