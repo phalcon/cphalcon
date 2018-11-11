@@ -1028,5 +1028,4 @@ class RequestCest extends HttpBase
             ['HTTP_X_HTTP_METHOD_OVERRIDE', 'CONECT',  'GET'    ],
         ];
     }
-
 }
