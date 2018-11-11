@@ -29,11 +29,6 @@ use Phalcon\DiInterface;
 interface ServiceInterface
 {
 	/**
-	 * Returns the service's name
-	 */
-	public function getName() -> string;
-
-	/**
 	 * Sets if the service is shared or not
 	 */
 	public function setShared(boolean shared);
