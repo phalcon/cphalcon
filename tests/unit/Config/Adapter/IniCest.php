@@ -27,7 +27,7 @@ class IniCest extends ConfigBase
     {
         define('TEST_CONST', 'foo');
 
-        $config = new Ini(PATH_DATA . 'config/config-with-constants.ini', INI_SCANNER_NORMAL);
+        $config = new Ini(PATH_DATA . 'assets/config/config-with-constants.ini', INI_SCANNER_NORMAL);
 
         $expected = [
             'test'    => 'foo',
@@ -53,7 +53,7 @@ class IniCest extends ConfigBase
      */
     public function testConfigToArray(UnitTester $I)
     {
-        $config = new Ini(PATH_DATA . 'config/directive.ini');
+        $config = new Ini(PATH_DATA . 'assets/config/directive.ini');
 
         $expected = [
             'test' => [
@@ -91,7 +91,7 @@ class IniCest extends ConfigBase
      */
     public function testIniConfig(UnitTester $I)
     {
-        $config = new Ini(PATH_DATA . 'config/config.ini');
+        $config = new Ini(PATH_DATA . 'assets/config/config.ini');
         $this->compareConfig($I, $this->config, $config);
     }
 }

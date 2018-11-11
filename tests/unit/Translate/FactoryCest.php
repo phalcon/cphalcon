@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Translate;
 
-use Helper\Traits\FactoryTrait;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\Factory;
 use UnitTester;

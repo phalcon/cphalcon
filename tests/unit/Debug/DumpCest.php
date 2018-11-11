@@ -31,7 +31,7 @@ class DumpCest
         $dump    = new Dump(null, true);
 
         $actual   = $I->callProtectedMethod($dump, 'output', $patient);
-        $expected = file_get_contents(PATH_FIXTURES . 'dump/class_properties.txt');
+        $expected = file_get_contents(PATH_DATA . 'fixtures/Dump/class_properties.txt');
 
         // Test without HTML
         $actual = strip_tags($actual);

@@ -25,7 +25,7 @@ class PhpCest extends ConfigBase
      */
     public function testPhpConfig(UnitTester $I)
     {
-        $config = new Php(PATH_DATA . 'config/config.php');
+        $config = new Php(PATH_DATA . 'assets/config/config.php');
         $this->compareConfig($I, $this->config, $config);
     }
 }

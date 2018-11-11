@@ -35,7 +35,7 @@ class YamlCest extends ConfigBase
      */
     public function testYamlConfig(UnitTester $I)
     {
-        $config = new Yaml(PATH_DATA . 'config/config.yml');
+        $config = new Yaml(PATH_DATA . 'assets/config/config.yml');
         $this->compareConfig($I, $this->config, $config);
     }
 
@@ -49,7 +49,7 @@ class YamlCest extends ConfigBase
     {
         define('CALLBACK_APPROOT', dirname(__DIR__));
         $config = new Yaml(
-            PATH_DATA . 'config/callbacks.yml',
+            PATH_DATA . 'assets/config/callbacks.yml',
             [
                 '!decrypt' => function ($value) {
                     return hash('sha256', $value);

@@ -15,6 +15,7 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Role;
+
 use Phalcon\Test\Fixtures\Acl\TestResourceAware;
 use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use Phalcon\Test\Fixtures\Acl\TestRoleResourceAware;

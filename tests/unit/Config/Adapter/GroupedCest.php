@@ -30,9 +30,9 @@ class GroupedCest extends ConfigBase
 
         $config = new Grouped(
             [
-                PATH_DATA . 'config/config.php',
+                PATH_DATA . 'assets/config/config.php',
                 [
-                    'filePath' => PATH_DATA . 'config/config.json',
+                    'filePath' => PATH_DATA . 'assets/config/config.json',
                     'adapter'  => 'json',
                 ],
                 [

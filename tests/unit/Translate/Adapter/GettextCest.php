@@ -48,7 +48,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => PATH_DATA . 'translation/gettext',
+                'directory'     => PATH_DATA . 'assets/translation/gettext',
                 'category'      => LC_MESSAGES,
             ]
         );
@@ -74,7 +74,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => PATH_DATA . 'translation/gettext',
+                'directory'     => PATH_DATA . 'assets/translation/gettext',
                 'category'      => LC_MESSAGES,
             ]
         );
@@ -100,7 +100,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => PATH_DATA . 'translation/gettext',
+                'directory'     => PATH_DATA . 'assets/translation/gettext',
                 'category'      => LC_MESSAGES,
             ]
         );
@@ -125,7 +125,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => PATH_DATA . 'translation/gettext',
+                'directory'     => PATH_DATA . 'assets/translation/gettext',
                 'category'      => LC_MESSAGES,
             ]
         );

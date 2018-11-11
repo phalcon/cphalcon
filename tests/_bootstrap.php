@@ -40,6 +40,27 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.var_display_max_depth', 4);
 }
 
+/**
+ * Just in case, create output folders
+ */
+$folders = [
+    'annotations',
+    'assets',
+    'cache',
+    'image',
+    'image/gd',
+    'image/imagick',
+    'logs',
+    'session',
+    'stream',
+];
+foreach ($folders as $folder) {
+    $item = sprintf('%s/tests/%s', PATH_OUTPUT, $folder);
+    if (true !== file_exists($item)) {
+        mkdir($item, 0777, true);
+    }
+}
+
 //$defaults = [
 //    // General
 //    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,

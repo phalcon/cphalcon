@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Tag\Helper;
 
-use Helper\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Tag;
 use UnitTester;
 

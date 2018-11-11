@@ -42,7 +42,6 @@ class HeadersCest
 
         $expected = 'text/html';
         $actual   = $headers->get('Content-Type');
-
         $I->assertEquals($expected, $actual);
     }
 

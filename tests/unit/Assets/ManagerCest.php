@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
-use Helper\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;

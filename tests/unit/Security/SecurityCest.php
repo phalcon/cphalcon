@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Security;
 
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Security;
@@ -18,6 +19,23 @@ use UnitTester;
 
 class SecurityCest
 {
+    use DiTrait;
+
+    /**
+     * executed before each test
+     */
+    public function _before(UnitTester $I, $scenario)
+    {
+        if (!extension_loaded('openssl')) {
+            $scenario->skip('Warning: openssl extension is not loaded');
+        }
+        $this->resetDi();
+        $this->newDi();
+//        $this->setDiEscaper();
+//        $this->setDiUrl();
+        $this->setDiSession();
+    }
+
     /**
      * Tests the Security constants
      *
@@ -103,11 +121,13 @@ class SecurityCest
      */
     public function testOneTokenPerRequest(UnitTester $I, $scenario)
     {
-        $scenario->skip('TODO - Check Session');
-        $di = $this->setupDI();
-
-        $security = new Security();
-        $security->setDI($di);
+        /**
+         * @TODO - Check Segfault
+         */
+        $scenario->skip('TODO: Check segfault');
+        $container = $this->getDi();
+        $security  = new Security();
+        $security->setDI($container);
 
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
@@ -142,37 +162,17 @@ class SecurityCest
     }
 
     /**
-     * Set up the environment.
-     *
-     * @return Di
-     */
-    private function setupDI()
-    {
-        Di::reset();
-
-        $di = new Di();
-
-//        $di->setShared('session', function () {
-//            return new Files();
-//        });
-
-        $di->setShared('request', function () {
-            return new Request();
-        });
-
-        return $di;
-    }
-
-    /**
      * Tests Security::checkToken
      */
     public function testCheckToken(UnitTester $I, $scenario)
     {
-        $scenario->skip('TODO - Check Session');
-        $di = $this->setupDI();
-
-        $security = new Security();
-        $security->setDI($di);
+        /**
+         * @TODO - Check Segfault
+         */
+        $scenario->skip('TODO: Check segfault');
+        $container = $this->getDi();
+        $security  = new Security();
+        $security->setDI($container);
 
         // Random token and token key check
         $tokenKey = $security->getTokenKey();
@@ -250,15 +250,5 @@ class SecurityCest
 
         $security->setDefaultHash(Security::CRYPT_SHA512);
         $I->assertTrue($security->checkHash($password, $security->hash($password)));
-    }
-
-    /**
-     * executed before each test
-     */
-    public function _before(UnitTester $I, $scenario)
-    {
-        if (!extension_loaded('openssl')) {
-            $scenario->skip('Warning: openssl extension is not loaded');
-        }
     }
 }

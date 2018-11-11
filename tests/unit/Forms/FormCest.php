@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Forms;
 
-use Helper\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;

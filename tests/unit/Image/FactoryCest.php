@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Image;
 
-use Helper\Traits\FactoryTrait;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Factory;
 use UnitTester;

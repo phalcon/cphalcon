@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
-use Helper\Traits\DiTrait;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Unit\Assets\Helper\TrimFilter;
 use Phalcon\Test\Unit\Assets\Helper\UppercaseFilter;
 use UnitTester;

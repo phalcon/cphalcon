@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Config;
 
-use Helper\Traits\FactoryTrait;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Factory;
 use UnitTester;

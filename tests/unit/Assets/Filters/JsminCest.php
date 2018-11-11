@@ -25,9 +25,12 @@ class JsminCest
      */
     public function testFilterJsminWithNonStringParam(UnitTester $I, $scenario)
     {
-        $scenario->skip('TODO: Check exception');
+//        $scenario->skip('TODO: Check exception');
         $I->expectThrowable(
-            new \InvalidArgumentException("Parameter 'content' must be a string"),
+            new \TypeError(
+                'Argument 1 passed to Phalcon\Assets\Filters\Jsmin::filter() ' .
+                'must be of the type string, object given'
+            ),
             function () {
                 $jsmin = new Jsmin();
                 $jsmin->filter(new \stdClass());

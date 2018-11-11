@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Forms\Element;
 
-use Helper\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tag;
 use UnitTester;

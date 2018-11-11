@@ -60,7 +60,7 @@
             "Zephir\\Optimizers\\": "optimizers/",
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
-            "Phalcon\\Test\\Fixtures\\": "tests/_fixtures/"
+            "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/"
         }
     },
     "support": {

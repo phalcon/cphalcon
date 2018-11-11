@@ -6,12 +6,13 @@ run.config:
       - ctype
       - curl
       - dom
-      - iconv
-      - json
+      - fileinfo
       - gd
       - gmp
       - gettext
       - imagick
+      - iconv
+      - json
       - mbstring
       - memcached
       - memcache

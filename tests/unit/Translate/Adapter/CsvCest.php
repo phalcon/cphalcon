@@ -24,7 +24,7 @@ class CsvCest
      */
     public function _before(UnitTester $I)
     {
-        $this->config = ['ru' => ['content' => PATH_DATA . 'translation/csv/ru_RU.csv']];
+        $this->config = ['ru' => ['content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv']];
     }
 
     /**

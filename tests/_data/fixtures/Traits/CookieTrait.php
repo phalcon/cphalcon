@@ -1,15 +1,24 @@
 <?php
 
-namespace Helper;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\Traits;
 
 use RuntimeException;
 
 /**
- * Helper\CookieAwareTrait
+ * Helper\CookieTrait
  *
  * @package Helper
  */
-trait CookieAwareTrait
+trait CookieTrait
 {
     /**
      * Gets a value set with setcookie.
@@ -23,7 +32,7 @@ trait CookieAwareTrait
      *
      * @throws RuntimeException
      */
-    public function getCookie($name)
+    protected function getCookie($name)
     {
         $cookies = [];
 
@@ -47,6 +56,6 @@ trait CookieAwareTrait
             }
         }
 
-        return array_key_exists($name, $cookies) ? $cookies[$name] : null;
+        return $cookies[$name] ?? null;
     }
 }

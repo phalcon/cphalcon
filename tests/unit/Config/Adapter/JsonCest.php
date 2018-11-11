@@ -25,7 +25,7 @@ class JsonCest extends ConfigBase
      */
     public function testJsonConfig(UnitTester $I)
     {
-        $config = new Json(PATH_DATA . 'config/config.json');
+        $config = new Json(PATH_DATA . 'assets/config/config.json');
         $this->compareConfig($I, $this->config, $config);
     }
 }
