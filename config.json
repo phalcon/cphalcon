@@ -106,6 +106,10 @@
         "orm.disable_assign_setters": {
             "type": "bool",
             "default": false
+        },
+        "orm.case_insensitive_column_map": {
+            "type": "bool",
+            "default": false
         }
     },
     "destructors": {
