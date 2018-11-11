@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Helper;
+namespace Phalcon\Test\Fixtures\Assets;
 
 use Phalcon\Assets\FilterInterface;
 
