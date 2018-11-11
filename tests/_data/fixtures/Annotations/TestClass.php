@@ -1,16 +1,12 @@
 <?php
+
 /**
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * This file is part of the Phalcon Framework.
  *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 /**
@@ -46,7 +42,8 @@ class TestClass
     public $testProp2;
 
     /**
-     * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
+     * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1,
+     *         -10, false, true, null)
      */
     public $testProp3;
 
@@ -88,29 +85,31 @@ class TestClass
     }
 
     /**
-     * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
+     * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1,
+     *         -10, false, true, null)
      */
     public function testMethod3()
     {
     }
 
     /**
-     @Simple @SingleParam(
-     "Param") @MultipleParams(         "First",
-     Second, 1,    1.1
-     ,-10,
-     false,    true,
-     null)
+     * @Simple @SingleParam(
+     * "Param") @MultipleParams(         "First",
+     * Second, 1,    1.1
+     * ,-10,
+     * false,    true,
+     * null)
      */
     public function testMethod4()
     {
     }
 
-/** @Simple a good comment between annotations @SingleParam(
-"Param") this is extra content @MultipleParams(         "First",
- Second, 1,    1.1  ,-10,
-     false,    true,
-null) more content here */
+    /** @Simple a good comment between annotations @SingleParam(
+     * "Param") this is extra content @MultipleParams(         "First",
+     * Second, 1,    1.1  ,-10,
+     * false,    true,
+     * null) more content here
+     */
     public function testMethod5()
     {
     }

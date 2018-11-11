@@ -3,6 +3,7 @@ run.config:
   engine.config:
     runtime: php-7.1
     extensions:
+      - apcu
       - ctype
       - curl
       - dom
