@@ -1,29 +1,21 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Http;
 
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Headers;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Http\ResponseTest
- * Tests the \Phalcon\Http\Response component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @author    Zamrony P. Juhara <zamronypj@yahoo.com>
- * @package   Phalcon\Test\Unit\Http
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
 class ResponseTest extends HttpBase
 {
     /**
@@ -32,16 +24,12 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      */
-    public function testHttpResponseInstanceOf()
+    public function testHttpResponseInstanceOf(UnitTester $I)
     {
-        $this->specify(
-            "The new object is not the correct class",
-            function () {
-                $response = $this->getResponseObject();
+        $response = $this->getResponseObject();
 
-                expect($response instanceof Response)->true();
-            }
-        );
+        $class = Response::class;
+        $I->assertInstanceOf($class, $response);
     }
 
     /**
@@ -50,33 +38,30 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetHeader()
+    public function testHttpResponseSetHeader(UnitTester $I)
     {
-        $this->specify(
-            "setHeader is not setting the headers properly",
-            function () {
-                $response = $this->getResponseObject();
-                $response->resetHeaders();
-                $response->setHeader('Content-Type', 'text/html');
-                $expected = Headers::__set_state(
-                    [
-                        '_headers' => ['Content-Type' => 'text/html']
-                    ]
-                );
-                expect($response->getHeaders())->equals($expected);
-
-                $response->setHeader('Content-Length', '1234');
-                $expected = Headers::__set_state(
-                    [
-                        '_headers' => [
-                            'Content-Type'   => 'text/html',
-                            'Content-Length' => '1234'
-                        ]
-                    ]
-                );
-                expect($response->getHeaders())->equals($expected);
-            }
+        $response = $this->getResponseObject();
+        $response->resetHeaders();
+        $response->setHeader('Content-Type', 'text/html');
+        $expected = Headers::__set_state(
+            [
+                '_headers' => ['Content-Type' => 'text/html']
+            ]
         );
+        $actual = $response->getHeaders();
+        $I->assertEquals($expected, $actual);
+
+        $response->setHeader('Content-Length', '1234');
+        $expected = Headers::__set_state(
+            [
+                '_headers' => [
+                    'Content-Type'   => 'text/html',
+                    'Content-Length' => '1234'
+                ]
+            ]
+        );
+        $actual = $response->getHeaders();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -85,7 +70,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseHasHeader()
+    public function testHttpResponseHasHeader(UnitTester $I)
     {
         $this->specify(
             "hasHeader is not returning the correct value",
@@ -106,7 +91,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetStatusCode()
+    public function testHttpResponseSetStatusCode(UnitTester $I)
     {
         $this->specify(
             "setStatusCode is not setting the header status properly",
@@ -134,7 +119,7 @@ class ResponseTest extends HttpBase
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
-    public function testMultipleHttpHeaders()
+    public function testMultipleHttpHeaders(UnitTester $I)
     {
         $this->specify(
             "setStatusCode is not setting the header status properly",
@@ -159,7 +144,7 @@ class ResponseTest extends HttpBase
         );
     }
 
-    public function testSetStatusCodeDefaultMessage()
+    public function testSetStatusCodeDefaultMessage(UnitTester $I)
     {
         $this->specify(
             "setStatusCode is not setting the header status properly",
@@ -224,7 +209,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetRawHeader()
+    public function testHttpResponseSetRawHeader(UnitTester $I)
     {
         $this->specify(
             "setRawHeader is not setting the raw header properly",
@@ -249,7 +234,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetHeaderContentType()
+    public function testHttpResponseSetHeaderContentType(UnitTester $I)
     {
         $this->specify(
             "setRawHeader is not setting the raw header properly",
@@ -275,7 +260,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetContentType()
+    public function testHttpResponseSetContentType(UnitTester $I)
     {
         $this->specify(
             "setContentType is not setting the header properly",
@@ -300,7 +285,7 @@ class ResponseTest extends HttpBase
      * @author Zamrony P. Juhara <zamronypj@yahoo.com>
      * @since  2016-07-18
      */
-    public function testHttpResponseSetContentLength()
+    public function testHttpResponseSetContentLength(UnitTester $I)
     {
         $this->specify(
             "setContentLength is not setting the header properly",
@@ -325,7 +310,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetContentTypeWithCharset()
+    public function testHttpResponseSetContentTypeWithCharset(UnitTester $I)
     {
         $this->specify(
             "setContentType with charset is not setting the header properly",
@@ -352,7 +337,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetNotModified()
+    public function testHttpResponseSetNotModified(UnitTester $I)
     {
         $this->specify(
             "setNotModified is not setting the header properly",
@@ -380,7 +365,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseRedirectLocalUrl()
+    public function testHttpResponseRedirectLocalUrl(UnitTester $I)
     {
         $this->specify(
             "redirect is not redirecting local properly",
@@ -409,7 +394,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseRedirectRemoteUrl302()
+    public function testHttpResponseRedirectRemoteUrl302(UnitTester $I)
     {
         $this->specify(
             "redirect is not redirecting remote 302 properly",
@@ -439,7 +424,7 @@ class ResponseTest extends HttpBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-19
      */
-    public function testHttpResponseRedirectLocalUrlWithNonStandardCode()
+    public function testHttpResponseRedirectLocalUrlWithNonStandardCode(UnitTester $I)
     {
         $this->specify(
             "redirect is not redirecting local with non standard code properly",
@@ -469,7 +454,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseRedirectRemoteUrl301()
+    public function testHttpResponseRedirectRemoteUrl301(UnitTester $I)
     {
         $this->specify(
             "redirect is not redirecting remote 301 properly",
@@ -498,7 +483,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetContent()
+    public function testHttpResponseSetContent(UnitTester $I)
     {
         $this->specify(
             "setContent is not producing the correct results",
@@ -517,7 +502,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseAppendContent()
+    public function testHttpResponseAppendContent(UnitTester $I)
     {
         $this->specify(
             "appendContent is not producing the correct results",
@@ -537,7 +522,7 @@ class ResponseTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetFileToSend()
+    public function testHttpResponseSetFileToSend(UnitTester $I)
     {
         $this->specify(
             "setFileToSend is not producing the correct results",
@@ -563,7 +548,7 @@ class ResponseTest extends HttpBase
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2015-07-14
      */
-    public function testHttpResponseSetCache()
+    public function testHttpResponseSetCache(UnitTester $I)
     {
         $this->specify(
             "setCache is not producing the correct results",
@@ -594,7 +579,7 @@ class ResponseTest extends HttpBase
      *
      * @author Mohamad Rostami <mb.rostami.h@gmail.com>
      */
-    public function testHttpResponseRemoveHeaderContentType()
+    public function testHttpResponseRemoveHeaderContentType(UnitTester $I)
     {
         $this->specify(
             "removeHeader is not removing the header properly",

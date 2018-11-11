@@ -1,29 +1,22 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Http;
 
 use Phalcon\DiInterface;
 use Phalcon\Http\Request;
 use Helper\Http\PhpStream;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Http\RequestTest
- * Tests the \Phalcon\Http\Request component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Http
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
 class RequestTest extends HttpBase
 {
     /**
@@ -32,24 +25,22 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-23
      */
-    public function testHttpRequestGetDI()
+    public function testHttpRequestGetDI(UnitTester $I)
     {
         $request = $this->getRequestObject();
-
-        expect($request->getDI() instanceof DiInterface)->true();
+        $container = $request->getDI();
+        $class      = DiInterface::class;
+        $I->assertInstanceOf($class, $container);
     }
 
     /**
      * Tests the instance of the object
      */
-    public function testHttpRequestInstanceOf()
+    public function testHttpRequestInstanceOf(UnitTester $I)
     {
-        $this->specify(
-            "The new object is not the correct class",
-            function () {
-                expect($this->getRequestObject() instanceof Request)->true();
-            }
-        );
+        $request = $this->getRequestObject();
+        $class      = Request::class;
+        $I->assertInstanceOf($class, $request);
     }
 
     /**
@@ -58,16 +49,11 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestHeaderGetEmpty()
+    public function testHttpRequestHeaderGetEmpty(UnitTester $I)
     {
-        $this->specify(
-            "Empty header does not contain correct data",
-            function () {
-                $request = $this->getRequestObject();
-
-                expect($request->getHeader('LOL'))->isEmpty();
-            }
-        );
+        $request = $this->getRequestObject();
+        $actual  = $request->getHeader('LOL');
+        $I->assertEquals($actual);
     }
 
     /**
@@ -76,7 +62,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestHeaderGet()
+    public function testHttpRequestHeaderGet(UnitTester $I)
     {
         $this->specify(
             "Empty header does not contain correct data",
@@ -98,7 +84,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-19
      */
-    public function testHttpRequestCustomHeaderGet()
+    public function testHttpRequestCustomHeaderGet(UnitTester $I)
     {
         $this->specify(
             "getHeaders does not returns correct header values",
@@ -120,7 +106,7 @@ class RequestTest extends HttpBase
      * @author limx <715557344@qq.com>
      * @since  2017-10-26
      */
-    public function testHttpRequestCustomHeaderHas()
+    public function testHttpRequestCustomHeaderHas(UnitTester $I)
     {
         $this->specify(
             "hasHeader does not returns correct result",
@@ -143,7 +129,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsAjaxDefault()
+    public function testHttpRequestIsAjaxDefault(UnitTester $I)
     {
         $this->specify(
             "Default request is Ajax",
@@ -161,7 +147,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsAjax()
+    public function testHttpRequestIsAjax(UnitTester $I)
     {
         $this->specify(
             "Request is not Ajax",
@@ -182,7 +168,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestGetSchemeDefault()
+    public function testHttpRequestGetSchemeDefault(UnitTester $I)
     {
         $this->specify(
             "Default scheme is not http",
@@ -200,7 +186,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestGetScheme()
+    public function testHttpRequestGetScheme(UnitTester $I)
     {
         $this->specify(
             "Scheme is not https",
@@ -221,7 +207,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSecureDefault()
+    public function testHttpRequestIsSecureDefault(UnitTester $I)
     {
         $this->specify(
             "Default isSecure is true",
@@ -239,7 +225,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSecure()
+    public function testHttpRequestIsSecure(UnitTester $I)
     {
         $this->specify(
             "isSecure is not true",
@@ -260,7 +246,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-23
      */
-    public function testHttpRequestIsSoapDefault()
+    public function testHttpRequestIsSoapDefault(UnitTester $I)
     {
         $this->specify(
             "Default isSoap is true",
@@ -278,7 +264,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSoap()
+    public function testHttpRequestIsSoap(UnitTester $I)
     {
         $this->specify(
             "isSoapRequest is not true",
@@ -299,7 +285,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestGetServerAddressDefault()
+    public function testHttpRequestGetServerAddressDefault(UnitTester $I)
     {
         $this->specify(
             "default server address is not 127.0.0.1",
@@ -317,7 +303,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestGetServerAddress()
+    public function testHttpRequestGetServerAddress(UnitTester $I)
     {
         $this->specify(
             "server address does not contain correct IP",
@@ -338,7 +324,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestHttpHost()
+    public function testHttpRequestHttpHost(UnitTester $I)
     {
         $this->specify(
             "http host with empty server values does not return empty string",
@@ -499,7 +485,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-06-26
      */
-    public function testHttpRequestPort()
+    public function testHttpRequestPort(UnitTester $I)
     {
         $this->specify(
             "http host with https on does not return expected port",
@@ -553,7 +539,7 @@ class RequestTest extends HttpBase
      *
      * @expectedException \UnexpectedValueException
      */
-    public function testInvalidHttpRequestHttpHost()
+    public function testInvalidHttpRequestHttpHost(UnitTester $I)
     {
         $this->specify(
             "The Request::getHttpHost does not throws exception on strict host validation",
@@ -583,7 +569,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestInputPost()
+    public function testHttpRequestInputPost(UnitTester $I)
     {
         $this->specify(
             "hasPost for empty element returns incorrect results",
@@ -636,7 +622,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-03
      */
-    public function shouldGetDataReceivedByPutMethod()
+    public function shouldGetDataReceivedByPutMethod(UnitTester $I)
     {
         $this->specify(
             'The getPuth method does not owrk as expected',
@@ -671,7 +657,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-03
      */
-    public function shouldGetDataReceivedByPutMethodAndJsonType()
+    public function shouldGetDataReceivedByPutMethodAndJsonType(UnitTester $I)
     {
         $this->specify(
             'The getPuth method does not owrk as expected with json content type',
@@ -703,7 +689,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestInputGet()
+    public function testHttpRequestInputGet(UnitTester $I)
     {
         $this->specify(
             "hasQuery for empty element returns incorrect results",
@@ -754,7 +740,7 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestInputRequest()
+    public function testHttpRequestInputRequest(UnitTester $I)
     {
         $this->specify(
             "has for empty element returns incorrect results",
@@ -799,7 +785,7 @@ class RequestTest extends HttpBase
         );
     }
 
-    public function testHttpRequestMethod()
+    public function testHttpRequestMethod(UnitTester $I)
     {
         $request = $this->getRequestObject();
 
@@ -857,7 +843,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */
-    public function shouldOverrideHttpRequestMethod()
+    public function shouldOverrideHttpRequestMethod(UnitTester $I)
     {
         $this->specify(
             'The request object gets http method incorrectly',
@@ -919,7 +905,7 @@ class RequestTest extends HttpBase
         $this->unsetServerVar('HTTP_CONTENT_TYPE');
     }
 
-    public function testHttpRequestAcceptableContent()
+    public function testHttpRequestAcceptableContent(UnitTester $I)
     {
         $request = $this->getRequestObject();
 
@@ -943,7 +929,7 @@ class RequestTest extends HttpBase
         $this->assertEquals($request->getBestAccept(), 'text/html');
     }
 
-    public function testHttpRequestAcceptableCharsets()
+    public function testHttpRequestAcceptableCharsets(UnitTester $I)
     {
         $request = $this->getRequestObject();
 
@@ -962,7 +948,7 @@ class RequestTest extends HttpBase
         $this->assertEquals($request->getBestCharset(), 'iso-8859-5');
     }
 
-    public function testHttpRequestAcceptableLanguage()
+    public function testHttpRequestAcceptableLanguage(UnitTester $I)
     {
         $request = $this->getRequestObject();
 
@@ -985,7 +971,7 @@ class RequestTest extends HttpBase
         $this->assertEquals($request->getBestLanguage(), 'es');
     }
 
-    public function testHttpRequestClientAddress()
+    public function testHttpRequestClientAddress(UnitTester $I)
     {
         $request = $this->getRequestObject();
 
@@ -1001,7 +987,7 @@ class RequestTest extends HttpBase
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/1265
      */
-    public function testRequestGetValueByUsingSeveralMethods()
+    public function testRequestGetValueByUsingSeveralMethods(UnitTester $I)
     {
         $request = $this->getRequestObject();
 
@@ -1032,7 +1018,7 @@ class RequestTest extends HttpBase
         $this->assertEquals(null, $request->getPost('array', 'string', null, true, true));
     }
 
-    public function testRequestGetQuery()
+    public function testRequestGetQuery(UnitTester $I)
     {
         $_REQUEST = $_GET = $_POST = [
             'id'    => 1,
@@ -1064,7 +1050,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-01-31
      */
-    public function testRequestHasFiles()
+    public function testRequestHasFiles(UnitTester $I)
     {
         $this->specify(
             "Request::hasFiles does not return correct result",
@@ -1086,7 +1072,7 @@ class RequestTest extends HttpBase
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-01-31
      */
-    public function testGetUploadedFiles()
+    public function testGetUploadedFiles(UnitTester $I)
     {
         $this->specify(
             "Request does not handle uploaded files correctly",

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Http;
 
 use Helper\CookieAwareTrait;
@@ -7,24 +16,8 @@ use Phalcon\Crypt;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Http\Cookie;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use UnitTester;
 
-/**
- * Phalcon\Test\Unit\Http\CookieTest
- * Tests the Phalcon\Http\Cookie component
- *
- * @copyright (c) 2011-2018 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Http
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
 class CookieTest extends HttpBase
 {
     use CookieAwareTrait;
@@ -180,4 +173,20 @@ class CookieTest extends HttpBase
             }
         );
     }
-}
+    /**
+     * Tests the internal cookies property.
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/12978
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-09-02
+     */
+    public function shouldWorkWithoutInitializeInternalCookiesProperty()
+    {
+        $this->specify(
+            "The internal cookies property is not initialized or iterable",
+            function () {
+                expect((new Cookies())->send())->true();
+            }
+        );
+    }}

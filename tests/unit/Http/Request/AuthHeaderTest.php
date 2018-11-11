@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Http\Request;
 
 use Phalcon\Di;
@@ -9,25 +18,9 @@ use Phalcon\Events\Manager;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Listener\CustomAuthorizationListener;
 use Phalcon\Test\Listener\NegotiateAuthorizationListener;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Http\Request\AuthHeaderTest
- * Tests the \Phalcon\Http\Request component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Http\Request
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class AuthHeaderTest extends UnitTest
+class AuthHeaderTest
 {
     /**
      * @var Request
