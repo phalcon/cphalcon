@@ -49,8 +49,9 @@ run.config:
     # PSR extension compilation
     - |
       (
-        rm -fR ./build/php-psr
-        cd build
+        CURRENT_FOLDER=$(pwd)
+        rm -fR $CURRENT_FOLDER/build/php-psr
+        cd $CURRENT_FOLDER/build
         git clone --depth=1 https://github.com/jbboehr/php-psr.git
         cd php-psr
         set -e
@@ -58,8 +59,9 @@ run.config:
         ./configure --with-php-config=$(which php-config)
         make -j"$(getconf _NPROCESSORS_ONLN)"
         make install
-        cd ../
-        rm -fR ./build/php-psr
+        cd $CURRENT_FOLDER
+        rm -fR $CURRENT_FOLDER/build/php-psr
+        unset CURRENT_FOLDER
       )
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
     # This is here so that Phalcon can be used right after compilation
