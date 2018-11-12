@@ -44,7 +44,6 @@
         "codeception/specify": "1.0.*",
         "codeception/verify": "1.0.*",
         "mustache/mustache": "^2.11",
-        "phalcon/zephir": "^0.11.1",
         "phpunit/phpunit": "^6.4",
         "predis/predis": "^1.1",
         "squizlabs/php_codesniffer": "^3.2",
@@ -60,7 +59,10 @@
             "Zephir\\Optimizers\\": "optimizers/",
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
-            "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/"
+            "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/",
+            "Phalcon\\Test\\Module\\": "tests/_support/Module/",
+            "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
+            "Phalcon\\Test\\Db\\": "tests/_data/db/"
         }
     },
     "support": {

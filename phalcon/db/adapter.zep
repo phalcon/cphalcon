@@ -692,9 +692,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		 * Objects are casted using __toString, null values are converted to string "null", everything else is passed as "?"
 		 */
 		for position, value in values {
-			if typeof value == "object" {
+			if typeof value == "object" && value instanceof RawValue {
 				let placeholders[] = (string) value;
 			} else {
+				if typeof value == "object" {
+					let value = (string) value;
+				}
+
 				if typeof value == "null" {
 					let placeholders[] = "null";
 				} else {
@@ -1022,10 +1026,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			}
 
 			let escapedField = this->escapeIdentifier(field);
-
-			if typeof value == "object" {
-				let placeholders[] = escapedField . " = " . value;
+			if typeof value == "object" && value instanceof RawValue {
+				let placeholders[] = escapedField . " = " . (string) value;
 			} else {
+				if typeof value == "object" {
+					let value = (string) value;
+				}
+
 				if typeof value == "null" {
 					let placeholders[] = escapedField . " = null";
 				} else {
