@@ -31,7 +31,7 @@ class TestRoleAware implements RoleAware
      */
     public function __construct($id, $roleName)
     {
-        $this->id = $id;
+        $this->id       = $id;
         $this->roleName = $roleName;
     }
 

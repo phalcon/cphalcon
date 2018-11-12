@@ -38,9 +38,9 @@ class TestRoleResourceAware implements RoleAware, ResourceAware
      */
     public function __construct($user, $resourceName, $roleName)
     {
-        $this->user = $user;
+        $this->user         = $user;
         $this->resourceName = $resourceName;
-        $this->roleName = $roleName;
+        $this->roleName     = $roleName;
     }
 
     /**

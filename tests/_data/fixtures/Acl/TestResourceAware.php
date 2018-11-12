@@ -31,7 +31,7 @@ class TestResourceAware implements ResourceAware
      */
     public function __construct($user, $resourceName)
     {
-        $this->user = $user;
+        $this->user         = $user;
         $this->resourceName = $resourceName;
     }
 

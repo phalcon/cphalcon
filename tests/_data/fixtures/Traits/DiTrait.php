@@ -18,8 +18,8 @@ use Phalcon\Events\Manager;
 use Phalcon\Filter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
-use Phalcon\Session\Adapter\Files as FilesSession;
 use Phalcon\Mvc\Url;
+use Phalcon\Session\Adapter\Files as FilesSession;
 
 trait DiTrait
 {

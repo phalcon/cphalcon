@@ -14,17 +14,17 @@ namespace Phalcon\Test\Fixtures\Http;
 /**
  * Helper\Http\PhpStream
  *
- * @link http://php.net/manual/en/class.streamwrapper.php
- * @link http://php.net/manual/en/stream.streamwrapper.example-1.php
+ * @link    http://php.net/manual/en/class.streamwrapper.php
+ * @link    http://php.net/manual/en/stream.streamwrapper.example-1.php
  *
  * @codingStandardsIgnoreFile
  * @package Helper
  */
 class PhpStream
 {
-    protected $index = 0;
+    protected $index  = 0;
     protected $length = 0;
-    protected $data = '';
+    protected $data   = '';
 
     public function __construct()
     {
@@ -32,8 +32,13 @@ class PhpStream
             $this->data = file_get_contents($this->getBufferFilename());
         }
 
-        $this->index = 0;
+        $this->index  = 0;
         $this->length = strlen($this->data);
+    }
+
+    protected function getBufferFilename()
+    {
+        return codecept_output_dir('tests/stream/php_input.txt');
     }
 
     public function stream_open($path, $mode, $options, &$opened_path)
@@ -61,8 +66,8 @@ class PhpStream
             $this->length = strlen($this->data);
         }
 
-        $length = min($count, $this->length - $this->index);
-        $data = substr($this->data, $this->index);
+        $length      = min($count, $this->length - $this->index);
+        $data        = substr($this->data, $this->index);
         $this->index = $this->index + $length;
 
         return $data;
@@ -117,13 +122,8 @@ class PhpStream
             unlink($this->getBufferFilename());
         }
 
-        $this->data = '';
-        $this->index = 0;
+        $this->data   = '';
+        $this->index  = 0;
         $this->length = 0;
-    }
-
-    protected function getBufferFilename()
-    {
-        return codecept_output_dir('tests/stream/php_input.txt');
     }
 }
