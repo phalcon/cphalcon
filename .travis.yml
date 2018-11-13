@@ -48,7 +48,6 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_PARSER_VERSION="v1.1.3"
     - ZEPHIR_VERSION="0.10.12"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
@@ -56,7 +55,7 @@ env:
     - TEST_PHP_ARGS="--show-diff"
     - CFLAGS="-g -O0 -Wall -std=gnu90"
     - BACKEND="ZendEngine3"
-    - PATH="${HOME}/bin:${PATH}"
+    - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
@@ -67,27 +66,26 @@ before_install:
   - '[[ "${PHP_MAJOR}" == "7" ]] || export BACKEND="ZendEngine2"'
   - ./tests/_ci/pear-setup.sh
   - ./tests/_ci/setup-dbs.sh
-  - source "${TRAVIS_BUILD_DIR}/tests/_ci/environment"
-  - export $(cut -d= -f1 "${TRAVIS_BUILD_DIR}/tests/_ci/environment")
+  - source ./tests/_ci/environment
+  - export $(cut -d= -f1 ./tests/_ci/environment)
 
 install:
   - ./tests/_ci/install-prereqs-$PHP_MAJOR.sh
+  - ./tests/_ci/install-re2c.sh
   - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
   - travis_retry composer global require "phalcon/zephir:${ZEPHIR_VERSION}"
   - ( cd ${HOME}/.composer/vendor/phalcon/zephir; ./install-nosudo )
-  - ./tests/_ci/install-re2c.sh
-  - ./tests/_ci/install-zephir-parser.sh
   - zephir generate --backend=${BACKEND}
   - ./tests/_ci/precompile-headers.sh
   - |
-      cd "${TRAVIS_BUILD_DIR}/ext"
-      $(phpenv which phpize)
+      cd ext
+      phpize
       ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
-      make -j"$(getconf _NPROCESSORS_ONLN)" > "${TRAVIS_BUILD_DIR}/compile.log" 2> "${TRAVIS_BUILD_DIR}/compile-errors.log"
+      make -j"$(getconf _NPROCESSORS_ONLN)" > ../compile.log 2> ../compile-errors.log
       make install
-      cd "${TRAVIS_BUILD_DIR}"
-  - phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/phalcon.ini"
-  - phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/ci.ini"
+      cd ..
+  - phpenv config-add ./tests/_ci/phalcon.ini
+  - phpenv config-add ./tests/_ci/ci.ini
 
 before_script:
   - ulimit -c unlimited -S || true
@@ -99,13 +97,13 @@ script:
   # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
   - ln -s ${TRAVIS_BUILD_DIR}/ext/libtool ${TRAVIS_BUILD_DIR}/libtool
   # Syntax recognize tests
-  - |
-      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
-          -p $(phpenv which php) \
-          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
-          --offline \
-          --show-diff \
-          --set-timeout 120
+#  - |
+#      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
+#          -p $(phpenv which php) \
+#          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
+#          --offline \
+#          --show-diff \
+#          --set-timeout 120
   - vendor/bin/phpcs
   # We'll drop or rewrite them for Phalcon 4.x
   - '[[ "${PHP_VERNUM}" -lt 70200 ]] || vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/'
