@@ -930,7 +930,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->offset(30);
 	 *</code>
 	 */
-	public function offset(int offset) -> <Builder>
+	public function offset(int offset) -> <BuilderInterface>
 	{
 		let this->_offset = offset;
 		return this;
