@@ -40,6 +40,7 @@ environment:
     PARSER_VERSION: 1.1.3
     PARSER_RELEASE: 401
     PHALCON_STABLE_VERSION: 3.3.2
+    ZEPHIR_VERSION: 0.10.12
 
 matrix:
     fast_finish: true
@@ -63,7 +64,6 @@ branches:
     - 3.4.x
 
 install:
-    - git submodule update --init --recursive
     - ps: Import-Module .\tests\_ci\appveyor.psm1
     - ps: AppendSessionPath
     - ps: SetupPhpVersionString
