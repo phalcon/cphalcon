@@ -1,8 +1,6 @@
-language: php
-
-dist: trusty
 sudo: false
 
+language: php
 php:
   - 'master'
   - '7.3'
@@ -39,7 +37,6 @@ cache:
     - ${HOME}/.composer/cache
     - ${HOME}/pear
     - ${HOME}/.local/opt
-    - ${HOME}/.cache/composer
 
 services:
   - beanstalkd
@@ -50,44 +47,41 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_PARSER_VERSION="development"
     - ZEPHIR_VERSION="0.10.12"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
     - NO_INTERACTION=1
     - TEST_PHP_ARGS="--show-diff"
     - CFLAGS="-g -O0 -Wall -std=gnu90"
-    - PATH="${HOME}/bin:${PATH}"
+    - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
   - '[[ -z "${GH_TOKEN}" ]] || composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"'
-  - export PHP_MAJOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 1)"
-  - export PHP_MINOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 2)"
-  - export PHP_VERNUM="$(`phpenv which php-config` --vernum)"
+  - export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
+  - export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
+  - export PHP_VERNUM="$(php-config --vernum)"
   - ./tests/_ci/pear-setup.sh
   - ./tests/_ci/setup-dbs.sh
-  - source "${TRAVIS_BUILD_DIR}/tests/_ci/environment"
-  - export $(cut -d= -f1 ${TRAVIS_BUILD_DIR}/tests/_ci/environment)
+  - source ./tests/_ci/environment
+  - export $(cut -d= -f1 ./tests/_ci/environment)
 
 install:
   - ./tests/_ci/install-prereqs.sh
-  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
-  - travis_retry composer global require "phalcon/zephir:${ZEPHIR_VERSION}"
-  - ( cd ${HOME}/.composer/vendor/phalcon/zephir; ./install-nosudo )
   - ./tests/_ci/install-re2c.sh
-  - ./tests/_ci/install-zephir-parser.sh
+  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
+  - travis_retry composer global require ${DEFAULT_COMPOSER_FLAGS} "phalcon/zephir:${ZEPHIR_VERSION}"
   - zephir generate
   - ./tests/_ci/precompile-headers.sh
   - |
-      cd "${TRAVIS_BUILD_DIR}/ext"
-      $(phpenv which phpize)
+      cd ext
+      phpize
       ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
-      make -j"$(getconf _NPROCESSORS_ONLN)" > "${TRAVIS_BUILD_DIR}/compile.log" 2> "${TRAVIS_BUILD_DIR}/compile-errors.log"
+      make -j"$(getconf _NPROCESSORS_ONLN)" > /dev/null 2> ../compile-errors.log
       make install
-      cd "${TRAVIS_BUILD_DIR}"
-  - phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/phalcon.ini"
-  - phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/ci.ini"
+      cd ..
+  - phpenv config-add ./tests/_ci/phalcon.ini
+  - phpenv config-add ./tests/_ci/ci.ini
 
 before_script:
   - ulimit -c unlimited -S || true
