@@ -94,13 +94,13 @@ script:
   # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
   - ln -s ${TRAVIS_BUILD_DIR}/ext/libtool ${TRAVIS_BUILD_DIR}/libtool
   # Syntax recognize tests
-#  - |
-#      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
-#          -p $(phpenv which php) \
-#          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
-#          --offline \
-#          --show-diff \
-#          --set-timeout 120
+  - |
+      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
+          -p $(phpenv which php) \
+          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
+          --offline \
+          --show-diff \
+          --set-timeout 120
   - vendor/bin/phpcs
   # We'll drop or rewrite them for Phalcon 4.x
   - '[[ "${PHP_VERNUM}" -lt 70200 ]] || vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/'
