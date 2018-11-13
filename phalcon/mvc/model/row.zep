@@ -98,7 +98,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function readAttribute(attribute)
+	public function readAttribute(string! attribute)
 	{
 		var value;
 		if fetch value, this->{attribute} {

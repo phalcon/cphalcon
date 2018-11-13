@@ -131,7 +131,7 @@ class Memory extends Backend implements \Serializable
 	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(var keyName) -> boolean
+	public function delete(string keyName) -> boolean
 	{
 		var key, data;
 

@@ -30,7 +30,7 @@ interface ViewBaseInterface
 	/**
 	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
 	 */
-	public function setViewsDir(string! viewsDir);
+	public function setViewsDir(var viewsDir);
 
 	/**
 	 * Gets views directory

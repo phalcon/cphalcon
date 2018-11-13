@@ -81,7 +81,7 @@ class Document implements EntityInterface, \ArrayAccess
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function readAttribute(attribute)
+	public function readAttribute(string! attribute)
 	{
 		var value;
 		if fetch value, this->{attribute} {

@@ -280,10 +280,10 @@ class Memcache extends Backend
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
+	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(var keyName)
+	public function delete(string keyName)
 	{
 		var memcache, prefixedKey, options, keys, specialKey, ret;
 

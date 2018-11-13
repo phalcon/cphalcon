@@ -270,10 +270,10 @@ class Mongo extends Backend
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
+	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(string keyName) -> boolean
 	{
 		this->_getCollection()->remove(["key": this->_prefix . keyName]);
 

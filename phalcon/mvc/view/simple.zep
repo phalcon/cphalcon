@@ -93,7 +93,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	/**
 	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
 	 */
-	public function setViewsDir(string! viewsDir)
+	public function setViewsDir(var viewsDir)
 	{
 		let this->_viewsDir = viewsDir;
 	}
