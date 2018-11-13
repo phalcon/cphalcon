@@ -233,9 +233,9 @@ class File extends Backend
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
+	 * @param string keyName
 	 */
-	public function delete(var keyName) -> boolean
+	public function delete(string keyName) -> boolean
 	{
 		var cacheFile, cacheDir;
 

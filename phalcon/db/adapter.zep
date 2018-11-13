@@ -802,7 +802,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drop an index from a table
 	 */
-	public function dropIndex(string! tableName, string! schemaName, indexName) -> boolean
+	public function dropIndex(string! tableName, string! schemaName, string indexName) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->dropIndex(tableName, schemaName, indexName));
 	}

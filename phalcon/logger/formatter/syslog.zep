@@ -38,7 +38,7 @@ class Syslog extends Formatter
 	 * @param array context
 	 * @return array
 	 */
-	public function format(message, int type, int timestamp, var context = null) -> array
+	public function format(string message, int type, int timestamp, var context = null) -> array
 	{
 		if typeof context === "array" {
 			let message = this->interpolate(message, context);

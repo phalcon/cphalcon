@@ -102,7 +102,7 @@ interface BackendInterface
 	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(string! keyName);
+	public function delete(string keyName);
 
 	/**
 	 * Query the existing cached keys

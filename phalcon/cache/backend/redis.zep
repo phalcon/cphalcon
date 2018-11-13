@@ -289,9 +289,9 @@ class Redis extends Backend
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
+	 * @param string keyName
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(string keyName) -> boolean
 	{
 		var redis, prefix, prefixedKey, lastKey, options, specialKey;
 

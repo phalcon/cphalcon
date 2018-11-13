@@ -12,11 +12,6 @@ php:
 git:
   depth: 1
 
-branches:
-  only:
-    - master
-    - /^(3|4)\.\d+\.(\d+|x)$/
-
 addons:
   apt:
     packages:
