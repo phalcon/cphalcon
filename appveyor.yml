@@ -66,7 +66,6 @@ branches:
     - 3.4.x
 
 install:
-    - git submodule update --init --recursive
     - ps: Import-Module .\tests\_ci\appveyor.psm1
     - ps: AppendSessionPath
     - ps: SetupPhpVersionString
@@ -78,7 +77,6 @@ install:
     - ps: InstallPsrExtension
     - ps: InstallStablePhalcon
     - ps: InstallParser
-    - ps: InstallZephir
     - ps: TuneUpPhp
 
 build_script:
