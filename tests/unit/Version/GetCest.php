@@ -18,7 +18,7 @@ use UnitTester;
 class GetCest
 {
     use VersionTrait;
-    
+
     /**
      * Tests Phalcon\Version :: get()
      *

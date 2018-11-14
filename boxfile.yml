@@ -46,6 +46,7 @@ run.config:
     - fontconfig
     - re2c
   extra_steps:
+    #===========================================================================
     # PSR extension compilation
     - |
       (
@@ -64,6 +65,7 @@ run.config:
         unset CURRENT_FOLDER
       )
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
+    #===========================================================================
     # This is here so that Phalcon can be used right after compilation
     - echo -e 'extension=phalcon.so' >> "/data/etc/php/dev_php.ini"
 
