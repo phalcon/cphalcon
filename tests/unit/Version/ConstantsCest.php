@@ -30,5 +30,4 @@ class ConstantsCest
         $I->assertEquals(3, Version::VERSION_SPECIAL);
         $I->assertEquals(4, Version::VERSION_SPECIAL_NUMBER);
     }
-
 }
