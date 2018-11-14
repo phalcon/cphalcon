@@ -21,7 +21,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the instance of the object
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseInstanceOf(UnitTester $I)
@@ -35,7 +35,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the setHeader
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetHeader(UnitTester $I)
@@ -67,7 +67,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the hasHeader
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseHasHeader(UnitTester $I)
@@ -86,7 +86,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the setStatusCode
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetStatusCode(UnitTester $I)
@@ -190,7 +190,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the setRawHeader
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetRawHeader(UnitTester $I)
@@ -211,7 +211,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the setHeader
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetHeaderContentType(UnitTester $I)
@@ -237,7 +237,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the setContentType
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetContentType(UnitTester $I)
@@ -279,7 +279,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests the setContentType with charset
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetContentTypeWithCharset(UnitTester $I)
@@ -302,7 +302,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests setNotModified
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetNotModified(UnitTester $I)
@@ -326,7 +326,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests redirect locally
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseRedirectLocalUrl(UnitTester $I)
@@ -351,7 +351,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests redirect remotely 302
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseRedirectRemoteUrl302(UnitTester $I)
@@ -403,7 +403,7 @@ class ResponseCest extends HttpBase
      * Tests redirect remotely 301
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1182
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseRedirectRemoteUrl301(UnitTester $I)
@@ -428,7 +428,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests setContent
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetContent(UnitTester $I)
@@ -444,7 +444,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests appendContent
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseAppendContent(UnitTester $I)
@@ -461,7 +461,7 @@ class ResponseCest extends HttpBase
     /**
      * Tests setFileToSend
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-08
      */
     public function testHttpResponseSetFileToSend(UnitTester $I)

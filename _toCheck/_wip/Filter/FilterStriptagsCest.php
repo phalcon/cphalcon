@@ -20,7 +20,7 @@ class FilterStriptagsCest extends FilterBase
     /**
      * Tests striptags filter with html
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStriptagsHTML(UnitTester $I)
@@ -33,7 +33,7 @@ class FilterStriptagsCest extends FilterBase
     /**
      * Tests striptags filter with broken html
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStriptagsBrokenHTML(UnitTester $I)
@@ -46,7 +46,7 @@ class FilterStriptagsCest extends FilterBase
     /**
      * Tests striptags filter with single html tag
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStriptagsSingle(UnitTester $I)

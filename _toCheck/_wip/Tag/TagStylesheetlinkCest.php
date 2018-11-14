@@ -12,16 +12,16 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagStylesheetlinkCest extends TagBase
+class TagStylesheetlinkCest extends TagHelper
 {
     /**
      * Tests stylesheetLink with string parameter for a local link
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
@@ -54,7 +54,7 @@ class TagStylesheetlinkCest extends TagBase
      * Tests stylesheetLink with array parameter for a local link
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
@@ -86,7 +86,7 @@ class TagStylesheetlinkCest extends TagBase
     /**
      * Tests stylesheetLink with string parameter for a remote link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testStylesheetLinkStringParameterRemote(UnitTester $I)
@@ -117,7 +117,7 @@ class TagStylesheetlinkCest extends TagBase
     /**
      * Tests stylesheetLink with array parameter for a remote link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testStylesheetLinkArrayParameterRemote(UnitTester $I)
@@ -149,7 +149,7 @@ class TagStylesheetlinkCest extends TagBase
      * Tests stylesheetLink overriding the rel link local
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2142
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */

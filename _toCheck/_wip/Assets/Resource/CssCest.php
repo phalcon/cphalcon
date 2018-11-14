@@ -19,7 +19,7 @@ class CssCest
     /**
      * Tests Css getType
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceCssGetType(UnitTester $I)
@@ -33,7 +33,7 @@ class CssCest
     /**
      * Tests Css getPath
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceCssGetPath(UnitTester $I)
@@ -47,7 +47,7 @@ class CssCest
     /**
      * Tests Css getLocal
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceCssGetLocal(UnitTester $I)

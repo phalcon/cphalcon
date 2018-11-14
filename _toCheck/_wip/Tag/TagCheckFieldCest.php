@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagCheckFieldCest extends TagBase
+class TagCheckFieldCest extends TagHelper
 {
     /**
      * Tests checkField with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldStringParameter(UnitTester $I)
@@ -49,7 +49,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldArrayParameter(UnitTester $I)
@@ -86,7 +86,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with array as a parameters and id in it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldArrayParameterWithId(UnitTester $I)
@@ -127,7 +127,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with name and no id in parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldArrayParameterWithNameNoId(UnitTester $I)
@@ -168,7 +168,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with setDefault
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldWithSetDefault(UnitTester $I)
@@ -213,7 +213,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldWithDisplayTo(UnitTester $I)
@@ -258,7 +258,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with setDefault and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldWithSetDefaultElementNotPresent(UnitTester $I)
@@ -303,7 +303,7 @@ class TagCheckFieldCest extends TagBase
     /**
      * Tests checkField with displayTo and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testCheckFieldWithDisplayToElementNotPresent(UnitTester $I)

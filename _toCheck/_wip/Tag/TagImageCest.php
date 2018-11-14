@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagImageCest extends TagBase
+class TagImageCest extends TagHelper
 {
     /**
      * Tests image with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageStringParameter(UnitTester $I)
@@ -51,7 +51,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageArrayParameter(UnitTester $I)
@@ -88,7 +88,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with array as a parameters and src in it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageArrayParameterWithSrc(UnitTester $I)
@@ -127,7 +127,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with name and no src in parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageArrayParameterWithNameNoSrc(UnitTester $I)
@@ -164,7 +164,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with setDefault
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageWithSetDefault(UnitTester $I)
@@ -203,7 +203,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageWithDisplayTo(UnitTester $I)
@@ -242,7 +242,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with setDefault and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageWithSetDefaultElementNotPresent(UnitTester $I)
@@ -281,7 +281,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with displayTo and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageWithDisplayToElementNotPresent(UnitTester $I)
@@ -320,7 +320,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with string parameter and local link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageStringParameterLocalLink(UnitTester $I)
@@ -345,7 +345,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with string parameter and remote link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageStringParameterRemoteLink(UnitTester $I)
@@ -370,7 +370,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with array parameter and local link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageArrayParameterLocalLink(UnitTester $I)
@@ -401,7 +401,7 @@ class TagImageCest extends TagBase
     /**
      * Tests image with array parameter and remote link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testImageArrayParameterRemoteLink(UnitTester $I)

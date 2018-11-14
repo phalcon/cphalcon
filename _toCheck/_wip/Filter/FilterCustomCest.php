@@ -21,7 +21,7 @@ class FilterCustomCest extends FilterBase
     /**
      * Tests a custom filter IPv4
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeCustomIpv4FilterHex(UnitTester $I)
@@ -36,7 +36,7 @@ class FilterCustomCest extends FilterBase
     /**
      * Tests a custom filter IPv4 IP
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeCustomIpv4FilterIP(UnitTester $I)
@@ -52,7 +52,7 @@ class FilterCustomCest extends FilterBase
     /**
      * Tests a custom filter Lambda
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeCustomLambdaFalse(UnitTester $I)
@@ -74,7 +74,7 @@ class FilterCustomCest extends FilterBase
     /**
      * Tests a custom filter Lambda
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeCustomLambdaFalseTrue(UnitTester $I)

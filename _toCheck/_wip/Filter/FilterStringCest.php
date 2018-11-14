@@ -20,7 +20,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with a string (US characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringStringFilter(UnitTester $I)
@@ -33,7 +33,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with a string with french quotes
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringStringFrenchQuotesFilter(UnitTester $I)
@@ -46,7 +46,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with a string (International characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringUTF8StringFilter(UnitTester $I)
@@ -63,7 +63,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with an array filter (US characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringArrayFilter(UnitTester $I)
@@ -76,7 +76,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with an array filter (International characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringUTF8ArrayFilter(UnitTester $I)
@@ -89,7 +89,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with a string (no filtering) (US characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringStringFilterValidString(UnitTester $I)
@@ -102,7 +102,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with a string (no filtering) (International characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringUTF8StringFilterValidString(UnitTester $I)
@@ -115,7 +115,7 @@ class FilterStringCest extends FilterBase
     /**
      * Tests the filter with an array filter (no filtering) (US characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeArrayFilterValidString(UnitTester $I)
@@ -129,7 +129,7 @@ class FilterStringCest extends FilterBase
      * Tests the filter with an array filter (no filtering)
      * (International characters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeUTF8ArrayFilterValidStringNoFilter(UnitTester $I)

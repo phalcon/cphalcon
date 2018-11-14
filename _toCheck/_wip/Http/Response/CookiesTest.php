@@ -17,7 +17,7 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Http\Response
  *
  * The contents of this file are subject to the New BSD License that is

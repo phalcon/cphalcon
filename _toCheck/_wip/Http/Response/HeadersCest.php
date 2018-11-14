@@ -19,7 +19,7 @@ class HeadersCest
     /**
      * Tests the instance of the object
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersInstanceOf(UnitTester $I)
@@ -32,7 +32,7 @@ class HeadersCest
     /**
      * Tests the get and set of the response headers
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersGetSet(UnitTester $I)
@@ -48,7 +48,7 @@ class HeadersCest
     /**
      * Tests the has of the response headers
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-02
      */
     public function testHttpResponseHeadersHas(UnitTester $I)
@@ -135,7 +135,7 @@ class HeadersCest
     /**
      * Tests resetting the response headers
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersReset(UnitTester $I)
@@ -152,7 +152,7 @@ class HeadersCest
     /**
      * Tests removing a response header
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersRemove(UnitTester $I)
@@ -169,7 +169,7 @@ class HeadersCest
     /**
      * Tests setting a raw response header
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersRaw(UnitTester $I)
@@ -185,7 +185,7 @@ class HeadersCest
     /**
      * Tests toArray in response headers
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersToArray(UnitTester $I)

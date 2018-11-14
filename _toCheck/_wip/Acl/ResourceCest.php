@@ -19,7 +19,7 @@ class ResourceCest
     /**
      * Tests the creation of an Acl Resource (name)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03
      */
     public function testAclResourceName(UnitTester $I)

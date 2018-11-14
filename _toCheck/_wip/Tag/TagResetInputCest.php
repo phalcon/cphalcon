@@ -12,10 +12,10 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagResetInputCest extends TagBase
+class TagResetInputCest extends TagHelper
 {
     /**
      * Tests Tag::resetInput
@@ -41,7 +41,7 @@ class TagResetInputCest extends TagBase
      * Tests resetInput with setDefault
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/53
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testResetInputWithSetDefault(UnitTester $I)
@@ -81,7 +81,7 @@ class TagResetInputCest extends TagBase
     /**
      * Tests resetInput with displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testResetInputWithDisplayTo(UnitTester $I)

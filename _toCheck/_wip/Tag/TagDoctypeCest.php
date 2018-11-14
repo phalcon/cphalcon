@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagDoctypeCest extends TagBase
+class TagDoctypeCest extends TagHelper
 {
     /**
      * Tests the setting the doctype 3.2
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testDoctypeSet32Final(UnitTester $I)
@@ -49,7 +49,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Converts a doctype code to a string output
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      *
      * @param $doctype
@@ -126,7 +126,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 4.01 Strict
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet401(UnitTester $I)
@@ -137,7 +137,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 4.01 Transitional
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet401Transitional(UnitTester $I)
@@ -148,7 +148,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 4.01 Frameset
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet401Frameset(UnitTester $I)
@@ -159,7 +159,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 5
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet5(UnitTester $I)
@@ -170,7 +170,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 1.0 Strict
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet10Strict(UnitTester $I)
@@ -181,7 +181,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 1.0 Transitional
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet10Transitional(UnitTester $I)
@@ -192,7 +192,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 1.0 Frameset
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet10Frameset(UnitTester $I)
@@ -203,7 +203,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 1.1
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet11(UnitTester $I)
@@ -214,7 +214,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype 2.0
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSet20(UnitTester $I)
@@ -225,7 +225,7 @@ class TagDoctypeCest extends TagBase
     /**
      * Tests the setting the doctype to a wrong setting
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
     public function testDoctypeSetWrongParameter(UnitTester $I)

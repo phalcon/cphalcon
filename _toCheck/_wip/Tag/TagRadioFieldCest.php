@@ -11,15 +11,15 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagRadioFieldCest extends TagBase
+class TagRadioFieldCest extends TagHelper
 {
     /**
      * Tests radioField with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldStringParameter(UnitTester $I)
@@ -50,7 +50,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldArrayParameter(UnitTester $I)
@@ -89,7 +89,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with array as a parameters and id in it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldArrayParameterWithId(UnitTester $I)
@@ -132,7 +132,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with name and no id in parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldArrayParameterWithNameNoId(UnitTester $I)
@@ -175,7 +175,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with setDefault
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldWithSetDefault(UnitTester $I)
@@ -222,7 +222,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldWithDisplayTo(UnitTester $I)
@@ -269,7 +269,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with setDefault and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldWithSetDefaultElementNotPresent(UnitTester $I)
@@ -316,7 +316,7 @@ class TagRadioFieldCest extends TagBase
     /**
      * Tests radioField with displayTo and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testRadioFieldWithDisplayToElementNotPresent(UnitTester $I)

@@ -20,7 +20,7 @@ class FilterMultipleCest extends FilterBase
     /**
      * Tests sanitizing string with filters
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeStringWithMultipleFilters(UnitTester $I)
@@ -33,7 +33,7 @@ class FilterMultipleCest extends FilterBase
     /**
      * Tests sanitizing array with filters
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeArray(UnitTester $I)
@@ -46,7 +46,7 @@ class FilterMultipleCest extends FilterBase
     /**
      * Tests sanitizing array with multiple filters
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeArrayWithMultipleFilters(UnitTester $I)

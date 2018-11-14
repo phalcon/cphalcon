@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagTagHtmlCest extends TagBase
+class TagTagHtmlCest extends TagHelper
 {
     /**
      * Tests tagHtml with name parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTagHtmlName(UnitTester $I)
@@ -47,7 +47,7 @@ class TagTagHtmlCest extends TagBase
     /**
      * Tests tagHtml with name parameter and self close
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testNameSelfClose(UnitTester $I)
@@ -74,7 +74,7 @@ class TagTagHtmlCest extends TagBase
     /**
      * Tests tagHtml with name parameter and only start
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTagHtmlNameOnlyStart(UnitTester $I)
@@ -101,7 +101,7 @@ class TagTagHtmlCest extends TagBase
     /**
      * Tests tagHtml with name parameter and EOL
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTagHtmlNameEol(UnitTester $I)
@@ -128,7 +128,7 @@ class TagTagHtmlCest extends TagBase
     /**
      * Tests tagHtml with array parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTagHtmlWithArray(UnitTester $I)
@@ -166,7 +166,7 @@ class TagTagHtmlCest extends TagBase
     /**
      * Tests tagHtmlClose
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTagHtmlClose(UnitTester $I)
@@ -193,7 +193,7 @@ class TagTagHtmlCest extends TagBase
     /**
      * Tests tagHtmlClose with EOL
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTagHtmlCloseEol(UnitTester $I)

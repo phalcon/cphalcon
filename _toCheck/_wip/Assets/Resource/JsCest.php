@@ -19,7 +19,7 @@ class JsCest
     /**
      * Tests Js getType
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceJsGetType(UnitTester $I)
@@ -33,7 +33,7 @@ class JsCest
     /**
      * Tests Js getPath
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceJsGetPath(UnitTester $I)
@@ -47,7 +47,7 @@ class JsCest
     /**
      * Tests Js getLocal
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceJsGetLocal(UnitTester $I)

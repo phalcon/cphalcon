@@ -219,7 +219,7 @@ class SessionCest
     /**
      * Test custom template getter/setter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/13445
      * @since  2018-10-16
      */
@@ -237,7 +237,7 @@ class SessionCest
     /**
      * Test custom message
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/13445
      * @since  2018-10-16
      */

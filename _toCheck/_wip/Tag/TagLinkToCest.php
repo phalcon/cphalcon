@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagLinkToCest extends TagBase
+class TagLinkToCest extends TagHelper
 {
     /**
      * Tests linkTo with string as URL and name
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testLinkToWithStringAsURLAndName(UnitTester $I)
@@ -59,7 +59,7 @@ class TagLinkToCest extends TagBase
     /**
      * Tests linkTo with empty string as URL and string as name parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testLinkToWithEmptyStringAsURLAndStringAsName(UnitTester $I)
@@ -77,7 +77,7 @@ class TagLinkToCest extends TagBase
     /**
      * Tests linkTo with array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testLinkToArrayParameter(UnitTester $I)
@@ -96,7 +96,7 @@ class TagLinkToCest extends TagBase
     /**
      * Tests linkTo with named array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testLinkToNamedArrayParameter(UnitTester $I)
@@ -118,7 +118,7 @@ class TagLinkToCest extends TagBase
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-29
      */
@@ -159,7 +159,7 @@ class TagLinkToCest extends TagBase
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-29
      */

@@ -20,7 +20,7 @@ class FilterTrimCest extends FilterBase
     /**
      * Tests Trim left
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeTrimLeft(UnitTester $I)
@@ -33,7 +33,7 @@ class FilterTrimCest extends FilterBase
     /**
      * Tests Trim right
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeTrimRight(UnitTester $I)
@@ -46,7 +46,7 @@ class FilterTrimCest extends FilterBase
     /**
      * Tests Trim both
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeTrimBoth(UnitTester $I)

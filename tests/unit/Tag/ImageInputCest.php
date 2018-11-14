@@ -11,36 +11,38 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagHelper;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class TagRangeFieldCest extends TagBase
+class ImageInputCest extends TagSetup
 {
     /**
-     * Tests rangeField with string as a parameter
+     * Tests Phalcon\Tag :: imageInput() - string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldStringParameter(UnitTester $I)
+    public function testImageInputStringParameter(UnitTester $I)
     {
         $options  = 'x_name';
-        $expected = '<input type="range" id="x_name" name="x_name"';
+        $expected = '<input type="image" value="x_name"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false
         );
 
         $options  = 'x_name';
-        $expected = '<input type="range" id="x_name" name="x_name"';
+        $expected = '<input type="image" value="x_name"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true
@@ -48,23 +50,23 @@ class TagRangeFieldCest extends TagBase
     }
 
     /**
-     * Tests rangeField with array as a parameter
+     * Tests Phalcon\Tag :: imageInput() - array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldArrayParameter(UnitTester $I)
+    public function testImageInputArrayParameter(UnitTester $I)
     {
         $options  = [
             'x_name',
             'class' => 'x_class',
         ];
-        $expected = '<input type="range" id="x_name" name="x_name" '
+        $expected = '<input type="image" value="x_name" '
             . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false
@@ -74,12 +76,12 @@ class TagRangeFieldCest extends TagBase
             'x_name',
             'class' => 'x_class',
         ];
-        $expected = '<input type="range" id="x_name" name="x_name" '
+        $expected = '<input type="image" value="x_name" '
             . 'class="x_class"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true
@@ -87,12 +89,12 @@ class TagRangeFieldCest extends TagBase
     }
 
     /**
-     * Tests rangeField with array as a parameters and id in it
+     * Tests Phalcon\Tag :: imageInput() - array as a parameters and id in it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldArrayParameterWithId(UnitTester $I)
+    public function testImageInputArrayParameterWithId(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -100,12 +102,12 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_id" name="x_name" '
+        $expected = '<input type="image" id="x_id" value="x_name" '
             . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true
@@ -117,12 +119,12 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_id" name="x_name" '
+        $expected = '<input type="image" id="x_id" value="x_name" '
             . 'class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true
@@ -130,12 +132,12 @@ class TagRangeFieldCest extends TagBase
     }
 
     /**
-     * Tests rangeField with name and no id in parameter
+     * Tests Phalcon\Tag :: imageInput() - name and no id in parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldArrayParameterWithNameNoId(UnitTester $I)
+    public function testImageInputArrayParameterWithNameNoId(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -143,12 +145,12 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" class="x_class" size="10"';
+        $expected = '<input type="image" name="x_other" '
+                    . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false
@@ -160,25 +162,25 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" class="x_class" size="10"';
+        $expected = '<input type="image" name="x_other" '
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
-            false
+            true
         );
     }
 
     /**
-     * Tests rangeField with setDefault
+     * Tests Phalcon\Tag :: imageInput() - setDefault
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldWithSetDefault(UnitTester $I)
+    public function testImageInputWithSetDefault(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -186,13 +188,12 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
-            . 'size="10"';
+        $expected = '<input type="image" name="x_other" '
+                  . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false,
@@ -205,13 +206,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true,
@@ -220,12 +221,12 @@ class TagRangeFieldCest extends TagBase
     }
 
     /**
-     * Tests rangeField with displayTo
+     * Tests Phalcon\Tag :: imageInput() - displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldWithDisplayTo(UnitTester $I)
+    public function testImageInputWithDisplayTo(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -233,13 +234,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false,
@@ -252,13 +253,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true,
@@ -267,12 +268,12 @@ class TagRangeFieldCest extends TagBase
     }
 
     /**
-     * Tests rangeField with setDefault and element not present
+     * Tests Phalcon\Tag :: imageInput() - setDefault and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldWithSetDefaultElementNotPresent(UnitTester $I)
+    public function testImageInputWithSetDefaultElementNotPresent(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -280,13 +281,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false,
@@ -299,13 +300,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true,
@@ -314,12 +315,12 @@ class TagRangeFieldCest extends TagBase
     }
 
     /**
-     * Tests rangeField with displayTo and element not present
+     * Tests Phalcon\Tag :: imageInput() - displayTo and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testRangeFieldWithDisplayToElementNotPresent(UnitTester $I)
+    public function testImageInputWithDisplayToElementNotPresent(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -327,13 +328,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             false,
@@ -346,13 +347,13 @@ class TagRangeFieldCest extends TagBase
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="range" id="x_name" '
-            . 'name="x_other" value="x_value" class="x_class" '
+        $expected = '<input type="image" '
+            . 'name="x_other" value="x_name" class="x_class" '
             . 'size="10"';
 
         $this->testFieldParameter(
             $I,
-            'rangeField',
+            'imageInput',
             $options,
             $expected,
             true,

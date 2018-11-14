@@ -136,7 +136,7 @@ class CryptCest
     /**
      * Tests the encryption
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-17
      */
     public function testCryptEncryption(UnitTester $I)
@@ -176,7 +176,7 @@ class CryptCest
     /**
      * Tests the padding
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-17
      */
     public function testCryptPadding(UnitTester $I)
@@ -222,7 +222,7 @@ class CryptCest
     /**
      * Tests the encryption base 64
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-17
      */
     public function testCryptEncryptBase64(UnitTester $I)

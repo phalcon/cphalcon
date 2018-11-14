@@ -59,7 +59,7 @@ class SecurityCest
     /**
      * Tests the HMAC computation
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testSecurityComputeHMAC(UnitTester $I)

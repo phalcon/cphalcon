@@ -20,7 +20,7 @@ class FilterEmailCest extends FilterBase
     /**
      * Tests Email
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeEmail(UnitTester $I)

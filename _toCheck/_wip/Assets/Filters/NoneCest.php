@@ -33,7 +33,7 @@ class NoneCest
     /**
      * Tests none filter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsFilterNone(UnitTester $I)

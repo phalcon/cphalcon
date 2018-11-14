@@ -53,7 +53,7 @@ class HttpBase
     /**
      * Initializes the response object and returns it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @return Response
@@ -68,7 +68,7 @@ class HttpBase
     /**
      * Initializes the request object and returns it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @return Request
@@ -83,7 +83,7 @@ class HttpBase
     /**
      * Checks the has functions on non defined variables
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param UnitTester $I
@@ -100,7 +100,7 @@ class HttpBase
     /**
      * Checks the has functions on defined variables
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param UnitTester $I
@@ -122,7 +122,7 @@ class HttpBase
     /**
      * Checks the get functions on undefined variables
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param UnitTester $I
@@ -140,7 +140,7 @@ class HttpBase
     /**
      * Checks the get functions on defined variables
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param UnitTester $I
@@ -163,7 +163,7 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param UnitTester $I
@@ -186,7 +186,7 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data (array filters)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param UnitTester $I
@@ -210,7 +210,7 @@ class HttpBase
     /**
      * Sets a server variable ($_SERVER)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -224,7 +224,7 @@ class HttpBase
     /**
      * Unsets a server variable ($_SERVER)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -237,7 +237,7 @@ class HttpBase
     /**
      * Sets a get variable ($_GET)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -251,7 +251,7 @@ class HttpBase
     /**
      * Unsets a get variable ($_GET)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -264,7 +264,7 @@ class HttpBase
     /**
      * Sets a post variable ($_POST)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -278,7 +278,7 @@ class HttpBase
     /**
      * Unsets a post variable ($_POST)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -291,7 +291,7 @@ class HttpBase
     /**
      * Sets a request variable ($_REQUEST)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var
@@ -305,7 +305,7 @@ class HttpBase
     /**
      * Unsets a request variable ($_REQUEST)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      * @param string $var

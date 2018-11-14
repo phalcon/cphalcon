@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Tag\Helper;
+namespace Phalcon\Test\Fixtures\Helpers;
 
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Tag;
 use UnitTester;
 
-class TagBase
+class TagSetup
 {
     use DiTrait;
 
@@ -37,7 +37,7 @@ class TagBase
      * @param boolean     $xhtml
      * @param string      $set
      */
-    protected function testFieldParameter(UnitTester $I, $function, $options, $expected, $xhtml, $set = '')
+    protected function testFieldParameter(UnitTester $I, $function, $options, $expected, $xhtml = false, $set = '')
     {
         Tag::resetInput();
 

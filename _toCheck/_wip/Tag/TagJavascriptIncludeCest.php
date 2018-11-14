@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagJavascriptIncludeCest extends TagBase
+class TagJavascriptIncludeCest extends TagHelper
 {
     /**
      * Tests iavascriptInclude with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testJavascriptIncludeLocal(UnitTester $I)
@@ -36,7 +36,7 @@ class TagJavascriptIncludeCest extends TagBase
     /**
      * Tests iavascriptInclude with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testJavascriptIncludeWithArrayLocal(UnitTester $I)
@@ -53,7 +53,7 @@ class TagJavascriptIncludeCest extends TagBase
      * Tests javascriptInclude with a string as the second parameter - local
      * link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testJavascriptIncludeWithStringAsSecondParameterLocal(UnitTester $I)
@@ -69,7 +69,7 @@ class TagJavascriptIncludeCest extends TagBase
     /**
      * Tests javascriptInclude for a remote link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testJavascriptIncludeRemote(UnitTester $I)
@@ -85,7 +85,7 @@ class TagJavascriptIncludeCest extends TagBase
     /**
      * Tests javascriptInclude with array parameter for a remote link
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
     public function testJavascriptIncludeWithArrayRemote(UnitTester $I)

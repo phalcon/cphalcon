@@ -19,7 +19,7 @@ class RoleCest
     /**
      * Tests the creation of an Acl Role (name)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03
      */
     public function testAclRoleNameEmptyDescription(UnitTester $I)
@@ -36,7 +36,7 @@ class RoleCest
     /**
      * Tests the creation of an Acl Role (name/description)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03
      */
     public function testAclRoleNameDescription(UnitTester $I)

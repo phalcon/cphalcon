@@ -20,7 +20,7 @@ class FilterAlphanumCest extends FilterBase
     /**
      * Tests Alphanum with an integer using constant
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-04-21
      */
     public function testSanitizeAlphanumIntegerConstant(UnitTester $I)
@@ -33,7 +33,7 @@ class FilterAlphanumCest extends FilterBase
     /**
      * Tests Alphanum with an integer
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeAlphanumInteger(UnitTester $I)
@@ -46,7 +46,7 @@ class FilterAlphanumCest extends FilterBase
     /**
      * Tests Alphanum with a null
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeAlphanumNull(UnitTester $I)
@@ -59,7 +59,7 @@ class FilterAlphanumCest extends FilterBase
     /**
      * Tests Alphanum with a mixed string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeAlphanumMixed(UnitTester $I)

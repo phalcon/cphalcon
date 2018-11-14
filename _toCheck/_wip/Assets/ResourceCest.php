@@ -19,7 +19,7 @@ class ResourceCest
     /**
      * Tests getType
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceGetType(UnitTester $I)
@@ -49,7 +49,7 @@ class ResourceCest
     /**
      * Tests getPath
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceGetPath(UnitTester $I)
@@ -63,7 +63,7 @@ class ResourceCest
     /**
      * Tests getLocal
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsResourceGetLocal(UnitTester $I)

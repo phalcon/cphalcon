@@ -20,7 +20,7 @@ class FilterUpperLowerCest extends FilterBase
     /**
      * Tests lower all
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeLowerAll(UnitTester $I)
@@ -33,7 +33,7 @@ class FilterUpperLowerCest extends FilterBase
     /**
      * Tests lower mixed
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeLowerMixed(UnitTester $I)
@@ -46,7 +46,7 @@ class FilterUpperLowerCest extends FilterBase
     /**
      * Tests upper all
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeUpperAll(UnitTester $I)
@@ -59,7 +59,7 @@ class FilterUpperLowerCest extends FilterBase
     /**
      * Tests upper mixed
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
     public function testSanitizeUpperMixed(UnitTester $I)

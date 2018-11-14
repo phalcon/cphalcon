@@ -100,7 +100,7 @@ class ManagerCest
     /**
      * Tests addCss
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerAddingCss(UnitTester $I)
@@ -171,7 +171,7 @@ class ManagerCest
     /**
      * Tests addJs
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerAddingJs(UnitTester $I)
@@ -199,7 +199,7 @@ class ManagerCest
     /**
      * addResource tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerAddingCssWithAddResource(UnitTester $I)
@@ -218,7 +218,7 @@ class ManagerCest
     /**
      * outputCss - implicitOutput tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputCssWithImplicitOutput(UnitTester $I)
@@ -245,7 +245,7 @@ class ManagerCest
     /**
      * outputJs - implicitOutput tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputJsWithImplicitOutput(UnitTester $I)
@@ -272,7 +272,7 @@ class ManagerCest
     /**
      * outputCss - without implicitOutput tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputCssWithoutImplicitOutput(UnitTester $I)
@@ -298,7 +298,7 @@ class ManagerCest
     /**
      * outputJs - without implicitOutput tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputJsWithoutImplicitOutput(UnitTester $I)
@@ -324,7 +324,7 @@ class ManagerCest
     /**
      * collection tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection(UnitTester $I)
@@ -349,7 +349,7 @@ class ManagerCest
     /**
      * collection tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputJsWithoutImplicitOutputFromCollectionRemote(UnitTester $I)

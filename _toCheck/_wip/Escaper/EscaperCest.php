@@ -20,7 +20,7 @@ class EscaperCest
     /**
      * Tests whether a key exists in the array
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testEscaperHtml(UnitTester $I)
@@ -34,7 +34,7 @@ class EscaperCest
     /**
      * Tests the getEncoding and setEncoding
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testGetSetEncoding(UnitTester $I)
@@ -50,7 +50,7 @@ class EscaperCest
     /**
      * Tests the normalizeEncoding with various quote types
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testEscapeAttrWithDifferentEncodings(UnitTester $I)
@@ -81,7 +81,7 @@ class EscaperCest
     /**
      * Tests the detectEncoding
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testDetectEncoding(UnitTester $I)
@@ -108,7 +108,7 @@ class EscaperCest
     /**
      * Tests the normalizeEncoding
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testNormalizeEncoding(UnitTester $I, $scenario)
@@ -128,7 +128,7 @@ class EscaperCest
     /**
      * Tests the escapeCss
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testEscapeCss(UnitTester $I)
@@ -147,7 +147,7 @@ class EscaperCest
     /**
      * Tests the escapeJs
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testEscapeJs(UnitTester $I)
@@ -177,7 +177,7 @@ class EscaperCest
     /**
      * Tests the escapeUrl
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function testEscapeUrl(UnitTester $I)

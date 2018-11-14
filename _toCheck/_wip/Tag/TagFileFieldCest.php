@@ -11,15 +11,15 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagFileFieldCest extends TagBase
+class TagFileFieldCest extends TagHelper
 {
     /**
      * Tests fileField with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldStringParameter(UnitTester $I)
@@ -50,7 +50,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldArrayParameter(UnitTester $I)
@@ -89,7 +89,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with array as a parameters and id in it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldArrayParameterWithId(UnitTester $I)
@@ -132,7 +132,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with name and no id in parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldArrayParameterWithNameNoId(UnitTester $I)
@@ -175,7 +175,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with setDefault
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldWithSetDefault(UnitTester $I)
@@ -222,7 +222,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldWithDisplayTo(UnitTester $I)
@@ -269,7 +269,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with setDefault and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldWithSetDefaultElementNotPresent(UnitTester $I)
@@ -316,7 +316,7 @@ class TagFileFieldCest extends TagBase
     /**
      * Tests fileField with displayTo and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testFileFieldWithDisplayToElementNotPresent(UnitTester $I)

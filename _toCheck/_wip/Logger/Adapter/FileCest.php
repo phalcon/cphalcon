@@ -434,7 +434,7 @@ class FileCest
     /**
      * Tests the begin/commit
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-13
      */
     public function testLoggerAdapterFileCommit(UnitTester $I)
@@ -479,7 +479,7 @@ class FileCest
     /**
      * Tests the begin/rollback
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-13
      */
     public function testLoggerAdapterFileRollback(UnitTester $I)

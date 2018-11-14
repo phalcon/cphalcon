@@ -12,10 +12,10 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagSetDefaultCest extends TagBase
+class TagSetDefaultCest extends TagHelper
 {
     /**
      * Tests setDefault

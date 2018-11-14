@@ -22,7 +22,7 @@ class RequestCest extends HttpBase
     /**
      * Tests the getDI
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-23
      */
     public function testHttpRequestGetDI(UnitTester $I)
@@ -46,7 +46,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getHeader empty
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestHeaderGetEmpty(UnitTester $I)
@@ -59,7 +59,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getHeader
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestHeaderGet(UnitTester $I)
@@ -123,7 +123,7 @@ class RequestCest extends HttpBase
     /**
      * Tests isAjax default
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestIsAjaxDefault(UnitTester $I)
@@ -137,7 +137,7 @@ class RequestCest extends HttpBase
     /**
      * Tests isAjax
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestIsAjax(UnitTester $I)
@@ -153,7 +153,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getScheme default
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestGetSchemeDefault(UnitTester $I)
@@ -168,7 +168,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getScheme with HTTPS
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestGetScheme(UnitTester $I)
@@ -185,7 +185,7 @@ class RequestCest extends HttpBase
     /**
      * Tests isSecure default
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestIsSecureDefault(UnitTester $I)
@@ -199,7 +199,7 @@ class RequestCest extends HttpBase
     /**
      * Tests isSecure
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestIsSecure(UnitTester $I)
@@ -215,7 +215,7 @@ class RequestCest extends HttpBase
     /**
      * Tests isSoap default
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-23
      */
     public function testHttpRequestIsSoapDefault(UnitTester $I)
@@ -229,7 +229,7 @@ class RequestCest extends HttpBase
     /**
      * Tests isSoapRequest
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestIsSoap(UnitTester $I)
@@ -245,7 +245,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getServerAddress default
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestGetServerAddressDefault(UnitTester $I)
@@ -260,7 +260,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getServerAddress
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestGetServerAddress(UnitTester $I)
@@ -277,7 +277,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getHttpHost
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestHttpHost(UnitTester $I)
@@ -484,7 +484,7 @@ class RequestCest extends HttpBase
     /**
      * Tests POST functions
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestInputPost(UnitTester $I)
@@ -563,7 +563,7 @@ class RequestCest extends HttpBase
     /**
      * Tests GET functions
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestInputGet(UnitTester $I)
@@ -579,7 +579,7 @@ class RequestCest extends HttpBase
     /**
      * Tests REQUEST functions
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testHttpRequestInputRequest(UnitTester $I)

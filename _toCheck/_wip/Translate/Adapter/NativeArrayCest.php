@@ -52,7 +52,7 @@ class NativeArrayCest
     /**
      * Tests whether a key exists in the array
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testExists(UnitTester $I)
@@ -67,7 +67,7 @@ class NativeArrayCest
     /**
      * Tests whether a key exists in the array with offsetExists
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testOffsetExists(UnitTester $I)
@@ -82,7 +82,7 @@ class NativeArrayCest
     /**
      * Tests the offsetGet
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testOffsetGet(UnitTester $I)
@@ -98,7 +98,7 @@ class NativeArrayCest
     /**
      * Tests the query with English
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testQueryEnglish(UnitTester $I)
@@ -126,7 +126,7 @@ class NativeArrayCest
     /**
      * Tests the query with Spanish
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testQuerySpanish(UnitTester $I)
@@ -154,7 +154,7 @@ class NativeArrayCest
     /**
      * Tests the query with French
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testQueryFrench(UnitTester $I)

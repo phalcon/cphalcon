@@ -27,7 +27,7 @@ class MemoryCest
     /**
      * Tests the ACL constants
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03
      */
     public function testAclConstants(UnitTester $I)
@@ -39,7 +39,7 @@ class MemoryCest
     /**
      * Tests the setDefaultAction
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclDefaultAction(UnitTester $I)
@@ -56,7 +56,7 @@ class MemoryCest
     /**
      * Tests the addRole
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclAddRoleExists(UnitTester $I)
@@ -73,7 +73,7 @@ class MemoryCest
     /**
      * Tests the addRole for the same role twice
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclAddRoleTwiceReturnsFalse(UnitTester $I)
@@ -89,7 +89,7 @@ class MemoryCest
     /**
      * Tests the addRole for the same role twice by key
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclAddRoleTwiceByKeyReturnsFalse(UnitTester $I)
@@ -105,7 +105,7 @@ class MemoryCest
     /**
      * Tests the wildcard allow/deny
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclWildcardAllowDeny(UnitTester $I)
@@ -148,7 +148,7 @@ class MemoryCest
     /**
      * Tests the isRole with wrong keyword
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclIsRoleWithWrongKeyReturnsFalse(UnitTester $I)
@@ -161,7 +161,7 @@ class MemoryCest
     /**
      * Tests the role name
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclRoleName(UnitTester $I)
@@ -177,7 +177,7 @@ class MemoryCest
     /**
      * Tests the addResource
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclAddResourceExists(UnitTester $I)
@@ -192,7 +192,7 @@ class MemoryCest
     /**
      * Tests the resource name
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclResourceName(UnitTester $I)
@@ -208,7 +208,7 @@ class MemoryCest
     /**
      * Tests the ACL objects default action
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclObjectsWithDefaultAction(UnitTester $I)
@@ -243,7 +243,7 @@ class MemoryCest
     /**
      * Tests the ACL objects
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclObjects(UnitTester $I)
@@ -284,7 +284,7 @@ class MemoryCest
     /**
      * Tests serializing the ACL
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testAclSerialize(UnitTester $I)
@@ -334,7 +334,7 @@ class MemoryCest
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/65
      *
-     * @author  Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author  Phalcon Team <team@phalconphp.com>
      * @since   2014-10-04
      */
     public function testAclNegationOfInheritedRoles(UnitTester $I)
@@ -366,7 +366,7 @@ class MemoryCest
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/1513
      *
-     * @author  Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author  Phalcon Team <team@phalconphp.com>
      * @since   2014-10-04
      */
     public function testAclResourcesWithNumericValues(UnitTester $I)

@@ -20,7 +20,7 @@ class CssMinCest
     /**
      * Tests cssmin filter with non-string param
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testFilterCssminWithNonStringParam(UnitTester $I, $scenario)
@@ -38,7 +38,7 @@ class CssMinCest
     /**
      * Tests cssmin filter with empty string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testFilterCssminEmptyString(UnitTester $I)
@@ -51,7 +51,7 @@ class CssMinCest
     /**
      * Tests cssmin filter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsFilterCssmin(UnitTester $I, $scenario)

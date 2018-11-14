@@ -41,7 +41,7 @@ class FlashBase
      *
      * @param $classes
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     protected function setClasses($classes)
@@ -52,7 +52,7 @@ class FlashBase
     /**
      * Tests warning (implicit flush)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testFlashDirectImplicitFlushHtml(UnitTester $I)
@@ -72,7 +72,7 @@ class FlashBase
     /**
      * Tests warning (no implicit flush)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testFlashDirectNoImplicitFlushHtml(UnitTester $I)
@@ -94,7 +94,7 @@ class FlashBase
     /**
      * Tests warning (implicit flush no html)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testFlashDirectImplicitFlushNoHtml(UnitTester $I)
@@ -116,7 +116,7 @@ class FlashBase
     /**
      * Tests error (no implicit flush no html)
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     public function testFlashDirectNoImplicitFlushNoHtml(UnitTester $I)
@@ -170,7 +170,7 @@ class FlashBase
      *
      * @return string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     private function getClass($key)
@@ -199,7 +199,7 @@ class FlashBase
      *
      * @return string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     private function getObResponse($flash, $function, $message)
@@ -218,7 +218,7 @@ class FlashBase
      * @param \UnitTester $I
      * @param string      $function
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
     private function stringTest(UnitTester $I, $function)

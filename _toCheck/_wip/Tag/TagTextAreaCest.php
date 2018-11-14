@@ -12,15 +12,15 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagTextAreaCest extends TagBase
+class TagTextAreaCest extends TagHelper
 {
     /**
      * Tests textArea with string as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaStringParameter(UnitTester $I)
@@ -41,7 +41,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with array as a parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaArrayParameter(UnitTester $I)
@@ -65,7 +65,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with array as a parameters and id in it
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaArrayParameterWithId(UnitTester $I)
@@ -91,7 +91,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with name and no id in parameter
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaArrayParameterWithNameNoId(UnitTester $I)
@@ -117,7 +117,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with setDefault
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaWithSetDefault(UnitTester $I)
@@ -144,7 +144,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with displayTo
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaWithDisplayTo(UnitTester $I)
@@ -171,7 +171,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with setDefault and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaWithSetDefaultElementNotPresent(UnitTester $I)
@@ -198,7 +198,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with displayTo and element not present
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function testTextAreaWithDisplayToElementNotPresent(UnitTester $I)
@@ -225,7 +225,7 @@ class TagTextAreaCest extends TagBase
     /**
      * Tests textArea with displayTo and newline in value
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03
      */
     public function testTextAreaWithDisplayToAndNewlineInValue(UnitTester $I)

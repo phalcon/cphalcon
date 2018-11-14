@@ -13,15 +13,15 @@ namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
 use Phalcon\Tag\Exception;
-use Phalcon\Test\Unit\Tag\Helper\TagBase;
+use Phalcon\Test\Unit\Tag\Helper\TagHelper;
 use UnitTester;
 
-class TagFriendlyTitleCest extends TagBase
+class TagFriendlyTitleCest extends TagHelper
 {
     /**
      * Tests friendlyTitle with string as a parameter and no separator
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterNoSeparator(UnitTester $I)
@@ -36,7 +36,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with string as a parameter and a separator
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterSeparator(UnitTester $I)
@@ -52,7 +52,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with string as a parameter lowercase
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterLowercase(UnitTester $I)
@@ -68,7 +68,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with string as a parameter uppercase
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterUppercase(UnitTester $I)
@@ -84,7 +84,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with string as a parameter with replace as string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceString(UnitTester $I)
@@ -100,7 +100,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with string as a parameter with replace as array
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceArray(UnitTester $I)
@@ -121,7 +121,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with special characters and escaping
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithSpecialCharactersAndEscaping(UnitTester $I)
@@ -139,7 +139,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with accented characters and replace string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceString(UnitTester $I)
@@ -155,7 +155,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with accented characters and replace array
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceArray(UnitTester $I)
@@ -176,7 +176,7 @@ class TagFriendlyTitleCest extends TagBase
     /**
      * Tests friendlyTitle with string as a parameter with replace as boolean
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceBoolean(UnitTester $I)
