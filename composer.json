@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=7.0 <8.0",
-        "phalcon/zephir": "dev-fix/composer-install-issue"
+        "phalcon/zephir": "^0.11.3"
     },
     "provide": {
         "psr/cache": "^1",
