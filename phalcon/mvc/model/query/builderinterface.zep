@@ -197,4 +197,9 @@ interface BuilderInterface
 	 */
 	public function getQuery() -> <QueryInterface>;
 
+	/**
+	 * Sets an OFFSET clause
+	 */
+	 public function offset(int offset) -> <BuilderInterface>;
+
 }
