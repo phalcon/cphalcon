@@ -22,7 +22,7 @@ class JsonSerializeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testJsonSerialize(UnitTester $I, $scenario)
+    public function testJsonSerialize(UnitTester $I)
     {
         $message1 = new Message('This is a message #1', 'field1', 'Type1', 1);
 
