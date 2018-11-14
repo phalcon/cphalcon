@@ -58,34 +58,39 @@ Function FormatReleaseFiles {
 
 	If (Test-Path -Path "package/CHANGELOG.html") {
 		(Get-Content "package/CHANGELOG.html") | ForEach-Object {
-            $_ -replace ".md", ".html"
-        } | Set-Content "package/CHANGELOG.html"
+			$_ -replace ".md", ".html"
+		} | Set-Content "package/CHANGELOG.html"
 	}
 
 	Set-Location "${CurrentPath}"
 }
 
 Function InstallBuildDependencies {
-    EnsureChocolateyIsInstalled
-    EnsureComposerIsInstalled
+	EnsureChocolateyIsInstalled
+	EnsureComposerIsInstalled
 
-    $InstallProcess = Start-Process "choco" `
-        -WindowStyle Hidden `
-        -ArgumentList 'install', '-y --cache-location=C:\Downloads\Choco pandoc' `
-        -WorkingDirectory "${Env:APPVEYOR_BUILD_FOLDER}"
+	$InstallProcess = Start-Process "choco" `
+		-WindowStyle Hidden `
+		-ArgumentList 'install', '-y --cache-location=C:\Downloads\Choco pandoc' `
+		-WorkingDirectory "${Env:APPVEYOR_BUILD_FOLDER}"
 
-    If (-not (Test-Path "${Env:APPVEYOR_BUILD_FOLDER}\package")) {
-        New-Item -ItemType Directory -Force -Path "${Env:APPVEYOR_BUILD_FOLDER}\package" | Out-Null
-    }
+	If (-not (Test-Path "${Env:APPVEYOR_BUILD_FOLDER}\package")) {
+		New-Item -ItemType Directory -Force -Path "${Env:APPVEYOR_BUILD_FOLDER}\package" | Out-Null
+	}
 
-    If (-not (Test-Path "${Env:APPVEYOR_BUILD_FOLDER}\vendor")) {
-        $Php = "${Env:PHP_PATH}\php.exe"
-        $ComposerOptions = "-q -n --no-progress -o --prefer-dist --no-suggest --ignore-platform-reqs"
+	$ComposerOptions = "-q -n --no-progress -o --prefer-dist --no-suggest --ignore-platform-reqs"
 
-        Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
-        & cmd /c ".\composer.bat install ${ComposerOptions}"
-        & cmd /c ".\composer.bat require ${ComposerOptions} `"phalcon/zephir:${Env:ZEPHIR_VERSION}`""
-    }
+	If (-not (Test-Path "${Env:APPVEYOR_BUILD_FOLDER}\vendor")) {
+		Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
+
+		& cmd /c ".\composer.bat install ${ComposerOptions}"
+	}
+
+	If (-not (Test-Path "${Env:ZEPHIR_PATH}\vendor")) {
+		Set-Location "${Env:ZEPHIR_PATH}"
+
+		& cmd /c "${Env:APPVEYOR_BUILD_FOLDER}\composer.bat install ${ComposerOptions}"
+	}
 }
 
 Function EnsurePandocIsInstalled {
@@ -152,16 +157,16 @@ Function InitializeReleaseVars {
 Function PrintLogs {
 	Param([Parameter(Mandatory=$true)][System.String] $BasePath)
 
-	If (Test-Path -Path "${Env:BasePath}\compile-errors.log") {
-		Get-Content -Path "${Env:BasePath}\compile-errors.log"
+	If (Test-Path -Path "${BasePath}\compile-errors.log") {
+		Get-Content -Path "${BasePath}\compile-errors.log"
 	}
 
-	If (Test-Path -Path "${Env:BasePath}\compile.log") {
-		Get-Content -Path "${Env:BasePath}\compile.log"
+	If (Test-Path -Path "${BasePath}\compile.log") {
+		Get-Content -Path "${BasePath}\compile.log"
 	}
 
-	If (Test-Path -Path "${Env:BasePath}\configure.js") {
-		Get-Content -Path "${Env:BasePath}\configure.js"
+	If (Test-Path -Path "${BasePath}\configure.js") {
+		Get-Content -Path "${BasePath}\configure.js"
 	}
 }
 
@@ -196,9 +201,9 @@ Function PrintDirectoriesContent {
 		Get-ChildItem -Path "${BuildPath}"
 	}
 
-    If (Test-Path -Path "${Env:PHP_DEVPACK}") {
-        Get-ChildItem -Path "${Env:PHP_DEVPACK}"
-    }
+	If (Test-Path -Path "${Env:PHP_DEVPACK}") {
+		Get-ChildItem -Path "${Env:PHP_DEVPACK}"
+	}
 }
 
 Function PrintPhpInfo {
@@ -296,27 +301,27 @@ Function InstallPhpDevPack {
 }
 
 Function InstallPsrExtension {
-    Write-Host "Install PSR extension: ${Env:PSR_PECL_VERSION}" -foregroundcolor Cyan
+	Write-Host "Install PSR extension: ${Env:PSR_PECL_VERSION}" -foregroundcolor Cyan
 
-    If ($Env:BUILD_TYPE -eq 'nts-Win32') {
-        $BuildType = 'nts'
-    } Else {
-        $BuildType = 'ts'
-    }
+	If ($Env:BUILD_TYPE -eq 'nts-Win32') {
+		$BuildType = 'nts'
+	} Else {
+		$BuildType = 'ts'
+	}
 
-    $FileName = "php_psr-${Env:PSR_PECL_VERSION}-${Env:PHP_MINOR}-${BuildType}-vc${Env:VC_VERSION}-${Env:PLATFORM}.zip"
+	$FileName = "php_psr-${Env:PSR_PECL_VERSION}-${Env:PHP_MINOR}-${BuildType}-vc${Env:VC_VERSION}-${Env:PLATFORM}.zip"
 
-    $RemoteUrl = "https://windows.php.net/downloads/pecl/releases/psr/${Env:PSR_PECL_VERSION}/${FileName}"
-    $DestinationPath = "C:\Downloads\${FileName}"
+	$RemoteUrl = "https://windows.php.net/downloads/pecl/releases/psr/${Env:PSR_PECL_VERSION}/${FileName}"
+	$DestinationPath = "C:\Downloads\${FileName}"
 
-    If (-not (Test-Path "${Env:PHP_PATH}\ext\php_psr.dll")) {
-        If (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Host "Downloading PSR extension: ${RemoteUrl} ..."
-            DownloadFile $RemoteUrl $DestinationPath
-        }
+	If (-not (Test-Path "${Env:PHP_PATH}\ext\php_psr.dll")) {
+		If (-not [System.IO.File]::Exists($DestinationPath)) {
+			Write-Host "Downloading PSR extension: ${RemoteUrl} ..."
+			DownloadFile $RemoteUrl $DestinationPath
+		}
 
-        Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
-    }
+		Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
+	}
 }
 
 Function InstallStablePhalcon {
@@ -364,6 +369,27 @@ Function InstallParser {
 		}
 
 		Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
+	}
+}
+
+Function InstallZephir {
+	$BaseUri = "https://github.com/phalcon/zephir/archive"
+	$RemoteUrl = "${BaseUri}/${Env:ZEPHIR_VERSION}.zip"
+
+	$DestinationPath = "C:\Downloads\zephir-${Env:ZEPHIR_VERSION}.zip"
+	If (-not (Test-Path ${Env:ZEPHIR_PATH})) {
+		If (-not [System.IO.File]::Exists($DestinationPath)) {
+			Write-Host "Downloading Zephir: ${RemoteUrl} ..."
+			DownloadFile $RemoteUrl $DestinationPath
+		}
+
+		$DestinationUnzipPath = "${Env:Temp}\zephir-${Env:ZEPHIR_VERSION}"
+
+		If (-not (Test-Path "$DestinationUnzipPath")) {
+			Expand-Item7zip $DestinationPath $Env:Temp
+		}
+
+		Move-Item -Path "$DestinationUnzipPath" -Destination "${Env:ZEPHIR_PATH}"
 	}
 }
 
@@ -448,17 +474,17 @@ Function EnsureChocolateyIsInstalled {
 }
 
 Function EnsureComposerIsInstalled {
-    $ComposerBatch = "${Env:APPVEYOR_BUILD_FOLDER}\composer.bat"
+	$ComposerBatch = "${Env:APPVEYOR_BUILD_FOLDER}\composer.bat"
 
-    If (-not (Test-Path -Path $ComposerBatch)) {
-        $Php = "${Env:PHP_PATH}\php.exe"
-        $ComposerPhar = "${Env:APPVEYOR_BUILD_FOLDER}\composer.phar"
+	If (-not (Test-Path -Path $ComposerBatch)) {
+		$Php = "${Env:PHP_PATH}\php.exe"
+		$ComposerPhar = "${Env:APPVEYOR_BUILD_FOLDER}\composer.phar"
 
-        DownloadFile "https://getcomposer.org/composer.phar" "${ComposerPhar}"
+		DownloadFile "https://getcomposer.org/composer.phar" "${ComposerPhar}"
 
-        Write-Output "@echo off"                     | Out-File -Encoding "ASCII" -Append $ComposerBatch
-        Write-Output "${Php} `"${ComposerPhar}`" %*" | Out-File -Encoding "ASCII" -Append $ComposerBatch
-    }
+		Write-Output "@echo off"                     | Out-File -Encoding "ASCII" -Append $ComposerBatch
+		Write-Output "${Php} `"${ComposerPhar}`" %*" | Out-File -Encoding "ASCII" -Append $ComposerBatch
+	}
 }
 
 Function SetupPhpVersionString {
@@ -488,7 +514,7 @@ Function AppendSessionPath {
 	$PathsCollection += "${Env:PHP_SDK_PATH}\bin"
 	$PathsCollection += "${Env:PHP_PATH}\bin"
 	$PathsCollection += "${Env:PHP_PATH}"
-    $PathsCollection += "${Env:APPVEYOR_BUILD_FOLDER}"
+	$PathsCollection += "${Env:APPVEYOR_BUILD_FOLDER}"
 
 	$CurrentPath = (Get-Item -Path ".\" -Verbose).FullName
 
