@@ -11,18 +11,11 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
-use UnitTester;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-class FileFieldCest
+class FileFieldCest extends TagHelper
 {
-    /**
-     * Tests Phalcon\Tag :: fileField()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function testFileField(UnitTester $I, $scenario)
-    {
-        $scenario->incomplete("Need implementation");
-    }
+    protected $function  = 'fileField';
+    protected $inputType = 'file';
 }

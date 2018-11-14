@@ -45,7 +45,7 @@ class OffsetGetCest
                 '_code'    => 222,
             ]
         );
-        $actual = $message;
+        $actual   = $message;
         $I->assertEquals($expected, $actual);
     }
 }

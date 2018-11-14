@@ -11,9 +11,11 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class EndFormCest
+class EndFormCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: endForm()
@@ -21,8 +23,10 @@ class EndFormCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndForm(UnitTester $I, $scenario)
+    public function testEndForm(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $expected = '</form>';
+        $actual   = Tag::endForm();
+        $I->assertEquals($expected, $actual);
     }
 }

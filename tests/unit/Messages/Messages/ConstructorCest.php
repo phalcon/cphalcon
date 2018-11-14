@@ -28,7 +28,7 @@ class ConstructorCest
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),
-                new Message('This is a message #2', 'MyField2', 'MyType2', 222)
+                new Message('This is a message #2', 'MyField2', 'MyType2', 222),
             ]
         );
 

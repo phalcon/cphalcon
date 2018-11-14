@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class SearchFieldCest extends TagHelper
 {
-    protected $function = 'searchField';
+    protected $function  = 'searchField';
     protected $inputType = 'search';
 }

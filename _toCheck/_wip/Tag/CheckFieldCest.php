@@ -14,8 +14,8 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-class WeekFieldCest extends TagHelper
+class CheckFieldCest extends TagHelper
 {
-    protected $function  = 'weekField';
-    protected $inputType = 'week';
+    protected $function  = 'checkField';
+    protected $inputType = 'checkbox';
 }

@@ -33,6 +33,7 @@ class StartsWithCest
         $actual = Text::startsWith("Hello", "Hello");
         $I->assertTrue($actual);
     }
+
     /**
      * Tests Phalcon\Text :: startsWith() - empty strings
      *

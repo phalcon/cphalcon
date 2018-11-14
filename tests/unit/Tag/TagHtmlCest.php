@@ -12,13 +12,13 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Unit\Tag\Helper\TagHelper;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class TagTagHtmlCest extends TagHelper
+class TagHtmlCest extends TagSetup
 {
     /**
-     * Tests tagHtml with name parameter
+     * Tests Phalcon\Tag :: tagHtml() - name parameter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -45,7 +45,7 @@ class TagTagHtmlCest extends TagHelper
     }
 
     /**
-     * Tests tagHtml with name parameter and self close
+     * Tests Phalcon\Tag :: tagHtml() - name parameter and self close
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -72,7 +72,7 @@ class TagTagHtmlCest extends TagHelper
     }
 
     /**
-     * Tests tagHtml with name parameter and only start
+     * Tests Phalcon\Tag :: tagHtml() - name parameter and only start
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -84,7 +84,7 @@ class TagTagHtmlCest extends TagHelper
         $expected = '<aside>';
 
         Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual = Tag::tagHtml($name, null, null, true);
+        $actual = Tag::tagHtml($name, null, false, true);
 
         $I->assertEquals($expected, $actual);
 
@@ -93,13 +93,13 @@ class TagTagHtmlCest extends TagHelper
         $expected = '<aside>';
 
         Tag::setDocType(Tag::HTML5);
-        $actual = Tag::tagHtml($name, null, null, true);
+        $actual = Tag::tagHtml($name, null, false, true);
 
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests tagHtml with name parameter and EOL
+     * Tests Phalcon\Tag :: tagHtml() - name parameter and EOL
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -111,7 +111,7 @@ class TagTagHtmlCest extends TagHelper
         $expected = '<aside>' . PHP_EOL;
 
         Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual = Tag::tagHtml($name, null, null, null, true);
+        $actual = Tag::tagHtml($name, null, false, false, true);
 
         $I->assertEquals($expected, $actual);
 
@@ -120,13 +120,13 @@ class TagTagHtmlCest extends TagHelper
         $expected = '<aside></aside>' . PHP_EOL;
 
         Tag::setDocType(Tag::HTML5);
-        $actual = Tag::tagHtml($name, null, null, null, true);
+        $actual = Tag::tagHtml($name, null, false, false, true);
 
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests tagHtml with array parameter
+     * Tests Phalcon\Tag :: tagHtml() - array parameter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -159,60 +159,6 @@ class TagTagHtmlCest extends TagHelper
 
         Tag::setDocType(Tag::HTML5);
         $actual = Tag::tagHtml($name, $options);
-
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests tagHtmlClose
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-05
-     */
-    public function testTagHtmlClose(UnitTester $I)
-    {
-        Tag::resetInput();
-        $name     = 'canvas';
-        $expected = '</canvas>';
-
-        Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual = Tag::tagHtmlClose($name);
-
-        $I->assertEquals($expected, $actual);
-
-        Tag::resetInput();
-        $name     = 'canvas';
-        $expected = '</canvas>';
-
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::tagHtmlClose($name);
-
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests tagHtmlClose with EOL
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-05
-     */
-    public function testTagHtmlCloseEol(UnitTester $I)
-    {
-        Tag::resetInput();
-        $name     = 'canvas';
-        $expected = '</canvas>' . PHP_EOL;
-
-        Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual = Tag::tagHtmlClose($name, true);
-
-        $I->assertEquals($expected, $actual);
-
-        Tag::resetInput();
-        $name     = 'canvas';
-        $expected = '</canvas>' . PHP_EOL;
-
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::tagHtmlClose($name, true);
 
         $I->assertEquals($expected, $actual);
     }

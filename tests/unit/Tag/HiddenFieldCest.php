@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class HiddenFieldCest extends TagHelper
 {
-    protected $function = 'hiddenField';
+    protected $function  = 'hiddenField';
     protected $inputType = 'hidden';
 }

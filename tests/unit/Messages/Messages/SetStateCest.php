@@ -51,7 +51,7 @@ class SetStateCest
 
         $I->assertCount(2, $messages);
 
-        $message = $messages[0];
+        $message  = $messages[0];
         $expected = 'This is a message #1';
         $actual   = $message->getMessage();
         $I->assertEquals($expected, $actual);
@@ -68,7 +68,7 @@ class SetStateCest
         $actual   = $message->getCode();
         $I->assertEquals($expected, $actual);
 
-        $message = $messages[1];
+        $message  = $messages[1];
         $expected = 'This is a message #2';
         $actual   = $message->getMessage();
         $I->assertEquals($expected, $actual);

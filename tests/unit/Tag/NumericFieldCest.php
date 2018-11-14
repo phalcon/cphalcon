@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class NumericFieldCest extends TagHelper
 {
-    protected $function = 'numericField';
+    protected $function  = 'numericField';
     protected $inputType = 'number';
 }

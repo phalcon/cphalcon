@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class ColorFieldCest extends TagHelper
 {
-    protected $function = 'colorField';
+    protected $function  = 'colorField';
     protected $inputType = 'color';
 }

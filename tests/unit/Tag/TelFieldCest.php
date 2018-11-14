@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class TelFieldCest extends TagHelper
 {
-    protected $function = 'telField';
+    protected $function  = 'telField';
     protected $inputType = 'tel';
 }

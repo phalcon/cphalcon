@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class EmailFieldCest extends TagHelper
 {
-    protected $function = 'emailField';
+    protected $function  = 'emailField';
     protected $inputType = 'email';
 }

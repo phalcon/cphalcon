@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class MonthFieldCest extends TagHelper
 {
-    protected $function = 'monthField';
+    protected $function  = 'monthField';
     protected $inputType = 'month';
 }

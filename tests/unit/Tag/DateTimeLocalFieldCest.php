@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class DateTimeLocalFieldCest extends TagHelper
 {
-    protected $function = 'dateTimeLocalField';
+    protected $function  = 'dateTimeLocalField';
     protected $inputType = 'datetime-local';
 }

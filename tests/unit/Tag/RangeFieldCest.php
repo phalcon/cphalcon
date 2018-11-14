@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class RangeFieldCest extends TagHelper
 {
-    protected $function = 'rangeField';
+    protected $function  = 'rangeField';
     protected $inputType = 'range';
 }

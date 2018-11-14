@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class TextFieldCest extends TagHelper
 {
-    protected $function = 'textField';
+    protected $function  = 'textField';
     protected $inputType = 'text';
 }

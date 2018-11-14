@@ -11,9 +11,11 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class SetDocTypeCest
+class SetDocTypeCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: setDocType()
@@ -21,8 +23,8 @@ class SetDocTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDocType(UnitTester $I, $scenario)
+    public function testSetDocType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $this->runDoctypeTest($I, Tag::HTML32);
     }
 }

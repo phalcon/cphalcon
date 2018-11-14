@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class UrlFieldCest extends TagHelper
 {
-    protected $function = 'urlField';
+    protected $function  = 'urlField';
     protected $inputType = 'url';
 }

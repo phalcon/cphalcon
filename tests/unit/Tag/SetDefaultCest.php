@@ -11,18 +11,32 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class SetDefaultCest
+class SetDefaultCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: setDefault()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/2402
+     * @author Dmitry Patsura <talk@dmtry.me>
+     * @since  2014-05-10
      */
-    public function testSetDefault(UnitTester $I, $scenario)
+    public function testSetDefault(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        Tag::setDefault('property1', 'testVal1');
+        Tag::setDefault('property2', 'testVal2');
+        Tag::setDefault('property3', 'testVal3');
+
+        $I->assertTrue(Tag::hasValue('property1'));
+        $I->assertTrue(Tag::hasValue('property2'));
+        $I->assertTrue(Tag::hasValue('property3'));
+        $I->assertFalse(Tag::hasValue('property4'));
+
+        $I->assertEquals('testVal1', Tag::getValue('property1'));
+        $I->assertEquals('testVal2', Tag::getValue('property2'));
+        $I->assertEquals('testVal3', Tag::getValue('property3'));
     }
 }

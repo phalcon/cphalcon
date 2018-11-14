@@ -33,6 +33,7 @@ class EndsWithCest
         $actual = Text::endsWith("Hello", "Hello");
         $I->assertTrue($actual);
     }
+
     /**
      * Tests Phalcon\Text :: endsWith() - empty strings
      *

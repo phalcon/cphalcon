@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class PasswordFieldCest extends TagHelper
 {
-    protected $function = 'passwordField';
+    protected $function  = 'passwordField';
     protected $inputType = 'password';
 }

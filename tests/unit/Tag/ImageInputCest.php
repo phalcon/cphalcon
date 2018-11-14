@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Helpers\TagHelper;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
@@ -146,7 +145,7 @@ class ImageInputCest extends TagSetup
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                    . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -189,7 +188,7 @@ class ImageInputCest extends TagSetup
             'size'  => '10',
         ];
         $expected = '<input type="image" name="x_other" '
-                  . 'value="x_name" class="x_class" size="10"';
+            . 'value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,

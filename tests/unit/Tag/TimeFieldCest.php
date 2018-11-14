@@ -16,6 +16,6 @@ use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class TimeFieldCest extends TagHelper
 {
-    protected $function = 'timeField';
+    protected $function  = 'timeField';
     protected $inputType = 'time';
 }
