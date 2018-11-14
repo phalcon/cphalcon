@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class JsonSerializeCest
@@ -23,6 +24,19 @@ class JsonSerializeCest
      */
     public function testJsonSerialize(UnitTester $I, $scenario)
     {
-        $scenario->incomplete("Need implementation");
+        $message1 = new Message('This is a message #1', 'field1', 'Type1', 1);
+
+        $expected = '\JsonSerializable';
+        $actual   = $message1;
+        $I->assertInstanceOf($expected, $actual);
+
+        $expected = [
+            'field'   => 'field1',
+            'message' => 'This is a message #1',
+            'type'    => 'Type1',
+            'code'    => 1,
+        ];
+        $actual   = $message1->jsonSerialize();
+        $I->assertEquals($expected, $actual);
     }
 }

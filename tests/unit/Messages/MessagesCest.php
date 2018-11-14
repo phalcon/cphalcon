@@ -228,49 +228,4 @@ class MessagesCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * Tests JsonSerializable
-     *
-     * @test
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2018-10-18
-     */
-    public function shouldImplementJsonSerializable(UnitTester $I)
-    {
-        $message1 = new Message('This is a message #1', 'field1', 'Type1', 1);
-        $message2 = new Message('This is a message #2', 'field2', 'Type2', 2);
-        $message3 = new Message('This is a message #3', 'field3', 'Type3', 3);
-
-        $expected = '\JsonSerializable';
-        $actual   = $message1;
-        $I->assertInstanceOf($expected, $actual);
-
-        $messages = new Messages(
-            [
-                $message1,
-                $message2,
-                $message3,
-            ]
-        );
-        $expected = '\JsonSerializable';
-        $actual   = $messages;
-        $I->assertInstanceOf($expected, $actual);
-
-        $expected = [
-            'field'   => 'field1',
-            'message' => 'This is a message #1',
-            'type'    => 'Type1',
-            'code'    => 1,
-        ];
-        $actual   = $message1->jsonSerialize();
-        $I->assertEquals($expected, $actual);
-
-        $data      = $messages->jsonSerialize();
-        $condition = is_array($data);
-        $I->assertTrue($condition);
-
-        $expected = 3;
-        $actual   = count($data);
-        $I->assertEquals($expected, $actual);
-    }
 }
