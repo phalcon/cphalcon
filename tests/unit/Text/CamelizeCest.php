@@ -14,15 +14,15 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextCamelizeCest
+class CamelizeCest
 {
     /**
-     * Tests the camelize function
+     * Tests Phalcon\Text :: camelize()
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextCamelizeString(UnitTester $I)
+    public function testCamelize(UnitTester $I)
     {
         $examples = [
             ['camelize', 'Camelize', null],

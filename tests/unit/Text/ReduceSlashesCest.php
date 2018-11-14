@@ -14,13 +14,13 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextReduceSlashesCest
+class ReduceSlashesCest
 {
     /**
-     * Tests the reduce slashes function
+     * Tests Phalcon\Text :: reduceSlashes()
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2015-05-11
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testReduceSlashes(UnitTester $I)
     {

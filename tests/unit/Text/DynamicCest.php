@@ -14,15 +14,15 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextDynamicCest
+class DynamicCest
 {
     /**
-     * Tests the dynamic function
+     * Tests Phalcon\Text :: dynamic()
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function testTextDynamicString(UnitTester $I)
+    public function testDynamic(UnitTester $I)
     {
         $actual = Text::dynamic('{Hi|Hello}, my name is a Bob!');
         $I->assertNotContains('{', $actual);
@@ -34,12 +34,12 @@ class TextDynamicCest
     }
 
     /**
-     * Tests the dynamic function
+     * Tests Phalcon\Text :: dynamic() - custom delimiter
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function testTextDynamicStringCustomDelimiter(UnitTester $I)
+    public function testDynamicCustomDelimiter(UnitTester $I)
     {
         $actual = Text::dynamic('(Hi|Hello), my name is a Bob!', '(', ')');
         $I->assertNotContains('{', $actual);
@@ -51,13 +51,13 @@ class TextDynamicCest
     }
 
     /**
-     * Tests custom separator
+     * Tests Phalcon\Text :: dynamic() - custom separator
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11215
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-27
      */
-    public function testTextDynamicStringCustomSeparator(UnitTester $I)
+    public function testDynamicCustomSeparator(UnitTester $I)
     {
         $actual = Text::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
         $I->assertNotContains('{', $actual);

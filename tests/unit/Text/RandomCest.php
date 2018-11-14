@@ -14,13 +14,13 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextRandomCest
+class RandomCest
 {
     /**
-     * Tests the constants for the random function
+     * Tests Phalcon\Text :: random() - constants
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomConstants(UnitTester $I)
     {
@@ -33,10 +33,10 @@ class TextRandomCest
     }
 
     /**
-     * Tests the random function with alnum
+     * Tests Phalcon\Text :: random() - alnum
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomAlnum(UnitTester $I)
     {
@@ -58,10 +58,10 @@ class TextRandomCest
     }
 
     /**
-     * Tests the random function with alpha
+     * Tests Phalcon\Text :: random() - alpha
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomAlpha(UnitTester $I)
     {
@@ -83,10 +83,10 @@ class TextRandomCest
     }
 
     /**
-     * Tests the random function with hexdec
+     * Tests Phalcon\Text :: random() - hexdec
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomHexDec(UnitTester $I)
     {
@@ -108,10 +108,10 @@ class TextRandomCest
     }
 
     /**
-     * Tests the random function with numeric
+     * Tests Phalcon\Text :: random() - numeric
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomNumeric(UnitTester $I)
     {
@@ -133,10 +133,10 @@ class TextRandomCest
     }
 
     /**
-     * Tests the random function with non zero
+     * Tests Phalcon\Text :: random() - non zero
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomNonZero(UnitTester $I)
     {
@@ -158,10 +158,10 @@ class TextRandomCest
     }
 
     /**
-     * Tests the random function with distinct type
+     * Tests Phalcon\Text :: random() - distinct type
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-06-09
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testRandomDistinct(UnitTester $I)
     {

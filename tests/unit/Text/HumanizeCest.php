@@ -14,15 +14,15 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextHumanizeCest
+class HumanizeCest
 {
     /**
-     * Tests the humanize function
+     * Tests Phalcon\Text :: humanize()
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2015-11-09
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testUnderscore(UnitTester $I)
+    public function testHumanize(UnitTester $I)
     {
         $expected = 'start a horse';
         $actual   = Text::humanize('start_a_horse');

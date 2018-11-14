@@ -14,13 +14,13 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextUnderscoreCest
+class UnderscoreCest
 {
     /**
-     * Tests the uderscore function
+     * Tests Phalcon\Text :: underscore()
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2015-11-09
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function testUnderscore(UnitTester $I)
     {

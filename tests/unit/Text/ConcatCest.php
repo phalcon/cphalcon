@@ -14,15 +14,15 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextConcatCest
+class ConcatCest
 {
     /**
-     * Tests the concat function
+     * Tests Phalcon\Text :: concat()
      *
-     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
-     * @since  2015-05-06
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextConcatString(UnitTester $I)
+    public function testConcat(UnitTester $I)
     {
         // Test 1
         $actual   = Text::concat('/', '/tmp/', '/folder_1/', '/folder_2', 'folder_3/');

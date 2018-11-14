@@ -14,15 +14,15 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextUncamelizeCest
+class UncamelizeCest
 {
     /**
-     * Tests the uncamelize function
+     * Tests Phalcon\Text :: uncamelize()
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextUncamelizeString(UnitTester $I)
+    public function testUncamelize(UnitTester $I)
     {
         $examples = [
             ['camelize', 'camelize', null],

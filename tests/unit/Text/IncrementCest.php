@@ -14,15 +14,15 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-class TextIncrementCest
+class IncrementCest
 {
     /**
-     * Tests the increment function
+     * Tests Phalcon\Text :: increment() - string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextIncrementSimpleString(UnitTester $I)
+    public function testIncrementSimpleString(UnitTester $I)
     {
         $source   = 'file';
         $expected = 'file_1';
@@ -31,12 +31,12 @@ class TextIncrementCest
     }
 
     /**
-     * Tests the increment function with an already incremented string
+     * Tests Phalcon\Text :: increment() - already incremented string
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextIncrementAlreadyIncremented(UnitTester $I)
+    public function testIncrementAlreadyIncremented(UnitTester $I)
     {
         $source   = 'file_1';
         $expected = 'file_2';
@@ -45,12 +45,12 @@ class TextIncrementCest
     }
 
     /**
-     * Tests the increment function for an already incremented string twice
+     * Tests Phalcon\Text :: increment() - already incremented string twice
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextIncrementAlreadyIncrementedTwice(UnitTester $I)
+    public function testIncrementAlreadyIncrementedTwice(UnitTester $I)
     {
         $source   = 'file_2';
         $expected = 'file_3';
@@ -59,12 +59,12 @@ class TextIncrementCest
     }
 
     /**
-     * Tests the increment function for a string with underscore
+     * Tests Phalcon\Text :: increment() - string with underscore
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextIncrementStringWithUnderscore(UnitTester $I)
+    public function testIncrementStringWithUnderscore(UnitTester $I)
     {
         $source   = 'file_';
         $expected = 'file_1';
@@ -73,12 +73,12 @@ class TextIncrementCest
     }
 
     /**
-     * Tests the increment function for a string with a space at the end
+     * Tests Phalcon\Text :: increment() - string with a space at the end
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextIncrementStringWithSpace(UnitTester $I)
+    public function testIncrementStringWithSpace(UnitTester $I)
     {
         $source   = 'file ';
         $expected = 'file _1';
@@ -87,12 +87,12 @@ class TextIncrementCest
     }
 
     /**
-     * Tests the increment function with a different separator
+     * Tests Phalcon\Text :: increment() - different separator
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testTextIncrementStringWithDifferentSeparator(UnitTester $I)
+    public function testIncrementStringWithDifferentSeparator(UnitTester $I)
     {
         $source   = 'file';
         $expected = 'file-1';
