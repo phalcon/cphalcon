@@ -25,9 +25,9 @@ class SetCodeCest
     public function testSetCode(UnitTester $I)
     {
         $message = new Message('This is a message #1');
-        $message->setCode(123);
+        $message->setCode(111);
 
-        $expected = 123;
+        $expected = 111;
         $actual   = $message->getCode();
         $I->assertEquals($expected, $actual);
     }

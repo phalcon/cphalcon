@@ -24,7 +24,7 @@ class ConstructorCest
      */
     public function testConstructor(UnitTester $I)
     {
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 'This is a message #1';
         $actual   = $message->getMessage();
@@ -38,7 +38,7 @@ class ConstructorCest
         $actual   = $message->getType();
         $I->assertEquals($expected, $actual);
 
-        $expected = 123;
+        $expected = 111;
         $actual   = $message->getCode();
         $I->assertEquals($expected, $actual);
     }

@@ -24,7 +24,7 @@ class GetMessageCest
      */
     public function testGetMessage(UnitTester $I)
     {
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 'This is a message #1';
         $actual   = $message->getMessage();

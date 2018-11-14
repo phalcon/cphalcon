@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Messages\Messages;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use UnitTester;
 
 class KeyCest
@@ -23,6 +25,17 @@ class KeyCest
      */
     public function testKey(UnitTester $I, $scenario)
     {
-        $scenario->incomplete("Need implementation");
+        $messages = new Messages(
+            [
+                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),
+                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+            ]
+        );
+
+        $messages->next();
+
+        $expected = 1;
+        $actual   = $messages->key();
+        $I->assertEquals($expected, $actual);
     }
 }

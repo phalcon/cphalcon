@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Messages\Messages;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use UnitTester;
 
 class ValidCest
@@ -21,8 +23,26 @@ class ValidCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testValid(UnitTester $I, $scenario)
+    public function testValid(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $messages = new Messages(
+            [
+                new Message('This is a message #1', 'MyField1', 'MyType1', 111),
+                new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+            ]
+        );
+
+        $messages->rewind();
+
+        $actual = $messages->valid();
+        $I->assertTrue($actual);
+
+        $messages->next();
+        $actual = $messages->valid();
+        $I->assertTrue($actual);
+
+        $messages->next();
+        $actual = $messages->valid();
+        $I->assertFalse($actual);
     }
 }

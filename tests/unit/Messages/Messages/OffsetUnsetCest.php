@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Messages\Messages;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use UnitTester;
 
 class OffsetUnsetCest
@@ -18,11 +20,43 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Messages\Messages :: offsetUnset()
      *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12455
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-12
      */
-    public function testOffsetUnset(UnitTester $I, $scenario)
+    public function testOffsetUnset(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $messages = new Messages(
+            [
+                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),
+                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+            ]
+        );
+
+        $I->assertCount(2, $messages);
+
+        $messages->offsetUnset(0);
+
+        $actual = $messages->offsetUnset(1);
+        $I->assertNull($actual);
+
+        /**
+         * Unset discards the offset so we need to get 0 again
+         */
+        $message = $messages->offsetGet(0);
+        $class   = Message::class;
+        $actual  = $message;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = Message::__set_state(
+            [
+                '_message' => 'This is a message #2',
+                '_field'   => 'MyField2',
+                '_type'    => 'MyType2',
+                '_code'    => 222,
+            ]
+        );
+        $actual = $message;
+        $I->assertEquals($expected, $actual);
     }
 }

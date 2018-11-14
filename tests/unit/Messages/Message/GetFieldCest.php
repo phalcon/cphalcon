@@ -24,7 +24,7 @@ class GetFieldCest
      */
     public function testGetField(UnitTester $I)
     {
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 'MyField';
         $actual   = $message->getField();

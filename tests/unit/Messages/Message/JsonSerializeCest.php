@@ -24,7 +24,7 @@ class JsonSerializeCest
      */
     public function testJsonSerialize(UnitTester $I)
     {
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = '\JsonSerializable';
         $actual   = $message;
@@ -34,7 +34,7 @@ class JsonSerializeCest
             'field'   => 'MyField',
             'message' => 'This is a message #1',
             'type'    => 'MyType',
-            'code'    => 123,
+            'code'    => 111,
         ];
         $actual   = $message->jsonSerialize();
         $I->assertEquals($expected, $actual);

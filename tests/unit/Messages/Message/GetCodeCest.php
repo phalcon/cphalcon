@@ -24,9 +24,9 @@ class GetCodeCest
      */
     public function testGetCode(UnitTester $I)
     {
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
-        $expected = 123;
+        $expected = 111;
         $actual   = $message->getCode();
         $I->assertEquals($expected, $actual);
     }

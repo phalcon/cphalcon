@@ -29,7 +29,7 @@ class SetStateCest
                 '_message' => 'This is a message #1',
                 '_field'   => 'MyField',
                 '_type'    => 'MyType',
-                '_code'    => 123,
+                '_code'    => 111,
             ]
         );
 
@@ -45,7 +45,7 @@ class SetStateCest
         $actual   = $message->getType();
         $I->assertEquals($expected, $actual);
 
-        $expected = 123;
+        $expected = 111;
         $actual   = $message->getCode();
         $I->assertEquals($expected, $actual);
     }
