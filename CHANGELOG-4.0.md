@@ -15,6 +15,7 @@
 - Added `hasHeader()` method to `Phalcon\Http\Response` to provide the ability to check if a header exists. [PR-12189](https://github.com/phalcon/cphalcon/pull/12189)
 - Added global setting `orm.case_insensitive_column_map` to attempt to find value in the column map case-insensitively. Can be also enabled by setting `caseInsensitiveColumnMap` key in `\Phalcon\Mvc\Model::setup()`. [#11802](https://github.com/phalcon/cphalcon/pull/11802)
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::offset` [#13599](https://github.com/phalcon/cphalcon/pull/13599)
+- Added `Phalcon\Http\Response\Cookies::getCookies` [#13591](https://github.com/phalcon/cphalcon/pull/13591)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [PR-13456](https://github.com/phalcon/cphalcon/pull/13456)
