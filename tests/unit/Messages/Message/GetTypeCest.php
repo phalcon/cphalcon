@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class GetTypeCest
@@ -21,8 +22,12 @@ class GetTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I, $scenario)
+    public function testGetType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+
+        $expected = 'MyType';
+        $actual   = $message->getType();
+        $I->assertEquals($expected, $actual);
     }
 }

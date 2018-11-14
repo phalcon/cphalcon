@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class SetTypeCest
@@ -21,8 +22,13 @@ class SetTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetType(UnitTester $I, $scenario)
+    public function testSetType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $message = new Message('This is a message #1');
+        $message->setType('MyType');
+
+        $expected = 'MyType';
+        $actual   = $message->getType();
+        $I->assertEquals($expected, $actual);
     }
 }

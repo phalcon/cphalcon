@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class SetFieldCest
@@ -21,8 +22,13 @@ class SetFieldCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetField(UnitTester $I, $scenario)
+    public function testSetField(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $message = new Message('This is a message #1');
+        $message->setField('MyField');
+
+        $expected = 'MyField';
+        $actual   = $message->getField();
+        $I->assertEquals($expected, $actual);
     }
 }

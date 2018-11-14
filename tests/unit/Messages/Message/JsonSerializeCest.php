@@ -24,19 +24,19 @@ class JsonSerializeCest
      */
     public function testJsonSerialize(UnitTester $I)
     {
-        $message1 = new Message('This is a message #1', 'field1', 'Type1', 1);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
 
         $expected = '\JsonSerializable';
-        $actual   = $message1;
+        $actual   = $message;
         $I->assertInstanceOf($expected, $actual);
 
         $expected = [
-            'field'   => 'field1',
+            'field'   => 'MyField',
             'message' => 'This is a message #1',
-            'type'    => 'Type1',
-            'code'    => 1,
+            'type'    => 'MyType',
+            'code'    => 123,
         ];
-        $actual   = $message1->jsonSerialize();
+        $actual   = $message->jsonSerialize();
         $I->assertEquals($expected, $actual);
     }
 }

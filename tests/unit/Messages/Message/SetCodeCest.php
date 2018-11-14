@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class SetCodeCest
@@ -21,8 +22,13 @@ class SetCodeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCode(UnitTester $I, $scenario)
+    public function testSetCode(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $message = new Message('This is a message #1');
+        $message->setCode(123);
+
+        $expected = 123;
+        $actual   = $message->getCode();
+        $I->assertEquals($expected, $actual);
     }
 }

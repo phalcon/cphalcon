@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class GetMessageCest
@@ -21,8 +22,12 @@ class GetMessageCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessage(UnitTester $I, $scenario)
+    public function testGetMessage(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 123);
+
+        $expected = 'This is a message #1';
+        $actual   = $message->getMessage();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use Phalcon\Messages\Message;
 use UnitTester;
 
 class SetMessageCest
@@ -23,6 +24,11 @@ class SetMessageCest
      */
     public function testSetMessage(UnitTester $I, $scenario)
     {
-        $scenario->incomplete("Need implementation");
+        $message = new Message('This is a message #1');
+        $message->setMessage('This is a message #2');
+
+        $expected = 'This is a message #2';
+        $actual   = $message->getMessage();
+        $I->assertEquals($expected, $actual);
     }
 }
