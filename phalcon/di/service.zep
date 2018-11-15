@@ -280,7 +280,7 @@ class Service implements ServiceInterface
 	 */
 	public static function __set_state(array! attributes) -> <Service>
 	{
-		var name, definition, shared;
+		var definition, shared;
 
 		if !fetch definition, attributes["_definition"] {
 			throw new Exception("The attribute '_definition' is required");

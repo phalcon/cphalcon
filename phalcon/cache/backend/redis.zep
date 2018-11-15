@@ -331,7 +331,7 @@ class Redis extends Backend
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
-		var redis, options, keys, key, idx;
+		var redis, keys, key, idx;
 
 		let redis = this->redis;
  		if typeof redis != "object" {
