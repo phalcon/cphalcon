@@ -21,15 +21,9 @@ class LoadCest
     use FactoryTrait;
 
     /**
-     * Tests Phalcon\Translate\Factory :: load()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
+     * @param            $scenario
      */
-    public function testLoad(UnitTester $I, $scenario)
-    {
-        $scenario->incomplete("Need implementation");
-    }
     public function _before(UnitTester $I, $scenario)
     {
         if (!extension_loaded('gettext')) {
@@ -45,7 +39,7 @@ class LoadCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testConfigFactory(UnitTester $I, $scenario)
+    public function testConfigFactory(UnitTester $I)
     {
         $options = $this->config->translate;
         /** @var Gettext $translate */
