@@ -11,18 +11,30 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use UnitTester;
 
 class OffsetSetCest
 {
+    use TranslateTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetSet()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetSet(UnitTester $I, $scenario)
+    public function testOffsetSet(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->expectThrowable(
+            new Exception('Translate is an immutable ArrayAccess object'),
+            function () {
+                $language   = $this->getArrayConfig()['en'];
+                $translator = new NativeArray(['content' => $language]);
+                $translator->offsetSet('team', 'Team');
+            }
+        );
     }
 }

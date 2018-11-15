@@ -29,36 +29,6 @@ class CsvCest
 
 
     /**
-     * Tests whether a key not exists in the array
-     *
-     * @author Ivan Zubok <chi_no@ukr.net>
-     * @since  2014-11-04
-     */
-    public function testNotExists(UnitTester $I)
-    {
-        $params     = $this->config['ru'];
-        $translator = new Csv($params);
-
-        $actual = $translator->exists('Hi!');
-        $I->assertFalse($actual);
-    }
-
-    /**
-     * Tests whether a key exists in the array
-     *
-     * @author Ivan Zubok <chi_no@ukr.net>
-     * @since  2014-11-04
-     */
-    public function testExists(UnitTester $I)
-    {
-        $params     = $this->config['ru'];
-        $translator = new Csv($params);
-
-        $actual = $translator->exists('Hello!');
-        $I->assertTrue($actual);
-    }
-
-    /**
      * Translate into russian
      *
      * @author Ivan Zubok <chi_no@ukr.net>
