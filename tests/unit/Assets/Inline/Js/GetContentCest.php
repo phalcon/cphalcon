@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline;
 use UnitTester;
 
 class GetContentCest
@@ -21,8 +22,12 @@ class GetContentCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContent(UnitTester $I, $scenario)
+    public function testGetContent(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $resource = new Inline('js', '<script>alert("Hello");</script>');
+
+        $expected = '<script>alert("Hello");</script>';
+        $actual   = $resource->getContent();
+        $I->assertEquals($expected, $actual);
     }
 }

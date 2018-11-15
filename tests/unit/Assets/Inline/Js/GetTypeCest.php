@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline;
 use UnitTester;
 
 class GetTypeCest
@@ -23,6 +24,10 @@ class GetTypeCest
      */
     public function testGetType(UnitTester $I, $scenario)
     {
-        $scenario->incomplete("Need implementation");
+        $resource = new Inline('js', '<script>alert("Hello");</script>');
+
+        $expected = 'js';
+        $actual   = $resource->getType();
+        $I->assertEquals($expected, $actual);
     }
 }

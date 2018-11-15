@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline;
 use UnitTester;
 
 class GetResourceKeyCest
@@ -21,8 +22,12 @@ class GetResourceKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResourceKey(UnitTester $I, $scenario)
+    public function testGetResourceKey(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $resource = new Inline('js', '<script>alert("Hello");</script>');
+
+        $expected = md5('js:<script>alert("Hello");</script>');
+        $actual   = $resource->getResourceKey();
+        $I->assertEquals($expected, $actual);
     }
 }
