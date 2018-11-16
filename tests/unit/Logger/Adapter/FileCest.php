@@ -618,10 +618,10 @@ class FileCest
 
         $position = strpos($contents[0], '[' . strtoupper($function) . ']');
         $actual   = ($position !== false);
-        expect($actual)->true();
+        $I->assertTrue($actual);
 
         $position = strpos($contents[0], 'Hello');
         $actual   = ($position !== false);
-        expect($actual)->true();
+        $I->assertTrue($actual);
     }
 }

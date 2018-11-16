@@ -68,8 +68,6 @@ class TextCest
             $actual   = $element->getName();
             $I->assertEquals($expected, $actual);
 
-            expect($element->getName())->equals($name);
-
             $expected = sprintf('<input type="text" id="%s" name="%s" />', $name, $name);
             $actual   = $element->render();
             $I->assertEquals($expected, $actual);
@@ -108,7 +106,6 @@ class TextCest
     public function testPrepareAttributesNoDefault(UnitTester $I)
     {
         $element1 = new Text("name");
-
         $element1->setLabel("name");
 
         $actual = $element1->prepareAttributes(
@@ -116,7 +113,6 @@ class TextCest
                 "class" => "big-input",
             ]
         );
-
         $expected = [
             "name",
             "class" => "big-input",

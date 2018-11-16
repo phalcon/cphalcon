@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Exception;
+namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
 
-class GetMessageCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Exception :: getMessage()
+     * Tests Phalcon\Crypt :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessage(UnitTester $I, $scenario)
+    public function test__construct(UnitTester $I, $scenario)
     {
         $scenario->incomplete("Need implementation");
     }

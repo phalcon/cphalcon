@@ -13,17 +13,11 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
+use Phalcon\Test\Fixtures\Helpers\CryptHelper;
 use UnitTester;
 
-class CryptCest
+class CryptCest extends CryptHelper
 {
-    public function _before(UnitTester $I, $scenario)
-    {
-        if (!extension_loaded('openssl')) {
-            $scenario->skip('Warning: openssl extension is not loaded');
-        }
-    }
-
     /**
      * Tests decrypt using HMAC
      *
@@ -71,7 +65,7 @@ class CryptCest
         $encrypted = $crypt->encrypt($expected);
         $actual    = $crypt->decrypt($encrypted);
 
-        expect($expected)->equals($actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**

@@ -28,7 +28,7 @@ class DumpCest
     public function shouldDumpObjectProperties(UnitTester $I)
     {
         $patient = new ClassProperties();
-        $dump    = new Dump(null, true);
+        $dump    = new Dump([], true);
 
         $actual   = $I->callProtectedMethod($dump, 'output', $patient);
         $expected = file_get_contents(PATH_DATA . 'fixtures/Dump/class_properties.txt');

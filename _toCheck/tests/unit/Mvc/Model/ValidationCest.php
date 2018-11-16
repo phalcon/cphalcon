@@ -2,12 +2,12 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model;
 
+use Phalcon\Test\Fixtures\Traits\ConnectionCheckerTrait;
 use UnitTester;
 use Phalcon\Di;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
-use Helper\ConnectionCheckerTrait;
 use Phalcon\Test\Unit\Mvc\Model\Helpers\Validation;
 
 class ValidationCest extends Validation
