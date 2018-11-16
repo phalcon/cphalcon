@@ -19,23 +19,23 @@ zephir generate 2>&1
 if [[ -z ${CC+x} ]]; then
 	echo -e "The CC variable is unset or set to the empty string.\nSkip precompiling headers.\n"
 else
-  echo "Creating precompiled headers..."
-  if [[ "${CC:0:5}" = "clang" ]]; then
-    _ext="pch"
-    _option="-emit-pch"
-    _arg="-cc1"
-  else
-    _ext="ghc"
-    _option=
-    _arg=
-  fi
+	echo "Creating precompiled headers..."
+	if [[ "${CC:0:5}" = "clang" ]]; then
+		_ext="pch"
+		_option="-emit-pch"
+		_arg="-cc1"
+	else
+		_ext="ghc"
+		_option=
+		_arg=
+	fi
 
-  # If a `*.gch' (or a `*.pch') file is not found then the normal header files
-  # will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
-  for file in `find ./ext/kernel -name "*.h"`; do
-    printf "\t>>> ${file}\n\t<<< ${file}.ghc\n"
-    ${CC} ${_arg} "${file}" -I. -I./ext $(php-config --includes) ${_option} -o "${file}.${_ext}"
-  done
+	# If a `*.gch' (or a `*.pch') file is not found then the normal header files
+	# will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
+	for file in `find ./ext/kernel -name "*.h"`; do
+		printf "\t>>> ${file}\n\t<<< ${file}.ghc\n"
+		${CC} ${_arg} "${file}" -I. -I./ext $(php-config --includes) ${_option} -o "${file}.${_ext}"
+	done
 fi
 
 cd ext
@@ -84,7 +84,7 @@ if [[ ! -z ${REPORT_COVERAGE+x} ]] && [[ "$REPORT_COVERAGE" = "1" ]]; then
 			--quiet \
 			--directory ext \
 			--base-directory=${PROJECT_ROOT} \
-			--zerocounters
+			--zerocounters 2>&1 >/dev/null
 
 		# Capture coverage data
 		lcov \
@@ -94,6 +94,6 @@ if [[ ! -z ${REPORT_COVERAGE+x} ]] && [[ "$REPORT_COVERAGE" = "1" ]]; then
 			--capture \
 			--compat-libtool \
 			--initial \
-			--output-file ${LCOV_REPORT}
+			--output-file ${LCOV_REPORT} 2>&1 >/dev/null
 	fi
 fi
