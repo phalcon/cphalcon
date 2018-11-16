@@ -7,13 +7,13 @@
 # For the full copyright and license information, please view the LICENSE.txt
 # file that was distributed with this source code.
 
-if [ -z "${CC}" ]; then
+if [[ -z "${CC}" ]]; then
 	echo "The CC variable is unset or set to the empty string. Skip"
 	exit 0
 fi
 
 echo "Creating precompiled headers..."
-if [ "${CC:0:5}" = "clang" ]; then
+if [[ "${CC:0:5}" = "clang" ]]; then
 	_ext="pch"
 	_option="-emit-pch"
 	_arg="-cc1"
