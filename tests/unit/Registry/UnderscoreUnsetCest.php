@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class UnderscoreUnsetCest
@@ -21,8 +22,21 @@ class UnderscoreUnsetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreUnset(UnitTester $I, $scenario)
+    public function testUnderscoreUnset(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->one   = 1;
+        $registry->two   = 2;
+        $registry->three = 3;
+
+        $I->assertCount(3, $registry);
+
+        unset($registry->two);
+
+        $I->assertCount(2, $registry);
+
+        unset($registry['one']);
+
+        $I->assertCount(1, $registry);
     }
 }

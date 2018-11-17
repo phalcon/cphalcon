@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class OffsetUnsetCest
@@ -21,8 +22,17 @@ class OffsetUnsetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetUnset(UnitTester $I, $scenario)
+    public function testOffsetUnset(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+        $registry->offsetSet('two', 2);
+        $registry->offsetSet('three', 3);
+
+        $I->assertCount(3, $registry);
+
+        $registry->offsetUnset('two');
+
+        $I->assertCount(2, $registry);
     }
 }

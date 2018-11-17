@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Validation;
 
 use UnitTester;
 
-class __getCest
+class UnderscoreGetCest
 {
     /**
      * Tests Phalcon\Validation :: __get()
@@ -21,7 +21,7 @@ class __getCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__get(UnitTester $I, $scenario)
+    public function testUnderscoreGet(UnitTester $I, $scenario)
     {
         $scenario->incomplete("Need implementation");
     }

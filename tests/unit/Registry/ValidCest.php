@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class ValidCest
@@ -21,8 +22,18 @@ class ValidCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testValid(UnitTester $I, $scenario)
+    public function testValid(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+
+        $registry->rewind();
+
+        $actual = $registry->valid();
+        $I->assertTrue($actual);
+
+        $registry->next();
+        $actual = $registry->valid();
+        $I->assertFalse($actual);
     }
 }

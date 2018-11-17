@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class CurrentCest
@@ -21,8 +22,20 @@ class CurrentCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCurrent(UnitTester $I, $scenario)
+    public function testCurrent(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+        $registry->offsetSet('two', 2);
+        $registry->offsetSet('three', 3);
+
+        $expected = 1;
+        $actual = $registry->current();
+        $I->assertEquals($expected, $actual);
+
+        $registry->next();
+        $expected = 2;
+        $actual = $registry->current();
+        $I->assertEquals($expected, $actual);
     }
 }

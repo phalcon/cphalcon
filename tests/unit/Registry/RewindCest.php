@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class RewindCest
@@ -21,8 +22,24 @@ class RewindCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRewind(UnitTester $I, $scenario)
+    public function testRewind(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+        $registry->offsetSet('two', 2);
+        $registry->offsetSet('three', 3);
+
+        $registry->next();
+        $registry->next();
+
+        $expected = 3;
+        $actual  = $registry->current();
+        $I->assertEquals($expected, $actual);
+
+        $registry->rewind();
+
+        $expected = 1;
+        $actual  = $registry->current();
+        $I->assertEquals($expected, $actual);
     }
 }

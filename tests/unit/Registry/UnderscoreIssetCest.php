@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class UnderscoreIssetCest
@@ -23,6 +24,13 @@ class UnderscoreIssetCest
      */
     public function testUnderscoreIsset(UnitTester $I, $scenario)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+
+        $actual = isset($registry['one']);
+        $I->assertTrue($actual);
+
+        $actual = isset($registry['unknown']);
+        $I->assertFalse($actual);
     }
 }

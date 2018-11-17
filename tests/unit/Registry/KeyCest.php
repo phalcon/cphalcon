@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class KeyCest
@@ -21,8 +22,20 @@ class KeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKey(UnitTester $I, $scenario)
+    public function testKey(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+        $registry->offsetSet('two', 2);
+        $registry->offsetSet('three', 3);
+
+        $expected = 'one';
+        $actual = $registry->key();
+        $I->assertEquals($expected, $actual);
+
+        $registry->next();
+        $expected = 'two';
+        $actual = $registry->key();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class OffsetGetCest
@@ -23,6 +24,13 @@ class OffsetGetCest
      */
     public function testOffsetGet(UnitTester $I, $scenario)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+        $registry->offsetSet('two', 2);
+        $registry->offsetSet('three', 3);
+
+        $expected = 3;
+        $actual = $registry->offsetGet('three');
+        $I->assertEquals($expected, $actual);
     }
 }

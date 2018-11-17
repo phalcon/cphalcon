@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class ConstructCest
@@ -21,8 +22,12 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I, $scenario)
+    public function testConstruct(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+
+        $class = Registry::class;
+        $actual = $registry;
+        $I->assertInstanceOf($class, $actual);
     }
 }

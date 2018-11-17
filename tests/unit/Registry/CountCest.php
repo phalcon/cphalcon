@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class CountCest
@@ -21,8 +22,16 @@ class CountCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I, $scenario)
+    public function testCount(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->offsetSet('one', 1);
+        $registry->offsetSet('two', 2);
+        $registry->offsetSet('three', 3);
+
+        $expected = 3;
+        $actual   = $registry->count();
+        $I->assertEquals($expected, $actual);
+        $I->assertCount($expected, $registry);
     }
 }

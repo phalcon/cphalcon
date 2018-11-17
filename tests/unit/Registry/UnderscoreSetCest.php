@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Phalcon\Registry;
 use UnitTester;
 
 class UnderscoreSetCest
@@ -21,8 +22,13 @@ class UnderscoreSetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreSet(UnitTester $I, $scenario)
+    public function testUnderscoreSet(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $registry = new Registry();
+        $registry->one  = 1;
+        $registry->two  = 2;
+        $registry['three']= 3;
+
+        $I->assertCount(3, $registry);
     }
 }
