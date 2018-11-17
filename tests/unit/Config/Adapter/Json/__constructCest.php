@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
 use UnitTester;
 
-class __constructCest
+class ConstructCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Json :: __construct()
@@ -21,7 +21,7 @@ class __constructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__construct(UnitTester $I, $scenario)
+    public function testConstruct(UnitTester $I, $scenario)
     {
         $scenario->incomplete("Need implementation");
     }

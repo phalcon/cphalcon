@@ -21,7 +21,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__construct(UnitTester $I, $scenario)
+    public function testConstruct(UnitTester $I, $scenario)
     {
         $scenario->incomplete("Need implementation");
     }

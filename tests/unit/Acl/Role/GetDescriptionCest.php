@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Acl\Role;
 
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class GetDescriptionCest
@@ -21,8 +22,26 @@ class GetDescriptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDescription(UnitTester $I, $scenario)
+    public function testGetDescription(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $role = new Role('Administrators', 'The admin unit');
+
+        $expected = 'The admin unit';
+        $actual   = $role->getDescription();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Acl\Role :: getDescription() - empty
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function testGetDescriptionEmpty(UnitTester $I)
+    {
+        $role = new Role('Administrators');
+
+        $actual = $role->getDescription();
+        $I->assertEmpty($actual);
     }
 }

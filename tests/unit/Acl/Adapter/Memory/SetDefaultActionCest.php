@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 class SetDefaultActionCest
@@ -21,8 +23,14 @@ class SetDefaultActionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefaultAction(UnitTester $I, $scenario)
+    public function testSetDefaultAction(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $acl = new Memory();
+
+        $acl->setDefaultAction(Acl::ALLOW);
+
+        $expected = Acl::ALLOW;
+        $actual   = $acl->getDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 }

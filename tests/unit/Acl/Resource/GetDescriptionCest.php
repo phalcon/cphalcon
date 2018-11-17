@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Acl\Resource;
 
+use Phalcon\Acl\Resource;
 use UnitTester;
 
 class GetDescriptionCest
@@ -21,8 +22,26 @@ class GetDescriptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDescription(UnitTester $I, $scenario)
+    public function testGetDescription(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $resource = new Resource('Customers', 'Customer management');
+
+        $expected = 'Customer management';
+        $actual   = $resource->getDescription();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Acl\Resource :: getDescription() - empty
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function testGetDescriptionEmpty(UnitTester $I)
+    {
+        $resource = new Resource('Customers');
+
+        $actual = $resource->getDescription();
+        $I->assertEmpty($actual);
     }
 }

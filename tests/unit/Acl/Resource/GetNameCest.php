@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Acl\Resource;
 
+use Phalcon\Acl\Resource;
 use UnitTester;
 
 class GetNameCest
@@ -21,8 +22,12 @@ class GetNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I, $scenario)
+    public function testGetName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $resource = new Resource('Customers');
+
+        $expected = 'Customers';
+        $actual   = $resource->getName();
+        $I->assertEquals($expected, $actual);
     }
 }

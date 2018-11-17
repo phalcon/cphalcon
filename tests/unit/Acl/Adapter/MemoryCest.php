@@ -15,7 +15,6 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Role;
-
 use Phalcon\Test\Fixtures\Acl\TestResourceAware;
 use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use Phalcon\Test\Fixtures\Acl\TestRoleResourceAware;
@@ -24,51 +23,6 @@ use UnitTester;
 
 class MemoryCest
 {
-    /**
-     * Tests the ACL constants
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-03
-     */
-    public function testAclConstants(UnitTester $I)
-    {
-        $I->assertEquals(1, Acl::ALLOW);
-        $I->assertEquals(0, Acl::DENY);
-    }
-
-    /**
-     * Tests the setDefaultAction
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclDefaultAction(UnitTester $I)
-    {
-        $acl = new Memory();
-
-        $acl->setDefaultAction(Acl::ALLOW);
-
-        $expected = Acl::ALLOW;
-        $actual   = $acl->getDefaultAction();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests the addRole
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclAddRoleExists(UnitTester $I)
-    {
-        $acl     = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
-
-        $acl->addRole($aclRole);
-
-        $actual = $acl->isRole('Administrators');
-        $I->assertTrue($actual);
-    }
 
     /**
      * Tests the addRole for the same role twice
@@ -156,53 +110,6 @@ class MemoryCest
         $acl    = new Memory();
         $actual = $acl->isRole('Wrong');
         $I->assertFalse($actual);
-    }
-
-    /**
-     * Tests the role name
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclRoleName(UnitTester $I)
-    {
-        $acl     = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
-
-        $acl->addRole($aclRole);
-        $actual = $acl->isRole('Administrators');
-        $I->assertTrue($actual);
-    }
-
-    /**
-     * Tests the addResource
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclAddResourceExists(UnitTester $I)
-    {
-        $acl         = new Memory();
-        $aclResource = new Resource('Customers', 'Customer management');
-
-        $actual = $acl->addResource($aclResource, 'search');
-        $I->assertTrue($actual);
-    }
-
-    /**
-     * Tests the resource name
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclResourceName(UnitTester $I)
-    {
-        $acl         = new Memory();
-        $aclResource = new Resource('Customers', 'Customer management');
-
-        $acl->addResource($aclResource, 'search');
-        $actual = $acl->isResource('Customers');
-        $I->assertTrue($actual);
     }
 
     /**
@@ -351,13 +258,13 @@ class MemoryCest
         $acl->deny('Guests', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
         $I->assertFalse($actual);
 
-        $actual = (bool) $acl->isAllowed('Guests', 'Login', 'index');
+        $actual = (bool)$acl->isAllowed('Guests', 'Login', 'index');
         $I->assertTrue($actual);
 
-        $actual = (bool) $acl->isAllowed('Guests', 'Login', 'help');
+        $actual = (bool)$acl->isAllowed('Guests', 'Login', 'help');
         $I->assertFalse($actual);
     }
 
@@ -705,13 +612,13 @@ class MemoryCest
         $acl->deny('Guests2', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
         $I->assertFalse($actual);
 
-        $actual = (bool) $acl->isAllowed('Guests', 'Login', 'help');
+        $actual = (bool)$acl->isAllowed('Guests', 'Login', 'help');
         $I->assertTrue($actual);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Login', 'help');
+        $actual = (bool)$acl->isAllowed('Members', 'Login', 'help');
         $I->assertTrue($actual);
     }
 
@@ -742,16 +649,16 @@ class MemoryCest
         $acl->deny('Guests2', 'Logout', '*');
         $acl->allow('Guests22', 'Logout', ['index']);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
         $I->assertTrue($actual);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Login', 'help');
+        $actual = (bool)$acl->isAllowed('Members', 'Login', 'help');
         $I->assertFalse($actual);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Logout', 'help');
+        $actual = (bool)$acl->isAllowed('Members', 'Logout', 'help');
         $I->assertFalse($actual);
 
-        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
         $I->assertTrue($actual);
     }
 }

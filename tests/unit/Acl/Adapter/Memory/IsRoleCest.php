@@ -11,6 +11,9 @@
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class IsRoleCest
@@ -21,8 +24,14 @@ class IsRoleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsRole(UnitTester $I, $scenario)
+    public function testIsRole(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $acl     = new Memory();
+        $aclRole = new Role('Administrators', 'Super User access');
+
+        $acl->addRole($aclRole);
+
+        $actual = $acl->isRole('Administrators');
+        $I->assertTrue($actual);
     }
 }

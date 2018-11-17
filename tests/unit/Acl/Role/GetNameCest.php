@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Acl\Role;
 
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class GetNameCest
@@ -21,8 +22,12 @@ class GetNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I, $scenario)
+    public function testGetName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $role = new Role('Administrators');
+
+        $expected = 'Administrators';
+        $actual   = $role->getName();
+        $I->assertEquals($expected, $actual);
     }
 }

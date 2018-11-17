@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Validation\Validator\Exception;
 
 use UnitTester;
 
-class __toStringCest
+class ToStringCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Exception :: __toString()
@@ -21,7 +21,7 @@ class __toStringCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__toString(UnitTester $I, $scenario)
+    public function TestToString(UnitTester $I, $scenario)
     {
         $scenario->incomplete("Need implementation");
     }
