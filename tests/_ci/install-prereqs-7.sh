@@ -11,11 +11,11 @@ PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
 
 source ${PROJECT_ROOT}/tests/_ci/ci-tools.sh
 
-printf "\n" | pecl install --force apcu_bc &> /dev/null
-printf "\n" | pecl install --force igbinary &> /dev/null
-printf "\n" | pecl install --force imagick &> /dev/null
-printf "\n" | pecl install --force psr &> /dev/null
-printf "\n" | pecl install --force yaml-2.0.3 &> /dev/null
+printf "\n" | pecl install --force apcu_bc 1> /dev/null
+printf "\n" | pecl install --force igbinary 1> /dev/null
+printf "\n" | pecl install --force imagick 1> /dev/null
+printf "\n" | pecl install --force psr 1> /dev/null
+printf "\n" | pecl install --force yaml-2.0.3 1> /dev/null
 
 # See https://pear.php.net/bugs/bug.php?id=21007
 sed -i '1s/^/extension="apcu.so"\n/' "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
