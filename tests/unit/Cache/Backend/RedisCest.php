@@ -328,12 +328,6 @@ class RedisCest
 
     public function output(UnitTester $I)
     {
-        if (PHP_VERSION_ID >= 70300) {
-            throw new SkippedTestError(
-                'Skipped due unstable PHP version'
-            );
-        }
-
         $I->wantTo('Cache output fragments by using Redis as cache backend');
 
         $time = date('H:i:s');
