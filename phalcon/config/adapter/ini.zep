@@ -96,7 +96,7 @@ class Ini extends Config
 					let sections[] = this->_parseIniString((string)path, lastValue);
 				}
 				if count(sections) {
-					let config[section] = call_user_func_array("array_merge_recursive", sections);
+					let config[section] = call_user_func_array("array_replace_recursive", sections);
 				}
 			} else {
 				let config[section] = this->_cast(directives);
