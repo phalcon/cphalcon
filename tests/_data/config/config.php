@@ -1,23 +1,40 @@
 <?php
 
-return array(
-        "phalcon" => array(
+return [
+        "phalcon" => [
             "baseuri" => "/phalcon/"
-        ),
-        "models" => array(
+        ],
+        "models" => [
             "metadata" => "memory"
-        ),
-        "database" => array(
+        ],
+        "database" => [
             "adapter" => "mysql",
             "host" => "localhost",
             "username" => "user",
             "password" => "passwd",
             "name" => "demo"
-        ),
-        "test" => array(
-            "parent" => array(
+        ],
+        "test" => [
+            "parent" => [
                 "property" => 1,
                 "property2" => "yeah"
-            ),
-        )
-    );
+            ],
+        ],
+        'issue-12725' => [
+            'channel' => [
+                'handlers' => [
+                    0 => [
+                        'name' => 'stream',
+                        'level' => 'debug',
+                        'fingersCrossed' => 'info',
+                        'filename' => 'channel.log'
+                    ],
+                    1 => [
+                        'name' => 'redis',
+                        'level' => 'debug',
+                        'fingersCrossed' => 'info'
+                    ]
+                ]
+            ]
+        ]
+    ];
