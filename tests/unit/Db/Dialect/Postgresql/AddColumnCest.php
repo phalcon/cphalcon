@@ -11,18 +11,169 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Postgresql;
 
+use Phalcon\Test\Unit\Db\Dialect\Helper\PostgresqlHelper;
 use UnitTester;
 
-class AddColumnCest
+class AddColumnCest extends PostgresqlHelper
 {
     /**
-     * Tests Phalcon\Db\Dialect\Postgresql :: addColumn()
+     * Tests Dialect::addColumn
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-02-26
      */
-    public function testAddColumn(UnitTester $I, $scenario)
+    public function testAddColumn(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $data = $this->getAddColumnFixtures();
+        foreach ($data as $item) {
+            $schema   = $item[0];
+            $column   = $item[1];
+            $expected = $item[2];
+            $columns  = $this->getColumns();
+            $dialect  = $this->getDialectObject();
+            $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
+
+            $I->assertEquals($expected, $actual);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAddColumnFixtures(): array
+    {
+        return [
+            [
+                '',
+                'column1',
+                'ALTER TABLE "table" ADD COLUMN "column1" CHARACTER VARYING(10)'
+            ],
+            [
+                'schema',
+                'column1',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column1" CHARACTER VARYING(10)'
+            ],
+            [
+                '',
+                'column2',
+                'ALTER TABLE "table" ADD COLUMN "column2" INT'
+            ],
+            [
+                'schema',
+                'column2',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT'
+            ],
+            [
+                '',
+                'column3',
+                'ALTER TABLE "table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL'
+            ],
+            [
+                'schema',
+                'column3',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL'
+            ],
+            [
+                '',
+                'column4',
+                'ALTER TABLE "table" ADD COLUMN "column4" CHARACTER(100) NOT NULL'
+            ],
+            [
+                'schema',
+                'column4',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column4" CHARACTER(100) NOT NULL'
+            ],
+            [
+                '',
+                'column5',
+                'ALTER TABLE "table" ADD COLUMN "column5" DATE NOT NULL'
+            ],
+            [
+                'schema',
+                'column5',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column5" DATE NOT NULL'
+            ],
+            [
+                '',
+                'column6',
+                'ALTER TABLE "table" ADD COLUMN "column6" TIMESTAMP NOT NULL'
+            ],
+            [
+                'schema',
+                'column6',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column6" TIMESTAMP NOT NULL'
+            ],
+            [
+                '',
+                'column7',
+                'ALTER TABLE "table" ADD COLUMN "column7" TEXT NOT NULL'
+            ],
+            [
+                'schema',
+                'column7',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column7" TEXT NOT NULL'
+            ],
+            [
+                '',
+                'column8',
+                'ALTER TABLE "table" ADD COLUMN "column8" FLOAT NOT NULL'
+            ],
+            [
+                'schema',
+                'column8',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column8" FLOAT NOT NULL'
+            ],
+            [
+                '',
+                'column9',
+                'ALTER TABLE "table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''
+            ],
+            [
+                'schema',
+                'column9',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''
+            ],
+            [
+                '',
+                'column10',
+                'ALTER TABLE "table" ADD COLUMN "column10" INT DEFAULT 10'
+            ],
+            [
+                'schema',
+                'column10',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column10" INT DEFAULT 10'
+            ],
+            [
+                '',
+                'column11',
+                'ALTER TABLE "table" ADD COLUMN "column11" BIGINT'
+            ],
+            [
+                'schema',
+                'column11',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column11" BIGINT'
+            ],
+            [
+                '',
+                'column12',
+                'ALTER TABLE "table" ADD COLUMN "column12" ENUM(\'A\', \'B\', \'C\') DEFAULT \'A\' NOT NULL'
+            ],
+            [
+                'schema',
+                'column12',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column12" ENUM(\'A\', \'B\', \'C\') DEFAULT \'A\' NOT NULL'
+            ],
+            [
+                '',
+                'column13',
+                'ALTER TABLE "table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
+            ],
+            [
+                'schema',
+                'column13',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
+            ],
+        ];
     }
 }

@@ -1,242 +1,13 @@
 <?php
 
-/**
- * This file is part of the Phalcon Framework.
- *
- * (c) Phalcon Team <team@phalconphp.com>
- *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
- */
+namespace Phalcon\Test\Unit\Db\Dialect\Helper;
 
-namespace Phalcon\Test\Db\Dialect;
+use Phalcon\Db\Dialect\Mysql;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-use Phalcon\Db\Column;
-use Phalcon\Db\DialectInterface;
-use Phalcon\Db\Index;
-use Phalcon\Db\Reference;
-use Phalcon\Test\Unit\Db\Dialect\Helper\DialectBase;
-
-class MysqlCest extends DialectBase
+class MysqlHelper
 {
-    /**
-     * @var string
-     */
-    protected $adapter = 'Mysql';
-
-    /**
-     * @return array
-     */
-    protected function getAddColumnFixtures(): array
-    {
-        return [
-            [
-                '',
-                'column1',
-                'ALTER TABLE `table` ADD `column1` VARCHAR(10)'
-            ],
-            [
-                'schema',
-                'column1',
-                'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10)'
-            ],
-            [
-                '',
-                'column2',
-                'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED'
-            ],
-            [
-                'schema',
-                'column2',
-                'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED'
-            ],
-            [
-                '',
-                'column3',
-                'ALTER TABLE `table` ADD `column3` DECIMAL(10,2) NOT NULL'
-            ],
-            [
-                'schema',
-                'column3',
-                'ALTER TABLE `schema`.`table` ADD `column3` DECIMAL(10,2) NOT NULL'
-            ],
-            [
-                '',
-                'column4',
-                'ALTER TABLE `table` ADD `column4` CHAR(100) NOT NULL'
-            ],
-            [
-                'schema',
-                'column4',
-                'ALTER TABLE `schema`.`table` ADD `column4` CHAR(100) NOT NULL'
-            ],
-            [
-                '',
-                'column5',
-                'ALTER TABLE `table` ADD `column5` DATE NOT NULL'
-            ],
-            [
-                'schema',
-                'column5',
-                'ALTER TABLE `schema`.`table` ADD `column5` DATE NOT NULL'
-            ],
-            [
-                '',
-                'column6',
-                'ALTER TABLE `table` ADD `column6` DATETIME NOT NULL'
-            ],
-            [
-                'schema',
-                'column6',
-                'ALTER TABLE `schema`.`table` ADD `column6` DATETIME NOT NULL'
-            ],
-            [
-                '',
-                'column7',
-                'ALTER TABLE `table` ADD `column7` TEXT NOT NULL'
-            ],
-            [
-                'schema',
-                'column7',
-                'ALTER TABLE `schema`.`table` ADD `column7` TEXT NOT NULL'
-            ],
-            [
-                '',
-                'column8',
-                'ALTER TABLE `table` ADD `column8` FLOAT(10,2) NOT NULL'
-            ],
-            [
-                'schema',
-                'column8',
-                'ALTER TABLE `schema`.`table` ADD `column8` FLOAT(10,2) NOT NULL'
-            ],
-            [
-                '',
-                'column9',
-                'ALTER TABLE `table` ADD `column9` VARCHAR(10) DEFAULT "column9"'
-            ],
-            [
-                'schema',
-                'column9',
-                'ALTER TABLE `schema`.`table` ADD `column9` VARCHAR(10) DEFAULT "column9"'
-            ],
-            [
-                '',
-                'column10',
-                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"'
-            ],
-            [
-                'schema',
-                'column10',
-                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"'
-            ],
-            [
-                '',
-                'column11',
-                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED'
-            ],
-            [
-                'schema',
-                'column11',
-                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED'
-            ],
-            [
-                '',
-                'column12',
-                'ALTER TABLE `table` ADD `column12` ENUM("A", "B", "C") DEFAULT "A" NOT NULL AFTER `column11`'
-            ],
-            [
-                'schema',
-                'column12',
-                'ALTER TABLE `schema`.`table` ADD `column12` ENUM("A", "B", "C") DEFAULT "A" NOT NULL AFTER `column11`'
-            ],
-            [
-                '',
-                'column13',
-                'ALTER TABLE `table` ADD `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
-            ],
-            [
-                'schema',
-                'column13',
-                'ALTER TABLE `schema`.`table` ADD `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAddForeignKeyFixtures(): array
-    {
-        return [
-            [
-                '',
-                'fk1',
-                'ALTER TABLE `table` ADD CONSTRAINT `fk1` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`)'
-            ],
-            [
-                'schema',
-                'fk1',
-                'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk1` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`)'
-            ],
-            [
-                '',
-                'fk2',
-                'ALTER TABLE `table` ADD CONSTRAINT `fk2` ' .
-                'FOREIGN KEY (`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)'
-            ],
-            [
-                'schema',
-                'fk2',
-                'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk2` ' .
-                'FOREIGN KEY (`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)'
-            ],
-            [
-                '',
-                'fk3',
-                'ALTER TABLE `table` ADD CONSTRAINT `fk3` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ' .
-                'ON DELETE CASCADE'
-            ],
-            [
-                'schema',
-                'fk3',
-                'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk3` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ' .
-                'ON DELETE CASCADE'
-            ],
-            [
-                '',
-                'fk4',
-                'ALTER TABLE `table` ADD CONSTRAINT `fk4` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ' .
-                'ON UPDATE SET NULL'
-            ],
-            [
-                'schema',
-                'fk4',
-                'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk4` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ' .
-                'ON UPDATE SET NULL'
-            ],
-            [
-                '',
-                'fk5',
-                'ALTER TABLE `table` ADD CONSTRAINT `fk5` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ' .
-                'ON DELETE CASCADE ON UPDATE NO ACTION'
-            ],
-            [
-                'schema',
-                'fk5',
-                'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk5` ' .
-                'FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ' .
-                'ON DELETE CASCADE ON UPDATE NO ACTION'
-            ],
-        ];
-    }
+    use DialectTrait;
 
     /**
      * @return array
@@ -899,7 +670,15 @@ class MysqlCest extends DialectBase
         ];
     }
 
-
+    /**
+     * Returns the object for the dialect
+     *
+     * @return Mysql
+     */
+    protected function getDialectObject(): Mysql
+    {
+        return new Mysql();
+    }
 
 
 

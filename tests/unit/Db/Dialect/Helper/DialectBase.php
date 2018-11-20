@@ -13,28 +13,6 @@ class DialectBase
     protected $adapter = 'Mysql';
 
     /**
-     * Tests Dialect::addColumn
-     *
-     * @param UnitTester $I
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-02-26
-     */
-    public function testAddColumn(UnitTester $I)
-    {
-        $data = $this->getAddColumnFixtures();
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $column   = $item[1];
-            $expected = $item[2];
-            $columns  = $this->getColumns();
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
-
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    /**
      * Tests Dialect::addForeignKey
      *
      * @param UnitTester $I
