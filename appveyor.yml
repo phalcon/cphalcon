@@ -42,7 +42,7 @@ environment:
     PARSER_RELEASE: 401
     PHALCON_STABLE_VERSION: 3.3.2
     PSR_PECL_VERSION: 0.6.1
-    ZEPHIR_VERSION: 0.10.12
+    ZEPHIR_VERSION: 0.10.14
 
 matrix:
     fast_finish: true
