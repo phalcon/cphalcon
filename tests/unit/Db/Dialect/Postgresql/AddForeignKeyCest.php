@@ -11,11 +11,13 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Postgresql;
 
-use Phalcon\Test\Unit\Db\Dialect\Helper\PostgresqlHelper;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
-class AddForeignKeyCest extends PostgresqlHelper
+class AddForeignKeyCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: addForeignKey()
      *
@@ -29,7 +31,7 @@ class AddForeignKeyCest extends PostgresqlHelper
             $schema     = $item[0];
             $reference  = $item[1];
             $expected   = $item[2];
-            $dialect    = $this->getDialectObject();
+            $dialect    = $this->getDialectPostgresql();
             $references = $this->getReferences();
             $actual     = $dialect->addForeignKey('table', $schema, $references[$reference]);
 

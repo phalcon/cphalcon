@@ -12,6 +12,9 @@
 namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Mysql;
+use Phalcon\Db\Dialect\Postgresql;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
@@ -203,6 +206,36 @@ trait DialectTrait
                 ]
             ),
         ];
+    }
+
+    /**
+     * Returns the object for the dialect
+     *
+     * @return Mysql
+     */
+    protected function getDialectMysql(): Mysql
+    {
+        return new Mysql();
+    }
+
+    /**
+     * Returns the object for the dialect
+     *
+     * @return Postgresql
+     */
+    protected function getDialectPostgresql(): Postgresql
+    {
+        return new Postgresql();
+    }
+
+    /**
+     * Returns the object for the dialect
+     *
+     * @return Sqlite
+     */
+    protected function getDialectSqlite(): Sqlite
+    {
+        return new Sqlite();
     }
 
     /**

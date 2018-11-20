@@ -11,11 +11,13 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Sqlite;
 
-use Phalcon\Test\Unit\Db\Dialect\Helper\SqliteHelper;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
-class AddForeignKeyCest extends SqliteHelper
+class AddForeignKeyCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: addForeignKey()
      *
@@ -29,7 +31,7 @@ class AddForeignKeyCest extends SqliteHelper
             $schema     = $item[0];
             $reference  = $item[1];
             $expected   = $item[2];
-            $dialect    = $this->getDialectObject();
+            $dialect    = $this->getDialectSqlite();
             $references = $this->getReferences();
             $actual     = $dialect->addForeignKey('table', $schema, $references[$reference]);
 

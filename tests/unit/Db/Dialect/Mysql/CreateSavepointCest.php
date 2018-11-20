@@ -11,18 +11,34 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
 
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
 class CreateSavepointCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: createSavepoint()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-02-26
      */
-    public function testCreateSavepoint(UnitTester $I, $scenario)
+    public function testCreateSavepoint(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $dialect  = $this->getDialectMysql();
+        $expected = $this->getCreateSavepointSql();
+        $actual   = $dialect->createSavepoint('PH_SAVEPOINT_1');
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCreateSavepointSql(): string
+    {
+        return 'SAVEPOINT PH_SAVEPOINT_1';
     }
 }

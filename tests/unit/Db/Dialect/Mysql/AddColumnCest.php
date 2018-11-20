@@ -11,11 +11,13 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
 
-use Phalcon\Test\Unit\Db\Dialect\Helper\MysqlHelper;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
-class AddColumnCest extends MysqlHelper
+class AddColumnCest
 {
+    use DialectTrait;
+
     /**
      * Tests Dialect::addColumn
      *
@@ -31,7 +33,7 @@ class AddColumnCest extends MysqlHelper
             $column   = $item[1];
             $expected = $item[2];
             $columns  = $this->getColumns();
-            $dialect  = $this->getDialectObject();
+            $dialect  = $this->getDialectMysql();
             $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
 
             $I->assertEquals($expected, $actual);

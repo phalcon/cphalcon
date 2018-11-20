@@ -11,11 +11,13 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Postgresql;
 
-use Phalcon\Test\Unit\Db\Dialect\Helper\PostgresqlHelper;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
-class AddColumnCest extends PostgresqlHelper
+class AddColumnCest
 {
+    use DialectTrait;
+
     /**
      * Tests Dialect::addColumn
      *
@@ -31,7 +33,7 @@ class AddColumnCest extends PostgresqlHelper
             $column   = $item[1];
             $expected = $item[2];
             $columns  = $this->getColumns();
-            $dialect  = $this->getDialectObject();
+            $dialect  = $this->getDialectPostgresql();
             $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
 
             $I->assertEquals($expected, $actual);

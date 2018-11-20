@@ -11,11 +11,13 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Sqlite;
 
-use Phalcon\Test\Unit\Db\Dialect\Helper\SqliteHelper;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
-class AddColumnCest extends SqliteHelper
+class AddColumnCest
 {
+    use DialectTrait;
+
     /**
      * Tests Dialect::addColumn
      *
@@ -31,7 +33,7 @@ class AddColumnCest extends SqliteHelper
             $column   = $item[1];
             $expected = $item[2];
             $columns  = $this->getColumns();
-            $dialect  = $this->getDialectObject();
+            $dialect  = $this->getDialectSqlite();
             $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
 
             $I->assertEquals($expected, $actual);

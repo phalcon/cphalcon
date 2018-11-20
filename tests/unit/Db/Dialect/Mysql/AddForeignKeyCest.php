@@ -11,11 +11,13 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
 
-use Phalcon\Test\Unit\Db\Dialect\Helper\MysqlHelper;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use UnitTester;
 
-class AddForeignKeyCest extends MysqlHelper
+class AddForeignKeyCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: addForeignKey()
      *
@@ -29,7 +31,7 @@ class AddForeignKeyCest extends MysqlHelper
             $schema     = $item[0];
             $reference  = $item[1];
             $expected   = $item[2];
-            $dialect    = $this->getDialectObject();
+            $dialect    = $this->getDialectMysql();
             $references = $this->getReferences();
             $actual     = $dialect->addForeignKey('table', $schema, $references[$reference]);
 
