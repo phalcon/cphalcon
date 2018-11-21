@@ -302,7 +302,7 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	protected final function _merge(<Config> config, var instance = null) -> <Config>
 	{
-		var key, originalKey, value, number, localObject, property;
+		var key, value, number, localObject, property;
 
 		if typeof instance !== "object" {
 			let instance = this;
@@ -323,15 +323,13 @@ class Config implements \ArrayAccess, \Countable
 			}
 
 			if is_numeric(key) {
-				let originalKey = key;
-				let key = strval(number);
-				if this->offsetExists(key) {
-					//@link https://github.com/phalcon/cphalcon/issues/13351
-					//use originalKey to avoid overwriting incorrect key
-					let key = strval(originalKey);
+				let key = strval(key);
+				while instance->offsetExists(key) {
+					// increment the number afterwards, because "number" starts at one not zero.
+					let key = strval(number);
+					let number++;
 				}
-				let number++;
-			}
+ 			}
 			let instance->{key} = value;
 		}
 
