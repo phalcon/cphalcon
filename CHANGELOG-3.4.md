@@ -11,6 +11,14 @@
 - Fixed `Phalcon\Validation::preChecking` to allow use `Phalcon\Db\RawValue` as an empty container for `isAllowEmpty` option [#13549](https://github.com/phalcon/cphalcon/pull/13549), [#13573](https://github.com/phalcon/cphalcon/issues/13573), [#12519](https://github.com/phalcon/cphalcon/pull/12519)
 - Fixed object binding and placeholder creation in `Phalcon\Db\Adapter::insert` and `Phalcon\Db\Adapter::update` [#13058](https://github.com/phalcon/cphalcon/issues/13058).
 - Fixed `Phalcon\Config\Adapter\Ini` not building config objects properly for numerical keys [#12725](https://github.com/phalcon/cphalcon/issues/12725), [#13604](https://github.com/phalcon/cphalcon/issues/13604)
+- Fixed object binding and placeholder creation in `Phalcon\Db\Adapter::insert` and `Phalcon\Db\Adapter::update` [#13058](https://github.com/phalcon/cphalcon/issues/13058)
+- Fixed incorrect scope of view variables
+  [#12176](https://github.com/phalcon/cphalcon/issues/12176),
+  [#12385](https://github.com/phalcon/cphalcon/issues/12385),
+  [#12648](https://github.com/phalcon/cphalcon/issues/12648),
+  [#12705](https://github.com/phalcon/cphalcon/issues/12705),
+  [#13288](https://github.com/phalcon/cphalcon/pull/13288)
+- Fixed `Phalcon\Config::_merge` not merging config with numeric properties properly [#13351](https://github.com/phalcon/cphalcon/issues/13351).
 
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
@@ -37,8 +45,6 @@
 - Changed `Phalcon\Crypt::setCipher` so that IV length will be reconfigured during setting the cipher algorithm
 - Changed `Phalcon\Crypt::setCipher` so that method will throw `Phalcon\Crypt\Exception` if a cipher is unavailable
 - Fixed regression ([#13308](https://github.com/phalcon/cphalcon/pull/13308)) for `Phalcon\Debug\Dump::output` to correctly work with detailed mode [#13315](https://github.com/phalcon/cphalcon/issues/13315)
-- Do not throw Exception when superglobal does not exist [#13252](https://github.com/phalcon/cphalcon/issues/13252), [#13254](https://github.com/phalcon/cphalcon/issues/13254), [#12918](https://github.com/phalcon/cphalcon/issues/12918),
-[#13351](https://github.com/phalcon/cphalcon/issues/13351)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::having` and `Phalcon\Mvc\Model\Query\Builder::where` to correctly merge the bind types [#11487](https://github.com/phalcon/cphalcon/issues/11487)
 - Fixed `Phalcon\Mvc\Model::setSnapshotData` to properly sets the old snapshot
 - Do not throw Exception when superglobal does not exist [#13252](https://github.com/phalcon/cphalcon/issues/13252), [#13254](https://github.com/phalcon/cphalcon/issues/13254), [#12918](https://github.com/phalcon/cphalcon/issues/12918)
