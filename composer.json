@@ -36,7 +36,6 @@
         "codeception/verify": "^0.3",
         "doctrine/instantiator": "1.0.5",
         "mustache/mustache": "^2.11",
-        "phalcon/zephir": "^0.10",
         "phpdocumentor/reflection-docblock": "^2.0",
         "phpunit/phpunit": "^4.8 || ^5.7",
         "predis/predis": "^1.1",
@@ -49,7 +48,8 @@
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/",
-            "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
+            "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
+            "Phalcon\\Test\\Db\\": "tests/_data/db/"
         }
     },
     "support": {

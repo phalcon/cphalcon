@@ -89,7 +89,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Check whether a translation key exists
 	 */
-	public function offsetExists(string! translateKey) -> boolean
+	public function offsetExists(var translateKey) -> boolean
 	{
 		return this->{"exists"}(translateKey);
 	}
@@ -110,7 +110,7 @@ abstract class Adapter implements AdapterInterface
 	 * @param  string translateKey
 	 * @return string
 	 */
-	public function offsetGet(string! translateKey)
+	public function offsetGet(var translateKey)
 	{
 		return this->{"query"}(translateKey, null);
 	}

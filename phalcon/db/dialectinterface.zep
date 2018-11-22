@@ -111,7 +111,7 @@ interface DialectInterface
 	/**
 	 * Generates SQL to create a table
 	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> string;
+	public function createTable(string! tableName, string! schemaName, array! definition);
 
 	/**
 	 * Generates SQL to create a view

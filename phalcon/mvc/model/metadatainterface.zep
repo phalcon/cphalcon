@@ -57,7 +57,7 @@ interface MetaDataInterface
 	 * @param int index
 	 * @return mixed
 	 */
-	public function readMetaDataIndex(<ModelInterface> model, index);
+	public function readMetaDataIndex(<ModelInterface> model, int index);
 
 	/**
 	 * Writes meta-data for certain model using a MODEL_* constant
@@ -66,7 +66,7 @@ interface MetaDataInterface
 	 * @param int index
 	 * @param mixed data
 	 */
-	public function writeMetaDataIndex(<ModelInterface> model, index, data);
+	public function writeMetaDataIndex(<ModelInterface> model, int index, data);
 
 	/**
 	 * Reads the ordered/reversed column map for certain model
@@ -82,7 +82,7 @@ interface MetaDataInterface
 	 * @param \Phalcon\Mvc\ModelInterface model
 	 * @param int index
 	 */
-	public function readColumnMapIndex(<ModelInterface> model, index);
+	public function readColumnMapIndex(<ModelInterface> model, int index);
 
 	/**
 	 * Returns table attributes names (fields)
@@ -222,7 +222,7 @@ interface MetaDataInterface
 	 * @param string key
 	 * @return array
 	 */
-	public function read(key);
+	public function read(string! key);
 
 	/**
 	 * Writes meta-data to the adapter
@@ -230,5 +230,5 @@ interface MetaDataInterface
 	 * @param string key
 	 * @param array data
 	 */
-	public function write(key, data);
+	public function write(string! key, data);
 }

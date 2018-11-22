@@ -288,7 +288,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
 	{
 		let this->_transaction = transaction;
 		return this;
@@ -4654,7 +4654,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize(var data)
 	{
 		var attributes, dependencyInjector, manager, key, value, snapshot;
 

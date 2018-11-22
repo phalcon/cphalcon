@@ -55,7 +55,7 @@ interface UrlInterface
 	 * @param bool $local
 	 * @return string
 	 */
-	public function get(uri = null, args = null, boolean local = null) -> string;
+	public function get(var uri = null, var args = null, var local = null, var baseUri = null) -> string;
 
 	/**
 	 * Generates a local path
@@ -63,5 +63,5 @@ interface UrlInterface
 	 * @param string path
 	 * @return string
 	 */
-	public function path(path = null) -> string;
+	public function path(string path = null) -> string;
 }

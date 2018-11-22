@@ -649,6 +649,7 @@ class ViewTest extends UnitTest
      * Tests params view scope
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12648
+     * @issue  https://github.com/phalcon/cphalcon/pull/13288
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-17
      */
@@ -668,6 +669,7 @@ class ViewTest extends UnitTest
                 expect($content)->equals("<html>lol<p>test</p></html>\n");
                 try {
                     echo $a_cool_var;
+                    $this->fail('Variable a_cool_var is defined and is set to "' . $a_cool_var . '"');
                 } catch (\PHPUnit_Framework_Exception $e) {
                     expect($e->getMessage())->contains("Undefined variable: a_cool_var");
                 }

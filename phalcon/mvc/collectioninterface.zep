@@ -119,7 +119,7 @@ interface CollectionInterface
 	 * @param string id
 	 * @return \Phalcon\Mvc\Collection
 	 */
-	public static function findById(id) -> <CollectionInterface>;
+	public static function findById(var id) -> <CollectionInterface> | null;
 
 	/**
 	 * Allows to query the first record that match the specified conditions
