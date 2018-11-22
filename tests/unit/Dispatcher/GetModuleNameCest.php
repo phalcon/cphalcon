@@ -21,8 +21,8 @@ class GetModuleNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetModuleName(UnitTester $I, $scenario)
+    public function testGetModuleName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

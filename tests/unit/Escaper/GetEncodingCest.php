@@ -21,8 +21,8 @@ class GetEncodingCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEncoding(UnitTester $I, $scenario)
+    public function testGetEncoding(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

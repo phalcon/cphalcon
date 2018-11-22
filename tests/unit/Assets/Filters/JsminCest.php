@@ -23,9 +23,8 @@ class JsminCest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
-    public function testFilterJsminWithNonStringParam(UnitTester $I, $scenario)
+    public function testFilterJsminWithNonStringParam(UnitTester $I)
     {
-//        $scenario->skip('TODO: Check exception');
         $I->expectThrowable(
             new \TypeError(
                 'Argument 1 passed to Phalcon\Assets\Filters\Jsmin::filter() ' .
@@ -122,9 +121,9 @@ class JsminCest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
-    public function testAssetsFilterJsmin(UnitTester $I, $scenario)
+    public function testAssetsFilterJsmin(UnitTester $I)
     {
-        $scenario->skip('TODO: Check the fourth assertion');
+        $I->skipTest('TODO: Check the fourth assertion');
         $jsmin = new Jsmin();
 
         $expected = "\n" . '{}}';

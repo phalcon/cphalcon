@@ -29,7 +29,7 @@ class CryptCest extends CryptHelper
      * @expectedException        \Phalcon\Crypt\Mismatch
      * @expectedExceptionMessage Hash does not match.
      */
-    public function shouldThrowExceptionIfHashMismatch(UnitTester $I, $scenario)
+    public function shouldThrowExceptionIfHashMismatch(UnitTester $I)
     {
         $I->expectThrowable(
             Exception::class,
@@ -99,7 +99,7 @@ class CryptCest extends CryptHelper
      * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not
      *                           supported on this system.
      */
-    public function shouldThrowExceptionIfCipherIsUnknown(UnitTester $I, $scenario)
+    public function shouldThrowExceptionIfCipherIsUnknown(UnitTester $I)
     {
         $I->expectThrowable(
             Exception::class,

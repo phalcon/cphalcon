@@ -21,8 +21,8 @@ class AddResourceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddResource(UnitTester $I, $scenario)
+    public function testAddResource(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

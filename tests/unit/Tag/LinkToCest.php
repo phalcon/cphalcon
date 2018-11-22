@@ -23,9 +23,9 @@ class LinkToCest extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLinkTo(UnitTester $I, $scenario)
+    public function testLinkTo(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 
     /**

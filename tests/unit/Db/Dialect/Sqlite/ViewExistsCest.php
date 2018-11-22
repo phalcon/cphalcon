@@ -21,8 +21,8 @@ class ViewExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testViewExists(UnitTester $I, $scenario)
+    public function testViewExists(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

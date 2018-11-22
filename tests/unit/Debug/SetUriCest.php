@@ -21,8 +21,8 @@ class SetUriCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetUri(UnitTester $I, $scenario)
+    public function testSetUri(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

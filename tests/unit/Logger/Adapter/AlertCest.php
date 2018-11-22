@@ -21,8 +21,8 @@ class AlertCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAlert(UnitTester $I, $scenario)
+    public function testAlert(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

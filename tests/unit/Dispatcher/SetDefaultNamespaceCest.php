@@ -21,8 +21,8 @@ class SetDefaultNamespaceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefaultNamespace(UnitTester $I, $scenario)
+    public function testSetDefaultNamespace(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

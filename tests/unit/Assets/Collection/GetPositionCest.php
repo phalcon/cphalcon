@@ -21,8 +21,8 @@ class GetPositionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPosition(UnitTester $I, $scenario)
+    public function testGetPosition(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

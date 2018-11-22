@@ -21,8 +21,8 @@ class CheckCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCheck(UnitTester $I, $scenario)
+    public function testCheck(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

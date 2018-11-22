@@ -24,11 +24,10 @@ class SecurityCest
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('openssl')) {
-            $scenario->skip('Warning: openssl extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('openssl');
+
         $this->resetDi();
         $this->newDi();
 //        $this->setDiEscaper();
@@ -119,12 +118,12 @@ class SecurityCest
      * Tests Security::getToken and Security::getTokenKey for generating only
      * one token per request
      */
-    public function testOneTokenPerRequest(UnitTester $I, $scenario)
+    public function testOneTokenPerRequest(UnitTester $I)
     {
         /**
          * @TODO - Check Segfault
          */
-        $scenario->skip('TODO: Check segfault');
+        $I->skipTest('TODO: Check segfault');
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -164,12 +163,12 @@ class SecurityCest
     /**
      * Tests Security::checkToken
      */
-    public function testCheckToken(UnitTester $I, $scenario)
+    public function testCheckToken(UnitTester $I)
     {
         /**
          * @TODO - Check Segfault
          */
-        $scenario->skip('TODO: Check segfault');
+        $I->skipTest('TODO: Check segfault');
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);

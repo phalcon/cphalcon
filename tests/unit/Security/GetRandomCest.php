@@ -21,8 +21,8 @@ class GetRandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRandom(UnitTester $I, $scenario)
+    public function testGetRandom(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

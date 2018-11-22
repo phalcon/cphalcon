@@ -21,8 +21,8 @@ class GetClassesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetClasses(UnitTester $I, $scenario)
+    public function testGetClasses(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

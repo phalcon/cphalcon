@@ -21,8 +21,8 @@ class RegisterFilesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegisterFiles(UnitTester $I, $scenario)
+    public function testRegisterFiles(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

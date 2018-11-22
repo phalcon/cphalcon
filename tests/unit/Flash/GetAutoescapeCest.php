@@ -21,8 +21,8 @@ class GetAutoescapeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAutoescape(UnitTester $I, $scenario)
+    public function testGetAutoescape(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

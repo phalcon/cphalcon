@@ -21,8 +21,8 @@ class SetValidatorsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetValidators(UnitTester $I, $scenario)
+    public function testSetValidators(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetSqlTableCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlTable(UnitTester $I, $scenario)
+    public function testGetSqlTable(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

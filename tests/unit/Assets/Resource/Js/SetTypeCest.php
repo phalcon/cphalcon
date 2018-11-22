@@ -21,8 +21,8 @@ class SetTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetType(UnitTester $I, $scenario)
+    public function testSetType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

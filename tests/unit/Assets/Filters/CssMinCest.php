@@ -23,9 +23,9 @@ class CssMinCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
-    public function testFilterCssminWithNonStringParam(UnitTester $I, $scenario)
+    public function testFilterCssminWithNonStringParam(UnitTester $I)
     {
-        $scenario->skip('TODO: Check Exception');
+        $I->skipTest('TODO: Check Exception');
         $I->expectThrowable(
             new InvalidArgumentException("Parameter 'content' must be a string"),
             function () {
@@ -54,7 +54,7 @@ class CssMinCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
-    public function testAssetsFilterCssmin(UnitTester $I, $scenario)
+    public function testAssetsFilterCssmin(UnitTester $I)
     {
         $cssmin   = new Cssmin();
         $expected = '';
@@ -105,7 +105,7 @@ class CssMinCest
         $targetFile = PATH_DATA . '/assets/assets/cssmin-01-result.css';
 
         if (!file_exists($sourceFile) || !file_exists($targetFile)) {
-            $scenario->skip('Source files missing for this test');
+            $I->skipTest('Source files missing for this test');
         }
 
         $source   = file_get_contents($sourceFile);

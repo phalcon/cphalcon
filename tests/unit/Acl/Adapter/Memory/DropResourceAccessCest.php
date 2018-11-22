@@ -21,8 +21,8 @@ class DropResourceAccessCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropResourceAccess(UnitTester $I, $scenario)
+    public function testDropResourceAccess(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class HasValueCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasValue(UnitTester $I, $scenario)
+    public function testHasValue(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

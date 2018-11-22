@@ -21,8 +21,8 @@ class SetShowFileFragmentCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetShowFileFragment(UnitTester $I, $scenario)
+    public function testSetShowFileFragment(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

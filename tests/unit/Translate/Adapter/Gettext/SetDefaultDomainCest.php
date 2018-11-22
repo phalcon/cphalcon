@@ -21,8 +21,8 @@ class SetDefaultDomainCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefaultDomain(UnitTester $I, $scenario)
+    public function testSetDefaultDomain(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

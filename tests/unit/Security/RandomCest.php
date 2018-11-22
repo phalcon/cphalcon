@@ -313,13 +313,13 @@ class RandomCest
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
         if (!function_exists('random_bytes') &&
             !extension_loaded('openssl') &&
             !extension_loaded('libsodium') &&
             !file_exists('/dev/urandom')) {
-            $scenario->skip(
+            $I->skipTest(
                 'Warning: libsodium and openssl extensions is not loaded or ' .
                 '/dev/urandom file does not exist or ' .
                 'random_bytes function does not exists'

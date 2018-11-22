@@ -21,8 +21,8 @@ class DropViewCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropView(UnitTester $I, $scenario)
+    public function testDropView(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class SetHashAlgoCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetHashAlgo(UnitTester $I, $scenario)
+    public function testSetHashAlgo(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

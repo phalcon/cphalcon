@@ -21,8 +21,8 @@ class SetTargetPathCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetTargetPath(UnitTester $I, $scenario)
+    public function testSetTargetPath(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

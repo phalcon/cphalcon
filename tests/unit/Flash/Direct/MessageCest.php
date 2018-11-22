@@ -21,8 +21,8 @@ class MessageCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testMessage(UnitTester $I, $scenario)
+    public function testMessage(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

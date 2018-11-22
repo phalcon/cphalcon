@@ -21,8 +21,8 @@ class ListenCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListen(UnitTester $I, $scenario)
+    public function testListen(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

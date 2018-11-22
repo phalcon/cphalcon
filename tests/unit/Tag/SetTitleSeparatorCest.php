@@ -21,8 +21,8 @@ class SetTitleSeparatorCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetTitleSeparator(UnitTester $I, $scenario)
+    public function testSetTitleSeparator(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

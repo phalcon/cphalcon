@@ -21,8 +21,8 @@ class SetDoubleEncodeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDoubleEncode(UnitTester $I, $scenario)
+    public function testSetDoubleEncode(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

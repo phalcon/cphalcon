@@ -22,7 +22,7 @@ class GetTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I, $scenario)
+    public function testGetType(UnitTester $I)
     {
         $resource = new Inline('js', '<script>alert("Hello");</script>');
 

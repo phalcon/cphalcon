@@ -20,11 +20,9 @@ class YamlCest extends ConfigBase
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('yaml')) {
-            $scenario->skip('Warning: yaml extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('yaml');
     }
 
     /**

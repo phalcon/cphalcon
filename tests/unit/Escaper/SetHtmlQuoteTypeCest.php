@@ -21,8 +21,8 @@ class SetHtmlQuoteTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetHtmlQuoteType(UnitTester $I, $scenario)
+    public function testSetHtmlQuoteType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

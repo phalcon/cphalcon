@@ -20,11 +20,9 @@ class ApcuCest
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('apcu')) {
-            $scenario->skip('Warning: APCu extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('apcu');
 
         require_once PATH_DATA . 'fixtures/Annotations/TestClass.php';
         require_once PATH_DATA . 'fixtures/Annotations/TestClassNs.php';

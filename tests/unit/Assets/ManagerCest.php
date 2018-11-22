@@ -28,7 +28,7 @@ class ManagerCest
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
         @mkdir(PATH_OUTPUT . 'assets/', 0777, true);
         $this->resetDi();

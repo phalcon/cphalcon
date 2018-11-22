@@ -21,8 +21,8 @@ class GetRealSourcePathCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRealSourcePath(UnitTester $I, $scenario)
+    public function testGetRealSourcePath(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

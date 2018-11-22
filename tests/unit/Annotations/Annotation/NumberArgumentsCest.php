@@ -21,8 +21,8 @@ class NumberArgumentsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNumberArguments(UnitTester $I, $scenario)
+    public function testNumberArguments(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

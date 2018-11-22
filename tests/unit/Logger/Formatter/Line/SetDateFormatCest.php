@@ -21,8 +21,8 @@ class SetDateFormatCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDateFormat(UnitTester $I, $scenario)
+    public function testSetDateFormat(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

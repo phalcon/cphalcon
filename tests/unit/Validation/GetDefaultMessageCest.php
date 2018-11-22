@@ -21,8 +21,8 @@ class GetDefaultMessageCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefaultMessage(UnitTester $I, $scenario)
+    public function testGetDefaultMessage(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -22,13 +22,10 @@ class LoadCest
 
     /**
      * @param UnitTester $I
-     * @param            $scenario
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('gettext')) {
-            $scenario->skip('Warning: gettext extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('gettext');
 
         $this->init();
     }

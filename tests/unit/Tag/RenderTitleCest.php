@@ -21,8 +21,8 @@ class RenderTitleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRenderTitle(UnitTester $I, $scenario)
+    public function testRenderTitle(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

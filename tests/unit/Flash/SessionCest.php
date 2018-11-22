@@ -49,12 +49,12 @@ class SessionCest
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since  2016-06-15
      */
-    public function testShouldAutoEscapeHtml(UnitTester $I, $scenario)
+    public function testShouldAutoEscapeHtml(UnitTester $I)
     {
         /**
          * @TODO Check the session
          */
-        $scenario->skip('TODO: Check the session');
+        $I->skipTest('TODO: Check the session');
         $examples = [
             'error',
             'success',
@@ -106,12 +106,12 @@ class SessionCest
      * @author Iván Guillén <zeopix@gmail.com>
      * @since  2015-10-26
      */
-    public function testGetMessagesTypeRemoveMessages(UnitTester $I, $scenario)
+    public function testGetMessagesTypeRemoveMessages(UnitTester $I)
     {
         /**
          * @TODO Check the session
          */
-        $scenario->skip('TODO: Check the session');
+        $I->skipTest('TODO: Check the session');
         $flash = $this->getFlash();
 
         $flash->success('sample success');
@@ -136,12 +136,12 @@ class SessionCest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-03
      */
-    public function testGetNonExistentType(UnitTester $I, $scenario)
+    public function testGetNonExistentType(UnitTester $I)
     {
         /**
          * @TODO Check the session
          */
-        $scenario->skip('TODO: Check the session');
+        $I->skipTest('TODO: Check the session');
         $flash = $this->getFlash();
         $flash->error('sample error');
 
@@ -160,12 +160,12 @@ class SessionCest
      * @author Iván Guillén <zeopix@gmail.com>
      * @since  2015-10-26
      */
-    public function testClearMessagesFormSession(UnitTester $I, $scenario)
+    public function testClearMessagesFormSession(UnitTester $I)
     {
         /**
          * @TODO Check the session
          */
-        $scenario->skip('TODO: Check the session');
+        $I->skipTest('TODO: Check the session');
         $flash = $this->getFlash();
 
         ob_start();
@@ -185,12 +185,12 @@ class SessionCest
      * @author Iván Guillén <zeopix@gmail.com>
      * @since  2015-10-26
      */
-    public function testMessageFormat(UnitTester $I, $scenario)
+    public function testMessageFormat(UnitTester $I)
     {
         /**
          * @TODO Check the session
          */
-        $scenario->skip('TODO: Check the session');
+        $I->skipTest('TODO: Check the session');
         $examples = [
             'error',
             'success',
@@ -241,12 +241,12 @@ class SessionCest
      * @issue  https://github.com/phalcon/cphalcon/issues/13445
      * @since  2018-10-16
      */
-    public function testCustomFormat(UnitTester $I, $scenario)
+    public function testCustomFormat(UnitTester $I)
     {
         /**
          * @TODO Check the session
          */
-        $scenario->skip('TODO: Check the session');
+        $I->skipTest('TODO: Check the session');
         $flash    = $this->getFlash();
         $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
         $flash->setCustomTemplate($template);

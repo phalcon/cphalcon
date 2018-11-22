@@ -21,8 +21,8 @@ class GetPropertiesAnnotationsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPropertiesAnnotations(UnitTester $I, $scenario)
+    public function testGetPropertiesAnnotations(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

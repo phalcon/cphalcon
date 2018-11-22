@@ -21,8 +21,8 @@ class AddInlineCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddInline(UnitTester $I, $scenario)
+    public function testAddInline(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

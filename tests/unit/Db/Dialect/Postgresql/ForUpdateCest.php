@@ -21,8 +21,8 @@ class ForUpdateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testForUpdate(UnitTester $I, $scenario)
+    public function testForUpdate(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

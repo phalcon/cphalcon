@@ -21,8 +21,8 @@ class ReleaseSavepointCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReleaseSavepoint(UnitTester $I, $scenario)
+    public function testReleaseSavepoint(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

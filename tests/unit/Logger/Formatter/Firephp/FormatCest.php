@@ -21,8 +21,8 @@ class FormatCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFormat(UnitTester $I, $scenario)
+    public function testFormat(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

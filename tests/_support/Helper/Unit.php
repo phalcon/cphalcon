@@ -2,6 +2,7 @@
 
 namespace Helper;
 
+use PHPUnit\Framework\SkippedTestError;
 use ReflectionClass;
 
 // here you can define custom actions
@@ -37,25 +38,39 @@ class Unit extends \Codeception\Module
         return call_user_func_array([$reflectionMethod, 'invoke'], $args);
     }
 
-    public function getProtectedProperty($obj, $prop)
+    /**
+     * Checks if an extension is loaded and if not, skips the test
+     *
+     * @param string $extension The extension to check
+     */
+    public function checkExtensionIsLoaded(string $extension)
     {
-        $reflection = new ReflectionClass($obj);
-
-        $property = $reflection->getProperty($prop);
-        $property->setAccessible(true);
-
-        return $property->getValue($obj);
+        if (true !== extension_loaded($extension)) {
+            $this->skipTest(
+                sprintf("Extension '%s' is not loaded. Skipping test", $extension)
+            );
+        }
     }
 
-    public function setProtectedProperty($obj, $prop, $value)
+    /**
+     * Removes a file from the system
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-13
+     *
+     * @param string $path
+     * @param string $fileName
+     */
+    public function cleanFile($path, $fileName)
     {
-        $reflection = new ReflectionClass($obj);
+        $file = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
+        $file .= $fileName;
 
-        $property = $reflection->getProperty($prop);
-        $property->setAccessible(true);
-        $property->setValue($obj, $value);
+        $actual = file_exists($file);
 
-        $this->assertEquals($value, $property->getValue($obj));
+        if ($actual) {
+            unlink($file);
+        }
     }
 
     /**
@@ -79,23 +94,47 @@ class Unit extends \Codeception\Module
     }
 
     /**
-     * Removes a file from the system
+     * @param $obj
+     * @param $prop
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param string $path
-     * @param string $fileName
+     * @return mixed
+     * @throws \ReflectionException
      */
-    public function cleanFile($path, $fileName)
+    public function getProtectedProperty($obj, $prop)
     {
-        $file = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
-        $file .= $fileName;
+        $reflection = new ReflectionClass($obj);
 
-        $actual = file_exists($file);
+        $property = $reflection->getProperty($prop);
+        $property->setAccessible(true);
 
-        if ($actual) {
-            unlink($file);
-        }
+        return $property->getValue($obj);
+    }
+
+    /**
+     * @param $obj
+     * @param $prop
+     * @param $value
+     *
+     * @throws \ReflectionException
+     */
+    public function setProtectedProperty($obj, $prop, $value)
+    {
+        $reflection = new ReflectionClass($obj);
+
+        $property = $reflection->getProperty($prop);
+        $property->setAccessible(true);
+        $property->setValue($obj, $value);
+
+        $this->assertEquals($value, $property->getValue($obj));
+    }
+
+    /**
+     * Throws the SkippedTestError exception to skip a test
+     *
+     * @param string $message The message to display
+     */
+    public function skipTest(string $message)
+    {
+        throw new SkippedTestError($message);
     }
 }

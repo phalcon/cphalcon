@@ -22,7 +22,7 @@ class SetMessageCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetMessage(UnitTester $I, $scenario)
+    public function testSetMessage(UnitTester $I)
     {
         $message = new Message('This is a message #1');
         $message->setMessage('This is a message #2');

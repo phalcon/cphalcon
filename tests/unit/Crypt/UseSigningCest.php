@@ -21,8 +21,8 @@ class UseSigningCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUseSigning(UnitTester $I, $scenario)
+    public function testUseSigning(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

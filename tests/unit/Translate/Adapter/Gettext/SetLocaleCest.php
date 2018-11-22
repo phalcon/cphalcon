@@ -21,8 +21,8 @@ class SetLocaleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLocale(UnitTester $I, $scenario)
+    public function testSetLocale(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class EscapeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscape(UnitTester $I, $scenario)
+    public function testEscape(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

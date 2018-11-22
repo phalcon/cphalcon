@@ -111,11 +111,9 @@ class EscaperCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
-    public function testNormalizeEncoding(UnitTester $I, $scenario)
+    public function testNormalizeEncoding(UnitTester $I)
     {
-        if (!extension_loaded('mbstring')) {
-            $scenario->skip('Warning: mbstring extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('mbstring');
 
         $escaper = new Escaper();
 

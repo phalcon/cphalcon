@@ -21,8 +21,8 @@ class PreComputeHashKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPreComputeHashKey(UnitTester $I, $scenario)
+    public function testPreComputeHashKey(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

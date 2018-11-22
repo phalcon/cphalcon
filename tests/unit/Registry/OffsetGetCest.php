@@ -22,7 +22,7 @@ class OffsetGetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetGet(UnitTester $I, $scenario)
+    public function testOffsetGet(UnitTester $I)
     {
         $registry = new Registry();
         $registry->offsetSet('one', 1);

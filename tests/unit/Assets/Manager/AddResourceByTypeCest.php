@@ -21,8 +21,8 @@ class AddResourceByTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddResourceByType(UnitTester $I, $scenario)
+    public function testAddResourceByType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

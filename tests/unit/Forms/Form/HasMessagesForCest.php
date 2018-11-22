@@ -21,8 +21,8 @@ class HasMessagesForCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasMessagesFor(UnitTester $I, $scenario)
+    public function testHasMessagesFor(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

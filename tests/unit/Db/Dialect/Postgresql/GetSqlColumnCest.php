@@ -21,8 +21,8 @@ class GetSqlColumnCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlColumn(UnitTester $I, $scenario)
+    public function testGetSqlColumn(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

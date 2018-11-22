@@ -21,14 +21,12 @@ class GettextCest
      *
      * @param UnitTester $I
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('gettext')) {
-            $scenario->skip('Warning: gettext extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('gettext');
 
         if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            $scenario->skip("Locale en_US.utf8 not enabled");
+            $I->skipTest("Locale en_US.utf8 not enabled");
         }
     }
 

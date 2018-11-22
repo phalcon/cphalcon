@@ -21,8 +21,8 @@ class RadioFieldCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRadioField(UnitTester $I, $scenario)
+    public function testRadioField(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

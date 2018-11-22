@@ -21,8 +21,8 @@ class SetFormatterCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFormatter(UnitTester $I, $scenario)
+    public function testSetFormatter(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

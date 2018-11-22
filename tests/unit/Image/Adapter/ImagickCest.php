@@ -20,11 +20,9 @@ class ImagickCest
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('imagick')) {
-            $scenario->skip('Warning: imagick extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('imagick');
 
         @mkdir(PATH_OUTPUT . 'tests/image/imagick/', 0777, true);
     }
@@ -77,9 +75,9 @@ class ImagickCest
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-03-03
      */
-    public function testImagickLiquidRescale(UnitTester $I, $scenario)
+    public function testImagickLiquidRescale(UnitTester $I)
     {
-        $scenario->skip('TODO: Check library error');
+        $I->skipTest('TODO: Check library error');
         $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
         $image->setResourceLimit(6, 1);
 

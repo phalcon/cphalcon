@@ -21,8 +21,8 @@ class __set_stateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__set_state(UnitTester $I, $scenario)
+    public function test__set_state(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

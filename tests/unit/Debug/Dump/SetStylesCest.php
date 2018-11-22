@@ -21,8 +21,8 @@ class SetStylesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetStyles(UnitTester $I, $scenario)
+    public function testSetStyles(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

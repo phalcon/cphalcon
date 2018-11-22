@@ -22,7 +22,7 @@ class UnderscoreIssetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreIsset(UnitTester $I, $scenario)
+    public function testUnderscoreIsset(UnitTester $I)
     {
         $registry = new Registry();
         $registry->offsetSet('one', 1);

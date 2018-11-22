@@ -20,7 +20,7 @@ class FactoryCest
 {
     use FactoryTrait;
 
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
         $this->init();
     }

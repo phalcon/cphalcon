@@ -13,8 +13,6 @@ class DialectBase
     protected $adapter = 'Mysql';
 
 
-
-
     /**
      * Tests Dialect::createView
      *
@@ -63,9 +61,9 @@ class DialectBase
     /**
      * @param UnitTester $I
      */
-    public function testDescribeIndexes(UnitTester $I, $scenario)
+    public function testDescribeIndexes(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**
@@ -218,9 +216,9 @@ class DialectBase
     /**
      * @param UnitTester $I
      */
-    public function testForUpdate(UnitTester $I, $scenario)
+    public function testForUpdate(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**
@@ -268,17 +266,17 @@ class DialectBase
     /**
      * @param UnitTester $I
      */
-    public function testLimit(UnitTester $I, $scenario)
+    public function testLimit(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**
      * @param UnitTester $I
      */
-    public function testListTables(UnitTester $I, $scenario)
+    public function testListTables(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**
@@ -377,17 +375,17 @@ class DialectBase
     /**
      * @param UnitTester $I
      */
-    public function testSelect(UnitTester $I, $scenario)
+    public function testSelect(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**
      * @param UnitTester $I
      */
-    public function testSharedLock(UnitTester $I, $scenario)
+    public function testSharedLock(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**
@@ -442,9 +440,9 @@ class DialectBase
     /**
      * @param UnitTester $I
      */
-    public function testTableOptions(UnitTester $I, $scenario)
+    public function testTableOptions(UnitTester $I)
     {
-        $scenario->skip('TODO: Write this test');
+        $I->skipTest('TODO: Write this test');
     }
 
     /**

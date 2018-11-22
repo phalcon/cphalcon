@@ -21,8 +21,8 @@ class DecryptCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDecrypt(UnitTester $I, $scenario)
+    public function testDecrypt(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

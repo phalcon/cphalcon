@@ -21,8 +21,8 @@ class SetEntityCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEntity(UnitTester $I, $scenario)
+    public function testSetEntity(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class UuidCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUuid(UnitTester $I, $scenario)
+    public function testUuid(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

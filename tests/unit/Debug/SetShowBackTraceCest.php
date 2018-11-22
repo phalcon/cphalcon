@@ -21,8 +21,8 @@ class SetShowBackTraceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetShowBackTrace(UnitTester $I, $scenario)
+    public function testSetShowBackTrace(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

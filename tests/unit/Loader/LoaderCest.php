@@ -224,12 +224,12 @@ class LoaderCest
         $loader->unregister();
     }
 
-    public function testDirectoriesExtensions(UnitTester $I, $scenario)
+    public function testDirectoriesExtensions(UnitTester $I)
     {
         /**
          * @TODO: Check Extensions for this test
          */
-        $scenario->skip('TODO: Check Extensions for this test');
+        $I->skipTest('TODO: Check Extensions for this test');
         $loader = new Loader();
 
         $loader->setExtensions(

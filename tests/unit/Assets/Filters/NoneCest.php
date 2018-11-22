@@ -51,7 +51,7 @@ class NoneCest
      * @author  Volodymyr Kolesnykov <volodymyr@wildwolf.name>
      * @since   2013-09-15
      */
-    public function testAssetsFilterChainCustomFilterWithCssmin(UnitTester $I, $scenario)
+    public function testAssetsFilterChainCustomFilterWithCssmin(UnitTester $I)
     {
         $fileName = $I->getNewFileName('assets_', 'css');
         $assets   = new Manager();

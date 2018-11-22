@@ -21,8 +21,8 @@ class GetColumnListCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetColumnList(UnitTester $I, $scenario)
+    public function testGetColumnList(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

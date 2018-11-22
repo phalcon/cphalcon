@@ -21,8 +21,8 @@ class GetCipherCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCipher(UnitTester $I, $scenario)
+    public function testGetCipher(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetHashAlgoCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHashAlgo(UnitTester $I, $scenario)
+    public function testGetHashAlgo(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetTargetLocalCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTargetLocal(UnitTester $I, $scenario)
+    public function testGetTargetLocal(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

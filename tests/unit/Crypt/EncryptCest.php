@@ -21,8 +21,8 @@ class EncryptCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEncrypt(UnitTester $I, $scenario)
+    public function testEncrypt(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

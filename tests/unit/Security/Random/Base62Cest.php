@@ -21,8 +21,8 @@ class Base62Cest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBase62(UnitTester $I, $scenario)
+    public function testBase62(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetActiveResourceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveResource(UnitTester $I, $scenario)
+    public function testGetActiveResource(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

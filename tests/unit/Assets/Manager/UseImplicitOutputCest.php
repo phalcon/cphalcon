@@ -21,8 +21,8 @@ class UseImplicitOutputCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUseImplicitOutput(UnitTester $I, $scenario)
+    public function testUseImplicitOutput(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

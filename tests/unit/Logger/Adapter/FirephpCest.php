@@ -20,11 +20,9 @@ class FirephpCest
     /**
      * executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('xdebug')) {
-            $scenario->skip('Warning: xdebug extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('xdebug');
     }
 
     /**

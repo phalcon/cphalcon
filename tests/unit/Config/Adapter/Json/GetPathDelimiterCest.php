@@ -21,8 +21,8 @@ class GetPathDelimiterCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPathDelimiter(UnitTester $I, $scenario)
+    public function testGetPathDelimiter(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

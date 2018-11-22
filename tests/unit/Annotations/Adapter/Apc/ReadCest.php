@@ -21,8 +21,8 @@ class ReadCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRead(UnitTester $I, $scenario)
+    public function testRead(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

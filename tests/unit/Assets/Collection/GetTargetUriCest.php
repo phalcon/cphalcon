@@ -21,8 +21,8 @@ class GetTargetUriCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTargetUri(UnitTester $I, $scenario)
+    public function testGetTargetUri(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class EncryptBase64Cest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEncryptBase64(UnitTester $I, $scenario)
+    public function testEncryptBase64(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

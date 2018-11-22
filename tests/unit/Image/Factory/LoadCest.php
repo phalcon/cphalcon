@@ -22,13 +22,10 @@ class LoadCest
 
     /**
      * @param UnitTester $I
-     * @param            $scenario
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
-        if (!extension_loaded('imagick')) {
-            $scenario->skip('Warning: imagick extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('imagick');
 
         $this->init();
     }
