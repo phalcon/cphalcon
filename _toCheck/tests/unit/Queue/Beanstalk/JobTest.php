@@ -11,7 +11,7 @@ use Phalcon\Test\Unit\Queue\Helper\BeanstalkBase;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Queue\Beanstalk
  *
  * The contents of this file are subject to the New BSD License that is
@@ -26,7 +26,7 @@ class JobTest extends BeanstalkBase
     /**
      * Tests getting status
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-17
      */
     public function testStats()

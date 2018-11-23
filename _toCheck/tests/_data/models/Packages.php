@@ -11,7 +11,7 @@ use Phalcon\Mvc\Model\Resultset;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is

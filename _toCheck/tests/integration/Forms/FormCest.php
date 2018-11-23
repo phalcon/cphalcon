@@ -21,7 +21,7 @@ use Phalcon\Validation\Validator\StringLength;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Integration\Forms
  *
  * The contents of this file are subject to the New BSD License that is
@@ -49,7 +49,7 @@ class FormCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12165
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-01
      * @param  IntegrationTester $I
      */
@@ -145,7 +145,7 @@ class FormCest
      * Tests canceling validation on first fail
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-11-19
      * @param  IntegrationTester $I
      */
@@ -221,7 +221,7 @@ class FormCest
      * Tests clearing the Form Elements and using Form::isValid
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-01
      * @param  IntegrationTester $I
      */
@@ -282,7 +282,7 @@ class FormCest
      * Tests clearing the Form Elements by using Form::bind
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-01
      * @param  IntegrationTester $I
      */

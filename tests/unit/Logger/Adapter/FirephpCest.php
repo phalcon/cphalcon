@@ -27,7 +27,7 @@ class FirephpCest
     /**
      * Tests logging by using Firephp
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-28
      */
     public function testLoggerAdapterFirephpCreationDefault(UnitTester $I)

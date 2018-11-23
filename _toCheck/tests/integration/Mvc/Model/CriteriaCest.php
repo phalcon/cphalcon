@@ -37,7 +37,7 @@ class CriteriaCest
     /**
      * Tests creating builder from criteria
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-05-21
      *
      * @param IntegrationTester $I

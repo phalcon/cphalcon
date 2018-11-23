@@ -17,7 +17,7 @@ use PHPUnit\Framework\SkippedTestError;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Db\Adapter\Pdo
  *
@@ -58,7 +58,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::listTables
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-29
      */
     public function testListTables()
@@ -92,7 +92,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::listTables
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-29
      */
     public function testTableExists()
@@ -171,7 +171,7 @@ class PostgresqlTest extends UnitTest
      * Tests Postgresql::describeColumns for Postgresql autoincrement column
      *
      * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-28
      */
     public function testDescribeAutoIncrementColumns()

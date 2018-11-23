@@ -18,7 +18,7 @@ use Phalcon\Test\Models\Snapshot\Robotters;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
@@ -37,7 +37,7 @@ class SnapshotTest extends UnitTest
      * Tests dynamic update for identityless models
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/13166
      * @since  2017-11-20
      */
@@ -239,7 +239,7 @@ class SnapshotTest extends UnitTest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12628
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function shouldCorrectDetectChanges()

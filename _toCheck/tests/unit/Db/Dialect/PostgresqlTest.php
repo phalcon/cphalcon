@@ -14,7 +14,7 @@ use Helper\Dialect\PostgresqlTrait;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Dialect
  *
  * The contents of this file are subject to the New BSD License that is
@@ -31,7 +31,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::truncateTable
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testTruncateTable()
@@ -52,7 +52,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::dropColumn
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testDropColumn()
@@ -73,7 +73,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::modifyColumn
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testModifyColumn()
@@ -95,7 +95,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::addIndex
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testAddIndex()
@@ -117,7 +117,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::dropIndex
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testDropIndex()
@@ -138,7 +138,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::addPrimaryKey
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testAddPrimaryKey()
@@ -160,7 +160,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::dropPrimaryKey
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testDropPrimaryKey()
@@ -181,7 +181,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::addForeignKey
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testAddForeignKey()
@@ -203,7 +203,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::dropForeignKey
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testDropForeignKey()
@@ -224,7 +224,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::createView
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testCreateView()
@@ -245,7 +245,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::dropView
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testDropView()
@@ -287,7 +287,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::listViews
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testListViews()
@@ -310,7 +310,7 @@ class PostgresqlTest extends UnitTest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testDescribeColumns()
@@ -331,7 +331,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::createSavepoint
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testCreateSavepoint()
@@ -349,7 +349,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::releaseSavepoint
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testReleaseSavepoint()
@@ -366,7 +366,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::rollbackSavepoint
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testRollbackSavepoint()
@@ -383,7 +383,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::supportsSavepoints
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testSupportsSavepoints()
@@ -400,7 +400,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::supportsReleaseSavepoints
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testSupportsReleaseSavepoints()
@@ -438,7 +438,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::createTable
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-30
      */
     public function testCreateTable()

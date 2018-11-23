@@ -81,7 +81,7 @@ class FilesTest extends UnitTest
     /**
      * Tests session start
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-20
      */
     public function testSessionStart()
@@ -102,7 +102,7 @@ class FilesTest extends UnitTest
      * Tests session start
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10238
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2016-01-20
      */
@@ -138,7 +138,7 @@ class FilesTest extends UnitTest
     /**
      * Tests session write
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testSessionFilesWrite()
@@ -174,7 +174,7 @@ class FilesTest extends UnitTest
     /**
      * Tests session write with magic __set
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testSessionFilesWriteMagic()
@@ -210,7 +210,7 @@ class FilesTest extends UnitTest
     /**
      * Tests session read
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testSessionFilesRead()
@@ -242,7 +242,7 @@ class FilesTest extends UnitTest
     /**
      * Tests session read with magic __get
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testSessionFilesReadMagic()

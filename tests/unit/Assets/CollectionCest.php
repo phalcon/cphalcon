@@ -47,7 +47,7 @@ class CollectionCest
      * Tests Collection::has
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
     public function hasReource(UnitTester $I)
@@ -70,7 +70,7 @@ class CollectionCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
     public function doNotAddTheSameRecources(UnitTester $I)

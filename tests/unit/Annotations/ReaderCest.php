@@ -20,7 +20,7 @@ class ReaderCest
     /**
      * Test throws ReflectionException when non-existent got class
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-25
      */
     public function testParseWithNonExistentClass(UnitTester $I)
@@ -38,7 +38,7 @@ class ReaderCest
      * Test throws Phalcon\Annotations\Exception when got class with invalid
      * annotation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-25
      */
     public function testParseWithInvalidAnnotation(UnitTester $I)
@@ -58,7 +58,7 @@ class ReaderCest
     /**
      * Tests Reader::parse
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-25
      */
     public function testReaderParse(UnitTester $I)

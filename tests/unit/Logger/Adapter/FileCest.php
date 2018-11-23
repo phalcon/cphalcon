@@ -245,7 +245,7 @@ class FileCest
      * Tests multiple loggers
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2798
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-28
      */
     public function testMultipleLoggers(UnitTester $I)
@@ -475,7 +475,7 @@ class FileCest
      * Tests setting Json formatter
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2262
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-28
      */
     public function testLoggerAdapterFileSettingJsonFormatter(UnitTester $I)

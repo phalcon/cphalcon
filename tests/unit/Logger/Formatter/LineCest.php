@@ -55,7 +55,7 @@ class LineCest
      * Tests adding newline at end of message
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10631
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-28
      */
     public function testLoggerFormatterLineNewLines(UnitTester $I)

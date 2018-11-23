@@ -35,7 +35,7 @@ class BeanstalkTest extends BeanstalkBase
     /**
      * Tests Beanstalk connection
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-04-11
      */
     public function testShouldConnectAndDisconnect()
@@ -80,7 +80,7 @@ class BeanstalkTest extends BeanstalkBase
      * Tests changing the active tube.
      * use command
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-17
      */
     public function testShouldChooseTube()

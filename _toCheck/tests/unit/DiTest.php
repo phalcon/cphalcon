@@ -55,7 +55,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a service via string
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testSetString()
@@ -72,7 +72,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a service via anonymous function
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testSetAnonymousFunction()
@@ -91,7 +91,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a service via array
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testSetArray()
@@ -110,7 +110,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a service in the services container via Di::attempt
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testAttempt()
@@ -139,7 +139,7 @@ class DiTest extends UnitTest
     /**
      * Tests check a service in the services container via Di::has
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testHas()
@@ -160,7 +160,7 @@ class DiTest extends UnitTest
     /**
      * Tests resolving shared service
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testGetShared()
@@ -187,7 +187,7 @@ class DiTest extends UnitTest
     /**
      * Tests resolving service via magic __get
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testMagicGetCall()
@@ -204,7 +204,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a service via magic __set
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testMagicSetCall()
@@ -221,7 +221,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a service with parameters
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testSetParameters()
@@ -247,7 +247,7 @@ class DiTest extends UnitTest
     /**
      * Tests getting services
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testGetServices()
@@ -279,7 +279,7 @@ class DiTest extends UnitTest
     /**
      * Tests getting raw services
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testGetRawService()
@@ -296,7 +296,7 @@ class DiTest extends UnitTest
     /**
      * Tests registering a services via array access
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testRegisteringViaArrayAccess()
@@ -313,7 +313,7 @@ class DiTest extends UnitTest
     /**
      * Tests resolving a services via array access
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testResolvingViaArrayAccess()
@@ -330,7 +330,7 @@ class DiTest extends UnitTest
     /**
      * Tests getting non-existent service
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      *
      * @expectedException \Phalcon\Di\Exception
@@ -349,7 +349,7 @@ class DiTest extends UnitTest
     /**
      * Tests the latest DI created
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testGettingDiViaGetDefault()
@@ -366,7 +366,7 @@ class DiTest extends UnitTest
     /**
      * Tests resolving a services via array access
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-29
      */
     public function testComplexInjection()

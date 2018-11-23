@@ -39,7 +39,7 @@ class BuilderCest
      * @test
      * @issue  -
      * @author Andres Gutierrez <andres@phalconphp.com>
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-12-09
      */

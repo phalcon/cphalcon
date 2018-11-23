@@ -14,7 +14,7 @@ use Phalcon\Test\Module\UnitTest;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Dialect
  *
  * The contents of this file are subject to the New BSD License that is
@@ -32,7 +32,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::modifyColumn
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      *
      * @expectedException        \Phalcon\Db\Exception
@@ -55,7 +55,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::dropColumn
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      *
      * @expectedException        \Phalcon\Db\Exception
@@ -77,7 +77,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::dropTable
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropTable()
@@ -99,7 +99,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::truncateTable
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function truncateTable()
@@ -121,7 +121,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::addIndex
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function addIndex()
@@ -144,7 +144,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::dropIndex
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropIndex()
@@ -166,7 +166,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::addPrimaryKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      *
      * @expectedException        \Phalcon\Db\Exception
@@ -189,7 +189,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::dropPrimaryKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      *
      * @expectedException        \Phalcon\Db\Exception
@@ -211,7 +211,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::addForeignKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      *
      * @expectedException        \Phalcon\Db\Exception
@@ -234,7 +234,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::dropForeignKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      *
      * @expectedException        \Phalcon\Db\Exception
@@ -256,7 +256,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::createView
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function createView()
@@ -278,7 +278,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::dropView
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropView()
@@ -300,7 +300,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::listViews
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function listViews()
@@ -322,7 +322,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::viewExists
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function viewExists()
@@ -346,7 +346,7 @@ class SqliteTest extends UnitTest
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function describeColumns()
@@ -368,7 +368,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::createSavepoint
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function createSavepoint()
@@ -387,7 +387,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::releaseSavepoint
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function releaseSavepoint()
@@ -405,7 +405,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::rollbackSavepoint
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function rollbackSavepoint()
@@ -423,7 +423,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::supportsSavepoints
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function supportsSavepoints()
@@ -441,7 +441,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::supportsReleaseSavepoints
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function supportsReleaseSavepoints()
@@ -459,7 +459,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::describeReferences
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function describeReferences()
@@ -481,7 +481,7 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::createTable
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function createTable()

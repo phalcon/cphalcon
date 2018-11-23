@@ -34,7 +34,7 @@ class ResourceCest
      * Tests getResourceKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
     public function getResourceKey(UnitTester $I)

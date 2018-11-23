@@ -43,7 +43,7 @@ class SessionCest
     /**
      * Tests auto escaping
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since  2016-06-15
      */
@@ -143,7 +143,7 @@ class SessionCest
      * Tests getMessages in case of non existent type request
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11941
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-07-03
      */
     public function testGetNonExistentType(UnitTester $I)

@@ -211,7 +211,7 @@ class FlashBase
     /**
      * Tests auto escaping
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since  2016-06-15
      */

@@ -20,7 +20,7 @@ class JsminCest
     /**
      * Tests jsmin filter with non-string param
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminWithNonStringParam(UnitTester $I)
@@ -40,7 +40,7 @@ class JsminCest
     /**
      * Tests jsmin filter with unterminated comment
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminUnterminatedComment(UnitTester $I)
@@ -57,7 +57,7 @@ class JsminCest
     /**
      * Tests jsmin filter with unterminated string literal
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminUnterminatedStringLiteral(UnitTester $I)
@@ -74,7 +74,7 @@ class JsminCest
     /**
      * Tests jsmin filter with unterminated Regular Expression literal
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminUnterminatedRegexpLiteral(UnitTester $I)
@@ -91,7 +91,7 @@ class JsminCest
     /**
      * Tests jsmin filter with empty string
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminEmptyString(UnitTester $I)
@@ -104,7 +104,7 @@ class JsminCest
     /**
      * Tests jsmin filter with comment
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminComment(UnitTester $I)
@@ -118,7 +118,7 @@ class JsminCest
     /**
      * Tests cssmin filter
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testAssetsFilterJsmin(UnitTester $I)

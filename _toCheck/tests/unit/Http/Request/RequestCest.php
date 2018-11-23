@@ -77,7 +77,7 @@ class RequestCest extends HttpBase
      * Tests getHeader
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2294
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-19
      */
     public function testHttpRequestCustomHeaderGet(UnitTester $I)
@@ -366,7 +366,7 @@ class RequestCest extends HttpBase
     /**
      * Tests strict host check
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
      */
     public function testHttpStrictHostCheck(UnitTester $I)
@@ -404,7 +404,7 @@ class RequestCest extends HttpBase
     /**
      * Tests Request::getPort
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
      */
     public function testHttpRequestPort(UnitTester $I)
@@ -451,7 +451,7 @@ class RequestCest extends HttpBase
     /**
      * Tests getHttpHost by using invalid host
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
      *
      * @expectedException \UnexpectedValueException
@@ -502,7 +502,7 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13418
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-03
      */
     public function shouldGetDataReceivedByPutMethod(UnitTester $I)
@@ -534,7 +534,7 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13418
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-03
      */
     public function shouldGetDataReceivedByPutMethodAndJsonType(UnitTester $I)

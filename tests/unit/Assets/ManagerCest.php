@@ -50,7 +50,7 @@ class ManagerCest
      * Test Manager::get
      *
      * @test
-     * @author                   Serghei Iakovlev <serghei@phalconphp.com>
+     * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2017-06-04
      *
      * @expectedException        \Phalcon\Assets\Exception
@@ -417,7 +417,7 @@ class ManagerCest
      * Tests setting local target
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1532
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25
      */
@@ -448,7 +448,7 @@ class ManagerCest
     /**
      * Tests basic output
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testBasicOutput(UnitTester $I)
@@ -474,7 +474,7 @@ class ManagerCest
     /**
      * Tests output with enabled join
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testOutputWithEnabledJoin(UnitTester $I)
@@ -501,7 +501,7 @@ class ManagerCest
     /**
      * Tests output with disabled join
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testOutputWithDisabledJoin(UnitTester $I)
@@ -528,7 +528,7 @@ class ManagerCest
     /**
      * Tests output with disabled join
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
     public function testOutputWithJoinAndFilter(UnitTester $I)
@@ -559,7 +559,7 @@ class ManagerCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
     public function doNotAddTheSameRecources(UnitTester $I)

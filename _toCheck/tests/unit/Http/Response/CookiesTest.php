@@ -34,7 +34,7 @@ class CookiesTest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-09-02
      */
     public function shouldWorkWithoutInitializeInternalCookiesProperty()

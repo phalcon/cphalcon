@@ -41,7 +41,7 @@ class TextCest
      * Tests Text::render
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10398
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-07-17
      */
     public function testCreatingTextElementWithNameSimilarToTheFormMethods(UnitTester $I)

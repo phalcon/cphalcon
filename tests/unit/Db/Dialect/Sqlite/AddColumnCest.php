@@ -23,7 +23,7 @@ class AddColumnCest
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testAddColumn(UnitTester $I)

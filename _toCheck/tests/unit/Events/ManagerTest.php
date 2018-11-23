@@ -18,7 +18,7 @@ use Phalcon\Test\Listener\SecondListener;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Events
  *
  * The contents of this file are subject to the New BSD License that is
@@ -257,7 +257,7 @@ class ManagerTest extends UnitTest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-06
      */
     public function detachClosureListener()
@@ -301,7 +301,7 @@ class ManagerTest extends UnitTest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-06
      */
     public function detachObjectListener()

@@ -266,7 +266,7 @@ class RouterTest extends UnitTest
     /**
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13326
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-03-24
      */
     public function shouldAttachRoute()
@@ -291,7 +291,7 @@ class RouterTest extends UnitTest
      * Tests setting host name by using regexp
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-23
      */
     public function shouldMathWithHostnameRegex()
@@ -316,7 +316,7 @@ class RouterTest extends UnitTest
      * Tests setting host name by using regexp
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2573
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
      */
     public function shouldMathWithHostnameRegexWithHostPort111()

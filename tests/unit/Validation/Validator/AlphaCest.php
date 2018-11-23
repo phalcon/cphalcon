@@ -89,7 +89,7 @@ class AlphaCest
     /**
      * Tests Non Alphabetic Characters
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
     public function testShouldDetectNonAlphabeticCharacters(UnitTester $I)
@@ -136,7 +136,7 @@ class AlphaCest
     /**
      * Tests Alphabetic Characters
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
     public function testShouldValidateAlphabeticCharacters(UnitTester $I)
@@ -171,7 +171,7 @@ class AlphaCest
     /**
      * Tests Non Latin Characters
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
     public function testShouldValidateNonLatinCharacters(UnitTester $I)

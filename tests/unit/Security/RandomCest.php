@@ -19,7 +19,7 @@ class RandomCest
     /**
      * Tests the random number generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomNumber(UnitTester $I)
@@ -46,7 +46,7 @@ class RandomCest
     /**
      * Tests the random UUID v4 generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomUuid(UnitTester $I)
@@ -78,7 +78,7 @@ class RandomCest
     /**
      * Tests the random base58 generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-20
      */
     public function testRandomBase58(UnitTester $I)
@@ -114,7 +114,7 @@ class RandomCest
      * Tests the random base62 generation
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12105
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-05-21
      */
     public function testRandomBase62(UnitTester $I)
@@ -140,7 +140,7 @@ class RandomCest
     /**
      * Tests the random base64 generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomBase64(UnitTester $I)
@@ -186,7 +186,7 @@ class RandomCest
     /**
      * Tests the random base64 generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomBase64Safe(UnitTester $I)
@@ -227,7 +227,7 @@ class RandomCest
     /**
      * Tests the random hex generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomHex(UnitTester $I)
@@ -273,7 +273,7 @@ class RandomCest
     /**
      * Tests the random bytes string generation
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomByte(UnitTester $I)

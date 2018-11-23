@@ -21,7 +21,7 @@ class TagTitleCest extends TagHelper
      * Tests malicious content in the title
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11185
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-13
      */
     public function testGetTitleWithoutMaliciousContent(UnitTester $I)

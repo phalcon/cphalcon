@@ -38,7 +38,7 @@ class ViewCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12139
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-08-14
      */
     public function shouldGetActiveRenderPath(IntegrationTester $I)

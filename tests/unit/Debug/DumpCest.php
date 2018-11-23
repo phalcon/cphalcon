@@ -22,7 +22,7 @@ class DumpCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13315
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-23
      */
     public function shouldDumpObjectProperties(UnitTester $I)

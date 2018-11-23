@@ -20,7 +20,7 @@ class ReflectionCest
     /**
      * Tests creating empty Reflection object
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-26
      */
     public function testEmptyReflection(UnitTester $I)
@@ -35,7 +35,7 @@ class ReflectionCest
     /**
      * Tests parsing a real class
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-26
      */
     public function testParsingARealClass(UnitTester $I)
@@ -59,7 +59,7 @@ class ReflectionCest
     /**
      * Tests parsing class annotations
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-26
      */
     public function testClassAnnotations(UnitTester $I)

@@ -92,7 +92,7 @@ class CryptCest extends CryptHelper
      * Tests the Crypt::setCipher
      *
      * @test
-     * @author                   Serghei Iakovlev <serghei@phalconphp.com>
+     * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2018-05-06
      *
      * @expectedException        \Phalcon\Crypt\Exception
@@ -113,7 +113,7 @@ class CryptCest extends CryptHelper
     /**
      * Tests the Crypt constants
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-12-20
      */
     public function testCryptConstants(UnitTester $I)

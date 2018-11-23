@@ -58,7 +58,7 @@ class CriteriaTest extends UnitTest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/10676
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-08-11
      */
     public function shouldExecuteInWhereQueryWithEmptyArray()

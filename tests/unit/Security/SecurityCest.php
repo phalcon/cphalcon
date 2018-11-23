@@ -38,7 +38,7 @@ class SecurityCest
     /**
      * Tests the Security constants
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2015-12-19
      */
     public function testSecurityConstants(UnitTester $I)

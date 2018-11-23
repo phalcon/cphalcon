@@ -59,7 +59,7 @@ class ConfigCest extends ConfigBase
     /**
      * Tests toArray method
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-17
      */
     public function testConfigToArray(UnitTester $I)

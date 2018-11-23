@@ -21,7 +21,7 @@ class FileCest
      * Tests getRealType
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1442
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-26
      */

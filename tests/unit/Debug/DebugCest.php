@@ -41,7 +41,7 @@ class DebugCest
      * Tests the Debug::getVersion
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12215
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-25
      */
     public function testShouldGetVersion(UnitTester $I)

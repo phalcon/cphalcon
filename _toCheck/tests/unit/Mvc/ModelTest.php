@@ -32,7 +32,7 @@ use PHPUnit\Framework\SkippedTestError;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc
  *
@@ -67,7 +67,7 @@ class ModelTest extends UnitTest
      * Tests find with empty conditions + bind and limit.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11919
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-07-29
      */
     public function testEmptyConditions()
@@ -102,7 +102,7 @@ class ModelTest extends UnitTest
      * Tests Model::hasMany by using multi relation column
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12035
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-08-02
      */
     public function testMultiRelationColumn()
@@ -126,7 +126,7 @@ class ModelTest extends UnitTest
      * Tests reusing Model relation
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11991
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-08-03
      */
     public function testReusableRelation()

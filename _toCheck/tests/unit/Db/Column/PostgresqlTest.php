@@ -12,7 +12,7 @@ use Phalcon\Test\Module\UnitTest;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Column
  *
  * The contents of this file are subject to the New BSD License that is
@@ -28,7 +28,7 @@ class PostgresqlTest extends UnitTest
      * Tests Postgresql::hasDefault for autoincrement fields
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/853
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-09-28
      */
     public function testHasAutoIncrementDefault()

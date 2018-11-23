@@ -18,7 +18,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testCreateView(UnitTester $I)
@@ -55,7 +55,7 @@ class DialectBase
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDescribeColumns(UnitTester $I)
@@ -85,7 +85,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDescribeReferences(UnitTester $I)
@@ -107,7 +107,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropColumn(UnitTester $I)
@@ -129,7 +129,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropForeignKey(UnitTester $I)
@@ -151,7 +151,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropIndex(UnitTester $I)
@@ -173,7 +173,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropPrimaryKey(UnitTester $I)
@@ -194,7 +194,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropTable(UnitTester $I)
@@ -216,7 +216,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropView(UnitTester $I)
@@ -247,7 +247,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testGetColumnDefinition(UnitTester $I)
@@ -269,7 +269,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testGetColumnList(UnitTester $I)
@@ -307,7 +307,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testListViews(UnitTester $I)
@@ -328,7 +328,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testModifyColumn(UnitTester $I)
@@ -352,7 +352,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-01-20
      * @issue  https://github.com/phalcon/cphalcon/issues/13012
      */
@@ -371,7 +371,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testReleaseSavepoint(UnitTester $I)
@@ -388,7 +388,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testRollbackSavepoint(UnitTester $I)
@@ -421,7 +421,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testSupportsReleaseSavepoints(UnitTester $I)
@@ -437,7 +437,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testSupportsSavepoints(UnitTester $I)
@@ -480,7 +480,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testTruncateTable(UnitTester $I)
@@ -501,7 +501,7 @@ class DialectBase
      *
      * @param UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testViewExists(UnitTester $I)

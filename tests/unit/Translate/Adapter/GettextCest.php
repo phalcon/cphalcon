@@ -35,7 +35,7 @@ class GettextCest
      *
      * @param  UnitTester $I
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-16
      */
     public function arrayAccess(UnitTester $I)

@@ -97,7 +97,7 @@ class FilterCustomCest extends FilterBase
     /**
      * Tests a custom callable filter
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-04-15
      * @issue  https://github.com/phalcon/cphalcon/issues/11581
      */

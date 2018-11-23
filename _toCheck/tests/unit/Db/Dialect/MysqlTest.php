@@ -15,7 +15,7 @@ use Phalcon\Test\Module\UnitTest;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Dialect
  *
  * The contents of this file are subject to the New BSD License that is
@@ -33,7 +33,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::getColumnList
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function columnList()
@@ -55,7 +55,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::getColumnDefinition
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function columnDefinition()
@@ -78,7 +78,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::addColumn
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function addColumns()
@@ -101,7 +101,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::dropTable
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropTable()
@@ -123,7 +123,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::truncateTable
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function truncateTable()
@@ -145,7 +145,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::dropColumn
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropColumn()
@@ -167,7 +167,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::modifyColumn
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function modifyColumn()
@@ -190,7 +190,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::addIndex
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function addIndex()
@@ -213,7 +213,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::dropIndex
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropIndex()
@@ -235,7 +235,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::addPrimaryKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function addPrimaryKey()
@@ -258,7 +258,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::dropPrimaryKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropPrimaryKey()
@@ -280,7 +280,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::addForeignKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function addForeignKey()
@@ -303,7 +303,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::dropForeignKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropForeignKey()
@@ -325,7 +325,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::createView
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function createView()
@@ -347,7 +347,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::dropView
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dropView()
@@ -369,7 +369,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::listViews
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function listViews()
@@ -391,7 +391,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::viewExists
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function viewExists()
@@ -415,7 +415,7 @@ class MysqlTest extends UnitTest
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function describeColumns()
@@ -437,7 +437,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::createSavepoint
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function createSavepoint()
@@ -456,7 +456,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::releaseSavepoint
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function releaseSavepoint()
@@ -474,7 +474,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::rollbackSavepoint
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function rollbackSavepoint()
@@ -492,7 +492,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::supportsSavepoints
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function supportsSavepoints()
@@ -510,7 +510,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::supportsReleaseSavepoints
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function supportsReleaseSavepoints()
@@ -528,7 +528,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::describeReferences
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function describeReferences()
@@ -550,7 +550,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::createTable
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function createTable()
@@ -572,7 +572,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::modifyColumn
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-01-20
      * @issue  https://github.com/phalcon/cphalcon/issues/13012
      */

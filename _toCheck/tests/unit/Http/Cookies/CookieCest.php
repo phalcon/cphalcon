@@ -38,7 +38,7 @@ class CookieCest extends HttpBase
      * Tests Cookie::setSignKey
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-05-06
      */
     public function shouldThrowExceptionIfSignKeyIsNotLongEnough(UnitTester $I)
@@ -56,7 +56,7 @@ class CookieCest extends HttpBase
      * Tests Cookie::getValue using message authentication code and request forgery
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-05-06
      */
     public function shouldThrowExceptionIfMessageAuthenticationCodeIsMismatch(UnitTester $I)
@@ -104,7 +104,7 @@ class CookieCest extends HttpBase
      * Tests Cookie::getValue using message authentication code
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-05-06
      */
     public function shouldDecryptValueByUsingMessageAuthenticationCode(UnitTester $I)
@@ -143,7 +143,7 @@ class CookieCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/11259
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-10-04
      */
     public function shouldDecryptValueByUsingDefaultEncryptionAlgo(UnitTester $I)
@@ -165,7 +165,7 @@ class CookieCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-09-02
      */
     public function shouldWorkWithoutInitializeInternalCookiesProperty(UnitTester $I)

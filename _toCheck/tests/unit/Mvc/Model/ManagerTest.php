@@ -18,7 +18,7 @@ use Phalcon\Test\Models\AlbumORama\Albums;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
@@ -118,7 +118,7 @@ class ManagerTest extends UnitTest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12972
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-10-02
      */
     public function shouldReturnDesiredFieldsFromRelatedModel()
@@ -144,7 +144,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests Manager::isVisibleModelProperty
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-08-12
      */
     public function testModelPublicProperties()

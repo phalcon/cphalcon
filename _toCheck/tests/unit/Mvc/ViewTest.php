@@ -17,7 +17,7 @@ use PHPUnit\Framework\Exception as PhpUnitException;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
@@ -226,7 +226,7 @@ class ViewTest extends UnitTest
     /**
      * Tests View::render with params
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-09-24
      * @issue  https://github.com/phalcon/cphalcon/issues/13046
      */

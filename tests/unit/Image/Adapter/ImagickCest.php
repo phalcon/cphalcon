@@ -30,7 +30,7 @@ class ImagickCest
     /**
      * Tests create a new image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickSave(UnitTester $I)
@@ -47,7 +47,7 @@ class ImagickCest
     /**
      * Tests resize image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickResize(UnitTester $I)
@@ -72,7 +72,7 @@ class ImagickCest
     /**
      * Tests liquid rescaling
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickLiquidRescale(UnitTester $I)
@@ -98,7 +98,7 @@ class ImagickCest
     /**
      * Tests crop image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickCrop(UnitTester $I)
@@ -123,7 +123,7 @@ class ImagickCest
     /**
      * Tests rotate image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickRotate(UnitTester $I)
@@ -148,7 +148,7 @@ class ImagickCest
     /**
      * Tests flip image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickFlip(UnitTester $I)
@@ -173,7 +173,7 @@ class ImagickCest
     /**
      * Tests sharpen image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickSharpen(UnitTester $I)
@@ -198,7 +198,7 @@ class ImagickCest
     /**
      * Tests reflection image
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickReflection(UnitTester $I)
@@ -223,7 +223,7 @@ class ImagickCest
     /**
      * Tests watermark
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-03-03
      */
     public function testImagickWatermark(UnitTester $I)
@@ -249,7 +249,7 @@ class ImagickCest
     /**
      * Tests mask
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function testImagickMask(UnitTester $I)
@@ -275,7 +275,7 @@ class ImagickCest
     /**
      * Tests background
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function testImagickBackground(UnitTester $I)
