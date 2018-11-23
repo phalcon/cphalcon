@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Cache\Backend\Factory;
 
-use Phalcon\Logger\Factory;
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Cache\Backend\Apc;
+use Phalcon\Cache\Backend\Factory;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
-use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 use UnitTester;
 
-class FactoryCest
+class LoadCest
 {
     use FactoryTrait;
 
@@ -27,26 +27,26 @@ class FactoryCest
     }
 
     /**
-     * Test factory using Phalcon\Config
+     * Tests Phalcon\Cache\Backend\Factory :: load() - Config
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function testConfigFactory(UnitTester $I)
     {
-        $options = $this->config->logger;
+        $options = $this->config->cache_backend;
         $this->runTests($I, $options);
     }
 
     /**
-     * Test factory using array
+     * Tests Phalcon\Cache\Backend\Factory :: load() - array
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function testArrayFactory(UnitTester $I)
     {
-        $options = $this->arrayConfig["logger"];
+        $options = $this->arrayConfig["cache_backend"];
         $this->runTests($I, $options);
     }
 
@@ -58,15 +58,19 @@ class FactoryCest
      */
     private function runTests(UnitTester $I, $options)
     {
-        /** @var File $logger */
-        $logger = Factory::load($options);
+        /** @var Apc $cache */
+        $cache = Factory::load($options);
 
-        $class = File::class;
-        $actual = $logger;
+        $class = Apc::class;
+        $actual = $cache;
         $I->assertInstanceOf($class, $actual);
 
-        $expected = $options["name"];
-        $actual   =  $logger->getPath();
+        $class = Data::class;
+        $actual = $cache->getFrontend();
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = array_intersect_assoc($cache->getOptions(), $options->toArray());
+        $actual   = $cache->getOptions();
         $I->assertEquals($expected, $actual);
     }
 }

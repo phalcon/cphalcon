@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cache\Backend\Memcache;
+namespace Phalcon\Test\Unit\Cache\Frontend\Output;
 
 use UnitTester;
 
-class _connectCest
+class AfterRetrieveCest
 {
     /**
-     * Tests Phalcon\Cache\Backend\Memcache :: _connect()
+     * Tests Phalcon\Cache\Frontend\Output :: afterRetrieve()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test_connect(UnitTester $I)
+    public function testAfterRetrieve(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

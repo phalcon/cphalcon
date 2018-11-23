@@ -1,15 +1,14 @@
 <?php
 
-namespace Phalcon\Test\Unit\Cache\Backend;
+namespace Phalcon\Test\Unit\Cache\Frontend;
 
-use Phalcon\Cache\Backend\Apc;
-use Phalcon\Cache\Backend\Factory;
 use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\Frontend\Factory;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 
 /**
- * \Phalcon\Test\Unit\Cache\Backend\FactoryTest
- * Tests for \Phalcon\Cache\Backend\Factory component
+ * \Phalcon\Test\Unit\Cache\Frontend\FactoryTest
+ * Tests for \Phalcon\Cache\Frontend\Factory component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
@@ -38,12 +37,11 @@ class FactoryTest extends FactoryBase
         $this->specify(
             "Factory using Phalcon\\Config doesn't work properly",
             function () {
-                $options = $this->config->cache_backend;
-                /** @var Apc $cache */
+                $options = $this->config->cache_frontend;
+                /** @var Data $cache */
                 $cache = Factory::load($options);
-                expect($cache)->isInstanceOf(Apc::class);
-                expect(array_intersect_assoc($cache->getOptions(), $options->toArray()))->equals($cache->getOptions());
-                expect($cache->getFrontend())->isInstanceOf(Data::class);
+                expect($cache)->isInstanceOf(Data::class);
+                expect($cache->getLifetime())->equals($options->lifetime);
             }
         );
     }
@@ -59,12 +57,11 @@ class FactoryTest extends FactoryBase
         $this->specify(
             "Factory using array doesn't work properly",
             function () {
-                $options = $this->arrayConfig["cache_backend"];
-                /** @var Apc $cache */
+                $options = $this->arrayConfig["cache_frontend"];
+                /** @var Data $cache */
                 $cache = Factory::load($options);
-                expect($cache)->isInstanceOf(Apc::class);
-                expect(array_intersect_assoc($cache->getOptions(), $options))->equals($cache->getOptions());
-                expect($cache->getFrontend())->isInstanceOf(Data::class);
+                expect($cache)->isInstanceOf(Data::class);
+                expect($cache->getLifetime())->equals($options["lifetime"]);
             }
         );
     }
