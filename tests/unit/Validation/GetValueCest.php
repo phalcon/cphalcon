@@ -21,7 +21,7 @@ class GetValueCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValue(UnitTester $I)
+    public function validationGetValue(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

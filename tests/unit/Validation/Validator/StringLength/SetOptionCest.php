@@ -25,7 +25,7 @@ class SetOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetOption(UnitTester $I)
+    public function validationValidatorStringLengthSetOption(UnitTester $I)
     {
         $validator = new StringLength();
         $this->validatorSetOption($I, $validator);

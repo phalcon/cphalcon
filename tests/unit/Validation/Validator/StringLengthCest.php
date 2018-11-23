@@ -272,7 +272,7 @@ class StringLengthCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldMultipleMinMax(UnitTester $I)
+    public function validationValidatorMultipleFieldMultipleMinMax(UnitTester $I)
     {
         $validation                = new Validation();
         $validationMinimumMessages = [

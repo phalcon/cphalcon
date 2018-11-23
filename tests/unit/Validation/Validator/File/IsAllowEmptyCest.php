@@ -21,7 +21,7 @@ class IsAllowEmptyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsAllowEmpty(UnitTester $I)
+    public function validationValidatorFileIsAllowEmpty(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

@@ -11,18 +11,87 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Alnum;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Alnum;
 use UnitTester;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: validate()
+     * Tests Phalcon\Validation\Validator\Alnum :: validate() - single field
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
-    public function testValidate(UnitTester $I)
+    public function validationValidatorAlnumValidateSingleField(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validation = new Validation();
+        $validation->add('name', new Alnum());
+        $messages = $validation->validate(['name' => 'SomeValue123']);
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123!@#']);
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Alnum :: validate() - multiple field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorAlnumValidateMultipleField(UnitTester $I)
+    {
+        $validation         = new Validation();
+        $validationMessages = [
+            'name' => 'Name must be alnum',
+            'type' => 'Type must be alnum',
+        ];
+        $validation->add(
+            [
+                'name',
+                'type',
+            ],
+            new Alnum(
+                [
+                    'message' => $validationMessages,
+                ]
+            )
+        );
+        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue123']);
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123!@#', 'type' => 'SomeValue123']);
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123!@#', 'type' => 'SomeValue123!@#']);
+
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertEquals($expected, $actual);
     }
 }

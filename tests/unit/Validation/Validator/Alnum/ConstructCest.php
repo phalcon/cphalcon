@@ -26,7 +26,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function validationValidatorAlnumConstruct(UnitTester $I)
     {
         $validator = new Alnum();
         $I->assertInstanceOf(ValidatorInterface::class, $validator);

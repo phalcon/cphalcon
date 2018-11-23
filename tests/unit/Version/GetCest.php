@@ -25,7 +25,7 @@ class GetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function versionGet(UnitTester $I)
     {
         $actual = is_string(Version::get());
         $I->assertTrue($actual);
@@ -37,7 +37,7 @@ class GetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetIdToGet(UnitTester $I)
+    public function versionGetIdToGet(UnitTester $I)
     {
         $id        = Version::getId();
         $major     = intval($id[0]);

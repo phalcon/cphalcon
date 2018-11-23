@@ -26,7 +26,7 @@ class NumericalityCest
      * @author Andrey Izman <izmanw@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add('amount', new Numericality());
@@ -57,7 +57,7 @@ class NumericalityCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleField(UnitTester $I)
+    public function validationValidatorMultipleField(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -111,7 +111,7 @@ class NumericalityCest
      * @author Andrey Izman <izmanw@gmail.com>
      * @since  2018-08-08
      */
-    public function testLocales(UnitTester $I)
+    public function validationValidatorLocales(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add('amount', new Numericality());

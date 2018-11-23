@@ -25,7 +25,7 @@ class GetOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOption(UnitTester $I)
+    public function validationValidatorBetweenGetOption(UnitTester $I)
     {
         $validator = new Between();
         $this->validatorGetOption($I, $validator);

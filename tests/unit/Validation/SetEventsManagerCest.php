@@ -21,7 +21,7 @@ class SetEventsManagerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEventsManager(UnitTester $I)
+    public function validationSetEventsManager(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

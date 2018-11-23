@@ -25,7 +25,7 @@ class DigitCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add('amount', new Digit());
@@ -47,7 +47,7 @@ class DigitCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleField(UnitTester $I)
+    public function validationValidatorMultipleField(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -91,7 +91,7 @@ class DigitCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testShouldValidateIntOrStringOfDigits(UnitTester $I)
+    public function validationValidatorShouldValidateIntOrStringOfDigits(UnitTester $I)
     {
         $examples = [
             '123',

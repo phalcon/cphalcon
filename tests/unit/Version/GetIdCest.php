@@ -25,7 +25,7 @@ class GetIdCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetId(UnitTester $I)
+    public function versionGetId(UnitTester $I)
     {
         $actual = is_string(Version::getId());
         $I->assertTrue($actual);
@@ -37,7 +37,7 @@ class GetIdCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetToGetId(UnitTester $I)
+    public function versionGetToGetId(UnitTester $I)
     {
         $version = Version::get();
         $chunks  = explode(' ', $version);

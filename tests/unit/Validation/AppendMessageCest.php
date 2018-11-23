@@ -21,7 +21,7 @@ class AppendMessageCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAppendMessage(UnitTester $I)
+    public function validationAppendMessage(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

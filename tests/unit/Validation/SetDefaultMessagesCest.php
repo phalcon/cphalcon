@@ -21,7 +21,7 @@ class SetDefaultMessagesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefaultMessages(UnitTester $I)
+    public function validationSetDefaultMessages(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

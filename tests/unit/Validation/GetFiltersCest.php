@@ -21,7 +21,7 @@ class GetFiltersCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilters(UnitTester $I)
+    public function validationGetFilters(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

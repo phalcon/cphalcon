@@ -25,7 +25,7 @@ class GetOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOption(UnitTester $I)
+    public function validationValidatorDateGetOption(UnitTester $I)
     {
         $validator = new Date();
         $this->validatorGetOption($I, $validator);

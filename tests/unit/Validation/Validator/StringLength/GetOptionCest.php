@@ -25,7 +25,7 @@ class GetOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOption(UnitTester $I)
+    public function validationValidatorStringLengthGetOption(UnitTester $I)
     {
         $validator = new StringLength();
         $this->validatorGetOption($I, $validator);

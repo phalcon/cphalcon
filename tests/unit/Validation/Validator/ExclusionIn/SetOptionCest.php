@@ -25,7 +25,7 @@ class SetOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetOption(UnitTester $I)
+    public function validationValidatorExclusionInSetOption(UnitTester $I)
     {
         $validator = new ExclusionIn();
         $this->validatorSetOption($I, $validator);

@@ -21,7 +21,7 @@ class GetMessagesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessages(UnitTester $I)
+    public function validationGetMessages(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

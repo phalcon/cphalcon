@@ -21,7 +21,7 @@ class ValidateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testValidate(UnitTester $I)
+    public function validationValidatorDateValidate(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

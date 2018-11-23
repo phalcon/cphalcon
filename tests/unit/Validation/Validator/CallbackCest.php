@@ -29,7 +29,7 @@ class CallbackCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testSingleFieldBoolean(UnitTester $I)
+    public function validationValidatorSingleFieldBoolean(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -85,7 +85,7 @@ class CallbackCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testSingleFieldValidator(UnitTester $I)
+    public function validationValidatorSingleFieldValidator(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -149,7 +149,7 @@ class CallbackCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testMultipleFieldBoolean(UnitTester $I)
+    public function validationValidatorMultipleFieldBoolean(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -217,7 +217,7 @@ class CallbackCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testMultipleFieldValidator(UnitTester $I)
+    public function validationValidatorMultipleFieldValidator(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add(
@@ -322,7 +322,7 @@ class CallbackCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function testException(UnitTester $I)
+    public function validationValidatorException(UnitTester $I)
     {
         $I->expectThrowable(
             new Exception('Callback must return boolean or Phalcon\Validation\Validator object'),

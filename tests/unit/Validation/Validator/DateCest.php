@@ -25,7 +25,7 @@ class DateCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add('date', new Date());
@@ -47,7 +47,7 @@ class DateCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleField(UnitTester $I)
+    public function validationValidatorMultipleField(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [

@@ -22,7 +22,7 @@ class ConstantsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testVersionConstants(UnitTester $I)
+    public function versionConstants(UnitTester $I)
     {
         $I->assertEquals(0, Version::VERSION_MAJOR);
         $I->assertEquals(1, Version::VERSION_MEDIUM);

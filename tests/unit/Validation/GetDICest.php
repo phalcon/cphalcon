@@ -21,7 +21,7 @@ class GetDICest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDI(UnitTester $I)
+    public function validationGetDI(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

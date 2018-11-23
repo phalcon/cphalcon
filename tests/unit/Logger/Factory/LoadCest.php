@@ -11,18 +11,61 @@
 
 namespace Phalcon\Test\Unit\Logger\Factory;
 
+use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Factory;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class LoadCest
 {
-    /**
-     * Tests Phalcon\Logger\Factory :: load()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function testLoad(UnitTester $I)
+    use FactoryTrait;
+
+    public function _before(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $this->init();
+    }
+
+    /**
+     * Tests Phalcon\Logger\Factory :: load() - Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function loggerFactoryLoadConfig(UnitTester $I)
+    {
+        $options = $this->config->logger;
+        $this->runTests($I, $options);
+    }
+
+    /**
+     * Tests Phalcon\Logger\Factory :: load() - array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function loggerFactoryLoadArray(UnitTester $I)
+    {
+        $options = $this->arrayConfig["logger"];
+        $this->runTests($I, $options);
+    }
+
+    /**
+     * Runs the tests based on different configurations
+     *
+     * @param UnitTester   $I
+     * @param Config|array $options
+     */
+    private function runTests(UnitTester $I, $options)
+    {
+        /** @var File $logger */
+        $logger = Factory::load($options);
+
+        $class  = File::class;
+        $actual = $logger;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = $options["name"];
+        $actual   = $logger->getPath();
+        $I->assertEquals($expected, $actual);
     }
 }

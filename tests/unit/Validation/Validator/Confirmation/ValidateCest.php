@@ -11,18 +11,250 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Confirmation;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Confirmation;
 use UnitTester;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate()
+     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single field
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
-    public function testValidate(UnitTester $I)
+    public function validationValidatorConfirmationValidateSingleField(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validation = new Validation();
+        $validation->add(
+            'name',
+            new Confirmation(
+                [
+                    'with' => 'nameWith',
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue',
+            ]
+        );
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue123',
+            ]
+        );
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorConfirmationValidateMultipleField(UnitTester $I)
+    {
+        $validation         = new Validation();
+        $validationMessages = [
+            'name' => 'Name must be same as nameWith.',
+            'type' => 'Type must be same as typeWith.',
+        ];
+        $validation->add(
+            ['name', 'type'],
+            new Confirmation(
+                [
+                    'with'    => [
+                        'name' => 'nameWith',
+                        'type' => 'typeWith',
+                    ],
+                    'message' => $validationMessages,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue',
+                'type'     => 'SomeValue',
+                'typeWith' => 'SomeValue',
+            ]
+        );
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue123',
+                'type'     => 'SomeValue',
+                'typeWith' => 'SomeValue',
+            ]
+        );
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'SomeValue',
+                'nameWith' => 'SomeValue123',
+                'type'     => 'SomeValue',
+                'typeWith' => 'SomeValue123',
+            ]
+        );
+
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty value
+     *
+     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
+     * @since  2015-09-06
+     */
+    public function validationValidatorConfirmationValidateEmptyValues(UnitTester $I)
+    {
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'Confirmation',
+                            '_message' => 'Field password must be the same as password2',
+                            '_field'   => 'password',
+                            '_code'    => '0',
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $validation = new Validation();
+        $validation->add(
+            'password',
+            new Confirmation(
+                [
+                    'allowEmpty' => true,
+                    'with'       => 'password2',
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'password'  => 'test123',
+                'password2' => 'test123',
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $messages = $validation->validate(
+            [
+                'password'  => null,
+                'password2' => 'test123',
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $validation = new Validation();
+        $validation->add(
+            'password',
+            new Confirmation(
+                [
+                    'allowEmpty' => false,
+                    'with'       => 'password2',
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'password'  => 'test123',
+                'password2' => 'test123',
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $messages = $validation->validate(
+            [
+                'password'  => null,
+                'password2' => 'test123',
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertEquals(1, $actual);
+        $actual = $messages;
+        $I->assertEquals($expected, $actual);
+
+        $validation = new Validation();
+        $validation->add(
+            'password',
+            new Confirmation(
+                [
+                    'with' => 'password2',
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'password'  => 'test123',
+                'password2' => 'test123',
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertEquals(0, $actual);
+
+        $messages = $validation->validate(
+            [
+                'password'  => null,
+                'password2' => 'test123',
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertEquals(1, $actual);
+        $actual = $messages;
+        $I->assertEquals($expected, $actual);
     }
 }

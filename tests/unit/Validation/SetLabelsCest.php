@@ -21,7 +21,7 @@ class SetLabelsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLabels(UnitTester $I)
+    public function validationSetLabels(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

@@ -25,7 +25,7 @@ class UrlCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add('url', new Url());
@@ -65,7 +65,7 @@ class UrlCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleField(UnitTester $I)
+    public function validationValidatorMultipleField(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -111,7 +111,7 @@ class UrlCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testCustomMessage(UnitTester $I)
+    public function validationValidatorCustomMessage(UnitTester $I)
     {
         $validation = new Validation();
 

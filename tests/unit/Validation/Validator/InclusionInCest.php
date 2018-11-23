@@ -25,7 +25,7 @@ class InclusionInCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
 
@@ -72,7 +72,7 @@ class InclusionInCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldSingleDomain(UnitTester $I)
+    public function validationValidatorMultipleFieldSingleDomain(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -125,7 +125,7 @@ class InclusionInCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldMultipleDomain(UnitTester $I)
+    public function validationValidatorMultipleFieldMultipleDomain(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -185,7 +185,7 @@ class InclusionInCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testCustomMessage(UnitTester $I)
+    public function validationValidatorCustomMessage(UnitTester $I)
     {
         $validation = new Validation();
 

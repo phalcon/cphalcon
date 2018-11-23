@@ -25,7 +25,7 @@ class IdenticalCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
 
@@ -72,7 +72,7 @@ class IdenticalCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldSingleAccepted(UnitTester $I)
+    public function validationValidatorMultipleFieldSingleAccepted(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -125,7 +125,7 @@ class IdenticalCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldMultipleAccepted(UnitTester $I)
+    public function validationValidatorMultipleFieldMultipleAccepted(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -185,7 +185,7 @@ class IdenticalCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testCustomMessage(UnitTester $I)
+    public function validationValidatorCustomMessage(UnitTester $I)
     {
         $validation = new Validation();
 

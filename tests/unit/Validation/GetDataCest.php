@@ -21,7 +21,7 @@ class GetDataCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetData(UnitTester $I)
+    public function validationGetData(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

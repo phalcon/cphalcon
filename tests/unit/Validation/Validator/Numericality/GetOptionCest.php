@@ -25,7 +25,7 @@ class GetOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOption(UnitTester $I)
+    public function validationValidatorNumericalityGetOption(UnitTester $I)
     {
         $validator = new Numericality();
         $this->validatorGetOption($I, $validator);

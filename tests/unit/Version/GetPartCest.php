@@ -25,7 +25,7 @@ class GetPartCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPart(UnitTester $I)
+    public function versionGetPart(UnitTester $I)
     {
         /*
          * Note: getId() returns a version string in the format ABBCCDE

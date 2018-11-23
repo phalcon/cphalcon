@@ -25,7 +25,7 @@ class AlphaCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
         $validation->add('name', new Alpha());
@@ -47,7 +47,7 @@ class AlphaCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleField(UnitTester $I)
+    public function validationValidatorMultipleField(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -92,7 +92,7 @@ class AlphaCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
-    public function testShouldDetectNonAlphabeticCharacters(UnitTester $I)
+    public function validationValidatorShouldDetectNonAlphabeticCharacters(UnitTester $I)
     {
         $examples = [
             '1',
@@ -139,7 +139,7 @@ class AlphaCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
-    public function testShouldValidateAlphabeticCharacters(UnitTester $I)
+    public function validationValidatorShouldValidateAlphabeticCharacters(UnitTester $I)
     {
         $examples = [
             'a',
@@ -174,7 +174,7 @@ class AlphaCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
-    public function testShouldValidateNonLatinCharacters(UnitTester $I)
+    public function validationValidatorShouldValidateNonLatinCharacters(UnitTester $I)
     {
         $examples = [
             'йцукенг',

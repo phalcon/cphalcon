@@ -25,7 +25,7 @@ class HasOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasOption(UnitTester $I)
+    public function validationValidatorDateHasOption(UnitTester $I)
     {
         $validator = new Date(['message' => 'This is a message']);
         $this->validatorHasOption($I, $validator);

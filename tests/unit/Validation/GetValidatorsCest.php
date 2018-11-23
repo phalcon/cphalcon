@@ -21,7 +21,7 @@ class GetValidatorsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValidators(UnitTester $I)
+    public function validationGetValidators(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

@@ -25,7 +25,7 @@ class RegexCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testSingleField(UnitTester $I)
+    public function validationValidatorSingleField(UnitTester $I)
     {
         $validation = new Validation();
 
@@ -68,7 +68,7 @@ class RegexCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldSinglePattern(UnitTester $I)
+    public function validationValidatorMultipleFieldSinglePattern(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -121,7 +121,7 @@ class RegexCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function testMultipleFieldMultiplePattern(UnitTester $I)
+    public function validationValidatorMultipleFieldMultiplePattern(UnitTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -180,7 +180,7 @@ class RegexCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testCustomMessage(UnitTester $I)
+    public function validationValidatorCustomMessage(UnitTester $I)
     {
         $validation = new Validation();
 

@@ -25,7 +25,7 @@ class HasOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasOption(UnitTester $I)
+    public function validationValidatorAlnumHasOption(UnitTester $I)
     {
         $validator = new Alnum(['message' => 'This is a message']);
         $this->validatorHasOption($I, $validator);

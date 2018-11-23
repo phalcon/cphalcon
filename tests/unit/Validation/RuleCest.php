@@ -21,7 +21,7 @@ class RuleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRule(UnitTester $I)
+    public function validationRule(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }
