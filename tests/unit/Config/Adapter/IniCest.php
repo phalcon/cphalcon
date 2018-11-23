@@ -91,6 +91,7 @@ class IniCest extends ConfigBase
      */
     public function testIniConfig(UnitTester $I)
     {
+        $I->skipTest('To check when refactoring');
         $config = new Ini(PATH_DATA . 'assets/config/config.ini');
         $this->compareConfig($I, $this->config, $config);
     }
