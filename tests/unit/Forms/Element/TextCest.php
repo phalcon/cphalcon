@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Forms\Element;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class TextCest
@@ -108,7 +108,7 @@ class TextCest
         $element1 = new Text("name");
         $element1->setLabel("name");
 
-        $actual = $element1->prepareAttributes(
+        $actual   = $element1->prepareAttributes(
             [
                 "class" => "big-input",
             ]

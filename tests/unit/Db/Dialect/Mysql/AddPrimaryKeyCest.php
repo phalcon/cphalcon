@@ -22,6 +22,7 @@ class AddPrimaryKeyCest
      * Tests Phalcon\Db\Dialect\Mysql :: addPrimaryKey()
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -46,7 +47,7 @@ class AddPrimaryKeyCest
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [
-            ['',       'PRIMARY', 'ALTER TABLE `table` ADD PRIMARY KEY (`column3`)'],
+            ['', 'PRIMARY', 'ALTER TABLE `table` ADD PRIMARY KEY (`column3`)'],
             ['schema', 'PRIMARY', 'ALTER TABLE `schema`.`table` ADD PRIMARY KEY (`column3`)'],
         ];
     }

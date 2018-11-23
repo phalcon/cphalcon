@@ -25,6 +25,7 @@ class CreateTableCest
      * Tests Phalcon\Db\Dialect\Postgresql :: createTable()
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -54,15 +55,15 @@ class CreateTableCest
                     'columns' => [
                         new Column('column1', [
                             'type' => Column::TYPE_VARCHAR,
-                            'size' => 10
+                            'size' => 10,
                         ]),
                         new Column('column2', [
                             'type'     => Column::TYPE_INTEGER,
                             'size'     => 18,
                             'unsigned' => true,
-                            'notNull'  => false
+                            'notNull'  => false,
                         ]),
-                    ]
+                    ],
                 ],
                 rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example1.sql')),
             ],
@@ -74,49 +75,49 @@ class CreateTableCest
                             'type'     => Column::TYPE_INTEGER,
                             'size'     => 18,
                             'unsigned' => true,
-                            'notNull'  => false
+                            'notNull'  => false,
                         ]),
                         new Column('column3', [
                             'type'     => Column::TYPE_DECIMAL,
                             'size'     => 10,
                             'scale'    => 2,
                             'unsigned' => false,
-                            'notNull'  => true
+                            'notNull'  => true,
                         ]),
                         new Column('column1', [
                             'type' => Column::TYPE_VARCHAR,
-                            'size' => 10
+                            'size' => 10,
                         ]),
                     ],
                     'indexes' => [
                         new Index('PRIMARY', ['column3']),
-                    ]
+                    ],
                 ],
                 rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example2.sql')),
             ],
             'example3' => [
                 '',
                 [
-                    'columns' => [
+                    'columns'    => [
                         new Column('column2', [
                             'type'     => Column::TYPE_INTEGER,
                             'size'     => 18,
                             'unsigned' => true,
-                            'notNull'  => false
+                            'notNull'  => false,
                         ]),
                         new Column('column3', [
                             'type'     => Column::TYPE_DECIMAL,
                             'size'     => 10,
                             'scale'    => 2,
                             'unsigned' => false,
-                            'notNull'  => true
+                            'notNull'  => true,
                         ]),
                         new Column('column1', [
                             'type' => Column::TYPE_VARCHAR,
-                            'size' => 10
+                            'size' => 10,
                         ]),
                     ],
-                    'indexes' => [
+                    'indexes'    => [
                         new Index('PRIMARY', ['column3']),
                     ],
                     'references' => [
@@ -137,7 +138,7 @@ class CreateTableCest
                         new Column('column9', [
                             'type'    => Column::TYPE_VARCHAR,
                             'size'    => 10,
-                            'default' => 'column9'
+                            'default' => 'column9',
                         ]),
                         new Column('column10', [
                             'type'     => Column::TYPE_INTEGER,
@@ -159,14 +160,14 @@ class CreateTableCest
                             'typeReference' => Column::TYPE_INTEGER,
                             'size'          => 20,
                             'unsigned'      => true,
-                            'notNull'       => false
+                            'notNull'       => false,
                         ]),
                         new Column('column12', [
                             'type'       => 'ENUM',
                             'typeValues' => ['A', 'B', 'C'],
                             'notNull'    => true,
                             'default'    => 'A',
-                            'after'      => 'column11'
+                            'after'      => 'column11',
                         ]),
                         new Column('column13', [
                             'type'    => Column::TYPE_TIMESTAMP,
@@ -182,33 +183,33 @@ class CreateTableCest
                 [
                     'columns' => [
                         new Column('column14', [
-                            'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
+                            'type'          => Column::TYPE_INTEGER,
+                            'notNull'       => true,
                             'autoIncrement' => true,
-                            'first' => true
+                            'first'         => true,
                         ]),
                         new Column('column15', [
-                            'type' => Column::TYPE_INTEGER,
+                            'type'    => Column::TYPE_INTEGER,
                             'default' => 5,
                             'notNull' => true,
-                            'after' => 'user_id'
+                            'after'   => 'user_id',
                         ]),
                         new Column('column16', [
                             'type'    => Column::TYPE_VARCHAR,
                             'size'    => 10,
-                            'default' => 'column16'
+                            'default' => 'column16',
                         ]),
                         new Column('column17', [
-                            'type' => Column::TYPE_BOOLEAN,
+                            'type'    => Column::TYPE_BOOLEAN,
                             'default' => "false",
                             'notNull' => true,
-                            'after' => 'track_id'
+                            'after'   => 'track_id',
                         ]),
                         new Column('column18', [
-                            'type' => Column::TYPE_BOOLEAN,
+                            'type'    => Column::TYPE_BOOLEAN,
                             'default' => "true",
                             'notNull' => true,
-                            'after' => 'like'
+                            'after'   => 'like',
                         ]),
                     ],
                 ],

@@ -30,12 +30,12 @@ class KeyCest
         $registry->offsetSet('three', 3);
 
         $expected = 'one';
-        $actual = $registry->key();
+        $actual   = $registry->key();
         $I->assertEquals($expected, $actual);
 
         $registry->next();
         $expected = 'two';
-        $actual = $registry->key();
+        $actual   = $registry->key();
         $I->assertEquals($expected, $actual);
     }
 }

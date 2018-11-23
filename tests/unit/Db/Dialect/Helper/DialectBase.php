@@ -17,6 +17,7 @@ class DialectBase
      * Tests Dialect::createView
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -36,11 +37,24 @@ class DialectBase
     }
 
     /**
+     * Returns the object for the dialect
+     *
+     * @return DialectInterface
+     */
+    protected function getDialectObject(): DialectInterface
+    {
+        $class = sprintf('Phalcon\Db\Dialect\%s', $this->adapter);
+
+        return new $class();
+    }
+
+    /**
      * Tests Dialect::describeColumns
      *
      * @param UnitTester $I
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -51,8 +65,8 @@ class DialectBase
             $schema   = $item[0];
             $expected = $item[1];
 
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->describeColumns('table', $schema);
+            $dialect = $this->getDialectObject();
+            $actual  = $dialect->describeColumns('table', $schema);
 
             $I->assertEquals($expected, $actual);
         }
@@ -70,6 +84,7 @@ class DialectBase
      * Tests Dialect::describeReferences
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -80,8 +95,8 @@ class DialectBase
             $schema   = $item[0];
             $expected = $item[1];
 
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->describeReferences('table', $schema);
+            $dialect = $this->getDialectObject();
+            $actual  = $dialect->describeReferences('table', $schema);
 
             $I->assertEquals($expected, $actual);
         }
@@ -91,6 +106,7 @@ class DialectBase
      * Tests Dialect::dropColumn
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -112,6 +128,7 @@ class DialectBase
      * Tests Dialect::dropForeignKey
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -133,6 +150,7 @@ class DialectBase
      * Tests Dialect::dropIndex
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -140,11 +158,11 @@ class DialectBase
     {
         $data = $this->getDropIndexFixtures();
         foreach ($data as $item) {
-            $schema     = $item[0];
-            $index      = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectObject();
-            $actual     = $dialect->dropIndex('table', $schema, $index);
+            $schema   = $item[0];
+            $index    = $item[1];
+            $expected = $item[2];
+            $dialect  = $this->getDialectObject();
+            $actual   = $dialect->dropIndex('table', $schema, $index);
 
             $I->assertEquals($expected, $actual);
         }
@@ -154,6 +172,7 @@ class DialectBase
      * Tests Dialect::dropPrimaryKey
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -174,6 +193,7 @@ class DialectBase
      * Tests Dialect::dropTable
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -195,6 +215,7 @@ class DialectBase
      * Tests Dialect::dropView
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -225,6 +246,7 @@ class DialectBase
      * Tests Dialect::getColumnDefinition
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -246,6 +268,7 @@ class DialectBase
      * Tests Dialect::getColumnList
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -283,6 +306,7 @@ class DialectBase
      * Tests Dialect::listViews
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -303,6 +327,7 @@ class DialectBase
      * Tests Dialect::modifyColumn
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -310,11 +335,11 @@ class DialectBase
     {
         $data = $this->getModifyColumnFixtures();
         foreach ($data as $item) {
-            $columns    = $this->getColumns();
-            $schema     = $item[0];
-            $to         = $columns[$item[1]];
-            $from       = $columns[$item[2]] ?? null;
-            $expected   = $item[3];
+            $columns  = $this->getColumns();
+            $schema   = $item[0];
+            $to       = $columns[$item[1]];
+            $from     = $columns[$item[2]] ?? null;
+            $expected = $item[3];
             $dialect  = $this->getDialectObject();
             $actual   = $dialect->modifyColumn('table', $schema, $to, $from);
 
@@ -326,6 +351,7 @@ class DialectBase
      * Tests Dialect::modifyColumn
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-01-20
      * @issue  https://github.com/phalcon/cphalcon/issues/13012
@@ -344,6 +370,7 @@ class DialectBase
      * Tests Dialect::releaseSavepoint
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -360,6 +387,7 @@ class DialectBase
      * Tests Dialect::rollbackSavepoint
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -392,13 +420,14 @@ class DialectBase
      * Tests Dialect::supportsReleaseSavepoints
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
     public function testSupportsReleaseSavepoints(UnitTester $I)
     {
-        $dialect  = $this->getDialectObject();
-        $actual   = $dialect->supportsReleaseSavepoints();
+        $dialect = $this->getDialectObject();
+        $actual  = $dialect->supportsReleaseSavepoints();
 
         $I->assertTrue($actual);
     }
@@ -407,13 +436,14 @@ class DialectBase
      * Tests Dialect::supportsSavepoints
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
     public function testSupportsSavepoints(UnitTester $I)
     {
-        $dialect  = $this->getDialectObject();
-        $actual   = $dialect->supportsSavepoints();
+        $dialect = $this->getDialectObject();
+        $actual  = $dialect->supportsSavepoints();
 
         $I->assertTrue($actual);
     }
@@ -449,6 +479,7 @@ class DialectBase
      * Tests Dialect::truncateTable
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -469,6 +500,7 @@ class DialectBase
      * Tests Dialect::viewExists
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -484,17 +516,5 @@ class DialectBase
             $I->assertTrue(is_string($actual));
             $I->assertEquals($expected, $actual);
         }
-    }
-
-    /**
-     * Returns the object for the dialect
-     *
-     * @return DialectInterface
-     */
-    protected function getDialectObject(): DialectInterface
-    {
-        $class = sprintf('Phalcon\Db\Dialect\%s', $this->adapter);
-
-        return new $class();
     }
 }

@@ -30,11 +30,11 @@ class UnderscoreGetCest
         $registry->offsetSet('three', 3);
 
         $expected = 3;
-        $actual = $registry->three;
+        $actual   = $registry->three;
         $I->assertEquals($expected, $actual);
 
         $expected = 2;
-        $actual = $registry['two'];
+        $actual   = $registry['two'];
         $I->assertEquals($expected, $actual);
     }
 }

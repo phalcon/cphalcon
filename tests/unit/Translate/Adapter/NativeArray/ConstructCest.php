@@ -13,9 +13,9 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
 use ArrayAccess;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
-use Phalcon\Translate\Exception;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\AdapterInterface;
+use Phalcon\Translate\Exception;
 use UnitTester;
 
 class ConstructCest

@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Image\Factory;
 
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Factory;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class LoadCest

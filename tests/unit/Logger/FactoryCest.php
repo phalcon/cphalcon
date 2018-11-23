@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Unit\Logger;
 
-use Phalcon\Logger\Factory;
 use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 use UnitTester;
@@ -39,18 +39,6 @@ class FactoryCest
     }
 
     /**
-     * Test factory using array
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-02
-     */
-    public function testArrayFactory(UnitTester $I)
-    {
-        $options = $this->arrayConfig["logger"];
-        $this->runTests($I, $options);
-    }
-
-    /**
      * Runs the tests based on different configurations
      *
      * @param UnitTester   $I
@@ -61,12 +49,24 @@ class FactoryCest
         /** @var File $logger */
         $logger = Factory::load($options);
 
-        $class = File::class;
+        $class  = File::class;
         $actual = $logger;
         $I->assertInstanceOf($class, $actual);
 
         $expected = $options["name"];
-        $actual   =  $logger->getPath();
+        $actual   = $logger->getPath();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Test factory using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function testArrayFactory(UnitTester $I)
+    {
+        $options = $this->arrayConfig["logger"];
+        $this->runTests($I, $options);
     }
 }

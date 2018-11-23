@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Annotations\Adapter\Memory;
 use UnitTester;
 

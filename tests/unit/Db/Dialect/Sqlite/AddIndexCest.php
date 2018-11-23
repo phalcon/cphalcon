@@ -22,6 +22,7 @@ class AddIndexCest
      * Tests Phalcon\Db\Dialect\Sqlite :: addIndex()
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -29,12 +30,12 @@ class AddIndexCest
     {
         $data = $this->getAddIndexFixtures();
         foreach ($data as $item) {
-            $schema     = $item[0];
-            $index      = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectSqlite();
-            $indexes    = $this->getIndexes();
-            $actual     = $dialect->addIndex('table', $schema, $indexes[$index]);
+            $schema   = $item[0];
+            $index    = $item[1];
+            $expected = $item[2];
+            $dialect  = $this->getDialectSqlite();
+            $indexes  = $this->getIndexes();
+            $actual   = $dialect->addIndex('table', $schema, $indexes[$index]);
 
             $I->assertEquals($expected, $actual);
         }
@@ -46,10 +47,10 @@ class AddIndexCest
     protected function getAddIndexFixtures()
     {
         return [
-            ['',       'index1',  'CREATE INDEX "index1" ON "table" ("column1")'],
-            ['schema', 'index1',  'CREATE INDEX "schema"."index1" ON "table" ("column1")'],
-            ['',       'index2',  'CREATE INDEX "index2" ON "table" ("column1", "column2")'],
-            ['schema', 'index2',  'CREATE INDEX "schema"."index2" ON "table" ("column1", "column2")'],
+            ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],
+            ['schema', 'index1', 'CREATE INDEX "schema"."index1" ON "table" ("column1")'],
+            ['', 'index2', 'CREATE INDEX "index2" ON "table" ("column1", "column2")'],
+            ['schema', 'index2', 'CREATE INDEX "schema"."index2" ON "table" ("column1", "column2")'],
         ];
     }
 }

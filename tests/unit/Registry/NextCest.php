@@ -31,7 +31,7 @@ class NextCest
 
         $registry->next();
         $expected = 'two';
-        $actual = $registry->key();
+        $actual   = $registry->key();
         $I->assertEquals($expected, $actual);
     }
 }

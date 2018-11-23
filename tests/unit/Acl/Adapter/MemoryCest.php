@@ -258,13 +258,13 @@ class MemoryCest
         $acl->deny('Guests', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
         $I->assertFalse($actual);
 
-        $actual = (bool)$acl->isAllowed('Guests', 'Login', 'index');
+        $actual = (bool) $acl->isAllowed('Guests', 'Login', 'index');
         $I->assertTrue($actual);
 
-        $actual = (bool)$acl->isAllowed('Guests', 'Login', 'help');
+        $actual = (bool) $acl->isAllowed('Guests', 'Login', 'help');
         $I->assertFalse($actual);
     }
 
@@ -612,13 +612,13 @@ class MemoryCest
         $acl->deny('Guests2', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
         $I->assertFalse($actual);
 
-        $actual = (bool)$acl->isAllowed('Guests', 'Login', 'help');
+        $actual = (bool) $acl->isAllowed('Guests', 'Login', 'help');
         $I->assertTrue($actual);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Login', 'help');
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'help');
         $I->assertTrue($actual);
     }
 
@@ -649,16 +649,16 @@ class MemoryCest
         $acl->deny('Guests2', 'Logout', '*');
         $acl->allow('Guests22', 'Logout', ['index']);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
         $I->assertTrue($actual);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Login', 'help');
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'help');
         $I->assertFalse($actual);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Logout', 'help');
+        $actual = (bool) $acl->isAllowed('Members', 'Logout', 'help');
         $I->assertFalse($actual);
 
-        $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
         $I->assertTrue($actual);
     }
 }

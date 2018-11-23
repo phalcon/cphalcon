@@ -30,7 +30,7 @@ class OffsetGetCest
         $registry->offsetSet('three', 3);
 
         $expected = 3;
-        $actual = $registry->offsetGet('three');
+        $actual   = $registry->offsetGet('three');
         $I->assertEquals($expected, $actual);
     }
 }

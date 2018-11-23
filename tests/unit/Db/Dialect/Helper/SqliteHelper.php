@@ -34,22 +34,21 @@ class SqliteHelper
 //    }
 
 
-
     /**
      * @return array
      */
     protected function getColumnDefinitionFixtures(): array
     {
         return [
-            ['column1',  'VARCHAR(10)'],
-            ['column2',  'INTEGER'],
-            ['column3',  'NUMERIC(10,2)'],
-            ['column4',  'CHARACTER(100)'],
-            ['column5',  'DATE'],
-            ['column6',  'DATETIME'],
-            ['column7',  'TEXT'],
-            ['column8',  'FLOAT'],
-            ['column9',  'VARCHAR(10)'],
+            ['column1', 'VARCHAR(10)'],
+            ['column2', 'INTEGER'],
+            ['column3', 'NUMERIC(10,2)'],
+            ['column4', 'CHARACTER(100)'],
+            ['column5', 'DATE'],
+            ['column6', 'DATETIME'],
+            ['column7', 'TEXT'],
+            ['column8', 'FLOAT'],
+            ['column9', 'VARCHAR(10)'],
             ['column10', 'INTEGER'],
             ['column13', 'TIMESTAMP'],
             ['column14', 'TINYBLOB'],
@@ -86,7 +85,7 @@ class SqliteHelper
     protected function getCreateViewFixtures(): array
     {
         return [
-            [['sql' => 'SELECT 1'],  null,    'CREATE VIEW "test_view" AS SELECT 1'],
+            [['sql' => 'SELECT 1'], null, 'CREATE VIEW "test_view" AS SELECT 1'],
             [['sql' => 'SELECT 1'], 'schema', 'CREATE VIEW "schema"."test_view" AS SELECT 1'],
         ];
     }
@@ -98,8 +97,8 @@ class SqliteHelper
     {
         return [
             ['schema.name.with.dots', "PRAGMA table_info('table')"],
-            ['',                      "PRAGMA table_info('table')"],
-            ['schema',                "PRAGMA table_info('table')"],
+            ['', "PRAGMA table_info('table')"],
+            ['schema', "PRAGMA table_info('table')"],
         ];
     }
 
@@ -109,7 +108,7 @@ class SqliteHelper
     protected function getDescribeReferencesFixtures()
     {
         return [
-            [ '',      "PRAGMA foreign_key_list('table')"],
+            ['', "PRAGMA foreign_key_list('table')"],
             ['schema', "PRAGMA foreign_key_list('table')"],
         ];
     }
@@ -136,7 +135,7 @@ class SqliteHelper
     protected function getDropIndexFixtures()
     {
         return [
-            ['',       'index1', 'DROP INDEX "index1"'],
+            ['', 'index1', 'DROP INDEX "index1"'],
             ['schema', 'index1', 'DROP INDEX "schema"."index1"'],
         ];
     }
@@ -155,9 +154,9 @@ class SqliteHelper
     protected function getDropTableFixtures(): array
     {
         return [
-            ['',       true,  'DROP TABLE IF EXISTS "table"'],
-            ['schema', true,  'DROP TABLE IF EXISTS "schema"."table"'],
-            ['',       false, 'DROP TABLE "table"'],
+            ['', true, 'DROP TABLE IF EXISTS "table"'],
+            ['schema', true, 'DROP TABLE IF EXISTS "schema"."table"'],
+            ['', false, 'DROP TABLE "table"'],
             ['schema', false, 'DROP TABLE "schema"."table"'],
         ];
     }
@@ -168,10 +167,10 @@ class SqliteHelper
     protected function getDropViewFixtures(): array
     {
         return [
-            ['',       false, 'DROP VIEW "test_view"'],
-            ['',       true,  'DROP VIEW IF EXISTS "test_view"'],
+            ['', false, 'DROP VIEW "test_view"'],
+            ['', true, 'DROP VIEW IF EXISTS "test_view"'],
             ['schema', false, 'DROP VIEW "schema"."test_view"'],
-            ['schema', true,  'DROP VIEW IF EXISTS "schema"."test_view"'],
+            ['schema', true, 'DROP VIEW IF EXISTS "schema"."test_view"'],
         ];
     }
 
@@ -180,8 +179,8 @@ class SqliteHelper
      */
     protected function getListViewFixtures(): array
     {
-        return  [
-            ['',       "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name"],
+        return [
+            ['', "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name"],
             ['schema', "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name"],
         ];
     }
@@ -243,7 +242,7 @@ class SqliteHelper
     protected function getTruncateTableFixtures(): array
     {
         return [
-            ['',       'DELETE FROM "table"'],
+            ['', 'DELETE FROM "table"'],
             ['schema', 'DELETE FROM "schema"."table"'],
         ];
     }
@@ -257,13 +256,13 @@ class SqliteHelper
             [
                 null,
                 "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
-                "FROM sqlite_master WHERE type='view' AND tbl_name='view'"
+                "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
             [
                 'schema',
                 "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
-                "FROM sqlite_master WHERE type='view' AND tbl_name='view'"
-            ]
+                "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
+            ],
         ];
     }
 

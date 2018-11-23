@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Forms;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
@@ -19,6 +18,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;

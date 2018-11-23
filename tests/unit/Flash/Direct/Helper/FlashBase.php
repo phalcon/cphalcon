@@ -37,19 +37,6 @@ class FlashBase
     }
 
     /**
-     * Sets the custom classes for the tests
-     *
-     * @param $classes
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    protected function setClasses($classes)
-    {
-        $this->classes = $classes;
-    }
-
-    /**
      * Tests warning (implicit flush)
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -70,6 +57,90 @@ class FlashBase
     }
 
     /**
+     * Private function that tests a string with implicit flush Html
+     *
+     * @param \UnitTester $I
+     * @param string      $function
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    private function stringTest(UnitTester $I, $function)
+    {
+        $flash    = new Direct($this->classes);
+        $class    = $this->getClass($function);
+        $template = '<div%s>%s</div>' . PHP_EOL;
+        $message  = 'sample message';
+
+        if ($this->notHtml) {
+            $flash->setAutomaticHtml(false);
+            $expected = $message;
+        } else {
+            $expected = sprintf($template, $class, $message);
+        }
+
+
+        if ($this->notImplicit) {
+            $flash->setImplicitFlush(false);
+            $actual = $flash->$function($message);
+        } else {
+            $actual = $this->getObResponse($flash, $function, $message);
+        }
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Private function to get the class of the message depending on
+     * the classes set
+     *
+     * @param $key
+     *
+     * @return string
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    private function getClass($key)
+    {
+        $template = ' class="%s"';
+
+        if ([] === $this->classes) {
+            $class = '';
+        } else {
+            $classes = (is_null($this->classes)) ?
+                $this->default :
+                $this->classes;
+            $class   = sprintf($template, $classes[$key]);
+        }
+
+        return $class;
+    }
+
+    /**
+     * Private function to start the ob, call the function, get the
+     * contents and clean the ob
+     *
+     * @param $flash
+     * @param $function
+     * @param $message
+     *
+     * @return string
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    private function getObResponse($flash, $function, $message)
+    {
+        ob_start();
+        $flash->$function($message);
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        return $actual;
+    }
+
+    /**
      * Tests warning (no implicit flush)
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -85,9 +156,9 @@ class FlashBase
         ];
 
         foreach ($functions as $function) {
-            $this->notImplicit     = true;
+            $this->notImplicit = true;
             $this->stringTest($I, $function);
-            $this->notImplicit     = false;
+            $this->notImplicit = false;
         }
     }
 
@@ -107,9 +178,9 @@ class FlashBase
         ];
 
         foreach ($functions as $function) {
-            $this->notHtml     = true;
+            $this->notHtml = true;
             $this->stringTest($I, $function);
-            $this->notHtml     = false;
+            $this->notHtml = false;
         }
     }
 
@@ -163,86 +234,15 @@ class FlashBase
     }
 
     /**
-     * Private function to get the class of the message depending on
-     * the classes set
+     * Sets the custom classes for the tests
      *
-     * @param $key
-     *
-     * @return string
+     * @param $classes
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
-    private function getClass($key)
+    protected function setClasses($classes)
     {
-        $template = ' class="%s"';
-
-        if ([] === $this->classes) {
-            $class = '';
-        } else {
-            $classes = (is_null($this->classes)) ?
-                        $this->default           :
-                        $this->classes;
-            $class = sprintf($template, $classes[$key]);
-        }
-
-        return $class;
-    }
-
-    /**
-     * Private function to start the ob, call the function, get the
-     * contents and clean the ob
-     *
-     * @param $flash
-     * @param $function
-     * @param $message
-     *
-     * @return string
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    private function getObResponse($flash, $function, $message)
-    {
-        ob_start();
-        $flash->$function($message);
-        $actual = ob_get_contents();
-        ob_end_clean();
-
-        return $actual;
-    }
-
-    /**
-     * Private function that tests a string with implicit flush Html
-     *
-     * @param \UnitTester $I
-     * @param string      $function
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    private function stringTest(UnitTester $I, $function)
-    {
-        $flash    = new Direct($this->classes);
-        $class    = $this->getClass($function);
-        $template = '<div%s>%s</div>' . PHP_EOL;
-        $message  = 'sample message';
-
-        if ($this->notHtml) {
-            $flash->setAutomaticHtml(false);
-            $expected = $message;
-        } else {
-            $expected = sprintf($template, $class, $message);
-        }
-
-
-        if ($this->notImplicit) {
-            $flash->setImplicitFlush(false);
-            $actual   = $flash->$function($message);
-        } else {
-            $actual = $this->getObResponse($flash, $function, $message);
-        }
-
-        $I->assertEquals($expected, $actual);
+        $this->classes = $classes;
     }
 }

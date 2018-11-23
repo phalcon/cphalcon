@@ -25,6 +25,7 @@ class CreateTableCest
      * Tests Phalcon\Db\Dialect\Mysql :: createTable()
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -56,7 +57,7 @@ class CreateTableCest
                             'column1',
                             [
                                 'type' => Column::TYPE_VARCHAR,
-                                'size' => 10
+                                'size' => 10,
                             ]
                         ),
                         new Column(
@@ -65,10 +66,10 @@ class CreateTableCest
                                 'type'     => Column::TYPE_INTEGER,
                                 'size'     => 18,
                                 'unsigned' => true,
-                                'notNull'  => false
+                                'notNull'  => false,
                             ]
                         ),
-                    ]
+                    ],
                 ],
                 rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/mysql/example1.sql')),
             ],
@@ -82,7 +83,7 @@ class CreateTableCest
                                 'type'     => Column::TYPE_INTEGER,
                                 'size'     => 18,
                                 'unsigned' => true,
-                                'notNull'  => false
+                                'notNull'  => false,
                             ]
                         ),
                         new Column(
@@ -92,34 +93,34 @@ class CreateTableCest
                                 'size'     => 10,
                                 'scale'    => 2,
                                 'unsigned' => false,
-                                'notNull'  => true
+                                'notNull'  => true,
                             ]
                         ),
                         new Column(
                             'column1',
                             [
                                 'type' => Column::TYPE_VARCHAR,
-                                'size' => 10
+                                'size' => 10,
                             ]
                         ),
                     ],
                     'indexes' => [
                         new Index('PRIMARY', ['column3']),
-                    ]
+                    ],
                 ],
                 rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/mysql/example2.sql')),
             ],
             'example3' => [
                 '',
                 [
-                    'columns' => [
+                    'columns'    => [
                         new Column(
                             'column2',
                             [
                                 'type'     => Column::TYPE_INTEGER,
                                 'size'     => 18,
                                 'unsigned' => true,
-                                'notNull'  => false
+                                'notNull'  => false,
                             ]
                         ),
                         new Column(
@@ -129,18 +130,18 @@ class CreateTableCest
                                 'size'     => 10,
                                 'scale'    => 2,
                                 'unsigned' => false,
-                                'notNull'  => true
+                                'notNull'  => true,
                             ]
                         ),
                         new Column(
                             'column1',
                             [
                                 'type' => Column::TYPE_VARCHAR,
-                                'size' => 10
+                                'size' => 10,
                             ]
                         ),
                     ],
-                    'indexes' => [
+                    'indexes'    => [
                         new Index('PRIMARY', ['column3']),
                     ],
                     'references' => [
@@ -163,7 +164,7 @@ class CreateTableCest
                             [
                                 'type'    => Column::TYPE_VARCHAR,
                                 'size'    => 10,
-                                'default' => 'column9'
+                                'default' => 'column9',
                             ]
                         ),
                         new Column(
@@ -191,7 +192,7 @@ class CreateTableCest
                                 'typeReference' => Column::TYPE_INTEGER,
                                 'size'          => 20,
                                 'unsigned'      => true,
-                                'notNull'       => false
+                                'notNull'       => false,
                             ]
                         ),
                         new Column(
@@ -201,7 +202,7 @@ class CreateTableCest
                                 'typeValues' => ['A', 'B', 'C'],
                                 'notNull'    => true,
                                 'default'    => 'A',
-                                'after'      => 'column11'
+                                'after'      => 'column11',
                             ]
                         ),
                         new Column(

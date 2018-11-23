@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
@@ -19,6 +18,7 @@ use Phalcon\Assets\Manager;
 use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ManagerCest

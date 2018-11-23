@@ -22,6 +22,7 @@ class AddIndexCest
      * Tests Phalcon\Db\Dialect\Mysql :: addIndex()
      *
      * @param UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -29,12 +30,12 @@ class AddIndexCest
     {
         $data = $this->getAddIndexFixtures();
         foreach ($data as $item) {
-            $schema     = $item[0];
-            $index      = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectMysql();
-            $indexes    = $this->getIndexes();
-            $actual     = $dialect->addIndex('table', $schema, $indexes[$index]);
+            $schema   = $item[0];
+            $index    = $item[1];
+            $expected = $item[2];
+            $dialect  = $this->getDialectMysql();
+            $indexes  = $this->getIndexes();
+            $actual   = $dialect->addIndex('table', $schema, $indexes[$index]);
 
             $I->assertEquals($expected, $actual);
         }
@@ -46,14 +47,14 @@ class AddIndexCest
     protected function getAddIndexFixtures()
     {
         return [
-            ['',       'index1',  'ALTER TABLE `table` ADD INDEX `index1` (`column1`)'],
-            ['schema', 'index1',  'ALTER TABLE `schema`.`table` ADD INDEX `index1` (`column1`)'],
-            ['',       'index2',  'ALTER TABLE `table` ADD INDEX `index2` (`column1`, `column2`)'],
-            ['schema', 'index2',  'ALTER TABLE `schema`.`table` ADD INDEX `index2` (`column1`, `column2`)'],
-            ['',       'PRIMARY', 'ALTER TABLE `table` ADD INDEX `PRIMARY` (`column3`)'],
+            ['', 'index1', 'ALTER TABLE `table` ADD INDEX `index1` (`column1`)'],
+            ['schema', 'index1', 'ALTER TABLE `schema`.`table` ADD INDEX `index1` (`column1`)'],
+            ['', 'index2', 'ALTER TABLE `table` ADD INDEX `index2` (`column1`, `column2`)'],
+            ['schema', 'index2', 'ALTER TABLE `schema`.`table` ADD INDEX `index2` (`column1`, `column2`)'],
+            ['', 'PRIMARY', 'ALTER TABLE `table` ADD INDEX `PRIMARY` (`column3`)'],
             ['schema', 'PRIMARY', 'ALTER TABLE `schema`.`table` ADD INDEX `PRIMARY` (`column3`)'],
-            ['',       'index4',  'ALTER TABLE `table` ADD UNIQUE INDEX `index4` (`column4`)'],
-            ['schema', 'index4',  'ALTER TABLE `schema`.`table` ADD UNIQUE INDEX `index4` (`column4`)'],
+            ['', 'index4', 'ALTER TABLE `table` ADD UNIQUE INDEX `index4` (`column4`)'],
+            ['schema', 'index4', 'ALTER TABLE `schema`.`table` ADD UNIQUE INDEX `index4` (`column4`)'],
         ];
     }
 }

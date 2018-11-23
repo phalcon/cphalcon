@@ -15,8 +15,6 @@ use Phalcon\Di;
 use Phalcon\Escaper;
 use Phalcon\Flash\Session;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Module\UnitTest;
-use Codeception\Lib\Connector\Phalcon\MemorySession;
 use UnitTester;
 
 class SessionCest
@@ -78,7 +76,7 @@ class SessionCest
             ob_end_clean();
 
             $expected = "<div class=\"{$function}Message\">"
-                      . "<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL;
+                . "<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL;
             $I->assertEquals($expected, $actual);
 
             $flash->setAutoescape(true);
@@ -94,9 +92,21 @@ class SessionCest
             ob_end_clean();
 
             $expected = "<div class=\"{$function}Message\">&lt;script&gt;alert(&#039;"
-                      . "This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL;
+                . "This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL;
             $I->assertEquals($expected, $actual);
         }
+    }
+
+    /**
+     * Return flash instance
+     */
+    protected function getFlash()
+    {
+        $container = $this->getDi();
+        $flash     = new Session($this->classes);
+        $flash->setDI($container);
+
+        return $flash;
     }
 
     /**
@@ -118,11 +128,11 @@ class SessionCest
         $flash->error('sample error');
 
         $expected = ['sample success'];
-        $actual = $flash->getMessages('success');
+        $actual   = $flash->getMessages('success');
         $I->assertEquals($expected, $actual);
 
         $expected = ['sample error'];
-        $actual = $flash->getMessages('error');
+        $actual   = $flash->getMessages('error');
         $I->assertEquals($expected, $actual);
 
         $actual = $flash->getMessages();
@@ -150,7 +160,7 @@ class SessionCest
         $I->assertEquals($expected, $actual);
 
         $expected = 1;
-        $actual = count($flash->getMessages());
+        $actual   = count($flash->getMessages());
         $I->assertTrue($expected === $actual);
     }
 
@@ -198,9 +208,9 @@ class SessionCest
         ];
 
         foreach ($examples as $function) {
-            $flash = $this->getFlash();
+            $flash    = $this->getFlash();
             $template = ' class="%s"';
-            $class = sprintf($template, $this->classes[$function]);
+            $class    = sprintf($template, $this->classes[$function]);
 
             $template = '<div%s>%s</div>' . PHP_EOL;
             $message  = 'sample message';
@@ -260,17 +270,5 @@ class SessionCest
         ob_end_clean();
 
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Return flash instance
-     */
-    protected function getFlash()
-    {
-        $container = $this->getDi();
-        $flash = new Session($this->classes);
-        $flash->setDI($container);
-
-        return $flash;
     }
 }

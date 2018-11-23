@@ -33,13 +33,13 @@ class RewindCest
         $registry->next();
 
         $expected = 3;
-        $actual  = $registry->current();
+        $actual   = $registry->current();
         $I->assertEquals($expected, $actual);
 
         $registry->rewind();
 
         $expected = 1;
-        $actual  = $registry->current();
+        $actual   = $registry->current();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -24,10 +24,10 @@ class UnderscoreSetCest
      */
     public function testUnderscoreSet(UnitTester $I)
     {
-        $registry = new Registry();
-        $registry->one  = 1;
-        $registry->two  = 2;
-        $registry['three']= 3;
+        $registry          = new Registry();
+        $registry->one     = 1;
+        $registry->two     = 2;
+        $registry['three'] = 3;
 
         $I->assertCount(3, $registry);
     }

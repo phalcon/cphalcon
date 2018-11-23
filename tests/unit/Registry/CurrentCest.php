@@ -30,12 +30,12 @@ class CurrentCest
         $registry->offsetSet('three', 3);
 
         $expected = 1;
-        $actual = $registry->current();
+        $actual   = $registry->current();
         $I->assertEquals($expected, $actual);
 
         $registry->next();
         $expected = 2;
-        $actual = $registry->current();
+        $actual   = $registry->current();
         $I->assertEquals($expected, $actual);
     }
 }

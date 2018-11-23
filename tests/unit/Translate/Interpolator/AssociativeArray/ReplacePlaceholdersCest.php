@@ -17,7 +17,8 @@ use UnitTester;
 class ReplacePlaceholdersCest
 {
     /**
-     * Tests Phalcon\Translate\Interpolator\AssociativeArray :: replacePlaceholders()
+     * Tests Phalcon\Translate\Interpolator\AssociativeArray ::
+     * replacePlaceholders()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

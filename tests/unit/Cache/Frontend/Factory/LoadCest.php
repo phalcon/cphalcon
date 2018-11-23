@@ -11,18 +11,61 @@
 
 namespace Phalcon\Test\Unit\Cache\Frontend\Factory;
 
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\Frontend\Factory;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class LoadCest
 {
-    /**
-     * Tests Phalcon\Cache\Frontend\Factory :: load()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function testLoad(UnitTester $I)
+    use FactoryTrait;
+
+    public function _before(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $this->init();
+    }
+
+    /**
+     * Tests Phalcon\Cache\Frontend\Factory :: load() - Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function testConfigFactory(UnitTester $I)
+    {
+        $options = $this->config->cache_frontend;
+        $this->runTests($I, $options);
+    }
+
+    /**
+     * Runs the tests based on different configurations
+     *
+     * @param UnitTester   $I
+     * @param Config|array $options
+     */
+    private function runTests(UnitTester $I, $options)
+    {
+        /** @var Data $cache */
+        $cache = Factory::load($options);
+
+        $class  = Data::class;
+        $actual = $cache;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = $options['lifetime'];
+        $actual   = $cache->getLifetime();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Frontend\Factory :: load() - array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function testArrayFactory(UnitTester $I)
+    {
+        $options = $this->arrayConfig["cache_frontend"];
+        $this->runTests($I, $options);
     }
 }

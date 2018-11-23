@@ -61,6 +61,13 @@ foreach ($folders as $folder) {
     }
 }
 
+$defaults = [
+    // Redis
+    "TEST_RS_HOST"              => env('DATA_REDIS_HOST', '127.0.0.1'),
+    "TEST_RS_PORT"              => 6379,
+    "TEST_RS_DB"                => 6379,
+];
+
 //$defaults = [
 //    // General
 //    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,
@@ -101,18 +108,14 @@ foreach ($folders as $folder) {
 //    "TEST_DB_MONGO_PASSWD"      => '',
 //    "TEST_DB_MONGO_NAME"        => 'phalcon_test',
 //
-//    // Redis
-//    "TEST_RS_HOST"              => '127.0.0.1',
-//    "TEST_RS_PORT"              => 6379,
-//    "TEST_RS_DB"                => 0,
 //];
 //
-//foreach ($defaults as $key => $defaultValue) {
-//    if (defined($key)) {
-//        continue;
-//    }
-//
-//    $value = getenv($key) ?: $defaultValue;
-//
-//    define($key, $value);
-//}
+foreach ($defaults as $key => $defaultValue) {
+    if (defined($key)) {
+        continue;
+    }
+
+    $value = getenv($key) ?: $defaultValue;
+
+    define($key, $value);
+}

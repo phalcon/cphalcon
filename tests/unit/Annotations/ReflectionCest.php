@@ -12,20 +12,11 @@
 namespace Phalcon\Test\Unit\Annotations;
 
 use Phalcon\Annotations\Reader;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Annotations\Reflection;
 use UnitTester;
 
 class ReflectionCest
 {
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I)
-    {
-        require_once PATH_DATA . 'fixtures/Annotations/TestClass.php';
-    }
-
     /**
      * Tests creating empty Reflection object
      *
@@ -49,7 +40,7 @@ class ReflectionCest
      */
     public function testParsingARealClass(UnitTester $I)
     {
-        $reader = new Reader();
+        $reader     = new Reader();
         $reflection = new Reflection($reader->parse('TestClass'));
 
         $classAnnotations = $reflection->getClassAnnotations();
@@ -73,7 +64,7 @@ class ReflectionCest
      */
     public function testClassAnnotations(UnitTester $I)
     {
-        $reader = new Reader();
+        $reader     = new Reader();
         $reflection = new Reflection($reader->parse('TestClass'));
 
         $methodsAnnotations = $reflection->getMethodsAnnotations();
@@ -135,5 +126,13 @@ class ReflectionCest
         }
 
         $I->assertEquals(10, $total);
+    }
+
+    /**
+     * executed before each test
+     */
+    protected function _before(UnitTester $I)
+    {
+        require_once PATH_DATA . 'fixtures/Annotations/TestClass.php';
     }
 }

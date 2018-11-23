@@ -16,15 +16,15 @@ class MysqlHelper
     protected function getColumnDefinitionFixtures(): array
     {
         return [
-            ['column1',  'VARCHAR(10)'],
-            ['column2',  'INT(18) UNSIGNED'],
-            ['column3',  'DECIMAL(10,2)'],
-            ['column4',  'CHAR(100)'],
-            ['column5',  'DATE'],
-            ['column6',  'DATETIME'],
-            ['column7',  'TEXT'],
-            ['column8',  'FLOAT(10,2)'],
-            ['column9',  'VARCHAR(10)'],
+            ['column1', 'VARCHAR(10)'],
+            ['column2', 'INT(18) UNSIGNED'],
+            ['column3', 'DECIMAL(10,2)'],
+            ['column4', 'CHAR(100)'],
+            ['column5', 'DATE'],
+            ['column6', 'DATETIME'],
+            ['column7', 'TEXT'],
+            ['column8', 'FLOAT(10,2)'],
+            ['column9', 'VARCHAR(10)'],
             ['column10', 'INT(18) UNSIGNED'],
             ['column11', 'BIGINT(20) UNSIGNED'],
             ['column12', 'ENUM("A", "B", "C")'],
@@ -40,7 +40,7 @@ class MysqlHelper
         return [
             [
                 ['column1', 'column2', 'column3'],
-                '`column1`, `column2`, `column3`'
+                '`column1`, `column2`, `column3`',
             ],
             [
                 ['foo'],
@@ -56,7 +56,7 @@ class MysqlHelper
     protected function getCreateViewFixtures(): array
     {
         return [
-            [['sql' => 'SELECT 1'],  null,    'CREATE VIEW `test_view` AS SELECT 1'],
+            [['sql' => 'SELECT 1'], null, 'CREATE VIEW `test_view` AS SELECT 1'],
             [['sql' => 'SELECT 1'], 'schema', 'CREATE VIEW `schema`.`test_view` AS SELECT 1'],
         ];
     }
@@ -69,15 +69,15 @@ class MysqlHelper
         return [
             [
                 'schema.name.with.dots',
-                'DESCRIBE `schema.name.with.dots`.`table`'
+                'DESCRIBE `schema.name.with.dots`.`table`',
             ],
             [
                 null,
-                'DESCRIBE `table`'
+                'DESCRIBE `table`',
             ],
             [
                 'schema',
-                'DESCRIBE `schema`.`table`'
+                'DESCRIBE `schema`.`table`',
             ],
         ];
     }
@@ -99,7 +99,7 @@ class MysqlHelper
                 "ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND " .
                 "RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA " .
                 "WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND " .
-                "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = 'table'"
+                "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = 'table'",
             ],
             [
                 'schema',
@@ -112,8 +112,8 @@ class MysqlHelper
                 "ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND " .
                 "RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA " .
                 "WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND " .
-                "KCU.CONSTRAINT_SCHEMA = 'schema' AND KCU.TABLE_NAME = 'table'"
-            ]
+                "KCU.CONSTRAINT_SCHEMA = 'schema' AND KCU.TABLE_NAME = 'table'",
+            ],
         ];
     }
 
@@ -123,7 +123,7 @@ class MysqlHelper
     protected function getDropColumnFixtures(): array
     {
         return [
-            ['',       'column1', 'ALTER TABLE `table` DROP COLUMN `column1`'],
+            ['', 'column1', 'ALTER TABLE `table` DROP COLUMN `column1`'],
             ['schema', 'column1', 'ALTER TABLE `schema`.`table` DROP COLUMN `column1`'],
         ];
     }
@@ -134,7 +134,7 @@ class MysqlHelper
     protected function getDropForeignKeyFixtures(): array
     {
         return [
-            ['',       'fk1', 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`'],
+            ['', 'fk1', 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`'],
             ['schema', 'fk1', 'ALTER TABLE `schema`.`table` DROP FOREIGN KEY `fk1`'],
         ];
     }
@@ -145,7 +145,7 @@ class MysqlHelper
     protected function getDropIndexFixtures()
     {
         return [
-            ['',       'index1', 'ALTER TABLE `table` DROP INDEX `index1`'],
+            ['', 'index1', 'ALTER TABLE `table` DROP INDEX `index1`'],
             ['schema', 'index1', 'ALTER TABLE `schema`.`table` DROP INDEX `index1`'],
         ];
     }
@@ -156,7 +156,7 @@ class MysqlHelper
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [
-            ['',       'ALTER TABLE `table` DROP PRIMARY KEY'],
+            ['', 'ALTER TABLE `table` DROP PRIMARY KEY'],
             ['schema', 'ALTER TABLE `schema`.`table` DROP PRIMARY KEY'],
         ];
     }
@@ -167,9 +167,9 @@ class MysqlHelper
     protected function getDropTableFixtures(): array
     {
         return [
-            ['',       true,  'DROP TABLE IF EXISTS `table`'],
-            ['schema', true,  'DROP TABLE IF EXISTS `schema`.`table`'],
-            ['',       false, 'DROP TABLE `table`'],
+            ['', true, 'DROP TABLE IF EXISTS `table`'],
+            ['schema', true, 'DROP TABLE IF EXISTS `schema`.`table`'],
+            ['', false, 'DROP TABLE `table`'],
             ['schema', false, 'DROP TABLE `schema`.`table`'],
         ];
     }
@@ -180,10 +180,10 @@ class MysqlHelper
     protected function getDropViewFixtures(): array
     {
         return [
-            [null,     false, 'DROP VIEW `test_view`'],
-            [null,     true,  'DROP VIEW IF EXISTS `test_view`'],
+            [null, false, 'DROP VIEW `test_view`'],
+            [null, true, 'DROP VIEW IF EXISTS `test_view`'],
             ['schema', false, 'DROP VIEW `schema`.`test_view`'],
-            ['schema', true,  'DROP VIEW IF EXISTS `schema`.`test_view`'],
+            ['schema', true, 'DROP VIEW IF EXISTS `schema`.`test_view`'],
         ];
     }
 
@@ -192,7 +192,7 @@ class MysqlHelper
      */
     protected function getListViewFixtures(): array
     {
-        return  [
+        return [
             [
                 null,
                 'SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ' .
@@ -216,161 +216,161 @@ class MysqlHelper
                 '',
                 'column1',
                 null,
-                'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)'
+                'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)',
             ],
             [
                 'schema',
                 'column1',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)'
+                'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)',
             ],
             [
                 '',
                 'column2',
                 null,
-                'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED'
+                'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED',
             ],
             [
                 'schema',
                 'column2',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED'
+                'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED',
             ],
             [
                 '',
                 'column3',
                 null,
-                'ALTER TABLE `table` MODIFY `column3` DECIMAL(10,2) NOT NULL'
+                'ALTER TABLE `table` MODIFY `column3` DECIMAL(10,2) NOT NULL',
             ],
             [
                 'schema',
                 'column3',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column3` DECIMAL(10,2) NOT NULL'
+                'ALTER TABLE `schema`.`table` MODIFY `column3` DECIMAL(10,2) NOT NULL',
             ],
             [
                 '',
                 'column4',
                 null,
-                'ALTER TABLE `table` MODIFY `column4` CHAR(100) NOT NULL'
+                'ALTER TABLE `table` MODIFY `column4` CHAR(100) NOT NULL',
             ],
             [
                 'schema',
                 'column4',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column4` CHAR(100) NOT NULL'
+                'ALTER TABLE `schema`.`table` MODIFY `column4` CHAR(100) NOT NULL',
             ],
             [
                 '',
                 'column5',
                 null,
-                'ALTER TABLE `table` MODIFY `column5` DATE NOT NULL'
+                'ALTER TABLE `table` MODIFY `column5` DATE NOT NULL',
             ],
             [
                 'schema',
                 'column5',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column5` DATE NOT NULL'
+                'ALTER TABLE `schema`.`table` MODIFY `column5` DATE NOT NULL',
             ],
             [
                 '',
                 'column6',
                 null,
-                'ALTER TABLE `table` MODIFY `column6` DATETIME NOT NULL'
+                'ALTER TABLE `table` MODIFY `column6` DATETIME NOT NULL',
             ],
             [
                 'schema',
                 'column6',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column6` DATETIME NOT NULL'
+                'ALTER TABLE `schema`.`table` MODIFY `column6` DATETIME NOT NULL',
             ],
             [
                 '',
                 'column7',
                 null,
-                'ALTER TABLE `table` MODIFY `column7` TEXT NOT NULL'
+                'ALTER TABLE `table` MODIFY `column7` TEXT NOT NULL',
             ],
             [
                 'schema',
                 'column7',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column7` TEXT NOT NULL'
+                'ALTER TABLE `schema`.`table` MODIFY `column7` TEXT NOT NULL',
             ],
             [
                 '',
                 'column8',
                 null,
-                'ALTER TABLE `table` MODIFY `column8` FLOAT(10,2) NOT NULL'
+                'ALTER TABLE `table` MODIFY `column8` FLOAT(10,2) NOT NULL',
             ],
             [
                 'schema',
                 'column8',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column8` FLOAT(10,2) NOT NULL'
+                'ALTER TABLE `schema`.`table` MODIFY `column8` FLOAT(10,2) NOT NULL',
             ],
             [
                 '',
                 'column9',
                 null,
-                'ALTER TABLE `table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"'
+                'ALTER TABLE `table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"',
             ],
             [
                 'schema',
                 'column9',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"'
+                'ALTER TABLE `schema`.`table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"',
             ],
             [
                 '',
                 'column10',
                 null,
-                'ALTER TABLE `table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"'
+                'ALTER TABLE `table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"',
             ],
             [
                 'schema',
                 'column10',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"'
+                'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"',
             ],
             [
                 '',
                 'column11',
                 null,
-                'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED'
+                'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED',
             ],
             [
                 'schema',
                 'column11',
                 null,
-                'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED'
+                'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED',
             ],
             [
                 '',
                 'column12',
                 null,
                 'ALTER TABLE `table` MODIFY `column12` ENUM("A", "B", "C") ' .
-                'DEFAULT "A" NOT NULL AFTER `column11`'
+                'DEFAULT "A" NOT NULL AFTER `column11`',
             ],
             [
                 'schema',
                 'column12',
                 null,
                 'ALTER TABLE `schema`.`table` MODIFY `column12` ENUM("A", "B", "C") ' .
-                'DEFAULT "A" NOT NULL AFTER `column11`'
+                'DEFAULT "A" NOT NULL AFTER `column11`',
             ],
             [
                 '',
                 'column13',
                 null,
                 'ALTER TABLE `table` MODIFY `column13` ' .
-                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
+                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
             ],
             [
                 'schema',
                 'column13',
                 null,
                 'ALTER TABLE `schema`.`table` MODIFY `column13` ' .
-                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
+                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
             ],
         ];
     }
@@ -419,13 +419,13 @@ class MysqlHelper
             [
                 null,
                 "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` " .
-                "WHERE `TABLE_NAME` = 'table' AND `TABLE_SCHEMA` = DATABASE()"
+                "WHERE `TABLE_NAME` = 'table' AND `TABLE_SCHEMA` = DATABASE()",
             ],
             [
                 'schema',
                 "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` " .
-                "WHERE `TABLE_NAME`= 'table' AND `TABLE_SCHEMA` = 'schema'"
-            ]
+                "WHERE `TABLE_NAME`= 'table' AND `TABLE_SCHEMA` = 'schema'",
+            ],
         ];
     }
 
@@ -435,7 +435,7 @@ class MysqlHelper
     protected function getTruncateTableFixtures(): array
     {
         return [
-            ['',       'TRUNCATE TABLE `table`'],
+            ['', 'TRUNCATE TABLE `table`'],
             ['schema', 'TRUNCATE TABLE `schema`.`table`'],
         ];
     }
@@ -449,13 +449,13 @@ class MysqlHelper
             [
                 null,
                 "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` " .
-                "WHERE `TABLE_NAME`='view' AND `TABLE_SCHEMA` = DATABASE()"
+                "WHERE `TABLE_NAME`='view' AND `TABLE_SCHEMA` = DATABASE()",
             ],
             [
                 'schema',
                 "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` " .
-                "WHERE `TABLE_NAME`= 'view' AND `TABLE_SCHEMA`='schema'"
-            ]
+                "WHERE `TABLE_NAME`= 'view' AND `TABLE_SCHEMA`='schema'",
+            ],
         ];
     }
 

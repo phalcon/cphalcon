@@ -13,7 +13,6 @@ namespace Phalcon\Test\Unit\Logger\Formatter;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 

@@ -25,7 +25,7 @@ class InterpolatorCest
      */
     public function testIndexedArrayInterpolator(UnitTester $I)
     {
-        $language = [
+        $language   = [
             'Hello!'          => 'Привет!',
             'Hello %s %s %s!' => 'Привет, %s %s %s!',
         ];

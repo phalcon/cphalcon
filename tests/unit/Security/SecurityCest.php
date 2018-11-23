@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Security;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class SecurityCest

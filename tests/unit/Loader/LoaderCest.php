@@ -20,38 +20,6 @@ class LoaderCest
     protected $loaders;
     protected $includePath;
 
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I)
-    {
-        $this->loaders = spl_autoload_functions();
-        if (!is_array($this->loaders)) {
-            $this->loaders = [];
-        }
-
-        $this->includePath = get_include_path();
-    }
-
-    /**
-     * executed after each test
-     */
-    protected function _after(UnitTester $I)
-    {
-        $loaders = spl_autoload_functions();
-        if (is_array($loaders)) {
-            foreach ($loaders as $loader) {
-                spl_autoload_unregister($loader);
-            }
-        }
-
-        foreach ($this->loaders as $loader) {
-            spl_autoload_register($loader);
-        }
-
-        set_include_path($this->includePath);
-    }
-
     public function testNamespaces(UnitTester $I)
     {
         $loader = new Loader();
@@ -398,5 +366,37 @@ class LoaderCest
         $I->assertTrue(function_exists('noClass3Foo'));
         $I->assertTrue(function_exists('noClass3Bar'));
         $I->assertTrue(class_exists('\Example\Namespaces\Engines\Diesel'));
+    }
+
+    /**
+     * executed before each test
+     */
+    protected function _before(UnitTester $I)
+    {
+        $this->loaders = spl_autoload_functions();
+        if (!is_array($this->loaders)) {
+            $this->loaders = [];
+        }
+
+        $this->includePath = get_include_path();
+    }
+
+    /**
+     * executed after each test
+     */
+    protected function _after(UnitTester $I)
+    {
+        $loaders = spl_autoload_functions();
+        if (is_array($loaders)) {
+            foreach ($loaders as $loader) {
+                spl_autoload_unregister($loader);
+            }
+        }
+
+        foreach ($this->loaders as $loader) {
+            spl_autoload_register($loader);
+        }
+
+        set_include_path($this->includePath);
     }
 }

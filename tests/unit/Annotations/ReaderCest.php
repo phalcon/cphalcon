@@ -13,7 +13,6 @@ namespace Phalcon\Test\Unit\Annotations;
 
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
-use Phalcon\Test\Module\UnitTest;
 use UnitTester;
 
 class ReaderCest
@@ -36,7 +35,8 @@ class ReaderCest
     }
 
     /**
-     * Test throws Phalcon\Annotations\Exception when got class with invalid annotation
+     * Test throws Phalcon\Annotations\Exception when got class with invalid
+     * annotation
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-25
@@ -65,7 +65,7 @@ class ReaderCest
     {
         require_once PATH_DATA . 'fixtures/Annotations/TestClass.php';
 
-        $reader = new Reader();
+        $reader  = new Reader();
         $parsing = $reader->parse('TestClass');
 
         $I->assertTrue(isset($parsing['class']));

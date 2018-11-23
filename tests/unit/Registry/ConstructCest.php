@@ -26,7 +26,7 @@ class ConstructCest
     {
         $registry = new Registry();
 
-        $class = Registry::class;
+        $class  = Registry::class;
         $actual = $registry;
         $I->assertInstanceOf($class, $actual);
     }

@@ -2,22 +2,22 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use UnitTester;
 use Codeception\Example;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\Frontend\Igbinary;
+use Phalcon\Cache\Frontend\Output;
+use UnitTester;
 
 /**
  * Phalcon\Test\Unit\Cache\Backend\FileCest
  * Tests the \Phalcon\Cache\Backend\File component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
+ * @link          https://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Serghei Iakovlev <serghei@phalconphp.com>
+ * @package       Phalcon\Test\Unit\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -71,9 +71,9 @@ class FileCest
             $time = date('H:i:s');
 
             $frontCache = new Output(['lifetime' => 2]);
-            $cache = new File($frontCache, [
+            $cache      = new File($frontCache, [
                 'cacheDir' => PATH_CACHE,
-                'prefix'   => 'unit_'
+                'prefix'   => 'unit_',
             ]);
 
             // on the second run set useSafeKey to true to test the compatibility toggle
@@ -156,7 +156,7 @@ class FileCest
 
     /**
      * @param UnitTester $I
-     * @param Example $example
+     * @param Example    $example
      *
      * @dataprovider frontendProvider
      */
@@ -185,7 +185,7 @@ class FileCest
                     'nothing interesting',
                     'something interesting',
                     [
-                        'null' => null,
+                        'null'  => null,
                         'array' => [1, 2, 3, 4 => 5],
                         'string',
                         123.45,
@@ -207,7 +207,7 @@ class FileCest
                     'nothing interesting',
                     'something interesting',
                     [
-                        'null' => null,
+                        'null'  => null,
                         'array' => [1, 2, 3, 4 => 5],
                         'string',
                         123.45,

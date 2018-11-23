@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
 class ExistsCest

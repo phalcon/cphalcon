@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\Factory;
 
-use Phalcon\Cache\Backend\Apc;
+use Phalcon\Cache\Backend\Apcu;
 use Phalcon\Cache\Backend\Factory;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
@@ -35,7 +35,8 @@ class LoadCest
     public function testConfigFactory(UnitTester $I)
     {
         $options = $this->config->cache_backend;
-        $this->runTests($I, $options);
+        $data    = $options->toArray();
+        $this->runTests($I, $options, $data);
     }
 
     /**
@@ -47,7 +48,8 @@ class LoadCest
     public function testArrayFactory(UnitTester $I)
     {
         $options = $this->arrayConfig["cache_backend"];
-        $this->runTests($I, $options);
+        $data    = $options;
+        $this->runTests($I, $options, $data);
     }
 
     /**
@@ -55,21 +57,22 @@ class LoadCest
      *
      * @param UnitTester   $I
      * @param Config|array $options
+     * @param array      $data
      */
-    private function runTests(UnitTester $I, $options)
+    private function runTests(UnitTester $I, $options, array $data)
     {
-        /** @var Apc $cache */
+        /** @var Apcu $cache */
         $cache = Factory::load($options);
 
-        $class = Apc::class;
+        $class  = Apcu::class;
         $actual = $cache;
         $I->assertInstanceOf($class, $actual);
 
-        $class = Data::class;
+        $class  = Data::class;
         $actual = $cache->getFrontend();
         $I->assertInstanceOf($class, $actual);
 
-        $expected = array_intersect_assoc($cache->getOptions(), $options->toArray());
+        $expected = array_intersect_assoc($cache->getOptions(), $data);
         $actual   = $cache->getOptions();
         $I->assertEquals($expected, $actual);
     }

@@ -16,15 +16,15 @@ class PostgresqlHelper
     protected function getColumnDefinitionFixtures(): array
     {
         return [
-            ['column1',  'CHARACTER VARYING(10)'],
-            ['column2',  'INT'],
-            ['column3',  'NUMERIC(10,2)'],
-            ['column4',  'CHARACTER(100)'],
-            ['column5',  'DATE'],
-            ['column6',  'TIMESTAMP'],
-            ['column7',  'TEXT'],
-            ['column8',  'FLOAT'],
-            ['column9',  'CHARACTER VARYING(10)'],
+            ['column1', 'CHARACTER VARYING(10)'],
+            ['column2', 'INT'],
+            ['column3', 'NUMERIC(10,2)'],
+            ['column4', 'CHARACTER(100)'],
+            ['column5', 'DATE'],
+            ['column6', 'TIMESTAMP'],
+            ['column7', 'TEXT'],
+            ['column8', 'FLOAT'],
+            ['column9', 'CHARACTER VARYING(10)'],
             ['column10', 'INT'],
             ['column11', 'BIGINT'],
             ['column12', "ENUM('A', 'B', 'C')"],
@@ -53,14 +53,13 @@ class PostgresqlHelper
     }
 
 
-
     /**
      * @return array
      */
     protected function getCreateViewFixtures(): array
     {
         return [
-            [['sql' => 'SELECT 1'],  null,    'CREATE VIEW "test_view" AS SELECT 1'],
+            [['sql' => 'SELECT 1'], null, 'CREATE VIEW "test_view" AS SELECT 1'],
             [['sql' => 'SELECT 1'], 'schema', 'CREATE VIEW "schema"."test_view" AS SELECT 1'],
         ];
     }
@@ -87,7 +86,7 @@ class PostgresqlHelper
                 "and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
                 "ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND " .
                 "c.table_name=pkc.table_name) WHERE c.table_schema='schema.name.with.dots' AND " .
-                "c.table_name='table' ORDER BY c.ordinal_position"
+                "c.table_name='table' ORDER BY c.ordinal_position",
             ],
             [
                 null,
@@ -105,7 +104,7 @@ class PostgresqlHelper
                 "kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
                 "ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND " .
                 "c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='table' " .
-                "ORDER BY c.ordinal_position"
+                "ORDER BY c.ordinal_position",
             ],
             [
                 'schema',
@@ -123,7 +122,7 @@ class PostgresqlHelper
                 "kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
                 "ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND " .
                 "c.table_name=pkc.table_name) WHERE c.table_schema='schema' AND c.table_name='table' " .
-                "ORDER BY c.ordinal_position"
+                "ORDER BY c.ordinal_position",
             ],
         ];
     }
@@ -136,12 +135,12 @@ class PostgresqlHelper
         return [
             [
                 null,
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example7.sql'))
+                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example7.sql')),
             ],
             [
                 'schema',
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example8.sql'))
-            ]
+                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example8.sql')),
+            ],
         ];
     }
 
@@ -151,7 +150,7 @@ class PostgresqlHelper
     protected function getDropColumnFixtures(): array
     {
         return [
-            ['',       'column1', 'ALTER TABLE "table" DROP COLUMN "column1"'],
+            ['', 'column1', 'ALTER TABLE "table" DROP COLUMN "column1"'],
             ['schema', 'column1', 'ALTER TABLE "schema"."table" DROP COLUMN "column1"'],
         ];
     }
@@ -162,7 +161,7 @@ class PostgresqlHelper
     protected function getDropForeignKeyFixtures(): array
     {
         return [
-            ['',       'fk1', 'ALTER TABLE "table" DROP CONSTRAINT "fk1"'],
+            ['', 'fk1', 'ALTER TABLE "table" DROP CONSTRAINT "fk1"'],
             ['schema', 'fk1', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "fk1"'],
         ];
     }
@@ -173,7 +172,7 @@ class PostgresqlHelper
     protected function getDropIndexFixtures()
     {
         return [
-            ['',       'index1', 'DROP INDEX "index1"'],
+            ['', 'index1', 'DROP INDEX "index1"'],
             ['schema', 'index1', 'DROP INDEX "index1"'],
         ];
     }
@@ -184,7 +183,7 @@ class PostgresqlHelper
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [
-            ['',       'ALTER TABLE "table" DROP CONSTRAINT "PRIMARY"'],
+            ['', 'ALTER TABLE "table" DROP CONSTRAINT "PRIMARY"'],
             ['schema', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "PRIMARY"'],
         ];
     }
@@ -195,9 +194,9 @@ class PostgresqlHelper
     protected function getDropTableFixtures(): array
     {
         return [
-            [null,     true,  'DROP TABLE IF EXISTS "table"'],
-            ['schema', true,  'DROP TABLE IF EXISTS "schema"."table"'],
-            [null,     false, 'DROP TABLE "table"'],
+            [null, true, 'DROP TABLE IF EXISTS "table"'],
+            ['schema', true, 'DROP TABLE IF EXISTS "schema"."table"'],
+            [null, false, 'DROP TABLE "table"'],
             ['schema', false, 'DROP TABLE "schema"."table"'],
         ];
     }
@@ -208,10 +207,10 @@ class PostgresqlHelper
     protected function getDropViewFixtures(): array
     {
         return [
-            [null,     false, 'DROP VIEW "test_view"'],
-            [null,     true,  'DROP VIEW IF EXISTS "test_view"'],
+            [null, false, 'DROP VIEW "test_view"'],
+            [null, true, 'DROP VIEW IF EXISTS "test_view"'],
             ['schema', false, 'DROP VIEW "schema"."test_view"'],
-            ['schema', true,  'DROP VIEW IF EXISTS "schema"."test_view"'],
+            ['schema', true, 'DROP VIEW IF EXISTS "schema"."test_view"'],
         ];
     }
 
@@ -220,8 +219,8 @@ class PostgresqlHelper
      */
     protected function getListViewFixtures(): array
     {
-        return  [
-            [null,     "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name"],
+        return [
+            [null, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name"],
             ['schema', "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'schema' ORDER BY view_name"],
         ];
     }
@@ -237,28 +236,28 @@ class PostgresqlHelper
                 'column1',
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column1";' .
-                'ALTER TABLE "table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);'
+                'ALTER TABLE "table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);',
             ],
             [
                 'schema',
                 'column1',
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column1";' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);',
             ],
             [
                 '',
                 'column2',
                 'column1',
                 'ALTER TABLE "table" RENAME COLUMN "column1" TO "column2";' .
-                'ALTER TABLE "table" ALTER COLUMN "column2" TYPE INT;'
+                'ALTER TABLE "table" ALTER COLUMN "column2" TYPE INT;',
             ],
             [
                 'schema',
                 'column2',
                 'column1',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column1" TO "column2";' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column2" TYPE INT;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column2" TYPE INT;',
             ],
             [
                 '',
@@ -266,7 +265,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column3";' .
                 'ALTER TABLE "table" ALTER COLUMN "column3" TYPE NUMERIC(10,2);' .
-                'ALTER TABLE "table" ALTER COLUMN "column3" SET NOT NULL;'
+                'ALTER TABLE "table" ALTER COLUMN "column3" SET NOT NULL;',
             ],
             [
                 'schema',
@@ -274,7 +273,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column3";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column3" TYPE NUMERIC(10,2);' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column3" SET NOT NULL;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column3" SET NOT NULL;',
             ],
             [
                 '',
@@ -282,7 +281,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column4";' .
                 'ALTER TABLE "table" ALTER COLUMN "column4" TYPE CHARACTER(100);' .
-                'ALTER TABLE "table" ALTER COLUMN "column4" SET NOT NULL;'
+                'ALTER TABLE "table" ALTER COLUMN "column4" SET NOT NULL;',
             ],
             [
                 'schema',
@@ -290,7 +289,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column4";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column4" TYPE CHARACTER(100);' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column4" SET NOT NULL;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column4" SET NOT NULL;',
             ],
             [
                 '',
@@ -298,7 +297,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column5";' .
                 'ALTER TABLE "table" ALTER COLUMN "column5" TYPE DATE;' .
-                'ALTER TABLE "table" ALTER COLUMN "column5" SET NOT NULL;'
+                'ALTER TABLE "table" ALTER COLUMN "column5" SET NOT NULL;',
             ],
             [
                 'schema',
@@ -306,7 +305,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column5";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column5" TYPE DATE;' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column5" SET NOT NULL;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column5" SET NOT NULL;',
             ],
             [
                 '',
@@ -314,7 +313,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column6";' .
                 'ALTER TABLE "table" ALTER COLUMN "column6" TYPE TIMESTAMP;' .
-                'ALTER TABLE "table" ALTER COLUMN "column6" SET NOT NULL;'
+                'ALTER TABLE "table" ALTER COLUMN "column6" SET NOT NULL;',
             ],
             [
                 'schema',
@@ -322,7 +321,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column6";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column6" TYPE TIMESTAMP;' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column6" SET NOT NULL;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column6" SET NOT NULL;',
             ],
             [
                 '',
@@ -330,7 +329,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column7";' .
                 'ALTER TABLE "table" ALTER COLUMN "column7" TYPE TEXT;' .
-                'ALTER TABLE "table" ALTER COLUMN "column7" SET NOT NULL;'
+                'ALTER TABLE "table" ALTER COLUMN "column7" SET NOT NULL;',
             ],
             [
                 'schema',
@@ -338,7 +337,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column7";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column7" TYPE TEXT;' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column7" SET NOT NULL;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column7" SET NOT NULL;',
             ],
             [
                 '',
@@ -346,7 +345,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column8";' .
                 'ALTER TABLE "table" ALTER COLUMN "column8" TYPE FLOAT;' .
-                'ALTER TABLE "table" ALTER COLUMN "column8" SET NOT NULL;'
+                'ALTER TABLE "table" ALTER COLUMN "column8" SET NOT NULL;',
             ],
             [
                 'schema',
@@ -354,7 +353,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column8";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column8" TYPE FLOAT;' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column8" SET NOT NULL;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column8" SET NOT NULL;',
             ],
             [
                 '',
@@ -362,7 +361,7 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column9";' .
                 'ALTER TABLE "table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);' .
-                'ALTER TABLE "table" ALTER COLUMN "column9" SET DEFAULT \'column9\''
+                'ALTER TABLE "table" ALTER COLUMN "column9" SET DEFAULT \'column9\'',
             ],
             [
                 'schema',
@@ -370,35 +369,35 @@ class PostgresqlHelper
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column9";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column9" SET DEFAULT \'column9\''
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column9" SET DEFAULT \'column9\'',
             ],
             [
                 '',
                 'column10',
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column10";' .
-                'ALTER TABLE "table" ALTER COLUMN "column10" SET DEFAULT 10'
+                'ALTER TABLE "table" ALTER COLUMN "column10" SET DEFAULT 10',
             ],
             [
                 'schema',
                 'column10',
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column10";' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column10" SET DEFAULT 10'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column10" SET DEFAULT 10',
             ],
             [
                 '',
                 'column11',
                 'column2',
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column11";' .
-                'ALTER TABLE "table" ALTER COLUMN "column11" TYPE BIGINT;'
+                'ALTER TABLE "table" ALTER COLUMN "column11" TYPE BIGINT;',
             ],
             [
                 'schema',
                 'column11',
                 'column2',
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column11";' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column11" TYPE BIGINT;'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column11" TYPE BIGINT;',
             ],
             [
                 '',
@@ -407,7 +406,7 @@ class PostgresqlHelper
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column12";' .
                 'ALTER TABLE "table" ALTER COLUMN "column12" TYPE ENUM(\'A\', \'B\', \'C\');' .
                 'ALTER TABLE "table" ALTER COLUMN "column12" SET NOT NULL;' .
-                'ALTER TABLE "table" ALTER COLUMN "column12" SET DEFAULT \'A\''
+                'ALTER TABLE "table" ALTER COLUMN "column12" SET DEFAULT \'A\'',
             ],
             [
                 'schema',
@@ -416,7 +415,7 @@ class PostgresqlHelper
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column12";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column12" TYPE ENUM(\'A\', \'B\', \'C\');' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET NOT NULL;' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT \'A\''
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT \'A\'',
             ],
             [
                 '',
@@ -425,7 +424,7 @@ class PostgresqlHelper
                 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column13";' .
                 'ALTER TABLE "table" ALTER COLUMN "column13" TYPE TIMESTAMP;' .
                 'ALTER TABLE "table" ALTER COLUMN "column13" SET NOT NULL;' .
-                'ALTER TABLE "table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP'
+                'ALTER TABLE "table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP',
             ],
             [
                 'schema',
@@ -434,7 +433,7 @@ class PostgresqlHelper
                 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column13";' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column13" TYPE TIMESTAMP;' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET NOT NULL;' .
-                'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP'
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP',
             ],
         ];
     }
@@ -484,14 +483,14 @@ class PostgresqlHelper
                 null,
                 "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
                 "FROM information_schema.tables " .
-                "WHERE table_schema = 'public' AND table_name='table'"
+                "WHERE table_schema = 'public' AND table_name='table'",
             ],
             [
                 'schema',
                 "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
                 "FROM information_schema.tables " .
-                "WHERE table_schema = 'schema' AND table_name='table'"
-            ]
+                "WHERE table_schema = 'schema' AND table_name='table'",
+            ],
         ];
     }
 
@@ -501,7 +500,7 @@ class PostgresqlHelper
     protected function getTruncateTableFixtures(): array
     {
         return [
-            ['',       'TRUNCATE TABLE table'],
+            ['', 'TRUNCATE TABLE table'],
             ['schema', 'TRUNCATE TABLE schema.table'],
         ];
     }
@@ -514,12 +513,12 @@ class PostgresqlHelper
         return [
             [
                 null,
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='public'"
+                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='public'",
             ],
             [
                 'schema',
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='schema'"
-            ]
+                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='schema'",
+            ],
         ];
     }
 

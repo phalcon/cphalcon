@@ -49,61 +49,61 @@ class AddForeignKeyCest
                 '',
                 'fk1',
                 'ALTER TABLE "table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2")'
+                'REFERENCES "ref_table" ("column2")',
             ],
             [
                 'schema',
                 'fk1',
                 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2")'
+                'REFERENCES "ref_table" ("column2")',
             ],
             [
                 '',
                 'fk2',
                 'ALTER TABLE "table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") ' .
-                'REFERENCES "ref_table" ("column5", "column6")'
+                'REFERENCES "ref_table" ("column5", "column6")',
             ],
             [
                 'schema',
                 'fk2',
                 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") ' .
-                'REFERENCES "ref_table" ("column5", "column6")'
+                'REFERENCES "ref_table" ("column5", "column6")',
             ],
             [
                 '',
                 'fk3',
                 'ALTER TABLE "table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE'
+                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE',
             ],
             [
                 'schema',
                 'fk3',
                 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE'
+                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE',
             ],
             [
                 '',
                 'fk4',
                 'ALTER TABLE "table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2") ON UPDATE SET NULL'
+                'REFERENCES "ref_table" ("column2") ON UPDATE SET NULL',
             ],
             [
                 'schema',
                 'fk4',
                 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2") ON UPDATE SET NULL'
+                'REFERENCES "ref_table" ("column2") ON UPDATE SET NULL',
             ],
             [
                 '',
                 'fk5',
                 'ALTER TABLE "table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION'
+                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION',
             ],
             [
                 'schema',
                 'fk5',
                 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") ' .
-                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION'
+                'REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION',
             ],
         ];
     }

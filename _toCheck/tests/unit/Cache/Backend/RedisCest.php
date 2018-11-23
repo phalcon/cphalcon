@@ -2,22 +2,21 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use UnitTester;
+use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\Output;
-use PHPUnit\Framework\SkippedTestError;
+use UnitTester;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\RedisCest
  * Tests the \Phalcon\Cache\Backend\Redis component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Serghei Iakovlev <serghei@phalconphp.com>
+ * @package       Phalcon\Test\Unit\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -30,69 +29,7 @@ class RedisCest
 {
     public function _before(UnitTester $I)
     {
-        $I->wantToTest('Redis cache backend');
-
-        if (!extension_loaded('redis')) {
-            throw new SkippedTestError(
-                'Warning: redis extension is not loaded'
-            );
-        }
-    }
-
-    public function increment(UnitTester $I)
-    {
-        $I->wantTo('Increment counter by using Redis as cache backend');
-
-        $key = '_PHCR' . 'increment';
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => env('TEST_RS_HOST', '127.0.0.1'),
-                'port'     => env('TEST_RS_PORT', 6379),
-                'index'    => env('TEST_RS_DB', 0),
-                'statsKey' => '_PHCR',
-            ]
-        );
-
-        $I->dontSeeInRedis($key);
-        $I->haveInRedis('string', $key, 1);
-
-        $I->assertEquals(2, $cache->increment('increment'));
-        $I->seeInRedis($key, 2);
-
-        $I->assertEquals(4, $cache->increment('increment', 2));
-        $I->seeInRedis($key, 4);
-
-        $I->assertEquals(14, $cache->increment('increment', 10));
-        $I->seeInRedis($key, 14);
-    }
-
-    public function decrement(UnitTester $I)
-    {
-        $I->wantTo('Decrement counter by using Redis as cache backend');
-
-        $key = '_PHCR' . 'decrement';
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => env('TEST_RS_HOST', '127.0.0.1'),
-                'port'     => env('TEST_RS_PORT', 6379),
-                'index'    => env('TEST_RS_DB', 0),
-                'statsKey' => '_PHCR',
-            ]
-        );
-
-        $I->dontSeeInRedis($key);
-        $I->haveInRedis('string', $key, 100);
-
-        $I->assertEquals(99, $cache->decrement('decrement'));
-        $I->seeInRedis($key, 99);
-
-        $I->assertEquals(97, $cache->decrement('decrement', 2));
-        $I->seeInRedis($key, 97);
-
-        $I->assertEquals(87, $cache->decrement('decrement', 10));
-        $I->seeInRedis($key, 87);
+        $I->checkExtensionIsLoaded('redis');
     }
 
     public function exists(UnitTester $I)
@@ -172,7 +109,7 @@ class RedisCest
     {
         $I->wantTo('Get data by using Redis as cache backend');
 
-        $key = '_PHCR' . 'data-get';
+        $key  = '_PHCR' . 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(
@@ -206,7 +143,7 @@ class RedisCest
     {
         $I->wantTo('Get empty value by using Redis as cache backend');
 
-        $key = '_PHCR' . 'data-empty-get';
+        $key   = '_PHCR' . 'data-empty-get';
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
@@ -225,7 +162,7 @@ class RedisCest
     {
         $I->wantTo('Save data by using Redis as cache backend');
 
-        $key = '_PHCR' . 'data-save';
+        $key  = '_PHCR' . 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(
@@ -399,7 +336,7 @@ class RedisCest
     {
         $I->wantTo('Cache output fragments by using Redis as cache backend');
 
-        $time = date('H:i:s');
+        $time  = date('H:i:s');
         $cache = new Redis(
             new Output(['lifetime' => 2]),
             [
@@ -443,7 +380,7 @@ class RedisCest
     {
         $I->wantTo('Get data by using Redis as cache backend and set timeout');
 
-        $key = '_PHCR' . 'data-get-timeout';
+        $key  = '_PHCR' . 'data-get-timeout';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(

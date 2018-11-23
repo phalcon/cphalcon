@@ -11,10 +11,16 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
+use Phalcon\Cache\Backend\Redis;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\BackendInterface;
+use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
 class ConstructCest
 {
+    use RedisTrait;
+
     /**
      * Tests Phalcon\Cache\Backend\Redis :: __construct()
      *
@@ -23,6 +29,9 @@ class ConstructCest
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $cache  = new Redis(new Data(['lifetime' => 20]), $this->options);
+        $class  = BackendInterface::class;
+        $actual = $cache;
+        $I->assertInstanceOf($class, $actual);
     }
 }

@@ -13,9 +13,9 @@ namespace Phalcon\Test\Unit\Assets\Filters;
 
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
 use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class NoneCest

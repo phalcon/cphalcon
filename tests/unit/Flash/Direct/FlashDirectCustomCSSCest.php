@@ -24,7 +24,7 @@ class FlashDirectCustomCSSCest extends FlashBase
             'error'   => 'alert alert-error',
             'success' => 'alert alert-success',
             'notice'  => 'alert alert-notice',
-            'warning' => 'alert alert-warning'
+            'warning' => 'alert alert-warning',
         ];
 
         $this->setClasses($classes);

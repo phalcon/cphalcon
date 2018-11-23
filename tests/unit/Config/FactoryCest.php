@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Config;
 
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Factory;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class FactoryCest

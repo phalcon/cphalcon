@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Unit\Logger\Adapter;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Multiple;
@@ -140,6 +140,39 @@ class FileCest
     public function testLoggerAdapterFileDefaultLoggingUsesDebug(UnitTester $I)
     {
         $this->runLogging($I, 'Hello', null);
+    }
+
+    /**
+     * Runs the various logging function testLoggerAdapterFiles
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-13
+     *
+     * @param UnitTester $I
+     * @param mixed      $level
+     * @param null       $name
+     */
+    protected function runLogging(UnitTester $I, $level, $name = null)
+    {
+        $fileName = $I->getNewFileName('log', 'log');
+        $logger   = new File($this->logPath . $fileName);
+        if (is_null($name)) {
+            $logger->log($level);
+            $name = 'DEBUG';
+        } else {
+            $logger->log($level, 'Hello');
+        }
+        $logger->close();
+
+        $I->amInPath($this->logPath);
+        $I->openFile($fileName);
+        $expected = sprintf(
+            "[%s][%s] Hello",
+            date('D, d M y H:i:s O'),
+            $name
+        );
+        $I->seeInThisFile($expected);
+        $I->deleteFile($fileName);
     }
 
     /**
@@ -310,6 +343,78 @@ class FileCest
         }
     }
 
+    /**
+     * Runs the test for the creation of a file with logging
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-13
+     *
+     * @param UnitTester $I
+     * @param string     $function
+     */
+    protected function createOfLogFile(UnitTester $I, $function)
+    {
+        $fileName = $I->getNewFileName('log', 'log');
+        $logger   = new File($this->logPath . $fileName);
+        $logger->$function('Hello');
+        $logger->close();
+
+        $I->amInPath($this->logPath);
+        $I->seeFileFound($fileName);
+        $I->deleteFile($fileName);
+    }
+
+    /**
+     * Runs the test for how many lines the file has on creation
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-13
+     *
+     * @param UnitTester $I
+     * @param string     $function
+     */
+    protected function numberOfMessagesLogged(UnitTester $I, $function)
+    {
+        $fileName = $I->getNewFileName('log', 'log');
+        $logger   = new File($this->logPath . $fileName);
+        $logger->$function('Hello');
+        $logger->$function('Goodbye');
+        $logger->close();
+
+        $I->amInPath($this->logPath);
+        $I->openFile($fileName);
+        $I->seeNumberNewLines(3);
+        $I->deleteFile($fileName);
+    }
+
+    /**
+     * Runs logging test
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2012-09-17
+     *
+     * @param UnitTester $I
+     * @param            $function
+     */
+    protected function logging(UnitTester $I, $function)
+    {
+        $fileName = $I->getNewFileName('log', 'log');
+        $logger   = new File($this->logPath . $fileName);
+        $logger->$function('Hello');
+        $logger->close();
+
+        $I->amInPath($this->logPath);
+        $contents = \file($this->logPath . $fileName);
+        $I->deleteFile($fileName);
+
+        $position = strpos($contents[0], '[' . strtoupper($function) . ']');
+        $actual   = ($position !== false);
+        $I->assertTrue($actual);
+
+        $position = strpos($contents[0], 'Hello');
+        $actual   = ($position !== false);
+        $I->assertTrue($actual);
+    }
 
     /**
      * Tests set/getFormat
@@ -342,8 +447,8 @@ class FileCest
      */
     public function testLoggerAdapterFileNewFormatLogsCorrectly(UnitTester $I)
     {
-        $fileName = $I->getNewFileName('log', 'log');
-        $logger = new File($this->logPath . $fileName);
+        $fileName  = $I->getNewFileName('log', 'log');
+        $logger    = new File($this->logPath . $fileName);
         $formatter = new Line('%type%|%date%|%message%');
 
         $logger->setFormatter($formatter);
@@ -515,113 +620,5 @@ class FileCest
 
         $I->seeFileContentsEqual(sprintf("[%s][DEBUG] Hello\n", date('D, d M y H:i:s O')));
         $I->deleteFile($fileName);
-    }
-
-
-    /**
-     * Runs the various logging function testLoggerAdapterFiles
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param UnitTester $I
-     * @param mixed      $level
-     * @param null       $name
-     */
-    protected function runLogging(UnitTester $I, $level, $name = null)
-    {
-        $fileName = $I->getNewFileName('log', 'log');
-        $logger   = new File($this->logPath . $fileName);
-        if (is_null($name)) {
-            $logger->log($level);
-            $name = 'DEBUG';
-        } else {
-            $logger->log($level, 'Hello');
-        }
-        $logger->close();
-
-        $I->amInPath($this->logPath);
-        $I->openFile($fileName);
-        $expected = sprintf(
-            "[%s][%s] Hello",
-            date('D, d M y H:i:s O'),
-            $name
-        );
-        $I->seeInThisFile($expected);
-        $I->deleteFile($fileName);
-    }
-
-
-    /**
-     * Runs the test for the creation of a file with logging
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param UnitTester $I
-     * @param string     $function
-     */
-    protected function createOfLogFile(UnitTester $I, $function)
-    {
-        $fileName = $I->getNewFileName('log', 'log');
-        $logger   = new File($this->logPath . $fileName);
-        $logger->$function('Hello');
-        $logger->close();
-
-        $I->amInPath($this->logPath);
-        $I->seeFileFound($fileName);
-        $I->deleteFile($fileName);
-    }
-
-    /**
-     * Runs the test for how many lines the file has on creation
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param UnitTester $I
-     * @param string     $function
-     */
-    protected function numberOfMessagesLogged(UnitTester $I, $function)
-    {
-        $fileName = $I->getNewFileName('log', 'log');
-        $logger   = new File($this->logPath . $fileName);
-        $logger->$function('Hello');
-        $logger->$function('Goodbye');
-        $logger->close();
-
-        $I->amInPath($this->logPath);
-        $I->openFile($fileName);
-        $I->seeNumberNewLines(3);
-        $I->deleteFile($fileName);
-    }
-
-    /**
-     * Runs logging test
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-17
-     *
-     * @param UnitTester $I
-     * @param            $function
-     */
-    protected function logging(UnitTester $I, $function)
-    {
-        $fileName = $I->getNewFileName('log', 'log');
-        $logger   = new File($this->logPath . $fileName);
-        $logger->$function('Hello');
-        $logger->close();
-
-        $I->amInPath($this->logPath);
-        $contents = \file($this->logPath . $fileName);
-        $I->deleteFile($fileName);
-
-        $position = strpos($contents[0], '[' . strtoupper($function) . ']');
-        $actual   = ($position !== false);
-        $I->assertTrue($actual);
-
-        $position = strpos($contents[0], 'Hello');
-        $actual   = ($position !== false);
-        $I->assertTrue($actual);
     }
 }

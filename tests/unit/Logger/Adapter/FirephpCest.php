@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Logger\Adapter;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Logger\Adapter\Firephp;
 use UnitTester;
 
