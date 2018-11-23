@@ -11,18 +11,24 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Email;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Email;
+use Phalcon\Validation\ValidatorInterface;
 use UnitTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Email :: __construct()
+     * Tests Phalcon\Validation\Validator\Email :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Email();
+        $I->assertInstanceOf(ValidatorInterface::class, $validator);
     }
 }

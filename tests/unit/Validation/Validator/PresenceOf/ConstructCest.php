@@ -11,18 +11,24 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\PresenceOf;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\ValidatorInterface;
 use UnitTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: __construct()
+     * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new PresenceOf();
+        $I->assertInstanceOf(ValidatorInterface::class, $validator);
     }
 }

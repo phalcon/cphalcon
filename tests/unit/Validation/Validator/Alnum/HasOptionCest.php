@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Alnum;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Alnum;
 use UnitTester;
 
 class HasOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: hasOption()
+     * Tests Phalcon\Validation\Validator\Alnum :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testHasOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Alnum(['message' => 'This is a message']);
+        $this->validatorHasOption($I, $validator);
     }
 }

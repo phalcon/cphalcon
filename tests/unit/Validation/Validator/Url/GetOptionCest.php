@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Url;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Url;
 use UnitTester;
 
 class GetOptionCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\Url :: getOption()
      *
@@ -23,6 +27,7 @@ class GetOptionCest
      */
     public function testGetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Url();
+        $this->validatorGetOption($I, $validator);
     }
 }

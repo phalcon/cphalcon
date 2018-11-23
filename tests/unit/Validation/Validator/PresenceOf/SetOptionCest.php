@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\PresenceOf;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\PresenceOf;
 use UnitTester;
 
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: setOption()
+     * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testSetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new PresenceOf();
+        $this->validatorSetOption($I, $validator);
     }
 }

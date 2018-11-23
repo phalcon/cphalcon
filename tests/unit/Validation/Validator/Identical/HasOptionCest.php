@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Identical;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Identical;
 use UnitTester;
 
 class HasOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Identical :: hasOption()
+     * Tests Phalcon\Validation\Validator\Identical :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testHasOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Identical(['message' => 'This is a message']);
+        $this->validatorHasOption($I, $validator);
     }
 }

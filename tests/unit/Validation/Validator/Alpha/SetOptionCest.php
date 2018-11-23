@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Alpha;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Alpha;
 use UnitTester;
 
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: setOption()
+     * Tests Phalcon\Validation\Validator\Alpha :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testSetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Alpha();
+        $this->validatorSetOption($I, $validator);
     }
 }

@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Digit;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Digit;
 use UnitTester;
 
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Digit :: setOption()
+     * Tests Phalcon\Validation\Validator\Digit :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testSetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Digit();
+        $this->validatorSetOption($I, $validator);
     }
 }

@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Regex;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Regex;
 use UnitTester;
 
 class GetOptionCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\Regex :: getOption()
      *
@@ -23,6 +27,7 @@ class GetOptionCest
      */
     public function testGetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Regex();
+        $this->validatorGetOption($I, $validator);
     }
 }

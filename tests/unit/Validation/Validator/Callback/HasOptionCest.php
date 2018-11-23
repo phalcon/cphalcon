@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Callback;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Callback;
 use UnitTester;
 
 class HasOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: hasOption()
+     * Tests Phalcon\Validation\Validator\Callback :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testHasOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Callback(['message' => 'This is a message']);
+        $this->validatorHasOption($I, $validator);
     }
 }

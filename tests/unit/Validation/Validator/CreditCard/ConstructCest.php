@@ -11,18 +11,24 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\CreditCard;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\CreditCard;
+use Phalcon\Validation\ValidatorInterface;
 use UnitTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: __construct()
+     * Tests Phalcon\Validation\Validator\CreditCard :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new CreditCard();
+        $I->assertInstanceOf(ValidatorInterface::class, $validator);
     }
 }

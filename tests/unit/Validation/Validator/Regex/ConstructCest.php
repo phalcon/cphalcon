@@ -11,18 +11,24 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Regex;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Regex;
+use Phalcon\Validation\ValidatorInterface;
 use UnitTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Regex :: __construct()
+     * Tests Phalcon\Validation\Validator\Regex :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Regex();
+        $I->assertInstanceOf(ValidatorInterface::class, $validator);
     }
 }

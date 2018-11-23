@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Alpha;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Alpha;
 use UnitTester;
 
 class HasOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: hasOption()
+     * Tests Phalcon\Validation\Validator\Alpha :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testHasOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Alpha(['message' => 'This is a message']);
+        $this->validatorHasOption($I, $validator);
     }
 }

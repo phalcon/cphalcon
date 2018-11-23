@@ -11,18 +11,24 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Between;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Between;
+use Phalcon\Validation\ValidatorInterface;
 use UnitTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Between :: __construct()
+     * Tests Phalcon\Validation\Validator\Between :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Between();
+        $I->assertInstanceOf(ValidatorInterface::class, $validator);
     }
 }

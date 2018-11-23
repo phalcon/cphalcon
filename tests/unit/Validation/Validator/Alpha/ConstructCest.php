@@ -11,18 +11,24 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Alpha;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Validation\ValidatorInterface;
 use UnitTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: __construct()
+     * Tests Phalcon\Validation\Validator\Alpha :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new Alpha();
+        $I->assertInstanceOf(ValidatorInterface::class, $validator);
     }
 }

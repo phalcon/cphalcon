@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\InclusionIn;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\InclusionIn;
 use UnitTester;
 
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\InclusionIn :: setOption()
+     * Tests Phalcon\Validation\Validator\InclusionIn :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testSetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new InclusionIn();
+        $this->validatorSetOption($I, $validator);
     }
 }

@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\StringLength;
 use UnitTester;
 
 class GetOptionCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: getOption()
      *
@@ -23,6 +27,7 @@ class GetOptionCest
      */
     public function testGetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new StringLength();
+        $this->validatorGetOption($I, $validator);
     }
 }

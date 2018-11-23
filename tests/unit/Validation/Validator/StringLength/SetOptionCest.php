@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\StringLength;
 use UnitTester;
 
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: setOption()
+     * Tests Phalcon\Validation\Validator\StringLength :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testSetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new StringLength();
+        $this->validatorSetOption($I, $validator);
     }
 }

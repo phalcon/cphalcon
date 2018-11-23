@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\CreditCard;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\CreditCard;
 use UnitTester;
 
 class GetOptionCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: getOption()
      *
@@ -23,6 +27,7 @@ class GetOptionCest
      */
     public function testGetOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new CreditCard();
+        $this->validatorGetOption($I, $validator);
     }
 }

@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\ExclusionIn;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\ExclusionIn;
 use UnitTester;
 
 class HasOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\ExclusionIn :: hasOption()
+     * Tests Phalcon\Validation\Validator\ExclusionIn :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testHasOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new ExclusionIn(['message' => 'This is a message']);
+        $this->validatorHasOption($I, $validator);
     }
 }

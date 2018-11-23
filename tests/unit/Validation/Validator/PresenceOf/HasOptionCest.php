@@ -11,18 +11,23 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\PresenceOf;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\PresenceOf;
 use UnitTester;
 
 class HasOptionCest
 {
+    use ValidationTrait;
+
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: hasOption()
+     * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testHasOption(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validator = new PresenceOf(['message' => 'This is a message']);
+        $this->validatorHasOption($I, $validator);
     }
 }
