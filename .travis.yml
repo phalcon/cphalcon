@@ -51,66 +51,48 @@ env:
     - ZEPHIR_VERSION="0.10.12"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
+    - REPORT_COVERAGE=1
     - NO_INTERACTION=1
     - TEST_PHP_ARGS="--show-diff"
-    - CFLAGS="-g -O0 -Wall -std=gnu90"
     - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
-  - '[[ -z "${GH_TOKEN}" ]] || composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"'
+  - if [ ! -z "${GITHUB_TOKEN}" ]; then composer config github-oauth.github.com ${GITHUB_TOKEN}; echo "Add Github token"; fi
   - export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
   - export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
   - export PHP_VERNUM="$(php-config --vernum)"
-  - ./tests/_ci/pear-setup.sh
-  - ./tests/_ci/setup-dbs.sh
-  - source ./tests/_ci/environment
-  - export $(cut -d= -f1 ./tests/_ci/environment)
+  - tests/_ci/pear-setup.sh
+  - tests/_ci/setup-dbs.sh
+  - source tests/_ci/environment
+  - export $(cut -d= -f1 tests/_ci/environment)
 
 install:
-  - ./tests/_ci/install-prereqs.sh
-  - ./tests/_ci/install-re2c.sh
+  - tests/_ci/install-prereqs.sh
+  - tests/_ci/install-re2c.sh
   - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
   - travis_retry composer global require ${DEFAULT_COMPOSER_FLAGS} "phalcon/zephir:${ZEPHIR_VERSION}"
-  - zephir generate
-  - ./tests/_ci/precompile-headers.sh
-  - |
-      cd ext
-      phpize
-      ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
-      make -j"$(getconf _NPROCESSORS_ONLN)" > /dev/null 2> ../compile-errors.log
-      make install
-      cd ..
-  - phpenv config-add ./tests/_ci/phalcon.ini
-  - phpenv config-add ./tests/_ci/ci.ini
+  - tests/_ci/build.sh
 
 before_script:
   - ulimit -c unlimited -S || true
-  # see: https://github.com/sebastianbergmann/phpunit/pull/3359
-  - '[[ "${PHP_VERNUM}" -lt 70300 ]] || export USE_ZEND_ALLOC=1'
+  - phpenv config-add tests/_ci/999-default.ini
 
 script:
-  # To avoid this:
-  # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
-  - ln -s ${TRAVIS_BUILD_DIR}/ext/libtool ${TRAVIS_BUILD_DIR}/libtool
-  # Syntax recognize tests
-  - |
-      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
-          -p $(phpenv which php) \
-          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
-          --offline \
-          --show-diff \
-          --set-timeout 120
   - vendor/bin/phpcs
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
-  # TODO: Add `integration` suite and refactor tests
-  # - vendor/bin/codecept run -v -n tests/integration/
-  - vendor/bin/codecept run -v
+  - vendor/bin/codecept run -v -n tests/integration/
+  - vendor/bin/codecept run -v -n tests/unit/
   # TODO: Refactor legacy unit tests from the "unit-tests" directory
+  - phpenv config-rm xdebug.ini || true
+  - tests/_ci/volt-tests.sh
 
 after_failure:
-  - ./tests/_ci/after-failure.sh
+  - tests/_ci/after-failure.sh
+
+after_success:
+  - tests/_ci/after-success.sh
 
 notifications:
   email: false

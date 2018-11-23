@@ -27,6 +27,23 @@ class ConfigBase
                 'property2' => 'yeah',
             ],
         ],
+        'issue-12725' => [
+            'channel' => [
+                'handlers' => [
+                    0 => [
+                        'name' => 'stream',
+                        'level' => 'debug',
+                        'fingersCrossed' => 'info',
+                        'filename' => 'channel.log'
+                    ],
+                    1 => [
+                        'name' => 'redis',
+                        'level' => 'debug',
+                        'fingersCrossed' => 'info'
+                    ]
+                ]
+            ]
+        ]
     ];
 
     protected function compareConfig(UnitTester $I, array $actual, Config $expected)
