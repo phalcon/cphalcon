@@ -21,7 +21,7 @@ class ToStringCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function TestToString(UnitTester $I)
+    public function testToString(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

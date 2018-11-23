@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Validation\Validator\Exception;
 
 use UnitTester;
 
-class __wakeupCest
+class WakeupCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Exception :: __wakeup()
@@ -21,7 +21,7 @@ class __wakeupCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__wakeup(UnitTester $I)
+    public function testWakeup(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Registry;
 
-
 use Phalcon\Registry;
 use UnitTester;
 

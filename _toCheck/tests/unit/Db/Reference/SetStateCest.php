@@ -9,20 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Forms\Element\TextArea;
+namespace Phalcon\Test\Unit\Db\Reference;
 
 use UnitTester;
 
-class ToStringCest
+class SetStateCest
 {
     /**
-     * Tests Phalcon\Forms\Element\TextArea :: __toString()
+     * Tests Phalcon\Db\Reference :: __set_state()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function testSetState(UnitTester $I, $scenario)
     {
-        $I->skipTest("Need implementation");
+        $scenario->incomplete("Need implementation");
     }
 }

@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Forms\Element\TextArea;
+namespace Phalcon\Test\Unit\Logger\Adapter\File;
 
 use UnitTester;
 
-class ToStringCest
+class WakeupCest
 {
     /**
-     * Tests Phalcon\Forms\Element\TextArea :: __toString()
+     * Tests Phalcon\Logger\Adapter\File :: __wakeup()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function testWakeup(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

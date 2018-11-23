@@ -50,5 +50,4 @@ class AddPrimaryKeyCest
             ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
         ];
     }
-
 }

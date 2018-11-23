@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Forms\Element\TextArea;
+namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
 use UnitTester;
 
-class ToStringCest
+class DestructCest
 {
     /**
-     * Tests Phalcon\Forms\Element\TextArea :: __toString()
+     * Tests Phalcon\Image\Adapter\Imagick :: __destruct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function testDestruct(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

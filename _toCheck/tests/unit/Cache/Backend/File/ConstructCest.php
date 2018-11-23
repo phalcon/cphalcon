@@ -9,20 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Forms\Element\TextArea;
+namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
-class ToStringCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Forms\Element\TextArea :: __toString()
+     * Tests Phalcon\Cache\Backend\File :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function testConstruct(UnitTester $I, $scenario)
     {
-        $I->skipTest("Need implementation");
+        $scenario->incomplete("Need implementation");
     }
 }
