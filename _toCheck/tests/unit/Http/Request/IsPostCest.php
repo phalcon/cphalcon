@@ -21,8 +21,8 @@ class IsPostCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsPost(UnitTester $I, $scenario)
+    public function testIsPost(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

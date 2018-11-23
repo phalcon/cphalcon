@@ -21,8 +21,8 @@ class CleanTemplateBeforeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCleanTemplateBefore(UnitTester $I, $scenario)
+    public function testCleanTemplateBefore(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

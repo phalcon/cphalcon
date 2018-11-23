@@ -21,8 +21,8 @@ class GetSQLStatementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSQLStatement(UnitTester $I, $scenario)
+    public function testGetSQLStatement(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

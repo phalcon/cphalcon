@@ -21,8 +21,8 @@ class IsHeadCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsHead(UnitTester $I, $scenario)
+    public function testIsHead(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

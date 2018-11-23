@@ -21,8 +21,8 @@ class PutCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPut(UnitTester $I, $scenario)
+    public function testPut(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

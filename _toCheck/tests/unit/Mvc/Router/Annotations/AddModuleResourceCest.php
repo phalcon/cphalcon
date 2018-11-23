@@ -21,8 +21,8 @@ class AddModuleResourceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddModuleResource(UnitTester $I, $scenario)
+    public function testAddModuleResource(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

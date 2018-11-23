@@ -21,8 +21,8 @@ class GetPatternCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPattern(UnitTester $I, $scenario)
+    public function testGetPattern(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

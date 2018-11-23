@@ -21,8 +21,8 @@ class SetIntermediateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetIntermediate(UnitTester $I, $scenario)
+    public function testSetIntermediate(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

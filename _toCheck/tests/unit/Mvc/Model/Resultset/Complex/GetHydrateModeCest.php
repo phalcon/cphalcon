@@ -21,8 +21,8 @@ class GetHydrateModeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHydrateMode(UnitTester $I, $scenario)
+    public function testGetHydrateMode(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

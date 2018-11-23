@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
-class _connectCest
+class ConnectCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: _connect()
@@ -21,8 +21,8 @@ class _connectCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test_connect(UnitTester $I, $scenario)
+    public function testConnect(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

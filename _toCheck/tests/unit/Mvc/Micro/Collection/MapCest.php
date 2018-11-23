@@ -21,8 +21,8 @@ class MapCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testMap(UnitTester $I, $scenario)
+    public function testMap(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

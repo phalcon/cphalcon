@@ -21,8 +21,8 @@ class SendHeadersCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSendHeaders(UnitTester $I, $scenario)
+    public function testSendHeaders(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

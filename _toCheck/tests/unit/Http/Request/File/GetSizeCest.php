@@ -21,8 +21,8 @@ class GetSizeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSize(UnitTester $I, $scenario)
+    public function testGetSize(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

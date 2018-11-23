@@ -21,8 +21,8 @@ class AndHavingCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAndHaving(UnitTester $I, $scenario)
+    public function testAndHaving(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

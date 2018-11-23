@@ -21,8 +21,8 @@ class SetSecureCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSecure(UnitTester $I, $scenario)
+    public function testSetSecure(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

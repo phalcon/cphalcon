@@ -21,8 +21,8 @@ class GetControllerNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetControllerName(UnitTester $I, $scenario)
+    public function testGetControllerName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetWhereCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetWhere(UnitTester $I, $scenario)
+    public function testGetWhere(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

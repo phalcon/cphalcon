@@ -21,8 +21,8 @@ class FetchAllCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFetchAll(UnitTester $I, $scenario)
+    public function testFetchAll(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

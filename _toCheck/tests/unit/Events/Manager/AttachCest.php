@@ -21,8 +21,8 @@ class AttachCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAttach(UnitTester $I, $scenario)
+    public function testAttach(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

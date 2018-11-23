@@ -21,8 +21,8 @@ class SetInitialTimeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetInitialTime(UnitTester $I, $scenario)
+    public function testSetInitialTime(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

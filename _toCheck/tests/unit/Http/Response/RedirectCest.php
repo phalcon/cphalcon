@@ -21,8 +21,8 @@ class RedirectCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRedirect(UnitTester $I, $scenario)
+    public function testRedirect(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

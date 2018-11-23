@@ -21,8 +21,8 @@ class GetNamespaceAliasesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetNamespaceAliases(UnitTester $I, $scenario)
+    public function testGetNamespaceAliases(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

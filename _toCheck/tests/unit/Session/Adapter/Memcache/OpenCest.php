@@ -21,8 +21,8 @@ class OpenCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOpen(UnitTester $I, $scenario)
+    public function testOpen(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

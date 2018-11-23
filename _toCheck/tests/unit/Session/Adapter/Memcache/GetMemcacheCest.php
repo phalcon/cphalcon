@@ -21,8 +21,8 @@ class GetMemcacheCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMemcache(UnitTester $I, $scenario)
+    public function testGetMemcache(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

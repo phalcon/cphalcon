@@ -21,8 +21,8 @@ class GetHTTPRefererCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHTTPReferer(UnitTester $I, $scenario)
+    public function testGetHTTPReferer(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

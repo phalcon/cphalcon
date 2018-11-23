@@ -21,8 +21,8 @@ class SetAutomaticCreateAttributesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAutomaticCreateAttributes(UnitTester $I, $scenario)
+    public function testSetAutomaticCreateAttributes(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

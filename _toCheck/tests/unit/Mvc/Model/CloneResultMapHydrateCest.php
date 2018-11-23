@@ -21,8 +21,8 @@ class CloneResultMapHydrateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCloneResultMapHydrate(UnitTester $I, $scenario)
+    public function testCloneResultMapHydrate(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

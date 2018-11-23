@@ -21,8 +21,8 @@ class GetConnectionServiceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetConnectionService(UnitTester $I, $scenario)
+    public function testGetConnectionService(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

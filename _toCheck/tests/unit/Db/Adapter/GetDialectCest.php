@@ -21,8 +21,8 @@ class GetDialectCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDialect(UnitTester $I, $scenario)
+    public function testGetDialect(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

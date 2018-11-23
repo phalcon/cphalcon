@@ -21,8 +21,8 @@ class GetFromCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFrom(UnitTester $I, $scenario)
+    public function testGetFrom(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class UseDynamicUpdateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUseDynamicUpdate(UnitTester $I, $scenario)
+    public function testUseDynamicUpdate(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetAfterPositionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAfterPosition(UnitTester $I, $scenario)
+    public function testGetAfterPosition(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

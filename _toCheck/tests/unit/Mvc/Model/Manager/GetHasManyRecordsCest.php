@@ -21,8 +21,8 @@ class GetHasManyRecordsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHasManyRecords(UnitTester $I, $scenario)
+    public function testGetHasManyRecords(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

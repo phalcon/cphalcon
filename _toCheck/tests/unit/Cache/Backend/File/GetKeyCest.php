@@ -21,8 +21,8 @@ class GetKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetKey(UnitTester $I, $scenario)
+    public function testGetKey(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

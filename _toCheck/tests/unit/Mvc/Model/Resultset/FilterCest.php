@@ -21,8 +21,8 @@ class FilterCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFilter(UnitTester $I, $scenario)
+    public function testFilter(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

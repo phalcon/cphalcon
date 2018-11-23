@@ -21,8 +21,8 @@ class HasHeaderCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasHeader(UnitTester $I, $scenario)
+    public function testHasHeader(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetTempNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTempName(UnitTester $I, $scenario)
+    public function testGetTempName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class SetReusableRecordsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetReusableRecords(UnitTester $I, $scenario)
+    public function testSetReusableRecords(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

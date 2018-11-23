@@ -21,8 +21,8 @@ class ExistsBelongsToCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExistsBelongsTo(UnitTester $I, $scenario)
+    public function testExistsBelongsTo(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

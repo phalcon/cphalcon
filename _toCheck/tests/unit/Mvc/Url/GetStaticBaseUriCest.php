@@ -21,8 +21,8 @@ class GetStaticBaseUriCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetStaticBaseUri(UnitTester $I, $scenario)
+    public function testGetStaticBaseUri(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

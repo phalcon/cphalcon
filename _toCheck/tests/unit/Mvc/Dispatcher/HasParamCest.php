@@ -21,8 +21,8 @@ class HasParamCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasParam(UnitTester $I, $scenario)
+    public function testHasParam(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

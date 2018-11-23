@@ -21,8 +21,8 @@ class GetStaticCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetStatic(UnitTester $I, $scenario)
+    public function testGetStatic(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

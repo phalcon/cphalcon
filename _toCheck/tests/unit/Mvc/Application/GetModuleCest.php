@@ -21,8 +21,8 @@ class GetModuleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetModule(UnitTester $I, $scenario)
+    public function testGetModule(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

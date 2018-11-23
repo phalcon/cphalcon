@@ -21,8 +21,8 @@ class IsAutoIncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsAutoIncrement(UnitTester $I, $scenario)
+    public function testIsAutoIncrement(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

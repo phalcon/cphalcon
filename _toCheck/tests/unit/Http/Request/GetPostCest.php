@@ -21,8 +21,8 @@ class GetPostCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPost(UnitTester $I, $scenario)
+    public function testGetPost(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

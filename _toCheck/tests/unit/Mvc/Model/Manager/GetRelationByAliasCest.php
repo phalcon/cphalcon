@@ -21,8 +21,8 @@ class GetRelationByAliasCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRelationByAlias(UnitTester $I, $scenario)
+    public function testGetRelationByAlias(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

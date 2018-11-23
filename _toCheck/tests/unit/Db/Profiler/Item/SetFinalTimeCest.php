@@ -21,8 +21,8 @@ class SetFinalTimeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFinalTime(UnitTester $I, $scenario)
+    public function testSetFinalTime(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

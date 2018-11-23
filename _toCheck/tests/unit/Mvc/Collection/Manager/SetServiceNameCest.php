@@ -21,8 +21,8 @@ class SetServiceNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetServiceName(UnitTester $I, $scenario)
+    public function testSetServiceName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

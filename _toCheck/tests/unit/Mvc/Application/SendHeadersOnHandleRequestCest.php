@@ -21,8 +21,8 @@ class SendHeadersOnHandleRequestCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSendHeadersOnHandleRequest(UnitTester $I, $scenario)
+    public function testSendHeadersOnHandleRequest(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

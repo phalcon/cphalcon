@@ -21,8 +21,8 @@ class SetRawCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetRaw(UnitTester $I, $scenario)
+    public function testSetRaw(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

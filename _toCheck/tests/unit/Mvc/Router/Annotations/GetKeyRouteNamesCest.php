@@ -21,8 +21,8 @@ class GetKeyRouteNamesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetKeyRouteNames(UnitTester $I, $scenario)
+    public function testGetKeyRouteNames(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

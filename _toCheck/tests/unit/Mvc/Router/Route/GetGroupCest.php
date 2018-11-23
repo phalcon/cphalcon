@@ -21,8 +21,8 @@ class GetGroupCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetGroup(UnitTester $I, $scenario)
+    public function testGetGroup(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

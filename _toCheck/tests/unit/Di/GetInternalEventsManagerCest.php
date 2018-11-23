@@ -21,8 +21,8 @@ class GetInternalEventsManagerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetInternalEventsManager(UnitTester $I, $scenario)
+    public function testGetInternalEventsManager(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

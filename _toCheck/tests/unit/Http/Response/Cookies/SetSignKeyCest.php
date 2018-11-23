@@ -21,8 +21,8 @@ class SetSignKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSignKey(UnitTester $I, $scenario)
+    public function testSetSignKey(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

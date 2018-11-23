@@ -21,8 +21,8 @@ class GetBindTypeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBindType(UnitTester $I, $scenario)
+    public function testGetBindType(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

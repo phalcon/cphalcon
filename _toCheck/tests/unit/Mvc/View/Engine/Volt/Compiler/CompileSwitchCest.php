@@ -21,8 +21,8 @@ class CompileSwitchCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCompileSwitch(UnitTester $I, $scenario)
+    public function testCompileSwitch(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

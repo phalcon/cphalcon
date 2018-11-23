@@ -21,8 +21,8 @@ class GetSharedCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetShared(UnitTester $I, $scenario)
+    public function testGetShared(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

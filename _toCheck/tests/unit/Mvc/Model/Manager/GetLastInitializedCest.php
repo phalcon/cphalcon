@@ -21,8 +21,8 @@ class GetLastInitializedCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLastInitialized(UnitTester $I, $scenario)
+    public function testGetLastInitialized(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class AddHeadCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddHead(UnitTester $I, $scenario)
+    public function testAddHead(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

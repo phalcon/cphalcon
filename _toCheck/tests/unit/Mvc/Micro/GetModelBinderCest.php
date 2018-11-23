@@ -21,8 +21,8 @@ class GetModelBinderCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetModelBinder(UnitTester $I, $scenario)
+    public function testGetModelBinder(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

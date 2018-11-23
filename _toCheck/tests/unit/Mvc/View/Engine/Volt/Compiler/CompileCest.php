@@ -21,8 +21,8 @@ class CompileCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCompile(UnitTester $I, $scenario)
+    public function testCompile(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

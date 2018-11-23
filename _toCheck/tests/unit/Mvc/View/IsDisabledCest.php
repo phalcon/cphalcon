@@ -21,8 +21,8 @@ class IsDisabledCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsDisabled(UnitTester $I, $scenario)
+    public function testIsDisabled(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

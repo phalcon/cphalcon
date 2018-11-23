@@ -21,8 +21,8 @@ class SetQueryBuilderCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetQueryBuilder(UnitTester $I, $scenario)
+    public function testSetQueryBuilder(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

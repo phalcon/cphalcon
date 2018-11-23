@@ -21,8 +21,8 @@ class GetCompilerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCompiler(UnitTester $I, $scenario)
+    public function testGetCompiler(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

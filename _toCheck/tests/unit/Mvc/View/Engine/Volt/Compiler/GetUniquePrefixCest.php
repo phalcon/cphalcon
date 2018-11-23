@@ -21,8 +21,8 @@ class GetUniquePrefixCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUniquePrefix(UnitTester $I, $scenario)
+    public function testGetUniquePrefix(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

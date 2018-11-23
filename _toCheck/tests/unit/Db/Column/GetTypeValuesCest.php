@@ -21,8 +21,8 @@ class GetTypeValuesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTypeValues(UnitTester $I, $scenario)
+    public function testGetTypeValues(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

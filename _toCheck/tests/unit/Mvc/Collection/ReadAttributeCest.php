@@ -21,8 +21,8 @@ class ReadAttributeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadAttribute(UnitTester $I, $scenario)
+    public function testReadAttribute(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

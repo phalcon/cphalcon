@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Mvc\Collection\Behavior\SoftDelete;
 
 use UnitTester;
 
-class __constructCest
+class ConstructCest
 {
     /**
      * Tests Phalcon\Mvc\Collection\Behavior\SoftDelete :: __construct()
@@ -21,8 +21,8 @@ class __constructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__construct(UnitTester $I, $scenario)
+    public function testConstruct(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

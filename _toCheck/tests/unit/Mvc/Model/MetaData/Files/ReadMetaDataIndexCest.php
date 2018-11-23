@@ -21,8 +21,8 @@ class ReadMetaDataIndexCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadMetaDataIndex(UnitTester $I, $scenario)
+    public function testReadMetaDataIndex(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

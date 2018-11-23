@@ -59,7 +59,7 @@ class CookieCest extends HttpBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-05-06
      */
-    public function shouldThrowExceptionIfMessageAuthenticationCodeIsMismatch(UnitTester $I, $scenario)
+    public function shouldThrowExceptionIfMessageAuthenticationCodeIsMismatch(UnitTester $I)
     {
         /**
          * TODO: Check the exception

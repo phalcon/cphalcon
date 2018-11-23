@@ -21,8 +21,8 @@ class SetSharedCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetShared(UnitTester $I, $scenario)
+    public function testSetShared(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

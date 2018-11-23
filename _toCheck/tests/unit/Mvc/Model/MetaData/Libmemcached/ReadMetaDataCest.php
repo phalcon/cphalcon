@@ -21,8 +21,8 @@ class ReadMetaDataCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadMetaData(UnitTester $I, $scenario)
+    public function testReadMetaData(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class CompileSetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCompileSet(UnitTester $I, $scenario)
+    public function testCompileSet(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

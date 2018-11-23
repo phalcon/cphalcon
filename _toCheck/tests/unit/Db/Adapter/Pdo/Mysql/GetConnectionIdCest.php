@@ -21,8 +21,8 @@ class GetConnectionIdCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetConnectionId(UnitTester $I, $scenario)
+    public function testGetConnectionId(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

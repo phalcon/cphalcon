@@ -21,8 +21,8 @@ class IsSoapCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsSoap(UnitTester $I, $scenario)
+    public function testIsSoap(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

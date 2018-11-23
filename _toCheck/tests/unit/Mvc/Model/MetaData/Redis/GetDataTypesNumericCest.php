@@ -21,8 +21,8 @@ class GetDataTypesNumericCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDataTypesNumeric(UnitTester $I, $scenario)
+    public function testGetDataTypesNumeric(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

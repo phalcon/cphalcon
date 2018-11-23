@@ -21,8 +21,8 @@ class SkipOperationCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSkipOperation(UnitTester $I, $scenario)
+    public function testSkipOperation(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class NotInHavingCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotInHaving(UnitTester $I, $scenario)
+    public function testNotInHaving(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

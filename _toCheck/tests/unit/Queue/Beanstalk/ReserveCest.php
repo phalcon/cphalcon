@@ -21,8 +21,8 @@ class ReserveCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReserve(UnitTester $I, $scenario)
+    public function testReserve(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

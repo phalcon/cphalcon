@@ -21,8 +21,8 @@ class GetReversedPathsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetReversedPaths(UnitTester $I, $scenario)
+    public function testGetReversedPaths(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

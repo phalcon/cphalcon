@@ -21,8 +21,8 @@ class IsOptionsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsOptions(UnitTester $I, $scenario)
+    public function testIsOptions(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class AddTraceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddTrace(UnitTester $I, $scenario)
+    public function testAddTrace(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

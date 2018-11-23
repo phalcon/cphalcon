@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Db\Index;
 
 use UnitTester;
 
-class __set_stateCest
+class SetStateCest
 {
     /**
      * Tests Phalcon\Db\Index :: __set_state()
@@ -21,8 +21,8 @@ class __set_stateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__set_state(UnitTester $I, $scenario)
+    public function testSetState(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class SetCacheCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCache(UnitTester $I, $scenario)
+    public function testSetCache(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

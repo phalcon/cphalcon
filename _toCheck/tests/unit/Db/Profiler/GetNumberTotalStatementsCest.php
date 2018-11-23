@@ -21,8 +21,8 @@ class GetNumberTotalStatementsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetNumberTotalStatements(UnitTester $I, $scenario)
+    public function testGetNumberTotalStatements(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

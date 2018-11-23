@@ -21,8 +21,8 @@ class AddPurgeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddPurge(UnitTester $I, $scenario)
+    public function testAddPurge(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

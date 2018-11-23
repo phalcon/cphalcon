@@ -21,8 +21,8 @@ class GetMetaDataCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMetaData(UnitTester $I, $scenario)
+    public function testGetMetaData(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

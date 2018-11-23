@@ -21,8 +21,8 @@ class __toStringCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__toString(UnitTester $I, $scenario)
+    public function test__toString(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class SetEtagCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEtag(UnitTester $I, $scenario)
+    public function testSetEtag(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

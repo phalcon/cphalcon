@@ -21,8 +21,8 @@ class SetActiveHandlerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetActiveHandler(UnitTester $I, $scenario)
+    public function testSetActiveHandler(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

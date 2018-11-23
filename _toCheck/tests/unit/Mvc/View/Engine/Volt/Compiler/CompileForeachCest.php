@@ -21,8 +21,8 @@ class CompileForeachCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCompileForeach(UnitTester $I, $scenario)
+    public function testCompileForeach(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

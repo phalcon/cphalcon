@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Mvc\Model\Transaction\Failed;
 
 use UnitTester;
 
-class __wakeupCest
+class WakeupCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Transaction\Failed :: __wakeup()
@@ -21,8 +21,8 @@ class __wakeupCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__wakeup(UnitTester $I, $scenario)
+    public function testWakeup(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

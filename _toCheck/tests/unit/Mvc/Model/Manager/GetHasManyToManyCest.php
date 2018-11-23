@@ -21,8 +21,8 @@ class GetHasManyToManyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHasManyToMany(UnitTester $I, $scenario)
+    public function testGetHasManyToMany(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

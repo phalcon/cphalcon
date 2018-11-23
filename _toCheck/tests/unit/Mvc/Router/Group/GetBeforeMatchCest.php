@@ -21,8 +21,8 @@ class GetBeforeMatchCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBeforeMatch(UnitTester $I, $scenario)
+    public function testGetBeforeMatch(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

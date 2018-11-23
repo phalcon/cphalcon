@@ -21,8 +21,8 @@ class IsValidHttpMethodCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsValidHttpMethod(UnitTester $I, $scenario)
+    public function testIsValidHttpMethod(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class IsStrictHostCheckCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsStrictHostCheck(UnitTester $I, $scenario)
+    public function testIsStrictHostCheck(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

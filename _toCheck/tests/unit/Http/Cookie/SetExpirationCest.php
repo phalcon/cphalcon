@@ -21,8 +21,8 @@ class SetExpirationCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetExpiration(UnitTester $I, $scenario)
+    public function testSetExpiration(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

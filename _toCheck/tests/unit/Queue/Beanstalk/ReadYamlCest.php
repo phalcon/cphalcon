@@ -21,8 +21,8 @@ class ReadYamlCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadYaml(UnitTester $I, $scenario)
+    public function testReadYaml(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

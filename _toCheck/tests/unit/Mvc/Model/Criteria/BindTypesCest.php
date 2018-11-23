@@ -21,8 +21,8 @@ class BindTypesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBindTypes(UnitTester $I, $scenario)
+    public function testBindTypes(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

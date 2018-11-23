@@ -21,8 +21,8 @@ class CompileForElseCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCompileForElse(UnitTester $I, $scenario)
+    public function testCompileForElse(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

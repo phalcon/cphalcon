@@ -21,8 +21,8 @@ class SetBindParamsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetBindParams(UnitTester $I, $scenario)
+    public function testSetBindParams(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

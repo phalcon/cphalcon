@@ -21,8 +21,8 @@ class NotBetweenWhereCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotBetweenWhere(UnitTester $I, $scenario)
+    public function testNotBetweenWhere(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetSourceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSource(UnitTester $I, $scenario)
+    public function testGetSource(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

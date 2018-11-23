@@ -21,8 +21,8 @@ class NotifyEventCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotifyEvent(UnitTester $I, $scenario)
+    public function testNotifyEvent(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

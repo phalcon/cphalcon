@@ -21,8 +21,8 @@ class PeekReadyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPeekReady(UnitTester $I, $scenario)
+    public function testPeekReady(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetDataTypesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDataTypes(UnitTester $I, $scenario)
+    public function testGetDataTypes(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

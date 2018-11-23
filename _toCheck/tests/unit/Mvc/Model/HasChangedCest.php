@@ -21,8 +21,8 @@ class HasChangedCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasChanged(UnitTester $I, $scenario)
+    public function testHasChanged(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

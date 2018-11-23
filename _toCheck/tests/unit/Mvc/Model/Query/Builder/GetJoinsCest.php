@@ -21,8 +21,8 @@ class GetJoinsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetJoins(UnitTester $I, $scenario)
+    public function testGetJoins(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

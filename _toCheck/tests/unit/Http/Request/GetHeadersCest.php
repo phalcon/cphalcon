@@ -21,8 +21,8 @@ class GetHeadersCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHeaders(UnitTester $I, $scenario)
+    public function testGetHeaders(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

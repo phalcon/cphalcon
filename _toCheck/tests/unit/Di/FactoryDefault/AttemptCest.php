@@ -21,8 +21,8 @@ class AttemptCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAttempt(UnitTester $I, $scenario)
+    public function testAttempt(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

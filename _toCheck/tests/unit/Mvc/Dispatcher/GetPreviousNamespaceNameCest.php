@@ -21,8 +21,8 @@ class GetPreviousNamespaceNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPreviousNamespaceName(UnitTester $I, $scenario)
+    public function testGetPreviousNamespaceName(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

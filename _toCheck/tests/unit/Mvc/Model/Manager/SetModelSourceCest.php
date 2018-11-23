@@ -21,8 +21,8 @@ class SetModelSourceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetModelSource(UnitTester $I, $scenario)
+    public function testSetModelSource(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

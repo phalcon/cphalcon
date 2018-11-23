@@ -21,8 +21,8 @@ class SetRenderLevelCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetRenderLevel(UnitTester $I, $scenario)
+    public function testSetRenderLevel(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

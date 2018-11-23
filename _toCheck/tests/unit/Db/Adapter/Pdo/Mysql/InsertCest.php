@@ -21,8 +21,8 @@ class InsertCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testInsert(UnitTester $I, $scenario)
+    public function testInsert(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

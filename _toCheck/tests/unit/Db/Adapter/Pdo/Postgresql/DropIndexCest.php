@@ -21,8 +21,8 @@ class DropIndexCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropIndex(UnitTester $I, $scenario)
+    public function testDropIndex(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

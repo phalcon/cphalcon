@@ -21,8 +21,8 @@ class SetTemplateAfterCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetTemplateAfter(UnitTester $I, $scenario)
+    public function testSetTemplateAfter(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

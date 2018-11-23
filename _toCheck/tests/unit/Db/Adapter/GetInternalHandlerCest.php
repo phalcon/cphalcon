@@ -21,8 +21,8 @@ class GetInternalHandlerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetInternalHandler(UnitTester $I, $scenario)
+    public function testGetInternalHandler(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

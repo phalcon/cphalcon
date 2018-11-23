@@ -21,8 +21,8 @@ class FireEventCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFireEvent(UnitTester $I, $scenario)
+    public function testFireEvent(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

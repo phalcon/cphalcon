@@ -21,8 +21,8 @@ class DestroyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDestroy(UnitTester $I, $scenario)
+    public function testDestroy(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

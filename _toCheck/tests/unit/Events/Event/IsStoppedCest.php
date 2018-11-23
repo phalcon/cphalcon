@@ -21,8 +21,8 @@ class IsStoppedCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsStopped(UnitTester $I, $scenario)
+    public function testIsStopped(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class ExecuteCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExecute(UnitTester $I, $scenario)
+    public function testExecute(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

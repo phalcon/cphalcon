@@ -21,8 +21,8 @@ class MissingMethodCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testMissingMethod(UnitTester $I, $scenario)
+    public function testMissingMethod(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

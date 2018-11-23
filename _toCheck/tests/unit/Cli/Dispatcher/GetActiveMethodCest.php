@@ -21,8 +21,8 @@ class GetActiveMethodCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveMethod(UnitTester $I, $scenario)
+    public function testGetActiveMethod(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

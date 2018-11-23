@@ -21,8 +21,8 @@ class AddPostCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddPost(UnitTester $I, $scenario)
+    public function testAddPost(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

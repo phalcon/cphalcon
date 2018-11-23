@@ -21,8 +21,8 @@ class DisableLevelCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDisableLevel(UnitTester $I, $scenario)
+    public function testDisableLevel(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

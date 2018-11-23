@@ -21,8 +21,8 @@ class GetModelPrefixCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetModelPrefix(UnitTester $I, $scenario)
+    public function testGetModelPrefix(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class RestoreCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRestore(UnitTester $I, $scenario)
+    public function testRestore(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

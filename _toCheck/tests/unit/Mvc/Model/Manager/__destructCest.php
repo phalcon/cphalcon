@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Mvc\Model\Manager;
 
 use UnitTester;
 
-class __destructCest
+class DestructCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Manager :: __destruct()
@@ -21,8 +21,8 @@ class __destructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__destruct(UnitTester $I, $scenario)
+    public function testDestruct(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

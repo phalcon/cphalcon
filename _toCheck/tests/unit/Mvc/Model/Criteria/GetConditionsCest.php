@@ -21,8 +21,8 @@ class GetConditionsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetConditions(UnitTester $I, $scenario)
+    public function testGetConditions(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

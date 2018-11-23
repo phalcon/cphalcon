@@ -21,8 +21,8 @@ class SetIdCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetId(UnitTester $I, $scenario)
+    public function testSetId(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

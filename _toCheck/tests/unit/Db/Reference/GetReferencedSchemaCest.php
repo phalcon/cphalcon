@@ -21,8 +21,8 @@ class GetReferencedSchemaCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetReferencedSchema(UnitTester $I, $scenario)
+    public function testGetReferencedSchema(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

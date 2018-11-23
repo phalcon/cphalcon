@@ -21,8 +21,8 @@ class ReadColumnMapCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadColumnMap(UnitTester $I, $scenario)
+    public function testReadColumnMap(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

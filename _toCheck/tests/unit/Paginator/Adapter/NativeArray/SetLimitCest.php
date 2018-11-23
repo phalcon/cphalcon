@@ -21,8 +21,8 @@ class SetLimitCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLimit(UnitTester $I, $scenario)
+    public function testSetLimit(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

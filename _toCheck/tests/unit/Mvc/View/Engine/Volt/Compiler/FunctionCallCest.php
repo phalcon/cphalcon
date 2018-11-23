@@ -21,8 +21,8 @@ class FunctionCallCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFunctionCall(UnitTester $I, $scenario)
+    public function testFunctionCall(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

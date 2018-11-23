@@ -21,8 +21,8 @@ class SetIsNewTransactionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetIsNewTransaction(UnitTester $I, $scenario)
+    public function testSetIsNewTransaction(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

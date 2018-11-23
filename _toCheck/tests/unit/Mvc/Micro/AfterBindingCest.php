@@ -21,8 +21,8 @@ class AfterBindingCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAfterBinding(UnitTester $I, $scenario)
+    public function testAfterBinding(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

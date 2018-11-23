@@ -21,8 +21,8 @@ class GetListenersCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetListeners(UnitTester $I, $scenario)
+    public function testGetListeners(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

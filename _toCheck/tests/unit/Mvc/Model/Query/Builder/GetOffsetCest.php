@@ -21,8 +21,8 @@ class GetOffsetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOffset(UnitTester $I, $scenario)
+    public function testGetOffset(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

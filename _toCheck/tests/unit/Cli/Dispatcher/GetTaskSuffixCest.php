@@ -21,8 +21,8 @@ class GetTaskSuffixCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTaskSuffix(UnitTester $I, $scenario)
+    public function testGetTaskSuffix(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class AfterRetrieveCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAfterRetrieve(UnitTester $I, $scenario)
+    public function testAfterRetrieve(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

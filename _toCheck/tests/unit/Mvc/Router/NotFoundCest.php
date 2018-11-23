@@ -21,8 +21,8 @@ class NotFoundCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotFound(UnitTester $I, $scenario)
+    public function testNotFound(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

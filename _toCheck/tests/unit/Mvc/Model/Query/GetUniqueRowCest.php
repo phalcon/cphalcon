@@ -21,8 +21,8 @@ class GetUniqueRowCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUniqueRow(UnitTester $I, $scenario)
+    public function testGetUniqueRow(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

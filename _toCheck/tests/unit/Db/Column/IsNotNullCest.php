@@ -21,8 +21,8 @@ class IsNotNullCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsNotNull(UnitTester $I, $scenario)
+    public function testIsNotNull(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

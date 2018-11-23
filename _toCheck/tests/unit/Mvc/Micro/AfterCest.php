@@ -21,8 +21,8 @@ class AfterCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAfter(UnitTester $I, $scenario)
+    public function testAfter(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

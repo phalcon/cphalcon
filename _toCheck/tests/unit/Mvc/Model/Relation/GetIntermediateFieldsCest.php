@@ -21,8 +21,8 @@ class GetIntermediateFieldsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetIntermediateFields(UnitTester $I, $scenario)
+    public function testGetIntermediateFields(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

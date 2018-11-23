@@ -21,8 +21,8 @@ class SetRollbackedRecordCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetRollbackedRecord(UnitTester $I, $scenario)
+    public function testSetRollbackedRecord(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetLimitCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLimit(UnitTester $I, $scenario)
+    public function testGetLimit(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

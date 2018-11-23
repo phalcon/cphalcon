@@ -21,8 +21,8 @@ class GetMatchedRouteCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMatchedRoute(UnitTester $I, $scenario)
+    public function testGetMatchedRoute(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

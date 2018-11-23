@@ -25,7 +25,7 @@ class FileCest
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-26
      */
-    public function testRealType(UnitTester $I, $scenario)
+    public function testRealType(UnitTester $I)
     {
         if (!extension_loaded('fileinfo')) {
             $scenario->skip('Warning: fileinfo extension is not loaded');

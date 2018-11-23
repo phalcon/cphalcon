@@ -21,8 +21,8 @@ class ProcessControllerAnnotationCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testProcessControllerAnnotation(UnitTester $I, $scenario)
+    public function testProcessControllerAnnotation(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetActiveControllerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveController(UnitTester $I, $scenario)
+    public function testGetActiveController(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class GetPathsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPaths(UnitTester $I, $scenario)
+    public function testGetPaths(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

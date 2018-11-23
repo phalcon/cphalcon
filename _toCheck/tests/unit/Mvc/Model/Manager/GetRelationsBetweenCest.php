@@ -21,8 +21,8 @@ class GetRelationsBetweenCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRelationsBetween(UnitTester $I, $scenario)
+    public function testGetRelationsBetween(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

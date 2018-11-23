@@ -21,8 +21,8 @@ class CompilePatternCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCompilePattern(UnitTester $I, $scenario)
+    public function testCompilePattern(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

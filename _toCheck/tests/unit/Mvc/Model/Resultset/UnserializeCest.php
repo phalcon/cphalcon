@@ -21,8 +21,8 @@ class UnserializeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnserialize(UnitTester $I, $scenario)
+    public function testUnserialize(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

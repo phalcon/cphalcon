@@ -21,8 +21,8 @@ class HasSnapshotDataCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasSnapshotData(UnitTester $I, $scenario)
+    public function testHasSnapshotData(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

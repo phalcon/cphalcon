@@ -21,8 +21,8 @@ class LeftJoinCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLeftJoin(UnitTester $I, $scenario)
+    public function testLeftJoin(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

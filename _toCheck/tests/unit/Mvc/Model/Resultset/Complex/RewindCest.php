@@ -21,8 +21,8 @@ class RewindCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRewind(UnitTester $I, $scenario)
+    public function testRewind(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

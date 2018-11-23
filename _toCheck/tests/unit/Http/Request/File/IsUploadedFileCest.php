@@ -21,8 +21,8 @@ class IsUploadedFileCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsUploadedFile(UnitTester $I, $scenario)
+    public function testIsUploadedFile(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

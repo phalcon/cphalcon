@@ -21,8 +21,8 @@ class GetInitialTimeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetInitialTime(UnitTester $I, $scenario)
+    public function testGetInitialTime(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

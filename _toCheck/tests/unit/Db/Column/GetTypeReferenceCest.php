@@ -21,8 +21,8 @@ class GetTypeReferenceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTypeReference(UnitTester $I, $scenario)
+    public function testGetTypeReference(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

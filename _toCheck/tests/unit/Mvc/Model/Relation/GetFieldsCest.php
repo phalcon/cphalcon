@@ -21,8 +21,8 @@ class GetFieldsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFields(UnitTester $I, $scenario)
+    public function testGetFields(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

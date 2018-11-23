@@ -21,8 +21,8 @@ class HasServiceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasService(UnitTester $I, $scenario)
+    public function testHasService(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }

@@ -21,8 +21,8 @@ class SetSharedInstanceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSharedInstance(UnitTester $I, $scenario)
+    public function testSetSharedInstance(UnitTester $I)
     {
-        $scenario->incomplete("Need implementation");
+        $I->skipTest("Need implementation");
     }
 }
