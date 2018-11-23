@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Assets\Resource\Css;
 
+use Phalcon\Assets\Resource\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Resource\Css :: getType()
      *
@@ -23,6 +27,7 @@ class GetTypeCest
      */
     public function testGetType(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $resource = new Css('css/docs.css');
+        $this->resourceGetType($I, $resource, 'css');
     }
 }

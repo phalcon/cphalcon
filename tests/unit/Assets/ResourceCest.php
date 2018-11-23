@@ -17,36 +17,6 @@ use UnitTester;
 class ResourceCest
 {
     /**
-     * Tests getType
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-10
-     */
-    public function testAssetsResourceGetType(UnitTester $I)
-    {
-        $resource = new Resource('js', 'js/jquery.js');
-        $expected = 'js';
-        $actual   = $resource->getType();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests getResourceKey
-     *
-     * @test
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-06-02
-     */
-    public function getResourceKey(UnitTester $I)
-    {
-        $resource = new Resource('js', 'js/jquery.js');
-
-        $expected = md5('js:js/jquery.js');
-        $actual   = $resource->getResourceKey();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
      * Tests getPath
      *
      * @author Phalcon Team <team@phalconphp.com>

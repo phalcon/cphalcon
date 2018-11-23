@@ -11,18 +11,34 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters\None;
 
+use Phalcon\Assets\Filters\None;
+use Phalcon\Assets\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class FilterCest
 {
+    use DiTrait;
+
+    public function _before(UnitTester $I)
+    {
+        $this->resetDi();
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
     /**
      * Tests Phalcon\Assets\Filters\None :: filter()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-10
      */
-    public function testFilter(UnitTester $I)
+    public function testAssetsFilterNone(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $cssmin   = new None();
+        $expected = ' ';
+        $actual   = $cssmin->filter(' ');
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -62,36 +62,38 @@ foreach ($folders as $folder) {
 }
 
 $defaults = [
+    // General
+    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,
+
+    // Memcached
+    "TEST_MC_HOST"              => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+    "TEST_MC_PORT"              => 11211,
+    "TEST_MC_WEIGHT"            => 1,
+
+    // MySQL
+    "TEST_DB_MYSQL_HOST"        => env('DATA_MYSQL_HOST', '127.0.0.1'),
+    "TEST_DB_MYSQL_PORT"        => 3306,
+    "TEST_DB_MYSQL_USER"        => env('DATA_MYSQL_USER', 'root'),
+    "TEST_DB_MYSQL_PASSWD"      => env('DATA_MYSQL_PASS', ''),
+    "TEST_DB_MYSQL_NAME"        => defined('DATA_MYSQL_USER') ? 'gonano' : 'phalcon_test',
+    "TEST_DB_MYSQL_CHARSET"     => 'utf8',
+
     // Redis
     "TEST_RS_HOST"              => env('DATA_REDIS_HOST', '127.0.0.1'),
     "TEST_RS_PORT"              => 6379,
     "TEST_RS_DB"                => 6379,
+
+    // SQLite
+    "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',
+    "TEST_DB_I18N_SQLITE_NAME"  => PATH_OUTPUT . 'translations.sqlite',
 ];
 
 //$defaults = [
-//    // General
-//    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,
 //
 //    // Beanstalk
 //    "TEST_BT_HOST"              => '127.0.0.1',
 //    "TEST_BT_PORT"              => 11300,
 //
-//    // Memcached
-//    "TEST_MC_HOST"              => '127.0.0.1',
-//    "TEST_MC_PORT"              => 11211,
-//    "TEST_MC_WEIGHT"            => 1,
-//
-//    // SQLite
-//    "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',
-//    "TEST_DB_I18N_SQLITE_NAME"  => PATH_OUTPUT . 'translations.sqlite',
-//
-//    // MySQL
-//    "TEST_DB_MYSQL_HOST"        => '127.0.0.1',
-//    "TEST_DB_MYSQL_PORT"        => 3306,
-//    "TEST_DB_MYSQL_USER"        => 'root',
-//    "TEST_DB_MYSQL_PASSWD"      => '',
-//    "TEST_DB_MYSQL_NAME"        => 'phalcon_test',
-//    "TEST_DB_MYSQL_CHARSET"     => 'utf8',
 //
 //    // Postgresql
 //    "TEST_DB_POSTGRESQL_HOST"   => '127.0.0.1',

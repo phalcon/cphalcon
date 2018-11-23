@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Assets\Resource\Js;
 
+use Phalcon\Assets\Resource\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Resource\Js :: getType()
      *
@@ -23,6 +27,7 @@ class GetTypeCest
      */
     public function testGetType(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $resource = new Js('js/jquery.js');
+        $this->resourceGetType($I, $resource, 'js');
     }
 }

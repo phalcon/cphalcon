@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Assets\Resource\Js;
 
+use Phalcon\Assets\Resource\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetResourceKeyCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Resource\Js :: getResourceKey()
      *
@@ -23,6 +27,9 @@ class GetResourceKeyCest
      */
     public function testGetResourceKey(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $resource = new Js('js/jquery.js');
+        $expected = md5('js:js/jquery.js');
+
+        $this->resourceGetResourceKey($I, $resource, $expected);
     }
 }

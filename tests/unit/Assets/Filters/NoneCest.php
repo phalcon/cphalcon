@@ -31,20 +31,6 @@ class NoneCest
     }
 
     /**
-     * Tests none filter
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-10
-     */
-    public function testAssetsFilterNone(UnitTester $I)
-    {
-        $cssmin   = new None();
-        $expected = ' ';
-        $actual   = $cssmin->filter(' ');
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
      * Tests custom filters
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/1198

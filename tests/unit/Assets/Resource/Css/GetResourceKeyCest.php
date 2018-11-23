@@ -11,10 +11,14 @@
 
 namespace Phalcon\Test\Unit\Assets\Resource\Css;
 
+use Phalcon\Assets\Resource\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetResourceKeyCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Resource\Css :: getResourceKey()
      *
@@ -23,6 +27,9 @@ class GetResourceKeyCest
      */
     public function testGetResourceKey(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $resource = new Css('css/docs.css');
+        $expected = md5('css:css/docs.css');
+
+        $this->resourceGetResourceKey($I, $resource, $expected);
     }
 }
