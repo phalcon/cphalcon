@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class ToArrayCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Ini :: toArray()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author kjdev
+     * @since  2013-07-18
      */
-    public function testToArray(UnitTester $I)
+    public function configAdapterIniToArray(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Ini - toArray()');
+        $this->checkToArray($I, 'Ini');
     }
 }

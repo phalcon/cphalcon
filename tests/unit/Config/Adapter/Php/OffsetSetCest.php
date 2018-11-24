@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Php;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetSetCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Php :: offsetSet()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetSet(UnitTester $I)
+    public function configAdapterPhpOffsetSet(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Php - offsetSet()');
+        $this->checkOffsetSet($I, 'Php');
     }
 }

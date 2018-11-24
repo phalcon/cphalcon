@@ -11,18 +11,30 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class SetPathDelimiterCest
 {
+    use ConfigTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('json');
+    }
+
     /**
      * Tests Phalcon\Config\Adapter\Json :: setPathDelimiter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetPathDelimiter(UnitTester $I)
+    public function configAdapterJsonSetPathDelimiter(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Json - setPathDelimiter()');
+        $this->checkSetPathDelimiter($I, 'Json');
     }
 }

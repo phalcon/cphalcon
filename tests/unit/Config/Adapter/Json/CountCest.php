@@ -11,18 +11,30 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class CountCest
 {
+    use ConfigTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('json');
+    }
+
     /**
      * Tests Phalcon\Config\Adapter\Json :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function configAdapterJsonCount(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Json - count()');
+        $this->checkCount($I, 'Json');
     }
 }

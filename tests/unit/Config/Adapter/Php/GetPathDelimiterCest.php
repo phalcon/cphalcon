@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Php;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetPathDelimiterCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Php :: getPathDelimiter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPathDelimiter(UnitTester $I)
+    public function configAdapterPhpGetPathDelimiter(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Php - getPathDelimiter()');
+        $this->checkGetPathDelimiter($I, 'Php');
     }
 }

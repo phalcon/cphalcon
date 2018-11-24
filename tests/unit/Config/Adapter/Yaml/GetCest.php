@@ -11,18 +11,30 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetCest
 {
+    use ConfigTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('yaml');
+    }
+
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: get()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function configAdapterYamlGet(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Yaml - get()');
+        $this->checkGet($I, 'Yaml');
     }
 }

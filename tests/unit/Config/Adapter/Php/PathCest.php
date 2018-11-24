@@ -11,18 +11,34 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Php;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Php :: path()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPath(UnitTester $I)
+    public function configAdapterPhpPath(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Php - path()');
+        $this->checkPath($I, 'Php');
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Php :: path() - default
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function configAdapterPhpPathDefault(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Php - path() - default');
+        $this->checkPathDefault($I, 'Php');
     }
 }

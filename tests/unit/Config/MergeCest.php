@@ -21,7 +21,7 @@ class MergeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testMerge(UnitTester $I)
+    public function configMerge(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

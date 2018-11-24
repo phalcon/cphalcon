@@ -11,18 +11,34 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Ini :: path()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPath(UnitTester $I)
+    public function configAdapterIniPath(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Ini - path()');
+        $this->checkPath($I, 'Ini');
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Ini :: path() - default
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function configAdapterIniPathDefault(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Ini - path() - default');
+        $this->checkPathDefault($I, 'Ini');
     }
 }

@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Php;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class CountCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Php :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function configAdapterPhpCount(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Php - count()');
+        $this->checkCount($I, 'Php');
     }
 }

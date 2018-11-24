@@ -12,111 +12,12 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Config;
-use Phalcon\Test\Unit\Config\Helper\ConfigBase;
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-class ConfigCest extends ConfigBase
+class ConfigCest
 {
-    /**
-     * Tests path method
-     *
-     * @author michanismus
-     * @since  2017-03-29
-     */
-    public function testConfigPath(UnitTester $I)
-    {
-        $config = new Config($this->config);
-
-        $expected = 'yeah';
-        $actual   = $config->path('test.parent.property2');
-        $I->assertEquals($expected, $actual);
-
-        $expected = 'No';
-        $actual   = $config->path('test.parent.property3', 'No');
-        $I->assertEquals($expected, $actual);
-
-        $expected = 'Phalcon\Config';
-        $actual   = $config->path('test.parent');
-        $I->assertInstanceOf($expected, $actual);
-
-        $actual = $config->path('unknown.path');
-        $I->assertNull($actual);
-
-        Config::setPathDelimiter('/');
-
-        $actual = $config->path('test.parent.property2', false);
-        $I->assertFalse($actual);
-
-        $expected = 'yeah';
-        $actual   = $config->path('test/parent/property2');
-        $I->assertEquals($expected, $actual);
-
-        $expected = 'Phalcon\Config';
-        $actual   = $config->path('test/parent');
-        $I->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * Tests toArray method
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-01-17
-     */
-    public function testConfigToArray(UnitTester $I)
-    {
-        $settings = [
-            'database' => [
-                'adapter'  => 'Mysql',
-                'host'     => 'localhost',
-                'username' => 'scott',
-                'password' => 'cheetah',
-                'name'     => 'test_db',
-            ],
-            'other'    => [1, 2, 3, 4],
-        ];
-
-        $config = new Config($settings);
-
-        $expected = $settings;
-        $actual   = $config->toArray();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests implementing of Countable interface
-     *
-     * @author Faruk Brbovic <fbrbovic@devstub.com>
-     * @since  2014-11-03
-     */
-    public function testConfigCount(UnitTester $I)
-    {
-        $config = new Config(
-            [
-                "controllersDir" => "../x/y/z",
-                "modelsDir"      => "../x/y/z",
-            ]
-        );
-
-        $expected = 2;
-        $actual   = count($config);
-        $I->assertEquals($expected, $actual);
-
-        $expected = 2;
-        $actual   = $config->count();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Standard Config
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-18
-     */
-    public function testStandardConfig(UnitTester $I)
-    {
-        $config = new Config($this->config);
-        $this->compareConfig($I, $this->config, $config);
-    }
+    use ConfigTrait;
 
     /**
      * Tests access by numeric key
@@ -363,6 +264,75 @@ class ConfigCest extends ConfigBase
             ],
         ];
         $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests issue 13351
+     *
+     * @link https://github.com/phalcon/cphalcon/issues/13351
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2018-04-27
+     */
+    public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
+    {
+        $config = new Config([1 => 'Apple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+
+        $expected = [
+            1 => 'Apple',
+            2 => 'Banana',
+        ];
+        $actual    = $config->toArray();
+        $I->assertEquals($expected, $actual);
+
+
+        $config = new Config([0 => 'Apple']);
+        $config2 = new Config([1 => 'Banana']);
+        $config->merge($config2);
+
+        $expected = [
+            0 => 'Apple',
+            1 => 'Banana',
+        ];
+        $actual    = $config->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $config = new Config([1 => 'Apple', 'p' => 'Pineapple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+
+        $expected = [
+            1 => 'Apple',
+            'p' => 'Pineapple',
+            2 => 'Banana',
+        ];
+        $actual    = $config->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $config  = new Config([
+            'One' => [1 => 'Apple', 'p' => 'Pineapple'],
+            'Two' => [1 => 'Apple'],
+        ]);
+        $config2 = new Config([
+            'One' => [2 => 'Banana'],
+            'Two' => [2 => 'Banana'],
+        ]);
+        $config->merge($config2);
+
+        $expected = [
+            'One' => [
+                1 => 'Apple',
+                'p' => 'Pineapple',
+                2 => 'Banana',
+            ],
+            'Two' => [
+                1 => 'Apple',
+                2 => 'Banana',
+            ],
+        ];
+        $actual    = $config->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

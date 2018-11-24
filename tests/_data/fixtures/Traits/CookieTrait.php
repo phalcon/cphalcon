@@ -13,11 +13,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use RuntimeException;
 
-/**
- * Helper\CookieTrait
- *
- * @package Helper
- */
 trait CookieTrait
 {
     /**

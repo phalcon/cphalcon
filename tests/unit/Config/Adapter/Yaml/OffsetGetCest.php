@@ -11,18 +11,30 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetGetCest
 {
+    use ConfigTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('yaml');
+    }
+
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: offsetGet()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetGet(UnitTester $I)
+    public function configAdapterYamlOffsetGet(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Yaml - offsetGet()');
+        $this->checkOffsetGet($I, 'Yaml');
     }
 }

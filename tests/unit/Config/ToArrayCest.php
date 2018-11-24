@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class ToArrayCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToArray(UnitTester $I)
+    public function configToArray(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config - toArray()');
+        $this->checkToArray($I);
     }
 }

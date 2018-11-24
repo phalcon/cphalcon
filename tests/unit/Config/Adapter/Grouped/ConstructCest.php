@@ -11,18 +11,66 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Config\Adapter\Grouped;
+use Phalcon\Factory\Exception;
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class ConstructCest
 {
+    use ConfigTrait;
+
     /**
-     * Tests Phalcon\Config\Adapter\Grouped :: __construct()
+     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - complex instance
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author fenikkusu
+     * @since  2017-06-06
      */
-    public function testConstruct(UnitTester $I)
+    public function configAdapterGroupedConstructComplexInstance(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Grouped - construct - complex');
+        $this->config["test"]["property2"] = "something-else";
+
+        $config = new Grouped(
+            [
+                PATH_DATA . 'assets/config/config.php',
+                [
+                    'filePath' => PATH_DATA . 'assets/config/config.json',
+                    'adapter'  => 'json',
+                ],
+                [
+                    'adapter' => 'array',
+                    'config'  => [
+                        "test" => [
+                            "property2" => "something-else",
+                        ],
+                    ],
+                ],
+            ]
+        );
+        $this->compareConfig($I, $this->config, $config);
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - exception
+     *
+     * @author Fenikkusu
+     * @since  2017-06-06
+     */
+    public function configAdapterGroupedConstructThrowsException(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Grouped - construct array without config throws exception');
+        $I->expectThrowable(
+            new Exception("To use 'array' adapter you have to specify the 'config' as an array."),
+            function () {
+                new Grouped(
+                    [
+                        [
+                            'adapter' => 'array',
+                        ],
+                    ]
+                );
+            }
+        );
     }
 }

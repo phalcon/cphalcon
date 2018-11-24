@@ -21,7 +21,7 @@ class PathCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPath(UnitTester $I)
+    public function configAdapterGroupedPath(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

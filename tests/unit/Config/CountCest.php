@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class CountCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function configCount(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config - count()');
+        $this->checkCount($I);
     }
 }

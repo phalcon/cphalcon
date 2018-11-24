@@ -11,18 +11,72 @@
 
 namespace Phalcon\Test\Unit\Config\Factory;
 
+use Phalcon\Config\Adapter\Ini;
+use Phalcon\Config\Factory;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class LoadCest
 {
-    /**
-     * Tests Phalcon\Config\Factory :: load()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function testLoad(UnitTester $I)
+    use FactoryTrait;
+
+    public function _before(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $this->init();
     }
+
+    /**
+     * Tests Phalcon\Config\Factory :: load() - Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function configFactoryLoadConfig(UnitTester $I)
+    {
+        $I->wantToTest('Config\Factory - load() - Config');
+        $options = $this->config->config;
+        /** @var Ini $ini */
+        $ini = Factory::load($options);
+
+        $expected = Ini::class;
+        $actual   = $ini;
+        $I->assertInstanceOf($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Config\Factory :: load() - array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function configFactoryLoadArray(UnitTester $I)
+    {
+        $I->wantToTest('Config\Factory - load() - array');
+        $options = $this->arrayConfig["config"];
+        /** @var Ini $ini */
+        $ini = Factory::load($options);
+
+        $expected = Ini::class;
+        $actual   = $ini;
+        $I->assertInstanceOf($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Config\Factory :: load() - string
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-11-24
+     */
+    public function configFactoryLoadString(UnitTester $I)
+    {
+        $I->wantToTest('Config\Factory - load() - string');
+        $filePath = $this->arrayConfig['config']['filePathExtension'];
+        /** @var Ini $ini */
+        $ini = Factory::load($filePath);
+
+        $expected = Ini::class;
+        $actual   = $ini;
+        $I->assertInstanceOf($expected, $actual);
+    }
+
 }

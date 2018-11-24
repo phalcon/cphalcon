@@ -11,18 +11,42 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
 {
+    use ConfigTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('json');
+    }
+
     /**
      * Tests Phalcon\Config\Adapter\Json :: path()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPath(UnitTester $I)
+    public function configAdapterJsonPath(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Json - path()');
+        $this->checkPath($I, 'Json');
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Json :: path() - default
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function configAdapterJsonPathDefault(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Json - path() - default');
+        $this->checkPathDefault($I, 'Json');
     }
 }

@@ -11,18 +11,34 @@
 
 namespace Phalcon\Test\Unit\Config;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config :: path()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPath(UnitTester $I)
+    public function configAdapterYamlPath(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config - path()');
+        $this->checkPath($I);
+    }
+
+    /**
+     * Tests Phalcon\Config :: path() - default
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function configAdapterYamlPathDefault(UnitTester $I)
+    {
+        $I->wantToTest('Config - path() - default');
+        $this->checkPathDefault($I);
     }
 }

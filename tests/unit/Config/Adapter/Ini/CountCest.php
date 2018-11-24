@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class CountCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Ini :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function configAdapterIniCount(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Ini - count()');
+        $this->checkCount($I, 'Ini');
     }
 }

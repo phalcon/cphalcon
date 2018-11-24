@@ -21,7 +21,7 @@ class ToArrayCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToArray(UnitTester $I)
+    public function configAdapterGroupedToArray(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

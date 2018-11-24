@@ -11,18 +11,30 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetExistsCest
 {
+    use ConfigTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('yaml');
+    }
+
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: offsetExists()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetExists(UnitTester $I)
+    public function configAdapterYamlOffsetExists(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Yaml - offsetExists()');
+        $this->checkOffsetExists($I, 'Yaml');
     }
 }

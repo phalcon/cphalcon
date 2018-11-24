@@ -11,18 +11,22 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetPathDelimiterCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Json :: getPathDelimiter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPathDelimiter(UnitTester $I)
+    public function configAdapterJsonGetPathDelimiter(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Json - getPathDelimiter()');
+        $this->checkGetPathDelimiter($I, 'Json');
     }
 }

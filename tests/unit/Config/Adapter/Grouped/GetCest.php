@@ -21,7 +21,7 @@ class GetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function configAdapterGroupedGet(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }
