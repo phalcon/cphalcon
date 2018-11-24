@@ -25,6 +25,7 @@ class ReplacePlaceholdersCest
      */
     public function translateInterpolatorIndexedArrayReplacePlaceholders(UnitTester $I)
     {
+        $I->wantToTest('Translate\Interpolator\IndexedArray - replacePlaceholders()');
         $interpolator = new IndexedArray();
 
         $expected = 'Hello, John D. Doe!';

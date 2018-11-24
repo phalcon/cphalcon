@@ -27,6 +27,7 @@ class OffsetGetCest
      */
     public function translateAdapterNativeArrayOffsetGet(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\NativeArray - offsetGet()');
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
 

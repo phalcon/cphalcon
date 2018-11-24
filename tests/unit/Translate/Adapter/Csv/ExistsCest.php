@@ -27,6 +27,7 @@ class ExistsCest
      */
     public function translateAdapterCsvExists(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\Csv - exists()');
         $params     = $this->getCsvConfig()['ru'];
         $translator = new Csv($params);
 

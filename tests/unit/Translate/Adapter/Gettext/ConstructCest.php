@@ -30,6 +30,7 @@ class ConstructCest
      */
     public function translateAdapterGettextConstruct(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\Gettext - constructor');
         $params     = $this->getGettextConfig();
         $translator = new Gettext($params);
 
@@ -48,6 +49,7 @@ class ConstructCest
      */
     public function translateAdapterGettextContentParamExist(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\Gettext - constructor without "locale" throws exception');
         $I->expectThrowable(
             new Exception("Parameter 'locale' is required"),
             function () {

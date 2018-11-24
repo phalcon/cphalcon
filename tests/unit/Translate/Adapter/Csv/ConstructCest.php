@@ -27,6 +27,7 @@ class ConstructCest
      */
     public function translateAdapterCsvConstruct(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\Csv - constructor');
         $params     = ['content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv'];
         $translator = new Csv($params);
 
@@ -45,6 +46,7 @@ class ConstructCest
      */
     public function translateAdapterCsvContentParamExist(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\Csv - constructor without "content" throws exception');
         $I->expectThrowable(
             new Exception("Parameter 'content' is required"),
             function () {

@@ -27,6 +27,7 @@ class ExistsCest
      */
     public function translateAdapterNativeArrayExists(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\NativeArray - exists()');
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
 

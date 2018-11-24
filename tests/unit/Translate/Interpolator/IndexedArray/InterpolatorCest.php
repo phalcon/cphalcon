@@ -25,6 +25,7 @@ class InterpolatorCest
      */
     public function translateInterpolatorIndexedArrayInterpolator(UnitTester $I)
     {
+        $I->wantToTest('Translate\Interpolator\IndexedArray - interpolator');
         $language   = [
             'Hello!'          => 'Привет!',
             'Hello %s %s %s!' => 'Привет, %s %s %s!',

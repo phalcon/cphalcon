@@ -27,6 +27,7 @@ class ArrayAccessCest
      */
     public function translateAdapterNativeArrayWithArrayAccess(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\NativeArray - array access');
         $language   = $this->getArrayConfig()['ru'];
         $translator = new NativeArray(['content' => $language]);
 

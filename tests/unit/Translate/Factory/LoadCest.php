@@ -38,6 +38,7 @@ class LoadCest
      */
     public function translateFactoryLoadConfig(UnitTester $I)
     {
+        $I->wantToTest('Translate\Factory - load() - Config');
         $options = $this->config->translate;
         /** @var Gettext $translate */
         $translate = Factory::load($options);
@@ -71,6 +72,7 @@ class LoadCest
      */
     public function translateFactoryLoadArray(UnitTester $I)
     {
+        $I->wantToTest('Translate\Factory - load() - array');
         $options = $this->arrayConfig["translate"];
         /** @var Gettext $translate */
         $translate = Factory::load($options);

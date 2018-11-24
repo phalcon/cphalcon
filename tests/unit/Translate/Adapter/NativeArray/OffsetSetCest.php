@@ -28,6 +28,7 @@ class OffsetSetCest
      */
     public function translateAdapterNativeArrayOffsetSet(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\NativeArray - offsetSet() throws exception');
         $I->expectThrowable(
             new Exception('Translate is an immutable ArrayAccess object'),
             function () {

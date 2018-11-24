@@ -11,18 +11,9 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Helpers\TranslateQueryHelper;
 
-class TCest
+class TCest extends TranslateQueryHelper
 {
-    /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: t()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function translateAdapterNativeArrayT(UnitTester $I)
-    {
-        $I->skipTest("Need implementation");
-    }
+    protected $function = 't';
 }

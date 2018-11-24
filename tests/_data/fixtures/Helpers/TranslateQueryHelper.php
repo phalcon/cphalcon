@@ -27,9 +27,11 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testQueryEnglish(UnitTester $I)
+    public function queryEnglish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' english');
+        $I->wantToTest(
+            sprintf('Translate\Adapter\NativeArray - %s() - english', $this->function)
+        );
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -48,9 +50,11 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testQuerySpanish(UnitTester $I)
+    public function querySpanish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' spanish');
+        $I->wantToTest(
+            sprintf('Translate\Adapter\NativeArray - %s() - spanish', $this->function)
+        );
         $language   = $this->getArrayConfig()['es'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -69,9 +73,11 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testQueryFrench(UnitTester $I)
+    public function queryFrench(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' french');
+        $I->wantToTest(
+            sprintf('Translate\Adapter\NativeArray - %s() - french', $this->function)
+        );
         $language   = $this->getArrayConfig()['fr'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -91,9 +97,15 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionInStringWithNoVariablesEnglish(UnitTester $I)
+    public function variableSubstitutionInStringWithNoVariablesEnglish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution in string with no variables english');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution ' .
+                'in string with no variables english',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -109,9 +121,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionOneEnglish(UnitTester $I)
+    public function variableSubstitutionOneEnglish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution one english');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution one english',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -127,9 +144,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionTwoEnglish(UnitTester $I)
+    public function variableSubstitutionTwoEnglish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution two english');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution two english',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -150,9 +172,15 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionInStringWithNoVariablesSpanish(UnitTester $I)
+    public function variableSubstitutionInStringWithNoVariablesSpanish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution in string with no variables spanish');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution ' .
+                'in string with no variables spanish',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['es'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -168,9 +196,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionOneSpanish(UnitTester $I)
+    public function variableSubstitutionOneSpanish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution one spanish');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution one spanish',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['es'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -186,9 +219,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionTwoSpanish(UnitTester $I)
+    public function variableSubstitutionTwoSpanish(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution two english');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution two spanish',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['es'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -209,9 +247,15 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionInStringWithNoVariablesFrench(UnitTester $I)
+    public function variableSubstitutionInStringWithNoVariablesFrench(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution in string with no variables french');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution ' .
+                'in string with no variables french',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['fr'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -227,9 +271,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionOneFrench(UnitTester $I)
+    public function variableSubstitutionOneFrench(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution one french');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution one french',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['fr'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -245,9 +294,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testVariableSubstitutionTwoFrench(UnitTester $I)
+    public function variableSubstitutionTwoFrench(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' variable substitution two french');
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - variable substitution two french',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['fr'];
         $translator = new NativeArray(['content' => $language]);
 
@@ -267,8 +321,14 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testWithArrayAccessAndUTF8Strings(UnitTester $I)
+    public function withArrayAccessAndUTF8Strings(UnitTester $I)
     {
+        $I->wantToTest(
+            sprintf(
+                'Translate\Adapter\NativeArray - %s() - with array access and UTF8 strings',
+                $this->function
+            )
+        );
         $language   = $this->getArrayConfig()['ru'];
         $translator = new NativeArray(['content' => $language]);
 

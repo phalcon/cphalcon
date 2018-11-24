@@ -27,6 +27,7 @@ class ExistsCest
      */
     public function translateAdapterGettextExists(UnitTester $I)
     {
+        $I->wantToTest('Translate\Adapter\Gettext - exists()');
         $params     = $this->getGettextConfig();
         $translator = new Gettext($params);
 
