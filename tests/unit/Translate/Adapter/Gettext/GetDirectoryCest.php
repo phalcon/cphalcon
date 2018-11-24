@@ -21,7 +21,7 @@ class GetDirectoryCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDirectory(UnitTester $I)
+    public function translateAdapterGettextGetDirectory(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

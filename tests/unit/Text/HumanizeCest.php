@@ -22,7 +22,7 @@ class HumanizeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHumanize(UnitTester $I)
+    public function textHumanize(UnitTester $I)
     {
         $expected = 'start a horse';
         $actual   = Text::humanize('start_a_horse');

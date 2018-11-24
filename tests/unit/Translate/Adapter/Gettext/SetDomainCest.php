@@ -21,7 +21,7 @@ class SetDomainCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDomain(UnitTester $I)
+    public function translateAdapterGettextSetDomain(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

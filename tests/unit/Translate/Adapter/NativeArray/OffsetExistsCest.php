@@ -25,7 +25,7 @@ class OffsetExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetExists(UnitTester $I)
+    public function translateAdapterNativeArrayOffsetExists(UnitTester $I)
     {
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);

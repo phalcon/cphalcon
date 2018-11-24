@@ -22,7 +22,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomConstants(UnitTester $I)
+    public function textRandomConstants(UnitTester $I)
     {
         $I->assertEquals(0, Text::RANDOM_ALNUM);
         $I->assertEquals(1, Text::RANDOM_ALPHA);
@@ -38,7 +38,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomAlnum(UnitTester $I)
+    public function textRandomAlnum(UnitTester $I)
     {
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_ALNUM, $i);
@@ -63,7 +63,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomAlpha(UnitTester $I)
+    public function textRandomAlpha(UnitTester $I)
     {
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_ALPHA, $i);
@@ -88,7 +88,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomHexDec(UnitTester $I)
+    public function textRandomHexDec(UnitTester $I)
     {
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_HEXDEC, $i);
@@ -113,7 +113,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomNumeric(UnitTester $I)
+    public function textRandomNumeric(UnitTester $I)
     {
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_NUMERIC, $i);
@@ -138,7 +138,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomNonZero(UnitTester $I)
+    public function textRandomNonZero(UnitTester $I)
     {
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_NOZERO, $i);
@@ -163,7 +163,7 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRandomDistinct(UnitTester $I)
+    public function textRandomDistinct(UnitTester $I)
     {
         $examples = [1, 10, 100, 200, 500, 1000, 2000, 3000, 4000, 5000];
         foreach ($examples as $i) {

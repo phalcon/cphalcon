@@ -22,7 +22,7 @@ class ConcatCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConcat(UnitTester $I)
+    public function textConcat(UnitTester $I)
     {
         // Test 1
         $actual   = Text::concat('/', '/tmp/', '/folder_1/', '/folder_2', 'folder_3/');

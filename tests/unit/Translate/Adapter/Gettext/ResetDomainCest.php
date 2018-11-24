@@ -21,7 +21,7 @@ class ResetDomainCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testResetDomain(UnitTester $I)
+    public function translateAdapterGettextResetDomain(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

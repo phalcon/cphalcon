@@ -21,7 +21,7 @@ class GetLocaleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLocale(UnitTester $I)
+    public function translateAdapterGettextGetLocale(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

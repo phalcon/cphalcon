@@ -22,7 +22,7 @@ class UncamelizeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUncamelize(UnitTester $I)
+    public function textUncamelize(UnitTester $I)
     {
         $examples = [
             ['camelize', 'camelize', null],

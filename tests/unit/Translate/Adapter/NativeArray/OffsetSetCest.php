@@ -26,7 +26,7 @@ class OffsetSetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetSet(UnitTester $I)
+    public function translateAdapterNativeArrayOffsetSet(UnitTester $I)
     {
         $I->expectThrowable(
             new Exception('Translate is an immutable ArrayAccess object'),

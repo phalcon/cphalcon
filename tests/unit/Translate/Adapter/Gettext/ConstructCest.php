@@ -28,7 +28,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function translateAdapterGettextConstruct(UnitTester $I)
     {
         $params     = $this->getGettextConfig();
         $translator = new Gettext($params);
@@ -46,7 +46,7 @@ class ConstructCest
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
      */
-    public function testContentParamExist(UnitTester $I)
+    public function translateAdapterGettextContentParamExist(UnitTester $I)
     {
         $I->expectThrowable(
             new Exception("Parameter 'locale' is required"),

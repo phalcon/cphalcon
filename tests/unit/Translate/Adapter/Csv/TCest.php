@@ -21,7 +21,7 @@ class TCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testT(UnitTester $I)
+    public function translateAdapterCsvT(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

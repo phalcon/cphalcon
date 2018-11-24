@@ -22,7 +22,7 @@ class CamelizeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCamelize(UnitTester $I)
+    public function textCamelize(UnitTester $I)
     {
         $examples = [
             ['camelize', 'Camelize', null],

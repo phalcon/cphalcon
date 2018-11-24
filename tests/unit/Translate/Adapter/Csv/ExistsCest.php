@@ -25,7 +25,7 @@ class ExistsCest
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
      */
-    public function testExists(UnitTester $I)
+    public function translateAdapterCsvExists(UnitTester $I)
     {
         $params     = $this->getCsvConfig()['ru'];
         $translator = new Csv($params);

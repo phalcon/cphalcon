@@ -11,18 +11,167 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Url;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Url;
+
 use UnitTester;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Url :: validate()
+     * Tests Phalcon\Validation\Validator\Url :: validate() - single field
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
-    public function validationValidatorUrlValidate(UnitTester $I)
+    public function validationValidatorUrlSingleField(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validation = new Validation();
+        $validation->add('url', new Url());
+
+        $messages = $validation->validate([]);
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    0 => Message::__set_state(
+                        [
+                            '_type'    => 'Url',
+                            '_message' => 'Field url must be a url',
+                            '_field'   => 'url',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $actual = $messages;
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['url' => 'x=1']);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['url' => 'http://phalconphp.com']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Url :: validate() - multiple field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorUrlMultipleField(UnitTester $I)
+    {
+        $validation         = new Validation();
+        $validationMessages = [
+            'url'        => 'Url must be correct url.',
+            'anotherUrl' => 'AnotherUrl must be correct url.',
+        ];
+        $validation->add(
+            [
+                'url',
+                'anotherUrl',
+            ],
+            new Url(
+                [
+                    'message' => $validationMessages,
+                ]
+            )
+        );
+        $messages = $validation->validate(
+            [
+                'url'        => 'http://google.com',
+                'anotherUrl' => 'http://google.com',
+            ]
+        );
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'url'        => '://google.',
+                'anotherUrl' => 'http://google.com',
+            ]
+        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['url'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'url'        => '://google.',
+                'anotherUrl' => '://google.',
+            ]
+        );
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['url'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMessages['anotherUrl'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Url :: validate() - custom message
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorUrlCustomMessage(UnitTester $I)
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'url',
+            new Url(
+                [
+                    'message' => 'The url is not valid',
+                ]
+            )
+        );
+
+        $messages = $validation->validate([]);
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    0 => Message::__set_state(
+                        [
+                            '_type'    => 'Url',
+                            '_message' => 'The url is not valid',
+                            '_field'   => 'url',
+                            '_code'    => '0',
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $actual = $messages;
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['url' => 'x=1']);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['url' => 'http://phalconphp.com']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
     }
 }

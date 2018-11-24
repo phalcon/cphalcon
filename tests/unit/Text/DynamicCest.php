@@ -22,7 +22,7 @@ class DynamicCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function testDynamic(UnitTester $I)
+    public function textDynamic(UnitTester $I)
     {
         $actual = Text::dynamic('{Hi|Hello}, my name is a Bob!');
         $I->assertNotContains('{', $actual);
@@ -39,7 +39,7 @@ class DynamicCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function testDynamicCustomDelimiter(UnitTester $I)
+    public function textDynamicCustomDelimiter(UnitTester $I)
     {
         $actual = Text::dynamic('(Hi|Hello), my name is a Bob!', '(', ')');
         $I->assertNotContains('{', $actual);
@@ -57,7 +57,7 @@ class DynamicCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-27
      */
-    public function testDynamicCustomSeparator(UnitTester $I)
+    public function textDynamicCustomSeparator(UnitTester $I)
     {
         $actual = Text::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
         $I->assertNotContains('{', $actual);

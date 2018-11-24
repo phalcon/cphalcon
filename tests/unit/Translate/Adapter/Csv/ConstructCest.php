@@ -25,7 +25,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function translateAdapterCsvConstruct(UnitTester $I)
     {
         $params     = ['content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv'];
         $translator = new Csv($params);
@@ -43,7 +43,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testContentParamExist(UnitTester $I)
+    public function translateAdapterCsvContentParamExist(UnitTester $I)
     {
         $I->expectThrowable(
             new Exception("Parameter 'content' is required"),

@@ -22,7 +22,7 @@ class LowerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLower(UnitTester $I)
+    public function textLower(UnitTester $I)
     {
         $expected = 'hello';
         $actual   = Text::lower('hello');
@@ -43,7 +43,7 @@ class LowerCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06
      */
-    public function testLowerMultiBytesEncoding(UnitTester $I)
+    public function textLowerMultiBytesEncoding(UnitTester $I)
     {
         $expected = 'привет мир!';
         $actual   = Text::lower('привет мир!');

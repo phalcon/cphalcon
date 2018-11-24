@@ -21,7 +21,7 @@ class QueryCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testQuery(UnitTester $I)
+    public function translateAdapterGettextQuery(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

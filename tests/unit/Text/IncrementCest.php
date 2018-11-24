@@ -22,7 +22,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrementSimpleString(UnitTester $I)
+    public function textIncrementSimpleString(UnitTester $I)
     {
         $source   = 'file';
         $expected = 'file_1';
@@ -36,7 +36,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrementAlreadyIncremented(UnitTester $I)
+    public function textIncrementAlreadyIncremented(UnitTester $I)
     {
         $source   = 'file_1';
         $expected = 'file_2';
@@ -50,7 +50,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrementAlreadyIncrementedTwice(UnitTester $I)
+    public function textIncrementAlreadyIncrementedTwice(UnitTester $I)
     {
         $source   = 'file_2';
         $expected = 'file_3';
@@ -64,7 +64,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrementStringWithUnderscore(UnitTester $I)
+    public function textIncrementStringWithUnderscore(UnitTester $I)
     {
         $source   = 'file_';
         $expected = 'file_1';
@@ -78,7 +78,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrementStringWithSpace(UnitTester $I)
+    public function textIncrementStringWithSpace(UnitTester $I)
     {
         $source   = 'file ';
         $expected = 'file _1';
@@ -92,7 +92,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrementStringWithDifferentSeparator(UnitTester $I)
+    public function textIncrementStringWithDifferentSeparator(UnitTester $I)
     {
         $source   = 'file';
         $expected = 'file-1';

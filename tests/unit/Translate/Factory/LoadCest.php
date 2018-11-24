@@ -36,7 +36,7 @@ class LoadCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testConfigFactory(UnitTester $I)
+    public function translateFactoryLoadConfig(UnitTester $I)
     {
         $options = $this->config->translate;
         /** @var Gettext $translate */
@@ -69,7 +69,7 @@ class LoadCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testArrayFactory(UnitTester $I)
+    public function translateFactoryLoadArray(UnitTester $I)
     {
         $options = $this->arrayConfig["translate"];
         /** @var Gettext $translate */

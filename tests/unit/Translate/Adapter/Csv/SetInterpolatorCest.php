@@ -21,7 +21,7 @@ class SetInterpolatorCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetInterpolator(UnitTester $I)
+    public function translateAdapterCsvSetInterpolator(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

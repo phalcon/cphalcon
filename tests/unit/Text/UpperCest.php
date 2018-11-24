@@ -22,7 +22,7 @@ class UpperCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUpper(UnitTester $I)
+    public function textUpper(UnitTester $I)
     {
         $expected = 'HELLO';
         $actual   = Text::upper('hello');
@@ -43,7 +43,7 @@ class UpperCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06
      */
-    public function testUpperMultiBytesEncoding(UnitTester $I)
+    public function textUpperMultiBytesEncoding(UnitTester $I)
     {
         $expected = 'ПРИВЕТ МИР!';
         $actual   = Text::upper('ПРИВЕТ МИР!');

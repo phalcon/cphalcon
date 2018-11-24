@@ -22,7 +22,7 @@ class ReduceSlashesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReduceSlashes(UnitTester $I)
+    public function textReduceSlashes(UnitTester $I)
     {
         $expected = 'app/controllers/IndexController';
         $actual   = Text::reduceSlashes('app/controllers//IndexController');

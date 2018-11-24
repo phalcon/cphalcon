@@ -28,7 +28,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function translateAdapterNativeArrayConstruct(UnitTester $I)
     {
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);
@@ -46,7 +46,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testContentParamExist(UnitTester $I)
+    public function translateAdapterNativeArrayContentParamExist(UnitTester $I)
     {
         $I->expectThrowable(
             new Exception("Translation content was not provided"),

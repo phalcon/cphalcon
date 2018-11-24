@@ -25,7 +25,7 @@ class OffsetGetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetGet(UnitTester $I)
+    public function translateAdapterNativeArrayOffsetGet(UnitTester $I)
     {
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);

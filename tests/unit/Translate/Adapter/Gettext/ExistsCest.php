@@ -25,7 +25,7 @@ class ExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function translateAdapterGettextExists(UnitTester $I)
     {
         $params     = $this->getGettextConfig();
         $translator = new Gettext($params);

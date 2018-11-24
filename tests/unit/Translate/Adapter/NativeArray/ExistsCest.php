@@ -25,7 +25,7 @@ class ExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function translateAdapterNativeArrayExists(UnitTester $I)
     {
         $language   = $this->getArrayConfig()['en'];
         $translator = new NativeArray(['content' => $language]);

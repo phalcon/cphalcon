@@ -23,7 +23,7 @@ class InterpolatorCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIndexedArrayInterpolator(UnitTester $I)
+    public function translateInterpolatorIndexedArrayInterpolator(UnitTester $I)
     {
         $language   = [
             'Hello!'          => 'Привет!',

@@ -22,7 +22,7 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStartsWith(UnitTester $I)
+    public function textStartsWith(UnitTester $I)
     {
         $actual = Text::startsWith("Hello", "H");
         $I->assertTrue($actual);
@@ -40,7 +40,7 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStartsWithEmpty(UnitTester $I)
+    public function textStartsWithEmpty(UnitTester $I)
     {
         $actual = Text::startsWith("", "");
         $I->assertFalse($actual);
@@ -52,7 +52,7 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStartsWithEmptySearchString(UnitTester $I)
+    public function textStartsWithEmptySearchString(UnitTester $I)
     {
         $actual = Text::startsWith("", "hello");
         $I->assertFalse($actual);
@@ -65,7 +65,7 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStartsWithCaseInsensitive(UnitTester $I)
+    public function textStartsWithCaseInsensitive(UnitTester $I)
     {
         $actual = Text::startsWith("Hello", "h");
         $I->assertTrue($actual);
@@ -83,7 +83,7 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStartsWithCaseSensitive(UnitTester $I)
+    public function textStartsWithCaseSensitive(UnitTester $I)
     {
         $actual = Text::startsWith("Hello", "hello", true);
         $I->assertTrue($actual);

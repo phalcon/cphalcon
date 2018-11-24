@@ -22,7 +22,7 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndsWith(UnitTester $I)
+    public function textEndsWith(UnitTester $I)
     {
         $actual = Text::endsWith("Hello", "o");
         $I->assertTrue($actual);
@@ -40,7 +40,7 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndsWithEmpty(UnitTester $I)
+    public function textEndsWithEmpty(UnitTester $I)
     {
         $actual = Text::endsWith("", "");
         $I->assertFalse($actual);
@@ -52,7 +52,7 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndsWithEmptySearchString(UnitTester $I)
+    public function textEndsWithEmptySearchString(UnitTester $I)
     {
         $actual = Text::endsWith("", "hello");
         $I->assertFalse($actual);
@@ -65,7 +65,7 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndsWithCaseInsensitive(UnitTester $I)
+    public function textEndsWithCaseInsensitive(UnitTester $I)
     {
         $actual = Text::endsWith("Hello", "O");
         $I->assertTrue($actual);
@@ -83,7 +83,7 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndsWithCaseSensitive(UnitTester $I)
+    public function textEndsWithCaseSensitive(UnitTester $I)
     {
         $actual = Text::endsWith("Hello", "hello", true);
         $I->assertTrue($actual);

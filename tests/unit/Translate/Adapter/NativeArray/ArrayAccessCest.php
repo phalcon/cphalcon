@@ -25,7 +25,7 @@ class ArrayAccessCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testWithArrayAccess(UnitTester $I)
+    public function translateAdapterNativeArrayWithArrayAccess(UnitTester $I)
     {
         $language   = $this->getArrayConfig()['ru'];
         $translator = new NativeArray(['content' => $language]);

@@ -21,7 +21,7 @@ class OffsetGetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetGet(UnitTester $I)
+    public function translateAdapterGettextOffsetGet(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

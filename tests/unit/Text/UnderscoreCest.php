@@ -22,7 +22,7 @@ class UnderscoreCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscore(UnitTester $I)
+    public function textUnderscore(UnitTester $I)
     {
         $expected = 'start_a_horse';
         $actual   = Text::underscore('start a horse');

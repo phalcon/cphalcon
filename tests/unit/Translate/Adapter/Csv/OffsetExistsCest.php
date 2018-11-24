@@ -21,7 +21,7 @@ class OffsetExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetExists(UnitTester $I)
+    public function translateAdapterCsvOffsetExists(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

@@ -21,7 +21,7 @@ class GetDefaultDomainCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefaultDomain(UnitTester $I)
+    public function translateAdapterGettextGetDefaultDomain(UnitTester $I)
     {
         $I->skipTest("Need implementation");
     }

@@ -11,18 +11,330 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\StringLength;
 use UnitTester;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate()
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single field
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
-    public function validationValidatorStringLengthValidate(UnitTester $I)
+    public function validationValidatorStringLengthValidateSingleField(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $validation = new Validation();
+        $validation->add(
+            'name',
+            new StringLength(
+                [
+                    'min' => 3,
+                    'max' => 9,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['name' => 'SomeValue']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123']);
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
+     *
+     * @test
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2013-03-09
+     */
+    public function validationValidatorStringLengthValidateMinimum(UnitTester $I)
+    {
+        $validation = new Validation();
+        $validation->add('name', new StringLength(['min' => 3]));
+
+        $messages = $validation->validate(['name' => 'Something']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'TooShort',
+                            '_message' => 'Field name must be at least 3 characters long',
+                            '_field'   => 'name',
+                            '_code'    => '0',
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $messages = $validation->validate(['name' => 'So']);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum custom message
+     *
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2013-03-09
+     */
+    public function validationValidatorStringLengthValidateMinimumWithCustomMessage(UnitTester $I)
+    {
+        $validation = new Validation();
+        $validation->add(
+            'message',
+            new StringLength(['min' => 3, 'messageMinimum' => 'The message is too short'])
+        );
+
+        $messages = $validation->validate(['message' => 'Something']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'TooShort',
+                            '_message' => 'The message is too short',
+                            '_field'   => 'message',
+                            '_code'    => '0',
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $messages = $validation->validate(['message' => 'So']);
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
+     *
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2013-03-09
+     */
+    public function validationValidatorStringLengthValidateMaximum(UnitTester $I)
+    {
+        $validation = new Validation();
+        $validation->add('name', new StringLength(['max' => 4]));
+
+        $messages = $validation->validate(['name' => 'John']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'TooLong',
+                            '_message' => 'Field name must not exceed 4 characters long',
+                            '_field'   => 'name',
+                            '_code'    => '0',
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $messages = $validation->validate(['name' => 'Johannes']);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum custom message
+     *
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2013-03-09
+     */
+    public function validationValidatorStringLengthValidateMaximumWithCustomMessage(UnitTester $I)
+    {
+        $validation = new Validation();
+        $validation->add(
+            'message',
+            new StringLength(['max' => 4, 'messageMaximum' => 'The message is too long'])
+        );
+
+        $messages = $validation->validate(['message' => 'Pet']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'TooLong',
+                            '_message' => 'The message is too long',
+                            '_field'   => 'message',
+                            '_code'    => '0',
+                        ]
+                    ),
+                ],
+            ]
+        );
+
+        $messages = $validation->validate(['message' => 'Validation']);
+        $actual   = $messages;
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate()
+     * multiple field and single min, max
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorStringLengthValidateMultipleFieldSingleMinMax(UnitTester $I)
+    {
+        $validation                = new Validation();
+        $validationMinimumMessages = [
+            'name' => 'Name length must be minimum 0.',
+            'type' => 'Type length must be minimum 0.',
+        ];
+        $validationMaximumMessages = [
+            'name' => 'Name length must be maximum 9.',
+            'type' => 'Type length must be maximum 9.',
+        ];
+        $validation->add(
+            [
+                'name',
+                'type',
+            ],
+            new StringLength(
+                [
+                    'min'            => 0,
+                    'max'            => 9,
+                    'messageMinimum' => $validationMinimumMessages,
+                    'messageMaximum' => $validationMaximumMessages,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue']);
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue123']);
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate()
+     * multiple field and min, max
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorStringLengthValidateMultipleFieldMultipleMinMax(UnitTester $I)
+    {
+        $validation                = new Validation();
+        $validationMinimumMessages = [
+            'name' => 'Name length must be minimum 0.',
+            'type' => 'Type length must be minimum 0.',
+        ];
+        $validationMaximumMessages = [
+            'name' => 'Name length must be maximum 9.',
+            'type' => 'Type length must be maximum 4.',
+        ];
+        $validation->add(
+            [
+                'name',
+                'type',
+            ],
+            new StringLength(
+                [
+                    'min'            => [
+                        'name' => 0,
+                        'type' => 0,
+                    ],
+                    'max'            => [
+                        'name' => 9,
+                        'type' => 4,
+                    ],
+                    'messageMinimum' => $validationMinimumMessages,
+                    'messageMaximum' => $validationMaximumMessages,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'Some']);
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'Some']);
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['type'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue']);
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $validationMaximumMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertEquals($expected, $actual);
     }
 }
