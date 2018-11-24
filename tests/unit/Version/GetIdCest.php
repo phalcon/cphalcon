@@ -27,6 +27,7 @@ class GetIdCest
      */
     public function versionGetId(UnitTester $I)
     {
+        $I->wantToTest('Version - getId()');
         $actual = is_string(Version::getId());
         $I->assertTrue($actual);
     }
@@ -39,6 +40,7 @@ class GetIdCest
      */
     public function versionGetToGetId(UnitTester $I)
     {
+        $I->wantToTest('Version - get() to getId()');
         $version = Version::get();
         $chunks  = explode(' ', $version);
 

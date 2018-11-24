@@ -27,6 +27,7 @@ class GetCest
      */
     public function versionGet(UnitTester $I)
     {
+        $I->wantToTest('Version - get()');
         $actual = is_string(Version::get());
         $I->assertTrue($actual);
     }
@@ -39,6 +40,7 @@ class GetCest
      */
     public function versionGetIdToGet(UnitTester $I)
     {
+        $I->wantToTest('Version - getId() to get()');
         $id        = Version::getId();
         $major     = intval($id[0]);
         $med       = intval($id[1] . $id[2]);

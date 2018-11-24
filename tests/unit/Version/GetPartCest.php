@@ -27,6 +27,7 @@ class GetPartCest
      */
     public function versionGetPart(UnitTester $I)
     {
+        $I->wantToTest('Version - getPart()');
         /*
          * Note: getId() returns a version string in the format ABBCCDE
          * where A is the major version, BB is the medium version (2 digits)
