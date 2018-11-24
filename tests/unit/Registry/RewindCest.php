@@ -22,8 +22,9 @@ class RewindCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRewind(UnitTester $I)
+    public function registryRewind(UnitTester $I)
     {
+        $I->wantToTest('Registry - rewind()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

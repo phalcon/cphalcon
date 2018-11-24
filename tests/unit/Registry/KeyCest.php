@@ -22,8 +22,9 @@ class KeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKey(UnitTester $I)
+    public function registryKey(UnitTester $I)
     {
+        $I->wantToTest('Registry - key()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

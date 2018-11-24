@@ -22,8 +22,9 @@ class OffsetUnsetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetUnset(UnitTester $I)
+    public function registryOffsetUnset(UnitTester $I)
     {
+        $I->wantToTest('Registry - offsetUnset()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

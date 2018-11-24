@@ -22,8 +22,9 @@ class CountCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function registryCount(UnitTester $I)
     {
+        $I->wantToTest('Registry - count()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

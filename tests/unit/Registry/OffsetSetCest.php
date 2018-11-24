@@ -22,8 +22,9 @@ class OffsetSetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetSet(UnitTester $I)
+    public function registryOffsetSet(UnitTester $I)
     {
+        $I->wantToTest('Registry - offsetSet()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

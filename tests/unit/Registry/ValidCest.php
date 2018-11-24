@@ -22,8 +22,9 @@ class ValidCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testValid(UnitTester $I)
+    public function registryValid(UnitTester $I)
     {
+        $I->wantToTest('Registry - valid()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
 

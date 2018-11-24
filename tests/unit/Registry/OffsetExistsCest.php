@@ -22,8 +22,9 @@ class OffsetExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetExists(UnitTester $I)
+    public function registryOffsetExists(UnitTester $I)
     {
+        $I->wantToTest('Registry - offsetExists()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
 

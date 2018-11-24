@@ -22,8 +22,9 @@ class CurrentCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCurrent(UnitTester $I)
+    public function registryCurrent(UnitTester $I)
     {
+        $I->wantToTest('Registry - current()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

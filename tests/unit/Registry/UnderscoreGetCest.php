@@ -22,8 +22,9 @@ class UnderscoreGetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreGet(UnitTester $I)
+    public function registryUnderscoreGet(UnitTester $I)
     {
+        $I->wantToTest('Registry - __get()');
         $registry = new Registry();
         $registry->offsetSet('one', 1);
         $registry->offsetSet('two', 2);

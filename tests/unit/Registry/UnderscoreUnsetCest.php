@@ -22,8 +22,9 @@ class UnderscoreUnsetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreUnset(UnitTester $I)
+    public function registryUnderscoreUnset(UnitTester $I)
     {
+        $I->wantToTest('Registry - __unset()');
         $registry        = new Registry();
         $registry->one   = 1;
         $registry->two   = 2;
