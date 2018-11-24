@@ -9,6 +9,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Language;
 use Phalcon\Test\Models\LanguageI18n;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\Models\AlbumORama;
 
 class RelationsTest extends UnitTest
 {
@@ -59,5 +60,29 @@ class RelationsTest extends UnitTest
         $di = Di::getDefault();
 
         return $di->getShared('modelsManager');
+    }
+
+    public function testRelationshipLoaded()
+    {
+        $this->specify(
+            'Unable to test if "hasMany" relationship exist',
+            function () {
+                $hasManyModel = AlbumORama\Artists::findFirst();
+                expect($hasManyModel->isRelationshipLoaded('albums'))->equals(false);
+                $hasManyModel->albums;
+                expect($hasManyModel->isRelationshipLoaded('albums'))->equals(true);
+            }
+        );
+
+        $this->specify(
+            'Unable to test if "belongsTo" relationship exist',
+            function () {
+                
+                $belongsToModel = AlbumORama\Albums::findFirst();
+                expect($belongsToModel->isRelationshipLoaded('artist'))->equals(false);
+                $belongsToModel->artist;
+                expect($belongsToModel->isRelationshipLoaded('artist'))->equals(true);
+            }
+        );
     }
 }
