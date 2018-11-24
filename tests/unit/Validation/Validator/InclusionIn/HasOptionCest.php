@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorInclusionInHasOption(UnitTester $I)
     {
         $validator = new InclusionIn(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

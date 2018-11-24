@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorUrlSetOption(UnitTester $I)
     {
         $validator = new Url();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

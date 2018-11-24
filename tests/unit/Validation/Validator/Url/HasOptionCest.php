@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorUrlHasOption(UnitTester $I)
     {
         $validator = new Url(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

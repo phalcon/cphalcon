@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorDateSetOption(UnitTester $I)
     {
         $validator = new Date();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

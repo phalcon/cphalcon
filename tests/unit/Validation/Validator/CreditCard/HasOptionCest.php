@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorCreditCardHasOption(UnitTester $I)
     {
         $validator = new CreditCard(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

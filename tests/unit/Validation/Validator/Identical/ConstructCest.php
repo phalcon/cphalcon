@@ -21,7 +21,7 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Identical :: getOption()
+     * Tests Phalcon\Validation\Validator\Identical :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -29,6 +29,6 @@ class ConstructCest
     public function validationValidatorIdenticalConstruct(UnitTester $I)
     {
         $validator = new Identical();
-        $I->assertInstanceOf(ValidatorInterface::class, $validator);
+        $this->checkConstruct($I, $validator);
     }
 }

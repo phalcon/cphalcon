@@ -21,7 +21,7 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Uniqueness :: getOption()
+     * Tests Phalcon\Validation\Validator\Uniqueness :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -29,6 +29,6 @@ class ConstructCest
     public function validationValidatorUniquenessConstruct(UnitTester $I)
     {
         $validator = new Uniqueness();
-        $I->assertInstanceOf(ValidatorInterface::class, $validator);
+        $this->checkConstruct($I, $validator);
     }
 }

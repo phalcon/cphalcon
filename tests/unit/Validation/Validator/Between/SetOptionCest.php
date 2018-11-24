@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorBetweenSetOption(UnitTester $I)
     {
         $validator = new Between();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

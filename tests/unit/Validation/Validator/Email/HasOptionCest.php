@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorEmailHasOption(UnitTester $I)
     {
         $validator = new Email(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorDigitHasOption(UnitTester $I)
     {
         $validator = new Digit(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

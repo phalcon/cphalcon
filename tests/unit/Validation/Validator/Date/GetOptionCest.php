@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorDateGetOption(UnitTester $I)
     {
         $validator = new Date();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

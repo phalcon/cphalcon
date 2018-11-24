@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorAlnumSetOption(UnitTester $I)
     {
         $validator = new Alnum();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

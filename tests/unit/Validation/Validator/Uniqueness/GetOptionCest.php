@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorUniquenessGetOption(UnitTester $I)
     {
         $validator = new Uniqueness();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

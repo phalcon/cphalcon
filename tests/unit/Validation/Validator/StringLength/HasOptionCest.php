@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorStringLengthHasOption(UnitTester $I)
     {
         $validator = new StringLength(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

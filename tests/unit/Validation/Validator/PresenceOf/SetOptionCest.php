@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorPresenceOfSetOption(UnitTester $I)
     {
         $validator = new PresenceOf();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

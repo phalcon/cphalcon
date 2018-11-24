@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorNumericalitySetOption(UnitTester $I)
     {
         $validator = new Numericality();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

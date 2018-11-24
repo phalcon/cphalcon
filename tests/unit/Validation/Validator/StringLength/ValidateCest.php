@@ -27,6 +27,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateSingleField(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
         $validation = new Validation();
         $validation->add(
             'name',
@@ -58,6 +59,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMinimum(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - minimum');
         $validation = new Validation();
         $validation->add('name', new StringLength(['min' => 3]));
 
@@ -94,6 +96,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMinimumWithCustomMessage(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - minimum custom message');
         $validation = new Validation();
         $validation->add(
             'message',
@@ -134,6 +137,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMaximum(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - maximum');
         $validation = new Validation();
         $validation->add('name', new StringLength(['max' => 4]));
 
@@ -170,6 +174,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMaximumWithCustomMessage(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - maximum custom message');
         $validation = new Validation();
         $validation->add(
             'message',
@@ -210,6 +215,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMultipleFieldSingleMinMax(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - multiple field and single min, max');
         $validation                = new Validation();
         $validationMinimumMessages = [
             'name' => 'Name length must be minimum 0.',
@@ -271,6 +277,7 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMultipleFieldMultipleMinMax(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - multiple field and min, max');
         $validation                = new Validation();
         $validationMinimumMessages = [
             'name' => 'Name length must be minimum 0.',

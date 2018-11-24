@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorNumericalityHasOption(UnitTester $I)
     {
         $validator = new Numericality(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

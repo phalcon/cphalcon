@@ -21,7 +21,7 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: getOption()
+     * Tests Phalcon\Validation\Validator\Alpha :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -29,6 +29,6 @@ class ConstructCest
     public function validationValidatorAlphaConstruct(UnitTester $I)
     {
         $validator = new Alpha();
-        $I->assertInstanceOf(ValidatorInterface::class, $validator);
+        $this->checkConstruct($I, $validator);
     }
 }

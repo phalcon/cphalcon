@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorFileGetOption(UnitTester $I)
     {
         $validator = new File();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

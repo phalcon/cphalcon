@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorCallbackHasOption(UnitTester $I)
     {
         $validator = new Callback(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

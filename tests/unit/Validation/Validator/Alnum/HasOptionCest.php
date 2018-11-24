@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorAlnumHasOption(UnitTester $I)
     {
         $validator = new Alnum(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

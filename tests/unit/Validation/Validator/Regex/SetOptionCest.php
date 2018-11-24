@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorRegexSetOption(UnitTester $I)
     {
         $validator = new Regex();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

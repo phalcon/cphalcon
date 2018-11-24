@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorIdenticalHasOption(UnitTester $I)
     {
         $validator = new Identical(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

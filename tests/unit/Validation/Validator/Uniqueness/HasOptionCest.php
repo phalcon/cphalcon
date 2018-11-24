@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorValidatorUniquenessHasOption(UnitTester $I)
     {
         $validator = new Uniqueness(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

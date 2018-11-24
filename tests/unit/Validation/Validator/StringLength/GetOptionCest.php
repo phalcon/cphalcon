@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorStringLengthGetOption(UnitTester $I)
     {
         $validator = new StringLength();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorIdenticalSetOption(UnitTester $I)
     {
         $validator = new Identical();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

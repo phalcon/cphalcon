@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorAlnumGetOption(UnitTester $I)
     {
         $validator = new Alnum();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

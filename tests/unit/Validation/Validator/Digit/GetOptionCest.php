@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorDigitGetOption(UnitTester $I)
     {
         $validator = new Digit();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

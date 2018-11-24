@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorCreditCardGetOption(UnitTester $I)
     {
         $validator = new CreditCard();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

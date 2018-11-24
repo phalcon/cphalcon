@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorExclusionInGetOption(UnitTester $I)
     {
         $validator = new ExclusionIn();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

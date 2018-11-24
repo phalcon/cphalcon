@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorBetweenHasOption(UnitTester $I)
     {
         $validator = new Between(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

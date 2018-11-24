@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationUniquenessSetOption(UnitTester $I)
     {
         $validator = new Uniqueness();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

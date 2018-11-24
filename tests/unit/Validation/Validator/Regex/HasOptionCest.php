@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorRegexHasOption(UnitTester $I)
     {
         $validator = new Regex(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

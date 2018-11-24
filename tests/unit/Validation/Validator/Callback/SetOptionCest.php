@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorCallbackSetOption(UnitTester $I)
     {
         $validator = new Callback();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

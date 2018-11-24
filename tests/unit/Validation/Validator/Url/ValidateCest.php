@@ -28,6 +28,7 @@ class ValidateCest
      */
     public function validationValidatorUrlSingleField(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\Url :: validate() - single field');
         $validation = new Validation();
         $validation->add('url', new Url());
 
@@ -68,6 +69,7 @@ class ValidateCest
      */
     public function validationValidatorUrlMultipleField(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\Url :: validate() - multiple field');
         $validation         = new Validation();
         $validationMessages = [
             'url'        => 'Url must be correct url.',
@@ -135,6 +137,7 @@ class ValidateCest
      */
     public function validationValidatorUrlCustomMessage(UnitTester $I)
     {
+        $I->wantToTest('Validation\Validator\Url :: validate() - custom message');
         $validation = new Validation();
 
         $validation->add(

@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorFileSetOption(UnitTester $I)
     {
         $validator = new File();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

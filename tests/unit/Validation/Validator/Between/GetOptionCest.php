@@ -28,6 +28,6 @@ class GetOptionCest
     public function validationValidatorBetweenGetOption(UnitTester $I)
     {
         $validator = new Between();
-        $this->validatorGetOption($I, $validator);
+        $this->checkGetOption($I, $validator);
     }
 }

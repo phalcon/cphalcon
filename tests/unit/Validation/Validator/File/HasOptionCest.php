@@ -28,6 +28,6 @@ class HasOptionCest
     public function validationValidatorFileHasOption(UnitTester $I)
     {
         $validator = new File(['message' => 'This is a message']);
-        $this->validatorHasOption($I, $validator);
+        $this->checkHasOption($I, $validator);
     }
 }

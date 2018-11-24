@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorInclusionInSetOption(UnitTester $I)
     {
         $validator = new InclusionIn();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }

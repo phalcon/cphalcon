@@ -28,6 +28,6 @@ class SetOptionCest
     public function validationValidatorCreditCardSetOption(UnitTester $I)
     {
         $validator = new CreditCard();
-        $this->validatorSetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }
