@@ -24,6 +24,7 @@ class LowerCest
      */
     public function textLower(UnitTester $I)
     {
+        $I->wantToTest('Text - lower()');
         $expected = 'hello';
         $actual   = Text::lower('hello');
         $I->assertEquals($expected, $actual);
@@ -45,6 +46,7 @@ class LowerCest
      */
     public function textLowerMultiBytesEncoding(UnitTester $I)
     {
+        $I->wantToTest('Text - lower() - multi byte encoding');
         $expected = 'привет мир!';
         $actual   = Text::lower('привет мир!');
         $I->assertEquals($expected, $actual);

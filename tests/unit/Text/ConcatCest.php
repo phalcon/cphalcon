@@ -24,6 +24,7 @@ class ConcatCest
      */
     public function textConcat(UnitTester $I)
     {
+        $I->wantToTest('Text - concat()');
         // Test 1
         $actual   = Text::concat('/', '/tmp/', '/folder_1/', '/folder_2', 'folder_3/');
         $expected = '/tmp/folder_1/folder_2/folder_3/';

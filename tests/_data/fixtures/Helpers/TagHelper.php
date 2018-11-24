@@ -28,7 +28,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldStringParameter(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' string parameter');
+        $I->wantToTest(sprintf('Tag - %s() - string parameter', $this->function));
         $options  = 'x_name';
         $expected = '<input type="' . $this->inputType . '" id="x_name" name="x_name"';
 
@@ -44,7 +44,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldArrayParameter(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' array parameter');
+        $I->wantToTest(sprintf('Tag - %s() - array parameter', $this->function));
         $options  = [
             'x_name',
             'class' => 'x_class',
@@ -63,7 +63,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldArrayParameterWithId(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' array parameter with id');
+        $I->wantToTest(sprintf('Tag - %s() - array parameter with id', $this->function));
         $options  = [
             'x_name',
             'id'    => 'x_id',
@@ -85,7 +85,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldArrayParameterWithNameNoId(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' array parameter with name no id');
+        $I->wantToTest(sprintf('Tag - %s() - array parameter with name no id', $this->function));
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -106,7 +106,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldWithSetDefault(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' with setDefault');
+        $I->wantToTest(sprintf('Tag - %s() - setDefault()', $this->function));
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -128,7 +128,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldWithDisplayTo(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' string displayTo');
+        $I->wantToTest(sprintf('Tag - %s() - string displayTo()', $this->function));
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -151,7 +151,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' with setDefault element not present');
+        $I->wantToTest(sprintf('Tag - %s() - setDefault() element not present', $this->function));
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -174,7 +174,7 @@ class TagHelper extends TagSetup
      */
     public function testTagFieldWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest($this->function . ' with displayTo element not present');
+        $I->wantToTest(sprintf('Tag - %s() - displayTo() element not present', $this->function));
         $options  = [
             'x_name',
             'name'  => 'x_other',

@@ -24,6 +24,7 @@ class ReduceSlashesCest
      */
     public function textReduceSlashes(UnitTester $I)
     {
+        $I->wantToTest('Text - reduceSlashes()');
         $expected = 'app/controllers/IndexController';
         $actual   = Text::reduceSlashes('app/controllers//IndexController');
         $I->assertEquals($expected, $actual);

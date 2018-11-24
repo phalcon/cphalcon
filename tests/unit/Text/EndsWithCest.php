@@ -24,6 +24,7 @@ class EndsWithCest
      */
     public function textEndsWith(UnitTester $I)
     {
+        $I->wantToTest('Text - endsWith()');
         $actual = Text::endsWith("Hello", "o");
         $I->assertTrue($actual);
 
@@ -42,6 +43,7 @@ class EndsWithCest
      */
     public function textEndsWithEmpty(UnitTester $I)
     {
+        $I->wantToTest('Text - endsWith() - empty strings');
         $actual = Text::endsWith("", "");
         $I->assertFalse($actual);
     }
@@ -54,6 +56,7 @@ class EndsWithCest
      */
     public function textEndsWithEmptySearchString(UnitTester $I)
     {
+        $I->wantToTest('Text - endsWith() - search empty string');
         $actual = Text::endsWith("", "hello");
         $I->assertFalse($actual);
     }
@@ -67,6 +70,7 @@ class EndsWithCest
      */
     public function textEndsWithCaseInsensitive(UnitTester $I)
     {
+        $I->wantToTest('Text - endsWith() - case insensitive flag');
         $actual = Text::endsWith("Hello", "O");
         $I->assertTrue($actual);
 
@@ -85,6 +89,7 @@ class EndsWithCest
      */
     public function textEndsWithCaseSensitive(UnitTester $I)
     {
+        $I->wantToTest('Text - endsWith() - case sensitive flag');
         $actual = Text::endsWith("Hello", "hello", true);
         $I->assertTrue($actual);
 

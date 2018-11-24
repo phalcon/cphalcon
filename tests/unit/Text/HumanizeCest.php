@@ -24,6 +24,7 @@ class HumanizeCest
      */
     public function textHumanize(UnitTester $I)
     {
+        $I->wantToTest('Text - humanize()');
         $expected = 'start a horse';
         $actual   = Text::humanize('start_a_horse');
         $I->assertEquals($expected, $actual);

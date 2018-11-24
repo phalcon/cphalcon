@@ -24,6 +24,7 @@ class StartsWithCest
      */
     public function textStartsWith(UnitTester $I)
     {
+        $I->wantToTest('Text - startsWith()');
         $actual = Text::startsWith("Hello", "H");
         $I->assertTrue($actual);
 
@@ -42,6 +43,7 @@ class StartsWithCest
      */
     public function textStartsWithEmpty(UnitTester $I)
     {
+        $I->wantToTest('Text - startsWith() - empty strings');
         $actual = Text::startsWith("", "");
         $I->assertFalse($actual);
     }
@@ -54,6 +56,7 @@ class StartsWithCest
      */
     public function textStartsWithEmptySearchString(UnitTester $I)
     {
+        $I->wantToTest('Text - startsWith() - search empty string');
         $actual = Text::startsWith("", "hello");
         $I->assertFalse($actual);
     }
@@ -67,6 +70,7 @@ class StartsWithCest
      */
     public function textStartsWithCaseInsensitive(UnitTester $I)
     {
+        $I->wantToTest('Text - startsWith() - case insensitive flag');
         $actual = Text::startsWith("Hello", "h");
         $I->assertTrue($actual);
 
@@ -85,6 +89,7 @@ class StartsWithCest
      */
     public function textStartsWithCaseSensitive(UnitTester $I)
     {
+        $I->wantToTest('Text - startsWith() - case sensitive flag');
         $actual = Text::startsWith("Hello", "hello", true);
         $I->assertTrue($actual);
 

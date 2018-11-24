@@ -24,6 +24,7 @@ class UncamelizeCest
      */
     public function textUncamelize(UnitTester $I)
     {
+        $I->wantToTest('Text - uncamelize()');
         $examples = [
             ['camelize', 'camelize', null],
             ['CameLiZe', 'came_li_ze', null],

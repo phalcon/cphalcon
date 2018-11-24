@@ -24,6 +24,7 @@ class UpperCest
      */
     public function textUpper(UnitTester $I)
     {
+        $I->wantToTest('Text - upper()');
         $expected = 'HELLO';
         $actual   = Text::upper('hello');
         $I->assertEquals($expected, $actual);
@@ -45,6 +46,7 @@ class UpperCest
      */
     public function textUpperMultiBytesEncoding(UnitTester $I)
     {
+        $I->wantToTest('Text - upper() - multi byte encoding');
         $expected = 'ПРИВЕТ МИР!';
         $actual   = Text::upper('ПРИВЕТ МИР!');
         $I->assertEquals($expected, $actual);

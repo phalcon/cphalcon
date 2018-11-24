@@ -24,6 +24,7 @@ class RandomCest
      */
     public function textRandomConstants(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - constants');
         $I->assertEquals(0, Text::RANDOM_ALNUM);
         $I->assertEquals(1, Text::RANDOM_ALPHA);
         $I->assertEquals(2, Text::RANDOM_HEXDEC);
@@ -40,6 +41,7 @@ class RandomCest
      */
     public function textRandomAlnum(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - alnum');
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_ALNUM, $i);
 
@@ -65,6 +67,7 @@ class RandomCest
      */
     public function textRandomAlpha(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - alpha');
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_ALPHA, $i);
 
@@ -90,6 +93,7 @@ class RandomCest
      */
     public function textRandomHexDec(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - hexdex');
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_HEXDEC, $i);
 
@@ -115,6 +119,7 @@ class RandomCest
      */
     public function textRandomNumeric(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - numeric');
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_NUMERIC, $i);
 
@@ -140,6 +145,7 @@ class RandomCest
      */
     public function textRandomNonZero(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - non zero');
         for ($i = 1; $i < 10; $i++) {
             $source = Text::random(Text::RANDOM_NOZERO, $i);
 
@@ -165,6 +171,7 @@ class RandomCest
      */
     public function textRandomDistinct(UnitTester $I)
     {
+        $I->wantToTest('Text - random() - distinct');
         $examples = [1, 10, 100, 200, 500, 1000, 2000, 3000, 4000, 5000];
         foreach ($examples as $i) {
             $source  = Text::random(Text::RANDOM_DISTINCT, $i);

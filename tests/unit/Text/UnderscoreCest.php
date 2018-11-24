@@ -24,6 +24,7 @@ class UnderscoreCest
      */
     public function textUnderscore(UnitTester $I)
     {
+        $I->wantToTest('Text - underscore()');
         $expected = 'start_a_horse';
         $actual   = Text::underscore('start a horse');
         $I->assertEquals($expected, $actual);

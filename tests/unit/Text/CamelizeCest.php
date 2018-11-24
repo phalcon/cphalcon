@@ -24,6 +24,7 @@ class CamelizeCest
      */
     public function textCamelize(UnitTester $I)
     {
+        $I->wantToTest('Text - camelize()');
         $examples = [
             ['camelize', 'Camelize', null],
             ['CameLiZe', 'Camelize', null],
