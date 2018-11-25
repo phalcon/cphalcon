@@ -15,8 +15,8 @@ use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Unit\Db\Dialect\Helper\DialectBase;
-use UnitTester;
+use Phalcon\Test\Integration\Db\Dialect\Helper\DialectBase;
+use IntegrationTester;
 
 class SqliteCest extends DialectBase
 {
@@ -28,9 +28,9 @@ class SqliteCest extends DialectBase
     /**
      * Tests Dialect::modifyColumn
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testModifyColumn(UnitTester $I)
+    public function testModifyColumn(IntegrationTester $I)
     {
         /**
          * No test - modifying columns not allowed in Sqlite
@@ -40,9 +40,9 @@ class SqliteCest extends DialectBase
     /**
      * Tests Dialect::modifyColumn
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testModifyColumn13012(UnitTester $I)
+    public function testModifyColumn13012(IntegrationTester $I)
     {
         /**
          * No test - modifying columns not allowed in Sqlite

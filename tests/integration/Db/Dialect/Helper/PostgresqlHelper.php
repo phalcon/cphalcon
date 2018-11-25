@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Db\Dialect\Helper;
+namespace Phalcon\Test\Integration\Db\Dialect\Helper;
 
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Sqlite;
+namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
-use UnitTester;
+use IntegrationTester;
 
 class TableExistsCest
 {
@@ -21,7 +21,7 @@ class TableExistsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testTableExists(UnitTester $I)
+    public function testTableExists(IntegrationTester $I)
     {
         $I->skipTest("Need implementation");
     }

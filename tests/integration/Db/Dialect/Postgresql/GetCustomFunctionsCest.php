@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Postgresql;
+namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
-use UnitTester;
+use IntegrationTester;
 
 class GetCustomFunctionsCest
 {
@@ -21,7 +21,7 @@ class GetCustomFunctionsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCustomFunctions(UnitTester $I)
+    public function testGetCustomFunctions(IntegrationTester $I)
     {
         $I->skipTest("Need implementation");
     }

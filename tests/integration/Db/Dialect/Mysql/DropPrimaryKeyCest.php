@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
+namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
-use UnitTester;
+use IntegrationTester;
 
 class DropPrimaryKeyCest
 {
@@ -21,7 +21,7 @@ class DropPrimaryKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropPrimaryKey(UnitTester $I)
+    public function testDropPrimaryKey(IntegrationTester $I)
     {
         $I->skipTest("Need implementation");
     }

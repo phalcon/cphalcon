@@ -15,7 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Unit\Db\Dialect\Helper\DialectBase;
+use Phalcon\Test\Integration\Db\Dialect\Helper\DialectBase;
 
 class PostgresqlCest extends DialectBase
 {

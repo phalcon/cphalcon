@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
+namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
-use UnitTester;
+use IntegrationTester;
 
 class SharedLockCest
 {
@@ -21,7 +21,7 @@ class SharedLockCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSharedLock(UnitTester $I)
+    public function testSharedLock(IntegrationTester $I)
     {
         $I->skipTest("Need implementation");
     }

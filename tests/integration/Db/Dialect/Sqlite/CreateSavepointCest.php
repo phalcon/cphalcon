@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Sqlite;
+namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use UnitTester;
+use IntegrationTester;
 
 class CreateSavepointCest
 {
@@ -21,12 +21,12 @@ class CreateSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createSavepoint()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testCreateSavepoint(UnitTester $I)
+    public function testCreateSavepoint(IntegrationTester $I)
     {
         $dialect  = $this->getDialectSqlite();
         $expected = $this->getCreateSavepointSql();

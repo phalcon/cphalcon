@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Postgresql;
+namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use UnitTester;
+use IntegrationTester;
 
 class AddForeignKeyCest
 {
@@ -24,7 +24,7 @@ class AddForeignKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testAddForeignKey(UnitTester $I)
+    public function testAddForeignKey(IntegrationTester $I)
     {
         $data = $this->getAddForeignKeyFixtures();
         foreach ($data as $item) {

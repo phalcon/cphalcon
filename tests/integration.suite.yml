@@ -4,6 +4,7 @@ modules:
       - Asserts
       - Filesystem
       - Helper\Integration
+      - Helper\Unit
       - Phalcon
     config:
       Phalcon:

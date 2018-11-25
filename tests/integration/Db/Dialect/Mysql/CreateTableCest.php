@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
+namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use UnitTester;
+use IntegrationTester;
 
 class CreateTableCest
 {
@@ -24,12 +24,12 @@ class CreateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: createTable()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testCreateTable(UnitTester $I)
+    public function testCreateTable(IntegrationTester $I)
     {
         $data = $this->getCreateTableFixtures();
         foreach ($data as $item) {

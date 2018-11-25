@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Mysql;
+namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use UnitTester;
+use IntegrationTester;
 
 class AddPrimaryKeyCest
 {
@@ -21,12 +21,12 @@ class AddPrimaryKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: addPrimaryKey()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testAddPrimaryKey(UnitTester $I)
+    public function testAddPrimaryKey(IntegrationTester $I)
     {
         $data = $this->getAddPrimaryKeyFixtures();
         foreach ($data as $item) {

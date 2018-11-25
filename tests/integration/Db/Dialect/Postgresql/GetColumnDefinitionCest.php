@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Postgresql;
+namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
-use UnitTester;
+use IntegrationTester;
 
 class GetColumnDefinitionCest
 {
@@ -21,7 +21,7 @@ class GetColumnDefinitionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetColumnDefinition(UnitTester $I)
+    public function testGetColumnDefinition(IntegrationTester $I)
     {
         $I->skipTest("Need implementation");
     }

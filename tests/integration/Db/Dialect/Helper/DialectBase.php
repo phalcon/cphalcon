@@ -1,10 +1,10 @@
 <?php
 
-namespace Phalcon\Test\Unit\Db\Dialect\Helper;
+namespace Phalcon\Test\Integration\Db\Dialect\Helper;
 
 use Phalcon\Db\DialectInterface;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use UnitTester;
+use IntegrationTester;
 
 class DialectBase
 {
@@ -16,12 +16,12 @@ class DialectBase
     /**
      * Tests Dialect::createView
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testCreateView(UnitTester $I)
+    public function testCreateView(IntegrationTester $I)
     {
         $data = $this->getCreateViewFixtures();
         foreach ($data as $item) {
@@ -51,14 +51,14 @@ class DialectBase
     /**
      * Tests Dialect::describeColumns
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDescribeColumns(UnitTester $I)
+    public function testDescribeColumns(IntegrationTester $I)
     {
         $data = $this->getDescribeColumnsFixtures();
         foreach ($data as $item) {
@@ -73,9 +73,9 @@ class DialectBase
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testDescribeIndexes(UnitTester $I)
+    public function testDescribeIndexes(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
@@ -83,12 +83,12 @@ class DialectBase
     /**
      * Tests Dialect::describeReferences
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDescribeReferences(UnitTester $I)
+    public function testDescribeReferences(IntegrationTester $I)
     {
         $data = $this->getDescribeReferencesFixtures();
         foreach ($data as $item) {
@@ -105,12 +105,12 @@ class DialectBase
     /**
      * Tests Dialect::dropColumn
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDropColumn(UnitTester $I)
+    public function testDropColumn(IntegrationTester $I)
     {
         $data = $this->getDropColumnFixtures();
         foreach ($data as $item) {
@@ -127,12 +127,12 @@ class DialectBase
     /**
      * Tests Dialect::dropForeignKey
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDropForeignKey(UnitTester $I)
+    public function testDropForeignKey(IntegrationTester $I)
     {
         $data = $this->getDropForeignKeyFixtures();
         foreach ($data as $item) {
@@ -149,12 +149,12 @@ class DialectBase
     /**
      * Tests Dialect::dropIndex
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDropIndex(UnitTester $I)
+    public function testDropIndex(IntegrationTester $I)
     {
         $data = $this->getDropIndexFixtures();
         foreach ($data as $item) {
@@ -171,12 +171,12 @@ class DialectBase
     /**
      * Tests Dialect::dropPrimaryKey
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDropPrimaryKey(UnitTester $I)
+    public function testDropPrimaryKey(IntegrationTester $I)
     {
         $data = $this->getDropPrimaryKeyFixtures();
         foreach ($data as $item) {
@@ -192,12 +192,12 @@ class DialectBase
     /**
      * Tests Dialect::dropTable
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDropTable(UnitTester $I)
+    public function testDropTable(IntegrationTester $I)
     {
         $data = $this->getDropTableFixtures();
         foreach ($data as $item) {
@@ -214,12 +214,12 @@ class DialectBase
     /**
      * Tests Dialect::dropView
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testDropView(UnitTester $I)
+    public function testDropView(IntegrationTester $I)
     {
         $data = $this->getDropViewFixtures();
         foreach ($data as $item) {
@@ -235,9 +235,9 @@ class DialectBase
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testForUpdate(UnitTester $I)
+    public function testForUpdate(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
@@ -245,12 +245,12 @@ class DialectBase
     /**
      * Tests Dialect::getColumnDefinition
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testGetColumnDefinition(UnitTester $I)
+    public function testGetColumnDefinition(IntegrationTester $I)
     {
         $data = $this->getColumnDefinitionFixtures();
         foreach ($data as $item) {
@@ -267,12 +267,12 @@ class DialectBase
     /**
      * Tests Dialect::getColumnList
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testGetColumnList(UnitTester $I)
+    public function testGetColumnList(IntegrationTester $I)
     {
         $data = $this->getColumnListFixtures();
         foreach ($data as $item) {
@@ -287,17 +287,17 @@ class DialectBase
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testLimit(UnitTester $I)
+    public function testLimit(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testListTables(UnitTester $I)
+    public function testListTables(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
@@ -305,12 +305,12 @@ class DialectBase
     /**
      * Tests Dialect::listViews
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testListViews(UnitTester $I)
+    public function testListViews(IntegrationTester $I)
     {
         $data = $this->getListViewFixtures();
         foreach ($data as $item) {
@@ -326,12 +326,12 @@ class DialectBase
     /**
      * Tests Dialect::modifyColumn
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testModifyColumn(UnitTester $I)
+    public function testModifyColumn(IntegrationTester $I)
     {
         $data = $this->getModifyColumnFixtures();
         foreach ($data as $item) {
@@ -350,13 +350,13 @@ class DialectBase
     /**
      * Tests Dialect::modifyColumn
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-01-20
      * @issue  https://github.com/phalcon/cphalcon/issues/13012
      */
-    public function testModifyColumn13012(UnitTester $I)
+    public function testModifyColumn13012(IntegrationTester $I)
     {
         list($oldColumn, $newColumn) = $this->getModifyColumnFixtures13012();
 
@@ -369,12 +369,12 @@ class DialectBase
     /**
      * Tests Dialect::releaseSavepoint
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testReleaseSavepoint(UnitTester $I)
+    public function testReleaseSavepoint(IntegrationTester $I)
     {
         $dialect  = $this->getDialectObject();
         $expected = $this->getReleaseSavepointSql();
@@ -386,12 +386,12 @@ class DialectBase
     /**
      * Tests Dialect::rollbackSavepoint
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testRollbackSavepoint(UnitTester $I)
+    public function testRollbackSavepoint(IntegrationTester $I)
     {
         $dialect  = $this->getDialectObject();
         $expected = $this->getRollbackSavepointSql();
@@ -401,17 +401,17 @@ class DialectBase
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testSelect(UnitTester $I)
+    public function testSelect(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testSharedLock(UnitTester $I)
+    public function testSharedLock(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
@@ -419,12 +419,12 @@ class DialectBase
     /**
      * Tests Dialect::supportsReleaseSavepoints
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testSupportsReleaseSavepoints(UnitTester $I)
+    public function testSupportsReleaseSavepoints(IntegrationTester $I)
     {
         $dialect = $this->getDialectObject();
         $actual  = $dialect->supportsReleaseSavepoints();
@@ -435,12 +435,12 @@ class DialectBase
     /**
      * Tests Dialect::supportsSavepoints
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testSupportsSavepoints(UnitTester $I)
+    public function testSupportsSavepoints(IntegrationTester $I)
     {
         $dialect = $this->getDialectObject();
         $actual  = $dialect->supportsSavepoints();
@@ -451,9 +451,9 @@ class DialectBase
     /**
      * Tests Dialect::tableExists
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testTableExists(UnitTester $I)
+    public function testTableExists(IntegrationTester $I)
     {
         $data = $this->getTableExistsFixtures();
         foreach ($data as $item) {
@@ -468,9 +468,9 @@ class DialectBase
     }
 
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function testTableOptions(UnitTester $I)
+    public function testTableOptions(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
@@ -478,12 +478,12 @@ class DialectBase
     /**
      * Tests Dialect::truncateTable
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testTruncateTable(UnitTester $I)
+    public function testTruncateTable(IntegrationTester $I)
     {
         $data = $this->getTruncateTableFixtures();
         foreach ($data as $item) {
@@ -499,12 +499,12 @@ class DialectBase
     /**
      * Tests Dialect::viewExists
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testViewExists(UnitTester $I)
+    public function testViewExists(IntegrationTester $I)
     {
         $data = $this->getViewExistsFixtures();
         foreach ($data as $item) {

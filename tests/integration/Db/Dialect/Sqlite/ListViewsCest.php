@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db\Dialect\Sqlite;
+namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
-use UnitTester;
+use IntegrationTester;
 
 class ListViewsCest
 {
@@ -21,7 +21,7 @@ class ListViewsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListViews(UnitTester $I)
+    public function testListViews(IntegrationTester $I)
     {
         $I->skipTest("Need implementation");
     }

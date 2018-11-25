@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Db\Dialect\Helper;
+namespace Phalcon\Test\Integration\Db\Dialect\Helper;
 
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
@@ -12,9 +12,9 @@ class SqliteHelper
 //    /**
 //     * Tests Dialect::modifyColumn
 //     *
-//     * @param UnitTester $I
+//     * @param IntegrationTester $I
 //     */
-//    public function testModifyColumn(UnitTester $I)
+//    public function testModifyColumn(IntegrationTester $I)
 //    {
 //        /**
 //         * No test - modifying columns not allowed in Sqlite
@@ -24,9 +24,9 @@ class SqliteHelper
 //    /**
 //     * Tests Dialect::modifyColumn
 //     *
-//     * @param UnitTester $I
+//     * @param IntegrationTester $I
 //     */
-//    public function testModifyColumn13012(UnitTester $I)
+//    public function testModifyColumn13012(IntegrationTester $I)
 //    {
 //        /**
 //         * No test - modifying columns not allowed in Sqlite
