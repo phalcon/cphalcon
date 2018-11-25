@@ -22,6 +22,8 @@ class GetPartCest
     /**
      * Tests Phalcon\Version :: getPart()
      *
+     * @param UnitTester $I
+     * 
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
