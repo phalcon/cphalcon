@@ -18,11 +18,14 @@ class GetTraceAsStringCest
     /**
      * Tests Phalcon\Crypt\Mismatch :: getTraceAsString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTraceAsString(UnitTester $I)
+    public function cryptMismatchGetTraceAsString(UnitTester $I)
     {
+        $I->wantToTest("Crypt\Mismatch - getTraceAsString()");
         $I->skipTest("Need implementation");
     }
 }

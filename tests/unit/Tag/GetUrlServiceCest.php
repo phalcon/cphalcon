@@ -18,11 +18,14 @@ class GetUrlServiceCest
     /**
      * Tests Phalcon\Tag :: getUrlService()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUrlService(UnitTester $I)
+    public function tagGetUrlService(UnitTester $I)
     {
+        $I->wantToTest("Tag - getUrlService()");
         $I->skipTest("Need implementation");
     }
 }

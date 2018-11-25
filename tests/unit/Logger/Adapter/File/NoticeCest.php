@@ -18,11 +18,14 @@ class NoticeCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: notice()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotice(UnitTester $I)
+    public function loggerAdapterFileNotice(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - notice()");
         $I->skipTest("Need implementation");
     }
 }

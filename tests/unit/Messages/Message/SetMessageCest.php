@@ -19,11 +19,14 @@ class SetMessageCest
     /**
      * Tests Phalcon\Messages\Message :: setMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetMessage(UnitTester $I)
+    public function messagesMessageSetMessage(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - setMessage()");
         $message = new Message('This is a message #1');
         $message->setMessage('This is a message #2');
 

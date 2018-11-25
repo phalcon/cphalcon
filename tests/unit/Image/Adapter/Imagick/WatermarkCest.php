@@ -18,11 +18,14 @@ class WatermarkCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: watermark()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWatermark(UnitTester $I)
+    public function imageAdapterImagickWatermark(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - watermark()");
         $I->skipTest("Need implementation");
     }
 }

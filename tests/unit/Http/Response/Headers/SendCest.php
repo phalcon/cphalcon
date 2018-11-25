@@ -18,11 +18,14 @@ class SendCest
     /**
      * Tests Phalcon\Http\Response\Headers :: send()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSend(UnitTester $I)
+    public function httpResponseHeadersSend(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Headers - send()");
         $I->skipTest("Need implementation");
     }
 }

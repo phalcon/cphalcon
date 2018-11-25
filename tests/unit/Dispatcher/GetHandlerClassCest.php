@@ -18,11 +18,14 @@ class GetHandlerClassCest
     /**
      * Tests Phalcon\Dispatcher :: getHandlerClass()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHandlerClass(UnitTester $I)
+    public function dispatcherGetHandlerClass(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getHandlerClass()");
         $I->skipTest("Need implementation");
     }
 }

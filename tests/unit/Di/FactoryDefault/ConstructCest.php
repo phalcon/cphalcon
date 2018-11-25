@@ -19,39 +19,20 @@ class ConstructCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function diFactorydefaultConstruct(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - __construct()");
         $container = new FactoryDefault();
         $services  = $this->getServices();
 
         $expected = count($services);
         $actual   = count($container->getServices());
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Di\FactoryDefault :: __construct() - Check services
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function testConstructServices(UnitTester $I)
-    {
-        $container = new FactoryDefault();
-        $services  = $this->getServices();
-
-        foreach ($services as $service => $class) {
-            $params = null;
-            if ('sessionBag' === $service) {
-                $params = ['someName'];
-            }
-            $expected = get_class($container->get($service, $params));
-            $actual   = $class;
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     private function getServices(): array
@@ -79,5 +60,30 @@ class ConstructCest
             'transactionManager' => 'Phalcon\Mvc\Model\Transaction\Manager',
             'url'                => 'Phalcon\Mvc\Url',
         ];
+    }
+
+    /**
+     * Tests Phalcon\Di\FactoryDefault :: __construct() - Check services
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function diFactoryDefaultConstructServices(UnitTester $I)
+    {
+        $I->wantToTest("Di\FactoryDefault - __construct() - Check services");
+        $container = new FactoryDefault();
+        $services  = $this->getServices();
+
+        foreach ($services as $service => $class) {
+            $params = null;
+            if ('sessionBag' === $service) {
+                $params = ['someName'];
+            }
+            $expected = get_class($container->get($service, $params));
+            $actual   = $class;
+            $I->assertEquals($expected, $actual);
+        }
     }
 }

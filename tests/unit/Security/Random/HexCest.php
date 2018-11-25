@@ -18,11 +18,14 @@ class HexCest
     /**
      * Tests Phalcon\Security\Random :: hex()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHex(UnitTester $I)
+    public function securityRandomHex(UnitTester $I)
     {
+        $I->wantToTest("Security\Random - hex()");
         $I->skipTest("Need implementation");
     }
 }

@@ -21,12 +21,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Config :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configConstruct(UnitTester $I)
     {
-        $I->wantToTest('Config - construct');
+        $I->wantToTest("Config - __construct()");
         $this->checkOffsetGet($I);
     }
 }

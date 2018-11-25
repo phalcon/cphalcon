@@ -18,11 +18,14 @@ class SetCacheCest
     /**
      * Tests Phalcon\Http\Response :: setCache()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCache(UnitTester $I)
+    public function httpResponseSetCache(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setCache()");
         $I->skipTest("Need implementation");
     }
 }

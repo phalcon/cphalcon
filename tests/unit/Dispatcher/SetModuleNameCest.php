@@ -18,11 +18,14 @@ class SetModuleNameCest
     /**
      * Tests Phalcon\Dispatcher :: setModuleName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetModuleName(UnitTester $I)
+    public function dispatcherSetModuleName(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - setModuleName()");
         $I->skipTest("Need implementation");
     }
 }

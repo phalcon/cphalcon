@@ -18,11 +18,14 @@ class GetFormatterCest
     /**
      * Tests Phalcon\Logger\Adapter :: getFormatter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFormatter(UnitTester $I)
+    public function loggerAdapterGetFormatter(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter - getFormatter()");
         $I->skipTest("Need implementation");
     }
 }

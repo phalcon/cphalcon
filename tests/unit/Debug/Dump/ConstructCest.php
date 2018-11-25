@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Debug\Dump :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function debugDumpConstruct(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - __construct()");
         $I->skipTest("Need implementation");
     }
 }

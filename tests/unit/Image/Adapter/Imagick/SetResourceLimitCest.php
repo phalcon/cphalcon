@@ -18,11 +18,14 @@ class SetResourceLimitCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: setResourceLimit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetResourceLimit(UnitTester $I)
+    public function imageAdapterImagickSetResourceLimit(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - setResourceLimit()");
         $I->skipTest("Need implementation");
     }
 }

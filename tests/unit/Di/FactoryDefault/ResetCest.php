@@ -18,11 +18,14 @@ class ResetCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: reset()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReset(UnitTester $I)
+    public function diFactorydefaultReset(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - reset()");
         $I->skipTest("Need implementation");
     }
 }

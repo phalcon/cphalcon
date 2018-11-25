@@ -19,7 +19,7 @@ class GetParamCest
      * Tests Phalcon\Cli\Dispatcher :: getParam()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

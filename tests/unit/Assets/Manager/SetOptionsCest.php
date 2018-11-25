@@ -18,11 +18,14 @@ class SetOptionsCest
     /**
      * Tests Phalcon\Assets\Manager :: setOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetOptions(UnitTester $I)
+    public function assetsManagerSetOptions(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - setOptions()");
         $I->skipTest("Need implementation");
     }
 }

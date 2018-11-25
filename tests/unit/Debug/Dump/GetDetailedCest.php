@@ -18,11 +18,14 @@ class GetDetailedCest
     /**
      * Tests Phalcon\Debug\Dump :: getDetailed()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDetailed(UnitTester $I)
+    public function debugDumpGetDetailed(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - getDetailed()");
         $I->skipTest("Need implementation");
     }
 }

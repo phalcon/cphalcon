@@ -18,11 +18,14 @@ class SetPaddingCest
     /**
      * Tests Phalcon\Crypt :: setPadding()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetPadding(UnitTester $I)
+    public function cryptSetPadding(UnitTester $I)
     {
+        $I->wantToTest("Crypt - setPadding()");
         $I->skipTest("Need implementation");
     }
 }

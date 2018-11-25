@@ -18,11 +18,14 @@ class GetEscaperServiceCest
     /**
      * Tests Phalcon\Flash\Session :: getEscaperService()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEscaperService(UnitTester $I)
+    public function flashSessionGetEscaperService(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - getEscaperService()");
         $I->skipTest("Need implementation");
     }
 }

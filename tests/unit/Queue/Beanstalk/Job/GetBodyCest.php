@@ -18,11 +18,14 @@ class GetBodyCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: getBody()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBody(UnitTester $I)
+    public function queueBeanstalkJobGetBody(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - getBody()");
         $I->skipTest("Need implementation");
     }
 }

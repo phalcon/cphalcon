@@ -18,11 +18,14 @@ class CollectionResourcesByTypeCest
     /**
      * Tests Phalcon\Assets\Manager :: collectionResourcesByType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCollectionResourcesByType(UnitTester $I)
+    public function assetsManagerCollectionResourcesByType(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - collectionResourcesByType()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetTitleSeparatorCest
     /**
      * Tests Phalcon\Tag :: getTitleSeparator()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTitleSeparator(UnitTester $I)
+    public function tagGetTitleSeparator(UnitTester $I)
     {
+        $I->wantToTest("Tag - getTitleSeparator()");
         $I->skipTest("Need implementation");
     }
 }

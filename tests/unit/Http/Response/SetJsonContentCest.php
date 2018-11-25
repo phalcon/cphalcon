@@ -18,11 +18,14 @@ class SetJsonContentCest
     /**
      * Tests Phalcon\Http\Response :: setJsonContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetJsonContent(UnitTester $I)
+    public function httpResponseSetJsonContent(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setJsonContent()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function loggerAdapterFileConstruct(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - __construct()");
         $I->skipTest("Need implementation");
     }
 }

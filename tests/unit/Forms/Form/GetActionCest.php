@@ -18,11 +18,14 @@ class GetActionCest
     /**
      * Tests Phalcon\Forms\Form :: getAction()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAction(UnitTester $I)
+    public function formsFormGetAction(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getAction()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetPutCest
     /**
      * Tests Phalcon\Http\Request :: getPut()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPut(UnitTester $I)
+    public function httpRequestGetPut(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getPut()");
         $I->skipTest("Need implementation");
     }
 }

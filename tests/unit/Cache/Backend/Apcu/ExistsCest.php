@@ -18,11 +18,14 @@ class ExistsCest
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function cacheBackendApcuExists(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Apcu - exists()");
         $I->skipTest("Need implementation");
     }
 }

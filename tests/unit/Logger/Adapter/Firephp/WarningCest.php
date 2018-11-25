@@ -18,11 +18,14 @@ class WarningCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: warning()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWarning(UnitTester $I)
+    public function loggerAdapterFirephpWarning(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - warning()");
         $I->skipTest("Need implementation");
     }
 }

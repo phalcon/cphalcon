@@ -18,11 +18,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator - getOption()");
         $I->skipTest("Need implementation");
     }
 }

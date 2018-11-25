@@ -18,11 +18,14 @@ class GetBestAcceptCest
     /**
      * Tests Phalcon\Http\Request :: getBestAccept()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBestAccept(UnitTester $I)
+    public function httpRequestGetBestAccept(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getBestAccept()");
         $I->skipTest("Need implementation");
     }
 }

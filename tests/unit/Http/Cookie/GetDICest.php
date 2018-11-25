@@ -18,11 +18,14 @@ class GetDICest
     /**
      * Tests Phalcon\Http\Cookie :: getDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDI(UnitTester $I)
+    public function httpCookieGetDI(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - getDI()");
         $I->skipTest("Need implementation");
     }
 }

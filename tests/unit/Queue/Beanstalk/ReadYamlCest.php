@@ -18,11 +18,14 @@ class ReadYamlCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: readYaml()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadYaml(UnitTester $I)
+    public function queueBeanstalkReadYaml(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - readYaml()");
         $I->skipTest("Need implementation");
     }
 }

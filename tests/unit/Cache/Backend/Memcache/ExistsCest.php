@@ -18,11 +18,14 @@ class ExistsCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function cacheBackendMemcacheExists(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - exists()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DropResourceAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: dropResourceAccess()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropResourceAccess(UnitTester $I)
+    public function aclAdapterMemoryDropResourceAccess(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - dropResourceAccess()");
         $I->skipTest("Need implementation");
     }
 }

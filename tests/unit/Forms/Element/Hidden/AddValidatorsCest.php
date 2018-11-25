@@ -18,11 +18,14 @@ class AddValidatorsCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: addValidators()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddValidators(UnitTester $I)
+    public function formsElementHiddenAddValidators(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - addValidators()");
         $I->skipTest("Need implementation");
     }
 }

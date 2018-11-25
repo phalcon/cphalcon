@@ -18,11 +18,14 @@ class GetLimitCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getLimit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLimit(UnitTester $I)
+    public function paginatorAdapterQuerybuilderGetLimit(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\QueryBuilder - getLimit()");
         $I->skipTest("Need implementation");
     }
 }

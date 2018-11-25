@@ -18,11 +18,14 @@ class LogInternalCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: logInternal()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLogInternal(UnitTester $I)
+    public function loggerAdapterBlackholeLogInternal(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - logInternal()");
         $I->skipTest("Need implementation");
     }
 }

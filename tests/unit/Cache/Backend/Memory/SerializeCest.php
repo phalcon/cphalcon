@@ -18,11 +18,14 @@ class SerializeCest
     /**
      * Tests Phalcon\Cache\Backend\Memory :: serialize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSerialize(UnitTester $I)
+    public function cacheBackendMemorySerialize(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memory - serialize()");
         $I->skipTest("Need implementation");
     }
 }

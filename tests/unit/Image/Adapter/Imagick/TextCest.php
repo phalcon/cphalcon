@@ -18,11 +18,14 @@ class TextCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: text()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testText(UnitTester $I)
+    public function imageAdapterImagickText(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - text()");
         $I->skipTest("Need implementation");
     }
 }

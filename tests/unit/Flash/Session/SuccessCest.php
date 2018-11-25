@@ -18,11 +18,14 @@ class SuccessCest
     /**
      * Tests Phalcon\Flash\Session :: success()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSuccess(UnitTester $I)
+    public function flashSessionSuccess(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - success()");
         $I->skipTest("Need implementation");
     }
 }

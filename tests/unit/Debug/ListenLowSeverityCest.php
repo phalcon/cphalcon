@@ -18,11 +18,14 @@ class ListenLowSeverityCest
     /**
      * Tests Phalcon\Debug :: listenLowSeverity()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListenLowSeverity(UnitTester $I)
+    public function debugListenLowSeverity(UnitTester $I)
     {
+        $I->wantToTest("Debug - listenLowSeverity()");
         $I->skipTest("Need implementation");
     }
 }

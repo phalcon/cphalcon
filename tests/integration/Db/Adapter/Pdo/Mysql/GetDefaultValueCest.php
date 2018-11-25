@@ -19,7 +19,7 @@ class GetDefaultValueCest
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: getDefaultValue()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

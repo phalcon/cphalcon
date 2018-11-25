@@ -18,11 +18,14 @@ class GetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Numeric :: getFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilters(UnitTester $I)
+    public function formsElementNumericGetFilters(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Numeric - getFilters()");
         $I->skipTest("Need implementation");
     }
 }

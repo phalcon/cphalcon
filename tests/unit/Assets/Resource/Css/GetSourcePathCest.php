@@ -18,11 +18,14 @@ class GetSourcePathCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: getSourcePath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSourcePath(UnitTester $I)
+    public function assetsResourceCssGetSourcePath(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - getSourcePath()");
         $I->skipTest("Need implementation");
     }
 }

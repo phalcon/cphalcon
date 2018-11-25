@@ -18,11 +18,14 @@ class HandleCest
     /**
      * Tests Phalcon\Application :: handle()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHandle(UnitTester $I)
+    public function applicationHandle(UnitTester $I)
     {
+        $I->wantToTest("Application - handle()");
         $I->skipTest("Need implementation");
     }
 }

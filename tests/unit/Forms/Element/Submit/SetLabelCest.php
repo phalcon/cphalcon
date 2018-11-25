@@ -18,11 +18,14 @@ class SetLabelCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: setLabel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLabel(UnitTester $I)
+    public function formsElementSubmitSetLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Submit - setLabel()");
         $I->skipTest("Need implementation");
     }
 }

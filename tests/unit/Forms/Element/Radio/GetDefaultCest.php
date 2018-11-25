@@ -18,11 +18,14 @@ class GetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: getDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefault(UnitTester $I)
+    public function formsElementRadioGetDefault(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - getDefault()");
         $I->skipTest("Need implementation");
     }
 }

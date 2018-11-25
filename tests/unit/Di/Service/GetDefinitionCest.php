@@ -18,11 +18,14 @@ class GetDefinitionCest
     /**
      * Tests Phalcon\Di\Service :: getDefinition()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefinition(UnitTester $I)
+    public function diServiceGetDefinition(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - getDefinition()");
         $I->skipTest("Need implementation");
     }
 }

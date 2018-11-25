@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Manager :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function testConstruct(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - __construct()");
         $I->skipTest("Need implementation");
     }
 }

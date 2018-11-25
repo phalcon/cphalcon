@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddPrimaryKeyCest
 {

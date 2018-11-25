@@ -18,11 +18,14 @@ class Base64Cest
     /**
      * Tests Phalcon\Security\Random :: base64()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBase64(UnitTester $I)
+    public function securityRandomBase64(UnitTester $I)
     {
+        $I->wantToTest("Security\Random - base64()");
         $I->skipTest("Need implementation");
     }
 }

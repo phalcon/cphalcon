@@ -19,7 +19,7 @@ class SetDefaultActionCest
      * Tests Phalcon\Cli\Router :: setDefaultAction()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -18,11 +18,14 @@ class SetDefaultDomainCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: setDefaultDomain()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextSetDefaultDomain(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - setDefaultDomain()");
         $I->skipTest("Need implementation");
     }
 }

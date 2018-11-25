@@ -18,11 +18,14 @@ class GetPortCest
     /**
      * Tests Phalcon\Http\Request :: getPort()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPort(UnitTester $I)
+    public function httpRequestGetPort(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getPort()");
         $I->skipTest("Need implementation");
     }
 }

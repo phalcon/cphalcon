@@ -18,11 +18,14 @@ class UnderscoreGetCest
     /**
      * Tests Phalcon\Forms\Form :: __get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreGet(UnitTester $I)
+    public function formsFormUnderscoreGet(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - __get()");
         $I->skipTest("Need implementation");
     }
 }

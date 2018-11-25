@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Flash :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function flashConstruct(UnitTester $I)
     {
+        $I->wantToTest("Flash - __construct()");
         $I->skipTest("Need implementation");
     }
 }

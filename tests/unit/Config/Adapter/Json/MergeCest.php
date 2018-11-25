@@ -18,11 +18,14 @@ class MergeCest
     /**
      * Tests Phalcon\Config\Adapter\Json :: merge()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterJsonMerge(UnitTester $I)
     {
+        $I->wantToTest("Config\Adapter\Json - merge()");
         $I->skipTest("Need implementation");
     }
 }

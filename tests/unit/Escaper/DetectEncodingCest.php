@@ -18,11 +18,14 @@ class DetectEncodingCest
     /**
      * Tests Phalcon\Escaper :: detectEncoding()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDetectEncoding(UnitTester $I)
+    public function escaperDetectEncoding(UnitTester $I)
     {
+        $I->wantToTest("Escaper - detectEncoding()");
         $I->skipTest("Need implementation");
     }
 }

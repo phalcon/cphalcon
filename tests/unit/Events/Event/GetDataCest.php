@@ -18,11 +18,14 @@ class GetDataCest
     /**
      * Tests Phalcon\Events\Event :: getData()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetData(UnitTester $I)
+    public function eventsEventGetData(UnitTester $I)
     {
+        $I->wantToTest("Events\Event - getData()");
         $I->skipTest("Need implementation");
     }
 }

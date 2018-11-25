@@ -18,11 +18,14 @@ class PeekBuriedCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: peekBuried()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPeekBuried(UnitTester $I)
+    public function queueBeanstalkPeekBuried(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - peekBuried()");
         $I->skipTest("Need implementation");
     }
 }

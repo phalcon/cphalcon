@@ -19,12 +19,14 @@ class CamelizeCest
     /**
      * Tests Phalcon\Text :: camelize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function textCamelize(UnitTester $I)
     {
-        $I->wantToTest('Text - camelize()');
+        $I->wantToTest("Text - camelize()");
         $examples = [
             ['camelize', 'Camelize', null],
             ['CameLiZe', 'Camelize', null],

@@ -18,11 +18,14 @@ class GetHeaderCest
     /**
      * Tests Phalcon\Http\Request :: getHeader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHeader(UnitTester $I)
+    public function httpRequestGetHeader(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getHeader()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class RenderCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: render()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRender(UnitTester $I)
+    public function imageAdapterGdRender(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - render()");
         $I->skipTest("Need implementation");
     }
 }

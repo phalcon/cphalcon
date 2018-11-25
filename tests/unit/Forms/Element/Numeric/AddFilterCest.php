@@ -18,11 +18,14 @@ class AddFilterCest
     /**
      * Tests Phalcon\Forms\Element\Numeric :: addFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddFilter(UnitTester $I)
+    public function formsElementNumericAddFilter(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Numeric - addFilter()");
         $I->skipTest("Need implementation");
     }
 }

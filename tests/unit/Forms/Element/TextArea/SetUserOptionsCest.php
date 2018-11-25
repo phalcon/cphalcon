@@ -18,11 +18,14 @@ class SetUserOptionsCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: setUserOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetUserOptions(UnitTester $I)
+    public function formsElementTextareaSetUserOptions(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - setUserOptions()");
         $I->skipTest("Need implementation");
     }
 }

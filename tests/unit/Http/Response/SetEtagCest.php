@@ -18,11 +18,14 @@ class SetEtagCest
     /**
      * Tests Phalcon\Http\Response :: setEtag()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEtag(UnitTester $I)
+    public function httpResponseSetEtag(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setEtag()");
         $I->skipTest("Need implementation");
     }
 }

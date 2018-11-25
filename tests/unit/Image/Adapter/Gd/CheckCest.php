@@ -18,11 +18,14 @@ class CheckCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: check()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCheck(UnitTester $I)
+    public function imageAdapterGdCheck(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - check()");
         $I->skipTest("Need implementation");
     }
 }

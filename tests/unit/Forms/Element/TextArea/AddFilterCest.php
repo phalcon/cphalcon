@@ -18,11 +18,14 @@ class AddFilterCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: addFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddFilter(UnitTester $I)
+    public function formsElementTextareaAddFilter(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - addFilter()");
         $I->skipTest("Need implementation");
     }
 }

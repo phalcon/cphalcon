@@ -18,11 +18,14 @@ class SetFormatterCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: setFormatter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFormatter(UnitTester $I)
+    public function loggerAdapterBlackholeSetFormatter(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - setFormatter()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class PauseTubeCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: pauseTube()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPauseTube(UnitTester $I)
+    public function queueBeanstalkPauseTube(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - pauseTube()");
         $I->skipTest("Need implementation");
     }
 }

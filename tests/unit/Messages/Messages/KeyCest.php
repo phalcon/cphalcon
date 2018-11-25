@@ -20,11 +20,14 @@ class KeyCest
     /**
      * Tests Phalcon\Messages\Messages :: key()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKey(UnitTester $I)
+    public function messagesMessagesKey(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - key()");
         $messages = new Messages(
             [
                 0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),

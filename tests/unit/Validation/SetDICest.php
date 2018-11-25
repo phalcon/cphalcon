@@ -18,11 +18,14 @@ class SetDICest
     /**
      * Tests Phalcon\Validation :: setDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationSetDI(UnitTester $I)
     {
+        $I->wantToTest("Validation - setDI()");
         $I->skipTest("Need implementation");
     }
 }

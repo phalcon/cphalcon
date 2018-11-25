@@ -22,6 +22,8 @@ class ExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
      */

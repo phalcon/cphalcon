@@ -20,11 +20,14 @@ class CurrentCest
     /**
      * Tests Phalcon\Messages\Messages :: current()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCurrent(UnitTester $I)
+    public function messagesMessagesCurrent(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - current()");
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

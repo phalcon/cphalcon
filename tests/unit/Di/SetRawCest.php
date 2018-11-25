@@ -18,11 +18,14 @@ class SetRawCest
     /**
      * Tests Phalcon\Di :: setRaw()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetRaw(UnitTester $I)
+    public function diSetRaw(UnitTester $I)
     {
+        $I->wantToTest("Di - setRaw()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class HasCest
     /**
      * Tests Phalcon\Http\Request :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHas(UnitTester $I)
+    public function httpRequestHas(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - has()");
         $I->skipTest("Need implementation");
     }
 }

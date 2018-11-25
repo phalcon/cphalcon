@@ -18,11 +18,14 @@ class CloseCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: close()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClose(UnitTester $I)
+    public function loggerAdapterFileClose(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - close()");
         $I->skipTest("Need implementation");
     }
 }

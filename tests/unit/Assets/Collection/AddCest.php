@@ -18,11 +18,14 @@ class AddCest
     /**
      * Tests Phalcon\Assets\Collection :: add()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAdd(UnitTester $I)
+    public function assetsCollectionAdd(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - add()");
         $I->skipTest("Need implementation");
     }
 }

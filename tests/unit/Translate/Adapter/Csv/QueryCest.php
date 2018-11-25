@@ -18,11 +18,14 @@ class QueryCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: query()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterCsvQuery(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Csv - query()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetHashAlgoCest
     /**
      * Tests Phalcon\Crypt :: getHashAlgo()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHashAlgo(UnitTester $I)
+    public function cryptGetHashAlgo(UnitTester $I)
     {
+        $I->wantToTest("Crypt - getHashAlgo()");
         $I->skipTest("Need implementation");
     }
 }

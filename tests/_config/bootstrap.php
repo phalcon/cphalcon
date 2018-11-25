@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Lib\Connector\Phalcon\MemorySession as CodeceptionMemorySession;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Loader;
@@ -8,6 +9,7 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\MemorySession as PhalconMemorySession;
 
 $container = new FactoryDefault();
 
@@ -30,9 +32,9 @@ $configFile = [
         'controllersDir' => __DIR__ . '/../_data/controllers/',
         'tasksDir'       => __DIR__ . '/../_data/tasks/',
         'microDir'       => __DIR__ . '/../_data/micro/',
-        'aclDir'         => __DIR__ . '/../_data/acl/'
+        'aclDir'         => __DIR__ . '/../_data/acl/',
     ],
-    'database' => [
+    'database'    => [
         'adapter'  => 'Mysql',
         'host'     => TEST_DB_MYSQL_HOST,
         'username' => TEST_DB_MYSQL_USER,
@@ -42,7 +44,6 @@ $configFile = [
         'charset'  => TEST_DB_MYSQL_CHARSET,
     ],
 ];
-
 
 $config = new Config($configFile);
 $container->setShared('config', $config);
@@ -122,6 +123,11 @@ $container->setShared(
  * Dispatcher
  */
 $container->set('dispatcher', Dispatcher::class);
+
+/**
+ * Session
+ */
+$container->set(CodeceptionMemorySession::class, PhalconMemorySession::class);
 
 /**
  * Initialize the Database connection

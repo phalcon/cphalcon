@@ -18,11 +18,14 @@ class GetValueCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: getValue()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValue(UnitTester $I)
+    public function formsElementRadioGetValue(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - getValue()");
         $I->skipTest("Need implementation");
     }
 }

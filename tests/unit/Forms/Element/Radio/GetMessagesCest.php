@@ -18,11 +18,14 @@ class GetMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: getMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessages(UnitTester $I)
+    public function formsElementRadioGetMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - getMessages()");
         $I->skipTest("Need implementation");
     }
 }

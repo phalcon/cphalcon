@@ -18,11 +18,14 @@ class SetHtmlQuoteTypeCest
     /**
      * Tests Phalcon\Escaper :: setHtmlQuoteType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetHtmlQuoteType(UnitTester $I)
+    public function escaperSetHtmlQuoteType(UnitTester $I)
     {
+        $I->wantToTest("Escaper - setHtmlQuoteType()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetAllCest
     /**
      * Tests Phalcon\Annotations\Collection :: getAll()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAll(UnitTester $I)
+    public function annotationsCollectionGetAll(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - getAll()");
         $I->skipTest("Need implementation");
     }
 }

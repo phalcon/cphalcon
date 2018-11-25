@@ -18,11 +18,14 @@ class AfterRetrieveCest
     /**
      * Tests Phalcon\Cache\Frontend\None :: afterRetrieve()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAfterRetrieve(UnitTester $I)
+    public function cacheFrontendNoneAfterRetrieve(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\None - afterRetrieve()");
         $I->skipTest("Need implementation");
     }
 }

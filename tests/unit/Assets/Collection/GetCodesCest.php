@@ -18,11 +18,14 @@ class GetCodesCest
     /**
      * Tests Phalcon\Assets\Collection :: getCodes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCodes(UnitTester $I)
+    public function assetsCollectionGetCodes(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getCodes()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetParameterCest
     /**
      * Tests Phalcon\Di\Service :: getParameter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetParameter(UnitTester $I)
+    public function diServiceGetParameter(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - getParameter()");
         $I->skipTest("Need implementation");
     }
 }

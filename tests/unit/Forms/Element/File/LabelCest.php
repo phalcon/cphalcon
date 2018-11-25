@@ -18,11 +18,14 @@ class LabelCest
     /**
      * Tests Phalcon\Forms\Element\File :: label()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLabel(UnitTester $I)
+    public function formsElementFileLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\File - label()");
         $I->skipTest("Need implementation");
     }
 }

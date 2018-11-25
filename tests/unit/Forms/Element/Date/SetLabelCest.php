@@ -18,11 +18,14 @@ class SetLabelCest
     /**
      * Tests Phalcon\Forms\Element\Date :: setLabel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLabel(UnitTester $I)
+    public function formsElementDateSetLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - setLabel()");
         $I->skipTest("Need implementation");
     }
 }

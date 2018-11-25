@@ -18,11 +18,14 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Di :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetExists(UnitTester $I)
+    public function diOffsetExists(UnitTester $I)
     {
+        $I->wantToTest("Di - offsetExists()");
         $I->skipTest("Need implementation");
     }
 }

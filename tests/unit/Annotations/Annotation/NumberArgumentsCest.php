@@ -18,11 +18,14 @@ class NumberArgumentsCest
     /**
      * Tests Phalcon\Annotations\Annotation :: numberArguments()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNumberArguments(UnitTester $I)
+    public function annotationsAnnotationNumberArguments(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Annotation - numberArguments()");
         $I->skipTest("Need implementation");
     }
 }

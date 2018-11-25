@@ -18,11 +18,14 @@ class SetEventsManagerCest
     /**
      * Tests Phalcon\Loader :: setEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEventsManager(UnitTester $I)
+    public function loaderSetEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Loader - setEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

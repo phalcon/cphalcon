@@ -18,11 +18,14 @@ class GetStatusCodeCest
     /**
      * Tests Phalcon\Http\Response :: getStatusCode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetStatusCode(UnitTester $I)
+    public function httpResponseGetStatusCode(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - getStatusCode()");
         $I->skipTest("Need implementation");
     }
 }

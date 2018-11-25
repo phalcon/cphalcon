@@ -18,11 +18,14 @@ class GetContentCest
     /**
      * Tests Phalcon\Http\Response :: getContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContent(UnitTester $I)
+    public function httpResponseGetContent(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - getContent()");
         $I->skipTest("Need implementation");
     }
 }

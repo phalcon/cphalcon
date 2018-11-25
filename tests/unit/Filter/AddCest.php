@@ -18,11 +18,14 @@ class AddCest
     /**
      * Tests Phalcon\Filter :: add()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAdd(UnitTester $I)
+    public function filterAdd(UnitTester $I)
     {
+        $I->wantToTest("Filter - add()");
         $I->skipTest("Need implementation");
     }
 }

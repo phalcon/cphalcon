@@ -18,11 +18,14 @@ class SetFilterCest
     /**
      * Tests Phalcon\Assets\Inline\Css :: setFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFilter(UnitTester $I)
+    public function assetsInlineCssSetFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Css - setFilter()");
         $I->skipTest("Need implementation");
     }
 }

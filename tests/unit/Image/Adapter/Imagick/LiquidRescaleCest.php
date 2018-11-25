@@ -18,11 +18,14 @@ class LiquidRescaleCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: liquidRescale()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLiquidRescale(UnitTester $I)
+    public function imageAdapterImagickLiquidRescale(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - liquidRescale()");
         $I->skipTest("Need implementation");
     }
 }

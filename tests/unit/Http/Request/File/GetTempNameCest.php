@@ -18,11 +18,14 @@ class GetTempNameCest
     /**
      * Tests Phalcon\Http\Request\File :: getTempName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTempName(UnitTester $I)
+    public function httpRequestFileGetTempName(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - getTempName()");
         $I->skipTest("Need implementation");
     }
 }

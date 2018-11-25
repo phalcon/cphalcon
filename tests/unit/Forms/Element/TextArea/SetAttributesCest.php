@@ -18,11 +18,14 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: setAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAttributes(UnitTester $I)
+    public function formsElementTextareaSetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - setAttributes()");
         $I->skipTest("Need implementation");
     }
 }

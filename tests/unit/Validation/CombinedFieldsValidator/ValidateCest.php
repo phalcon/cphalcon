@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\CombinedFieldsValidator :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationCombinedFieldsValidatorValidate(UnitTester $I)
+    public function validationCombinedfieldsvalidatorValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\CombinedFieldsValidator - validate()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetCipherCest
     /**
      * Tests Phalcon\Crypt :: getCipher()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCipher(UnitTester $I)
+    public function cryptGetCipher(UnitTester $I)
     {
+        $I->wantToTest("Crypt - getCipher()");
         $I->skipTest("Need implementation");
     }
 }

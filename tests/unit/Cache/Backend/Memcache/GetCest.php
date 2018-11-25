@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function cacheBackendMemcacheGet(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - get()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Assets\Inline\Css :: setAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAttributes(UnitTester $I)
+    public function assetsInlineCssSetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Css - setAttributes()");
         $I->skipTest("Need implementation");
     }
 }

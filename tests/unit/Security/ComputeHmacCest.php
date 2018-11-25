@@ -18,11 +18,14 @@ class ComputeHmacCest
     /**
      * Tests Phalcon\Security :: computeHmac()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testComputeHmac(UnitTester $I)
+    public function securityComputeHmac(UnitTester $I)
     {
+        $I->wantToTest("Security - computeHmac()");
         $I->skipTest("Need implementation");
     }
 }

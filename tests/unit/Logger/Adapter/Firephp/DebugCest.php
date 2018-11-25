@@ -18,11 +18,14 @@ class DebugCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: debug()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDebug(UnitTester $I)
+    public function loggerAdapterFirephpDebug(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - debug()");
         $I->skipTest("Need implementation");
     }
 }

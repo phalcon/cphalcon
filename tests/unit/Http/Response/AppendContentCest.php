@@ -18,11 +18,14 @@ class AppendContentCest
     /**
      * Tests Phalcon\Http\Response :: appendContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAppendContent(UnitTester $I)
+    public function httpResponseAppendContent(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - appendContent()");
         $I->skipTest("Need implementation");
     }
 }

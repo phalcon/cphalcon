@@ -18,11 +18,14 @@ class IsGetCest
     /**
      * Tests Phalcon\Http\Request :: isGet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsGet(UnitTester $I)
+    public function httpRequestIsGet(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isGet()");
         $I->skipTest("Need implementation");
     }
 }

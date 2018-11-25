@@ -19,11 +19,14 @@ class ToStringCest
     /**
      * Tests Phalcon\Acl\Resource :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function aclResourceToString(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - __toString()");
         $resource = new Resource('Customers');
 
         $expected = 'Customers';

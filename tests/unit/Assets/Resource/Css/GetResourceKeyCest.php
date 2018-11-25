@@ -22,11 +22,14 @@ class GetResourceKeyCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: getResourceKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResourceKey(UnitTester $I)
+    public function assetsResourceCssGetResourceKey(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - getResourceKey()");
         $resource = new Css('css/docs.css');
         $expected = md5('css:css/docs.css');
 

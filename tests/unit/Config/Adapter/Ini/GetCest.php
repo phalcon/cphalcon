@@ -21,12 +21,14 @@ class GetCest
     /**
      * Tests Phalcon\Config\Adapter\Ini :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterIniGet(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Ini - get()');
+        $I->wantToTest("Config\Adapter\Ini - get()");
         $this->checkGet($I, 'Ini');
     }
 }

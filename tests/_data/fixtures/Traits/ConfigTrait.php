@@ -24,20 +24,20 @@ trait ConfigTrait
      * @var array
      */
     protected $config = [
-        'phalcon'  => [
+        'phalcon'     => [
             'baseuri' => '/phalcon/',
         ],
-        'models'   => [
+        'models'      => [
             'metadata' => 'memory',
         ],
-        'database' => [
+        'database'    => [
             'adapter'  => 'mysql',
             'host'     => 'localhost',
             'username' => 'user',
             'password' => 'passwd',
             'name'     => 'demo',
         ],
-        'test'     => [
+        'test'        => [
             'parent' => [
                 'property'  => 1,
                 'property2' => 'yeah',
@@ -47,20 +47,80 @@ trait ConfigTrait
             'channel' => [
                 'handlers' => [
                     0 => [
-                        'name' => 'stream',
-                        'level' => 'debug',
+                        'name'           => 'stream',
+                        'level'          => 'debug',
                         'fingersCrossed' => 'info',
-                        'filename' => 'channel.log'
+                        'filename'       => 'channel.log',
                     ],
                     1 => [
-                        'name' => 'redis',
-                        'level' => 'debug',
-                        'fingersCrossed' => 'info'
-                    ]
-                ]
-            ]
-        ]
+                        'name'           => 'redis',
+                        'level'          => 'debug',
+                        'fingersCrossed' => 'info',
+                    ],
+                ],
+            ],
+        ],
     ];
+
+    /**
+     * Tests Phalcon\Config\Adapter\* :: __construct()
+     *
+     * @param UnitTester $I
+     * @param string     $adapter
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    private function checkConstruct(UnitTester $I, string $adapter = '')
+    {
+        $I->wantToTest(sprintf($this->getMessage($adapter), 'construct'));
+        $config = $this->getConfig($adapter);
+        $this->compareConfig($I, $this->config, $config);
+    }
+
+    /**
+     * Returns the message to print out for the test
+     *
+     * @param string $adapter
+     *
+     * @return string
+     */
+    private function getMessage(string $adapter = ''): string
+    {
+        $class = '';
+
+        if ('' !== $adapter) {
+            $class = sprintf('\Adapter\%s', $adapter);
+        }
+
+        return 'Config' . $class . ' - %s';
+    }
+
+    /**
+     * Returns a config object
+     *
+     * @param string $adapter
+     *
+     * @return Config|Ini|Json|Php|Yaml
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    private function getConfig(string $adapter = '')
+    {
+        switch ($adapter) {
+            case 'Ini':
+                return new Ini(PATH_DATA . 'assets/config/config.ini');
+            case 'Json':
+                return new Json(PATH_DATA . 'assets/config/config.json');
+            case 'Php':
+                return new Php(PATH_DATA . 'assets/config/config.php');
+            case 'Yaml':
+                return new Yaml(PATH_DATA . 'assets/config/config.yml');
+            default:
+                return new Config($this->config);
+        }
+    }
 
     /**
      * @param UnitTester $I
@@ -78,22 +138,6 @@ trait ConfigTrait
                 $this->compareConfig($I, $value, $expected->$key);
             }
         }
-    }
-
-    /**
-     * Tests Phalcon\Config\Adapter\* :: __construct()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    private function checkConstruct(UnitTester $I, string $adapter = '')
-    {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'construct'));
-        $config = $this->getConfig($adapter);
-        $this->compareConfig($I, $this->config, $config);
     }
 
     /**
@@ -335,49 +379,5 @@ trait ConfigTrait
         $expected = $this->config;
         $actual   = $config->toArray();
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Returns a config object
-     *
-     * @param string $adapter
-     *
-     * @return Config|Ini|Json|Php|Yaml
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    private function getConfig(string $adapter = '')
-    {
-        switch ($adapter) {
-            case 'Ini':
-                return new Ini(PATH_DATA . 'assets/config/config.ini');
-            case 'Json':
-                return new Json(PATH_DATA . 'assets/config/config.json');
-            case 'Php':
-                return new Php(PATH_DATA . 'assets/config/config.php');
-            case 'Yaml':
-                return new Yaml(PATH_DATA . 'assets/config/config.yml');
-            default:
-                return new Config($this->config);
-        }
-    }
-
-    /**
-     * Returns the message to print out for the test
-     *
-     * @param string $adapter
-     *
-     * @return string
-     */
-    private function getMessage(string $adapter = ''): string
-    {
-        $class = '';
-
-        if ('' !== $adapter) {
-            $class = sprintf('\Adapter\%s', $adapter);
-        }
-
-        return 'Config' . $class . ' - %s';
     }
 }

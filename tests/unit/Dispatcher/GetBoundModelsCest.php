@@ -18,11 +18,14 @@ class GetBoundModelsCest
     /**
      * Tests Phalcon\Dispatcher :: getBoundModels()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBoundModels(UnitTester $I)
+    public function dispatcherGetBoundModels(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getBoundModels()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class AddValidatorsCest
     /**
      * Tests Phalcon\Forms\Element\File :: addValidators()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddValidators(UnitTester $I)
+    public function formsElementFileAddValidators(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\File - addValidators()");
         $I->skipTest("Need implementation");
     }
 }

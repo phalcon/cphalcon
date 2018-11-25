@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use Phalcon\Cache\Backend\Redis;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
@@ -24,13 +24,16 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: increment()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrement(UnitTester $I)
+    public function cacheBackendRedisIncrement(UnitTester $I)
     {
-        $key    = '_PHCR' . 'decrement';
-        $cache  = new Redis(new Data(['lifetime' => 20]), $this->options);
+        $I->wantToTest("Cache\Backend\Redis - increment()");
+        $key   = '_PHCR' . 'decrement';
+        $cache = new Redis(new Data(['lifetime' => 20]), $this->options);
 
         $I->dontSeeInRedis($key);
         $I->haveInRedis('string', $key, 1);

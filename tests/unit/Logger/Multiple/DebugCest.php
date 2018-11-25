@@ -18,11 +18,14 @@ class DebugCest
     /**
      * Tests Phalcon\Logger\Multiple :: debug()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDebug(UnitTester $I)
+    public function loggerMultipleDebug(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - debug()");
         $I->skipTest("Need implementation");
     }
 }

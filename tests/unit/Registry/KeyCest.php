@@ -19,6 +19,8 @@ class KeyCest
     /**
      * Tests Phalcon\Registry :: key()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

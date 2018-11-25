@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Forms\Element\Password :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function formsElementPasswordConstruct(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - __construct()");
         $I->skipTest("Need implementation");
     }
 }

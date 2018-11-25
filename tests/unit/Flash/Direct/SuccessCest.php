@@ -18,11 +18,14 @@ class SuccessCest
     /**
      * Tests Phalcon\Flash\Direct :: success()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSuccess(UnitTester $I)
+    public function flashDirectSuccess(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - success()");
         $I->skipTest("Need implementation");
     }
 }

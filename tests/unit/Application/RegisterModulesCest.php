@@ -18,11 +18,14 @@ class RegisterModulesCest
     /**
      * Tests Phalcon\Application :: registerModules()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegisterModules(UnitTester $I)
+    public function applicationRegisterModules(UnitTester $I)
     {
+        $I->wantToTest("Application - registerModules()");
         $I->skipTest("Need implementation");
     }
 }

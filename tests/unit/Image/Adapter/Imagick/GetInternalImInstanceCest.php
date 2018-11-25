@@ -18,11 +18,14 @@ class GetInternalImInstanceCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getInternalImInstance()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetInternalImInstance(UnitTester $I)
+    public function imageAdapterImagickGetInternalImInstance(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - getInternalImInstance()");
         $I->skipTest("Need implementation");
     }
 }

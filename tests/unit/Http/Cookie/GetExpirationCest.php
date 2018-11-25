@@ -18,11 +18,14 @@ class GetExpirationCest
     /**
      * Tests Phalcon\Http\Cookie :: getExpiration()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetExpiration(UnitTester $I)
+    public function httpCookieGetExpiration(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - getExpiration()");
         $I->skipTest("Need implementation");
     }
 }

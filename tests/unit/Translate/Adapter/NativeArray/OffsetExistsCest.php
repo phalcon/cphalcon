@@ -22,10 +22,12 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativeArrayOffsetExists(UnitTester $I)
+    public function translateAdapterNativearrayOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetExists()');
         $language   = $this->getArrayConfig()['en'];

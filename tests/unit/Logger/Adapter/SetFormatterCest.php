@@ -18,11 +18,14 @@ class SetFormatterCest
     /**
      * Tests Phalcon\Logger\Adapter :: setFormatter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFormatter(UnitTester $I)
+    public function loggerAdapterSetFormatter(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter - setFormatter()");
         $I->skipTest("Need implementation");
     }
 }

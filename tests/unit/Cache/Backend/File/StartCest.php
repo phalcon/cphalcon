@@ -18,11 +18,14 @@ class StartCest
     /**
      * Tests Phalcon\Cache\Backend\File :: start()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStart(UnitTester $I)
+    public function cacheBackendFileStart(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\File - start()");
         $I->skipTest("Need implementation");
     }
 }

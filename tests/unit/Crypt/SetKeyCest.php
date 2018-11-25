@@ -18,11 +18,14 @@ class SetKeyCest
     /**
      * Tests Phalcon\Crypt :: setKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetKey(UnitTester $I)
+    public function cryptSetKey(UnitTester $I)
     {
+        $I->wantToTest("Crypt - setKey()");
         $I->skipTest("Need implementation");
     }
 }

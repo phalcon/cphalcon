@@ -18,11 +18,14 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFilter(UnitTester $I)
+    public function assetsFiltersJsminFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Filters\Jsmin - filter()");
         $I->skipTest("Need implementation");
     }
 }

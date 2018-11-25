@@ -18,11 +18,14 @@ class GetCustomTemplateCest
     /**
      * Tests Phalcon\Flash\Session :: getCustomTemplate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCustomTemplate(UnitTester $I)
+    public function flashSessionGetCustomTemplate(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - getCustomTemplate()");
         $I->skipTest("Need implementation");
     }
 }

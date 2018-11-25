@@ -18,11 +18,14 @@ class GetPropertiesCest
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: getProperties()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetProperties(UnitTester $I)
+    public function annotationsAdapterMemoryGetProperties(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Memory - getProperties()");
         $I->skipTest("Need implementation");
     }
 }

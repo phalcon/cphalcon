@@ -18,11 +18,14 @@ class SetPathCest
     /**
      * Tests Phalcon\Assets\Resource\Js :: setPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetPath(UnitTester $I)
+    public function assetsResourceJsSetPath(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Js - setPath()");
         $I->skipTest("Need implementation");
     }
 }

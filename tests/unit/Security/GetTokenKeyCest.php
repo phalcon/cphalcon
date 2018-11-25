@@ -18,11 +18,14 @@ class GetTokenKeyCest
     /**
      * Tests Phalcon\Security :: getTokenKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTokenKey(UnitTester $I)
+    public function securityGetTokenKey(UnitTester $I)
     {
+        $I->wantToTest("Security - getTokenKey()");
         $I->skipTest("Need implementation");
     }
 }

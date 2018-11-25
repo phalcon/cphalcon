@@ -18,11 +18,14 @@ class SetSourcePathCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: setSourcePath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSourcePath(UnitTester $I)
+    public function assetsResourceCssSetSourcePath(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - setSourcePath()");
         $I->skipTest("Need implementation");
     }
 }

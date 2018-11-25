@@ -18,11 +18,14 @@ class IsBufferingCest
     /**
      * Tests Phalcon\Cache\Frontend\Msgpack :: isBuffering()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsBuffering(UnitTester $I)
+    public function cacheFrontendMsgpackIsBuffering(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Msgpack - isBuffering()");
         $I->skipTest("Need implementation");
     }
 }

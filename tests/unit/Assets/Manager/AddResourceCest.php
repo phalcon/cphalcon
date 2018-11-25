@@ -18,11 +18,14 @@ class AddResourceCest
     /**
      * Tests Phalcon\Assets\Manager :: addResource()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddResource(UnitTester $I)
+    public function assetsManagerAddResource(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - addResource()");
         $I->skipTest("Need implementation");
     }
 }

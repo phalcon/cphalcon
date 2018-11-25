@@ -18,11 +18,14 @@ class GetUserOptionCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: getUserOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUserOption(UnitTester $I)
+    public function formsElementHiddenGetUserOption(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - getUserOption()");
         $I->skipTest("Need implementation");
     }
 }

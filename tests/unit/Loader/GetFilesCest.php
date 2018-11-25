@@ -18,11 +18,14 @@ class GetFilesCest
     /**
      * Tests Phalcon\Loader :: getFiles()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFiles(UnitTester $I)
+    public function loaderGetFiles(UnitTester $I)
     {
+        $I->wantToTest("Loader - getFiles()");
         $I->skipTest("Need implementation");
     }
 }

@@ -22,12 +22,14 @@ class SetStateCest
     /**
      * Tests Phalcon\Config :: __set_state()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configSetState(UnitTester $I)
     {
-        $I->wantToTest(sprintf('Config - __set_state()'));
+        $I->wantToTest("Config - __set_state()");
         $config = $this->getConfig();
 
         $expected = $this->getSetState();
@@ -44,17 +46,17 @@ class SetStateCest
     {
         return Config::__set_state(
             [
-                'phalcon'  => Config::__set_state(
+                'phalcon'     => Config::__set_state(
                     [
                         'baseuri' => '/phalcon/',
                     ]
                 ),
-                'models'   => Config::__set_state(
+                'models'      => Config::__set_state(
                     [
                         'metadata' => 'memory',
                     ]
                 ),
-                'database' => Config::__set_state(
+                'database'    => Config::__set_state(
                     [
                         'adapter'  => 'mysql',
                         'host'     => 'localhost',
@@ -63,7 +65,7 @@ class SetStateCest
                         'name'     => 'demo',
                     ]
                 ),
-                'test'     => Config::__set_state(
+                'test'        => Config::__set_state(
                     [
                         'parent' => Config::__set_state(
                             [
@@ -81,17 +83,17 @@ class SetStateCest
                                     [
                                         0 => Config::__set_state(
                                             [
-                                                'name' => 'stream',
-                                                'level' => 'debug',
+                                                'name'           => 'stream',
+                                                'level'          => 'debug',
                                                 'fingersCrossed' => 'info',
-                                                'filename' => 'channel.log'
+                                                'filename'       => 'channel.log',
                                             ]
                                         ),
                                         1 => Config::__set_state(
                                             [
-                                                'name' => 'redis',
-                                                'level' => 'debug',
-                                                'fingersCrossed' => 'info'
+                                                'name'           => 'redis',
+                                                'level'          => 'debug',
+                                                'fingersCrossed' => 'info',
                                             ]
                                         ),
                                     ]

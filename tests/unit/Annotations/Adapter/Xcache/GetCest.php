@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Annotations\Adapter\Xcache :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function annotationsAdapterXcacheGet(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Xcache - get()");
         $I->skipTest("Need implementation");
     }
 }

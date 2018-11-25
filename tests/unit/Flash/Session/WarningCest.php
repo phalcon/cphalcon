@@ -18,11 +18,14 @@ class WarningCest
     /**
      * Tests Phalcon\Flash\Session :: warning()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWarning(UnitTester $I)
+    public function flashSessionWarning(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - warning()");
         $I->skipTest("Need implementation");
     }
 }

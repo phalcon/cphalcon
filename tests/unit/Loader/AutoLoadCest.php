@@ -18,11 +18,14 @@ class AutoLoadCest
     /**
      * Tests Phalcon\Loader :: autoLoad()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAutoLoad(UnitTester $I)
+    public function loaderAutoLoad(UnitTester $I)
     {
+        $I->wantToTest("Loader - autoLoad()");
         $I->skipTest("Need implementation");
     }
 }

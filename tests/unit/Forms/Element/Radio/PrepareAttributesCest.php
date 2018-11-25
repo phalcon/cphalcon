@@ -18,11 +18,14 @@ class PrepareAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: prepareAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPrepareAttributes(UnitTester $I)
+    public function formsElementRadioPrepareAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - prepareAttributes()");
         $I->skipTest("Need implementation");
     }
 }

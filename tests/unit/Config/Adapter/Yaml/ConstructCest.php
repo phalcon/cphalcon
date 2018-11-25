@@ -30,6 +30,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -41,6 +43,8 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: __construct() - callbacks
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -18,11 +18,14 @@ class GetFilterCest
     /**
      * Tests Phalcon\Assets\Inline\Css :: getFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilter(UnitTester $I)
+    public function assetsInlineCssGetFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Css - getFilter()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetHttpHostCest
     /**
      * Tests Phalcon\Http\Request :: getHttpHost()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHttpHost(UnitTester $I)
+    public function httpRequestGetHttpHost(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getHttpHost()");
         $I->skipTest("Need implementation");
     }
 }

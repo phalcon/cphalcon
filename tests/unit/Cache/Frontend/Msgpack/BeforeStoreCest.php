@@ -18,11 +18,14 @@ class BeforeStoreCest
     /**
      * Tests Phalcon\Cache\Frontend\Msgpack :: beforeStore()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBeforeStore(UnitTester $I)
+    public function cacheFrontendMsgpackBeforeStore(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Msgpack - beforeStore()");
         $I->skipTest("Need implementation");
     }
 }

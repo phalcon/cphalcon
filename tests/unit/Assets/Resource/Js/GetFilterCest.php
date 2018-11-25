@@ -18,11 +18,14 @@ class GetFilterCest
     /**
      * Tests Phalcon\Assets\Resource\Js :: getFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilter(UnitTester $I)
+    public function assetsResourceJsGetFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Js - getFilter()");
         $I->skipTest("Need implementation");
     }
 }

@@ -270,13 +270,13 @@ class ConfigCest
     /**
      * Tests issue 13351
      *
-     * @link https://github.com/phalcon/cphalcon/issues/13351
+     * @link   https://github.com/phalcon/cphalcon/issues/13351
      * @author Zamrony P. Juhara <zamronypj@yahoo.com>
      * @since  2018-04-27
      */
     public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
     {
-        $config = new Config([1 => 'Apple']);
+        $config  = new Config([1 => 'Apple']);
         $config2 = new Config([2 => 'Banana']);
         $config->merge($config2);
 
@@ -284,11 +284,11 @@ class ConfigCest
             1 => 'Apple',
             2 => 'Banana',
         ];
-        $actual    = $config->toArray();
+        $actual   = $config->toArray();
         $I->assertEquals($expected, $actual);
 
 
-        $config = new Config([0 => 'Apple']);
+        $config  = new Config([0 => 'Apple']);
         $config2 = new Config([1 => 'Banana']);
         $config->merge($config2);
 
@@ -296,19 +296,19 @@ class ConfigCest
             0 => 'Apple',
             1 => 'Banana',
         ];
-        $actual    = $config->toArray();
+        $actual   = $config->toArray();
         $I->assertEquals($expected, $actual);
 
-        $config = new Config([1 => 'Apple', 'p' => 'Pineapple']);
+        $config  = new Config([1 => 'Apple', 'p' => 'Pineapple']);
         $config2 = new Config([2 => 'Banana']);
         $config->merge($config2);
 
         $expected = [
-            1 => 'Apple',
+            1   => 'Apple',
             'p' => 'Pineapple',
-            2 => 'Banana',
+            2   => 'Banana',
         ];
-        $actual    = $config->toArray();
+        $actual   = $config->toArray();
         $I->assertEquals($expected, $actual);
 
         $config  = new Config([
@@ -323,16 +323,16 @@ class ConfigCest
 
         $expected = [
             'One' => [
-                1 => 'Apple',
+                1   => 'Apple',
                 'p' => 'Pineapple',
-                2 => 'Banana',
+                2   => 'Banana',
             ],
             'Two' => [
                 1 => 'Apple',
                 2 => 'Banana',
             ],
         ];
-        $actual    = $config->toArray();
+        $actual   = $config->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -18,11 +18,14 @@ class GetTimeCest
     /**
      * Tests Phalcon\Logger\Item :: getTime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTime(UnitTester $I)
+    public function loggerItemGetTime(UnitTester $I)
     {
+        $I->wantToTest("Logger\Item - getTime()");
         $I->skipTest("Need implementation");
     }
 }

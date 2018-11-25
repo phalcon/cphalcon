@@ -21,12 +21,14 @@ class GetPathDelimiterCest
     /**
      * Tests Phalcon\Config\Adapter\Ini :: getPathDelimiter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterIniGetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Ini - getPathDelimiter()');
+        $I->wantToTest("Config\Adapter\Ini - getPathDelimiter()");
         $this->checkGetPathDelimiter($I, 'Ini');
     }
 }

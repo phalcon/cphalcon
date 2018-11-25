@@ -18,11 +18,14 @@ class SetValidationCest
     /**
      * Tests Phalcon\Forms\Form :: setValidation()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetValidation(UnitTester $I)
+    public function formsFormSetValidation(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - setValidation()");
         $I->skipTest("Need implementation");
     }
 }

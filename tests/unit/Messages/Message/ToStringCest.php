@@ -19,11 +19,14 @@ class ToStringCest
     /**
      * Tests Phalcon\Messages\Message :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function messagesMessageToString(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - __toString()");
         $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 'This is a message #1';

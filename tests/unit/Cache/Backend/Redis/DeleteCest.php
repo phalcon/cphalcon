@@ -18,11 +18,14 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: delete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDelete(UnitTester $I)
+    public function cacheBackendRedisDelete(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Redis - delete()");
         $I->skipTest("Need implementation");
     }
 }

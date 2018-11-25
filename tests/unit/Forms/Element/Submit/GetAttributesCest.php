@@ -18,11 +18,14 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: getAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttributes(UnitTester $I)
+    public function formsElementSubmitGetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Submit - getAttributes()");
         $I->skipTest("Need implementation");
     }
 }

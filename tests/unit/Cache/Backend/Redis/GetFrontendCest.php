@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use Phalcon\Cache\Backend\Redis;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
@@ -24,12 +24,15 @@ class GetFrontendCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: getFrontend()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFrontend(UnitTester $I)
+    public function cacheBackendRedisGetFrontend(UnitTester $I)
     {
-        $cache  = new Redis(new Data(['lifetime' => 20]), $this->options);
+        $I->wantToTest("Cache\Backend\Redis - getFrontend()");
+        $cache = new Redis(new Data(['lifetime' => 20]), $this->options);
 
         $class  = Data::class;
         $actual = $cache->getFrontend();

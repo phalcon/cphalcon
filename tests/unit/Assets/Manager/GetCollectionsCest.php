@@ -18,11 +18,14 @@ class GetCollectionsCest
     /**
      * Tests Phalcon\Assets\Manager :: getCollections()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCollections(UnitTester $I)
+    public function assetsManagerGetCollections(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - getCollections()");
         $I->skipTest("Need implementation");
     }
 }

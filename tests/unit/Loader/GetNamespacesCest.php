@@ -18,11 +18,14 @@ class GetNamespacesCest
     /**
      * Tests Phalcon\Loader :: getNamespaces()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetNamespaces(UnitTester $I)
+    public function loaderGetNamespaces(UnitTester $I)
     {
+        $I->wantToTest("Loader - getNamespaces()");
         $I->skipTest("Need implementation");
     }
 }

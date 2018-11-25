@@ -18,11 +18,14 @@ class AddCest
     /**
      * Tests Phalcon\Forms\Form :: add()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAdd(UnitTester $I)
+    public function formsFormAdd(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - add()");
         $I->skipTest("Need implementation");
     }
 }

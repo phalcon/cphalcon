@@ -18,11 +18,14 @@ class AddValidatorCest
     /**
      * Tests Phalcon\Forms\Element\Email :: addValidator()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddValidator(UnitTester $I)
+    public function formsElementEmailAddValidator(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - addValidator()");
         $I->skipTest("Need implementation");
     }
 }

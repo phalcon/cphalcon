@@ -18,11 +18,14 @@ class HashCest
     /**
      * Tests Phalcon\Security :: hash()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHash(UnitTester $I)
+    public function securityHash(UnitTester $I)
     {
+        $I->wantToTest("Security - hash()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class InfoCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: info()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testInfo(UnitTester $I)
+    public function loggerAdapterFirephpInfo(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - info()");
         $I->skipTest("Need implementation");
     }
 }

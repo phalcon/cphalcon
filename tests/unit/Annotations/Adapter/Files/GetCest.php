@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Annotations\Adapter\Files :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function annotationsAdapterFilesGet(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Files - get()");
         $I->skipTest("Need implementation");
     }
 }

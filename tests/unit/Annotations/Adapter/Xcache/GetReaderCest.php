@@ -18,11 +18,14 @@ class GetReaderCest
     /**
      * Tests Phalcon\Annotations\Adapter\Xcache :: getReader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetReader(UnitTester $I)
+    public function annotationsAdapterXcacheGetReader(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Xcache - getReader()");
         $I->skipTest("Need implementation");
     }
 }

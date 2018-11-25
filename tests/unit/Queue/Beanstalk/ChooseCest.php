@@ -18,11 +18,14 @@ class ChooseCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: choose()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testChoose(UnitTester $I)
+    public function queueBeanstalkChoose(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - choose()");
         $I->skipTest("Need implementation");
     }
 }

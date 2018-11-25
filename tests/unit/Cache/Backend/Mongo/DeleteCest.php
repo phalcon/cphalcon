@@ -18,11 +18,14 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: delete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDelete(UnitTester $I)
+    public function cacheBackendMongoDelete(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Mongo - delete()");
         $I->skipTest("Need implementation");
     }
 }

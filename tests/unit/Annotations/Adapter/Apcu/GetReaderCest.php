@@ -18,11 +18,14 @@ class GetReaderCest
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: getReader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetReader(UnitTester $I)
+    public function annotationsAdapterApcuGetReader(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Apcu - getReader()");
         $I->skipTest("Need implementation");
     }
 }

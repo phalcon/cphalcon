@@ -19,11 +19,14 @@ class GetNameCest
     /**
      * Tests Phalcon\Acl\Resource :: getName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I)
+    public function aclResourceGetName(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - getName()");
         $resource = new Resource('Customers');
 
         $expected = 'Customers';

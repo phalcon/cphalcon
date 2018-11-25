@@ -18,11 +18,14 @@ class NqueryCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: nquery()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextNquery(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - nquery()");
         $I->skipTest("Need implementation");
     }
 }

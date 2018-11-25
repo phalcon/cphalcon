@@ -18,11 +18,14 @@ class AllowCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: allow()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAllow(UnitTester $I)
+    public function aclAdapterMemoryAllow(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - allow()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\Numeric :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefault(UnitTester $I)
+    public function formsElementNumericSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Numeric - setDefault()");
         $I->skipTest("Need implementation");
     }
 }

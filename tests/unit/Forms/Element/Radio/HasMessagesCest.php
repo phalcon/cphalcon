@@ -18,11 +18,14 @@ class HasMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: hasMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasMessages(UnitTester $I)
+    public function formsElementRadioHasMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - hasMessages()");
         $I->skipTest("Need implementation");
     }
 }

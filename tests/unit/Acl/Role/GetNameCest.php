@@ -19,11 +19,14 @@ class GetNameCest
     /**
      * Tests Phalcon\Acl\Role :: getName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I)
+    public function aclRoleGetName(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - getName()");
         $role = new Role('Administrators');
 
         $expected = 'Administrators';

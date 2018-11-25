@@ -18,11 +18,14 @@ class CropCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: crop()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCrop(UnitTester $I)
+    public function imageAdapterImagickCrop(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - crop()");
         $I->skipTest("Need implementation");
     }
 }

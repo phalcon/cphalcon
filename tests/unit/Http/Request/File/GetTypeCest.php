@@ -18,11 +18,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Http\Request\File :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function httpRequestFileGetType(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - getType()");
         $I->skipTest("Need implementation");
     }
 }

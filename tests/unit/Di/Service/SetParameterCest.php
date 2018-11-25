@@ -18,11 +18,14 @@ class SetParameterCest
     /**
      * Tests Phalcon\Di\Service :: setParameter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetParameter(UnitTester $I)
+    public function diServiceSetParameter(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - setParameter()");
         $I->skipTest("Need implementation");
     }
 }

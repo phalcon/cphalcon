@@ -18,11 +18,14 @@ class AppendMessageCest
     /**
      * Tests Phalcon\Validation :: appendMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationAppendMessage(UnitTester $I)
     {
+        $I->wantToTest("Validation - appendMessage()");
         $I->skipTest("Need implementation");
     }
 }

@@ -11,13 +11,12 @@
 
 namespace Phalcon\Test\Fixtures\Helpers;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Tag;
 use UnitTester;
 
 class TagHelper extends TagSetup
 {
-    protected $function = '';
+    protected $function  = '';
     protected $inputType = '';
 
     /**

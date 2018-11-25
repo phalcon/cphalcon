@@ -18,11 +18,14 @@ class SetDefaultHashCest
     /**
      * Tests Phalcon\Security :: setDefaultHash()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefaultHash(UnitTester $I)
+    public function securitySetDefaultHash(UnitTester $I)
     {
+        $I->wantToTest("Security - setDefaultHash()");
         $I->skipTest("Need implementation");
     }
 }

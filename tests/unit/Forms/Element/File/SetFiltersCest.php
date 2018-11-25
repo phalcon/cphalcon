@@ -18,11 +18,14 @@ class SetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\File :: setFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFilters(UnitTester $I)
+    public function formsElementFileSetFilters(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\File - setFilters()");
         $I->skipTest("Need implementation");
     }
 }

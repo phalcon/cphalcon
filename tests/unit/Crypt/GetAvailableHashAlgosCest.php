@@ -18,11 +18,14 @@ class GetAvailableHashAlgosCest
     /**
      * Tests Phalcon\Crypt :: getAvailableHashAlgos()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAvailableHashAlgos(UnitTester $I)
+    public function cryptGetAvailableHashAlgos(UnitTester $I)
     {
+        $I->wantToTest("Crypt - getAvailableHashAlgos()");
         $I->skipTest("Need implementation");
     }
 }

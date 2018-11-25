@@ -18,11 +18,14 @@ class GetServerNameCest
     /**
      * Tests Phalcon\Http\Request :: getServerName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetServerName(UnitTester $I)
+    public function httpRequestGetServerName(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getServerName()");
         $I->skipTest("Need implementation");
     }
 }

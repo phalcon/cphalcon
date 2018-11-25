@@ -18,11 +18,14 @@ class SetFormCest
     /**
      * Tests Phalcon\Forms\Element\Email :: setForm()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetForm(UnitTester $I)
+    public function formsElementEmailSetForm(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - setForm()");
         $I->skipTest("Need implementation");
     }
 }

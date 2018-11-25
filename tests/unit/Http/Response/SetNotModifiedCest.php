@@ -18,11 +18,14 @@ class SetNotModifiedCest
     /**
      * Tests Phalcon\Http\Response :: setNotModified()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetNotModified(UnitTester $I)
+    public function httpResponseSetNotModified(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setNotModified()");
         $I->skipTest("Need implementation");
     }
 }

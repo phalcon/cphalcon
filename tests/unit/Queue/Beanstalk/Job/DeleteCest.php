@@ -18,11 +18,14 @@ class DeleteCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: delete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDelete(UnitTester $I)
+    public function queueBeanstalkJobDelete(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - delete()");
         $I->skipTest("Need implementation");
     }
 }

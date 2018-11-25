@@ -18,11 +18,14 @@ class SetRandomBytesCest
     /**
      * Tests Phalcon\Security :: setRandomBytes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetRandomBytes(UnitTester $I)
+    public function securitySetRandomBytes(UnitTester $I)
     {
+        $I->wantToTest("Security - setRandomBytes()");
         $I->skipTest("Need implementation");
     }
 }

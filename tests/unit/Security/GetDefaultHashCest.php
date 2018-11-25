@@ -18,11 +18,14 @@ class GetDefaultHashCest
     /**
      * Tests Phalcon\Security :: getDefaultHash()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefaultHash(UnitTester $I)
+    public function securityGetDefaultHash(UnitTester $I)
     {
+        $I->wantToTest("Security - getDefaultHash()");
         $I->skipTest("Need implementation");
     }
 }

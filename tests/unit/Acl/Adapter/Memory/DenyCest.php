@@ -18,11 +18,14 @@ class DenyCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: deny()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDeny(UnitTester $I)
+    public function aclAdapterMemoryDeny(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - deny()");
         $I->skipTest("Need implementation");
     }
 }

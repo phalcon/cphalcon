@@ -18,11 +18,14 @@ class StatsTubeCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: statsTube()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStatsTube(UnitTester $I)
+    public function queueBeanstalkStatsTube(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - statsTube()");
         $I->skipTest("Need implementation");
     }
 }

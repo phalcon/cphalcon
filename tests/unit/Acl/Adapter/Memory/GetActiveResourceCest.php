@@ -18,11 +18,14 @@ class GetActiveResourceCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveResource()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveResource(UnitTester $I)
+    public function aclAdapterMemoryGetActiveResource(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getActiveResource()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetVersionCest
     /**
      * Tests Phalcon\Debug :: getVersion()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetVersion(UnitTester $I)
+    public function debugGetVersion(UnitTester $I)
     {
+        $I->wantToTest("Debug - getVersion()");
         $I->skipTest("Need implementation");
     }
 }

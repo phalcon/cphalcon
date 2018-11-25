@@ -67,8 +67,8 @@ trait TranslateTrait
     {
         return [
             'ru' => [
-                'content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv'
-            ]
+                'content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv',
+            ],
         ];
     }
 

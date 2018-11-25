@@ -18,11 +18,14 @@ class SetReaderCest
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: setReader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetReader(UnitTester $I)
+    public function annotationsAdapterMemorySetReader(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Memory - setReader()");
         $I->skipTest("Need implementation");
     }
 }

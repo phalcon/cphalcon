@@ -19,6 +19,8 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Registry :: __set()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

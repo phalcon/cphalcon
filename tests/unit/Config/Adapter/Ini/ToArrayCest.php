@@ -21,6 +21,8 @@ class ToArrayCest
     /**
      * Tests Phalcon\Config\Adapter\Ini :: toArray()
      *
+     * @param UnitTester $I
+     *
      * @author kjdev
      * @since  2013-07-18
      */

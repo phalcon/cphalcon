@@ -18,11 +18,14 @@ class InfoCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: info()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testInfo(UnitTester $I)
+    public function loggerAdapterBlackholeInfo(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - info()");
         $I->skipTest("Need implementation");
     }
 }

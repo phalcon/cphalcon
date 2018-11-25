@@ -18,11 +18,14 @@ class SetNameCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: setName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetName(UnitTester $I)
+    public function formsElementRadioSetName(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - setName()");
         $I->skipTest("Need implementation");
     }
 }

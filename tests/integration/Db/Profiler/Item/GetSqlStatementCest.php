@@ -19,7 +19,7 @@ class GetSqlStatementCest
      * Tests Phalcon\Db\Profiler\Item :: getSqlStatement()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

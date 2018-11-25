@@ -18,11 +18,14 @@ class HasCest
     /**
      * Tests Phalcon\Flash\Session :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHas(UnitTester $I)
+    public function flashSessionHas(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - has()");
         $I->skipTest("Need implementation");
     }
 }

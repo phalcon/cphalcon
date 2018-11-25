@@ -18,11 +18,14 @@ class SetCustomTemplateCest
     /**
      * Tests Phalcon\Flash :: setCustomTemplate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCustomTemplate(UnitTester $I)
+    public function flashSetCustomTemplate(UnitTester $I)
     {
+        $I->wantToTest("Flash - setCustomTemplate()");
         $I->skipTest("Need implementation");
     }
 }

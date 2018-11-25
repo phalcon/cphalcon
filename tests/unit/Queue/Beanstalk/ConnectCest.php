@@ -18,11 +18,14 @@ class ConnectCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: connect()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConnect(UnitTester $I)
+    public function queueBeanstalkConnect(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - connect()");
         $I->skipTest("Need implementation");
     }
 }

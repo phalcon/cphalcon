@@ -53,6 +53,16 @@ class Unit extends \Codeception\Module
     }
 
     /**
+     * Throws the SkippedTestError exception to skip a test
+     *
+     * @param string $message The message to display
+     */
+    public function skipTest(string $message)
+    {
+        throw new SkippedTestError($message);
+    }
+
+    /**
      * Removes a file from the system
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
@@ -126,15 +136,5 @@ class Unit extends \Codeception\Module
         $property->setValue($obj, $value);
 
         $this->assertEquals($value, $property->getValue($obj));
-    }
-
-    /**
-     * Throws the SkippedTestError exception to skip a test
-     *
-     * @param string $message The message to display
-     */
-    public function skipTest(string $message)
-    {
-        throw new SkippedTestError($message);
     }
 }

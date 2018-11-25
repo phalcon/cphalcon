@@ -18,11 +18,14 @@ class QueryKeysCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: queryKeys()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testQueryKeys(UnitTester $I)
+    public function cacheBackendRedisQueryKeys(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Redis - queryKeys()");
         $I->skipTest("Need implementation");
     }
 }

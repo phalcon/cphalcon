@@ -64,7 +64,7 @@ trait DialectTrait
                 'column5',
                 [
                     'type'    => Column::TYPE_DATE,
-                    'notNull' => true
+                    'notNull' => true,
                 ]
             ),
             'column6'  => new Column(
@@ -263,7 +263,7 @@ trait DialectTrait
                 [
                     'referencedTable'   => 'ref_table',
                     'columns'           => ['column1'],
-                    'referencedColumns' => ['column2']
+                    'referencedColumns' => ['column2'],
                 ]
             ),
             'fk2' => new Reference(
@@ -271,7 +271,7 @@ trait DialectTrait
                 [
                     'referencedTable'   => 'ref_table',
                     'columns'           => ['column3', 'column4'],
-                    'referencedColumns' => ['column5', 'column6']
+                    'referencedColumns' => ['column5', 'column6'],
                 ]
             ),
             'fk3' => new Reference(

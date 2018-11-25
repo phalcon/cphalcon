@@ -18,11 +18,14 @@ class GetFormatCest
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getFormat()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFormat(UnitTester $I)
+    public function loggerFormatterLineGetFormat(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter\Line - getFormat()");
         $I->skipTest("Need implementation");
     }
 }

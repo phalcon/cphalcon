@@ -18,11 +18,14 @@ class HasCest
     /**
      * Tests Phalcon\Assets\Collection :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHas(UnitTester $I)
+    public function assetsCollectionHas(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - has()");
         $I->skipTest("Need implementation");
     }
 }

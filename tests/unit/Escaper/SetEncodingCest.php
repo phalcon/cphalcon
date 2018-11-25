@@ -18,11 +18,14 @@ class SetEncodingCest
     /**
      * Tests Phalcon\Escaper :: setEncoding()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEncoding(UnitTester $I)
+    public function escaperSetEncoding(UnitTester $I)
     {
+        $I->wantToTest("Escaper - setEncoding()");
         $I->skipTest("Need implementation");
     }
 }

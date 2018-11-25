@@ -18,11 +18,14 @@ class GetNameCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: getName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I)
+    public function formsElementRadioGetName(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - getName()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetContentTypeCest
     /**
      * Tests Phalcon\Http\Request :: getContentType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContentType(UnitTester $I)
+    public function httpRequestGetContentType(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getContentType()");
         $I->skipTest("Need implementation");
     }
 }

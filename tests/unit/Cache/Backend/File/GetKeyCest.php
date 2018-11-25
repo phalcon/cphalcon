@@ -18,11 +18,14 @@ class GetKeyCest
     /**
      * Tests Phalcon\Cache\Backend\File :: getKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetKey(UnitTester $I)
+    public function cacheBackendFileGetKey(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\File - getKey()");
         $I->skipTest("Need implementation");
     }
 }

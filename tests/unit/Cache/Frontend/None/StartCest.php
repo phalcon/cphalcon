@@ -18,11 +18,14 @@ class StartCest
     /**
      * Tests Phalcon\Cache\Frontend\None :: start()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStart(UnitTester $I)
+    public function cacheFrontendNoneStart(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\None - start()");
         $I->skipTest("Need implementation");
     }
 }

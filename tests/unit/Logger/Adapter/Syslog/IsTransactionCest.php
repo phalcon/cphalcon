@@ -18,11 +18,14 @@ class IsTransactionCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: isTransaction()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsTransaction(UnitTester $I)
+    public function loggerAdapterSyslogIsTransaction(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Syslog - isTransaction()");
         $I->skipTest("Need implementation");
     }
 }

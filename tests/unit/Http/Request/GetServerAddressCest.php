@@ -18,11 +18,14 @@ class GetServerAddressCest
     /**
      * Tests Phalcon\Http\Request :: getServerAddress()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetServerAddress(UnitTester $I)
+    public function httpRequestGetServerAddress(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getServerAddress()");
         $I->skipTest("Need implementation");
     }
 }

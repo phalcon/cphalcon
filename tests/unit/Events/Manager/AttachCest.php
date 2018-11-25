@@ -18,11 +18,14 @@ class AttachCest
     /**
      * Tests Phalcon\Events\Manager :: attach()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAttach(UnitTester $I)
+    public function eventsManagerAttach(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - attach()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetMessagesForCest
     /**
      * Tests Phalcon\Forms\Form :: getMessagesFor()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessagesFor(UnitTester $I)
+    public function formsFormGetMessagesFor(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getMessagesFor()");
         $I->skipTest("Need implementation");
     }
 }

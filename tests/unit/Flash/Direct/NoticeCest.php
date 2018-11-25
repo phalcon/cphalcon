@@ -18,11 +18,14 @@ class NoticeCest
     /**
      * Tests Phalcon\Flash\Direct :: notice()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotice(UnitTester $I)
+    public function flashDirectNotice(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - notice()");
         $I->skipTest("Need implementation");
     }
 }

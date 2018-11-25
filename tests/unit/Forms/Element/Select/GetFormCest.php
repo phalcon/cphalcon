@@ -18,11 +18,14 @@ class GetFormCest
     /**
      * Tests Phalcon\Forms\Element\Select :: getForm()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetForm(UnitTester $I)
+    public function formsElementSelectGetForm(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - getForm()");
         $I->skipTest("Need implementation");
     }
 }

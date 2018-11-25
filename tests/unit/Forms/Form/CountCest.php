@@ -18,11 +18,14 @@ class CountCest
     /**
      * Tests Phalcon\Forms\Form :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function formsFormCount(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - count()");
         $I->skipTest("Need implementation");
     }
 }

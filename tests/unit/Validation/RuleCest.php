@@ -18,11 +18,14 @@ class RuleCest
     /**
      * Tests Phalcon\Validation :: rule()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationRule(UnitTester $I)
     {
+        $I->wantToTest("Validation - rule()");
         $I->skipTest("Need implementation");
     }
 }

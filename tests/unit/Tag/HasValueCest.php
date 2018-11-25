@@ -18,11 +18,14 @@ class HasValueCest
     /**
      * Tests Phalcon\Tag :: hasValue()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasValue(UnitTester $I)
+    public function tagHasValue(UnitTester $I)
     {
+        $I->wantToTest("Tag - hasValue()");
         $I->skipTest("Need implementation");
     }
 }

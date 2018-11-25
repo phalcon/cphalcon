@@ -21,11 +21,14 @@ class IsResourceCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isResource()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsResource(UnitTester $I)
+    public function aclAdapterMemoryIsResource(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - isResource()");
         $acl         = new Memory();
         $aclResource = new Resource('Customers', 'Customer management');
 

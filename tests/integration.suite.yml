@@ -1,11 +1,11 @@
 actor: IntegrationTester
 modules:
-    enabled:
-      - Asserts
-      - Filesystem
-      - Helper\Integration
-      - Helper\Unit
-      - Phalcon
-    config:
-      Phalcon:
-        bootstrap: 'tests/_config/bootstrap.php'
+  enabled:
+    - Asserts
+    - Filesystem
+    - Helper\Integration
+    - Helper\Unit
+    - Phalcon
+  config:
+    Phalcon:
+      bootstrap: 'tests/_config/bootstrap.php'

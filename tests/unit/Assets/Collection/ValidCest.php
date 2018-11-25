@@ -18,11 +18,14 @@ class ValidCest
     /**
      * Tests Phalcon\Assets\Collection :: valid()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testValid(UnitTester $I)
+    public function assetsCollectionValid(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - valid()");
         $I->skipTest("Need implementation");
     }
 }

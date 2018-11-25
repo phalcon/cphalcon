@@ -18,11 +18,14 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Select :: getAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttributes(UnitTester $I)
+    public function formsElementSelectGetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - getAttributes()");
         $I->skipTest("Need implementation");
     }
 }

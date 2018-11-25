@@ -18,11 +18,14 @@ class GetAttributeCest
     /**
      * Tests Phalcon\Forms\Element\Email :: getAttribute()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttribute(UnitTester $I)
+    public function formsElementEmailGetAttribute(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - getAttribute()");
         $I->skipTest("Need implementation");
     }
 }

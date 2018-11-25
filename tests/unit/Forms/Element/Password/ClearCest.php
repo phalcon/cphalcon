@@ -18,11 +18,14 @@ class ClearCest
     /**
      * Tests Phalcon\Forms\Element\Password :: clear()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClear(UnitTester $I)
+    public function formsElementPasswordClear(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - clear()");
         $I->skipTest("Need implementation");
     }
 }

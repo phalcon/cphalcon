@@ -19,7 +19,7 @@ class UpdateAsDictCest
      * Tests Phalcon\Db\Adapter\Pdo :: updateAsDict()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

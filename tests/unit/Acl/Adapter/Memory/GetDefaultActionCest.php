@@ -20,11 +20,14 @@ class GetDefaultActionCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getDefaultAction()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefaultAction(UnitTester $I)
+    public function aclAdapterMemoryGetDefaultAction(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getDefaultAction()");
         $acl = new Memory();
 
         $acl->setDefaultAction(Acl::ALLOW);

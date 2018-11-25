@@ -18,11 +18,14 @@ class ToStringCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function formsElementTextareaToString(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - __toString()");
         $I->skipTest("Need implementation");
     }
 }

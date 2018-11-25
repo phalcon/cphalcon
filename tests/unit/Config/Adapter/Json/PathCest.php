@@ -29,6 +29,8 @@ class PathCest
     /**
      * Tests Phalcon\Config\Adapter\Json :: path()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -40,6 +42,8 @@ class PathCest
 
     /**
      * Tests Phalcon\Config\Adapter\Json :: path() - default
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -18,11 +18,14 @@ class SetInterpolatorCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: setInterpolator()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativeArraySetInterpolator(UnitTester $I)
+    public function translateAdapterNativearraySetInterpolator(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\NativeArray - setInterpolator()");
         $I->skipTest("Need implementation");
     }
 }

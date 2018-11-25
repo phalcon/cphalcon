@@ -18,11 +18,14 @@ class AlertCest
     /**
      * Tests Phalcon\Logger\Multiple :: alert()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAlert(UnitTester $I)
+    public function loggerMultipleAlert(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - alert()");
         $I->skipTest("Need implementation");
     }
 }

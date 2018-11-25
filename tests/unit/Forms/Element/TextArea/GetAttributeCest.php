@@ -18,11 +18,14 @@ class GetAttributeCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: getAttribute()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttribute(UnitTester $I)
+    public function formsElementTextareaGetAttribute(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - getAttribute()");
         $I->skipTest("Need implementation");
     }
 }

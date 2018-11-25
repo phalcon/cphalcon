@@ -18,11 +18,14 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: getAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttributes(UnitTester $I)
+    public function formsElementRadioGetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - getAttributes()");
         $I->skipTest("Need implementation");
     }
 }

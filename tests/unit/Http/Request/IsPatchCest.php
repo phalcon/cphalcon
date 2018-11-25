@@ -18,11 +18,14 @@ class IsPatchCest
     /**
      * Tests Phalcon\Http\Request :: isPatch()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsPatch(UnitTester $I)
+    public function httpRequestIsPatch(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isPatch()");
         $I->skipTest("Need implementation");
     }
 }

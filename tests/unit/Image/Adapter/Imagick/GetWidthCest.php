@@ -18,11 +18,14 @@ class GetWidthCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getWidth()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetWidth(UnitTester $I)
+    public function imageAdapterImagickGetWidth(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - getWidth()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class MergeCest
     /**
      * Tests Phalcon\Config\Adapter\Ini :: merge()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterIniMerge(UnitTester $I)
     {
+        $I->wantToTest("Config\Adapter\Ini - merge()");
         $I->skipTest("Need implementation");
     }
 }

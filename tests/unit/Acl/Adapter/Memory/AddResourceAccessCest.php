@@ -18,11 +18,14 @@ class AddResourceAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addResourceAccess()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddResourceAccess(UnitTester $I)
+    public function aclAdapterMemoryAddResourceAccess(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - addResourceAccess()");
         $I->skipTest("Need implementation");
     }
 }

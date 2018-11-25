@@ -18,11 +18,14 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\Date :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefault(UnitTester $I)
+    public function formsElementDateSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - setDefault()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetDICest
     /**
      * Tests Phalcon\Di\Injectable :: getDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDI(UnitTester $I)
+    public function diInjectableGetDI(UnitTester $I)
     {
+        $I->wantToTest("Di\Injectable - getDI()");
         $I->skipTest("Need implementation");
     }
 }

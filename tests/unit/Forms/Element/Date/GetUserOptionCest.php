@@ -18,11 +18,14 @@ class GetUserOptionCest
     /**
      * Tests Phalcon\Forms\Element\Date :: getUserOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUserOption(UnitTester $I)
+    public function formsElementDateGetUserOption(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - getUserOption()");
         $I->skipTest("Need implementation");
     }
 }

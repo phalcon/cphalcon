@@ -18,11 +18,14 @@ class WarningCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: warning()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWarning(UnitTester $I)
+    public function loggerAdapterBlackholeWarning(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - warning()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class FlipCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: flip()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFlip(UnitTester $I)
+    public function imageAdapterImagickFlip(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - flip()");
         $I->skipTest("Need implementation");
     }
 }

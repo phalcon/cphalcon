@@ -18,11 +18,14 @@ class IsFinishedCest
     /**
      * Tests Phalcon\Dispatcher :: isFinished()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsFinished(UnitTester $I)
+    public function dispatcherIsFinished(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - isFinished()");
         $I->skipTest("Need implementation");
     }
 }

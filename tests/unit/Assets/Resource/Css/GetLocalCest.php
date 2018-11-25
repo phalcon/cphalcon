@@ -18,11 +18,14 @@ class GetLocalCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: getLocal()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLocal(UnitTester $I)
+    public function assetsResourceCssGetLocal(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - getLocal()");
         $I->skipTest("Need implementation");
     }
 }

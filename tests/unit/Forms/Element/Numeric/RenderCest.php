@@ -18,11 +18,14 @@ class RenderCest
     /**
      * Tests Phalcon\Forms\Element\Numeric :: render()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRender(UnitTester $I)
+    public function formsElementNumericRender(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Numeric - render()");
         $I->skipTest("Need implementation");
     }
 }

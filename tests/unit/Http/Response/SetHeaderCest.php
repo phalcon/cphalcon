@@ -18,11 +18,14 @@ class SetHeaderCest
     /**
      * Tests Phalcon\Http\Response :: setHeader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetHeader(UnitTester $I)
+    public function httpResponseSetHeader(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setHeader()");
         $I->skipTest("Need implementation");
     }
 }

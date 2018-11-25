@@ -18,11 +18,14 @@ class GetMethodsCest
     /**
      * Tests Phalcon\Annotations\Adapter\Files :: getMethods()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMethods(UnitTester $I)
+    public function annotationsAdapterFilesGetMethods(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Files - getMethods()");
         $I->skipTest("Need implementation");
     }
 }

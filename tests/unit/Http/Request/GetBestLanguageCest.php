@@ -18,11 +18,14 @@ class GetBestLanguageCest
     /**
      * Tests Phalcon\Http\Request :: getBestLanguage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBestLanguage(UnitTester $I)
+    public function httpRequestGetBestLanguage(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getBestLanguage()");
         $I->skipTest("Need implementation");
     }
 }

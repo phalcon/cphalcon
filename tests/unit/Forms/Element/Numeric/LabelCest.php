@@ -18,11 +18,14 @@ class LabelCest
     /**
      * Tests Phalcon\Forms\Element\Numeric :: label()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLabel(UnitTester $I)
+    public function formsElementNumericLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Numeric - label()");
         $I->skipTest("Need implementation");
     }
 }

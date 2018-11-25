@@ -18,11 +18,14 @@ class AttemptCest
     /**
      * Tests Phalcon\Di :: attempt()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAttempt(UnitTester $I)
+    public function diAttempt(UnitTester $I)
     {
+        $I->wantToTest("Di - attempt()");
         $I->skipTest("Need implementation");
     }
 }

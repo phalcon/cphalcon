@@ -18,11 +18,14 @@ class GetContentCest
     /**
      * Tests Phalcon\Assets\Resource\Js :: getContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContent(UnitTester $I)
+    public function assetsResourceJsGetContent(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Js - getContent()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: setAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAttributes(UnitTester $I)
+    public function formsElementSubmitSetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Submit - setAttributes()");
         $I->skipTest("Need implementation");
     }
 }

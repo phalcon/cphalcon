@@ -18,11 +18,14 @@ class GetLifetimeCest
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: getLifetime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLifetime(UnitTester $I)
+    public function cacheBackendApcuGetLifetime(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Apcu - getLifetime()");
         $I->skipTest("Need implementation");
     }
 }

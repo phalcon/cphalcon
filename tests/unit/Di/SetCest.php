@@ -18,11 +18,14 @@ class SetCest
     /**
      * Tests Phalcon\Di :: set()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSet(UnitTester $I)
+    public function diSet(UnitTester $I)
     {
+        $I->wantToTest("Di - set()");
         $I->skipTest("Need implementation");
     }
 }

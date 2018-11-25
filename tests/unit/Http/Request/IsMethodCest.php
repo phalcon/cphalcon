@@ -18,11 +18,14 @@ class IsMethodCest
     /**
      * Tests Phalcon\Http\Request :: isMethod()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsMethod(UnitTester $I)
+    public function httpRequestIsMethod(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isMethod()");
         $I->skipTest("Need implementation");
     }
 }

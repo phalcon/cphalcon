@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation - __construct()");
         $I->skipTest("Need implementation");
     }
 }

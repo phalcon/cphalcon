@@ -18,11 +18,14 @@ class OutputCest
     /**
      * Tests Phalcon\Flash\Direct :: output()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutput(UnitTester $I)
+    public function flashDirectOutput(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - output()");
         $I->skipTest("Need implementation");
     }
 }

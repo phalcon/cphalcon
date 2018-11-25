@@ -18,11 +18,14 @@ class RemoveCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: remove()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRemove(UnitTester $I)
+    public function diFactorydefaultRemove(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - remove()");
         $I->skipTest("Need implementation");
     }
 }

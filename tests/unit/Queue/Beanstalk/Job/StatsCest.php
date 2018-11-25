@@ -18,11 +18,14 @@ class StatsCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: stats()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStats(UnitTester $I)
+    public function queueBeanstalkJobStats(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - stats()");
         $I->skipTest("Need implementation");
     }
 }

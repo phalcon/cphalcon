@@ -18,11 +18,14 @@ class IsStartedCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: isStarted()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsStarted(UnitTester $I)
+    public function cacheBackendMemcacheIsStarted(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - isStarted()");
         $I->skipTest("Need implementation");
     }
 }

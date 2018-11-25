@@ -18,11 +18,14 @@ class EncryptBase64Cest
     /**
      * Tests Phalcon\Crypt :: encryptBase64()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEncryptBase64(UnitTester $I)
+    public function cryptEncryptBase64(UnitTester $I)
     {
+        $I->wantToTest("Crypt - encryptBase64()");
         $I->skipTest("Need implementation");
     }
 }

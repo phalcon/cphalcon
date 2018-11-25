@@ -18,11 +18,14 @@ class ReadCest
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: read()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRead(UnitTester $I)
+    public function annotationsAdapterApcuRead(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Apcu - read()");
         $I->skipTest("Need implementation");
     }
 }

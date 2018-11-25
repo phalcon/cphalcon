@@ -18,11 +18,14 @@ class GetHeightCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getHeight()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHeight(UnitTester $I)
+    public function imageAdapterImagickGetHeight(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - getHeight()");
         $I->skipTest("Need implementation");
     }
 }

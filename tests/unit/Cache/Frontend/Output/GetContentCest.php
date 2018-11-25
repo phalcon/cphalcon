@@ -18,11 +18,14 @@ class GetContentCest
     /**
      * Tests Phalcon\Cache\Frontend\Output :: getContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContent(UnitTester $I)
+    public function cacheFrontendOutputGetContent(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Output - getContent()");
         $I->skipTest("Need implementation");
     }
 }

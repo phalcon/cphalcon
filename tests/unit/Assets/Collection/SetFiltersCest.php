@@ -18,11 +18,14 @@ class SetFiltersCest
     /**
      * Tests Phalcon\Assets\Collection :: setFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFilters(UnitTester $I)
+    public function assetsCollectionSetFilters(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - setFilters()");
         $I->skipTest("Need implementation");
     }
 }

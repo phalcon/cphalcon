@@ -18,11 +18,14 @@ class DecrementCest
     /**
      * Tests Phalcon\Cache\Backend\File :: decrement()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDecrement(UnitTester $I)
+    public function cacheBackendFileDecrement(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\File - decrement()");
         $I->skipTest("Need implementation");
     }
 }

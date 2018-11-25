@@ -18,11 +18,14 @@ class GetNameCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: getName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I)
+    public function formsElementTextareaGetName(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - getName()");
         $I->skipTest("Need implementation");
     }
 }

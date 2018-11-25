@@ -18,11 +18,14 @@ class ExistsCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function cacheBackendRedisExists(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Redis - exists()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetDICest
     /**
      * Tests Phalcon\Flash\Direct :: getDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDI(UnitTester $I)
+    public function flashDirectGetDI(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - getDI()");
         $I->skipTest("Need implementation");
     }
 }

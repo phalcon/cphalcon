@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Forms\Element\Email :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function formsElementEmailConstruct(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - __construct()");
         $I->skipTest("Need implementation");
     }
 }

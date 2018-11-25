@@ -19,6 +19,8 @@ class DynamicCest
     /**
      * Tests Phalcon\Text :: dynamic()
      *
+     * @param UnitTester $I
+     *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
@@ -37,6 +39,8 @@ class DynamicCest
     /**
      * Tests Phalcon\Text :: dynamic() - custom delimiter
      *
+     * @param UnitTester $I
+     *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
@@ -54,6 +58,8 @@ class DynamicCest
 
     /**
      * Tests Phalcon\Text :: dynamic() - custom separator
+     *
+     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11215
      * @author Phalcon Team <team@phalconphp.com>

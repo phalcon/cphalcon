@@ -18,11 +18,14 @@ class RollbackCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: rollback()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRollback(UnitTester $I)
+    public function loggerAdapterSyslogRollback(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Syslog - rollback()");
         $I->skipTest("Need implementation");
     }
 }

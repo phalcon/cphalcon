@@ -18,11 +18,14 @@ class ClearVarsCest
     /**
      * Tests Phalcon\Debug :: clearVars()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClearVars(UnitTester $I)
+    public function debugClearVars(UnitTester $I)
     {
+        $I->wantToTest("Debug - clearVars()");
         $I->skipTest("Need implementation");
     }
 }

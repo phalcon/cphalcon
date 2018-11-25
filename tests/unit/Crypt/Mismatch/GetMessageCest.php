@@ -18,11 +18,14 @@ class GetMessageCest
     /**
      * Tests Phalcon\Crypt\Mismatch :: getMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessage(UnitTester $I)
+    public function cryptMismatchGetMessage(UnitTester $I)
     {
+        $I->wantToTest("Crypt\Mismatch - getMessage()");
         $I->skipTest("Need implementation");
     }
 }

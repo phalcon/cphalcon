@@ -21,10 +21,12 @@ class PathCest
     /**
      * Tests Phalcon\Config :: path()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function configAdapterYamlPath(UnitTester $I)
+    public function configPath(UnitTester $I)
     {
         $I->wantToTest('Config - path()');
         $this->checkPath($I);
@@ -36,7 +38,7 @@ class PathCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function configAdapterYamlPathDefault(UnitTester $I)
+    public function configPathDefault(UnitTester $I)
     {
         $I->wantToTest('Config - path() - default');
         $this->checkPathDefault($I);

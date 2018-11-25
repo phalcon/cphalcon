@@ -18,11 +18,14 @@ class EscapeHtmlAttrCest
     /**
      * Tests Phalcon\Escaper :: escapeHtmlAttr()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscapeHtmlAttr(UnitTester $I)
+    public function escaperEscapeHtmlAttr(UnitTester $I)
     {
+        $I->wantToTest("Escaper - escapeHtmlAttr()");
         $I->skipTest("Need implementation");
     }
 }

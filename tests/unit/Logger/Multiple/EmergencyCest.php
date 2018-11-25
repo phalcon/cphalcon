@@ -18,11 +18,14 @@ class EmergencyCest
     /**
      * Tests Phalcon\Logger\Multiple :: emergency()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEmergency(UnitTester $I)
+    public function loggerMultipleEmergency(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - emergency()");
         $I->skipTest("Need implementation");
     }
 }

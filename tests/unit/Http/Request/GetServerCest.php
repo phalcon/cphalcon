@@ -18,11 +18,14 @@ class GetServerCest
     /**
      * Tests Phalcon\Http\Request :: getServer()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetServer(UnitTester $I)
+    public function httpRequestGetServer(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getServer()");
         $I->skipTest("Need implementation");
     }
 }

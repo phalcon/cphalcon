@@ -18,11 +18,14 @@ class WasForwardedCest
     /**
      * Tests Phalcon\Dispatcher :: wasForwarded()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWasForwarded(UnitTester $I)
+    public function dispatcherWasForwarded(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - wasForwarded()");
         $I->skipTest("Need implementation");
     }
 }

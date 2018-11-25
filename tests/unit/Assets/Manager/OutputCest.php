@@ -18,11 +18,14 @@ class OutputCest
     /**
      * Tests Phalcon\Assets\Manager :: output()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutput(UnitTester $I)
+    public function assetsManagerOutput(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - output()");
         $I->skipTest("Need implementation");
     }
 }

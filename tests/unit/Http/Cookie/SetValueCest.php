@@ -18,11 +18,14 @@ class SetValueCest
     /**
      * Tests Phalcon\Http\Cookie :: setValue()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetValue(UnitTester $I)
+    public function httpCookieSetValue(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - setValue()");
         $I->skipTest("Need implementation");
     }
 }

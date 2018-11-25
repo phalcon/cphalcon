@@ -18,11 +18,14 @@ class ClearCest
     /**
      * Tests Phalcon\Flash\Direct :: clear()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClear(UnitTester $I)
+    public function flashDirectClear(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - clear()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetCssClassesCest
     /**
      * Tests Phalcon\Flash :: setCssClasses()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCssClasses(UnitTester $I)
+    public function flashSetCssClasses(UnitTester $I)
     {
+        $I->wantToTest("Flash - setCssClasses()");
         $I->skipTest("Need implementation");
     }
 }

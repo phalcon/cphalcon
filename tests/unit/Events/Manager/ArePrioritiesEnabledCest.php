@@ -18,11 +18,14 @@ class ArePrioritiesEnabledCest
     /**
      * Tests Phalcon\Events\Manager :: arePrioritiesEnabled()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testArePrioritiesEnabled(UnitTester $I)
+    public function eventsManagerArePrioritiesEnabled(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - arePrioritiesEnabled()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetEventsManagerCest
     /**
      * Tests Phalcon\Validation :: getEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Validation - getEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

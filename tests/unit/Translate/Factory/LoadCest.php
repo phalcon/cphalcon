@@ -33,6 +33,8 @@ class LoadCest
     /**
      * Tests Phalcon\Translate\Factory :: load() - Phalcon\Config
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -66,6 +68,8 @@ class LoadCest
 
     /**
      * Tests Phalcon\Translate\Factory :: load() - array
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02

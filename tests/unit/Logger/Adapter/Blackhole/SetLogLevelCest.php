@@ -18,11 +18,14 @@ class SetLogLevelCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: setLogLevel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLogLevel(UnitTester $I)
+    public function loggerAdapterBlackholeSetLogLevel(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - setLogLevel()");
         $I->skipTest("Need implementation");
     }
 }

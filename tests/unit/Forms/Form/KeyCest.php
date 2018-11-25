@@ -18,11 +18,14 @@ class KeyCest
     /**
      * Tests Phalcon\Forms\Form :: key()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKey(UnitTester $I)
+    public function formsFormKey(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - key()");
         $I->skipTest("Need implementation");
     }
 }

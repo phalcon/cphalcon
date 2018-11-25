@@ -18,11 +18,14 @@ class HasParamCest
     /**
      * Tests Phalcon\Dispatcher :: hasParam()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasParam(UnitTester $I)
+    public function dispatcherHasParam(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - hasParam()");
         $I->skipTest("Need implementation");
     }
 }

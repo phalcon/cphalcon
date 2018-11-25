@@ -18,11 +18,14 @@ class AddResourceByTypeCest
     /**
      * Tests Phalcon\Assets\Manager :: addResourceByType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddResourceByType(UnitTester $I)
+    public function assetsManagerAddResourceByType(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - addResourceByType()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetActiveMethodCest
     /**
      * Tests Phalcon\Dispatcher :: getActiveMethod()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveMethod(UnitTester $I)
+    public function dispatcherGetActiveMethod(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getActiveMethod()");
         $I->skipTest("Need implementation");
     }
 }

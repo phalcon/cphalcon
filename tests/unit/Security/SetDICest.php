@@ -18,11 +18,14 @@ class SetDICest
     /**
      * Tests Phalcon\Security :: setDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDI(UnitTester $I)
+    public function securitySetDI(UnitTester $I)
     {
+        $I->wantToTest("Security - setDI()");
         $I->skipTest("Need implementation");
     }
 }

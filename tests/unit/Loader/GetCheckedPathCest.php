@@ -18,11 +18,14 @@ class GetCheckedPathCest
     /**
      * Tests Phalcon\Loader :: getCheckedPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCheckedPath(UnitTester $I)
+    public function loaderGetCheckedPath(UnitTester $I)
     {
+        $I->wantToTest("Loader - getCheckedPath()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class StartCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: start()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStart(UnitTester $I)
+    public function cacheBackendMemcacheStart(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - start()");
         $I->skipTest("Need implementation");
     }
 }

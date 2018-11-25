@@ -18,11 +18,14 @@ class GetContentCest
     /**
      * Tests Phalcon\Assets\Inline\Css :: getContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContent(UnitTester $I)
+    public function assetsInlineCssGetContent(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Css - getContent()");
         $I->skipTest("Need implementation");
     }
 }

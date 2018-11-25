@@ -18,11 +18,14 @@ class GetFormCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: getForm()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetForm(UnitTester $I)
+    public function formsElementTextareaGetForm(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - getForm()");
         $I->skipTest("Need implementation");
     }
 }

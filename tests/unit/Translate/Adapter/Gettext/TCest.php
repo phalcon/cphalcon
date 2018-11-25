@@ -18,11 +18,14 @@ class TCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: t()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextT(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - t()");
         $I->skipTest("Need implementation");
     }
 }

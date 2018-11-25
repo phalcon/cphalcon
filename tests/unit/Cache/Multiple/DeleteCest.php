@@ -18,11 +18,14 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Multiple :: delete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDelete(UnitTester $I)
+    public function cacheMultipleDelete(UnitTester $I)
     {
+        $I->wantToTest("Cache\Multiple - delete()");
         $I->skipTest("Need implementation");
     }
 }

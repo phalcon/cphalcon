@@ -18,11 +18,14 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Assets\Collection :: getAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttributes(UnitTester $I)
+    public function assetsCollectionGetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getAttributes()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class PushCest
     /**
      * Tests Phalcon\Logger\Multiple :: push()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPush(UnitTester $I)
+    public function loggerMultiplePush(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - push()");
         $I->skipTest("Need implementation");
     }
 }

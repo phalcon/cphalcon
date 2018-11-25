@@ -20,7 +20,8 @@ use UnitTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single field
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -89,7 +90,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum custom message
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
+     * custom message
      *
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2013-03-09
@@ -167,7 +169,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum custom message
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
+     * custom message
      *
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2013-03-09

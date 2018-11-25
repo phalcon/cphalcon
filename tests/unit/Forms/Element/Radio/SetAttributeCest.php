@@ -18,11 +18,14 @@ class SetAttributeCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: setAttribute()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAttribute(UnitTester $I)
+    public function formsElementRadioSetAttribute(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - setAttribute()");
         $I->skipTest("Need implementation");
     }
 }

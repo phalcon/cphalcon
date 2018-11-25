@@ -18,11 +18,14 @@ class RemoveCest
     /**
      * Tests Phalcon\Forms\Form :: remove()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRemove(UnitTester $I)
+    public function formsFormRemove(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - remove()");
         $I->skipTest("Need implementation");
     }
 }

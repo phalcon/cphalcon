@@ -18,11 +18,14 @@ class ConnectCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: connect()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConnect(UnitTester $I)
+    public function cacheBackendRedisConnect(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Redis - connect()");
         $I->skipTest("Need implementation");
     }
 }

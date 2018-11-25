@@ -18,11 +18,14 @@ class SetDefinitionCest
     /**
      * Tests Phalcon\Di\Service :: setDefinition()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefinition(UnitTester $I)
+    public function diServiceSetDefinition(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - setDefinition()");
         $I->skipTest("Need implementation");
     }
 }

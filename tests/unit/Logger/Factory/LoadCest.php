@@ -28,24 +28,15 @@ class LoadCest
     /**
      * Tests Phalcon\Logger\Factory :: load() - Config
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function loggerFactoryLoadConfig(UnitTester $I)
     {
+        $I->wantToTest("Logger\Factory - load() - Config");
         $options = $this->config->logger;
-        $this->runTests($I, $options);
-    }
-
-    /**
-     * Tests Phalcon\Logger\Factory :: load() - array
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-02
-     */
-    public function loggerFactoryLoadArray(UnitTester $I)
-    {
-        $options = $this->arrayConfig["logger"];
         $this->runTests($I, $options);
     }
 
@@ -67,5 +58,20 @@ class LoadCest
         $expected = $options["name"];
         $actual   = $logger->getPath();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Logger\Factory :: load() - array
+     *
+     * @param UnitTester $I
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function loggerFactoryLoadArray(UnitTester $I)
+    {
+        $I->wantToTest("Logger\Factory - load() - array");
+        $options = $this->arrayConfig["logger"];
+        $this->runTests($I, $options);
     }
 }

@@ -18,11 +18,14 @@ class WakeupCest
     /**
      * Tests Phalcon\Crypt\Mismatch :: __wakeup()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWakeup(UnitTester $I)
+    public function cryptMismatchWakeup(UnitTester $I)
     {
+        $I->wantToTest("Crypt\Mismatch - __wakeup()");
         $I->skipTest("Need implementation");
     }
 }

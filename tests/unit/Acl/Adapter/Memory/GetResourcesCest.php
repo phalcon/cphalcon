@@ -18,11 +18,14 @@ class GetResourcesCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getResources()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResources(UnitTester $I)
+    public function aclAdapterMemoryGetResources(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getResources()");
         $I->skipTest("Need implementation");
     }
 }

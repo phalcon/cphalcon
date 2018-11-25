@@ -18,11 +18,14 @@ class IsBufferingCest
     /**
      * Tests Phalcon\Cache\Frontend\Base64 :: isBuffering()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsBuffering(UnitTester $I)
+    public function cacheFrontendBase64IsBuffering(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Base64 - isBuffering()");
         $I->skipTest("Need implementation");
     }
 }

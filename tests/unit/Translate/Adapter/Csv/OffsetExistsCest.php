@@ -18,11 +18,14 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterCsvOffsetExists(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Csv - offsetExists()");
         $I->skipTest("Need implementation");
     }
 }

@@ -15,7 +15,6 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Between;
-
 use UnitTester;
 
 class ValidateCest

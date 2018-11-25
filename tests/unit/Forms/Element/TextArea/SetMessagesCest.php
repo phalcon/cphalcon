@@ -18,11 +18,14 @@ class SetMessagesCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: setMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetMessages(UnitTester $I)
+    public function formsElementTextareaSetMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - setMessages()");
         $I->skipTest("Need implementation");
     }
 }

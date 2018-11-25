@@ -18,11 +18,14 @@ class ResetDomainCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: resetDomain()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextResetDomain(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - resetDomain()");
         $I->skipTest("Need implementation");
     }
 }

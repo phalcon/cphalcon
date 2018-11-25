@@ -18,11 +18,14 @@ class PaginateCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPaginate(UnitTester $I)
+    public function paginatorAdapterQuerybuilderPaginate(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\QueryBuilder - paginate()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetParamCest
     /**
      * Tests Phalcon\Dispatcher :: setParam()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetParam(UnitTester $I)
+    public function dispatcherSetParam(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - setParam()");
         $I->skipTest("Need implementation");
     }
 }

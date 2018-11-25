@@ -18,11 +18,14 @@ class ParseDocBlockCest
     /**
      * Tests Phalcon\Annotations\Reader :: parseDocBlock()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testParseDocBlock(UnitTester $I)
+    public function annotationsReaderParseDocBlock(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Reader - parseDocBlock()");
         $I->skipTest("Need implementation");
     }
 }

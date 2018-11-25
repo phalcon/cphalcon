@@ -18,11 +18,14 @@ class GetResourcesCest
     /**
      * Tests Phalcon\Assets\Collection :: getResources()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResources(UnitTester $I)
+    public function assetsCollectionGetResources(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getResources()");
         $I->skipTest("Need implementation");
     }
 }

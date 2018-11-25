@@ -18,11 +18,14 @@ class LabelCest
     /**
      * Tests Phalcon\Forms\Element\Email :: label()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLabel(UnitTester $I)
+    public function formsElementEmailLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - label()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class HasArgumentCest
     /**
      * Tests Phalcon\Annotations\Annotation :: hasArgument()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasArgument(UnitTester $I)
+    public function annotationsAnnotationHasArgument(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Annotation - hasArgument()");
         $I->skipTest("Need implementation");
     }
 }

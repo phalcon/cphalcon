@@ -20,11 +20,14 @@ class CountCest
     /**
      * Tests Phalcon\Messages\Messages :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function messagesMessagesCount(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - count()");
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

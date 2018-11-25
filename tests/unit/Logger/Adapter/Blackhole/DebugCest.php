@@ -18,11 +18,14 @@ class DebugCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: debug()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDebug(UnitTester $I)
+    public function loggerAdapterBlackholeDebug(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - debug()");
         $I->skipTest("Need implementation");
     }
 }

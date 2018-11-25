@@ -18,11 +18,14 @@ class HasHeaderCest
     /**
      * Tests Phalcon\Http\Response :: hasHeader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasHeader(UnitTester $I)
+    public function httpResponseHasHeader(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - hasHeader()");
         $I->skipTest("Need implementation");
     }
 }

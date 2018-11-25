@@ -18,11 +18,14 @@ class CountCest
     /**
      * Tests Phalcon\Assets\Collection :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function assetsCollectionCount(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - count()");
         $I->skipTest("Need implementation");
     }
 }

@@ -11,12 +11,12 @@
 
 namespace Phalcon\Test\Unit\Http\Helper;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Di;
 use Phalcon\Filter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Url;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class HttpBase
@@ -66,21 +66,6 @@ class HttpBase
     }
 
     /**
-     * Initializes the request object and returns it
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
-     * @return Request
-     */
-    protected function getRequestObject()
-    {
-        $container = Di::getDefault();
-
-        return $container->get('request');
-    }
-
-    /**
      * Checks the has functions on non defined variables
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -95,6 +80,21 @@ class HttpBase
         $actual  = $request->$function('test');
 
         $I->assertFalse($actual);
+    }
+
+    /**
+     * Initializes the request object and returns it
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
+     *
+     * @return Request
+     */
+    protected function getRequestObject()
+    {
+        $container = Di::getDefault();
+
+        return $container->get('request');
     }
 
     /**

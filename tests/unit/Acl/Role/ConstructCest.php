@@ -21,11 +21,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Role :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function aclRoleConstruct(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - __construct()");
         $actual = new Role('Administrator');
 
         $class = Role::class;
@@ -35,11 +38,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Role :: __construct() - wildcard
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstructWithWildcardThrowsException(UnitTester $I)
+    public function aclRoleConstructWithWildcardThrowsException(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - __construct() - exception with '*'");
         $I->expectThrowable(
             new Exception("Role name cannot be '*'"),
             function () {
@@ -51,11 +57,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Role :: __construct() - without name
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstructWithoutName(UnitTester $I)
+    public function aclRoleConstructWithoutName(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - __construct() - exception params");
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

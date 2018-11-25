@@ -18,11 +18,14 @@ class AddInlineCodeCest
     /**
      * Tests Phalcon\Assets\Manager :: addInlineCode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddInlineCode(UnitTester $I)
+    public function assetsManagerAddInlineCode(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - addInlineCode()");
         $I->skipTest("Need implementation");
     }
 }

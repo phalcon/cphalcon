@@ -18,11 +18,14 @@ class ForwardCest
     /**
      * Tests Phalcon\Dispatcher :: forward()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testForward(UnitTester $I)
+    public function dispatcherForward(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - forward()");
         $I->skipTest("Need implementation");
     }
 }

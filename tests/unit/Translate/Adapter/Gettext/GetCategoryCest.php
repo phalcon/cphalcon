@@ -18,11 +18,14 @@ class GetCategoryCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getCategory()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextGetCategory(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - getCategory()");
         $I->skipTest("Need implementation");
     }
 }

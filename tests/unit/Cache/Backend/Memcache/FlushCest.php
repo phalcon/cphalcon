@@ -18,11 +18,14 @@ class FlushCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: flush()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFlush(UnitTester $I)
+    public function cacheBackendMemcacheFlush(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - flush()");
         $I->skipTest("Need implementation");
     }
 }

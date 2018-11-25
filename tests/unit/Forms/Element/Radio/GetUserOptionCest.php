@@ -18,11 +18,14 @@ class GetUserOptionCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: getUserOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUserOption(UnitTester $I)
+    public function formsElementRadioGetUserOption(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - getUserOption()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DetachAllCest
     /**
      * Tests Phalcon\Events\Manager :: detachAll()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDetachAll(UnitTester $I)
+    public function eventsManagerDetachAll(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - detachAll()");
         $I->skipTest("Need implementation");
     }
 }

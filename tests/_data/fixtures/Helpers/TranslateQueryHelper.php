@@ -11,14 +11,14 @@
 
 namespace Phalcon\Test\Fixtures\Helpers;
 
-use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
 class TranslateQueryHelper
 {
     use TranslateTrait;
-    
+
     protected $function = '_';
 
     /**
@@ -316,7 +316,8 @@ class TranslateQueryHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access and UTF8 strings
+     * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access
+     * and UTF8 strings
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12

@@ -18,11 +18,14 @@ class FireCest
     /**
      * Tests Phalcon\Events\Manager :: fire()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFire(UnitTester $I)
+    public function eventsManagerFire(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - fire()");
         $I->skipTest("Need implementation");
     }
 }

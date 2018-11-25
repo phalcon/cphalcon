@@ -18,11 +18,14 @@ class JobPeekCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: jobPeek()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testJobPeek(UnitTester $I)
+    public function queueBeanstalkJobPeek(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - jobPeek()");
         $I->skipTest("Need implementation");
     }
 }

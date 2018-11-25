@@ -18,11 +18,14 @@ class LogCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: log()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLog(UnitTester $I)
+    public function loggerAdapterFileLog(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - log()");
         $I->skipTest("Need implementation");
     }
 }

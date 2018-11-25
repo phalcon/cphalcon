@@ -18,11 +18,14 @@ class IsPutCest
     /**
      * Tests Phalcon\Http\Request :: isPut()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsPut(UnitTester $I)
+    public function httpRequestIsPut(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isPut()");
         $I->skipTest("Need implementation");
     }
 }

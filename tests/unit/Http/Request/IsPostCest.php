@@ -18,11 +18,14 @@ class IsPostCest
     /**
      * Tests Phalcon\Http\Request :: isPost()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsPost(UnitTester $I)
+    public function httpRequestIsPost(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isPost()");
         $I->skipTest("Need implementation");
     }
 }

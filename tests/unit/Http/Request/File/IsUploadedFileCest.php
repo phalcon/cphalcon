@@ -18,11 +18,14 @@ class IsUploadedFileCest
     /**
      * Tests Phalcon\Http\Request\File :: isUploadedFile()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsUploadedFile(UnitTester $I)
+    public function httpRequestFileIsUploadedFile(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - isUploadedFile()");
         $I->skipTest("Need implementation");
     }
 }

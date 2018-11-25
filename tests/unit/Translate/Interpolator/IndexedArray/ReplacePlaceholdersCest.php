@@ -20,10 +20,12 @@ class ReplacePlaceholdersCest
      * Tests Phalcon\Translate\Interpolator\IndexedArray ::
      * replacePlaceholders()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateInterpolatorIndexedArrayReplacePlaceholders(UnitTester $I)
+    public function translateInterpolatorIndexedarrayReplacePlaceholders(UnitTester $I)
     {
         $I->wantToTest('Translate\Interpolator\IndexedArray - replacePlaceholders()');
         $interpolator = new IndexedArray();

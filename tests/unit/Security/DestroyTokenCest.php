@@ -18,11 +18,14 @@ class DestroyTokenCest
     /**
      * Tests Phalcon\Security :: destroyToken()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDestroyToken(UnitTester $I)
+    public function securityDestroyToken(UnitTester $I)
     {
+        $I->wantToTest("Security - destroyToken()");
         $I->skipTest("Need implementation");
     }
 }

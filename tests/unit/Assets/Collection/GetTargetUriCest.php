@@ -18,11 +18,14 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Collection :: getTargetUri()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTargetUri(UnitTester $I)
+    public function assetsCollectionGetTargetUri(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getTargetUri()");
         $I->skipTest("Need implementation");
     }
 }

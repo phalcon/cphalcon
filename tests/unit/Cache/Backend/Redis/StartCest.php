@@ -18,11 +18,14 @@ class StartCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: start()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStart(UnitTester $I)
+    public function cacheBackendRedisStart(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Redis - start()");
         $I->skipTest("Need implementation");
     }
 }

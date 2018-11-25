@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterGroupedGet(UnitTester $I)
     {
+        $I->wantToTest("Config\Adapter\Grouped - get()");
         $I->skipTest("Need implementation");
     }
 }

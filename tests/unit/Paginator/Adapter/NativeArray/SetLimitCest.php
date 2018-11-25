@@ -19,16 +19,19 @@ class SetLimitCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: setLimit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLimit(UnitTester $I)
+    public function paginatorAdapterNativearraySetLimit(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\NativeArray - setLimit()");
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),
                 'limit' => 25,
-                'page'  => 1
+                'page'  => 1,
             ]
         );
 

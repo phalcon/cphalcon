@@ -18,11 +18,14 @@ class GetImageCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getImage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetImage(UnitTester $I)
+    public function imageAdapterImagickGetImage(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - getImage()");
         $I->skipTest("Need implementation");
     }
 }

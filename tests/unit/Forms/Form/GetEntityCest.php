@@ -18,11 +18,14 @@ class GetEntityCest
     /**
      * Tests Phalcon\Forms\Form :: getEntity()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEntity(UnitTester $I)
+    public function formsFormGetEntity(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getEntity()");
         $I->skipTest("Need implementation");
     }
 }

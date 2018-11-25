@@ -19,7 +19,7 @@ class IsNotNullCest
      * Tests Phalcon\Db\Column :: isNotNull()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

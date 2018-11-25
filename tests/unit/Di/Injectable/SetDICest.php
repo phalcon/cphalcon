@@ -18,11 +18,14 @@ class SetDICest
     /**
      * Tests Phalcon\Di\Injectable :: setDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDI(UnitTester $I)
+    public function diInjectableSetDI(UnitTester $I)
     {
+        $I->wantToTest("Di\Injectable - setDI()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class OutputCest
     /**
      * Tests Phalcon\Flash\Session :: output()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutput(UnitTester $I)
+    public function flashSessionOutput(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - output()");
         $I->skipTest("Need implementation");
     }
 }

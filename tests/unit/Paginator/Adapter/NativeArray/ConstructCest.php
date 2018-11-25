@@ -20,11 +20,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function paginatorAdapterNativearrayConstruct(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\NativeArray - __construct() - wrong parameters");
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

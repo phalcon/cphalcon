@@ -18,11 +18,14 @@ class GetOptionsCest
     /**
      * Tests Phalcon\Assets\Manager :: getOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOptions(UnitTester $I)
+    public function assetsManagerGetOptions(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - getOptions()");
         $I->skipTest("Need implementation");
     }
 }

@@ -21,11 +21,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Resource :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function aclResourceConstruct(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - __construct()");
         $actual = new Resource('Customers');
 
         $class = Resource::class;
@@ -35,11 +38,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Resource :: __construct() - wildcard
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstructWithWildcardThrowsException(UnitTester $I)
+    public function aclResourceConstructWithWildcardThrowsException(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - __construct() - exception with '*'");
         $I->expectThrowable(
             new Exception("Resource name cannot be '*'"),
             function () {
@@ -51,11 +57,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Resource :: __construct() - without name
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstructWithoutName(UnitTester $I)
+    public function aclResourceConstructWithoutName(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - __construct() - exception parameters");
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

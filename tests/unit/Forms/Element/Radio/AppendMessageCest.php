@@ -18,11 +18,14 @@ class AppendMessageCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: appendMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAppendMessage(UnitTester $I)
+    public function formsElementRadioAppendMessage(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - appendMessage()");
         $I->skipTest("Need implementation");
     }
 }

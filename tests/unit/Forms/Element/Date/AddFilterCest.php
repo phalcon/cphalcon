@@ -18,11 +18,14 @@ class AddFilterCest
     /**
      * Tests Phalcon\Forms\Element\Date :: addFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddFilter(UnitTester $I)
+    public function formsElementDateAddFilter(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - addFilter()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetExpirationCest
     /**
      * Tests Phalcon\Http\Cookie :: setExpiration()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetExpiration(UnitTester $I)
+    public function httpCookieSetExpiration(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - setExpiration()");
         $I->skipTest("Need implementation");
     }
 }

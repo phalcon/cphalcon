@@ -18,11 +18,14 @@ class GetActiveAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveAccess()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveAccess(UnitTester $I)
+    public function aclAdapterMemoryGetActiveAccess(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getActiveAccess()");
         $I->skipTest("Need implementation");
     }
 }

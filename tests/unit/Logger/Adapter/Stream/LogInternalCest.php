@@ -18,11 +18,14 @@ class LogInternalCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: logInternal()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLogInternal(UnitTester $I)
+    public function loggerAdapterStreamLogInternal(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Stream - logInternal()");
         $I->skipTest("Need implementation");
     }
 }

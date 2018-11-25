@@ -18,11 +18,14 @@ class ReadStatusCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: readStatus()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReadStatus(UnitTester $I)
+    public function queueBeanstalkReadStatus(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - readStatus()");
         $I->skipTest("Need implementation");
     }
 }

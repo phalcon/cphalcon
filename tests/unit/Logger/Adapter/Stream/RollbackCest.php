@@ -18,11 +18,14 @@ class RollbackCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: rollback()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRollback(UnitTester $I)
+    public function loggerAdapterStreamRollback(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Stream - rollback()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Email :: setAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAttributes(UnitTester $I)
+    public function formsElementEmailSetAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - setAttributes()");
         $I->skipTest("Need implementation");
     }
 }

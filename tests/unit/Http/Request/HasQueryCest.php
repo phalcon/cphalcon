@@ -18,11 +18,14 @@ class HasQueryCest
     /**
      * Tests Phalcon\Http\Request :: hasQuery()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasQuery(UnitTester $I)
+    public function httpRequestHasQuery(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - hasQuery()");
         $I->skipTest("Need implementation");
     }
 }

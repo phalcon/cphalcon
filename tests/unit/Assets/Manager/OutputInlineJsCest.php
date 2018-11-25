@@ -18,11 +18,14 @@ class OutputInlineJsCest
     /**
      * Tests Phalcon\Assets\Manager :: outputInlineJs()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutputInlineJs(UnitTester $I)
+    public function assetsManagerOutputInlineJs(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - outputInlineJs()");
         $I->skipTest("Need implementation");
     }
 }

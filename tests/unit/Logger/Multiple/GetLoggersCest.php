@@ -18,11 +18,14 @@ class GetLoggersCest
     /**
      * Tests Phalcon\Logger\Multiple :: getLoggers()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLoggers(UnitTester $I)
+    public function loggerMultipleGetLoggers(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - getLoggers()");
         $I->skipTest("Need implementation");
     }
 }

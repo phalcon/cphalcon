@@ -15,7 +15,6 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
-
 use UnitTester;
 
 class ValidateCest
@@ -88,7 +87,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic Characters
+     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic
+     * Characters
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
@@ -135,7 +135,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic Characters
+     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic
+     * Characters
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
@@ -170,7 +171,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin Characters
+     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin
+     * Characters
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10

@@ -18,11 +18,14 @@ class GetPropertyCest
     /**
      * Tests Phalcon\Annotations\Adapter\Xcache :: getProperty()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetProperty(UnitTester $I)
+    public function annotationsAdapterXcacheGetProperty(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Xcache - getProperty()");
         $I->skipTest("Need implementation");
     }
 }

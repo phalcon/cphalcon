@@ -19,6 +19,8 @@ class UpperCest
     /**
      * Tests Phalcon\Text :: upper()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -40,6 +42,8 @@ class UpperCest
 
     /**
      * Tests Phalcon\Text :: upper() - multi-bytes encoding
+     *
+     * @param UnitTester $I
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06

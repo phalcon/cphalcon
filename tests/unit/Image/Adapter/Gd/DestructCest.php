@@ -18,11 +18,14 @@ class DestructCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: __destruct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDestruct(UnitTester $I)
+    public function imageAdapterGdDestruct(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - __destruct()");
         $I->skipTest("Need implementation");
     }
 }

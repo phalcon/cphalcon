@@ -18,11 +18,14 @@ class SetTypeCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: setType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetType(UnitTester $I)
+    public function assetsResourceCssSetType(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - setType()");
         $I->skipTest("Need implementation");
     }
 }

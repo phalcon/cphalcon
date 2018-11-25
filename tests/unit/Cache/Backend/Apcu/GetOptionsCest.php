@@ -18,11 +18,14 @@ class GetOptionsCest
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: getOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOptions(UnitTester $I)
+    public function cacheBackendApcuGetOptions(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Apcu - getOptions()");
         $I->skipTest("Need implementation");
     }
 }

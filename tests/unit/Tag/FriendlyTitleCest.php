@@ -22,6 +22,8 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter and no
      * separator
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -36,6 +38,8 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter and a
      * separator
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -52,6 +56,8 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter lowercase
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -66,6 +72,8 @@ class FriendlyTitleCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter uppercase
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -83,6 +91,8 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as string
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -98,6 +108,8 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as array
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -119,6 +131,8 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - special characters and escaping
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -137,6 +151,8 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - accented characters and replace
      * string
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -152,6 +168,8 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - accented characters and replace
      * array
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -173,6 +191,8 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as boolean
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11

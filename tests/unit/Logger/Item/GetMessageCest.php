@@ -18,11 +18,14 @@ class GetMessageCest
     /**
      * Tests Phalcon\Logger\Item :: getMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessage(UnitTester $I)
+    public function loggerItemGetMessage(UnitTester $I)
     {
+        $I->wantToTest("Logger\Item - getMessage()");
         $I->skipTest("Need implementation");
     }
 }

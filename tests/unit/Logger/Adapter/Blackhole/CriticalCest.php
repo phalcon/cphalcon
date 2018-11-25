@@ -18,11 +18,14 @@ class CriticalCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: critical()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCritical(UnitTester $I)
+    public function loggerAdapterBlackholeCritical(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - critical()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class ExistsCest
     /**
      * Tests Phalcon\Assets\Manager :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function assetsManagerExists(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - exists()");
         $I->skipTest("Need implementation");
     }
 }

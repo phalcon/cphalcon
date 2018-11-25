@@ -18,11 +18,14 @@ class IsPurgeCest
     /**
      * Tests Phalcon\Http\Request :: isPurge()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsPurge(UnitTester $I)
+    public function httpRequestIsPurge(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isPurge()");
         $I->skipTest("Need implementation");
     }
 }

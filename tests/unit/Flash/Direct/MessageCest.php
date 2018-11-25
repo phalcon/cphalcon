@@ -18,11 +18,14 @@ class MessageCest
     /**
      * Tests Phalcon\Flash\Direct :: message()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testMessage(UnitTester $I)
+    public function flashDirectMessage(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - message()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class CriticalCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: critical()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCritical(UnitTester $I)
+    public function loggerAdapterStreamCritical(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Stream - critical()");
         $I->skipTest("Need implementation");
     }
 }

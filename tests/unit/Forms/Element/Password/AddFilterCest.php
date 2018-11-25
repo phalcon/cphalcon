@@ -18,11 +18,14 @@ class AddFilterCest
     /**
      * Tests Phalcon\Forms\Element\Password :: addFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddFilter(UnitTester $I)
+    public function formsElementPasswordAddFilter(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - addFilter()");
         $I->skipTest("Need implementation");
     }
 }

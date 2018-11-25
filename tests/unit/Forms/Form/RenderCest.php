@@ -18,11 +18,14 @@ class RenderCest
     /**
      * Tests Phalcon\Forms\Form :: render()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRender(UnitTester $I)
+    public function formsFormRender(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - render()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetAttributeCest
     /**
      * Tests Phalcon\Forms\Element\Date :: getAttribute()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAttribute(UnitTester $I)
+    public function formsElementDateGetAttribute(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - getAttribute()");
         $I->skipTest("Need implementation");
     }
 }

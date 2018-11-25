@@ -18,11 +18,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function imageAdapterGdGetType(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - getType()");
         $I->skipTest("Need implementation");
     }
 }

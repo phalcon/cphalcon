@@ -18,11 +18,14 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\Check :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefault(UnitTester $I)
+    public function formsElementCheckSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Check - setDefault()");
         $I->skipTest("Need implementation");
     }
 }

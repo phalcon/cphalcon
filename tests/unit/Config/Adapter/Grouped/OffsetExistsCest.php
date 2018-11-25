@@ -18,11 +18,14 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterGroupedOffsetExists(UnitTester $I)
     {
+        $I->wantToTest("Config\Adapter\Grouped - offsetExists()");
         $I->skipTest("Need implementation");
     }
 }

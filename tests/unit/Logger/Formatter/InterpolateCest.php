@@ -18,11 +18,14 @@ class InterpolateCest
     /**
      * Tests Phalcon\Logger\Formatter :: interpolate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testInterpolate(UnitTester $I)
+    public function loggerFormatterInterpolate(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter - interpolate()");
         $I->skipTest("Need implementation");
     }
 }

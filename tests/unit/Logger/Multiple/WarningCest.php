@@ -18,11 +18,14 @@ class WarningCest
     /**
      * Tests Phalcon\Logger\Multiple :: warning()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWarning(UnitTester $I)
+    public function loggerMultipleWarning(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - warning()");
         $I->skipTest("Need implementation");
     }
 }

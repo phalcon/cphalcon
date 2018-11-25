@@ -18,11 +18,14 @@ class GetLogLevelCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: getLogLevel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLogLevel(UnitTester $I)
+    public function loggerAdapterFirephpGetLogLevel(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - getLogLevel()");
         $I->skipTest("Need implementation");
     }
 }

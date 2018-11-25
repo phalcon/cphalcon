@@ -18,11 +18,14 @@ class SetNameCest
     /**
      * Tests Phalcon\Forms\Element\Email :: setName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetName(UnitTester $I)
+    public function formsElementEmailSetName(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - setName()");
         $I->skipTest("Need implementation");
     }
 }

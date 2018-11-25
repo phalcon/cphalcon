@@ -20,6 +20,9 @@ class LoadCest
 {
     use FactoryTrait;
 
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $this->init();
@@ -28,11 +31,14 @@ class LoadCest
     /**
      * Tests Phalcon\Cache\Frontend\Factory :: load() - Config
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testConfigFactory(UnitTester $I)
+    public function cacheFrontendFactoryLoadConfig(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Factory - load() - Config");
         $options = $this->config->cache_frontend;
         $this->runTests($I, $options);
     }
@@ -60,11 +66,14 @@ class LoadCest
     /**
      * Tests Phalcon\Cache\Frontend\Factory :: load() - array
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testArrayFactory(UnitTester $I)
+    public function cacheFrontendFactoryLoadArray(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Factory - load() - array");
         $options = $this->arrayConfig["cache_frontend"];
         $this->runTests($I, $options);
     }

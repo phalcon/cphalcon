@@ -18,11 +18,14 @@ class GetLabelCest
     /**
      * Tests Phalcon\Forms\Element\Select :: getLabel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLabel(UnitTester $I)
+    public function formsElementSelectGetLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - getLabel()");
         $I->skipTest("Need implementation");
     }
 }

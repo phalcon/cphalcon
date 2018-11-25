@@ -18,11 +18,14 @@ class HasListenersCest
     /**
      * Tests Phalcon\Events\Manager :: hasListeners()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasListeners(UnitTester $I)
+    public function eventsManagerHasListeners(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - hasListeners()");
         $I->skipTest("Need implementation");
     }
 }

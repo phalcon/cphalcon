@@ -18,11 +18,14 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefault(UnitTester $I)
+    public function formsElementTextareaSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\TextArea - setDefault()");
         $I->skipTest("Need implementation");
     }
 }

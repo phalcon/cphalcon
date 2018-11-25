@@ -18,11 +18,14 @@ class BackgroundCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: background()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBackground(UnitTester $I)
+    public function imageAdapterImagickBackground(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - background()");
         $I->skipTest("Need implementation");
     }
 }

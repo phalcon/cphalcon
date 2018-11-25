@@ -21,12 +21,14 @@ class GetCest
     /**
      * Tests Phalcon\Config :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configGet(UnitTester $I)
     {
-        $I->wantToTest('Config - get()');
+        $I->wantToTest("Config - get()");
         $this->checkGet($I);
     }
 }

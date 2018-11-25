@@ -19,7 +19,7 @@ class SetEventsManagerCest
      * Tests Phalcon\Cli\Console :: setEventsManager()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -18,11 +18,14 @@ class GetArgumentCest
     /**
      * Tests Phalcon\Annotations\Annotation :: getArgument()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetArgument(UnitTester $I)
+    public function annotationsAnnotationGetArgument(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Annotation - getArgument()");
         $I->skipTest("Need implementation");
     }
 }

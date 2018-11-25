@@ -18,11 +18,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function imageAdapterImagickGetType(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - getType()");
         $I->skipTest("Need implementation");
     }
 }

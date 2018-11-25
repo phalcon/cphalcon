@@ -22,6 +22,8 @@ class ExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

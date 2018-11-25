@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Response\Cookies :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function httpResponseCookiesConstruct(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Cookies - __construct()");
         $I->skipTest("Need implementation");
     }
 }

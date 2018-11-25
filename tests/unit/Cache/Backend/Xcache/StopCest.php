@@ -18,11 +18,14 @@ class StopCest
     /**
      * Tests Phalcon\Cache\Backend\Xcache :: stop()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStop(UnitTester $I)
+    public function cacheBackendXcacheStop(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Xcache - stop()");
         $I->skipTest("Need implementation");
     }
 }

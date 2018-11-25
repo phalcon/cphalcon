@@ -18,11 +18,14 @@ class GetEncodingCest
     /**
      * Tests Phalcon\Escaper :: getEncoding()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEncoding(UnitTester $I)
+    public function escaperGetEncoding(UnitTester $I)
     {
+        $I->wantToTest("Escaper - getEncoding()");
         $I->skipTest("Need implementation");
     }
 }

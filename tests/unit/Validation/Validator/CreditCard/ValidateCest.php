@@ -29,8 +29,10 @@ class ValidateCest
     {
         $I->skipTest("Need implementation");
     }
+
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single field
+     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single
+     * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -50,7 +52,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - multiple field
+     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - multiple
+     * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -120,7 +123,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - valid card numbers
+     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - valid card
+     * numbers
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
@@ -146,7 +150,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - invalid card numbers
+     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - invalid
+     * card numbers
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06

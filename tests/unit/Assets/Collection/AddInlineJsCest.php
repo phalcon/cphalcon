@@ -18,11 +18,14 @@ class AddInlineJsCest
     /**
      * Tests Phalcon\Assets\Collection :: addInlineJs()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddInlineJs(UnitTester $I)
+    public function assetsCollectionAddInlineJs(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - addInlineJs()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class OnUncaughtExceptionCest
     /**
      * Tests Phalcon\Debug :: onUncaughtException()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOnUncaughtException(UnitTester $I)
+    public function debugOnUncaughtException(UnitTester $I)
     {
+        $I->wantToTest("Debug - onUncaughtException()");
         $I->skipTest("Need implementation");
     }
 }

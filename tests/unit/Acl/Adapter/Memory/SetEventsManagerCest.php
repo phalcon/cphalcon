@@ -18,11 +18,14 @@ class SetEventsManagerCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: setEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetEventsManager(UnitTester $I)
+    public function aclAdapterMemorySetEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - setEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

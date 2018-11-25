@@ -18,11 +18,14 @@ class ToArrayCest
     /**
      * Tests Phalcon\Http\Response\Headers :: toArray()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToArray(UnitTester $I)
+    public function httpResponseHeadersToArray(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Headers - toArray()");
         $I->skipTest("Need implementation");
     }
 }

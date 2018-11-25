@@ -18,11 +18,14 @@ class WakeupCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: __wakeup()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWakeup(UnitTester $I)
+    public function loggerAdapterFileWakeup(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - __wakeup()");
         $I->skipTest("Need implementation");
     }
 }

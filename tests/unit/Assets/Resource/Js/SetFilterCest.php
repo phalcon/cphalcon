@@ -18,11 +18,14 @@ class SetFilterCest
     /**
      * Tests Phalcon\Assets\Resource\Js :: setFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFilter(UnitTester $I)
+    public function assetsResourceJsSetFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Js - setFilter()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetWorkFactorCest
     /**
      * Tests Phalcon\Security :: setWorkFactor()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetWorkFactor(UnitTester $I)
+    public function securitySetWorkFactor(UnitTester $I)
     {
+        $I->wantToTest("Security - setWorkFactor()");
         $I->skipTest("Need implementation");
     }
 }

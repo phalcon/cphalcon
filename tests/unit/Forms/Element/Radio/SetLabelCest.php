@@ -18,11 +18,14 @@ class SetLabelCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: setLabel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLabel(UnitTester $I)
+    public function formsElementRadioSetLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - setLabel()");
         $I->skipTest("Need implementation");
     }
 }

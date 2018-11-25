@@ -18,11 +18,14 @@ class ClearCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: clear()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClear(UnitTester $I)
+    public function formsElementSubmitClear(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Submit - clear()");
         $I->skipTest("Need implementation");
     }
 }

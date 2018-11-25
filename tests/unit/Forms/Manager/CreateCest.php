@@ -18,11 +18,14 @@ class CreateCest
     /**
      * Tests Phalcon\Forms\Manager :: create()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCreate(UnitTester $I)
+    public function formsManagerCreate(UnitTester $I)
     {
+        $I->wantToTest("Forms\Manager - create()");
         $I->skipTest("Need implementation");
     }
 }

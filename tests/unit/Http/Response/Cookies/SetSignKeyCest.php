@@ -18,11 +18,14 @@ class SetSignKeyCest
     /**
      * Tests Phalcon\Http\Response\Cookies :: setSignKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSignKey(UnitTester $I)
+    public function httpResponseCookiesSetSignKey(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Cookies - setSignKey()");
         $I->skipTest("Need implementation");
     }
 }

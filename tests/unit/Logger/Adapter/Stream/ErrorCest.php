@@ -18,11 +18,14 @@ class ErrorCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: error()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testError(UnitTester $I)
+    public function loggerAdapterStreamError(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Stream - error()");
         $I->skipTest("Need implementation");
     }
 }

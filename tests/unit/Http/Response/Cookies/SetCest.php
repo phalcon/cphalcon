@@ -18,11 +18,14 @@ class SetCest
     /**
      * Tests Phalcon\Http\Response\Cookies :: set()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSet(UnitTester $I)
+    public function httpResponseCookiesSet(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Cookies - set()");
         $I->skipTest("Need implementation");
     }
 }

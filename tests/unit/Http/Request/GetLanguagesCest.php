@@ -18,11 +18,14 @@ class GetLanguagesCest
     /**
      * Tests Phalcon\Http\Request :: getLanguages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLanguages(UnitTester $I)
+    public function httpRequestGetLanguages(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getLanguages()");
         $I->skipTest("Need implementation");
     }
 }

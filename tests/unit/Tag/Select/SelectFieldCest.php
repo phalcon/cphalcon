@@ -18,11 +18,14 @@ class SelectFieldCest
     /**
      * Tests Phalcon\Tag\Select :: selectField()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSelectField(UnitTester $I)
+    public function tagSelectSelectField(UnitTester $I)
     {
+        $I->wantToTest("Tag\Select - selectField()");
         $I->skipTest("Need implementation");
     }
 }

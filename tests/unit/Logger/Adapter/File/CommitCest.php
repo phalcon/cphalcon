@@ -18,11 +18,14 @@ class CommitCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: commit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCommit(UnitTester $I)
+    public function loggerAdapterFileCommit(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - commit()");
         $I->skipTest("Need implementation");
     }
 }

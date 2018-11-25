@@ -18,11 +18,14 @@ class StartCest
     /**
      * Tests Phalcon\Cache\Backend\Memory :: start()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStart(UnitTester $I)
+    public function cacheBackendMemoryStart(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memory - start()");
         $I->skipTest("Need implementation");
     }
 }

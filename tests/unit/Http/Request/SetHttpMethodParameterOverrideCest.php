@@ -18,11 +18,14 @@ class SetHttpMethodParameterOverrideCest
     /**
      * Tests Phalcon\Http\Request :: setHttpMethodParameterOverride()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetHttpMethodParameterOverride(UnitTester $I)
+    public function httpRequestSetHttpMethodParameterOverride(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - setHttpMethodParameterOverride()");
         $I->skipTest("Need implementation");
     }
 }

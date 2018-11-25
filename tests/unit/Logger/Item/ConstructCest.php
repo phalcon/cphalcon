@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Logger\Item :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function loggerItemConstruct(UnitTester $I)
     {
+        $I->wantToTest("Logger\Item - __construct()");
         $I->skipTest("Need implementation");
     }
 }

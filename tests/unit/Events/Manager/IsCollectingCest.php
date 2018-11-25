@@ -18,11 +18,14 @@ class IsCollectingCest
     /**
      * Tests Phalcon\Events\Manager :: isCollecting()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsCollecting(UnitTester $I)
+    public function eventsManagerIsCollecting(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - isCollecting()");
         $I->skipTest("Need implementation");
     }
 }

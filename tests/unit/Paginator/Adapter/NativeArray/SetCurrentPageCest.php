@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Unit\Paginator\Adapter\NativeArray;
 
-use stdClass;
 use Phalcon\Paginator\Adapter\NativeArray;
+use stdClass;
 use UnitTester;
 
 class SetCurrentPageCest
@@ -20,16 +20,19 @@ class SetCurrentPageCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: setCurrentPage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCurrentPage(UnitTester $I)
+    public function paginatorAdapterNativearraySetCurrentPage(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\NativeArray - setCurrentPage()");
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),
                 'limit' => 10,
-                'page'  => 1
+                'page'  => 1,
             ]
         );
 

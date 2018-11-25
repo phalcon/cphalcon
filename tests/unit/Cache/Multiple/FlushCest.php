@@ -18,11 +18,14 @@ class FlushCest
     /**
      * Tests Phalcon\Cache\Multiple :: flush()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFlush(UnitTester $I)
+    public function cacheMultipleFlush(UnitTester $I)
     {
+        $I->wantToTest("Cache\Multiple - flush()");
         $I->skipTest("Need implementation");
     }
 }

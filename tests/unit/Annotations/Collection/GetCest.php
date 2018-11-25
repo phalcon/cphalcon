@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Annotations\Collection :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function annotationsCollectionGet(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - get()");
         $I->skipTest("Need implementation");
     }
 }

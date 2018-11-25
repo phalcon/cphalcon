@@ -18,11 +18,14 @@ class LabelCest
     /**
      * Tests Phalcon\Forms\Element\Text :: label()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLabel(UnitTester $I)
+    public function formsElementTextLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Text - label()");
         $I->skipTest("Need implementation");
     }
 }

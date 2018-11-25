@@ -18,11 +18,14 @@ class StopCest
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: stop()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStop(UnitTester $I)
+    public function cacheBackendApcuStop(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Apcu - stop()");
         $I->skipTest("Need implementation");
     }
 }

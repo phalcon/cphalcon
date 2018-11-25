@@ -18,11 +18,14 @@ class SaveCest
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: save()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSave(UnitTester $I)
+    public function cacheBackendApcuSave(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Apcu - save()");
         $I->skipTest("Need implementation");
     }
 }

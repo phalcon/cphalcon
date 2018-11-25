@@ -18,11 +18,14 @@ class ReleaseCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: release()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRelease(UnitTester $I)
+    public function queueBeanstalkJobRelease(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - release()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DetachCest
     /**
      * Tests Phalcon\Events\Manager :: detach()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDetach(UnitTester $I)
+    public function eventsManagerDetach(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - detach()");
         $I->skipTest("Need implementation");
     }
 }

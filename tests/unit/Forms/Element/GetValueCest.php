@@ -18,11 +18,14 @@ class GetValueCest
     /**
      * Tests Phalcon\Forms\Element :: getValue()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValue(UnitTester $I)
+    public function formsElementGetValue(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element - getValue()");
         $I->skipTest("Need implementation");
     }
 }

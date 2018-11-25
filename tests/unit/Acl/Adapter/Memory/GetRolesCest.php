@@ -18,11 +18,14 @@ class GetRolesCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getRoles()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRoles(UnitTester $I)
+    public function aclAdapterMemoryGetRoles(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getRoles()");
         $I->skipTest("Need implementation");
     }
 }

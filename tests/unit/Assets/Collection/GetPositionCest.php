@@ -18,11 +18,14 @@ class GetPositionCest
     /**
      * Tests Phalcon\Assets\Collection :: getPosition()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPosition(UnitTester $I)
+    public function assetsCollectionGetPosition(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getPosition()");
         $I->skipTest("Need implementation");
     }
 }

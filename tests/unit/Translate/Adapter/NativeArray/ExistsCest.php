@@ -22,10 +22,12 @@ class ExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativeArrayExists(UnitTester $I)
+    public function translateAdapterNativearrayExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - exists()');
         $language   = $this->getArrayConfig()['en'];

@@ -18,11 +18,14 @@ class PixelateCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: pixelate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPixelate(UnitTester $I)
+    public function imageAdapterImagickPixelate(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - pixelate()");
         $I->skipTest("Need implementation");
     }
 }

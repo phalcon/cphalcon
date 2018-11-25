@@ -19,11 +19,14 @@ class GetCodeCest
     /**
      * Tests Phalcon\Messages\Message :: getCode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCode(UnitTester $I)
+    public function messagesMessageGetCode(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - getCode()");
         $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 111;

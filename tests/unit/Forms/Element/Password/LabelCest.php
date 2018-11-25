@@ -18,11 +18,14 @@ class LabelCest
     /**
      * Tests Phalcon\Forms\Element\Password :: label()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLabel(UnitTester $I)
+    public function formsElementPasswordLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - label()");
         $I->skipTest("Need implementation");
     }
 }

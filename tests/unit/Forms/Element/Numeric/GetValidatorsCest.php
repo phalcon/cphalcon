@@ -18,11 +18,14 @@ class GetValidatorsCest
     /**
      * Tests Phalcon\Forms\Element\Numeric :: getValidators()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValidators(UnitTester $I)
+    public function formsElementNumericGetValidators(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Numeric - getValidators()");
         $I->skipTest("Need implementation");
     }
 }

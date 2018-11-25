@@ -21,12 +21,14 @@ class OffsetGetCest
     /**
      * Tests Phalcon\Config :: offsetGet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configOffsetGet(UnitTester $I)
     {
-        $I->wantToTest('Config - offsetGet()');
+        $I->wantToTest("Config - offsetGet()");
         $this->checkOffsetGet($I);
     }
 }

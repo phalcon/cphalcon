@@ -18,11 +18,14 @@ class BytesCest
     /**
      * Tests Phalcon\Security\Random :: bytes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBytes(UnitTester $I)
+    public function securityRandomBytes(UnitTester $I)
     {
+        $I->wantToTest("Security\Random - bytes()");
         $I->skipTest("Need implementation");
     }
 }

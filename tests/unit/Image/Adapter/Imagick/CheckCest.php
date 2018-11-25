@@ -18,11 +18,14 @@ class CheckCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: check()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCheck(UnitTester $I)
+    public function imageAdapterImagickCheck(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - check()");
         $I->skipTest("Need implementation");
     }
 }

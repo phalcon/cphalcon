@@ -18,11 +18,14 @@ class SetLastModifiedCest
     /**
      * Tests Phalcon\Http\Response :: setLastModified()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLastModified(UnitTester $I)
+    public function httpResponseSetLastModified(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setLastModified()");
         $I->skipTest("Need implementation");
     }
 }

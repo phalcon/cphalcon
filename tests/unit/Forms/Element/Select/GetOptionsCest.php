@@ -18,11 +18,14 @@ class GetOptionsCest
     /**
      * Tests Phalcon\Forms\Element\Select :: getOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOptions(UnitTester $I)
+    public function formsElementSelectGetOptions(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - getOptions()");
         $I->skipTest("Need implementation");
     }
 }

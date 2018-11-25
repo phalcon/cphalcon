@@ -18,11 +18,14 @@ class LoadCest
     /**
      * Tests Phalcon\Paginator\Factory :: load()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLoad(UnitTester $I)
+    public function paginatorFactoryLoad(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Factory - load()");
         $I->skipTest("Need implementation");
     }
 }

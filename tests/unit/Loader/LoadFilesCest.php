@@ -18,11 +18,14 @@ class LoadFilesCest
     /**
      * Tests Phalcon\Loader :: loadFiles()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLoadFiles(UnitTester $I)
+    public function loaderLoadFiles(UnitTester $I)
     {
+        $I->wantToTest("Loader - loadFiles()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetAutomaticHtmlCest
     /**
      * Tests Phalcon\Flash\Direct :: setAutomaticHtml()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAutomaticHtml(UnitTester $I)
+    public function flashDirectSetAutomaticHtml(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - setAutomaticHtml()");
         $I->skipTest("Need implementation");
     }
 }

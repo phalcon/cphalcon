@@ -18,11 +18,14 @@ class SetValidatorsCest
     /**
      * Tests Phalcon\Validation :: setValidators()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationSetValidators(UnitTester $I)
     {
+        $I->wantToTest("Validation - setValidators()");
         $I->skipTest("Need implementation");
     }
 }

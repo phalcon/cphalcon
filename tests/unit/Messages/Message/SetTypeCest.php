@@ -19,11 +19,14 @@ class SetTypeCest
     /**
      * Tests Phalcon\Messages\Message :: setType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetType(UnitTester $I)
+    public function messagesMessageSetType(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - setType()");
         $message = new Message('This is a message #1');
         $message->setType('MyType');
 

@@ -18,11 +18,14 @@ class RenderCest
     /**
      * Tests Phalcon\Forms\Element\Email :: render()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRender(UnitTester $I)
+    public function formsElementEmailRender(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - render()");
         $I->skipTest("Need implementation");
     }
 }

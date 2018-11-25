@@ -29,6 +29,8 @@ class OffsetSetCest
     /**
      * Tests Phalcon\Config\Adapter\Json :: offsetSet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

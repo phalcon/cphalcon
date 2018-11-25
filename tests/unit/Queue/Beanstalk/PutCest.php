@@ -18,11 +18,14 @@ class PutCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: put()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPut(UnitTester $I)
+    public function queueBeanstalkPut(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - put()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetUploadedFilesCest
     /**
      * Tests Phalcon\Http\Request :: getUploadedFiles()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUploadedFiles(UnitTester $I)
+    public function httpRequestGetUploadedFiles(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getUploadedFiles()");
         $I->skipTest("Need implementation");
     }
 }

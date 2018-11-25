@@ -20,7 +20,8 @@ use UnitTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single field
+     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single
+     * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -61,7 +62,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple field
+     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple
+     * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -139,7 +141,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty value
+     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty
+     * value
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-09-06

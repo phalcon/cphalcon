@@ -18,11 +18,14 @@ class GetHeightCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getHeight()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHeight(UnitTester $I)
+    public function imageAdapterGdGetHeight(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - getHeight()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: setMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetMessages(UnitTester $I)
+    public function formsElementHiddenSetMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - setMessages()");
         $I->skipTest("Need implementation");
     }
 }

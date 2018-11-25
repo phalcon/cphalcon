@@ -23,10 +23,12 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetUnset()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativeArrayOffsetUnset(UnitTester $I)
+    public function translateAdapterNativearrayOffsetUnset(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetUnset() throws exception');
         $I->expectThrowable(

@@ -18,11 +18,14 @@ class GetRawCest
     /**
      * Tests Phalcon\Di :: getRaw()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRaw(UnitTester $I)
+    public function diGetRaw(UnitTester $I)
     {
+        $I->wantToTest("Di - getRaw()");
         $I->skipTest("Need implementation");
     }
 }

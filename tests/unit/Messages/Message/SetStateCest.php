@@ -19,11 +19,14 @@ class SetStateCest
     /**
      * Tests Phalcon\Messages\Message :: __set_state()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetState(UnitTester $I)
+    public function messagesMessageSetState(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - __set_state()");
         $message = Message::__set_state(
             [
                 '_message' => 'This is a message #1',

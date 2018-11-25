@@ -18,11 +18,14 @@ class RenderCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: render()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRender(UnitTester $I)
+    public function imageAdapterImagickRender(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - render()");
         $I->skipTest("Need implementation");
     }
 }

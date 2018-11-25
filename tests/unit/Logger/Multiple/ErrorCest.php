@@ -18,11 +18,14 @@ class ErrorCest
     /**
      * Tests Phalcon\Logger\Multiple :: error()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testError(UnitTester $I)
+    public function loggerMultipleError(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - error()");
         $I->skipTest("Need implementation");
     }
 }

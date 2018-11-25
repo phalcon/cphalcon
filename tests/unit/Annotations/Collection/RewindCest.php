@@ -18,11 +18,14 @@ class RewindCest
     /**
      * Tests Phalcon\Annotations\Collection :: rewind()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRewind(UnitTester $I)
+    public function annotationsCollectionRewind(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - rewind()");
         $I->skipTest("Need implementation");
     }
 }

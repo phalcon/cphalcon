@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function imageAdapterGdConstruct(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - __construct()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class HasCest
     /**
      * Tests Phalcon\Forms\Form :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHas(UnitTester $I)
+    public function formsFormHas(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - has()");
         $I->skipTest("Need implementation");
     }
 }

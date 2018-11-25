@@ -18,11 +18,14 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Tag :: appendTitle()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAppendTitle(UnitTester $I)
+    public function tagAppendTitle(UnitTester $I)
     {
+        $I->wantToTest("Tag - appendTitle()");
         $I->skipTest("Need implementation");
     }
 }

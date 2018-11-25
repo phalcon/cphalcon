@@ -18,11 +18,14 @@ class GetLogLevelCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: getLogLevel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLogLevel(UnitTester $I)
+    public function loggerAdapterBlackholeGetLogLevel(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - getLogLevel()");
         $I->skipTest("Need implementation");
     }
 }

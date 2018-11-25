@@ -18,11 +18,14 @@ class GetExtensionCest
     /**
      * Tests Phalcon\Http\Request\File :: getExtension()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetExtension(UnitTester $I)
+    public function httpRequestFileGetExtension(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - getExtension()");
         $I->skipTest("Need implementation");
     }
 }

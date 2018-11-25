@@ -18,11 +18,14 @@ class CriticalCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: critical()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCritical(UnitTester $I)
+    public function loggerAdapterFirephpCritical(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - critical()");
         $I->skipTest("Need implementation");
     }
 }

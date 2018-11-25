@@ -18,11 +18,14 @@ class GetFrontendCest
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: getFrontend()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFrontend(UnitTester $I)
+    public function cacheBackendLibmemcachedGetFrontend(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Libmemcached - getFrontend()");
         $I->skipTest("Need implementation");
     }
 }

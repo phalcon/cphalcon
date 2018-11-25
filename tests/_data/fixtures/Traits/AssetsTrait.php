@@ -18,13 +18,13 @@ trait AssetsTrait
 {
     private function resourceGetType(UnitTester $I, ResourceInterface $resource, string $expected)
     {
-        $actual   = $resource->getType();
+        $actual = $resource->getType();
         $I->assertEquals($expected, $actual);
     }
 
     private function resourceGetResourceKey(UnitTester $I, ResourceInterface $resource, string $expected)
     {
-        $actual   = $resource->getResourceKey();
+        $actual = $resource->getResourceKey();
         $I->assertEquals($expected, $actual);
     }
 
@@ -37,7 +37,7 @@ trait AssetsTrait
 
     private function resourceGetLocal(UnitTester $I, ResourceInterface $resource)
     {
-        $actual   = $resource->getLocal();
+        $actual = $resource->getLocal();
         $I->assertTrue($actual);
     }
 }

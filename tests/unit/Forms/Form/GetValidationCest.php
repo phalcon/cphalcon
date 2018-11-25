@@ -18,11 +18,14 @@ class GetValidationCest
     /**
      * Tests Phalcon\Forms\Form :: getValidation()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValidation(UnitTester $I)
+    public function formsFormGetValidation(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getValidation()");
         $I->skipTest("Need implementation");
     }
 }

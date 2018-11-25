@@ -18,11 +18,14 @@ class GetModuleNameCest
     /**
      * Tests Phalcon\Dispatcher :: getModuleName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetModuleName(UnitTester $I)
+    public function dispatcherGetModuleName(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getModuleName()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetDataCest
     /**
      * Tests Phalcon\Validation :: getData()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetData(UnitTester $I)
     {
+        $I->wantToTest("Validation - getData()");
         $I->skipTest("Need implementation");
     }
 }

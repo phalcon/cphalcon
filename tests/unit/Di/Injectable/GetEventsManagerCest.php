@@ -18,11 +18,14 @@ class GetEventsManagerCest
     /**
      * Tests Phalcon\Di\Injectable :: getEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEventsManager(UnitTester $I)
+    public function diInjectableGetEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Di\Injectable - getEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

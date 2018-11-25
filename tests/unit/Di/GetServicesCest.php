@@ -18,11 +18,14 @@ class GetServicesCest
     /**
      * Tests Phalcon\Di :: getServices()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetServices(UnitTester $I)
+    public function diGetServices(UnitTester $I)
     {
+        $I->wantToTest("Di - getServices()");
         $I->skipTest("Need implementation");
     }
 }

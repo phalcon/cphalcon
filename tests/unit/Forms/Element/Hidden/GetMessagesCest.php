@@ -18,11 +18,14 @@ class GetMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: getMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessages(UnitTester $I)
+    public function formsElementHiddenGetMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - getMessages()");
         $I->skipTest("Need implementation");
     }
 }

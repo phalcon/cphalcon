@@ -19,6 +19,8 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - string
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -33,6 +35,8 @@ class IncrementCest
 
     /**
      * Tests Phalcon\Text :: increment() - already incremented string
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -49,6 +53,8 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - already incremented string twice
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -63,6 +69,8 @@ class IncrementCest
 
     /**
      * Tests Phalcon\Text :: increment() - string with underscore
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -79,6 +87,8 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - string with a space at the end
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -93,6 +103,8 @@ class IncrementCest
 
     /**
      * Tests Phalcon\Text :: increment() - different separator
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

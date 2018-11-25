@@ -18,11 +18,14 @@ class GetDefaultMessageCest
     /**
      * Tests Phalcon\Validation :: getDefaultMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetDefaultMessage(UnitTester $I)
     {
+        $I->wantToTest("Validation - getDefaultMessage()");
         $I->skipTest("Need implementation");
     }
 }

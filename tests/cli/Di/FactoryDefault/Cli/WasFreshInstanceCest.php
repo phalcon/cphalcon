@@ -19,7 +19,7 @@ class WasFreshInstanceCest
      * Tests Phalcon\Di\FactoryDefault\Cli :: wasFreshInstance()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

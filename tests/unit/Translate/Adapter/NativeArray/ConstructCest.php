@@ -25,6 +25,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -43,6 +45,8 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct() - Exception
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

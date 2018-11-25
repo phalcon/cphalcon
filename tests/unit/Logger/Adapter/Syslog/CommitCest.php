@@ -18,11 +18,14 @@ class CommitCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: commit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCommit(UnitTester $I)
+    public function loggerAdapterSyslogCommit(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Syslog - commit()");
         $I->skipTest("Need implementation");
     }
 }

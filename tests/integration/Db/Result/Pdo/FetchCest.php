@@ -19,7 +19,7 @@ class FetchCest
      * Tests Phalcon\Db\Result\Pdo :: fetch()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

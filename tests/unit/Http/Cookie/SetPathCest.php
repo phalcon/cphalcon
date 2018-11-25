@@ -18,11 +18,14 @@ class SetPathCest
     /**
      * Tests Phalcon\Http\Cookie :: setPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetPath(UnitTester $I)
+    public function httpCookieSetPath(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - setPath()");
         $I->skipTest("Need implementation");
     }
 }

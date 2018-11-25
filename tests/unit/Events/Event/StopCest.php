@@ -18,11 +18,14 @@ class StopCest
     /**
      * Tests Phalcon\Events\Event :: stop()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testStop(UnitTester $I)
+    public function eventsEventStop(UnitTester $I)
     {
+        $I->wantToTest("Events\Event - stop()");
         $I->skipTest("Need implementation");
     }
 }

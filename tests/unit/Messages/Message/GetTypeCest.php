@@ -19,11 +19,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Messages\Message :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function messagesMessageGetType(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - getType()");
         $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 'MyType';

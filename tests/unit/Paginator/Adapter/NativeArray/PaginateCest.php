@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Unit\Paginator\Adapter\NativeArray;
 
-use stdClass;
 use Phalcon\Paginator\Adapter\NativeArray;
+use stdClass;
 use UnitTester;
 
 class PaginateCest
@@ -20,16 +20,19 @@ class PaginateCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: paginate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPaginate(UnitTester $I)
+    public function paginatorAdapterNativearrayPaginate(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\NativeArray - paginate()");
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),
                 'limit' => 25,
-                'page'  => 1
+                'page'  => 1,
             ]
         );
 

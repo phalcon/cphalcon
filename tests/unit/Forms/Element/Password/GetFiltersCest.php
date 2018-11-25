@@ -18,11 +18,14 @@ class GetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Password :: getFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilters(UnitTester $I)
+    public function formsElementPasswordGetFilters(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - getFilters()");
         $I->skipTest("Need implementation");
     }
 }

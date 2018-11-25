@@ -18,11 +18,14 @@ class GetOptionsCest
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: getOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetOptions(UnitTester $I)
+    public function cacheBackendMongoGetOptions(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Mongo - getOptions()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\CombinedFieldsValidator :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationCombinedFieldsValidatorGetOption(UnitTester $I)
+    public function validationCombinedfieldsvalidatorGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\CombinedFieldsValidator - getOption()");
         $I->skipTest("Need implementation");
     }
 }

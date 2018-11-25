@@ -18,11 +18,14 @@ class MessageCest
     /**
      * Tests Phalcon\Flash\Session :: message()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testMessage(UnitTester $I)
+    public function flashSessionMessage(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - message()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetStylesCest
     /**
      * Tests Phalcon\Debug\Dump :: setStyles()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetStyles(UnitTester $I)
+    public function debugDumpSetStyles(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - setStyles()");
         $I->skipTest("Need implementation");
     }
 }

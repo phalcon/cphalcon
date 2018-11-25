@@ -18,11 +18,14 @@ class OutputCssCest
     /**
      * Tests Phalcon\Assets\Manager :: outputCss()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutputCss(UnitTester $I)
+    public function assetsManagerOutputCss(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - outputCss()");
         $I->skipTest("Need implementation");
     }
 }

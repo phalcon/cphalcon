@@ -18,11 +18,14 @@ class IsConnectCest
     /**
      * Tests Phalcon\Http\Request :: isConnect()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsConnect(UnitTester $I)
+    public function httpRequestIsConnect(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isConnect()");
         $I->skipTest("Need implementation");
     }
 }

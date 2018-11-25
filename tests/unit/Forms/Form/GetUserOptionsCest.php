@@ -18,11 +18,14 @@ class GetUserOptionsCest
     /**
      * Tests Phalcon\Forms\Form :: getUserOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUserOptions(UnitTester $I)
+    public function formsFormGetUserOptions(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getUserOptions()");
         $I->skipTest("Need implementation");
     }
 }

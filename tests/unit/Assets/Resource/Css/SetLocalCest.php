@@ -18,11 +18,14 @@ class SetLocalCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: setLocal()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLocal(UnitTester $I)
+    public function assetsResourceCssSetLocal(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - setLocal()");
         $I->skipTest("Need implementation");
     }
 }

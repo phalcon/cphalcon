@@ -18,11 +18,14 @@ class SetAttributeCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: setAttribute()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAttribute(UnitTester $I)
+    public function formsElementHiddenSetAttribute(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - setAttribute()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class UnregisterCest
     /**
      * Tests Phalcon\Loader :: unregister()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnregister(UnitTester $I)
+    public function loaderUnregister(UnitTester $I)
     {
+        $I->wantToTest("Loader - unregister()");
         $I->skipTest("Need implementation");
     }
 }

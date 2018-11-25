@@ -18,11 +18,14 @@ class VariableCest
     /**
      * Tests Phalcon\Debug\Dump :: variable()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testVariable(UnitTester $I)
+    public function debugDumpVariable(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - variable()");
         $I->skipTest("Need implementation");
     }
 }

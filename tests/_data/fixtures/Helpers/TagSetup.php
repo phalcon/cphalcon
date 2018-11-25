@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Fixtures\Helpers;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class TagSetup
@@ -35,6 +35,82 @@ class TagSetup
     }
 
     /**
+     * Converts a doctype code to a string output
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param $doctype
+     *
+     * @return string
+     */
+    protected function docTypeStringToConstant(string $doctype)
+    {
+        $tab = "\t";
+
+        switch ($doctype) {
+            case '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">' . PHP_EOL:
+                return Tag::HTML32;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD HTML 4.01//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/html4/strict.dtd">' . PHP_EOL:
+                return Tag::HTML401_STRICT;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/html4/loose.dtd">' . PHP_EOL:
+                return Tag::HTML401_TRANSITIONAL;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/html4/frameset.dtd">' .
+                PHP_EOL:
+                return Tag::HTML401_FRAMESET;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' .
+                PHP_EOL:
+                return Tag::XHTML10_STRICT;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' .
+                PHP_EOL:
+                return Tag::XHTML10_TRANSITIONAL;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">' .
+                PHP_EOL:
+                return Tag::XHTML10_FRAMESET;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD XHTML 1.1//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">' .
+                PHP_EOL:
+                return Tag::XHTML11;
+            case '<!DOCTYPE html ' .
+                'PUBLIC "-//W3C//DTD XHTML 2.0//EN"' .
+                PHP_EOL .
+                $tab .
+                '"http://www.w3.org/MarkUp/DTD/xhtml2.dtd">' .
+                PHP_EOL:
+                return Tag::XHTML20;
+            default:
+                return Tag::HTML5;
+        }
+    }
+
+    /**
      * @param UnitTester $I
      */
     public function _after(UnitTester $I)
@@ -43,6 +119,21 @@ class TagSetup
         Tag::resetInput();
     }
 
+    /**
+     * Runs a doctype test, one for each doctype
+     *
+     * @param UnitTester $I
+     * @param int        $doctype
+     */
+    protected function runDoctypeTest(UnitTester $I, int $doctype)
+    {
+        Tag::resetInput();
+        Tag::setDocType($doctype);
+
+        $expected = $this->docTypeToString($doctype);
+        $actual   = Tag::getDocType();
+        $I->assertEquals($expected, $actual);
+    }
 
     /**
      * Converts a doctype code to a string output
@@ -119,98 +210,6 @@ class TagSetup
             default:
                 return '<!DOCTYPE html>' . PHP_EOL;
         }
-    }
-
-    /**
-     * Converts a doctype code to a string output
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param $doctype
-     *
-     * @return string
-     */
-    protected function docTypeStringToConstant(string $doctype)
-    {
-        $tab = "\t";
-
-        switch ($doctype) {
-            case '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">' . PHP_EOL:
-                return Tag::HTML32;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD HTML 4.01//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/html4/strict.dtd">' . PHP_EOL:
-                return Tag::HTML401_STRICT;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/html4/loose.dtd">' . PHP_EOL:
-                return Tag::HTML401_TRANSITIONAL;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/html4/frameset.dtd">' .
-                 PHP_EOL:
-                return Tag::HTML401_FRAMESET;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' .
-                 PHP_EOL:
-                return Tag::XHTML10_STRICT;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' .
-                 PHP_EOL:
-                return Tag::XHTML10_TRANSITIONAL;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">' .
-                 PHP_EOL:
-                return Tag::XHTML10_FRAMESET;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD XHTML 1.1//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">' .
-                 PHP_EOL:
-                return Tag::XHTML11;
-            case '<!DOCTYPE html ' .
-                 'PUBLIC "-//W3C//DTD XHTML 2.0//EN"' .
-                 PHP_EOL .
-                 $tab .
-                 '"http://www.w3.org/MarkUp/DTD/xhtml2.dtd">' .
-                 PHP_EOL:
-                return Tag::XHTML20;
-            default:
-                return Tag::HTML5;
-        }
-    }
-
-    /**
-     * Runs a doctype test, one for each doctype
-     *
-     * @param UnitTester $I
-     * @param int        $doctype
-     */
-    protected function runDoctypeTest(UnitTester $I, int $doctype)
-    {
-        Tag::resetInput();
-        Tag::setDocType($doctype);
-
-        $expected = $this->docTypeToString($doctype);
-        $actual   = Tag::getDocType();
-        $I->assertEquals($expected, $actual);
     }
 
     /**

@@ -18,11 +18,14 @@ class SetShowFileFragmentCest
     /**
      * Tests Phalcon\Debug :: setShowFileFragment()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetShowFileFragment(UnitTester $I)
+    public function debugSetShowFileFragment(UnitTester $I)
     {
+        $I->wantToTest("Debug - setShowFileFragment()");
         $I->skipTest("Need implementation");
     }
 }

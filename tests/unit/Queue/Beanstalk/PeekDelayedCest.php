@@ -18,11 +18,14 @@ class PeekDelayedCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: peekDelayed()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPeekDelayed(UnitTester $I)
+    public function queueBeanstalkPeekDelayed(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - peekDelayed()");
         $I->skipTest("Need implementation");
     }
 }

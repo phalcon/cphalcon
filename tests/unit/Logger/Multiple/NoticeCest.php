@@ -18,11 +18,14 @@ class NoticeCest
     /**
      * Tests Phalcon\Logger\Multiple :: notice()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotice(UnitTester $I)
+    public function loggerMultipleNotice(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - notice()");
         $I->skipTest("Need implementation");
     }
 }

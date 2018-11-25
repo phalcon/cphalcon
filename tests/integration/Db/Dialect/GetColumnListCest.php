@@ -19,7 +19,7 @@ class GetColumnListCest
      * Tests Phalcon\Db\Dialect :: getColumnList()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

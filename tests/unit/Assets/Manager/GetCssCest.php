@@ -18,11 +18,14 @@ class GetCssCest
     /**
      * Tests Phalcon\Assets\Manager :: getCss()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCss(UnitTester $I)
+    public function assetsManagerGetCss(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - getCss()");
         $I->skipTest("Need implementation");
     }
 }

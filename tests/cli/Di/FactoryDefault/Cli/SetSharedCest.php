@@ -19,7 +19,7 @@ class SetSharedCest
      * Tests Phalcon\Di\FactoryDefault\Cli :: setShared()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

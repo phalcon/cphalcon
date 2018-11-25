@@ -18,11 +18,14 @@ class GetMethodsCest
     /**
      * Tests Phalcon\Annotations\Adapter\Xcache :: getMethods()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMethods(UnitTester $I)
+    public function annotationsAdapterXcacheGetMethods(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Xcache - getMethods()");
         $I->skipTest("Need implementation");
     }
 }

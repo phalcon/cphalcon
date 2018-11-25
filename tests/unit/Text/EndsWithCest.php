@@ -19,6 +19,8 @@ class EndsWithCest
     /**
      * Tests Phalcon\Text :: endsWith()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -38,6 +40,8 @@ class EndsWithCest
     /**
      * Tests Phalcon\Text :: endsWith() - empty strings
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -50,6 +54,8 @@ class EndsWithCest
 
     /**
      * Tests Phalcon\Text :: endsWith() - finding an empty string
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -64,6 +70,8 @@ class EndsWithCest
 
     /**
      * Tests Phalcon\Text :: endsWith() - case insensitive flag
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -83,6 +91,8 @@ class EndsWithCest
 
     /**
      * Tests Phalcon\Text :: endsWith() - case sensitive flag
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

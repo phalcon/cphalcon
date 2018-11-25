@@ -18,11 +18,14 @@ class GcCest
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: gc()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGc(UnitTester $I)
+    public function cacheBackendMongoGc(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Mongo - gc()");
         $I->skipTest("Need implementation");
     }
 }

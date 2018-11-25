@@ -18,11 +18,14 @@ class BindCest
     /**
      * Tests Phalcon\Forms\Form :: bind()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBind(UnitTester $I)
+    public function formsFormBind(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - bind()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: offsetUnset()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterCsvOffsetUnset(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Csv - offsetUnset()");
         $I->skipTest("Need implementation");
     }
 }

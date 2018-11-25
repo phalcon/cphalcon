@@ -18,11 +18,14 @@ class GetEventsManagerCest
     /**
      * Tests Phalcon\Loader :: getEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEventsManager(UnitTester $I)
+    public function loaderGetEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Loader - getEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

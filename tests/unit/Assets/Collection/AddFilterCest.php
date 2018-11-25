@@ -18,11 +18,14 @@ class AddFilterCest
     /**
      * Tests Phalcon\Assets\Collection :: addFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddFilter(UnitTester $I)
+    public function assetsCollectionAddFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - addFilter()");
         $I->skipTest("Need implementation");
     }
 }

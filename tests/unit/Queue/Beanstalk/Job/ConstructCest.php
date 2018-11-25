@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function queueBeanstalkJobConstruct(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - __construct()");
         $I->skipTest("Need implementation");
     }
 }

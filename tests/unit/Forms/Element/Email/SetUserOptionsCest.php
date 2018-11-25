@@ -18,11 +18,14 @@ class SetUserOptionsCest
     /**
      * Tests Phalcon\Forms\Element\Email :: setUserOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetUserOptions(UnitTester $I)
+    public function formsElementEmailSetUserOptions(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - setUserOptions()");
         $I->skipTest("Need implementation");
     }
 }

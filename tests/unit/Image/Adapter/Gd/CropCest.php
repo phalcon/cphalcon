@@ -18,11 +18,14 @@ class CropCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: crop()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCrop(UnitTester $I)
+    public function imageAdapterGdCrop(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - crop()");
         $I->skipTest("Need implementation");
     }
 }

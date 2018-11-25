@@ -18,11 +18,14 @@ class SetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Check :: setFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFilters(UnitTester $I)
+    public function formsElementCheckSetFilters(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Check - setFilters()");
         $I->skipTest("Need implementation");
     }
 }

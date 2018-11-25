@@ -18,11 +18,14 @@ class GetPaginateCest
     /**
      * Tests Phalcon\Paginator\Adapter\Model :: getPaginate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPaginate(UnitTester $I)
+    public function paginatorAdapterModelGetPaginate(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\Model - getPaginate()");
         $I->skipTest("Need implementation");
     }
 }

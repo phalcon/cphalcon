@@ -18,11 +18,14 @@ class AddCssCest
     /**
      * Tests Phalcon\Assets\Collection :: addCss()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddCss(UnitTester $I)
+    public function assetsCollectionAddCss(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - addCss()");
         $I->skipTest("Need implementation");
     }
 }

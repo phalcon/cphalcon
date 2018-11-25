@@ -18,11 +18,14 @@ class SetDoubleEncodeCest
     /**
      * Tests Phalcon\Escaper :: setDoubleEncode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDoubleEncode(UnitTester $I)
+    public function escaperSetDoubleEncode(UnitTester $I)
     {
+        $I->wantToTest("Escaper - setDoubleEncode()");
         $I->skipTest("Need implementation");
     }
 }

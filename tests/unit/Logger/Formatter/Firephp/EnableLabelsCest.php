@@ -18,11 +18,14 @@ class EnableLabelsCest
     /**
      * Tests Phalcon\Logger\Formatter\Firephp :: enableLabels()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEnableLabels(UnitTester $I)
+    public function loggerFormatterFirephpEnableLabels(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter\Firephp - enableLabels()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class EscapeUrlCest
     /**
      * Tests Phalcon\Escaper :: escapeUrl()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscapeUrl(UnitTester $I)
+    public function escaperEscapeUrl(UnitTester $I)
     {
+        $I->wantToTest("Escaper - escapeUrl()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetNamespaceNameCest
     /**
      * Tests Phalcon\Dispatcher :: getNamespaceName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetNamespaceName(UnitTester $I)
+    public function dispatcherGetNamespaceName(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getNamespaceName()");
         $I->skipTest("Need implementation");
     }
 }

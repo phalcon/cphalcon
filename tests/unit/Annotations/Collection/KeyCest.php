@@ -18,11 +18,14 @@ class KeyCest
     /**
      * Tests Phalcon\Annotations\Collection :: key()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKey(UnitTester $I)
+    public function annotationsCollectionKey(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - key()");
         $I->skipTest("Need implementation");
     }
 }

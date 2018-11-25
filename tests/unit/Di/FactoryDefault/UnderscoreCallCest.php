@@ -18,11 +18,14 @@ class UnderscoreCallCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: __call()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnderscoreCall(UnitTester $I)
+    public function diFactorydefaultUnderscoreCall(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - __call()");
         $I->skipTest("Need implementation");
     }
 }

@@ -13,16 +13,19 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
-class __toStringCest
+class ToStringCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function test__toString(UnitTester $I)
+    public function httpCookieToString(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - __toString()");
         $I->skipTest("Need implementation");
     }
 }

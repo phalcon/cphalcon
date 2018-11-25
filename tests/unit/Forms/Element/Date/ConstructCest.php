@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Forms\Element\Date :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function formsElementDateConstruct(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - __construct()");
         $I->skipTest("Need implementation");
     }
 }

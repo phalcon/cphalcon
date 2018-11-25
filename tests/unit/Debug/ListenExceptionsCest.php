@@ -18,11 +18,14 @@ class ListenExceptionsCest
     /**
      * Tests Phalcon\Debug :: listenExceptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListenExceptions(UnitTester $I)
+    public function debugListenExceptions(UnitTester $I)
     {
+        $I->wantToTest("Debug - listenExceptions()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetHTTPRefererCest
     /**
      * Tests Phalcon\Http\Request :: getHTTPReferer()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHTTPReferer(UnitTester $I)
+    public function httpRequestGetHTTPReferer(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getHTTPReferer()");
         $I->skipTest("Need implementation");
     }
 }

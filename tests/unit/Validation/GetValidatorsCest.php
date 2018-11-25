@@ -18,11 +18,14 @@ class GetValidatorsCest
     /**
      * Tests Phalcon\Validation :: getValidators()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetValidators(UnitTester $I)
     {
+        $I->wantToTest("Validation - getValidators()");
         $I->skipTest("Need implementation");
     }
 }

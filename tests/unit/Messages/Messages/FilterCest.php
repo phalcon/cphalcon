@@ -20,11 +20,14 @@ class FilterCest
     /**
      * Tests Phalcon\Messages\Messages :: filter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFilter(UnitTester $I)
+    public function messagesMessagesFilter(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - filter()");
         $messages = new Messages(
             [
                 new Message('Password: no number present', 'Password', 'MyType1', 111),

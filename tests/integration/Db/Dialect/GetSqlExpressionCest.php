@@ -19,7 +19,7 @@ class GetSqlExpressionCest
      * Tests Phalcon\Db\Dialect :: getSqlExpression()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

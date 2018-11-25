@@ -20,11 +20,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageStringParameter(UnitTester $I)
+    public function tagImageStringParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - string as a parameter");
         $options  = 'img/hello.gif';
         $expected = '<img src="/img/hello.gif"';
 
@@ -35,11 +38,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageArrayParameter(UnitTester $I)
+    public function tagImageArrayParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - array as a parameter");
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -53,11 +59,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array as a parameters and src in it
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageArrayParameterWithSrc(UnitTester $I)
+    public function tagImageArrayParameterWithSrc(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - array as a parameters and src in it");
         $options  = [
             'img/hello.gif',
             'src'   => 'img/goodbye.gif',
@@ -72,11 +81,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - name and no src in parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageArrayParameterWithNameNoSrc(UnitTester $I)
+    public function tagImageArrayParameterWithNameNoSrc(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - name and no src in parameter");
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -90,11 +102,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - setDefault
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageWithSetDefault(UnitTester $I)
+    public function tagImageWithSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - setDefault()");
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -108,11 +123,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - displayTo
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageWithDisplayTo(UnitTester $I)
+    public function tagImageWithDisplayTo(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - displayTo()");
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -126,11 +144,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - setDefault and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageWithSetDefaultElementNotPresent(UnitTester $I)
+    public function tagImageWithSetDefaultElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - setDefault() and element not present");
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -144,11 +165,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - displayTo and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageWithDisplayToElementNotPresent(UnitTester $I)
+    public function tagImageWithDisplayToElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - displayTo() and element not present");
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -162,11 +186,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string parameter and local link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageStringParameterLocalLink(UnitTester $I)
+    public function tagImageStringParameterLocalLink(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - string parameter and local link");
         $options  = 'img/hello.gif';
         $expected = '<img src="/img/hello.gif" />';
 
@@ -187,11 +214,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string parameter and remote link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageStringParameterRemoteLink(UnitTester $I)
+    public function tagImageStringParameterRemoteLink(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - string parameter and remote link");
         $options  = 'http://phalconphp.com/img/hello.gif';
         $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
 
@@ -212,11 +242,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array parameter and local link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageArrayParameterLocalLink(UnitTester $I)
+    public function tagImageArrayParameterLocalLink(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - array parameter and local link");
         $options  = [
             'img/hello.gif',
             'alt' => 'Hello',
@@ -243,11 +276,14 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array parameter and remote link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testImageArrayParameterRemoteLink(UnitTester $I)
+    public function tagImageArrayParameterRemoteLink(UnitTester $I)
     {
+        $I->wantToTest("Tag :: image() - array parameter and remote link");
         $options  = [
             'http://phalconphp.com/img/hello.gif',
             'alt' => 'Hello',

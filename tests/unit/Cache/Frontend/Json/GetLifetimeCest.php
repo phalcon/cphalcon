@@ -18,11 +18,14 @@ class GetLifetimeCest
     /**
      * Tests Phalcon\Cache\Frontend\Json :: getLifetime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLifetime(UnitTester $I)
+    public function cacheFrontendJsonGetLifetime(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Json - getLifetime()");
         $I->skipTest("Need implementation");
     }
 }

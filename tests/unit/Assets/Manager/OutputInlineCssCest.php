@@ -18,11 +18,14 @@ class OutputInlineCssCest
     /**
      * Tests Phalcon\Assets\Manager :: outputInlineCss()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutputInlineCss(UnitTester $I)
+    public function assetsManagerOutputInlineCss(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - outputInlineCss()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class ToJsonCest
     /**
      * Tests Phalcon\Debug\Dump :: toJson()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToJson(UnitTester $I)
+    public function debugDumpToJson(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - toJson()");
         $I->skipTest("Need implementation");
     }
 }

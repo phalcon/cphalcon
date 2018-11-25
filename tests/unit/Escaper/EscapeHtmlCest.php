@@ -18,11 +18,14 @@ class EscapeHtmlCest
     /**
      * Tests Phalcon\Escaper :: escapeHtml()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscapeHtml(UnitTester $I)
+    public function escaperEscapeHtml(UnitTester $I)
     {
+        $I->wantToTest("Escaper - escapeHtml()");
         $I->skipTest("Need implementation");
     }
 }

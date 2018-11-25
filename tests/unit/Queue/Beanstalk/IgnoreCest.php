@@ -18,11 +18,14 @@ class IgnoreCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: ignore()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIgnore(UnitTester $I)
+    public function queueBeanstalkIgnore(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - ignore()");
         $I->skipTest("Need implementation");
     }
 }

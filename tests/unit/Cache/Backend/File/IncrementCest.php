@@ -18,11 +18,14 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Backend\File :: increment()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrement(UnitTester $I)
+    public function cacheBackendFileIncrement(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\File - increment()");
         $I->skipTest("Need implementation");
     }
 }

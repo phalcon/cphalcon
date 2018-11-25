@@ -18,11 +18,14 @@ class HasCest
     /**
      * Tests Phalcon\Http\Response\Cookies :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHas(UnitTester $I)
+    public function httpResponseCookiesHas(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Cookies - has()");
         $I->skipTest("Need implementation");
     }
 }

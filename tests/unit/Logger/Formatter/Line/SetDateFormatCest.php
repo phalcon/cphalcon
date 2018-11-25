@@ -18,11 +18,14 @@ class SetDateFormatCest
     /**
      * Tests Phalcon\Logger\Formatter\Line :: setDateFormat()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDateFormat(UnitTester $I)
+    public function loggerFormatterLineSetDateFormat(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter\Line - setDateFormat()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class LiquidRescaleCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: liquidRescale()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLiquidRescale(UnitTester $I)
+    public function imageAdapterGdLiquidRescale(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - liquidRescale()");
         $I->skipTest("Need implementation");
     }
 }

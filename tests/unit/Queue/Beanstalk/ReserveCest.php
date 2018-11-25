@@ -18,11 +18,14 @@ class ReserveCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: reserve()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReserve(UnitTester $I)
+    public function queueBeanstalkReserve(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - reserve()");
         $I->skipTest("Need implementation");
     }
 }

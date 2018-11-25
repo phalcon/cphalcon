@@ -18,11 +18,14 @@ class GetSharedCest
     /**
      * Tests Phalcon\Di :: getShared()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetShared(UnitTester $I)
+    public function diGetShared(UnitTester $I)
     {
+        $I->wantToTest("Di - getShared()");
         $I->skipTest("Need implementation");
     }
 }

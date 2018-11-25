@@ -18,11 +18,14 @@ class EscapeJsCest
     /**
      * Tests Phalcon\Escaper :: escapeJs()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscapeJs(UnitTester $I)
+    public function escaperEscapeJs(UnitTester $I)
     {
+        $I->wantToTest("Escaper - escapeJs()");
         $I->skipTest("Need implementation");
     }
 }

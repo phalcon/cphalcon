@@ -18,11 +18,14 @@ class SetAutomaticHtmlCest
     /**
      * Tests Phalcon\Flash\Session :: setAutomaticHtml()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAutomaticHtml(UnitTester $I)
+    public function flashSessionSetAutomaticHtml(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - setAutomaticHtml()");
         $I->skipTest("Need implementation");
     }
 }

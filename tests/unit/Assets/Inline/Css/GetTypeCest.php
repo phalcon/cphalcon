@@ -18,11 +18,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Assets\Inline\Css :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function assetsInlineCssGetType(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Css - getType()");
         $I->skipTest("Need implementation");
     }
 }

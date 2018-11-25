@@ -18,11 +18,14 @@ class ToStringCest
     /**
      * Tests Phalcon\Forms\Element\Select :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function formsElementSelectToString(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - __toString()");
         $I->skipTest("Need implementation");
     }
 }

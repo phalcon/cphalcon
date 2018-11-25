@@ -18,11 +18,14 @@ class GetCssSourcesCest
     /**
      * Tests Phalcon\Debug :: getCssSources()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCssSources(UnitTester $I)
+    public function debugGetCssSources(UnitTester $I)
     {
+        $I->wantToTest("Debug - getCssSources()");
         $I->skipTest("Need implementation");
     }
 }

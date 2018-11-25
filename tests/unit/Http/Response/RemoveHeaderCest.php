@@ -18,11 +18,14 @@ class RemoveHeaderCest
     /**
      * Tests Phalcon\Http\Response :: removeHeader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRemoveHeader(UnitTester $I)
+    public function httpResponseRemoveHeader(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - removeHeader()");
         $I->skipTest("Need implementation");
     }
 }

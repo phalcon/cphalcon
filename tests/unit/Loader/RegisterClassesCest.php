@@ -18,11 +18,14 @@ class RegisterClassesCest
     /**
      * Tests Phalcon\Loader :: registerClasses()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegisterClasses(UnitTester $I)
+    public function loaderRegisterClasses(UnitTester $I)
     {
+        $I->wantToTest("Loader - registerClasses()");
         $I->skipTest("Need implementation");
     }
 }

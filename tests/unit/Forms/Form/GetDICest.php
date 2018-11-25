@@ -18,11 +18,14 @@ class GetDICest
     /**
      * Tests Phalcon\Forms\Form :: getDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDI(UnitTester $I)
+    public function formsFormGetDI(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getDI()");
         $I->skipTest("Need implementation");
     }
 }

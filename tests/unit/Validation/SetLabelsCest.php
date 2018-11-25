@@ -18,11 +18,14 @@ class SetLabelsCest
     /**
      * Tests Phalcon\Validation :: setLabels()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationSetLabels(UnitTester $I)
     {
+        $I->wantToTest("Validation - setLabels()");
         $I->skipTest("Need implementation");
     }
 }

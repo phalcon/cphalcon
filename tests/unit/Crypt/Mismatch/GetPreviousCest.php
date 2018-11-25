@@ -18,11 +18,14 @@ class GetPreviousCest
     /**
      * Tests Phalcon\Crypt\Mismatch :: getPrevious()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPrevious(UnitTester $I)
+    public function cryptMismatchGetPrevious(UnitTester $I)
     {
+        $I->wantToTest("Crypt\Mismatch - getPrevious()");
         $I->skipTest("Need implementation");
     }
 }

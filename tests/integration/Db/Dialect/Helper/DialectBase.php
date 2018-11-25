@@ -2,9 +2,9 @@
 
 namespace Phalcon\Test\Integration\Db\Dialect\Helper;
 
+use IntegrationTester;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use IntegrationTester;
 
 class DialectBase
 {

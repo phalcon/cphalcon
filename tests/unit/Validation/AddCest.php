@@ -18,11 +18,14 @@ class AddCest
     /**
      * Tests Phalcon\Validation :: add()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationAdd(UnitTester $I)
     {
+        $I->wantToTest("Validation - add()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Backend\Xcache :: increment()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIncrement(UnitTester $I)
+    public function cacheBackendXcacheIncrement(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Xcache - increment()");
         $I->skipTest("Need implementation");
     }
 }

@@ -19,7 +19,7 @@ class GetModulesCest
      * Tests Phalcon\Cli\Console :: getModules()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

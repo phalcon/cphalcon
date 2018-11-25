@@ -18,11 +18,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Logger\Item :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function loggerItemGetType(UnitTester $I)
     {
+        $I->wantToTest("Logger\Item - getType()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetNamedParameterCest
     /**
      * Tests Phalcon\Annotations\Annotation :: getNamedParameter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetNamedParameter(UnitTester $I)
+    public function annotationsAnnotationGetNamedParameter(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Annotation - getNamedParameter()");
         $I->skipTest("Need implementation");
     }
 }

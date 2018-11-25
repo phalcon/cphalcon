@@ -18,11 +18,14 @@ class QuitCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: quit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testQuit(UnitTester $I)
+    public function queueBeanstalkQuit(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - quit()");
         $I->skipTest("Need implementation");
     }
 }

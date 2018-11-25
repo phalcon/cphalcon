@@ -18,11 +18,14 @@ class GetUserAgentCest
     /**
      * Tests Phalcon\Http\Request :: getUserAgent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetUserAgent(UnitTester $I)
+    public function httpRequestGetUserAgent(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getUserAgent()");
         $I->skipTest("Need implementation");
     }
 }

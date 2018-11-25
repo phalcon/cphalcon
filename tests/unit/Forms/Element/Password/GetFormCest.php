@@ -18,11 +18,14 @@ class GetFormCest
     /**
      * Tests Phalcon\Forms\Element\Password :: getForm()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetForm(UnitTester $I)
+    public function formsElementPasswordGetForm(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - getForm()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class ValidCest
     /**
      * Tests Phalcon\Annotations\Collection :: valid()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testValid(UnitTester $I)
+    public function annotationsCollectionValid(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - valid()");
         $I->skipTest("Need implementation");
     }
 }

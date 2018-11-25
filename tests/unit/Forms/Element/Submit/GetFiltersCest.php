@@ -18,11 +18,14 @@ class GetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: getFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilters(UnitTester $I)
+    public function formsElementSubmitGetFilters(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Submit - getFilters()");
         $I->skipTest("Need implementation");
     }
 }

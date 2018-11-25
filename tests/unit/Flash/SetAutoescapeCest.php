@@ -18,11 +18,14 @@ class SetAutoescapeCest
     /**
      * Tests Phalcon\Flash :: setAutoescape()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAutoescape(UnitTester $I)
+    public function flashSetAutoescape(UnitTester $I)
     {
+        $I->wantToTest("Flash - setAutoescape()");
         $I->skipTest("Need implementation");
     }
 }

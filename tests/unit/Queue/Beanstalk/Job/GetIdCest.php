@@ -18,11 +18,14 @@ class GetIdCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: getId()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetId(UnitTester $I)
+    public function queueBeanstalkJobGetId(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - getId()");
         $I->skipTest("Need implementation");
     }
 }

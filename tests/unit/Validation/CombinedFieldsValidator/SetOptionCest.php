@@ -18,11 +18,14 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\CombinedFieldsValidator :: setOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationCombinedFieldsValidatorSetOption(UnitTester $I)
+    public function validationCombinedfieldsvalidatorSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\CombinedFieldsValidator - setOption()");
         $I->skipTest("Need implementation");
     }
 }

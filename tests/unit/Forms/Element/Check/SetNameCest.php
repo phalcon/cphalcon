@@ -18,11 +18,14 @@ class SetNameCest
     /**
      * Tests Phalcon\Forms\Element\Check :: setName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetName(UnitTester $I)
+    public function formsElementCheckSetName(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Check - setName()");
         $I->skipTest("Need implementation");
     }
 }

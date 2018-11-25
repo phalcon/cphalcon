@@ -18,11 +18,14 @@ class GetReflectionDataCest
     /**
      * Tests Phalcon\Annotations\Reflection :: getReflectionData()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetReflectionData(UnitTester $I)
+    public function annotationsReflectionGetReflectionData(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Reflection - getReflectionData()");
         $I->skipTest("Need implementation");
     }
 }

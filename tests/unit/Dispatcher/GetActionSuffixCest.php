@@ -18,11 +18,14 @@ class GetActionSuffixCest
     /**
      * Tests Phalcon\Dispatcher :: getActionSuffix()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActionSuffix(UnitTester $I)
+    public function dispatcherGetActionSuffix(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getActionSuffix()");
         $I->skipTest("Need implementation");
     }
 }

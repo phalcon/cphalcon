@@ -18,11 +18,14 @@ class GetServicesCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: getServices()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetServices(UnitTester $I)
+    public function diFactorydefaultGetServices(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - getServices()");
         $I->skipTest("Need implementation");
     }
 }

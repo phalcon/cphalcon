@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Cache\Backend\Redis :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function cacheBackendRedisGet(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Redis - get()");
         $I->skipTest("Need implementation");
     }
 }

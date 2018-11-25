@@ -18,11 +18,14 @@ class GetFiltersCest
     /**
      * Tests Phalcon\Validation :: getFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetFilters(UnitTester $I)
     {
+        $I->wantToTest("Validation - getFilters()");
         $I->skipTest("Need implementation");
     }
 }

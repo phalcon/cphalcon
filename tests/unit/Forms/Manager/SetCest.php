@@ -18,11 +18,14 @@ class SetCest
     /**
      * Tests Phalcon\Forms\Manager :: set()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSet(UnitTester $I)
+    public function formsManagerSet(UnitTester $I)
     {
+        $I->wantToTest("Forms\Manager - set()");
         $I->skipTest("Need implementation");
     }
 }

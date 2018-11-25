@@ -18,11 +18,14 @@ class SetReaderCest
     /**
      * Tests Phalcon\Annotations\Adapter\Files :: setReader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetReader(UnitTester $I)
+    public function annotationsAdapterFilesSetReader(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Files - setReader()");
         $I->skipTest("Need implementation");
     }
 }

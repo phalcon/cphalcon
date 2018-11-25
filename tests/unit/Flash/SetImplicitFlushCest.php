@@ -18,11 +18,14 @@ class SetImplicitFlushCest
     /**
      * Tests Phalcon\Flash :: setImplicitFlush()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetImplicitFlush(UnitTester $I)
+    public function flashSetImplicitFlush(UnitTester $I)
     {
+        $I->wantToTest("Flash - setImplicitFlush()");
         $I->skipTest("Need implementation");
     }
 }

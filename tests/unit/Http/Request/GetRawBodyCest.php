@@ -18,11 +18,14 @@ class GetRawBodyCest
     /**
      * Tests Phalcon\Http\Request :: getRawBody()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRawBody(UnitTester $I)
+    public function httpRequestGetRawBody(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getRawBody()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetRealTypeCest
     /**
      * Tests Phalcon\Http\Request\File :: getRealType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRealType(UnitTester $I)
+    public function httpRequestFileGetRealType(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - getRealType()");
         $I->skipTest("Need implementation");
     }
 }

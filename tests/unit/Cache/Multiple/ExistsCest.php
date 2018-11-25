@@ -18,11 +18,14 @@ class ExistsCest
     /**
      * Tests Phalcon\Cache\Multiple :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function cacheMultipleExists(UnitTester $I)
     {
+        $I->wantToTest("Cache\Multiple - exists()");
         $I->skipTest("Need implementation");
     }
 }

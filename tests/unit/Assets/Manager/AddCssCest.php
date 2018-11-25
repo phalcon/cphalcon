@@ -18,11 +18,14 @@ class AddCssCest
     /**
      * Tests Phalcon\Assets\Manager :: addCss()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddCss(UnitTester $I)
+    public function assetsManagerAddCss(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - addCss()");
         $I->skipTest("Need implementation");
     }
 }

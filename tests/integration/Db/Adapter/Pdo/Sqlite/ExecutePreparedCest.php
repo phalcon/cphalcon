@@ -19,7 +19,7 @@ class ExecutePreparedCest
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: executePrepared()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

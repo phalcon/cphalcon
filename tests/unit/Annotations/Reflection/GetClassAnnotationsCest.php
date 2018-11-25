@@ -18,11 +18,14 @@ class GetClassAnnotationsCest
     /**
      * Tests Phalcon\Annotations\Reflection :: getClassAnnotations()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetClassAnnotations(UnitTester $I)
+    public function annotationsReflectionGetClassAnnotations(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Reflection - getClassAnnotations()");
         $I->skipTest("Need implementation");
     }
 }

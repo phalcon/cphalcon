@@ -18,11 +18,14 @@ class IsFreshCest
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: isFresh()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsFresh(UnitTester $I)
+    public function cacheBackendLibmemcachedIsFresh(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Libmemcached - isFresh()");
         $I->skipTest("Need implementation");
     }
 }

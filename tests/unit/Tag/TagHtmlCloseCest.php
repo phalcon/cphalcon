@@ -20,11 +20,14 @@ class TagHtmlCloseCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtmlClose()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagHtmlClose(UnitTester $I)
+    public function tagTagHtmlClose(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtmlClose()");
         Tag::resetInput();
         $name     = 'canvas';
         $expected = '</canvas>';
@@ -47,11 +50,14 @@ class TagHtmlCloseCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtmlClose() - EOL
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagHtmlCloseEol(UnitTester $I)
+    public function tagTagHtmlCloseEol(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtmlClose() - EOL");
         Tag::resetInput();
         $name     = 'canvas';
         $expected = '</canvas>' . PHP_EOL;

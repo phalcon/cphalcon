@@ -18,11 +18,14 @@ class InfoCest
     /**
      * Tests Phalcon\Logger\Multiple :: info()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testInfo(UnitTester $I)
+    public function loggerMultipleInfo(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - info()");
         $I->skipTest("Need implementation");
     }
 }

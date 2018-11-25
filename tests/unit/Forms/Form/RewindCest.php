@@ -18,11 +18,14 @@ class RewindCest
     /**
      * Tests Phalcon\Forms\Form :: rewind()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRewind(UnitTester $I)
+    public function formsFormRewind(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - rewind()");
         $I->skipTest("Need implementation");
     }
 }

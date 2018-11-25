@@ -21,12 +21,14 @@ class CountCest
     /**
      * Tests Phalcon\Config :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configCount(UnitTester $I)
     {
-        $I->wantToTest('Config - count()');
+        $I->wantToTest("Config - count()");
         $this->checkCount($I);
     }
 }

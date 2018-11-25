@@ -21,11 +21,14 @@ class IsRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isRole()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsRole(UnitTester $I)
+    public function aclAdapterMemoryIsRole(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - isRole()");
         $acl     = new Memory();
         $aclRole = new Role('Administrators', 'Super User access');
 

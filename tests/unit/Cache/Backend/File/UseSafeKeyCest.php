@@ -18,11 +18,14 @@ class UseSafeKeyCest
     /**
      * Tests Phalcon\Cache\Backend\File :: useSafeKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUseSafeKey(UnitTester $I)
+    public function cacheBackendFileUseSafeKey(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\File - useSafeKey()");
         $I->skipTest("Need implementation");
     }
 }

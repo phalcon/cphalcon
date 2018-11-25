@@ -20,10 +20,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - string as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaStringParameter(UnitTester $I)
+    public function tagTextAreaStringParameter(UnitTester $I)
     {
         $options  = 'x_name';
         $expected = '<textarea id="x_name" name="x_name"></textarea';
@@ -34,10 +36,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - array as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaArrayParameter(UnitTester $I)
+    public function tagTextAreaArrayParameter(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -52,10 +56,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - array as a parameters and id in it
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaArrayParameterWithId(UnitTester $I)
+    public function tagTextAreaArrayParameterWithId(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -72,10 +78,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - name and no id in parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaArrayParameterWithNameNoId(UnitTester $I)
+    public function tagTextAreaArrayParameterWithNameNoId(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -92,10 +100,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - setDefault
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaWithSetDefault(UnitTester $I)
+    public function tagTextAreaWithSetDefault(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -112,10 +122,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - displayTo
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaWithDisplayTo(UnitTester $I)
+    public function tagTextAreaWithDisplayTo(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -132,10 +144,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - setDefault and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaWithSetDefaultElementNotPresent(UnitTester $I)
+    public function tagTextAreaWithSetDefaultElementNotPresent(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -152,10 +166,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - displayTo and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTextAreaWithDisplayToElementNotPresent(UnitTester $I)
+    public function tagTextAreaWithDisplayToElementNotPresent(UnitTester $I)
     {
         $options  = [
             'x_name',
@@ -172,10 +188,12 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - displayTo and newline in value
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03
      */
-    public function testTextAreaWithDisplayToAndNewlineInValue(UnitTester $I)
+    public function tagTextAreaWithDisplayToAndNewlineInValue(UnitTester $I)
     {
         $options  = 'x_name';
         $value    = "\r\nx_content";

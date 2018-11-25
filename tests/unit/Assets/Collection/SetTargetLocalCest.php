@@ -18,11 +18,14 @@ class SetTargetLocalCest
     /**
      * Tests Phalcon\Assets\Collection :: setTargetLocal()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetTargetLocal(UnitTester $I)
+    public function assetsCollectionSetTargetLocal(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - setTargetLocal()");
         $I->skipTest("Need implementation");
     }
 }

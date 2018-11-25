@@ -19,6 +19,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - constants
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -35,6 +37,8 @@ class RandomCest
 
     /**
      * Tests Phalcon\Text :: random() - alnum
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -62,6 +66,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - alpha
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -87,6 +93,8 @@ class RandomCest
 
     /**
      * Tests Phalcon\Text :: random() - hexdec
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -114,6 +122,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - numeric
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -140,6 +150,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - non zero
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -165,6 +177,8 @@ class RandomCest
 
     /**
      * Tests Phalcon\Text :: random() - distinct type
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

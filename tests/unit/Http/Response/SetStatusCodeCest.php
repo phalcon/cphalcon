@@ -18,11 +18,14 @@ class SetStatusCodeCest
     /**
      * Tests Phalcon\Http\Response :: setStatusCode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetStatusCode(UnitTester $I)
+    public function httpResponseSetStatusCode(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setStatusCode()");
         $I->skipTest("Need implementation");
     }
 }

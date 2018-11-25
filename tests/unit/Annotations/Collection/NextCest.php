@@ -18,11 +18,14 @@ class NextCest
     /**
      * Tests Phalcon\Annotations\Collection :: next()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNext(UnitTester $I)
+    public function annotationsCollectionNext(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - next()");
         $I->skipTest("Need implementation");
     }
 }

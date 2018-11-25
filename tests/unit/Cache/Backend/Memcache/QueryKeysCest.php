@@ -18,11 +18,14 @@ class QueryKeysCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: queryKeys()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testQueryKeys(UnitTester $I)
+    public function cacheBackendMemcacheQueryKeys(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - queryKeys()");
         $I->skipTest("Need implementation");
     }
 }

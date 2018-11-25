@@ -18,11 +18,14 @@ class BindCest
     /**
      * Tests Phalcon\Validation :: bind()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationBind(UnitTester $I)
     {
+        $I->wantToTest("Validation - bind()");
         $I->skipTest("Need implementation");
     }
 }

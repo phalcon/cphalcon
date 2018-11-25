@@ -18,11 +18,14 @@ class GetPostCest
     /**
      * Tests Phalcon\Http\Request :: getPost()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPost(UnitTester $I)
+    public function httpRequestGetPost(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getPost()");
         $I->skipTest("Need implementation");
     }
 }

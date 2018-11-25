@@ -18,11 +18,14 @@ class GetLineCest
     /**
      * Tests Phalcon\Crypt\Mismatch :: getLine()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLine(UnitTester $I)
+    public function cryptMismatchGetLine(UnitTester $I)
     {
+        $I->wantToTest("Crypt\Mismatch - getLine()");
         $I->skipTest("Need implementation");
     }
 }

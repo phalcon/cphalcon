@@ -18,11 +18,14 @@ class GetResponsesCest
     /**
      * Tests Phalcon\Events\Manager :: getResponses()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResponses(UnitTester $I)
+    public function eventsManagerGetResponses(UnitTester $I)
     {
+        $I->wantToTest("Events\Manager - getResponses()");
         $I->skipTest("Need implementation");
     }
 }

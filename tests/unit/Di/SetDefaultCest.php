@@ -18,11 +18,14 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Di :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefault(UnitTester $I)
+    public function diSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Di - setDefault()");
         $I->skipTest("Need implementation");
     }
 }

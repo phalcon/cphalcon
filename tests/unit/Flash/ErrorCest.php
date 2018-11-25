@@ -18,11 +18,14 @@ class ErrorCest
     /**
      * Tests Phalcon\Flash :: error()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testError(UnitTester $I)
+    public function flashError(UnitTester $I)
     {
+        $I->wantToTest("Flash - error()");
         $I->skipTest("Need implementation");
     }
 }

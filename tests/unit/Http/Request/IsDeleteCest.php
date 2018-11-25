@@ -18,11 +18,14 @@ class IsDeleteCest
     /**
      * Tests Phalcon\Http\Request :: isDelete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsDelete(UnitTester $I)
+    public function httpRequestIsDelete(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isDelete()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetRawHeaderCest
     /**
      * Tests Phalcon\Http\Response :: setRawHeader()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetRawHeader(UnitTester $I)
+    public function httpResponseSetRawHeader(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setRawHeader()");
         $I->skipTest("Need implementation");
     }
 }

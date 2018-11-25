@@ -18,11 +18,14 @@ class WasFreshInstanceCest
     /**
      * Tests Phalcon\Di :: wasFreshInstance()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWasFreshInstance(UnitTester $I)
+    public function diWasFreshInstance(UnitTester $I)
     {
+        $I->wantToTest("Di - wasFreshInstance()");
         $I->skipTest("Need implementation");
     }
 }

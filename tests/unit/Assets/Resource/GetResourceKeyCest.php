@@ -20,13 +20,16 @@ class GetResourceKeyCest
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Resource\Js :: getResourceKey()
+     * Tests Phalcon\Assets\Resource :: getResourceKey()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResourceKey(UnitTester $I)
+    public function assetsResourceGetResourceKey(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource - getResourceKey()");
         $resource = new Resource('css', 'css/docs.css');
         $expected = md5('css:css/docs.css');
         $this->resourceGetResourceKey($I, $resource, $expected);

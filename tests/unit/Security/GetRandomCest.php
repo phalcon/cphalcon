@@ -18,11 +18,14 @@ class GetRandomCest
     /**
      * Tests Phalcon\Security :: getRandom()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRandom(UnitTester $I)
+    public function securityGetRandom(UnitTester $I)
     {
+        $I->wantToTest("Security - getRandom()");
         $I->skipTest("Need implementation");
     }
 }

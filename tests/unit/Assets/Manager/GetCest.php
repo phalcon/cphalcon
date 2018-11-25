@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Assets\Manager :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function assetsManagerGet(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - get()");
         $I->skipTest("Need implementation");
     }
 }

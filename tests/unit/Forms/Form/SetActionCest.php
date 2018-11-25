@@ -18,11 +18,14 @@ class SetActionCest
     /**
      * Tests Phalcon\Forms\Form :: setAction()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetAction(UnitTester $I)
+    public function formsFormSetAction(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - setAction()");
         $I->skipTest("Need implementation");
     }
 }

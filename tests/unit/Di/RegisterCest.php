@@ -18,11 +18,14 @@ class RegisterCest
     /**
      * Tests Phalcon\Di :: register()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegister(UnitTester $I)
+    public function diRegister(UnitTester $I)
     {
+        $I->wantToTest("Di - register()");
         $I->skipTest("Need implementation");
     }
 }

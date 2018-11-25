@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function diFactorydefaultGet(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - get()");
         $I->skipTest("Need implementation");
     }
 }

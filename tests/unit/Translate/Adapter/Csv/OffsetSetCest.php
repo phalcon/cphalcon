@@ -18,11 +18,14 @@ class OffsetSetCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: offsetSet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterCsvOffsetSet(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Csv - offsetSet()");
         $I->skipTest("Need implementation");
     }
 }

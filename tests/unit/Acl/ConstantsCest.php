@@ -22,7 +22,7 @@ class ConstantsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstants(UnitTester $I)
+    public function aclConstants(UnitTester $I)
     {
         $I->assertEquals(1, Acl::ALLOW);
         $I->assertEquals(0, Acl::DENY);

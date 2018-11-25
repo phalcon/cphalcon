@@ -18,11 +18,14 @@ class GetRealpathCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getRealpath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRealpath(UnitTester $I)
+    public function imageAdapterGdGetRealpath(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - getRealpath()");
         $I->skipTest("Need implementation");
     }
 }

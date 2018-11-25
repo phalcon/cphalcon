@@ -18,11 +18,14 @@ class GetRealTargetUriCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: getRealTargetUri()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRealTargetUri(UnitTester $I)
+    public function assetsResourceCssGetRealTargetUri(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - getRealTargetUri()");
         $I->skipTest("Need implementation");
     }
 }

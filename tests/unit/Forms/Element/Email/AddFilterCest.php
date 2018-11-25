@@ -18,11 +18,14 @@ class AddFilterCest
     /**
      * Tests Phalcon\Forms\Element\Email :: addFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddFilter(UnitTester $I)
+    public function formsElementEmailAddFilter(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Email - addFilter()");
         $I->skipTest("Need implementation");
     }
 }

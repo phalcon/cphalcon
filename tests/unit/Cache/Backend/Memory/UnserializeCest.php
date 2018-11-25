@@ -18,11 +18,14 @@ class UnserializeCest
     /**
      * Tests Phalcon\Cache\Backend\Memory :: unserialize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUnserialize(UnitTester $I)
+    public function cacheBackendMemoryUnserialize(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memory - unserialize()");
         $I->skipTest("Need implementation");
     }
 }

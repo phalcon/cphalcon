@@ -18,11 +18,14 @@ class GetPathCest
     /**
      * Tests Phalcon\Logger\Adapter\File :: getPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPath(UnitTester $I)
+    public function loggerAdapterFileGetPath(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\File - getPath()");
         $I->skipTest("Need implementation");
     }
 }

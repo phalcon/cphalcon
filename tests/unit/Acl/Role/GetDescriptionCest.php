@@ -19,11 +19,14 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Acl\Role :: getDescription()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDescription(UnitTester $I)
+    public function aclRoleGetDescription(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - getDescription()");
         $role = new Role('Administrators', 'The admin unit');
 
         $expected = 'The admin unit';
@@ -34,11 +37,14 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Acl\Role :: getDescription() - empty
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDescriptionEmpty(UnitTester $I)
+    public function aclRoleGetDescriptionEmpty(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - getDescription()");
         $role = new Role('Administrators');
 
         $actual = $role->getDescription();

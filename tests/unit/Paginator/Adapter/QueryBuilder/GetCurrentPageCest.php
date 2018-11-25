@@ -18,11 +18,14 @@ class GetCurrentPageCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getCurrentPage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCurrentPage(UnitTester $I)
+    public function paginatorAdapterQuerybuilderGetCurrentPage(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\QueryBuilder - getCurrentPage()");
         $I->skipTest("Need implementation");
     }
 }

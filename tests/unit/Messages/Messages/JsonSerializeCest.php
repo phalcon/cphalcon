@@ -20,11 +20,14 @@ class JsonSerializeCest
     /**
      * Tests Phalcon\Messages\Messages :: jsonSerialize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testJsonSerialize(UnitTester $I)
+    public function messagesMessagesJsonSerialize(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - jsonSerialize()");
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

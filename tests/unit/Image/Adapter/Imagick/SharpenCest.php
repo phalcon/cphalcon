@@ -18,11 +18,14 @@ class SharpenCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: sharpen()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSharpen(UnitTester $I)
+    public function imageAdapterImagickSharpen(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - sharpen()");
         $I->skipTest("Need implementation");
     }
 }

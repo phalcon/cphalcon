@@ -18,11 +18,14 @@ class GetContextCest
     /**
      * Tests Phalcon\Logger\Item :: getContext()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetContext(UnitTester $I)
+    public function loggerItemGetContext(UnitTester $I)
     {
+        $I->wantToTest("Logger\Item - getContext()");
         $I->skipTest("Need implementation");
     }
 }

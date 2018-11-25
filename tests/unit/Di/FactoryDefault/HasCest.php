@@ -18,11 +18,14 @@ class HasCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHas(UnitTester $I)
+    public function diFactorydefaultHas(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - has()");
         $I->skipTest("Need implementation");
     }
 }

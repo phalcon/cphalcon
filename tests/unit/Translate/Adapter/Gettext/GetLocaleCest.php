@@ -18,11 +18,14 @@ class GetLocaleCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getLocale()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextGetLocale(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - getLocale()");
         $I->skipTest("Need implementation");
     }
 }

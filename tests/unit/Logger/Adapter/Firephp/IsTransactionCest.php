@@ -18,11 +18,14 @@ class IsTransactionCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: isTransaction()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsTransaction(UnitTester $I)
+    public function loggerAdapterFirephpIsTransaction(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - isTransaction()");
         $I->skipTest("Need implementation");
     }
 }

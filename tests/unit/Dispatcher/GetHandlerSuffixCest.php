@@ -18,11 +18,14 @@ class GetHandlerSuffixCest
     /**
      * Tests Phalcon\Dispatcher :: getHandlerSuffix()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetHandlerSuffix(UnitTester $I)
+    public function dispatcherGetHandlerSuffix(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getHandlerSuffix()");
         $I->skipTest("Need implementation");
     }
 }

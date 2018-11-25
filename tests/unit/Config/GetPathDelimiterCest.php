@@ -21,12 +21,14 @@ class GetPathDelimiterCest
     /**
      * Tests Phalcon\Config :: getPathDelimiter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configGetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest('Config - getPathDelimiter()');
+        $I->wantToTest("Config - getPathDelimiter()");
         $this->checkGetPathDelimiter($I);
     }
 }

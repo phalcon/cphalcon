@@ -22,10 +22,12 @@ class GetTypeCest
     /**
      * Tests Phalcon\Assets\Resource\Js :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function assetsResourceJsGetType(UnitTester $I)
     {
         $resource = new Js('js/jquery.js');
         $this->resourceGetType($I, $resource, 'js');

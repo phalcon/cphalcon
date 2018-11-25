@@ -18,11 +18,14 @@ class GetAvailableCiphersCest
     /**
      * Tests Phalcon\Crypt :: getAvailableCiphers()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAvailableCiphers(UnitTester $I)
+    public function cryptGetAvailableCiphers(UnitTester $I)
     {
+        $I->wantToTest("Crypt - getAvailableCiphers()");
         $I->skipTest("Need implementation");
     }
 }

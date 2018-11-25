@@ -18,11 +18,14 @@ class NextCest
     /**
      * Tests Phalcon\Forms\Form :: next()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNext(UnitTester $I)
+    public function formsFormNext(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - next()");
         $I->skipTest("Need implementation");
     }
 }

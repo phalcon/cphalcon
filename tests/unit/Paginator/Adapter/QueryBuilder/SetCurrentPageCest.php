@@ -18,11 +18,14 @@ class SetCurrentPageCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: setCurrentPage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCurrentPage(UnitTester $I)
+    public function paginatorAdapterQuerybuilderSetCurrentPage(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\QueryBuilder - setCurrentPage()");
         $I->skipTest("Need implementation");
     }
 }

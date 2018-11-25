@@ -18,11 +18,14 @@ class GetTitleCest
     /**
      * Tests Phalcon\Tag :: getTitle()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTitle(UnitTester $I)
+    public function tagGetTitle(UnitTester $I)
     {
+        $I->wantToTest("Tag - getTitle()");
         $I->skipTest("Need implementation");
     }
 }

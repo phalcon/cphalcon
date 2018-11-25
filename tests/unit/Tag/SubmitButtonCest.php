@@ -19,11 +19,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - string as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonStringParameter(UnitTester $I)
+    public function tagSubmitButtonStringParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - string as parameter");
         $options  = 'x_name';
         $expected = '<input type="submit" value="x_name"';
 
@@ -34,11 +37,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - array as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonArrayParameter(UnitTester $I)
+    public function tagSubmitButtonArrayParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - array as parameter");
         $options  = [
             'x_name',
             'class' => 'x_class',
@@ -49,13 +55,16 @@ class SubmitButtonCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: submitButton() - array as a parameters and id in it
+     * Tests Phalcon\Tag :: submitButton() - array as parameter and id in it
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonArrayParameterWithId(UnitTester $I)
+    public function tagSubmitButtonArrayParameterWithId(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - array as parameter with id");
         $options  = [
             'x_name',
             'id'    => 'x_id',
@@ -71,11 +80,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - name and no id in parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonArrayParameterWithNameNoId(UnitTester $I)
+    public function tagSubmitButtonArrayParameterWithNameNoId(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - name and no id in parameters");
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -91,11 +103,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - setDefault
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonWithSetDefault(UnitTester $I)
+    public function tagSubmitButtonWithSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - setDefault()");
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -111,11 +126,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - displayTo
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonWithDisplayTo(UnitTester $I)
+    public function tagSubmitButtonWithDisplayTo(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - displayTo()");
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -131,11 +149,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - setDefault and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonWithSetDefaultElementNotPresent(UnitTester $I)
+    public function tagSubmitButtonWithSetDefaultElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - setDefault() and element not present");
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -151,11 +172,14 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - displayTo and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSubmitButtonWithDisplayToElementNotPresent(UnitTester $I)
+    public function tagSubmitButtonWithDisplayToElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag - submitButton() - displayTo() and element not present");
         $options  = [
             'x_name',
             'name'  => 'x_other',

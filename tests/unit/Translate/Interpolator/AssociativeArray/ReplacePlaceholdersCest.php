@@ -20,10 +20,12 @@ class ReplacePlaceholdersCest
      * Tests Phalcon\Translate\Interpolator\AssociativeArray ::
      * replacePlaceholders()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateInterpolatorAssociativeArrayReplacePlaceholders(UnitTester $I)
+    public function translateInterpolatorAssociativearrayReplacePlaceholders(UnitTester $I)
     {
         $I->wantToTest('Translate\Interpolator\AssociativeArray - replacePlaceholders()');
         $interpolator = new AssociativeArray();

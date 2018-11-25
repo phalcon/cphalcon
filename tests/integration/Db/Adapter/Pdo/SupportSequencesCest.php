@@ -19,7 +19,7 @@ class SupportSequencesCest
      * Tests Phalcon\Db\Adapter\Pdo :: supportSequences()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

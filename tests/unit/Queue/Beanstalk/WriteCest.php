@@ -18,11 +18,14 @@ class WriteCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: write()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWrite(UnitTester $I)
+    public function queueBeanstalkWrite(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - write()");
         $I->skipTest("Need implementation");
     }
 }

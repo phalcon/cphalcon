@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Forms\Form :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function formsFormGet(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - get()");
         $I->skipTest("Need implementation");
     }
 }

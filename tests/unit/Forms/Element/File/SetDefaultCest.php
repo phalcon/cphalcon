@@ -18,11 +18,14 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\File :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDefault(UnitTester $I)
+    public function formsElementFileSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\File - setDefault()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class WakeupCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: __wakeup()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWakeup(UnitTester $I)
+    public function queueBeanstalkJobWakeup(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - __wakeup()");
         $I->skipTest("Need implementation");
     }
 }

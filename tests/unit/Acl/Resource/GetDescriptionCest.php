@@ -19,11 +19,14 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Acl\Resource :: getDescription()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDescription(UnitTester $I)
+    public function aclResourceGetDescription(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - getDescription()");
         $resource = new Resource('Customers', 'Customer management');
 
         $expected = 'Customer management';
@@ -34,11 +37,14 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Acl\Resource :: getDescription() - empty
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDescriptionEmpty(UnitTester $I)
+    public function aclResourceGetDescriptionEmpty(UnitTester $I)
     {
+        $I->wantToTest("Acl\Resource - getDescription() - empty");
         $resource = new Resource('Customers');
 
         $actual = $resource->getDescription();

@@ -18,11 +18,14 @@ class PrepareAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Text :: prepareAttributes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPrepareAttributes(UnitTester $I)
+    public function formsElementTextPrepareAttributes(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Text - prepareAttributes()");
         $I->skipTest("Need implementation");
     }
 }

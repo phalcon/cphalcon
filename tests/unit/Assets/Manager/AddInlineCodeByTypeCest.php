@@ -18,11 +18,14 @@ class AddInlineCodeByTypeCest
     /**
      * Tests Phalcon\Assets\Manager :: addInlineCodeByType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddInlineCodeByType(UnitTester $I)
+    public function assetsManagerAddInlineCodeByType(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - addInlineCodeByType()");
         $I->skipTest("Need implementation");
     }
 }

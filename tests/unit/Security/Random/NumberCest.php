@@ -18,11 +18,14 @@ class NumberCest
     /**
      * Tests Phalcon\Security\Random :: number()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNumber(UnitTester $I)
+    public function securityRandomNumber(UnitTester $I)
     {
+        $I->wantToTest("Security\Random - number()");
         $I->skipTest("Need implementation");
     }
 }

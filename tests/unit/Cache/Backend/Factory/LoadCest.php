@@ -29,26 +29,16 @@ class LoadCest
     /**
      * Tests Phalcon\Cache\Backend\Factory :: load() - Config
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-02
-     */
-    public function testConfigFactory(UnitTester $I)
-    {
-        $options = $this->config->cache_backend;
-        $data    = $options->toArray();
-        $this->runTests($I, $options, $data);
-    }
-
-    /**
-     * Tests Phalcon\Cache\Backend\Factory :: load() - array
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testArrayFactory(UnitTester $I)
+    public function cacheBackendFactoryLoadConfig(UnitTester $I)
     {
-        $options = $this->arrayConfig["cache_backend"];
-        $data    = $options;
+        $I->wantToTest("Cache\Backend\Factory - load() - Config");
+        $options = $this->config->cache_backend;
+        $data    = $options->toArray();
         $this->runTests($I, $options, $data);
     }
 
@@ -57,7 +47,7 @@ class LoadCest
      *
      * @param UnitTester   $I
      * @param Config|array $options
-     * @param array      $data
+     * @param array        $data
      */
     private function runTests(UnitTester $I, $options, array $data)
     {
@@ -75,5 +65,19 @@ class LoadCest
         $expected = array_intersect_assoc($cache->getOptions(), $data);
         $actual   = $cache->getOptions();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Backend\Factory :: load() - array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function cacheBackendFactoryLoadArray(UnitTester $I)
+    {
+        $I->wantToTest("Cache\Backend\Factory - load() - array");
+        $options = $this->arrayConfig["cache_backend"];
+        $data    = $options;
+        $this->runTests($I, $options, $data);
     }
 }

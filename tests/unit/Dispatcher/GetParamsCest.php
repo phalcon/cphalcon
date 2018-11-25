@@ -18,11 +18,14 @@ class GetParamsCest
     /**
      * Tests Phalcon\Dispatcher :: getParams()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetParams(UnitTester $I)
+    public function dispatcherGetParams(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getParams()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class SetQueryBuilderCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: setQueryBuilder()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetQueryBuilder(UnitTester $I)
+    public function paginatorAdapterQuerybuilderSetQueryBuilder(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\QueryBuilder - setQueryBuilder()");
         $I->skipTest("Need implementation");
     }
 }

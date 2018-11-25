@@ -18,11 +18,14 @@ class RotateCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: rotate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRotate(UnitTester $I)
+    public function imageAdapterGdRotate(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - rotate()");
         $I->skipTest("Need implementation");
     }
 }

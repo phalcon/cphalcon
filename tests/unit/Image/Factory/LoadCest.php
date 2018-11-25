@@ -33,10 +33,12 @@ class LoadCest
     /**
      * Tests Phalcon\Image\Factory :: load() - Phalcon\Config
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testConfigFactory(UnitTester $I)
+    public function imageFactoryLoadConfig(UnitTester $I)
     {
         $options = $this->config->image;
         /** @var Imagick $image */
@@ -53,10 +55,12 @@ class LoadCest
     /**
      * Tests Phalcon\Image\Factory :: load() - array
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
-    public function testArrayFactory(UnitTester $I)
+    public function imageFactoryLoadArray(UnitTester $I)
     {
         $options = $this->arrayConfig["image"];
         /** @var Imagick $image */

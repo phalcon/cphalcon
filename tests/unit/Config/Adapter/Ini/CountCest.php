@@ -21,12 +21,14 @@ class CountCest
     /**
      * Tests Phalcon\Config\Adapter\Ini :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterIniCount(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Ini - count()');
+        $I->wantToTest("Config\Adapter\Ini - count()");
         $this->checkCount($I, 'Ini');
     }
 }

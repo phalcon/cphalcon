@@ -18,11 +18,14 @@ class CloseCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: close()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClose(UnitTester $I)
+    public function loggerAdapterFirephpClose(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - close()");
         $I->skipTest("Need implementation");
     }
 }

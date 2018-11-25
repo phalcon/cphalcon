@@ -18,11 +18,14 @@ class IsAjaxCest
     /**
      * Tests Phalcon\Http\Request :: isAjax()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsAjax(UnitTester $I)
+    public function httpRequestIsAjax(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isAjax()");
         $I->skipTest("Need implementation");
     }
 }

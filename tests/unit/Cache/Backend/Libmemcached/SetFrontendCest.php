@@ -18,11 +18,14 @@ class SetFrontendCest
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: setFrontend()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFrontend(UnitTester $I)
+    public function cacheBackendLibmemcachedSetFrontend(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Libmemcached - setFrontend()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetClientCharsetsCest
     /**
      * Tests Phalcon\Http\Request :: getClientCharsets()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetClientCharsets(UnitTester $I)
+    public function httpRequestGetClientCharsets(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getClientCharsets()");
         $I->skipTest("Need implementation");
     }
 }

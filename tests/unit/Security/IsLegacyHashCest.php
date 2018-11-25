@@ -18,11 +18,14 @@ class IsLegacyHashCest
     /**
      * Tests Phalcon\Security :: isLegacyHash()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsLegacyHash(UnitTester $I)
+    public function securityIsLegacyHash(UnitTester $I)
     {
+        $I->wantToTest("Security - isLegacyHash()");
         $I->skipTest("Need implementation");
     }
 }

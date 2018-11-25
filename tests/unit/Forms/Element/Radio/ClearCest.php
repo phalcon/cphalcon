@@ -18,11 +18,14 @@ class ClearCest
     /**
      * Tests Phalcon\Forms\Element\Radio :: clear()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testClear(UnitTester $I)
+    public function formsElementRadioClear(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Radio - clear()");
         $I->skipTest("Need implementation");
     }
 }

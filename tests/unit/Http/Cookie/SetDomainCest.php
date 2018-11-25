@@ -18,11 +18,14 @@ class SetDomainCest
     /**
      * Tests Phalcon\Http\Cookie :: setDomain()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDomain(UnitTester $I)
+    public function httpCookieSetDomain(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - setDomain()");
         $I->skipTest("Need implementation");
     }
 }

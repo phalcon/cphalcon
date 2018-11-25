@@ -18,11 +18,14 @@ class GetDefaultModuleCest
     /**
      * Tests Phalcon\Application :: getDefaultModule()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDefaultModule(UnitTester $I)
+    public function applicationGetDefaultModule(UnitTester $I)
     {
+        $I->wantToTest("Application - getDefaultModule()");
         $I->skipTest("Need implementation");
     }
 }

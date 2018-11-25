@@ -18,11 +18,14 @@ class ResizeCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: resize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testResize(UnitTester $I)
+    public function imageAdapterGdResize(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - resize()");
         $I->skipTest("Need implementation");
     }
 }

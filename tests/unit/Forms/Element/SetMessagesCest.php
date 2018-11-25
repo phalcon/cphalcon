@@ -18,11 +18,14 @@ class SetMessagesCest
     /**
      * Tests Phalcon\Forms\Element :: setMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetMessages(UnitTester $I)
+    public function formsElementSetMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element - setMessages()");
         $I->skipTest("Need implementation");
     }
 }

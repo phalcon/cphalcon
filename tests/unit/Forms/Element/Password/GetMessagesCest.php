@@ -18,11 +18,14 @@ class GetMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Password :: getMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessages(UnitTester $I)
+    public function formsElementPasswordGetMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Password - getMessages()");
         $I->skipTest("Need implementation");
     }
 }

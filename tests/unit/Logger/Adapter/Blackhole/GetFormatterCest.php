@@ -18,11 +18,14 @@ class GetFormatterCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: getFormatter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFormatter(UnitTester $I)
+    public function loggerAdapterBlackholeGetFormatter(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - getFormatter()");
         $I->skipTest("Need implementation");
     }
 }

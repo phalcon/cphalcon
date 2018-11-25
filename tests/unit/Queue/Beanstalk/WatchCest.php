@@ -18,11 +18,14 @@ class WatchCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: watch()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWatch(UnitTester $I)
+    public function queueBeanstalkWatch(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - watch()");
         $I->skipTest("Need implementation");
     }
 }

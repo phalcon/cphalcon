@@ -18,11 +18,14 @@ class QueryCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: query()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextQuery(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - query()");
         $I->skipTest("Need implementation");
     }
 }

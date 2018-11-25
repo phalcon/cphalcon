@@ -18,11 +18,14 @@ class EmergencyCest
     /**
      * Tests Phalcon\Logger\Adapter\Firephp :: emergency()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEmergency(UnitTester $I)
+    public function loggerAdapterFirephpEmergency(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Firephp - emergency()");
         $I->skipTest("Need implementation");
     }
 }

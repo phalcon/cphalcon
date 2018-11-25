@@ -15,13 +15,14 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Url;
-
 use UnitTester;
 
 class ValidateCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - single field
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -63,6 +64,8 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - multiple field
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -131,6 +134,8 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - custom message
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05

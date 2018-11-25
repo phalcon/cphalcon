@@ -18,11 +18,14 @@ class TouchCest
     /**
      * Tests Phalcon\Queue\Beanstalk\Job :: touch()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testTouch(UnitTester $I)
+    public function queueBeanstalkJobTouch(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk\Job - touch()");
         $I->skipTest("Need implementation");
     }
 }

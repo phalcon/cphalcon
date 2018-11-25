@@ -18,11 +18,14 @@ class IsStoppedCest
     /**
      * Tests Phalcon\Events\Event :: isStopped()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsStopped(UnitTester $I)
+    public function eventsEventIsStopped(UnitTester $I)
     {
+        $I->wantToTest("Events\Event - isStopped()");
         $I->skipTest("Need implementation");
     }
 }

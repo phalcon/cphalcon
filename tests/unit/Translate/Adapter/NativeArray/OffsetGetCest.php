@@ -22,10 +22,12 @@ class OffsetGetCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetGet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativeArrayOffsetGet(UnitTester $I)
+    public function translateAdapterNativearrayOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetGet()');
         $language   = $this->getArrayConfig()['en'];

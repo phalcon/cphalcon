@@ -18,11 +18,14 @@ class SetDetailedCest
     /**
      * Tests Phalcon\Debug\Dump :: setDetailed()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDetailed(UnitTester $I)
+    public function debugDumpSetDetailed(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - setDetailed()");
         $I->skipTest("Need implementation");
     }
 }

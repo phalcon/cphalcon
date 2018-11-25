@@ -19,11 +19,14 @@ class ToStringCest
     /**
      * Tests Phalcon\Acl\Role :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function aclRoleToString(UnitTester $I)
     {
+        $I->wantToTest("Acl\Role - __toString()");
         $role = new Role('Administrator');
 
         $expected = 'Administrator';

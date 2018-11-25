@@ -18,11 +18,14 @@ class GetTargetPathCest
     /**
      * Tests Phalcon\Assets\Resource\Js :: getTargetPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTargetPath(UnitTester $I)
+    public function assetsResourceJsGetTargetPath(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Js - getTargetPath()");
         $I->skipTest("Need implementation");
     }
 }

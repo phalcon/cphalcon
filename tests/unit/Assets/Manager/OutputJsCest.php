@@ -18,11 +18,14 @@ class OutputJsCest
     /**
      * Tests Phalcon\Assets\Manager :: outputJs()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutputJs(UnitTester $I)
+    public function assetsManagerOutputJs(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - outputJs()");
         $I->skipTest("Need implementation");
     }
 }

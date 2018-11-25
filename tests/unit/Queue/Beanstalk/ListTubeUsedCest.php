@@ -18,11 +18,14 @@ class ListTubeUsedCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: listTubeUsed()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListTubeUsed(UnitTester $I)
+    public function queueBeanstalkListTubeUsed(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - listTubeUsed()");
         $I->skipTest("Need implementation");
     }
 }

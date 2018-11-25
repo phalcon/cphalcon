@@ -18,11 +18,14 @@ class ListenCest
     /**
      * Tests Phalcon\Debug :: listen()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListen(UnitTester $I)
+    public function debugListen(UnitTester $I)
     {
+        $I->wantToTest("Debug - listen()");
         $I->skipTest("Need implementation");
     }
 }

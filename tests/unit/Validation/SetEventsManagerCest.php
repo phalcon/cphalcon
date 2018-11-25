@@ -18,11 +18,14 @@ class SetEventsManagerCest
     /**
      * Tests Phalcon\Validation :: setEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationSetEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Validation - setEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

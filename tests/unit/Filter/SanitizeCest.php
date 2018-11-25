@@ -18,11 +18,14 @@ class SanitizeCest
     /**
      * Tests Phalcon\Filter :: sanitize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSanitize(UnitTester $I)
+    public function filterSanitize(UnitTester $I)
     {
+        $I->wantToTest("Filter - sanitize()");
         $I->skipTest("Need implementation");
     }
 }

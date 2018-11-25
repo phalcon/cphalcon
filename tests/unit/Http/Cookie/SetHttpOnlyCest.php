@@ -18,11 +18,14 @@ class SetHttpOnlyCest
     /**
      * Tests Phalcon\Http\Cookie :: setHttpOnly()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetHttpOnly(UnitTester $I)
+    public function httpCookieSetHttpOnly(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - setHttpOnly()");
         $I->skipTest("Need implementation");
     }
 }

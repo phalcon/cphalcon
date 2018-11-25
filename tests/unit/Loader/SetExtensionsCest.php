@@ -18,11 +18,14 @@ class SetExtensionsCest
     /**
      * Tests Phalcon\Loader :: setExtensions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetExtensions(UnitTester $I)
+    public function loaderSetExtensions(UnitTester $I)
     {
+        $I->wantToTest("Loader - setExtensions()");
         $I->skipTest("Need implementation");
     }
 }

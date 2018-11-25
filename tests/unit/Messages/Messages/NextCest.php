@@ -20,11 +20,14 @@ class NextCest
     /**
      * Tests Phalcon\Messages\Messages :: next()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNext(UnitTester $I)
+    public function messagesMessagesNext(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - next()");
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

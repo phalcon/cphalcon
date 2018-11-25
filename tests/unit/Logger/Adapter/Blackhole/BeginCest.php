@@ -18,11 +18,14 @@ class BeginCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: begin()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBegin(UnitTester $I)
+    public function loggerAdapterBlackholeBegin(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - begin()");
         $I->skipTest("Need implementation");
     }
 }

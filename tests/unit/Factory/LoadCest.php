@@ -18,11 +18,14 @@ class LoadCest
     /**
      * Tests Phalcon\Factory :: load()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLoad(UnitTester $I)
+    public function factoryLoad(UnitTester $I)
     {
+        $I->wantToTest("Factory - load()");
         $I->skipTest("Need implementation");
     }
 }

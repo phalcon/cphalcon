@@ -19,7 +19,7 @@ class FetchOneCest
      * Tests Phalcon\Db\Adapter :: fetchOne()
      *
      * @param IntegrationTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

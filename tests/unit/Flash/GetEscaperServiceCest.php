@@ -18,11 +18,14 @@ class GetEscaperServiceCest
     /**
      * Tests Phalcon\Flash :: getEscaperService()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetEscaperService(UnitTester $I)
+    public function flashGetEscaperService(UnitTester $I)
     {
+        $I->wantToTest("Flash - getEscaperService()");
         $I->skipTest("Need implementation");
     }
 }

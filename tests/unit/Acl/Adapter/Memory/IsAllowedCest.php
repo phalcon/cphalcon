@@ -18,11 +18,14 @@ class IsAllowedCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsAllowed(UnitTester $I)
+    public function aclAdapterMemoryIsAllowed(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - isAllowed()");
         $I->skipTest("Need implementation");
     }
 }

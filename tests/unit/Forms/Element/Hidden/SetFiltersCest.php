@@ -18,11 +18,14 @@ class SetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: setFilters()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFilters(UnitTester $I)
+    public function formsElementHiddenSetFilters(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - setFilters()");
         $I->skipTest("Need implementation");
     }
 }

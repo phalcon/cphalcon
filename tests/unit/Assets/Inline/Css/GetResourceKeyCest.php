@@ -18,11 +18,14 @@ class GetResourceKeyCest
     /**
      * Tests Phalcon\Assets\Inline\Css :: getResourceKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResourceKey(UnitTester $I)
+    public function assetsInlineCssGetResourceKey(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Css - getResourceKey()");
         $I->skipTest("Need implementation");
     }
 }

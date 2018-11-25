@@ -18,11 +18,14 @@ class Base62Cest
     /**
      * Tests Phalcon\Security\Random :: base62()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBase62(UnitTester $I)
+    public function securityRandomBase62(UnitTester $I)
     {
+        $I->wantToTest("Security\Random - base62()");
         $I->skipTest("Need implementation");
     }
 }

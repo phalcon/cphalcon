@@ -18,11 +18,14 @@ class GetLifetimeCest
     /**
      * Tests Phalcon\Cache\Frontend\Igbinary :: getLifetime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLifetime(UnitTester $I)
+    public function cacheFrontendIgbinaryGetLifetime(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Igbinary - getLifetime()");
         $I->skipTest("Need implementation");
     }
 }

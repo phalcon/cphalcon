@@ -18,11 +18,14 @@ class KeyCest
     /**
      * Tests Phalcon\Assets\Collection :: key()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKey(UnitTester $I)
+    public function assetsCollectionKey(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - key()");
         $I->skipTest("Need implementation");
     }
 }

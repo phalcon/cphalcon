@@ -18,11 +18,14 @@ class GetActiveRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActiveRole(UnitTester $I)
+    public function aclAdapterMemoryGetActiveRole(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getActiveRole()");
         $I->skipTest("Need implementation");
     }
 }

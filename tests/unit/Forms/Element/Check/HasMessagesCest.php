@@ -18,11 +18,14 @@ class HasMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Check :: hasMessages()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testHasMessages(UnitTester $I)
+    public function formsElementCheckHasMessages(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Check - hasMessages()");
         $I->skipTest("Need implementation");
     }
 }

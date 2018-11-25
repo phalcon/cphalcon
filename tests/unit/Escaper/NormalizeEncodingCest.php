@@ -18,11 +18,14 @@ class NormalizeEncodingCest
     /**
      * Tests Phalcon\Escaper :: normalizeEncoding()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNormalizeEncoding(UnitTester $I)
+    public function escaperNormalizeEncoding(UnitTester $I)
     {
+        $I->wantToTest("Escaper - normalizeEncoding()");
         $I->skipTest("Need implementation");
     }
 }

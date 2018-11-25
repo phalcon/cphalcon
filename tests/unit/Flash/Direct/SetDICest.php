@@ -18,11 +18,14 @@ class SetDICest
     /**
      * Tests Phalcon\Flash\Direct :: setDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDI(UnitTester $I)
+    public function flashDirectSetDI(UnitTester $I)
     {
+        $I->wantToTest("Flash\Direct - setDI()");
         $I->skipTest("Need implementation");
     }
 }

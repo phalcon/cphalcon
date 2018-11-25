@@ -18,11 +18,14 @@ class GetLifetimeCest
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: getLifetime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLifetime(UnitTester $I)
+    public function cacheBackendLibmemcachedGetLifetime(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Libmemcached - getLifetime()");
         $I->skipTest("Need implementation");
     }
 }

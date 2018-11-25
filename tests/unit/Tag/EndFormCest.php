@@ -20,11 +20,14 @@ class EndFormCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: endForm()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEndForm(UnitTester $I)
+    public function tagEndForm(UnitTester $I)
     {
+        $I->wantToTest("Tag - endForm()");
         $expected = '</form>';
         $actual   = Tag::endForm();
         $I->assertEquals($expected, $actual);

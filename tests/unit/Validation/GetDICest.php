@@ -18,11 +18,14 @@ class GetDICest
     /**
      * Tests Phalcon\Validation :: getDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetDI(UnitTester $I)
     {
+        $I->wantToTest("Validation - getDI()");
         $I->skipTest("Need implementation");
     }
 }

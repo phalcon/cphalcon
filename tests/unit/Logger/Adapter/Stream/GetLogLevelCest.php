@@ -18,11 +18,14 @@ class GetLogLevelCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: getLogLevel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLogLevel(UnitTester $I)
+    public function loggerAdapterStreamGetLogLevel(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Stream - getLogLevel()");
         $I->skipTest("Need implementation");
     }
 }

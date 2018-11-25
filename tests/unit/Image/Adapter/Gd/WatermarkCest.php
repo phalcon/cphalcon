@@ -18,11 +18,14 @@ class WatermarkCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: watermark()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWatermark(UnitTester $I)
+    public function imageAdapterGdWatermark(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Gd - watermark()");
         $I->skipTest("Need implementation");
     }
 }

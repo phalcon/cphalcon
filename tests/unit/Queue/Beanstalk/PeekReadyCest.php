@@ -18,11 +18,14 @@ class PeekReadyCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: peekReady()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testPeekReady(UnitTester $I)
+    public function queueBeanstalkPeekReady(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - peekReady()");
         $I->skipTest("Need implementation");
     }
 }

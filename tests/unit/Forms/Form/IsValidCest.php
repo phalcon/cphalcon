@@ -18,11 +18,14 @@ class IsValidCest
     /**
      * Tests Phalcon\Forms\Form :: isValid()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsValid(UnitTester $I)
+    public function formsFormIsValid(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - isValid()");
         $I->skipTest("Need implementation");
     }
 }

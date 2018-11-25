@@ -18,11 +18,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Paginator\Adapter\Model :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function paginatorAdapterModelConstruct(UnitTester $I)
     {
+        $I->wantToTest("Paginator\Adapter\Model - __construct()");
         $I->skipTest("Need implementation");
     }
 }

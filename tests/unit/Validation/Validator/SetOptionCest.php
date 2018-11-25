@@ -18,11 +18,14 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator :: setOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator - setOption()");
         $I->skipTest("Need implementation");
     }
 }

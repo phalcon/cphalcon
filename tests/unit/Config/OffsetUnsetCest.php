@@ -21,12 +21,14 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Config :: offsetUnset()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configOffsetUnset(UnitTester $I)
     {
-        $I->wantToTest('Config - offsetUnset()');
+        $I->wantToTest("Config - offsetUnset()");
         $this->checkOffsetUnset($I);
     }
 }

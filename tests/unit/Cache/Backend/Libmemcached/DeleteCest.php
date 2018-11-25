@@ -18,11 +18,14 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: delete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDelete(UnitTester $I)
+    public function cacheBackendLibmemcachedDelete(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Libmemcached - delete()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class AfterRetrieveCest
     /**
      * Tests Phalcon\Cache\Frontend\Base64 :: afterRetrieve()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAfterRetrieve(UnitTester $I)
+    public function cacheFrontendBase64AfterRetrieve(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Base64 - afterRetrieve()");
         $I->skipTest("Need implementation");
     }
 }

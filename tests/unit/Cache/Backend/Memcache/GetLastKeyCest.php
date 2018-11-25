@@ -18,11 +18,14 @@ class GetLastKeyCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: getLastKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLastKey(UnitTester $I)
+    public function cacheBackendMemcacheGetLastKey(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - getLastKey()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class LabelCest
     /**
      * Tests Phalcon\Forms\Element\Hidden :: label()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLabel(UnitTester $I)
+    public function formsElementHiddenLabel(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Hidden - label()");
         $I->skipTest("Need implementation");
     }
 }

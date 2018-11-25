@@ -18,11 +18,14 @@ class OneCest
     /**
      * Tests Phalcon\Debug\Dump :: one()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOne(UnitTester $I)
+    public function debugDumpOne(UnitTester $I)
     {
+        $I->wantToTest("Debug\Dump - one()");
         $I->skipTest("Need implementation");
     }
 }

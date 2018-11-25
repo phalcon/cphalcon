@@ -18,11 +18,14 @@ class OffsetSetCest
     /**
      * Tests Phalcon\Di :: offsetSet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetSet(UnitTester $I)
+    public function diOffsetSet(UnitTester $I)
     {
+        $I->wantToTest("Di - offsetSet()");
         $I->skipTest("Need implementation");
     }
 }

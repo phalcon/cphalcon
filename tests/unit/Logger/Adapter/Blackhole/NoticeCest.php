@@ -18,11 +18,14 @@ class NoticeCest
     /**
      * Tests Phalcon\Logger\Adapter\Blackhole :: notice()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testNotice(UnitTester $I)
+    public function loggerAdapterBlackholeNotice(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Blackhole - notice()");
         $I->skipTest("Need implementation");
     }
 }

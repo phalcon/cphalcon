@@ -18,11 +18,14 @@ class RegisterDirsCest
     /**
      * Tests Phalcon\Loader :: registerDirs()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegisterDirs(UnitTester $I)
+    public function loaderRegisterDirs(UnitTester $I)
     {
+        $I->wantToTest("Loader - registerDirs()");
         $I->skipTest("Need implementation");
     }
 }

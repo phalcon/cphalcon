@@ -18,11 +18,14 @@ class GetLabelCest
     /**
      * Tests Phalcon\Validation :: getLabel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetLabel(UnitTester $I)
     {
+        $I->wantToTest("Validation - getLabel()");
         $I->skipTest("Need implementation");
     }
 }

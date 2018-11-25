@@ -18,11 +18,14 @@ class GetNoArgumentsDefaultActionCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getNoArgumentsDefaultAction()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetNoArgumentsDefaultAction(UnitTester $I)
+    public function aclAdapterMemoryGetNoArgumentsDefaultAction(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - getNoArgumentsDefaultAction()");
         $I->skipTest("Need implementation");
     }
 }

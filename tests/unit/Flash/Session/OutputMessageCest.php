@@ -18,11 +18,14 @@ class OutputMessageCest
     /**
      * Tests Phalcon\Flash\Session :: outputMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOutputMessage(UnitTester $I)
+    public function flashSessionOutputMessage(UnitTester $I)
     {
+        $I->wantToTest("Flash\Session - outputMessage()");
         $I->skipTest("Need implementation");
     }
 }

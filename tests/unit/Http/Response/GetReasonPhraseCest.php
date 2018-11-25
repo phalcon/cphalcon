@@ -18,11 +18,14 @@ class GetReasonPhraseCest
     /**
      * Tests Phalcon\Http\Response :: getReasonPhrase()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetReasonPhrase(UnitTester $I)
+    public function httpResponseGetReasonPhrase(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - getReasonPhrase()");
         $I->skipTest("Need implementation");
     }
 }

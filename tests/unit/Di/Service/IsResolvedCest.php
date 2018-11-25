@@ -18,11 +18,14 @@ class IsResolvedCest
     /**
      * Tests Phalcon\Di\Service :: isResolved()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsResolved(UnitTester $I)
+    public function diServiceIsResolved(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - isResolved()");
         $I->skipTest("Need implementation");
     }
 }

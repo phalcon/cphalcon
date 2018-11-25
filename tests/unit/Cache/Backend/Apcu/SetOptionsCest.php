@@ -18,11 +18,14 @@ class SetOptionsCest
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: setOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetOptions(UnitTester $I)
+    public function cacheBackendApcuSetOptions(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Apcu - setOptions()");
         $I->skipTest("Need implementation");
     }
 }

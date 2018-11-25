@@ -18,11 +18,14 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator :: hasOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator - hasOption()");
         $I->skipTest("Need implementation");
     }
 }

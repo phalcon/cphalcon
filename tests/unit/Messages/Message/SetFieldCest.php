@@ -19,11 +19,14 @@ class SetFieldCest
     /**
      * Tests Phalcon\Messages\Message :: setField()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetField(UnitTester $I)
+    public function messagesMessageSetField(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - setField()");
         $message = new Message('This is a message #1');
         $message->setField('MyField');
 

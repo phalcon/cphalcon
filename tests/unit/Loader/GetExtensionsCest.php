@@ -18,11 +18,14 @@ class GetExtensionsCest
     /**
      * Tests Phalcon\Loader :: getExtensions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetExtensions(UnitTester $I)
+    public function loaderGetExtensions(UnitTester $I)
     {
+        $I->wantToTest("Loader - getExtensions()");
         $I->skipTest("Need implementation");
     }
 }

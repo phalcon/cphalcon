@@ -18,11 +18,14 @@ class SetUserOptionCest
     /**
      * Tests Phalcon\Forms\Form :: setUserOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetUserOption(UnitTester $I)
+    public function formsFormSetUserOption(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - setUserOption()");
         $I->skipTest("Need implementation");
     }
 }

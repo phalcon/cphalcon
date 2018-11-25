@@ -18,11 +18,14 @@ class KickCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: kick()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testKick(UnitTester $I)
+    public function queueBeanstalkKick(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - kick()");
         $I->skipTest("Need implementation");
     }
 }

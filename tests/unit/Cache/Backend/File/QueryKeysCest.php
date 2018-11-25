@@ -18,11 +18,14 @@ class QueryKeysCest
     /**
      * Tests Phalcon\Cache\Backend\File :: queryKeys()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testQueryKeys(UnitTester $I)
+    public function cacheBackendFileQueryKeys(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\File - queryKeys()");
         $I->skipTest("Need implementation");
     }
 }

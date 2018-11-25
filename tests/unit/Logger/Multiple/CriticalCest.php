@@ -18,11 +18,14 @@ class CriticalCest
     /**
      * Tests Phalcon\Logger\Multiple :: critical()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCritical(UnitTester $I)
+    public function loggerMultipleCritical(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - critical()");
         $I->skipTest("Need implementation");
     }
 }

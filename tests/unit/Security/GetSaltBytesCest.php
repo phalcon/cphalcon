@@ -18,11 +18,14 @@ class GetSaltBytesCest
     /**
      * Tests Phalcon\Security :: getSaltBytes()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSaltBytes(UnitTester $I)
+    public function securityGetSaltBytes(UnitTester $I)
     {
+        $I->wantToTest("Security - getSaltBytes()");
         $I->skipTest("Need implementation");
     }
 }

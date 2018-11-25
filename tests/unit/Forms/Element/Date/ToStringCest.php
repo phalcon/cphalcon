@@ -18,11 +18,14 @@ class ToStringCest
     /**
      * Tests Phalcon\Forms\Element\Date :: __toString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testToString(UnitTester $I)
+    public function formsElementDateToString(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - __toString()");
         $I->skipTest("Need implementation");
     }
 }

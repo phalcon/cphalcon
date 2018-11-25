@@ -18,11 +18,14 @@ class SetEntityCest
     /**
      * Tests Phalcon\Validation :: setEntity()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationSetEntity(UnitTester $I)
     {
+        $I->wantToTest("Validation - setEntity()");
         $I->skipTest("Need implementation");
     }
 }

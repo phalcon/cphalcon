@@ -18,11 +18,14 @@ class GetBasicAuthCest
     /**
      * Tests Phalcon\Http\Request :: getBasicAuth()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetBasicAuth(UnitTester $I)
+    public function httpRequestGetBasicAuth(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - getBasicAuth()");
         $I->skipTest("Need implementation");
     }
 }

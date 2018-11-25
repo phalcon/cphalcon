@@ -18,11 +18,14 @@ class SetFileToSendCest
     /**
      * Tests Phalcon\Http\Response :: setFileToSend()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetFileToSend(UnitTester $I)
+    public function httpResponseSetFileToSend(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - setFileToSend()");
         $I->skipTest("Need implementation");
     }
 }

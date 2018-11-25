@@ -18,11 +18,14 @@ class AddJsCest
     /**
      * Tests Phalcon\Assets\Manager :: addJs()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddJs(UnitTester $I)
+    public function assetsManagerAddJs(UnitTester $I)
     {
+        $I->wantToTest("Assets\Manager - addJs()");
         $I->skipTest("Need implementation");
     }
 }

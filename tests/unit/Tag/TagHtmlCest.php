@@ -20,11 +20,14 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagHtmlName(UnitTester $I)
+    public function tagTagHtmlName(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtml() - name parameter");
         Tag::resetInput();
         $name     = 'aside';
         $expected = '<aside>';
@@ -47,11 +50,14 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter and self close
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testNameSelfClose(UnitTester $I)
+    public function tagNameSelfClose(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtml() - name parameter self close");
         Tag::resetInput();
         $name     = 'aside';
         $expected = '<aside />';
@@ -74,11 +80,14 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter and only start
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagHtmlNameOnlyStart(UnitTester $I)
+    public function tagTagHtmlNameOnlyStart(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtml() - name parameter only start");
         Tag::resetInput();
         $name     = 'aside';
         $expected = '<aside>';
@@ -101,11 +110,14 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter and EOL
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagHtmlNameEol(UnitTester $I)
+    public function tagTagHtmlNameEol(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtml() - name parameter EOL");
         Tag::resetInput();
         $name     = 'aside';
         $expected = '<aside>' . PHP_EOL;
@@ -128,11 +140,14 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - array parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagHtmlWithArray(UnitTester $I)
+    public function tagTagHtmlWithArray(UnitTester $I)
     {
+        $I->wantToTest("Tag - tagHtml() - array");
         Tag::resetInput();
         $name     = 'canvas';
         $options  = [

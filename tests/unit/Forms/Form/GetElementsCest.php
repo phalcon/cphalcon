@@ -18,11 +18,14 @@ class GetElementsCest
     /**
      * Tests Phalcon\Forms\Form :: getElements()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetElements(UnitTester $I)
+    public function formsFormGetElements(UnitTester $I)
     {
+        $I->wantToTest("Forms\Form - getElements()");
         $I->skipTest("Need implementation");
     }
 }

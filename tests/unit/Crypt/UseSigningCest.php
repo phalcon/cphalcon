@@ -18,11 +18,14 @@ class UseSigningCest
     /**
      * Tests Phalcon\Crypt :: useSigning()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUseSigning(UnitTester $I)
+    public function cryptUseSigning(UnitTester $I)
     {
+        $I->wantToTest("Crypt - useSigning()");
         $I->skipTest("Need implementation");
     }
 }

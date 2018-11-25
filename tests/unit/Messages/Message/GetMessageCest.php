@@ -19,11 +19,14 @@ class GetMessageCest
     /**
      * Tests Phalcon\Messages\Message :: getMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetMessage(UnitTester $I)
+    public function messagesMessageGetMessage(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - getMessage()");
         $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
         $expected = 'This is a message #1';

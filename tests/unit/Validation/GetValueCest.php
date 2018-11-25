@@ -18,11 +18,14 @@ class GetValueCest
     /**
      * Tests Phalcon\Validation :: getValue()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationGetValue(UnitTester $I)
     {
+        $I->wantToTest("Validation - getValue()");
         $I->skipTest("Need implementation");
     }
 }

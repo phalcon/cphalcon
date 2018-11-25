@@ -32,6 +32,21 @@ trait ValidationTrait
     }
 
     /**
+     * Formats a message to be displayed in the tests
+     *
+     * @param ValidatorInterface $validator
+     * @param string             $method
+     *
+     * @return string
+     */
+    private function getMessage(ValidatorInterface $validator, string $method): string
+    {
+        $class = get_class($validator);
+
+        return sprintf(str_replace('Phalcon\\', '', $class) . ' - %s', $method);
+    }
+
+    /**
      * Tests Phalcon\Validation\Validator\* :: getOption()
      *
      * @param UnitTester         $I
@@ -86,20 +101,5 @@ trait ValidationTrait
         $expected = 'value';
         $actual   = $validator->getOption('option');
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Formats a message to be displayed in the tests
-     *
-     * @param ValidatorInterface $validator
-     * @param string             $method
-     *
-     * @return string
-     */
-    private function getMessage(ValidatorInterface $validator, string $method): string
-    {
-        $class = get_class($validator);
-
-        return sprintf(str_replace('Phalcon\\', '', $class) . ' - %s', $method);
     }
 }

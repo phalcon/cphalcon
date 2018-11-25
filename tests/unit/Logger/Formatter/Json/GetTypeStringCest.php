@@ -18,11 +18,14 @@ class GetTypeStringCest
     /**
      * Tests Phalcon\Logger\Formatter\Json :: getTypeString()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetTypeString(UnitTester $I)
+    public function loggerFormatterJsonGetTypeString(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter\Json - getTypeString()");
         $I->skipTest("Need implementation");
     }
 }

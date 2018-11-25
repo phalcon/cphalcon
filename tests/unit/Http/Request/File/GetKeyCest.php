@@ -18,11 +18,14 @@ class GetKeyCest
     /**
      * Tests Phalcon\Http\Request\File :: getKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetKey(UnitTester $I)
+    public function httpRequestFileGetKey(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - getKey()");
         $I->skipTest("Need implementation");
     }
 }

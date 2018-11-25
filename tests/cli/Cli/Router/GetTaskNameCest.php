@@ -19,7 +19,7 @@ class GetTaskNameCest
      * Tests Phalcon\Cli\Router :: getTaskName()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -18,11 +18,14 @@ class SetCipherCest
     /**
      * Tests Phalcon\Crypt :: setCipher()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCipher(UnitTester $I)
+    public function cryptSetCipher(UnitTester $I)
     {
+        $I->wantToTest("Crypt - setCipher()");
         $I->skipTest("Need implementation");
     }
 }

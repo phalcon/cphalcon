@@ -18,11 +18,14 @@ class GetClassesCest
     /**
      * Tests Phalcon\Loader :: getClasses()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetClasses(UnitTester $I)
+    public function loaderGetClasses(UnitTester $I)
     {
+        $I->wantToTest("Loader - getClasses()");
         $I->skipTest("Need implementation");
     }
 }

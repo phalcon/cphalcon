@@ -21,12 +21,14 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Config :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configOffsetExists(UnitTester $I)
     {
-        $I->wantToTest('Config - offsetExists()');
+        $I->wantToTest("Config - offsetExists()");
         $this->checkOffsetExists($I);
     }
 }

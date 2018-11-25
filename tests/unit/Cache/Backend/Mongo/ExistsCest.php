@@ -18,11 +18,14 @@ class ExistsCest
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testExists(UnitTester $I)
+    public function cacheBackendMongoExists(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Mongo - exists()");
         $I->skipTest("Need implementation");
     }
 }

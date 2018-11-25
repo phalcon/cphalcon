@@ -22,6 +22,8 @@ class ArrayAccessCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: array access
      *
+     * @param UnitTester $I
+     *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */

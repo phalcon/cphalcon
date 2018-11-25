@@ -18,11 +18,14 @@ class GetDICest
     /**
      * Tests Phalcon\Tag :: getDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetDI(UnitTester $I)
+    public function tagGetDI(UnitTester $I)
     {
+        $I->wantToTest("Tag - getDI()");
         $I->skipTest("Need implementation");
     }
 }

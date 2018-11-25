@@ -19,7 +19,7 @@ class GetBeforeMatchCest
      * Tests Phalcon\Cli\Router\Route :: getBeforeMatch()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

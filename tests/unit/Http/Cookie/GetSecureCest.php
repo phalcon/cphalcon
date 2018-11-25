@@ -18,11 +18,14 @@ class GetSecureCest
     /**
      * Tests Phalcon\Http\Cookie :: getSecure()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSecure(UnitTester $I)
+    public function httpCookieGetSecure(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - getSecure()");
         $I->skipTest("Need implementation");
     }
 }

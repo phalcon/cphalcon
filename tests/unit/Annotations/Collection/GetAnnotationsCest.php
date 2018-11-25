@@ -18,11 +18,14 @@ class GetAnnotationsCest
     /**
      * Tests Phalcon\Annotations\Collection :: getAnnotations()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetAnnotations(UnitTester $I)
+    public function annotationsCollectionGetAnnotations(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - getAnnotations()");
         $I->skipTest("Need implementation");
     }
 }

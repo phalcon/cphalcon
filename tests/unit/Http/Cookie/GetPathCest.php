@@ -18,11 +18,14 @@ class GetPathCest
     /**
      * Tests Phalcon\Http\Cookie :: getPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPath(UnitTester $I)
+    public function httpCookieGetPath(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - getPath()");
         $I->skipTest("Need implementation");
     }
 }

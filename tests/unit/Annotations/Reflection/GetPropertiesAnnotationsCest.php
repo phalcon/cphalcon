@@ -18,11 +18,14 @@ class GetPropertiesAnnotationsCest
     /**
      * Tests Phalcon\Annotations\Reflection :: getPropertiesAnnotations()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetPropertiesAnnotations(UnitTester $I)
+    public function annotationsReflectionGetPropertiesAnnotations(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Reflection - getPropertiesAnnotations()");
         $I->skipTest("Need implementation");
     }
 }

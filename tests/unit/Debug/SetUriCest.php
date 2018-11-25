@@ -18,11 +18,14 @@ class SetUriCest
     /**
      * Tests Phalcon\Debug :: setUri()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetUri(UnitTester $I)
+    public function debugSetUri(UnitTester $I)
     {
+        $I->wantToTest("Debug - setUri()");
         $I->skipTest("Need implementation");
     }
 }

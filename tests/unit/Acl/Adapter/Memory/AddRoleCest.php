@@ -18,11 +18,14 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddRole(UnitTester $I)
+    public function aclAdapterMemoryAddRole(UnitTester $I)
     {
+        $I->wantToTest("Acl\Adapter\Memory - addRole()");
         $I->skipTest("Need implementation");
     }
 }

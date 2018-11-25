@@ -31,11 +31,14 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\None :: filter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
     public function testAssetsFilterNone(UnitTester $I)
     {
+        $I->wantToTest("Assets\Filters\None - filter()");
         $cssmin   = new None();
         $expected = ' ';
         $actual   = $cssmin->filter(' ');

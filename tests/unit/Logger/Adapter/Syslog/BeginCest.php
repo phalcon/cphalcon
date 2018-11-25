@@ -18,11 +18,14 @@ class BeginCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: begin()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testBegin(UnitTester $I)
+    public function loggerAdapterSyslogBegin(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Syslog - begin()");
         $I->skipTest("Need implementation");
     }
 }

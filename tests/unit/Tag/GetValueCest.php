@@ -18,11 +18,14 @@ class GetValueCest
     /**
      * Tests Phalcon\Tag :: getValue()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetValue(UnitTester $I)
+    public function tagGetValue(UnitTester $I)
     {
+        $I->wantToTest("Tag - getValue()");
         $I->skipTest("Need implementation");
     }
 }

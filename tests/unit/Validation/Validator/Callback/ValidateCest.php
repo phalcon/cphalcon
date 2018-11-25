@@ -14,17 +14,17 @@ namespace Phalcon\Test\Unit\Validation\Validator\Callback;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\Callback;
+use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
-
 use UnitTester;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - single field using boolean
+     * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
+     * using boolean
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -80,7 +80,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - single field using validator
+     * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
+     * using validator
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -144,7 +145,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple field returning boolean
+     * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
+     * field returning boolean
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -212,7 +214,8 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple field validator
+     * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
+     * field validator
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29

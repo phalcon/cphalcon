@@ -18,11 +18,14 @@ class AddServersCest
     /**
      * Tests Phalcon\Cache\Backend\Memcache :: addServers()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddServers(UnitTester $I)
+    public function cacheBackendMemcacheAddServers(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Memcache - addServers()");
         $I->skipTest("Need implementation");
     }
 }

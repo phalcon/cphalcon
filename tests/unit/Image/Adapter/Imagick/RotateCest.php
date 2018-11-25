@@ -18,11 +18,14 @@ class RotateCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: rotate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRotate(UnitTester $I)
+    public function imageAdapterImagickRotate(UnitTester $I)
     {
+        $I->wantToTest("Image\Adapter\Imagick - rotate()");
         $I->skipTest("Need implementation");
     }
 }

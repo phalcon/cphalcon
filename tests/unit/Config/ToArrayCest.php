@@ -21,12 +21,14 @@ class ToArrayCest
     /**
      * Tests Phalcon\Config :: toArray()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configToArray(UnitTester $I)
     {
-        $I->wantToTest('Config - toArray()');
+        $I->wantToTest("Config - toArray()");
         $this->checkToArray($I);
     }
 }

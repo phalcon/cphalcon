@@ -18,11 +18,14 @@ class OffsetSetCest
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: offsetSet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterGroupedOffsetSet(UnitTester $I)
     {
+        $I->wantToTest("Config\Adapter\Grouped - offsetSet()");
         $I->skipTest("Need implementation");
     }
 }

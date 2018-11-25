@@ -20,11 +20,14 @@ class OffsetSetCest
     /**
      * Tests Phalcon\Messages\Messages :: offsetSet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetSet(UnitTester $I)
+    public function messagesMessagesOffsetSet(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - offsetSet()");
         $messages = new Messages(
             [
                 0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),

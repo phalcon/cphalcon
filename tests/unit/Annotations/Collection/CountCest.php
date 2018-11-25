@@ -18,11 +18,14 @@ class CountCest
     /**
      * Tests Phalcon\Annotations\Collection :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCount(UnitTester $I)
+    public function annotationsCollectionCount(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Collection - count()");
         $I->skipTest("Need implementation");
     }
 }

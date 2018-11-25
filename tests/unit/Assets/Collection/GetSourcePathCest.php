@@ -18,11 +18,14 @@ class GetSourcePathCest
     /**
      * Tests Phalcon\Assets\Collection :: getSourcePath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSourcePath(UnitTester $I)
+    public function assetsCollectionGetSourcePath(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getSourcePath()");
         $I->skipTest("Need implementation");
     }
 }

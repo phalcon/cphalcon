@@ -18,11 +18,14 @@ class IsOptionsCest
     /**
      * Tests Phalcon\Http\Request :: isOptions()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testIsOptions(UnitTester $I)
+    public function httpRequestIsOptions(UnitTester $I)
     {
+        $I->wantToTest("Http\Request - isOptions()");
         $I->skipTest("Need implementation");
     }
 }

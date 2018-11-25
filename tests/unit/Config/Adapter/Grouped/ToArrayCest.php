@@ -18,11 +18,14 @@ class ToArrayCest
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: toArray()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterGroupedToArray(UnitTester $I)
     {
+        $I->wantToTest("Config\Adapter\Grouped - toArray()");
         $I->skipTest("Need implementation");
     }
 }

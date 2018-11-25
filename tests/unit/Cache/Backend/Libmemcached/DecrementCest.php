@@ -18,11 +18,14 @@ class DecrementCest
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: decrement()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDecrement(UnitTester $I)
+    public function cacheBackendLibmemcachedDecrement(UnitTester $I)
     {
+        $I->wantToTest("Cache\Backend\Libmemcached - decrement()");
         $I->skipTest("Need implementation");
     }
 }

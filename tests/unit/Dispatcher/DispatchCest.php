@@ -18,11 +18,14 @@ class DispatchCest
     /**
      * Tests Phalcon\Dispatcher :: dispatch()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDispatch(UnitTester $I)
+    public function dispatcherDispatch(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - dispatch()");
         $I->skipTest("Need implementation");
     }
 }

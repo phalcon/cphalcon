@@ -18,11 +18,14 @@ class AddOptionCest
     /**
      * Tests Phalcon\Forms\Element\Select :: addOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAddOption(UnitTester $I)
+    public function formsElementSelectAddOption(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - addOption()");
         $I->skipTest("Need implementation");
     }
 }

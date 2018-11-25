@@ -18,11 +18,14 @@ class SetLogLevelCest
     /**
      * Tests Phalcon\Logger\Multiple :: setLogLevel()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetLogLevel(UnitTester $I)
+    public function loggerMultipleSetLogLevel(UnitTester $I)
     {
+        $I->wantToTest("Logger\Multiple - setLogLevel()");
         $I->skipTest("Need implementation");
     }
 }

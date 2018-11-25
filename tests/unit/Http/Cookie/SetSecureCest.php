@@ -18,11 +18,14 @@ class SetSecureCest
     /**
      * Tests Phalcon\Http\Cookie :: setSecure()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSecure(UnitTester $I)
+    public function httpCookieSetSecure(UnitTester $I)
     {
+        $I->wantToTest("Http\Cookie - setSecure()");
         $I->skipTest("Need implementation");
     }
 }

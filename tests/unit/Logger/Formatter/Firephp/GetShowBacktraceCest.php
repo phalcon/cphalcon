@@ -18,11 +18,14 @@ class GetShowBacktraceCest
     /**
      * Tests Phalcon\Logger\Formatter\Firephp :: getShowBacktrace()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetShowBacktrace(UnitTester $I)
+    public function loggerFormatterFirephpGetShowBacktrace(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter\Firephp - getShowBacktrace()");
         $I->skipTest("Need implementation");
     }
 }

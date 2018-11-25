@@ -18,11 +18,14 @@ class GetActionNameCest
     /**
      * Tests Phalcon\Dispatcher :: getActionName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetActionName(UnitTester $I)
+    public function dispatcherGetActionName(UnitTester $I)
     {
+        $I->wantToTest("Dispatcher - getActionName()");
         $I->skipTest("Need implementation");
     }
 }

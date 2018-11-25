@@ -18,11 +18,14 @@ class UuidCest
     /**
      * Tests Phalcon\Security\Random :: uuid()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testUuid(UnitTester $I)
+    public function securityRandomUuid(UnitTester $I)
     {
+        $I->wantToTest("Security\Random - uuid()");
         $I->skipTest("Need implementation");
     }
 }

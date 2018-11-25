@@ -19,7 +19,7 @@ class GetReturnedValueCest
      * Tests Phalcon\Cli\Dispatcher :: getReturnedValue()
      *
      * @param CliTester $I
-     * 
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

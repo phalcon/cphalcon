@@ -18,11 +18,14 @@ class SetFormCest
     /**
      * Tests Phalcon\Forms\Element\Select :: setForm()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetForm(UnitTester $I)
+    public function formsElementSelectSetForm(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Select - setForm()");
         $I->skipTest("Need implementation");
     }
 }

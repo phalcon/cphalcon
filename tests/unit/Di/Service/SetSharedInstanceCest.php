@@ -18,11 +18,14 @@ class SetSharedInstanceCest
     /**
      * Tests Phalcon\Di\Service :: setSharedInstance()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetSharedInstance(UnitTester $I)
+    public function diServiceSetSharedInstance(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - setSharedInstance()");
         $I->skipTest("Need implementation");
     }
 }

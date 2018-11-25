@@ -18,11 +18,14 @@ class GetNameCest
     /**
      * Tests Phalcon\Annotations\Annotation :: getName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetName(UnitTester $I)
+    public function annotationsAnnotationGetName(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Annotation - getName()");
         $I->skipTest("Need implementation");
     }
 }

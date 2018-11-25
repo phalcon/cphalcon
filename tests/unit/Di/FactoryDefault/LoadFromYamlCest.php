@@ -18,11 +18,14 @@ class LoadFromYamlCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: loadFromYaml()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLoadFromYaml(UnitTester $I)
+    public function diFactorydefaultLoadFromYaml(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - loadFromYaml()");
         $I->skipTest("Need implementation");
     }
 }

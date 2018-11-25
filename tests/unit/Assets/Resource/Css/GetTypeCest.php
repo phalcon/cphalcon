@@ -22,11 +22,14 @@ class GetTypeCest
     /**
      * Tests Phalcon\Assets\Resource\Css :: getType()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function assetsResourceCssGetType(UnitTester $I)
     {
+        $I->wantToTest("Assets\Resource\Css - getType()");
         $resource = new Css('css/docs.css');
         $this->resourceGetType($I, $resource, 'css');
     }

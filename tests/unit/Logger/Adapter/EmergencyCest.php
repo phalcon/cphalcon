@@ -18,11 +18,14 @@ class EmergencyCest
     /**
      * Tests Phalcon\Logger\Adapter :: emergency()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEmergency(UnitTester $I)
+    public function loggerAdapterEmergency(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter - emergency()");
         $I->skipTest("Need implementation");
     }
 }

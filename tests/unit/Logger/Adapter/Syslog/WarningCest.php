@@ -18,11 +18,14 @@ class WarningCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: warning()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testWarning(UnitTester $I)
+    public function loggerAdapterSyslogWarning(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Syslog - warning()");
         $I->skipTest("Need implementation");
     }
 }

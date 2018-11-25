@@ -18,11 +18,14 @@ class GetErrorCest
     /**
      * Tests Phalcon\Http\Request\File :: getError()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetError(UnitTester $I)
+    public function httpRequestFileGetError(UnitTester $I)
     {
+        $I->wantToTest("Http\Request\File - getError()");
         $I->skipTest("Need implementation");
     }
 }

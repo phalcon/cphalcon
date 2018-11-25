@@ -18,11 +18,14 @@ class SetSharedCest
     /**
      * Tests Phalcon\Di\Service :: setShared()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetShared(UnitTester $I)
+    public function diServiceSetShared(UnitTester $I)
     {
+        $I->wantToTest("Di\Service - setShared()");
         $I->skipTest("Need implementation");
     }
 }

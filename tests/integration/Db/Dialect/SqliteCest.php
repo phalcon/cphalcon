@@ -11,12 +11,12 @@
 
 namespace Phalcon\Test\Db\Dialect;
 
+use IntegrationTester;
 use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Integration\Db\Dialect\Helper\DialectBase;
-use IntegrationTester;
 
 class SqliteCest extends DialectBase
 {

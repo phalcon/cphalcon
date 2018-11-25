@@ -18,11 +18,14 @@ class GetCookiesCest
     /**
      * Tests Phalcon\Http\Response :: getCookies()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCookies(UnitTester $I)
+    public function httpResponseGetCookies(UnitTester $I)
     {
+        $I->wantToTest("Http\Response - getCookies()");
         $I->skipTest("Need implementation");
     }
 }

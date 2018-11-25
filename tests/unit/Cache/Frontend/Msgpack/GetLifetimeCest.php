@@ -18,11 +18,14 @@ class GetLifetimeCest
     /**
      * Tests Phalcon\Cache\Frontend\Msgpack :: getLifetime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLifetime(UnitTester $I)
+    public function cacheFrontendMsgpackGetLifetime(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Msgpack - getLifetime()");
         $I->skipTest("Need implementation");
     }
 }

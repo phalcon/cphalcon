@@ -18,11 +18,14 @@ class SetDirectoryCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: setDirectory()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextSetDirectory(UnitTester $I)
     {
+        $I->wantToTest("Translate\Adapter\Gettext - setDirectory()");
         $I->skipTest("Need implementation");
     }
 }

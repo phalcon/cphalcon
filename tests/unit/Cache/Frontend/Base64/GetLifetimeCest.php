@@ -18,11 +18,14 @@ class GetLifetimeCest
     /**
      * Tests Phalcon\Cache\Frontend\Base64 :: getLifetime()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetLifetime(UnitTester $I)
+    public function cacheFrontendBase64GetLifetime(UnitTester $I)
     {
+        $I->wantToTest("Cache\Frontend\Base64 - getLifetime()");
         $I->skipTest("Need implementation");
     }
 }

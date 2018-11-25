@@ -18,11 +18,14 @@ class DisconnectCest
     /**
      * Tests Phalcon\Queue\Beanstalk :: disconnect()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDisconnect(UnitTester $I)
+    public function queueBeanstalkDisconnect(UnitTester $I)
     {
+        $I->wantToTest("Queue\Beanstalk - disconnect()");
         $I->skipTest("Need implementation");
     }
 }

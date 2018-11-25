@@ -18,11 +18,14 @@ class DeleteCest
     /**
      * Tests Phalcon\Http\Response\Cookies :: delete()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDelete(UnitTester $I)
+    public function httpResponseCookiesDelete(UnitTester $I)
     {
+        $I->wantToTest("Http\Response\Cookies - delete()");
         $I->skipTest("Need implementation");
     }
 }

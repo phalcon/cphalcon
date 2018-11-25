@@ -18,11 +18,14 @@ class FormatCest
     /**
      * Tests Phalcon\Logger\Formatter\Json :: format()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testFormat(UnitTester $I)
+    public function loggerFormatterJsonFormat(UnitTester $I)
     {
+        $I->wantToTest("Logger\Formatter\Json - format()");
         $I->skipTest("Need implementation");
     }
 }

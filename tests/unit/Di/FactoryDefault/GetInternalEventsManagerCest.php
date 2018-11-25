@@ -18,11 +18,14 @@ class GetInternalEventsManagerCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: getInternalEventsManager()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetInternalEventsManager(UnitTester $I)
+    public function diFactorydefaultGetInternalEventsManager(UnitTester $I)
     {
+        $I->wantToTest("Di\FactoryDefault - getInternalEventsManager()");
         $I->skipTest("Need implementation");
     }
 }

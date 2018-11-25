@@ -18,11 +18,14 @@ class GetRealTargetPathCest
     /**
      * Tests Phalcon\Assets\Collection :: getRealTargetPath()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetRealTargetPath(UnitTester $I)
+    public function assetsCollectionGetRealTargetPath(UnitTester $I)
     {
+        $I->wantToTest("Assets\Collection - getRealTargetPath()");
         $I->skipTest("Need implementation");
     }
 }

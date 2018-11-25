@@ -18,11 +18,14 @@ class DebugCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: debug()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDebug(UnitTester $I)
+    public function loggerAdapterStreamDebug(UnitTester $I)
     {
+        $I->wantToTest("Logger\Adapter\Stream - debug()");
         $I->skipTest("Need implementation");
     }
 }

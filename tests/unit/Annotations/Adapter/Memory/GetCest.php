@@ -18,11 +18,14 @@ class GetCest
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: get()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGet(UnitTester $I)
+    public function annotationsAdapterMemoryGet(UnitTester $I)
     {
+        $I->wantToTest("Annotations\Adapter\Memory - get()");
         $I->skipTest("Need implementation");
     }
 }

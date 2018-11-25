@@ -19,11 +19,14 @@ class SetCodeCest
     /**
      * Tests Phalcon\Messages\Message :: setCode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetCode(UnitTester $I)
+    public function messagesMessageSetCode(UnitTester $I)
     {
+        $I->wantToTest("Messages\Message - setCode()");
         $message = new Message('This is a message #1');
         $message->setCode(111);
 

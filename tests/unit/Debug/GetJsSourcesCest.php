@@ -18,11 +18,14 @@ class GetJsSourcesCest
     /**
      * Tests Phalcon\Debug :: getJsSources()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetJsSources(UnitTester $I)
+    public function debugGetJsSources(UnitTester $I)
     {
+        $I->wantToTest("Debug - getJsSources()");
         $I->skipTest("Need implementation");
     }
 }

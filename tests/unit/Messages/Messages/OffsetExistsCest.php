@@ -20,11 +20,14 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Messages\Messages :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testOffsetExists(UnitTester $I)
+    public function messagesMessagesOffsetExists(UnitTester $I)
     {
+        $I->wantToTest("Messages\Messages - offsetExists()");
         $messages = new Messages(
             [
                 1 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),

@@ -18,11 +18,14 @@ class AppendMessageCest
     /**
      * Tests Phalcon\Forms\Element\Date :: appendMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testAppendMessage(UnitTester $I)
+    public function formsElementDateAppendMessage(UnitTester $I)
     {
+        $I->wantToTest("Forms\Element\Date - appendMessage()");
         $I->skipTest("Need implementation");
     }
 }
