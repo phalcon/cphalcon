@@ -23,7 +23,7 @@ class ToStringCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function formsElement__toString(UnitTester $I)
+    public function formsElementToString(UnitTester $I)
     {
         $I->wantToTest("Forms\Element - __toString()");
         $I->skipTest("Need implementation");

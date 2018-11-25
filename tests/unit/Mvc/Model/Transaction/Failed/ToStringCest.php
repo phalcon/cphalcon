@@ -23,7 +23,7 @@ class ToStringCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcModelTransactionFailed__toString(UnitTester $I)
+    public function mvcModelTransactionFailedToString(UnitTester $I)
     {
         $I->wantToTest("Mvc\Model\Transaction\Failed - __toString()");
         $I->skipTest("Need implementation");
