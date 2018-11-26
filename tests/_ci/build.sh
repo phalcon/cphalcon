@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 #
-# This file is part of the Zephir.
+# This file is part of the Phalcon Framework.
 #
-# (c) Zephir Team <team@zephir-lang.com>
+# (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the
-# https://docs.zephir-lang.com/en/latest/license license.
+# For the full copyright and license information, please view the LICENSE.txt
+# file that was distributed with this source code.
+#
 
 PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
 LCOV_REPORT=${PROJECT_ROOT}/tests/_output/lcov.info
