@@ -18,6 +18,7 @@ run.config:
       - memcached
       - memcache
       - mongodb
+      - phar
       - pdo
       - pdo_mysql
       - pdo_pgsql
@@ -45,7 +46,7 @@ run.config:
     - freetype2
     - fontconfig
     - mysql-client
-    - postgresql94-client
+#    - postgresql94-client
     - re2c
     - sqlite3
   extra_steps:

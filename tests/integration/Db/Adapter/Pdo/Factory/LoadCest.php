@@ -12,20 +12,71 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Factory;
 
 use IntegrationTester;
+use Phalcon\Config;
+use Phalcon\Db\Adapter\Pdo\Factory;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 
 class LoadCest
 {
+    use FactoryTrait;
+
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Factory :: load()
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->init();
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - Config
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
      */
-    public function dbAdapterPdoFactoryLoad(IntegrationTester $I)
+    public function dbAdapterPdoFactoryLoadConfig(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Factory - load()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Db\Adapter\Pdo\Factory - load() - Config");
+        $options = $this->config->database;
+        $data    = $options->toArray();
+        $this->runTests($I, $options, $data);
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - array
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function dbAdapterPdoFactoryLoadArray(IntegrationTester $I)
+    {
+        $I->wantToTest("Db\Adapter\Pdo\Factory - load() - array");
+        $options = $this->arrayConfig["database"];
+        $data    = $options;
+        $this->runTests($I, $options, $data);
+    }
+
+    /**
+     * @param IntegrationTester $I
+     * @param Config|Array      $options
+     * @param array             $data
+     */
+    private function runTests(IntegrationTester $I, $options, array $data)
+    {
+        /** @var Mysql $database */
+        $database = Factory::load($options);
+
+        $class  = Mysql::class;
+        $actual = $database;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = array_intersect_assoc($database->getDescriptor(), $data);
+        $actual   = $database->getDescriptor();
+        $I->assertEquals($expected, $actual);
     }
 }

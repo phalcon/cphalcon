@@ -9,6 +9,41 @@ class MysqlHelper
 {
     use DialectTrait;
 
+    /**
+     * @param string $foreignKeyName
+     * @param string $onUpdate
+     * @param string $onDelete
+     *
+     * @return string
+     */
+    protected function addForeignKeySql(string $foreignKeyName = '', string $onUpdate = '', string $onDelete = '')
+    {
+        $sql = 'ALTER TABLE `foreign_key_child` ADD';
+        if ($foreignKeyName) {
+            $sql .= ' CONSTRAINT `' . $foreignKeyName . '`';
+        }
+        $sql .= ' FOREIGN KEY (`child_int`) REFERENCES `foreign_key_parent`(`refer_int`)';
+
+        if ($onDelete) {
+            $sql .= ' ON DELETE ' . $onDelete;
+        }
+        if ($onUpdate) {
+            $sql .= ' ON UPDATE ' . $onUpdate;
+        }
+
+        return $sql;
+    }
+    /**
+     * @param string $foreignKeyName
+     *
+     * @return string
+     */
+    protected function dropForeignKeySql(string $foreignKeyName)
+    {
+        $sql = "ALTER TABLE `foreign_key_child` DROP FOREIGN KEY {$foreignKeyName}";
+
+        return $sql;
+    }
 
     /**
      * @return array
@@ -185,6 +220,24 @@ class MysqlHelper
             ['schema', false, 'DROP VIEW `schema`.`test_view`'],
             ['schema', true, 'DROP VIEW IF EXISTS `schema`.`test_view`'],
         ];
+    }
+
+    /**
+     * @param string $foreignKeyName
+     *
+     * @return string
+     */
+    protected function getForeignKeySql(string $foreignKeyName)
+    {
+        $sql = "SELECT
+                COUNT(`CONSTRAINT_NAME`)
+            FROM information_schema.REFERENTIAL_CONSTRAINTS
+            WHERE TABLE_NAME = 'foreign_key_child' AND
+                `UPDATE_RULE` = 'CASCADE' AND
+                `DELETE_RULE` = 'RESTRICT' AND
+                `CONSTRAINT_NAME` = '{$foreignKeyName}'";
+
+        return $sql;
     }
 
     /**
@@ -468,43 +521,4 @@ class MysqlHelper
     {
         return new Mysql();
     }
-
-
-
-
-//    protected function addForeignKey($foreignKeyName = '', $onUpdate = '', $onDelete = '')
-//    {
-//        $sql = 'ALTER TABLE `foreign_key_child` ADD';
-//        if ($foreignKeyName) {
-//            $sql .= ' CONSTRAINT `' . $foreignKeyName . '`';
-//        }
-//        $sql .= ' FOREIGN KEY (`child_int`) REFERENCES `foreign_key_parent`(`refer_int`)';
-//
-//        if ($onDelete) {
-//            $sql .= ' ON DELETE ' . $onDelete;
-//        }
-//        if ($onUpdate) {
-//            $sql .= ' ON UPDATE ' . $onUpdate;
-//        }
-//
-//        return $sql;
-//    }
-//    protected function getForeignKey($foreignKeyName)
-//    {
-//        $sql = "SELECT
-//                COUNT(`CONSTRAINT_NAME`)
-//            FROM information_schema.REFERENTIAL_CONSTRAINTS
-//            WHERE TABLE_NAME = 'foreign_key_child' AND
-//                `UPDATE_RULE` = 'CASCADE' AND
-//                `DELETE_RULE` = 'RESTRICT' AND
-//                `CONSTRAINT_NAME` = '$foreignKeyName'";
-//
-//        return $sql;
-//    }
-//    protected function dropForeignKey($foreignKeyName)
-//    {
-//        $sql = "ALTER TABLE `foreign_key_child` DROP FOREIGN KEY $foreignKeyName";
-//
-//        return $sql;
-//    }
 }
