@@ -32,5 +32,9 @@ class ToStringCest
         $expected = 'Administrator';
         $actual   = $role->__toString();
         $I->assertEquals($expected, $actual);
+
+        $expected = 'Administrator';
+        $actual   = (string) $role;
+        $I->assertEquals($expected, $actual);
     }
 }

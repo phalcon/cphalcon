@@ -32,5 +32,9 @@ class ToStringCest
         $expected = 'Customers';
         $actual   = $resource->__toString();
         $I->assertEquals($expected, $actual);
+
+        $expected = 'Customers';
+        $actual   = (string) $resource;
+        $I->assertEquals($expected, $actual);
     }
 }
