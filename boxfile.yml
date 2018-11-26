@@ -44,7 +44,10 @@ run.config:
     - freefonts
     - freetype2
     - fontconfig
+    - mysql-client
+    - postgresql94-client
     - re2c
+    - sqlite3
   extra_steps:
     #===========================================================================
     # PSR extension compilation
