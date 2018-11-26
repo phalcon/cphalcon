@@ -13,11 +13,13 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
-use Phalcon\Test\Fixtures\Helpers\CryptHelper;
+use Phalcon\Test\Fixtures\Traits\CryptTrait;
 use UnitTester;
 
-class CryptCest extends CryptHelper
+class CryptCest
 {
+    use CryptTrait;
+
     /**
      * Tests decrypt using HMAC
      *
