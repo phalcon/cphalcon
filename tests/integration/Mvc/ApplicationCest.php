@@ -35,7 +35,7 @@ class ApplicationCest
         $di = new FactoryDefault();
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(PATH_DATA . 'views/');
+            $view->setViewsDir(PATH_DATA . 'fixtures/views/');
 
             return $view;
         }, true);
@@ -71,11 +71,11 @@ class ApplicationCest
 
         $application->registerModules([
             'frontend' => [
-                'path'      => PATH_DATA . 'modules/frontend/Module.php',
+                'path'      => PATH_DATA . 'fixtures/modules/frontend/Module.php',
                 'className' => 'Phalcon\Test\Modules\Frontend\Module',
             ],
             'backend' => [
-                'path'      => PATH_DATA . 'modules/backend/Module.php',
+                'path'      => PATH_DATA . 'fixtures/modules/backend/Module.php',
                 'className' => 'Phalcon\Test\Modules\Backend\Module',
             ],
         ]);
@@ -119,14 +119,14 @@ class ApplicationCest
             'frontend' => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function () use ($view) {
-                    $view->setViewsDir(PATH_DATA . 'modules/frontend/views/');
+                    $view->setViewsDir(PATH_DATA . 'fixtures/modules/frontend/views/');
                     return $view;
                 });
             },
             'backend' => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function () use ($view) {
-                    $view->setViewsDir(PATH_DATA . 'modules/backend/views/');
+                    $view->setViewsDir(PATH_DATA . 'fixtures/modules/backend/views/');
                     return $view;
                 });
             },

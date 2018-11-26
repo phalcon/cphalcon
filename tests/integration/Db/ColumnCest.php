@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db;
+namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
 use Phalcon\Db\Column;

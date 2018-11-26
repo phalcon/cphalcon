@@ -2,9 +2,9 @@
 
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
-use Helper\CollectionTrait;
 use IntegrationTester;
 use Phalcon\Test\Collections\Subs;
+use Phalcon\Test\Fixtures\Traits\CollectionTrait;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Collection\BehaviorCest

@@ -33,7 +33,7 @@ class Module implements ModuleDefinitionInterface
     {
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(PATH_DATA . 'modules/backend/views/');
+            $view->setViewsDir(PATH_DATA . 'fixtures/modules/backend/views/');
 
             return $view;
         });

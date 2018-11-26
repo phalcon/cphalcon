@@ -22,7 +22,7 @@ use Phalcon\Mvc\View;
 use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Test\Module\View\AfterRenderListener;
+use Phalcon\Test\Fixtures\View\AfterRenderListener;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\ViewCest
@@ -53,7 +53,9 @@ class ViewCest
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->setEventsManager($eventsManager);
 
-        expect($view->getActiveRenderPath())->equals('');
+        $expected = '';
+        $actual   = $view->getActiveRenderPath();
+        $I->assertEquals($expected, $actual);
 
         $view->start();
         $view->render('test15', 'index');
@@ -87,14 +89,14 @@ class ViewCest
      */
     public function shouldGetCurrentRenderLevel(IntegrationTester $I)
     {
-        $I->wantToTest('Gitting current path');
+        $I->wantToTest('Getting current path');
 
         $listener = new AfterRenderListener;
         $eventsManager = new Manager;
         $eventsManager->attach('view', $listener);
 
         $view = new View;
-        $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+        $view->setViewsDir(PATH_DATA . 'fixtures/views' . DIRECTORY_SEPARATOR);
         $view->setEventsManager($eventsManager);
 
         $view->start();

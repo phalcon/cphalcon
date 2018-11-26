@@ -7,7 +7,7 @@ use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Output;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Simple;
-use PHPUnit\Framework\SkippedTestError;
+use PHPIntegration\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Integration\Mvc\View\SimpleCest
@@ -32,8 +32,8 @@ class SimpleCest
     {
         $I->wantToTest('Set and get View vars');
 
-        $view = new Simple;
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view = new Simple();
+        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
 
         $I->assertNull($view->getVar('some_var'));
         $some_var = time();
@@ -53,15 +53,15 @@ class SimpleCest
         $I->wantToTest('Render by using simple view with cache');
 
         if (PHP_MAJOR_VERSION == 7) {
-            throw new SkippedTestError(
+            $I->skipTest(
                 'Skipped in view of the experimental support for PHP 7.'
             );
         }
 
         // Create cache at first run
-        $view = new Simple;
+        $view = new Simple();
         codecept_debug(gettype($view->getParamsToView()));
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
 
         // No cache before DI is set
         $I->assertFalse($view->getCache());
@@ -85,7 +85,7 @@ class SimpleCest
 
         // Re-use the cached contents
         $view = new Simple;
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
         $view->setDI($this->getDi());
         $view->cache(['key' => 'view_simple_cache']);
 

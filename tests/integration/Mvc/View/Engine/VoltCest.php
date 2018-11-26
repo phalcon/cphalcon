@@ -55,10 +55,12 @@ class VoltCest
 
         //Render simple view
         $view->start();
-        $volt->render(PATH_DATA . 'views/test10/index.volt', ['song' => 'Lights'], true);
+        $volt->render(PATH_DATA . 'fixtures/views/test10/index.volt', ['song' => 'Lights'], true);
         $view->finish();
 
-        $path = PATH_CACHE . $I->preparePathToFileWithDelimiter(TESTS_PATH . '_data', '.') . '.views.test10.index.volt.compiled';
+        $path = PATH_CACHE
+             . $I->preparePathToFileWithDelimiter(TESTS_PATH . '_data', '.')
+             . '.fixtures.views.test10.index.volt.compiled';
 
         $I->assertTrue(file_exists($path));
         $I->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');

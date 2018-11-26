@@ -15,7 +15,7 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Test\Unit\Mvc\Model\Query;
+namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
@@ -54,7 +54,7 @@ class BuilderCest
                     new Data(
                         ['lifetime' => 20,]
                     ),
-                    ['cacheDir' => PATH_OUTPUT.'tests/cache/',]
+                    ['cacheDir' => PATH_OUTPUT . 'tests/cache/',]
                 );
             },
             true

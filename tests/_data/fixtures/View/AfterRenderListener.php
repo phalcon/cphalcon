@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Module\View;
+namespace Phalcon\Test\Fixtures\View;
 
 use Phalcon\Mvc\View;
 use Phalcon\Events\Event;

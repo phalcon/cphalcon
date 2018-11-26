@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Module\View\Engine;
+namespace Phalcon\Test\Fixtures\View\Engine;
 
 use Mustache_Engine;
 use Phalcon\DiInterface;

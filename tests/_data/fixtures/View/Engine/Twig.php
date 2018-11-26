@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Module\View\Engine;
+namespace Phalcon\Test\Fixtures\View\Engine;
 
 use Twig_Environment;
 use Phalcon\DiInterface;

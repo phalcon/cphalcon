@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db;
+namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Module\IntegrationTest;
 
 class ReferenceCest
 {

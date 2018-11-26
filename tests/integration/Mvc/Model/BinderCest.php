@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
-use PHPUnit\Framework\SkippedTestError;
+use PHPIntegration\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Model\BindingCest
@@ -69,21 +69,16 @@ class BinderCest
     public function _before(IntegrationTester $I)
     {
         Di::setDefault($I->getApplication()->getDI());
+        $I->checkExtensionIsLoaded('apcu');
 
-        if (!extension_loaded('apc')) {
-            throw new SkippedTestError(
-                'Warning: apc extension is not loaded'
-            );
+        if (!ini_get('apcu.enabled') ||
+            (PHP_SAPI === 'cli' && !ini_get('apcu.enable_cli'))) {
+            $I->skipTest('Warning: apc.enable_cli must be set to "On"');
         }
 
-        if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
-            throw new SkippedTestError(
-                'Warning: apc.enable_cli must be set to "On"'
-            );
-        }
-
-        if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new SkippedTestError(
+        if (extension_loaded('apcu') &&
+            version_compare(phpversion('apcu'), '5.1.6', '=')) {
+            $I->skipError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }
