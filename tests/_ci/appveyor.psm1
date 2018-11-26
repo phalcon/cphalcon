@@ -51,13 +51,15 @@ Function FormatReleaseFiles {
 	Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
 
 	Get-ChildItem (Get-Item -Path ".\" -Verbose).FullName *.md |
-	ForEach-Object{
+	ForEach-Object {
 		$BaseName = $_.BaseName
 		pandoc -f markdown -t html5 "${BaseName}.md" > "package/${BaseName}.html"
 	}
 
 	If (Test-Path -Path "package/CHANGELOG.html") {
-		(Get-Content "package/CHANGELOG.html") | ForEach-Object { $_ -replace ".md", ".html" } | Set-Content "package/CHANGELOG.html"
+		(Get-Content "package/CHANGELOG.html") | ForEach-Object {
+            $_ -replace ".md", ".html"
+        } | Set-Content "package/CHANGELOG.html"
 	}
 
 	Set-Location "${CurrentPath}"
@@ -65,25 +67,24 @@ Function FormatReleaseFiles {
 
 Function InstallBuildDependencies {
 	EnsureChocolateyIsInstalled
+	EnsureComposerIsInstalled
 
-	$InstallProcess = Start-Process "choco" -WindowStyle Hidden -ArgumentList 'install', '-y --cache-location=C:\Downloads\Choco pandoc' -WorkingDirectory "${Env:APPVEYOR_BUILD_FOLDER}"
+	$InstallProcess = Start-Process "choco" `
+        -WindowStyle Hidden `
+        -ArgumentList 'install', '-y --cache-location=C:\Downloads\Choco pandoc' `
+        -WorkingDirectory "${Env:APPVEYOR_BUILD_FOLDER}"
 
 	If (-not (Test-Path "${Env:APPVEYOR_BUILD_FOLDER}\package")) {
 		New-Item -ItemType Directory -Force -Path "${Env:APPVEYOR_BUILD_FOLDER}\package" | Out-Null
 	}
 
-	$BuildFile = "${Env:APPVEYOR_BUILD_FOLDER}\install-php-deps.bat"
-
 	If (-not (Test-Path "${Env:APPVEYOR_BUILD_FOLDER}\vendor")) {
 		$Php = "${Env:PHP_PATH}\php.exe"
-		$ComposerOptions = "--quiet --no-interaction --no-progress --optimize-autoloader --prefer-dist --no-suggest --ignore-platform-reqs"
-
-		Write-Output "@echo off" | Out-File -Encoding "ASCII" -Append $BuildFile
-		Write-Output "${Php} -r `"readfile('https://getcomposer.org/installer');`" | ${Env:PHP_PATH}\php.exe" | Out-File -Encoding "ASCII" -Append $BuildFile
-		Write-Output "${Php} ${Env:APPVEYOR_BUILD_FOLDER}\composer.phar install ${ComposerOptions}" | Out-File -Encoding "ASCII" -Append $BuildFile
+		$ComposerOptions = "-q -n --no-progress -o --prefer-dist --no-suggest --ignore-platform-reqs"
 
 		Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
-		& cmd /c ".\install-php-deps.bat"
+		& cmd /c ".\composer.bat install ${ComposerOptions}"
+		& cmd /c ".\composer.bat require ${ComposerOptions} `"phalcon/zephir:${Env:ZEPHIR_VERSION}`""
 	}
 }
 
@@ -421,6 +422,20 @@ Function EnsureChocolateyIsInstalled {
 	}
 }
 
+Function EnsureComposerIsInstalled {
+    $ComposerBatch = "${Env:APPVEYOR_BUILD_FOLDER}\composer.bat"
+
+    If (-not (Test-Path -Path $ComposerBatch)) {
+        $Php = "${Env:PHP_PATH}\php.exe"
+        $ComposerPhar = "${Env:APPVEYOR_BUILD_FOLDER}\composer.phar"
+
+        DownloadFile "https://getcomposer.org/composer.phar" "${ComposerPhar}"
+
+        Write-Output "@echo off"                     | Out-File -Encoding "ASCII" -Append $ComposerBatch
+        Write-Output "${Php} `"${ComposerPhar}`" %*" | Out-File -Encoding "ASCII" -Append $ComposerBatch
+    }
+}
+
 Function SetupPhpVersionString {
 	$RemoteUrl = 'http://windows.php.net/downloads/releases/sha1sum.txt';
 	$DestinationPath = "${Env:Temp}\php-sha1sum.txt"
@@ -448,6 +463,7 @@ Function AppendSessionPath {
 	$PathsCollection += "${Env:PHP_SDK_PATH}\bin"
 	$PathsCollection += "${Env:PHP_PATH}\bin"
 	$PathsCollection += "${Env:PHP_PATH}"
+	$PathsCollection += "${Env:APPVEYOR_BUILD_FOLDER}"
 
 	$CurrentPath = (Get-Item -Path ".\" -Verbose).FullName
 
@@ -494,7 +510,7 @@ Function Expand-Item7zip {
 
 	$7zipExitCode = $LASTEXITCODE
 	If ($7zipExitCode -ne 0) {
-		Throw "An error occurred while unzipping [$Archive] to [$Destination]. 7Zip Exit Code was [$7zipExitCode]"
+		Throw "An error occurred while unzipping [$Archive] to [$Destination]. Exit code was [${7zipExitCode}]"
 	}
 }
 
