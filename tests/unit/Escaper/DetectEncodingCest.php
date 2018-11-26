@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Escaper;
 
+use Phalcon\Escaper;
 use UnitTester;
 
 class DetectEncodingCest
@@ -21,11 +22,27 @@ class DetectEncodingCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-09-16
      */
     public function escaperDetectEncoding(UnitTester $I)
     {
         $I->wantToTest("Escaper - detectEncoding()");
-        $I->skipTest("Need implementation");
+        $escaper = new Escaper();
+
+        $source   = 'ḂḃĊċḊḋḞḟĠġṀṁ';
+        $expected = 'UTF-8';
+        $actual   = $escaper->detectEncoding($source);
+        $I->assertEquals($expected, $actual);
+
+
+        $source   = chr(172) . chr(128) . chr(159) . 'ḂḃĊċḊḋḞḟĠġṀṁ';
+        $expected = 'ISO-8859-1';
+        $actual   = $escaper->detectEncoding($source);
+        $I->assertEquals($expected, $actual);
+
+        $source   = '\0\0\0H\0\0\0i';
+        $expected = 'UTF-8';
+        $actual   = $escaper->detectEncoding($source);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -11,7 +11,12 @@
 
 namespace Phalcon\Test\Unit\Escaper;
 
+use Phalcon\Escaper;
 use UnitTester;
+use const ENT_HTML401;
+use const ENT_HTML5;
+use const ENT_XHTML;
+use const ENT_XML1;
 
 class EscapeHtmlAttrCest
 {
@@ -21,11 +26,31 @@ class EscapeHtmlAttrCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-09-16
      */
     public function escaperEscapeHtmlAttr(UnitTester $I)
     {
         $I->wantToTest("Escaper - escapeHtmlAttr()");
-        $I->skipTest("Need implementation");
+        $escaper = new Escaper();
+
+        $escaper->setHtmlQuoteType(ENT_HTML401);
+        $expected = "That&#039;s right";
+        $actual   = $escaper->escapeHtmlAttr("That's right");
+        $I->assertEquals($expected, $actual);
+
+        $escaper->setHtmlQuoteType(ENT_XML1);
+        $expected = "That&#039;s right";
+        $actual   = $escaper->escapeHtmlAttr("That's right");
+        $I->assertEquals($expected, $actual);
+
+        $escaper->setHtmlQuoteType(ENT_XHTML);
+        $expected = "That&#039;s right";
+        $actual   = $escaper->escapeHtmlAttr("That's right");
+        $I->assertEquals($expected, $actual);
+
+        $escaper->setHtmlQuoteType(ENT_HTML5);
+        $expected = "That&#039;s right";
+        $actual   = $escaper->escapeHtmlAttr("That's right");
+        $I->assertEquals($expected, $actual);
     }
 }

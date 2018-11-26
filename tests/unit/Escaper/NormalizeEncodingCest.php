@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Escaper;
 
+use Phalcon\Escaper;
 use UnitTester;
 
 class NormalizeEncodingCest
@@ -21,11 +22,18 @@ class NormalizeEncodingCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-09-16
      */
     public function escaperNormalizeEncoding(UnitTester $I)
     {
         $I->wantToTest("Escaper - normalizeEncoding()");
-        $I->skipTest("Need implementation");
+        $I->checkExtensionIsLoaded('mbstring');
+
+        $escaper = new Escaper();
+
+        $expected = mb_convert_encoding('Hello', 'UTF-32', 'UTF-8');
+        $actual   = $escaper->normalizeEncoding('Hello');
+
+        $I->assertEquals($expected, $actual);
     }
 }
