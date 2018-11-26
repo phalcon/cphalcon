@@ -23,11 +23,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUniquenessConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Uniqueness - __construct()");
         $validator = new Uniqueness();
         $this->checkConstruct($I, $validator);
     }

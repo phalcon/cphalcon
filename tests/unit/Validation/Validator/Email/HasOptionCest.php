@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Email :: getOption()
+     * Tests Phalcon\Validation\Validator\Email :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorEmailHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Email - hasOption()");
         $validator = new Email(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

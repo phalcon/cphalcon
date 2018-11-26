@@ -18,11 +18,14 @@ class TableOptionsCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: tableOptions()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testTableOptions(IntegrationTester $I)
+    public function dbDialectMysqlTableOptions(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - tableOptions()");
         $I->skipTest("Need implementation");
     }
 }

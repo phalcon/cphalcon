@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Digit :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDigitGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Digit - getOption()");
         $validator = new Digit();
         $this->checkGetOption($I, $validator);
     }

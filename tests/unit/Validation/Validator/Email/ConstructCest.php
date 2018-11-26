@@ -23,11 +23,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Email :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorEmailConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Email - __construct()");
         $validator = new Email();
         $this->checkConstruct($I, $validator);
     }

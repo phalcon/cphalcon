@@ -20,11 +20,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: validate() - single field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorAlnumValidateSingleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alnum - validate() - single field");
         $validation = new Validation();
         $validation->add('name', new Alnum());
         $messages = $validation->validate(['name' => 'SomeValue123']);
@@ -43,11 +46,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: validate() - multiple field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorAlnumValidateMultipleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alnum - validate() - multiple field");
         $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name must be alnum',

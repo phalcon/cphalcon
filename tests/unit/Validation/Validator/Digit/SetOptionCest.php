@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Digit :: getOption()
+     * Tests Phalcon\Validation\Validator\Digit :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDigitSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Digit - setOption()");
         $validator = new Digit();
         $this->checkSetOption($I, $validator);
     }

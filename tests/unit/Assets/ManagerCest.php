@@ -49,7 +49,6 @@ class ManagerCest
     /**
      * Test Manager::get
      *
-     * @test
      * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2017-06-04
      *
@@ -557,7 +556,6 @@ class ManagerCest
      * Tests avoid duplication of resources when adding a
      * new one with existing name
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02

@@ -46,11 +46,10 @@ class CollectionCest
     /**
      * Tests Collection::has
      *
-     * @test
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
-    public function hasReource(UnitTester $I)
+    public function hasResource(UnitTester $I)
     {
         $collection = new Collection();
 
@@ -68,12 +67,11 @@ class CollectionCest
     /**
      * Tests Collection::has
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
-    public function doNotAddTheSameRecources(UnitTester $I)
+    public function doNotAddTheSameResources(UnitTester $I)
     {
         $collection = new Collection();
 

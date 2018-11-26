@@ -18,11 +18,14 @@ class GetColumnDefinitionCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: getColumnDefinition()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetColumnDefinition(IntegrationTester $I)
+    public function dbDialectSqliteGetColumnDefinition(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - getColumnDefinition()");
         $I->skipTest("Need implementation");
     }
 }

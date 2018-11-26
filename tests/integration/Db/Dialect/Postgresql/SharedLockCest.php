@@ -18,11 +18,14 @@ class SharedLockCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: sharedLock()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSharedLock(IntegrationTester $I)
+    public function dbDialectPostgresqlSharedLock(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - sharedLock()");
         $I->skipTest("Need implementation");
     }
 }

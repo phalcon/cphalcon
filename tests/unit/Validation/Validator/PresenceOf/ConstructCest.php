@@ -23,11 +23,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\PresenceOf :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\PresenceOf - __construct()");
         $validator = new PresenceOf();
         $this->checkConstruct($I, $validator);
     }

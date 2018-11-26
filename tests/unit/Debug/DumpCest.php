@@ -20,7 +20,6 @@ class DumpCest
     /**
      * Tests dump object properties.
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13315
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-23

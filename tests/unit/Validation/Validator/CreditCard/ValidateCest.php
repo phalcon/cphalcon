@@ -34,11 +34,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single
      * field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorCreditCardValidateSingleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\CreditCard - validate() - single");
         $validation = new Validation();
         $validation->add('creditCard', new CreditCard());
 
@@ -55,11 +58,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - multiple
      * field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorCreditCardValidateMultipleFields(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\CreditCard - validate() - multiple");
         $validation = new Validation();
 
         $validationMessages = [
@@ -126,11 +132,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - valid card
      * numbers
      *
+     * @param UnitTester $I
+     *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
     public function validationValidatorCreditCardValidateValidCreditCard(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\CreditCard - validate() - valid card");
         $providers = [
             'amex'       => '378282246310005',
             'visa'       => '4012888888881881',
@@ -153,11 +162,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - invalid
      * card numbers
      *
+     * @param UnitTester $I
+     *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
     public function validationValidatorCreditCardValidateInvalidCreditCard(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\CreditCard - validate() - invalid card");
         $cards = [
             '1203191201121221',
             '102030102320',

@@ -26,8 +26,9 @@ class AddPrimaryKeyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testAddPrimaryKey(IntegrationTester $I)
+    public function dbDialectPostgresqlAddPrimaryKey(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - addPrimaryKey()");
         $data = $this->getAddPrimaryKeyFixtures();
         foreach ($data as $item) {
             $schema    = $item[0];

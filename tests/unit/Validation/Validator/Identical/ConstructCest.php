@@ -23,11 +23,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Identical :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIdenticalConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Identical - __construct()");
         $validator = new Identical();
         $this->checkConstruct($I, $validator);
     }

@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Date :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDateValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Date - validate()");
         $I->skipTest("Need implementation");
     }
 }

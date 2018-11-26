@@ -18,11 +18,14 @@ class ListViewsCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: listViews()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListViews(IntegrationTester $I)
+    public function dbDialectPostgresqlListViews(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - listViews()");
         $I->skipTest("Need implementation");
     }
 }

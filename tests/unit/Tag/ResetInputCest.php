@@ -22,13 +22,16 @@ class ResetInputCest extends TagSetup
      *
      * Note: The Tag::resetInput should not clear $_POST data.
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/11319
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-20
      */
-    public function testResetInput(UnitTester $I)
+    public function tagResetInputShouldNotClearPOST(UnitTester $I)
     {
+        $I->wantToTest("Tag - resetInput() - should not clear POST data");
         $_POST = ['a' => '1', 'b' => '2'];
         Tag::resetInput();
         $expected = ['a' => '1', 'b' => '2'];
@@ -40,12 +43,15 @@ class ResetInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: resetInput() - setDefault
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/53
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testResetInputWithSetDefault(UnitTester $I)
+    public function tagResetInputSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Tag - resetInput() - setDefault()");
         Tag::setDocType(Tag::XHTML10_STRICT);
 
         $options  = 'x_name';
@@ -81,11 +87,14 @@ class ResetInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: resetInput() - displayTo
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testResetInputWithDisplayTo(UnitTester $I)
+    public function tagResetInputDisplayTo(UnitTester $I)
     {
+        $I->wantToTest("Tag - resetInput() - displayTo()");
         Tag::setDocType(Tag::XHTML10_STRICT);
 
         $options  = 'x_name';

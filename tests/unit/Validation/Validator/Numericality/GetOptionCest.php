@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Numericality :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorNumericalityGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Numericality - getOption()");
         $validator = new Numericality();
         $this->checkGetOption($I, $validator);
     }

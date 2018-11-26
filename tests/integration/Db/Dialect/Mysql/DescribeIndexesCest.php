@@ -18,11 +18,14 @@ class DescribeIndexesCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: describeIndexes()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeIndexes(IntegrationTester $I)
+    public function dbDialectMysqlDescribeIndexes(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - describeIndexes()");
         $I->skipTest("Need implementation");
     }
 }

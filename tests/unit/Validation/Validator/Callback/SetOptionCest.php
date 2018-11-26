@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: getOption()
+     * Tests Phalcon\Validation\Validator\Callback :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCallbackSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - setOption()");
         $validator = new Callback();
         $this->checkSetOption($I, $validator);
     }

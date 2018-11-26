@@ -26,8 +26,9 @@ class AddColumnCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testAddColumn(IntegrationTester $I)
+    public function dbDialectSqliteAddColumn(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - addColumn()");
         $data = $this->getAddColumnFixtures();
         foreach ($data as $item) {
             $schema   = $item[0];

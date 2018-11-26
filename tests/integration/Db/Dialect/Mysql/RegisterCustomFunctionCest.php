@@ -18,11 +18,14 @@ class RegisterCustomFunctionCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: registerCustomFunction()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegisterCustomFunction(IntegrationTester $I)
+    public function dbDialectMysqlRegisterCustomFunction(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - registerCustomFunction()");
         $I->skipTest("Need implementation");
     }
 }

@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: getOption()
+     * Tests Phalcon\Validation\Validator\CreditCard :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCreditCardHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\CreditCard - hasOption()");
         $validator = new CreditCard(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

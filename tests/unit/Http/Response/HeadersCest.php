@@ -66,7 +66,6 @@ class HeadersCest
     /**
      * Tests the set of the response status headers
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-17
@@ -105,7 +104,6 @@ class HeadersCest
     /**
      * Tests the get of the response status headers
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-17

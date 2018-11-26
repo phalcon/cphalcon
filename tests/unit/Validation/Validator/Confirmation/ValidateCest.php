@@ -23,11 +23,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single
      * field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorConfirmationValidateSingleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Confirmation - validate() - single field");
         $validation = new Validation();
         $validation->add(
             'name',
@@ -65,11 +68,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple
      * field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorConfirmationValidateMultipleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Confirmation - validate() - multiple field");
         $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name must be same as nameWith.',
@@ -144,11 +150,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty
      * value
      *
+     * @param UnitTester $I
+     *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-09-06
      */
     public function validationValidatorConfirmationValidateEmptyValues(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Confirmation - validate() - empty value");
         $expected = Messages::__set_state(
             [
                 '_messages' => [

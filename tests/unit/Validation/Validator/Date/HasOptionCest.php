@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Date :: getOption()
+     * Tests Phalcon\Validation\Validator\Date :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDateHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Date - hasOption()");
         $validator = new Date(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

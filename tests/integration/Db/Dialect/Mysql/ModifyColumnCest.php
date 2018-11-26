@@ -18,11 +18,14 @@ class ModifyColumnCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: modifyColumn()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testModifyColumn(IntegrationTester $I)
+    public function dbDialectMysqlModifyColumn(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - modifyColumn()");
         $I->skipTest("Need implementation");
     }
 }

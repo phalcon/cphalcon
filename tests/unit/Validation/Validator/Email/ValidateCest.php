@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Email :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorEmailValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Email - validate()");
         $I->skipTest("Need implementation");
     }
 }

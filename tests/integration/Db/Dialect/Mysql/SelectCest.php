@@ -18,11 +18,14 @@ class SelectCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: select()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSelect(IntegrationTester $I)
+    public function dbDialectMysqlSelect(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - select()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DropForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropForeignKey()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropForeignKey(IntegrationTester $I)
+    public function dbDialectPostgresqlDropForeignKey(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - dropForeignKey()");
         $I->skipTest("Need implementation");
     }
 }

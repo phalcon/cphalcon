@@ -20,11 +20,14 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - string as a parameter local
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
-    public function testJavascriptIncludeLocal(UnitTester $I)
+    public function tagJavascriptIncludeLocal(UnitTester $I)
     {
+        $I->wantToTest("Tag - javascriptInclude() - string as a parameter local");
         $options  = 'js/phalcon.js';
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = Tag::javascriptInclude($options);
@@ -35,11 +38,14 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - array as a parameter local
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
-    public function testJavascriptIncludeWithArrayLocal(UnitTester $I)
+    public function tagJavascriptIncludeWithArrayLocal(UnitTester $I)
     {
+        $I->wantToTest("Tag - javascriptInclude()");
         $options  = ['js/phalcon.js'];
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = Tag::javascriptInclude($options);
@@ -48,14 +54,16 @@ class JavascriptIncludeCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: javascriptInclude() - string as the second
-     * parameter - local
+     * Tests Phalcon\Tag :: javascriptInclude() - string as the second parameter - local
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
-    public function testJavascriptIncludeWithStringAsSecondParameterLocal(UnitTester $I)
+    public function tagJavascriptIncludeWithStringAsSecondParameterLocal(UnitTester $I)
     {
+        $I->wantToTest("Tag - javascriptInclude() - string as the second parameter - local");
         $options  = ['js/phalcon.js'];
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = Tag::javascriptInclude($options, 'hello');
@@ -66,11 +74,14 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - remote link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
-    public function testJavascriptIncludeRemote(UnitTester $I)
+    public function tagJavascriptIncludeRemote(UnitTester $I)
     {
+        $I->wantToTest("Tag - javascriptInclude() - remote link");
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = Tag::javascriptInclude($options, false);
@@ -82,11 +93,14 @@ class JavascriptIncludeCest extends TagSetup
      * Tests Phalcon\Tag :: javascriptInclude() - array parameter for a remote
      * link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
-    public function testJavascriptIncludeWithArrayRemote(UnitTester $I)
+    public function tagJavascriptIncludeWithArrayRemote(UnitTester $I)
     {
+        $I->wantToTest("Tag - javascriptInclude() - array parameter for a remote");
         $options  = ['http://my.local.com/js/phalcon.js'];
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = Tag::javascriptInclude($options, false);

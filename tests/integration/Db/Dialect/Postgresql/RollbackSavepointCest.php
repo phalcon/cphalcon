@@ -18,11 +18,14 @@ class RollbackSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: rollbackSavepoint()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRollbackSavepoint(IntegrationTester $I)
+    public function dbDialectPostgresqlRollbackSavepoint(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - rollbackSavepoint()");
         $I->skipTest("Need implementation");
     }
 }

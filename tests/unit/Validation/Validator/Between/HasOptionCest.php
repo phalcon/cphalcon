@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Between :: getOption()
+     * Tests Phalcon\Validation\Validator\Between :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorBetweenHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Between - hasOption()");
         $validator = new Between(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

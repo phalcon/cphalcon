@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Digit :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDigitValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Digit - validate()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class TableExistsCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: tableExists()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testTableExists(IntegrationTester $I)
+    public function dbDialectPostgresqlTableExists(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - tableExists()");
         $I->skipTest("Need implementation");
     }
 }

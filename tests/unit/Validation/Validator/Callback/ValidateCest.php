@@ -26,11 +26,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
      * using boolean
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateSingleFieldBoolean(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - validate() - single field using boolean");
         $validation = new Validation();
         $validation->add(
             'user',
@@ -83,11 +86,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
      * using validator
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateSingleFieldValidator(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - validate() - single field using validator");
         $validation = new Validation();
         $validation->add(
             'user',
@@ -148,11 +154,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
      * field returning boolean
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateMultipleFieldBoolean(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - validate() - multiple field returning boolean");
         $validation = new Validation();
         $validation->add(
             ['user', 'admin'],
@@ -217,11 +226,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
      * field validator
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateMultipleFieldValidator(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - validate() - multiple field validator");
         $validation = new Validation();
         $validation->add(
             ['user', 'admin'],
@@ -322,11 +334,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - exception
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateException(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - validate() - exception");
         $I->expectThrowable(
             new Exception('Callback must return boolean or Phalcon\Validation\Validator object'),
             function () {

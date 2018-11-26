@@ -26,8 +26,9 @@ class CreateSavepointCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testCreateSavepoint(IntegrationTester $I)
+    public function dbDialectSqliteCreateSavepoint(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - createSavepoint()");
         $dialect  = $this->getDialectSqlite();
         $expected = $this->getCreateSavepointSql();
         $actual   = $dialect->createSavepoint('PH_SAVEPOINT_1');

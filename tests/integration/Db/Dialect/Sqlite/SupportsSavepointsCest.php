@@ -18,11 +18,14 @@ class SupportsSavepointsCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: supportsSavepoints()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSupportsSavepoints(IntegrationTester $I)
+    public function dbDialectSqliteSupportsSavepoints(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - supportsSavepoints()");
         $I->skipTest("Need implementation");
     }
 }

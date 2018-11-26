@@ -18,11 +18,14 @@ class ListTablesCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: listTables()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListTables(IntegrationTester $I)
+    public function dbDialectMysqlListTables(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - listTables()");
         $I->skipTest("Need implementation");
     }
 }

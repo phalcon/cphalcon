@@ -22,7 +22,6 @@ class PresenceOfCest
     /**
      * Tests presence of validator with single field
      *
-     * @test
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -45,7 +44,6 @@ class PresenceOfCest
     /**
      * Tests presence of validator with multiple field
      *
-     * @test
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -138,8 +136,7 @@ class PresenceOfCest
     /**
      * Tests mixed fields
      *
-     * @test
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-01
      */
     public function shouldValidateMixedFields(UnitTester $I)
@@ -191,8 +188,7 @@ class PresenceOfCest
     /**
      * Tests cancel validation on first fail
      *
-     * @test
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-01
      */
     public function shouldCancelOnFail(UnitTester $I)

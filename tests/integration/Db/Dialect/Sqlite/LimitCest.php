@@ -18,11 +18,14 @@ class LimitCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: limit()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLimit(IntegrationTester $I)
+    public function dbDialectSqliteLimit(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - limit()");
         $I->skipTest("Need implementation");
     }
 }

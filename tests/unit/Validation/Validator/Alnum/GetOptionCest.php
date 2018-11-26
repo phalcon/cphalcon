@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alnum - getOption()");
         $validator = new Alnum();
         $this->checkGetOption($I, $validator);
     }

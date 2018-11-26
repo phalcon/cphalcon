@@ -18,11 +18,14 @@ class SharedLockCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: sharedLock()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSharedLock(IntegrationTester $I)
+    public function dbDialectMysqlSharedLock(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - sharedLock()");
         $I->skipTest("Need implementation");
     }
 }

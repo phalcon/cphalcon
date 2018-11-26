@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: getOption()
+     * Tests Phalcon\Validation\Validator\Alnum :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alnum - hasOption()");
         $validator = new Alnum(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

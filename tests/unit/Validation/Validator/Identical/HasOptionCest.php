@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Identical :: getOption()
+     * Tests Phalcon\Validation\Validator\Identical :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIdenticalHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Identical - hasOption()");
         $validator = new Identical(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

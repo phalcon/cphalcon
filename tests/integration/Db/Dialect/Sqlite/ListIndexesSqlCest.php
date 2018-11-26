@@ -18,11 +18,14 @@ class ListIndexesSqlCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: listIndexesSql()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testListIndexesSql(IntegrationTester $I)
+    public function dbDialectSqliteListIndexesSql(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - listIndexesSql()");
         $I->skipTest("Need implementation");
     }
 }

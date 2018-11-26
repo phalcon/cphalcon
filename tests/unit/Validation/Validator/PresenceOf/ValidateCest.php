@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\PresenceOf :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationValidatorPresenceOfValidate(UnitTester $I)
+    public function validationValidatorPresenceofValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\PresenceOf - validate()");
         $I->skipTest("Need implementation");
     }
 }

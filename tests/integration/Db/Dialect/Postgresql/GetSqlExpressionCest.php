@@ -18,11 +18,14 @@ class GetSqlExpressionCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getSqlExpression()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlExpression(IntegrationTester $I)
+    public function dbDialectPostgresqlGetSqlExpression(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - getSqlExpression()");
         $I->skipTest("Need implementation");
     }
 }

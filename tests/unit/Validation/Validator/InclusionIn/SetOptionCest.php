@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\InclusionIn :: getOption()
+     * Tests Phalcon\Validation\Validator\InclusionIn :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorInclusionInSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\InclusionIn - setOption()");
         $validator = new InclusionIn();
         $this->checkSetOption($I, $validator);
     }

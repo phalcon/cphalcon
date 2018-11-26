@@ -18,11 +18,14 @@ class DropTableCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropTable()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropTable(IntegrationTester $I)
+    public function dbDialectPostgresqlDropTable(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - dropTable()");
         $I->skipTest("Need implementation");
     }
 }

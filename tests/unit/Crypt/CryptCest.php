@@ -21,7 +21,6 @@ class CryptCest extends CryptHelper
     /**
      * Tests decrypt using HMAC
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      * @author                   <k@yejune.com>
      * @since                    2018-05-16
@@ -48,7 +47,6 @@ class CryptCest extends CryptHelper
     /**
      * Tests decrypt using HMAC
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      * @author <k@yejune.com>
      * @since  2018-05-16
@@ -71,7 +69,6 @@ class CryptCest extends CryptHelper
     /**
      * Tests decrypt without using HMAC
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      * @author <k@yejune.com>
      * @since  2018-05-16
@@ -91,7 +88,6 @@ class CryptCest extends CryptHelper
     /**
      * Tests the Crypt::setCipher
      *
-     * @test
      * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2018-05-06
      *

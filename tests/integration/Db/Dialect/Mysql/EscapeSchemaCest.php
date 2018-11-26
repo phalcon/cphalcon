@@ -18,11 +18,14 @@ class EscapeSchemaCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: escapeSchema()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscapeSchema(IntegrationTester $I)
+    public function dbDialectMysqlEscapeSchema(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - escapeSchema()");
         $I->skipTest("Need implementation");
     }
 }

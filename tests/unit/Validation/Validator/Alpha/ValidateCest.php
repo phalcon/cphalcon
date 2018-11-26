@@ -22,11 +22,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - single field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorAlphaValidateSingleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alpha - validate() - single field");
         $validation = new Validation();
         $validation->add('name', new Alpha());
         $messages = $validation->validate(['name' => 'Asd']);
@@ -44,11 +47,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - multiple field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorAlphaValidateMultipleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alpha - validate() - multiple field");
         $validation         = new Validation();
         $validationMessages = [
             'name' => 'Name must be alpha.',
@@ -90,11 +96,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic
      * Characters
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
     public function validationValidatorAlphaValidateNonAlphabeticCharacters(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alpha - validate() - non alphabetic characters");
         $examples = [
             '1',
             123,
@@ -138,11 +147,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic
      * Characters
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
     public function validationValidatorAlphaValidateAlphabeticCharacters(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alpha - validate() - alphabetic characters");
         $examples = [
             'a',
             'asdavafaiwnoabwiubafpowf',
@@ -174,11 +186,14 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin
      * Characters
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      */
     public function validationValidatorAlphaValidateNonLatinCharacters(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alpha - validate() - non latin characters");
         $examples = [
             'йцукенг',
             'ждлорпа',

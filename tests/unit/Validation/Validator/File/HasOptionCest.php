@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\File :: getOption()
+     * Tests Phalcon\Validation\Validator\File :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorFileHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\File - hasOption()");
         $validator = new File(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

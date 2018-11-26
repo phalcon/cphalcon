@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
+     * Tests Phalcon\Validation\Validator\PresenceOf :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\PresenceOf - hasOption()");
         $validator = new PresenceOf(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

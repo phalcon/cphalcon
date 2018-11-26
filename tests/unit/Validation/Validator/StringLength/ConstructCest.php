@@ -23,11 +23,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorStringLengthConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\StringLength - __construct()");
         $validator = new StringLength();
         $this->checkConstruct($I, $validator);
     }

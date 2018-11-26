@@ -18,11 +18,14 @@ class TruncateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: truncateTable()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testTruncateTable(IntegrationTester $I)
+    public function dbDialectPostgresqlTruncateTable(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - truncateTable()");
         $I->skipTest("Need implementation");
     }
 }

@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Digit :: getOption()
+     * Tests Phalcon\Validation\Validator\Digit :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDigitHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Digit - hasOption()");
         $validator = new Digit(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

@@ -18,11 +18,14 @@ class SelectCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: select()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSelect(IntegrationTester $I)
+    public function dbDialectPostgresqlSelect(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - select()");
         $I->skipTest("Need implementation");
     }
 }

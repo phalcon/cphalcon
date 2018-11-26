@@ -29,6 +29,7 @@ class GetOptionCest
      */
     public function validationValidatorUrlGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Url - getOption()");
         $validator = new Url();
         $this->checkGetOption($I, $validator);
     }

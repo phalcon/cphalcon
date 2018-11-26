@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Uniqueness :: getOption()
+     * Tests Phalcon\Validation\Validator\Uniqueness :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationValidatorValidatorUniquenessHasOption(UnitTester $I)
+    public function validationValidatorUniquenessHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Uniqueness - hasOption()");
         $validator = new Uniqueness(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

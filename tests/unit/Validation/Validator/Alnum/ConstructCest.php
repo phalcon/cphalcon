@@ -23,11 +23,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumConstruct(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alnum - __construct()");
         $validator = new Alnum();
         $this->checkConstruct($I, $validator);
     }

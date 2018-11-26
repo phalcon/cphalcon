@@ -18,11 +18,14 @@ class DropViewCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropView()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropView(IntegrationTester $I)
+    public function dbDialectMysqlDropView(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - dropView()");
         $I->skipTest("Need implementation");
     }
 }

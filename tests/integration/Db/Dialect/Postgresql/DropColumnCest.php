@@ -18,11 +18,14 @@ class DropColumnCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropColumn()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropColumn(IntegrationTester $I)
+    public function dbDialectPostgresqlDropColumn(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - dropColumn()");
         $I->skipTest("Need implementation");
     }
 }

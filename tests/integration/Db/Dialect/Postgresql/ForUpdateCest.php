@@ -18,11 +18,14 @@ class ForUpdateCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: forUpdate()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testForUpdate(IntegrationTester $I)
+    public function dbDialectPostgresqlForUpdate(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - forUpdate()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DescribeReferencesCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: describeReferences()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeReferences(IntegrationTester $I)
+    public function dbDialectMysqlDescribeReferences(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - describeReferences()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DropPrimaryKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropPrimaryKey()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropPrimaryKey(IntegrationTester $I)
+    public function dbDialectMysqlDropPrimaryKey(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - dropPrimaryKey()");
         $I->skipTest("Need implementation");
     }
 }

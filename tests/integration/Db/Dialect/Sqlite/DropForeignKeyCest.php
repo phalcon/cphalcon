@@ -18,11 +18,14 @@ class DropForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropForeignKey()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropForeignKey(IntegrationTester $I)
+    public function dbDialectSqliteDropForeignKey(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - dropForeignKey()");
         $I->skipTest("Need implementation");
     }
 }

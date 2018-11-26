@@ -26,8 +26,9 @@ class CreateSavepointCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testCreateSavepoint(IntegrationTester $I)
+    public function dbDialectPostgresqlCreateSavepoint(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - createSavepoint()");
         $dialect  = $this->getDialectPostgresql();
         $expected = $this->getCreateSavepointSql();
         $actual   = $dialect->createSavepoint('PH_SAVEPOINT_1');

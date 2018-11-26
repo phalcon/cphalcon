@@ -18,11 +18,14 @@ class GetColumnDefinitionCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getColumnDefinition()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetColumnDefinition(IntegrationTester $I)
+    public function dbDialectMysqlGetColumnDefinition(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - getColumnDefinition()");
         $I->skipTest("Need implementation");
     }
 }

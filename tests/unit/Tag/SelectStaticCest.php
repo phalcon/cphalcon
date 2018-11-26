@@ -20,11 +20,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - string as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticStringParameter(UnitTester $I)
+    public function tagSelectStaticStringParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - string as a parameter");
         Tag::resetInput();
         $name     = 'x_name';
         $options  = [
@@ -45,11 +48,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - array as a parameter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticArrayParameter(UnitTester $I)
+    public function tagSelectStaticArrayParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - array as a parameter");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -73,12 +79,15 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - array as a parameters and id in it
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticArrayParameterWithId(UnitTester $I)
+    public function tagSelectStaticArrayParameterWithId(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - array as a parameters and id");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -103,12 +112,15 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - name and no id in parameter
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticArrayParameterWithNameNoId(UnitTester $I)
+    public function tagSelectStaticArrayParameterWithNameNoId(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - name and no id in parameter");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -133,11 +145,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - value in parameters
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticArrayParameterWithValue(UnitTester $I)
+    public function tagSelectStaticArrayParameterWithValue(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - value in parameters");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -162,11 +177,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithSetDefault(UnitTester $I)
+    public function tagSelectStaticWithSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - setDefault()");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -191,11 +209,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithDisplayTo(UnitTester $I)
+    public function tagSelectStaticWithDisplayTo(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - displayTo()");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -220,11 +241,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithSetDefaultElementNotPresent(UnitTester $I)
+    public function tagSelectStaticWithSetDefaultElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - setDefault() and element not present");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -250,11 +274,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithDisplayToElementNotPresent(UnitTester $I)
+    public function tagSelectStaticWithDisplayToElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - displayTo() and element not present");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -278,13 +305,16 @@ class SelectStaticCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: selectStatic() - array as a parameter
+     * Tests Phalcon\Tag :: selectStatic() - opt group array as a parameter
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupArrayParameter(UnitTester $I)
+    public function tagSelectStaticOptGroupArrayParameter(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group array as a parameter");
         Tag::resetInput();
         $params   = [
             "x_name",
@@ -313,12 +343,15 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - array as a parameters and id in it
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupArrayParameterWithId(UnitTester $I)
+    public function tagSelectStaticOptGroupArrayParameterWithId(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group array as a parameters and id");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -347,14 +380,17 @@ class SelectStaticCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: selectStatic() - name and no id in parameter
+     * Tests Phalcon\Tag :: selectStatic() - opt group name and no id in parameter
+     *
+     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupArrayParameterWithNameNoId(UnitTester $I)
+    public function tagSelectStaticOptGroupArrayParameterWithNameNoId(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - name and no id in parameter");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -385,11 +421,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - value in parameters
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupArrayParameterWithValue(UnitTester $I)
+    public function tagSelectStaticOptGroupArrayParameterWithValue(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group value in parameters");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -420,11 +459,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupWithSetDefault(UnitTester $I)
+    public function tagSelectStaticOptGroupWithSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group setDefault()");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -456,11 +498,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupWithDisplayTo(UnitTester $I)
+    public function tagSelectStaticOptGroupWithDisplayTo(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group displayTo()");
         Tag::resetInput();
         $params   = [
             'x_name',
@@ -492,11 +537,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupWithSetDefaultElementNotPresent(UnitTester $I)
+    public function tagSelectStaticOptGroupWithSetDefaultElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group setDefault() and element not present");
         Tag::resetInput();
         $params  = [
             'x_name',
@@ -530,11 +578,14 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo and element not present
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticOptGroupWithDisplayToElementNotPresent(UnitTester $I)
+    public function tagSelectStaticOptGroupWithDisplayToElementNotPresent(UnitTester $I)
     {
+        $I->wantToTest("Tag - selectStatic() - opt group displayTo() and element not present");
         Tag::resetInput();
         $params   = [
             'x_name',

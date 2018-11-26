@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: getOption()
+     * Tests Phalcon\Validation\Validator\Alnum :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alnum - setOption()");
         $validator = new Alnum();
         $this->checkSetOption($I, $validator);
     }

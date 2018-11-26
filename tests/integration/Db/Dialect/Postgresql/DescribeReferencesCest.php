@@ -18,11 +18,14 @@ class DescribeReferencesCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: describeReferences()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeReferences(IntegrationTester $I)
+    public function dbDialectPostgresqlDescribeReferences(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - describeReferences()");
         $I->skipTest("Need implementation");
     }
 }

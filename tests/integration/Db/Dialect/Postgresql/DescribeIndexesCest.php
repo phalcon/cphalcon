@@ -18,11 +18,14 @@ class DescribeIndexesCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: describeIndexes()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeIndexes(IntegrationTester $I)
+    public function dbDialectPostgresqlDescribeIndexes(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - describeIndexes()");
         $I->skipTest("Need implementation");
     }
 }

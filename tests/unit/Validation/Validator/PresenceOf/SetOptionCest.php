@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
+     * Tests Phalcon\Validation\Validator\PresenceOf :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\PresenceOf - setOption()");
         $validator = new PresenceOf();
         $this->checkSetOption($I, $validator);
     }

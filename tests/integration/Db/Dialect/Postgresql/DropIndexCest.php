@@ -18,11 +18,14 @@ class DropIndexCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropIndex()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropIndex(IntegrationTester $I)
+    public function dbDialectPostgresqlDropIndex(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - dropIndex()");
         $I->skipTest("Need implementation");
     }
 }

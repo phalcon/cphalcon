@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Date :: getOption()
+     * Tests Phalcon\Validation\Validator\Date :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDateSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Date - setOption()");
         $validator = new Date();
         $this->checkSetOption($I, $validator);
     }

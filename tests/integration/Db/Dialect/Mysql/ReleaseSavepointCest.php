@@ -18,11 +18,14 @@ class ReleaseSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: releaseSavepoint()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReleaseSavepoint(IntegrationTester $I)
+    public function dbDialectMysqlReleaseSavepoint(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - releaseSavepoint()");
         $I->skipTest("Need implementation");
     }
 }

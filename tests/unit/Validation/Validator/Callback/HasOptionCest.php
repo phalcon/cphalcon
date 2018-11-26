@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: getOption()
+     * Tests Phalcon\Validation\Validator\Callback :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCallbackHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - hasOption()");
         $validator = new Callback(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

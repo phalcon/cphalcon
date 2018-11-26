@@ -20,12 +20,15 @@ class SetDefaultCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: setDefault()
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/2402
      * @author Dmitry Patsura <talk@dmtry.me>
      * @since  2014-05-10
      */
-    public function testSetDefault(UnitTester $I)
+    public function tagSetDefault(UnitTester $I)
     {
+        $I->wantToTest("Tag - setDefault()");
         Tag::setDefault('property1', 'testVal1');
         Tag::setDefault('property2', 'testVal2');
         Tag::setDefault('property3', 'testVal3');

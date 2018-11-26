@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Callback :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCallbackGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Callback - getOption()");
         $validator = new Callback();
         $this->checkGetOption($I, $validator);
     }

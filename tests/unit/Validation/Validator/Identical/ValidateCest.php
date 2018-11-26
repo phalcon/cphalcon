@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Identical :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIdenticalValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Identical - validate()");
         $I->skipTest("Need implementation");
     }
 }

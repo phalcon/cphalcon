@@ -18,11 +18,14 @@ class EscapeCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: escape()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testEscape(IntegrationTester $I)
+    public function dbDialectPostgresqlEscape(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - escape()");
         $I->skipTest("Need implementation");
     }
 }

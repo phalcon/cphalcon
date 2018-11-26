@@ -18,11 +18,14 @@ class TruncateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: truncateTable()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testTruncateTable(IntegrationTester $I)
+    public function dbDialectSqliteTruncateTable(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - truncateTable()");
         $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class DescribeIndexCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: describeIndex()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeIndex(IntegrationTester $I)
+    public function dbDialectSqliteDescribeIndex(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - describeIndex()");
         $I->skipTest("Need implementation");
     }
 }

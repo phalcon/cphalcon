@@ -26,8 +26,9 @@ class AddIndexCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testAddIndex(IntegrationTester $I)
+    public function dbDialectPostgresqlAddIndex(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - addIndex()");
         $data = $this->getAddIndexFixtures();
         foreach ($data as $item) {
             $schema   = $item[0];

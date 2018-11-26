@@ -18,11 +18,14 @@ class DropViewCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropView()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropView(IntegrationTester $I)
+    public function dbDialectSqliteDropView(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - dropView()");
         $I->skipTest("Need implementation");
     }
 }

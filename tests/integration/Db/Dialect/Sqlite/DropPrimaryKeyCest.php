@@ -18,11 +18,14 @@ class DropPrimaryKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropPrimaryKey()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropPrimaryKey(IntegrationTester $I)
+    public function dbDialectSqliteDropPrimaryKey(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - dropPrimaryKey()");
         $I->skipTest("Need implementation");
     }
 }

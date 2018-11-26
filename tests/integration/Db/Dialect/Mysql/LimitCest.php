@@ -18,11 +18,14 @@ class LimitCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: limit()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testLimit(IntegrationTester $I)
+    public function dbDialectMysqlLimit(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - limit()");
         $I->skipTest("Need implementation");
     }
 }

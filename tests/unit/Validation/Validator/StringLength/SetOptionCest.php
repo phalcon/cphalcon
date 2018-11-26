@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: getOption()
+     * Tests Phalcon\Validation\Validator\StringLength :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorStringLengthSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\StringLength - setOption()");
         $validator = new StringLength();
         $this->checkSetOption($I, $validator);
     }

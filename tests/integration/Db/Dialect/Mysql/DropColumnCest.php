@@ -18,11 +18,14 @@ class DropColumnCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropColumn()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropColumn(IntegrationTester $I)
+    public function dbDialectMysqlDropColumn(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - dropColumn()");
         $I->skipTest("Need implementation");
     }
 }

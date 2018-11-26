@@ -18,11 +18,14 @@ class DropIndexCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropIndex()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDropIndex(IntegrationTester $I)
+    public function dbDialectSqliteDropIndex(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - dropIndex()");
         $I->skipTest("Need implementation");
     }
 }

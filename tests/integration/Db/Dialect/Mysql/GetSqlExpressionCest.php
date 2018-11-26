@@ -18,11 +18,14 @@ class GetSqlExpressionCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getSqlExpression()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlExpression(IntegrationTester $I)
+    public function dbDialectMysqlGetSqlExpression(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - getSqlExpression()");
         $I->skipTest("Need implementation");
     }
 }

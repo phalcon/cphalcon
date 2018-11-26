@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\ExclusionIn :: getOption()
+     * Tests Phalcon\Validation\Validator\ExclusionIn :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorExclusionInHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\ExclusionIn - hasOption()");
         $validator = new ExclusionIn(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

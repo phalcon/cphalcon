@@ -18,11 +18,14 @@ class ReleaseSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: releaseSavepoint()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testReleaseSavepoint(IntegrationTester $I)
+    public function dbDialectPostgresqlReleaseSavepoint(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - releaseSavepoint()");
         $I->skipTest("Need implementation");
     }
 }

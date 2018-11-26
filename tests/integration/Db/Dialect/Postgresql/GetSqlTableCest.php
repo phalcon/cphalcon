@@ -18,11 +18,14 @@ class GetSqlTableCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getSqlTable()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlTable(IntegrationTester $I)
+    public function dbDialectPostgresqlGetSqlTable(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - getSqlTable()");
         $I->skipTest("Need implementation");
     }
 }

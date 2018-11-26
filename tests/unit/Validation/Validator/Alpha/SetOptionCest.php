@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: getOption()
+     * Tests Phalcon\Validation\Validator\Alpha :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlphaSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Alpha - setOption()");
         $validator = new Alpha();
         $this->checkSetOption($I, $validator);
     }

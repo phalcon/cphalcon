@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Regex :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorRegexGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Regex - getOption()");
         $validator = new Regex();
         $this->checkGetOption($I, $validator);
     }

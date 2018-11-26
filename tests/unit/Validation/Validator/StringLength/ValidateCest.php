@@ -23,6 +23,8 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
      * field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -54,8 +56,9 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
      *
-     * @test
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMinimum(UnitTester $I)
@@ -93,7 +96,9 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
      * custom message
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMinimumWithCustomMessage(UnitTester $I)
@@ -134,7 +139,9 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMaximum(UnitTester $I)
@@ -172,7 +179,9 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
      * custom message
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMaximumWithCustomMessage(UnitTester $I)
@@ -212,6 +221,8 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate()
      * multiple field and single min, max
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -274,6 +285,8 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate()
      * multiple field and min, max
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05

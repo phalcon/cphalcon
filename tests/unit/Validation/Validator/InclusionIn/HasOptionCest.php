@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\InclusionIn :: getOption()
+     * Tests Phalcon\Validation\Validator\InclusionIn :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorInclusionInHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\InclusionIn - hasOption()");
         $validator = new InclusionIn(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

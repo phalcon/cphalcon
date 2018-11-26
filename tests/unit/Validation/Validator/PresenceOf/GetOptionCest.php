@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\PresenceOf - getOption()");
         $validator = new PresenceOf();
         $this->checkGetOption($I, $validator);
     }

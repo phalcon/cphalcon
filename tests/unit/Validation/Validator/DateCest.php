@@ -99,7 +99,6 @@ class DateCest
     /**
      * Tests detect valid dates
      *
-     * @test
      * @author Gustavo Verzola <verzola@gmail.com>
      * @since  2015-03-09
      */
@@ -128,7 +127,6 @@ class DateCest
     /**
      * Tests detect invalid dates
      *
-     * @test
      * @author Gustavo Verzola <verzola@gmail.com>
      * @since  2015-03-09
      */

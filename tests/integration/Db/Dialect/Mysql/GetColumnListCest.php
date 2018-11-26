@@ -18,11 +18,14 @@ class GetColumnListCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getColumnList()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetColumnList(IntegrationTester $I)
+    public function dbDialectMysqlGetColumnList(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - getColumnList()");
         $I->skipTest("Need implementation");
     }
 }

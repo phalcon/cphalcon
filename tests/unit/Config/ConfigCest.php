@@ -64,7 +64,7 @@ class ConfigCest
     /**
      * Tests standard config simple array
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-11
      */
     public function testStandardConfigSimpleArray(UnitTester $I)
@@ -143,7 +143,7 @@ class ConfigCest
     /**
      * Tests merging complex config objects
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-12-16
      */
     public function testConfigMergeComplexObjects(UnitTester $I)

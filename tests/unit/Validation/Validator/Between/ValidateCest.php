@@ -22,11 +22,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - single field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorBetweenValidateSingleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Between - validate() - single field");
         $validation = new Validation();
         $validation->add(
             'price',
@@ -71,11 +74,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - multiple field
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorBetweenValidateMultipleField(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Between - validate() - multiple field");
         $validation         = new Validation();
         $validationMessages = [
             'amount' => 'Amount must be between 0 and 999.',
@@ -135,11 +141,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - custom message
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorBetweenValidateCustomMessage(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Between - validate() - custom message");
         $validation = new Validation();
 
         $validation->add(

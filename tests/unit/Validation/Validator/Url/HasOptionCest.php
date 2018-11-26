@@ -20,7 +20,7 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: getOption()
+     * Tests Phalcon\Validation\Validator\Url :: hasOption()
      *
      * @param UnitTester $I
      *
@@ -29,6 +29,7 @@ class HasOptionCest
      */
     public function validationValidatorUrlHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Url - hasOption()");
         $validator = new Url(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

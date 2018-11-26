@@ -18,11 +18,14 @@ class RegisterCustomFunctionCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: registerCustomFunction()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRegisterCustomFunction(IntegrationTester $I)
+    public function dbDialectSqliteRegisterCustomFunction(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - registerCustomFunction()");
         $I->skipTest("Need implementation");
     }
 }

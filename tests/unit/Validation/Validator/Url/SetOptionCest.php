@@ -20,7 +20,7 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: getOption()
+     * Tests Phalcon\Validation\Validator\Url :: setOption()
      *
      * @param UnitTester $I
      *
@@ -29,6 +29,7 @@ class SetOptionCest
      */
     public function validationValidatorUrlSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Url - setOption()");
         $validator = new Url();
         $this->checkSetOption($I, $validator);
     }

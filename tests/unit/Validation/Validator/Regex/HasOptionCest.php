@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Regex :: getOption()
+     * Tests Phalcon\Validation\Validator\Regex :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorRegexHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Regex - hasOption()");
         $validator = new Regex(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

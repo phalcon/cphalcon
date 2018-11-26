@@ -29,8 +29,9 @@ class CreateTableCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testCreateTable(IntegrationTester $I)
+    public function dbDialectPostgresqlCreateTable(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - createTable()");
         $data = $this->getCreateTableFixtures();
         foreach ($data as $item) {
             $schema     = $item[0];

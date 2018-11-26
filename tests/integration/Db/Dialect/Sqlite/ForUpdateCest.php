@@ -18,11 +18,14 @@ class ForUpdateCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: forUpdate()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testForUpdate(IntegrationTester $I)
+    public function dbDialectSqliteForUpdate(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - forUpdate()");
         $I->skipTest("Need implementation");
     }
 }

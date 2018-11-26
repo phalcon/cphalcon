@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Email :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorEmailGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Email - getOption()");
         $validator = new Email();
         $this->checkGetOption($I, $validator);
     }

@@ -18,11 +18,14 @@ class GetSqlTableCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getSqlTable()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlTable(IntegrationTester $I)
+    public function dbDialectMysqlGetSqlTable(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - getSqlTable()");
         $I->skipTest("Need implementation");
     }
 }

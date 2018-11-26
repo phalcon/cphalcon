@@ -20,13 +20,16 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: getOption()
+     * Tests Phalcon\Validation\Validator\Confirmation :: hasOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorConfirmationHasOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Confirmation - hasOption()");
         $validator = new Confirmation(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

@@ -18,11 +18,14 @@ class GetSqlColumnCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getSqlColumn()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetSqlColumn(IntegrationTester $I)
+    public function dbDialectPostgresqlGetSqlColumn(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - getSqlColumn()");
         $I->skipTest("Need implementation");
     }
 }

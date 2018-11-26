@@ -18,11 +18,14 @@ class DescribeColumnsCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: describeColumns()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeColumns(IntegrationTester $I)
+    public function dbDialectMysqlDescribeColumns(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - describeColumns()");
         $I->skipTest("Need implementation");
     }
 }

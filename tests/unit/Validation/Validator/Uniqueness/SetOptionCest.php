@@ -11,23 +11,21 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator\Uniqueness;
 
-use Phalcon\Test\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Uniqueness;
 use UnitTester;
 
 class SetOptionCest
 {
-    use ValidationTrait;
-
     /**
-     * Tests Phalcon\Validation\Validator\Uniqueness :: getOption()
+     * Tests Phalcon\Validation\Validator\Uniqueness :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationUniquenessSetOption(UnitTester $I)
+    public function validationValidatorUniquenessSetOption(UnitTester $I)
     {
-        $validator = new Uniqueness();
-        $this->checkSetOption($I, $validator);
+        $I->wantToTest("Validation\Validator\Uniqueness - setOption()");
+        $I->skipTest("Need implementation");
     }
 }

@@ -18,11 +18,14 @@ class GetForeignKeyChecksCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getForeignKeyChecks()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetForeignKeyChecks(IntegrationTester $I)
+    public function dbDialectMysqlGetForeignKeyChecks(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - getForeignKeyChecks()");
         $I->skipTest("Need implementation");
     }
 }

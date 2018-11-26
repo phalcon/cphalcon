@@ -18,11 +18,14 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\InclusionIn :: validate()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationValidatorInclusionInValidate(UnitTester $I)
+    public function validationValidatorInclusioninValidate(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\InclusionIn - validate()");
         $I->skipTest("Need implementation");
     }
 }

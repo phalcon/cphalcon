@@ -18,11 +18,14 @@ class RollbackSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: rollbackSavepoint()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testRollbackSavepoint(IntegrationTester $I)
+    public function dbDialectSqliteRollbackSavepoint(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - rollbackSavepoint()");
         $I->skipTest("Need implementation");
     }
 }

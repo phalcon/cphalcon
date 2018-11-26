@@ -18,11 +18,14 @@ class DescribeReferencesCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: describeReferences()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeReferences(IntegrationTester $I)
+    public function dbDialectSqliteDescribeReferences(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - describeReferences()");
         $I->skipTest("Need implementation");
     }
 }

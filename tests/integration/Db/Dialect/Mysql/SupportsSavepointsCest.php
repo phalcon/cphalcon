@@ -18,11 +18,14 @@ class SupportsSavepointsCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: supportsSavepoints()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSupportsSavepoints(IntegrationTester $I)
+    public function dbDialectMysqlSupportsSavepoints(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Mysql - supportsSavepoints()");
         $I->skipTest("Need implementation");
     }
 }

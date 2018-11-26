@@ -300,7 +300,6 @@ class LoaderCest
     /**
      * Tests Loader::setFileCheckingCallback
      *
-     * @test
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-04-29
      * @issue  https://github.com/phalcon/cphalcon/issues/13360
@@ -337,7 +336,6 @@ class LoaderCest
     /**
      * Tests Loader::setFileCheckingCallback
      *
-     * @test
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-04-29
      * @issue  https://github.com/phalcon/cphalcon/issues/13360

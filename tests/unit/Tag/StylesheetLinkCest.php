@@ -20,13 +20,16 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a local link
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
-    public function testStylesheetLinkStringParameterLocal(UnitTester $I)
+    public function tagStylesheetLinkStringParameterLocal(UnitTester $I)
     {
+        $I->wantToTest("Tag - stylesheetLink() - string parameter for a local link");
         Tag::resetInput();
         $options  = 'css/phalcon.css';
         $expected = '<link rel="stylesheet" type="text/css" '
@@ -53,13 +56,16 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a local link
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
-    public function testStylesheetLinkArrayParameterLocal(UnitTester $I)
+    public function tagStylesheetLinkArrayParameterLocal(UnitTester $I)
     {
+        $I->wantToTest("Tag - stylesheetLink() - array parameter for a local link");
         Tag::resetInput();
         $options  = ['css/phalcon.css'];
         $expected = '<link rel="stylesheet" type="text/css" '
@@ -87,11 +93,14 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a remote
      * link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testStylesheetLinkStringParameterRemote(UnitTester $I)
+    public function tagStylesheetLinkStringParameterRemote(UnitTester $I)
     {
+        $I->wantToTest("Tag - stylesheetLink() - string parameter for a remote");
         Tag::resetInput();
         $options  = 'http://phalconphp.com/css/phalcon.css';
         $expected = '<link rel="stylesheet" type="text/css" '
@@ -118,11 +127,14 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a remote link
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testStylesheetLinkArrayParameterRemote(UnitTester $I)
+    public function tagStylesheetLinkArrayParameterRemote(UnitTester $I)
     {
+        $I->wantToTest("Tag - stylesheetLink() - array parameter for a remote link");
         Tag::resetInput();
         $options  = ['http://phalconphp.com/css/phalcon.css'];
         $expected = '<link rel="stylesheet" type="text/css" '
@@ -149,13 +161,16 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - overriding the rel link local
      *
+     * @param UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/2142
      * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
-    public function testStylesheetLinkOverrideRelLink(UnitTester $I)
+    public function tagStylesheetLinkOverrideRelLink(UnitTester $I)
     {
+        $I->wantToTest("Tag - stylesheetLink() - overriding the rel link local");
         Tag::resetInput();
         $options  = [
             'css/phalcon.css',

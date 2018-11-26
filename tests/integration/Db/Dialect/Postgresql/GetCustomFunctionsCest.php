@@ -18,11 +18,14 @@ class GetCustomFunctionsCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getCustomFunctions()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetCustomFunctions(IntegrationTester $I)
+    public function dbDialectPostgresqlGetCustomFunctions(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - getCustomFunctions()");
         $I->skipTest("Need implementation");
     }
 }

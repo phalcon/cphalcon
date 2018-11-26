@@ -18,11 +18,14 @@ class DescribeColumnsCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: describeColumns()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testDescribeColumns(IntegrationTester $I)
+    public function dbDialectSqliteDescribeColumns(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - describeColumns()");
         $I->skipTest("Need implementation");
     }
 }

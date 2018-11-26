@@ -18,11 +18,14 @@ class SupportsReleaseSavepointsCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: supportsReleaseSavepoints()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSupportsReleaseSavepoints(IntegrationTester $I)
+    public function dbDialectSqliteSupportsReleaseSavepoints(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - supportsReleaseSavepoints()");
         $I->skipTest("Need implementation");
     }
 }

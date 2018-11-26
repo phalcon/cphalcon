@@ -18,11 +18,14 @@ class CreateViewCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createView()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testCreateView(IntegrationTester $I)
+    public function dbDialectSqliteCreateView(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Sqlite - createView()");
         $I->skipTest("Need implementation");
     }
 }

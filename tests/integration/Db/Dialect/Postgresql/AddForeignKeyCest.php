@@ -21,11 +21,14 @@ class AddForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: addForeignKey()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
-    public function testAddForeignKey(IntegrationTester $I)
+    public function dbDialectPostgresqlAddForeignKey(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - addForeignKey()");
         $data = $this->getAddForeignKeyFixtures();
         foreach ($data as $item) {
             $schema     = $item[0];

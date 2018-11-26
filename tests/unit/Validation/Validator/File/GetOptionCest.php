@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\File :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorFileGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\File - getOption()");
         $validator = new File();
         $this->checkGetOption($I, $validator);
     }

@@ -18,11 +18,14 @@ class ViewExistsCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: viewExists()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testViewExists(IntegrationTester $I)
+    public function dbDialectPostgresqlViewExists(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Dialect\Postgresql - viewExists()");
         $I->skipTest("Need implementation");
     }
 }

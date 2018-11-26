@@ -22,11 +22,14 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness :: getOption()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUniquenessGetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\Uniqueness - getOption()");
         $validator = new Uniqueness();
         $this->checkGetOption($I, $validator);
     }

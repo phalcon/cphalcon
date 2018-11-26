@@ -20,13 +20,16 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: getOption()
+     * Tests Phalcon\Validation\Validator\CreditCard :: setOption()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCreditCardSetOption(UnitTester $I)
     {
+        $I->wantToTest("Validation\Validator\CreditCard - setOption()");
         $validator = new CreditCard();
         $this->checkSetOption($I, $validator);
     }
