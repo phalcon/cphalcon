@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Module\Cache\Backend;
+namespace Helper\Module\Cache\Backend\File;
 
 use Codeception\Configuration;
 use Codeception\Exception\ModuleConfigException;
@@ -10,7 +10,6 @@ use Phalcon\Cache\Backend\File as FileBackend;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Igbinary;
 use Phalcon\Cache\FrontendInterface;
-use PHPUnit\Framework\SkippedTestError;
 
 /**
  * Phalcon\Test\Module\Cache\Backend\File

@@ -13,12 +13,16 @@ namespace Phalcon\Test\Fixtures\Listener;
 
 use ComponentX;
 use Phalcon\Events\Event;
-use Phalcon\Test\Unit\Events\ManagerTest;
+use Phalcon\Test\Unit\Events\ManagerCest;
+use UnitTester;
 
 class ThirdListener
 {
-    /** @var  ManagerTest */
+    /** @var  ManagerCest */
     protected $testCase;
+
+    /** @var  UnitTester */
+    protected $tester;
 
     protected $before = 0;
 
@@ -26,28 +30,29 @@ class ThirdListener
 
     public function __construct()
     {
-        include_once PATH_DATA . 'events/ComponentX.php';
+        include_once PATH_DATA . 'fixtures/Events/ComponentX.php';
     }
 
-    public function setTestCase(ManagerTest $testCase)
+    public function setTestCase(ManagerCest $testCase, UnitTester $tester)
     {
         $this->testCase = $testCase;
+        $this->tester   = $tester;
     }
 
     public function beforeAction($event, $component, $data)
     {
-        $this->testCase->assertInstanceOf(Event::class, $event);
-        $this->testCase->assertInstanceOf(ComponentX::class, $component);
-        $this->testCase->assertEquals($data, 'extra data');
+        $this->tester->assertInstanceOf(Event::class, $event);
+        $this->tester->assertInstanceOf(ComponentX::class, $component);
+        $this->tester->assertEquals($data, 'extra data');
 
         $this->before++;
     }
 
     public function afterAction($event, $component)
     {
-        $this->testCase->assertInstanceOf(Event::class, $event);
-        $this->testCase->assertInstanceOf(ComponentX::class, $component);
-        $this->testCase->assertEquals($event->getData(), ['extra', 'data']);
+        $this->tester->assertInstanceOf(Event::class, $event);
+        $this->tester->assertInstanceOf(ComponentX::class, $component);
+        $this->tester->assertEquals($event->getData(), ['extra', 'data']);
 
         $this->after++;
 
