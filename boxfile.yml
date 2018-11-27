@@ -13,6 +13,7 @@ run.config:
       - gettext
       - imagick
       - iconv
+      - igbinary
       - json
       - mbstring
       - memcached
@@ -23,7 +24,6 @@ run.config:
       - pdo_mysql
       - pdo_pgsql
       - pdo_sqlite
-      - redis
       - session
       - simplexml
       - tokenizer
@@ -33,6 +33,7 @@ run.config:
       - xmlwriter
       - zip
       - zlib
+      - redis
     zend_extensions:
       - opcache
     dev_zend_extensions:

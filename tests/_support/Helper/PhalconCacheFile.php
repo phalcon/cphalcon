@@ -1,6 +1,6 @@
 <?php
 
-namespace Helper\Module\Cache\Backend\File;
+namespace Helper;
 
 use Codeception\Configuration;
 use Codeception\Exception\ModuleConfigException;
@@ -27,7 +27,7 @@ use Phalcon\Cache\FrontendInterface;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class File extends Filesystem
+class PhalconCacheFile extends Filesystem
 {
     /**
      * @var null|FileBackend
@@ -78,7 +78,7 @@ class File extends Filesystem
             'backend'   => FileBackend::class,
             'prefix'    => 'data_',
             'lifetime'  => 10,
-            'cache_dir' => '',
+            'cache_dir' => PATH_CACHE,
         ];
 
         $this->projectPath = Configuration::projectDir();

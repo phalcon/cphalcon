@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Module;
+namespace Helper;
 
 use Codeception\Module;
 use Codeception\TestInterface;
@@ -25,7 +25,7 @@ use Codeception\Exception\ModuleException;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class Libmemcached extends Module
+class PhalconLibmemcached extends Module
 {
     /**
      * @var \Memcached
@@ -36,9 +36,9 @@ class Libmemcached extends Module
      * {@inheritdoc}
      */
     protected $config = [
-        'host'          => '127.0.0.1',
-        'port'          => 11211,
-        'weight'        => 0,
+        'host'          => TEST_MC_HOST,
+        'port'          => TEST_MC_PORT,
+        'weight'        => TEST_MC_WEIGHT,
         'persistent_id' => 'phalcon_cache'
     ];
 

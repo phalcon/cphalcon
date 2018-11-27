@@ -21,9 +21,9 @@ trait RedisTrait
     {
         $I->checkExtensionIsLoaded('redis');
         $this->options = [
-            'host'     => env('TEST_RS_HOST'),
-            'port'     => env('TEST_RS_PORT'),
-            'index'    => env('TEST_RS_DB'),
+            'host'     => TEST_RS_HOST,
+            'port'     => TEST_RS_PORT,
+            'index'    => TEST_RS_DB,
             'statsKey' => '_PHCR',
         ];
     }
