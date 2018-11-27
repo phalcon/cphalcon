@@ -669,7 +669,7 @@ class ViewTest extends UnitTest
                 try {
                     echo $a_cool_var;
                     $this->fail('Variable a_cool_var is defined and is set to "' . $a_cool_var . '"');
-                } catch (\PHPUnit_Framework_Exception $e) {
+                } catch (\PHPUnit\Framework\Exception $e) {
                     expect($e->getMessage())->contains("Undefined variable: a_cool_var");
                 }
             }
