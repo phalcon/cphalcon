@@ -64,11 +64,8 @@ class CookieCest extends HttpBase
         /**
          * TODO: Check the exception
          */
-        $scenario->skip('TODO: Check the exception');
-
-        if (!extension_loaded('xdebug')) {
-            $scenario->skip('Warning: xdebug extension is not loaded');
-        }
+        $I->skipTest('TODO: Check the exception');
+        $I->checkExtensionIsLoaded('xdebug');
 
         $I->expectThrowable(
             new Exception("Hash does not match."),
@@ -109,9 +106,7 @@ class CookieCest extends HttpBase
      */
     public function shouldDecryptValueByUsingMessageAuthenticationCode(UnitTester $I)
     {
-        if (!extension_loaded('xdebug')) {
-            $this->markTestSkipped('Warning: xdebug extension is not loaded');
-        }
+        $I->checkExtensionIsLoaded('xdebug');
 
         $this->setDiCrypt();
         $container = $this->getDi();

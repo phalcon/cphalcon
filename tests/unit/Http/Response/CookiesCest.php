@@ -9,6 +9,7 @@ use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
+use UnitTester;
 
 /**
  * Phalcon\Test\Unit\Http\Response\Http\CookiesTest
@@ -27,7 +28,7 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class CookiesTest extends HttpBase
+class CookiesCest extends HttpBase
 {
     /**
      * Tests the internal cookies property.
@@ -37,21 +38,16 @@ class CookiesTest extends HttpBase
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-09-02
      */
-    public function shouldWorkWithoutInitializeInternalCookiesProperty()
+    public function shouldWorkWithoutInitializeInternalCookiesProperty(UnitTester $I)
     {
-        $this->specify(
-            "The internal cookies property is not initialized or iterable",
-            function () {
-                expect((new Cookies())->send())->true();
-            }
-        );
+        $I->assertTrue((new Cookies())->send());
     }
 
     /**
      * Tests getCookies is work.
      * @author limx <715557344@qq.com>
      */
-    public function testGetCookies()
+    public function testGetCookies(UnitTester $I)
     {
         $cookies = new Cookies();
 
@@ -69,30 +65,15 @@ class CookiesTest extends HttpBase
         $cookies->set('x-token', '1bf0bc92ed7dcc80d337a5755f879878');
         $cookies->set('x-user-id', 1);
 
-        $this->specify(
-            "The cookies is not a array.",
-            function () use ($cookies) {
-                expect(is_array($cookies->getCookies()))->true();
-            }
-        );
+        $I->assertTrue(is_array($cookies->getCookies()));
 
-        $this->specify(
-            "The cookie is not instance of CookieInterface",
-            function () use ($cookies) {
-                $cookieArray = $cookies->getCookies();
-                expect($cookieArray['x-token'] instanceof CookieInterface)->true();
-                expect($cookieArray['x-user-id'] instanceof CookieInterface)->true();
-            }
-        );
+        $cookieArray = $cookies->getCookies();
+        $I->assertInstanceOf(CookieInterface::class, $cookieArray['x-token']);
+        $I->assertInstanceOf(CookieInterface::class, $cookieArray['x-user-id']);
 
-        $this->specify(
-            "The cookie is not correct.",
-            function () use ($cookies) {
-                /** @var Cookie[] $cookieArray */
-                $cookieArray = $cookies->getCookies();
-                expect($cookieArray['x-token']->getValue())->equals('1bf0bc92ed7dcc80d337a5755f879878');
-                expect($cookieArray['x-user-id']->getValue())->equals(1);
-            }
-        );
+        /** @var Cookie[] $cookieArray */
+        $cookieArray = $cookies->getCookies();
+        $I->assertEquals('1bf0bc92ed7dcc80d337a5755f879878', $cookieArray['x-token']);
+        $I->assertEquals(1, $cookieArray['x-user-id']->getValue());
     }
 }

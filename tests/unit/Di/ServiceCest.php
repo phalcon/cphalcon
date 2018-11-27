@@ -12,18 +12,11 @@
 namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Di;
+use Phalcon\Filter;
 use UnitTester;
 
 class ServiceCest
 {
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I)
-    {
-        require_once PATH_DATA . 'fixtures/Di/SomeService.php';
-    }
-
     /**
      * Tests resolving service
      *
@@ -34,10 +27,10 @@ class ServiceCest
     {
         $di = new Di();
         $di->set('resolved', function () {
-            return new \SomeService();
+            return new Filter();
         });
         $di->set('notResolved', function () {
-            return new \SomeService();
+            return new Filter();
         });
 
         $actual = $di->getService('resolved')->isResolved();

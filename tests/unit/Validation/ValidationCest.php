@@ -1,8 +1,8 @@
 <?php
 
-namespace  Phalcon\Test\Integration;
+namespace Phalcon\Test\Unit\Validation;
 
-use IntegrationTester;
+use UnitTester;
 use Phalcon\Validation;
 use Phalcon\Messages\Message;
 use Phalcon\Validation\Validator\PresenceOf;
@@ -35,7 +35,7 @@ class ValidationCest
      * @since  2016-06-27
      * @param IntegrationTester $I
      */
-    public function appendValidationMessageToTheNonObject(IntegrationTester $I)
+    public function appendValidationMessageToTheNonObject(UnitTester $I)
     {
         $myValidator = new PresenceOf();
         $validation = new Validation();
