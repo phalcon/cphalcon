@@ -18,413 +18,415 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Logger\Adapter\File as FileLogger,
-    Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
-    Phalcon\Events\Manager as EventsManager,
-    PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class PaginatorTest extends TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/' . $className . '.php')) {
-			require 'unit-tests/models/' . $className . '.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	protected function _loadDI()
-	{
-		Phalcon\DI::reset();
+    public function testModelPaginator()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$di = new Phalcon\DI();
+        $this->_loadDI();
 
-		$di->set('modelsManager', function() {
-			return new Phalcon\Mvc\Model\Manager();
-		});
+        $personnes = Personnes::find();
 
-		$di->set('modelsMetadata', function() {
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+        $paginator = new Phalcon\Paginator\Adapter\Model([
+            'data'  => $personnes,
+            'limit' => 10,
+            'page'  => 1,
+        ]);
 
-		$di->set('db', function() {
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+        //First Page
+        $page = $paginator->getPaginate();
+        $this->assertInstanceOf('stdClass', $page);
 
-		/*$di->set('db', function() {
+        $this->assertCount(10, $page->items);
 
-		    $eventsManager = new EventsManager();
+        $this->assertEquals($page->before, 1);
+        $this->assertEquals($page->next, 2);
+        $this->assertEquals($page->last, 218);
+        $this->assertEquals($page->limit, 10);
 
-		    $logger = new FileLogger("debug.log");
+        $this->assertEquals($page->current, 1);
+        $this->assertEquals($page->total_pages, 218);
 
-		    //Listen all the database events
-		    $eventsManager->attach('db', function($event, $connection) use ($logger) {
-		        if ($event->getType() == 'beforeQuery') {
-		            $logger->log($connection->getSQLStatement(), \Phalcon\Logger::INFO);
-		        }
-		    });
+        //Middle Page
+        $paginator->setCurrentPage(50);
 
-		    $connection = new DbAdapter(array(
-		        "host" => "localhost",
-		        "username" => "root",
-		        "password" => "",
-		        "dbname" => "phalcon_test"
-		    ));
+        $page = $paginator->getPaginate();
+        $this->assertInstanceOf('stdClass', $page);
+
+        $this->assertCount(10, $page->items);
 
-		    //Assign the eventsManager to the db adapter instance
-		    $connection->setEventsManager($eventsManager);
+        $this->assertEquals($page->before, 49);
+        $this->assertEquals($page->next, 51);
+        $this->assertEquals($page->last, 218);
 
-		    return $connection;
-		}, true);*/
-
-		return $di;
-	}
+        $this->assertEquals($page->current, 50);
+        $this->assertEquals($page->total_pages, 218);
 
-	public function testModelPaginator()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		$this->_loadDI();
-
-		$personnes = Personnes::find();
+        //Last Page
+        $paginator->setCurrentPage(218);
 
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 10,
-			'page' => 1
-		));
-
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertInstanceOf('stdClass', $page);
-
-		$this->assertCount(10, $page->items);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 218);
-		$this->assertEquals($page->limit, 10);
+        $page = $paginator->getPaginate();
+        $this->assertInstanceOf('stdClass', $page);
+
+        $this->assertCount(10, $page->items);
+
+        $this->assertEquals($page->before, 217);
+        $this->assertEquals((int) $page->next, 218);
+        $this->assertEquals($page->last, 218);
+
+        $this->assertEquals($page->current, 218);
+        $this->assertEquals($page->total_pages, 218);
+    }
+
+    protected function _loadDI()
+    {
+        Phalcon\DI::reset();
+
+        $di = new Phalcon\DI();
+
+        $di->set('modelsManager', function () {
+            return new Phalcon\Mvc\Model\Manager();
+        });
+
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        });
+
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        }, true);
+
+        /*$di->set('db', function() {
 
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 218);
+            $eventsManager = new EventsManager();
+
+            $logger = new FileLogger("debug.log");
+
+            //Listen all the database events
+            $eventsManager->attach('db', function($event, $connection) use ($logger) {
+                if ($event->getType() == 'beforeQuery') {
+                    $logger->log($connection->getSQLStatement(), \Phalcon\Logger::INFO);
+                }
+            });
 
-		//Middle Page
-		$paginator->setCurrentPage(50);
+            $connection = new DbAdapter(array(
+                "host" => "localhost",
+                "username" => "root",
+                "password" => "",
+                "dbname" => "phalcon_test"
+            ));
 
-		$page = $paginator->getPaginate();
-		$this->assertInstanceOf('stdClass', $page);
+            //Assign the eventsManager to the db adapter instance
+            $connection->setEventsManager($eventsManager);
 
-		$this->assertCount(10, $page->items);
+            return $connection;
+        }, true);*/
 
-		$this->assertEquals($page->before, 49);
-		$this->assertEquals($page->next, 51);
-		$this->assertEquals($page->last, 218);
+        return $di;
+    }
 
-		$this->assertEquals($page->current, 50);
-		$this->assertEquals($page->total_pages, 218);
+    public function testModelPaginatorBind()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		//Last Page
-		$paginator->setCurrentPage(218);
+        $this->_loadDI();
 
-		$page = $paginator->getPaginate();
-		$this->assertInstanceOf('stdClass', $page);
+        $personnes = Personnes::find([
+            "conditions" => "cedula >=:d1: AND cedula>=:d2: ",
+            "bind"       => ["d1" => '1', "d2" => "5"],
+            "order"      => "cedula, nombres",
+            "limit"      => "33",
+        ]);
 
-		$this->assertCount(10, $page->items);
+        $paginator = new Phalcon\Paginator\Adapter\Model([
+            'data'  => $personnes,
+            'limit' => 10,
+            'page'  => 1,
+        ]);
 
-		$this->assertEquals($page->before, 217);
-		$this->assertEquals((int) $page->next, 218);
-		$this->assertEquals($page->last, 218);
+        //First Page
+        $page = $paginator->getPaginate();
+        $this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals($page->current, 218);
-		$this->assertEquals($page->total_pages, 218);
-	}
+        $this->assertCount(10, $page->items);
 
-	public function testModelPaginatorBind()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+        $this->assertEquals($page->before, 1);
+        $this->assertEquals($page->next, 2);
+        $this->assertEquals($page->last, 4);
+        $this->assertEquals($page->limit, 10);
 
-		$this->_loadDI();
+        $this->assertEquals($page->current, 1);
+        $this->assertEquals($page->total_pages, 4);
+    }
 
-		$personnes = Personnes::find(array(
-			"conditions" => "cedula >=:d1: AND cedula>=:d2: ",
-			"bind" => array("d1" => '1', "d2" => "5"),
-			"order" => "cedula, nombres",
-			"limit" => "33"
-		));
+    public function testQueryBuilderPaginator()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 10,
-			'page' => 1
-		));
+        $di = $this->_loadDI();
 
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertInstanceOf('stdClass', $page);
+        $builder = $di['modelsManager']->createBuilder()
+                                       ->columns('cedula, nombres')
+                                       ->from('Personnes')
+                                       ->orderBy('cedula')
+        ;
 
-		$this->assertCount(10, $page->items);
+        $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
+            "builder" => $builder,
+            "limit"   => 10,
+            "page"    => 1,
+        ]);
 
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 4);
-		$this->assertEquals($page->limit, 10);
+        $page = $paginator->getPaginate();
 
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 4);
-	}
+        $this->assertInstanceOf('stdClass', $page);
 
-	public function testQueryBuilderPaginator()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+        $this->assertCount(10, $page->items);
 
-		$di = $this->_loadDI();
+        $this->assertEquals($page->before, 1);
+        $this->assertEquals($page->next, 2);
+        $this->assertEquals($page->last, 218);
+        $this->assertEquals($page->limit, 10);
 
-		$builder = $di['modelsManager']->createBuilder()
-					->columns('cedula, nombres')
-					->from('Personnes')
-					->orderBy('cedula');
+        $this->assertEquals($page->current, 1);
+        $this->assertEquals($page->total_items, 2180);
+        $this->assertEquals($page->total_pages, 218);
 
-		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
-			"builder" => $builder,
-			"limit"=> 10,
-			"page" => 1
-		));
+        $this->assertInternalType('int', $page->total_items);
+        $this->assertInternalType('int', $page->total_pages);
 
-		$page = $paginator->getPaginate();
+        //Middle page
+        $paginator->setCurrentPage(100);
 
-		$this->assertInstanceOf('stdClass', $page);
+        $page = $paginator->getPaginate();
 
-		$this->assertCount(10, $page->items);
+        $this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 218);
-		$this->assertEquals($page->limit, 10);
+        $this->assertCount(10, $page->items);
 
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_items, 2180);
-		$this->assertEquals($page->total_pages, 218);
+        $this->assertEquals($page->before, 99);
+        $this->assertEquals($page->next, 101);
+        $this->assertEquals($page->last, 218);
 
-		$this->assertInternalType('int', $page->total_items);
-		$this->assertInternalType('int', $page->total_pages);
+        $this->assertEquals($page->current, 100);
+        $this->assertEquals($page->total_pages, 218);
 
-		//Middle page
-		$paginator->setCurrentPage(100);
+        $this->assertInternalType('int', $page->total_items);
+        $this->assertInternalType('int', $page->total_pages);
 
-		$page = $paginator->getPaginate();
+        //Last page
+        $paginator->setCurrentPage(218);
 
-		$this->assertInstanceOf('stdClass', $page);
+        $page = $paginator->getPaginate();
 
-		$this->assertCount(10, $page->items);
+        $this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals($page->before, 99);
-		$this->assertEquals($page->next, 101);
-		$this->assertEquals($page->last, 218);
+        $this->assertCount(10, $page->items);
 
-		$this->assertEquals($page->current, 100);
-		$this->assertEquals($page->total_pages, 218);
+        $this->assertEquals($page->before, 217);
+        $this->assertEquals($page->next, 218);
+        $this->assertEquals($page->last, 218);
 
-		$this->assertInternalType('int', $page->total_items);
-		$this->assertInternalType('int', $page->total_pages);
+        $this->assertEquals($page->current, 218);
+        $this->assertEquals($page->total_pages, 218);
 
-		//Last page
-		$paginator->setCurrentPage(218);
+        $this->assertInternalType('int', $page->total_items);
+        $this->assertInternalType('int', $page->total_pages);
 
-		$page = $paginator->getPaginate();
-
-		$this->assertInstanceOf('stdClass', $page);
-
-		$this->assertCount(10, $page->items);
-
-		$this->assertEquals($page->before, 217);
-		$this->assertEquals($page->next, 218);
-		$this->assertEquals($page->last, 218);
-
-		$this->assertEquals($page->current, 218);
-		$this->assertEquals($page->total_pages, 218);
-
-		$this->assertInternalType('int', $page->total_items);
-		$this->assertInternalType('int', $page->total_pages);
-
-		// test of getter/setters of querybuilder adapter
+        // test of getter/setters of querybuilder adapter
 
         // -- current page --
-		$currentPage = $paginator->getCurrentPage();
-		$this->assertEquals($currentPage, 218);
+        $currentPage = $paginator->getCurrentPage();
+        $this->assertEquals($currentPage, 218);
 
-		// -- limit --
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 10);
+        // -- limit --
+        $rowsLimit = $paginator->getLimit();
+        $this->assertEquals($rowsLimit, 10);
 
-		$setterResult = $paginator->setLimit(25);
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 25);
-		$this->assertEquals($setterResult, $paginator);
+        $setterResult = $paginator->setLimit(25);
+        $rowsLimit    = $paginator->getLimit();
+        $this->assertEquals($rowsLimit, 25);
+        $this->assertEquals($setterResult, $paginator);
 
-		// -- builder --
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder, $queryBuilder);
+        // -- builder --
+        $queryBuilder = $paginator->getQueryBuilder();
+        $this->assertEquals($builder, $queryBuilder);
 
-		$builder2 = $di['modelsManager']->createBuilder()
-			->columns('cedula, nombres')
-			->from('Personnes');
+        $builder2 = $di['modelsManager']->createBuilder()
+                                        ->columns('cedula, nombres')
+                                        ->from('Personnes')
+        ;
 
-		$setterResult = $paginator->setQueryBuilder($builder2);
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder2, $queryBuilder);
-		$this->assertEquals($setterResult, $paginator);
-	}
+        $setterResult = $paginator->setQueryBuilder($builder2);
+        $queryBuilder = $paginator->getQueryBuilder();
+        $this->assertEquals($builder2, $queryBuilder);
+        $this->assertEquals($setterResult, $paginator);
+    }
 
-	public function testQueryBuilderPaginatorGroupBy()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    public function testQueryBuilderPaginatorGroupBy()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$di = $this->_loadDI();
-		$di['db']->query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+        $di = $this->_loadDI();
+        $di['db']->query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
-		// test paginator with group by string value
-		$builder = $di['modelsManager']->createBuilder()
-					->columns('cedula, nombres')
-					->from('Personnes')
-					->groupBy('email');
+        // test paginator with group by string value
+        $builder = $di['modelsManager']->createBuilder()
+                                       ->columns('cedula, nombres')
+                                       ->from('Personnes')
+                                       ->groupBy('email')
+        ;
 
-		$this->_paginatorBuilderTest($builder);
+        $this->_paginatorBuilderTest($builder);
 
-		// test paginator with group by array value
-		$builder = $di['modelsManager']->createBuilder()
-					->columns('cedula, nombres')
-					->from('Personnes')
-					->groupBy(['email']);
+        // test paginator with group by array value
+        $builder = $di['modelsManager']->createBuilder()
+                                       ->columns('cedula, nombres')
+                                       ->from('Personnes')
+                                       ->groupBy(['email'])
+        ;
 
-		$this->_paginatorBuilderTest($builder);
+        $this->_paginatorBuilderTest($builder);
 
-		// test of getter/setters of querybuilder adapter
+        // test of getter/setters of querybuilder adapter
 
-		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
-			"builder" => $builder,
-			"limit"=> 10,
-			"page" => 1
-		));
+        $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
+            "builder" => $builder,
+            "limit"   => 10,
+            "page"    => 1,
+        ]);
 
-		$paginator->setCurrentPage(18);
+        $paginator->setCurrentPage(18);
 
         // -- current page --
-		$currentPage = $paginator->getCurrentPage();
-		$this->assertEquals($currentPage, 18);
+        $currentPage = $paginator->getCurrentPage();
+        $this->assertEquals($currentPage, 18);
 
-		// -- limit --
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 10);
+        // -- limit --
+        $rowsLimit = $paginator->getLimit();
+        $this->assertEquals($rowsLimit, 10);
 
-		$setterResult = $paginator->setLimit(25);
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 25);
-		$this->assertEquals($setterResult, $paginator);
+        $setterResult = $paginator->setLimit(25);
+        $rowsLimit    = $paginator->getLimit();
+        $this->assertEquals($rowsLimit, 25);
+        $this->assertEquals($setterResult, $paginator);
 
-		// -- builder --
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder, $queryBuilder);
+        // -- builder --
+        $queryBuilder = $paginator->getQueryBuilder();
+        $this->assertEquals($builder, $queryBuilder);
 
-		$builder2 = $di['modelsManager']->createBuilder()
-			->columns('cedula, nombres')
-			->from('Personnes')
-			->groupBy(['email']);
+        $builder2 = $di['modelsManager']->createBuilder()
+                                        ->columns('cedula, nombres')
+                                        ->from('Personnes')
+                                        ->groupBy(['email'])
+        ;
 
-		$setterResult = $paginator->setQueryBuilder($builder2);
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder2, $queryBuilder);
-		$this->assertEquals($setterResult, $paginator);
-	}
+        $setterResult = $paginator->setQueryBuilder($builder2);
+        $queryBuilder = $paginator->getQueryBuilder();
+        $this->assertEquals($builder2, $queryBuilder);
+        $this->assertEquals($setterResult, $paginator);
+    }
 
-	private function _paginatorBuilderTest($builder)
-	{
-		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
-			"builder" => $builder,
-			"limit"=> 10,
-			"page" => 1
-		));
+    private function _paginatorBuilderTest($builder)
+    {
+        $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
+            "builder" => $builder,
+            "limit"   => 10,
+            "page"    => 1,
+        ]);
 
-		$page = $paginator->getPaginate();
+        $page = $paginator->getPaginate();
 
-		$this->assertInstanceOf('stdClass', $page);
+        $this->assertInstanceOf('stdClass', $page);
 
-		$this->assertCount(10, $page->items);
+        $this->assertCount(10, $page->items);
 
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 18);
-		$this->assertEquals($page->limit, 10);
+        $this->assertEquals($page->before, 1);
+        $this->assertEquals($page->next, 2);
+        $this->assertEquals($page->last, 18);
+        $this->assertEquals($page->limit, 10);
 
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_items, 178);
-		$this->assertEquals($page->total_pages, 18);
+        $this->assertEquals($page->current, 1);
+        $this->assertEquals($page->total_items, 178);
+        $this->assertEquals($page->total_pages, 18);
 
-		$this->assertInternalType('int', $page->total_items);
-		$this->assertInternalType('int', $page->total_pages);
+        $this->assertInternalType('int', $page->total_items);
+        $this->assertInternalType('int', $page->total_pages);
 
-		//Middle page
-		$paginator->setCurrentPage(10);
+        //Middle page
+        $paginator->setCurrentPage(10);
 
-		$page = $paginator->getPaginate();
+        $page = $paginator->getPaginate();
 
-		$this->assertInstanceOf('stdClass', $page);
+        $this->assertInstanceOf('stdClass', $page);
 
-		$this->assertCount(10, $page->items);
+        $this->assertCount(10, $page->items);
 
-		$this->assertEquals($page->before, 9);
-		$this->assertEquals($page->next, 11);
-		$this->assertEquals($page->last, 18);
+        $this->assertEquals($page->before, 9);
+        $this->assertEquals($page->next, 11);
+        $this->assertEquals($page->last, 18);
 
-		$this->assertEquals($page->current, 10);
-		$this->assertEquals($page->total_pages, 18);
+        $this->assertEquals($page->current, 10);
+        $this->assertEquals($page->total_pages, 18);
 
-		$this->assertInternalType('int', $page->total_items);
-		$this->assertInternalType('int', $page->total_pages);
+        $this->assertInternalType('int', $page->total_items);
+        $this->assertInternalType('int', $page->total_pages);
 
-		//Last page
-		$paginator->setCurrentPage(18);
+        //Last page
+        $paginator->setCurrentPage(18);
 
-		$page = $paginator->getPaginate();
+        $page = $paginator->getPaginate();
 
-		$this->assertInstanceOf('stdClass', $page);
+        $this->assertInstanceOf('stdClass', $page);
 
-		$this->assertCount(9, $page->items);
+        $this->assertCount(9, $page->items);
 
-		$this->assertEquals($page->before, 17);
-		$this->assertEquals($page->next, 18);
-		$this->assertEquals($page->last, 18);
+        $this->assertEquals($page->before, 17);
+        $this->assertEquals($page->next, 18);
+        $this->assertEquals($page->last, 18);
 
-		$this->assertEquals($page->current, 18);
-		$this->assertEquals($page->total_pages, 18);
+        $this->assertEquals($page->current, 18);
+        $this->assertEquals($page->total_pages, 18);
 
-		$this->assertInternalType('int', $page->total_items);
-		$this->assertInternalType('int', $page->total_pages);
-	}
+        $this->assertInternalType('int', $page->total_items);
+        $this->assertInternalType('int', $page->total_pages);
+    }
 }

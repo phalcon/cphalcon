@@ -23,251 +23,251 @@ use PHPUnit\Framework\TestCase;
 class ModelsMetadataTest extends TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	protected function _getDI()
-	{
+    public function testMetadataMysql()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$di = new Phalcon\DI();
+        $di = $this->_getDI();
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        }, true);
 
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+        $this->_executeTests($di);
 
-		return $di;
-	}
+    }
 
-	public function testMetadataMysql()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+    protected function _getDI()
+    {
 
-		$di = $this->_getDI();
+        $di = new Phalcon\DI();
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+        $di->set('modelsManager', function () {
+            return new Phalcon\Mvc\Model\Manager();
+        });
 
-		$this->_executeTests($di);
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        });
 
-	}
+        return $di;
+    }
 
-	public function testMetadataPostgresql()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configPostgresql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+    protected function _executeTests($di)
+    {
 
-		$di = $this->_getDI();
+        $metaData = $di->getShared('modelsMetadata');
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		}, true);
+        $personas = new Personas();
 
-		$this->_executeTests($di);
-	}
+        $pAttributes = [
+            0  => 'cedula',
+            1  => 'tipo_documento_id',
+            2  => 'nombres',
+            3  => 'telefono',
+            4  => 'direccion',
+            5  => 'email',
+            6  => 'fecha_nacimiento',
+            7  => 'ciudad_id',
+            8  => 'creado_at',
+            9  => 'cupo',
+            10 => 'estado',
+        ];
 
-	public function testMetadataSqlite()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configSqlite)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+        $attributes = $metaData->getAttributes($personas);
+        $this->assertEquals($attributes, $pAttributes);
 
-		$di = $this->_getDI();
+        $ppkAttributes = [
+            0 => 'cedula',
+        ];
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		}, true);
+        $pkAttributes = $metaData->getPrimaryKeyAttributes($personas);
+        $this->assertEquals($ppkAttributes, $pkAttributes);
 
-		$this->_executeTests($di);
-	}
+        $pnpkAttributes = [
+            0 => 'tipo_documento_id',
+            1 => 'nombres',
+            2 => 'telefono',
+            3 => 'direccion',
+            4 => 'email',
+            5 => 'fecha_nacimiento',
+            6 => 'ciudad_id',
+            7 => 'creado_at',
+            8 => 'cupo',
+            9 => 'estado',
+        ];
 
-	protected function _executeTests($di)
-	{
+        $npkAttributes = $metaData->getNonPrimaryKeyAttributes($personas);
+        $this->assertEquals($pnpkAttributes, $npkAttributes);
 
-		$metaData = $di->getShared('modelsMetadata');
+        $pnnAttributes = [
+            0 => 'cedula',
+            1 => 'tipo_documento_id',
+            2 => 'nombres',
+            3 => 'cupo',
+            4 => 'estado',
+        ];
 
-		$personas = new Personas();
+        $nnAttributes = $metaData->getNotNullAttributes($personas);
+        $this->assertEquals($nnAttributes, $pnnAttributes);
 
-		$pAttributes = array(
-			0 => 'cedula',
-			1 => 'tipo_documento_id',
-			2 => 'nombres',
-			3 => 'telefono',
-			4 => 'direccion',
-			5 => 'email',
-			6 => 'fecha_nacimiento',
-			7 => 'ciudad_id',
-			8 => 'creado_at',
-			9 => 'cupo',
-			10 => 'estado',
-		);
+        $dataTypes = [
+            'cedula'            => 5,
+            'tipo_documento_id' => 0,
+            'nombres'           => 2,
+            'telefono'          => 2,
+            'direccion'         => 2,
+            'email'             => 2,
+            'fecha_nacimiento'  => 1,
+            'ciudad_id'         => 0,
+            'creado_at'         => 1,
+            'cupo'              => 3,
+            'estado'            => 18,
+        ];
 
-		$attributes = $metaData->getAttributes($personas);
-		$this->assertEquals($attributes, $pAttributes);
+        $dtAttributes = $metaData->getDataTypes($personas);
+        $this->assertEquals($dtAttributes, $dataTypes);
 
-		$ppkAttributes = array(
-			0 => 'cedula'
-		);
+        $pndAttributes = [
+            'tipo_documento_id' => true,
+            'ciudad_id'         => true,
+            'cupo'              => true,
+        ];
+        $ndAttributes  = $metaData->getDataTypesNumeric($personas);
+        $this->assertEquals($ndAttributes, $pndAttributes);
 
-		$pkAttributes = $metaData->getPrimaryKeyAttributes($personas);
-		$this->assertEquals($ppkAttributes, $pkAttributes);
+        $bindTypes = [
+            'cedula'            => 2,
+            'tipo_documento_id' => 1,
+            'nombres'           => 2,
+            'telefono'          => 2,
+            'direccion'         => 2,
+            'email'             => 2,
+            'fecha_nacimiento'  => 2,
+            'ciudad_id'         => 1,
+            'creado_at'         => 2,
+            'cupo'              => 32,
+            'estado'            => 2,
+        ];
 
-		$pnpkAttributes = array(
-			0 => 'tipo_documento_id',
-			1 => 'nombres',
-			2 => 'telefono',
-			3 => 'direccion',
-			4 => 'email',
-			5 => 'fecha_nacimiento',
-			6 => 'ciudad_id',
-			7 => 'creado_at',
-			8 => 'cupo',
-			9 => 'estado',
-		);
+        $btAttributes = $metaData->getBindTypes($personas);
+        $this->assertEquals($btAttributes, $bindTypes);
 
-		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($personas);
-		$this->assertEquals($pnpkAttributes, $npkAttributes);
+        $defValues = [
+            'nombres'          => '',
+            'telefono'         => null,
+            'direccion'        => null,
+            'email'            => null,
+            'fecha_nacimiento' => '1970-01-01',
+            'ciudad_id'        => '0',
+            'creado_at'        => null,
+        ];
 
-		$pnnAttributes = array(
-			0 => 'cedula',
-			1 => 'tipo_documento_id',
-			2 => 'nombres',
-			3 => 'cupo',
-			4 => 'estado'
-		);
+        $modelDefValues = $metaData->getDefaultValues($personas);
+        $this->assertEquals($defValues, $modelDefValues);
 
-		$nnAttributes = $metaData->getNotNullAttributes($personas);
-		$this->assertEquals($nnAttributes, $pnnAttributes);
+        $robots = new Robots();
 
-		$dataTypes = array(
-			'cedula' => 5,
-			'tipo_documento_id' => 0,
-			'nombres' => 2,
-			'telefono' => 2,
-			'direccion' => 2,
-			'email' => 2,
-			'fecha_nacimiento' => 1,
-			'ciudad_id' => 0,
-			'creado_at' => 1,
-			'cupo' => 3,
-			'estado' => 18,
-		);
+        //Robots
+        $pAttributes = [
+            0 => 'id',
+            1 => 'name',
+            2 => 'type',
+            3 => 'year',
+            4 => 'datetime',
+            5 => 'deleted',
+            6 => 'text',
+        ];
 
-		$dtAttributes = $metaData->getDataTypes($personas);
-		$this->assertEquals($dtAttributes, $dataTypes);
+        $attributes = $metaData->getAttributes($robots);
+        $this->assertEquals($attributes, $pAttributes);
 
-		$pndAttributes = array(
-			'tipo_documento_id' => true,
-			'ciudad_id' => true,
-			'cupo' => true,
-		);
-		$ndAttributes = $metaData->getDataTypesNumeric($personas);
-		$this->assertEquals($ndAttributes, $pndAttributes);
+        $ppkAttributes = [
+            0 => 'id',
+        ];
 
-		$bindTypes = array(
-			'cedula' => 2,
-			'tipo_documento_id' => 1,
-			'nombres' => 2,
-			'telefono' => 2,
-			'direccion' => 2,
-			'email' => 2,
-			'fecha_nacimiento' => 2,
-			'ciudad_id' => 1,
-			'creado_at' => 2,
-			'cupo' => 32,
-			'estado' => 2,
-		);
+        $pkAttributes = $metaData->getPrimaryKeyAttributes($robots);
+        $this->assertEquals($ppkAttributes, $pkAttributes);
 
-		$btAttributes = $metaData->getBindTypes($personas);
-		$this->assertEquals($btAttributes, $bindTypes);
+        $pnpkAttributes = [
+            0 => 'name',
+            1 => 'type',
+            2 => 'year',
+            3 => 'datetime',
+            4 => 'deleted',
+            5 => 'text',
+        ];
 
-		$defValues = array(
-			'nombres' => '',
-			'telefono' => null,
-			'direccion' => null,
-			'email' => null,
-			'fecha_nacimiento' => '1970-01-01',
-			'ciudad_id' => '0',
-			'creado_at' => null,
-		);
+        $npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);
+        $this->assertEquals($pnpkAttributes, $npkAttributes);
 
-		$modelDefValues = $metaData->getDefaultValues($personas);
-		$this->assertEquals($defValues, $modelDefValues);
+        $this->assertEquals($metaData->getIdentityField($robots), 'id');
 
-		$robots = new Robots();
+        $defValues = [
+            'type'    => 'mechanical',
+            'year'    => 1900,
+            'deleted' => null,
+        ];
 
-		//Robots
-		$pAttributes = array(
-			0 => 'id',
-			1 => 'name',
-			2 => 'type',
-			3 => 'year',
-			4 => 'datetime',
-			5 => 'deleted',
-			6 => 'text'
-		);
+        $modelDefValues = $metaData->getDefaultValues($robots);
+        $this->assertEquals($defValues, $modelDefValues);
+    }
 
-		$attributes = $metaData->getAttributes($robots);
-		$this->assertEquals($attributes, $pAttributes);
+    public function testMetadataPostgresql()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configPostgresql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$ppkAttributes = array(
-			0 => 'id'
-		);
+        $di = $this->_getDI();
 
-		$pkAttributes = $metaData->getPrimaryKeyAttributes($robots);
-		$this->assertEquals($ppkAttributes, $pkAttributes);
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+        }, true);
 
-		$pnpkAttributes = array(
-			0 => 'name',
-			1 => 'type',
-			2 => 'year',
-			3 => 'datetime',
-			4 => 'deleted',
-			5 => 'text'
-		);
+        $this->_executeTests($di);
+    }
 
-		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);
-		$this->assertEquals($pnpkAttributes, $npkAttributes);
+    public function testMetadataSqlite()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configSqlite)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$this->assertEquals($metaData->getIdentityField($robots), 'id');
+        $di = $this->_getDI();
 
-		$defValues = array(
-			'type'    => 'mechanical',
-			'year'    => 1900,
-			'deleted' => null
-		);
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+        }, true);
 
-		$modelDefValues = $metaData->getDefaultValues($robots);
-		$this->assertEquals($defValues, $modelDefValues);
-	}
+        $this->_executeTests($di);
+    }
 }

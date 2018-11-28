@@ -78,6 +78,14 @@ $defaults = [
     "TEST_DB_MYSQL_NAME"       => false !== getenv('DATA_MYSQL_USER') ? 'gonano' : 'phalcon_test',
     "TEST_DB_MYSQL_CHARSET"    => 'utf8',
 
+    // Postgresql
+    "TEST_DB_POSTGRESQL_HOST"   => env('DATA_POSTGRES_HOST', '127.0.0.1'),
+    "TEST_DB_POSTGRESQL_PORT"   => 5432,
+    "TEST_DB_POSTGRESQL_USER"   => env('DATA_POSTGRES_USER', 'postgres'),
+    "TEST_DB_POSTGRESQL_PASSWD" => env('DATA_POSTGRES_PASS', ''),
+    "TEST_DB_POSTGRESQL_NAME"   => false !== getenv('DATA_POSTGRES_HOST') ? 'gonano' : 'phalcon_test',
+    "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
+
     // Redis
     "TEST_RS_HOST"             => env('DATA_REDIS_HOST', '127.0.0.1'),
     "TEST_RS_PORT"             => 6379,
@@ -95,13 +103,6 @@ $defaults = [
 //    "TEST_BT_PORT"              => 11300,
 //
 //
-//    // Postgresql
-//    "TEST_DB_POSTGRESQL_HOST"   => '127.0.0.1',
-//    "TEST_DB_POSTGRESQL_PORT"   => 5432,
-//    "TEST_DB_POSTGRESQL_USER"   => 'postgres',
-//    "TEST_DB_POSTGRESQL_PASSWD" => '',
-//    "TEST_DB_POSTGRESQL_NAME"   => 'phalcon_test',
-//    "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
 //
 //    // Mongo
 //    "TEST_DB_MONGO_HOST"        => '127.0.0.1',

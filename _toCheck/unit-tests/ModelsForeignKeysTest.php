@@ -23,238 +23,238 @@ use PHPUnit\Framework\TestCase;
 class ModelsForeignKeysTest extends TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	protected function _getDI()
-	{
+    public function testForeignKeysMysql()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		Phalcon\DI::reset();
+        $di = $this->_getDI();
 
-		$di = new Phalcon\DI();
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        }, true);
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		}, true);
+        $this->_executeTestsNormal($di);
+        $this->_executeTestsRenamed($di);
+    }
 
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		}, true);
+    protected function _getDI()
+    {
 
-		return $di;
-	}
+        Phalcon\DI::reset();
 
-	public function testForeignKeysMysql()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+        $di = new Phalcon\DI();
 
-		$di = $this->_getDI();
+        $di->set('modelsManager', function () {
+            return new Phalcon\Mvc\Model\Manager();
+        }, true);
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        }, true);
 
-		$this->_executeTestsNormal($di);
-		$this->_executeTestsRenamed($di);
-	}
+        return $di;
+    }
 
-	public function testForeignKeysPostgresql()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configPostgresql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+    public function _executeTestsNormal($di)
+    {
 
-		$di = $this->_getDI();
+        //Normal foreign keys
+        $robotsParts            = new RobotsParts();
+        $robotsParts->robots_id = 1;
+        $robotsParts->parts_id  = 100;
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		}, true);
+        $this->assertFalse($robotsParts->save());
 
-		$this->_executeTestsNormal($di);
-		$this->_executeTestsRenamed($di);
-	}
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'Value of field "parts_id" does not exist on referenced table',
+                '_field'   => 'parts_id',
+                '_code'    => 0,
+            ]),
+        ];
 
-	public function testForeignKeysSqlite()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configSqlite)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+        $this->assertEquals($robotsParts->getMessages(), $messages);
 
-		$di = $this->_getDI();
+        $robotsParts->robots_id = 100;
+        $robotsParts->parts_id  = 1;
+        $this->assertFalse($robotsParts->save());
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		}, true);
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'The robot code does not exist',
+                '_field'   => 'robots_id',
+                '_code'    => 0,
+            ]),
+        ];
 
-		$this->_executeTestsNormal($di);
-		$this->_executeTestsRenamed($di);
-	}
+        $this->assertEquals($robotsParts->getMessages(), $messages);
 
-	public function _executeTestsNormal($di)
-	{
+        //Reverse foreign keys
 
-		//Normal foreign keys
-		$robotsParts = new RobotsParts();
-		$robotsParts->robots_id = 1;
-		$robotsParts->parts_id = 100;
+        $robot = Robots::findFirst();
+        $this->assertNotEquals($robot, false);
 
-		$this->assertFalse($robotsParts->save());
+        $this->assertFalse($robot->delete());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Value of field "parts_id" does not exist on referenced table',
-				'_field' => 'parts_id',
-				'_code' => 0,
-  			))
-  		);
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'Record is referenced by model RobotsParts',
+                '_field'   => 'id',
+                '_code'    => 0,
+            ]),
+        ];
 
-		$this->assertEquals($robotsParts->getMessages(), $messages);
+        $this->assertEquals($robot->getMessages(), $messages);
 
-		$robotsParts->robots_id = 100;
-		$robotsParts->parts_id = 1;
-		$this->assertFalse($robotsParts->save());
+        $part = Parts::findFirst();
+        $this->assertNotEquals($part, false);
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'The robot code does not exist',
-				'_field' => 'robots_id',
-				'_code' => 0,
-  			))
-  		);
+        $this->assertFalse($part->delete());
 
-		$this->assertEquals($robotsParts->getMessages(), $messages);
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'Parts cannot be deleted because is referenced by a Robot',
+                '_field'   => 'id',
+                '_code'    => 0,
+            ]),
+        ];
 
-		//Reverse foreign keys
+        $this->assertEquals($part->getMessages(), $messages);
 
-		$robot = Robots::findFirst();
-		$this->assertNotEquals($robot, false);
+    }
 
-		$this->assertFalse($robot->delete());
+    public function _executeTestsRenamed($di)
+    {
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Record is referenced by model RobotsParts',
-				'_field' => 'id',
-				'_code' => 0,
-			))
-		);
+        //Normal foreign keys with column renaming
+        $robottersDeles                = new RobottersDeles();
+        $robottersDeles->robottersCode = 1;
+        $robottersDeles->delesCode     = 100;
+        $this->assertFalse($robottersDeles->save());
 
-		$this->assertEquals($robot->getMessages(), $messages);
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'Value of field "delesCode" does not exist on referenced table',
+                '_field'   => 'delesCode',
+                '_code'    => 0,
+            ]),
+        ];
 
-		$part = Parts::findFirst();
-		$this->assertNotEquals($part, false);
+        $this->assertEquals($robottersDeles->getMessages(), $messages);
 
-		$this->assertFalse($part->delete());
+        $robottersDeles->robottersCode = 100;
+        $robottersDeles->delesCode     = 1;
+        $this->assertFalse($robottersDeles->save());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Parts cannot be deleted because is referenced by a Robot',
-				'_field' => 'id',
-				'_code' => 0,
-			))
-		);
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'The robotters code does not exist',
+                '_field'   => 'robottersCode',
+                '_code'    => 0,
+            ]),
+        ];
 
-		$this->assertEquals($part->getMessages(), $messages);
+        $this->assertEquals($robottersDeles->getMessages(), $messages);
 
-	}
+        //Reverse foreign keys with renaming
+        $robotter = Robotters::findFirst();
+        $this->assertNotEquals($robotter, false);
 
-	public function _executeTestsRenamed($di)
-	{
+        $this->assertFalse($robotter->delete());
 
-		//Normal foreign keys with column renaming
-		$robottersDeles = new RobottersDeles();
-		$robottersDeles->robottersCode = 1;
-		$robottersDeles->delesCode = 100;
-		$this->assertFalse($robottersDeles->save());
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'Record is referenced by model RobottersDeles',
+                '_field'   => 'code',
+                '_code'    => 0,
+            ]),
+        ];
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Value of field "delesCode" does not exist on referenced table',
-				'_field' => 'delesCode',
-				'_code' => 0,
-  			))
-  		);
+        $this->assertEquals($robotter->getMessages(), $messages);
 
-		$this->assertEquals($robottersDeles->getMessages(), $messages);
+        $dele = Deles::findFirst();
+        $this->assertNotEquals($dele, false);
 
-		$robottersDeles->robottersCode = 100;
-		$robottersDeles->delesCode = 1;
-		$this->assertFalse($robottersDeles->save());
+        $this->assertFalse($dele->delete());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'The robotters code does not exist',
-				'_field' => 'robottersCode',
-				'_code' => 0,
-  			))
-  		);
+        $messages = [
+            0 => Phalcon\Mvc\Model\Message::__set_state([
+                '_type'    => 'ConstraintViolation',
+                '_message' => 'Deles cannot be deleted because is referenced by a Robotter',
+                '_field'   => 'code',
+                '_code'    => 0,
+            ]),
+        ];
 
-		$this->assertEquals($robottersDeles->getMessages(), $messages);
+        $this->assertEquals($dele->getMessages(), $messages);
 
-		//Reverse foreign keys with renaming
-		$robotter = Robotters::findFirst();
-		$this->assertNotEquals($robotter, false);
+    }
 
-		$this->assertFalse($robotter->delete());
+    public function testForeignKeysPostgresql()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configPostgresql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Record is referenced by model RobottersDeles',
-				'_field' => 'code',
-				'_code' => 0,
-			))
-		);
+        $di = $this->_getDI();
 
-		$this->assertEquals($robotter->getMessages(), $messages);
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+        }, true);
 
-		$dele = Deles::findFirst();
-		$this->assertNotEquals($dele, false);
+        $this->_executeTestsNormal($di);
+        $this->_executeTestsRenamed($di);
+    }
 
-		$this->assertFalse($dele->delete());
+    public function testForeignKeysSqlite()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configSqlite)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Deles cannot be deleted because is referenced by a Robotter',
-				'_field' => 'code',
-				'_code' => 0,
-			))
-		);
+        $di = $this->_getDI();
 
-		$this->assertEquals($dele->getMessages(), $messages);
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+        }, true);
 
-	}
+        $this->_executeTestsNormal($di);
+        $this->_executeTestsRenamed($di);
+    }
 
 }

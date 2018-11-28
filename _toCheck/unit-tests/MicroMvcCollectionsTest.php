@@ -22,121 +22,121 @@ use PHPUnit\Framework\TestCase;
 
 class PersonasController
 {
-	protected $_entered = 0;
+    protected $_entered = 0;
 
-	public function index()
-	{
-		$this->_entered++;
-	}
+    public function index()
+    {
+        $this->_entered++;
+    }
 
-	public function edit($number)
-	{
-		$this->_entered+=$number;
-	}
+    public function edit($number)
+    {
+        $this->_entered += $number;
+    }
 
-	public function getEntered()
-	{
-		return $this->_entered;
-	}
+    public function getEntered()
+    {
+        return $this->_entered;
+    }
 }
 
 class PersonasLazyController
 {
-	static protected $_entered = 0;
+    static protected $_entered = 0;
 
-	public function index()
-	{
-		self::$_entered++;
-	}
+    public static function getEntered()
+    {
+        return self::$_entered;
+    }
 
-	public function edit($number)
-	{
-		self::$_entered+=$number;
-	}
+    public function index()
+    {
+        self::$_entered++;
+    }
 
-	public static function getEntered()
-	{
-		return self::$_entered;
-	}
+    public function edit($number)
+    {
+        self::$_entered += $number;
+    }
 }
 
 class MicroMvcCollectionsTest extends TestCase
 {
 
-	public function testMicroCollections()
-	{
+    public function testMicroCollections()
+    {
 
-		$app = new Phalcon\Mvc\Micro();
+        $app = new Phalcon\Mvc\Micro();
 
-		$collection = new Phalcon\Mvc\Micro\Collection();
+        $collection = new Phalcon\Mvc\Micro\Collection();
 
-		$controller = new PersonasController();
+        $controller = new PersonasController();
 
-		$collection->setHandler($controller);
+        $collection->setHandler($controller);
 
-		$collection->map('/', 'index', 'index_route');
+        $collection->map('/', 'index', 'index_route');
 
-		$collection->map('/edit/{number}', 'edit', 'edit_route');
+        $collection->map('/edit/{number}', 'edit', 'edit_route');
 
-		$app->mount($collection);
+        $app->mount($collection);
 
-		$app->handle('/');
-		$this->assertEquals(1, $controller->getEntered());
-		$this->assertEquals('index_route', $app->getRouter()->getMatchedRoute()->getName());
+        $app->handle('/');
+        $this->assertEquals(1, $controller->getEntered());
+        $this->assertEquals('index_route', $app->getRouter()->getMatchedRoute()->getName());
 
-		$app->handle('/edit/100');
-		$this->assertEquals(101, $controller->getEntered());
-		$this->assertEquals('edit_route', $app->getRouter()->getMatchedRoute()->getName());
-	}
+        $app->handle('/edit/100');
+        $this->assertEquals(101, $controller->getEntered());
+        $this->assertEquals('edit_route', $app->getRouter()->getMatchedRoute()->getName());
+    }
 
-	public function testMicroCollectionsPrefixed()
-	{
+    public function testMicroCollectionsPrefixed()
+    {
 
-		$app = new Phalcon\Mvc\Micro();
+        $app = new Phalcon\Mvc\Micro();
 
-		$collection = new Phalcon\Mvc\Micro\Collection();
+        $collection = new Phalcon\Mvc\Micro\Collection();
 
-		$collection->setPrefix('/personas');
+        $collection->setPrefix('/personas');
 
-		$controller = new PersonasController();
+        $controller = new PersonasController();
 
-		$collection->setHandler($controller);
+        $collection->setHandler($controller);
 
-		$collection->map('/', 'index');
+        $collection->map('/', 'index');
 
-		$collection->map('/edit/{number}', 'edit');
+        $collection->map('/edit/{number}', 'edit');
 
-		$app->mount($collection);
+        $app->mount($collection);
 
-		$app->handle('/personas');
-		$this->assertEquals($controller->getEntered(), 1);
+        $app->handle('/personas');
+        $this->assertEquals($controller->getEntered(), 1);
 
-		$app->handle('/personas/edit/100');
-		$this->assertEquals($controller->getEntered(), 101);
+        $app->handle('/personas/edit/100');
+        $this->assertEquals($controller->getEntered(), 101);
 
-	}
+    }
 
-	public function testMicroCollectionsLazy()
-	{
+    public function testMicroCollectionsLazy()
+    {
 
-		$app = new Phalcon\Mvc\Micro();
+        $app = new Phalcon\Mvc\Micro();
 
-		$collection = new Phalcon\Mvc\Micro\Collection();
+        $collection = new Phalcon\Mvc\Micro\Collection();
 
-		$collection->setHandler('PersonasLazyController', true);
+        $collection->setHandler('PersonasLazyController', true);
 
-		$collection->map('/', 'index');
+        $collection->map('/', 'index');
 
-		$collection->map('/edit/{number}', 'edit');
+        $collection->map('/edit/{number}', 'edit');
 
-		$app->mount($collection);
+        $app->mount($collection);
 
-		$app->handle('/');
-		$this->assertEquals(PersonasLazyController::getEntered(), 1);
+        $app->handle('/');
+        $this->assertEquals(PersonasLazyController::getEntered(), 1);
 
-		$app->handle('/edit/100');
-		$this->assertEquals(PersonasLazyController::getEntered(), 101);
+        $app->handle('/edit/100');
+        $this->assertEquals(PersonasLazyController::getEntered(), 101);
 
-	}
+    }
 
 }

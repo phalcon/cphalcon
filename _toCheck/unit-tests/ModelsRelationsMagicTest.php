@@ -23,157 +23,157 @@ use PHPUnit\Framework\TestCase;
 class ModelsRelationsMagicTest extends TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-		if (file_exists('unit-tests/models/' . $className . '.php')) {
-			require 'unit-tests/models/' . $className . '.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	protected function _getDI()
-	{
+    public function testModelsMysql()
+    {
 
-		Phalcon\DI::reset();
+        $di = $this->_getDI();
 
-		$di = new Phalcon\DI();
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
+        $connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+        $di->set('db', $connection, true);
 
-		return $di;
-	}
+        $this->_executeQueryRelated();
+        $this->_executeSaveRelatedBelongsTo($connection);
+    }
 
-	public function testModelsMysql()
-	{
+    protected function _getDI()
+    {
 
-		$di = $this->_getDI();
+        Phalcon\DI::reset();
 
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+        $di = new Phalcon\DI();
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        $di->set('modelsManager', function () {
+            return new Phalcon\Mvc\Model\Manager();
+        });
 
-		$di->set('db', $connection, true);
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        });
 
-		$this->_executeQueryRelated();
-		$this->_executeSaveRelatedBelongsTo($connection);
-	}
+        return $di;
+    }
 
-	/*public function testModelsPostgresql()
-	{
+    /*public function testModelsPostgresql()
+    {
 
-		$di = $this->_getDI();
+        $di = $this->_getDI();
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		}, true);
+        $di->set('db', function(){
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+        }, true);
 
-		$this->_executeQueryRelated();
-		$this->_executeSaveRelatedBelongsTo($connection);
-	}
+        $this->_executeQueryRelated();
+        $this->_executeSaveRelatedBelongsTo($connection);
+    }
 
-	public function testModelsSqlite()
-	{
+    public function testModelsSqlite()
+    {
 
-		$di = $this->_getDI();
+        $di = $this->_getDI();
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		}, true);
+        $di->set('db', function(){
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+        }, true);
 
-		$this->_executeQueryRelated();
-		$this->_executeSaveRelatedBelongsTo($connection);
-	}*/
+        $this->_executeQueryRelated();
+        $this->_executeSaveRelatedBelongsTo($connection);
+    }*/
 
-	public function _executeQueryRelated()
-	{
+    public function _executeQueryRelated()
+    {
 
-		//Belongs to
-		$album = AlbumORama\Albums::findFirst();
-		$this->assertInstanceOf('AlbumORama\Albums', $album);
+        //Belongs to
+        $album = AlbumORama\Albums::findFirst();
+        $this->assertInstanceOf('AlbumORama\Albums', $album);
 
-		$artist = $album->artist;
-		$this->assertInstanceOf('AlbumORama\Artists', $artist);
+        $artist = $album->artist;
+        $this->assertInstanceOf('AlbumORama\Artists', $artist);
 
-		$albums = $artist->albums;
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $albums);
-		$this->assertCount(2, $albums);
-		$this->assertInstanceOf('AlbumORama\Albums', $albums[0]);
+        $albums = $artist->albums;
+        $this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $albums);
+        $this->assertCount(2, $albums);
+        $this->assertInstanceOf('AlbumORama\Albums', $albums[0]);
 
-		$songs = $album->songs;
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $songs);
-		$this->assertCount(7, $songs);
-		$this->assertInstanceOf('AlbumORama\Songs', $songs[0]);
+        $songs = $album->songs;
+        $this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $songs);
+        $this->assertCount(7, $songs);
+        $this->assertInstanceOf('AlbumORama\Songs', $songs[0]);
 
-		$originalAlbum = $album->artist->albums[0];
-		$this->assertEquals($originalAlbum->id, $album->id);
-	}
+        $originalAlbum = $album->artist->albums[0];
+        $this->assertEquals($originalAlbum->id, $album->id);
+    }
 
-	public function _executeSaveRelatedBelongsTo($connection)
-	{
-		$artist = new AlbumORama\Artists();
+    public function _executeSaveRelatedBelongsTo($connection)
+    {
+        $artist = new AlbumORama\Artists();
 
-		$album = new AlbumORama\Albums();
-		$album->artist = $artist;
+        $album         = new AlbumORama\Albums();
+        $album->artist = $artist;
 
-		//Due to not null fields on both models the album/artist aren't saved
-		$this->assertFalse($album->save());
-		$this->assertFalse((bool) $connection->isUnderTransaction());
+        //Due to not null fields on both models the album/artist aren't saved
+        $this->assertFalse($album->save());
+        $this->assertFalse((bool) $connection->isUnderTransaction());
 
-		//The artists must no be saved
-		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_TRANSIENT);
+        //The artists must no be saved
+        $this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_TRANSIENT);
 
-		//The messages produced are generated by the artist model
-		$messages = $album->getMessages();
-		$this->assertEquals($messages[0]->getMessage(), 'name is required');
-		$this->assertInstanceOf('AlbumORama\Artists', $messages[0]->getModel());
+        //The messages produced are generated by the artist model
+        $messages = $album->getMessages();
+        $this->assertEquals($messages[0]->getMessage(), 'name is required');
+        $this->assertInstanceOf('AlbumORama\Artists', $messages[0]->getModel());
 
-		//Fix the artist problem and try to save again
-		$artist->name = 'Van She';
+        //Fix the artist problem and try to save again
+        $artist->name = 'Van She';
 
-		//Due to not null fields on album model the whole
-		$this->assertFalse($album->save());
-		$this->assertFalse((bool) $connection->isUnderTransaction());
+        //Due to not null fields on album model the whole
+        $this->assertFalse($album->save());
+        $this->assertFalse((bool) $connection->isUnderTransaction());
 
-		//The artist model was saved correctly but album not
-		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
-		$this->assertEquals($album->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_TRANSIENT);
+        //The artist model was saved correctly but album not
+        $this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
+        $this->assertEquals($album->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_TRANSIENT);
 
-		$messages = $album->getMessages();
-		$this->assertEquals($messages[0]->getMessage(), 'name is required');
-		$this->assertNull($messages[0]->getModel());
+        $messages = $album->getMessages();
+        $this->assertEquals($messages[0]->getMessage(), 'name is required');
+        $this->assertNull($messages[0]->getModel());
 
-		//Fix the album problem and try to save again
-		$album->name = 'Idea of Happiness';
+        //Fix the album problem and try to save again
+        $album->name = 'Idea of Happiness';
 
-		//Saving OK
-		$this->assertTrue($album->save());
-		$this->assertFalse((bool) $connection->isUnderTransaction());
+        //Saving OK
+        $this->assertTrue($album->save());
+        $this->assertFalse((bool) $connection->isUnderTransaction());
 
-		//Both messages must be saved correctly
-		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
-		$this->assertEquals($album->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
-	}
+        //Both messages must be saved correctly
+        $this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
+        $this->assertEquals($album->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
+    }
 
 }

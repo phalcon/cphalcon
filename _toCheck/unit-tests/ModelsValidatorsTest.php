@@ -22,240 +22,241 @@ use PHPUnit\Framework\TestCase;
 
 function sqlite_now()
 {
-	return date('Y-m-d H:i:s');
+    return date('Y-m-d H:i:s');
 }
 
 class ModelsValidatorsTest extends TestCase
 {
 
-	public function __construct()
-	{
-		date_default_timezone_set('UTC');
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        date_default_timezone_set('UTC');
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	public function setUp()
-	{
-		$this->markTestSkipped("Test skipped: This test need to be refactored");
-	}
+    public function setUp()
+    {
+        $this->markTestSkipped("Test skipped: This test need to be refactored");
+    }
 
-	protected function _getDI(){
+    public function testValidatorsMysql()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		Phalcon\DI::reset();
+        $di = $this->_getDI();
 
-		$di = new Phalcon\DI();
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        }, true);
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
+        $this->_testValidatorsRenamed($di);
+    }
 
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+    protected function _getDI()
+    {
 
-		return $di;
-	}
+        Phalcon\DI::reset();
 
-	public function testValidatorsMysql()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+        $di = new Phalcon\DI();
 
-		$di = $this->_getDI();
+        $di->set('modelsManager', function () {
+            return new Phalcon\Mvc\Model\Manager();
+        });
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        });
 
-		$this->_testValidatorsRenamed($di);
-	}
+        return $di;
+    }
 
-	public function testValidatorsPostgresql()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configPostgresql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+    protected function _testValidatorsRenamed($di)
+    {
+        $connection = $di->getShared('db');
 
-		$di = $this->_getDI();
+        $success = $connection->delete("subscriptores");
+        $this->assertTrue($success);
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		}, true);
+        $createdAt = new Phalcon\Db\RawValue('now()');
 
-		$this->_testValidatorsRenamed($di);
-	}
+        //Save with success
+        $abonne                       = new Abonnes();
+        $abonne->courrierElectronique = 'fuego@hotmail.com';
+        $abonne->creeA                = $createdAt;
+        $abonne->statut               = 'P';
+        $this->assertTrue($abonne->save());
 
-	public function testValidatorsSqlite()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configSqlite)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+        //PresenceOf
+        $abonne                       = new Abonnes();
+        $abonne->courrierElectronique = 'fuego1@hotmail.com';
+        $abonne->creeA                = null;
+        $abonne->statut               = 'P';
+        $this->assertFalse($abonne->save());
 
-		$di = $this->_getDI();
+        $this->assertCount(1, $abonne->getMessages());
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			$conn = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-			$conn->getInternalHandler()->sqliteCreateFunction('now', 'sqlite_now', 0);
-			return $conn;
-		}, true);
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "PresenceOf");
+        $this->assertEquals($messages[0]->getField(), "creeA");
+        $this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
 
-		$this->_testValidatorsRenamed($di);
-	}
+        //Email
+        $abonne                       = new Abonnes();
+        $abonne->courrierElectronique = 'fuego?=';
+        $abonne->creeA                = $createdAt;
+        $abonne->statut               = 'P';
+        $this->assertFalse($abonne->save());
 
-	protected function _testValidatorsRenamed($di)
-	{
-		$connection = $di->getShared('db');
+        $this->assertCount(1, $abonne->getMessages());
 
-		$success = $connection->delete("subscriptores");
-		$this->assertTrue($success);
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "Email");
+        $this->assertEquals($messages[0]->getField(), "courrierElectronique");
+        $this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
 
-		$createdAt = new Phalcon\Db\RawValue('now()');
+        //ExclusionIn
+        $abonne->courrierElectronique = 'le_fuego@hotmail.com';
+        $abonne->statut               = 'X';
+        $this->assertFalse($abonne->save());
 
-		//Save with success
-		$abonne = new Abonnes();
-		$abonne->courrierElectronique = 'fuego@hotmail.com';
-		$abonne->creeA = $createdAt;
-		$abonne->statut = 'P';
-		$this->assertTrue($abonne->save());
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "Exclusion");
+        $this->assertEquals($messages[0]->getField(), "statut");
+        $this->assertEquals($messages[0]->getMessage(), 'L\'état ne doit être "X" ou "Z"');
 
-		//PresenceOf
-		$abonne = new Abonnes();
-		$abonne->courrierElectronique = 'fuego1@hotmail.com';
-		$abonne->creeA = null;
-		$abonne->statut = 'P';
-		$this->assertFalse($abonne->save());
+        //InclusionIn
+        $abonne->statut = 'A';
+        $this->assertFalse($abonne->save());
 
-		$this->assertCount(1, $abonne->getMessages());
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "Inclusion");
+        $this->assertEquals($messages[0]->getField(), "statut");
+        $this->assertEquals($messages[0]->getMessage(), 'L\'état doit être "P", "I" ou "w"');
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "PresenceOf");
-		$this->assertEquals($messages[0]->getField(), "creeA");
-		$this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
+        //Uniqueness validator
+        $abonne->courrierElectronique = 'fuego@hotmail.com';
+        $abonne->statut               = 'P';
+        $this->assertFalse($abonne->save());
 
-		//Email
-		$abonne = new Abonnes();
-		$abonne->courrierElectronique = 'fuego?=';
-		$abonne->creeA = $createdAt;
-		$abonne->statut = 'P';
-		$this->assertFalse($abonne->save());
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "Unique");
+        $this->assertEquals($messages[0]->getField(), "courrierElectronique");
+        $this->assertEquals($messages[0]->getMessage(), 'Le courrier électronique doit être unique');
 
-		$this->assertCount(1, $abonne->getMessages());
+        //Regex validator
+        $abonne->courrierElectronique = 'na_fuego@hotmail.com';
+        $abonne->statut               = 'w';
+        $this->assertFalse($abonne->save());
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Email");
-		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
-		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "Regex");
+        $this->assertEquals($messages[0]->getField(), "statut");
+        $this->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
 
-		//ExclusionIn
-		$abonne->courrierElectronique = 'le_fuego@hotmail.com';
-		$abonne->statut = 'X';
-		$this->assertFalse($abonne->save());
+        //too_long
+        $abonne->courrierElectronique = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
+        $abonne->statut               = 'P';
+        $this->assertFalse($abonne->save());
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Exclusion");
-		$this->assertEquals($messages[0]->getField(), "statut");
-		$this->assertEquals($messages[0]->getMessage(), 'L\'état ne doit être "X" ou "Z"');
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "TooLong");
+        $this->assertEquals($messages[0]->getField(), "courrierElectronique");
+        $this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop long");
 
-		//InclusionIn
-		$abonne->statut = 'A';
-		$this->assertFalse($abonne->save());
+        //too_short
+        $abonne->courrierElectronique = 'a@b.co';
+        $abonne->status               = 'P';
+        $this->assertFalse($abonne->save());
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Inclusion");
-		$this->assertEquals($messages[0]->getField(), "statut");
-		$this->assertEquals($messages[0]->getMessage(), 'L\'état doit être "P", "I" ou "w"');
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "TooShort");
+        $this->assertEquals($messages[0]->getField(), "courrierElectronique");
+        $this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop court");
 
-		//Uniqueness validator
-		$abonne->courrierElectronique = 'fuego@hotmail.com';
-		$abonne->statut = 'P';
-		$this->assertFalse($abonne->save());
+        // Issue #885
+        $abonne                       = new Abonnes();
+        $abonne->courrierElectronique = 'fuego?=';
+        $abonne->creeA                = null;
+        $abonne->statut               = 'P';
+        $this->assertFalse($abonne->save());
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Unique");
-		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
-		$this->assertEquals($messages[0]->getMessage(), 'Le courrier électronique doit être unique');
+        $this->assertCount(2, $abonne->getMessages());
 
-		//Regex validator
-		$abonne->courrierElectronique = 'na_fuego@hotmail.com';
-		$abonne->statut = 'w';
-		$this->assertFalse($abonne->save());
+        $messages = $abonne->getMessages();
+        $this->assertEquals($messages[0]->getType(), "PresenceOf");
+        $this->assertEquals($messages[0]->getField(), "creeA");
+        $this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Regex");
-		$this->assertEquals($messages[0]->getField(), "statut");
-		$this->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
+        $this->assertEquals($messages[1]->getType(), "Email");
+        $this->assertEquals($messages[1]->getField(), "courrierElectronique");
+        $this->assertEquals($messages[1]->getMessage(), "Le courrier électronique est invalide");
 
-		//too_long
-		$abonne->courrierElectronique = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
-		$abonne->statut = 'P';
-		$this->assertFalse($abonne->save());
+        $messages = $abonne->getMessages('creeA');
+        $this->assertCount(1, $messages);
+        $this->assertEquals($messages[0]->getType(), "PresenceOf");
+        $this->assertEquals($messages[0]->getField(), "creeA");
+        $this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "TooLong");
-		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
-		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop long");
+        $messages = $abonne->getMessages('courrierElectronique');
+        $this->assertCount(1, $messages);
+        $this->assertEquals($messages[0]->getType(), "Email");
+        $this->assertEquals($messages[0]->getField(), "courrierElectronique");
+        $this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
+    }
 
-		//too_short
-		$abonne->courrierElectronique = 'a@b.co';
-		$abonne->status = 'P';
-		$this->assertFalse($abonne->save());
+    public function testValidatorsPostgresql()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configPostgresql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "TooShort");
-		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
-		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop court");
+        $di = $this->_getDI();
 
-		// Issue #885
-		$abonne = new Abonnes();
-		$abonne->courrierElectronique = 'fuego?=';
-		$abonne->creeA = null;
-		$abonne->statut = 'P';
-		$this->assertFalse($abonne->save());
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+        }, true);
 
-		$this->assertCount(2, $abonne->getMessages());
+        $this->_testValidatorsRenamed($di);
+    }
 
-		$messages = $abonne->getMessages();
-		$this->assertEquals($messages[0]->getType(), "PresenceOf");
-		$this->assertEquals($messages[0]->getField(), "creeA");
-		$this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
+    public function testValidatorsSqlite()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configSqlite)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		$this->assertEquals($messages[1]->getType(), "Email");
-		$this->assertEquals($messages[1]->getField(), "courrierElectronique");
-		$this->assertEquals($messages[1]->getMessage(), "Le courrier électronique est invalide");
+        $di = $this->_getDI();
 
-		$messages = $abonne->getMessages('creeA');
-		$this->assertCount(1, $messages);
-		$this->assertEquals($messages[0]->getType(), "PresenceOf");
-		$this->assertEquals($messages[0]->getField(), "creeA");
-		$this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            $conn = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+            $conn->getInternalHandler()->sqliteCreateFunction('now', 'sqlite_now', 0);
+            return $conn;
+        }, true);
 
-		$messages = $abonne->getMessages('courrierElectronique');
-		$this->assertCount(1, $messages);
-		$this->assertEquals($messages[0]->getType(), "Email");
-		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
-		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
-	}
+        $this->_testValidatorsRenamed($di);
+    }
 
 }

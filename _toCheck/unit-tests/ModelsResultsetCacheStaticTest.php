@@ -23,106 +23,106 @@ use PHPUnit\Framework\TestCase;
 class ModelsResultsetCacheStaticTest extends TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		$className = str_replace('\\', '/', $className);
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        $className = str_replace('\\', '/', $className);
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	public function setUp()
-	{
-		$iterator = new DirectoryIterator('unit-tests/cache/');
-		foreach ($iterator as $item) {
-			if (!$item->isDir()) {
-				unlink($item->getPathname());
-			}
-		}
-	}
+    public function setUp()
+    {
+        $iterator = new DirectoryIterator('unit-tests/cache/');
+        foreach ($iterator as $item) {
+            if (!$item->isDir()) {
+                unlink($item->getPathname());
+            }
+        }
+    }
 
-	public function testOverrideStaticCache()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    public function testOverrideStaticCache()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		Phalcon\DI::reset();
+        Phalcon\DI::reset();
 
-		$di = new Phalcon\DI();
+        $di = new Phalcon\DI();
 
-		$di['db'] = function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		};
+        $di['db'] = function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        };
 
-		$di['modelsManager'] = function(){
-			return new Phalcon\Mvc\Model\Manager();
-		};
+        $di['modelsManager'] = function () {
+            return new Phalcon\Mvc\Model\Manager();
+        };
 
-		$di['modelsMetadata'] = function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		};
+        $di['modelsMetadata'] = function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        };
 
-		$di['modelsCache'] = function(){
-			$frontCache = new Phalcon\Cache\Frontend\Data();
-			return new Phalcon\Cache\Backend\File($frontCache, array(
-				'cacheDir' => 'unit-tests/cache/'
-			));
-		};
+        $di['modelsCache'] = function () {
+            $frontCache = new Phalcon\Cache\Frontend\Data();
+            return new Phalcon\Cache\Backend\File($frontCache, [
+                'cacheDir' => 'unit-tests/cache/',
+            ]);
+        };
 
-		$robot = Cacheable\Robots::findFirst(2);
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(2);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = Cacheable\Robots::findFirst(2);
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(2);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = Cacheable\Robots::findFirst(array('id = 2'));
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(['id = 2']);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = Cacheable\Robots::findFirst(array('id = 2'));
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(['id = 2']);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = Cacheable\Robots::findFirst(array('order' => 'id DESC'));
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(['order' => 'id DESC']);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = Cacheable\Robots::findFirst(array('order' => 'id DESC'));
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(['order' => 'id DESC']);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = Cacheable\Robots::findFirst(1);
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = Cacheable\Robots::findFirst(1);
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robotParts = $robot->getRobotsParts();
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
+        $robotParts = $robot->getRobotsParts();
+        $this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
 
-		$robotParts = $robot->getRobotsParts();
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
+        $robotParts = $robot->getRobotsParts();
+        $this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
 
-		$part = $robotParts[0]->getParts();
-		$this->assertInstanceOf('Cacheable\Parts', $part);
+        $part = $robotParts[0]->getParts();
+        $this->assertInstanceOf('Cacheable\Parts', $part);
 
-		$part = $robotParts[0]->getParts();
-		$this->assertInstanceOf('Cacheable\Parts', $part);
+        $part = $robotParts[0]->getParts();
+        $this->assertInstanceOf('Cacheable\Parts', $part);
 
-		$robot = $robotParts[0]->getRobots();
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = $robotParts[0]->getRobots();
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-		$robot = $robotParts[0]->getRobots();
-		$this->assertInstanceOf('Cacheable\Robots', $robot);
+        $robot = $robotParts[0]->getRobots();
+        $this->assertInstanceOf('Cacheable\Robots', $robot);
 
-	}
+    }
 
 
 }

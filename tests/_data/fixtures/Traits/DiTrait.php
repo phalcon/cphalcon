@@ -12,6 +12,8 @@
 namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Crypt;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Di;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager;
@@ -38,6 +40,50 @@ trait DiTrait
     protected function resetDi()
     {
         Di::reset();
+    }
+
+    /**
+     * Set up db service (mysql)
+     */
+    protected function setDbMysql()
+    {
+        $container = Di::getDefault();
+        $container->set(
+            'db',
+            function () {
+                $options = [
+                    'host'     => TEST_DB_MYSQL_HOST,
+                    'username' => TEST_DB_MYSQL_USER,
+                    'password' => TEST_DB_MYSQL_PASSWD,
+                    'dbname'   => TEST_DB_MYSQL_NAME,
+                    'charset'  => TEST_DB_MYSQL_CHARSET,
+                ];
+
+                return new Mysql($options);
+            }
+        );
+    }
+
+    /**
+     * Set up db service (Postgresql)
+     */
+    protected function setDbPostgresql()
+    {
+        $container = Di::getDefault();
+        $container->set(
+            'db',
+            function () {
+                $options = [
+                    'host'     => TEST_DB_POSTGRESQL_HOST,
+                    'username' => TEST_DB_POSTGRESQL_USER,
+                    'password' => TEST_DB_POSTGRESQL_PASSWD,
+                    'dbname'   => TEST_DB_POSTGRESQL_NAME,
+                    'schema'   => TEST_DB_POSTGRESQL_SCHEMA,
+                ];
+
+                return new Postgresql($options);
+            }
+        );
     }
 
     protected function setDiCrypt()

@@ -23,218 +23,218 @@ use PHPUnit\Framework\TestCase;
 class ModelsEventsTest extends TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	protected function _prepareDI(&$trace)
-	{
-		Phalcon\DI::reset();
+    public function testEventsFetch()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$eventsManager = new Phalcon\Events\Manager();
+        $trace = [];
 
-		$eventsManager->attach('model', function($event, $model) use (&$trace) {
-			if (!isset($trace[$event->getType()][get_class($model)])) {
-				$trace[$event->getType()][get_class($model)] = 1;
-			} else {
-				$trace[$event->getType()][get_class($model)]++;
-			}
-		});
+        $this->_prepareDI($trace);
 
-		$di = new Phalcon\DI();
+        $robot = GossipRobots::findFirst();
 
-		$di->set('modelsManager', function() use ($eventsManager) {
+        $robot->trace = &$trace;
 
-			$modelsManager = new Phalcon\Mvc\Model\Manager();
+        $this->assertEquals($trace, [
+            'afterFetch' => [
+                'GossipRobots' => 1,
+            ],
+        ]);
 
-			$modelsManager->setEventsManager($eventsManager);
+    }
 
-			return $modelsManager;
-		}, true);
+    protected function _prepareDI(&$trace)
+    {
+        Phalcon\DI::reset();
 
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		}, true);
+        $eventsManager = new Phalcon\Events\Manager();
 
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
-	}
+        $eventsManager->attach('model', function ($event, $model) use (&$trace) {
+            if (!isset($trace[$event->getType()][get_class($model)])) {
+                $trace[$event->getType()][get_class($model)] = 1;
+            } else {
+                $trace[$event->getType()][get_class($model)]++;
+            }
+        });
 
-	public function testEventsFetch()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+        $di = new Phalcon\DI();
 
-		$trace = array();
+        $di->set('modelsManager', function () use ($eventsManager) {
 
-		$this->_prepareDI($trace);
+            $modelsManager = new Phalcon\Mvc\Model\Manager();
 
-		$robot = GossipRobots::findFirst();
+            $modelsManager->setEventsManager($eventsManager);
 
-		$robot->trace = &$trace;
+            return $modelsManager;
+        }, true);
 
-		$this->assertEquals($trace, array(
-			'afterFetch' => array(
-				'GossipRobots' => 1,
-			),
-		));
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        }, true);
 
-	}
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        }, true);
+    }
 
-	public function testEventsCreate()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    public function testEventsCreate()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$trace = array();
+        $trace = [];
 
-		$this->_prepareDI($trace);
+        $this->_prepareDI($trace);
 
-		$robot = new GossipRobots();
+        $robot = new GossipRobots();
 
-		$robot->name = 'Test';
-		$robot->year = 2000;
-		$robot->type = 'Some Type';
-		$robot->datetime = '1970/01/01 00:00:00';
-		$robot->text = 'text';
+        $robot->name     = 'Test';
+        $robot->year     = 2000;
+        $robot->type     = 'Some Type';
+        $robot->datetime = '1970/01/01 00:00:00';
+        $robot->text     = 'text';
 
-		$robot->trace = &$trace;
+        $robot->trace = &$trace;
 
-		$robot->save();
+        $robot->save();
 
-		$this->assertEquals($trace, array(
-			'prepareSave' => array(
-				'GossipRobots' => 1
-			),
-			'beforeValidation' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeValidationOnCreate' => array(
-				'GossipRobots' => 1,
-			),
-			'validation' => array(
-				'GossipRobots' => 2,
-			),
-			'afterValidationOnCreate' => array(
-				'GossipRobots' => 1,
-			),
-			'afterValidation' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeSave' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeCreate' => array(
-				'GossipRobots' => 1,
-			)
-		));
+        $this->assertEquals($trace, [
+            'prepareSave'              => [
+                'GossipRobots' => 1,
+            ],
+            'beforeValidation'         => [
+                'GossipRobots' => 2,
+            ],
+            'beforeValidationOnCreate' => [
+                'GossipRobots' => 1,
+            ],
+            'validation'               => [
+                'GossipRobots' => 2,
+            ],
+            'afterValidationOnCreate'  => [
+                'GossipRobots' => 1,
+            ],
+            'afterValidation'          => [
+                'GossipRobots' => 2,
+            ],
+            'beforeSave'               => [
+                'GossipRobots' => 2,
+            ],
+            'beforeCreate'             => [
+                'GossipRobots' => 1,
+            ],
+        ]);
 
-	}
+    }
 
-	public function testEventsUpdate()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    public function testEventsUpdate()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$trace = array();
+        $trace = [];
 
-		$this->_prepareDI($trace);
+        $this->_prepareDI($trace);
 
-		$robot = GossipRobots::findFirst();
+        $robot = GossipRobots::findFirst();
 
-		$robot->trace = &$trace;
+        $robot->trace = &$trace;
 
-		$robot->save();
+        $robot->save();
 
-		$this->assertEquals($trace, array(
-			'prepareSave' => array(
-				'GossipRobots' => 1
-			),
-			'beforeValidation' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeValidationOnUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'validation' => array(
-				'GossipRobots' => 2,
-			),
-			'afterValidationOnUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'afterValidation' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeSave' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'afterUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'afterSave' => array(
-				'GossipRobots' => 2,
-			),
-			'afterFetch' => array(
-				'GossipRobots' => 1,
-			),
-		));
+        $this->assertEquals($trace, [
+            'prepareSave'              => [
+                'GossipRobots' => 1,
+            ],
+            'beforeValidation'         => [
+                'GossipRobots' => 2,
+            ],
+            'beforeValidationOnUpdate' => [
+                'GossipRobots' => 2,
+            ],
+            'validation'               => [
+                'GossipRobots' => 2,
+            ],
+            'afterValidationOnUpdate'  => [
+                'GossipRobots' => 2,
+            ],
+            'afterValidation'          => [
+                'GossipRobots' => 2,
+            ],
+            'beforeSave'               => [
+                'GossipRobots' => 2,
+            ],
+            'beforeUpdate'             => [
+                'GossipRobots' => 2,
+            ],
+            'afterUpdate'              => [
+                'GossipRobots' => 2,
+            ],
+            'afterSave'                => [
+                'GossipRobots' => 2,
+            ],
+            'afterFetch'               => [
+                'GossipRobots' => 1,
+            ],
+        ]);
 
-	}
+    }
 
-	public function testEventsDelete()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    public function testEventsDelete()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$trace = array();
+        $trace = [];
 
-		$this->_prepareDI($trace);
+        $this->_prepareDI($trace);
 
-		$robot = GossipRobots::findFirst();
+        $robot = GossipRobots::findFirst();
 
-		$robot->trace = &$trace;
+        $robot->trace = &$trace;
 
-		$robot->delete();
+        $robot->delete();
 
-		$this->assertEquals($trace, array(
-			'afterFetch' => array(
-				'GossipRobots' => 1,
-			),
-			'beforeDelete' => array(
-				'GossipRobots' => 1,
-			),
-		));
+        $this->assertEquals($trace, [
+            'afterFetch'   => [
+                'GossipRobots' => 1,
+            ],
+            'beforeDelete' => [
+                'GossipRobots' => 1,
+            ],
+        ]);
 
-	}
+    }
 
 }

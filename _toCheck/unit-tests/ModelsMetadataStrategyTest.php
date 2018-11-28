@@ -23,160 +23,160 @@ use PHPUnit\Framework\TestCase;
 class ModelsMetadataStrategyTest extends TestCase
 {
 
-	protected $_expectedMeta = array(
-		0 => array(
-			0 => 'id',
-			1 => 'name',
-			2 => 'type',
-			3 => 'year',
-			4 => 'datetime',
-			5 => 'deleted',
-			6 => 'text',
-		),
-		1 => array(
-			0 => 'id',
-		),
-		2 => array(
-			0 => 'name',
-			1 => 'type',
-			2 => 'year',
-			3 => 'datetime',
-			4 => 'deleted',
-			5 => 'text'
-		),
-		3 => array(
-			0 => 'id',
-			1 => 'name',
-			2 => 'type',
-			3 => 'year',
-			4 => 'datetime',
-			5 => 'text'
-		),
-		4 => array(
-			'id' => 0,
-			'name' => 2,
-			'type' => 2,
-			'year' => 0,
-			'datetime' => 4,
-			'deleted' => 4,
-			'text' => 6
-		),
-		5 => array(
-			'id' => true,
-			'year' => true,
-		),
-		8 => 'id',
-		9 => array(
-			'id' => 1,
-			'name' => 2,
-			'type' => 2,
-			'year' => 1,
-			'datetime' => 2,
-			'deleted' => 2,
-			'text' => 2
-		),
-		10 => array(),
-		11 => array(),
-		12 => array(
-			'type' => 'mechanical',
-			'year' => 1900,
-			'deleted' => null
-		),
-		13 => array()
-	);
+    protected $_expectedMeta = [
+        0  => [
+            0 => 'id',
+            1 => 'name',
+            2 => 'type',
+            3 => 'year',
+            4 => 'datetime',
+            5 => 'deleted',
+            6 => 'text',
+        ],
+        1  => [
+            0 => 'id',
+        ],
+        2  => [
+            0 => 'name',
+            1 => 'type',
+            2 => 'year',
+            3 => 'datetime',
+            4 => 'deleted',
+            5 => 'text',
+        ],
+        3  => [
+            0 => 'id',
+            1 => 'name',
+            2 => 'type',
+            3 => 'year',
+            4 => 'datetime',
+            5 => 'text',
+        ],
+        4  => [
+            'id'       => 0,
+            'name'     => 2,
+            'type'     => 2,
+            'year'     => 0,
+            'datetime' => 4,
+            'deleted'  => 4,
+            'text'     => 6,
+        ],
+        5  => [
+            'id'   => true,
+            'year' => true,
+        ],
+        8  => 'id',
+        9  => [
+            'id'       => 1,
+            'name'     => 2,
+            'type'     => 2,
+            'year'     => 1,
+            'datetime' => 2,
+            'deleted'  => 2,
+            'text'     => 2,
+        ],
+        10 => [],
+        11 => [],
+        12 => [
+            'type'    => 'mechanical',
+            'year'    => 1900,
+            'deleted' => null,
+        ],
+        13 => [],
+    ];
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'modelsAutoloader']);
+    }
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+    public function __destruct()
+    {
+        spl_autoload_unregister([$this, 'modelsAutoloader']);
+    }
 
-	public function modelsAutoloader($className)
-	{
-		$className = str_replace('\\', '/', $className);
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+    public function modelsAutoloader($className)
+    {
+        $className = str_replace('\\', '/', $className);
+        if (file_exists('unit-tests/models/' . $className . '.php')) {
+            require 'unit-tests/models/' . $className . '.php';
+        }
+    }
 
-	protected function _getDI()
-	{
+    public function testMetadataDatabaseIntrospection()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		Phalcon\DI::reset();
+        $di = $this->_getDI();
 
-		$di = new Phalcon\DI();
+        $di['modelsMetadata'] = function () {
+            $metaData = new Phalcon\Mvc\Model\Metadata\Memory();
+            $metaData->setStrategy(new Phalcon\Mvc\Model\MetaData\Strategy\Introspection());
+            return $metaData;
+        };
 
-		$di['modelsManager'] = function() {
-			return new Phalcon\Mvc\Model\Manager();
-		};
+        $metaData = $di['modelsMetadata'];
 
-		$di['db'] = function() {
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		};
+        $robots = new Robots();
 
-		$di['annotations'] = function() {
-			return new Phalcon\Annotations\Adapter\Memory();
-		};
+        $meta = $metaData->readMetaData($robots);
+        $this->assertEquals($meta, $this->_expectedMeta);
 
-		return $di;
-	}
+        $meta = $metaData->readMetaData($robots);
+        $this->assertEquals($meta, $this->_expectedMeta);
+    }
 
-	public function testMetadataDatabaseIntrospection()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    protected function _getDI()
+    {
 
-		$di = $this->_getDI();
+        Phalcon\DI::reset();
 
-		$di['modelsMetadata'] = function() {
-			$metaData = new Phalcon\Mvc\Model\Metadata\Memory();
-			$metaData->setStrategy(new Phalcon\Mvc\Model\MetaData\Strategy\Introspection());
-			return $metaData;
-		};
+        $di = new Phalcon\DI();
 
-		$metaData = $di['modelsMetadata'];
+        $di['modelsManager'] = function () {
+            return new Phalcon\Mvc\Model\Manager();
+        };
 
-		$robots = new Robots();
+        $di['db'] = function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        };
 
-		$meta = $metaData->readMetaData($robots);
-		$this->assertEquals($meta, $this->_expectedMeta);
+        $di['annotations'] = function () {
+            return new Phalcon\Annotations\Adapter\Memory();
+        };
 
-		$meta = $metaData->readMetaData($robots);
-		$this->assertEquals($meta, $this->_expectedMeta);
-	}
+        return $di;
+    }
 
-	public function testMetadataAnnotations()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
+    public function testMetadataAnnotations()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
 
-		$di = $this->_getDI();
+        $di = $this->_getDI();
 
-		$di['modelsMetadata'] = function(){
-			$metaData = new Phalcon\Mvc\Model\Metadata\Memory();
-			$metaData->setStrategy(new Phalcon\Mvc\Model\MetaData\Strategy\Annotations());
-			return $metaData;
-		};
+        $di['modelsMetadata'] = function () {
+            $metaData = new Phalcon\Mvc\Model\Metadata\Memory();
+            $metaData->setStrategy(new Phalcon\Mvc\Model\MetaData\Strategy\Annotations());
+            return $metaData;
+        };
 
-		$metaData = $di['modelsMetadata'];
+        $metaData = $di['modelsMetadata'];
 
-		$robots = new Boutique\Robots();
+        $robots = new Boutique\Robots();
 
-		$meta = $metaData->readMetaData($robots);
-		$this->assertEquals($meta, $this->_expectedMeta);
+        $meta = $metaData->readMetaData($robots);
+        $this->assertEquals($meta, $this->_expectedMeta);
 
-		$meta = $metaData->readMetaData($robots);
-		$this->assertEquals($meta, $this->_expectedMeta);
-	}
+        $meta = $metaData->readMetaData($robots);
+        $this->assertEquals($meta, $this->_expectedMeta);
+    }
 }
