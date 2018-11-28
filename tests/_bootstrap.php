@@ -87,7 +87,7 @@ $defaults = [
     "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
 
     // Mongo
-    "TEST_DB_MONGO_HOST"        => DATA_MONGODB_HOST,
+    "TEST_DB_MONGO_HOST"        => env('DATA_MONGODB_HOST', '127.0.0.1'),
     "TEST_DB_MONGO_PORT"        => 27017,
     "TEST_DB_MONGO_USER"        => 'admin',
     "TEST_DB_MONGO_PASSWD"      => '',

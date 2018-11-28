@@ -1,7 +1,7 @@
 run.config:
   engine: php
   engine.config:
-    runtime: php-7.1
+    runtime: php-7.2
     extensions:
       - apcu
       - ctype
@@ -33,7 +33,6 @@ run.config:
       - zlib
       - mongodb
       - redis
-      - xcache
     zend_extensions:
       - opcache
     dev_zend_extensions:

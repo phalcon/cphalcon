@@ -1,46 +1,93 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                                  |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-use Phalcon\Db\Column as DbColumn;
-use PHPUnit\Framework\TestCase;
+namespace Phalcon\Test\Integration\Db;
 
-class DbBindTest extends TestCase
+use IntegrationTester;
+use Phalcon\Db;
+use Phalcon\Db\Column;
+use Phalcon\Db\RawValue;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+
+class DbBindCest
 {
-    public function testDbBindMysql()
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        require 'unit-tests/config.db.php';
-        if (empty($configMysql)) {
-            $this->markTestSkipped("Skipped");
-            return;
-        }
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-        //$this->_executeRawBindTests($connection);
-        //$this->_executeRawBindTestsMysql($connection);
-        $this->_executeConvertBindTests($connection);
-        $this->_executeBindByTypeTests($connection);
+        $this->resetDi();
+        $this->newDi();
     }
 
-    protected function _executeConvertBindTests($connection)
+    /**
+     * Tests Phalcon\Db :: Mysql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbBindMySql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Bind - MySql");
+        $this->setDiMysql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
+
+        $this->executeConvertBindTests($I, $connection);
+        $this->executeBindByTypeTests($I, $connection);
+    }
+
+
+    /**
+     * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbBindPostgresql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Bind - Postgresql");
+        $this->setDiMysql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
+
+        //$this->executeRawBindTests($I, $connection);
+        //$this->executeRawBindTestsPostgresql($I, $connection);
+        $this->executeBindByTypeTests($I, $connection);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Sqlite
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbBindSqlite(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Bind - Sqlite");
+        $this->setDiSqlite();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
+
+        //$this->_executeRawBindTests($connection);
+        //$this->_executeRawBindTestsSqlite($connection);
+        $this->executeBindByTypeTests($I, $connection);
+    }
+
+    protected function executeConvertBindTests(IntegrationTester $I, $connection)
     {
         $params = $connection->convertBoundParams(
             "a=?0",
@@ -49,7 +96,7 @@ class DbBindTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
+        $I->assertEquals(
             $params,
             [
                 'sql'    => 'a=?',
@@ -68,7 +115,7 @@ class DbBindTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
+        $I->assertEquals(
             $params,
             [
                 'sql'    => 'a=?',
@@ -87,7 +134,7 @@ class DbBindTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
+        $I->assertEquals(
             $params,
             [
                 'sql'    => "a=? AND b = ?",
@@ -107,7 +154,7 @@ class DbBindTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
+        $I->assertEquals(
             $params,
             [
                 'sql'    => "a=? AND b = ?",
@@ -129,7 +176,7 @@ class DbBindTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
+        $I->assertEquals(
             $params,
             [
                 'sql'    => "a=? AND b = ? AND c > ? AND d = ?",
@@ -143,88 +190,88 @@ class DbBindTest extends TestCase
         );
     }
 
-    protected function _executeBindByTypeTests($connection)
+    protected function executeBindByTypeTests(IntegrationTester $I, $connection)
     {
         $success = $connection->execute(
             'INSERT INTO prueba(id, nombre, estado) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?)',
             ["LOL 1", "A"],
-            [DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->execute(
             'UPDATE prueba SET nombre = ?, estado = ?',
             ["LOL 11", "R"],
-            [DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->execute(
             'DELETE FROM prueba WHERE estado = ?',
             ["R"],
-            [DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->insert(
             'prueba',
             [$connection->getDefaultIdValue(), "LOL 1", "A"],
             null,
-            [DbColumn::BIND_SKIP, DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_SKIP, Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->insert(
             'prueba',
             ["LOL 2", "E"],
             ['nombre', 'estado'],
-            [DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->insert(
             'prueba',
             ["LOL 3", "I"],
             ['nombre', 'estado'],
-            [DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->insert(
             'prueba',
-            [new Phalcon\Db\RawValue('current_date'), "A"],
+            [new RawValue('current_date'), "A"],
             ['nombre', 'estado'],
-            [DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->update(
             'prueba',
             ["nombre", "estado"],
             ["LOL 1000", "X"],
             "estado='E'",
-            [DbColumn::BIND_PARAM_STR, DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->update(
             'prueba',
             ["nombre"], ["LOL 3000"],
             "estado='X'",
-            [DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
 
         $success = $connection->update(
             'prueba',
-            ["nombre"], [new Phalcon\Db\RawValue('current_date')],
+            ["nombre"], [new RawValue('current_date')],
             "estado='X'",
-            [DbColumn::BIND_PARAM_STR]
+            [Column::BIND_PARAM_STR]
         );
-        $this->assertTrue($success);
+        $I->assertTrue($success);
     }
 
-    /*protected function _executeRawBindTests($connection)
+    protected function executeRawBindTests(IntegrationTester $I, $connection)
     {
         $conditions = $connection->bindParams(
             "a=?0",
@@ -233,7 +280,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=100");
+        $I->assertEquals($conditions, "a=100");
 
 
 
@@ -245,7 +292,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=100");
+        $I->assertEquals($conditions, "a=100");
 
 
 
@@ -255,7 +302,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=?0");
+        $I->assertEquals($conditions, "a=?0");
 
 
 
@@ -267,7 +314,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=50 AND b = 25");
+        $I->assertEquals($conditions, "a=50 AND b = 25");
 
 
 
@@ -279,7 +326,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=50 AND b = 25");
+        $I->assertEquals($conditions, "a=50 AND b = 25");
 
 
 
@@ -291,7 +338,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=25.1 AND b = 25.10");
+        $I->assertEquals($conditions, "a=25.1 AND b = 25.10");
 
 
 
@@ -304,7 +351,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a=50 AND b = 25 AND c<>15");
+        $I->assertEquals($conditions, "a=50 AND b = 25 AND c<>15");
 
 
 
@@ -315,7 +362,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "a='no-suprises'");
+        $I->assertEquals($conditions, "a='no-suprises'");
 
 
 
@@ -327,10 +374,10 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column1 = 'hello' AND column2='lol'");
+        $I->assertEquals($conditions, "column1 = 'hello' AND column2='lol'");
     }
 
-    protected function _executeRawBindTestsMysql($connection)
+    protected function executeRawBindTestsMysql(IntegrationTester $I, $connection)
     {
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:)",
@@ -341,7 +388,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
+        $I->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
 
 
 
@@ -355,10 +402,10 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'");
+        $I->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'");
     }
 
-    protected function _executeRawBindTestsPostgresql($connection)
+    protected function executeRawBindTestsPostgresql(IntegrationTester $I, $connection)
     {
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:)",
@@ -369,7 +416,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
+        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
 
 
@@ -383,10 +430,10 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
+        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
     }
 
-    protected function _executeRawBindTestsSqlite($connection)
+    protected function executeRawBindTestsSqlite(IntegrationTester $I, $connection)
     {
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:)",
@@ -397,7 +444,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
+        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
 
 
@@ -411,36 +458,7 @@ class DbBindTest extends TestCase
             )
         );
 
-        $this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
-    }*/
-
-    public function testDbBindPostgresql()
-    {
-        require 'unit-tests/config.db.php';
-        if (empty($configPostgresql)) {
-            $this->markTestSkipped("Skipped");
-            return;
-        }
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-        //$this->_executeRawBindTests($connection);
-        //$this->_executeRawBindTestsPostgresql($connection);
-        $this->_executeBindByTypeTests($connection);
+        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
     }
 
-    public function testDbBindSqlite()
-    {
-        require 'unit-tests/config.db.php';
-        if (empty($configSqlite)) {
-            $this->markTestSkipped("Skipped");
-            return;
-        }
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-
-        //$this->_executeRawBindTests($connection);
-        //$this->_executeRawBindTestsSqlite($connection);
-        $this->_executeBindByTypeTests($connection);
-    }
 }

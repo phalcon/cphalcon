@@ -38,7 +38,43 @@ class DbCest
     public function dbMySql(IntegrationTester $I)
     {
         $I->wantToTest("Db - MySql");
-        $this->setDbMysql();
+        $this->setDiMysql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbPostgresql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Postgresql");
+        $this->setDiPostgresql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Sqlite
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbSqlite(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Sqlite");
+        $this->setDiSqlite();
         $container  = $this->getDi();
         $connection = $container->get('db');
 
@@ -361,23 +397,5 @@ class DbCest
 
         $success = $connection->rollback(); // rollback - real rollback
         $I->assertTrue($success);
-    }
-
-    /**
-     * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbPostgresql(IntegrationTester $I)
-    {
-        $I->wantToTest("Db - Postgresql");
-        $this->setDbPostgresql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
-
-        $this->executeTests($I, $connection);
     }
 }

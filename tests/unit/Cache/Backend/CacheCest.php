@@ -102,6 +102,22 @@ class CacheCest
         $I->assertFileNotExists('unit-tests/cache/data2');
     }
 
+    public function testCacheMemoryFlush(UnitTester $I)
+    {
+        $frontCache = new Data(['lifetime' => 10]);
+
+        // Memory
+        $cache = new Memory($frontCache);
+
+        $cache->save('data', "1");
+        $cache->save('data2', "2");
+
+        $I->assertTrue($cache->flush());
+
+        $I->assertFalse($cache->exists('data'));
+        $I->assertFalse($cache->exists('data2'));
+    }
+
     public function testOutputMongoCache(UnitTester $I)
     {
 
@@ -250,22 +266,6 @@ class CacheCest
         $I->assertEquals(1, $cache->decrement('foo', 88));
     }
 
-    public function testCacheMemoryFlush(UnitTester $I)
-    {
-        $frontCache = new Data(['lifetime' => 10]);
-
-        // Memory
-        $cache = new Memory($frontCache);
-
-        $cache->save('data', "1");
-        $cache->save('data2', "2");
-
-        $I->assertTrue($cache->flush());
-
-        $I->assertFalse($cache->exists('data'));
-        $I->assertFalse($cache->exists('data2'));
-    }
-
     public function testCacheMongoFlush(UnitTester $I)
     {
         // Mongo
@@ -293,164 +293,6 @@ class CacheCest
         $I->assertFalse($cache->exists('data2'));
     }
 
-    public function testOutputXcache(UnitTester $I)
-    {
-
-        $ready = $this->_prepareXcache($I);
-        if (!$ready) {
-            return false;
-        }
-
-        xcache_unset('_PHCXtest-output');
-
-        $time = date('H:i:s');
-
-        $frontCache = new Output([
-            'lifetime' => 2,
-        ]);
-
-        $cache = new Xcache($frontCache, [
-            'statsKey' => '_PHCM',
-        ]);
-
-        ob_start();
-
-        //First time cache
-        $content = $cache->start('test-output');
-        if ($content !== null) {
-            $I->assertTrue(false);
-        }
-
-        echo $time;
-
-        $cache->save(null, null, null, true);
-
-        $obContent = ob_get_contents();
-        ob_end_clean();
-
-        $I->assertEquals($time, $obContent);
-        $I->assertEquals($time, xcache_get('_PHCXtest-output'));
-
-        //Expect same cache
-        $content = $cache->start('test-output');
-        if ($content === null) {
-            $I->assertTrue(false);
-        }
-
-        $I->assertEquals($content, $obContent);
-        $I->assertEquals($content, xcache_get('_PHCXtest-output'));
-
-        //Query keys
-        $keys = $cache->queryKeys();
-        $I->assertEquals($keys, [
-            0 => 'test-output',
-        ]);
-
-        //Delete entry from cache
-        $I->assertTrue($cache->delete('test-output'));
-    }
-
-    public function testDataXcache(UnitTester $I)
-    {
-        $ready = $this->_prepareXcache($I);
-        if (!$ready) {
-            return false;
-        }
-
-        xcache_unset('_PHCXtest-data');
-
-        $frontCache = new Data();
-
-        $cache = new Xcache($frontCache);
-
-        $data = [1, 2, 3, 4, 5];
-
-        $cache->save('test-data', $data);
-
-        $cachedContent = $cache->get('test-data');
-        $I->assertEquals($cachedContent, $data);
-
-        $cache->save('test-data', "sure, nothing interesting");
-
-        $cachedContent = $cache->get('test-data');
-        $I->assertEquals($cachedContent, "sure, nothing interesting");
-
-        $I->assertTrue($cache->delete('test-data'));
-    }
-
-    public function xtestXcacheIncrement(UnitTester $I)
-    {
-        $ready = $this->_prepareXcache($I);
-        if (!$ready) {
-            return false;
-        }
-
-        $frontCache = new Output([
-            'lifetime' => 20,
-        ]);
-
-        $cache = new Xcache($frontCache);
-        $cache->delete('foo');
-
-        $cache->save('foo', 1);
-        $newValue = $cache->increment('foo');
-        $I->assertEquals('2', $newValue);
-
-        $newValue = $cache->increment('foo');
-        $I->assertEquals('3', $newValue);
-
-        $newValue = $cache->increment('foo', 4);
-        $I->assertEquals('7', $newValue);
-    }
-
-    public function xtestXcacheDecr(UnitTester $I)
-    {
-        $ready = $this->_prepareXcache($I);
-        if (!$ready) {
-            return false;
-        }
-
-        $frontCache = new Output([
-            'lifetime' => 20,
-        ]);
-
-        $cache = new Xcache($frontCache);
-        $cache->delete('foo');
-
-        $cache->save('foo', 20);
-        $newValue = $cache->decrement('foo');
-        $I->assertEquals('19', $newValue);
-
-        $newValue = $cache->decrement('foo');
-        $I->assertEquals('18', $newValue);
-
-        $newValue = $cache->decrement('foo', 4);
-        $I->assertEquals('14', $newValue);
-    }
-
-    public function testCacheXcacheFlush(UnitTester $I)
-    {
-        $frontCache = new Data(['lifetime' => 10]);
-
-        // Xcache
-        $ready = $this->_prepareXcache($I);
-        if (!$ready) {
-            return false;
-        }
-
-        $cache = new Xcache($frontCache, [
-            'statsKey' => '_PHCM',
-        ]);
-
-        $cache->save('data', "1");
-        $cache->save('data2', "2");
-
-        $I->assertTrue($cache->flush());
-
-        $I->assertFalse($cache->exists('data'));
-        $I->assertFalse($cache->exists('data2'));
-    }
-
     protected function _prepareMongo(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('mongo');
@@ -466,21 +308,5 @@ class CacheCest
         $collection->remove();
 
         return [$mongo, $collection];
-    }
-
-    protected function _prepareXcache(UnitTester $I)
-    {
-        return false;
-
-        if (function_exists('xcache_emulation')) {
-            return true;
-        }
-
-        if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
-            $this->markTestSkipped('xcache extension is not loaded');
-            return false;
-        }
-
-        return true;
     }
 }
