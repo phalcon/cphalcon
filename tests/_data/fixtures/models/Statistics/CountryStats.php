@@ -21,7 +21,7 @@ use Phalcon\Mvc\Model;
  */
 class CountryStats extends Model
 {
-	public function getSource()
+	public function getSource(): string
 	{
 		return 'stats';
 	}

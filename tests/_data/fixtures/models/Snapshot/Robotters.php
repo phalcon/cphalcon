@@ -34,7 +34,7 @@ use Phalcon\Test\Models\RobottersDeles;
  */
 class Robotters extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

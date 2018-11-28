@@ -9,7 +9,7 @@ namespace Phalcon\Test\Models\Some;
  */
 class Robotters extends \Phalcon\Mvc\Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

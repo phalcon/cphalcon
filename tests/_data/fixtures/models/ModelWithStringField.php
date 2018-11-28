@@ -35,7 +35,7 @@ class ModelWithStringField extends Model
     /**
      * @return string
      */
-    public function getSource()
+    public function getSource(): string
     {
         return 'table_with_string_field';
     }

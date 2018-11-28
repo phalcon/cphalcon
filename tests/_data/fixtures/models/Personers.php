@@ -35,7 +35,7 @@ use Phalcon\Mvc\Model;
  */
 class Personers extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'personas';
     }

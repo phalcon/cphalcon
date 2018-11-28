@@ -16,7 +16,7 @@ use Phalcon\Mvc\Model;
  */
 class LanguageI18n extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'languagei18n';
     }

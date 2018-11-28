@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  */
 class Robotters extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

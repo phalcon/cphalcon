@@ -4,7 +4,7 @@ namespace Phalcon\Test\Models\Some;
 
 class Parts extends \Phalcon\Mvc\Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'parts';
     }

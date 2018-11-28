@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model;
  */
 class Robos extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

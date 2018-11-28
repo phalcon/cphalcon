@@ -26,7 +26,7 @@ class Select extends Model
     {
     }
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'ph_select';
     }

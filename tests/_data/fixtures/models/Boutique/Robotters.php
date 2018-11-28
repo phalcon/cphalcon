@@ -33,7 +33,7 @@ class Robotters extends Model
      */
     public $theYear;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

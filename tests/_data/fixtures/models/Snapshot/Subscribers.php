@@ -29,7 +29,7 @@ use Phalcon\Mvc\Model\Behavior\Timestampable;
  */
 class Subscribers extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'subscriptores';
     }

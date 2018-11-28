@@ -17,7 +17,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  */
 class Language extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'language';
     }

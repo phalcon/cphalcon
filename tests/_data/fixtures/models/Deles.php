@@ -11,7 +11,7 @@ use Phalcon\Mvc\Model;
  */
 class Deles extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'parts';
     }
