@@ -17,8 +17,6 @@ run.config:
       - json
       - mbstring
       - memcached
-      - memcache
-      - mongodb
       - phar
       - pdo
       - pdo_mysql
@@ -33,7 +31,9 @@ run.config:
       - xmlwriter
       - zip
       - zlib
+      - mongodb
       - redis
+      - xcache
     zend_extensions:
       - opcache
     dev_zend_extensions:

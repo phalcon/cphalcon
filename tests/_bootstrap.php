@@ -86,6 +86,13 @@ $defaults = [
     "TEST_DB_POSTGRESQL_NAME"   => false !== getenv('DATA_POSTGRES_HOST') ? 'gonano' : 'phalcon_test',
     "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
 
+    // Mongo
+    "TEST_DB_MONGO_HOST"        => DATA_MONGODB_HOST,
+    "TEST_DB_MONGO_PORT"        => 27017,
+    "TEST_DB_MONGO_USER"        => 'admin',
+    "TEST_DB_MONGO_PASSWD"      => '',
+    "TEST_DB_MONGO_NAME"        => 'phalcon_test',
+
     // Redis
     "TEST_RS_HOST"             => env('DATA_REDIS_HOST', '127.0.0.1'),
     "TEST_RS_PORT"             => 6379,
@@ -104,12 +111,6 @@ $defaults = [
 //
 //
 //
-//    // Mongo
-//    "TEST_DB_MONGO_HOST"        => '127.0.0.1',
-//    "TEST_DB_MONGO_PORT"        => 27017,
-//    "TEST_DB_MONGO_USER"        => 'admin',
-//    "TEST_DB_MONGO_PASSWD"      => '',
-//    "TEST_DB_MONGO_NAME"        => 'phalcon_test',
 //
 //];
 //
