@@ -22,10 +22,10 @@ class RobotsParts extends Model
             __NAMESPACE__ . '\Robots',
             'id',
             [
-                'alias' => 'Robots',
+                'alias'  => 'Robots',
                 'params' => [
-                    'columns' => 'id,name'
-                ]
+                    'columns' => 'id,name',
+                ],
             ]
         );
     }

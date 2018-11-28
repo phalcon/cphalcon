@@ -17,11 +17,11 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Tag;
-use Phalcon\Mvc\View;
 use IntegrationTester;
 use Phalcon\Events\Manager;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Tag;
 use Phalcon\Test\Fixtures\View\AfterRenderListener;
 
 /**
@@ -91,7 +91,7 @@ class ViewCest
     {
         $I->wantToTest('Getting current path');
 
-        $listener = new AfterRenderListener;
+        $listener      = new AfterRenderListener;
         $eventsManager = new Manager;
         $eventsManager->attach('view', $listener);
 

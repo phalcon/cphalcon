@@ -5,41 +5,41 @@ namespace Cacheable;
 class Model extends \Phalcon\Mvc\Model
 {
 
-	public static function getCacheableParams($parameters)
-	{
+    public static function findFirst($parameters = null)
+    {
+        $parameters = self::getCacheableParams($parameters);
+        return parent::findFirst($parameters);
+    }
 
-		if (!$parameters) {
-			return $parameters;
-		}
+    public static function getCacheableParams($parameters)
+    {
 
-		if (isset($parameters['di'])) {
-			unset ($parameters['di']);
-		}
+        if (!$parameters) {
+            return $parameters;
+        }
 
-		$key = md5(get_called_class() . serialize($parameters));
+        if (isset($parameters['di'])) {
+            unset ($parameters['di']);
+        }
 
-		if (!is_array($parameters)) {
-			$parameters = array($parameters);
-		}
+        $key = md5(get_called_class() . serialize($parameters));
 
-		$parameters['cache'] = array(
-			'key' => $key,
-			'lifetime' => 3600
-		);
+        if (!is_array($parameters)) {
+            $parameters = [$parameters];
+        }
 
-		return $parameters;
-	}
+        $parameters['cache'] = [
+            'key'      => $key,
+            'lifetime' => 3600,
+        ];
 
-	public static function findFirst($parameters=null)
-	{
-		$parameters = self::getCacheableParams($parameters);
-		return parent::findFirst($parameters);
-	}
+        return $parameters;
+    }
 
-	public static function find($parameters=null)
-	{
-		$parameters = self::getCacheableParams($parameters);
-		return parent::find($parameters);
-	}
+    public static function find($parameters = null)
+    {
+        $parameters = self::getCacheableParams($parameters);
+        return parent::find($parameters);
+    }
 
 }

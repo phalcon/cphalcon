@@ -13,7 +13,7 @@ use Phalcon\Mvc\Model;
  * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Models\Snapshot
  *
- * @property int $id
+ * @property int   $id
  * @property sting $name
  *
  * @method static Parts findFirst($parameters = null)

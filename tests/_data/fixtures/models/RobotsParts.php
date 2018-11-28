@@ -27,7 +27,7 @@ class RobotsParts extends Model
         $this->belongsTo('parts_id', Parts::class, 'id', ['foreignKey' => true]);
 
         $this->belongsTo('robots_id', Robots::class, 'id', [
-            'foreignKey' => ['message' => 'The robot code does not exist']
+            'foreignKey' => ['message' => 'The robot code does not exist'],
         ]);
     }
 }

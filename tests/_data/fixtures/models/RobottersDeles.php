@@ -19,9 +19,9 @@ class RobottersDeles extends Model
     public function columnMap()
     {
         return [
-            'id' => 'code',
+            'id'        => 'code',
             'robots_id' => 'robottersCode',
-            'parts_id' => 'delesCode',
+            'parts_id'  => 'delesCode',
         ];
     }
 
@@ -32,7 +32,7 @@ class RobottersDeles extends Model
             Deles::class,
             'code',
             [
-                'foreignKey' => true
+                'foreignKey' => true,
             ]
         );
 
@@ -42,8 +42,8 @@ class RobottersDeles extends Model
             'code',
             [
                 'foreignKey' => [
-                    'message' => 'The robotters code does not exist'
-                ]
+                    'message' => 'The robotters code does not exist',
+                ],
             ]
         );
     }

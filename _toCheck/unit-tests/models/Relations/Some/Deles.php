@@ -10,26 +10,26 @@ namespace Some;
 class Deles extends \Phalcon\Mvc\Model
 {
 
-	public function getSource()
-	{
-		return 'parts';
-	}
+    public function getSource()
+    {
+        return 'parts';
+    }
 
-	public function columnMap()
-	{
-		return array(
-			'id' => 'code',
-			'name' => 'theName',
-		);
-	}
+    public function columnMap()
+    {
+        return [
+            'id'   => 'code',
+            'name' => 'theName',
+        ];
+    }
 
-	public function initialize()
-	{
-		$this->hasMany('code', 'Some\RobottersDeles', 'delesCode', array(
-			'foreignKey' => array(
-				'message' => 'Deles cannot be deleted because is referenced by a Robotter'
-			)
-		));
-	}
+    public function initialize()
+    {
+        $this->hasMany('code', 'Some\RobottersDeles', 'delesCode', [
+            'foreignKey' => [
+                'message' => 'Deles cannot be deleted because is referenced by a Robotter',
+            ],
+        ]);
+    }
 
 }

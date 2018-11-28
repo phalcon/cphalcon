@@ -17,12 +17,12 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
+use IntegrationTester;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\RobotsParts;
-use IntegrationTester;
 
 /**
  * Phalcon\Test\Integration\Mvc\Model\Query\BuilderCest
@@ -62,17 +62,18 @@ class BuilderCest
 
         for ($i = 0; $i <= 1; $i++) {
             $builder = new Builder();
-            $result = $builder->columns(['rp.*,r.*'])
-                ->from(['rp' => RobotsParts::class])
-                ->leftJoin(Robots::class, 'r.id = rp.robots_id', 'r')
-                ->where('rp.id = 1')
-                ->getQuery()
-                ->cache(
-                    [
-                        'key' => 'robots-cache-complex',
-                    ]
-                )
-                ->getSingleResult();
+            $result  = $builder->columns(['rp.*,r.*'])
+                               ->from(['rp' => RobotsParts::class])
+                               ->leftJoin(Robots::class, 'r.id = rp.robots_id', 'r')
+                               ->where('rp.id = 1')
+                               ->getQuery()
+                               ->cache(
+                                   [
+                                       'key' => 'robots-cache-complex',
+                                   ]
+                               )
+                               ->getSingleResult()
+            ;
             /** @var Robots $robot */
             $robot = $result['r'];
             /** @var RobotsParts $robotParts */
@@ -83,7 +84,7 @@ class BuilderCest
             $I->assertInstanceOf(RobotsParts::class, $robotParts);
             $I->assertNotEmpty($robotParts->getSnapshotData());
             $I->assertEquals($robotParts->getSnapshotData(), $robotParts->toArray());
-            $I->seeFileFound(PATH_OUTPUT."tests/cache/robots-cache-complex");
+            $I->seeFileFound(PATH_OUTPUT . "tests/cache/robots-cache-complex");
         }
     }
 }

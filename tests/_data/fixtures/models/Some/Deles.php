@@ -16,18 +16,18 @@ class Deles extends \Phalcon\Mvc\Model
 
     public function columnMap()
     {
-        return array(
-            'id' => 'code',
+        return [
+            'id'   => 'code',
             'name' => 'theName',
-        );
+        ];
     }
 
     public function initialize()
     {
-        $this->hasMany('code', RobottersDeles::class, 'delesCode', array(
-            'foreignKey' => array(
-                'message' => 'Deles cannot be deleted because is referenced by a Robotter'
-            )
-        ));
+        $this->hasMany('code', RobottersDeles::class, 'delesCode', [
+            'foreignKey' => [
+                'message' => 'Deles cannot be deleted because is referenced by a Robotter',
+            ],
+        ]);
     }
 }

@@ -8,9 +8,9 @@ use Phalcon\Mvc\Model;
  * \Phalcon\Test\Models\Statistics\CountryStats
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Eugene Smirnov <ashpumpkin@gmail.com>
- * @package   Phalcon\Test\Models\Statistics
+ * @link          http://www.phalconphp.com
+ * @author        Eugene Smirnov <ashpumpkin@gmail.com>
+ * @package       Phalcon\Test\Models\Statistics
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -21,13 +21,13 @@ use Phalcon\Mvc\Model;
  */
 class CountryStats extends Model
 {
-	public function getSource(): string
-	{
-		return 'stats';
-	}
+    public function getSource(): string
+    {
+        return 'stats';
+    }
 
-	public function getResultsetClass()
-	{
-		return 'Phalcon\Test\Models\Statistics\AgeStats';
-	}
+    public function getResultsetClass()
+    {
+        return 'Phalcon\Test\Models\Statistics\AgeStats';
+    }
 }

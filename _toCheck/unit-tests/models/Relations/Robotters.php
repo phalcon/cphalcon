@@ -10,28 +10,28 @@ use Phalcon\Mvc\Model;
 class Robotters extends Model
 {
 
-	public function getSource()
-	{
-		return 'robots';
-	}
+    public function getSource()
+    {
+        return 'robots';
+    }
 
-	public function columnMap()
-	{
-		return array(
-			'id' => 'code',
-			'name' => 'theName',
-			'type' => 'theType',
-			'year' => 'theYear',
-			'datetime' => 'theDatetime',
-			'deleted' => 'theDeleted',
-			'text' => 'theText',
-		);
-	}
+    public function columnMap()
+    {
+        return [
+            'id'       => 'code',
+            'name'     => 'theName',
+            'type'     => 'theType',
+            'year'     => 'theYear',
+            'datetime' => 'theDatetime',
+            'deleted'  => 'theDeleted',
+            'text'     => 'theText',
+        ];
+    }
 
-	public function initialize()
-	{
-		$this->hasMany('code', 'RobottersDeles', 'robottersCode', array(
-			'foreignKey' => true
-		));
-	}
+    public function initialize()
+    {
+        $this->hasMany('code', 'RobottersDeles', 'robottersCode', [
+            'foreignKey' => true,
+        ]);
+    }
 }

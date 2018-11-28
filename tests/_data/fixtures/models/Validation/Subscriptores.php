@@ -2,21 +2,21 @@
 
 namespace Phalcon\Test\Models\Validation;
 
+use Phalcon\Messages\Message;
 use Phalcon\Mvc\Model;
 use Phalcon\Validation;
-use Phalcon\Messages\Message;
-use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\Email;
-use Phalcon\Validation\Validator\Uniqueness;
-use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\InclusionIn;
 use Phalcon\Validation\Validator\ExclusionIn;
+use Phalcon\Validation\Validator\InclusionIn;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\Uniqueness;
 
 /**
  * \Phalcon\Test\Models\Validation\Subscriptores
  *
- * @property int id
+ * @property int    id
  * @property string email
  * @property string created_at
  * @property string status
@@ -63,14 +63,13 @@ class Subscriptores extends Model
         $validator = new Validation();
         $validator
             ->add('created_at', new PresenceOf())
-
             ->add('email', new StringLength(['min' => '7', 'max' => '50']))
             ->add('email', new Email())
             ->add('email', new Uniqueness())
-
             ->add('status', new ExclusionIn(['domain' => ['P', 'I', 'w']]))
             ->add('status', new InclusionIn(['domain' => ['A', 'y', 'Z']]))
-            ->add('status', new Regex(['pattern' => '/[A-Z]/']));
+            ->add('status', new Regex(['pattern' => '/[A-Z]/']))
+        ;
 
         return $this->validate($validator);
     }

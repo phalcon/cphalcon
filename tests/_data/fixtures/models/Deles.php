@@ -19,7 +19,7 @@ class Deles extends Model
     public function columnMap()
     {
         return [
-            'id' => 'code',
+            'id'   => 'code',
             'name' => 'theName',
         ];
     }
@@ -32,8 +32,8 @@ class Deles extends Model
             'delesCode',
             [
                 'foreignKey' => [
-                    'message' => 'Deles cannot be deleted because is referenced by a Robotter'
-                ]
+                    'message' => 'Deles cannot be deleted because is referenced by a Robotter',
+                ],
             ]
         );
     }

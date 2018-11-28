@@ -13,10 +13,10 @@ use Phalcon\Mvc\Model;
  * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Models\Snapshot
  *
- * @property int $id
- * @property sting $name
+ * @property int    $id
+ * @property sting  $name
  * @property string $type
- * @property int $year
+ * @property int    $year
  * @property string $datetime
  * @property string $deleted
  * @property string $text

@@ -3,9 +3,9 @@
 class People extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
-	{
-		return 'personas';
-	}
+    public function getSource()
+    {
+        return 'personas';
+    }
 
 }

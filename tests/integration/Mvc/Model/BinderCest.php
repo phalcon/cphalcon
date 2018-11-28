@@ -83,12 +83,12 @@ class BinderCest
             );
         }
 
-        $this->cache = new Apc(new Data(['lifetime' => 20]));
+        $this->cache       = new Apc(new Data(['lifetime' => 20]));
         $this->modelBinder = new Binder($this->cache);
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
-        $this->robot = Robots::findFirst();
-        $this->people = People::findFirst();
+        $this->robot         = Robots::findFirst();
+        $this->people        = People::findFirst();
 
         $I->haveServiceInDi(
             'modelsMetadata',
@@ -128,6 +128,63 @@ class BinderCest
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
         }
+    }
+
+    /**
+     * @param bool $useModelBinder
+     *
+     * @return Dispatcher
+     */
+    private function createDispatcher($useModelBinder = true)
+    {
+        $this->cache->flush();
+        $dispatcher = new Dispatcher;
+        if ($useModelBinder) {
+            $dispatcher->setModelBinder($this->modelBinder);
+        }
+        $dispatcher->setDI(Di::getDefault());
+
+        return $dispatcher;
+    }
+
+    /**
+     * @param                   $dispatcher
+     * @param IntegrationTester $I
+     */
+    private function assertDispatcher($dispatcher, IntegrationTester $I)
+    {
+        $I->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+        $I->haveServiceInDi('dispatcher', $dispatcher);
+    }
+
+    /**
+     * @param Dispatcher $dispatcher
+     * @param            $controllerName
+     * @param            $actionName
+     * @param            $params
+     * @param bool       $returnValue
+     *
+     * @return mixed
+     */
+    private function returnDispatcherValueForAction(
+        Dispatcher $dispatcher,
+        $controllerName,
+        $actionName,
+        $params,
+        $returnValue = true
+    ) {
+        $dispatcher->setReturnedValue(null);
+        $dispatcher->setControllerName($controllerName);
+        $dispatcher->setActionName($actionName);
+        $dispatcher->setParams($params);
+
+        if ($returnValue) {
+            $dispatcher->dispatch();
+
+            return $dispatcher->getReturnedValue();
+        }
+
+        return null;
     }
 
     /**
@@ -313,10 +370,11 @@ class BinderCest
             function (People $people) {
                 return $people;
             }
-        )->setName('people');
+        )->setName('people')
+        ;
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -327,6 +385,26 @@ class BinderCest
                 $this->cache->get('_PHMB_people')
             );
         }
+    }
+
+    /**
+     * @param IntegrationTester $I
+     * @param bool              $useModelBinder
+     *
+     * @return Micro
+     */
+    private function createMicro(IntegrationTester $I, $useModelBinder = true)
+    {
+        $this->cache->flush();
+        $micro = new Micro(Di::getDefault());
+
+        if ($useModelBinder) {
+            $micro->setModelBinder($this->modelBinder);
+        }
+
+        $I->assertInstanceOf('Phalcon\Di', $micro->getDI());
+
+        return $micro;
     }
 
     /**
@@ -348,7 +426,7 @@ class BinderCest
         );
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula.'/robot/'.$this->robot->id);
+            $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
             $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
@@ -382,7 +460,7 @@ class BinderCest
             }
         );
         try {
-            $micro->handle('/'.$this->people->cedula);
+            $micro->handle('/' . $this->people->cedula);
 
             $I->assertTrue(
                 false,
@@ -405,7 +483,7 @@ class BinderCest
         $micro->setModelBinder($this->modelBinder);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -436,7 +514,7 @@ class BinderCest
         $micro->mount($test10);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -467,7 +545,7 @@ class BinderCest
         $micro->mount($test10);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula.'/robot/'.$this->robot->id);
+            $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
             $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
@@ -501,7 +579,7 @@ class BinderCest
         $micro->mount($test11);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
@@ -531,7 +609,7 @@ class BinderCest
         $micro->mount($test11);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula.'/robot/'.$this->robot->id);
+            $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
             $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
@@ -565,7 +643,7 @@ class BinderCest
         $micro->mount($test9);
 
         try {
-            $micro->handle('/'.$this->people->cedula);
+            $micro->handle('/' . $this->people->cedula);
 
             $I->assertTrue(
                 false,
@@ -588,7 +666,7 @@ class BinderCest
         $micro->setModelBinder($this->modelBinder);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -619,7 +697,7 @@ class BinderCest
         $micro->mount($test10);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -650,7 +728,7 @@ class BinderCest
         $micro->mount($test10);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula.'/robot/'.$this->robot->id);
+            $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
             $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
@@ -684,7 +762,7 @@ class BinderCest
         $micro->mount($test11);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -715,7 +793,7 @@ class BinderCest
         $micro->mount($test11);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula.'/robot/'.$this->robot->id);
+            $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
             $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
@@ -749,7 +827,7 @@ class BinderCest
         $micro->mount($test9);
 
         try {
-            $micro->handle('/'.$this->people->cedula);
+            $micro->handle('/' . $this->people->cedula);
 
             $I->assertTrue(
                 false,
@@ -772,7 +850,7 @@ class BinderCest
         $micro->setModelBinder($this->modelBinder);
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/'.$this->people->cedula);
+            $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
@@ -796,7 +874,7 @@ class BinderCest
     public function testDispatcherSingleBindingOriginalValues(IntegrationTester $I)
     {
         $dispatcher = $this->createDispatcher();
-        $params = ['people' => $this->people->cedula];
+        $params     = ['people' => $this->people->cedula];
         $this->assertDispatcher($dispatcher, $I);
 
         $returnedValue = $this->returnDispatcherValueForAction(
@@ -820,7 +898,7 @@ class BinderCest
      */
     public function testDispatcherSingleBindingNoCache(IntegrationTester $I)
     {
-        $dispatcher = $this->createDispatcher(false);
+        $dispatcher  = $this->createDispatcher(false);
         $modelBinder = new Binder();
         $dispatcher->setModelBinder($modelBinder);
         $this->assertDispatcher($dispatcher, $I);
@@ -835,79 +913,5 @@ class BinderCest
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
         }
-    }
-
-    /**
-     * @param bool $useModelBinder
-     * @return Dispatcher
-     */
-    private function createDispatcher($useModelBinder = true)
-    {
-        $this->cache->flush();
-        $dispatcher = new Dispatcher;
-        if ($useModelBinder) {
-            $dispatcher->setModelBinder($this->modelBinder);
-        }
-        $dispatcher->setDI(Di::getDefault());
-
-        return $dispatcher;
-    }
-
-    /**
-     * @param $dispatcher
-     * @param IntegrationTester $I
-     */
-    private function assertDispatcher($dispatcher, IntegrationTester $I)
-    {
-        $I->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
-        $I->haveServiceInDi('dispatcher', $dispatcher);
-    }
-
-    /**
-     * @param Dispatcher $dispatcher
-     * @param $controllerName
-     * @param $actionName
-     * @param $params
-     * @param bool $returnValue
-     * @return mixed
-     */
-    private function returnDispatcherValueForAction(
-        Dispatcher $dispatcher,
-        $controllerName,
-        $actionName,
-        $params,
-        $returnValue = true
-    ) {
-        $dispatcher->setReturnedValue(null);
-        $dispatcher->setControllerName($controllerName);
-        $dispatcher->setActionName($actionName);
-        $dispatcher->setParams($params);
-
-        if ($returnValue) {
-            $dispatcher->dispatch();
-
-            return $dispatcher->getReturnedValue();
-        }
-
-        return null;
-    }
-
-    /**
-     * @param IntegrationTester $I
-     * @param bool $useModelBinder
-     * @return Micro
-     */
-    private function createMicro(IntegrationTester $I, $useModelBinder = true)
-    {
-        $this->cache->flush();
-        $micro = new Micro(Di::getDefault());
-
-        if ($useModelBinder) {
-            $micro->setModelBinder($this->modelBinder);
-        }
-
-        $I->assertInstanceOf('Phalcon\Di', $micro->getDI());
-
-        return $micro;
     }
 }

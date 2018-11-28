@@ -26,13 +26,13 @@ class Robotters extends Model
     public function columnMap()
     {
         return [
-            'id' => 'code',
-            'name' => 'theName',
-            'type' => 'theType',
-            'year' => 'theYear',
+            'id'       => 'code',
+            'name'     => 'theName',
+            'type'     => 'theType',
+            'year'     => 'theYear',
             'datetime' => 'theDatetime',
-            'deleted' => 'theDeleted',
-            'text' => 'theText',
+            'deleted'  => 'theDeleted',
+            'text'     => 'theText',
         ];
     }
 
@@ -43,7 +43,7 @@ class Robotters extends Model
             RobottersDeles::class,
             'robottersCode',
             [
-                'foreignKey' => true
+                'foreignKey' => true,
             ]
         );
     }

@@ -17,11 +17,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine;
 
-use Phalcon\Di;
-use Phalcon\Tag;
-use Phalcon\Mvc\View;
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Tag;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\VoltCest
@@ -48,9 +48,9 @@ class VoltCest
         $volt = new Volt($view, new Di());
 
         $volt->setOptions([
-            'compiledPath' => PATH_CACHE,
+            'compiledPath'      => PATH_CACHE,
             'compiledSeparator' => '.',
-            'compiledExtension' => '.compiled'
+            'compiledExtension' => '.compiled',
         ]);
 
         //Render simple view
@@ -59,8 +59,8 @@ class VoltCest
         $view->finish();
 
         $path = PATH_CACHE
-             . $I->preparePathToFileWithDelimiter(TESTS_PATH . '_data', '.')
-             . '.fixtures.views.test10.index.volt.compiled';
+            . $I->preparePathToFileWithDelimiter(TESTS_PATH . '_data', '.')
+            . '.fixtures.views.test10.index.volt.compiled';
 
         $I->assertTrue(file_exists($path));
         $I->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');

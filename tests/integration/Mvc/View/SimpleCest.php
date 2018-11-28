@@ -14,10 +14,10 @@ use PHPIntegration\Framework\SkippedTestError;
  * Tests the Phalcon\Mvc\View\Simple component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc\View
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Mvc\View
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -100,6 +100,7 @@ class SimpleCest
 
     /**
      * Setup viewCache service and DI
+     *
      * @return Di
      */
     protected function getDi()

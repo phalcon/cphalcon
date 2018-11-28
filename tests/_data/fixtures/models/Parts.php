@@ -31,8 +31,8 @@ class Parts extends Model
             'parts_id',
             [
                 'foreignKey' => [
-                    'message' => 'Parts cannot be deleted because is referenced by a Robot'
-                ]
+                    'message' => 'Parts cannot be deleted because is referenced by a Robot',
+                ],
             ]
         );
     }

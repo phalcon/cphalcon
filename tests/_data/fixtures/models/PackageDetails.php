@@ -8,10 +8,10 @@ use Phalcon\Mvc\Model;
  * \Phalcon\Test\Models\PackageDetails
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Models
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt

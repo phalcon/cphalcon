@@ -14,10 +14,10 @@ use Phalcon\Test\Models\RobottersDeles;
  * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Models\Snapshot
  *
- * @property int $code
- * @property sting $theName
+ * @property int    $code
+ * @property sting  $theName
  * @property string $theType
- * @property int $theYear
+ * @property int    $theYear
  * @property string $theDatetime
  * @property string $theDeleted
  * @property string $theText

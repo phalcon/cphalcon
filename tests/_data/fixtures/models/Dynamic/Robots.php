@@ -14,10 +14,10 @@ use Phalcon\Test\Models\RobotsParts;
  * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Models\Dynamic
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $type
- * @property int $year
+ * @property int    $year
  * @property string $datetime
  * @property string $deleted
  * @property string $text

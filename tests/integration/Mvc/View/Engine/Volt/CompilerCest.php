@@ -18,16 +18,16 @@
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 
 use DateTime;
-use Phalcon\Di;
 use IntegrationTester;
-use Phalcon\Mvc\View;
-use Phalcon\Tag;
-use Phalcon\Mvc\Url;
+use Phalcon\Di;
 use Phalcon\Escaper;
-use Phalcon\Forms\Form;
-use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Forms\Element\Password;
+use Phalcon\Forms\Form;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Tag;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerCest
@@ -53,7 +53,7 @@ class CompilerCest
         $I->removeFilesWithoutErrors([
             PATH_DATA . 'fixtures/views/layouts/test10.volt.php',
             PATH_DATA . 'fixtures/views/test10/index.volt.php',
-            PATH_DATA . 'fixtures/views/test10/other.volt.php'
+            PATH_DATA . 'fixtures/views/test10/other.volt.php',
         ]);
 
         $di = new Di();
@@ -63,7 +63,7 @@ class CompilerCest
         $view->setViewsDir(PATH_DATA . 'fixtures/views/');
 
         $view->registerEngines([
-            '.volt' => 'Phalcon\Mvc\View\Engine\Volt'
+            '.volt' => 'Phalcon\Mvc\View\Engine\Volt',
         ]);
 
         $view->setParamToView('song', 'Rock n roll');
@@ -150,7 +150,7 @@ class CompilerCest
         Tag::setDocType(Tag::XHTML5);
 
         $view = new View;
-        $di = new Di;
+        $di   = new Di;
         $di->set('escaper', function () {
             return new Escaper;
         });
@@ -167,11 +167,11 @@ class CompilerCest
 
         $view->registerEngines([
             '.volt' => function ($view, $di) {
-                $volt = new Volt($view, $di);
+                $volt     = new Volt($view, $di);
                 $compiler = $volt->getCompiler();
                 $compiler->addFunction('strtotime', 'strtotime');
                 return $volt;
-            }
+            },
         ]);
 
         $view->start();
@@ -203,7 +203,7 @@ class CompilerCest
         $view->finish();
 
         $expected = '<div><span class="error-type">Invalid</span><span class="error-field">name</span>'
-                  . '<span class="error-message">The name is invalid</span></div>';
+            . '<span class="error-message">The name is invalid</span></div>';
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
@@ -211,10 +211,10 @@ class CompilerCest
             'links',
             [
                 (object) [
-                    'url' => 'localhost',
-                    'text' => 'Menu item',
-                    'title' => 'Menu title'
-                ]
+                    'url'   => 'localhost',
+                    'text'  => 'Menu item',
+                    'title' => 'Menu title',
+                ],
             ]
         );
         $view->start();
@@ -267,7 +267,7 @@ class CompilerCest
 
         Di::reset();
         $view = new View;
-        $di = new Di;
+        $di   = new Di;
         Tag::setDocType(Tag::XHTML5);
         $di->set('escaper', function () {
             return new Escaper;
@@ -284,9 +284,9 @@ class CompilerCest
         $view->registerEngines([
             '.volt' => function ($view, $di) {
                 return new Volt($view, $di);
-            }
+            },
         ]);
-        $object = new \stdClass();
+        $object      = new \stdClass();
         $object->foo = "bar";
         $object->baz = "buz";
         $object->pi  = 3.14;
@@ -311,7 +311,7 @@ class CompilerCest
         $view->start();
         $view->render('macro', 'form_row');
         $view->finish();
-        $expected =<<<FORM
+        $expected = <<<FORM
 <div class="form-group">
     <label class="col-sm-2 control-label" for="password">password:</label>
     <div class="col-sm-6"><input type="password" id="password" name="password" class="form-control " /></div>
@@ -339,10 +339,10 @@ FORM;
     {
         $I->wantToTest('Volt Loop context');
 
-        $volt = new Compiler();
+        $volt     = new Compiler();
         $compiled = $volt->compileString('{% for i in 1..5 %}{{ loop.self.index }}{% endfor %}');
         ob_start();
-        eval('?>'.$compiled);
+        eval('?>' . $compiled);
 
         $result = ob_get_clean();
 

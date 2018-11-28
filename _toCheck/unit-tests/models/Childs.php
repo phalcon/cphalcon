@@ -2,15 +2,15 @@
 
 class Childs extends \Phalcon\Mvc\Model
 {
-	public $id;
+    public $id;
 
-	public $parent;
+    public $parent;
 
-	public $source;
+    public $source;
 
-	public $transaction;
+    public $transaction;
 
-	public $for;
+    public $for;
 
-	public $group;
+    public $group;
 }

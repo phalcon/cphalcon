@@ -12,10 +12,10 @@
 namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
+use PDO;
 use Phalcon\Db;
 use Phalcon\Db\RawValue;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use PDO;
 
 class DbCest
 {
@@ -26,7 +26,7 @@ class DbCest
         $this->resetDi();
         $this->newDi();
     }
-    
+
     /**
      * Tests Phalcon\Db :: Mysql
      *
@@ -39,25 +39,7 @@ class DbCest
     {
         $I->wantToTest("Db - MySql");
         $this->setDbMysql();
-        $container = $this->getDi();
-        $connection = $container->get('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    /**
-     * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbPostgresql(IntegrationTester $I)
-    {
-        $I->wantToTest("Db - Postgresql");
-        $this->setDbPostgresql();
-        $container = $this->getDi();
+        $container  = $this->getDi();
         $connection = $container->get('db');
 
         $this->executeTests($I, $connection);
@@ -182,11 +164,15 @@ class DbCest
         //test array syntax for $whereCondition
         $success = $connection->insert('prueba', ["LOL array syntax", "E"], ['nombre', 'estado']);
         $I->assertTrue($success);
-        $success = $connection->update('prueba', ["nombre", 'estado'], ["LOL array syntax 2", 'X'], [
+        $success = $connection->update(
+            'prueba',
+            ["nombre", 'estado'],
+            ["LOL array syntax 2", 'X'],
+            [
             'conditions' => "nombre=? and estado = ?",
             'bind'       => ["LOL array syntax", "E"],
             'bindTypes'  => [PDO::PARAM_STR, PDO::PARAM_STR],
-        ],
+            ],
             [PDO::PARAM_STR, PDO::PARAM_STR]
         );
         $I->assertTrue($success);
@@ -227,7 +213,8 @@ class DbCest
             ]
         );
         $I->assertEquals($row['cnt'], 1);
-        $success = $connection->updateAsDict('prueba',
+        $success = $connection->updateAsDict(
+            'prueba',
             [
                 'nombre' => "LOL updateAsDict",
                 'estado' => "X",
@@ -374,5 +361,23 @@ class DbCest
 
         $success = $connection->rollback(); // rollback - real rollback
         $I->assertTrue($success);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbPostgresql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Postgresql");
+        $this->setDbPostgresql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
+
+        $this->executeTests($I, $connection);
     }
 }

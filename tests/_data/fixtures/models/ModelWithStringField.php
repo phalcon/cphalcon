@@ -43,7 +43,7 @@ class ModelWithStringField extends Model
     public function allowEmptyStringValue()
     {
         $this->allowEmptyStringValues([
-            'field'
+            'field',
         ]);
     }
 

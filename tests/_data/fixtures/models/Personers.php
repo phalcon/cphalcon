@@ -15,15 +15,15 @@ use Phalcon\Mvc\Model;
  * @package   Phalcon\Test\Models
  *
  * @property string $borgerId
- * @property int $slagBorgerId
+ * @property int    $slagBorgerId
  * @property string $navnes
  * @property string $telefon
  * @property string $adresse
  * @property string $elektroniskPost
  * @property string $fodtDato
- * @property int $fodebyId
+ * @property int    $fodebyId
  * @property string $skabtPa
- * @property float $kredit
+ * @property float  $kredit
  * @property string $status
  *
  * The contents of this file are subject to the New BSD License that is

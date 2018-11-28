@@ -2,24 +2,22 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Di;
-use Phalcon\Test\Integration\Mvc\Model\BinderCest;
-use Test4Controller;
 use IntegrationTester;
+use Phalcon\Di;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Test\Models\People;
 use Phalcon\Mvc\Model\Metadata\Memory;
+use Test4Controller;
 
 /**
  * \Phalcon\Test\Integration\Mvc\ControllerCest
  * Tests the Phalcon\Mvc\Controller component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt

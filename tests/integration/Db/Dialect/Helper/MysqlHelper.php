@@ -33,6 +33,7 @@ class MysqlHelper
 
         return $sql;
     }
+
     /**
      * @param string $foreignKeyName
      *

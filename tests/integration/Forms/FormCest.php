@@ -2,14 +2,14 @@
 
 namespace Phalcon\Test\Integration\Forms;
 
-use Phalcon\Tag;
 use IntegrationTester;
-use Phalcon\Forms\Form;
-use Phalcon\Messages\Message;
-use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\Password;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use Phalcon\Tag;
 use Phalcon\Test\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
@@ -19,10 +19,10 @@ use Phalcon\Validation\Validator\StringLength;
  * Tests the \Phalcon\Forms\Form component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Integration\Forms
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Forms
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -51,12 +51,13 @@ class FormCest
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-01
+     *
      * @param  IntegrationTester $I
      */
     public function clearFormElements(IntegrationTester $I)
     {
         $pass = new Password('passwd');
-        $eml = new Email('email');
+        $eml  = new Email('email');
 
         $text = new Text('name');
         $text->setDefault('Serghei Iakovlev');
@@ -65,7 +66,8 @@ class FormCest
         $form
             ->add($eml)
             ->add($text)
-            ->add($pass);
+            ->add($pass)
+        ;
 
         $I->assertNull($form->get('passwd')->getValue());
         $I->assertEquals('Serghei Iakovlev', $form->get('name')->getValue());
@@ -87,7 +89,7 @@ class FormCest
 
         $_POST = [
             'passwd' => 'secret',
-            'name' => 'Andres Gutierrez',
+            'name'   => 'Andres Gutierrez',
         ];
 
         $I->assertEquals('secret', $form->get('passwd')->getValue());
@@ -147,6 +149,7 @@ class FormCest
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-11-19
+     *
      * @param  IntegrationTester $I
      */
     public function shouldCancelValidationOnFirstFail(IntegrationTester $I)
@@ -201,16 +204,16 @@ class FormCest
         $_POST = [];
         $I->assertFalse($form->isValid($_POST));
 
-        $actual = $form->getMessages();
+        $actual   = $form->getMessages();
         $expected = Messages::__set_state([
             '_position' => 0,
             '_messages' => [
                 Message::__set_state([
-                    '_type' => 'PresenceOf',
+                    '_type'    => 'PresenceOf',
                     '_message' => 'user.lastName.presenceOf',
-                    '_field' => 'lastName',
-                    '_code' => '0',
-                ])
+                    '_field'   => 'lastName',
+                    '_code'    => '0',
+                ]),
             ],
         ]);
 
@@ -223,6 +226,7 @@ class FormCest
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-01
+     *
      * @param  IntegrationTester $I
      */
     public function clearFormElementsAndUsingValidation(IntegrationTester $I)
@@ -253,16 +257,16 @@ class FormCest
 
         $I->assertFalse($form->isValid($_POST));
 
-        $actual = $form->getMessages();
+        $actual   = $form->getMessages();
         $expected = Messages::__set_state([
             '_position' => 0,
             '_messages' => [
                 Message::__set_state([
-                    '_type' => 'TooShort',
+                    '_type'    => 'TooShort',
                     '_message' => 'The text is too short',
-                    '_field' => 'password',
-                    '_code' => '0',
-                ])
+                    '_field'   => 'password',
+                    '_code'    => '0',
+                ]),
             ],
         ]);
 
@@ -284,6 +288,7 @@ class FormCest
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-10-01
+     *
      * @param  IntegrationTester $I
      */
     public function clearFormElementsByUsingFormBind(IntegrationTester $I)
@@ -294,7 +299,8 @@ class FormCest
         $form = new Form;
         $form
             ->add($name)
-            ->add($text);
+            ->add($text)
+        ;
 
         $entity = new MvcModel;
 

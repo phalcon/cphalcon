@@ -47,15 +47,15 @@ class Robots extends Model
             'robots_id',
             [
                 'foreignKey' => true,
-                'reusable' => false,
-                'alias' => 'parts'
+                'reusable'   => false,
+                'alias'      => 'parts',
             ]
         );
     }
 
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name          = $name;
         $this->wasSetterUsed = true;
 
         return $this;

@@ -11,15 +11,15 @@ use Phalcon\Mvc\Model;
  * @package Phalcon\Test\Models\Dynamic
  *
  * @property string $borgerId
- * @property int $slagBorgerId
+ * @property int    $slagBorgerId
  * @property string $navnes
  * @property string $telefon
  * @property string $adresse
  * @property string $elektroniskPost
  * @property string $fodtDato
- * @property int $fodebyId
- * @property int $skabtPa
- * @property float $kredit
+ * @property int    $fodebyId
+ * @property int    $skabtPa
+ * @property float  $kredit
  * @property string $status
  *
  * @method static Personers findFirst($parameters = null)

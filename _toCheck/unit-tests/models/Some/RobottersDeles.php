@@ -10,32 +10,32 @@ namespace Some;
 class RobottersDeles extends \Phalcon\Mvc\Model
 {
 
-	public function getSource()
-	{
-		return 'robots_parts';
-	}
+    public function getSource()
+    {
+        return 'robots_parts';
+    }
 
-	public function columnMap()
-	{
-		return array(
-			'id' => 'code',
-			'robots_id' => 'robottersCode',
-			'parts_id' => 'delesCode',
-		);
-	}
+    public function columnMap()
+    {
+        return [
+            'id'        => 'code',
+            'robots_id' => 'robottersCode',
+            'parts_id'  => 'delesCode',
+        ];
+    }
 
-	public function initialize()
-	{
+    public function initialize()
+    {
 
-		$this->belongsTo('delesCode', 'Some\Deles', 'code', array(
-			'foreignKey' => true
-		));
+        $this->belongsTo('delesCode', 'Some\Deles', 'code', [
+            'foreignKey' => true,
+        ]);
 
-		$this->belongsTo('robottersCode', 'Some\Robotters', 'code', array(
-			'foreignKey' => array(
-				'message' => 'The robotters code does not exist'
-			)
-		));
-	}
+        $this->belongsTo('robottersCode', 'Some\Robotters', 'code', [
+            'foreignKey' => [
+                'message' => 'The robotters code does not exist',
+            ],
+        ]);
+    }
 
 }

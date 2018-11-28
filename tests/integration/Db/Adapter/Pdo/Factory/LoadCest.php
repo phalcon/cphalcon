@@ -46,22 +46,6 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - array
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-02
-     */
-    public function dbAdapterPdoFactoryLoadArray(IntegrationTester $I)
-    {
-        $I->wantToTest("Db\Adapter\Pdo\Factory - load() - array");
-        $options = $this->arrayConfig["database"];
-        $data    = $options;
-        $this->runTests($I, $options, $data);
-    }
-
-    /**
      * @param IntegrationTester $I
      * @param Config|Array      $options
      * @param array             $data
@@ -78,5 +62,21 @@ class LoadCest
         $expected = array_intersect_assoc($database->getDescriptor(), $data);
         $actual   = $database->getDescriptor();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - array
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-02
+     */
+    public function dbAdapterPdoFactoryLoadArray(IntegrationTester $I)
+    {
+        $I->wantToTest("Db\Adapter\Pdo\Factory - load() - array");
+        $options = $this->arrayConfig["database"];
+        $data    = $options;
+        $this->runTests($I, $options, $data);
     }
 }

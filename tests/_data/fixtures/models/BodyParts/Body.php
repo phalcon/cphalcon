@@ -3,7 +3,6 @@
 namespace Phalcon\Test\Models\BodyParts;
 
 use Phalcon\Mvc\Model;
-use Phalcon\Test\Models\BodyParts\Head;
 
 /**
  * \Phalcon\Test\Models\Body
@@ -35,11 +34,11 @@ class Body extends Model
             Head::class,
             'id',
             [
-                'alias' => 'head1',
+                'alias'      => 'head1',
                 "foreignKey" => [
                     "allowNulls" => true,
-                    "message" => "First head does not exists"
-                ]
+                    "message"    => "First head does not exists",
+                ],
             ]
         );
 
@@ -48,11 +47,11 @@ class Body extends Model
             Head::class,
             'id',
             [
-                'alias' => 'head2',
+                'alias'      => 'head2',
                 "foreignKey" => [
                     "allowNulls" => true,
-                    "message" => "Second head does not exists"
-                ]
+                    "message"    => "Second head does not exists",
+                ],
             ]
         );
     }

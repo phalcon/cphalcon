@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace  Phalcon\Test\Integration;
+namespace Phalcon\Test\Integration;
 
 use IntegrationTester;
-use Phalcon\Validation;
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
 
 class ValidationCest
 {
@@ -25,19 +25,20 @@ class ValidationCest
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-27
+     *
      * @param IntegrationTester $I
      */
     public function appendValidationMessageToTheNonObject(IntegrationTester $I)
     {
         $myValidator = new PresenceOf();
-        $validation = new Validation();
+        $validation  = new Validation();
 
         $validation->bind(
             new \stdClass(),
             [
                 'day'   => date('d'),
                 'month' => date('m'),
-                'year'  => date('Y') + 1
+                'year'  => date('Y') + 1,
             ]
         );
 
@@ -46,7 +47,7 @@ class ValidationCest
         $expectedMessages = Messages::__set_state([
             '_position' => 0,
             '_messages' => [
-                new Message('Field foo is required', 'foo', 'PresenceOf', 0)
+                new Message('Field foo is required', 'foo', 'PresenceOf', 0),
             ],
         ]);
 

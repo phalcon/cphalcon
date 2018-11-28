@@ -2,22 +2,22 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Di;
 use IntegrationTester;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Application;
+use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Application;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\View;
 
 /**
  * \Phalcon\Test\Integration\Mvc\ApplicationCest
  * Tests the Phalcon\Mvc\Application component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -61,7 +61,7 @@ class ApplicationCest
             $router->add('/index', [
                 'controller' => 'index',
                 'module'     => 'frontend',
-                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers'
+                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
             ]);
 
             return $router;
@@ -74,7 +74,7 @@ class ApplicationCest
                 'path'      => PATH_DATA . 'fixtures/modules/frontend/Module.php',
                 'className' => 'Phalcon\Test\Modules\Frontend\Module',
             ],
-            'backend' => [
+            'backend'  => [
                 'path'      => PATH_DATA . 'fixtures/modules/backend/Module.php',
                 'className' => 'Phalcon\Test\Modules\Backend\Module',
             ],
@@ -100,20 +100,20 @@ class ApplicationCest
             $router->add('/index', [
                 'controller' => 'index',
                 'module'     => 'frontend',
-                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers'
+                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
             ]);
 
             $router->add('/login', [
                 'controller' => 'login',
                 'module'     => 'backend',
-                'namespace'  => 'Phalcon\Test\Modules\Backend\Controllers'
+                'namespace'  => 'Phalcon\Test\Modules\Backend\Controllers',
             ]);
 
             return $router;
         });
 
         $application = new Application();
-        $view = new View();
+        $view        = new View();
 
         $application->registerModules([
             'frontend' => function ($di) use ($view) {
@@ -123,7 +123,7 @@ class ApplicationCest
                     return $view;
                 });
             },
-            'backend' => function ($di) use ($view) {
+            'backend'  => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function () use ($view) {
                     $view->setViewsDir(PATH_DATA . 'fixtures/modules/backend/views/');

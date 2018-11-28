@@ -11,7 +11,7 @@ use Phalcon\Mvc\Model;
  *
  * @property string $method
  * @property string $uri
- * @property int $count
+ * @property int    $count
  *
  * @method static Requests findFirst($parameters = null)
  *
