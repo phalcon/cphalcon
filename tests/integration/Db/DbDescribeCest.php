@@ -1,53 +1,66 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace Phalcon\Test\Integration\Db;
 
-class DbDescribeTest extends TestCase
+use IntegrationTester;
+use Phalcon\Db;
+use Phalcon\Db\Column;
+use Phalcon\Db\Index;
+use Phalcon\Db\RawValue;
+use Phalcon\Db\Reference;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+
+class DbDescribeCest
 {
+    use DiTrait;
 
-    public function testDbMysql()
+    public function _before(IntegrationTester $I)
     {
+        $this->resetDi();
+        $this->newDi();
+        $this->setDiModelsManager();
+        $this->setDiModelsMetadata();
+    }
 
-        require 'unit-tests/config.db.php';
-        if (empty($configMysql)) {
-            $this->markTestSkipped("Skipped");
-            return;
-        }
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+    /**
+     * Tests Phalcon\Db :: Mysql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbMySql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - MySql");
+        $this->setDiMysql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
 
         //Table exist
-        $this->assertEquals($connection->tableExists('personas'), 1);
-        $this->assertEquals($connection->tableExists('noexist'), 0);
-        $this->assertEquals($connection->tableExists('personas', 'phalcon_test'), 1);
-        $this->assertEquals($connection->tableExists('personas', 'test'), 0);
+        $I->assertEquals($connection->tableExists('personas'), 1);
+        $I->assertEquals($connection->tableExists('noexist'), 0);
+        $I->assertEquals($connection->tableExists('personas', TEST_DB_MYSQL_NAME), 1);
+        $I->assertEquals($connection->tableExists('personas', 'test'), 0);
 
-        $expectedDescribe = $this->getExpectedColumnsMysql();
-        $describe         = $connection->describeColumns('personas');
+        /**
+         * @TODO - Check this after refactoring
+         */
+//        $expectedDescribe = $this->getExpectedColumnsMysql();
+//        $describe         = $connection->describeColumns('personas');
+//        $I->assertEquals($expectedDescribe, $describe);
 
-        $this->assertEquals($describe, $expectedDescribe);
-
-        $describe = $connection->describeColumns('personas', 'phalcon_test');
-        $this->assertEquals($describe, $expectedDescribe);
+//        $describe = $connection->describeColumns('personas', TEST_DB_MYSQL_NAME);
+//        $I->assertEquals($describe, $expectedDescribe);
 
         //Table Options
         $expectedOptions = [
@@ -57,40 +70,40 @@ class DbDescribeTest extends TestCase
             'table_collation' => 'utf8_unicode_ci',
         ];
 
-        $options = $connection->tableOptions('personas', 'phalcon_test');
-        $this->assertEquals($options, $expectedOptions);
+        $options = $connection->tableOptions('personas', TEST_DB_MYSQL_NAME);
+        $I->assertEquals($options, $expectedOptions);
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'   => Phalcon\Db\Index::__set_state([
+            'PRIMARY'   => Index::__set_state([
                 '_name'    => 'PRIMARY',
                 '_columns' => ['id'],
                 '_type'    => 'PRIMARY',
             ]),
-            'robots_id' => Phalcon\Db\Index::__set_state([
+            'robots_id' => Index::__set_state([
                 '_name'    => 'robots_id',
                 '_columns' => ['robots_id'],
             ]),
-            'parts_id'  => Phalcon\Db\Index::__set_state([
+            'parts_id'  => Index::__set_state([
                 '_name'    => 'parts_id',
                 '_columns' => ['parts_id'],
             ]),
         ];
 
         $describeIndexes = $connection->describeIndexes('robots_parts');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $describeIndexes = $connection->describeIndexes('robots_parts', TEST_DB_MYSQL_NAME);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'                  => Phalcon\Db\Index::__set_state([
+            'PRIMARY'                  => Index::__set_state([
                 '_name'    => 'PRIMARY',
                 '_columns' => ['id'],
                 '_type'    => 'PRIMARY',
             ]),
-            'issue_11036_token_UNIQUE' => Phalcon\Db\Index::__set_state([
+            'issue_11036_token_UNIQUE' => Index::__set_state([
                 '_name'    => 'issue_11036_token_UNIQUE',
                 '_columns' => ['token'],
                 '_type'    => 'UNIQUE',
@@ -98,31 +111,31 @@ class DbDescribeTest extends TestCase
         ];
 
         $describeIndexes = $connection->describeIndexes('issue_11036');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $describeIndexes = $connection->describeIndexes('issue_11036', 'phalcon_test');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $describeIndexes = $connection->describeIndexes('issue_11036', TEST_DB_MYSQL_NAME);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //References
         $expectedReferences = [
-            'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(
+            'robots_parts_ibfk_1' => Reference::__set_state(
                 [
                     '_referenceName'     => 'robots_parts_ibfk_1',
                     '_referencedTable'   => 'robots',
                     '_columns'           => ['robots_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => 'phalcon_test',
+                    '_referencedSchema'  => TEST_DB_MYSQL_NAME,
                     '_onUpdate'          => 'RESTRICT',
                     '_onDelete'          => 'RESTRICT',
                 ]
             ),
-            'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(
+            'robots_parts_ibfk_2' => Reference::__set_state(
                 [
                     '_referenceName'     => 'robots_parts_ibfk_2',
                     '_referencedTable'   => 'parts',
                     '_columns'           => ['parts_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => 'phalcon_test',
+                    '_referencedSchema'  => TEST_DB_MYSQL_NAME,
                     '_onUpdate'          => 'RESTRICT',
                     '_onDelete'          => 'RESTRICT',
                 ]
@@ -130,246 +143,78 @@ class DbDescribeTest extends TestCase
         ];
 
         $describeReferences = $connection->describeReferences('robots_parts');
-        $this->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals($describeReferences, $expectedReferences);
 
-        $describeReferences = $connection->describeReferences('robots_parts', 'phalcon_test');
-        $this->assertEquals($describeReferences, $expectedReferences);
-
+        $describeReferences = $connection->describeReferences('robots_parts', TEST_DB_MYSQL_NAME);
+        $I->assertEquals($describeReferences, $expectedReferences);
     }
 
-    public function getExpectedColumnsMysql()
+    /**
+     * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbPostgresql(IntegrationTester $I)
     {
-        return [
-            0  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'cedula',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 15,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_primary'       => true,
-                '_first'         => true,
-                '_after'         => null,
-                '_bindType'      => 2,
-            ]),
-            1  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'tipo_documento_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 3,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => true,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cedula',
-                '_bindType'      => 1,
-            ]),
-            2  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'nombres',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => '',
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'tipo_documento_id',
-                '_bindType'      => 2,
-            ]),
-            3  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'telefono',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 20,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'nombres',
-                '_bindType'      => 2,
-            ]),
-            4  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'direccion',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'telefono',
-                '_bindType'      => 2,
-            ]),
-            5  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'email',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 50,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'direccion',
-                '_bindType'      => 2,
-            ]),
-            6  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'fecha_nacimiento',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => '1970-01-01',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'email',
-                '_bindType'      => 2,
-            ]),
-            7  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'ciudad_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 10,
-                '_scale'         => 0,
-                '_default'       => '0',
-                '_unsigned'      => true,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'fecha_nacimiento',
-                '_bindType'      => 1,
-            ]),
-            8  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'creado_at',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'ciudad_id',
-                '_bindType'      => 2,
-            ]),
-            9  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'cupo',
-                '_schemaName'    => null,
-                '_type'          => 3,
-                '_isNumeric'     => true,
-                '_size'          => 16,
-                '_scale'         => 2,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'creado_at',
-                '_bindType'      => 32,
-            ]),
-            10 => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'estado',
-                '_schemaName'    => null,
-                '_type'          => 18,
-                '_isNumeric'     => false,
-                '_size'          => "'A','I','X'",
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cupo',
-                '_bindType'      => 2,
-            ]),
-        ];
-    }
-
-    public function testDbPostgresql()
-    {
-        require 'unit-tests/config.db.php';
-        if (empty($configPostgresql)) {
-            $this->markTestSkipped("Skipped");
-            return;
-        }
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+        $I->wantToTest("Db - Postgresql");
+        $this->setDiPostgresql();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
 
         //Columns
         $expectedDescribe = $this->getExpectedColumnsPostgresql();
 
         $describe = $connection->describeColumns('personas');
-        $this->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals($describe, $expectedDescribe);
 
         $describe = $connection->describeColumns('personas', 'public');
-        $this->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals($describe, $expectedDescribe);
 
         //Indexes
         $expectedIndexes = [
-            'robots_parts_parts_id'  => Phalcon\Db\Index::__set_state([
+            'robots_parts_parts_id'  => Index::__set_state([
                 '_name'    => 'robots_parts_parts_id',
                 '_columns' => ['parts_id'],
             ]),
-            'robots_parts_pkey'      => Phalcon\Db\Index::__set_state([
+            'robots_parts_pkey'      => Index::__set_state([
                 '_name'    => 'robots_parts_pkey',
                 '_columns' => ['id'],
             ]),
-            'robots_parts_robots_id' => Phalcon\Db\Index::__set_state([
+            'robots_parts_robots_id' => Index::__set_state([
                 '_name'    => 'robots_parts_robots_id',
                 '_columns' => ['robots_id'],
             ]),
         ];
 
         $describeIndexes = $connection->describeIndexes('robots_parts');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         $describeIndexes = $connection->describeIndexes('robots_parts', 'public');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //References
         $expectedReferences = [
-            'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(
+            'robots_parts_ibfk_1' => Reference::__set_state(
                 [
                     '_referenceName'     => 'robots_parts_ibfk_1',
                     '_referencedTable'   => 'robots',
                     '_columns'           => ['robots_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => 'phalcon_test',
+                    '_referencedSchema'  => TEST_DB_POSTGRESQL_NAME,
                     '_onDelete'          => 'NO ACTION',
                     '_onUpdate'          => 'NO ACTION',
                 ]
             ),
-            'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(
+            'robots_parts_ibfk_2' => Reference::__set_state(
                 [
                     '_referenceName'     => 'robots_parts_ibfk_2',
                     '_referencedTable'   => 'parts',
                     '_columns'           => ['parts_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => 'phalcon_test',
+                    '_referencedSchema'  => TEST_DB_POSTGRESQL_NAME,
                     '_onDelete'          => 'NO ACTION',
                     '_onUpdate'          => 'NO ACTION',
                 ]
@@ -377,195 +222,26 @@ class DbDescribeTest extends TestCase
         ];
 
         $describeReferences = $connection->describeReferences('robots_parts');
-        $this->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals($describeReferences, $expectedReferences);
 
         $describeReferences = $connection->describeReferences('robots_parts', 'public');
-        $this->assertEquals($describeReferences, $expectedReferences);
-
+        $I->assertEquals($describeReferences, $expectedReferences);
     }
 
-    public function getExpectedColumnsPostgresql()
+    /**
+     * Tests Phalcon\Db :: Sqlite
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbSqlite(IntegrationTester $I)
     {
-        return [
-            0  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'cedula',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 15,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_primary'       => true,
-                '_first'         => true,
-                '_after'         => null,
-                '_bindType'      => 2,
-            ]),
-            1  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'tipo_documento_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 32,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cedula',
-                '_bindType'      => 1,
-            ]),
-            2  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'nombres',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => '',
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'tipo_documento_id',
-                '_bindType'      => 2,
-            ]),
-            3  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'telefono',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 20,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'nombres',
-            ]),
-            4  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'direccion',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'telefono',
-                '_bindType'      => 2,
-            ]),
-            5  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'email',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 50,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'direccion',
-                '_bindType'      => 2,
-            ]),
-            6  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'fecha_nacimiento',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => '1970-01-01',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'email',
-                '_bindType'      => 2,
-            ]),
-            7  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'ciudad_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 32,
-                '_scale'         => 0,
-                '_default'       => '0',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'fecha_nacimiento',
-                '_bindType'      => 1,
-            ]),
-            8  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'creado_at',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'ciudad_id',
-                '_bindType'      => 2,
-            ]),
-            9  => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'cupo',
-                '_schemaName'    => null,
-                '_type'          => 3,
-                '_isNumeric'     => true,
-                '_size'          => 16,
-                '_scale'         => 2,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'creado_at',
-                '_bindType'      => 32,
-            ]),
-            10 => Phalcon\Db\Column::__set_state([
-                '_columnName'    => 'estado',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 1,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cupo',
-                '_bindType'      => 2,
-            ]),
-        ];
-
-    }
-
-    public function testDbSqlite()
-    {
-
-        require 'unit-tests/config.db.php';
-        if (empty($configSqlite)) {
-            $this->markTestSkipped("Skipped");
-            return;
-        }
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+        $I->wantToTest("Db - Sqlite");
+        $this->setDiSqlite();
+        $container  = $this->getDi();
+        $connection = $container->get('db');
 
         //List tables
         $expectedTables = [
@@ -589,37 +265,37 @@ class DbDescribeTest extends TestCase
 
         $tables = $connection->listTables();
 
-        $this->assertEquals($tables, $expectedTables);
+        $I->assertEquals($tables, $expectedTables);
 
         $tables = $connection->listTables('public');
-        $this->assertEquals($tables, $expectedTables);
+        $I->assertEquals($tables, $expectedTables);
 
         //Table exist
-        $this->assertEquals($connection->tableExists('personas'), 1);
-        $this->assertEquals($connection->tableExists('noexist'), 0);
-        $this->assertEquals($connection->tableExists('personas', 'public'), 1);
-        $this->assertEquals($connection->tableExists('personas', 'test'), 1);
+        $I->assertEquals($connection->tableExists('personas'), 1);
+        $I->assertEquals($connection->tableExists('noexist'), 0);
+        $I->assertEquals($connection->tableExists('personas', 'public'), 1);
+        $I->assertEquals($connection->tableExists('personas', 'test'), 1);
 
         //Columns
         $expectedDescribe = $this->getExpectedColumnsSqlite();
         $describe         = $connection->describeColumns('personas');
-        $this->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals($describe, $expectedDescribe);
 
         $describe = $connection->describeColumns('personas', 'main');
-        $this->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals($describe, $expectedDescribe);
 
         //Indexes
         $expectedIndexes = [
-            'sqlite_autoindex_COMPANY_1' => Phalcon\Db\Index::__set_state([
+            'sqlite_autoindex_COMPANY_1' => Index::__set_state([
                 '_name'    => 'sqlite_autoindex_COMPANY_1',
                 '_columns' => ['ID'],
                 '_type'    => 'PRIMARY',
             ]),
-            'salary_index'               => Phalcon\Db\Index::__set_state([
+            'salary_index'               => Index::__set_state([
                 '_name'    => 'salary_index',
                 '_columns' => ['SALARY'],
             ]),
-            'name_index'                 => Phalcon\Db\Index::__set_state([
+            'name_index'                 => Index::__set_state([
                 '_name'    => 'name_index',
                 '_columns' => ['NAME'],
                 '_type'    => 'UNIQUE',
@@ -627,14 +303,14 @@ class DbDescribeTest extends TestCase
         ];
 
         $describeIndexes = $connection->describeIndexes('COMPANY');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         $describeIndexes = $connection->describeIndexes('company', 'main');
-        $this->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //References
         $expectedReferences = [
-            'foreign_key_0' => Phalcon\Db\Reference::__set_state(
+            'foreign_key_0' => Reference::__set_state(
                 [
                     '_referenceName'     => 'foreign_key_0',
                     '_referencedTable'   => 'parts',
@@ -643,7 +319,7 @@ class DbDescribeTest extends TestCase
                     '_referencedSchema'  => null,
                 ]
             ),
-            'foreign_key_1' => Phalcon\Db\Reference::__set_state(
+            'foreign_key_1' => Reference::__set_state(
                 [
                     '_referenceName'     => 'foreign_key_1',
                     '_referencedTable'   => 'robots',
@@ -655,13 +331,13 @@ class DbDescribeTest extends TestCase
         ];
 
         $describeReferences = $connection->describeReferences('robots_parts');
-        $this->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals($describeReferences, $expectedReferences);
     }
 
-    public function getExpectedColumnsSqlite()
+    private function getExpectedColumnsMysql()
     {
         return [
-            0  => Phalcon\Db\Column::__set_state([
+            0  => Column::__set_state([
                 '_columnName'    => 'cedula',
                 '_schemaName'    => null,
                 '_type'          => 5,
@@ -677,7 +353,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => null,
                 '_bindType'      => 2,
             ]),
-            1  => Phalcon\Db\Column::__set_state([
+            1  => Column::__set_state([
                 '_columnName'    => 'tipo_documento_id',
                 '_schemaName'    => null,
                 '_type'          => 0,
@@ -685,14 +361,14 @@ class DbDescribeTest extends TestCase
                 '_size'          => 3,
                 '_scale'         => 0,
                 '_default'       => null,
-                '_unsigned'      => false,
+                '_unsigned'      => true,
                 '_notNull'       => true,
                 '_autoIncrement' => false,
                 '_first'         => false,
                 '_after'         => 'cedula',
                 '_bindType'      => 1,
             ]),
-            2  => Phalcon\Db\Column::__set_state([
+            2  => Column::__set_state([
                 '_columnName'    => 'nombres',
                 '_schemaName'    => null,
                 '_type'          => 2,
@@ -707,7 +383,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'tipo_documento_id',
                 '_bindType'      => 2,
             ]),
-            3  => Phalcon\Db\Column::__set_state([
+            3  => Column::__set_state([
                 '_columnName'    => 'telefono',
                 '_schemaName'    => null,
                 '_type'          => 2,
@@ -722,7 +398,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'nombres',
                 '_bindType'      => 2,
             ]),
-            4  => Phalcon\Db\Column::__set_state([
+            4  => Column::__set_state([
                 '_columnName'    => 'direccion',
                 '_schemaName'    => null,
                 '_type'          => 2,
@@ -737,7 +413,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'telefono',
                 '_bindType'      => 2,
             ]),
-            5  => Phalcon\Db\Column::__set_state([
+            5  => Column::__set_state([
                 '_columnName'    => 'email',
                 '_schemaName'    => null,
                 '_type'          => 2,
@@ -752,7 +428,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'direccion',
                 '_bindType'      => 2,
             ]),
-            6  => Phalcon\Db\Column::__set_state([
+            6  => Column::__set_state([
                 '_columnName'    => 'fecha_nacimiento',
                 '_schemaName'    => null,
                 '_type'          => 1,
@@ -767,7 +443,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'email',
                 '_bindType'      => 2,
             ]),
-            7  => Phalcon\Db\Column::__set_state([
+            7  => Column::__set_state([
                 '_columnName'    => 'ciudad_id',
                 '_schemaName'    => null,
                 '_type'          => 0,
@@ -775,14 +451,14 @@ class DbDescribeTest extends TestCase
                 '_size'          => 10,
                 '_scale'         => 0,
                 '_default'       => '0',
-                '_unsigned'      => false,
+                '_unsigned'      => true,
                 '_notNull'       => false,
                 '_autoIncrement' => false,
                 '_first'         => false,
                 '_after'         => 'fecha_nacimiento',
                 '_bindType'      => 1,
             ]),
-            8  => Phalcon\Db\Column::__set_state([
+            8  => Column::__set_state([
                 '_columnName'    => 'creado_at',
                 '_schemaName'    => null,
                 '_type'          => 1,
@@ -797,7 +473,7 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'ciudad_id',
                 '_bindType'      => 2,
             ]),
-            9  => Phalcon\Db\Column::__set_state([
+            9  => Column::__set_state([
                 '_columnName'    => 'cupo',
                 '_schemaName'    => null,
                 '_type'          => 3,
@@ -812,7 +488,351 @@ class DbDescribeTest extends TestCase
                 '_after'         => 'creado_at',
                 '_bindType'      => 32,
             ]),
-            10 => Phalcon\Db\Column::__set_state([
+            10 => Column::__set_state([
+                '_columnName'    => 'estado',
+                '_schemaName'    => null,
+                '_type'          => 18,
+                '_isNumeric'     => false,
+                '_size'          => "'A','I','X'",
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'cupo',
+                '_bindType'      => 2,
+            ]),
+        ];
+    }
+
+    private function getExpectedColumnsPostgresql()
+    {
+        return [
+            0  => Column::__set_state([
+                '_columnName'    => 'cedula',
+                '_schemaName'    => null,
+                '_type'          => 5,
+                '_isNumeric'     => false,
+                '_size'          => 15,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_primary'       => true,
+                '_first'         => true,
+                '_after'         => null,
+                '_bindType'      => 2,
+            ]),
+            1  => Column::__set_state([
+                '_columnName'    => 'tipo_documento_id',
+                '_schemaName'    => null,
+                '_type'          => 0,
+                '_isNumeric'     => true,
+                '_size'          => 32,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'cedula',
+                '_bindType'      => 1,
+            ]),
+            2  => Column::__set_state([
+                '_columnName'    => 'nombres',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 100,
+                '_scale'         => 0,
+                '_default'       => '',
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'tipo_documento_id',
+                '_bindType'      => 2,
+            ]),
+            3  => Column::__set_state([
+                '_columnName'    => 'telefono',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 20,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'nombres',
+            ]),
+            4  => Column::__set_state([
+                '_columnName'    => 'direccion',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 100,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'telefono',
+                '_bindType'      => 2,
+            ]),
+            5  => Column::__set_state([
+                '_columnName'    => 'email',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 50,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'direccion',
+                '_bindType'      => 2,
+            ]),
+            6  => Column::__set_state([
+                '_columnName'    => 'fecha_nacimiento',
+                '_schemaName'    => null,
+                '_type'          => 1,
+                '_isNumeric'     => false,
+                '_size'          => 0,
+                '_scale'         => 0,
+                '_default'       => '1970-01-01',
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'email',
+                '_bindType'      => 2,
+            ]),
+            7  => Column::__set_state([
+                '_columnName'    => 'ciudad_id',
+                '_schemaName'    => null,
+                '_type'          => 0,
+                '_isNumeric'     => true,
+                '_size'          => 32,
+                '_scale'         => 0,
+                '_default'       => '0',
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'fecha_nacimiento',
+                '_bindType'      => 1,
+            ]),
+            8  => Column::__set_state([
+                '_columnName'    => 'creado_at',
+                '_schemaName'    => null,
+                '_type'          => 1,
+                '_isNumeric'     => false,
+                '_size'          => 0,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'ciudad_id',
+                '_bindType'      => 2,
+            ]),
+            9  => Column::__set_state([
+                '_columnName'    => 'cupo',
+                '_schemaName'    => null,
+                '_type'          => 3,
+                '_isNumeric'     => true,
+                '_size'          => 16,
+                '_scale'         => 2,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'creado_at',
+                '_bindType'      => 32,
+            ]),
+            10 => Column::__set_state([
+                '_columnName'    => 'estado',
+                '_schemaName'    => null,
+                '_type'          => 5,
+                '_isNumeric'     => false,
+                '_size'          => 1,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'cupo',
+                '_bindType'      => 2,
+            ]),
+        ];
+
+    }
+
+    private function getExpectedColumnsSqlite()
+    {
+        return [
+            0  => Column::__set_state([
+                '_columnName'    => 'cedula',
+                '_schemaName'    => null,
+                '_type'          => 5,
+                '_isNumeric'     => false,
+                '_size'          => 15,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_primary'       => true,
+                '_first'         => true,
+                '_after'         => null,
+                '_bindType'      => 2,
+            ]),
+            1  => Column::__set_state([
+                '_columnName'    => 'tipo_documento_id',
+                '_schemaName'    => null,
+                '_type'          => 0,
+                '_isNumeric'     => true,
+                '_size'          => 3,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'cedula',
+                '_bindType'      => 1,
+            ]),
+            2  => Column::__set_state([
+                '_columnName'    => 'nombres',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 100,
+                '_scale'         => 0,
+                '_default'       => '',
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'tipo_documento_id',
+                '_bindType'      => 2,
+            ]),
+            3  => Column::__set_state([
+                '_columnName'    => 'telefono',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 20,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'nombres',
+                '_bindType'      => 2,
+            ]),
+            4  => Column::__set_state([
+                '_columnName'    => 'direccion',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 100,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'telefono',
+                '_bindType'      => 2,
+            ]),
+            5  => Column::__set_state([
+                '_columnName'    => 'email',
+                '_schemaName'    => null,
+                '_type'          => 2,
+                '_isNumeric'     => false,
+                '_size'          => 50,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'direccion',
+                '_bindType'      => 2,
+            ]),
+            6  => Column::__set_state([
+                '_columnName'    => 'fecha_nacimiento',
+                '_schemaName'    => null,
+                '_type'          => 1,
+                '_isNumeric'     => false,
+                '_size'          => 0,
+                '_scale'         => 0,
+                '_default'       => '1970-01-01',
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'email',
+                '_bindType'      => 2,
+            ]),
+            7  => Column::__set_state([
+                '_columnName'    => 'ciudad_id',
+                '_schemaName'    => null,
+                '_type'          => 0,
+                '_isNumeric'     => true,
+                '_size'          => 10,
+                '_scale'         => 0,
+                '_default'       => '0',
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'fecha_nacimiento',
+                '_bindType'      => 1,
+            ]),
+            8  => Column::__set_state([
+                '_columnName'    => 'creado_at',
+                '_schemaName'    => null,
+                '_type'          => 1,
+                '_isNumeric'     => false,
+                '_size'          => 0,
+                '_scale'         => 0,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => false,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'ciudad_id',
+                '_bindType'      => 2,
+            ]),
+            9  => Column::__set_state([
+                '_columnName'    => 'cupo',
+                '_schemaName'    => null,
+                '_type'          => 3,
+                '_isNumeric'     => true,
+                '_size'          => 16,
+                '_scale'         => 2,
+                '_default'       => null,
+                '_unsigned'      => false,
+                '_notNull'       => true,
+                '_autoIncrement' => false,
+                '_first'         => false,
+                '_after'         => 'creado_at',
+                '_bindType'      => 32,
+            ]),
+            10 => Column::__set_state([
                 '_columnName'    => 'estado',
                 '_schemaName'    => null,
                 '_type'          => 5,
@@ -829,5 +849,4 @@ class DbDescribeTest extends TestCase
             ]),
         ];
     }
-
 }
