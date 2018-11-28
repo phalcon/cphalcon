@@ -269,11 +269,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->{lowerProperty} = result;
 
 				/**
-				 * For belongs-to relations we store the object in the related bag
+				 * We store relationship objects in the related bag
 				 */
-				if result instanceof ModelInterface {
-					let this->_related[lowerProperty] = result;
-				}
+				let this->_related[lowerProperty] = result;
 			}
 
 			return result;
@@ -1569,6 +1567,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Call the 'getRelationRecords' in the models manager
 		 */
 		return manager->getRelationRecords(relation, null, this, arguments);
+	}
+
+	public function isRelationshipLoaded(string relationshipAlias) -> boolean
+	{
+		return isset this->_related[relationshipAlias];
 	}
 
 	/**

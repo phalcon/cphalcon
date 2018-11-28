@@ -28,7 +28,7 @@ class Artists extends Model
     {
         $this->hasMany(
             'id',
-            'AlbumORama:Albums',
+            Albums::class,
             'artists_id',
             ['alias' => 'albums']
         );

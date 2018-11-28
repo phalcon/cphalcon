@@ -2,8 +2,13 @@
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Di;
+use Phalcon\Http\Cookie;
+use Phalcon\Http\CookieInterface;
+use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Session\Adapter\Files as SessionAdapter;
 
 /**
  * Phalcon\Test\Unit\Http\Response\Http\CookiesTest
@@ -38,6 +43,55 @@ class CookiesTest extends HttpBase
             "The internal cookies property is not initialized or iterable",
             function () {
                 expect((new Cookies())->send())->true();
+            }
+        );
+    }
+
+    /**
+     * Tests getCookies is work.
+     * @author limx <715557344@qq.com>
+     */
+    public function testGetCookies()
+    {
+        $cookies = new Cookies();
+
+        Di::reset();
+        $di = new Di();
+        $di->set('response', function () {
+            return new Response();
+        });
+        $di->set('session', function () {
+            return new SessionAdapter();
+        });
+
+        $cookies->setDI($di);
+
+        $cookies->set('x-token', '1bf0bc92ed7dcc80d337a5755f879878');
+        $cookies->set('x-user-id', 1);
+
+        $this->specify(
+            "The cookies is not a array.",
+            function () use ($cookies) {
+                expect(is_array($cookies->getCookies()))->true();
+            }
+        );
+
+        $this->specify(
+            "The cookie is not instance of CookieInterface",
+            function () use ($cookies) {
+                $cookieArray = $cookies->getCookies();
+                expect($cookieArray['x-token'] instanceof CookieInterface)->true();
+                expect($cookieArray['x-user-id'] instanceof CookieInterface)->true();
+            }
+        );
+
+        $this->specify(
+            "The cookie is not correct.",
+            function () use ($cookies) {
+                /** @var Cookie[] $cookieArray */
+                $cookieArray = $cookies->getCookies();
+                expect($cookieArray['x-token']->getValue())->equals('1bf0bc92ed7dcc80d337a5755f879878');
+                expect($cookieArray['x-user-id']->getValue())->equals(1);
             }
         );
     }

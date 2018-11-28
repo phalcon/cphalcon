@@ -15,6 +15,9 @@
 - Added `hasHeader()` method to `Phalcon\Http\Response` to provide the ability to check if a header exists. [PR-12189](https://github.com/phalcon/cphalcon/pull/12189)
 - Added global setting `orm.case_insensitive_column_map` to attempt to find value in the column map case-insensitively. Can be also enabled by setting `caseInsensitiveColumnMap` key in `\Phalcon\Mvc\Model::setup()`. [#11802](https://github.com/phalcon/cphalcon/pull/11802)
 - Added the ability to use FrontendInterface to serialize Model and ResultSet - Inject a `serializer` object which implements `FrontendInterface` in DI to use it. [#12808] (https://github.com/phalcon/cphalcon/pull/12888)
+- Added `Phalcon\Mvc\Model\Query\BuilderInterface::offset` [#13599](https://github.com/phalcon/cphalcon/pull/13599)
+- Added `Phalcon\Http\Response\Cookies::getCookies` [#13591](https://github.com/phalcon/cphalcon/pull/13591)
+- Added `Phalcon\Mvc\Model::isRelationshipLoaded` to check if relationship is loaded
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [PR-13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -35,6 +38,7 @@
 - Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
 - Changed `Phalcon\Tag::getTitle()`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [#13547](https://github.com/phalcon/cphalcon/issues/13547) 
+- Changed `Phalcon\Di\Service` constructor to no longer takes the name of the service.
 
 ## Removed
 - PHP < 7.0 no longer supported
