@@ -23,6 +23,10 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\DiInterface;
+use Phalcon\Di;
+use Phalcon\Cache\FrontendInterface;
+
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -224,6 +228,22 @@ class Simple extends Resultset
 	 */
 	public function serialize() -> string
 	{
+		var dependencyInjector, serializer;
+		let dependencyInjector = Di::getDefault();
+		if typeof dependencyInjector != "object" {
+			throw new Exception("The dependency injector container is not valid");
+		}
+		if dependencyInjector->has("serializer") {
+			let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
+			return serializer->beforeStore([
+				"model"         : this->_model,
+				"cache"         : this->_cache,
+				"rows"          : this->toArray(false),
+				"columnMap"     : this->_columnMap,
+				"hydrateMode"   : this->_hydrateMode,
+				"keepSnapshots" : this->_keepSnapshots
+			]);
+		}
 		/**
 		 * Serialize the cache using the serialize function
 		 */
@@ -242,9 +262,17 @@ class Simple extends Resultset
 	 */
 	public function unserialize(string! data) -> void
 	{
-		var resultset, keepSnapshots;
-
-		let resultset = unserialize(data);
+		var resultset, keepSnapshots, dependencyInjector, serializer;
+		let dependencyInjector = Di::getDefault();
+		if typeof dependencyInjector != "object" {
+			throw new Exception("The dependency injector container is not valid");
+		}
+		if dependencyInjector->has("serializer") {
+			let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
+			let resultset = serializer->afterRetrieve(data);
+		} else {
+			let resultset = unserialize(data);
+		}
 		if typeof resultset != "array" {
 			throw new Exception("Invalid serialization data");
 		}
