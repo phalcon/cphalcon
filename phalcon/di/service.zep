@@ -55,7 +55,7 @@ class Service implements ServiceInterface
 	 *
 	 * @param mixed definition
 	 */
-	public final function __construct(definition, boolean shared = false)
+	public final function __construct(definition, bool shared = false)
 	{
 		let this->_definition = definition,
 			this->_shared = shared;
@@ -64,7 +64,7 @@ class Service implements ServiceInterface
 	/**
 	 * Sets if the service is shared or not
 	 */
-	public function setShared(boolean shared) -> void
+	public function setShared(bool shared) -> void
 	{
 		let this->_shared = shared;
 	}
@@ -72,7 +72,7 @@ class Service implements ServiceInterface
 	/**
 	 * Check whether the service is shared or not
 	 */
-	public function isShared() -> boolean
+	public function isShared() -> bool
 	{
 		return this->_shared;
 	}
@@ -115,7 +115,7 @@ class Service implements ServiceInterface
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
-		boolean found;
+		bool found;
 		var shared, definition, sharedInstance, instance, builder;
 
 		let shared = this->_shared;
@@ -270,7 +270,7 @@ class Service implements ServiceInterface
 	/**
 	 * Returns true if the service was resolved
 	 */
-	public function isResolved() -> boolean
+	public function isResolved() -> bool
 	{
 		return this->_resolved;
 	}

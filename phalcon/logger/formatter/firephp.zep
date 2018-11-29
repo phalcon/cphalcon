@@ -68,7 +68,7 @@ class Firephp extends Formatter
 	/**
 	 * Returns the string meaning of a logger constant
 	 */
-	public function setShowBacktrace(boolean isShow = null) -> <Firephp>
+	public function setShowBacktrace(bool isShow = null) -> <Firephp>
 	{
 		let this->_showBacktrace = isShow;
 		return this;
@@ -77,7 +77,7 @@ class Firephp extends Formatter
 	/**
 	 * Returns the string meaning of a logger constant
 	 */
-	public function getShowBacktrace() -> boolean
+	public function getShowBacktrace() -> bool
 	{
 		return this->_showBacktrace;
 	}
@@ -85,7 +85,7 @@ class Firephp extends Formatter
 	/**
 	 * Returns the string meaning of a logger constant
 	 */
-	public function enableLabels(boolean isEnable = null) -> <Firephp>
+	public function enableLabels(bool isEnable = null) -> <Firephp>
 	{
 		let this->_enableLabels = isEnable;
 		return this;
@@ -94,7 +94,7 @@ class Firephp extends Formatter
 	/**
 	 * Returns the labels enabled
 	 */
-	public function labelsEnabled() -> boolean
+	public function labelsEnabled() -> bool
 	{
 		return this->_enableLabels;
 	}

@@ -84,7 +84,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Check whether a translation key exists
 	 */
-	public function offsetExists(string! translateKey) -> boolean
+	public function offsetExists(string! translateKey) -> bool
 	{
 		return this->{"exists"}(translateKey);
 	}

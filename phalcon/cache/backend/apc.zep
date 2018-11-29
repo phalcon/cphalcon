@@ -83,7 +83,7 @@ class Apc extends Backend
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(var keyName = null, var content = null, var lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering, success;
 
@@ -154,7 +154,7 @@ class Apc extends Backend
 	 *
 	 * @param string keyName
 	 */
-	public function increment(keyName = null, int value = 1) -> int | boolean
+	public function increment(keyName = null, int value = 1) -> int | bool
 	{
 		var prefixedKey, cachedContent, result;
 
@@ -182,7 +182,7 @@ class Apc extends Backend
 	 *
 	 * @param string keyName
 	 */
-	public function decrement(keyName = null, int value = 1) -> int | boolean
+	public function decrement(keyName = null, int value = 1) -> int | bool
 	{
 		var lastKey, cachedContent, result;
 
@@ -207,7 +207,7 @@ class Apc extends Backend
 	/**
 	 * Deletes a value from the cache by its key
 	 */
-	public function delete(string! keyName) -> boolean
+	public function delete(string! keyName) -> bool
 	{
 		return apc_delete("_PHCA" . this->_prefix . keyName);
 	}
@@ -248,7 +248,7 @@ class Apc extends Backend
 	 * @param  string|int keyName
 	 * @param  int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> bool
 	{
 		var lastKey;
 
@@ -281,7 +281,7 @@ class Apc extends Backend
 	 * $cache->flush();
 	 * </code>
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var item, prefixPattern;
 

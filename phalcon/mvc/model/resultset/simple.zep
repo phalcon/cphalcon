@@ -45,7 +45,7 @@ class Simple extends Resultset
 	 * @param array columnMap
 	 * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
 	 */
-	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, boolean keepSnapshots = null)
+	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null)
 	{
 		let this->_model = model,
 			this->_columnMap = columnMap;
@@ -61,7 +61,7 @@ class Simple extends Resultset
 	/**
 	 * Returns current row in the resultset
 	 */
-	public final function current() -> <ModelInterface> | boolean
+	public final function current() -> <ModelInterface> | bool
 	{
 		var row, hydrateMode, columnMap, activeRow, modelName;
 
@@ -147,7 +147,7 @@ class Simple extends Resultset
 	 * it could consume more memory than currently it does. Export the resultset to an array
 	 * couldn't be faster with a large number of records
 	 */
-	public function toArray(boolean renameColumns = true) -> array
+	public function toArray(bool renameColumns = true) -> array
 	{
 		var result, records, record, renamed, renamedKey,
 			key, value, renamedRecords, columnMap;

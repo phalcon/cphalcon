@@ -39,12 +39,12 @@ interface ResourceInterface
 	/**
 	 * Sets if the resource must be filtered or not.
 	 */
-	public function setFilter(boolean filter) -> <ResourceInterface>;
+	public function setFilter(bool filter) -> <ResourceInterface>;
 
 	/**
 	 * Gets if the resource must be filtered or not.
 	 */
-	public function getFilter() -> boolean;
+	public function getFilter() -> bool;
 
 	/**
 	 * Sets extra HTML attributes.

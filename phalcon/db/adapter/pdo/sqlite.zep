@@ -46,7 +46,7 @@ class Sqlite extends PdoAdapter
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
 	 */
-	public function connect(array descriptor = null) -> boolean
+	public function connect(array descriptor = null) -> bool
 	{
 		var dbname;
 
@@ -99,11 +99,11 @@ class Sqlite extends PdoAdapter
 
 			if memstr(columnType, "tinyint(1)") {
 				/**
-				 * Tinyint(1) is boolean
+				 * Tinyint(1) is bool
 				 */
 				let definition["type"] = Column::TYPE_BOOLEAN,
 					definition["bindType"] = Column::BIND_PARAM_BOOL,
-					columnType = "boolean"; // Change column type to skip size check
+					columnType = "bool"; // Change column type to skip size check
 			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Bigint are int
@@ -372,7 +372,7 @@ class Sqlite extends PdoAdapter
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
 	 */
-	public function useExplicitIdValue() -> boolean
+	public function useExplicitIdValue() -> bool
 	{
 		return true;
 	}

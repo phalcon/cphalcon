@@ -153,12 +153,12 @@ interface MetaDataInterface
 	/**
 	 * Check if a model has certain attribute
 	 */
-	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean;
+	public function hasAttribute(<ModelInterface> model, string attribute) -> bool;
 
 	/**
 	 * Checks if the internal meta-data container is empty
 	 */
-	public function isEmpty() -> boolean;
+	public function isEmpty() -> bool;
 
 	/**
 	 * Resets internal meta-data in order to regenerate it

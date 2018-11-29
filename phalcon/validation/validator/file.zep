@@ -98,7 +98,7 @@ class File extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> bool
 	{
 		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width,
 			height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes, code,
@@ -300,7 +300,7 @@ class File extends Validator
 	/**
 	 * Check on empty
 	 */
-	public function isAllowEmpty(<Validation> validation, string! field) -> boolean
+	public function isAllowEmpty(<Validation> validation, string! field) -> bool
 	{
 		var value;
 		let value = validation->getValue(field);

@@ -73,9 +73,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 		var value = null,
 		int expire = 0,
 		string path = "/",
-		boolean secure = null,
+		bool secure = null,
 		string domain = null,
-		boolean httpOnly = null
+		bool httpOnly = null
 	) {
 		let this->_name = name;
 
@@ -418,7 +418,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets if the cookie must be encrypted/decrypted automatically
 	 */
-	public function useEncryption(boolean useEncryption) -> <CookieInterface>
+	public function useEncryption(bool useEncryption) -> <CookieInterface>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -427,7 +427,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Check if the cookie is using implicit encryption
 	 */
-	public function isUsingEncryption() -> boolean
+	public function isUsingEncryption() -> bool
 	{
 		return this->_useEncryption;
 	}
@@ -512,7 +512,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets if the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function setSecure(boolean secure) -> <CookieInterface>
+	public function setSecure(bool secure) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -524,7 +524,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function getSecure() -> boolean
+	public function getSecure() -> bool
 	{
 		if !this->_restored {
 			this->restore();
@@ -535,7 +535,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets if the cookie is accessible only through the HTTP protocol
 	 */
-	public function setHttpOnly(boolean httpOnly) -> <CookieInterface>
+	public function setHttpOnly(bool httpOnly) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -547,7 +547,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Returns if the cookie is accessible only through the HTTP protocol
 	 */
-	public function getHttpOnly() -> boolean
+	public function getHttpOnly() -> bool
 	{
 		if !this->_restored {
 			this->restore();

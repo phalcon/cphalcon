@@ -52,9 +52,9 @@ class Dump
 	/**
 	 * Phalcon\Debug\Dump constructor
 	 *
-	 * @param boolean detailed debug object's private and protected properties
+	 * @param bool detailed debug object's private and protected properties
 	 */
-	public function __construct(array styles = [], boolean detailed = false)
+	public function __construct(array styles = [], bool detailed = false)
 	{
 		this->setStyles(styles);
 

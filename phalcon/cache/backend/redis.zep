@@ -206,9 +206,9 @@ class Redis extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
+	 * @param bool stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var prefixedKey, frontend, redis, cachedContent, preparedContent,
 			tmp, ttl, success, isBuffering;
@@ -296,7 +296,7 @@ class Redis extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(keyName) -> bool
 	{
 		var redis, prefixedKey;
 
@@ -366,7 +366,7 @@ class Redis extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> bool
 	{
 		var redis;
 
@@ -434,7 +434,7 @@ class Redis extends Backend
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var redis, keys, key, lastKey;
 

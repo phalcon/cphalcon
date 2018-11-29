@@ -101,7 +101,7 @@ class Pdo implements ResultInterface
 	 * Allows to execute the statement again. Some database systems don't support scrollable cursors,
 	 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
 	 */
-	public function execute() -> boolean
+	public function execute() -> bool
 	{
 		return this->_pdoStatement->execute();
 	}
@@ -328,7 +328,7 @@ class Pdo implements ResultInterface
 	 * );
 	 *</code>
 	 */
-	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> boolean
+	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> bool
 	{
 		var pdoStatement;
 

@@ -308,7 +308,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns SELECT DISTINCT / SELECT ALL flag
 	 */
-	public function getDistinct() -> boolean
+	public function getDistinct() -> bool
 	{
 		return this->_distinct;
 	}
@@ -881,7 +881,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->forUpdate(true);
 	 *</code>
 	 */
-	public function forUpdate(boolean forUpdate) -> <Builder>
+	public function forUpdate(bool forUpdate) -> <Builder>
 	{
 		let this->_forUpdate = forUpdate;
 		return this;
@@ -983,7 +983,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
 			limit, number, offset, forUpdate, distinct;
-		boolean noPrimary;
+		bool noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -1308,7 +1308,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let forUpdate = this->_forUpdate;
-		if typeof forUpdate === "boolean" {
+		if typeof forUpdate === "bool" {
 			if forUpdate {
 				let phql .= " FOR UPDATE";
 			}
@@ -1351,7 +1351,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setBindTypes(bindTypes);
 		}
 
-		if typeof this->_sharedLock === "boolean" {
+		if typeof this->_sharedLock === "bool" {
 			query->setSharedLock(this->_sharedLock);
 		}
 

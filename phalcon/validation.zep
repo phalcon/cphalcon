@@ -569,7 +569,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Internal validations, if it returns true, then skip the current validator
 	 */
-	protected function preChecking(var field, <ValidatorInterface> validator) -> boolean
+	protected function preChecking(var field, <ValidatorInterface> validator) -> bool
 	{
 		var singleField, allowEmpty, emptyValue, value, result;
 		if typeof field == "array" {

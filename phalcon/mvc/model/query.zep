@@ -211,7 +211,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Tells to the query if only the first row in the resultset must be returned
 	 */
-	public function setUniqueRow(boolean uniqueRow) -> <Query>
+	public function setUniqueRow(bool uniqueRow) -> <Query>
 	{
 		let this->_uniqueRow = uniqueRow;
 		return this;
@@ -220,7 +220,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Check if the query is programmed to get only the first row in the resultset
 	 */
-	public function getUniqueRow() -> boolean
+	public function getUniqueRow() -> bool
 	{
 		return this->_uniqueRow;
 	}
@@ -472,7 +472,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves an expression from its intermediate code into a string
 	 */
-	protected final function _getExpression(array expr, boolean quoting = true) -> string
+	protected final function _getExpression(array expr, bool quoting = true) -> string
 	{
 		var exprType, exprLeft, exprRight, left = null, right = null, listItems, exprListItem,
 			exprReturn, tempNotQuoting, value, escapedValue, exprValue,
@@ -2103,7 +2103,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		var ast, qualifiedName, nsAlias, manager, modelName, model, source, schema,
 			exprValues, exprValue, sqlInsert, metaData, fields,
 			sqlFields, field, name, realModelName;
-		boolean notQuoting;
+		bool notQuoting;
 
 		let ast = this->_ast;
 
@@ -2196,7 +2196,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			table, qualifiedName, modelName, model, source, schema, alias,
 			sqlFields, sqlValues, updateValues, updateValue, exprColumn, sqlUpdate,
 			where, limit;
-		boolean notQuoting;
+		bool notQuoting;
 
 		let ast = this->_ast;
 
@@ -2529,7 +2529,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Model\Resultset
 	 */
-	protected final function _executeSelect(array intermediate, var bindParams, var bindTypes, boolean simulate = false) -> <ResultsetInterface> | array
+	protected final function _executeSelect(array intermediate, var bindParams, var bindTypes, bool simulate = false) -> <ResultsetInterface> | array
 	{
 
 		var manager, modelName, models, model, connection, connectionTypes,
@@ -2538,7 +2538,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			columnAlias, sqlAlias, dialect, sqlSelect, bindCounts,
 			processed, wildcard, value, processedTypes, typeWildcard, result,
 			resultData, cache, resultObject, columns1, typesColumnMap, wildcardValue, resultsetClassName;
-		boolean haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
+		bool haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
 		int numberObjects;
 
 		let manager = this->_manager;
@@ -2655,7 +2655,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						columns1[aliasCopy]["columnMap"] = columnMap;
 
 					// Check if the model keeps snapshots
-					let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(instance);
+					let isKeepingSnapshots = (bool) manager->isKeepingSnapshots(instance);
 					if isKeepingSnapshots {
 						let columns1[aliasCopy]["keepSnapshots"] = isKeepingSnapshots;
 					}
@@ -2828,7 +2828,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Check if the model keeps snapshots
 				 */
-				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(resultObject);
+				let isKeepingSnapshots = (bool) manager->isKeepingSnapshots(resultObject);
 			}
 
 			if resultObject instanceof ModelInterface && method_exists(resultObject, "getResultsetClass") {
@@ -2871,7 +2871,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			fields, columnMap, dialect, insertValues, number, value, model,
 			values, exprValue, insertValue, wildcard, fieldName, attributeName,
 			insertModel;
-		boolean automaticFields;
+		bool automaticFields;
 
 		let modelName = intermediate["model"];
 
@@ -3461,7 +3461,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Set default bind parameters
 	 */
-	public function setBindParams(array! bindParams, boolean merge = false) -> <Query>
+	public function setBindParams(array! bindParams, bool merge = false) -> <Query>
 	{
 		var currentBindParams;
 
@@ -3490,7 +3490,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Set default bind parameters
 	 */
-	public function setBindTypes(array! bindTypes, boolean merge = false) -> <Query>
+	public function setBindTypes(array! bindTypes, bool merge = false) -> <Query>
 	{
 		var currentBindTypes;
 
@@ -3511,7 +3511,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Set SHARED LOCK clause
 	 */
-	public function setSharedLock(boolean sharedLock = false) -> <Query>
+	public function setSharedLock(bool sharedLock = false) -> <Query>
 	{
 		let this->_sharedLock = sharedLock;
 

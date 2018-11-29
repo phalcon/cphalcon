@@ -44,6 +44,6 @@ interface AdapterInterface
 	/**
 	 * Check whether is defined a translation key in the internal array
 	 */
-	public function exists(string! index) -> boolean;
+	public function exists(string! index) -> bool;
 
 }

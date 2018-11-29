@@ -61,27 +61,27 @@ interface RequestInterface
 	/**
 	 * Checks whether $_REQUEST superglobal has certain index
 	 */
-	public function has(string! name) -> boolean;
+	public function has(string! name) -> bool;
 
 	/**
 	 * Checks whether $_POST superglobal has certain index
 	 */
-	public function hasPost(string! name) -> boolean;
+	public function hasPost(string! name) -> bool;
 
 	/**
 	 * Checks whether the PUT data has certain index
 	 */
-	public function hasPut(string! name) -> boolean;
+	public function hasPut(string! name) -> bool;
 
 	/**
 	 * Checks whether $_GET superglobal has certain index
 	 */
-	public function hasQuery(string! name) -> boolean;
+	public function hasQuery(string! name) -> bool;
 
 	/**
 	 * Checks whether $_SERVER superglobal has certain index
 	 */
-	public function hasServer(string! name) -> boolean;
+	public function hasServer(string! name) -> bool;
 
 	/**
 	 * Gets HTTP header from request data
@@ -96,17 +96,17 @@ interface RequestInterface
 	/**
 	 * Checks whether request has been made using ajax. Checks if $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
 	 */
-	public function isAjax() -> boolean;
+	public function isAjax() -> bool;
 
 	/**
 	 * Checks whether request has been made using SOAP
 	 */
-	public function isSoap() -> boolean;
+	public function isSoap() -> bool;
 
 	/**
 	 * Checks whether request has been made using any secure layer
 	 */
-	public function isSecure() -> boolean;
+	public function isSecure() -> bool;
 
 	/**
 	 * Gets HTTP raw request body
@@ -137,7 +137,7 @@ interface RequestInterface
 	 * Gets most possibly client IPv4 Address. This methods searches in
 	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
-	public function getClientAddress(boolean trustForwardedHeader = false) -> string;
+	public function getClientAddress(bool trustForwardedHeader = false) -> string;
 
 	/**
 	 * Gets HTTP method which request has been made
@@ -154,64 +154,64 @@ interface RequestInterface
 	 *
 	 * @param string|array methods
 	 */
-	public function isMethod(methods, boolean strict = false) -> boolean;
+	public function isMethod(methods, bool strict = false) -> bool;
 
 	/**
 	 * Checks whether HTTP method is POST. if $_SERVER["REQUEST_METHOD"] === "POST"
 	 */
-	public function isPost() -> boolean;
+	public function isPost() -> bool;
 
 	/**
 	 * Checks whether HTTP method is GET. if $_SERVER["REQUEST_METHOD"] === "GET"
 	 */
-	public function isGet() -> boolean;
+	public function isGet() -> bool;
 
 	/**
 	 * Checks whether HTTP method is PUT. if $_SERVER["REQUEST_METHOD"] === "PUT"
 	 */
-	public function isPut() -> boolean;
+	public function isPut() -> bool;
 
 	/**
 	 * Checks whether HTTP method is HEAD. if $_SERVER["REQUEST_METHOD"] === "HEAD"
 	 */
-	public function isHead() -> boolean;
+	public function isHead() -> bool;
 
 	/**
 	 * Checks whether HTTP method is DELETE. if $_SERVER["REQUEST_METHOD"] === "DELETE"
 	 */
-	public function isDelete() -> boolean;
+	public function isDelete() -> bool;
 
 	/**
 	 * Checks whether HTTP method is OPTIONS. if $_SERVER["REQUEST_METHOD"] === "OPTIONS"
 	 */
-	public function isOptions() -> boolean;
+	public function isOptions() -> bool;
 
 	/**
 	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if $_SERVER["REQUEST_METHOD"] === "PURGE"
 	 */
-	public function isPurge() -> boolean;
+	public function isPurge() -> bool;
 
 	/**
 	 * Checks whether HTTP method is TRACE. if $_SERVER["REQUEST_METHOD"] === "TRACE"
 	 */
-	public function isTrace() -> boolean;
+	public function isTrace() -> bool;
 
 	/**
 	 * Checks whether HTTP method is CONNECT. if $_SERVER["REQUEST_METHOD"] === "CONNECT"
 	 */
-	public function isConnect() -> boolean;
+	public function isConnect() -> bool;
 
 	/**
 	 * Checks whether request include attached files
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasFiles(onlySuccessful = false);
 
 	/**
 	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
 	 */
-	public function getUploadedFiles(boolean onlySuccessful = false) -> <\Phalcon\Http\Request\FileInterface[]>;
+	public function getUploadedFiles(bool onlySuccessful = false) -> <\Phalcon\Http\Request\FileInterface[]>;
 
 	/**
 	 * Gets web page that refers active request. ie: http://www.google.com

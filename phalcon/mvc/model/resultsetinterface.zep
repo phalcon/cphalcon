@@ -35,22 +35,22 @@ interface ResultsetInterface
 	/**
 	 * Get first row in the resultset
 	 */
-	public function getFirst() -> <ModelInterface> | boolean;
+	public function getFirst() -> <ModelInterface> | bool;
 
 	/**
 	 * Get last row in the resultset
 	 */
-	public function getLast() -> <ModelInterface> | boolean;
+	public function getLast() -> <ModelInterface> | bool;
 
 	/**
 	 * Set if the resultset is fresh or an old one cached
 	 */
-	public function setIsFresh(boolean isFresh);
+	public function setIsFresh(bool isFresh);
 
 	/**
 	 * Tell if the resultset if fresh or an old one cached
 	 */
-	public function isFresh() -> boolean;
+	public function isFresh() -> bool;
 
 	/**
 	 * Returns the associated cache for the resultset

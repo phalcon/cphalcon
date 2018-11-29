@@ -77,7 +77,7 @@ class ExclusionIn extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> bool
 	{
 		var value, domain, message, label, replacePairs, strict, fieldDomain, code;
 
@@ -105,8 +105,8 @@ class ExclusionIn extends Validator
 				let strict = strict[field];
 			}
 
-			if typeof strict != "boolean" {
-			    throw new Exception("Option 'strict' must be a boolean");
+			if typeof strict != "bool" {
+			    throw new Exception("Option 'strict' must be a bool");
 			}
 		}
 

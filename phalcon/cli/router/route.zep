@@ -152,13 +152,13 @@ class Route
 	/**
 	 * Extracts parameters from a string
 	 *
-	 * @return array|boolean
+	 * @return array|bool
 	 */
 	public function extractNamedParams(string! pattern)
 	{
 		char ch;
 		var tmp, matches;
-		boolean notValid;
+		bool notValid;
 		int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
 		int intermediate = 0, numberMatches = 0;
 		string route, item, variable, regexp;

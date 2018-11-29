@@ -136,7 +136,7 @@ class Annotations implements StrategyInterface
 						numericTyped[columnName] = true;
 					break;
 
-				case "boolean":
+				case "bool":
 					let fieldTypes[columnName] = Column::TYPE_BOOLEAN,
 						fieldBindTypes[columnName] = Column::BIND_PARAM_BOOL;
 					break;

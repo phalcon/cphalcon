@@ -184,7 +184,7 @@ class Mongo extends Backend
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastkey, frontend, cachedContent, tmp, ttl,
 			collection, timestamp, conditions, document, preparedContent,
@@ -268,7 +268,7 @@ class Mongo extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(keyName) -> bool
 	{
 		this->_getCollection()->remove(["key": this->_prefix . keyName]);
 
@@ -320,7 +320,7 @@ class Mongo extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> bool
 	{
 		var lastKey;
 
@@ -424,7 +424,7 @@ class Mongo extends Backend
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		this->_getCollection()->remove();
 

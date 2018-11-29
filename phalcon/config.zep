@@ -75,7 +75,7 @@ class Config implements \ArrayAccess, \Countable
 	 * );
 	 *</code>
 	 */
-	public function offsetExists(var index) -> boolean
+	public function offsetExists(var index) -> bool
 	{
 		let index = strval(index);
 

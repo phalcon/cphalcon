@@ -24,7 +24,7 @@ interface BagInterface
 	/**
 	 * Isset property
 	 */
-	public function __isset(string! property) -> boolean;
+	public function __isset(string! property) -> bool;
 
 	/**
 	 * Setter of values
@@ -44,7 +44,7 @@ interface BagInterface
 	/**
 	 * Isset property
 	 */
-	public function has(string! property) -> boolean;
+	public function has(string! property) -> bool;
 
 	/**
 	 * Initializes the session bag. This method must not be called directly, the

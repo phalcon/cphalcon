@@ -195,7 +195,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	/**
 	 * Check if an option exists
 	 */
-	public function hasOption(var option) -> boolean
+	public function hasOption(var option) -> bool
 	{
 		return isset this->_options[option];
 	}

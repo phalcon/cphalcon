@@ -36,7 +36,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Tells if there is an active transaction or not
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _transaction = false;
 
@@ -148,7 +148,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Returns the whether the logger is currently in an active transaction or not
 	 */
-	public function isTransaction() -> boolean
+	public function isTransaction() -> bool
 	{
 		return this->_transaction;
 	}

@@ -85,18 +85,18 @@ interface CollectionInterface
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
-	public function fireEvent(string! eventName) -> boolean;
+	public function fireEvent(string! eventName) -> bool;
 
 	/**
 	 * Fires an event, implicitly listeners in the events manager are notified
-	 * This method stops if one of the callbacks/listeners returns boolean false
+	 * This method stops if one of the callbacks/listeners returns bool false
 	 */
-	public function fireEventCancel(string! eventName) -> boolean;
+	public function fireEventCancel(string! eventName) -> bool;
 
 	/**
 	 * Check whether validation process has generated any messages
 	 */
-	public function validationHasFailed() -> boolean;
+	public function validationHasFailed() -> bool;
 
 	/**
 	 * Returns all the validation messages
@@ -111,7 +111,7 @@ interface CollectionInterface
 	/**
 	 * Creates/Updates a collection based on the values in the attributes
 	 */
-	public function save() -> boolean;
+	public function save() -> bool;
 
 	/**
 	 * Find a document by its id
@@ -138,5 +138,5 @@ interface CollectionInterface
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise
 	 */
-	public function delete() -> boolean;
+	public function delete() -> bool;
 }

@@ -85,7 +85,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Checks if the element is present in the registry
 	 */
-	public final function offsetExists(string! offset) -> boolean
+	public final function offsetExists(string! offset) -> bool
 	{
 		return isset this->_data[offset];
 	}
@@ -149,7 +149,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Checks if the iterator is valid
 	 */
-	public function valid() -> boolean
+	public function valid() -> bool
 	{
 		return key(this->_data) !== null;
 	}
@@ -178,7 +178,7 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 		return this->offsetGet(key);
 	}
 
-	public final function __isset(string! key) -> boolean
+	public final function __isset(string! key) -> bool
 	{
 		return this->offsetExists(key);
 	}

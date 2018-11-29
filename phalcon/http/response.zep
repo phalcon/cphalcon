@@ -294,7 +294,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * $response->hasHeader("Content-Type");
 	 *</code>
 	 */
-	public function hasHeader(string name) -> boolean
+	public function hasHeader(string name) -> bool
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -494,7 +494,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
+	public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <Response>
 	{
 		var header, url, dependencyInjector, matched, view;
 
@@ -600,7 +600,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Check if the response is already sent
 	 */
-	public function isSent() -> boolean
+	public function isSent() -> bool
 	{
 		return this->_sent;
 	}

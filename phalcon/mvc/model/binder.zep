@@ -112,7 +112,7 @@ class Binder implements BinderInterface
 	/**
 	 * Find the model by param value.
 	 */
-	protected function findBoundModel(var paramValue, string className) -> object | boolean
+	protected function findBoundModel(var paramValue, string className) -> object | bool
 	{
 		return {className}::findFirst(paramValue);
 	}

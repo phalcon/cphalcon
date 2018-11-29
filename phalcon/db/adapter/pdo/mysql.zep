@@ -48,7 +48,7 @@ class Mysql extends PdoAdapter
 	/**
 	 * Adds a foreign key to a table
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
 	{
 		var foreignKeyCheck;
 

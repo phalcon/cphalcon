@@ -26,7 +26,7 @@ class Gd extends Adapter
 {
 	protected static _checked = false;
 
-	public static function check() -> boolean
+	public static function check() -> bool
 	{
 		var version, info, matches;
 
@@ -264,7 +264,7 @@ class Gd extends Adapter
 		}
 	}
 
-	protected function _reflection(int height, int opacity, boolean fadeIn)
+	protected function _reflection(int height, int opacity, bool fadeIn)
 	{
 		var reflection, line;
 		int stepping, offset, src_y, dst_y, dst_opacity;

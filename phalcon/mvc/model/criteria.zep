@@ -99,7 +99,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Sets the bound parameters in the criteria
 	 * This method replaces all previously set bound parameters
 	 */
-	public function bind(array! bindParams, boolean merge = false) -> <Criteria>
+	public function bind(array! bindParams, bool merge = false) -> <Criteria>
 	{
 		var bind;
 
@@ -514,7 +514,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the "for_update" parameter to the criteria
 	 */
-	public function forUpdate(boolean forUpdate = true) -> <Criteria>
+	public function forUpdate(bool forUpdate = true) -> <Criteria>
 	{
 		let this->_params["for_update"] = forUpdate;
 		return this;
@@ -523,7 +523,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the "shared_lock" parameter to the criteria
 	 */
-	public function sharedLock(boolean sharedLock = true) -> <Criteria>
+	public function sharedLock(bool sharedLock = true) -> <Criteria>
 	{
 		let this->_params["shared_lock"] = sharedLock;
 		return this;

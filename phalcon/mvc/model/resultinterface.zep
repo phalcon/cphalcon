@@ -30,5 +30,5 @@ interface ResultInterface
 	/**
 	 * Sets the object's state
 	 */
-	public function setDirtyState(boolean dirtyState);
+	public function setDirtyState(bool dirtyState);
 }

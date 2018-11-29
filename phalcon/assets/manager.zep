@@ -74,7 +74,7 @@ class Manager
 	/**
 	 * Sets if the HTML generated must be directly printed or returned
 	 */
-	public function useImplicitOutput(boolean implicitOutput) -> <Manager>
+	public function useImplicitOutput(bool implicitOutput) -> <Manager>
 	{
 		let this->_implicitOutput = implicitOutput;
 		return this;

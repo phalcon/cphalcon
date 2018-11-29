@@ -41,7 +41,7 @@ abstract class Behavior implements BehaviorInterface
 	/**
 	 * Checks whether the behavior must take action on certain event
 	 */
-	protected function mustTakeAction(string! eventName) -> boolean
+	protected function mustTakeAction(string! eventName) -> bool
 	{
 		return isset this->_options[eventName];
 	}

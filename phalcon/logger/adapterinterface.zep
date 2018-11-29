@@ -70,7 +70,7 @@ interface AdapterInterface
 	/**
  	 * Closes the logger
  	 */
-	public function close() -> boolean;
+	public function close() -> bool;
 
 	/**
  	 * Sends/Writes a debug message to the log

@@ -90,7 +90,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function setHandler(var handler, boolean lazy = false) -> <Collection>
+	public function setHandler(var handler, bool lazy = false) -> <Collection>
 	{
 		let this->_handler = handler, this->_lazy = lazy;
 		return this;
@@ -99,7 +99,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets if the main handler must be lazy loaded
 	 */
-	public function setLazy(boolean! lazy) -> <Collection>
+	public function setLazy(bool! lazy) -> <Collection>
 	{
 		let this->_lazy = lazy;
 		return this;
@@ -108,7 +108,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Returns if the main handler must be lazy loaded
 	 */
-	public function isLazy() -> boolean
+	public function isLazy() -> bool
 	{
 		return this->_lazy;
 	}

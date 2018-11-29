@@ -41,12 +41,12 @@ class $Resource implements ResourceInterface
 	protected _path { get };
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _local { get };
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _filter { get };
 
@@ -64,7 +64,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Phalcon\Assets\Resource constructor
 	 */
-	public function __construct(string type, string path, boolean local = true, boolean filter = true, array attributes = [])
+	public function __construct(string type, string path, bool local = true, bool filter = true, array attributes = [])
 	{
 		let this->_type = type,
 			this->_path = path,
@@ -94,7 +94,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets if the resource is local or external
 	 */
-	public function setLocal(boolean local) -> <$Resource>
+	public function setLocal(bool local) -> <$Resource>
 	{
 		let this->_local = local;
 		return this;
@@ -103,7 +103,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets if the resource must be filtered or not
 	 */
-	public function setFilter(boolean filter) -> <$Resource>
+	public function setFilter(bool filter) -> <$Resource>
 	{
 		let this->_filter = filter;
 		return this;

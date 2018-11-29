@@ -42,7 +42,7 @@ class $Inline implements ResourceInterface
 	/**
 	 * Phalcon\Assets\Inline constructor
 	 */
-	public function __construct(string type, string content, boolean filter = true, array attributes = [])
+	public function __construct(string type, string content, bool filter = true, array attributes = [])
 	{
 		let this->_type = type,
 			this->_content = content,
@@ -62,7 +62,7 @@ class $Inline implements ResourceInterface
 	/**
 	 * Sets if the resource must be filtered or not
 	 */
-	public function setFilter(boolean filter) -> <$Inline>
+	public function setFilter(bool filter) -> <$Inline>
 	{
 		let this->_filter = filter;
 		return this;

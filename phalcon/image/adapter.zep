@@ -257,7 +257,7 @@ abstract class Adapter implements AdapterInterface
 	/**
  	 * Add a reflection to an image
  	 */
-	public function reflection(int height, int opacity = 100, boolean fadeIn = false) -> <Adapter>
+	public function reflection(int height, int opacity = 100, bool fadeIn = false) -> <Adapter>
 	{
 		if height <= 0 || height > this->_height {
 			let height = (int) this->_height;

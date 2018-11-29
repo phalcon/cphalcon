@@ -137,7 +137,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Executes render process from dispatching data
 	 */
-	public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | boolean;
+	public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | bool;
 
 	/**
 	 * Choose a view different to render than last-controller/last-action
@@ -172,5 +172,5 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Whether the automatic rendering is disabled
 	 */
-	public function isDisabled() -> boolean;
+	public function isDisabled() -> bool;
 }

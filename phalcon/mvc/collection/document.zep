@@ -33,7 +33,7 @@ class Document implements EntityInterface, \ArrayAccess
 	/**
 	 * Checks whether an offset exists in the document
 	 */
-	public function offsetExists(string! index) -> boolean
+	public function offsetExists(string! index) -> bool
 	{
 		return isset this->{index};
 	}

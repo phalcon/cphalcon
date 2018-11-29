@@ -443,7 +443,7 @@ class Sqlite extends Dialect
 	/**
 	 * Generates SQL to drop a table
 	 */
-	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
+	public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
 	{
 		var sql, table;
 
@@ -475,7 +475,7 @@ class Sqlite extends Dialect
 	/**
 	 * Generates SQL to drop a view
 	 */
-	public function dropView(string! viewName, string schemaName = null, boolean! ifExists = true) -> string
+	public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
 	{
 		var view;
 

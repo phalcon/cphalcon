@@ -104,7 +104,7 @@ class Syslog extends Adapter
 	/**
  	 * Closes the logger
  	 */
-	public function close() -> boolean
+	public function close() -> bool
 	{
 		if !this->_opened {
 			return true;

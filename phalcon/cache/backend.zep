@@ -100,7 +100,7 @@ abstract class Backend implements BackendInterface
 	/**
 	 * Stops the frontend without store any cached content
 	 */
-	public function stop(boolean stopBuffer = true) -> void
+	public function stop(bool stopBuffer = true) -> void
 	{
 		if stopBuffer === true {
 			this->_frontend->stop();
@@ -111,7 +111,7 @@ abstract class Backend implements BackendInterface
 	/**
 	 * Checks whether the last cache is fresh or cached
 	 */
-	public function isFresh() -> boolean
+	public function isFresh() -> bool
 	{
 		return this->_fresh;
 	}
@@ -119,7 +119,7 @@ abstract class Backend implements BackendInterface
 	/**
 	 * Checks whether the cache has starting buffering or not
 	 */
-	public function isStarted() -> boolean
+	public function isStarted() -> bool
 	{
 		return this->_started;
 	}

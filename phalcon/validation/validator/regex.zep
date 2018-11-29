@@ -70,7 +70,7 @@ class Regex extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> bool
 	{
 		var matches, failed, message, value, label, replacePairs, code, pattern;
 

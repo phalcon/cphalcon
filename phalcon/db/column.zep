@@ -176,7 +176,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column is autoIncrement?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _autoIncrement = false;
 
@@ -193,7 +193,7 @@ class Column implements ColumnInterface
 	/**
 	 * Position is first
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _first = false;
 
@@ -212,7 +212,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column not nullable?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _notNull = false;
 
@@ -266,7 +266,7 @@ class Column implements ColumnInterface
 	/**
 	 * Integer column unsigned?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _unsigned = false;
 
@@ -509,7 +509,7 @@ class Column implements ColumnInterface
 	/**
 	 * Check whether column has default value
 	 */
-	public function hasDefault() -> boolean
+	public function hasDefault() -> bool
 	{
 		if this->isAutoIncrement() {
 			return false;
@@ -521,7 +521,7 @@ class Column implements ColumnInterface
 	/**
 	 * Auto-Increment
 	 */
-	public function isAutoIncrement() -> boolean
+	public function isAutoIncrement() -> bool
 	{
 		return this->_autoIncrement;
 	}
@@ -529,7 +529,7 @@ class Column implements ColumnInterface
 	/**
 	 * Check whether column have first position in table
 	 */
-	public function isFirst() -> boolean
+	public function isFirst() -> bool
 	{
 		return this->_first;
 	}
@@ -537,7 +537,7 @@ class Column implements ColumnInterface
 	/**
 	 * Not null
 	 */
-	public function isNotNull() -> boolean
+	public function isNotNull() -> bool
 	{
 		return this->_notNull;
 	}
@@ -545,7 +545,7 @@ class Column implements ColumnInterface
 	/**
 	 * Check whether column have an numeric type
 	 */
-	public function isNumeric() -> boolean
+	public function isNumeric() -> bool
 	{
 		return this->_isNumeric;
 	}
@@ -553,7 +553,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column is part of the primary key?
 	 */
-	public function isPrimary() -> boolean
+	public function isPrimary() -> bool
 	{
 		return this->_primary;
 	}
@@ -561,7 +561,7 @@ class Column implements ColumnInterface
 	/**
 	 * Returns true if number column is unsigned
 	 */
-	public function isUnsigned() -> boolean
+	public function isUnsigned() -> bool
 	{
 		return this->_unsigned;
 	}

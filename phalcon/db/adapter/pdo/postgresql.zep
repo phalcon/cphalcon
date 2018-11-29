@@ -49,7 +49,7 @@ class Postgresql extends PdoAdapter
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
 	 */
-	public function connect(array descriptor = null) -> boolean
+	public function connect(array descriptor = null) -> bool
 	{
 		var schema, sql, status;
 
@@ -82,7 +82,7 @@ class Postgresql extends PdoAdapter
 	/**
 	 * Creates a table
 	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
+	public function createTable(string! tableName, string! schemaName, array! definition) -> bool
 	{
 		var sql,queries,query,exception,columns;
 
@@ -156,7 +156,7 @@ class Postgresql extends PdoAdapter
 
 			if memstr(columnType, "smallint(1)") {
 				/**
-				 * Smallint(1) is boolean
+				 * Smallint(1) is bool
 				 */
 				let definition["type"] = Column::TYPE_BOOLEAN,
 					definition["bindType"] = Column::BIND_PARAM_BOOL;
@@ -412,7 +412,7 @@ class Postgresql extends PdoAdapter
 	/**
 	 * Modifies a table column based on a definition
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
+	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> bool
 	{
 		var sql,queries,query,exception;
 
@@ -446,7 +446,7 @@ class Postgresql extends PdoAdapter
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
 	 */
-	public function supportSequences() -> boolean
+	public function supportSequences() -> bool
 	{
 		return true;
 	}
@@ -454,7 +454,7 @@ class Postgresql extends PdoAdapter
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
 	 */
-	public function useExplicitIdValue() -> boolean
+	public function useExplicitIdValue() -> bool
 	{
 		return true;
 	}

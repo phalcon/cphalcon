@@ -483,7 +483,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Sets a service from the DI
 	 */
-	public function setService(string! serviceName, var definition, boolean shared = false) -> <ServiceInterface>
+	public function setService(string! serviceName, var definition, bool shared = false) -> <ServiceInterface>
 	{
 		var dependencyInjector;
 
@@ -499,7 +499,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Checks if a service is registered in the DI
 	 */
-	public function hasService(string! serviceName) -> boolean
+	public function hasService(string! serviceName) -> bool
 	{
 		var dependencyInjector;
 
@@ -1036,7 +1036,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Check if a service is registered in the internal services container using the array syntax
 	 */
-	public function offsetExists(string! alias) -> boolean
+	public function offsetExists(string! alias) -> bool
 	{
 		return this->hasService(alias);
 	}

@@ -118,7 +118,7 @@ class Memcache extends Backend
 	/**
 	 * Add servers to memcache pool
 	 */
-	public function addServers(string! host, int port, boolean persistent = false) -> boolean
+	public function addServers(string! host, int port, bool persistent = false) -> bool
 	{
 		var memcache, success;
 		/**
@@ -170,7 +170,7 @@ class Memcache extends Backend
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(var keyName = null, var content = null, var lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, ttl, success, options,
 			specialKey, keys, isBuffering;
@@ -274,7 +274,7 @@ class Memcache extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(var keyName) -> boolean
+	public function delete(var keyName) -> bool
 	{
 		var memcache, prefixedKey, options, keys, specialKey, ret;
 
@@ -362,7 +362,7 @@ class Memcache extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> bool
 	{
 		var lastKey, memcache, prefix;
 
@@ -395,7 +395,7 @@ class Memcache extends Backend
 	 *
 	 * @param string keyName
 	 */
-	public function increment(keyName = null, int value = 1) -> int | boolean
+	public function increment(keyName = null, int value = 1) -> int | bool
 	{
 		var memcache, prefix, lastKey;
 
@@ -422,7 +422,7 @@ class Memcache extends Backend
 	 *
 	 * @param string keyName
 	 */
-	public function decrement(keyName = null, int value = 1) -> int | boolean
+	public function decrement(keyName = null, int value = 1) -> int | bool
 	{
 		var memcache, prefix, lastKey;
 
@@ -447,7 +447,7 @@ class Memcache extends Backend
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var memcache, options, keys, specialKey, key;
 

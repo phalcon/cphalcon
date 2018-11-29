@@ -201,7 +201,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 *
 	 * @param int index
 	 */
-	public function offsetExists(string index) -> boolean
+	public function offsetExists(string index) -> bool
 	{
 		return isset this->_messages[index];
 	}
@@ -215,7 +215,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 * );
 	 *</code>
 	 */
-	public function offsetGet(int! index) -> <Message> | boolean
+	public function offsetGet(int! index) -> <Message> | bool
 	{
 		var message;
 		if fetch message, this->_messages[index] {
@@ -266,7 +266,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	/**
 	 * Check if the current message in the iterator is valid
 	 */
-	public function valid() -> boolean
+	public function valid() -> bool
 	{
 		return isset this->_messages[this->_position];
 	}

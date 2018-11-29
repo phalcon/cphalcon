@@ -87,7 +87,7 @@ class Application extends BaseApplication
 	/**
 	 * Enables or disables sending headers by each request handling
 	 */
-	public function sendHeadersOnHandleRequest(boolean sendHeaders) -> <Application>
+	public function sendHeadersOnHandleRequest(bool sendHeaders) -> <Application>
 	{
 		let this->_sendHeaders = sendHeaders;
 		return this;
@@ -96,7 +96,7 @@ class Application extends BaseApplication
 	/**
 	 * Enables or disables sending cookies by each request handling
 	 */
-	public function sendCookiesOnHandleRequest(boolean sendCookies) -> <Application>
+	public function sendCookiesOnHandleRequest(bool sendCookies) -> <Application>
 	{
 		let this->_sendCookies = sendCookies;
 		return this;
@@ -106,7 +106,7 @@ class Application extends BaseApplication
 	 * By default. The view is implicitly buffering all the output
 	 * You can full disable the view component using this method
 	 */
-	public function useImplicitView(boolean implicitView) -> <Application>
+	public function useImplicitView(bool implicitView) -> <Application>
 	{
 		let this->_implicitView = implicitView;
 		return this;
@@ -115,7 +115,7 @@ class Application extends BaseApplication
 	/**
 	 * Handles a MVC request
 	 */
-	public function handle(string! uri) -> <ResponseInterface> | boolean
+	public function handle(string! uri) -> <ResponseInterface> | bool
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
@@ -320,7 +320,7 @@ class Application extends BaseApplication
 		/**
 		 * Returning false from an action cancels the view
 		 */
-		if typeof possibleResponse == "boolean" && possibleResponse === false {
+		if typeof possibleResponse == "bool" && possibleResponse === false {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 		} else {
 

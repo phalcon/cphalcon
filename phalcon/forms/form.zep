@@ -245,7 +245,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * @param array data
 	 * @param object entity
 	 */
-	public function isValid(var data = null, var entity = null) -> boolean
+	public function isValid(var data = null, var entity = null) -> bool
 	{
 		var validationStatus, messages, element,
 			validators, name, filters,
@@ -379,7 +379,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * }
 	 * </code>
 	 */
-	public function getMessages(boolean byItemName = false) -> <Messages> | array
+	public function getMessages(bool byItemName = false) -> <Messages> | array
 	{
 		var messages, messagesByItem, elementMessage, fieldName;
 
@@ -426,7 +426,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Check if messages were generated for a specific element
 	 */
-	public function hasMessagesFor(string! name) -> boolean
+	public function hasMessagesFor(string! name) -> bool
 	{
 		return this->getMessagesFor(name)->count() > 0;
 	}
@@ -434,7 +434,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Adds an element to the form
 	 */
-	public function add(<ElementInterface> element, string position = null, boolean type = null) -> <Form>
+	public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
 	{
 		var name, key, value, elements;
 
@@ -644,7 +644,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Check if the form contains an element
 	 */
-	public function has(string! name) -> boolean
+	public function has(string! name) -> bool
 	{
 		/**
 		 * Checks if the element is in the form
@@ -655,7 +655,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Removes an element from the form
 	 */
-	public function remove(string! name) -> boolean
+	public function remove(string! name) -> bool
 	{
 		/**
 		 * Checks if the element is in the form
@@ -753,7 +753,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Returns the current element in the iterator
 	 */
-	public function current() -> <ElementInterface> | boolean
+	public function current() -> <ElementInterface> | bool
 	{
 		var element;
 
@@ -783,7 +783,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Check if the current element in the iterator is valid
 	 */
-	public function valid() -> boolean
+	public function valid() -> bool
 	{
 		return isset this->_elementsIndexed[this->_position];
 	}

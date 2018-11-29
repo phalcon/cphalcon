@@ -103,7 +103,7 @@ class Xcache extends Backend
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
@@ -193,7 +193,7 @@ class Xcache extends Backend
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete(var keyName)
 	{
@@ -274,7 +274,7 @@ class Xcache extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(var keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, lifetime = null) -> bool
 	{
 		var lastKey;
 
@@ -353,7 +353,7 @@ class Xcache extends Backend
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var options, specialKey, keys, key;
 

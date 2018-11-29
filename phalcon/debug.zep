@@ -54,7 +54,7 @@ class Debug
 	/**
 	 * Sets if files the exception's backtrace must be showed
 	 */
-	public function setShowBackTrace(boolean showBackTrace) -> <Debug>
+	public function setShowBackTrace(bool showBackTrace) -> <Debug>
 	{
 		let this->_showBackTrace = showBackTrace;
 		return this;
@@ -63,7 +63,7 @@ class Debug
 	/**
 	 * Set if files part of the backtrace must be shown in the output
 	 */
-	public function setShowFiles(boolean showFiles) -> <Debug>
+	public function setShowFiles(bool showFiles) -> <Debug>
 	{
 		let this->_showFiles = showFiles;
 		return this;
@@ -73,7 +73,7 @@ class Debug
 	 * Sets if files must be completely opened and showed in the output
 	 * or just the fragment related to the exception
 	 */
-	public function setShowFileFragment(boolean showFileFragment) -> <Debug>
+	public function setShowFileFragment(bool showFileFragment) -> <Debug>
 	{
 		let this->_showFileFragment = showFileFragment;
 		return this;
@@ -82,7 +82,7 @@ class Debug
 	/**
 	 * Listen for uncaught exceptions and unsilent notices or warnings
 	 */
-	public function listen(boolean exceptions = true, boolean lowSeverity = false) -> <Debug>
+	public function listen(bool exceptions = true, bool lowSeverity = false) -> <Debug>
 	{
 		if exceptions {
 			this->listenExceptions();
@@ -201,7 +201,7 @@ class Debug
 			/**
 			 * Boolean variables are represented as "true"/"false"
 			 */
-			if typeof variable == "boolean" {
+			if typeof variable == "bool" {
 				if variable {
 					return "true";
 				} else {
@@ -556,7 +556,7 @@ class Debug
 	/**
 	 * Handles uncaught exceptions
 	 */
-	public function onUncaughtException(<\Exception> exception) -> boolean
+	public function onUncaughtException(<\Exception> exception) -> bool
 	{
 		var obLevel, className, escapedMessage, html, showBackTrace,
 		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;

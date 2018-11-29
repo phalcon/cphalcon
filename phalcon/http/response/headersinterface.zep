@@ -30,7 +30,7 @@ interface HeadersInterface
 	/**
 	 * Returns true if the header is set, false otherwise
 	 */
-	public function has(string name) -> boolean;
+	public function has(string name) -> bool;
 
 	/**
 	 * Sets a header to be sent at the end of the request
@@ -40,7 +40,7 @@ interface HeadersInterface
 	/**
 	 * Gets a header value from the internal bag
 	 */
-	public function get(string name) -> string | boolean;
+	public function get(string name) -> string | bool;
 
 	/**
 	 * Sets a raw header to be sent at the end of the request
@@ -50,7 +50,7 @@ interface HeadersInterface
 	/**
 	 * Sends the headers to the client
 	 */
-	public function send() -> boolean;
+	public function send() -> bool;
 
 	/**
 	 * Reset set headers

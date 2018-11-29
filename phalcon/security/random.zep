@@ -254,7 +254,7 @@ class Random
 	 * @link https://www.ietf.org/rfc/rfc3548.txt
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
 	 */
-	public function base64Safe(int len = null, boolean padding = false) -> string
+	public function base64Safe(int len = null, bool padding = false) -> string
 	{
 		var s;
 

@@ -304,7 +304,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	{
 		var source, schema, key;
 
-		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
+		if typeof data != "array" && typeof data != "string" && typeof data != "bool" {
 			throw new Exception("Invalid data for index");
 		}
 
@@ -740,7 +740,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean
+	public function hasAttribute(<ModelInterface> model, string attribute) -> bool
 	{
 		var columnMap;
 
@@ -761,7 +761,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public function isEmpty() -> boolean
+	public function isEmpty() -> bool
 	{
 		return count(this->_metaData) == 0;
 	}

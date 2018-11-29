@@ -153,7 +153,7 @@ class Relation implements RelationInterface
 	/**
 	 * Check whether the relation act as a foreign key
 	 */
-	public function isForeignKey() -> boolean
+	public function isForeignKey() -> bool
 	{
 		return isset this->_options["foreignKey"];
 	}
@@ -199,7 +199,7 @@ class Relation implements RelationInterface
 	/**
 	 * Check whether the relation is a 'many-to-many' relation or not
 	 */
-	public function isThrough() -> boolean
+	public function isThrough() -> bool
 	{
 		var type;
 		let type = this->_type;
@@ -209,7 +209,7 @@ class Relation implements RelationInterface
 	/**
 	 * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
 	 */
-	public function isReusable() -> boolean
+	public function isReusable() -> bool
 	{
 		var options, reusable;
 		let options = this->_options;

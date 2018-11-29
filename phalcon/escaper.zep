@@ -88,7 +88,7 @@ class Escaper implements EscaperInterface
 	 * $escaper->setDoubleEncode(false);
 	 *</code>
 	 */
-	public function setDoubleEncode(boolean doubleEncode) -> void
+	public function setDoubleEncode(bool doubleEncode) -> void
 	{
 		let this->_doubleEncode = doubleEncode;
 	}

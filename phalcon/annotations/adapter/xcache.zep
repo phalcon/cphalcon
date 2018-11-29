@@ -37,7 +37,7 @@ class Xcache extends Adapter
 	/**
 	 * Reads parsed annotations from XCache
 	 */
-	public function read(string! key) -> <Reflection> | boolean
+	public function read(string! key) -> <Reflection> | bool
 	{
 		var serialized, data;
 		let serialized = xcache_get(strtolower("_PHAN" . key));

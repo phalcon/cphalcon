@@ -36,7 +36,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	/**
 	 * Set the current object's state
 	 */
-	public function setDirtyState(int dirtyState) -> boolean
+	public function setDirtyState(int dirtyState) -> bool
 	{
 		return false;
 	}
@@ -46,7 +46,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 *
 	 * @param string|int $index
 	 */
-	public function offsetExists(var index) -> boolean
+	public function offsetExists(var index) -> bool
 	{
 		return isset this->{index};
 	}

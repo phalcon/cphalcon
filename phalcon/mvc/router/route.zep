@@ -158,11 +158,11 @@ class Route implements RouteInterface
 	/**
 	 * Extracts parameters from a string
 	 */
-	public function extractNamedParams(string! pattern) -> array | boolean
+	public function extractNamedParams(string! pattern) -> array | bool
 	{
 		char ch, prevCh = '\0';
 		var tmp, matches;
-		boolean notValid;
+		bool notValid;
 		int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
 		int intermediate = 0, numberMatches = 0;
 		string route, item, variable, regexp;

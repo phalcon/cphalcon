@@ -63,7 +63,7 @@ class Apc extends Adapter
 	/**
 	 * Reads parsed annotations from APC
 	 */
-	public function read(string! key) -> <Reflection> | boolean
+	public function read(string! key) -> <Reflection> | bool
 	{
 		return apc_fetch(strtolower("_PHAN" . this->_prefix . key));
 	}

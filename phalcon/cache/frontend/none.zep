@@ -79,7 +79,7 @@ class None implements FrontendInterface
 	/**
 	 * Check whether if frontend is buffering output, always false
 	 */
-	public function isBuffering() -> boolean
+	public function isBuffering() -> bool
 	{
 		return false;
 	}
