@@ -21,6 +21,7 @@ namespace Phalcon\Di;
 
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
 
@@ -41,8 +42,6 @@ use Phalcon\Di\Service\Builder;
 class Service implements ServiceInterface
 {
 
-	protected _name;
-
 	protected _definition;
 
 	protected _shared = false;
@@ -56,19 +55,10 @@ class Service implements ServiceInterface
 	 *
 	 * @param mixed definition
 	 */
-	public final function __construct(string! name, definition, boolean shared = false)
+	public final function __construct(definition, boolean shared = false)
 	{
-		let this->_name = name,
-			this->_definition = definition,
+		let this->_definition = definition,
 			this->_shared = shared;
-	}
-
-	/**
-	 * Returns the service's name
-	 */
-	public function getName() -> string
-	{
-		return this->_name;
 	}
 
 	/**
@@ -201,8 +191,8 @@ class Service implements ServiceInterface
 		/**
 		 * If the service can't be built, we must throw an exception
 		 */
-		if found === false  {
-			throw new Exception("Service '" . this->_name . "' cannot be resolved");
+		if found === false {
+			throw new ServiceResolutionException();
 		}
 
 		/**
@@ -292,10 +282,6 @@ class Service implements ServiceInterface
 	{
 		var name, definition, shared;
 
-		if !fetch name, attributes["_name"] {
-			throw new Exception("The attribute '_name' is required");
-		}
-
 		if !fetch definition, attributes["_definition"] {
 			throw new Exception("The attribute '_definition' is required");
 		}
@@ -304,6 +290,6 @@ class Service implements ServiceInterface
 			throw new Exception("The attribute '_shared' is required");
 		}
 
-		return new self(name, definition, shared);
+		return new self(definition, shared);
 	}
 }

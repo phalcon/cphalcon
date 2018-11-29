@@ -20,6 +20,7 @@ use Phalcon\Config;
 use Phalcon\Di\Service;
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Di\ServiceInterface;
@@ -127,7 +128,7 @@ class Di implements DiInterface
 	public function set(string! name, var definition, boolean shared = false) -> <ServiceInterface>
 	{
 		var service;
-		let service = new Service(name, definition, shared),
+		let service = new Service(definition, shared),
 			this->_services[name] = service;
 		return service;
 	}
@@ -160,7 +161,7 @@ class Di implements DiInterface
 		var service;
 
 		if !isset this->_services[name] {
-			let service = new Service(name, definition, shared),
+			let service = new Service(definition, shared),
 				this->_services[name] = service;
 			return service;
 		}
@@ -210,7 +211,7 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null;
+		var service, eventsManager, instance = null, e;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -227,7 +228,11 @@ class Di implements DiInterface
 				/**
 				 * The service is registered in the DI
 				 */
-				let instance = service->resolve(parameters, this);
+				try {
+					let instance = service->resolve(parameters, this);
+				} catch ServiceResolutionException, e {
+					throw new Exception("Service '" . name . "' cannot be resolved");
+				}
 			} else {
 				/**
 				 * The DI also acts as builder for any class even if it isn't defined in the DI

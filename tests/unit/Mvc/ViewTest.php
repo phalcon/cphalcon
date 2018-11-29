@@ -646,6 +646,7 @@ class ViewTest extends UnitTest
      * Tests params view scope
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12648
+     * @issue  https://github.com/phalcon/cphalcon/pull/13288
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-17
      */
@@ -667,7 +668,8 @@ class ViewTest extends UnitTest
                 // FIXME: This test need to be refactored to not use try/catch
                 try {
                     echo $a_cool_var;
-                } catch (PhpUnitException $e) {
+                    $this->fail('Variable a_cool_var is defined and is set to "' . $a_cool_var . '"');
+                } catch (\PHPUnit\Framework\Exception $e) {
                     expect($e->getMessage())->contains("Undefined variable: a_cool_var");
                 }
             }

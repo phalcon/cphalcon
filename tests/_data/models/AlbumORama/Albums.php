@@ -32,7 +32,7 @@ class Albums extends Model
     {
         $this->belongsTo(
             'artists_id',
-            'AlbumORama:Artists',
+            Artists::class,
             'id',
             ['alias' => 'artist']
         );

@@ -318,9 +318,13 @@ class Config implements \ArrayAccess, \Countable
 			}
 
 			if is_numeric(key) {
-				let key = strval(number),
-					number++;
-			}
+				let key = strval(key);
+				while instance->offsetExists(key) {
+					// increment the number afterwards, because "number" starts at one not zero.
+					let key = strval(number);
+					let number++;
+				}
+ 			}
 			let instance->{key} = value;
 		}
 

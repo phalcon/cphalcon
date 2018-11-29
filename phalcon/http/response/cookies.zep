@@ -283,6 +283,14 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		return cookie;
 	}
 
+    /**
+     * Gets all cookies from the bag
+     */
+	public function getCookies() -> array
+	{
+	    return this->_cookies;
+	}
+
 	/**
 	 * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
 	 */

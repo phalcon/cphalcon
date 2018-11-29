@@ -7,14 +7,13 @@
 # For the full copyright and license information, please view the LICENSE.txt
 # file that was distributed with this source code.
 
-PHP_MAJOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 1)"
-PHP_MINOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 2)"
 PHP_VERNUM="$(`phpenv which php-config` --vernum)"
 
-printf "\n" | pecl install --force apcu_bc &> /dev/null
-printf "\n" | pecl install --force igbinary &> /dev/null
-printf "\n" | pecl install --force imagick &> /dev/null
-printf "\n" | pecl install --force psr &> /dev/null
+printf "\n" | pecl install --force apcu_bc 1> /dev/null
+printf "\n" | pecl install --force igbinary 1> /dev/null
+printf "\n" | pecl install --force imagick 1> /dev/null
+printf "\n" | pecl install --force psr 1> /dev/null
+printf "\n" | pecl install --force yaml-2.0.3 1> /dev/null
 
 # See https://pear.php.net/bugs/bug.php?id=21007
 sed -i '1s/^/extension="apcu.so"\n/' "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
@@ -74,10 +73,10 @@ install_ext_from_src () {
 	echo "extension=${libdir}/${pkgname}.so" > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/${pkgname}.ini"
 }
 
+install_ext_from_src "zephir_parser" "https://github.com/phalcon/php-zephir-parser" ""
+
 if [ "${PHP_VERNUM}" -ge 70300 ]; then
 	install_ext_from_src "memcached" "https://github.com/php-memcached-dev/php-memcached" "--disable-memcached-sasl"
-	install_ext_from_src "yaml" "https://github.com/php/pecl-file_formats-yaml" ""
 else
-	printf "\n" | pecl install --force yaml-2.0.0 &> /dev/null
-	echo 'extension="memcached.so"' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
+	echo 'extension="memcached.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/memcached.ini"
 fi
