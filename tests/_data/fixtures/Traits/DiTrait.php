@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use const PATH_DATA;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
@@ -24,6 +25,7 @@ use Phalcon\Http\Response;
 use Phalcon\Mvc\Models\Manager as ModelsManager;
 use Phalcon\Mvc\Models\Metadata\Memory;
 use Phalcon\Mvc\Url;
+use Phalcon\Mvc\View;
 use Phalcon\Session\Adapter\Files as FilesSession;
 
 trait DiTrait
@@ -189,6 +191,20 @@ trait DiTrait
                 $url->setBaseUri('/');
 
                 return $url;
+            }
+        );
+    }
+
+    protected function setDiView()
+    {
+        $container = Di::getDefault();
+        $container->set(
+            'view',
+            function () {
+                $view = new View();
+                $view->setViewsDir(PATH_DATA . 'fixtures/views');
+
+                return $view;
             }
         );
     }

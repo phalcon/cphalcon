@@ -37,7 +37,7 @@ class MicroController extends Controller
     {
         $this->dispatcher->forward(
             [
-                'controller' => 'test2',
+                'controller' => 'micro',
                 'action'     => 'anotherfour'
             ]
         );

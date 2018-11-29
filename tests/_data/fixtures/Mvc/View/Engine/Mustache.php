@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\View\Engine;
+namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
 use Mustache_Engine;
 use Phalcon\DiInterface;
