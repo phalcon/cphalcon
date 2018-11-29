@@ -1,1 +1,0 @@
-<div class="header">{% include "partials/header2.volt" %}</div>

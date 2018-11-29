@@ -1,1 +1,0 @@
-[A[{% block body %}{% endblock %}]]
