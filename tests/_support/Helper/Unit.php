@@ -2,8 +2,10 @@
 
 namespace Helper;
 
+use function is_file;
 use PHPUnit\Framework\SkippedTestError;
 use ReflectionClass;
+use function unlink;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
@@ -71,7 +73,7 @@ class Unit extends \Codeception\Module
      * @param string $path
      * @param string $fileName
      */
-    public function cleanFile($path, $fileName)
+    public function cleanFile(string $path, string $fileName)
     {
         $file = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
         $file .= $fileName;
@@ -95,12 +97,27 @@ class Unit extends \Codeception\Module
      * @return string
      *
      */
-    public function getNewFileName($prefix = '', $suffix = 'log')
+    public function getNewFileName(string $prefix = '', string $suffix = 'log')
     {
         $prefix = ($prefix) ? $prefix . '_' : '';
         $suffix = ($suffix) ? $suffix : 'log';
 
         return uniqid($prefix, true) . '.' . $suffix;
+    }
+
+    /**
+     * Cleans a folder from all files
+     *
+     * @param string $path
+     */
+    public function cleanFolder(string $path)
+    {
+        $files = glob(sprintf('%s/*', $path));
+        foreach ($files as $file) {
+            if (true === is_file(($file))) {
+                 unlink($file);
+            }
+        }
     }
 
     /**

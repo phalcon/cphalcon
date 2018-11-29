@@ -36,7 +36,7 @@ class ForwardCest
         $di = new FactoryDefault();
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(PATH_DATA . 'views/');
+            $view->setViewsDir(PATH_DATA . 'fixtures/views/');
 
             return $view;
         }, true);

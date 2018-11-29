@@ -3,34 +3,17 @@
 namespace Phalcon\Test\Unit\Mvc\View;
 
 use Phalcon\Di;
-use Helper\ViewTrait;
 use Phalcon\Mvc\View\Simple;
+use Phalcon\Test\Fixtures\Traits\ViewTrait;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Test\Module\View\Engine\Twig as TwigEngine;
 use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
 
-/**
- * \Phalcon\Test\Unit\Mvc\View\SimpleTest
- * Tests the Phalcon\Mvc\View\Simple component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc\View
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class SimpleTest extends UnitTest
+class SimpleTest
 {
-    use ViewTrait;
+    use ViewTrait
 
     /**
      * Tests render

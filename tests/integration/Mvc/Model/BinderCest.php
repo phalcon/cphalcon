@@ -73,7 +73,7 @@ class BinderCest
 
         if (!ini_get('apcu.enabled') ||
             (PHP_SAPI === 'cli' && !ini_get('apcu.enable_cli'))) {
-            $I->skipTest('Warning: apc.enable_cli must be set to "On"');
+            $I->skipTest('Warning: apcu.enable_cli must be set to "On"');
         }
 
         if (extension_loaded('apcu') &&
