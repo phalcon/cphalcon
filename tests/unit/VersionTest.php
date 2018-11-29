@@ -2,18 +2,18 @@
 
 namespace Phalcon\Test\Unit;
 
-use Phalcon\Version;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Version;
 
 /**
  * \Phalcon\Test\Unit\VersionTest
  * Tests the \Phalcon\Version component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit
+ * @link          https://phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @package       Phalcon\Test\Unit
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -85,9 +85,9 @@ class VersionTest extends UnitTest
 
                 // Now the version itself
                 $verChunks = explode('.', $chunks[0]);
-                $major = intval($verChunks[0]);
-                $med   = substr("00" . intval($verChunks[1]), -2);
-                $min   = substr("00" . intval($verChunks[2]), -2);
+                $major     = intval($verChunks[0]);
+                $med       = substr("00" . intval($verChunks[1]), -2);
+                $min       = substr("00" . intval($verChunks[2]), -2);
 
                 $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
                 $actual   = Version::getId();
@@ -95,6 +95,36 @@ class VersionTest extends UnitTest
                 expect($actual)->equals($expected);
             }
         );
+    }
+
+    /**
+     * Translates a special version (ALPHA, BETA, RC) to a version number
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param $input
+     *
+     * @return string
+     */
+    private function specialToNumber($input)
+    {
+        switch ($input) {
+            case 'ALPHA':
+                $special = '1';
+                break;
+            case 'BETA':
+                $special = '2';
+                break;
+            case 'RC':
+                $special = '3';
+                break;
+            default:
+                $special = '4';
+                break;
+        }
+
+        return $special;
     }
 
     /**
@@ -121,6 +151,35 @@ class VersionTest extends UnitTest
                 expect($actual)->equals($expected);
             }
         );
+    }
+
+    /**
+     * Translates a number to a special version string (ALPHA, BETA, RC)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param $number
+     *
+     * @return string
+     */
+    private function numberToSpecial($number)
+    {
+        $special = '';
+
+        switch ($number) {
+            case '1':
+                $special = 'ALPHA';
+                break;
+            case '2':
+                $special = 'BETA';
+                break;
+            case '3':
+                $special = 'RC';
+                break;
+        }
+
+        return $special;
     }
 
     /**
@@ -197,7 +256,7 @@ class VersionTest extends UnitTest
             "getPart(VERSION_MEDIUM) does not return the correct result",
             function () {
                 $id       = Version::getId();
-                $expected = intval($id[1].$id[2]); //The medium version is the second and third digits
+                $expected = intval($id[1] . $id[2]); //The medium version is the second and third digits
                 $actual   = Version::getPart(Version::VERSION_MEDIUM);
 
                 expect($actual)->equals($expected);
@@ -208,7 +267,7 @@ class VersionTest extends UnitTest
             "getPart(VERSION_MINOR) does not return the correct result",
             function () {
                 $id       = Version::getId();
-                $expected = intval($id[3].$id[4]); //The minor version is the fourth and fifth digits
+                $expected = intval($id[3] . $id[4]); //The minor version is the fourth and fifth digits
                 $actual   = Version::getPart(Version::VERSION_MINOR);
 
                 expect($actual)->equals($expected);
@@ -247,64 +306,5 @@ class VersionTest extends UnitTest
                 expect($actual)->equals($expected);
             }
         );
-    }
-
-    /**
-     * Translates a special version (ALPHA, BETA, RC) to a version number
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param $input
-     *
-     * @return string
-     */
-    private function specialToNumber($input)
-    {
-        switch ($input) {
-            case 'ALPHA':
-                $special = '1';
-                break;
-            case 'BETA':
-                $special = '2';
-                break;
-            case 'RC':
-                $special = '3';
-                break;
-            default:
-                $special = '4';
-                break;
-        }
-
-        return $special;
-    }
-
-    /**
-     * Translates a number to a special version string (ALPHA, BETA, RC)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param $number
-     *
-     * @return string
-     */
-    private function numberToSpecial($number)
-    {
-        $special = '';
-
-        switch ($number) {
-            case '1':
-                $special = 'ALPHA';
-                break;
-            case '2':
-                $special = 'BETA';
-                break;
-            case '3':
-                $special = 'RC';
-                break;
-        }
-
-        return $special;
     }
 }
