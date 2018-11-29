@@ -671,7 +671,6 @@ class DbDescribeCest
                 '_bindType'      => 2,
             ]),
         ];
-
     }
 
     private function getExpectedColumnsSqlite()

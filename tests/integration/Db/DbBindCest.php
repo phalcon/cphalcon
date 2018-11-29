@@ -252,7 +252,8 @@ class DbBindCest
 
         $success = $connection->update(
             'prueba',
-            ["nombre"], ["LOL 3000"],
+            ["nombre"],
+            ["LOL 3000"],
             "estado='X'",
             [Column::BIND_PARAM_STR]
         );
@@ -260,7 +261,8 @@ class DbBindCest
 
         $success = $connection->update(
             'prueba',
-            ["nombre"], [new RawValue('current_date')],
+            ["nombre"],
+            [new RawValue('current_date')],
             "estado='X'",
             [Column::BIND_PARAM_STR]
         );
@@ -293,7 +295,8 @@ class DbBindCest
 
 
         $conditions = $connection->bindParams(
-            "a=?0", array(
+            "a=?0",
+            array(
                 1 => 50
             )
         );
@@ -456,5 +459,4 @@ class DbBindCest
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
     }
-
 }
