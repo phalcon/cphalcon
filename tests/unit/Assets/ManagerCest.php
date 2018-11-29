@@ -30,8 +30,6 @@ class ManagerCest
      */
     public function _before(UnitTester $I)
     {
-        @mkdir(PATH_OUTPUT . 'assets/', 0777, true);
-        $this->resetDi();
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();

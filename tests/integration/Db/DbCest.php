@@ -23,7 +23,6 @@ class DbCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->resetDi();
         $this->newDi();
     }
 
@@ -39,8 +38,7 @@ class DbCest
     {
         $I->wantToTest("Db - MySql");
         $this->setDiMysql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         $this->executeTests($I, $connection);
     }
@@ -57,8 +55,7 @@ class DbCest
     {
         $I->wantToTest("Db - Postgresql");
         $this->setDiPostgresql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         $this->executeTests($I, $connection);
     }
@@ -75,8 +72,7 @@ class DbCest
     {
         $I->wantToTest("Db - Sqlite");
         $this->setDiSqlite();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         $this->executeTests($I, $connection);
     }

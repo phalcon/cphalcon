@@ -24,7 +24,6 @@ class NoneCest
 
     public function _before(UnitTester $I)
     {
-        $this->resetDi();
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();

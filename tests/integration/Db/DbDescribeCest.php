@@ -25,7 +25,6 @@ class DbDescribeCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->resetDi();
         $this->newDi();
         $this->setDiModelsManager();
         $this->setDiModelsMetadata();
@@ -43,8 +42,7 @@ class DbDescribeCest
     {
         $I->wantToTest("Db - MySql");
         $this->setDiMysql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         //Table exist
         $I->assertEquals($connection->tableExists('personas'), 1);
@@ -161,8 +159,7 @@ class DbDescribeCest
     {
         $I->wantToTest("Db - Postgresql");
         $this->setDiPostgresql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         //Columns
         $expectedDescribe = $this->getExpectedColumnsPostgresql();
@@ -240,8 +237,7 @@ class DbDescribeCest
     {
         $I->wantToTest("Db - Sqlite");
         $this->setDiSqlite();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         //List tables
         $expectedTables = [

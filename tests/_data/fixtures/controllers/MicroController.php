@@ -13,7 +13,7 @@ namespace Phalcon\Test\Fixtures\controllers;
 
 use Phalcon\Mvc\Controller;
 
-class Test2Controller extends Controller
+class MicroController extends Controller
 {
     public function indexAction()
     {

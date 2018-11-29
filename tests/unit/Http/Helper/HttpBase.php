@@ -32,7 +32,6 @@ class HttpBase
     {
         $this->server = $_SERVER;
         $_SERVER      = [];
-        $this->resetDi();
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();

@@ -33,6 +33,16 @@ trait DiTrait
         return Di::getDefault();
     }
 
+    protected function getService(string $name, bool $shared = false)
+    {
+        $container = $this->getDi();
+        if (true === $shared) {
+            return $container->getShared($name);
+        } else {
+            return $container->get($name);
+        }
+    }
+
     protected function newDi()
     {
         Di::reset();

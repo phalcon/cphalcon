@@ -28,7 +28,6 @@ class SecurityCest
     {
         $I->checkExtensionIsLoaded('openssl');
 
-        $this->resetDi();
         $this->newDi();
 //        $this->setDiEscaper();
 //        $this->setDiUrl();

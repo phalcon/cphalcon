@@ -23,7 +23,6 @@ class DbBindCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->resetDi();
         $this->newDi();
     }
 
@@ -39,8 +38,7 @@ class DbBindCest
     {
         $I->wantToTest("Db - Bind - MySql");
         $this->setDiMysql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         $this->executeConvertBindTests($I, $connection);
         $this->executeBindByTypeTests($I, $connection);
@@ -59,8 +57,7 @@ class DbBindCest
     {
         $I->wantToTest("Db - Bind - Postgresql");
         $this->setDiMysql();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         //$this->executeRawBindTests($I, $connection);
         //$this->executeRawBindTestsPostgresql($I, $connection);
@@ -79,8 +76,7 @@ class DbBindCest
     {
         $I->wantToTest("Db - Bind - Sqlite");
         $this->setDiSqlite();
-        $container  = $this->getDi();
-        $connection = $container->get('db');
+        $connection = $this->getService('db');
 
         //$this->_executeRawBindTests($connection);
         //$this->_executeRawBindTestsSqlite($connection);

@@ -15,7 +15,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Test\Fixtures\controllers\Test2Controller;
+use Phalcon\Test\Fixtures\controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
@@ -594,7 +594,7 @@ class MicroCest
     {
         $app        = new Micro();
         $collection = new Micro\Collection();
-        $collection->setHandler(new Test2Controller());
+        $collection->setHandler(new MicroController());
         $collection->mapVia(
             "/test",
             'indexAction',

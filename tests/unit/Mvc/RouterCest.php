@@ -15,7 +15,6 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 use UnitTester;
-use function var_dump;
 
 class RouterCest
 {
