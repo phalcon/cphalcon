@@ -18,6 +18,7 @@
 namespace Phalcon\Test\Integration\Mvc\View\Engine;
 
 use IntegrationTester;
+use const PATH_CACHE;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -58,15 +59,12 @@ class VoltCest
         $volt->render(PATH_DATA . 'fixtures/views/extends/index.volt', ['song' => 'Lights'], true);
         $view->finish();
 
-        $path = PATH_CACHE
-            . $I->preparePathToFileWithDelimiter(PATH_DATA, '.')
-            . 'fixtures.views.extends.index.volt.compiled';
+        $fileName = $I->preparePathToFileWithDelimiter(PATH_DATA, '.')
+                  . 'fixtures.views.extends.index.volt.compiled';
 
-        $I->assertTrue(file_exists($path));
-        $I->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');
+        $I->assertTrue(file_exists(PATH_CACHE . $fileName));
+        $I->assertEquals(file_get_contents(PATH_CACHE . $fileName), 'Hello <?= $song ?>!');
         $I->assertEquals($view->getContent(), 'Hello Lights!');
-        $I->removeFilesWithoutErrors([
-            $path,
-        ]);
+        $I->cleanFile(PATH_CACHE, $fileName);
     }
 }
