@@ -13,7 +13,7 @@ namespace Phalcon\Test\Fixtures\models\Validation;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Test\Fixtures\models\RobotsParts;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
 

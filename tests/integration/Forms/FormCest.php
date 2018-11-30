@@ -10,7 +10,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Test\Models\Select as MvcModel;
+use Phalcon\Test\Fixtures\models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
@@ -302,7 +302,7 @@ class FormCest
             ->add($text)
         ;
 
-        $entity = new MvcModel;
+        $entity = new MvcModel();
 
         $I->assertNull(Tag::getValue('sel_name'));
         $I->assertNull($form->getValue('sel_name'));

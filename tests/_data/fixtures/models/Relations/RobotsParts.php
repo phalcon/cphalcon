@@ -15,12 +15,12 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Row;
 
 /**
- * Phalcon\Test\Models\Relations\RobotsParts
+ * Phalcon\Test\Fixtures\models\Relations\RobotsParts
  *
  * @method static RobotsParts findFirst($parameters = null)
  * @method Row getRobots($parameters = null)
  *
- * @package Phalcon\Test\Models\Relations
+ * @package Phalcon\Test\Fixtures\models\Relations
  */
 class RobotsParts extends Model
 {

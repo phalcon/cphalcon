@@ -12,8 +12,8 @@ use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Model\Binder;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Fixtures\models\People;
+use Phalcon\Test\Fixtures\models\Robots;
 use PHPIntegration\Framework\SkippedTestError;
 
 /**
@@ -119,7 +119,7 @@ class BinderCest
                 'view',
                 ['people' => $this->people->cedula]
             );
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -210,8 +210,8 @@ class BinderCest
                     'robots' => $this->robot->id,
                 ]
             );
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -247,7 +247,7 @@ class BinderCest
                 ]
             );
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -281,8 +281,8 @@ class BinderCest
                     'robots' => $this->robot->id,
                 ]
             );
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -342,7 +342,7 @@ class BinderCest
             $dispatcher->dispatch();
 
             $returnedValue = $dispatcher->getReturnedValue();
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($returnedValue->cedula, $this->people->cedula);
             $I->assertEquals(
                 [
@@ -376,7 +376,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -428,8 +428,8 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -469,13 +469,13 @@ class BinderCest
         } catch (\Exception $e) {
             // PHP 5.x
             $I->assertEquals(
-                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given',
+                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Fixtures\models\People, string given',
                 $e->getMessage()
             );
         } catch (\TypeError $e) {
             // PHP 7.x
             $I->assertEquals(
-                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given',
+                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Fixtures\models\People, string given',
                 $e->getMessage()
             );
         }
@@ -485,7 +485,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -516,7 +516,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -547,8 +547,8 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -580,7 +580,7 @@ class BinderCest
 
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -611,8 +611,8 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -668,7 +668,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -699,7 +699,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -730,8 +730,8 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -764,7 +764,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -795,8 +795,8 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula . '/robot/' . $this->robot->id);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
-            $I->assertInstanceOf('Phalcon\Test\Models\Robots', $returnedValue[1]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue[0]);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\Robots', $returnedValue[1]);
             $I->assertEquals($this->people->cedula, $returnedValue[0]->cedula);
             $I->assertEquals($this->robot->id, $returnedValue[1]->id);
             $I->assertEquals(
@@ -852,7 +852,7 @@ class BinderCest
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
             $I->assertEquals(
                 [
@@ -883,7 +883,7 @@ class BinderCest
             'view',
             $params
         );
-        $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+        $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
         $I->assertEquals($this->people->cedula, $returnedValue->cedula);
         $I->assertEquals($params, $dispatcher->getModelBinder()->getOriginalValues());
     }
@@ -910,7 +910,7 @@ class BinderCest
                 'view',
                 ['people' => $this->people->cedula]
             );
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf('Phalcon\Test\Fixtures\models\People', $returnedValue);
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
         }
     }
