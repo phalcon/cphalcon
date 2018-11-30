@@ -345,7 +345,7 @@ class Di implements DiInterface
 	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(var name, var definition) -> bool
+	public function offsetSet(var name, var definition) -> void
 	{
 		this->setShared(name, definition);
 		return true;
@@ -366,7 +366,7 @@ class Di implements DiInterface
 	/**
 	 * Removes a service from the services container using the array syntax
 	 */
-	public function offsetUnset(var name) -> bool
+	public function offsetUnset(var name) -> void
 	{
 		return false;
 	}

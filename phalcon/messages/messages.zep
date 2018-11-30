@@ -233,7 +233,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 *
 	 * @param \Phalcon\Messages\Message message
 	 */
-	public function offsetSet(var index, var message) -> var
+	public function offsetSet(var index, var message) -> void
 	{
 		if typeof message != "object" {
 			throw new Exception("The message must be an object");

@@ -57,7 +57,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * @param string|int index
 	 * @return string|Phalcon\Mvc\ModelInterface
 	 */
-	public function offsetGet(var index)
+	public function offsetGet(var index) -> var
 	{
 		var value;
 		if fetch value, this->{index} {

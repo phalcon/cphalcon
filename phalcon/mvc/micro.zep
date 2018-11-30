@@ -1048,7 +1048,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *	$app["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(var alias, var definition)
+	public function offsetSet(var alias, var definition) -> void
 	{
 		this->setService(alias, definition);
 	}
@@ -1064,7 +1064,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet(var alias)
+	public function offsetGet(var alias) -> var
 	{
 		return this->getService(alias);
 	}
@@ -1072,7 +1072,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Removes a service from the internal services container using the array syntax
 	 */
-	public function offsetUnset(var alias)
+	public function offsetUnset(var alias) -> void
 	{
 		return alias;
 	}
