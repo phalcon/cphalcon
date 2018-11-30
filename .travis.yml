@@ -59,6 +59,8 @@ before_install:
   - export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
   - export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
   - export PHP_VERNUM="$(php-config --vernum)"
+  - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
+  - phpenv install -f $(phpenv version name)
   - tests/_ci/pear-setup.sh
   - tests/_ci/setup-dbs.sh
   - source tests/_ci/environment
