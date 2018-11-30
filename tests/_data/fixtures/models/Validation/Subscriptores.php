@@ -1,6 +1,15 @@
 <?php
 
-namespace Phalcon\Test\Models\Validation;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models\Validation;
 
 use Phalcon\Messages\Message;
 use Phalcon\Mvc\Model;
@@ -14,25 +23,10 @@ use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Validation\Validator\Uniqueness;
 
 /**
- * \Phalcon\Test\Models\Validation\Subscriptores
- *
  * @property int    id
  * @property string email
  * @property string created_at
  * @property string status
- *
- * @copyright 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Models\Validation
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
  */
 class Subscriptores extends Model
 {

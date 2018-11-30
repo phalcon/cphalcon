@@ -1,11 +1,19 @@
 <?php
 
 /**
- * Pessoas
+ * This file is part of the Phalcon Framework.
  *
- * Pessoas is people in portugais
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
-class Pessoas extends Phalcon\Mvc\Model
+
+namespace Phalcon\Test\Fixtures\models;
+
+use Phalcon\Mvc\Model;
+
+class Pessoas extends Model
 {
 
     public function getSource()

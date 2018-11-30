@@ -1,11 +1,19 @@
 <?php
 
 /**
- * Personers
+ * This file is part of the Phalcon Framework.
  *
- * Personers is people in danish
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
-class Personers extends Phalcon\Mvc\Model
+
+namespace Phalcon\Test\Fixtures\models;
+
+use Phalcon\Mvc\Model;
+
+class Personers extends Model
 {
 
     public function getSource()

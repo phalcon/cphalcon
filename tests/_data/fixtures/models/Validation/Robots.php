@@ -1,6 +1,15 @@
 <?php
 
-namespace Phalcon\Test\Models\Validation;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models\Validation;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
@@ -9,24 +18,9 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
 
 /**
- * \Phalcon\Test\Models\Validation\Robots
- *
  * @method static int countByType(string $type)
  * @method static Simple findByType(string $type)
  * @method static Robots findFirstById(string | int $id)
- *
- * @copyright 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Models\Validation
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
  */
 class Robots extends Model
 {

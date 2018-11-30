@@ -1,11 +1,19 @@
 <?php
 
 /**
- * RobottersDeles
+ * This file is part of the Phalcon Framework.
  *
- * This model is an intermediate table for "Robotters" and "Deles"
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
-class RobottersDeles extends Phalcon\Mvc\Model
+
+namespace Phalcon\Test\Fixtures\models;
+
+use Phalcon\Mvc\Model;
+
+class RobottersDeles extends Model
 {
 
     public function getSource()
@@ -25,15 +33,14 @@ class RobottersDeles extends Phalcon\Mvc\Model
     public function initialize()
     {
 
-        $this->belongsTo('delesCode', 'Deles', 'code', [
+        $this->belongsTo('delesCode', Deles::class, 'code', [
             'foreignKey' => true,
         ]);
 
-        $this->belongsTo('robottersCode', 'Robotters', 'code', [
+        $this->belongsTo('robottersCode', Robotters::class, 'code', [
             'foreignKey' => [
                 'message' => 'The robotters code does not exist',
             ],
         ]);
     }
-
 }

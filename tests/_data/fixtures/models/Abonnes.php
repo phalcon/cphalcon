@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models;
+
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Message as Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
@@ -10,12 +22,7 @@ use Phalcon\Validation\Validator\Regex as RegexValidator;
 use Phalcon\Validation\Validator\StringLength as StringLengthValidator;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 
-/**
- * Abonnes
- *
- * Abonnes is subscriptors in french
- */
-class Abonnes extends Phalcon\Mvc\Model
+class Abonnes extends Model
 {
 
     public function getSource()

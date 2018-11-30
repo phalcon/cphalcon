@@ -1,11 +1,19 @@
 <?php
 
 /**
- * Personas
+ * This file is part of the Phalcon Framework.
  *
- * Personas is people in spanish
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
-class Personas extends Phalcon\Mvc\Model
+
+namespace Phalcon\Test\Fixtures\models;
+
+use Phalcon\Mvc\Model;
+
+class Personas extends Model
 {
 
 }

@@ -1,12 +1,21 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models;
+
+use Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\MetaData;
 
-/**
- * Robotto is the japanese for Robot
- */
-class Robotto extends Phalcon\Mvc\Model
+class Robotto extends Model
 {
 
     public function getSource()
@@ -50,5 +59,4 @@ class Robotto extends Phalcon\Mvc\Model
             MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE => [],
         ];
     }
-
 }

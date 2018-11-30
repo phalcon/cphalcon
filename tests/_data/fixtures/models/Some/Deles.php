@@ -1,13 +1,19 @@
 <?php
 
-namespace Some;
-
 /**
- * Deles
+ * This file is part of the Phalcon Framework.
  *
- * Deles is "parts" in danish
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
-class Deles extends \Phalcon\Mvc\Model
+
+namespace Phalcon\Test\Fixtures\models\Some;
+
+use Phalcon\Mvc\Model;
+
+class Deles extends Model
 {
 
     public function getSource()
@@ -25,7 +31,7 @@ class Deles extends \Phalcon\Mvc\Model
 
     public function initialize()
     {
-        $this->hasMany('code', 'Some\RobottersDeles', 'delesCode', [
+        $this->hasMany('code', RobottersDeles::class, 'delesCode', [
             'foreignKey' => [
                 'message' => 'Deles cannot be deleted because is referenced by a Robotter',
             ],

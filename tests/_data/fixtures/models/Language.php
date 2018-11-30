@@ -1,18 +1,24 @@
 <?php
 
-namespace Phalcon\Test\Models;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
- * Phalcon\Test\Models\Language
- *
  * @property string lang
  * @property string locale
  * @property Simple translations
  * @method Simple getTranslations()
- *
  * @package Phalcon\Test\Models
  */
 class Language extends Model
