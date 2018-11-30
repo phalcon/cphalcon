@@ -58,7 +58,7 @@ interface MetaDataInterface
 	/**
 	 * Reads the ordered/reversed column map for certain model
 	 */
-	public function readColumnMap(<ModelInterface> model) -> array;
+	public function readColumnMap(<ModelInterface> model) -> array | null;
 
 	/**
 	 * Reads column-map information for certain model using a MODEL_* constant

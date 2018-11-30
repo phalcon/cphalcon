@@ -1194,7 +1194,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 * </code>
 	 */
-	public static function findById(var id) -> <Collection> | null
+	public static function findById(var id) -> <CollectionInterface> | null
 	{
 		var className, collection, mongoId;
 
