@@ -11,12 +11,13 @@
 
 namespace Phalcon\Test\Integration;
 
+use Phalcon\Test\Fixtures\models\Personnes;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Adapter\Model;
 use IntegrationTester;
 
-class PaginatorTest
+class PaginatorCest
 {
     use DiTrait;
 
@@ -86,14 +87,6 @@ class PaginatorTest
 
     public function testModelPaginatorBind()
     {
-        require 'unit-tests/config.db.php';
-        if (empty($configMysql)) {
-            $this->markTestSkipped('Test skipped');
-            return;
-        }
-
-        $this->_loadDI();
-
         $personnes = Personnes::find([
             "conditions" => "cedula >=:d1: AND cedula>=:d2: ",
             "bind"       => ["d1" => '1', "d2" => "5"],
@@ -101,11 +94,13 @@ class PaginatorTest
             "limit"      => "33",
         ]);
 
-        $paginator = new Phalcon\Paginator\Adapter\Model([
-            'data'  => $personnes,
-            'limit' => 10,
-            'page'  => 1,
-        ]);
+        $paginator = new Model(
+            [
+                'data'  => $personnes,
+                'limit' => 10,
+                'page'  => 1,
+            ]
+        );
 
         //First Page
         $page = $paginator->getPaginate();
@@ -124,10 +119,11 @@ class PaginatorTest
 
     public function testQueryBuilderPaginator()
     {
-        $builder = $di['modelsManager']->createBuilder()
-                                       ->columns('cedula, nombres')
-                                       ->from('Personnes')
-                                       ->orderBy('cedula')
+        $manager = $this->getService('modelsManager');
+        $builder = $manager->createBuilder()
+                           ->columns('cedula, nombres')
+                           ->from('Personnes')
+                           ->orderBy('cedula')
         ;
 
         $paginator = new QueryBuilder(
@@ -226,25 +222,31 @@ class PaginatorTest
 
     public function testQueryBuilderPaginatorGroupBy()
     {
-        $di['db']->query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+        $database = $this->getService('db');
+        $database->query(
+            "SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE," .
+            "NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER," .
+            "NO_ENGINE_SUBSTITUTION'"
+        );
 
         // test paginator with group by string value
-        $builder = $di['modelsManager']->createBuilder()
-                                       ->columns('cedula, nombres')
-                                       ->from('Personnes')
-                                       ->groupBy('email')
+        $manager = $this->getService('modelsManager');
+        $builder = $manager->createBuilder()
+                           ->columns('cedula, nombres')
+                           ->from('Personnes')
+                           ->groupBy('email')
         ;
 
-        $this->_paginatorBuilderTest($builder);
+        $this->paginatorBuilderTest($builder);
 
         // test paginator with group by array value
-        $builder = $di['modelsManager']->createBuilder()
-                                       ->columns('cedula, nombres')
-                                       ->from('Personnes')
-                                       ->groupBy(['email'])
+        $builder = $manager->createBuilder()
+                           ->columns('cedula, nombres')
+                           ->from('Personnes')
+                           ->groupBy(['email'])
         ;
 
-        $this->_paginatorBuilderTest($builder);
+        $this->paginatorBuilderTest($builder);
 
         // test of getter/setters of querybuilder adapter
 
@@ -287,9 +289,9 @@ class PaginatorTest
         $this->assertEquals($setterResult, $paginator);
     }
 
-    private function __paginatorBuilderTest($builder)
+    private function _paginatorBuilderTest($builder)
     {
-        $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
+        $paginator = new QueryBuilder([
             "builder" => $builder,
             "limit"   => 10,
             "page"    => 1,

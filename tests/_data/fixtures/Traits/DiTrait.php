@@ -89,13 +89,13 @@ trait DiTrait
     protected function setDiModelsManager()
     {
         $container = Di::getDefault();
-        $container->set('modelsManager', ModelsManager::class);
+        $container->setShared('modelsManager', ModelsManager::class);
     }
 
     protected function setDiModelsMetadata()
     {
         $container = Di::getDefault();
-        $container->set('modelsMetadata', Memory::class);
+        $container->setShared('modelsMetadata', Memory::class);
     }
 
     /**
