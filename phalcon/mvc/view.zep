@@ -289,7 +289,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 * </code>
 	 */
-	public function setRenderLevel(int level) -> <View>
+	public function setRenderLevel(int level) -> <ViewInterface>
 	{
 		let this->_renderLevel = level;
 		return this;
@@ -305,7 +305,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 *</code>
 	 */
-	public function disableLevel(var level) -> <View>
+	public function disableLevel(var level) -> <ViewInterface>
 	{
 		if typeof level == "array" {
 			let this->_disabledLevels = level;
@@ -1043,7 +1043,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 * </code>
 	 */
-	public function partial(string! partialPath, var params = null)
+	public function partial(string! partialPath, var params = null) -> string
 	{
 		var viewParams;
 

@@ -495,7 +495,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array dataColumnMap array to transform keys of data to another
 	 * @param array whiteList
 	 */
-	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
+	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
 	{
 		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
 
@@ -1839,7 +1839,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Create a criteria for a specific model
 	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <Criteria>
+	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>
 	{
 		var criteria;
 
@@ -2146,7 +2146,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize(var data)
 	{
 		var attributes, dependencyInjector, manager, key, value, snapshot;
 
@@ -2205,7 +2205,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name
 	 */
-	public function setConnectionService(string! connectionService) -> <Model>
+	public function setConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
 		return this;
@@ -2239,7 +2239,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to read data
 	 */
-	public function setReadConnectionService(string! connectionService) -> <Model>
+	public function setReadConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
 		return this;
@@ -2395,7 +2395,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
 	{
 		let this->_transaction = transaction;
 		return this;
@@ -2490,7 +2490,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to write data
 	 */
-	public function setWriteConnectionService(string! connectionService) -> <Model>
+	public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
 	}
@@ -4614,7 +4614,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets schema name where the mapped table is located
 	 */
-	protected function setSchema(string! schema) -> <Model>
+	protected function setSchema(string! schema) -> <ModelInterface>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
 	}
@@ -4622,7 +4622,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the table name to which model should be mapped
 	 */
-	protected function setSource(string! source) -> <Model>
+	protected function setSource(string! source) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
 		return this;

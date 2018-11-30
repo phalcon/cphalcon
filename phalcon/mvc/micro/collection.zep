@@ -63,7 +63,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets a prefix for all routes added to the collection
 	 */
-	public function setPrefix(string! prefix) -> <Collection>
+	public function setPrefix(string! prefix) -> <CollectionInterface>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -90,7 +90,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param callable|string handler
 	 */
-	public function setHandler(var handler, bool lazy = false) -> <Collection>
+	public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>
 	{
 		let this->_handler = handler, this->_lazy = lazy;
 		return this;

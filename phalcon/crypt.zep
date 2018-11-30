@@ -119,7 +119,7 @@ class Crypt implements CryptInterface
 	 * The `aes-256-ctr' is arguably the best choice for cipher
 	 * algorithm for current openssl library version.
 	 */
-	public function setCipher(string! cipher) -> <Crypt>
+	public function setCipher(string! cipher) -> <CryptInterface>
 	{
 		this->assertCipherIsAvailable(cipher);
 
@@ -153,7 +153,7 @@ class Crypt implements CryptInterface
 	 *
 	 * @see \Phalcon\Security\Random
 	 */
-	public function setKey(string! key) -> <Crypt>
+	public function setKey(string! key) -> <CryptInterface>
 	{
 		let this->_key = key;
 		return this;
@@ -172,7 +172,7 @@ class Crypt implements CryptInterface
 	 *
 	 * @throws \Phalcon\Crypt\Exception
 	 */
-	public function setHashAlgo(string! hashAlgo) -> <Crypt>
+	public function setHashAlgo(string! hashAlgo) -> <CryptInterface>
 	{
 		this->assertHashAlgorithmAvailable(hashAlgo);
 
@@ -194,7 +194,7 @@ class Crypt implements CryptInterface
 	 *
 	 * NOTE: This feature will be enabled by default in Phalcon 4.0.0
 	 */
-	public function useSigning(bool useSigning) -> <Crypt>
+	public function useSigning(bool useSigning) -> <CryptInterface>
 	{
 		let this->useSigning = useSigning;
 

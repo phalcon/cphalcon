@@ -19,6 +19,8 @@
 
 namespace Phalcon\Http\Response;
 
+use Phalcon\Http\CookieInterface;
+
 /**
  * Phalcon\Http\Response\CookiesInterface
  *
@@ -45,7 +47,7 @@ interface CookiesInterface
 	/**
 	 * Gets a cookie from the bag
 	 */
-	public function get(string! name) -> <\Phalcon\Http\Cookie>;
+	public function get(string! name) -> <CookieInterface>;
 
 	/**
 	 * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal

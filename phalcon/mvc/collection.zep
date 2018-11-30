@@ -1603,7 +1603,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize(var data)
 	{
 		var attributes, dependencyInjector, manager, key, value;
 

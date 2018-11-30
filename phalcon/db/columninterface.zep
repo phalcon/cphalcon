@@ -73,7 +73,7 @@ interface ColumnInterface
 	/**
 	 * Returns column type
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function getType() -> int;
 
@@ -87,9 +87,9 @@ interface ColumnInterface
 	/**
 	 * Returns column type values
 	 *
-	 * @return int
+	 * @return array|string
 	 */
-	public function getTypeValues() -> int;
+	public function getTypeValues() -> array | string;
 
 
 	/**

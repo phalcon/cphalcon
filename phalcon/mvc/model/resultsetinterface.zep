@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Cache\BackendInterface;
+
 /**
  * Phalcon\Mvc\Model\ResultsetInterface
  *

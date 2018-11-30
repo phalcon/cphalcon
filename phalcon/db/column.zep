@@ -245,7 +245,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column data type
 	 *
-	 * @var int|string
+	 * @var int
 	 */
 	protected _type { get };
 

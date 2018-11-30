@@ -82,7 +82,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->error("This is an error");
 	 *</code>
 	 */
-	public function error(var message) -> string
+	public function error(string message) -> string
 	{
 		return this->{"message"}("error", message);
 	}
@@ -142,7 +142,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->notice("This is an information");
 	 *</code>
 	 */
-	public function notice(var message) -> string
+	public function notice(string message) -> string
 	{
 		return this->{"message"}("notice", message);
 	}
@@ -217,7 +217,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->success("The process was finished successfully");
 	 *</code>
 	 */
-	public function success(var message) -> string
+	public function success(string message) -> string
 	{
 		return this->{"message"}("success", message);
 	}
@@ -307,7 +307,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->warning("Hey, this is important");
 	 *</code>
 	 */
-	public function warning(var message) -> string
+	public function warning(string message) -> string
 	{
 		return this->{"message"}("warning", message);
 	}

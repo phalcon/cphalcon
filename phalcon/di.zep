@@ -325,7 +325,7 @@ class Di implements DiInterface
 	/**
 	 * Return the services registered in the DI
 	 */
-	public function getServices() -> <Service[]>
+	public function getServices() -> <ServiceInterface[]>
 	{
 		return this->_services;
 	}

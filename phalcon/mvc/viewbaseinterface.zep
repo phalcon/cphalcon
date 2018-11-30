@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use \Phalcon\Cache\BackendInterface;
+
 /**
  * Phalcon\Mvc\ViewInterface
  *
@@ -35,7 +37,7 @@ interface ViewBaseInterface
 	/**
 	 * Gets views directory
 	 */
-	public function getViewsDir() -> string;
+	public function getViewsDir() -> string | array;
 
 	/**
 	 * Adds parameters to views (alias of setVar)
@@ -55,7 +57,7 @@ interface ViewBaseInterface
 	/**
 	 * Returns the cache instance used to cache
 	 */
-	public function getCache() -> <\Phalcon\Cache\BackendInterface>;
+	public function getCache() -> <BackendInterface>;
 
 	/**
 	 * Cache the actual view render to certain level

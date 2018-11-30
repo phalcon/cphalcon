@@ -44,7 +44,6 @@ namespace Phalcon\Db;
  */
 class Reference implements ReferenceInterface
 {
-
 	/**
 	 * Constraint name
 	 *
@@ -52,8 +51,18 @@ class Reference implements ReferenceInterface
 	 */
 	protected _name  { get };
 
+	/**
+	 * Schema name
+	 *
+	 * @var string
+	 */
 	protected _schemaName { get };
 
+	/**
+	 * Referenced Schema
+	 *
+	 * @var string
+	 */
 	protected _referencedSchema { get };
 
 	/**
@@ -80,14 +89,14 @@ class Reference implements ReferenceInterface
 	/**
 	 * ON DELETE
 	 *
-	 * @var array
+	 * @var string
 	 */
 	protected _onDelete { get };
 
 	/**
 	 * ON UPDATE
 	 *
-	 * @var array
+	 * @var string
 	 */
 	protected _onUpdate { get };
 

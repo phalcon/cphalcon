@@ -137,7 +137,7 @@ interface RequestInterface
 	 * Gets most possibly client IPv4 Address. This methods searches in
 	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
-	public function getClientAddress(bool trustForwardedHeader = false) -> string;
+	public function getClientAddress(bool trustForwardedHeader = false) -> string | bool;
 
 	/**
 	 * Gets HTTP method which request has been made
@@ -203,10 +203,9 @@ interface RequestInterface
 
 	/**
 	 * Checks whether request include attached files
-	 *
-	 * @return bool
+	 * TODO: We need to check the name. Not very intuitive
 	 */
-	public function hasFiles(onlySuccessful = false);
+	public function hasFiles(onlySuccessful = false) -> long;
 
 	/**
 	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances

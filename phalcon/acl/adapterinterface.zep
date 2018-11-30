@@ -100,7 +100,7 @@ interface AdapterInterface
 	/**
 	 * Check whether a role is allowed to access an action from a resource
 	 */
-	public function isAllowed(roleName, resourceName, access, array parameters = null) -> bool;
+	public function isAllowed(roleName, resourceName, string access, array parameters = null) -> bool;
 
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access

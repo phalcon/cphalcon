@@ -177,17 +177,17 @@ interface ManagerInterface
 	/**
 	 * Gets belongsTo relations defined on a model
 	 */
-	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasMany relations defined on a model
 	 */
-	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasOne relations defined on a model
 	 */
-	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -234,7 +234,7 @@ interface ManagerInterface
 	 *
 	 * @param string $eventName
 	 */
-	public function notifyEvent(eventName, <ModelInterface> model);
+	public function notifyEvent(string! eventName, <ModelInterface> model);
 
 	/**
 	 * Dispatch an event to the listeners and behaviors

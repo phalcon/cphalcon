@@ -50,7 +50,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Formatter
 	 *
-	 * @var object
+	 * @var \Phalcon\Logger\FormatterInterface
 	 */
 	protected _formatter;
 

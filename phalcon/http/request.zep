@@ -781,7 +781,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Checks whether request include attached files
+	 * Returns the number of files available
+	 *
+	 * TODO: Check this
 	 */
 	public function hasFiles(bool onlySuccessful = false) -> long
 	{
@@ -842,7 +844,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(bool onlySuccessful = false) -> <File[]>
+	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -1139,7 +1141,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
-	public function getClientCharsets() -> var
+	public function getClientCharsets() -> array
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}
