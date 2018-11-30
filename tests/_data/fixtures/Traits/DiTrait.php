@@ -35,14 +35,11 @@ trait DiTrait
         return Di::getDefault();
     }
 
-    protected function getService(string $name, bool $shared = false)
+    protected function getService(string $name)
     {
         $container = $this->getDi();
-        if (true === $shared) {
-            return $container->getShared($name);
-        } else {
-            return $container->get($name);
-        }
+
+        return $container->get($name);
     }
 
     protected function newDi()
@@ -74,31 +71,31 @@ trait DiTrait
     protected function setDiEscaper()
     {
         $container = Di::getDefault();
-        $container->setShared('escaper', Escaper::class);
+        $container->set('escaper', Escaper::class);
     }
 
     protected function setDiEventsManager()
     {
         $container = Di::getDefault();
-        $container->setShared('eventsManager', EventsManager::class);
+        $container->set('eventsManager', EventsManager::class);
     }
 
     protected function setDiFilter()
     {
         $container = Di::getDefault();
-        $container->setShared('filter', Filter::class);
+        $container->set('filter', Filter::class);
     }
 
     protected function setDiModelsManager()
     {
         $container = Di::getDefault();
-        $container->setShared('modelsManager', ModelsManager::class);
+        $container->set('modelsManager', ModelsManager::class);
     }
 
     protected function setDiModelsMetadata()
     {
         $container = Di::getDefault();
-        $container->setShared('modelsMetadata', Memory::class);
+        $container->set('modelsMetadata', Memory::class);
     }
 
     /**
@@ -184,7 +181,7 @@ trait DiTrait
     protected function setDiUrl()
     {
         $container = Di::getDefault();
-        $container->setShared(
+        $container->set(
             'url',
             function () {
                 $url = new Url();

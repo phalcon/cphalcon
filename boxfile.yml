@@ -71,7 +71,7 @@ run.config:
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Get the Zephir phar
-    - wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.6/zephir.phar
+    - wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.7/zephir.phar
     - chmod +x /opt/gonano/bin/zephir
     #===========================================================================
     # This is here so that Phalcon can be used right after compilation
@@ -82,8 +82,8 @@ run.config:
     - echo -e 'apcu.enabled=1' >> "/data/etc/php/dev_php.ini"
     - echo -e 'apcu.enable_cli=1' >> "/data/etc/php/dev_php.ini"
 
-#data.beanstalkd:
-#  image: phalcon/beanstalkd
+data.beanstalkd:
+  image: schickling/beanstalkd
 
 data.memcached:
   image: nanobox/memcached:1.4
@@ -95,7 +95,7 @@ data.mysql:
   image: nanobox/mysql:5.7
 
 data.postgres:
-  image: nanobox/postgresql:9.4
+  image: nanobox/postgresql:9.5
 
 data.redis :
   image : nanobox/redis:3.2

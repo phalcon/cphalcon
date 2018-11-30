@@ -1,62 +1,43 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace Phalcon\Test\Integration;
 
-class PaginatorTest extends TestCase
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Paginator\Adapter\Model;
+use IntegrationTester;
+
+class PaginatorTest
 {
+    use DiTrait;
 
-    public function __construct()
+    public function _before(IntegrationTester $I)
     {
-        spl_autoload_register([$this, 'modelsAutoloader']);
-    }
-
-    public function __destruct()
-    {
-        spl_autoload_unregister([$this, 'modelsAutoloader']);
-    }
-
-    public function modelsAutoloader($className)
-    {
-        if (file_exists('unit-tests/models/' . $className . '.php')) {
-            require 'unit-tests/models/' . $className . '.php';
-        }
+        $this->newDi();
+        $this->setDiModelsManager();
+        $this->setDiModelsMetadata();
+        $this->setDiMysql();
     }
 
     public function testModelPaginator()
     {
-        require 'unit-tests/config.db.php';
-        if (empty($configMysql)) {
-            $this->markTestSkipped('Test skipped');
-            return;
-        }
-
-        $this->_loadDI();
-
         $personnes = Personnes::find();
-
-        $paginator = new Phalcon\Paginator\Adapter\Model([
-            'data'  => $personnes,
-            'limit' => 10,
-            'page'  => 1,
-        ]);
+        $paginator = new Model(
+            [
+                'data'  => $personnes,
+                'limit' => 10,
+                'page'  => 1,
+            ]
+        );
 
         //First Page
         $page = $paginator->getPaginate();
@@ -103,54 +84,6 @@ class PaginatorTest extends TestCase
         $this->assertEquals($page->total_pages, 218);
     }
 
-    protected function _loadDI()
-    {
-        Phalcon\DI::reset();
-
-        $di = new Phalcon\DI();
-
-        $di->set('modelsManager', function () {
-            return new Phalcon\Mvc\Model\Manager();
-        });
-
-        $di->set('modelsMetadata', function () {
-            return new Phalcon\Mvc\Model\Metadata\Memory();
-        });
-
-        $di->set('db', function () {
-            require 'unit-tests/config.db.php';
-            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-        }, true);
-
-        /*$di->set('db', function() {
-
-            $eventsManager = new EventsManager();
-
-            $logger = new FileLogger("debug.log");
-
-            //Listen all the database events
-            $eventsManager->attach('db', function($event, $connection) use ($logger) {
-                if ($event->getType() == 'beforeQuery') {
-                    $logger->log($connection->getSQLStatement(), \Phalcon\Logger::INFO);
-                }
-            });
-
-            $connection = new DbAdapter(array(
-                "host" => "localhost",
-                "username" => "root",
-                "password" => "",
-                "dbname" => "phalcon_test"
-            ));
-
-            //Assign the eventsManager to the db adapter instance
-            $connection->setEventsManager($eventsManager);
-
-            return $connection;
-        }, true);*/
-
-        return $di;
-    }
-
     public function testModelPaginatorBind()
     {
         require 'unit-tests/config.db.php';
@@ -191,25 +124,19 @@ class PaginatorTest extends TestCase
 
     public function testQueryBuilderPaginator()
     {
-        require 'unit-tests/config.db.php';
-        if (empty($configMysql)) {
-            $this->markTestSkipped('Test skipped');
-            return;
-        }
-
-        $di = $this->_loadDI();
-
         $builder = $di['modelsManager']->createBuilder()
                                        ->columns('cedula, nombres')
                                        ->from('Personnes')
                                        ->orderBy('cedula')
         ;
 
-        $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
-            "builder" => $builder,
-            "limit"   => 10,
-            "page"    => 1,
-        ]);
+        $paginator = new QueryBuilder(
+            [
+                "builder" => $builder,
+                "limit"   => 10,
+                "page"    => 1,
+            ]
+        );
 
         $page = $paginator->getPaginate();
 
@@ -299,13 +226,6 @@ class PaginatorTest extends TestCase
 
     public function testQueryBuilderPaginatorGroupBy()
     {
-        require 'unit-tests/config.db.php';
-        if (empty($configMysql)) {
-            $this->markTestSkipped('Test skipped');
-            return;
-        }
-
-        $di = $this->_loadDI();
         $di['db']->query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
         // test paginator with group by string value
@@ -328,11 +248,13 @@ class PaginatorTest extends TestCase
 
         // test of getter/setters of querybuilder adapter
 
-        $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
-            "builder" => $builder,
-            "limit"   => 10,
-            "page"    => 1,
-        ]);
+        $paginator = new QueryBuilder(
+            [
+                "builder" => $builder,
+                "limit"   => 10,
+                "page"    => 1,
+            ]
+        );
 
         $paginator->setCurrentPage(18);
 
@@ -365,7 +287,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($setterResult, $paginator);
     }
 
-    private function _paginatorBuilderTest($builder)
+    private function __paginatorBuilderTest($builder)
     {
         $paginator = new Phalcon\Paginator\Adapter\QueryBuilder([
             "builder" => $builder,
