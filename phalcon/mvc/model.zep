@@ -2214,7 +2214,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
 	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface>
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
 	{
 		let this->_dirtyState = dirtyState;
 		return this;

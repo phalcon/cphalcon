@@ -36,7 +36,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	/**
 	 * Set the current object's state
 	 */
-	public function setDirtyState(int dirtyState) -> bool
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
 	{
 		return false;
 	}

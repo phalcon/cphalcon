@@ -334,12 +334,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public final function readColumnMap(<ModelInterface> model)
+	public final function readColumnMap(<ModelInterface> model) -> array
 	{
 		var keyName, data;
 
 		if !globals_get("orm.column_renaming") {
-			return null;
+			return [];
 		}
 
 		let keyName = get_class_lower(model);

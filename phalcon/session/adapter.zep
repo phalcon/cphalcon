@@ -89,15 +89,13 @@ abstract class Adapter implements AdapterInterface
 	 * );
 	 *
 	 * var_dump(
-	 *     $session->destroy(true)
+	 *     $session->destroy('some-id')
 	 * );
 	 *</code>
 	 */
-	public function destroy(bool removeData = null) -> bool
-	{
-		if removeData {
-			this->removeSessionData();
-		}
+	 public function destroy(string sessionId = null) -> bool
+	 {
+		this->removeSessionData();
 
 		let this->_started = false;
 		return session_destroy();

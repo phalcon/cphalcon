@@ -61,7 +61,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Sets the render level for the view
 	 */
-	public function setRenderLevel(string! level) -> <ViewInterface>;
+	public function setRenderLevel(int level) -> <ViewInterface>;
 
 	/**
 	 * Sets default view name. Must be a file without extension in the views directory
