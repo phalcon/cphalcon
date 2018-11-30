@@ -1074,7 +1074,15 @@ class Micro extends Injectable implements \ArrayAccess
 	 */
 	public function offsetUnset(var alias) -> void
 	{
-		return alias;
+		var dependencyInjector;
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = new FactoryDefault();
+			let this->_dependencyInjector = dependencyInjector;
+		}
+
+		dependencyInjector->remove(alias);
 	}
 
 	/**

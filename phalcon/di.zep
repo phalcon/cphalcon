@@ -348,7 +348,6 @@ class Di implements DiInterface
 	public function offsetSet(var name, var definition) -> void
 	{
 		this->setShared(name, definition);
-		return true;
 	}
 
 	/**
@@ -368,7 +367,7 @@ class Di implements DiInterface
 	 */
 	public function offsetUnset(var name) -> void
 	{
-		return false;
+		this->remove(name);
 	}
 
 	/**
