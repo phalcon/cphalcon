@@ -85,6 +85,9 @@ script:
   # TODO: Add `cli' suite and refactor current cli-tests
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
+  # TODO: Refactor legacy unit tests from the "unit-tests" directory
+  - phpenv config-rm xdebug.ini || true
+  - tests/_ci/volt-tests.sh
 
 after_failure:
   - tests/_ci/after-failure.sh
