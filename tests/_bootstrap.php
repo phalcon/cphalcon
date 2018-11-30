@@ -103,7 +103,7 @@ $defaults = [
     "TEST_DB_I18N_SQLITE_NAME" => PATH_OUTPUT . 'translations.sqlite',
 
     // Beanstalk
-    "TEST_BT_HOST"              => env('DATA_BEANSTALK_HOST', '127.0.0.1'),
+    "TEST_BT_HOST"              => env('DATA_BEANSTALKD_HOST', '127.0.0.1'),
     "TEST_BT_PORT"              => 11300,
 ];
 
