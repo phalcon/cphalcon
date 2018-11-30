@@ -211,10 +211,10 @@ trait DiTrait
     {
         $container = Di::getDefault();
         $container->set(
-            'view',
+            'viewSimple',
             function () {
                 $view = new Simple();
-                $view->setViewsDir(PATH_DATA . 'fixtures/views');
+                $view->setViewsDir(PATH_DATA . 'fixtures/views/');
 
                 return $view;
             }
