@@ -334,7 +334,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public final function readColumnMap(<ModelInterface> model) -> array
+	public final function readColumnMap(<ModelInterface> model)
 	{
 		var keyName, data;
 
