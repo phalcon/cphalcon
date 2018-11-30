@@ -1,25 +1,25 @@
 <?php
 
-namespace Phalcon\Test\Models\Relations;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models\Relations;
 
 use Phalcon\Mvc\Model;
 
-/**
- * Phalcon\Test\Models\Relations\RelationsRobots
- *
- * @package Phalcon\Test\Models\Relations
- */
 class RelationsRobots extends Model
 {
     public function initialize()
     {
-        $this->hasMany(
-            'id',
-            RelationsRobotsParts::class,
-            'robots_id',
-            ['foreignKey' => true]
-        );
-
+        $this->hasMany('id', RelationsRobotsParts::class, 'robots_id', [
+            'foreignKey' => true,
+        ]);
         $this->hasManyToMany(
             'id',
             RelationsRobotsParts::class,
@@ -30,7 +30,7 @@ class RelationsRobots extends Model
         );
     }
 
-    public function getSource(): string
+    public function getSource()
     {
         return 'robots';
     }

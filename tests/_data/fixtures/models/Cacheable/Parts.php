@@ -9,20 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\AlbumORama;
+namespace Phalcon\Test\Fixtures\models\Cacheable;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model as PhalconModel;
 
-class Artists extends Model
+class Parts extends PhalconModel
 {
     public function initialize()
     {
         $this->hasMany(
             'id',
-            Albums::class,
-            'artists_id',
+            RobotsParts::class,
+            'robots_id',
             [
-                'alias' => 'albums',
+                'alias' => 'RobotsParts',
             ]
         );
     }

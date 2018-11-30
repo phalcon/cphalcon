@@ -1,17 +1,14 @@
 <?php
 
-namespace Phalcon\Test\Models;
-
-use Phalcon\Mvc\Model;
-
 /**
  * Deles
  *
  * Deles is "parts" in danish
  */
-class Deles extends Model
+class Deles extends Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'parts';
     }
@@ -26,15 +23,11 @@ class Deles extends Model
 
     public function initialize()
     {
-        $this->hasMany(
-            'code',
-            RobottersDeles::class,
-            'delesCode',
-            [
-                'foreignKey' => [
-                    'message' => 'Deles cannot be deleted because is referenced by a Robotter',
-                ],
-            ]
-        );
+        $this->hasMany('code', 'RobottersDeles', 'delesCode', [
+            'foreignKey' => [
+                'message' => 'Deles cannot be deleted because is referenced by a Robotter',
+            ],
+        ]);
     }
+
 }

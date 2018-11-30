@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Models\Some;
+namespace Some;
 
 /**
  * RobottersDeles
@@ -9,7 +9,8 @@ namespace Phalcon\Test\Models\Some;
  */
 class RobottersDeles extends \Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'robots_parts';
     }
@@ -25,14 +26,16 @@ class RobottersDeles extends \Phalcon\Mvc\Model
 
     public function initialize()
     {
-        $this->belongsTo('delesCode', Deles::class, 'code', [
+
+        $this->belongsTo('delesCode', 'Some\Deles', 'code', [
             'foreignKey' => true,
         ]);
 
-        $this->belongsTo('robottersCode', Robotters::class, 'code', [
+        $this->belongsTo('robottersCode', 'Some\Robotters', 'code', [
             'foreignKey' => [
                 'message' => 'The robotters code does not exist',
             ],
         ]);
     }
+
 }

@@ -1,14 +1,19 @@
 <?php
 
-namespace Phalcon\Test\Models\Dynamic;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-use Phalcon\Mvc\Model;
+namespace Phalcon\Test\Fixtures\models\Dynamic;
+
+use Phalcon\Mvc\Model as PhalconModel;
 
 /**
- * Phalcon\Test\Models\Dynamic\Personas
- *
- * @package Phalcon\Test\Models\Dynamic
- *
  * @property string $cedula
  * @property int    $tipo_documento_id
  * @property string $nombres
@@ -22,15 +27,8 @@ use Phalcon\Mvc\Model;
  * @property string $estado
  *
  * @method static Personas findFirst($parameters = null)
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
  */
-class Personas extends Model
+class Personas extends PhalconModel
 {
     public function initialize()
     {

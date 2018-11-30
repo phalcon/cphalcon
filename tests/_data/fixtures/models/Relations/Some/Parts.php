@@ -9,23 +9,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\Relations;
+namespace Phalcon\Test\Fixtures\models\Relations\Some;
 
 use Phalcon\Mvc\Model;
 
-class RelationsParts extends Model
+class Parts extends Model
 {
+
+    public function getSource()
+    {
+        return 'parts';
+    }
+
     public function initialize()
     {
-        $this->hasMany('id', RelationsRobotsParts::class, 'parts_id', [
+        $this->hasMany('id', RobotsParts::class, 'parts_id', [
             'foreignKey' => [
                 'message' => 'Parts cannot be deleted because is referenced by a Robot',
             ],
         ]);
     }
 
-    public function getSource()
-    {
-        return 'parts';
-    }
 }

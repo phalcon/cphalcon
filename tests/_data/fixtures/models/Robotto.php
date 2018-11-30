@@ -1,7 +1,5 @@
 <?php
 
-namespace Phalcon\Test\Models;
-
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\MetaData;
 
@@ -10,7 +8,8 @@ use Phalcon\Mvc\Model\MetaData;
  */
 class Robotto extends Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'robots';
     }
@@ -51,4 +50,5 @@ class Robotto extends Phalcon\Mvc\Model
             MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE => [],
         ];
     }
+
 }

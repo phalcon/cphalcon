@@ -13,19 +13,15 @@ namespace Phalcon\Test\Fixtures\models\Relations;
 
 use Phalcon\Mvc\Model;
 
-class RelationsParts extends Model
+class M2MRobots extends Model
 {
     public function initialize()
     {
-        $this->hasMany('id', RelationsRobotsParts::class, 'parts_id', [
-            'foreignKey' => [
-                'message' => 'Parts cannot be deleted because is referenced by a Robot',
-            ],
-        ]);
+        $this->hasManyToMany('id', M2MRobotsParts::class, 'robots_id', 'parts_id', 'M2MParts', 'id');
     }
 
     public function getSource()
     {
-        return 'parts';
+        return 'm2m_robots';
     }
 }

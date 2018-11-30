@@ -9,28 +9,29 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\AlbumORama;
+namespace Phalcon\Test\Fixtures\models\Cacheable;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model as PhalconModel;
 
-class Albums extends Model
+class RobotsParts extends PhalconModel
 {
-
     public function initialize()
     {
         $this->belongsTo(
-            'artists_id',
-            Artists::class, 'id',
+            'robots_id',
+            Robots::class .
+            'id',
             [
-                'alias' => 'artist',
+                'alias' => 'Robots',
             ]
         );
 
-        $this->hasMany(
-            'id', Songs::class,
-            'albums_id',
+        $this->belongsTo(
+            'parts_id',
+            Parts::class,
+            'id',
             [
-                'alias' => 'songs',
+                'alias' => 'Parts',
             ]
         );
     }

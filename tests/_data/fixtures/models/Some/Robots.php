@@ -1,23 +1,25 @@
 <?php
 
-namespace Phalcon\Test\Models\Some;
+namespace Some;
 
 class Robots extends \Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'robots';
     }
 
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id', [
+        $this->hasMany('id', 'Some\RobotsParts', 'robots_id', [
             'foreignKey' => true,
         ]);
     }
 
     public function getRobotsParts($arguments = null)
     {
-        return $this->getRelated(RobotsParts::class, $arguments);
+        return $this->getRelated('Some\RobotsParts', $arguments);
     }
+
 }

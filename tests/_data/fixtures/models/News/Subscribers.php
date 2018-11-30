@@ -1,35 +1,24 @@
 <?php
 
-namespace Phalcon\Test\Models\News;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-use Phalcon\Mvc\Model;
+namespace Phalcon\Test\Fixtures\models\News;
+
+use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-/**
- * \Phalcon\Test\Models\Subscribers
- *
- * @copyright 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Models
- *
- * @property int    $id
- * @property string $email
- * @property string $status
- * @property string $created_at
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class Subscribers extends Model
+class Subscribers extends PhalconModel
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'subscriptores';
     }
@@ -48,4 +37,5 @@ class Subscribers extends Model
             'value' => 'D',
         ]));
     }
+
 }

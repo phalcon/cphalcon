@@ -9,26 +9,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\Relations;
+namespace Phalcon\Test\Fixtures\models\Relations\Some;
 
 use Phalcon\Mvc\Model;
 
-class RelationsRobotsParts extends Model
+class RobotsParts extends Model
 {
+    public function getSource()
+    {
+        return 'robots_parts';
+    }
+
     public function initialize()
     {
-        $this->belongsTo('parts_id', RelationsParts::class, 'id', [
+        $this->belongsTo('parts_id', Parts::class, 'id', [
             'foreignKey' => true,
         ]);
-        $this->belongsTo('robots_id', RelationsRobots::class, 'id', [
+        $this->belongsTo('robots_id', Robots::class, 'id', [
             'foreignKey' => [
                 'message' => 'The robot code does not exist',
             ],
         ]);
-    }
-
-    public function getSource()
-    {
-        return 'robots_parts';
     }
 }

@@ -1,12 +1,21 @@
 <?php
 
-namespace Phalcon\Test\Models\Boutique;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models\Boutique;
 
 use Phalcon\Mvc\Model;
 
 class Robots extends Model
 {
-    const SETTER_EPILOGUE = " setText";
+    const setterEpilogue = " setText";
 
     /**
      * @Primary
@@ -57,8 +66,6 @@ class Robots extends Model
 
     public function setText($value)
     {
-        $this->text = $value . self::SETTER_EPILOGUE;
-
-        return $this;
+        return ($this->text = $value . self::setterEpilogue);
     }
 }

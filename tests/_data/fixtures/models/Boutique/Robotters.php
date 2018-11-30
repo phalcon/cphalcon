@@ -1,14 +1,18 @@
 <?php
 
-namespace Phalcon\Test\Models\Boutique;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\models\Boutique;
 
 use Phalcon\Mvc\Model;
 
-/**
- * Robotters
- *
- * "robotters" is robots in danish
- */
 class Robotters extends Model
 {
     /**
@@ -33,7 +37,7 @@ class Robotters extends Model
      */
     public $theYear;
 
-    public function getSource(): string
+    public function getSource()
     {
         return 'robots';
     }

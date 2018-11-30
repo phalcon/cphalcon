@@ -1,20 +1,22 @@
 <?php
 
-namespace Phalcon\Test\Models\Some;
+namespace Some;
 
 class Parts extends \Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'parts';
     }
 
     public function initialize()
     {
-        $this->hasMany('id', \Phalcon\Test\Models\RobotsParts::class, 'parts_id', [
+        $this->hasMany('id', 'RobotsParts', 'parts_id', [
             'foreignKey' => [
                 'message' => 'Parts cannot be deleted because is referenced by a Robot',
             ],
         ]);
     }
+
 }

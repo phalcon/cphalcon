@@ -1,24 +1,14 @@
 <?php
 
-namespace Phalcon\Test\Models;
-
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset\Simple;
-
 /**
  * Robotters
  *
  * "robotters" is robots in danish
- *
- * @method static int countByTheType(string $type)
- * @method static Simple findByTheType(string $type)
- * @method static Simple findFirstByCode(string|int $code)
- *
- * @package Phalcon\Test\Models
  */
-class Robotters extends Model
+class Robotters extends Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'robots';
     }
@@ -38,13 +28,9 @@ class Robotters extends Model
 
     public function initialize()
     {
-        $this->hasMany(
-            'code',
-            RobottersDeles::class,
-            'robottersCode',
-            [
-                'foreignKey' => true,
-            ]
-        );
+        $this->hasMany('code', 'RobottersDeles', 'robottersCode', [
+            'foreignKey' => true,
+        ]);
     }
+
 }

@@ -9,16 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\BodyParts;
+namespace Phalcon\Test\Fixtures\models\AlbumORama;
 
 use Phalcon\Mvc\Model;
 
-class Head extends Model
+class Songs extends Model
 {
-    public $id;
-
     public function initialize()
     {
-        $this->setSource('issue12071_head');
+        $this->hasMany(
+            'id',
+            Albums::class,
+            'albums_id',
+            [
+                'alias' => 'album',
+            ]
+        );
     }
 }

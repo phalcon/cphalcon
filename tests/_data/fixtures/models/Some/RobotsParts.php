@@ -1,23 +1,25 @@
 <?php
 
-namespace Phalcon\Test\Models\Some;
+namespace Some;
 
 class RobotsParts extends \Phalcon\Mvc\Model
 {
-    public function getSource(): string
+
+    public function getSource()
     {
         return 'robots_parts';
     }
 
     public function initialize()
     {
-        $this->belongsTo('parts_id', \Phalcon\Test\Models\Parts::class, 'id', [
+        $this->belongsTo('parts_id', 'Parts', 'id', [
             'foreignKey' => true,
         ]);
-        $this->belongsTo('robots_id', \Phalcon\Test\Models\Robots::class, 'id', [
+        $this->belongsTo('robots_id', 'Robots', 'id', [
             'foreignKey' => [
                 'message' => 'The robot code does not exist',
             ],
         ]);
     }
+
 }
