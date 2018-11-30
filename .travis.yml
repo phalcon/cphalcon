@@ -20,9 +20,9 @@ git:
 addons:
   apt:
     packages:
-    - beanstalkd
-    - gdb
-    - lcov
+      - beanstalkd
+      - gdb
+      - lcov
 
 matrix:
   fast_finish: true
@@ -34,7 +34,7 @@ cache:
   timeout: 604800
   directories:
     - ${HOME}/beanstalk
-#    - ${HOME}/.composer/cache
+    - ${HOME}/.composer/cache
     - ${HOME}/pear
     - ${HOME}/.local/opt
 
@@ -47,7 +47,7 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.10.14"
+    - ZEPHIR_VERSION="0.11.6"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
     - REPORT_COVERAGE=1
@@ -65,6 +65,8 @@ before_install:
   - tests/_ci/setup-dbs.sh
   - source tests/_ci/environment
   - export $(cut -d= -f1 tests/_ci/environment)
+  - wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar
+  - chmod +x $HOME/bin/zephir
 
 install:
   - tests/_ci/install-prereqs.sh
@@ -83,9 +85,6 @@ script:
   # TODO: Add `cli' suite and refactor current cli-tests
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
-  # TODO: Refactor legacy unit tests from the "unit-tests" directory
-  - phpenv config-rm xdebug.ini || true
-  - tests/_ci/volt-tests.sh
 
 after_failure:
   - tests/_ci/after-failure.sh
