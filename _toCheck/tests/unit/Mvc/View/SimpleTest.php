@@ -13,7 +13,7 @@ use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
 
 class SimpleTest
 {
-    use ViewTrait
+    use ViewTrait;
 
     /**
      * Tests render

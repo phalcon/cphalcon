@@ -26,6 +26,7 @@ use Phalcon\Mvc\Models\Manager as ModelsManager;
 use Phalcon\Mvc\Models\Metadata\Memory;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Files as FilesSession;
 
 trait DiTrait
@@ -89,13 +90,13 @@ trait DiTrait
     protected function setDiModelsManager()
     {
         $container = Di::getDefault();
-        $container->setShared('modelsManager', ModelsManager::class);
+        $container->set('modelsManager', ModelsManager::class);
     }
 
     protected function setDiModelsMetadata()
     {
         $container = Di::getDefault();
-        $container->setShared('modelsMetadata', Memory::class);
+        $container->set('modelsMetadata', Memory::class);
     }
 
     /**
@@ -157,7 +158,7 @@ trait DiTrait
     protected function setDiSession()
     {
         $container = Di::getDefault();
-        $container->setShared('session', FilesSession::class);
+        $container->set('session', FilesSession::class);
     }
 
     /**
@@ -199,6 +200,20 @@ trait DiTrait
             'view',
             function () {
                 $view = new View();
+                $view->setViewsDir(PATH_DATA . 'fixtures/views');
+
+                return $view;
+            }
+        );
+    }
+
+    protected function setDiViewSimple()
+    {
+        $container = Di::getDefault();
+        $container->set(
+            'view',
+            function () {
+                $view = new Simple();
                 $view->setViewsDir(PATH_DATA . 'fixtures/views');
 
                 return $view;
