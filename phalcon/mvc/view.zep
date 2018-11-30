@@ -1043,7 +1043,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 * </code>
 	 */
-	public function partial(string! partialPath, var params = null) -> string
+	public function partial(string! partialPath, var params = null)
 	{
 		var viewParams;
 
