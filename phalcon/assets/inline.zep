@@ -31,12 +31,21 @@ namespace Phalcon\Assets;
 class $Inline implements ResourceInterface
 {
 
+	/**
+	 * @var string
+	 */
 	protected _type { get };
 
 	protected _content { get };
 
+	/**
+	 * @var bool
+	 */
 	protected _filter { get };
 
+	/**
+	 * @var array | null
+	 */
 	protected _attributes { get };
 
 	/**

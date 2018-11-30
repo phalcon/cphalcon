@@ -477,7 +477,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Clears element to its default value
 	 */
-	public function clear() -> <Element>
+	public function clear() -> <ElementInterface>
 	{
 		var form  = this->_form,
 			name  = this->_name,

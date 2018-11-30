@@ -31,10 +31,19 @@ abstract class Backend implements BackendInterface
 
 	protected _frontend { get, set };
 
+	/**
+	 * @var array
+	 */
 	protected _options { get, set };
 
+	/**
+	 * @var string
+	 */
 	protected _prefix = "";
 
+	/**
+	 * @var string
+	 */
 	protected _lastKey = "" { get, set };
 
 	protected _lastLifetime = null;

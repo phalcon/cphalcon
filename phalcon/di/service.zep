@@ -278,7 +278,7 @@ class Service implements ServiceInterface
 	/**
 	 * Restore the internal state of a service
 	 */
-	public static function __set_state(array! attributes) -> <Service>
+	public static function __set_state(array! attributes) -> <ServiceInterface>
 	{
 		var definition, shared;
 
