@@ -59,8 +59,8 @@ class VoltCest
         $view->finish();
 
         $path = PATH_CACHE
-            . $I->preparePathToFileWithDelimiter(TESTS_PATH . '_data', '.')
-            . '.fixtures.views.extends.index.volt.compiled';
+            . $I->preparePathToFileWithDelimiter(PATH_DATA, '.')
+            . 'fixtures.views.extends.index.volt.compiled';
 
         $I->assertTrue(file_exists($path));
         $I->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');
