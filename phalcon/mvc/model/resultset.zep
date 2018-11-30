@@ -277,7 +277,7 @@ abstract class Resultset
 	/**
 	 * Checks whether offset exists in the resultset
 	 */
-	public function offsetExists(int index) -> bool
+	public function offsetExists(var index) -> bool
 	{
 		return index < this->_count;
 	}
@@ -285,7 +285,7 @@ abstract class Resultset
 	/**
 	 * Gets row in a specific position of the resultset
 	 */
-	public function offsetGet(int! index) -> <ModelInterface> | bool
+	public function offsetGet(var index) -> <ModelInterface> | bool
 	{
 		if index < this->_count {
 	   		/**
@@ -313,7 +313,7 @@ abstract class Resultset
 	/**
 	 * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 	 */
-	public function offsetUnset(int offset) -> void
+	public function offsetUnset(var offset) -> void
 	{
 		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}

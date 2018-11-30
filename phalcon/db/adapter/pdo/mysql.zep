@@ -13,6 +13,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
+use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;

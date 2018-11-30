@@ -133,7 +133,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Set if cookies in the bag must be automatically encrypted/decrypted
 	 */
-	public function useEncryption(bool useEncryption) -> <Cookies>
+	public function useEncryption(bool useEncryption) -> <CookiesInterface>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -174,7 +174,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		bool secure = null,
 		string! domain = null,
 		bool httpOnly = null
-	) -> <Cookies> {
+	) -> <CookiesInterface> {
 		var cookie, encryption, dependencyInjector, response;
 
 		let encryption = this->_useEncryption;
@@ -354,7 +354,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Reset set cookies
 	 */
-	public function reset() -> <Cookies>
+	public function reset() -> <CookiesInterface>
 	{
 		let this->_cookies = [];
 		return this;

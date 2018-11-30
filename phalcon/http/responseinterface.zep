@@ -134,5 +134,4 @@ interface ResponseInterface
 	 * Sets an attached file to be sent at the end of the request
 	 */
 	public function setFileToSend(string filePath, attachmentName = null) -> <ResponseInterface>;
-
 }

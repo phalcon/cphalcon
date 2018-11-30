@@ -501,7 +501,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Sets if the `Request::getHttpHost` method must be use strict validation of host name or not
 	 */
-	public function setStrictHostCheck(bool flag = true) -> <Request>
+	public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
 	{
 		let this->_strictHostCheck = flag;
 

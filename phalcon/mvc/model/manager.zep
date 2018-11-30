@@ -685,7 +685,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;

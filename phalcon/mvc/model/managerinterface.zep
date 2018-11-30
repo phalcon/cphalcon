@@ -21,6 +21,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\QueryInterface;
 
