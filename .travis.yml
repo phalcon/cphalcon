@@ -56,8 +56,6 @@ env:
 
 before_install:
   - if [ ! -z "${GITHUB_TOKEN}" ]; then composer config github-oauth.github.com ${GITHUB_TOKEN}; echo "Add Github token"; fi
-  - phpenv install -f 7.2.12
-  - phpenv shell 7.2.12
   - export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
   - export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
   - export PHP_VERNUM="$(php-config --vernum)"
@@ -83,6 +81,7 @@ script:
   - vendor/bin/phpcs
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
+  - vendor/bin/codecept run -v -n tests/cli/
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
   # TODO: Refactor legacy unit tests from the "unit-tests" directory
