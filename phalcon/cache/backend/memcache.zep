@@ -362,7 +362,7 @@ class Memcache extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> bool
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey, memcache, prefix;
 

@@ -268,7 +268,7 @@ class Mongo extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(keyName) -> bool
+	public function delete(var keyName) -> bool
 	{
 		this->_getCollection()->remove(["key": this->_prefix . keyName]);
 
@@ -320,7 +320,7 @@ class Mongo extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> bool
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey;
 

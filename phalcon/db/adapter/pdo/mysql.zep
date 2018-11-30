@@ -69,7 +69,7 @@ class Mysql extends PdoAdapter
 	 * );
 	 * </code>
 	 */
-	public function describeColumns(string table, string schema = null) -> <Column[]>
+	public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
@@ -329,7 +329,7 @@ class Mysql extends PdoAdapter
 	 * );
 	 *</code>
 	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

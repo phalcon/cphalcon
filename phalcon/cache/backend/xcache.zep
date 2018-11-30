@@ -195,7 +195,7 @@ class Xcache extends Backend
 	 * @param int|string keyName
 	 * @return bool
 	 */
-	public function delete(var keyName)
+	public function delete(var keyName) -> bool
 	{
 		var prefixedKey, specialKey, keys;
 
@@ -274,7 +274,7 @@ class Xcache extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(var keyName = null, lifetime = null) -> bool
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey;
 

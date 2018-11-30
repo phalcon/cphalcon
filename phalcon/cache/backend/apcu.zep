@@ -180,7 +180,7 @@ class Apcu extends Backend
 	/**
 	 * Deletes a value from the cache by its key
 	 */
-	public function delete(string! keyName) -> bool
+	public function delete(var keyName) -> bool
 	{
 		return apcu_delete("_PHCA" . this->_prefix . keyName);
 	}
@@ -231,7 +231,7 @@ class Apcu extends Backend
 	 * @param  string|int keyName
 	 * @param  int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> bool
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey;
 

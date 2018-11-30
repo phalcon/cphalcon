@@ -296,7 +296,7 @@ class Redis extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(keyName) -> bool
+	public function delete(var keyName) -> bool
 	{
 		var redis, prefixedKey;
 
@@ -366,7 +366,7 @@ class Redis extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> bool
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var redis;
 

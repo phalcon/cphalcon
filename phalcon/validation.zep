@@ -199,7 +199,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Adds a validator to a field
 	 */
-	public function add(var field, <ValidatorInterface> validator) -> <Validation>
+	public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
 	{
 		var singleField;
 		if typeof field == "array" {
@@ -225,7 +225,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Alias of `add` method
 	 */
-	public function rule(var field, <ValidatorInterface> validator) -> <Validation>
+	public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
 	{
 		return this->add(field, validator);
 	}
@@ -233,7 +233,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Adds the validators to a field
 	 */
-	public function rules(var field, array! validators) -> <Validation>
+	public function rules(var field, array! validators) -> <ValidationInterface>
 	{
 		var validator;
 
@@ -252,7 +252,7 @@ class Validation extends Injectable implements ValidationInterface
 	 * @param string field
 	 * @param array|string filters
 	 */
-	public function setFilters(var field, filters) -> <Validation>
+	public function setFilters(var field, filters) -> <ValidationInterface>
 	{
 		var singleField;
 		if typeof field == "array" {
@@ -416,7 +416,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Appends a message to the messages list
 	 */
-	public function appendMessage(<MessageInterface> message) -> <Validation>
+	public function appendMessage(<MessageInterface> message) -> <ValidationInterface>
 	{
 		var messages;
 
@@ -439,7 +439,7 @@ class Validation extends Injectable implements ValidationInterface
 	 * @param object entity
 	 * @param array|object data
 	 */
-	public function bind(entity, data) -> <Validation>
+	public function bind(entity, data) -> <ValidationInterface>
 	{
 		if typeof entity != "object" {
 			throw new Exception("Entity must be an object");

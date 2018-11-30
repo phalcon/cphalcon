@@ -103,5 +103,5 @@ interface BackendInterface
 	 * @param  string keyName
 	 * @param  int lifetime
 	 */
-	public function exists(keyName = null, int lifetime = null) -> bool;
+	public function exists(var keyName = null, int lifetime = null) -> bool;
 }

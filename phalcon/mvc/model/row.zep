@@ -72,7 +72,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * @param string|int index
 	 * @param \Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, var value)
+	public function offsetSet(var index, var value) -> void
 	{
 		throw new Exception("Row is an immutable ArrayAccess object");
 	}
@@ -82,7 +82,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 *
 	 * @param string|int offset
 	 */
-	public function offsetUnset(int offset)
+	public function offsetUnset(var offset) -> void
 	{
 		throw new Exception("Row is an immutable ArrayAccess object");
 	}

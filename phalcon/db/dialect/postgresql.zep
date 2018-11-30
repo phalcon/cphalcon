@@ -336,7 +336,7 @@ class Postgresql extends Dialect
 	/**
 	 * Generates SQL to create a table
 	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> string | array
+	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,

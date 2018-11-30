@@ -249,7 +249,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 *
 	 * @param	string schema
 	 */
-	public function describeIndexes(string! table, schema = null) -> <Index[]>
+	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
@@ -288,7 +288,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

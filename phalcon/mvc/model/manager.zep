@@ -176,7 +176,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets a global events manager
 	 */
-	public function setEventsManager(<EventsManagerInterface> eventsManager) -> <Manager>
+	public function setEventsManager(<EventsManagerInterface> eventsManager) -> <ManagerInterface>
 	{
 		let this->_eventsManager = eventsManager;
 		return this;
@@ -766,7 +766,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
 
@@ -847,7 +847,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, hasMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -932,7 +932,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param   array options
 	 */
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
-		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
+		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
@@ -1127,7 +1127,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Returns a relation by its alias
 	 */
-	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | bool
+	public function getRelationByAlias(string! modelName, string! alias) -> <RelationInterface> | bool
 	{
 		var relation;
 

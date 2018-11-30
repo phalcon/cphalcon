@@ -280,7 +280,7 @@ class Libmemcached extends Backend
 	 * @param int|string keyName
 	 * @return bool
 	 */
-	public function delete(keyName)
+	public function delete(var keyName) -> bool
 	{
 		var memcache, prefixedKey, options, keys, specialKey, ret;
 
@@ -367,7 +367,7 @@ class Libmemcached extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> bool
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey, memcache, value;
 
