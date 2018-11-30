@@ -34,7 +34,7 @@ cache:
   timeout: 604800
   directories:
     - ${HOME}/beanstalk
-    - ${HOME}/.composer/cache
+#    - ${HOME}/.composer/cache
     - ${HOME}/pear
     - ${HOME}/.local/opt
 
@@ -72,8 +72,6 @@ install:
   - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
   - travis_retry composer global require ${DEFAULT_COMPOSER_FLAGS} "phalcon/zephir:${ZEPHIR_VERSION}"
   - tests/_ci/build.sh
-  - cat ext/phalcon/session/adapterinterface.zep.c
-  - cat ext/phalcon/session/adapterinterface.zep.h
 
 before_script:
   - ulimit -c unlimited -S || true
