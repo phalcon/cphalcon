@@ -46,6 +46,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
 	/**
 	 * Name of the dialect used
+	 *
+	 * @var string
 	 */
 	protected _dialectType { get };
 
@@ -89,6 +91,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
 	/**
 	 * Type of database system the adapter is used for
+	 *
+	 * @var string
 	 */
 	protected _type { get };
 
@@ -193,7 +197,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Creates a view
 	 */
-	public function createView(string! viewName, array! definition, var schemaName = null) -> bool
+	public function createView(string! viewName, array! definition, string schemaName = null) -> bool
 	{
 		if !isset definition["sql"] {
 			throw new Exception("The table must contain at least one column");
@@ -249,7 +253,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 *
 	 * @param	string schema
 	 */
-	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
+	public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 

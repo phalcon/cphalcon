@@ -76,7 +76,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets the resource's type
 	 */
-	public function setType(string type) -> <$Resource>
+	public function setType(string type) -> <ResourceInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -85,7 +85,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets the resource's path
 	 */
-	public function setPath(string path) -> <$Resource>
+	public function setPath(string path) -> <ResourceInterface>
 	{
 		let this->_path = path;
 		return this;
@@ -94,7 +94,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets if the resource is local or external
 	 */
-	public function setLocal(bool local) -> <$Resource>
+	public function setLocal(bool local) -> <ResourceInterface>
 	{
 		let this->_local = local;
 		return this;
@@ -103,7 +103,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets if the resource must be filtered or not
 	 */
-	public function setFilter(bool filter) -> <$Resource>
+	public function setFilter(bool filter) -> <ResourceInterface>
 	{
 		let this->_filter = filter;
 		return this;
@@ -112,7 +112,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets extra HTML attributes
 	 */
-	public function setAttributes(array attributes) -> <$Resource>
+	public function setAttributes(array attributes) -> <ResourceInterface>
 	{
 		let this->_attributes = attributes;
 		return this;
@@ -121,7 +121,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets a target uri for the generated HTML
 	 */
-	public function setTargetUri(string targetUri) -> <$Resource>
+	public function setTargetUri(string targetUri) -> <ResourceInterface>
 	{
 		let this->_targetUri = targetUri;
 		return this;
@@ -130,7 +130,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets the resource's source path
 	 */
-	public function setSourcePath(string sourcePath) -> <$Resource>
+	public function setSourcePath(string sourcePath) -> <ResourceInterface>
 	{
 		let this->_sourcePath = sourcePath;
 		return this;
@@ -139,7 +139,7 @@ class $Resource implements ResourceInterface
 	/**
 	 * Sets the resource's target path
 	 */
-	public function setTargetPath(string targetPath) -> <$Resource>
+	public function setTargetPath(string targetPath) -> <ResourceInterface>
 	{
 		let this->_targetPath = targetPath;
 		return this;

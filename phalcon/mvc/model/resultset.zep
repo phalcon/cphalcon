@@ -211,7 +211,7 @@ abstract class Resultset
 	 * Changes the internal pointer to a specific position in the resultset.
 	 * Set the new position if required, and then set this->_row
 	 */
-	public final function seek(int position) -> void
+	public final function seek(var position) -> void
 	{
 		var result, row;
 
