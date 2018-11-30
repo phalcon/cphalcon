@@ -54,4 +54,12 @@
 - Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
 - Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
+- Removed deprecated `Phalcon\Annotations/Adapter/Apc`
+- Removed deprecated `Phalcon\Annotations/Adapter/Xcache`
+- Removed deprecated `Phalcon\Cache/Backend/Apc`
+- Removed deprecated `Phalcon\Cache/Backend/Memcache`
+- Removed deprecated `Phalcon\Cache/Backend/Xcache`
+- Removed deprecated `Phalcon\Mvc/Model/Metadata/Apc`
+- Removed deprecated `Phalcon\Mvc/Model/Metadata/Memcache`
+- Removed deprecated `Phalcon\Mvc/Model/Metadata/Xcache`
 
