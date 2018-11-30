@@ -69,13 +69,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Returns the DependencyInjector container
 	 */
-	public function getDI() -> <DiInterface> | null
+	public function getDI() -> <DiInterface>
 	{
-		var dependencyInjector;
-		if fetch dependencyInjector, this->_params["di"] {
-			return dependencyInjector;
-		}
-		return null;
+		return this->_params["di"];
 	}
 
 	/**

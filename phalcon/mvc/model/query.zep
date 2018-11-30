@@ -211,7 +211,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Tells to the query if only the first row in the resultset must be returned
 	 */
-	public function setUniqueRow(bool uniqueRow) -> <Query>
+	public function setUniqueRow(bool uniqueRow) -> <QueryInterface>
 	{
 		let this->_uniqueRow = uniqueRow;
 		return this;
@@ -3444,7 +3444,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Sets the type of PHQL statement to be executed
 	 */
-	public function setType(int type) -> <Query>
+	public function setType(int type) -> <QueryInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -3461,7 +3461,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Set default bind parameters
 	 */
-	public function setBindParams(array! bindParams, bool merge = false) -> <Query>
+	public function setBindParams(array! bindParams, bool merge = false) -> <QueryInterface>
 	{
 		var currentBindParams;
 
@@ -3490,7 +3490,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Set default bind parameters
 	 */
-	public function setBindTypes(array! bindTypes, bool merge = false) -> <Query>
+	public function setBindTypes(array! bindTypes, bool merge = false) -> <QueryInterface>
 	{
 		var currentBindTypes;
 
@@ -3511,7 +3511,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Set SHARED LOCK clause
 	 */
-	public function setSharedLock(bool sharedLock = false) -> <Query>
+	public function setSharedLock(bool sharedLock = false) -> <QueryInterface>
 	{
 		let this->_sharedLock = sharedLock;
 
@@ -3529,7 +3529,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Allows to set the IR to be executed
 	 */
-	public function setIntermediate(array! intermediate) -> <Query>
+	public function setIntermediate(array! intermediate) -> <QueryInterface>
 	{
 		let this->_intermediate = intermediate;
 		return this;
@@ -3546,7 +3546,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Sets the cache parameters of the query
 	 */
-	public function cache(array cacheOptions) -> <Query>
+	public function cache(array cacheOptions) -> <QueryInterface>
 	{
 		let this->_cacheOptions = cacheOptions;
 		return this;
@@ -3636,7 +3636,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * allows to wrap a transaction around all queries
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Query>
+	public function setTransaction(<TransactionInterface> transaction) -> <QueryInterface>
 	{
 		let this->_transaction = transaction;
 		return this;
