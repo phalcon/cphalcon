@@ -61,7 +61,6 @@ before_install:
   - export PHP_VERNUM="$(php-config --vernum)"
   - tests/_ci/pear-setup.sh
   - tests/_ci/setup-dbs.sh
-  - cp tests/_ci/.env.default tests/_ci/environment
   - cp tests/_ci/environment ./.env
   - source tests/_ci/environment
   - export $(cut -d= -f1 tests/_ci/environment)
