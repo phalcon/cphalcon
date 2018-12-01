@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\Validation;
+namespace Phalcon\Test\Models\Validation;
 
 use Phalcon\Messages\Message;
 use Phalcon\Mvc\Model;

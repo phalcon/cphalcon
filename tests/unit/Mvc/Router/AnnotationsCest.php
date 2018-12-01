@@ -16,7 +16,7 @@ use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Test\Fixtures\controllers\NamespacedAnnotationController;
+use Phalcon\Test\Controllers\NamespacedAnnotationController;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 use function is_object;
@@ -50,9 +50,9 @@ class AnnotationsCest
 
             $router->setDI($container);
 
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Robots", "/");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Products", "/products");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\About", "/about");
+            $router->addResource("Phalcon\Test\Controllers\Robots", "/");
+            $router->addResource("Phalcon\Test\Controllers\Products", "/products");
+            $router->addResource("Phalcon\Test\Controllers\About", "/about");
 
             $router->handle("/products");
 
@@ -63,9 +63,9 @@ class AnnotationsCest
             $router = new Annotations(false);
 
             $router->setDI($container);
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Robots", "/");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Products", "/products");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\About", "/about");
+            $router->addResource("Phalcon\Test\Controllers\Robots", "/");
+            $router->addResource("Phalcon\Test\Controllers\Products", "/products");
+            $router->addResource("Phalcon\Test\Controllers\About", "/about");
             $router->handle("/about");
 
             $expected = 5;
@@ -91,10 +91,10 @@ class AnnotationsCest
             $router = new Annotations(false);
 
             $router->setDI($container);
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Robots");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Products");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\About");
-            $router->addResource("Phalcon\Test\Fixtures\controllers\Main");
+            $router->addResource("Phalcon\Test\Controllers\Robots");
+            $router->addResource("Phalcon\Test\Controllers\Products");
+            $router->addResource("Phalcon\Test\Controllers\About");
+            $router->addResource("Phalcon\Test\Controllers\Main");
             $router->handle("/");
 
             $expected = 9;

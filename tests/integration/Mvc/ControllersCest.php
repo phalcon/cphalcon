@@ -7,7 +7,7 @@ use Phalcon\Di;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Metadata\Memory;
-use Phalcon\Test\Fixtures\controllers\ViewRequestController;
+use Phalcon\Test\Controllers\ViewRequestController;
 use Test4Controller;
 
 /**

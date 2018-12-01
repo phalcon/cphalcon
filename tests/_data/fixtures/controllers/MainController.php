@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\controllers;
+namespace Phalcon\Test\Controllers;
 
 class MainController
 {

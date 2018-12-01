@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\Dynamic;
+namespace Phalcon\Test\Models\Dynamic;
 
 use Phalcon\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model as PhalconModel;

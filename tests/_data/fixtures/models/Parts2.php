@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models;
+namespace Phalcon\Test\Models;
 
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Model;

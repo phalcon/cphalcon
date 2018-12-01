@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\Annotations;
+namespace Phalcon\Test\Models\Annotations;
 
 use Phalcon\Mvc\Model;
 

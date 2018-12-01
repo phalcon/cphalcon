@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Integration;
 
-use Phalcon\Test\Fixtures\models\Personnes;
+use Phalcon\Test\Models\Personnes;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Adapter\Model;

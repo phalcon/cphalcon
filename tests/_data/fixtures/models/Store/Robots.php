@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\models\Store;
+namespace Phalcon\Test\Models\Store;
 
 use Phalcon\Mvc\Model;
 

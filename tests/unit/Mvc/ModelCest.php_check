@@ -4,7 +4,7 @@ namespace Phalcon\Test\Unit\Mvc;
 
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Fixtures\models\Snapshot\Robots;
+use Phalcon\Test\Models\Snapshot\Robots;
 use UnitTester;
 
 /**
