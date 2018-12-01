@@ -226,18 +226,16 @@ class MemorySession implements AdapterInterface
      *
      * @return bool
      */
-    public function destroy(bool $removeData = null): bool
+    public function destroy(string $sessionId = null): bool
     {
-        if ($removeData) {
-            if (!empty($this->sessionId)) {
-                foreach ($this->memory as $key => $value) {
-                    if (0 === strpos($key, $this->sessionId . '#')) {
-                        unset($this->memory[$key]);
-                    }
+        if (!empty($sessionId)) {
+            foreach ($this->memory as $key => $value) {
+                if (0 === strpos($key, $sessionId . '#')) {
+                    unset($this->memory[$key]);
                 }
-            } else {
-                $this->memory = [];
             }
+        } else {
+            $this->memory = [];
         }
 
         $this->started = false;
