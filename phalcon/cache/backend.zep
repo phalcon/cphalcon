@@ -29,7 +29,10 @@ use Phalcon\Cache\FrontendInterface;
 abstract class Backend implements BackendInterface
 {
 
-	protected _frontend { get, set };
+	/**
+	 * @var Phalcon\Cache\FrontendInterface
+	 */
+	protected _frontend;
 
 	/**
 	 * @var array
@@ -68,6 +71,19 @@ abstract class Backend implements BackendInterface
 
 		let this->_frontend = frontend,
 			this->_options = options;
+	}
+
+	/**
+	 * @var Phalcon\Cache\FrontendInterface
+	 */
+	public function getFrontend() -> <FrontendInterface>
+	{
+		return this->_frontend;
+	}
+
+	public function setFrontend(<FrontendInterface> frontend) -> void
+	{
+		let this->_frontend = frontend;
 	}
 
 	/**
