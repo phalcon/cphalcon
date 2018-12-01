@@ -122,11 +122,11 @@ export DATA_POSTGRES_PASS=""
 export DATA_POSTGRES_NAME="phalcon_test"
 
 # Mongo
-export DATA_MONGO_HOST="127.0.0.1"
-export DATA_MONGO_PORT="27017"
-export DATA_MONGO_USER="admin"
-export DATA_MONGO_PASS=""
-export DATA_MONGO_NAME="phalcon_test"
+export DATA_MONGODB_HOST="127.0.0.1"
+export DATA_MONGODB_PORT="27017"
+export DATA_MONGODB_USER="admin"
+export DATA_MONGODB_PASS=""
+export DATA_MONGODB_NAME="phalcon_test"
 
 # Redis
 export DATA_REDIS_HOST="127.0.0.1"

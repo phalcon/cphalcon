@@ -14,6 +14,12 @@ use Phalcon\Test\Fixtures\MemorySession as PhalconMemorySession;
 $container = new FactoryDefault();
 
 /**
+ * Load environment
+ */
+$root = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
+loadEnvironment($root);
+
+/**
  * Config
  */
 $configFile = [
@@ -21,17 +27,17 @@ $configFile = [
         'baseUri'        => '/',
         'staticUri'      => '/',
         'timezone'       => 'UTC',
-        'controllersDir' => __DIR__ . '/../_data/fixtures/controllers/',
-        'modelsDir'      => __DIR__ . '/../_data/fixtures/models/',
-        'modulesDir'     => __DIR__ . '/../_data/fixtures/modules/',
-        'viewsDir'       => __DIR__ . '/../_data/fixtures/views/',
-        'debugDir'       => __DIR__ . '/../_data/debug/',
-        'resultsetsDir'  => __DIR__ . '/../_data/resultsets/',
-        'objectsetsDir'  => __DIR__ . '/../_data/objectsets/',
-        'collectionsDir' => __DIR__ . '/../_data/collections/',
-        'tasksDir'       => __DIR__ . '/../_data/tasks/',
-        'microDir'       => __DIR__ . '/../_data/micro/',
-        'aclDir'         => __DIR__ . '/../_data/acl/',
+        'controllersDir' => $root . 'tests/_data/fixtures/controllers/',
+        'modelsDir'      => $root . 'tests/_data/fixtures/models/',
+        'modulesDir'     => $root . 'tests/_data/fixtures/modules/',
+        'viewsDir'       => $root . 'tests/_data/fixtures/views/',
+        'debugDir'       => $root . 'tests/_data/debug/',
+        'resultsetsDir'  => $root . 'tests/_data/resultsets/',
+        'objectsetsDir'  => $root . 'tests/_data/objectsets/',
+        'collectionsDir' => $root . 'tests/_data/collections/',
+        'tasksDir'       => $root . 'tests/_data/tasks/',
+        'microDir'       => $root . 'tests/_data/micro/',
+        'aclDir'         => $root . 'tests/_data/acl/',
     ],
     'database'    => [
         'adapter'  => 'Mysql',

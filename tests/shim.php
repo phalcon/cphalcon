@@ -29,15 +29,12 @@ if (!function_exists('loadEnvironment')) {
     function loadEnvironment(string $root)
     {
         /**
-         * Load the defaults first
-         */
-        (new Dotenv($root . 'tests/_ci/', '.env.default'))->load();
-
-        /**
-         * Now load your own environment
+         * Load local environment if it exists
          */
         if (true === file_exists($root . '.env')) {
-            (new Dotenv($root))->overload();
+            (new Dotenv($root))->load();
+        } else {
+            (new Dotenv($root, 'tests/_ci/.env.default'))->load();
         }
     }
 }

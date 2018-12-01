@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
+use function array_merge;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
@@ -38,15 +39,7 @@ class RedisCest
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
         $key   = '_PHCR' . 'data-exists';
         $data  = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', $key, serialize($data));
 
@@ -61,15 +54,7 @@ class RedisCest
 
         $key  = 'data-exists';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'  => DATA_REDIS_HOST,
-                'port'  => DATA_REDIS_PORT,
-                'index' => DATA_REDIS_NAME,
-            ]
-        );
+        $cache = $this->getClient();
 
         $I->dontSeeInRedis($key);
         $cache->save($key, serialize($data));
@@ -88,16 +73,7 @@ class RedisCest
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
         $key = '_PHCR' . 'data-empty-exists';
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', $key, '');
 
@@ -112,16 +88,7 @@ class RedisCest
 
         $key  = '_PHCR' . 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', $key, serialize($data));
         $I->assertEquals($data, $cache->get('data-get'));
@@ -146,15 +113,7 @@ class RedisCest
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
         $key   = '_PHCR' . 'data-empty-get';
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', $key, '');
         $I->assertSame('', $cache->get('data-empty-get'));
@@ -167,16 +126,7 @@ class RedisCest
 
         $key  = '_PHCR' . 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->dontSeeInRedis($key);
         $cache->save('data-save', $data);
@@ -202,16 +152,7 @@ class RedisCest
 
         $key  = '_PHCR' . 'data-save-2';
         $data = 1000;
-
-        $cache = new Redis(
-            new Data(['lifetime' => 200]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(200);
 
         $I->dontSeeInRedis($key);
 
@@ -237,16 +178,7 @@ class RedisCest
             'Delete from cache by using Redis as cache backend'
         );
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->assertFalse($cache->delete('non-existent-keys'));
 
@@ -260,16 +192,7 @@ class RedisCest
     {
         $I->wantTo('Flush cache by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $key1 = '_PHCR' . 'data-flush-1';
         $key2 = '_PHCR' . 'data-flush-2';
@@ -293,16 +216,7 @@ class RedisCest
     {
         $I->wantTo('Get cache keys by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', '_PHCR' . 'a', 1);
         $I->haveInRedis('string', '_PHCR' . 'b', 2);
@@ -322,17 +236,9 @@ class RedisCest
     {
         $I->wantTo('Catch exception during the attempt getting cache keys by using Redis as cache backend without statsKey');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
+        $cache = $this->getClient();
 
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'  => DATA_REDIS_HOST,
-                'port'  => DATA_REDIS_PORT,
-                'index' => DATA_REDIS_NAME,
-            ]
-        );
-
-        $I->expectException(
+        $I->expectThrowable(
             new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!"),
             function () use ($cache) {
                 $cache->queryKeys();
@@ -346,15 +252,7 @@ class RedisCest
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
         $time  = date('H:i:s');
-        $cache = new Redis(
-            new Output(['lifetime' => 2]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-            ]
-        );
+        $cache = $this->getClient(2);
 
         ob_start();
 
@@ -391,17 +289,7 @@ class RedisCest
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
         $key  = '_PHCR' . 'data-get-timeout';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
-
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-                'timeout'  => 1,
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR', 'timeout' => 1]);
 
         $I->haveInRedis('string', $key, serialize($data));
         $I->assertEquals($data, $cache->get('data-get-timeout'));
@@ -421,16 +309,7 @@ class RedisCest
         $I->wantTo('Get cache data with prefix and statsKey configuration');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
-        $cache = new Redis(
-            new Data(['lifetime' => 20]),
-            [
-                'host'     => DATA_REDIS_HOST,
-                'port'     => DATA_REDIS_PORT,
-                'index'    => DATA_REDIS_NAME,
-                'statsKey' => '_PHCR',
-                'prefix'   => 'phalcon-',
-            ]
-        );
+        $cache = $this->getClient(20, ['statsKey' => '_PHCR', 'prefix' => 'phalcon-']);
         $cache->flush();
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
         $cache->save('a', $data);
@@ -442,5 +321,24 @@ class RedisCest
         $I->assertEquals(['phalcon-a', 'phalcon-b'], $keys);
         $I->assertEquals($data, $cache->get('a'));
         $I->assertEquals($data, $cache->get('b'));
+    }
+
+    /**
+     * @param int   $lifetime
+     * @param array $options
+     *
+     * @return Redis
+     */
+    private function getClient(int $lifetime = 20, array $options = []): Redis
+    {
+        $config = [
+            'host'  => env('DATA_REDIS_HOST'),
+            'port'  => env('DATA_REDIS_PORT'),
+            'index' => env('DATA_REDIS_NAME'),
+        ];
+
+        $config = array_merge($config, $options);
+
+        return new Redis(new Data(['lifetime' => $lifetime]), $config);
     }
 }

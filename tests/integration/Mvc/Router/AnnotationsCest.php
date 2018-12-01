@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Mvc\Router;
+namespace Phalcon\Test\Integration\Mvc\Router;
 
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Di;
@@ -18,7 +18,7 @@ use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Controllers\NamespacedAnnotationController;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use UnitTester;
+use IntegrationTester;
 use function is_object;
 use const PATH_DATA;
 
@@ -26,14 +26,14 @@ class AnnotationsCest
 {
     use DiTrait;
 
-    public function _before(UnitTester $I)
+    public function _before(IntegrationTester $I)
     {
         $this->newDi();
         $this->setDiRequest();
         $this->setDiAnnotations();
     }
 
-    public function testRouterFullResources(UnitTester $I)
+    public function testRouterFullResources(IntegrationTester $I)
     {
         require_once PATH_DATA . 'fixtures/controllers/NamespacedAnnotationController.php';
 

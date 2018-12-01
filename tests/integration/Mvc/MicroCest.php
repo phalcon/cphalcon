@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Mvc;
+namespace Phalcon\Test\Integration\Mvc;
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
@@ -19,14 +19,14 @@ use Phalcon\Test\Controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
-use UnitTester;
+use IntegrationTester;
 
 /**
- * Phalcon\Test\Unit\Mvc\MicroTest
+ * Phalcon\Test\Integration\Mvc\MicroTest
  *
  * Tests the Phalcon\Mvc\Micro component
  *
- * @package   Phalcon\Test\Unit\Mvc
+ * @package   Phalcon\Test\Integration\Mvc
  */
 class MicroCest
 {
@@ -36,7 +36,7 @@ class MicroCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-11-19
      */
-    public function testAfterBindingEvent(UnitTester $I)
+    public function testAfterBindingEvent(IntegrationTester $I)
     {
         $di      = new FactoryDefault();
         $micro   = new Micro($di);
@@ -64,7 +64,7 @@ class MicroCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-11-19
      */
-    public function testAfterBindingMiddleware(UnitTester $I)
+    public function testAfterBindingMiddleware(IntegrationTester $I)
     {
         $di    = new FactoryDefault();
         $micro = new Micro($di);
@@ -85,7 +85,7 @@ class MicroCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testStopMiddlewareOnAfterBindingClosure(UnitTester $I)
+    public function testStopMiddlewareOnAfterBindingClosure(IntegrationTester $I)
     {
         $di    = new FactoryDefault();
         $micro = new Micro($di);
@@ -107,7 +107,7 @@ class MicroCest
         $I->assertEmpty($actual);
     }
 
-    public function testStopMiddlewareOnAfterBindingClassFirst(UnitTester $I)
+    public function testStopMiddlewareOnAfterBindingClassFirst(IntegrationTester $I)
     {
         $di             = new FactoryDefault();
         $micro          = new Micro($di);
@@ -135,7 +135,7 @@ class MicroCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testStopMiddlewareOnAfterBindingClass(UnitTester $I)
+    public function testStopMiddlewareOnAfterBindingClass(IntegrationTester $I)
     {
         $di             = new FactoryDefault();
         $micro          = new Micro($di);
@@ -164,7 +164,7 @@ class MicroCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testMicroClass(UnitTester $I)
+    public function testMicroClass(IntegrationTester $I)
     {
         $handler = new RestHandler();
 
@@ -221,7 +221,7 @@ class MicroCest
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-06
      */
-    public function testMicroNotFoundT169(UnitTester $I)
+    public function testMicroNotFoundT169(IntegrationTester $I)
     {
         $handler = new RestHandler();
 
@@ -245,7 +245,7 @@ class MicroCest
         $I->assertTrue($flag);
     }
 
-    public function testMicroBeforeHandlers(UnitTester $I)
+    public function testMicroBeforeHandlers(IntegrationTester $I)
     {
         $trace = [];
         $app   = new Micro();
@@ -279,7 +279,7 @@ class MicroCest
         $I->assertCount(1, $trace);
     }
 
-    public function testMicroAfterHandlers(UnitTester $I)
+    public function testMicroAfterHandlers(IntegrationTester $I)
     {
         $trace = [];
         $app   = new Micro();
@@ -307,7 +307,7 @@ class MicroCest
         $I->assertCount(3, $trace);
     }
 
-    public function testMicroAfterHandlersIfOneStop(UnitTester $I)
+    public function testMicroAfterHandlersIfOneStop(IntegrationTester $I)
     {
         $trace = [];
         $app   = new Micro();
@@ -342,7 +342,7 @@ class MicroCest
         $I->assertCount(3, $trace);
     }
 
-    public function testMicroFinishHandlers(UnitTester $I)
+    public function testMicroFinishHandlers(IntegrationTester $I)
     {
         $trace = [];
         $app   = new Micro();
@@ -370,7 +370,7 @@ class MicroCest
         $I->assertCount(3, $trace);
     }
 
-    public function testMicroFinishHandlersIfOneStop(UnitTester $I)
+    public function testMicroFinishHandlersIfOneStop(IntegrationTester $I)
     {
         $trace = [];
         $app   = new Micro();
@@ -405,7 +405,7 @@ class MicroCest
         $I->assertCount(3, $trace);
     }
 
-    public function testMicroEvents(UnitTester $I)
+    public function testMicroEvents(IntegrationTester $I)
     {
         $trace         = [];
         $eventsManager = new Manager();
@@ -439,7 +439,7 @@ class MicroCest
         $I->assertEquals($expected, $trace);
     }
 
-    public function testMicroMiddlewareSimple(UnitTester $I)
+    public function testMicroMiddlewareSimple(IntegrationTester $I)
     {
         $app = new Micro();
         $app->map(
@@ -490,7 +490,7 @@ class MicroCest
         $I->assertEquals(6, $trace);
     }
 
-    public function testMicroMiddlewareClasses(UnitTester $I)
+    public function testMicroMiddlewareClasses(IntegrationTester $I)
     {
         $app = new Micro();
 
@@ -518,7 +518,7 @@ class MicroCest
         $I->assertEquals(6, $actual);
     }
 
-    public function testMicroStopMiddlewareOnBeforeClasses(UnitTester $I)
+    public function testMicroStopMiddlewareOnBeforeClasses(IntegrationTester $I)
     {
         $app = new Micro();
         $app->map(
@@ -545,7 +545,7 @@ class MicroCest
         $I->assertEquals(1, $actual);
     }
 
-    public function testMicroStopMiddlewareOnAfterAndFinishClasses(UnitTester $I)
+    public function testMicroStopMiddlewareOnAfterAndFinishClasses(IntegrationTester $I)
     {
         $app = new Micro();
         $app->map(
@@ -569,7 +569,7 @@ class MicroCest
         $I->assertEquals(2, $actual);
     }
 
-    public function testMicroResponseAlreadySentError(UnitTester $I)
+    public function testMicroResponseAlreadySentError(IntegrationTester $I)
     {
         $app = new Micro();
         $app->after(
@@ -590,7 +590,7 @@ class MicroCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function testMicroCollectionVia(UnitTester $I)
+    public function testMicroCollectionVia(IntegrationTester $I)
     {
         $app        = new Micro();
         $collection = new Micro\Collection();

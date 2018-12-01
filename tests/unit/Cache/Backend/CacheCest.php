@@ -133,7 +133,7 @@ class CacheCest
         ]);
 
         $cache = new Mongo($frontCache, [
-            'server'     => 'mongodb://' . DATA_MONGO_HOST,
+            'server'     => 'mongodb://' . DATA_MONGODB_HOST,
             'db'         => 'phalcon_test',
             'collection' => 'caches',
         ]);
