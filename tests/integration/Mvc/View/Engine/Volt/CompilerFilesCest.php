@@ -43,8 +43,8 @@ class CompilerFilesCest
     {
         $I->wantToTest('Compile extended files');
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/layouts', 'extends.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'children.extends.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/layouts/extends.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/children.extends.volt.php');
 
         $view = new View();
         $view->setViewsDir(PATH_DATA . 'fixtures/views/');
@@ -80,9 +80,9 @@ class CompilerFilesCest
     {
         $I->wantToTest('Compile imported files');
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/partials', 'header.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/partials', 'footer.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'import.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/partials/header.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/partials/footer.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/import.volt.php');
 
         $view = new View();
         $view->setViewsDir(PATH_DATA . 'fixtures/views/');
@@ -113,9 +113,9 @@ class CompilerFilesCest
     {
         $I->wantToTest('Compile import recursive files');
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/partials', 'header3.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/partials', 'header2.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'import2.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/partials/header3.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/partials/header2.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/import2.volt.php');
 
         $view = new View();
         $view->setViewsDir(PATH_DATA . 'fixtures/views/');

@@ -60,7 +60,7 @@ class FileCest
         $I->assertTrue($cache->isFresh());
 
         $I->amInPath(PATH_CACHE);
-        $I->deleteFile('start-keyname');
+        $I->safeDeleteFile('start-keyname');
     }
 
     public function outputFrontend(UnitTester $I)

@@ -85,7 +85,7 @@ class QueryTest extends UnitTest
      * Tests Query::parse insert
      *
      * @test
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-24
      */
     public function shouldInsertParsing()
@@ -108,7 +108,7 @@ class QueryTest extends UnitTest
      * Tests Query::parse update
      *
      * @test
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-24
      */
     public function shouldUpdateParsing()
@@ -131,7 +131,7 @@ class QueryTest extends UnitTest
      * Tests Query::parse delete
      *
      * @test
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-24
      */
     public function shouldDeleteParsing()

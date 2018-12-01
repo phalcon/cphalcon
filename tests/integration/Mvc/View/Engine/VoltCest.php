@@ -65,6 +65,6 @@ class VoltCest
         $I->assertTrue(file_exists(PATH_CACHE . $fileName));
         $I->assertEquals(file_get_contents(PATH_CACHE . $fileName), 'Hello <?= $song ?>!');
         $I->assertEquals($view->getContent(), 'Hello Lights!');
-        $I->cleanFile(PATH_CACHE, $fileName);
+        $I->safeDeleteFile(PATH_CACHE . $fileName);
     }
 }

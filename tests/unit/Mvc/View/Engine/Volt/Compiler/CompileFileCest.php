@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use UnitTester;
 
 class CompileFileCest
@@ -21,11 +22,51 @@ class CompileFileCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-01-17
      */
     public function mvcViewEngineVoltCompilerCompileFile(UnitTester $I)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileFile()");
-        $I->skipTest("Need implementation");
+        $viewFile    = PATH_DATA . 'fixtures/views/layouts/compiler.volt';
+        $compileFile = $viewFile . '.php';
+        $expected    = '<?php if ($some_eval) { ?>
+Clearly, the song is: <?= $this->getContent() ?>.
+<?php } ?>';
+
+        $volt = new Compiler();
+        $volt->compileFile($viewFile, $compileFile);
+
+        $actual = file_get_contents($compileFile);
+        $I->assertEquals($expected, $actual);
+        $I->safeDeleteFile($compileFile);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileFile()
+     *
+     * @param UnitTester $I
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13242
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcViewEngineVoltCompilerCompileFileDefaultFilter(UnitTester $I)
+    {
+        $examples = [
+            'default'             => "<?= (empty(\$robot->price) ? (10.0) : (\$robot->price)) ?>\n",
+            'default_json_encode' => "<?= json_encode((empty(\$preparedParams) ? ([]) : (\$preparedParams))) ?>\n",
+        ];
+
+        foreach ($examples as $view => $expected) {
+            $volt         = new Compiler();
+            $viewFile     = sprintf('%sfixtures/views/filters/%s.volt', env('PATH_DATA'), $view);
+            $compiledFile = $viewFile . '.php';
+            $volt->compileFile($viewFile, $compiledFile);
+
+            $actual = file_get_contents($compiledFile);
+            $I->assertEquals($expected, $actual);
+            $I->safeDeleteFile($compiledFile);
+        }
     }
 }

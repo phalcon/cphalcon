@@ -1,4 +1,4 @@
-{% extends "tests/_data/views/extends/parent.volt" %}
+{% extends "tests/_data/fixtures/views/extends/parent.volt" %}
 
 {% block title %}Index{% endblock %}
 

@@ -134,8 +134,8 @@ class BeanstalkCest
 
             $I->assertTrue($job !== false);
             $I->assertEquals($task, $job->getBody());
+            $I->assertTrue($job->delete());
         }
-
         $I->assertTrue($job->delete());
     }
 

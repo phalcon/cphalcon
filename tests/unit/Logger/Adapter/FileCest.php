@@ -47,7 +47,7 @@ class FileCest
 
         $I->amInPath($this->logPath);
         $I->seeFileFound($fileName);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -72,7 +72,7 @@ class FileCest
         $I->amInPath($this->logPath);
         $I->openFile($fileName);
         $I->seeInThisFile('New Contents');
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -102,7 +102,7 @@ class FileCest
         );
 
         $I->amInPath($this->logPath);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -128,7 +128,7 @@ class FileCest
             date('D, d M y H:i:s O')
         );
         $I->seeInThisFile($expected);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -172,7 +172,7 @@ class FileCest
             $name
         );
         $I->seeInThisFile($expected);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -273,11 +273,11 @@ class FileCest
 
         $I->openFile($file1);
         $I->seeFileContentsEqual($expected);
-        $I->deleteFile($file1);
+        $I->safeDeleteFile($file1);
 
         $I->openFile($file2);
         $I->seeFileContentsEqual($expected);
-        $I->deleteFile($file2);
+        $I->safeDeleteFile($file2);
     }
 
     /**
@@ -316,7 +316,7 @@ class FileCest
             date('D, d M y H:i:s O')
         );
         $I->seeFileContentsEqual($expected);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -361,7 +361,7 @@ class FileCest
 
         $I->amInPath($this->logPath);
         $I->seeFileFound($fileName);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -384,7 +384,7 @@ class FileCest
         $I->amInPath($this->logPath);
         $I->openFile($fileName);
         $I->seeNumberNewLines(3);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -405,7 +405,7 @@ class FileCest
 
         $I->amInPath($this->logPath);
         $contents = \file($this->logPath . $fileName);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
 
         $position = strpos($contents[0], '[' . strtoupper($function) . ']');
         $actual   = ($position !== false);
@@ -457,7 +457,7 @@ class FileCest
 
         $contents = \file($this->logPath . $fileName);
         $message  = explode('|', $contents[0]);
-        $I->cleanFile($this->logPath, $fileName);
+        $I->safeDeleteFile($this->logPath . $fileName);
 
         $I->assertEquals(
             'DEBUG',
@@ -501,7 +501,7 @@ class FileCest
             time()
         );
         $I->seeInThisFile($expected);
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**
@@ -522,7 +522,7 @@ class FileCest
 
         $contents = \file($this->logPath . $fileName);
         $message  = explode('|', $contents[0]);
-        $I->cleanFile($this->logPath, $fileName);
+        $I->safeDeleteFile($this->logPath . $fileName);
 
         $date = new \DateTime($message[1]);
 
@@ -555,7 +555,7 @@ class FileCest
         $I->seeNumberNewLines(2);
 
         $logger->close();
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
 
         $fileName = $I->getNewFileName('log', 'log');
 
@@ -573,7 +573,7 @@ class FileCest
         $logger->close();
 
         $contents = \file($this->logPath . $fileName);
-        $I->cleanFile($this->logPath, $fileName);
+        $I->safeDeleteFile($this->logPath . $fileName);
 
         $expected = 4;
         $actual   = count($contents);
@@ -598,7 +598,7 @@ class FileCest
         $I->amInPath($this->logPath);
         $I->openFile($fileName);
         $I->seeFileContentsEqual(sprintf("[%s][DEBUG] Hello\n", date('D, d M y H:i:s O')));
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
 
         $fileName = $I->getNewFileName('log', 'log');
 
@@ -619,6 +619,6 @@ class FileCest
         $I->openFile($fileName);
 
         $I->seeFileContentsEqual(sprintf("[%s][DEBUG] Hello\n", date('D, d M y H:i:s O')));
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 }

@@ -41,7 +41,7 @@ class ImagickCest
 
         $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
         $I->seeFileFound('new.jpg');
-        $I->deleteFile('new.jpg');
+        $I->safeDeleteFile('new.jpg');
     }
 
     /**
@@ -66,7 +66,7 @@ class ImagickCest
         $actual = $image->getHeight() <= 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('resize.jpg');
+        $I->safeDeleteFile('resize.jpg');
     }
 
     /**
@@ -92,7 +92,7 @@ class ImagickCest
         $actual = $image->getHeight() == 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('liquidRescale.jpg');
+        $I->safeDeleteFile('liquidRescale.jpg');
     }
 
     /**
@@ -117,7 +117,7 @@ class ImagickCest
         $actual = $image->getHeight() == 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('crop.jpg');
+        $I->safeDeleteFile('crop.jpg');
     }
 
     /**
@@ -142,7 +142,7 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('rotate.jpg');
+        $I->safeDeleteFile('rotate.jpg');
     }
 
     /**
@@ -167,7 +167,7 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('flip.jpg');
+        $I->safeDeleteFile('flip.jpg');
     }
 
     /**
@@ -192,7 +192,7 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('sharpen.jpg');
+        $I->safeDeleteFile('sharpen.jpg');
     }
 
     /**
@@ -217,7 +217,7 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('reflection.jpg');
+        $I->safeDeleteFile('reflection.jpg');
     }
 
     /**
@@ -243,7 +243,7 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('watermark.jpg');
+        $I->safeDeleteFile('watermark.jpg');
     }
 
     /**
@@ -269,7 +269,7 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('mask.jpg');
+        $I->safeDeleteFile('mask.jpg');
     }
 
     /**
@@ -294,6 +294,6 @@ class ImagickCest
         $actual = $image->getHeight() > 200;
         $I->assertTrue($actual);
 
-        $I->deleteFile('background.jpg');
+        $I->safeDeleteFile('background.jpg');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Helper;
 
+use function file_exists;
 use function is_file;
 use PHPUnit\Framework\SkippedTestError;
 use ReflectionClass;
@@ -65,27 +66,6 @@ class Unit extends \Codeception\Module
     }
 
     /**
-     * Removes a file from the system
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param string $path
-     * @param string $fileName
-     */
-    public function cleanFile(string $path, string $fileName)
-    {
-        $file = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
-        $file .= $fileName;
-
-        $actual = file_exists($file);
-
-        if ($actual) {
-            unlink($file);
-        }
-    }
-
-    /**
      * Returns a unique file name
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
@@ -105,18 +85,10 @@ class Unit extends \Codeception\Module
         return uniqid($prefix, true) . '.' . $suffix;
     }
 
-    /**
-     * Cleans a folder from all files
-     *
-     * @param string $path
-     */
-    public function cleanFolder(string $path)
+    public function safeDeleteFile(string $filename)
     {
-        $files = glob(sprintf('%s/*', $path));
-        foreach ($files as $file) {
-            if (true === is_file(($file))) {
-                 unlink($file);
-            }
+        if (true === file_exists($filename) && true === is_file($filename)) {
+            unlink($filename);
         }
     }
 

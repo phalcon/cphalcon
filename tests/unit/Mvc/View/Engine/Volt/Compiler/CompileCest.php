@@ -11,21 +11,94 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use const PATH_DATA;
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use UnitTester;
 
 class CompileCest
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compile()
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compile() - extends
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-29
+     */
+    public function mvcViewEngineVoltCompilerCompileExtends(UnitTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile() - extends");
+        $viewFile     = PATH_DATA . 'fixtures/views/templates/c.volt';
+        $compiledFile = $viewFile . '.php';
+
+        $volt = new Compiler();
+        $volt->compile($viewFile);
+
+        $expected = "[A[###[B]###]]";
+        $actual   = trim(file_get_contents($compiledFile));
+        $I->assertEquals($expected, $actual);
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/templates/a.volt%%e%%.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/templates/b.volt%%e%%.php');
+        $I->safeDeleteFile($compiledFile);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compile() - extends blocks
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewEngineVoltCompilerCompile(UnitTester $I)
+    public function mvcViewEngineVoltCompilerCompileExtendsBlocks(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile() - extends blocks");
+        $viewFile     = PATH_DATA . 'fixtures/views/compiler/children.volt';
+        $compiledFile = $viewFile . '.php';
+        $expected     = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">'
+                      . '<html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head>'
+                      . '<style type="text/css">.important { color: #336699; }</style>'
+                      . '<title>Index - My Webpage</title></head><body><div id="content">'
+                      . '<h1>Index</h1><p class="important">Welcome on my awesome homepage.</p></div>'
+                      . '<div id="footer">&copy; Copyright 2012 by '
+                      . '<a href="http://domain.invalid/">you</a>.</div></body>';
+
+        $volt = new Compiler();
+        $volt->compile($viewFile);
+
+        $actual   = trim(file_get_contents($compiledFile));
+        $I->assertEquals($expected, $actual);
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/compiler/parent.volt%%e%%.php');
+        $I->safeDeleteFile($compiledFile);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compile() - extends two blocks
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcViewEngineVoltCompilerCompileExtendsTwoBlocks(UnitTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile() - extends two blocks");
+        $viewFile     = PATH_DATA . 'fixtures/views/compiler/children2.volt';
+        $compiledFile = $viewFile . '.php';
+        $expected     = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">'
+                      . '<html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head>'
+            . '<style type="text/css">.important { color: #336699; } </style> '
+            . '<link rel="stylesheet" href="style.css" /> <title>Index - My Webpage</title></head>'
+            . '<body><div id="content"><h1>Index</h1><p class="important">Welcome to my awesome homepage.</p>'
+            . '</div><div id="footer">&copy; Copyright 2012 by'
+            . ' <a href="http://domain.invalid/">you</a>.</div></body>';
+
+        $volt = new Compiler();
+        $volt->compile($viewFile);
+
+        $actual   = trim(file_get_contents($compiledFile));
+        $I->assertEquals($expected, $actual);
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/compiler/parent.volt%%e%%.php');
+        $I->safeDeleteFile($compiledFile);
     }
 }

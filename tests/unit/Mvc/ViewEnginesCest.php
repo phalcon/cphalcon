@@ -73,7 +73,7 @@ class ViewEnginesCest
 
             $actual = $view->getContent();
             $I->assertEquals($expected, $actual);
-            $I->cleanFile(PATH_DATA . 'fixtures/views/builtinfunction', 'index.volt.php');
+            $I->safeDeleteFile(PATH_DATA . 'fixtures/views/builtinfunction/index.volt.php');
         }
     }
 

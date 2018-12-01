@@ -439,7 +439,7 @@ class ManagerCest
         $I->assertEquals($expected, $actual);
 
         $I->seeFileFound(PATH_OUTPUT . "tests/assets/{$file}");
-        $I->deleteFile(PATH_OUTPUT . "tests/assets/{$file}");
+        $I->safeDeleteFile(PATH_OUTPUT . "tests/assets/{$file}");
     }
 
     /**

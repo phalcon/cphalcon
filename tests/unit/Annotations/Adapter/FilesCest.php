@@ -47,7 +47,7 @@ class FilesCest
 
         $I->amInPath(PATH_OUTPUT . 'tests/annotations/');
 
-        $I->deleteFile('testclass.php');
-        $I->deleteFile('user_testclassns.php');
+        $I->safeDeleteFile('testclass.php');
+        $I->safeDeleteFile('user_testclassns.php');
     }
 }

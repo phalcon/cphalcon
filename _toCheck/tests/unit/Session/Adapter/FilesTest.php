@@ -166,7 +166,7 @@ class FilesTest extends UnitTest
                 $I->openFile($file);
                 $I->seeInThisFile('some|s:11:"write-value";');
 
-                $I->deleteFile($file);
+                $I->safeDeleteFile($file);
             }
         );
     }
@@ -202,7 +202,7 @@ class FilesTest extends UnitTest
                 $I->openFile($file);
                 $I->seeInThisFile('some|s:17:"write-magic-value";');
 
-                $I->deleteFile($file);
+                $I->safeDeleteFile($file);
             }
         );
     }

@@ -16,7 +16,6 @@ $container = new FactoryDefault();
 /**
  * Config
  */
-
 $configFile = [
     'application' => [
         'baseUri'        => '/',

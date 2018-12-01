@@ -48,7 +48,7 @@ class LineCest
         $I->amInPath($this->logPath);
         $I->openFile($fileName);
         $I->seeInThisFile(sprintf('DEBUG|%s|Hello', date('D, d M y H:i:s O')));
-        $I->deleteFile($fileName);
+        $I->safeDeleteFile($fileName);
     }
 
     /**

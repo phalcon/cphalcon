@@ -63,7 +63,7 @@ class SimpleCest
 
         $I->amInPath(PATH_DATA . 'fixtures/views/mustache');
         $I->seeFileFound('index.mhtml.php');
-        $I->deleteFile('index.mhtml.php');
+        $I->safeDeleteFile('index.mhtml.php');
     }
 
     /**

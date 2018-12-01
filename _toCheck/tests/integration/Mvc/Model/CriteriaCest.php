@@ -387,7 +387,7 @@ class CriteriaCest
         $I->assertFalse($personas->isFresh());
 
         $I->amInPath(PATH_CACHE);
-        $I->deleteFile('cache-for-issue-2131');
+        $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
 

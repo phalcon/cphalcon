@@ -51,9 +51,9 @@ class CompilerCest
         $I->wantToTest('Compile import recursive files');
         $I->skipTest('TODO - Check me');
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/layouts', 'extends.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'index.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'other.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/layouts/extends.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/index.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/other.volt.php');
 
         $di = new Di();
 
@@ -123,9 +123,9 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/layouts', 'extends.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'index.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/extends', 'other.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/layouts/extends.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/index.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/other.volt.php');
     }
 
     /**
@@ -139,12 +139,12 @@ class CompilerCest
     public function shouldCorrectWorkWithVoltMacros(IntegrationTester $I)
     {
         $I->wantToTest('Volt macros');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'hello.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'conditionaldate.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'my_input.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'error_messages.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'related_links.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'strtotime.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/hello.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/conditionaldate.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/my_input.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/error_messages.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/related_links.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/strtotime.volt.php');
 
         Di::reset();
         Tag::setDocType(Tag::XHTML5);
@@ -239,12 +239,12 @@ class CompilerCest
         $I->assertEquals($content[1], $content[2]);
         $I->assertEquals($content[2], $content[0]);
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'hello.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'conditionaldate.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'my_input.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'error_messages.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'related_links.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'strtotime.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/hello.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/conditionaldate.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/my_input.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/error_messages.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/related_links.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/strtotime.volt.php');
     }
 
     /**
@@ -258,8 +258,8 @@ class CompilerCest
     public function shouldAcceptObjectToVoltMacros(IntegrationTester $I)
     {
         $I->wantToTest('Volt macros can accept objects');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'list.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'form_row.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/list.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/form_row.volt.php');
 
         Di::reset();
         $view = new View;
@@ -317,8 +317,8 @@ FORM;
         $actual = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'list.volt.php');
-        $I->cleanFile(PATH_DATA . 'fixtures/views/macro', 'form_row.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/list.volt.php');
+        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/form_row.volt.php');
     }
 
     /**

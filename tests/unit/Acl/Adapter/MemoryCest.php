@@ -215,7 +215,7 @@ class MemoryCest
 
         $contents = file_get_contents(PATH_CACHE . $filename);
 
-        $I->cleanFile(PATH_CACHE, $filename);
+        $I->safeDeleteFile(PATH_CACHE . $filename);
 
         $acl    = unserialize($contents);
         $actual = ($acl instanceof Memory);

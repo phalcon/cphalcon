@@ -53,7 +53,7 @@ class NoneCest
         $expected = 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}';
         $actual   = file_get_contents(PATH_CACHE . $fileName);
 
-        $I->cleanFile(PATH_CACHE, $fileName);
+        $I->safeDeleteFile(PATH_CACHE . $fileName);
 
         $I->assertEquals($expected, $actual);
     }

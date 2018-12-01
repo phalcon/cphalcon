@@ -5,7 +5,7 @@
  *
  * @copyright (c) 2011-present Phalcon Team
  * @link      http://www.phalconphp.com
- * @author    Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+ * @author    Phalcon Team <team@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is

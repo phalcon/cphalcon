@@ -95,7 +95,7 @@ class SimpleCest
         $I->assertNotEmpty($view->getContent());
         $I->assertEquals("<p></p>", rtrim($view->render('test3/coolVar')));
 
-        $I->deleteFile('view_simple_cache');
+        $I->safeDeleteFile('view_simple_cache');
     }
 
     /**

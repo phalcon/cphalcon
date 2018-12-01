@@ -71,7 +71,7 @@ class FilesCest
         $md->reset();
         $I->assertTrue($md->isEmpty());
 
-        $I->deleteFile('meta-phalcon_test_models_robots-robots.php');
-        $I->deleteFile('map-phalcon_test_models_robots.php');
+        $I->safeDeleteFile('meta-phalcon_test_models_robots-robots.php');
+        $I->safeDeleteFile('map-phalcon_test_models_robots.php');
     }
 }
