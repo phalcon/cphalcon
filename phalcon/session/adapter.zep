@@ -93,7 +93,7 @@ abstract class Adapter implements AdapterInterface
 	 * );
 	 *</code>
 	 */
-	 public function destroy(string sessionId = null) -> bool
+	public function destroy(string sessionId = null) -> bool
 	 {
 		this->removeSessionData();
 

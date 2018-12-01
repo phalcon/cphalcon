@@ -99,7 +99,7 @@ class Collection implements CollectionInterface
 	/**
 	 * Sets if the main handler must be lazy loaded
 	 */
-	public function setLazy(bool! lazy) -> <Collection>
+	public function setLazy(bool! lazy) -> <CollectionInterface>
 	{
 		let this->_lazy = lazy;
 		return this;

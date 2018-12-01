@@ -19,7 +19,7 @@
 
 namespace Phalcon\Mvc;
 
-use \Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Mvc\ViewInterface

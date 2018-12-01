@@ -206,7 +206,7 @@ interface ModelInterface
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
 	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface>;
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool;
 
 	/**
 	 * Sets the DependencyInjection connection service used to read data

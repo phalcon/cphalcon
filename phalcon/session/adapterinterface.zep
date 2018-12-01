@@ -19,7 +19,7 @@ interface AdapterInterface
 	/**
 	 * Destroys the active session
 	 */
-	public function destroy(bool removeData = null) -> bool;
+	public function destroy(string sessionId = null) -> bool;
 
 	/**
 	 * Gets a session variable from an application context

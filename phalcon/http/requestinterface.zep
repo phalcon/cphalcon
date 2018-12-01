@@ -19,6 +19,8 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Http\Request\FileInterface;
+
 /**
  * Phalcon\Http\RequestInterface
  *
@@ -205,12 +207,12 @@ interface RequestInterface
 	 * Checks whether request include attached files
 	 * TODO: We need to check the name. Not very intuitive
 	 */
-	public function hasFiles(onlySuccessful = false) -> long;
+	public function hasFiles(bool onlySuccessful = false) -> long;
 
 	/**
 	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
 	 */
-	public function getUploadedFiles(bool onlySuccessful = false) -> <\Phalcon\Http\Request\FileInterface[]>;
+	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>;
 
 	/**
 	 * Gets web page that refers active request. ie: http://www.google.com
