@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
+use function dataFolder;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
@@ -54,7 +55,7 @@ class ConstructCest
         $I->wantToTest('Config\Adapter\Yaml - construct - callbacks');
         define('CALLBACK_APPROOT', dirname(__DIR__));
         $config = new Yaml(
-            PATH_DATA . 'assets/config/callbacks.yml',
+            dataFolder('assets/config/callbacks.yml'),
             [
                 '!decrypt' => function ($value) {
                     return hash('sha256', $value);

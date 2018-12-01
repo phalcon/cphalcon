@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
+use function dataFolder;
 use InvalidArgumentException;
 use Phalcon\Assets\Filters\Cssmin;
 use UnitTester;
@@ -101,8 +102,8 @@ class CssMinCest
         $actual   = $cssmin->filter($source);
         $I->assertEquals($expected, $actual);
 
-        $sourceFile = PATH_DATA . '/assets/assets/cssmin-01.css';
-        $targetFile = PATH_DATA . '/assets/assets/cssmin-01-result.css';
+        $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
+        $targetFile = dataFolder('/assets/assets/cssmin-01-result.css');
 
         if (!file_exists($sourceFile) || !file_exists($targetFile)) {
             $I->skipTest('Source files missing for this test');

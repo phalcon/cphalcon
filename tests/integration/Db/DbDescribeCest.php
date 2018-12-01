@@ -47,7 +47,7 @@ class DbDescribeCest
         //Table exist
         $I->assertEquals($connection->tableExists('personas'), 1);
         $I->assertEquals($connection->tableExists('noexist'), 0);
-        $I->assertEquals($connection->tableExists('personas', DATA_MYSQL_NAME), 1);
+        $I->assertEquals($connection->tableExists('personas', env('DATA_MYSQL_NAME')), 1);
         $I->assertEquals($connection->tableExists('personas', 'test'), 0);
 
         /**
@@ -57,7 +57,7 @@ class DbDescribeCest
 //        $describe         = $connection->describeColumns('personas');
 //        $I->assertEquals($expectedDescribe, $describe);
 
-//        $describe = $connection->describeColumns('personas', DATA_MYSQL_NAME);
+//        $describe = $connection->describeColumns('personas', env('DATA_MYSQL_NAME'));
 //        $I->assertEquals($describe, $expectedDescribe);
 
         //Table Options
@@ -68,7 +68,7 @@ class DbDescribeCest
             'table_collation' => 'utf8_unicode_ci',
         ];
 
-        $options = $connection->tableOptions('personas', DATA_MYSQL_NAME);
+        $options = $connection->tableOptions('personas', env('DATA_MYSQL_NAME'));
         $I->assertEquals($options, $expectedOptions);
 
         //Indexes
@@ -91,7 +91,7 @@ class DbDescribeCest
         $describeIndexes = $connection->describeIndexes('robots_parts');
         $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $describeIndexes = $connection->describeIndexes('robots_parts', DATA_MYSQL_NAME);
+        $describeIndexes = $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'));
         $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //Indexes
@@ -111,7 +111,7 @@ class DbDescribeCest
         $describeIndexes = $connection->describeIndexes('issue_11036');
         $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $describeIndexes = $connection->describeIndexes('issue_11036', DATA_MYSQL_NAME);
+        $describeIndexes = $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'));
         $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //References
@@ -122,7 +122,7 @@ class DbDescribeCest
                     '_referencedTable'   => 'robots',
                     '_columns'           => ['robots_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => DATA_MYSQL_NAME,
+                    '_referencedSchema'  => env('DATA_MYSQL_NAME'),
                     '_onUpdate'          => 'RESTRICT',
                     '_onDelete'          => 'RESTRICT',
                 ]
@@ -133,7 +133,7 @@ class DbDescribeCest
                     '_referencedTable'   => 'parts',
                     '_columns'           => ['parts_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => DATA_MYSQL_NAME,
+                    '_referencedSchema'  => env('DATA_MYSQL_NAME'),
                     '_onUpdate'          => 'RESTRICT',
                     '_onDelete'          => 'RESTRICT',
                 ]
@@ -143,7 +143,7 @@ class DbDescribeCest
         $describeReferences = $connection->describeReferences('robots_parts');
         $I->assertEquals($describeReferences, $expectedReferences);
 
-        $describeReferences = $connection->describeReferences('robots_parts', DATA_MYSQL_NAME);
+        $describeReferences = $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'));
         $I->assertEquals($describeReferences, $expectedReferences);
     }
 
@@ -200,7 +200,7 @@ class DbDescribeCest
                     '_referencedTable'   => 'robots',
                     '_columns'           => ['robots_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => DATA_POSTGRES_NAME,
+                    '_referencedSchema'  => env('DATA_POSTGRES_NAME'),
                     '_onDelete'          => 'NO ACTION',
                     '_onUpdate'          => 'NO ACTION',
                 ]
@@ -211,7 +211,7 @@ class DbDescribeCest
                     '_referencedTable'   => 'parts',
                     '_columns'           => ['parts_id'],
                     '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => DATA_POSTGRES_NAME,
+                    '_referencedSchema'  => env('DATA_POSTGRES_NAME'),
                     '_onDelete'          => 'NO ACTION',
                     '_onUpdate'          => 'NO ACTION',
                 ]

@@ -77,11 +77,11 @@ trait ViewTrait
 
     protected function clearCache()
     {
-        if (!file_exists(PATH_CACHE)) {
-            mkdir(PATH_CACHE);
+        if (!file_exists(env('PATH_CACHE'))) {
+            mkdir(env('PATH_CACHE'));
         }
 
-        foreach (new DirectoryIterator(PATH_CACHE) as $item) {
+        foreach (new DirectoryIterator(env('PATH_CACHE')) as $item) {
             if ($item->isDir()) {
                 continue;
             }

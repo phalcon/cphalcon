@@ -65,7 +65,7 @@ trait ResultsetHelperTrait
     protected function getFileCache()
     {
         $di = Di::getDefault();
-        $cache = new File(new Data(['lifetime' => 3600]), ['cacheDir' => PATH_CACHE]);
+        $cache = new File(new Data(['lifetime' => 3600]), ['cacheDir' => cacheFolder()]);
 
         $di->set('modelsCache', $cache);
 

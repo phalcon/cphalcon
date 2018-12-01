@@ -13,6 +13,7 @@ namespace Phalcon\Test\Unit\Events;
 
 use ComponentX;
 use ComponentY;
+use function dataFolder;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Listener\FirstListener;
@@ -29,8 +30,8 @@ class ManagerCest
      */
     public function _before(UnitTester $I)
     {
-        include_once PATH_DATA . 'fixtures/Events/ComponentX.php';
-        include_once PATH_DATA . 'fixtures/Events/ComponentY.php';
+        include_once dataFolder('fixtures/Events/ComponentX.php');
+        include_once dataFolder('fixtures/Events/ComponentY.php');
     }
 
     /**

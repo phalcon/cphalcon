@@ -51,15 +51,15 @@ class CompilerCest
         $I->wantToTest('Compile import recursive files');
         $I->skipTest('TODO - Check me');
 
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/layouts/extends.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/index.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/other.volt.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/layouts/extends.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/extends/index.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/extends/other.volt.php'));
 
         $di = new Di();
 
         $view = new View();
         $view->setDI($di);
-        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $view->registerEngines([
             '.volt' => 'Phalcon\Mvc\View\Engine\Volt',
@@ -88,7 +88,7 @@ class CompilerCest
         $I->assertEquals($expected, $actual);
 
         //Refreshing generated view
-        file_put_contents(PATH_DATA . 'fixtures/views/extends/other.volt', '{{song}} {{song}}');
+        file_put_contents(dataFolder('fixtures/views/extends/other.volt'), '{{song}} {{song}}');
 
         $view->setParamToView('song', 'Le Song');
 
@@ -112,7 +112,7 @@ class CompilerCest
 
 
         //Change the view
-        file_put_contents(PATH_DATA . 'fixtures/views/extends/other.volt', 'Two songs: {{song}} {{song}}');
+        file_put_contents(dataFolder('fixtures/views/extends/other.volt'), 'Two songs: {{song}} {{song}}');
 
         $view->start();
         $view->setRenderLevel(View::LEVEL_LAYOUT);
@@ -123,9 +123,9 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/layouts/extends.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/index.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/extends/other.volt.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/layouts/extends.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/extends/index.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/extends/other.volt.php'));
     }
 
     /**
@@ -139,12 +139,12 @@ class CompilerCest
     public function shouldCorrectWorkWithVoltMacros(IntegrationTester $I)
     {
         $I->wantToTest('Volt macros');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/hello.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/conditionaldate.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/my_input.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/error_messages.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/related_links.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/strtotime.volt.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/hello.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/conditionaldate.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/my_input.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/error_messages.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/related_links.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/strtotime.volt.php'));
 
         Di::reset();
         Tag::setDocType(Tag::XHTML5);
@@ -163,7 +163,7 @@ class CompilerCest
 
         $view->setDI($di);
 
-        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $view->registerEngines([
             '.volt' => function ($view, $di) {
@@ -239,12 +239,12 @@ class CompilerCest
         $I->assertEquals($content[1], $content[2]);
         $I->assertEquals($content[2], $content[0]);
 
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/hello.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/conditionaldate.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/my_input.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/error_messages.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/related_links.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/strtotime.volt.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/hello.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/conditionaldate.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/my_input.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/error_messages.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/related_links.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/strtotime.volt.php'));
     }
 
     /**
@@ -258,8 +258,8 @@ class CompilerCest
     public function shouldAcceptObjectToVoltMacros(IntegrationTester $I)
     {
         $I->wantToTest('Volt macros can accept objects');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/list.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/form_row.volt.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/list.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/form_row.volt.php'));
 
         Di::reset();
         $view = new View;
@@ -276,7 +276,7 @@ class CompilerCest
         });
 
         $view->setDI($di);
-        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
         $view->registerEngines([
             '.volt' => function ($view, $di) {
                 return new Volt($view, $di);
@@ -317,8 +317,8 @@ FORM;
         $actual = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/list.volt.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/macro/form_row.volt.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/list.volt.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/form_row.volt.php'));
     }
 
     /**

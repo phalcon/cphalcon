@@ -27,7 +27,6 @@ require_once $root . 'vendor/autoload.php';
 require_once $root . 'tests/shim.php';
 
 loadEnvironment($root);
-loadConstants($root);
 loadFolders();
 
 if (extension_loaded('xdebug')) {

@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Image\Adapter;
 
+use function dataFolder;
+use function outputFolder;
 use Phalcon\Image;
 use Phalcon\Image\Adapter\Imagick;
 use UnitTester;
@@ -23,8 +25,6 @@ class ImagickCest
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('imagick');
-
-        @mkdir(PATH_OUTPUT . 'tests/image/imagick/', 0777, true);
     }
 
     /**
@@ -35,11 +35,11 @@ class ImagickCest
      */
     public function testImagickSave(UnitTester $I)
     {
-        $image = new Imagick(PATH_OUTPUT . 'tests/image/imagick/new.jpg', 100, 100);
+        $image = new Imagick(outputFolder('tests/image/imagick/new.jpg'), 100, 100);
         $image->setResourceLimit(6, 1);
         $image->save();
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('new.jpg');
         $I->safeDeleteFile('new.jpg');
     }
@@ -52,13 +52,13 @@ class ImagickCest
      */
     public function testImagickResize(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->resize(200, 200)->save(PATH_OUTPUT . 'tests/image/imagick/resize.jpg');
+        $image->resize(200, 200)->save(outputFolder('tests/image/imagick/resize.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('resize.jpg');
 
         $actual = $image->getWidth() <= 200;
@@ -78,13 +78,13 @@ class ImagickCest
     public function testImagickLiquidRescale(UnitTester $I)
     {
         $I->skipTest('TODO: Check library error');
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->liquidRescale(200, 200)->save(PATH_OUTPUT . 'tests/image/imagick/liquidRescale.jpg');
+        $image->liquidRescale(200, 200)->save(outputFolder('tests/image/imagick/liquidRescale.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('liquidRescale.jpg');
 
         $actual = $image->getWidth() == 200;
@@ -103,13 +103,13 @@ class ImagickCest
      */
     public function testImagickCrop(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Crop the image to 200x200 pixels, from the center
-        $image->crop(200, 200)->save(PATH_OUTPUT . 'tests/image/imagick/crop.jpg');
+        $image->crop(200, 200)->save(outputFolder('tests/image/imagick/crop.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('crop.jpg');
 
         $actual = $image->getWidth() == 200;
@@ -128,13 +128,13 @@ class ImagickCest
      */
     public function testImagickRotate(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Rotate 45 degrees clockwise
-        $image->rotate(45)->save(PATH_OUTPUT . 'tests/image/imagick/rotate.jpg');
+        $image->rotate(45)->save(outputFolder('tests/image/imagick/rotate.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('rotate.jpg');
 
         $actual = $image->getWidth() > 200;
@@ -153,13 +153,13 @@ class ImagickCest
      */
     public function testImagickFlip(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Flip the image from top to bottom
-        $image->flip(Image::HORIZONTAL)->save(PATH_OUTPUT . 'tests/image/imagick/flip.jpg');
+        $image->flip(Image::HORIZONTAL)->save(outputFolder('tests/image/imagick/flip.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('flip.jpg');
 
         $actual = $image->getWidth() > 200;
@@ -178,13 +178,13 @@ class ImagickCest
      */
     public function testImagickSharpen(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Sharpen the image by 20%
-        $image->sharpen(20)->save(PATH_OUTPUT . 'tests/image/imagick/sharpen.jpg');
+        $image->sharpen(20)->save(outputFolder('tests/image/imagick/sharpen.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('sharpen.jpg');
 
         $actual = $image->getWidth() > 200;
@@ -203,13 +203,13 @@ class ImagickCest
      */
     public function testImagickReflection(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Create a 50 pixel reflection that fades from 0-100% opacity
-        $image->reflection(50)->save(PATH_OUTPUT . 'tests/image/imagick/reflection.jpg');
+        $image->reflection(50)->save(outputFolder('tests/image/imagick/reflection.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('reflection.jpg');
 
         $actual = $image->getWidth() > 200;
@@ -228,14 +228,14 @@ class ImagickCest
      */
     public function testImagickWatermark(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
-        $mark = new Imagick(PATH_DATA . 'assets/images/logo.png');
+        $mark = new Imagick(dataFolder('assets/images/logo.png'));
 
         // Add a watermark to the bottom right of the image
-        $image->watermark($mark, true, true)->save(PATH_OUTPUT . 'tests/image/imagick/watermark.jpg');
+        $image->watermark($mark, true, true)->save(outputFolder('tests/image/imagick/watermark.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('watermark.jpg');
 
         $actual = $image->getWidth() > 200;
@@ -254,14 +254,14 @@ class ImagickCest
      */
     public function testImagickMask(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
-        $mask = new Imagick(PATH_DATA . 'assets/images/logo.png');
+        $mask = new Imagick(dataFolder('assets/images/logo.png'));
 
         // Add a watermark to the bottom right of the image
-        $image->mask($mask)->save(PATH_OUTPUT . 'tests/image/imagick/mask.jpg');
+        $image->mask($mask)->save(outputFolder('tests/image/imagick/mask.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('mask.jpg');
 
         $actual = $image->getWidth() > 200;
@@ -280,13 +280,13 @@ class ImagickCest
      */
     public function testImagickBackground(UnitTester $I)
     {
-        $image = new Imagick(PATH_DATA . 'assets/images/phalconphp.jpg');
+        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         // Add a watermark to the bottom right of the image
-        $image->background('#000')->save(PATH_OUTPUT . 'tests/image/imagick/background.jpg');
+        $image->background('#000')->save(outputFolder('tests/image/imagick/background.jpg'));
 
-        $I->amInPath(PATH_OUTPUT . 'tests/image/imagick/');
+        $I->amInPath(outputFolder('tests/image/imagick/'));
         $I->seeFileFound('background.jpg');
 
         $actual = $image->getWidth() > 200;

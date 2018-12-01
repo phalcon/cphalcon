@@ -369,7 +369,7 @@ class CriteriaCest
 
         $di->setShared('db', $example['adapter']);
         $di->setShared('modelsCache', function () {
-            return new File(new Data(), ['cacheDir' => PATH_CACHE]);
+            return new File(new Data(), ['cacheDir' => cacheFolder()]);
         });
 
         $personas = Personas::query()
@@ -386,7 +386,7 @@ class CriteriaCest
 
         $I->assertFalse($personas->isFresh());
 
-        $I->amInPath(PATH_CACHE);
+        $I->amInPath(cacheFolder());
         $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }

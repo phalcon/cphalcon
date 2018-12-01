@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
+use function dataFolder;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
@@ -425,10 +426,10 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(PATH_DATA . 'assets/assets/jquery.js')
+               ->addJs(dataFolder('assets/assets/jquery.js'))
                ->join(true)
                ->addFilter(new Jsmin())
-               ->setTargetPath(PATH_OUTPUT . "tests/assets/{$file}")
+               ->setTargetPath(outputFolder("tests/assets/{$file}"))
                ->setTargetLocal(false)
                ->setPrefix('//phalconphp.com/')
                ->setTargetUri('js/jquery.js')
@@ -438,8 +439,8 @@ class ManagerCest
         $actual   = $assets->outputJs('js');
         $I->assertEquals($expected, $actual);
 
-        $I->seeFileFound(PATH_OUTPUT . "tests/assets/{$file}");
-        $I->safeDeleteFile(PATH_OUTPUT . "tests/assets/{$file}");
+        $I->seeFileFound(outputFolder("tests/assets/{$file}"));
+        $I->safeDeleteFile(outputFolder("tests/assets/{$file}"));
     }
 
     /**
@@ -454,14 +455,14 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(PATH_DATA . 'assets/assets/jquery.js', false, false)
-               ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
+               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputFolder("tests/assets/combined.js"))
                ->setTargetUri('production/combined.js')
         ;
 
         $expected = sprintf(
             '<script type="text/javascript" src="%s"></script>%s',
-            PATH_DATA . 'assets/assets/jquery.js',
+            dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -480,15 +481,15 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(PATH_DATA . 'assets/assets/jquery.js', false, false)
-               ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
+               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputFolder("tests/assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(true)
         ;
 
         $expected = sprintf(
             '<script type="text/javascript" src="%s"></script>%s',
-            PATH_DATA . 'assets/assets/jquery.js',
+            dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -507,15 +508,15 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(PATH_DATA . 'assets/assets/jquery.js', false, false)
-               ->setTargetPath(PATH_OUTPUT . "assets/combined.js")
+               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputFolder("assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(false)
         ;
 
         $expected = sprintf(
             '<script type="text/javascript" src="%s"></script>%s',
-            PATH_DATA . 'assets/assets/jquery.js',
+            dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -534,8 +535,8 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(PATH_DATA . 'assets/assets/jquery.js', false, false)
-               ->setTargetPath(PATH_OUTPUT . "assets/combined.js")
+               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputFolder("assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(false)
                ->addFilter(new None())
@@ -543,7 +544,7 @@ class ManagerCest
 
         $expected = sprintf(
             '<script type="text/javascript" src="%s"></script>%s',
-            PATH_DATA . 'assets/assets/jquery.js',
+            dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -599,7 +600,7 @@ class ManagerCest
     {
         $manager = new Manager();
 
-        $js = file_get_contents(PATH_DATA . 'assets/assets/signup.js');
+        $js = file_get_contents(dataFolder('assets/assets/signup.js'));
         $manager->addInlineJs($js);
         $expected = "<script type=\"text/javascript\">{$js}</script>\n";
 

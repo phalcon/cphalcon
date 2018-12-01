@@ -40,7 +40,7 @@ class CacheCest
         $frontCache = new Data();
 
         $cache = new File($frontCache, [
-            'cacheDir' => PATH_CACHE,
+            'cacheDir' => cacheFolder(),
         ]);
         $cache->delete('foo');
         $cache->save('foo', "1");
@@ -56,7 +56,7 @@ class CacheCest
         $frontCache = new Data();
 
         $cache = new File($frontCache, [
-            'cacheDir' => PATH_CACHE,
+            'cacheDir' => cacheFolder(),
         ]);
         $cache->delete('foo');
         $cache->save('foo', "100");
@@ -76,7 +76,7 @@ class CacheCest
                 $frontCache = new Data();
 
                 $cache = new File($frontCache, [
-                    'cacheDir' => PATH_CACHE,
+                    'cacheDir' => cacheFolder(),
                     'safekey'  => true,
                     'prefix'   => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
                 ]);
@@ -90,7 +90,7 @@ class CacheCest
 
         // File
         $cache = new File($frontCache, [
-            'cacheDir' => PATH_CACHE,
+            'cacheDir' => cacheFolder(),
         ]);
 
         $cache->save('data', "1");

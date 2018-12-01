@@ -18,8 +18,8 @@ class MemoryCest
 {
     public function testMemoryAdapter(UnitTester $I)
     {
-        require_once PATH_DATA . 'fixtures/Annotations/TestClass.php';
-        require_once PATH_DATA . 'fixtures/Annotations/TestClassNs.php';
+        require_once dataFolder('fixtures/Annotations/TestClass.php');
+        require_once dataFolder('fixtures/Annotations/TestClassNs.php');
 
         $adapter = new Memory();
 

@@ -41,7 +41,7 @@ class ModelCest
                         ]
                     ),
                     [
-                        'cacheDir' => PATH_CACHE,
+                        'cacheDir' => cacheFolder(),
                     ]
                 );
             },
@@ -59,7 +59,7 @@ class ModelCest
             $I->assertInstanceOf(Robots::class, $robot);
             $I->assertNotEmpty($robot->getSnapshotData());
             $I->assertEquals($robot->getSnapshotData(), $robot->toArray());
-            $I->seeFileFound(PATH_OUTPUT."tests/cache/robots-cache");
+            $I->seeFileFound(outputFolder('tests/cache/robots-cache'));
         }
     }
 }

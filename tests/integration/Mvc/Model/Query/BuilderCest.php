@@ -18,6 +18,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use IntegrationTester;
+use function outputFolder;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -54,7 +55,7 @@ class BuilderCest
                     new Data(
                         ['lifetime' => 20,]
                     ),
-                    ['cacheDir' => PATH_OUTPUT . 'tests/cache/',]
+                    ['cacheDir' => outputFolder('tests/cache/')]
                 );
             },
             true
@@ -84,7 +85,7 @@ class BuilderCest
             $I->assertInstanceOf(RobotsParts::class, $robotParts);
             $I->assertNotEmpty($robotParts->getSnapshotData());
             $I->assertEquals($robotParts->getSnapshotData(), $robotParts->toArray());
-            $I->seeFileFound(PATH_OUTPUT . "tests/cache/robots-cache-complex");
+            $I->seeFileFound(outputFolder("tests/cache/robots-cache-complex"));
         }
     }
 }

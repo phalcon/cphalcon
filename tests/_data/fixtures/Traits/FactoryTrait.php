@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function dataFolder;
 use Phalcon\Config\Adapter\Ini;
 
 trait FactoryTrait
@@ -24,7 +25,7 @@ trait FactoryTrait
 
     protected function init()
     {
-        $this->config      = new Ini(PATH_DATA . "assets/config/factory.ini", INI_SCANNER_NORMAL);
+        $this->config      = new Ini(dataFolder("assets/config/factory.ini"), INI_SCANNER_NORMAL);
         $this->arrayConfig = $this->config->toArray();
     }
 }

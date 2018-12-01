@@ -20,7 +20,6 @@ use Phalcon\Test\Controllers\NamespacedAnnotationController;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use IntegrationTester;
 use function is_object;
-use const PATH_DATA;
 
 class AnnotationsCest
 {
@@ -35,7 +34,7 @@ class AnnotationsCest
 
     public function testRouterFullResources(IntegrationTester $I)
     {
-        require_once PATH_DATA . 'fixtures/controllers/NamespacedAnnotationController.php';
+        require_once dataFolder('fixtures/controllers/NamespacedAnnotationController.php');
 
         $routes = $this->getRoutes();
         foreach ($routes as $route) {

@@ -67,7 +67,7 @@ class ComplexTest extends UnitTest
 
                 $cache->save('test-resultset', $robots);
 
-                $this->tester->amInPath(PATH_CACHE);
+                $this->tester->amInPath(cacheFolder());
                 $this->tester->seeFileFound('test-resultset');
 
                 $robots = $cache->get('test-resultset');

@@ -49,7 +49,7 @@ class ViewCest
         $eventsManager->attach('view', new AfterRenderListener());
 
         $view = new View;
-        $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+        $view->setViewsDir(dataFolder('views' . DIRECTORY_SEPARATOR));
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->setEventsManager($eventsManager);
 
@@ -64,17 +64,17 @@ class ViewCest
         $view->getContent();
 
         $I->assertEquals(
-            PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml',
+            dataFolder('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'),
             $view->getActiveRenderPath()
         );
 
         $view->setViewsDir([
-            PATH_DATA . 'views' . DIRECTORY_SEPARATOR,
-            PATH_DATA . 'views2' . DIRECTORY_SEPARATOR,
+            dataFolder('views' . DIRECTORY_SEPARATOR),
+            dataFolder('views2' . DIRECTORY_SEPARATOR),
         ]);
 
         $I->assertEquals(
-            [PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'],
+            [dataFolder('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml')],
             $view->getActiveRenderPath()
         );
     }
@@ -96,7 +96,7 @@ class ViewCest
         $eventsManager->attach('view', $listener);
 
         $view = new View;
-        $view->setViewsDir(PATH_DATA . 'fixtures/views' . DIRECTORY_SEPARATOR);
+        $view->setViewsDir(dataFolder('fixtures/views' . DIRECTORY_SEPARATOR));
         $view->setEventsManager($eventsManager);
 
         $view->start();

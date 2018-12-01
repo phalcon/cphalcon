@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use function dataFolder;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use UnitTester;
 
@@ -28,7 +29,7 @@ class CompileSwitchCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileSwitch()");
 
-        $viewFile    = env('PATH_DATA') . 'fixtures/views/switch-case/simple-usage.volt';
+        $viewFile    = dataFolder('fixtures/views/switch-case/simple-usage.volt');
         $compileFile = $viewFile . '.php';
         $volt        = new Compiler();
         $volt->compileFile($viewFile, $compileFile);

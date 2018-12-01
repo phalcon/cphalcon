@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function dataFolder;
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
@@ -110,13 +111,13 @@ trait ConfigTrait
     {
         switch ($adapter) {
             case 'Ini':
-                return new Ini(PATH_DATA . 'assets/config/config.ini');
+                return new Ini(dataFolder('assets/config/config.ini'));
             case 'Json':
-                return new Json(PATH_DATA . 'assets/config/config.json');
+                return new Json(dataFolder('assets/config/config.json'));
             case 'Php':
-                return new Php(PATH_DATA . 'assets/config/config.php');
+                return new Php(dataFolder('assets/config/config.php'));
             case 'Yaml':
-                return new Yaml(PATH_DATA . 'assets/config/config.yml');
+                return new Yaml(dataFolder('assets/config/config.yml'));
             default:
                 return new Config($this->config);
         }

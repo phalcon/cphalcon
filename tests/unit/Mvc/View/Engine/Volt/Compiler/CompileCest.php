@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
-use const PATH_DATA;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use UnitTester;
 
@@ -29,7 +28,7 @@ class CompileCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile() - extends");
         $I->skipTest('TODO = figure out the paths of the extended files');
-        $viewFile     = PATH_DATA . 'fixtures/views/templates/c.volt';
+        $viewFile     = dataFolder('fixtures/views/templates/c.volt');
         $compiledFile = $viewFile . '.php';
 
         $volt = new Compiler();
@@ -38,8 +37,8 @@ class CompileCest
         $expected = "[A[###[B]###]]";
         $actual   = trim(file_get_contents($compiledFile));
         $I->assertEquals($expected, $actual);
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/templates/a.volt%%e%%.php');
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/templates/b.volt%%e%%.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/templates/a.volt%%e%%.php'));
+        $I->safeDeleteFile(dataFolder('fixtures/views/templates/b.volt%%e%%.php'));
         $I->safeDeleteFile($compiledFile);
     }
 
@@ -55,7 +54,7 @@ class CompileCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile() - extends blocks");
         $I->skipTest('TODO = figure out the paths of the extended files');
-        $viewFile     = PATH_DATA . 'fixtures/views/compiler/children.volt';
+        $viewFile     = dataFolder('fixtures/views/compiler/children.volt');
         $compiledFile = $viewFile . '.php';
         $expected     = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">'
                       . '<html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head>'
@@ -70,7 +69,7 @@ class CompileCest
 
         $actual   = trim(file_get_contents($compiledFile));
         $I->assertEquals($expected, $actual);
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/compiler/parent.volt%%e%%.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/compiler/parent.volt%%e%%.php'));
         $I->safeDeleteFile($compiledFile);
     }
 
@@ -86,7 +85,7 @@ class CompileCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compile() - extends two blocks");
         $I->skipTest('TODO = figure out the paths of the extended files');
-        $viewFile     = PATH_DATA . 'fixtures/views/compiler/children2.volt';
+        $viewFile     = dataFolder('fixtures/views/compiler/children2.volt');
         $compiledFile = $viewFile . '.php';
         $expected     = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">'
                       . '<html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head>'
@@ -101,7 +100,7 @@ class CompileCest
 
         $actual   = trim(file_get_contents($compiledFile));
         $I->assertEquals($expected, $actual);
-        $I->safeDeleteFile(PATH_DATA . 'fixtures/views/compiler/parent.volt%%e%%.php');
+        $I->safeDeleteFile(dataFolder('fixtures/views/compiler/parent.volt%%e%%.php'));
         $I->safeDeleteFile($compiledFile);
     }
 }

@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
 use ArrayAccess;
+use function dataFolder;
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
@@ -30,7 +31,7 @@ class ConstructCest
     public function translateAdapterCsvConstruct(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - constructor');
-        $params     = ['content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv'];
+        $params     = ['content' => dataFolder('assets/translation/csv/ru_RU.csv')];
         $translator = new Csv($params);
 
         $class = ArrayAccess::class;

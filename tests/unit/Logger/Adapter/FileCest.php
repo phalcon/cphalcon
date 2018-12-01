@@ -28,7 +28,7 @@ class FileCest
      */
     public function _before(UnitTester $I)
     {
-        $this->logPath = PATH_OUTPUT . 'tests/logs/';
+        $this->logPath = outputFolder('tests/logs/');
     }
 
     /**

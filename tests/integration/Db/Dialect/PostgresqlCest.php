@@ -324,7 +324,7 @@ class PostgresqlCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example1.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -352,7 +352,7 @@ class PostgresqlCest extends DialectBase
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example2.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -388,7 +388,7 @@ class PostgresqlCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example3.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -408,7 +408,7 @@ class PostgresqlCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example4.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -435,7 +435,7 @@ class PostgresqlCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example5.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -472,7 +472,7 @@ class PostgresqlCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example6.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example6.sql'))),
             ],
         ];
     }
@@ -567,11 +567,11 @@ class PostgresqlCest extends DialectBase
         return [
             [
                 null,
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example7.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example7.sql'))),
             ],
             [
                 'schema',
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example8.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example8.sql'))),
             ],
         ];
     }
@@ -974,7 +974,7 @@ class PostgresqlCest extends DialectBase
 //
 //    protected function getForeignKey($foreignKeyName)
 //    {
-//        $sql = rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/postgresql/example9.sql'));
+//        $sql = rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example9.sql'));
 //        str_replace('%_FK_%', $foreignKeyName, $sql);
 //
 //        return $sql;

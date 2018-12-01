@@ -31,7 +31,7 @@ class FilesCest
     {
         $I->haveServiceInDi('modelsMetadata', function () {
             return new Files([
-                'metaDataDir' => PATH_CACHE,
+                'metaDataDir' => cacheFolder(),
             ]);
         }, true);
 
@@ -50,20 +50,20 @@ class FilesCest
 
         Robots::findFirst();
 
-        $I->amInPath(PATH_CACHE);
+        $I->amInPath(cacheFolder());
 
         $I->seeFileFound('meta-phalcon_test_models_robots-robots.php');
 
         $I->assertEquals(
             $this->data['meta-robots-robots'],
-            require PATH_CACHE . 'meta-phalcon_test_models_robots-robots.php'
+            require cacheFolder('meta-phalcon_test_models_robots-robots.php')
         );
 
         $I->seeFileFound('map-phalcon_test_models_robots.php');
 
         $I->assertEquals(
             $this->data['map-robots'],
-            require PATH_CACHE . 'map-phalcon_test_models_robots.php'
+            require cacheFolder('map-phalcon_test_models_robots.php')
         );
 
         $I->assertFalse($md->isEmpty());

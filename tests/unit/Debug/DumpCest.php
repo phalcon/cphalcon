@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Debug;
 
+use function dataFolder;
 use Phalcon\Debug\Dump;
 use Phalcon\Test\Unit\Debug\Helper\ClassProperties;
 use UnitTester;
@@ -30,7 +31,7 @@ class DumpCest
         $dump    = new Dump([], true);
 
         $actual   = $I->callProtectedMethod($dump, 'output', $patient);
-        $expected = file_get_contents(PATH_DATA . 'fixtures/Dump/class_properties.txt');
+        $expected = file_get_contents(dataFolder('fixtures/Dump/class_properties.txt'));
 
         // Test without HTML
         $actual = strip_tags($actual);

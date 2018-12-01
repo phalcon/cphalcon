@@ -333,7 +333,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example1.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -361,7 +361,7 @@ class SqliteCest extends DialectBase
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example2.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -397,7 +397,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example3.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -417,7 +417,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example4.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -437,7 +437,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example5.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -453,7 +453,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example6.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example6.sql'))),
             ],
             'example7' => [
                 '',
@@ -464,7 +464,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example7.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example7.sql'))),
             ],
             'example8' => [
                 '',
@@ -479,7 +479,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(PATH_DATA . 'fixtures/Db/sqlite/example8.sql')),
+                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example8.sql'))),
             ],
         ];
     }

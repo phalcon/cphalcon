@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use function dataFolder;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use UnitTester;
 
@@ -27,7 +28,7 @@ class CompileFileCest
     public function mvcViewEngineVoltCompilerCompileFile(UnitTester $I)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileFile()");
-        $viewFile    = PATH_DATA . 'fixtures/views/layouts/compiler.volt';
+        $viewFile    = dataFolder('fixtures/views/layouts/compiler.volt');
         $compileFile = $viewFile . '.php';
         $expected    = '<?php if ($some_eval) { ?>
 Clearly, the song is: <?= $this->getContent() ?>.
@@ -60,7 +61,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
         foreach ($examples as $view => $expected) {
             $volt         = new Compiler();
-            $viewFile     = sprintf('%sfixtures/views/filters/%s.volt', env('PATH_DATA'), $view);
+            $viewFile     = sprintf('%sfixtures/views/filters/%s.volt', dataFolder(), $view);
             $compiledFile = $viewFile . '.php';
             $volt->compileFile($viewFile, $compiledFile);
 

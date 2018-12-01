@@ -17,8 +17,8 @@
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine;
 
+use function cacheFolder;
 use IntegrationTester;
-use const PATH_CACHE;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -49,22 +49,22 @@ class VoltCest
         $volt = new Volt($view, new Di());
 
         $volt->setOptions([
-            'compiledPath'      => PATH_CACHE,
+            'compiledPath'      => cacheFolder(),
             'compiledSeparator' => '.',
             'compiledExtension' => '.compiled',
         ]);
 
         //Render simple view
         $view->start();
-        $volt->render(PATH_DATA . 'fixtures/views/extends/index.volt', ['song' => 'Lights'], true);
+        $volt->render(dataFolder('fixtures/views/extends/index.volt'), ['song' => 'Lights'], true);
         $view->finish();
 
-        $fileName = $I->preparePathToFileWithDelimiter(PATH_DATA, '.')
+        $fileName = $I->preparePathToFileWithDelimiter(dataFolder(), '.')
                   . 'fixtures.views.extends.index.volt.compiled';
 
-        $I->assertTrue(file_exists(PATH_CACHE . $fileName));
-        $I->assertEquals(file_get_contents(PATH_CACHE . $fileName), 'Hello <?= $song ?>!');
+        $I->assertTrue(file_exists(cacheFolder($fileName)));
+        $I->assertEquals(file_get_contents(cacheFolder($fileName)), 'Hello <?= $song ?>!');
         $I->assertEquals($view->getContent(), 'Hello Lights!');
-        $I->safeDeleteFile(PATH_CACHE . $fileName);
+        $I->safeDeleteFile(cacheFolder($fileName));
     }
 }

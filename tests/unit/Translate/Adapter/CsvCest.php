@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
+use function dataFolder;
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\Exception;
 use UnitTester;
@@ -24,7 +25,7 @@ class CsvCest
      */
     public function _before(UnitTester $I)
     {
-        $this->config = ['ru' => ['content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv']];
+        $this->config = ['ru' => ['content' => dataFolder('assets/translation/csv/ru_RU.csv')]];
     }
 
 

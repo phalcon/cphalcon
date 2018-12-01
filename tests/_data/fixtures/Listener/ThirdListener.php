@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Fixtures\Listener;
 
 use ComponentX;
+use function dataFolder;
 use Phalcon\Events\Event;
 use Phalcon\Test\Unit\Events\ManagerCest;
 use UnitTester;
@@ -30,7 +31,7 @@ class ThirdListener
 
     public function __construct()
     {
-        include_once PATH_DATA . 'fixtures/Events/ComponentX.php';
+        include_once dataFolder('fixtures/Events/ComponentX.php');
     }
 
     public function setTestCase(ManagerCest $testCase, UnitTester $tester)

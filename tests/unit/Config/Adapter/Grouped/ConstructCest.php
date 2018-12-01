@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use function dataFolder;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Factory\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
@@ -35,9 +36,9 @@ class ConstructCest
 
         $config = new Grouped(
             [
-                PATH_DATA . 'assets/config/config.php',
+                dataFolder('assets/config/config.php'),
                 [
-                    'filePath' => PATH_DATA . 'assets/config/config.json',
+                    'filePath' => dataFolder('assets/config/config.json'),
                     'adapter'  => 'json',
                 ],
                 [

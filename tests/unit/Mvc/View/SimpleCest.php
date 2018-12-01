@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc\View;
 
-use const PATH_DATA;
+use function dataFolder;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -61,7 +61,7 @@ class SimpleCest
         $actual   = $view->render('mustache/index');
         $I->assertEquals($expected, $actual);
 
-        $I->amInPath(PATH_DATA . 'fixtures/views/mustache');
+        $I->amInPath(dataFolder('fixtures/views/mustache'));
         $I->seeFileFound('index.mhtml.php');
         $I->safeDeleteFile('index.mhtml.php');
     }
@@ -99,7 +99,10 @@ class SimpleCest
     {
         $I->expectThrowable(
             new Exception(
-                sprintf("View '%sfixtures/views/unknown/view' was not found in the views directory", PATH_DATA)
+                sprintf(
+                    "View '%sfixtures/views/unknown/view' was not found in the views directory",
+                    dataFolder()
+                )
             ),
             function () {
                 $container = $this->getDi();
@@ -119,7 +122,10 @@ class SimpleCest
     {
         $I->expectThrowable(
             new Exception(
-                sprintf("View '%sfixtures/views/unknown/view' was not found in the views directory", PATH_DATA)
+                sprintf(
+                    "View '%sfixtures/views/unknown/view' was not found in the views directory",
+                    dataFolder()
+                )
             ),
             function () {
                 $container = $this->getDi();
@@ -207,8 +213,8 @@ class SimpleCest
         expect($view)->equals($view->setContent('<h1>hello</h1>'));
         expect('<h1>hello</h1>')->equals($view->getContent());
 
-        $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-        expect(PATH_DATA . 'views' . DIRECTORY_SEPARATOR)->equals($view->getViewsDir());
+        $view->setViewsDir(dataFolder('views' . DIRECTORY_SEPARATOR));
+        expect(dataFolder('views' . DIRECTORY_SEPARATOR))->equals($view->getViewsDir());
 
         $expectedCacheOptions = ['lifetime' => 86400, 'key' => 'simple-cache'];
 

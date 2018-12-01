@@ -16,6 +16,7 @@
 
 namespace Phalcon\Test\Unit\Di;
 
+use function dataFolder;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
@@ -42,10 +43,10 @@ class DiCest
      */
     public function _before(UnitTester $I)
     {
-        require_once PATH_DATA . 'fixtures/Di/InjectableComponent.php';
-        require_once PATH_DATA . 'fixtures/Di/SomeServiceProvider.php';
-        require_once PATH_DATA . 'fixtures/Di/SimpleComponent.php';
-        require_once PATH_DATA . 'fixtures/Di/SomeComponent.php';
+        require_once dataFolder('fixtures/Di/InjectableComponent.php');
+        require_once dataFolder('fixtures/Di/SomeServiceProvider.php');
+        require_once dataFolder('fixtures/Di/SimpleComponent.php');
+        require_once dataFolder('fixtures/Di/SomeComponent.php');
 
         Di::reset();
         $this->phDi = new Di();
@@ -450,7 +451,7 @@ class DiCest
     {
         $I->checkExtensionIsLoaded('yaml');
 
-        $this->phDi->loadFromYaml(PATH_DATA . 'fixtures/Di/services.yml');
+        $this->phDi->loadFromYaml(dataFolder('fixtures/Di/services.yml'));
 
         $I->assertTrue($this->phDi->has('unit-test'));
         $I->assertFalse($this->phDi->getService('unit-test')->isShared());
@@ -469,7 +470,7 @@ class DiCest
      */
     public function testPhpLoader(UnitTester $I)
     {
-        $this->phDi->loadFromPhp(PATH_DATA . 'fixtures/Di/services.php');
+        $this->phDi->loadFromPhp(dataFolder('fixtures/Di/services.php'));
 
         $I->assertTrue($this->phDi->has('unit-test'));
         $I->assertFalse($this->phDi->getService('unit-test')->isShared());

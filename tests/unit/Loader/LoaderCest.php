@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit;
 
+use function dataFolder;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
 use UnitTester;
@@ -26,14 +27,14 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Base' => PATH_DATA . 'fixtures/Loader/Example/Namespaces/Base/',
+                'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Adapter' => PATH_DATA . 'fixtures/Loader/Example/Namespaces/Adapter/',
-                'Example\Namespaces'         => PATH_DATA . 'fixtures/Loader/Example/Namespaces/',
+                'Example\Namespaces\Adapter' => dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
+                'Example\Namespaces'         => dataFolder('fixtures/Loader/Example/Namespaces/'),
             ],
             true
         );
@@ -55,14 +56,14 @@ class LoaderCest
         $loader->setExtensions(['inc', 'php']);
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Base' => PATH_DATA . 'fixtures/Loader/Example/Namespaces/Base/',
-                'Example\Namespaces'      => PATH_DATA . 'fixtures/Loader/Example/Namespaces/',
+                'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces'      => dataFolder('fixtures/Loader/Example/Namespaces/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example' => PATH_DATA . 'fixtures/Loader/Example/Namespaces/',
+                'Example' => dataFolder('fixtures/Loader/Example/Namespaces/'),
             ],
             true
         );
@@ -81,13 +82,13 @@ class LoaderCest
         $loader->registerDirs(
             [
                 // missing trailing slash
-                PATH_DATA . 'fixtures/Loader/Example/Folders/Dialects',
+                dataFolder('fixtures/Loader/Example/Folders/Dialects'),
             ]
         );
 
         $loader->registerDirs(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Folders/Types/',
+                dataFolder('fixtures/Loader/Example/Folders/Types/'),
             ],
             true
         );
@@ -113,13 +114,13 @@ class LoaderCest
         $loader = new Loader();
         $loader->registerFiles(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Functions/FunctionsNoClass.php',
-                PATH_DATA . 'fixtures/Loader/Example/Functions/FunctionsNoClassOne.php',
+                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
             ]
         );
         $loader->registerFiles(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php',
+                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
             ],
             true
         );
@@ -149,13 +150,13 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                "Example\\Namespaces\\Base" => PATH_DATA . 'fixtures/Loader/Example/Namespaces/Base/',
+                "Example\\Namespaces\\Base" => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $expected = [
             "Example\\Namespaces\\Base" => [
-                PATH_DATA . 'fixtures/Loader/Example/Namespaces/Base/',
+                dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
             ],
         ];
         $actual   = $loader->getNamespaces();
@@ -164,8 +165,8 @@ class LoaderCest
         $loader->registerNamespaces(
             [
                 "Example\\Namespaces\\Adapter" => [
-                    PATH_DATA . 'fixtures/Loader/Example/Namespaces/Adapter/',
-                    PATH_DATA . 'fixtures/Loader/Example/Namespaces/Plugin/',
+                    dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
+                    dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
                 ],
             ],
             true
@@ -173,11 +174,11 @@ class LoaderCest
 
         $expected = [
             "Example\\Namespaces\\Base"    => [
-                PATH_DATA . 'fixtures/Loader/Example/Namespaces/Base/',
+                dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
             ],
             "Example\\Namespaces\\Adapter" => [
-                PATH_DATA . 'fixtures/Loader/Example/Namespaces/Adapter/',
-                PATH_DATA . 'fixtures/Loader/Example/Namespaces/Plugin/',
+                dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
+                dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
             ],
         ];
         $actual   = $loader->getNamespaces();
@@ -208,9 +209,9 @@ class LoaderCest
         );
         $loader->registerDirs(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Folders/Dialects',
-                PATH_DATA . 'fixtures/Loader/Example/Folders/Types',
-                PATH_DATA . 'fixtures/Loader/Example/Namespaces/Adapter',
+                dataFolder('fixtures/Loader/Example/Folders/Dialects'),
+                dataFolder('fixtures/Loader/Example/Folders/Types'),
+                dataFolder('fixtures/Loader/Example/Namespaces/Adapter'),
             ]
         );
 
@@ -227,12 +228,12 @@ class LoaderCest
 
         $loader->registerClasses(
             [
-                'One' => PATH_DATA . 'fixtures/Loader/Example/Classes/One.php',
+                'One' => dataFolder('fixtures/Loader/Example/Classes/One.php'),
             ]
         );
         $loader->registerClasses(
             [
-                'Two' => PATH_DATA . 'fixtures/Loader/Example/Classes/Two.php',
+                'Two' => dataFolder('fixtures/Loader/Example/Classes/Two.php'),
             ],
             true
         );
@@ -250,19 +251,19 @@ class LoaderCest
 
         $loader->registerDirs(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Events/',
+                dataFolder('fixtures/Loader/Example/Events/'),
             ]
         );
 
         $loader->registerClasses(
             [
-                'OtherClass' => PATH_DATA . 'fixtures/Loader/Example/Events/Other/',
+                'OtherClass' => dataFolder('fixtures/Loader/Example/Events/Other/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Other\OtherClass' => PATH_DATA . 'fixtures/Loader/Example/Events/Other/',
+                'Other\OtherClass' => dataFolder('fixtures/Loader/Example/Events/Other/'),
             ]
         );
 
@@ -288,8 +289,8 @@ class LoaderCest
 
         $expected = [
             'beforeCheckClass' => [0 => null],
-            'beforeCheckPath'  => [0 => PATH_DATA . 'fixtures/Loader/Example/Events/LoaderEvent.php'],
-            'pathFound'        => [0 => PATH_DATA . 'fixtures/Loader/Example/Events/LoaderEvent.php'],
+            'beforeCheckPath'  => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
+            'pathFound'        => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
         ];
         $actual   = $trace;
         $I->assertEquals($expected, $actual);
@@ -316,13 +317,13 @@ class LoaderCest
 
         $loader->registerFiles(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Functions/FunctionsNoClassThree.php',
+                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example' => PATH_DATA . 'fixtures/Loader/Example/',
+                'Example' => dataFolder('fixtures/Loader/Example/'),
             ],
             true
         );
@@ -348,13 +349,13 @@ class LoaderCest
 
         $loader->registerFiles(
             [
-                PATH_DATA . 'fixtures/Loader/Example/Functions/FunctionsNoClassThree.php',
+                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces' => PATH_DATA . 'fixtures/Loader/Example/Namespaces',
+                'Example\Namespaces' => dataFolder('fixtures/Loader/Example/Namespaces'),
             ],
             true
         );

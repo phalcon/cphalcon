@@ -59,9 +59,9 @@ class LibmemcachedCest
             'client'  => [],
             'servers' => [
                 [
-                    'host'   => DATA_MEMCACHED_HOST,
-                    'port'   => DATA_MEMCACHED_PORT,
-                    'weight' => DATA_MEMCACHED_WEIGHT,
+                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
                 ],
             ],
         ];
@@ -321,9 +321,9 @@ class LibmemcachedCest
             'client'  => [],
             'servers' => [
                 [
-                    'host'   => DATA_MEMCACHED_HOST,
-                    'port'   => DATA_MEMCACHED_PORT,
-                    'weight' => DATA_MEMCACHED_WEIGHT,
+                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                    'port'   => env('DATA_MEMCACHED_HOST', 11211),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
                 ],
             ],
         ];

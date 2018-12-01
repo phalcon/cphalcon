@@ -35,12 +35,7 @@ class PhalconLibmemcached extends Module
     /**
      * {@inheritdoc}
      */
-    protected $config = [
-        'host'          => DATA_MEMCACHED_HOST,
-        'port'          => DATA_MEMCACHED_PORT,
-        'weight'        => DATA_MEMCACHED_WEIGHT,
-        'persistent_id' => 'phalcon_cache'
-    ];
+    protected $config = [];
 
     /**
      * Triggered after module is created and configuration is loaded,
@@ -52,6 +47,13 @@ class PhalconLibmemcached extends Module
         if (!class_exists('\Memcached')) {
             throw new ModuleException(__CLASS__, 'The memcached extension is not loaded');
         }
+
+        $this->config = [
+            'host'          => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+            'port'          => env('DATA_MEMCACHED_PORT', 11211),
+            'weight'        => env('DATA_MEMCACHED_WEIGHT', 0),
+            'persistent_id' => 'phalcon_cache',
+        ];
     }
 
     /**

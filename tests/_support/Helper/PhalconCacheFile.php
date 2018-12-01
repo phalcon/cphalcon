@@ -2,6 +2,7 @@
 
 namespace Helper;
 
+use function cacheFolder;
 use Codeception\Configuration;
 use Codeception\Exception\ModuleConfigException;
 use Codeception\Lib\ModuleContainer;
@@ -78,7 +79,7 @@ class PhalconCacheFile extends Filesystem
             'backend'   => FileBackend::class,
             'prefix'    => 'data_',
             'lifetime'  => 10,
-            'cache_dir' => PATH_CACHE,
+            'cache_dir' => cacheFolder(),
         ];
 
         $this->projectPath = Configuration::projectDir();

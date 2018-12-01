@@ -36,34 +36,18 @@ if (!function_exists('loadEnvironment')) {
         } else {
             (new Dotenv($root, 'tests/_ci/.env.default'))->load();
         }
-    }
-}
-
-/**
- * Gets the necessary variables from the global .env configuration and
- * creates constants for this run from them to be used in the suite
- */
-if (!function_exists('loadConstants')) {
-    function loadConstants(string $root)
-    {
-        /**
-         * Environments are loaded so let's read the variables we need and then "print"
-         * them in an env file that travis and codeception can use
-         */
-        $autodetect = ini_get('auto_detect_line_endings');
-        ini_set('auto_detect_line_endings', '1');
-        $lines = file($root . 'tests/_ci/.env.default', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        ini_set('auto_detect_line_endings', $autodetect);
 
         /**
-         * $lines has all we need. We will create an array of names to use
+         * Necessary evil. We need to set some constants for INI files to work
          */
-        foreach ($lines as $line) {
-            if (strpos($line, '=') > 0) {
-                $name = substr($line, 0, strpos($line, '='));
-                (defined($name) || define($name, $_ENV[$name]));
-            }
-        }
+        (defined('DATA_MYSQL_HOST') || define('DATA_MYSQL_HOST', env('DATA_MYSQL_HOST')));
+        (defined('DATA_MYSQL_USER') || define('DATA_MYSQL_USER', env('DATA_MYSQL_USER')));
+        (defined('DATA_MYSQL_PASS') || define('DATA_MYSQL_PASS', env('DATA_MYSQL_PASS')));
+        (defined('DATA_MYSQL_NAME') || define('DATA_MYSQL_NAME', env('DATA_MYSQL_NAME')));
+        (defined('DATA_MYSQL_PORT') || define('DATA_MYSQL_PORT', env('DATA_MYSQL_PORT')));
+        (defined('DATA_MYSQL_CHARSET') || define('DATA_MYSQL_CHARSET', env('DATA_MYSQL_CHARSET')));
+        (defined('PATH_DATA') || define('PATH_DATA', env('PATH_DATA')));
+        (defined('PATH_OUTPUT') || define('PATH_OUTPUT', env('PATH_OUTPUT')));
     }
 }
 
@@ -85,10 +69,40 @@ if (!function_exists('loadFolders')) {
             'stream',
         ];
         foreach ($folders as $folder) {
-            $item = sprintf('%s/tests/%s', PATH_OUTPUT, $folder);
+            $item = outputFolder('tests/', $folder);
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
             }
         }
+    }
+}
+
+/**
+ * Returns the cache folder
+ */
+if (!function_exists('cacheFolder')) {
+    function cacheFolder(string $fileName = '')
+    {
+        return env('PATH_CACHE') . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (!function_exists('dataFolder')) {
+    function dataFolder(string $fileName = '')
+    {
+        return env('PATH_DATA') . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (!function_exists('outputFolder')) {
+    function outputFolder(string $fileName = '')
+    {
+        return env('PATH_OUTPUT') . $fileName;
     }
 }

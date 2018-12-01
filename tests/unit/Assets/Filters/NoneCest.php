@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
+use function dataFolder;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
@@ -43,17 +44,17 @@ class NoneCest
         $assets->useImplicitOutput(false);
         $css = $assets->collection('css');
 
-        $css->setTargetPath(PATH_CACHE . $fileName);
-        $css->addCss(PATH_DATA . 'assets/assets/1198.css');
+        $css->setTargetPath(cacheFolder($fileName));
+        $css->addCss(dataFolder('assets/assets/1198.css'));
         $css->addFilter(new UppercaseFilter());
         $css->addFilter(new TrimFilter());
         $css->join(true);
         $assets->outputCss('css');
 
         $expected = 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}';
-        $actual   = file_get_contents(PATH_CACHE . $fileName);
+        $actual   = file_get_contents(cacheFolder($fileName));
 
-        $I->safeDeleteFile(PATH_CACHE . $fileName);
+        $I->safeDeleteFile(cacheFolder($fileName));
 
         $I->assertEquals($expected, $actual);
     }

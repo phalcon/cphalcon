@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use function dataFolder;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
@@ -47,7 +48,7 @@ class ConstructCest
 
         define('TEST_CONST', 'foo');
 
-        $config = new Ini(PATH_DATA . 'assets/config/config-with-constants.ini', INI_SCANNER_NORMAL);
+        $config = new Ini(dataFolder('assets/config/config-with-constants.ini'), INI_SCANNER_NORMAL);
 
         $expected = [
             'test'    => 'foo',

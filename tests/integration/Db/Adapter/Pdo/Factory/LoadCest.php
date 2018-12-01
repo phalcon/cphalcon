@@ -16,6 +16,7 @@ use Phalcon\Config;
 use Phalcon\Db\Adapter\Pdo\Factory;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use function var_dump;
 
 class LoadCest
 {

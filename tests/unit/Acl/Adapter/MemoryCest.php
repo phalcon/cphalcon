@@ -209,13 +209,13 @@ class MemoryCest
         $acl->deny('Administrators', 'Customers', 'destroy');
 
         $contents = serialize($acl);
-        file_put_contents(PATH_CACHE . $filename, $contents);
+        file_put_contents(cacheFolder($filename), $contents);
 
         $acl = null;
 
-        $contents = file_get_contents(PATH_CACHE . $filename);
+        $contents = file_get_contents(cacheFolder($filename));
 
-        $I->safeDeleteFile(PATH_CACHE . $filename);
+        $I->safeDeleteFile(cacheFolder($filename));
 
         $acl    = unserialize($contents);
         $actual = ($acl instanceof Memory);

@@ -33,7 +33,7 @@ class SimpleCest
         $I->wantToTest('Set and get View vars');
 
         $view = new Simple();
-        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $I->assertNull($view->getVar('some_var'));
         $some_var = time();
@@ -61,7 +61,7 @@ class SimpleCest
         // Create cache at first run
         $view = new Simple();
         codecept_debug(gettype($view->getParamsToView()));
-        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
 
         // No cache before DI is set
         $I->assertFalse($view->getCache());
@@ -77,7 +77,7 @@ class SimpleCest
 
         $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
 
-        $I->amInPath(PATH_CACHE);
+        $I->amInPath(cacheFolder());
         $I->seeFileFound('view_simple_cache');
         $I->seeInThisFile("<p>$timeNow</p>");
 
@@ -85,7 +85,7 @@ class SimpleCest
 
         // Re-use the cached contents
         $view = new Simple;
-        $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
         $view->setDI($this->getDi());
         $view->cache(['key' => 'view_simple_cache']);
 
@@ -108,7 +108,7 @@ class SimpleCest
         $di = new Di;
 
         $di->set('viewCache', function () {
-            return new File(new Output(['lifetime' => 2]), ['cacheDir' => PATH_CACHE]);
+            return new File(new Output(['lifetime' => 2]), ['cacheDir' => cacheFolder()]);
         });
 
         return $di;

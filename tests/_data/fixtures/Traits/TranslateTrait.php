@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function dataFolder;
 use UnitTester;
 
 trait TranslateTrait
@@ -67,7 +68,7 @@ trait TranslateTrait
     {
         return [
             'ru' => [
-                'content' => PATH_DATA . 'assets/translation/csv/ru_RU.csv',
+                'content' => dataFolder('assets/translation/csv/ru_RU.csv'),
             ],
         ];
     }
@@ -80,7 +81,7 @@ trait TranslateTrait
         return [
             'locale'        => 'en_US.utf8',
             'defaultDomain' => 'messages',
-            'directory'     => PATH_DATA . 'assets/translation/gettext',
+            'directory'     => dataFolder('assets/translation/gettext'),
             'category'      => LC_MESSAGES,
         ];
     }

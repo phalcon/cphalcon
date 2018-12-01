@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
+use function dataFolder;
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
@@ -36,7 +37,7 @@ class ForwardCest
         $di = new FactoryDefault();
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+            $view->setViewsDir(dataFolder('fixtures/views/'));
 
             return $view;
         }, true);

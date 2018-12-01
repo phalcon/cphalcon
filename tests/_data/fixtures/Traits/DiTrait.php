@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use const PATH_DATA;
+use function dataFolder;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -116,11 +116,11 @@ trait DiTrait
             'db',
             function () {
                 $options = [
-                    'host'     => DATA_MYSQL_HOST,
-                    'username' => DATA_MYSQL_USER,
-                    'password' => DATA_MYSQL_PASS,
-                    'dbname'   => DATA_MYSQL_NAME,
-                    'charset'  => DATA_MYSQL_CHARSET,
+                    'host'     => env('DATA_MYSQL_HOST'),
+                    'username' => env('DATA_MYSQL_USER'),
+                    'password' => env('DATA_MYSQL_PASS'),
+                    'dbname'   => env('DATA_MYSQL_NAME'),
+                    'charset'  => env('DATA_MYSQL_CHARSET'),
                 ];
 
                 return new Mysql($options);
@@ -138,11 +138,11 @@ trait DiTrait
             'db',
             function () {
                 $options = [
-                    'host'     => DATA_POSTGRES_HOST,
-                    'username' => DATA_POSTGRES_USER,
-                    'password' => DATA_POSTGRES_PASS,
-                    'dbname'   => DATA_POSTGRES_NAME,
-                    'schema'   => DATA_POSTGRES_SCHEMA,
+                    'host'     => env('DATA_POSTGRES_HOST'),
+                    'username' => env('DATA_POSTGRES_USER'),
+                    'password' => env('DATA_POSTGRES_PASS'),
+                    'dbname'   => env('DATA_POSTGRES_NAME'),
+                    'schema'   => env('DATA_POSTGRES_SCHEMA'),
                 ];
 
                 return new Postgresql($options);
@@ -178,7 +178,7 @@ trait DiTrait
             'db',
             function () {
                 $options = [
-                    'dbname' => DATA_SQLITE_NAME,
+                    'dbname' => env('DATA_SQLITE_NAME'),
                 ];
 
                 return new Sqlite($options);
@@ -207,7 +207,7 @@ trait DiTrait
             'view',
             function () {
                 $view = new View();
-                $view->setViewsDir(PATH_DATA . 'fixtures/views');
+                $view->setViewsDir(dataFolder('fixtures/views'));
 
                 return $view;
             }
@@ -221,7 +221,7 @@ trait DiTrait
             'viewSimple',
             function () {
                 $view = new Simple();
-                $view->setViewsDir(PATH_DATA . 'fixtures/views/');
+                $view->setViewsDir(dataFolder('fixtures/views/'));
 
                 return $view;
             }

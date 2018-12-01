@@ -17,6 +17,7 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use function dataFolder;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
@@ -73,7 +74,7 @@ class ViewEnginesCest
 
             $actual = $view->getContent();
             $I->assertEquals($expected, $actual);
-            $I->safeDeleteFile(PATH_DATA . 'fixtures/views/builtinfunction/index.volt.php');
+            $I->safeDeleteFile(dataFolder('fixtures/views/builtinfunction/index.volt.php'));
         }
     }
 
