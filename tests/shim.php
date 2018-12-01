@@ -36,7 +36,9 @@ if (!function_exists('loadEnvironment')) {
         /**
          * Now load your own environment
          */
-        (new Dotenv($root))->overload();
+        if (true === file_exists($root . '.env')) {
+            (new Dotenv($root))->overload();
+        }
     }
 }
 

@@ -61,7 +61,6 @@ before_install:
   - export PHP_VERNUM="$(php-config --vernum)"
   - tests/_ci/pear-setup.sh
   - tests/_ci/setup-dbs.sh
-  - cp tests/_ci/environment ./.env
   - source tests/_ci/environment
   - export $(cut -d= -f1 tests/_ci/environment)
   - wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar

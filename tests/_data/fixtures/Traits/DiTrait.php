@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Fixtures\Traits;
 
 use const PATH_DATA;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
@@ -23,7 +24,7 @@ use Phalcon\Filter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Models\Manager as ModelsManager;
-use Phalcon\Mvc\Models\Metadata\Memory;
+use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
@@ -53,6 +54,12 @@ trait DiTrait
     protected function resetDi()
     {
         Di::reset();
+    }
+
+    protected function setDiAnnotations()
+    {
+        $container = Di::getDefault();
+        $container->set('annotations', new AnnotationsMemory());
     }
 
     protected function setDiCrypt()
@@ -96,7 +103,7 @@ trait DiTrait
     protected function setDiModelsMetadata()
     {
         $container = Di::getDefault();
-        $container->set('modelsMetadata', Memory::class);
+        $container->set('modelsMetadata', MetadataMemory::class);
     }
 
     /**
