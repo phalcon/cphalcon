@@ -42,6 +42,21 @@ trait BeanstalkTrait
 
         try {
             @$this->client->connect();
+
+            /**
+             * Clean up the tubes
+             */
+            $this->client->choose('beanstalk-test-1');
+            while ($job = $this->client->peekReady()) {
+                echo ".";
+                $job->delete();
+            }
+
+            $this->client->choose('beanstalk-test-2');
+            while ($job = $this->client->peekReady()) {
+                echo ".";
+                $job->delete();
+            }
         } catch (\Exception $e) {
             $I->skipTest($e->getMessage());
         }
