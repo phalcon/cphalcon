@@ -1,0 +1,178 @@
+001+ sh: 1: tests/syntax: Permission denied
+001- array(1) {
+002-   [0]=>
+003-   array(5) {
+004-     ["type"]=>
+005-     int(411)
+006-     ["expr"]=>
+007-     array(4) {
+008-       ["type"]=>
+009-       int(265)
+010-       ["value"]=>
+011-       string(8) "username"
+012-       ["file"]=>
+013-       string(9) "eval code"
+014-       ["line"]=>
+015-       int(1)
+016-     }
+017-     ["case_clauses"]=>
+018-     array(11) {
+019-       [0]=>
+020-       array(4) {
+021-         ["type"]=>
+022-         int(357)
+023-         ["value"]=>
+024-         string(5) "
+025-     "
+026-         ["file"]=>
+027-         string(9) "eval code"
+028-         ["line"]=>
+029-         int(2)
+030-       }
+031-       [1]=>
+032-       array(4) {
+033-         ["type"]=>
+034-         int(412)
+035-         ["expr"]=>
+036-         array(4) {
+037-           ["type"]=>
+038-           int(260)
+039-           ["value"]=>
+040-           string(3) "Jim"
+041-           ["file"]=>
+042-           string(9) "eval code"
+043-           ["line"]=>
+044-           int(2)
+045-         }
+046-         ["file"]=>
+047-         string(9) "eval code"
+048-         ["line"]=>
+049-         int(4)
+050-       }
+051-       [2]=>
+052-       array(4) {
+053-         ["type"]=>
+054-         int(357)
+055-         ["value"]=>
+056-         string(28) "
+057-         Hello username
+058-     "
+059-         ["file"]=>
+060-         string(9) "eval code"
+061-         ["line"]=>
+062-         int(4)
+063-       }
+064-       [3]=>
+065-       array(4) {
+066-         ["type"]=>
+067-         int(412)
+068-         ["expr"]=>
+069-         array(4) {
+070-           ["type"]=>
+071-           int(260)
+072-           ["value"]=>
+073-           string(3) "Nik"
+074-           ["file"]=>
+075-           string(9) "eval code"
+076-           ["line"]=>
+077-           int(4)
+078-         }
+079-         ["file"]=>
+080-         string(9) "eval code"
+081-         ["line"]=>
+082-         int(5)
+083-       }
+084-       [4]=>
+085-       array(4) {
+086-         ["type"]=>
+087-         int(357)
+088-         ["value"]=>
+089-         string(9) "
+090-         "
+091-         ["file"]=>
+092-         string(9) "eval code"
+093-         ["line"]=>
+094-         int(5)
+095-       }
+096-       [5]=>
+097-       array(4) {
+098-         ["type"]=>
+099-         int(359)
+100-         ["expr"]=>
+101-         array(4) {
+102-           ["type"]=>
+103-           int(265)
+104-           ["value"]=>
+105-           string(8) "username"
+106-           ["file"]=>
+107-           string(9) "eval code"
+108-           ["line"]=>
+109-           int(5)
+110-         }
+111-         ["file"]=>
+112-         string(9) "eval code"
+113-         ["line"]=>
+114-         int(6)
+115-       }
+116-       [6]=>
+117-       array(4) {
+118-         ["type"]=>
+119-         int(357)
+120-         ["value"]=>
+121-         string(10) "!
+122-         "
+123-         ["file"]=>
+124-         string(9) "eval code"
+125-         ["line"]=>
+126-         int(6)
+127-       }
+128-       [7]=>
+129-       array(3) {
+130-         ["type"]=>
+131-         int(320)
+132-         ["file"]=>
+133-         string(9) "eval code"
+134-         ["line"]=>
+135-         int(7)
+136-       }
+137-       [8]=>
+138-       array(4) {
+139-         ["type"]=>
+140-         int(357)
+141-         ["value"]=>
+142-         string(5) "
+143-     "
+144-         ["file"]=>
+145-         string(9) "eval code"
+146-         ["line"]=>
+147-         int(7)
+148-       }
+149-       [9]=>
+150-       array(3) {
+151-         ["type"]=>
+152-         int(413)
+153-         ["file"]=>
+154-         string(9) "eval code"
+155-         ["line"]=>
+156-         int(9)
+157-       }
+158-       [10]=>
+159-       array(4) {
+160-         ["type"]=>
+161-         int(357)
+162-         ["value"]=>
+163-         string(22) "
+164-         Who are you?
+165- "
+166-         ["file"]=>
+167-         string(9) "eval code"
+168-         ["line"]=>
+169-         int(9)
+170-       }
+171-     }
+172-     ["file"]=>
+173-     string(9) "eval code"
+174-     ["line"]=>
+175-     int(9)
+176-   }
+177- }
