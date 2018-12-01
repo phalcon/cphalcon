@@ -59,20 +59,12 @@ if (!function_exists('loadConstants')) {
         /**
          * $lines has all we need. We will create an array of names to use
          */
-        $ciOutput = '';
         foreach ($lines as $line) {
             if (strpos($line, '=') > 0) {
                 $name = substr($line, 0, strpos($line, '='));
                 (defined($name) || define($name, $_ENV[$name]));
-                $ciOutput .= $name . '="' . $_ENV[$name] . '"' . PHP_EOL;
             }
         }
-
-        /**
-         * This creates a new file called "environment" which is used by Travis
-         * and Codeception
-         */
-        file_put_contents($root . 'tests/_ci/environment', $ciOutput);
     }
 }
 
