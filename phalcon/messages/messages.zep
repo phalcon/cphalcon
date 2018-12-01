@@ -217,11 +217,13 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function offsetGet(var index) -> var
 	{
-		var message;
+		var message, returnValue = null;
+
 		if fetch message, this->_messages[index] {
-			return message;
+			let returnValue = message;
 		}
-		return false;
+
+		return returnValue;
 	}
 
 	/**
