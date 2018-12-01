@@ -43,12 +43,12 @@ trait ResultsetHelperTrait
 
         $di->set('db', function () {
             return new Mysql([
-                'host'     => env('TEST_DB_MYSQL_HOST', '127.0.0.1'),
-                'username' => env('TEST_DB_MYSQL_USER', 'root'),
-                'password' => env('TEST_DB_MYSQL_PASSWD', ''),
-                'dbname'   => env('TEST_DB_MYSQL_NAME', 'phalcon_test'),
-                'port'     => env('TEST_DB_MYSQL_PORT', 3306),
-                'charset'  => env('TEST_DB_MYSQL_CHARSET', 'utf8'),
+                'host'     => env('DATA_MYSQL_HOST', '127.0.0.1'),
+                'username' => env('DATA_MYSQL_USER', 'root'),
+                'password' => env('DATA_MYSQL_PASS', ''),
+                'dbname'   => env('DATA_MYSQL_NAME', 'phalcon_test'),
+                'port'     => env('DATA_MYSQL_PORT', 3306),
+                'charset'  => env('DATA_MYSQL_CHARSET', 'utf8'),
             ]);
         });
 
@@ -81,8 +81,8 @@ trait ResultsetHelperTrait
         }
 
         $config = [
-            'host' => env('TEST_MC_HOST', '127.0.0.1'),
-            'port' => env('TEST_MC_PORT', 11211),
+            'host' => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+            'port' => env('DATA_MEMCACHED_PORT', 11211),
         ];
 
         $cache = new Memcache(new Data(['lifetime' => 3600]), $config);
@@ -104,9 +104,9 @@ trait ResultsetHelperTrait
         $config = [
             'servers' => [
                 [
-                    'host'   => env('TEST_MC_HOST', '127.0.0.1'),
-                    'port'   => env('TEST_MC_PORT', 11211),
-                    'weight' => env('TEST_MC_WEIGHT', 1),
+                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT', 1),
                 ]
             ],
         ];

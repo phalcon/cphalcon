@@ -41,7 +41,7 @@ class ModelCest
                         ]
                     ),
                     [
-                        'cacheDir' => TEST_CACHE_DIR,
+                        'cacheDir' => PATH_CACHE,
                     ]
                 );
             },

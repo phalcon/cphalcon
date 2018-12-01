@@ -19,12 +19,12 @@ class PostgresqlFactory extends AbstractFactory
     public function createConnection()
     {
         return new Postgresql([
-            'host'     => env('TEST_DB_POSTGRESQL_HOST', '127.0.0.1'),
-            'username' => env('TEST_DB_POSTGRESQL_USER', 'postgres'),
-            'password' => env('TEST_DB_POSTGRESQL_PASSWD', ''),
-            'dbname'   => env('TEST_DB_POSTGRESQL_NAME', 'phalcon_test'),
-            'port'     => env('TEST_DB_POSTGRESQL_PORT', 5432),
-            'schema'   => env('TEST_DB_POSTGRESQL_SCHEMA', 'public')
+            'host'     => env('DATA_POSTGRES_HOST', '127.0.0.1'),
+            'username' => env('DATA_POSTGRES_USER', 'postgres'),
+            'password' => env('DATA_POSTGRES_PASS', ''),
+            'dbname'   => env('DATA_POSTGRES_NAME', 'phalcon_test'),
+            'port'     => env('DATA_POSTGRES_PORT', 5432),
+            'schema'   => env('DATA_POSTGRES_SCHEMA', 'public')
         ]);
     }
 }

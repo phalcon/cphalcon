@@ -396,26 +396,26 @@ class CriteriaCest
         return [
             [
                 'adapter' => new Mysql([
-                    'host'     => env('TEST_DB_MYSQL_HOST', '127.0.0.1'),
-                    'username' => env('TEST_DB_MYSQL_USER', 'root'),
-                    'password' => env('TEST_DB_MYSQL_PASSWD', ''),
-                    'dbname'   => env('TEST_DB_MYSQL_NAME', 'phalcon_test'),
-                    'port'     => env('TEST_DB_MYSQL_PORT', 3306),
-                    'charset'  => env('TEST_DB_MYSQL_CHARSET', 'utf8'),
+                    'host'     => env('DATA_MYSQL_HOST', '127.0.0.1'),
+                    'username' => env('DATA_MYSQL_USER', 'root'),
+                    'password' => env('DATA_MYSQL_PASS', ''),
+                    'dbname'   => env('DATA_MYSQL_NAME', 'phalcon_test'),
+                    'port'     => env('DATA_MYSQL_PORT', 3306),
+                    'charset'  => env('DATA_MYSQL_CHARSET', 'utf8'),
                 ]),
             ],
             [
                 'adapter' => new Sqlite([
-                    'dbname' => env('TEST_DB_SQLITE_NAME', '/tmp/phalcon_test.sqlite'),
+                    'dbname' => env('DATA_SQLITE_NAME', '/tmp/phalcon_test.sqlite'),
                 ]),
             ],
             [
                 'adapter' => new Postgresql([
-                    'host'     => env('TEST_DB_POSTGRESQL_HOST', '127.0.0.1'),
-                    'username' => env('TEST_DB_POSTGRESQL_USER', 'postgres'),
-                    'password' => env('TEST_DB_POSTGRESQL_PASSWD', ''),
-                    'dbname'   => env('TEST_DB_POSTGRESQL_NAME', 'phalcon_test'),
-                    'port'     => env('TEST_DB_POSTGRESQL_PORT', 5432),
+                    'host'     => env('DATA_POSTGRES_HOST', '127.0.0.1'),
+                    'username' => env('DATA_POSTGRES_USER', 'postgres'),
+                    'password' => env('DATA_POSTGRES_PASS', ''),
+                    'dbname'   => env('DATA_POSTGRES_NAME', 'phalcon_test'),
+                    'port'     => env('DATA_POSTGRES_PORT', 5432),
                 ]),
             ],
         ];

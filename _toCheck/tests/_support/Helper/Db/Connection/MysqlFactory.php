@@ -19,12 +19,12 @@ class MysqlFactory extends AbstractFactory
     public function createConnection()
     {
         return new Mysql([
-            'host'     => env('TEST_DB_MYSQL_HOST', '127.0.0.1'),
-            'username' => env('TEST_DB_MYSQL_USER', 'root'),
-            'password' => env('TEST_DB_MYSQL_PASSWD', ''),
-            'dbname'   => env('TEST_DB_MYSQL_NAME', 'phalcon_test'),
-            'port'     => env('TEST_DB_MYSQL_PORT', 3306),
-            'charset'  => env('TEST_DB_MYSQL_CHARSET', 'utf8'),
+            'host'     => env('DATA_MYSQL_HOST', '127.0.0.1'),
+            'username' => env('DATA_MYSQL_USER', 'root'),
+            'password' => env('DATA_MYSQL_PASS', ''),
+            'dbname'   => env('DATA_MYSQL_NAME', 'phalcon_test'),
+            'port'     => env('DATA_MYSQL_PORT', 3306),
+            'charset'  => env('DATA_MYSQL_CHARSET', 'utf8'),
         ]);
     }
 }

@@ -94,46 +94,46 @@ You can change the connection settings of these services **before** running test
 
 ```sh
 # Beanstalk
-export TEST_BT_HOST="127.0.0.1"
-export TEST_BT_PORT="11300"
+export DATA_BEANSTALKD_HOST="127.0.0.1"
+export DATA_BEANSTALKD_PORT="11300"
 
 # Memcached
-export TEST_MC_HOST="127.0.0.1"
-export TEST_MC_PORT="11211"
-export TEST_MC_WEIGHT="1"
+export DATA_MEMCACHED_HOST="127.0.0.1"
+export DATA_MEMCACHED_PORT="11211"
+export DATA_MEMCACHED_WEIGHT="1"
 
 # SQLite
-export TEST_DB_SQLITE_NAME="/tmp/phalcon_test.sqlite"
+export DATA_SQLITE_NAME="/tmp/phalcon_test.sqlite"
 
 # MySQL
-export TEST_DB_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
-export TEST_DB_MYSQL_HOST="127.0.0.1"
-export TEST_DB_MYSQL_PORT="3306"
-export TEST_DB_MYSQL_USER="root"
-export TEST_DB_MYSQL_PASSWD=""
-export TEST_DB_MYSQL_NAME="phalcon_test"
-export TEST_DB_MYSQL_CHARSET="utf8"
+export DATA_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
+export DATA_MYSQL_HOST="127.0.0.1"
+export DATA_MYSQL_PORT="3306"
+export DATA_MYSQL_USER="root"
+export DATA_MYSQL_PASS=""
+export DATA_MYSQL_NAME="phalcon_test"
+export DATA_MYSQL_CHARSET="utf8"
 
 # Postgresql
-export TEST_DB_POSTGRESQL_HOST="127.0.0.1"
-export TEST_DB_POSTGRESQL_PORT="5432"
-export TEST_DB_POSTGRESQL_USER="postgres"
-export TEST_DB_POSTGRESQL_PASSWD=""
-export TEST_DB_POSTGRESQL_NAME="phalcon_test"
+export DATA_POSTGRES_HOST="127.0.0.1"
+export DATA_POSTGRES_PORT="5432"
+export DATA_POSTGRES_USER="postgres"
+export DATA_POSTGRES_PASS=""
+export DATA_POSTGRES_NAME="phalcon_test"
 
 # Mongo
-export TEST_DB_MONGO_HOST="127.0.0.1"
-export TEST_DB_MONGO_PORT="27017"
-export TEST_DB_MONGO_USER="admin"
-export TEST_DB_MONGO_PASSWD=""
-export TEST_DB_MONGO_NAME="phalcon_test"
+export DATA_MONGO_HOST="127.0.0.1"
+export DATA_MONGO_PORT="27017"
+export DATA_MONGO_USER="admin"
+export DATA_MONGO_PASS=""
+export DATA_MONGO_NAME="phalcon_test"
 
 # Redis
-export TEST_RS_HOST="127.0.0.1"
-export TEST_RS_PORT="6379"
-export TEST_RS_DB="0"
+export DATA_REDIS_HOST="127.0.0.1"
+export DATA_REDIS_PORT="6379"
+export DATA_REDIS_NAME="0"
 
-export TEST_CACHE_DIR="/tmp"
+export PATH_CACHE="/tmp"
 ```
 
 ## Run tests

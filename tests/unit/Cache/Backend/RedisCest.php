@@ -41,9 +41,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -64,9 +64,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'  => TEST_RS_HOST,
-                'port'  => TEST_RS_PORT,
-                'index' => TEST_RS_DB,
+                'host'  => DATA_REDIS_HOST,
+                'port'  => DATA_REDIS_PORT,
+                'index' => DATA_REDIS_NAME,
             ]
         );
 
@@ -90,9 +90,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -113,9 +113,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -145,9 +145,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -166,9 +166,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -200,9 +200,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 200]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -234,9 +234,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -256,9 +256,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -288,9 +288,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -316,9 +316,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'  => TEST_RS_HOST,
-                'port'  => TEST_RS_PORT,
-                'index' => TEST_RS_DB,
+                'host'  => DATA_REDIS_HOST,
+                'port'  => DATA_REDIS_PORT,
+                'index' => DATA_REDIS_NAME,
             ]
         );
 
@@ -338,9 +338,9 @@ class RedisCest
         $cache = new Redis(
             new Output(['lifetime' => 2]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
             ]
         );
@@ -377,16 +377,15 @@ class RedisCest
     public function setTimeout(UnitTester $I)
     {
         $I->wantTo('Get data by using Redis as cache backend and set timeout');
-
         $key  = '_PHCR' . 'data-get-timeout';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
                 'timeout'  => 1,
             ]
@@ -412,9 +411,9 @@ class RedisCest
         $cache = new Redis(
             new Data(['lifetime' => 20]),
             [
-                'host'     => TEST_RS_HOST,
-                'port'     => TEST_RS_PORT,
-                'index'    => TEST_RS_DB,
+                'host'     => DATA_REDIS_HOST,
+                'port'     => DATA_REDIS_PORT,
+                'index'    => DATA_REDIS_NAME,
                 'statsKey' => '_PHCR',
                 'prefix'   => 'phalcon-',
             ]

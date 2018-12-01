@@ -38,7 +38,7 @@ trait CollectionTrait
         }
 
         $I->haveServiceInDi('mongo', function () {
-            $dsn = sprintf('mongodb://%s:%s', TEST_DB_MONGO_HOST, TEST_DB_MONGO_PORT);
+            $dsn = sprintf('mongodb://%s:%s', DATA_MONGO_HOST, DATA_MONGO_PORT);
 
             if (class_exists('MongoClient')) {
                 $mongo = new MongoClient($dsn);
@@ -46,7 +46,7 @@ trait CollectionTrait
                 $mongo = new Mongo($dsn);
             }
 
-            return $mongo->selectDB(TEST_DB_MONGO_NAME);
+            return $mongo->selectDB(DATA_MONGO_NAME);
         }, true);
 
         $I->haveServiceInDi('collectionManager', function () {

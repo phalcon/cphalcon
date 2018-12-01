@@ -343,7 +343,7 @@ class ValidateCest
     {
         $I->wantToTest("Validation\Validator\Callback - validate() - exception");
         $I->expectThrowable(
-            new Exception('Callback must return boolean or Phalcon\Validation\Validator object'),
+            new Exception('Callback must return bool or Phalcon\Validation\Validator object'),
             function () {
                 $validation = new Validation();
                 $validation->add(

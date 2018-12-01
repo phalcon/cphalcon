@@ -19,7 +19,7 @@ class SqlitetranslationsFactory extends AbstractFactory
     public function createConnection()
     {
         return new Sqlite(
-            ['dbname' => env('TEST_DB_I18N_SQLITE_NAME', PATH_OUTPUT . 'translations.sqlite')]
+            ['dbname' => env('DATA_SQLITE_I18N_NAME', PATH_OUTPUT . 'translations.sqlite')]
         );
     }
 }

@@ -40,7 +40,7 @@ class CacheCest
         $frontCache = new Data();
 
         $cache = new File($frontCache, [
-            'cacheDir' => TEST_CACHE_DIR,
+            'cacheDir' => PATH_CACHE,
         ]);
         $cache->delete('foo');
         $cache->save('foo', "1");
@@ -56,7 +56,7 @@ class CacheCest
         $frontCache = new Data();
 
         $cache = new File($frontCache, [
-            'cacheDir' => TEST_CACHE_DIR,
+            'cacheDir' => PATH_CACHE,
         ]);
         $cache->delete('foo');
         $cache->save('foo', "100");
@@ -76,7 +76,7 @@ class CacheCest
                 $frontCache = new Data();
 
                 $cache = new File($frontCache, [
-                    'cacheDir' => TEST_CACHE_DIR,
+                    'cacheDir' => PATH_CACHE,
                     'safekey'  => true,
                     'prefix'   => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
                 ]);
@@ -90,7 +90,7 @@ class CacheCest
 
         // File
         $cache = new File($frontCache, [
-            'cacheDir' => TEST_CACHE_DIR,
+            'cacheDir' => PATH_CACHE,
         ]);
 
         $cache->save('data', "1");
@@ -133,7 +133,7 @@ class CacheCest
         ]);
 
         $cache = new Mongo($frontCache, [
-            'server'     => 'mongodb://' . TEST_DB_MONGO_HOST,
+            'server'     => 'mongodb://' . DATA_MONGO_HOST,
             'db'         => 'phalcon_test',
             'collection' => 'caches',
         ]);

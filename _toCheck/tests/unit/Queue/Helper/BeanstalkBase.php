@@ -40,13 +40,13 @@ class BeanstalkBase extends UnitTest
             $this->markTestSkipped('Warning: yaml extension is not loaded');
         }
 
-        if (!defined('TEST_BT_HOST') || !defined('TEST_BT_PORT')) {
-            $this->markTestSkipped('TEST_BT_HOST and/or TEST_BT_PORT env variables are not defined');
+        if (!defined('DATA_BEANSTALKD_HOST') || !defined('DATA_BEANSTALKD_PORT')) {
+            $this->markTestSkipped('DATA_BEANSTALKD_HOST and/or DATA_BEANSTALKD_PORT env variables are not defined');
         }
 
         $this->client = new Beanstalk([
-            'host' => TEST_BT_HOST,
-            'port' => TEST_BT_PORT
+            'host' => DATA_BEANSTALKD_HOST,
+            'port' => DATA_BEANSTALKD_PORT
         ]);
 
         try {

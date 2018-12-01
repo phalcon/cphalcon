@@ -109,11 +109,11 @@ trait DiTrait
             'db',
             function () {
                 $options = [
-                    'host'     => TEST_DB_MYSQL_HOST,
-                    'username' => TEST_DB_MYSQL_USER,
-                    'password' => TEST_DB_MYSQL_PASSWD,
-                    'dbname'   => TEST_DB_MYSQL_NAME,
-                    'charset'  => TEST_DB_MYSQL_CHARSET,
+                    'host'     => DATA_MYSQL_HOST,
+                    'username' => DATA_MYSQL_USER,
+                    'password' => DATA_MYSQL_PASS,
+                    'dbname'   => DATA_MYSQL_NAME,
+                    'charset'  => DATA_MYSQL_CHARSET,
                 ];
 
                 return new Mysql($options);
@@ -131,11 +131,11 @@ trait DiTrait
             'db',
             function () {
                 $options = [
-                    'host'     => TEST_DB_POSTGRESQL_HOST,
-                    'username' => TEST_DB_POSTGRESQL_USER,
-                    'password' => TEST_DB_POSTGRESQL_PASSWD,
-                    'dbname'   => TEST_DB_POSTGRESQL_NAME,
-                    'schema'   => TEST_DB_POSTGRESQL_SCHEMA,
+                    'host'     => DATA_POSTGRES_HOST,
+                    'username' => DATA_POSTGRES_USER,
+                    'password' => DATA_POSTGRES_PASS,
+                    'dbname'   => DATA_POSTGRES_NAME,
+                    'schema'   => DATA_POSTGRES_SCHEMA,
                 ];
 
                 return new Postgresql($options);
@@ -171,7 +171,7 @@ trait DiTrait
             'db',
             function () {
                 $options = [
-                    'dbname' => TEST_DB_SQLITE_NAME,
+                    'dbname' => DATA_SQLITE_NAME,
                 ];
 
                 return new Sqlite($options);

@@ -68,8 +68,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers' => [
                         [
-                            'host' => env('TEST_MC_HOST', '127.0.0.1'),
-                            'port' => env('TEST_MC_PORT', 11211),
+                            'host' => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                            'port' => env('DATA_MEMCACHED_PORT', 11211),
                         ]
                     ],
                     'client' => []
@@ -106,8 +106,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers' => [
                         [
-                            'host' => env('TEST_MC_HOST', '127.0.0.1'),
-                            'port' => env('TEST_MC_PORT', 11211),
+                            'host' => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                            'port' => env('DATA_MEMCACHED_PORT', 11211),
                         ]
                     ],
                     'client' => []
@@ -146,8 +146,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers'  => [
                         [
-                            'host' => env('TEST_MC_HOST', '127.0.0.1'),
-                            'port' => env('TEST_MC_PORT', 11211),
+                            'host' => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                            'port' => env('DATA_MEMCACHED_PORT', 11211),
                         ],
                     ],
                     'client'   => [],

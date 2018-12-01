@@ -28,6 +28,6 @@ extensions:
     enabled:
         - Codeception\Extension\RunFailed
 
-#params:
-#    # get params from environment vars
-#    - env
+params:
+    # get params from environment vars
+    - env

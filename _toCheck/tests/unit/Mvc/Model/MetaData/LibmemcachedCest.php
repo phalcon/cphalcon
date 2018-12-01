@@ -40,8 +40,8 @@ class LibmemcachedCest
             return new Libmemcached([
                 'servers' => [
                     [
-                        'host'   => TEST_MC_HOST,
-                        'port'   => TEST_MC_PORT,
+                        'host'   => DATA_MEMCACHED_HOST,
+                        'port'   => DATA_MEMCACHED_PORT,
                         'weight' => 1,
                     ]
                 ]

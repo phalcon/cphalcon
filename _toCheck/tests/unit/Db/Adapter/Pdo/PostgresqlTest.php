@@ -43,12 +43,12 @@ class PostgresqlTest extends UnitTest
 
         try {
             $this->connection = new Postgresql([
-                'host'     => TEST_DB_POSTGRESQL_HOST,
-                'username' => TEST_DB_POSTGRESQL_USER,
-                'password' => TEST_DB_POSTGRESQL_PASSWD,
-                'dbname'   => TEST_DB_POSTGRESQL_NAME,
-                'port'     => TEST_DB_POSTGRESQL_PORT,
-                'schema'   => TEST_DB_POSTGRESQL_SCHEMA
+                'host'     => DATA_POSTGRES_HOST,
+                'username' => DATA_POSTGRES_USER,
+                'password' => DATA_POSTGRES_PASS,
+                'dbname'   => DATA_POSTGRES_NAME,
+                'port'     => DATA_POSTGRES_PORT,
+                'schema'   => DATA_POSTGRES_SCHEMA
             ]);
         } catch (\PDOException $e) {
             throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
@@ -84,7 +84,7 @@ class PostgresqlTest extends UnitTest
                 ];
 
                 expect($this->connection->listTables())->equals($expected);
-                expect($this->connection->listTables(env('TEST_DB_POSTGRESQL_SCHEMA', 'public')))->equals($expected);
+                expect($this->connection->listTables(env('DATA_POSTGRES_SCHEMA', 'public')))->equals($expected);
             }
         );
     }
@@ -105,9 +105,9 @@ class PostgresqlTest extends UnitTest
             [
                 'examples' => [
                     ['personas', null, true ],
-                    ['personas', TEST_DB_POSTGRESQL_SCHEMA, true],
+                    ['personas', DATA_POSTGRES_SCHEMA, true],
                     ['noexist',  null, false],
-                    ['noexist',  TEST_DB_POSTGRESQL_SCHEMA, false],
+                    ['noexist',  DATA_POSTGRES_SCHEMA, false],
                     ['personas', 'test', false],
                 ]
             ]
@@ -131,7 +131,7 @@ class PostgresqlTest extends UnitTest
 
                 $referencesWithSchema = $this->connection->describeReferences(
                     'robots_parts',
-                    TEST_DB_POSTGRESQL_SCHEMA
+                    DATA_POSTGRES_SCHEMA
                 );
 
                 expect($referencesWithoutSchema)->equals($referencesWithSchema);
@@ -219,7 +219,7 @@ class PostgresqlTest extends UnitTest
                 ];
 
                 expect($this->connection->describeColumns('images', null))->equals($columns);
-                expect($this->connection->describeColumns('images', TEST_DB_POSTGRESQL_SCHEMA))->equals($columns);
+                expect($this->connection->describeColumns('images', DATA_POSTGRES_SCHEMA))->equals($columns);
             }
         );
     }

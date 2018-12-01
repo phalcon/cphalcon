@@ -36,9 +36,9 @@ class PhalconLibmemcached extends Module
      * {@inheritdoc}
      */
     protected $config = [
-        'host'          => TEST_MC_HOST,
-        'port'          => TEST_MC_PORT,
-        'weight'        => TEST_MC_WEIGHT,
+        'host'          => DATA_MEMCACHED_HOST,
+        'port'          => DATA_MEMCACHED_PORT,
+        'weight'        => DATA_MEMCACHED_WEIGHT,
         'persistent_id' => 'phalcon_cache'
     ];
 

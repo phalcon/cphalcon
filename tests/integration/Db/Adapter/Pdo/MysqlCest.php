@@ -32,12 +32,12 @@ class MysqlCest extends MysqlHelper
         try {
             $this->connection = new Mysql(
                 [
-                    'host'     => TEST_DB_MYSQL_HOST,
-                    'username' => TEST_DB_MYSQL_USER,
-                    'password' => TEST_DB_MYSQL_PASSWD,
-                    'dbname'   => TEST_DB_MYSQL_NAME,
-                    'port'     => TEST_DB_MYSQL_PORT,
-                    'charset'  => TEST_DB_MYSQL_CHARSET,
+                    'host'     => DATA_MYSQL_HOST,
+                    'username' => DATA_MYSQL_USER,
+                    'password' => DATA_MYSQL_PASS,
+                    'dbname'   => DATA_MYSQL_NAME,
+                    'port'     => DATA_MYSQL_PORT,
+                    'charset'  => DATA_MYSQL_CHARSET,
                 ]
             );
         } catch (\PDOException $e) {
@@ -90,7 +90,7 @@ class MysqlCest extends MysqlHelper
         $actual = $this->connection->listTables();
         $I->assertEquals($expected, $actual);
 
-        $dbName = env('TEST_DB_MYSQL_NAME', 'phalcon_test');
+        $dbName = env('DATA_MYSQL_NAME', 'phalcon_test');
         $actual = $this->connection->listTables($dbName);
         $I->assertEquals($expected, $actual);
     }
@@ -105,7 +105,7 @@ class MysqlCest extends MysqlHelper
     {
 
         $expected = 2;
-        $actual   = $this->connection->describeReferences('robots_parts', TEST_DB_MYSQL_NAME);
+        $actual   = $this->connection->describeReferences('robots_parts', DATA_MYSQL_NAME);
         $I->assertCount($expected, $actual);
 
         $expected = 2;

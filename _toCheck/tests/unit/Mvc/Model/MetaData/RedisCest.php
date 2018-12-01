@@ -38,9 +38,9 @@ class RedisCest
 
         $I->haveServiceInDi('modelsMetadata', function () {
             return new Redis([
-                'host'  => env('TEST_RS_HOST', '127.0.0.1'),
-                'port'  => env('TEST_RS_PORT', 6379),
-                'index' => env('TEST_RS_DB', 0),
+                'host'  => env('DATA_REDIS_HOST', '127.0.0.1'),
+                'port'  => env('DATA_REDIS_PORT', 6379),
+                'index' => env('DATA_REDIS_NAME', 0),
             ]);
         }, true);
 
