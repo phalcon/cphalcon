@@ -40,12 +40,13 @@ if (!function_exists('loadEnvironment')) {
         /**
          * Necessary evil. We need to set some constants for INI files to work
          */
-        (defined('DATA_MYSQL_HOST') || define('DATA_MYSQL_HOST', env('DATA_MYSQL_HOST')));
-        (defined('DATA_MYSQL_USER') || define('DATA_MYSQL_USER', env('DATA_MYSQL_USER')));
-        (defined('DATA_MYSQL_PASS') || define('DATA_MYSQL_PASS', env('DATA_MYSQL_PASS')));
-        (defined('DATA_MYSQL_NAME') || define('DATA_MYSQL_NAME', env('DATA_MYSQL_NAME')));
-        (defined('DATA_MYSQL_PORT') || define('DATA_MYSQL_PORT', env('DATA_MYSQL_PORT')));
         (defined('DATA_MYSQL_CHARSET') || define('DATA_MYSQL_CHARSET', env('DATA_MYSQL_CHARSET')));
+        (defined('DATA_MYSQL_HOST') || define('DATA_MYSQL_HOST', env('DATA_MYSQL_HOST')));
+        (defined('DATA_MYSQL_NAME') || define('DATA_MYSQL_NAME', env('DATA_MYSQL_NAME')));
+        (defined('DATA_MYSQL_PASS') || define('DATA_MYSQL_PASS', env('DATA_MYSQL_PASS')));
+        (defined('DATA_MYSQL_PORT') || define('DATA_MYSQL_PORT', env('DATA_MYSQL_PORT')));
+        (defined('DATA_MYSQL_USER') || define('DATA_MYSQL_USER', env('DATA_MYSQL_USER')));
+        (defined('PATH_CACHE') || define('PATH_CACHE', env('PATH_CACHE')));
         (defined('PATH_DATA') || define('PATH_DATA', env('PATH_DATA')));
         (defined('PATH_OUTPUT') || define('PATH_OUTPUT', env('PATH_OUTPUT')));
     }
