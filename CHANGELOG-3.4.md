@@ -1,4 +1,4 @@
-# [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-XX-XX)
+# [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-12-02)
 - Added missing Volt tags to array helper in `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` [#13447](https://github.com/phalcon/cphalcon/issues/13447)
 - Added the ability to explicitly define nullable columns (especially timestamp ones) [#13099](https://github.com/phalcon/cphalcon/issues/13099)
 - Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's `prepare` and `execute` and `Phalcon\Db\Adapter::fetchAll` to use PDO's `fetchAll`
