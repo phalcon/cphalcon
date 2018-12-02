@@ -168,9 +168,13 @@ class Redis extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, int lifetime = 1) -> var | null
 	{
 		var redis, frontend, cachedContent;
+
+		if lifetime < 1 {
+			throw new Exception("The lifetime must be at least 1 second");
+		}
 
 		let redis = this->redis;
  		if typeof redis != "object" {

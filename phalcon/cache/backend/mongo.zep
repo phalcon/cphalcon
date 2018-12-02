@@ -150,9 +150,13 @@ class Mongo extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, int lifetime = 1) -> var | null
 	{
 		var frontend, prefixedKey, conditions,  document, cachedContent;
+
+		if lifetime < 1 {
+			throw new Exception("The lifetime must be at least 1 second");
+		}
 
 		let conditions = [];
 		let frontend = this->_frontend;

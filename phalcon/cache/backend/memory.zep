@@ -51,9 +51,13 @@ class Memory extends Backend implements \Serializable
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, int lifetime = 1) -> var | null
 	{
 		var lastKey, cachedContent;
+
+		if lifetime < 1 {
+			throw new Exception("The lifetime must be at least 1 second");
+		}
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
