@@ -429,21 +429,23 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
+	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *removeData_param = NULL;
-	zend_bool removeData;
+	zval *removeData = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &removeData_param);
+	zephir_fetch_params(1, 0, 1, &removeData);
 
-	if (!removeData_param) {
-		removeData = 0;
-	} else {
-		removeData = zephir_get_boolval(removeData_param);
+	if (!removeData) {
+		removeData = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	if (removeData) {
+	_0 = zephir_is_true(removeData);
+	if (_0) {
+		_0 = Z_TYPE_P(removeData) != IS_NULL;
+	}
+	if (_0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "removesessiondata", NULL, 0);
 		zephir_check_call_status();
 	}

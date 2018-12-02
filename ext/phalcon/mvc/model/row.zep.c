@@ -124,12 +124,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
-	zval *offset_param = NULL;
-	zend_long offset;
+	zval *offset;
 
-	zephir_fetch_params(0, 1, 0, &offset_param);
+	zephir_fetch_params(0, 1, 0, &offset);
 
-	offset = zephir_get_intval(offset_param);
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/mvc/model/row.zep", 88);

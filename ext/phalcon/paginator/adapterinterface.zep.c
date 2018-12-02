@@ -32,6 +32,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
 
 /**
  * Returns a slice of the resultset to show in the pagination
+ *
+ * @deprecated will be removed after 4.0
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getPaginate);
 

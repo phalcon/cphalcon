@@ -272,16 +272,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, exists) {
 
-	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *_0$$4, *_1$$5;
+	zend_long lifetime;
+	zval *keyName = NULL, *lifetime_param = NULL, *lastKey = NULL, *_0$$4, *_1$$5;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime_param);
 
 	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime) {
-		lifetime = ZEPHIR_GLOBAL(global_null);
+	if (!lifetime_param) {
+		lifetime = 0;
+	} else {
+		lifetime = zephir_get_intval(lifetime_param);
 	}
 
 

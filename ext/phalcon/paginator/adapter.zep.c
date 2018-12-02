@@ -40,6 +40,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter) {
 }
 
 /**
+ * Get current rows limit
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter, getLimit) {
+
+	
+
+	RETURN_MEMBER(getThis(), "_limitRows");
+
+}
+
+/**
  * Set the current page number
  */
 PHP_METHOD(Phalcon_Paginator_Adapter, setCurrentPage) {
@@ -76,17 +87,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter, setLimit) {
 	ZVAL_LONG(_0, limitRows);
 	zephir_update_property_this(getThis(), SL("_limitRows"), _0 TSRMLS_CC);
 	RETURN_THISW();
-
-}
-
-/**
- * Get current rows limit
- */
-PHP_METHOD(Phalcon_Paginator_Adapter, getLimit) {
-
-	
-
-	RETURN_MEMBER(getThis(), "_limitRows");
 
 }
 

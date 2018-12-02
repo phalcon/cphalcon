@@ -19,6 +19,7 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 
 
@@ -315,13 +316,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes) {
 	HashPosition _4, _27, _14$$3;
 	zephir_fcall_cache_entry *_20 = NULL, *_33 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *table, *schema = NULL, *indexes = NULL, *index = NULL, *keyName = NULL, *indexObjects = NULL, *name = NULL, *columns = NULL, *describeIndex = NULL, *indexSql = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_29, *_7$$4 = NULL, *_8$$3, *_10$$3 = NULL, *_11$$3, *_12$$3 = NULL, *_13$$3 = NULL, **_16$$3, *_18$$3, *_19$$3 = NULL, *_21$$3, *_9$$6, *_17$$7, *_22$$8 = NULL, *_23$$8 = NULL, _24$$8 = zval_used_for_init, *_25$$9 = NULL, *_26$$10 = NULL, *_30$$12 = NULL, *_31$$12, *_32$$12;
+	zval *table_param = NULL, *schema_param = NULL, *indexes = NULL, *index = NULL, *keyName = NULL, *indexObjects = NULL, *name = NULL, *columns = NULL, *describeIndex = NULL, *indexSql = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_29, *_7$$4 = NULL, *_8$$3, *_10$$3 = NULL, *_11$$3, *_12$$3 = NULL, *_13$$3 = NULL, **_16$$3, *_18$$3, *_19$$3 = NULL, *_21$$3, *_9$$6, *_17$$7, *_22$$8 = NULL, *_23$$8 = NULL, _24$$8 = zval_used_for_init, *_25$$9 = NULL, *_26$$10 = NULL, *_30$$12 = NULL, *_31$$12, *_32$$12;
+	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
 	}
 
 
@@ -433,13 +448,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences) {
 	HashPosition _4, _14;
 	zephir_fcall_cache_entry *_20 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *table, *schema = NULL, *references = NULL, *reference = NULL, *arrayReference = NULL, *constraintName = NULL, *referenceObjects = NULL, *name = NULL, *referencedSchema = NULL, *referencedTable = NULL, *columns = NULL, *referencedColumns = NULL, *number = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_16, *_7$$5, *_8$$5, *_9$$5, *_10$$5, *_11$$3, *_12$$3, *_17$$6 = NULL, *_19$$6 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *references = NULL, *reference = NULL, *arrayReference = NULL, *constraintName = NULL, *referenceObjects = NULL, *name = NULL, *referencedSchema = NULL, *referencedTable = NULL, *columns = NULL, *referencedColumns = NULL, *number = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_16, *_7$$5, *_8$$5, *_9$$5, *_10$$5, *_11$$3, *_12$$3, *_17$$6 = NULL, *_19$$6 = NULL;
+	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
 	}
 
 

@@ -46,19 +46,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	/**
 	 * Role which the list is checking if it's allowed to certain resource/access
-	 * @var mixed
+	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Resource which the list is checking if some role can access it
-	 * @var mixed
+	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Active access which the list is checking if some role can access it
-	 * @var mixed
+	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

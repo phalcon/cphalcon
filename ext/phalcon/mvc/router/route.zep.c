@@ -921,6 +921,30 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getGroup) {
 
 /**
  * Adds a converter to perform an additional transformation for certain parameter
+ *
+ * <code>
+ * $router = new Phalcon\Mvc\Router(false); //create Router without default routes
+ * $route = $router->add("/catalog/([a-zA-Z0-9\_\-]+)/([^\?]+)", [
+ *    "controller" => "catalog",
+ *    "action" => "show",
+ *    "name" => 1,
+ *    "params_" => 2,
+ * ]);
+ *
+ * //additional parsing
+ * $route->convert(
+ *    'params_',
+ *    function ($string) {
+ *        $array = explode('/', $string);
+ *        array_walk($array, function (&$string) {
+ *            $string = explode('-', $string);
+ *        });
+ *
+ *        return $array;
+ *    });
+ * $router->handle("https://site.com/controller_name/param1-val1-val2/param2-val3");
+ * //result is: `["params_"] = [["param1","val1","val2"], ["param2","val3"]]`
+ * </code>
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, convert) {
 

@@ -19,7 +19,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -245,19 +244,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 
-	zend_bool _1, _7$$3;
-	zephir_fcall_cache_entry *_16 = NULL;
-	zval *position_param = NULL, *result = NULL, *row = NULL, *_0, *_2, *_3$$3, *_6$$3, *_8$$3, *_10$$3, *_14$$3, *_17$$3, *_4$$4, *_5$$4, *_9$$6 = NULL, *_11$$7, *_12$$7 = NULL, *_13$$7, *_15$$8 = NULL;
-	zend_long position, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool _1, _6$$3;
+	zephir_fcall_cache_entry *_13 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *position, *result = NULL, *row = NULL, *_0, *_2, *_3$$3, *_5$$3, *_7$$3, *_9$$3, *_11$$3, *_4$$4, *_8$$6 = NULL, *_10$$7 = NULL, *_12$$8 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &position_param);
+	zephir_fetch_params(1, 1, 0, &position);
 
-	position = zephir_get_intval(position_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
-	_1 = !ZEPHIR_IS_LONG(_0, position);
+	_1 = !ZEPHIR_IS_EQUAL(_0, position);
 	if (!(_1)) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_row"), PH_NOISY_CC);
 		_1 = Z_TYPE_P(_2) == IS_NULL;
@@ -268,54 +266,46 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 		if (Z_TYPE_P(_3$$3) == IS_ARRAY) {
 			ZEPHIR_OBS_VAR(row);
 			_4$$4 = zephir_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY_CC);
-			if (zephir_array_isset_long_fetch(&row, _4$$4, position, 0 TSRMLS_CC)) {
+			if (zephir_array_isset_fetch(&row, _4$$4, position, 0 TSRMLS_CC)) {
 				zephir_update_property_this(getThis(), SL("_row"), row TSRMLS_CC);
 			}
-			ZEPHIR_INIT_ZVAL_NREF(_5$$4);
-			ZVAL_LONG(_5$$4, position);
-			zephir_update_property_this(getThis(), SL("_pointer"), _5$$4 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_pointer"), position TSRMLS_CC);
 			zephir_update_property_this(getThis(), SL("_activeRow"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 			RETURN_MM_NULL();
 		}
 		ZEPHIR_OBS_VAR(result);
 		zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		_6$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_row"), PH_NOISY_CC);
-		_7$$3 = Z_TYPE_P(_6$$3) == IS_NULL;
-		if (_7$$3) {
-			_8$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
-			_7$$3 = ZEPHIR_IS_LONG_IDENTICAL(_8$$3, 0);
+		_5$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_row"), PH_NOISY_CC);
+		_6$$3 = Z_TYPE_P(_5$$3) == IS_NULL;
+		if (_6$$3) {
+			_7$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
+			_6$$3 = ZEPHIR_IS_LONG_IDENTICAL(_7$$3, 0);
 		}
-		if (_7$$3) {
-			ZEPHIR_CALL_METHOD(&_9$$6, result, "fetch", NULL, 0);
+		if (_6$$3) {
+			ZEPHIR_CALL_METHOD(&_8$$6, result, "fetch", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_this(getThis(), SL("_row"), _9$$6 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_row"), _8$$6 TSRMLS_CC);
 		}
-		_10$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
-		if (ZEPHIR_GT_LONG(_10$$3, position)) {
-			ZEPHIR_INIT_VAR(_11$$7);
-			ZVAL_LONG(_11$$7, position);
-			ZEPHIR_CALL_METHOD(NULL, result, "dataseek", NULL, 0, _11$$7);
+		_9$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
+		if (ZEPHIR_GT(_9$$3, position)) {
+			ZEPHIR_CALL_METHOD(NULL, result, "dataseek", NULL, 0, position);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_12$$7, result, "fetch", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_10$$7, result, "fetch", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_this(getThis(), SL("_row"), _12$$7 TSRMLS_CC);
-			ZEPHIR_INIT_ZVAL_NREF(_13$$7);
-			ZVAL_LONG(_13$$7, position);
-			zephir_update_property_this(getThis(), SL("_pointer"), _13$$7 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_row"), _10$$7 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_pointer"), position TSRMLS_CC);
 		}
 		while (1) {
-			_14$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
-			if (!(ZEPHIR_LT_LONG(_14$$3, position))) {
+			_11$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
+			if (!(ZEPHIR_LT(_11$$3, position))) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&_15$$8, result, "fetch", &_16, 0);
+			ZEPHIR_CALL_METHOD(&_12$$8, result, "fetch", &_13, 0);
 			zephir_check_call_status();
-			zephir_update_property_this(getThis(), SL("_row"), _15$$8 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_row"), _12$$8 TSRMLS_CC);
 			RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_pointer") TSRMLS_CC));
 		}
-		ZEPHIR_INIT_ZVAL_NREF(_17$$3);
-		ZVAL_LONG(_17$$3, position);
-		zephir_update_property_this(getThis(), SL("_pointer"), _17$$3 TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_pointer"), position TSRMLS_CC);
 		zephir_update_property_this(getThis(), SL("_activeRow"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -338,16 +328,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
 
-	zval *index_param = NULL, *_0;
-	zend_long index;
+	zval *index, *_0;
 
-	zephir_fetch_params(0, 1, 0, &index_param);
+	zephir_fetch_params(0, 1, 0, &index);
 
-	index = zephir_get_intval(index_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_count"), PH_NOISY_CC);
-	RETURN_BOOL(ZEPHIR_GT_LONG(_0, index));
+	RETURN_BOOL(ZEPHIR_LT(index, _0));
 
 }
 
@@ -356,24 +344,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
-	zval *index_param = NULL, *_0, *_1$$3;
-	zend_long index, ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *index, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index_param);
+	zephir_fetch_params(1, 1, 0, &index);
 
-	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a int") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	index = Z_LVAL_P(index_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_count"), PH_NOISY_CC);
-	if (ZEPHIR_GT_LONG(_0, index)) {
-		ZEPHIR_INIT_VAR(_1$$3);
-		ZVAL_LONG(_1$$3, index);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 79, _1$$3);
+	if (ZEPHIR_LT(index, _0)) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 79, index);
 		zephir_check_call_status();
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 		zephir_check_call_status();
@@ -408,12 +389,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 
-	zval *offset_param = NULL;
-	zend_long offset;
+	zval *offset;
 
-	zephir_fetch_params(0, 1, 0, &offset_param);
+	zephir_fetch_params(0, 1, 0, &offset);
 
-	offset = zephir_get_intval(offset_param);
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 319);

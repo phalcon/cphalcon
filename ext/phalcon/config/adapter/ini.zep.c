@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			if (zephir_fast_count_int(sections TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_12$$8);
 				ZEPHIR_SINIT_NVAR(_13$$8);
-				ZVAL_STRING(&_13$$8, "array_merge_recursive", 0);
+				ZVAL_STRING(&_13$$8, "array_replace_recursive", 0);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(_12$$8, &_13$$8, sections);
 				zephir_check_call_status();
 				zephir_array_update_zval(&config, section, &_12$$8, PH_COPY | PH_SEPARATE);

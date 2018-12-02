@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 
 
@@ -45,25 +45,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 
-	zval *index_param = NULL;
-	zval *index = NULL;
+	zval *index;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index_param);
-
-	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
-	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
-	}
+	zephir_fetch_params(0, 1, 0, &index);
 
 
-	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
+
+	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
 
 }
 
@@ -72,22 +60,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
-	zval *index_param = NULL, *value = NULL;
-	zval *index = NULL;
+	zval *index, *value = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index_param);
+	zephir_fetch_params(1, 1, 0, &index);
 
-	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
-	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
-	}
 
 
 	ZEPHIR_OBS_VAR(value);
@@ -104,26 +81,13 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 
-	zval *index_param = NULL, *value;
-	zval *index = NULL;
+	zval *index, *value;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &index_param, &value);
+	zephir_fetch_params(0, 2, 0, &index, &value);
 
-	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
-	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
-	}
 
 
 	zephir_update_property_zval_zval(getThis(), index, value TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

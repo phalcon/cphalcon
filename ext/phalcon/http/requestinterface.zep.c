@@ -211,7 +211,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isConnect);
  * Checks whether request include attached files
  *
  * @param boolean onlySuccessful
- * @return boolean
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
 
