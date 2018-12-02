@@ -100,7 +100,7 @@ class File extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, var lifetime = null) -> var | null
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, cachedContent, ret;
 		int createdTime, ttl;
