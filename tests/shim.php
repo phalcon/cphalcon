@@ -33,10 +33,6 @@ if (!function_exists('loadEnvironment')) {
          */
         (new Dotenv($root, 'tests/_ci/.env.default'))->load();
 
-        print_r(__DIR__);
-        print_r(dirname(__FILE__));
-        ksort($_ENV);
-        print_r($_ENV);
         /**
          * Necessary evil. We need to set some constants for INI files to work
          */

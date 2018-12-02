@@ -25,7 +25,8 @@ trait FactoryTrait
 
     protected function init()
     {
-        $this->config      = new Ini(dataFolder("assets/config/factory.ini"), INI_SCANNER_NORMAL);
+        $configFile = dataFolder("assets/config/factory.ini");
+        $this->config      = new Ini($configFile, INI_SCANNER_NORMAL);
         $this->arrayConfig = $this->config->toArray();
     }
 }

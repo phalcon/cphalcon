@@ -423,10 +423,11 @@ class ManagerCest
     {
         $file   = md5(microtime(true)) . '.js';
         $assets = new Manager();
+        $jsFile = dataFolder('assets/assets/jquery.js');
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(dataFolder('assets/assets/jquery.js'))
+               ->addJs($jsFile)
                ->join(true)
                ->addFilter(new Jsmin())
                ->setTargetPath(outputFolder("tests/assets/{$file}"))
@@ -532,10 +533,10 @@ class ManagerCest
     public function testOutputWithJoinAndFilter(UnitTester $I)
     {
         $assets = new Manager();
-
+        $jsFile = dataFolder('assets/assets/jquery.js');
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
+               ->addJs($jsFile, false, false)
                ->setTargetPath(outputFolder("assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(false)
@@ -559,7 +560,7 @@ class ManagerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-02
      */
-    public function doNotAddTheSameRecources(UnitTester $I)
+    public function doNotAddTheSameResources(UnitTester $I)
     {
         $assets = new Manager();
 
@@ -599,8 +600,8 @@ class ManagerCest
     public function addInlineJs(UnitTester $I)
     {
         $manager = new Manager();
-
-        $js = file_get_contents(dataFolder('assets/assets/signup.js'));
+        $jsFile  = dataFolder('assets/assets/signup.js');
+        $js      = file_get_contents($jsFile);
         $manager->addInlineJs($js);
         $expected = "<script type=\"text/javascript\">{$js}</script>\n";
 

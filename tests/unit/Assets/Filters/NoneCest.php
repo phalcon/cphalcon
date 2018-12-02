@@ -42,10 +42,11 @@ class NoneCest
         $fileName = $I->getNewFileName('assets_', 'css');
         $assets   = new Manager();
         $assets->useImplicitOutput(false);
-        $css = $assets->collection('css');
+        $css     = $assets->collection('css');
+        $cssFile = dataFolder('assets/assets/1198.css');
 
         $css->setTargetPath(cacheFolder($fileName));
-        $css->addCss(dataFolder('assets/assets/1198.css'));
+        $css->addCss($cssFile);
         $css->addFilter(new UppercaseFilter());
         $css->addFilter(new TrimFilter());
         $css->join(true);
