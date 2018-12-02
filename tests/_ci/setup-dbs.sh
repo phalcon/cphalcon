@@ -21,11 +21,11 @@ psql -U postgres phalcon_test -q -f "${PROJECT_ROOT}/tests/_data/assets/db/schem
 echo -e "Done\n"
 
 echo -e "Create SQLite database..."
-sqlite3 /tmp/phalcon_test.sqlite < "${PROJECT_ROOT}/tests/_data/assets/db/schemas/sqlite_schema.sql"
+sqlite3 "${PROJECT_ROOT}/tests/_output/phalcon_test.sqlite" < "${PROJECT_ROOT}/tests/_data/assets/db/schemas/sqlite_schema.sql"
 echo -e "Done\n"
 
 echo -e "Create translations SQLite database..."
-sqlite3 /tmp/translations.sqlite < "${PROJECT_ROOT}/tests/_data/assets/db/schemas/sqlite_translations_schema.sql"
+sqlite3 "${PROJECT_ROOT}/tests/_output/translations.sqlite' < "${PROJECT_ROOT}/tests/_data/assets/db/schemas/sqlite_translations_schema.sql"
 echo -e "Done\n"
 
 wait
