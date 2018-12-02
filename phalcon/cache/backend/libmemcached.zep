@@ -146,13 +146,9 @@ class Libmemcached extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = 1) -> var | null
+	public function get(string keyName, var lifetime = null) -> var | null
 	{
 		var memcache, prefixedKey, cachedContent;
-
-		if lifetime < 1 {
-			throw new Exception("The lifetime must be at least 1 second");
-		}
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {

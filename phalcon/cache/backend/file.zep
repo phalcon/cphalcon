@@ -100,12 +100,12 @@ class File extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = 1) -> var | null
+	public function get(string keyName, var lifetime = 1) -> var | null
 	{
 		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, cachedContent, ret;
 		int createdTime, ttl;
 
-		if lifetime < 1 {
+		if lifetime != null && lifetime < 1 {
 			throw new Exception("The lifetime must be at least 1 second");
 		}
 

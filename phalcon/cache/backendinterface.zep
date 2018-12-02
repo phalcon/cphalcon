@@ -73,7 +73,7 @@ interface BackendInterface
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = 1) -> var | null;
+	public function get(string keyName, var lifetime = null) -> var | null;
 
 	/**
 	 * Stores cached content into the file backend and stops the frontend
