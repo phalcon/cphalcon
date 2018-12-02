@@ -11,10 +11,13 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\File;
 
+use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
 class SaveCest
 {
+    use FileTrait;
+
     /**
      * Tests Phalcon\Cache\Backend\File :: save()
      *
@@ -27,5 +30,24 @@ class SaveCest
     {
         $I->wantToTest("Cache\Backend\File - save()");
         $I->skipTest("Need implementation");
+    }
+
+    /**
+     * Tests Phalcon\Cache\Backend\File :: save() - exception negative lifetime
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-12-02
+     */
+    public function cacheBackendFileSaveNegativeLifetime(UnitTester $I)
+    {
+        $I->wantToTest("Cache\Backend\File - save() - exception negative lifetime");
+        $I->expectThrowable(
+            new Exception(''),
+            function () {
+                $this->cache->save('foo', "a" -1);
+            }
+        );
     }
 }

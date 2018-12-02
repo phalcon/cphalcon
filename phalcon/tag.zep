@@ -1014,7 +1014,7 @@ class Tag
 		}
 
 		let code = self::renderAttributes("<textarea", params),
-			code .= ">" . content . "</textarea>";
+			code .= ">" . htmlspecialchars(content) . "</textarea>";
 
 		return code;
 	}
