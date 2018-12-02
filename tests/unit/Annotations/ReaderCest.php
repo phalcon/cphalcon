@@ -52,9 +52,7 @@ class ReaderCest
         $file = dataFolder('fixtures/Annotations/TestInvalid.php');
         $I->expectThrowable(
             new Exception('Syntax error, unexpected EOF in ' . $file),
-            function () use ($file) {
-                require_once $file;
-
+            function () {
                 $reader = new Reader();
                 $reader->parse('TestInvalid');
             }
