@@ -12,9 +12,14 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class TableExistsCest
 {
+    use DiTrait;
+    use PostgresqlTrait;
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: tableExists()
      *
@@ -26,6 +31,16 @@ class TableExistsCest
     public function dbAdapterPdoPostgresqlTableExists(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - tableExists()");
-        $I->skipTest("Need implementation");
+
+        $actual = $this->connection->tableExists('personas');
+        $I->assertTrue($actual);
+        $actual = $this->connection->tableExists('personas', env('DATA_POSTGRES_SCHEMA'));
+        $I->assertTrue($actual);
+        $actual = $this->connection->tableExists('noexist');
+        $I->assertFalse($actual);
+        $actual = $this->connection->tableExists('noexist', env('DATA_POSTGRES_SCHEMA'));
+        $I->assertFalse($actual);
+        $actual = $this->connection->tableExists('personas', 'test');
+        $I->assertFalse($actual);
     }
 }

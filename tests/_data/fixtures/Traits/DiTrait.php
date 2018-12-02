@@ -11,15 +11,15 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function dataFolder;
-use Phalcon\Cli\Console as CliConsole;
-use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Di;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
@@ -31,6 +31,7 @@ use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Files as FilesSession;
+use function dataFolder;
 
 trait DiTrait
 {
@@ -55,6 +56,13 @@ trait DiTrait
     {
         Di::reset();
         $container = new Di();
+        Di::setDefault($container);
+    }
+
+    protected function newFactoryDefault()
+    {
+        Di::reset();
+        $container = new FactoryDefault();
         Di::setDefault($container);
     }
 
@@ -121,13 +129,13 @@ trait DiTrait
     protected function setDiModelsManager()
     {
         $container = Di::getDefault();
-        $container->set('modelsManager', ModelsManager::class);
+        $container->setShared('modelsManager', ModelsManager::class);
     }
 
     protected function setDiModelsMetadata()
     {
         $container = Di::getDefault();
-        $container->set('modelsMetadata', MetadataMemory::class);
+        $container->setShared('modelsMetadata', MetadataMemory::class);
     }
 
     /**
@@ -250,5 +258,13 @@ trait DiTrait
                 return $view;
             }
         );
+    }
+
+    protected function setupPostgres()
+    {
+        $this->newFactoryDefault();
+        $this->setDiPostgresql();
+
+        $this->connection = $this->getService('db');
     }
 }

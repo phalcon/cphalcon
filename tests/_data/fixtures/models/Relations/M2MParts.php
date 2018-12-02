@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model;
 
 class M2MParts extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'm2m_parts';
     }

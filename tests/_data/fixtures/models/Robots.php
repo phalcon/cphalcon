@@ -15,12 +15,15 @@ use Phalcon\Mvc\Model;
 
 class Robots extends Model
 {
-
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id', [
-            'foreignKey' => true,
-        ]);
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id',
+            [
+                'foreignKey' => true,
+            ]
+        );
     }
-
 }

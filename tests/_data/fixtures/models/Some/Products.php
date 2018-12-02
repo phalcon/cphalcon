@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model\MetaData;
 class Products extends Model
 {
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'le_products';
     }

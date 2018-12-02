@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model\MetaData;
 class Robotto extends Model
 {
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

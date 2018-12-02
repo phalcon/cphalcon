@@ -12,20 +12,35 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class DescribeReferencesCest
 {
+    use DiTrait;
+    use PostgresqlTrait;
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: describeReferences()
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-09-28
      */
     public function dbAdapterPdoPostgresqlDescribeReferences(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - describeReferences()");
-        $I->skipTest("Need implementation");
+
+        $referencesNoSchema = $this->connection->describeReferences('robots_parts');
+        $referencesSchema   = $this->connection->describeReferences('robots_parts', env('DATA_POSTGRES_SCHEMA'));
+
+        $I->assertEquals($referencesNoSchema, $referencesSchema);
+
+        $I->assertCount(2, $referencesNoSchema);
+
+        foreach ($referencesNoSchema as $reference) {
+            $I->assertCount(1, $reference->getColumns());
+        }
     }
 }

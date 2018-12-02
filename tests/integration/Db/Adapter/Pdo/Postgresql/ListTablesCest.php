@@ -12,9 +12,14 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class ListTablesCest
 {
+    use DiTrait;
+    use PostgresqlTrait;
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: listTables()
      *
@@ -26,6 +31,26 @@ class ListTablesCest
     public function dbAdapterPdoPostgresqlListTables(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - listTables()");
-        $I->skipTest("Need implementation");
+        $expected = [
+            'customers',
+            'foreign_key_child',
+            'foreign_key_parent',
+            'images',
+            'parts',
+            'personas',
+            'personnes',
+            'ph_select',
+            'prueba',
+            'robots',
+            'robots_parts',
+            'subscriptores',
+            'table_with_string_field',
+            'tipo_documento',
+        ];
+        $actual = $this->connection->listTables();
+        $I->assertEquals($expected, $actual);
+
+        $actual = $this->connection->listTables(env('DATA_POSTGRES_SCHEMA', 'public'));
+        $I->assertEquals($expected, $actual);
     }
 }

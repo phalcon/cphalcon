@@ -18,7 +18,7 @@ class GossipRobots extends Model
 
     public $trace;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

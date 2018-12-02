@@ -17,7 +17,7 @@ class Robots2 extends Model
 {
     protected $myname;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'robots';
     }

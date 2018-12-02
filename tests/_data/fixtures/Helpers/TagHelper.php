@@ -25,7 +25,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldStringParameter(UnitTester $I)
+    public function tagFieldStringParameter(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - string parameter', $this->function));
         $options  = 'x_name';
@@ -41,7 +41,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldArrayParameter(UnitTester $I)
+    public function tagFieldArrayParameter(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - array parameter', $this->function));
         $options  = [
@@ -60,7 +60,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldArrayParameterWithId(UnitTester $I)
+    public function tagFieldArrayParameterWithId(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - array parameter with id', $this->function));
         $options  = [
@@ -82,7 +82,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldArrayParameterWithNameNoId(UnitTester $I)
+    public function tagFieldArrayParameterWithNameNoId(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - array parameter with name no id', $this->function));
         $options  = [
@@ -103,7 +103,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldWithSetDefault(UnitTester $I)
+    public function tagFieldWithSetDefault(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - setDefault()', $this->function));
         $options  = [
@@ -125,7 +125,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldWithDisplayTo(UnitTester $I)
+    public function tagFieldWithDisplayTo(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - string displayTo()', $this->function));
         $options  = [
@@ -148,7 +148,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldWithSetDefaultElementNotPresent(UnitTester $I)
+    public function tagFieldWithSetDefaultElementNotPresent(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - setDefault() element not present', $this->function));
         $options  = [
@@ -171,7 +171,7 @@ class TagHelper extends TagSetup
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testTagFieldWithDisplayToElementNotPresent(UnitTester $I)
+    public function tagFieldWithDisplayToElementNotPresent(UnitTester $I)
     {
         $I->wantToTest(sprintf('Tag - %s() - displayTo() element not present', $this->function));
         $options  = [

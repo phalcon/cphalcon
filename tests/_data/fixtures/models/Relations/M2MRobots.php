@@ -20,7 +20,7 @@ class M2MRobots extends Model
         $this->hasManyToMany('id', M2MRobotsParts::class, 'robots_id', 'parts_id', 'M2MParts', 'id');
     }
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'm2m_robots';
     }

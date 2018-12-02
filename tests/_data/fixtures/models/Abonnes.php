@@ -25,7 +25,7 @@ use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 class Abonnes extends Model
 {
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'subscriptores';
     }

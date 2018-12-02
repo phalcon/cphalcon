@@ -24,7 +24,7 @@ class RelationsParts extends Model
         ]);
     }
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'parts';
     }

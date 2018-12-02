@@ -16,7 +16,7 @@ use Phalcon\Mvc\Model;
 class Subscribers extends Model
 {
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'subscriptores';
     }

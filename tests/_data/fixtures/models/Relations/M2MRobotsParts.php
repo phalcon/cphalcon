@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model;
 
 class M2MRobotsParts extends Model
 {
-    public function getSource()
+    public function getSource(): string
     {
         return 'm2m_robots_parts';
     }
