@@ -66,7 +66,7 @@ class MicroMvcCollectionsCest
         $app = new Micro();
         $collection = new Collection();
 
-        $collection->setHandler('PersonasLazyController', true);
+        $collection->setHandler('Phalcon\Test\Controllers\Micro\Collections\PersonasLazyController', true);
         $collection->map('/', 'index');
         $collection->map('/edit/{number}', 'edit');
         $app->mount($collection);
