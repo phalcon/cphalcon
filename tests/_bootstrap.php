@@ -39,5 +39,3 @@ if (extension_loaded('xdebug')) {
 }
 
 unset($root);
-
-print_r($_ENV);
