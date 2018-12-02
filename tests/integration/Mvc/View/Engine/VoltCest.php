@@ -18,11 +18,13 @@
 namespace Phalcon\Test\Integration\Mvc\View\Engine;
 
 use function cacheFolder;
+use function dataFolder;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Tag;
+use function var_dump;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\VoltCest
@@ -45,26 +47,30 @@ class VoltCest
     {
         $I->wantToTest('Set option and render simple view');
 
-        $view = new View();
-        $volt = new Volt($view, new Di());
+        $view         = new View();
+        $volt         = new Volt($view, new Di());
+        $baseFile     = dataFolder('fixtures/views/extends/index');
+        $renderFile   = $baseFile . '.volt';
+        $compiledFile = $I->preparePathToFileWithDelimiter($baseFile, '.')
+                      . '.volt.compiled';
+        $compiledFile = cacheFolder($compiledFile);
 
-        $volt->setOptions([
-            'compiledPath'      => cacheFolder(),
-            'compiledSeparator' => '.',
-            'compiledExtension' => '.compiled',
-        ]);
+        $volt->setOptions(
+            [
+                'compiledPath'      => cacheFolder(),
+                'compiledSeparator' => '.',
+                'compiledExtension' => '.compiled',
+            ]
+        );
 
         //Render simple view
         $view->start();
-        $volt->render(dataFolder('fixtures/views/extends/index.volt'), ['song' => 'Lights'], true);
+        $volt->render($renderFile, ['song' => 'Lights'], true);
         $view->finish();
 
-        $fileName = $I->preparePathToFileWithDelimiter(dataFolder(), '.')
-                  . 'fixtures.views.extends.index.volt.compiled';
-
-        $I->assertTrue(file_exists(dataFolder($fileName)));
-        $I->assertEquals(file_get_contents(dataFolder($fileName)), 'Hello <?= $song ?>!');
+        $I->assertTrue(file_exists($compiledFile));
+        $I->assertEquals(file_get_contents($compiledFile), 'Hello <?= $song ?>!');
         $I->assertEquals($view->getContent(), 'Hello Lights!');
-        $I->safeDeleteFile(dataFolder($fileName));
+        $I->safeDeleteFile($compiledFile);
     }
 }
