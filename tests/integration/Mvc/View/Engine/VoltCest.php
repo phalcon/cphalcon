@@ -62,9 +62,9 @@ class VoltCest
         $fileName = $I->preparePathToFileWithDelimiter(dataFolder(), '.')
                   . 'fixtures.views.extends.index.volt.compiled';
 
-        $I->assertTrue(file_exists(cacheFolder($fileName)));
-        $I->assertEquals(file_get_contents(cacheFolder($fileName)), 'Hello <?= $song ?>!');
+        $I->assertTrue(file_exists(dataFolder($fileName)));
+        $I->assertEquals(file_get_contents(dataFolder($fileName)), 'Hello <?= $song ?>!');
         $I->assertEquals($view->getContent(), 'Hello Lights!');
-        $I->safeDeleteFile(cacheFolder($fileName));
+        $I->safeDeleteFile(dataFolder($fileName));
     }
 }

@@ -82,6 +82,11 @@ if (!function_exists('loadFolders')) {
  * Returns the cache folder
  */
 if (!function_exists('cacheFolder')) {
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
     function cacheFolder(string $fileName = '')
     {
         return env('PATH_CACHE') . $fileName;
@@ -92,6 +97,11 @@ if (!function_exists('cacheFolder')) {
  * Returns the output folder
  */
 if (!function_exists('dataFolder')) {
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
     function dataFolder(string $fileName = '')
     {
         return env('PATH_DATA') . $fileName;
@@ -102,6 +112,11 @@ if (!function_exists('dataFolder')) {
  * Returns the output folder
  */
 if (!function_exists('outputFolder')) {
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
     function outputFolder(string $fileName = '')
     {
         return env('PATH_OUTPUT') . $fileName;
