@@ -138,21 +138,21 @@ $container->set(CodeceptionMemorySession::class, PhalconMemorySession::class);
 /**
  * Initialize the Database connection
  */
-$container->set(
-    'db',
-    function () use ($configFile) {
-        $config  = $configFile['database'];
-        $adapter = '\Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
-
-        unset($config['adapter']);
-
-        /** @var \Phalcon\Db\AdapterInterface $connection */
-        $connection = new $adapter($config);
-        $connection->execute('SET NAMES UTF8', []);
-
-        return $connection;
-    }
-);
+//$container->set(
+//    'db',
+//    function () use ($configFile) {
+//        $config  = $configFile['database'];
+//        $adapter = '\Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
+//
+//        unset($config['adapter']);
+//
+//        /** @var \Phalcon\Db\AdapterInterface $connection */
+//        $connection = new $adapter($config);
+//        $connection->execute('SET NAMES UTF8', []);
+//
+//        return $connection;
+//    }
+//);
 
 $application = new Application();
 $application->setDI($container);
