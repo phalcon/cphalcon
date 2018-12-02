@@ -2,13 +2,13 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
-use function dataFolder;
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
+use function dataFolder;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\ForwardCest
