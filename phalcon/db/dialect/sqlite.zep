@@ -598,4 +598,13 @@ class Sqlite extends Dialect
 	{
 		return "";
 	}
+
+	/**
+	 * Returns a SQL modified a shared lock statement. For now this method
+	 * returns the original query
+	 */
+	public function sharedLock(string! sqlQuery) -> string
+	{
+		return sqlQuery;
+	}
 }

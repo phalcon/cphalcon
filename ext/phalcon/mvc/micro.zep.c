@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 		if (zephir_is_true(_0$$5)) {
 			ZEPHIR_INIT_VAR(lazyHandler);
 			object_init_ex(lazyHandler, phalcon_mvc_micro_lazyloader_ce);
-			ZEPHIR_CALL_METHOD(NULL, lazyHandler, "__construct", NULL, 324, mainHandler);
+			ZEPHIR_CALL_METHOD(NULL, lazyHandler, "__construct", NULL, 325, mainHandler);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(lazyHandler, mainHandler);
@@ -664,7 +664,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	} else {
 		ZVAL_BOOL(_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "set", NULL, 325, serviceName, definition, _0);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "set", NULL, 326, serviceName, definition, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -703,7 +703,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 		zephir_check_call_status();
 		zephir_update_property_this(getThis(), SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "has", NULL, 326, serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "has", NULL, 327, serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 		zephir_check_call_status();
 		zephir_update_property_this(getThis(), SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "get", NULL, 327, serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "get", NULL, 328, serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -776,7 +776,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 		zephir_check_call_status();
 		zephir_update_property_this(getThis(), SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "getshared", NULL, 328, serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "getshared", NULL, 329, serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 

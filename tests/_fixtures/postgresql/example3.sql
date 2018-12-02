@@ -1,7 +1,7 @@
 CREATE TABLE "table" (
-	"column2" INT,
+	"column2" INT NULL,
 	"column3" NUMERIC(10,2) NOT NULL,
-	"column1" CHARACTER VARYING(10),
+	"column1" CHARACTER VARYING(10) NULL,
 	CONSTRAINT "PRIMARY" PRIMARY KEY ("column3"),
 	CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE
 );

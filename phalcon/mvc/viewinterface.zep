@@ -61,7 +61,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Sets the render level for the view
 	 */
-	public function setRenderLevel(string! level);
+	public function setRenderLevel(int level);
 
 	/**
 	 * Sets default view name. Must be a file without extension in the views directory
@@ -156,7 +156,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Returns the path of the view that is currently rendered
 	 */
-	public function getActiveRenderPath() -> string;
+	public function getActiveRenderPath() -> string | array;
 
 	/**
 	 * Disables the auto-rendering process

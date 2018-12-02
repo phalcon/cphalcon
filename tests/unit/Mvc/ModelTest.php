@@ -24,6 +24,7 @@ use Phalcon\Test\Models\BodyParts\Body;
 use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\Validation;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
@@ -221,7 +222,7 @@ class ModelTest extends UnitTest
         }
 
         if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }
@@ -891,6 +892,31 @@ class ModelTest extends UnitTest
                 );
 
                 expect(false, $subscriber);
+            }
+        );
+    }
+
+    /**
+     * Tests binding of non-scalar values by casting to string and binding them.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/13058
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2018-11-06
+     */
+    public function testIssue13058()
+    {
+        $this->specify(
+            'Issue 13058 is happening, non-scalar values are not being casted and bound.',
+            function () {
+
+                $robots = new Robots();
+                $robots->name = '';
+                $robots->save(
+                    [
+                        'datetime' => new \Phalcon\Test\Db\DateTime(),
+                        'text'     => 'text',
+                    ]
+                );
             }
         );
     }

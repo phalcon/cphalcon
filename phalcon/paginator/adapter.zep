@@ -36,6 +36,14 @@ abstract class Adapter implements AdapterInterface
 	protected _page = null;
 
 	/**
+	 * Get current rows limit
+	 */
+	public function getLimit() -> int
+	{
+		return this->_limitRows;
+	}
+
+	/**
 	 * Set the current page number
 	 */
 	public function setCurrentPage(int page) -> <Adapter>
@@ -51,13 +59,5 @@ abstract class Adapter implements AdapterInterface
 	{
 		let this->_limitRows = limitRows;
 		return this;
-	}
-
-	/**
-	 * Get current rows limit
-	 */
-	public function getLimit() -> int
-	{
-		return this->_limitRows;
 	}
 }

@@ -482,24 +482,33 @@ class Compiler implements InjectionAwareInterface
 				let arrayHelpers = this->_arrayHelpers;
 				if typeof arrayHelpers != "array" {
 					let arrayHelpers = [
-						"link_to": true,
-						"image": true,
+						"check_field": true,
+						"color_field": true,
+						"date_field": true,
+						"date_time_field": true,
+						"date_time_local_field": true,
+						"email_field": true,
+						"file_field": true,
 						"form": true,
+						"hidden_field": true,
+						"image": true,
+						"image_input": true,
+						"link_to": true,
+						"month_field": true,
+						"numeric_field": true,
+						"password_field": true,
+						"radio_field": true,
+						"range_field": true,
+						"search_field": true,
 						"select": true,
 						"select_static": true,
 						"submit_button": true,
-						"radio_field": true,
-						"check_field": true,
-						"file_field": true,
-						"hidden_field": true,
-						"password_field": true,
+						"tel_field": true,
 						"text_area": true,
 						"text_field": true,
-						"email_field": true,
-						"date_field": true,
-						"tel_field": true,
-						"numeric_field": true,
-						"image_input": true
+						"time_field": true,
+						"url_field": true,
+						"week_field": true
 					];
 					let this->_arrayHelpers = arrayHelpers;
 				}

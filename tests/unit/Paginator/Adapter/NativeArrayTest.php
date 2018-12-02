@@ -49,10 +49,28 @@ class NativeArrayTest extends UnitTest
                 expect($page)->isInstanceOf('stdClass');
                 expect($page->items)->count(25);
 
+                expect($page->previous)->equals(1);
                 expect($page->before)->equals(1);
                 expect($page->next)->equals(2);
                 expect($page->last)->equals(2);
                 expect($page->limit)->equals(25);
+
+                /**
+                 * Now check by calling 'paginate()'
+                 */
+                $page = $paginator->paginate();
+
+                expect($page)->isInstanceOf('stdClass');
+                expect($page->items)->count(25);
+
+                expect($page->previous)->equals(1);
+                expect($page->before)->equals(1);
+                expect($page->next)->equals(2);
+                expect($page->last)->equals(2);
+                expect($page->limit)->equals(25);
+
+                expect($page->current)->equals(1);
+                expect($page->total_pages)->equals(2);
 
                 expect($page->current)->equals(1);
                 expect($page->total_pages)->equals(2);

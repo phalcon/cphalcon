@@ -1455,3 +1455,31 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions) {
 
 }
 
+/**
+ * Returns a SQL modified a shared lock statement. For now this method
+ * returns the original query
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, sharedLock) {
+
+	zval *sqlQuery_param = NULL;
+	zval *sqlQuery = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
+
+	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
+		zephir_get_strval(sqlQuery, sqlQuery_param);
+	} else {
+		ZEPHIR_INIT_VAR(sqlQuery);
+		ZVAL_EMPTY_STRING(sqlQuery);
+	}
+
+
+	RETURN_CTOR(sqlQuery);
+
+}
+

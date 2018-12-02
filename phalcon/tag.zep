@@ -1110,6 +1110,7 @@ class Tag
 		 */
 		if fetch parameters, params["parameters"] {
 			let action .= "?" . parameters;
+			unset(params["parameters"]);
 		}
 
 		if !empty action {

@@ -33,10 +33,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Inline, phalcon, assets_inline, phalcon_assets_inline_method_entry, 0);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("_content"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var bool
+	 */
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -46,6 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Inline, getType) {
 
 	
@@ -62,19 +70,13 @@ PHP_METHOD(Phalcon_Assets_Inline, getContent) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Inline, getFilter) {
 
 	
 
 	RETURN_MEMBER(getThis(), "_filter");
-
-}
-
-PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
-
-	
-
-	RETURN_MEMBER(getThis(), "_attributes");
 
 }
 
@@ -178,6 +180,17 @@ PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
 
 	zephir_update_property_this(getThis(), SL("_attributes"), attributes TSRMLS_CC);
 	RETURN_THIS();
+
+}
+
+/**
+ * returns extra HTML attributes
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
+
+	
+
+	RETURN_MEMBER(getThis(), "_attributes");
 
 }
 

@@ -1,3 +1,23 @@
+# [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-12-02)
+- Added missing Volt tags to array helper in `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` [#13447](https://github.com/phalcon/cphalcon/issues/13447)
+- Added the ability to explicitly define nullable columns (especially timestamp ones) [#13099](https://github.com/phalcon/cphalcon/issues/13099)
+- Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's `prepare` and `execute` and `Phalcon\Db\Adapter::fetchAll` to use PDO's `fetchAll`
+- Fixed `Phalcon\Validation\Validator\Numericality` to accept float numbers on locales with comma decimal point [#13450](https://github.com/phalcon/cphalcon/issues/13450)
+- Fixed `Phalcon\Tag` so it unsets `parameters` before passing options array to `self::renderAttributes`
+- Fixed `Phalcon\Http\Response::setFileToSend` filename; when file downloaded it had an extra `_`
+- Fixed `Phalcon\Mvc\Model\Query::execute` to properly bind parameters to sub queries [#11605](https://github.com/phalcon/cphalcon/issues/11605)
+- Fixed `Phalcon\Http\Request::getJsonRawBody` [#13501](https://github.com/phalcon/cphalcon/issues/13501). It will now return false when the body content is empty, as well as when it encounters an error whilst decoding the JSON content
+- Fixed `Phalcon\Validation::preChecking` to allow use `Phalcon\Db\RawValue` as an empty container for `isAllowEmpty` option [#13549](https://github.com/phalcon/cphalcon/pull/13549), [#13573](https://github.com/phalcon/cphalcon/issues/13573), [#12519](https://github.com/phalcon/cphalcon/pull/12519)
+- Fixed object binding and placeholder creation in `Phalcon\Db\Adapter::insert` and `Phalcon\Db\Adapter::update` [#13058](https://github.com/phalcon/cphalcon/issues/13058)
+- Fixed `Phalcon\Config\Adapter\Ini` not building config objects properly for numerical keys [#12725](https://github.com/phalcon/cphalcon/issues/12725), [#13604](https://github.com/phalcon/cphalcon/issues/13604)
+- Fixed incorrect scope of view variables
+  [#12176](https://github.com/phalcon/cphalcon/issues/12176),
+  [#12385](https://github.com/phalcon/cphalcon/issues/12385),
+  [#12648](https://github.com/phalcon/cphalcon/issues/12648),
+  [#12705](https://github.com/phalcon/cphalcon/issues/12705),
+  [#13288](https://github.com/phalcon/cphalcon/pull/13288)
+- Fixed `Phalcon\Config::_merge` not merging config with numeric properties properly [#13351](https://github.com/phalcon/cphalcon/issues/13351).
+
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
 - Fixed `Phalcon\Validaiton\Validator\Uniqueness::isUniquenessModel` to properly get value of primary key when it has different name in column map [#13398](https://github.com/phalcon/cphalcon/issues/13398)

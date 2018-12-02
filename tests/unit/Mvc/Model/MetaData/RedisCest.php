@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Mvc\Model\Metadata\Redis;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\RedisCest
@@ -30,7 +31,7 @@ class RedisCest
     public function _before(UnitTester $I)
     {
         if (!extension_loaded('redis')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: redis extension is not loaded'
             );
         }

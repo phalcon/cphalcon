@@ -31,7 +31,7 @@ interface MessageInterface
 	 *
 	 * @param string type
 	 */
-	public function setType(type);
+	public function setType(string! type);
 
 	/**
 	 * Returns message type
@@ -45,7 +45,7 @@ interface MessageInterface
 	 *
 	 * @param string message
 	 */
-	public function setMessage(message);
+	public function setMessage(string! message);
 
 	/**
 	 * Returns verbose message

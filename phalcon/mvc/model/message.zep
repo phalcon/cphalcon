@@ -51,9 +51,15 @@ use Phalcon\Mvc\Model\MessageInterface;
 class Message implements MessageInterface
 {
 
-	protected _type;
+	/**
+	 * @var string
+	 */
+	protected _type { get };
 
-	protected _message;
+	/**
+	 * @var string
+	 */
+	protected _message { get };
 
 	protected _field;
 
@@ -91,28 +97,12 @@ class Message implements MessageInterface
 	}
 
 	/**
-	 * Returns message type
-	 */
-	public function getType() -> string
-	{
-		return this->_type;
-	}
-
-	/**
 	 * Sets verbose message
 	 */
 	public function setMessage(string! message) -> <Message>
 	{
 		let this->_message = message;
 		return this;
-	}
-
-	/**
-	 * Returns verbose message
-	 */
-	public function getMessage() -> string
-	{
-		return this->_message;
 	}
 
 	/**
@@ -177,7 +167,7 @@ class Message implements MessageInterface
 	/**
 	 * Magic __set_state helps to re-build messages variable exporting
 	 */
-	public static function __set_state(array! message) -> <Message>
+	public static function __set_state(array! message) -> <MessageInterface>
 	{
 		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
 	}

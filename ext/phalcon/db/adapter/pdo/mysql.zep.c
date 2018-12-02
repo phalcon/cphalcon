@@ -74,7 +74,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	zephir_get_strval(table, table_param);
+	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
 	if (!schema_param) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
@@ -280,11 +289,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 	HashPosition _4, _15;
 	zephir_fcall_cache_entry *_21 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema = NULL, *indexes = NULL, *index = NULL, *keyName = NULL, *indexType = NULL, *indexObjects = NULL, *columns = NULL, *name = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_17, *_7$$4 = NULL, *_8$$3, *_10$$3, *_11$$3, *_9$$6, *_12$$7 = NULL, *_13$$8 = NULL, *_14$$9 = NULL, *_18$$11 = NULL, *_19$$11, *_20$$11;
-	zval *table = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *indexes = NULL, *index = NULL, *keyName = NULL, *indexType = NULL, *indexObjects = NULL, *columns = NULL, *name = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_17, *_7$$4 = NULL, *_8$$3, *_10$$3, *_11$$3, *_9$$6, *_12$$7 = NULL, *_13$$8 = NULL, *_14$$9 = NULL, *_18$$11 = NULL, *_19$$11, *_20$$11;
+	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table_param, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
 	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
@@ -296,8 +305,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 		ZEPHIR_INIT_VAR(table);
 		ZVAL_EMPTY_STRING(table);
 	}
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
 	}
 
 
@@ -409,16 +421,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(schema_param) != IS_STRING && Z_TYPE_P(schema_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schema' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(schema_param) == IS_STRING)) {
 		zephir_get_strval(schema, schema_param);
-	} else {
-		ZEPHIR_INIT_VAR(schema);
-		ZVAL_EMPTY_STRING(schema);
-	}
 	}
 
 

@@ -398,14 +398,20 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getJsonRawBody(boolean associative = false) -> <\stdClass> | array | boolean
 	{
-		var rawBody;
+		var rawBody, data;
 
 		let rawBody = this->getRawBody();
-		if typeof rawBody != "string" {
+		if empty rawBody {
 			return false;
 		}
 
-		return json_decode(rawBody, associative);
+		let data = json_decode(rawBody, associative);
+
+		if json_last_error() !== JSON_ERROR_NONE {
+			return false;
+		}
+
+		return data;
 	}
 
 	/**
@@ -858,7 +864,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(boolean onlySuccessful = false) -> <File[]>
+	public function getUploadedFiles(boolean onlySuccessful = false) -> <\Phalcon\Http\Request\FileInterface[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -1155,7 +1161,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
-	public function getClientCharsets() -> var
+	public function getClientCharsets() -> array
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}

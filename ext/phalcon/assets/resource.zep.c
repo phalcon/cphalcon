@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_local"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

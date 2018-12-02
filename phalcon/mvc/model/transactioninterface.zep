@@ -47,7 +47,7 @@ interface TransactionInterface
 	/**
 	 * Rollbacks the transaction
 	 */
-	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null);
+	public function rollback(rollbackMessage = null, <ModelInterface> rollbackRecord = null);
 
 	/**
 	 * Returns connection related to transaction

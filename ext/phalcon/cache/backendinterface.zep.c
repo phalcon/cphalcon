@@ -98,7 +98,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
 /**
  * Deletes a value from the cache by its key
  *
- * @param int|string keyName
+ * @param string keyName
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, delete);

@@ -521,7 +521,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	HashPosition _1;
 	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, *instance = NULL, *key = NULL, *value = NULL, *number = NULL, *localObject = NULL, *property = NULL, *_0 = NULL, **_3;
+	zval *config, *instance = NULL, *key = NULL, *value = NULL, *number = NULL, *localObject = NULL, *property = NULL, *_0 = NULL, **_3, *_8$$8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &config, &instance);
@@ -540,7 +540,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 22, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 332);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 336);
 	for (
 	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zend_hash_move_forward_ex(_2, &_1)
@@ -568,10 +568,20 @@ PHP_METHOD(Phalcon_Config, _merge) {
 			}
 		}
 		if (zephir_is_numeric(key)) {
-			ZEPHIR_CALL_FUNCTION(&key, "strval", &_4, 18, number);
+			ZEPHIR_CALL_FUNCTION(&_8$$8, "strval", &_4, 18, key);
 			zephir_check_call_status();
-			ZEPHIR_SEPARATE(number);
-			zephir_increment(number);
+			ZEPHIR_CPY_WRT(key, _8$$8);
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_8$$8, instance, "offsetexists", NULL, 0, key);
+				zephir_check_call_status();
+				if (!(zephir_is_true(_8$$8))) {
+					break;
+				}
+				ZEPHIR_CALL_FUNCTION(&key, "strval", &_4, 18, number);
+				zephir_check_call_status();
+				ZEPHIR_SEPARATE(number);
+				zephir_increment(number);
+			}
 		}
 		zephir_update_property_zval_zval(instance, key, value TSRMLS_CC);
 	}

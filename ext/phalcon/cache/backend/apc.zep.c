@@ -402,17 +402,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *_0$$4, *_1$$5 = NULL;
+	zend_long lifetime, ZEPHIR_LAST_CALL_STATUS;
+	zval *keyName = NULL, *lifetime_param = NULL, *lastKey = NULL, *_0$$4, *_1$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime_param);
 
 	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime) {
-		lifetime = ZEPHIR_GLOBAL(global_null);
+	if (!lifetime_param) {
+		lifetime = 0;
+	} else {
+		lifetime = zephir_get_intval(lifetime_param);
 	}
 
 

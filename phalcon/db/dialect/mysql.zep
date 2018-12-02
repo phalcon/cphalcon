@@ -235,6 +235,8 @@ class Mysql extends Dialect
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
+		} else {
+		    let sql .= " NULL";
 		}
 
 		if column->isAutoIncrement() {
@@ -283,6 +285,8 @@ class Mysql extends Dialect
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
+		} else {
+		    let sql .= " NULL";
 		}
 
 		if column->isAutoIncrement() {
@@ -438,6 +442,8 @@ class Mysql extends Dialect
 			 */
 			if column->isNotNull() {
 				let columnLine .= " NOT NULL";
+			} else {
+			    let columnLine .= " NULL";
 			}
 
 			/**
@@ -745,5 +751,18 @@ class Mysql extends Dialect
 		let sql = "SELECT @@foreign_key_checks";
 
 		return sql;
+	}
+
+	/**
+	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
+	 *
+	 *<code>
+	 * $sql = $dialect->sharedLock("SELECT * FROM robots");
+	 * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
+	 *</code>
+	 */
+	public function sharedLock(string! sqlQuery) -> string
+	{
+		return sqlQuery . " LOCK IN SHARE MODE";
 	}
 }

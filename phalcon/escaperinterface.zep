@@ -32,21 +32,21 @@ interface EscaperInterface
 	 *
 	 * @param string encoding
 	 */
-	public function setEncoding(encoding);
+	public function setEncoding(string encoding) -> void;
 
 	/**
 	 * Returns the internal encoding used by the escaper
 	 *
 	 * @return string
 	 */
-	public function getEncoding();
+	public function getEncoding() -> string;
 
 	/**
 	 * Sets the HTML quoting type for htmlspecialchars
 	 *
 	 * @param int quoteType
 	 */
-	public function setHtmlQuoteType(quoteType);
+	public function setHtmlQuoteType(int quoteType) -> void;
 
 	/**
 	 * Escapes a HTML string
@@ -54,7 +54,7 @@ interface EscaperInterface
 	 * @param string text
 	 * @return string
 	 */
-	public function escapeHtml(text);
+	public function escapeHtml(string text) -> string;
 
 	/**
 	 * Escapes a HTML attribute string
@@ -62,7 +62,7 @@ interface EscaperInterface
 	 * @param string text
 	 * @return string
 	 */
-	public function escapeHtmlAttr(text);
+	public function escapeHtmlAttr(string text) -> string;
 
 	/**
 	 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
@@ -70,7 +70,7 @@ interface EscaperInterface
 	 * @param string css
 	 * @return string
 	 */
-	public function escapeCss(css);
+	public function escapeCss(string css) -> string;
 
 	/**
 	 * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
@@ -78,7 +78,7 @@ interface EscaperInterface
 	 * @param string js
 	 * @return string
 	 */
-	public function escapeJs(js);
+	public function escapeJs(string js) -> string;
 
 	/**
 	 * Escapes a URL. Internally uses rawurlencode
@@ -86,5 +86,5 @@ interface EscaperInterface
 	 * @param string url
 	 * @return string
 	 */
-	public function escapeUrl(url);
+	public function escapeUrl(string url) -> string;
 }

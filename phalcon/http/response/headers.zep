@@ -115,7 +115,7 @@ class Headers implements HeadersInterface
 	/**
 	 * Restore a \Phalcon\Http\Response\Headers object
 	 */
-	public static function __set_state(array! data) -> <Headers>
+	public static function __set_state(array! data) -> <HeadersInterface>
 	{
 		var headers, key, value, dataHeaders;
 		let headers = new self();

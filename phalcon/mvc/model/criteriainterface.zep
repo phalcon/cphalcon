@@ -43,7 +43,7 @@ interface CriteriaInterface
 	 * Sets the bound parameters in the criteria
 	 * This method replaces all previously set bound parameters
 	 */
-	public function bind(array! bindParams) -> <CriteriaInterface>;
+	public function bind(array! bindParams, boolean merge = false) -> <CriteriaInterface>;
 
 	/**
 	 * Sets the bind types in the criteria
@@ -54,7 +54,7 @@ interface CriteriaInterface
 	/**
 	 * Sets the conditions parameter in the criteria
 	 */
-	public function where(string! conditions) -> <CriteriaInterface>;
+	public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
 
 	/**
 	 * Adds the conditions parameter to the criteria
@@ -73,7 +73,7 @@ interface CriteriaInterface
 	 * @param int offset
 	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function limit(int limit, offset = null) -> <CriteriaInterface>;
+	public function limit(int limit, var offset = null) -> <CriteriaInterface>;
 
 	/**
 	 * Sets the "for_update" parameter to the criteria
@@ -93,7 +93,7 @@ interface CriteriaInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
+	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
 
 	/**
 	 * Appends a condition to the current conditions using an OR operator
@@ -103,7 +103,7 @@ interface CriteriaInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
+	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
 
 	/**
 	 * Appends a BETWEEN condition to the current conditions
@@ -117,7 +117,7 @@ interface CriteriaInterface
 	 * @param mixed maximum
 	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function betweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
+	public function betweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>;
 
 	/**
 	 * Appends a NOT BETWEEN condition to the current conditions
@@ -131,7 +131,7 @@ interface CriteriaInterface
 	 * @param mixed maximum
 	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function notBetweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
+	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>;
 
 	/**
 	 * Appends an IN condition to the current conditions

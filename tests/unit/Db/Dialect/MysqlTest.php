@@ -587,7 +587,7 @@ class MysqlTest extends UnitTest
                 $newColumn = new Column('new', ['type' => Column::TYPE_VARCHAR]);
 
                 expect($dialect->modifyColumn('table', 'database', $newColumn, $oldColumn))
-                    ->equals('ALTER TABLE `database`.`table` CHANGE COLUMN `old` `new` VARCHAR(0)');
+                    ->equals('ALTER TABLE `database`.`table` CHANGE COLUMN `old` `new` VARCHAR(0) NULL');
             }
         );
     }

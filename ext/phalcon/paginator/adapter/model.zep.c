@@ -17,8 +17,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -78,12 +78,29 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 
 /**
  * Returns a slice of the resultset to show in the pagination
+ *
+ * @deprecated will be removed after 4.0
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "paginate", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Returns a slice of the resultset to show in the pagination
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
+
 	zval *config = NULL, *items = NULL, *pageItems = NULL, *page = NULL, *_0, *_1, *_8, *_2$$9, *_3$$10, *_4$$8 = NULL, *_5$$11 = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS, pageNumber = 0, show = 0, n = 0, start = 0, lastShowPage = 0, i = 0, next = 0, totalPages = 0, before = 0;
+	zend_long ZEPHIR_LAST_CALL_STATUS, pageNumber = 0, show = 0, n = 0, start = 0, lastShowPage = 0, i = 0, next = 0, totalPages = 0, previous = 0;
 
 	ZEPHIR_MM_GROW();
 
@@ -93,19 +110,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_OBS_VAR(config);
 	zephir_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(items);
-	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/model.zep", 82 TSRMLS_CC);
+	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/model.zep", 92 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(_1);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 86);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 96);
 		return;
 	}
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
 	if (show <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 96);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 106);
 		return;
 	}
 	n = zephir_fast_count_int(items TSRMLS_CC);
@@ -140,7 +157,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			}
 			ZEPHIR_CALL_METHOD(&_5$$11, items, "current", &_6, 0);
 			zephir_check_call_status();
-			zephir_array_append(&pageItems, _5$$11, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 123);
+			zephir_array_append(&pageItems, _5$$11, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 133);
 			if (i >= show) {
 				break;
 			}
@@ -154,9 +171,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 		next = totalPages;
 	}
 	if (pageNumber > 1) {
-		before = (pageNumber - 1);
+		previous = (pageNumber - 1);
 	} else {
-		before = 1;
+		previous = 1;
 	}
 	ZEPHIR_INIT_VAR(page);
 	object_init(page);
@@ -165,8 +182,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZVAL_LONG(_8, 1);
 	zephir_update_property_zval(page, SL("first"), _8 TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_8);
-	ZVAL_LONG(_8, before);
+	ZVAL_LONG(_8, previous);
 	zephir_update_property_zval(page, SL("before"), _8 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_8);
+	ZVAL_LONG(_8, previous);
+	zephir_update_property_zval(page, SL("previous"), _8 TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, pageNumber);
 	zephir_update_property_zval(page, SL("current"), _8 TSRMLS_CC);

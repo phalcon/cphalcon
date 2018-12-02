@@ -186,6 +186,8 @@ class Postgresql extends Dialect
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
+		} else {
+		    let sql .= " NULL";
 		}
 
 		return sql;
@@ -383,6 +385,8 @@ class Postgresql extends Dialect
 			 */
 			if column->isNotNull() {
 				let columnLine .= " NOT NULL";
+			} else {
+			    let columnLine .= " NULL";
 			}
 
 			/**
@@ -673,5 +677,14 @@ class Postgresql extends Dialect
 	protected function _getTableOptions(array! definition) -> string
 	{
 		return "";
+	}
+
+	/**
+	 * Returns a SQL modified a shared lock statement. For now this method
+	 * returns the original query
+	 */
+	public function sharedLock(string! sqlQuery) -> string
+	{
+		return sqlQuery;
 	}
 }

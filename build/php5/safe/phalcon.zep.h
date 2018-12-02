@@ -2679,7 +2679,6 @@ static PHP_METHOD(Phalcon_Db_Dialect, escapeSchema);
 static PHP_METHOD(Phalcon_Db_Dialect, escape);
 static PHP_METHOD(Phalcon_Db_Dialect, limit);
 static PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
-static PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
 static PHP_METHOD(Phalcon_Db_Dialect, getColumnList);
 static PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn);
 static PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
@@ -2733,10 +2732,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_limit, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_forupdate, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlQuery)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sharedlock, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 ZEND_END_ARG_INFO()
 
@@ -2910,7 +2905,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, escape, arginfo_phalcon_db_dialect_escape, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialect_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, forUpdate, arginfo_phalcon_db_dialect_forupdate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect, sharedLock, arginfo_phalcon_db_dialect_sharedlock, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, getColumnList, arginfo_phalcon_db_dialect_getcolumnlist, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlColumn, arginfo_phalcon_db_dialect_getsqlcolumn, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpression, arginfo_phalcon_db_dialect_getsqlexpression, ZEND_ACC_PUBLIC)
@@ -3269,9 +3263,9 @@ zend_class_entry *phalcon_paginator_adapter_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter);
 
+static PHP_METHOD(Phalcon_Paginator_Adapter, getLimit);
 static PHP_METHOD(Phalcon_Paginator_Adapter, setCurrentPage);
 static PHP_METHOD(Phalcon_Paginator_Adapter, setLimit);
-static PHP_METHOD(Phalcon_Paginator_Adapter, getLimit);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_setcurrentpage, 0, 0, 1)
 	ZEND_ARG_INFO(0, page)
@@ -3282,9 +3276,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_setlimit, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_method_entry) {
+	PHP_ME(Phalcon_Paginator_Adapter, getLimit, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter, setCurrentPage, arginfo_phalcon_paginator_adapter_setcurrentpage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter, setLimit, arginfo_phalcon_paginator_adapter_setlimit, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Adapter, getLimit, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -3505,11 +3499,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline);
 static PHP_METHOD(Phalcon_Assets_Inline, getType);
 static PHP_METHOD(Phalcon_Assets_Inline, getContent);
 static PHP_METHOD(Phalcon_Assets_Inline, getFilter);
-static PHP_METHOD(Phalcon_Assets_Inline, getAttributes);
 static PHP_METHOD(Phalcon_Assets_Inline, __construct);
 static PHP_METHOD(Phalcon_Assets_Inline, setType);
 static PHP_METHOD(Phalcon_Assets_Inline, setFilter);
 static PHP_METHOD(Phalcon_Assets_Inline, setAttributes);
+static PHP_METHOD(Phalcon_Assets_Inline, getAttributes);
 static PHP_METHOD(Phalcon_Assets_Inline, getResourceKey);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_inline___construct, 0, 0, 2)
@@ -3535,11 +3529,11 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_inline_method_entry) {
 	PHP_ME(Phalcon_Assets_Inline, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, getContent, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, getFilter, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Assets_Inline, getAttributes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, __construct, arginfo_phalcon_assets_inline___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Assets_Inline, setType, arginfo_phalcon_assets_inline_settype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, setFilter, arginfo_phalcon_assets_inline_setfilter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, setAttributes, arginfo_phalcon_assets_inline_setattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Inline, getAttributes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, getResourceKey, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -4838,6 +4832,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_setfetchmode, 0, 0, 1)
 	ZEND_ARG_INFO(0, fetchMode)
+	ZEND_ARG_INFO(0, colNoOrClassNameOrObject)
+	ZEND_ARG_INFO(0, ctorargs)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_resultinterface_method_entry) {
@@ -5586,6 +5582,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_bind, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_bindtypes, 0, 0, 1)
@@ -5594,6 +5591,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_where, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_conditions, 0, 0, 1)
@@ -5838,6 +5837,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_executequery, 0, 0, 1)
 	ZEND_ARG_INFO(0, phql)
 	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_INFO(0, types)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_createbuilder, 0, 0, 0)
@@ -6776,6 +6776,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, uri)
 	ZEND_ARG_INFO(0, args)
 	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, baseUri)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_path, 0, 0, 0)
@@ -9797,6 +9798,7 @@ static PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, getForeignKeyChecks);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
@@ -9927,6 +9929,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql__gettableoptions, 0, 0, 
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_sharedlock, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlQuery)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnDefinition, arginfo_phalcon_db_dialect_mysql_getcolumndefinition, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, addColumn, arginfo_phalcon_db_dialect_mysql_addcolumn, ZEND_ACC_PUBLIC)
@@ -9953,6 +9959,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, _getTableOptions, arginfo_phalcon_db_dialect_mysql__gettableoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, getForeignKeyChecks, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, sharedLock, arginfo_phalcon_db_dialect_mysql_sharedlock, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -9985,6 +9992,7 @@ static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences);
 static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions);
 static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _castDefault);
 static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, sharedLock);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
@@ -10119,6 +10127,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql__gettableoptions, 0
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_sharedlock, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlQuery)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_postgresql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, getColumnDefinition, arginfo_phalcon_db_dialect_postgresql_getcolumndefinition, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, addColumn, arginfo_phalcon_db_dialect_postgresql_addcolumn, ZEND_ACC_PUBLIC)
@@ -10145,6 +10157,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_postgresql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, tableOptions, arginfo_phalcon_db_dialect_postgresql_tableoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, _castDefault, arginfo_phalcon_db_dialect_postgresql__castdefault, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, _getTableOptions, arginfo_phalcon_db_dialect_postgresql__gettableoptions, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect_Postgresql, sharedLock, arginfo_phalcon_db_dialect_postgresql_sharedlock, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -10177,6 +10190,7 @@ static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes);
 static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex);
 static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences);
 static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, sharedLock);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
@@ -10313,6 +10327,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_tableoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_sharedlock, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlQuery)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_sqlite_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, getColumnDefinition, arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, addColumn, arginfo_phalcon_db_dialect_sqlite_addcolumn, ZEND_ACC_PUBLIC)
@@ -10339,6 +10357,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_sqlite_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeIndex, arginfo_phalcon_db_dialect_sqlite_describeindex, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeReferences, arginfo_phalcon_db_dialect_sqlite_describereferences, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, tableOptions, arginfo_phalcon_db_dialect_sqlite_tableoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, sharedLock, arginfo_phalcon_db_dialect_sqlite_sharedlock, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -15479,11 +15498,11 @@ zend_class_entry *phalcon_mvc_model_message_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message);
 
+static PHP_METHOD(Phalcon_Mvc_Model_Message, getType);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage);
 static PHP_METHOD(Phalcon_Mvc_Model_Message, __construct);
 static PHP_METHOD(Phalcon_Mvc_Model_Message, setType);
-static PHP_METHOD(Phalcon_Mvc_Model_Message, getType);
 static PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage);
-static PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage);
 static PHP_METHOD(Phalcon_Mvc_Model_Message, setField);
 static PHP_METHOD(Phalcon_Mvc_Model_Message, getField);
 static PHP_METHOD(Phalcon_Mvc_Model_Message, setModel);
@@ -15526,11 +15545,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_message___set_state, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_message_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Message, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, getMessage, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Message, __construct, arginfo_phalcon_mvc_model_message___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Message, setType, arginfo_phalcon_mvc_model_message_settype, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Message, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Message, setMessage, arginfo_phalcon_mvc_model_message_setmessage, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Message, getMessage, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Message, setField, arginfo_phalcon_mvc_model_message_setfield, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Message, getField, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Message, setModel, arginfo_phalcon_mvc_model_message_setmodel, ZEND_ACC_PUBLIC)
@@ -18149,6 +18168,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model);
 
 static PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct);
 static PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate);
+static PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_model___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, config, 0)
@@ -18157,6 +18177,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_model_method_entry) {
 	PHP_ME(Phalcon_Paginator_Adapter_Model, __construct, arginfo_phalcon_paginator_adapter_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Paginator_Adapter_Model, getPaginate, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_Model, paginate, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -18166,6 +18187,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray);
 
 static PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct);
 static PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate);
+static PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_nativearray___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, config, 0)
@@ -18174,6 +18196,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_nativearray_method_entry) {
 	PHP_ME(Phalcon_Paginator_Adapter_NativeArray, __construct, arginfo_phalcon_paginator_adapter_nativearray___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Paginator_Adapter_NativeArray, getPaginate, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_NativeArray, paginate, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -18186,6 +18209,7 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage);
 static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder);
 static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder);
 static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate);
+static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, config, 0)
@@ -18201,6 +18225,7 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_querybuilder_method_entry) {
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder, arginfo_phalcon_paginator_adapter_querybuilder_setquerybuilder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, paginate, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

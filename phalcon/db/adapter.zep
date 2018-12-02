@@ -227,7 +227,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 */
 	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
-		var results, result, row;
+		var results, result;
 
 		let results = [],
 			result = this->{"query"}(sqlQuery, bindParams, bindTypes);
@@ -236,16 +236,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			if fetchMode !== null {
 				result->setFetchMode(fetchMode);
 			}
-
-			loop {
-
-				let row = result->$fetch();
-				if !row {
-					break;
-				}
-
-				let results[] = row;
-			}
+			let results = result->fetchAll();
 		}
 
 		return results;
@@ -328,9 +319,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		 * Objects are casted using __toString, null values are converted to string "null", everything else is passed as "?"
 		 */
 		for position, value in values {
-			if typeof value == "object" {
+			if typeof value == "object" && value instanceof RawValue {
 				let placeholders[] = (string) value;
 			} else {
+				if typeof value == "object" {
+					let value = (string) value;
+				}
+
 				if typeof value == "null" {
 					let placeholders[] = "null";
 				} else {
@@ -474,10 +469,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			}
 
 			let escapedField = this->escapeIdentifier(field);
-
-			if typeof value == "object" {
-				let placeholders[] = escapedField . " = " . value;
+			if typeof value == "object" && value instanceof RawValue {
+				let placeholders[] = escapedField . " = " . (string) value;
 			} else {
+				if typeof value == "object" {
+					let value = (string) value;
+				}
+
 				if typeof value == "null" {
 					let placeholders[] = escapedField . " = null";
 				} else {
@@ -752,7 +750,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Creates a view
 	 */
-	public function createView(string! viewName, array! definition, var schemaName = null) -> boolean
+	public function createView(string! viewName, array! definition, string schemaName = null) -> boolean
 	{
 		if !isset definition["sql"] {
 			throw new Exception("The table must contain at least one column");
@@ -902,7 +900,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\Index[]
 	 */
-	public function describeIndexes(string! table, schema = null) -> <Index[]>
+	public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
@@ -941,7 +939,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	public function describeReferences(string! table, string schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

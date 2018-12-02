@@ -351,4 +351,61 @@ class ConfigTest extends ConfigBase
             ]
         );
     }
+
+    /**
+     * Tests issue 13351
+     *
+     * @link https://github.com/phalcon/cphalcon/issues/13351
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2018-04-27
+     */
+    public function testIssue13351MergeNonZeroBasedNumericKey()
+    {
+        $config = new Config([1 => 'Apple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+        expect($config->toArray())->equals(
+            [
+                1 => 'Apple',
+                2 => 'Banana',
+            ]
+        );
+
+        $config = new Config([0 => 'Apple']);
+        $config2 = new Config([1 => 'Banana']);
+        $config->merge($config2);
+        expect($config->toArray())->equals(
+            [
+                0 => 'Apple',
+                1 => 'Banana',
+            ]
+        );
+
+        $config = new Config([1 => 'Apple', 'p' => 'Pineapple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+        expect($config->toArray())->equals(
+            [
+                1 => 'Apple',
+                'p' => 'Pineapple',
+                2 => 'Banana',
+            ]
+        );
+
+        $config  = new Config([
+            'One' => [1 => 'Apple', 'p' => 'Pineapple'],
+            'Two' => [1 => 'Apple'],
+        ]);
+        $config2 = new Config([
+            'One' => [2 => 'Banana'],
+            'Two' => [2 => 'Banana'],
+        ]);
+        $config->merge($config2);
+        expect($config->toArray())->equals(
+            [
+                'One' => [1 => 'Apple', 'p' => 'Pineapple', 2 => 'Banana'],
+                'Two' => [1 => 'Apple', 2 => 'Banana'],
+            ]
+        );
+    }
 }

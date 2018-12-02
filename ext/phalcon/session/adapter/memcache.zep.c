@@ -122,9 +122,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_OBS_VAR(_6);
 	zephir_read_property_this(&_6, this_ptr, SL("_lifetime"), PH_NOISY_CC);
 	zephir_array_update_string(&_5, SL("lifetime"), &_6, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 349, _5);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 350, _5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 352, _4, options);
+	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 353, _4, options);
 	zephir_check_call_status();
 	zephir_update_property_this(getThis(), SL("_memcache"), _3 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_7);
@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_INIT_NVAR(_8);
 	ZVAL_STRING(_8, "gc", 1);
 	zephir_array_fast_append(_13, _8);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 449, _7, _9, _10, _11, _12, _13);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 450, _7, _9, _10, _11, _12, _13);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, getThis(), "__construct", &_14, 450, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, getThis(), "__construct", &_14, 451, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -242,21 +242,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy) {
 
 	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *sessionId_param = NULL, *id = NULL, *_1, *_2 = NULL, *_3$$5, *_4$$5 = NULL;
-	zval *sessionId = NULL;
+	zval *sessionId = NULL, *id = NULL, *_1, *_2 = NULL, *_3$$5, *_4$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &sessionId_param);
+	zephir_fetch_params(1, 0, 1, &sessionId);
 
-	if (!sessionId_param) {
-		ZEPHIR_INIT_VAR(sessionId);
-		ZVAL_EMPTY_STRING(sessionId);
-	} else {
-		zephir_get_strval(sessionId, sessionId_param);
+	if (!sessionId) {
+		sessionId = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	if (ZEPHIR_IS_STRING_IDENTICAL(sessionId, "")) {
+	if (Z_TYPE_P(sessionId) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(&id, this_ptr, "getid", NULL, 0);
 		zephir_check_call_status();
 	} else {

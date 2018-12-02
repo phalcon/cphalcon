@@ -232,22 +232,22 @@ trait PostgresqlTrait
             [
                 null,
                 'column1',
-                'ALTER TABLE "table" ADD COLUMN "column1" CHARACTER VARYING(10)'
+                'ALTER TABLE "table" ADD COLUMN "column1" CHARACTER VARYING(10) NULL'
             ],
             [
                 'schema',
                 'column1',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column1" CHARACTER VARYING(10)'
+                'ALTER TABLE "schema"."table" ADD COLUMN "column1" CHARACTER VARYING(10) NULL'
             ],
             [
                 null,
                 'column2',
-                'ALTER TABLE "table" ADD COLUMN "column2" INT'
+                'ALTER TABLE "table" ADD COLUMN "column2" INT NULL'
             ],
             [
                 'schema',
                 'column2',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT'
+                'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT NULL'
             ],
             [
                 null,
@@ -312,32 +312,32 @@ trait PostgresqlTrait
             [
                 null,
                 'column9',
-                'ALTER TABLE "table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''
+                'ALTER TABLE "table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\' NULL'
             ],
             [
                 'schema',
                 'column9',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''
+                'ALTER TABLE "schema"."table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\' NULL'
             ],
             [
                 null,
                 'column10',
-                'ALTER TABLE "table" ADD COLUMN "column10" INT DEFAULT 10'
+                'ALTER TABLE "table" ADD COLUMN "column10" INT DEFAULT 10 NULL'
             ],
             [
                 'schema',
                 'column10',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column10" INT DEFAULT 10'
+                'ALTER TABLE "schema"."table" ADD COLUMN "column10" INT DEFAULT 10 NULL'
             ],
             [
                 null,
                 'column11',
-                'ALTER TABLE "table" ADD COLUMN "column11" BIGINT'
+                'ALTER TABLE "table" ADD COLUMN "column11" BIGINT NULL'
             ],
             [
                 'schema',
                 'column11',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column11" BIGINT'
+                'ALTER TABLE "schema"."table" ADD COLUMN "column11" BIGINT NULL'
             ],
             [
                 null,
