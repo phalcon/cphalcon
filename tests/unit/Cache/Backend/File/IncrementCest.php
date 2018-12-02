@@ -46,7 +46,7 @@ class IncrementCest
     {
         $I->wantToTest("Cache\Backend\File - increment() - exception non numeric");
         $I->expectThrowable(
-            new Exception(''),
+            new Exception('The cache value is not numeric, therefore could not be incremented'),
             function () {
                 $this->cache->save('foo', "a");
                 $this->cache->increment('foo', 1);

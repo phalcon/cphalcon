@@ -70,7 +70,7 @@ if (!function_exists('loadFolders')) {
             'stream',
         ];
         foreach ($folders as $folder) {
-            $item = outputFolder('tests/', $folder);
+            $item = outputFolder('tests/' . $folder);
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
             }

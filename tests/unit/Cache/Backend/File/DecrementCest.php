@@ -45,7 +45,7 @@ class DecrementCest
     {
         $I->wantToTest("Cache\Backend\File - decrement() - exception non numeric");
         $I->expectThrowable(
-            new Exception(''),
+            new Exception('The cache value is not numeric, therefore could not decrement it'),
             function () {
                 $this->cache->save('foo', "a");
                 $this->cache->decrement('foo', 1);

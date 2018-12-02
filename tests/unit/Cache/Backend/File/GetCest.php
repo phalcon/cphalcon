@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\File;
 
+use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
@@ -44,7 +45,7 @@ class GetCest
     {
         $I->wantToTest("Cache\Backend\File - get() - exception negative lifetime");
         $I->expectThrowable(
-            new Exception(''),
+            new Exception('The lifetime must be at least 1 second'),
             function () {
                 $this->cache->save('foo', "1");
                 $this->cache->get('foo', -1);
@@ -66,7 +67,7 @@ class GetCest
         /**
          * Just in case
          */
-        if (true === $this->cache->get('foo')) {
+        if (true === $this->cache->exists('foo')) {
             $this->cache->delete('foo');
         }
 
