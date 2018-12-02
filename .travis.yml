@@ -1,5 +1,7 @@
 sudo: false
 
+dist: xenial
+
 language: php
 php:
   - 'master'
@@ -21,6 +23,7 @@ addons:
       - beanstalkd
       - gdb
       - lcov
+  postgresql: "9.4"
 
 matrix:
   fast_finish: true
