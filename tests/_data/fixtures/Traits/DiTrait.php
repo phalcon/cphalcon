@@ -12,6 +12,8 @@
 namespace Phalcon\Test\Fixtures\Traits;
 
 use function dataFolder;
+use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -37,6 +39,11 @@ trait DiTrait
         return Di::getDefault();
     }
 
+    protected function getCliDi()
+    {
+        return Di::getDefault();
+    }
+
     protected function getService(string $name)
     {
         $container = $this->getDi();
@@ -51,9 +58,26 @@ trait DiTrait
         Di::setDefault($container);
     }
 
+    protected function newCliConsole()
+    {
+        return new CliConsole();
+    }
+
+    protected function newCliFactoryDefault()
+    {
+        return new CliFactoryDefault();
+    }
+
     protected function resetDi()
     {
         Di::reset();
+    }
+
+    protected function setCliConsole()
+    {
+        $container = $this->getDi();
+
+        return $container->get('console');
     }
 
     protected function setDiAnnotations()

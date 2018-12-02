@@ -6,93 +6,14 @@ use Phalcon\Cli\Console;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Di;
-use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
-use Phalcon\Test\Module\UnitTest;
+use CliTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * \Phalcon\Test\Unit\Cli\ConsoleTest
- * Tests the \Phalcon\Cli\Console component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cli
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class ConsoleTest extends UnitTest
+class ConsoleCest
 {
-    public function testConsoles()
-    {
-        $this->specify(
-            "CLI Console doesn't work with typical parameters",
-            function () {
-                $di = new CliFactoryDefault();
-
-                $di->set(
-                    'data',
-                    function () {
-                        return "data";
-                    }
-                );
-
-                $console = new Console();
-                $console->setDI($di);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
-
-                $console->handle([]);
-                expect($dispatcher->getTaskName())->equals('main');
-                expect($dispatcher->getActionName())->equals('main');
-                expect($dispatcher->getParams())->equals([]);
-                expect($dispatcher->getReturnedValue())->equals('mainAction');
-
-                $console->handle(
-                    [
-                        'task' => 'echo',
-                    ]
-                );
-
-                expect($dispatcher->getTaskName())->equals('echo');
-                expect($dispatcher->getActionName())->equals('main');
-                expect($dispatcher->getParams())->equals([]);
-                expect($dispatcher->getReturnedValue())->equals('echoMainAction');
-
-                $console->handle(
-                    [
-                        'task' => 'main',
-                        'action' => 'hello'
-                    ]
-                );
-                expect($dispatcher->getTaskName())->equals('main');
-                expect($dispatcher->getActionName())->equals('hello');
-                expect($dispatcher->getParams())->equals([]);
-                expect($dispatcher->getReturnedValue())->equals('Hello !');
-
-                $console->handle(
-                    [
-                        'task' => 'main',
-                        'action' => 'hello',
-                        'World',
-                        '######'
-                    ]
-                );
-                expect($dispatcher->getTaskName())->equals('main');
-                expect($dispatcher->getActionName())->equals('hello');
-                expect($dispatcher->getParams())->equals(array('World', '######'));
-                expect($dispatcher->getReturnedValue())->equals('Hello World######');
-            }
-        );
-    }
+    use DiTrait;
 
     /**
-     * @test
-     *
      * @expectedException        \Phalcon\Cli\Console\Exception
      * @expectedExceptionMessage Module 'devtools' isn't registered in the console container
      */

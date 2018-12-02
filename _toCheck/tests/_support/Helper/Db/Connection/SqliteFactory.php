@@ -2,6 +2,7 @@
 
 namespace Helper\Db\Connection;
 
+use function outputFolder;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 
 /**
@@ -18,6 +19,13 @@ class SqliteFactory extends AbstractFactory
      */
     public function createConnection()
     {
-        return new Sqlite(['dbname' => env('DATA_SQLITE_NAME', PATH_OUTPUT . 'phalcon_test.sqlite')]);
+        return new Sqlite(
+            [
+                'dbname' => env(
+                    'DATA_SQLITE_NAME',
+                    outputFolder('phalcon_test.sqlite')
+                )
+            ]
+        );
     }
 }

@@ -12,9 +12,13 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class SetDICest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: setDI()
      *
@@ -26,6 +30,13 @@ class SetDICest
     public function cliConsoleSetDI(CliTester $I)
     {
         $I->wantToTest("Cli\Console - setDI()");
-        $I->skipTest("Need implementation");
+        $container = $this->newCliFactoryDefault();
+
+        $console = $this->newCliConsole();
+        $console->setDI($container);
+
+        $expected = Dispatcher::class;
+        $actual   = $console->getDI()->getShared('dispatcher');
+        $I->assertInstanceOf($expected, $actual);
     }
 }
