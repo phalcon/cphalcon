@@ -824,7 +824,6 @@ class ModelsQueryExecuteCest
         $I->assertTrue($status->success());
 
         $I->assertTrue($status->getModel()->code > 0);
-
     }
 
     private function testUpdateExecute(IntegrationTester $I)
@@ -899,7 +898,6 @@ class ModelsQueryExecuteCest
             ]
         );
         $I->assertTrue($status->success());
-
     }
 
     private function testDeleteExecute(IntegrationTester $I)

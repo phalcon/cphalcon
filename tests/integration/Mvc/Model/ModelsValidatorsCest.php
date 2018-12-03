@@ -172,4 +172,3 @@ class ModelsValidatorsCest
         $I->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
     }
 }
-

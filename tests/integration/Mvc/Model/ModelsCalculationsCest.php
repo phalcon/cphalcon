@@ -53,7 +53,6 @@ class ModelsCalculationsCest
             453272.32,
             453427.07
         );
-
     }
 
     protected function executeTestsNormal(
@@ -173,7 +172,6 @@ class ModelsCalculationsCest
 
         $group = Personnes::minimum(["column" => "ciudad_id", "group" => "estado", "order" => "minimum ASC"]);
         $I->assertEquals($group[0]->minimum, 20404);
-
     }
 
     protected function executeTestsRenamed(
@@ -293,6 +291,5 @@ class ModelsCalculationsCest
 
         $group = Pessoas::minimum(["column" => "cidadeId", "group" => "estado", "order" => "minimum ASC"]);
         $I->assertEquals($group[0]->minimum, 20404);
-
     }
 }

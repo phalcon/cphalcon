@@ -146,7 +146,6 @@ class ModelsRelationsCest
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(2, $robotsParts);
         $I->assertEquals($robotsParts->getFirst()->parts_id, 3);
-
     }
 
     private function executeTestsRenamed(IntegrationTester $I)

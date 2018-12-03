@@ -460,7 +460,6 @@ class ModelsResultsetCest
         $I->assertCount(2, $filtered);
         $I->assertEquals($filtered[0]->id, 1);
         $I->assertEquals($filtered[1]->id, 2);
-
     }
 
     private function applyTestsBig(IntegrationTester $I, $personas)
@@ -503,6 +502,5 @@ class ModelsResultsetCest
         $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
 
         $I->assertFalse(isset($personas[40]));
-
     }
 }
