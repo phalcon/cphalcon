@@ -71,6 +71,10 @@ if (!function_exists('loadFolders')) {
                 mkdir($item, 0777, true);
             }
         }
+
+        if (true !== file_exists(cacheFolder())) {
+            mkdir(cacheFolder(), 0777, true);
+        }
     }
 }
 

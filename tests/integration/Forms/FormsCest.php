@@ -1,0 +1,238 @@
+<?php
+
+/*
+	+------------------------------------------------------------------------+
+	| Phalcon Framework                                                      |
+	+------------------------------------------------------------------------+
+	| Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+	+------------------------------------------------------------------------+
+	| This source file is subject to the New BSD License that is bundled     |
+	| with this package in the file LICENSE.txt.                             |
+	|                                                                        |
+	| If you did not receive a copy of the license and are unable to         |
+	| obtain it through the world-wide-web, please send an email             |
+	| to license@phalconphp.com so we can send you a copy immediately.       |
+	+------------------------------------------------------------------------+
+	| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+	|          Eduar Carvajal <eduar@phalconphp.com>                         |
+	+------------------------------------------------------------------------+
+*/
+
+use Phalcon\Forms\Element\Radio;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Test\Fixtures\Forms\ContactFormPublicProperties;
+use Phalcon\Test\Fixtures\Forms\ContactFormSettersGetters;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Messages\Message;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\Regex;
+use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Tag;
+
+class FormsCest
+{
+    use DiTrait;
+
+    public function _before()
+    {
+        $this->newFactoryDefault();
+        Tag::setDoctype(Tag::HTML5);
+    }
+
+    public function testFormElementRender(IntegrationTester $I)
+    {
+        $element1 = new Text("name");
+        $element1->setAttributes(['class' => 'big-input']);
+
+        $element2 = new Radio('radio');
+        $element2->setAttributes(['value' => 0]);
+
+        $I->assertEquals('<input type="text" id="name" name="name" class="big-input">', $element1->render());
+        $I->assertEquals('<input type="text" id="name" name="name" class="big-input">', (string) $element1);
+        $I->assertEquals('<input type="radio" id="radio" name="radio" value="0">', (string) $element2);
+    }
+
+    public function testFormRenderEntity(IntegrationTester $I)
+    {
+        //Second element
+        $address = new Text('address');
+
+        $address->addValidator(new PresenceOf([
+            'message' => 'The address is required',
+        ]));
+
+        $telephone = new Text("telephone");
+
+        $telephone->addValidator(new PresenceOf([
+            'message' => 'The telephone is required',
+        ]));
+
+        $form = new Form(new ContactFormPublicProperties());
+
+        $form->add($address);
+        $form->add($telephone);
+
+        $I->assertEquals(
+            $form->render('address'),
+            '<input type="text" id="address" name="address" value="Cr. 12 #12-82">'
+        );
+
+        $I->assertEquals(
+            $form->render('telephone'),
+            '<input type="text" id="telephone" name="telephone" value="+44 124 82122">'
+        );
+    }
+
+    public function testFormRenderEntityGetters(IntegrationTester $I)
+    {
+        //Second element
+        $address = new Text('address');
+
+        $address->addValidator(new PresenceOf([
+            'message' => 'The address is required',
+        ]));
+
+        $telephone = new Text("telephone");
+
+        $telephone->addValidator(new PresenceOf([
+            'message' => 'The telephone is required',
+        ]));
+
+        $form = new Form(new ContactFormSettersGetters());
+
+        $form->add($address);
+        $form->add($telephone);
+
+        $I->assertEquals(
+            $form->render('address'),
+            '<input type="text" id="address" name="address" value="Cr. 12 #12-82">'
+        );
+
+        $I->assertEquals(
+            $form->render('telephone'),
+            '<input type="text" id="telephone" name="telephone" value="+44 124 82122">'
+        );
+    }
+
+    public function testFormValidatorEntity(IntegrationTester $I)
+    {
+        //Second element
+        $address = new Text('address');
+
+        $address->addValidator(new PresenceOf([
+            'message' => 'The address is required',
+        ]));
+
+        $telephone = new Text("telephone");
+
+        $telephone->addValidator(new PresenceOf([
+            'message' => 'The telephone is required',
+        ]));
+
+        $form = new Form(new ContactFormPublicProperties());
+
+        $form->add($address);
+        $form->add($telephone);
+
+        $I->assertTrue($form->isValid([
+            'telephone' => '+44 124 82122',
+            'address'   => 'hello',
+        ]));
+    }
+
+    public function testFormValidatorEntityBind(IntegrationTester $I)
+    {
+        //Second element
+        $address = new Text('address');
+
+        $address->addValidator(new PresenceOf([
+            'message' => 'The address is required',
+        ]));
+
+        $telephone = new Text("telephone");
+
+        $telephone->addValidator(new PresenceOf([
+            'message' => 'The telephone is required',
+        ]));
+
+        $entity = new ContactFormPublicProperties();
+
+        $form = new Form();
+
+        $form->add($address);
+        $form->add($telephone);
+
+        $form->bind([
+            'telephone' => '+44 123 45678',
+            'address'   => 'hello',
+        ], $entity);
+
+        $I->assertTrue($form->isValid());
+
+        $I->assertEquals($entity->telephone, '+44 123 45678');
+        $I->assertEquals($entity->address, 'hello');
+    }
+
+    public function testFormValidatorEntityBindSetters(IntegrationTester $I)
+    {
+        //Second element
+        $address = new Text('address');
+
+        $address->addValidator(new PresenceOf([
+            'message' => 'The address is required',
+        ]));
+
+        $telephone = new Text("telephone");
+
+        $telephone->addValidator(new PresenceOf([
+            'message' => 'The telephone is required',
+        ]));
+
+        $entity = new ContactFormSettersGetters();
+
+        $form = new Form();
+
+        $form->add($address);
+        $form->add($telephone);
+
+        $form->bind([
+            'telephone' => '+44 123 45678',
+            'address'   => 'hello',
+        ], $entity);
+
+        $I->assertTrue($form->isValid());
+
+        $I->assertEquals($entity->getTelephone(), '+44 123 45678');
+        $I->assertEquals($entity->getAddress(), 'hello');
+    }
+
+    public function testCorrectlyAddOptionToSelectElementIfParameterIsAnArray(IntegrationTester $I)
+    {
+        $element = new Select('test-select');
+        $element->addOption(['key' => 'value']);
+
+        $I->assertEquals(
+            '<select id="test-select" name="test-select"><option value="key">value</option></select>',
+            preg_replace('/[[:cntrl:]]/', '', $element->render())
+        );
+    }
+
+    public function testCorrectlyAddOptionToSelectElementIfParameterIsAString(IntegrationTester $I)
+    {
+        $element = new Select('test-select');
+        $element->addOption('value');
+
+        $I->assertEquals(
+            '<select id="test-select" name="test-select"><option value="0">value</option></select>',
+            preg_replace('/[[:cntrl:]]/', '', $element->render())
+        );
+    }
+
+    public function testElementAppendMessage(IntegrationTester $I)
+    {
+        $element = new Select('test-select');
+        $element->appendMessage(new Message(''));
+    }
+}

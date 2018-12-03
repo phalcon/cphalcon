@@ -19,7 +19,7 @@ class RobotsParts extends PhalconModel
     {
         $this->belongsTo(
             'robots_id',
-            Robots::class .
+            Robots::class,
             'id',
             [
                 'alias' => 'Robots',

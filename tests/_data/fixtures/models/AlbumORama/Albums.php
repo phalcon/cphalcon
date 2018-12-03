@@ -15,19 +15,20 @@ use Phalcon\Mvc\Model;
 
 class Albums extends Model
 {
-
     public function initialize()
     {
         $this->belongsTo(
             'artists_id',
-            Artists::class, 'id',
+            Artists::class,
+            'id',
             [
                 'alias' => 'artist',
             ]
         );
 
         $this->hasMany(
-            'id', Songs::class,
+            'id',
+            Songs::class,
             'albums_id',
             [
                 'alias' => 'songs',

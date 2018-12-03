@@ -18,6 +18,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Di;
+use Phalcon\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Escaper;
@@ -35,35 +36,33 @@ use function dataFolder;
 
 trait DiTrait
 {
+    /**
+     * @var null|DiInterface
+     */
+    protected $container = null;
+
     protected function getDi()
     {
-        return Di::getDefault();
-    }
-
-    protected function getCliDi()
-    {
-        return Di::getDefault();
+        return $this->container;
     }
 
     protected function getService(string $name)
     {
-        $container = $this->getDi();
-
-        return $container->get($name);
+        return $this->container->get($name);
     }
 
     protected function newDi()
     {
         Di::reset();
-        $container = new Di();
-        Di::setDefault($container);
+        $this->container = new Di();
+        Di::setDefault($this->container);
     }
 
     protected function newFactoryDefault()
     {
         Di::reset();
-        $container = new FactoryDefault();
-        Di::setDefault($container);
+        $this->container = new FactoryDefault();
+        Di::setDefault($this->container);
     }
 
     protected function newCliConsole()
@@ -76,6 +75,16 @@ trait DiTrait
         return new CliFactoryDefault();
     }
 
+    protected function newEventsManager()
+    {
+        return new EventsManager();
+    }
+
+    protected function newModelsManager()
+    {
+        return new ModelsManager();
+    }
+
     protected function resetDi()
     {
         Di::reset();
@@ -83,21 +92,17 @@ trait DiTrait
 
     protected function setCliConsole()
     {
-        $container = $this->getDi();
-
-        return $container->get('console');
+        return $this->container->get('console');
     }
 
     protected function setDiAnnotations()
     {
-        $container = Di::getDefault();
-        $container->set('annotations', new AnnotationsMemory());
+        $this->container->set('annotations', new AnnotationsMemory());
     }
 
     protected function setDiCrypt()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->set(
             'crypt',
             function () {
                 $crypt = new Crypt();
@@ -110,32 +115,27 @@ trait DiTrait
 
     protected function setDiEscaper()
     {
-        $container = Di::getDefault();
-        $container->set('escaper', Escaper::class);
+        $this->container->set('escaper', Escaper::class);
     }
 
     protected function setDiEventsManager()
     {
-        $container = Di::getDefault();
-        $container->set('eventsManager', EventsManager::class);
+        $this->container->set('eventsManager', EventsManager::class);
     }
 
     protected function setDiFilter()
     {
-        $container = Di::getDefault();
-        $container->set('filter', Filter::class);
+        $this->container->set('filter', Filter::class);
     }
 
     protected function setDiModelsManager()
     {
-        $container = Di::getDefault();
-        $container->setShared('modelsManager', ModelsManager::class);
+        $this->container->setShared('modelsManager', ModelsManager::class);
     }
 
     protected function setDiModelsMetadata()
     {
-        $container = Di::getDefault();
-        $container->setShared('modelsMetadata', MetadataMemory::class);
+        $this->container->setShared('modelsMetadata', MetadataMemory::class);
     }
 
     /**
@@ -143,8 +143,7 @@ trait DiTrait
      */
     protected function setDiMysql()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->setShared(
             'db',
             function () {
                 $options = [
@@ -165,8 +164,7 @@ trait DiTrait
      */
     protected function setDiPostgresql()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->set(
             'db',
             function () {
                 $options = [
@@ -184,20 +182,17 @@ trait DiTrait
 
     protected function setDiResponse()
     {
-        $container = Di::getDefault();
-        $container->set('response', Response::class);
+        $this->container->set('response', Response::class);
     }
 
     protected function setDiRequest()
     {
-        $container = Di::getDefault();
-        $container->set('request', Request::class);
+        $this->container->set('request', Request::class);
     }
 
     protected function setDiSession()
     {
-        $container = Di::getDefault();
-        $container->set('session', FilesSession::class);
+        $this->container->set('session', FilesSession::class);
     }
 
     /**
@@ -205,8 +200,7 @@ trait DiTrait
      */
     protected function setDiSqlite()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->set(
             'db',
             function () {
                 $options = [
@@ -220,8 +214,7 @@ trait DiTrait
 
     protected function setDiUrl()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->set(
             'url',
             function () {
                 $url = new Url();
@@ -234,8 +227,7 @@ trait DiTrait
 
     protected function setDiView()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->set(
             'view',
             function () {
                 $view = new View();
@@ -248,8 +240,7 @@ trait DiTrait
 
     protected function setDiViewSimple()
     {
-        $container = Di::getDefault();
-        $container->set(
+        $this->container->set(
             'viewSimple',
             function () {
                 $view = new Simple();
