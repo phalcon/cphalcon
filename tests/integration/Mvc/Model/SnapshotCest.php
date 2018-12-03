@@ -20,7 +20,7 @@ use Phalcon\Test\Models\Snapshot\Requests;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Robotters;
 use Phalcon\Test\Models\Snapshot\Subscribers;
-use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Module\IntegrationTest;
 
 class SnapshotCest
 {

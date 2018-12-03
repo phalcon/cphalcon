@@ -182,20 +182,7 @@ trait DiTrait
      */
     protected function setDiMysql()
     {
-        $this->container->setShared(
-            'db',
-            function () {
-                $options = [
-                    'host'     => env('DATA_MYSQL_HOST'),
-                    'username' => env('DATA_MYSQL_USER'),
-                    'password' => env('DATA_MYSQL_PASS'),
-                    'dbname'   => env('DATA_MYSQL_NAME'),
-                    'charset'  => env('DATA_MYSQL_CHARSET'),
-                ];
-
-                return new Mysql($options);
-            }
-        );
+        $this->container->setShared('db', $this->newDiMysql());
     }
 
     /**
@@ -203,20 +190,51 @@ trait DiTrait
      */
     protected function setDiPostgresql()
     {
-        $this->container->set(
-            'db',
-            function () {
-                $options = [
-                    'host'     => env('DATA_POSTGRES_HOST'),
-                    'username' => env('DATA_POSTGRES_USER'),
-                    'password' => env('DATA_POSTGRES_PASS'),
-                    'dbname'   => env('DATA_POSTGRES_NAME'),
-                    'schema'   => env('DATA_POSTGRES_SCHEMA'),
-                ];
+        $this->container->set('db', $this->newDiPostgresql());
+    }
 
-                return new Postgresql($options);
-            }
-        );
+    /**
+     * Set up db service (mysql)
+     */
+    protected function newDiMysql()
+    {
+        $options = [
+            'host'     => env('DATA_MYSQL_HOST'),
+            'username' => env('DATA_MYSQL_USER'),
+            'password' => env('DATA_MYSQL_PASS'),
+            'dbname'   => env('DATA_MYSQL_NAME'),
+            'charset'  => env('DATA_MYSQL_CHARSET'),
+        ];
+
+        return new Mysql($options);
+    }
+
+    /**
+     * Set up db service (Postgresql)
+     */
+    protected function newDiPostgresql()
+    {
+        $options = [
+            'host'     => env('DATA_POSTGRES_HOST'),
+            'username' => env('DATA_POSTGRES_USER'),
+            'password' => env('DATA_POSTGRES_PASS'),
+            'dbname'   => env('DATA_POSTGRES_NAME'),
+            'schema'   => env('DATA_POSTGRES_SCHEMA'),
+        ];
+
+        return new Postgresql($options);
+    }
+
+    /**
+     * Set up db service (Sqlite)
+     */
+    protected function newDiSqlite()
+    {
+        $options = [
+            'dbname' => env('DATA_SQLITE_NAME'),
+        ];
+
+        return new Sqlite($options);
     }
 
     protected function setDiResponse()
@@ -239,16 +257,7 @@ trait DiTrait
      */
     protected function setDiSqlite()
     {
-        $this->container->set(
-            'db',
-            function () {
-                $options = [
-                    'dbname' => env('DATA_SQLITE_NAME'),
-                ];
-
-                return new Sqlite($options);
-            }
-        );
+        $this->container->set('db', $this->newDiSqlite());
     }
 
     protected function setDiUrl()
