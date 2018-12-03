@@ -29,9 +29,9 @@ class SetOptionCest
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - setOption() - autoescape");
         $examples = $this->getVoltSetOptionAutoescape();
         foreach ($examples as $item) {
-            $param = $item[0];
+            $param    = $item[0];
             $expected = $item[1];
-            $volt = new Compiler();
+            $volt     = new Compiler();
             $volt->setOption('autoescape', true);
 
             $actual = $volt->compileString($param);

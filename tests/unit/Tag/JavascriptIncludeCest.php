@@ -54,7 +54,8 @@ class JavascriptIncludeCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: javascriptInclude() - string as the second parameter - local
+     * Tests Phalcon\Tag :: javascriptInclude() - string as the second
+     * parameter - local
      *
      * @param UnitTester $I
      *

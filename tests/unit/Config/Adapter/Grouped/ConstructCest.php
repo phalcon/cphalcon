@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
-use function dataFolder;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Factory\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+use function dataFolder;
 
 class ConstructCest
 {

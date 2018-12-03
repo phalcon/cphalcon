@@ -76,8 +76,8 @@ class HandleCest
 
         $console->handle(
             [
-                'task' => 'main',
-                'action' => 'hello'
+                'task'   => 'main',
+                'action' => 'hello',
             ]
         );
         $expected = 'main';
@@ -95,10 +95,10 @@ class HandleCest
 
         $console->handle(
             [
-                'task' => 'main',
+                'task'   => 'main',
                 'action' => 'hello',
                 'World',
-                '######'
+                '######',
             ]
         );
         $expected = 'main';

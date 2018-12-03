@@ -43,40 +43,6 @@ class DbCest
         $this->executeTests($I, $connection);
     }
 
-    /**
-     * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbPostgresql(IntegrationTester $I)
-    {
-        $I->wantToTest("Db - Postgresql");
-        $this->setDiPostgresql();
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    /**
-     * Tests Phalcon\Db :: Sqlite
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbSqlite(IntegrationTester $I)
-    {
-        $I->wantToTest("Db - Sqlite");
-        $this->setDiSqlite();
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
     private function executeTests(IntegrationTester $I, $connection)
     {
         $result = $connection->query("SELECT * FROM personas LIMIT 3");
@@ -201,9 +167,9 @@ class DbCest
             ["nombre", 'estado'],
             ["LOL array syntax 2", 'X'],
             [
-            'conditions' => "nombre=? and estado = ?",
-            'bind'       => ["LOL array syntax", "E"],
-            'bindTypes'  => [PDO::PARAM_STR, PDO::PARAM_STR],
+                'conditions' => "nombre=? and estado = ?",
+                'bind'       => ["LOL array syntax", "E"],
+                'bindTypes'  => [PDO::PARAM_STR, PDO::PARAM_STR],
             ],
             [PDO::PARAM_STR, PDO::PARAM_STR]
         );
@@ -393,5 +359,39 @@ class DbCest
 
         $success = $connection->rollback(); // rollback - real rollback
         $I->assertTrue($success);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbPostgresql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Postgresql");
+        $this->setDiPostgresql();
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Sqlite
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbSqlite(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Sqlite");
+        $this->setDiSqlite();
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
     }
 }

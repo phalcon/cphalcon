@@ -11,13 +11,13 @@
 
 namespace Phalcon\Test\Unit\Http;
 
-use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Crypt;
 use Phalcon\Crypt\Mismatch;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Cookies;
+use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -53,7 +53,8 @@ class CookieCest extends HttpBase
     }
 
     /**
-     * Tests Cookie::getValue using message authentication code and request forgery
+     * Tests Cookie::getValue using message authentication code and request
+     * forgery
      *
      * @test
      * @author Phalcon Team <team@phalconphp.com>
@@ -128,8 +129,8 @@ class CookieCest extends HttpBase
         $rawValue  = explode(';', $rawCookie)[0];
 
         $_COOKIE[$cookieName] = $rawValue;
-        $expected = $cookieValue;
-        $actual   = $cookie->getValue();
+        $expected             = $cookieValue;
+        $actual               = $cookie->getValue();
         $I->assertEquals($expected, $actual);
     }
 

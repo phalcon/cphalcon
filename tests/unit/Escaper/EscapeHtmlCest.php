@@ -27,7 +27,7 @@ class EscapeHtmlCest
     public function escaperEscapeHtml(UnitTester $I)
     {
         $I->wantToTest("Escaper - escapeHtml()");
-        $escaper  = new Escaper();
+        $escaper = new Escaper();
 
         $expected = '&lt;h1&gt;&lt;/h1&gt;';
         $actual   = $escaper->escapeHtml("<h1></h1>");

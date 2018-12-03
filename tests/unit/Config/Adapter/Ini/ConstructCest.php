@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
-use function dataFolder;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+use function dataFolder;
 
 class ConstructCest
 {

@@ -2,11 +2,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function date;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Db\RawValue;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Abonnes;
+use function date;
 
 class ModelsValidatorsCest
 {
@@ -21,21 +21,6 @@ class ModelsValidatorsCest
     {
         $this->setDiMysql();
         $this->testValidatorsRenamed($I);
-    }
-
-    public function testValidatorsPostgresql(IntegrationTester $I)
-    {
-        $this->setupPostgres();
-        $this->testValidatorsRenamed($I);
-    }
-
-    public function testValidatorsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        /**
-         * @todo Check Sqlite - tests lock up
-         */
-//        $this->testValidatorsRenamed($I);
     }
 
     protected function testValidatorsRenamed(IntegrationTester $I)
@@ -170,5 +155,20 @@ class ModelsValidatorsCest
         $I->assertEquals($messages[0]->getType(), "Email");
         $I->assertEquals($messages[0]->getField(), "courrierElectronique");
         $I->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
+    }
+
+    public function testValidatorsPostgresql(IntegrationTester $I)
+    {
+        $this->setupPostgres();
+        $this->testValidatorsRenamed($I);
+    }
+
+    public function testValidatorsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        /**
+         * @todo Check Sqlite - tests lock up
+         */
+//        $this->testValidatorsRenamed($I);
     }
 }

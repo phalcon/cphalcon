@@ -47,7 +47,7 @@ class SaveCest
         $I->expectThrowable(
             new \Exception('A non-numeric value encountered', 2),
             function () {
-                $this->cache->save('foo', "a" -1);
+                $this->cache->save('foo', "a" - 1);
             }
         );
     }

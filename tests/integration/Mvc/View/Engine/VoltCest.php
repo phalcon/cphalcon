@@ -17,14 +17,13 @@
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine;
 
-use function cacheFolder;
-use function dataFolder;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Tag;
-use function var_dump;
+use function cacheFolder;
+use function dataFolder;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\VoltCest
@@ -52,7 +51,7 @@ class VoltCest
         $baseFile     = dataFolder('fixtures/views/extends/index');
         $renderFile   = $baseFile . '.volt';
         $compiledFile = $I->preparePathToFileWithDelimiter($baseFile, '.')
-                      . '.volt.compiled';
+            . '.volt.compiled';
         $compiledFile = cacheFolder($compiledFile);
 
         $volt->setOptions(

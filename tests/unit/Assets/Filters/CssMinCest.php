@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
-use function dataFolder;
 use InvalidArgumentException;
 use Phalcon\Assets\Filters\Cssmin;
 use UnitTester;
+use function dataFolder;
 
 class CssMinCest
 {

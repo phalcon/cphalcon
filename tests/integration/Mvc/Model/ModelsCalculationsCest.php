@@ -10,7 +10,7 @@ use Phalcon\Test\Models\Pessoas;
 class ModelsCalculationsCest
 {
     use DiTrait;
-    
+
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -21,38 +21,6 @@ class ModelsCalculationsCest
         $this->setDiMysql();
         $this->executeTestsNormal($I);
         $this->executeTestsRenamed($I);
-    }
-
-    public function testCalculationsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
-    /**
-     * @medium
-     */
-    public function testCalculationsPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-        $this->executeTestsNormal(
-            $I,
-            2196,
-            2194,
-            995386020.00,
-            994819000.00,
-            453272.32,
-            453427.07
-        );
-        $this->executeTestsRenamed(
-            $I,
-            2196,
-            2194,
-            995386020.00,
-            994819000.00,
-            453272.32,
-            453427.07
-        );
     }
 
     protected function executeTestsNormal(
@@ -291,5 +259,38 @@ class ModelsCalculationsCest
 
         $group = Pessoas::minimum(["column" => "cidadeId", "group" => "estado", "order" => "minimum ASC"]);
         $I->assertEquals($group[0]->minimum, 20404);
+    }
+
+    public function testCalculationsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        $this->executeTestsNormal($I);
+        $this->executeTestsRenamed($I);
+    }
+
+    /**
+     * @medium
+     */
+    public function testCalculationsPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+        $this->executeTestsNormal(
+            $I,
+            2196,
+            2194,
+            995386020.00,
+            994819000.00,
+            453272.32,
+            453427.07
+        );
+        $this->executeTestsRenamed(
+            $I,
+            2196,
+            2194,
+            995386020.00,
+            994819000.00,
+            453272.32,
+            453427.07
+        );
     }
 }

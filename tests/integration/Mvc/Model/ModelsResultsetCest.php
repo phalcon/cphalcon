@@ -3,8 +3,8 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Db\RawValue;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Robots;
 
@@ -20,7 +20,7 @@ class ModelsResultsetCest
     public function testResultsetNormalMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
-        
+
         $robots = Robots::find(
             [
                 'order' => 'id',
@@ -28,6 +28,60 @@ class ModelsResultsetCest
         );
 
         $this->applyTests($I, $robots);
+    }
+
+    private function applyTests(IntegrationTester $I, $robots)
+    {
+        $I->assertCount(3, $robots);
+        $I->assertEquals($robots->count(), 3);
+
+        //Using a foreach
+        $number = 0;
+        foreach ($robots as $robot) {
+            $I->assertEquals($robot->id, $number + 1);
+            $number++;
+        }
+        $I->assertEquals($number, 3);
+
+        //Using a while
+        $number = 0;
+        $robots->rewind();
+        while ($robots->valid()) {
+            $robot = $robots->current();
+            $I->assertEquals($robot->id, $number + 1);
+            $robots->next();
+            $number++;
+        }
+        $I->assertEquals($number, 3);
+
+        $robots->seek(1);
+        $robots->valid();
+        $robot = $robots->current();
+        $I->assertEquals($robot->id, 2);
+
+        $robot = $robots->getFirst();
+        $I->assertEquals($robot->id, 1);
+
+        $robot = $robots->getLast();
+        $I->assertEquals($robot->id, 3);
+
+        $robot = $robots[0];
+        $I->assertEquals($robot->id, 1);
+
+        $robot = $robots[2];
+        $I->assertEquals($robot->id, 3);
+
+        $I->assertFalse(isset($robots[4]));
+
+        $filtered = $robots->filter(function ($robot) {
+            if ($robot->id < 3) {
+                return $robot;
+            }
+        });
+
+        $I->assertCount(2, $filtered);
+        $I->assertEquals($filtered[0]->id, 1);
+        $I->assertEquals($filtered[1]->id, 2);
     }
 
     public function testResultsetNormalPostgresql(IntegrationTester $I)
@@ -100,7 +154,7 @@ class ModelsResultsetCest
     {
         $this->setDiMysql();
 
-        $data = serialize(Robots::find(['order' => 'id']));
+        $data   = serialize(Robots::find(['order' => 'id']));
         $robots = unserialize($data);
 
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
@@ -112,7 +166,7 @@ class ModelsResultsetCest
     {
         $this->setupPostgres();
 
-        $data = serialize(Robots::find(['order' => 'id']));
+        $data   = serialize(Robots::find(['order' => 'id']));
         $robots = unserialize($data);
 
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
@@ -124,7 +178,7 @@ class ModelsResultsetCest
     {
         $this->setDiSqlite();
 
-        $data = serialize(Robots::find(['order' => 'id']));
+        $data   = serialize(Robots::find(['order' => 'id']));
         $robots = unserialize($data);
 
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
@@ -147,7 +201,7 @@ class ModelsResultsetCest
 
         $robots = unserialize($data);
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
-        
+
         $this->applyTests($I, $robots);
     }
 
@@ -204,6 +258,48 @@ class ModelsResultsetCest
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
 
         $this->applyTestsBig($I, $personas);
+    }
+
+    private function applyTestsBig(IntegrationTester $I, $personas)
+    {
+        $I->assertCount(33, $personas);
+        $I->assertEquals($personas->count(), 33);
+
+        //Using a foreach
+        $number = 0;
+        foreach ($personas as $persona) {
+            $number++;
+        }
+        $I->assertEquals($number, 33);
+
+        //Using a while
+        $number = 0;
+        $personas->rewind();
+        while ($personas->valid()) {
+            $persona = $personas->current();
+            $personas->next();
+            $number++;
+        }
+        $I->assertEquals($number, 33);
+
+        $personas->seek(1);
+        $personas->valid();
+        $persona = $personas->current();
+        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+
+        $persona = $personas->getFirst();
+        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+
+        $persona = $personas->getLast();
+        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+
+        $persona = $personas[0];
+        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+
+        $persona = $personas[2];
+        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+
+        $I->assertFalse(isset($personas[40]));
     }
 
     public function testSerializeBigPostgresql(IntegrationTester $I)
@@ -406,101 +502,5 @@ class ModelsResultsetCest
         $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[12]);
         $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[23]);
         $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[23]);
-    }
-
-    private function applyTests(IntegrationTester $I, $robots)
-    {
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        //Using a foreach
-        $number = 0;
-        foreach ($robots as $robot) {
-            $I->assertEquals($robot->id, $number + 1);
-            $number++;
-        }
-        $I->assertEquals($number, 3);
-
-        //Using a while
-        $number = 0;
-        $robots->rewind();
-        while ($robots->valid()) {
-            $robot = $robots->current();
-            $I->assertEquals($robot->id, $number + 1);
-            $robots->next();
-            $number++;
-        }
-        $I->assertEquals($number, 3);
-
-        $robots->seek(1);
-        $robots->valid();
-        $robot = $robots->current();
-        $I->assertEquals($robot->id, 2);
-
-        $robot = $robots->getFirst();
-        $I->assertEquals($robot->id, 1);
-
-        $robot = $robots->getLast();
-        $I->assertEquals($robot->id, 3);
-
-        $robot = $robots[0];
-        $I->assertEquals($robot->id, 1);
-
-        $robot = $robots[2];
-        $I->assertEquals($robot->id, 3);
-
-        $I->assertFalse(isset($robots[4]));
-
-        $filtered = $robots->filter(function ($robot) {
-            if ($robot->id < 3) {
-                return $robot;
-            }
-        });
-
-        $I->assertCount(2, $filtered);
-        $I->assertEquals($filtered[0]->id, 1);
-        $I->assertEquals($filtered[1]->id, 2);
-    }
-
-    private function applyTestsBig(IntegrationTester $I, $personas)
-    {
-        $I->assertCount(33, $personas);
-        $I->assertEquals($personas->count(), 33);
-
-        //Using a foreach
-        $number = 0;
-        foreach ($personas as $persona) {
-            $number++;
-        }
-        $I->assertEquals($number, 33);
-
-        //Using a while
-        $number = 0;
-        $personas->rewind();
-        while ($personas->valid()) {
-            $persona = $personas->current();
-            $personas->next();
-            $number++;
-        }
-        $I->assertEquals($number, 33);
-
-        $personas->seek(1);
-        $personas->valid();
-        $persona = $personas->current();
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
-
-        $persona = $personas->getFirst();
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
-
-        $persona = $personas->getLast();
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
-
-        $persona = $personas[0];
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
-
-        $persona = $personas[2];
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
-
-        $I->assertFalse(isset($personas[40]));
     }
 }

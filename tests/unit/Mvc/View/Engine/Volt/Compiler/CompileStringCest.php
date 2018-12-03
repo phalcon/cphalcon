@@ -30,38 +30,13 @@ class CompileStringCest
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString()");
         $examples = $this->getVoltCompileString();
         foreach ($examples as $item) {
-            $param = $item[0];
+            $param    = $item[0];
             $expected = $item[1];
-            $volt = new Compiler();
+            $volt     = new Compiler();
 
             $actual = $volt->compileString($param);
             $I->assertEquals($expected, $actual);
         };
-    }
-    
-    /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - syntax error
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-17
-     */
-    public function mvcViewEngineVoltCompilerCompileStringSyntaxError(UnitTester $I)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString() - syntax error");
-        $examples = $this->getVoltCompileStringErrors();
-        foreach ($examples as $item) {
-            $code    = $item[0];
-            $message = $item[1];
-            $volt    = new Compiler();
-            $I->expectThrowable(
-                new Exception($message),
-                function () use ($volt, $code) {
-                    $volt->compileString($code);
-                }
-            );
-        }
     }
 
     /**
@@ -97,11 +72,11 @@ class CompileStringCest
             ['{% set a = ["hello", 2, 1.3, false, true, null] %}', '<?php $a = [\'hello\', 2, 1.3, false, true, null]; ?>'],
             [
                 '{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}',
-                '<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>'
+                '<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>',
             ],
             [
                 "{% set a = ['first': 1, 'second': 2, 'third': 3] %}",
-                '<?php $a = [\'first\' => 1, \'second\' => 2, \'third\' => 3]; ?>'
+                '<?php $a = [\'first\' => 1, \'second\' => 2, \'third\' => 3]; ?>',
             ],
             //Array access
             ['{{ a[0 ]}}', '<?= $a[0] ?>'],
@@ -127,17 +102,17 @@ class CompileStringCest
             ["{{ link_to('hello', 'some-link') }}", '<?= $this->tag->linkTo([\'hello\', \'some-link\']) ?>'],
             [
                 "{{ form('action': 'save/products', 'method': 'post') }}",
-                '<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>'
+                '<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
             ],
             [
                 '{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}',
-                '<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>'
+                '<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>',
             ],
             ["{{ javascript_include('js/some.js') }}", '<?= $this->tag->javascriptInclude(\'js/some.js\') ?>'],
             ["{{ image('img/logo.png', 'width': 80) }}", "<?= \$this->tag->image(['img/logo.png', 'width' => 80]) ?>"],
             [
                 "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}",
-                "<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>"
+                "<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>",
             ],
             //Filters
             ['{{ "hello"|e }}', '<?= $this->escaper->escapeHtml(\'hello\') ?>'],
@@ -153,7 +128,7 @@ class CompileStringCest
             ['{{ "My name is %s, %s"|format(name, "thanks") }}', "<?= sprintf('My name is %s, %s', \$name, 'thanks') ?>"],
             [
                 '{{ "some name"|convert_encoding("utf-8", "latin1") }}',
-                "<?= \$this->convertEncoding('some name', 'utf-8', 'latin1') ?>"
+                "<?= \$this->convertEncoding('some name', 'utf-8', 'latin1') ?>",
             ],
             //if statement
             ['{% if a==b %} hello {% endif %}', '<?php if ($a == $b) { ?> hello <?php } ?>'],
@@ -177,11 +152,11 @@ class CompileStringCest
             ['{% if a is not scalar %} hello {% endif %}', '<?php if (!is_scalar($a)) { ?> hello <?php } ?>'],
             [
                 '{% if a is iterable %} hello {% endif %}',
-                '<?php if ((is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>'
+                '<?php if ((is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>',
             ],
             [
                 '{% if a is not iterable %} hello {% endif %}',
-                '<?php if (!(is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>'
+                '<?php if (!(is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>',
             ],
             ['{% if a is sameas(false) %} hello {% endif %}', '<?php if (($a) === (false)) { ?> hello <?php } ?>'],
             ['{% if a is sameas(b) %} hello {% endif %}', '<?php if (($a) === ($b)) { ?> hello <?php } ?>'],
@@ -191,27 +166,27 @@ class CompileStringCest
             ['{% if a is not defined %} hello {% endif %}', '<?php if (!isset($a)) { ?> hello <?php } ?>'],
             [
                 '{% if a==b %} hello {% else %} not hello {% endif %}',
-                '<?php if ($a == $b) { ?> hello <?php } else { ?> not hello <?php } ?>'
+                '<?php if ($a == $b) { ?> hello <?php } else { ?> not hello <?php } ?>',
             ],
             [
                 '{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}',
-                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } ?> <?php } else { ?> not hello <?php } ?>'
+                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } ?> <?php } else { ?> not hello <?php } ?>',
             ],
             [
                 '{% if a==b %} {% if c==d %} hello {% else %} not hello {% endif %}{% endif %}',
-                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } else { ?> not hello <?php } ?><?php } ?>'
+                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } else { ?> not hello <?php } ?><?php } ?>',
             ],
             [
                 '{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}',
-                '<?php if ($a == $b) { ?> hello <?php } else { ?> <?php if ($c == $d) { ?> not hello <?php } ?> <?php } ?>'
+                '<?php if ($a == $b) { ?> hello <?php } else { ?> <?php if ($c == $d) { ?> not hello <?php } ?> <?php } ?>',
             ],
             [
                 '{% if a is empty or a is defined %} hello {% else %} not hello {% endif %}',
-                '<?php if (empty($a) || isset($a)) { ?> hello <?php } else { ?> not hello <?php } ?>'
+                '<?php if (empty($a) || isset($a)) { ?> hello <?php } else { ?> not hello <?php } ?>',
             ],
             [
                 '{% if a is even or b is odd %} hello {% else %} not hello {% endif %}',
-                '<?php if (((($a) % 2) == 0) || ((($b) % 2) != 0)) { ?> hello <?php } else { ?> not hello <?php } ?>'
+                '<?php if (((($a) % 2) == 0) || ((($b) % 2) != 0)) { ?> hello <?php } else { ?> not hello <?php } ?>',
             ],
             //for statement
             ['{% for a in b %} hello {% endfor %}', '<?php foreach ($b as $a) { ?> hello <?php } ?>'],
@@ -219,25 +194,25 @@ class CompileStringCest
             ['{% for a in b.c %} hello {% endfor %}', '<?php foreach ($b->c as $a) { ?> hello <?php } ?>'],
             [
                 '{% for key, value in [0, 1, 3, 5, 4] %} hello {% endfor %}',
-                '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { ?> hello <?php } ?>'
+                '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { ?> hello <?php } ?>',
             ],
             [
                 '{% for key, value in [0, 1, 3, 5, 4] if key!=3 %} hello {% endfor %}',
-                '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>'
+                '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>',
             ],
             ['{% for a in 1..10 %} hello {% endfor %}', '<?php foreach (range(1, 10) as $a) { ?> hello <?php } ?>'],
             [
                 '{% for a in 1..10 if a is even %} hello {% endfor %}',
-                '<?php foreach (range(1, 10) as $a) { if (((($a) % 2) == 0)) { ?> hello <?php } ?><?php } ?>'
+                '<?php foreach (range(1, 10) as $a) { if (((($a) % 2) == 0)) { ?> hello <?php } ?><?php } ?>',
             ],
             [
                 '{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}',
-                '<?php foreach (range(1, 10) as $a) { ?> <?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>'
+                '<?php foreach (range(1, 10) as $a) { ?> <?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>',
             ],
             ['{% for a in 1..10 %}{% break %}{% endfor %}', '<?php foreach (range(1, 10) as $a) { ?><?php break; ?><?php } ?>'],
             [
                 '{% for a in 1..10 %}{% continue %}{% endfor %}',
-                '<?php foreach (range(1, 10) as $a) { ?><?php continue; ?><?php } ?>'
+                '<?php foreach (range(1, 10) as $a) { ?><?php continue; ?><?php } ?>',
             ],
             //set statement
             ['{% set a = 1 %}', '<?php $a = 1; ?>'],
@@ -247,24 +222,50 @@ class CompileStringCest
             // Cache statement
             [
                 '{% cache somekey %} hello {% endcache %}',
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } else { echo $_cacheKey[$somekey]; } ?>'
+                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } else { echo $_cacheKey[$somekey]; } ?>',
             ],
             [
                 '{% set lifetime = 500 %}{% cache somekey lifetime %} hello {% endcache %}',
-                '<?php $lifetime = 500; ?><?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, $lifetime); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, $lifetime); } else { echo $_cacheKey[$somekey]; } ?>'
+                '<?php $lifetime = 500; ?><?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, $lifetime); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, $lifetime); } else { echo $_cacheKey[$somekey]; } ?>',
             ],
             [
                 '{% cache somekey 500 %} hello {% endcache %}',
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, 500); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>'
+                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, 500); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>',
             ],
             //Autoescape mode
             [
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>"
+                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>",
             ],
             //Mixed
             ['{# some comment #}{{ "hello" }}{# other comment }}', "<?= 'hello' ?>"],
         ];
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - syntax
+     * error
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-17
+     */
+    public function mvcViewEngineVoltCompilerCompileStringSyntaxError(UnitTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString() - syntax error");
+        $examples = $this->getVoltCompileStringErrors();
+        foreach ($examples as $item) {
+            $code    = $item[0];
+            $message = $item[1];
+            $volt    = new Compiler();
+            $I->expectThrowable(
+                new Exception($message),
+                function () use ($volt, $code) {
+                    $volt->compileString($code);
+                }
+            );
+        }
     }
 
     /**

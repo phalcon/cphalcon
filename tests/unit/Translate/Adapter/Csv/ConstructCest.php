@@ -12,11 +12,11 @@
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
 use ArrayAccess;
-use function dataFolder;
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
 use UnitTester;
+use function dataFolder;
 
 class ConstructCest
 {

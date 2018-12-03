@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
-use function dataFolder;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+use function dataFolder;
 
 class ConstructCest
 {

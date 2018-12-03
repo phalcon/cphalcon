@@ -2,12 +2,12 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use function array_merge;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
 use UnitTester;
+use function array_merge;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\RedisCest
@@ -47,13 +47,32 @@ class RedisCest
         $I->assertFalse($cache->exists('non-existent-key'));
     }
 
+    /**
+     * @param int   $lifetime
+     * @param array $options
+     *
+     * @return Redis
+     */
+    private function getClient(int $lifetime = 20, array $options = []): Redis
+    {
+        $config = [
+            'host'  => env('DATA_REDIS_HOST'),
+            'port'  => env('DATA_REDIS_PORT'),
+            'index' => env('DATA_REDIS_NAME'),
+        ];
+
+        $config = array_merge($config, $options);
+
+        return new Redis(new Data(['lifetime' => $lifetime]), $config);
+    }
+
     public function existsWithoutStatsKey(UnitTester $I)
     {
         $I->wantTo('Check if cache exists in cache by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
-        $key  = 'data-exists';
-        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+        $key   = 'data-exists';
+        $data  = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
         $cache = $this->getClient();
 
         $I->dontSeeInRedis($key);
@@ -72,7 +91,7 @@ class RedisCest
         $I->wantTo('Check if cache exists for empty value in cache by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
-        $key = '_PHCR' . 'data-empty-exists';
+        $key   = '_PHCR' . 'data-empty-exists';
         $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', $key, '');
@@ -86,8 +105,8 @@ class RedisCest
         $I->wantTo('Get data by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
-        $key  = '_PHCR' . 'data-get';
-        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+        $key   = '_PHCR' . 'data-get';
+        $data  = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
         $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->haveInRedis('string', $key, serialize($data));
@@ -124,8 +143,8 @@ class RedisCest
         $I->wantTo('Save data by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
-        $key  = '_PHCR' . 'data-save';
-        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+        $key   = '_PHCR' . 'data-save';
+        $data  = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
         $cache = $this->getClient(20, ['statsKey' => '_PHCR']);
 
         $I->dontSeeInRedis($key);
@@ -150,8 +169,8 @@ class RedisCest
         $I->wantTo('Save data termlessly by using Redis as cache backend');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
 
-        $key  = '_PHCR' . 'data-save-2';
-        $data = 1000;
+        $key   = '_PHCR' . 'data-save-2';
+        $data  = 1000;
         $cache = $this->getClient(200);
 
         $I->dontSeeInRedis($key);
@@ -287,8 +306,8 @@ class RedisCest
     {
         $I->wantTo('Get data by using Redis as cache backend and set timeout');
         $I->skipTest('TODO: Find out why the module cannot connect with the port');
-        $key  = '_PHCR' . 'data-get-timeout';
-        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+        $key   = '_PHCR' . 'data-get-timeout';
+        $data  = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
         $cache = $this->getClient(20, ['statsKey' => '_PHCR', 'timeout' => 1]);
 
         $I->haveInRedis('string', $key, serialize($data));
@@ -321,24 +340,5 @@ class RedisCest
         $I->assertEquals(['phalcon-a', 'phalcon-b'], $keys);
         $I->assertEquals($data, $cache->get('a'));
         $I->assertEquals($data, $cache->get('b'));
-    }
-
-    /**
-     * @param int   $lifetime
-     * @param array $options
-     *
-     * @return Redis
-     */
-    private function getClient(int $lifetime = 20, array $options = []): Redis
-    {
-        $config = [
-            'host'  => env('DATA_REDIS_HOST'),
-            'port'  => env('DATA_REDIS_PORT'),
-            'index' => env('DATA_REDIS_NAME'),
-        ];
-
-        $config = array_merge($config, $options);
-
-        return new Redis(new Data(['lifetime' => $lifetime]), $config);
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Forms;
 
+use IntegrationTester;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
@@ -23,7 +24,6 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
-use IntegrationTester;
 
 class FormCest
 {

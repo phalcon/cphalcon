@@ -27,8 +27,8 @@ class EscapeCssCest
     public function escaperEscapeCss(UnitTester $I)
     {
         $I->wantToTest("Escaper - escapeCss()");
-        $escaper  = new Escaper();
-        $source   = ".émotion { background: "
+        $escaper = new Escaper();
+        $source  = ".émotion { background: "
             . "url('http://phalconphp.com/a.php?c=d&e=f'); }";
 
         $expected = '\2e \e9 motion\20 \7b \20 background\3a \20 url\28 '

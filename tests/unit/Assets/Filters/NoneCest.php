@@ -11,13 +11,13 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
-use function dataFolder;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
 use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataFolder;
 
 class NoneCest
 {

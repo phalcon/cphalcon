@@ -27,8 +27,8 @@ class EscapeJsCest
     public function escaperEscapeJs(UnitTester $I)
     {
         $I->wantToTest("Escaper - escapeJs()");
-        $escaper  = new Escaper();
-        $source   = "function createtoc () {"
+        $escaper = new Escaper();
+        $source  = "function createtoc () {"
             . "var h2s = document.getElementsByTagName('H2');"
             . "l = toc.appendChild(document.createElement('ol'));"
             . "for (var i=0; i<h2s.length; i++) {"

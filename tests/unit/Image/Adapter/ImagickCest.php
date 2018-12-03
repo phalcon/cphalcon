@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Unit\Image\Adapter;
 
-use function dataFolder;
-use function outputFolder;
 use Phalcon\Image;
 use Phalcon\Image\Adapter\Imagick;
 use UnitTester;
+use function dataFolder;
+use function outputFolder;
 
 class ImagickCest
 {

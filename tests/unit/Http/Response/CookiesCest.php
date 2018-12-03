@@ -7,8 +7,8 @@ use Phalcon\Http\Cookie;
 use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 /**
@@ -16,10 +16,10 @@ use UnitTester;
  * Tests the Phalcon\Http\Response\Cookies component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Unit\Http\Response
+ * @link          https://phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Unit\Http\Response
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -45,6 +45,7 @@ class CookiesCest extends HttpBase
 
     /**
      * Tests getCookies is work.
+     *
      * @author limx <715557344@qq.com>
      */
     public function testGetCookies(UnitTester $I)

@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
-use function dataFolder;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use UnitTester;
+use function dataFolder;
 
 class CompileFileCest
 {

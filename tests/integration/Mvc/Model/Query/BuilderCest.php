@@ -18,12 +18,12 @@
 namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use IntegrationTester;
-use function outputFolder;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\RobotsParts;
+use function outputFolder;
 
 /**
  * Phalcon\Test\Integration\Mvc\Model\Query\BuilderCest

@@ -5,11 +5,11 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\AlbumORama\Songs;
-use Phalcon\Mvc\Model;
 
 class ModelsRelationsMagicCest
 {
@@ -83,7 +83,7 @@ class ModelsRelationsMagicCest
     private function executeSaveRelatedBelongsTo(IntegrationTester $I)
     {
         $connection = $this->getService('db');
-        $artist = new Artists();
+        $artist     = new Artists();
 
         $album         = new Albums();
         $album->artist = $artist;

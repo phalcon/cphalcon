@@ -16,13 +16,13 @@
 
 namespace Phalcon\Test\Unit\Di;
 
-use function dataFolder;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use UnitTester;
+use function dataFolder;
 
 /**
  * Phalcon\Test\Unit\DiTest
@@ -87,7 +87,7 @@ class DiCest
     public function testSetArray(UnitTester $I)
     {
         $this->phDi->set('request3', [
-            'className' => 'Phalcon\Http\Request'
+            'className' => 'Phalcon\Http\Request',
         ]);
         $I->assertEquals(get_class($this->phDi->get('request3')), 'Phalcon\Http\Request');
     }
@@ -141,7 +141,7 @@ class DiCest
     public function testGetShared(UnitTester $I)
     {
         $this->phDi->set('dateObject', function () {
-            $object = new \stdClass();
+            $object       = new \stdClass();
             $object->date = microtime(true);
             return $object;
         });
@@ -217,7 +217,7 @@ class DiCest
                 '_definition'     => 'some-other-service',
                 '_shared'         => false,
                 '_sharedInstance' => null,
-            ])
+            ]),
         ];
 
         $this->phDi->set('service1', 'some-service');
@@ -308,10 +308,10 @@ class DiCest
                 'className' => 'InjectableComponent',
                 'arguments' => [
                     [
-                        'type' => 'parameter',
-                        'value' => 'response'
+                        'type'  => 'parameter',
+                        'value' => 'response',
                     ],
-                ]
+                ],
             ]
         );
 
@@ -320,17 +320,17 @@ class DiCest
             'simpleSetters',
             [
                 'className' => 'InjectableComponent',
-                'calls' => [
+                'calls'     => [
                     [
-                        'method' => 'setResponse',
+                        'method'    => 'setResponse',
                         'arguments' => [
                             [
-                                'type' => 'parameter',
-                                'value' => 'response'
+                                'type'  => 'parameter',
+                                'value' => 'response',
                             ],
-                        ]
+                        ],
                     ],
-                ]
+                ],
             ]
         );
 
@@ -338,16 +338,16 @@ class DiCest
         $this->phDi->set(
             'simpleProperties',
             [
-                'className' => 'InjectableComponent',
+                'className'  => 'InjectableComponent',
                 'properties' => [
                     [
-                        'name' => 'response',
+                        'name'  => 'response',
                         'value' => [
-                            'type' => 'parameter',
-                            'value' => 'response'
-                        ]
+                            'type'  => 'parameter',
+                            'value' => 'response',
+                        ],
                     ],
-                ]
+                ],
             ]
         );
 
@@ -359,9 +359,9 @@ class DiCest
                 'arguments' => [
                     [
                         'type' => 'service',
-                        'name' => 'response'
-                    ]
-                ]
+                        'name' => 'response',
+                    ],
+                ],
             ]
         );
 
@@ -370,17 +370,17 @@ class DiCest
             'complexSetters',
             [
                 'className' => 'InjectableComponent',
-                'calls' => [
+                'calls'     => [
                     [
-                        'method' => 'setResponse',
+                        'method'    => 'setResponse',
                         'arguments' => [
                             [
                                 'type' => 'service',
                                 'name' => 'response',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
-                ]
+                ],
             ]
         );
 
@@ -388,16 +388,16 @@ class DiCest
         $this->phDi->set(
             'complexProperties',
             [
-                'className' => 'InjectableComponent',
+                'className'  => 'InjectableComponent',
                 'properties' => [
                     [
-                        'name' => 'response',
+                        'name'  => 'response',
                         'value' => [
                             'type' => 'service',
                             'name' => 'response',
-                        ]
+                        ],
                     ],
-                ]
+                ],
             ]
         );
 

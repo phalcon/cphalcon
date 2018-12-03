@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
-use function dataFolder;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
@@ -21,6 +20,7 @@ use Phalcon\Assets\Resource\Js;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataFolder;
 
 class ManagerCest
 {

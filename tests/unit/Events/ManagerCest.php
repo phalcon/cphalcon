@@ -13,13 +13,13 @@ namespace Phalcon\Test\Unit\Events;
 
 use ComponentX;
 use ComponentY;
-use function dataFolder;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Listener\FirstListener;
-use Phalcon\Test\Fixtures\Listener\ThirdListener;
 use Phalcon\Test\Fixtures\Listener\SecondListener;
+use Phalcon\Test\Fixtures\Listener\ThirdListener;
 use UnitTester;
+use function dataFolder;
 
 class ManagerCest
 {

@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Unit\Mvc\View;
 
-use function dataFolder;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -12,6 +11,7 @@ use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataFolder;
 
 class SimpleCest
 {

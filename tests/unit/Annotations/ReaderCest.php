@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Unit\Annotations;
 
-use function dataFolder;
-use function file_exists;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
 use UnitTester;
+use function dataFolder;
+use function file_exists;
 
 class ReaderCest
 {

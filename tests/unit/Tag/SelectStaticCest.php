@@ -380,7 +380,8 @@ class SelectStaticCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: selectStatic() - opt group name and no id in parameter
+     * Tests Phalcon\Tag :: selectStatic() - opt group name and no id in
+     * parameter
      *
      * @param UnitTester $I
      *

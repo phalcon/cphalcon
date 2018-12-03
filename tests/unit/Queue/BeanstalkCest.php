@@ -11,20 +11,20 @@
 
 namespace Phalcon\Test\Unit\Queue;
 
-use Phalcon\Test\Fixtures\Traits\BeanstalkTrait;
-use Phalcon\Queue\Beanstalk\Job;
 use Phalcon\Queue\Beanstalk;
 use Phalcon\Queue\Beanstalk\Exception;
+use Phalcon\Queue\Beanstalk\Job;
+use Phalcon\Test\Fixtures\Traits\BeanstalkTrait;
 use UnitTester;
 
 class BeanstalkCest
 {
     use BeanstalkTrait;
 
-    const TUBE_NAME_1 = 'beanstalk-test-1';
-    const TUBE_NAME_2 = 'beanstalk-test-2';
+    const TUBE_NAME_1       = 'beanstalk-test-1';
+    const TUBE_NAME_2       = 'beanstalk-test-2';
     const TUBE_NAME_DEFAULT = 'default';
-    const JOB_CLASS = 'Phalcon\Queue\Beanstalk\Job';
+    const JOB_CLASS         = 'Phalcon\Queue\Beanstalk\Job';
 
     /**
      * Tests Beanstalk connection
@@ -143,8 +143,8 @@ class BeanstalkCest
     /**
      * Test exceeded the maximum number of characters in the tube name
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author                   Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since                    2016-02-23
      * @expectedException \Phalcon\Queue\Beanstalk\Exception
      * @expectedExceptionMessage BAD_FORMAT
      */
@@ -178,8 +178,8 @@ class BeanstalkCest
      * @depends testShouldChooseTube
      * @depends testShouldWatch
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndReserveAndDelete(UnitTester $I)
     {
@@ -198,8 +198,8 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndPeekReady(UnitTester $I)
     {
@@ -216,13 +216,13 @@ class BeanstalkCest
     /**
      * choose -> put -> watch -> reserve-with-timeout -> delete
      *
-     * @todo bad test, but have so far
+     * @todo    bad test, but have so far
      *
      * @depends testShouldChooseTube
      * @depends testShouldWatch
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndReserveTimeoutAndDelete(UnitTester $I)
     {
@@ -244,12 +244,12 @@ class BeanstalkCest
      * @depends testShouldChooseTube
      * @depends testShouldWatch
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndReserveManyTubesAndDelete(UnitTester $I)
     {
-        $tubes = [self::TUBE_NAME_1,self::TUBE_NAME_2];
+        $tubes = [self::TUBE_NAME_1, self::TUBE_NAME_2];
 
         $jobsId = [];
         foreach ($tubes as $tube) {
@@ -280,8 +280,8 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndReserveJobAndBackReady(UnitTester $I)
     {
@@ -308,8 +308,8 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndReserveJobAndBackReadyDelay(UnitTester $I)
     {
@@ -336,8 +336,8 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutBuriedAfterPeekBuriedAndKick(UnitTester $I)
     {
@@ -369,14 +369,14 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutDelay(UnitTester $I)
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube', ['delay' => 2]);
-        $job = new Job($this->client, $jobId, '');
+        $job   = new Job($this->client, $jobId, '');
         $I->assertEquals('delayed', $job->stats()['state']);
         sleep(3);
         $I->assertEquals('ready', $job->stats()['state']);
@@ -395,14 +395,14 @@ class BeanstalkCest
      * @depends testShouldPutAndReserveAndDelete
      * @depends testShouldPutDelay
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutDelayAfterKick(UnitTester $I)
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube', ['delay' => 3]);
-        $job = new Job($this->client, $jobId, '');
+        $job   = new Job($this->client, $jobId, '');
 
         $I->assertTrue($job->kick());
         $I->assertEquals('ready', $job->stats()['state']);
@@ -416,8 +416,8 @@ class BeanstalkCest
      * @depends testShouldPutBuriedAfterPeekBuriedAndKick
      * @depends testShouldPutDelay
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutDelayAndPutBuriedAfterKick(UnitTester $I)
     {
@@ -435,14 +435,14 @@ class BeanstalkCest
      * @depends testShouldPutDelayAfterKick
      * @depends testShouldPutDelayAndPutBuriedAfterKick
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutDelayKickAndBuryKick(UnitTester $I)
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube', ['delay' => 3]);
-        $job = new Job($this->client, $jobId, '');
+        $job   = new Job($this->client, $jobId, '');
 
         $I->assertEquals(1, $this->client->kick(1));
         $I->assertEquals('ready', $job->stats()['state']);
@@ -459,8 +459,8 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndTouch(UnitTester $I)
     {
@@ -481,8 +481,8 @@ class BeanstalkCest
      *
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldListTubes(UnitTester $I)
     {
@@ -494,8 +494,8 @@ class BeanstalkCest
     /**
      * @depends testShouldPutAndReserveAndDelete
      *
-     * @author Dmitry Korolev <chameleonweb2012@gmail.com>
-     * @since  2016-02-23
+     * @author  Dmitry Korolev <chameleonweb2012@gmail.com>
+     * @since   2016-02-23
      */
     public function testShouldPutAndPeek(UnitTester $I)
     {

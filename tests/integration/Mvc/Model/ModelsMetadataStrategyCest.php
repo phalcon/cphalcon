@@ -7,8 +7,8 @@ use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Boutique\Robots as BoutiqueRobots;
+use Phalcon\Test\Models\Robots;
 
 class ModelsMetadataStrategyCest
 {
@@ -93,7 +93,7 @@ class ModelsMetadataStrategyCest
         $metaData = $this->container['modelsMetadata'];
 
         $robots = new Robots();
-        $meta = $metaData->readMetaData($robots);
+        $meta   = $metaData->readMetaData($robots);
         $I->assertEquals($meta, $this->meta);
 
         $meta = $metaData->readMetaData($robots);

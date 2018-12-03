@@ -30,7 +30,7 @@ class JobCest
         $this->client->put('doSomething');
         $this->client->watch('beanstalk-test');
 
-        $job = $this->client->peekReady();
+        $job      = $this->client->peekReady();
         $jobStats = $job->stats();
 
         $I->assertTrue(is_array($jobStats));

@@ -2,13 +2,13 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function cacheFolder;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Db\RawValue;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Db\RawValue;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+use function cacheFolder;
 
 class ModelsResultsetCacheCest
 {
@@ -24,57 +24,6 @@ class ModelsResultsetCacheCest
     {
         $this->setDiMysql();
         $this->testCacheDefaultDI($I);
-    }
-
-    public function testCacheDefaultDIPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-        $this->testCacheDefaultDI($I);
-    }
-
-    public function testCacheDefaultDISqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        /**
-         * @todo Check Sqlite - tests lock up
-         */
-//        $this->testCacheDefaultDI($I);
-    }
-
-    public function testCacheDefaultDIBindingsMysql(IntegrationTester $I)
-    {
-        $this->setDiMysql();
-        $this->testCacheDefaultDIBindings($I);
-    }
-
-    public function testCacheDefaultDIBindingsPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-        $this->testCacheDefaultDIBindings($I);
-    }
-
-    public function testCacheDefaultDIBindingsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        $this->testCacheDefaultDIBindings($I);
-    }
-
-    public function testCacheOtherServiceMysql(IntegrationTester $I)
-    {
-        $this->setDiMysql();
-        $this->testCacheOtherService($I);
-    }
-
-    public function testCacheOtherServicePostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-        $this->testCacheOtherService($I);
-    }
-
-    public function testCacheOtherServiceSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        $this->testCacheOtherService($I);
     }
 
     private function testCacheDefaultDI(IntegrationTester $I)
@@ -146,6 +95,27 @@ class ModelsResultsetCacheCest
         }
     }
 
+    public function testCacheDefaultDIPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+        $this->testCacheDefaultDI($I);
+    }
+
+    public function testCacheDefaultDISqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        /**
+         * @todo Check Sqlite - tests lock up
+         */
+//        $this->testCacheDefaultDI($I);
+    }
+
+    public function testCacheDefaultDIBindingsMysql(IntegrationTester $I)
+    {
+        $this->setDiMysql();
+        $this->testCacheDefaultDIBindings($I);
+    }
+
     private function testCacheDefaultDIBindings(IntegrationTester $I)
     {
         $this->container->set(
@@ -182,6 +152,24 @@ class ModelsResultsetCacheCest
         ]);
         $I->assertCount(3, $robots);
         $I->assertFalse($robots->isFresh());
+    }
+
+    public function testCacheDefaultDIBindingsPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+        $this->testCacheDefaultDIBindings($I);
+    }
+
+    public function testCacheDefaultDIBindingsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        $this->testCacheDefaultDIBindings($I);
+    }
+
+    public function testCacheOtherServiceMysql(IntegrationTester $I)
+    {
+        $this->setDiMysql();
+        $this->testCacheOtherService($I);
     }
 
     private function testCacheOtherService(IntegrationTester $I)
@@ -230,5 +218,17 @@ class ModelsResultsetCacheCest
         $I->assertEquals($robots->getCache()->queryKeys(), [
             0 => 'other-some',
         ]);
+    }
+
+    public function testCacheOtherServicePostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+        $this->testCacheOtherService($I);
+    }
+
+    public function testCacheOtherServiceSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        $this->testCacheOtherService($I);
     }
 }

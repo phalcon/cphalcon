@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
+use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
@@ -19,7 +20,6 @@ use Phalcon\Test\Controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
-use IntegrationTester;
 
 /**
  * Phalcon\Test\Integration\Mvc\MicroTest

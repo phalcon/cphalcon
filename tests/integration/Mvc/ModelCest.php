@@ -11,8 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use DateTime;
-use Helper\ModelTrait;
+use IntegrationTester;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Messages\Message;
@@ -20,19 +19,6 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\BodyParts\Body;
-use Phalcon\Test\Models\Boutique;
-use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\ModelWithStringField;
-use Phalcon\Test\Models\News\Subscribers;
-use Phalcon\Test\Models\PackageDetails;
-use Phalcon\Test\Models\Packages;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\Users;
-use Phalcon\Test\Models\Validation;
-use IntegrationTester;
 
 class ModelCest
 {

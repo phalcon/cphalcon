@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit;
 
-use function dataFolder;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
 use UnitTester;
+use function dataFolder;
 
 class LoaderCest
 {

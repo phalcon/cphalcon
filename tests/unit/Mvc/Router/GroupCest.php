@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Mvc\Router;
 
-use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Router\Route;
 use Phalcon\Http\Request;
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -26,7 +26,7 @@ class GroupCest
     {
         Route::reset();
         $router = new Router(false);
-        $blog = new Group(
+        $blog   = new Group(
             [
                 "module"     => "blog",
                 "controller" => "index",
@@ -56,7 +56,7 @@ class GroupCest
         $router->mount($blog);
 
         $routes = [
-            "/blog/save" => [
+            "/blog/save"   => [
                 "module"     => "blog",
                 "controller" => "index",
                 "action"     => "save",
@@ -64,9 +64,9 @@ class GroupCest
             "/blog/edit/1" => [
                 "module"     => "blog",
                 "controller" => "index",
-                "action"     => "edit"
+                "action"     => "edit",
             ],
-            "/blog/about" => [
+            "/blog/about"  => [
                 "module"     => "blog",
                 "controller" => "about",
                 "action"     => "index",
@@ -143,6 +143,15 @@ class GroupCest
         }
     }
 
+    private function getHostnameRoutes(): array
+    {
+        return [
+            ["localhost", null, "posts3"],
+            ["my.phalconphp.com", "my.phalconphp.com", "posts"],
+            [null, null, "posts3"],
+        ];
+    }
+
     public function testHostnameRegexRouteGroup(UnitTester $I)
     {
         $routes = $this->getHostnameRoutesRegex();
@@ -188,15 +197,6 @@ class GroupCest
             $actual   = $router->getMatchedRoute()->getHostname();
             $I->assertEquals($expected, $actual);
         }
-    }
-
-    private function getHostnameRoutes(): array
-    {
-        return [
-            ["localhost", null, "posts3"],
-            ["my.phalconphp.com", "my.phalconphp.com", "posts"],
-            [null, null, "posts3"],
-        ];
     }
 
     private function getHostnameRoutesRegex(): array

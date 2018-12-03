@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Db\Column;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class HasDefaultCest
 {

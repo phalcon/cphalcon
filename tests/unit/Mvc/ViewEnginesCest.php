@@ -17,7 +17,6 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use function dataFolder;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
@@ -27,6 +26,7 @@ use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Mvc\View\IteratorObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataFolder;
 
 class ViewEnginesCest
 {
@@ -78,6 +78,32 @@ class ViewEnginesCest
         }
     }
 
+    private function getViewBuiltinFunction(): array
+    {
+        return [
+            [
+                [
+                    'engines'     => [
+                        '.volt' => 'Phalcon\Mvc\View\Engine\Volt',
+                    ],
+                    'setVar'      => [
+                        ['arr', [1, 2, 3, 4]],
+                        ['obj', new IteratorObject([1, 2, 3, 4])],
+                        ['str', 'hello'],
+                        ['no_str', 1234],
+                    ],
+                    'render'      => ['builtinfunction', 'index'],
+                    'removeFiles' => [],
+                ],
+                'Length Array: 4Length Object: 4Length String: 5Length No String: 4' .
+                'Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3' .
+                'Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: hel' .
+                'Slice String: elSlice String: lloSlice No String: 123Slice No String: 23' .
+                'Slice No String: 34',
+            ],
+        ];
+    }
+
     /**
      * Tests Mustache template engine
      *
@@ -98,6 +124,54 @@ class ViewEnginesCest
         $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
+    private function getMustacheEngine(): array
+    {
+        return [
+            'errorMessage' => 'Engine mustache does not work',
+            'engines'      => ['.mhtml' => Mustache::class],
+            'params'       => [
+                [
+                    'paramToView' => ['name', 'Sonny'],
+                    'renderLevel' => View::LEVEL_ACTION_VIEW,
+                    'render'      => ['mustache', 'index'],
+                    'expected'    => 'Hello Sonny',
+                ],
+                //                [
+                //                    'paramToView' => ['some_eval', true],
+                //                    'renderLevel' => View::LEVEL_LAYOUT,
+                //                    'render'      => ['mustache', 'index'],
+                //                    'expected'    => "Well, this is the view content: Hello Sonny.\n",
+                //                ],
+            ],
+        ];
+    }
+
+    /**
+     * Set params and check expected data after render view
+     *
+     * @param UnitTester $I
+     * @param string     $errorMessage
+     * @param array      $params
+     * @param View       $view
+     */
+    private function setParamAndCheckData(UnitTester $I, string $errorMessage, array $params, View $view)
+    {
+        foreach ($params as $param) {
+            $view->setParamToView($param['paramToView'][0], $param['paramToView'][1]);
+
+            $view->start();
+            $view->setRenderLevel($param['renderLevel']);
+            $view->render($param['render'][0], $param['render'][1]);
+            $view->finish();
+
+            $I->assertEquals(
+                $param['expected'],
+                $view->getContent(),
+                $errorMessage
+            );
+        }
+    }
+
     /**
      * Tests the View::registerEngines
      *
@@ -114,68 +188,6 @@ class ViewEnginesCest
         $expected = $engines;
         $actual   = $view->getRegisteredEngines();
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Twig template engine
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function shouldWorkWithTwigEngine(UnitTester $I)
-    {
-        $data = $this->getTwigEngine();
-
-        $errorMessage = $data['errorMessage'];
-        $engine       = $data['engines'];
-        $params       = $data['params'];
-
-        $view = $this->getService('view');
-
-        $view->registerEngines($engine);
-        $this->setParamAndCheckData($I, $errorMessage, $params, $view);
-    }
-
-    /**
-     * Tests the mix Twig with PHP Engines
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function shouldWorkMixPhpTwigEngines(UnitTester $I)
-    {
-        $I->skipTest('TODO - Check Layout');
-        $data = $this->getTwigPhpEngine();
-
-        $errorMessage = $data['errorMessage'];
-        $engine       = $data['engines'];
-        $params       = $data['params'];
-
-        $view = $this->getService('view');
-
-        $view->registerEngines($engine);
-        $this->setParamAndCheckData($I, $errorMessage, $params, $view);
-    }
-
-    /**
-     * Tests the mix Mustache with PHP Engines
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function shouldWorkMixPhpMustacheEngines(UnitTester $I)
-    {
-        $I->skipTest('TODO - Check Layout');
-        $data = $this->getPhpMustache();
-
-        $errorMessage = $data['errorMessage'];
-        $engine       = $data['engines'];
-        $params       = $data['params'];
-
-        $view = $this->getService('view');
-
-        $view->registerEngines($engine);
-        $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
 //    /**
@@ -236,52 +248,24 @@ class ViewEnginesCest
         ];
     }
 
-    private function getViewBuiltinFunction(): array
+    /**
+     * Tests Twig template engine
+     *
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2012-08-17
+     */
+    public function shouldWorkWithTwigEngine(UnitTester $I)
     {
-        return [
-            [
-                [
-                    'engines'     => [
-                        '.volt' => 'Phalcon\Mvc\View\Engine\Volt',
-                    ],
-                    'setVar'      => [
-                        ['arr', [1, 2, 3, 4]],
-                        ['obj', new IteratorObject([1, 2, 3, 4])],
-                        ['str', 'hello'],
-                        ['no_str', 1234],
-                    ],
-                    'render'      => ['builtinfunction', 'index'],
-                    'removeFiles' => [],
-                ],
-                'Length Array: 4Length Object: 4Length String: 5Length No String: 4' .
-                'Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3' .
-                'Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: hel' .
-                'Slice String: elSlice String: lloSlice No String: 123Slice No String: 23' .
-                'Slice No String: 34',
-            ],
-        ];
-    }
+        $data = $this->getTwigEngine();
 
-    private function getMustacheEngine(): array
-    {
-        return [
-            'errorMessage' => 'Engine mustache does not work',
-            'engines'      => ['.mhtml' => Mustache::class],
-            'params'       => [
-                [
-                    'paramToView' => ['name', 'Sonny'],
-                    'renderLevel' => View::LEVEL_ACTION_VIEW,
-                    'render'      => ['mustache', 'index'],
-                    'expected'    => 'Hello Sonny',
-                ],
-//                [
-//                    'paramToView' => ['some_eval', true],
-//                    'renderLevel' => View::LEVEL_LAYOUT,
-//                    'render'      => ['mustache', 'index'],
-//                    'expected'    => "Well, this is the view content: Hello Sonny.\n",
-//                ],
-            ],
-        ];
+        $errorMessage = $data['errorMessage'];
+        $engine       = $data['engines'];
+        $params       = $data['params'];
+
+        $view = $this->getService('view');
+
+        $view->registerEngines($engine);
+        $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
     private function getTwigEngine(): array
@@ -296,14 +280,35 @@ class ViewEnginesCest
                     'render'      => ['twig', 'index'],
                     'expected'    => 'Hello Rock n roll!',
                 ],
-//                [
-//                    'paramToView' => ['some_eval', true],
-//                    'renderLevel' => View::LEVEL_LAYOUT,
-//                    'render'      => ['twig', 'index'],
-//                    'expected'    => "Clearly, the song is: Hello Rock n roll!.\n",
-//                ],
+                //                [
+                //                    'paramToView' => ['some_eval', true],
+                //                    'renderLevel' => View::LEVEL_LAYOUT,
+                //                    'render'      => ['twig', 'index'],
+                //                    'expected'    => "Clearly, the song is: Hello Rock n roll!.\n",
+                //                ],
             ],
         ];
+    }
+
+    /**
+     * Tests the mix Twig with PHP Engines
+     *
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2012-08-17
+     */
+    public function shouldWorkMixPhpTwigEngines(UnitTester $I)
+    {
+        $I->skipTest('TODO - Check Layout');
+        $data = $this->getTwigPhpEngine();
+
+        $errorMessage = $data['errorMessage'];
+        $engine       = $data['engines'];
+        $params       = $data['params'];
+
+        $view = $this->getService('view');
+
+        $view->registerEngines($engine);
+        $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
     private function getTwigPhpEngine(): array
@@ -325,48 +330,43 @@ class ViewEnginesCest
         ];
     }
 
+    /**
+     * Tests the mix Mustache with PHP Engines
+     *
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2012-08-17
+     */
+    public function shouldWorkMixPhpMustacheEngines(UnitTester $I)
+    {
+        $I->skipTest('TODO - Check Layout');
+        $data = $this->getPhpMustache();
+
+        $errorMessage = $data['errorMessage'];
+        $engine       = $data['engines'];
+        $params       = $data['params'];
+
+        $view = $this->getService('view');
+
+        $view->registerEngines($engine);
+        $this->setParamAndCheckData($I, $errorMessage, $params, $view);
+    }
+
     private function getPhpMustache(): array
     {
         return [
             'errorMessage' => 'Mix PHP with Mustache does not work',
-            'engines' => [
+            'engines'      => [
                 '.mhtml' => Mustache::class,
                 '.phtml' => Php::class,
             ],
-            'params' => [
+            'params'       => [
                 [
                     'paramToView' => ['name', 'Sonny'],
                     'renderLevel' => View::LEVEL_LAYOUT,
-                    'render' => ['test6', 'index'],
-                    'expected' => 'Well, this is the view content: Hello Sonny.',
+                    'render'      => ['test6', 'index'],
+                    'expected'    => 'Well, this is the view content: Hello Sonny.',
                 ],
             ],
         ];
-    }
-
-    /**
-     * Set params and check expected data after render view
-     *
-     * @param UnitTester $I
-     * @param string     $errorMessage
-     * @param array      $params
-     * @param View       $view
-     */
-    private function setParamAndCheckData(UnitTester $I, string $errorMessage, array $params, View $view)
-    {
-        foreach ($params as $param) {
-            $view->setParamToView($param['paramToView'][0], $param['paramToView'][1]);
-
-            $view->start();
-            $view->setRenderLevel($param['renderLevel']);
-            $view->render($param['render'][0], $param['render'][1]);
-            $view->finish();
-
-            $I->assertEquals(
-                $param['expected'],
-                $view->getContent(),
-                $errorMessage
-            );
-        }
     }
 }

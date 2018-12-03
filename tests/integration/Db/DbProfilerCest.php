@@ -33,26 +33,10 @@ class DbProfilerCest
         $this->executeTests($I, $connection);
     }
 
-    public function testDbPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
     private function executeTests(IntegrationTester $I, $connection)
     {
         $eventsManager = new Manager();
-        $listener = new ProfilerListener();
+        $listener      = new ProfilerListener();
 
         $eventsManager->attach('db', $listener);
         $connection->setEventsManager($eventsManager);
@@ -94,5 +78,21 @@ class DbProfilerCest
 
         $I->assertCount(0, $profiler->getProfiles());
         $I->assertEquals($profiler->getNumberTotalStatements(), 0);
+    }
+
+    public function testDbPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
     }
 }

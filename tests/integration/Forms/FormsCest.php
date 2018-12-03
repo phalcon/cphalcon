@@ -18,18 +18,20 @@
     +------------------------------------------------------------------------+
 */
 
+namespace Phalcon\Test\Integration\Forms;
+
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
+use Phalcon\Messages\Message;
+use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Forms\ContactFormPublicProperties;
 use Phalcon\Test\Fixtures\Forms\ContactFormSettersGetters;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Messages\Message;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
-use Phalcon\Tag;
 
 class FormsCest
 {

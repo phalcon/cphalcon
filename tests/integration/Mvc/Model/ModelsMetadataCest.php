@@ -7,8 +7,8 @@ use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Personas;
+use Phalcon\Test\Models\Robots;
 
 class ModelsMetadataCest
 {
@@ -87,24 +87,11 @@ class ModelsMetadataCest
         $this->executeTests($I);
     }
 
-
-    public function testMetadataPostgresql(IntegrationTester $I)
-    {
-        $this->setupPostgres();
-        $this->executeTests($I);
-    }
-
-    public function testMetadataSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        $this->executeTests($I);
-    }
-
     protected function executeTests(IntegrationTester $I)
     {
         $metaData = $this->container->getShared('modelsMetadata');
 
-        $personas = new Personas();
+        $personas    = new Personas();
         $pAttributes = [
             0  => 'cedula',
             1  => 'tipo_documento_id',
@@ -257,5 +244,17 @@ class ModelsMetadataCest
 
         $modelDefValues = $metaData->getDefaultValues($robots);
         $I->assertEquals($defValues, $modelDefValues);
+    }
+
+    public function testMetadataPostgresql(IntegrationTester $I)
+    {
+        $this->setupPostgres();
+        $this->executeTests($I);
+    }
+
+    public function testMetadataSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        $this->executeTests($I);
     }
 }

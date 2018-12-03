@@ -54,48 +54,6 @@ class SetHydrateModeCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Resultset :: setHydrateMode() - mysql
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcModelResultsetSetHydrateModePostgresql(IntegrationTester $I)
-    {
-        $message = 'Mvc\Model\Resultset - setHydrateMode() - Postgresql';
-        $this->setDiPostgresql();
-
-        $this->executeTestsNormal($I, $message);
-        $this->executeTestsNormalCastHydrate($I, $message);
-        $this->executeTestsRenamed($I, $message);
-        $this->executeTestsRenamedCastHydrate($I, $message);
-        $this->executeTestsNormalComplex($I, $message);
-        $this->executeTestsNormalComplexCastHydrate($I, $message);
-    }
-
-    /**
-     * Tests Phalcon\Mvc\Model\Resultset :: setHydrateMode() - Sqlite
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcModelResultsetSetHydrateModeSqlite(IntegrationTester $I)
-    {
-        $message = 'Mvc\Model\Resultset - setHydrateMode() - Sqlite';
-        $this->setDiSqlite();
-
-        $this->executeTestsNormal($I, $message);
-        $this->executeTestsNormalCastHydrate($I, $message);
-        $this->executeTestsRenamed($I, $message);
-        $this->executeTestsRenamedCastHydrate($I, $message);
-        $this->executeTestsNormalComplex($I, $message);
-        $this->executeTestsNormalComplexCastHydrate($I, $message);
-    }
-
-    /**
      * @param IntegrationTester $I
      * @param string            $message
      */
@@ -574,5 +532,47 @@ class SetHydrateModeCest
         }
 
         Model::setup(['castOnHydrate' => false]);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Resultset :: setHydrateMode() - mysql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelResultsetSetHydrateModePostgresql(IntegrationTester $I)
+    {
+        $message = 'Mvc\Model\Resultset - setHydrateMode() - Postgresql';
+        $this->setDiPostgresql();
+
+        $this->executeTestsNormal($I, $message);
+        $this->executeTestsNormalCastHydrate($I, $message);
+        $this->executeTestsRenamed($I, $message);
+        $this->executeTestsRenamedCastHydrate($I, $message);
+        $this->executeTestsNormalComplex($I, $message);
+        $this->executeTestsNormalComplexCastHydrate($I, $message);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Resultset :: setHydrateMode() - Sqlite
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelResultsetSetHydrateModeSqlite(IntegrationTester $I)
+    {
+        $message = 'Mvc\Model\Resultset - setHydrateMode() - Sqlite';
+        $this->setDiSqlite();
+
+        $this->executeTestsNormal($I, $message);
+        $this->executeTestsNormalCastHydrate($I, $message);
+        $this->executeTestsRenamed($I, $message);
+        $this->executeTestsRenamedCastHydrate($I, $message);
+        $this->executeTestsNormalComplex($I, $message);
+        $this->executeTestsNormalComplexCastHydrate($I, $message);
     }
 }

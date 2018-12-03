@@ -43,6 +43,17 @@ class AddFunctionCest
     }
 
     /**
+     * @return array
+     */
+    private function getVoltAddFunction(): array
+    {
+        return [
+            ['random', 'mt_rand', '{{ random() }}', '<?= mt_rand() ?>'],
+            ['strtotime', 'strtotime', '{{ strtotime("now") }}', "<?= strtotime('now') ?>"],
+        ];
+    }
+
+    /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
      *
      * @param UnitTester $I
@@ -76,21 +87,10 @@ class AddFunctionCest
     /**
      * @return array
      */
-    private function getVoltAddFunction(): array
-    {
-        return [
-            ['random', 'mt_rand', '{{ random() }}', '<?= mt_rand() ?>'],
-            ['strtotime', 'strtotime', '{{ strtotime("now") }}', "<?= strtotime('now') ?>"],
-        ];
-    }
-
-    /**
-     * @return array
-     */
     private function getVoltAddFunctionClosure(): array
     {
         return [
-            ['shuffle', 'str_shuffle', '{{ shuffle("hello") }}', '<?= str_shuffle(\'hello\') ?>']
+            ['shuffle', 'str_shuffle', '{{ shuffle("hello") }}', '<?= str_shuffle(\'hello\') ?>'],
         ];
     }
 }

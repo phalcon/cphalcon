@@ -44,45 +44,6 @@ class DbBindCest
         $this->executeBindByTypeTests($I, $connection);
     }
 
-
-    /**
-     * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbBindPostgresql(IntegrationTester $I)
-    {
-        $I->wantToTest("Db - Bind - Postgresql");
-        $this->setDiMysql();
-        $connection = $this->getService('db');
-
-        //$this->executeRawBindTests($I, $connection);
-        //$this->executeRawBindTestsPostgresql($I, $connection);
-        $this->executeBindByTypeTests($I, $connection);
-    }
-
-    /**
-     * Tests Phalcon\Db :: Sqlite
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbBindSqlite(IntegrationTester $I)
-    {
-        $I->wantToTest("Db - Bind - Sqlite");
-        $this->setDiSqlite();
-        $connection = $this->getService('db');
-
-        //$this->_executeRawBindTests($connection);
-        //$this->_executeRawBindTestsSqlite($connection);
-        $this->executeBindByTypeTests($I, $connection);
-    }
-
     protected function executeConvertBindTests(IntegrationTester $I, $connection)
     {
         $params = $connection->convertBoundParams(
@@ -269,108 +230,138 @@ class DbBindCest
         $I->assertTrue($success);
     }
 
+    /**
+     * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbBindPostgresql(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Bind - Postgresql");
+        $this->setDiMysql();
+        $connection = $this->getService('db');
+
+        //$this->executeRawBindTests($I, $connection);
+        //$this->executeRawBindTestsPostgresql($I, $connection);
+        $this->executeBindByTypeTests($I, $connection);
+    }
+
+    /**
+     * Tests Phalcon\Db :: Sqlite
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function dbBindSqlite(IntegrationTester $I)
+    {
+        $I->wantToTest("Db - Bind - Sqlite");
+        $this->setDiSqlite();
+        $connection = $this->getService('db');
+
+        //$this->_executeRawBindTests($connection);
+        //$this->_executeRawBindTestsSqlite($connection);
+        $this->executeBindByTypeTests($I, $connection);
+    }
+
     protected function executeRawBindTests(IntegrationTester $I, $connection)
     {
         $conditions = $connection->bindParams(
             "a=?0",
-            array(
-                0 => 100
-            )
-        );
-
-        $I->assertEquals($conditions, "a=100");
-
-
-
-        $conditions = $connection->bindParams(
-            "a=?0",
-            array(
+            [
                 0 => 100,
-                1 => 50
-            )
+            ]
         );
 
         $I->assertEquals($conditions, "a=100");
 
 
+        $conditions = $connection->bindParams(
+            "a=?0",
+            [
+                0 => 100,
+                1 => 50,
+            ]
+        );
+
+        $I->assertEquals($conditions, "a=100");
+
 
         $conditions = $connection->bindParams(
             "a=?0",
-            array(
-                1 => 50
-            )
+            [
+                1 => 50,
+            ]
         );
 
         $I->assertEquals($conditions, "a=?0");
 
 
-
         $conditions = $connection->bindParams(
             "a=?1 AND b = ?0",
-            array(
+            [
                 0 => 25,
-                1 => 50
-            )
+                1 => 50,
+            ]
         );
 
         $I->assertEquals($conditions, "a=50 AND b = 25");
 
 
-
         $conditions = $connection->bindParams(
             "a=?1 AND b = ?0",
-            array(
+            [
                 0 => '25',
-                1 => '50'
-            )
+                1 => '50',
+            ]
         );
 
         $I->assertEquals($conditions, "a=50 AND b = 25");
 
 
-
         $conditions = $connection->bindParams(
             "a=?1 AND b = ?0",
-            array(
+            [
                 0 => '25.10',
-                1 => 25.10
-            )
+                1 => 25.10,
+            ]
         );
 
         $I->assertEquals($conditions, "a=25.1 AND b = 25.10");
 
 
-
         $conditions = $connection->bindParams(
             "a=?1 AND b = ?0 AND c<>?2",
-            array(
+            [
                 0 => 25,
                 1 => 50,
-                2 => 15
-            )
+                2 => 15,
+            ]
         );
 
         $I->assertEquals($conditions, "a=50 AND b = 25 AND c<>15");
 
 
-
         $conditions = $connection->bindParams(
             "a=:a:",
-            array(
-                'a' => 'no-suprises'
-            )
+            [
+                'a' => 'no-suprises',
+            ]
         );
 
         $I->assertEquals($conditions, "a='no-suprises'");
 
 
-
         $conditions = $connection->bindParams(
             "column1 = :column1: AND column2=:column2:",
-            array(
+            [
                 'column1' => 'hello',
-                'column2' => 'lol'
-            )
+                'column2' => 'lol',
+            ]
         );
 
         $I->assertEquals($conditions, "column1 = 'hello' AND column2='lol'");
@@ -380,25 +371,24 @@ class DbBindCest
     {
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:)",
-            array(
+            [
                 'val1' => 'hello',
                 'val2' => 100,
-                'val3' => "'hahaha'"
-            )
+                'val3' => "'hahaha'",
+            ]
         );
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
 
 
-
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
-            array(
+            [
                 'val1' => 'hello',
                 'val2' => 100,
                 'val3' => "'hahaha'",
-                2 => 'le-nice'
-            )
+                2      => 'le-nice',
+            ]
         );
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'");
@@ -408,25 +398,24 @@ class DbBindCest
     {
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:)",
-            array(
+            [
                 'val1' => 'hello',
                 'val2' => 100,
-                'val3' => "'hahaha'"
-            )
+                'val3' => "'hahaha'",
+            ]
         );
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
 
-
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
-            array(
+            [
                 'val1' => 'hello',
                 'val2' => 100,
                 'val3' => "'hahaha'",
-                2 => 'le-nice'
-            )
+                2      => 'le-nice',
+            ]
         );
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
@@ -436,25 +425,24 @@ class DbBindCest
     {
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:)",
-            array(
+            [
                 'val1' => 'hello',
                 'val2' => 100,
-                'val3' => "'hahaha'"
-            )
+                'val3' => "'hahaha'",
+            ]
         );
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
 
-
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
-            array(
+            [
                 'val1' => 'hello',
                 'val2' => 100,
                 'val3' => "'hahaha'",
-                2 => 'le-nice'
-            )
+                2      => 'le-nice',
+            ]
         );
 
         $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");

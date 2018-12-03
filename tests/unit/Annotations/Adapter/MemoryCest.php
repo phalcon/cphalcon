@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
-use function dataFolder;
-use function file_exists;
 use Phalcon\Annotations\Adapter\Memory;
 use UnitTester;
+use function dataFolder;
+use function file_exists;
 
 class MemoryCest
 {

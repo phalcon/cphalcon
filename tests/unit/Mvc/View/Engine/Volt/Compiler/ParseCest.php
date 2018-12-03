@@ -30,64 +30,13 @@ class ParseCest
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse()");
         $examples = $this->getVoltParse();
         foreach ($examples as $item) {
-            $param = $item[0];
-            $count = $item[1];
-            $volt  = new Compiler();
+            $param  = $item[0];
+            $count  = $item[1];
+            $volt   = new Compiler();
             $actual = $volt->parse($param);
 
             $I->assertTrue(is_array($actual));
             $I->assertCount($count, $actual);
-        }
-    }
-
-    /**
-    /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - syntax error
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-15
-     */
-    public function mvcViewEngineVoltCompilerParseSyntaxError(UnitTester $I)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - syntax error");
-        $examples = $this->getVoltSyntaxErrors();
-        foreach ($examples as $item) {
-            $code    = $item[0];
-            $message = $item[1];
-            $volt    = new Compiler();
-            $I->expectThrowable(
-                new Exception($message),
-                function () use ($volt, $code) {
-                    $volt->parse($code);
-                }
-            );
-        }
-    }
-
-    /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - extends with error
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-15
-     */
-    public function mvcViewEngineVoltCompilerParseExtendsWithError(UnitTester $I)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - extends with error");
-        $examples = $this->getVoltExtendsError();
-        foreach ($examples as $item) {
-            $code    = $item[0];
-            $message = $item[1];
-            $volt    = new Compiler();
-            $I->expectThrowable(
-                new Exception($message),
-                function () use ($volt, $code) {
-                    $volt->parse($code);
-                }
-            );
         }
     }
 
@@ -232,6 +181,32 @@ class ParseCest
     }
 
     /**
+     * /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - syntax error
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-15
+     */
+    public function mvcViewEngineVoltCompilerParseSyntaxError(UnitTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - syntax error");
+        $examples = $this->getVoltSyntaxErrors();
+        foreach ($examples as $item) {
+            $code    = $item[0];
+            $message = $item[1];
+            $volt    = new Compiler();
+            $I->expectThrowable(
+                new Exception($message),
+                function () use ($volt, $code) {
+                    $volt->parse($code);
+                }
+            );
+        }
+    }
+
+    /**
      * @return array
      */
     private function getVoltSyntaxErrors(): array
@@ -243,7 +218,7 @@ class ParseCest
             [
                 '{{
                     ++v }}',
-                'Syntax error, unexpected token ++ in eval code on line 2'
+                'Syntax error, unexpected token ++ in eval code on line 2',
             ],
             [
                 '{{
@@ -251,7 +226,7 @@ class ParseCest
 
                     if
                 for }}',
-                'Syntax error, unexpected token IF in eval code on line 4'
+                'Syntax error, unexpected token IF in eval code on line 4',
             ],
             [
                 '{% block some %}
@@ -259,7 +234,7 @@ class ParseCest
                         {{ ."hello".y }}
                     {% endfor %}
                 {% endblock %}',
-                'Syntax error, unexpected token DOT in eval code on line 3'
+                'Syntax error, unexpected token DOT in eval code on line 3',
             ],
             [
                 '{#
@@ -272,7 +247,7 @@ class ParseCest
                         {{ "hello"++y }}
                     {% endfor %}
                 {% endblock %}',
-                'Syntax error, unexpected token IDENTIFIER(y) in eval code on line 8'
+                'Syntax error, unexpected token IDENTIFIER(y) in eval code on line 8',
             ],
             [
                 '{# Hello #}
@@ -282,13 +257,39 @@ class ParseCest
                 {% endfor %}
 
                 ',
-                'Syntax error, unexpected token ~ in eval code on line 4'
+                'Syntax error, unexpected token ~ in eval code on line 4',
             ],
             [
                 '\'{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, "<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
-                "Scanning error before 'album.uri, \"<img...' in eval code on line 1"
+                "Scanning error before 'album.uri, \"<img...' in eval code on line 1",
             ],
         ];
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - extends with
+     * error
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-15
+     */
+    public function mvcViewEngineVoltCompilerParseExtendsWithError(UnitTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - extends with error");
+        $examples = $this->getVoltExtendsError();
+        foreach ($examples as $item) {
+            $code    = $item[0];
+            $message = $item[1];
+            $volt    = new Compiler();
+            $I->expectThrowable(
+                new Exception($message),
+                function () use ($volt, $code) {
+                    $volt->parse($code);
+                }
+            );
+        }
     }
 
     /**
@@ -299,16 +300,16 @@ class ParseCest
         return [
             [
                 '{{ "hello"}}{% extends "some/file.volt" %}',
-                'Extends statement must be placed at the first line in the template in eval code on line 1'
+                'Extends statement must be placed at the first line in the template in eval code on line 1',
             ],
             [
                 '<div>{% extends "some/file.volt" %}{% set a = 1 %}</div>',
-                'Extends statement must be placed at the first line in the template in eval code on line 1'
+                'Extends statement must be placed at the first line in the template in eval code on line 1',
             ],
             ['{% extends "some/file.volt" %}{{ "hello"}}', 'Child templates only may contain blocks in eval code on line 1'],
             [
                 '{% extends "some/file.volt" %}{{% if true %}} {%endif%}',
-                'Child templates only may contain blocks in eval code on line 1'
+                'Child templates only may contain blocks in eval code on line 1',
             ],
             ['{% extends "some/file.volt" %}{{% set a = 1 %}', 'Child templates only may contain blocks in eval code on line 1'],
             ['{% extends "some/file.volt" %}{{% set a = 1 %}', 'Child templates only may contain blocks in eval code on line 1'],

@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Integration\Forms\Element;
 
+use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use IntegrationTester;
 
 class TextCest
 {

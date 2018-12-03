@@ -6,7 +6,6 @@ use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
-use PHPUnit\Framework\SkippedTestError;
 use UnitTester;
 
 /**

@@ -4,8 +4,8 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Db\RawValue;
-use Phalcon\Mvc\Model;
 use Phalcon\Messages\Message;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class ModelsQueryExecuteCest
@@ -29,37 +29,6 @@ class ModelsQueryExecuteCest
         $this->testUpdateRenamedExecute($I);
         $this->testDeleteExecute($I);
         $this->testDeleteRenamedExecute($I);
-    }
-
-    public function testExecutePostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $this->testSelectExecute($I);
-        $this->testSelectRenamedExecute($I);
-        $this->testInsertExecute($I);
-        $this->testInsertRenamedExecute($I);
-        $this->testUpdateExecute($I);
-        $this->testUpdateRenamedExecute($I);
-        $this->testDeleteExecute($I);
-        $this->testDeleteRenamedExecute($I);
-    }
-
-    public function testExecuteSqlite(IntegrationTester $I)
-    {
-        /**
-         * @todo Check Sqlite tests - they lock up
-         */
-//        $this->setDiSqlite();
-
-//        $this->testSelectExecute($I);
-//        $this->testSelectRenamedExecute($I);
-//        $this->testInsertExecute($I);
-//        $this->testInsertRenamedExecute($I);
-//        $this->testUpdateExecute($I);
-//        $this->testUpdateRenamedExecute($I);
-//        $this->testDeleteExecute($I);
-//        $this->testDeleteRenamedExecute($I);
     }
 
     private function testSelectExecute(IntegrationTester $I)
@@ -944,5 +913,36 @@ class ModelsQueryExecuteCest
             ]
         );
         $I->assertTrue($status->success());
+    }
+
+    public function testExecutePostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $this->testSelectExecute($I);
+        $this->testSelectRenamedExecute($I);
+        $this->testInsertExecute($I);
+        $this->testInsertRenamedExecute($I);
+        $this->testUpdateExecute($I);
+        $this->testUpdateRenamedExecute($I);
+        $this->testDeleteExecute($I);
+        $this->testDeleteRenamedExecute($I);
+    }
+
+    public function testExecuteSqlite(IntegrationTester $I)
+    {
+        /**
+         * @todo Check Sqlite tests - they lock up
+         */
+//        $this->setDiSqlite();
+
+//        $this->testSelectExecute($I);
+//        $this->testSelectRenamedExecute($I);
+//        $this->testInsertExecute($I);
+//        $this->testInsertRenamedExecute($I);
+//        $this->testUpdateExecute($I);
+//        $this->testUpdateRenamedExecute($I);
+//        $this->testDeleteExecute($I);
+//        $this->testDeleteRenamedExecute($I);
     }
 }

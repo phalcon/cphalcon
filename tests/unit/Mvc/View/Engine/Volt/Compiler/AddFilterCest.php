@@ -34,11 +34,21 @@ class AddFilterCest
             $voltName = $item[2];
             $expected = $item[3];
 
-            $volt    = new Compiler();
+            $volt = new Compiler();
             $volt->addFilter($name, $filter);
             $actual = $volt->compileString($voltName);
             $I->assertEquals($expected, $actual);
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function getVoltAddFilter(): array
+    {
+        return [
+            ['reverse', 'strrev', '{{ "hello"|reverse }}', '<?= strrev(\'hello\') ?>'],
+        ];
     }
 
     /**
@@ -59,27 +69,17 @@ class AddFilterCest
             $voltName = $item[2];
             $expected = $item[3];
 
-            $volt    = new Compiler();
+            $volt = new Compiler();
             $volt->addFilter(
                 $name,
                 function ($arguments) use ($filter) {
-                    return $filter . '(",", '.$arguments.')';
+                    return $filter . '(",", ' . $arguments . ')';
                 }
             );
 
             $actual = $volt->compileString($voltName);
             $I->assertEquals($expected, $actual);
         }
-    }
-
-    /**
-     * @return array
-     */
-    private function getVoltAddFilter(): array
-    {
-        return [
-            ['reverse', 'strrev', '{{ "hello"|reverse }}', '<?= strrev(\'hello\') ?>'],
-        ];
     }
 
     /**

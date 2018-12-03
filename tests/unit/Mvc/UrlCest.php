@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Unit\Mvc;
 
 use Phalcon\Di;
-use Phalcon\Mvc\Url;
 use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Url;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 use UnitTester;
@@ -31,6 +31,72 @@ class UrlCest
         $this->newDi();
         $this->setDiUrl();
         $this->setupRoutes();
+    }
+
+    /**
+     * Depends on the RouterTrait
+     */
+    private function setupRoutes()
+    {
+        $container  = $this->getDi();
+        $router     = new Router(false);
+        $routerData = $this->getDataToSetDi();
+        foreach ($routerData as $data) {
+            $this->getRouteAndSetRouteMethod($router, $data)->setName($data['setname']);
+        }
+        $router->removeExtraSlashes(true);
+
+        $container->set('router', $router);
+    }
+
+    private function getDataToSetDi(): array
+    {
+        return [
+            [
+                '/admin/:controller/p/:action',
+                [
+                    'controller' => 1,
+                    'action'     => 2,
+                ],
+                'methodName' => 'add',
+                'setname'    => 'adminProducts',
+            ],
+            [
+                '/api/classes/{class}',
+                'methodName' => 'add',
+                'setname'    => 'classApi',
+            ],
+            [
+                '/{year}/{month}/{title}',
+                'methodName' => 'add',
+                'setname'    => 'blogPost',
+            ],
+            [
+                '/wiki/{article:[a-z]+}',
+                'methodName' => 'add',
+                'setname'    => 'wikipedia',
+            ],
+            [
+                '/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}',
+                [
+                    'section' => 2,
+                    'article' => 3,
+                ],
+                'methodName' => 'add',
+                'setname'    => 'news',
+            ],
+            [
+                '/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)',
+                [
+                    'lang'       => 1,
+                    'module'     => 'main',
+                    'controller' => 2,
+                    'action'     => 'index',
+                ],
+                'methodName' => 'add',
+                'setname'    => 'lang-controller',
+            ],
+        ];
     }
 
     /**
@@ -54,6 +120,28 @@ class UrlCest
         }
     }
 
+    private function getUrlToSetServer(): array
+    {
+        return [
+            //Tests the base url
+            [
+                [
+                    'server_php_self' => '/index.php',
+                    'get'             => null,
+                ],
+                '/',
+            ],
+            //Tests a different url
+            [
+                [
+                    'server_php_self' => '/index.php',
+                    'get'             => 'classes/api/Some',
+                ],
+                '/classes/api/Some',
+            ],
+        ];
+    }
+
     /**
      * Tests the url with a controller and action
      *
@@ -67,12 +155,77 @@ class UrlCest
             $params   = $item[0];
             $expected = $item[1];
 
-            $url    = $this->getService('url');
+            $url = $this->getService('url');
             $url->setBaseUri($params['base_url']);
 
             $actual = $url->get($params['param']);
             $I->assertEquals($expected, $actual);
         }
+    }
+
+    private function getUrlToSetBaseUri(): array
+    {
+        return [
+            //Tests the url with a controller and action
+            [
+                [
+                    'base_url' => '/',
+                    'param'    => [
+                        'for'        => 'adminProducts',
+                        'controller' => 'products',
+                        'action'     => 'index',
+                    ],
+                ],
+                '/admin/products/p/index',
+            ],
+            //Tests the url with a controller
+            [
+                [
+                    'base_url' => '/',
+                    'param'    => [
+                        'for'   => 'classApi',
+                        'class' => 'Some',
+                    ],
+                ],
+                '/api/classes/Some',
+            ],
+            //Tests the url with a year/month/title
+            [
+                [
+                    'base_url' => '/',
+                    'param'    => [
+                        'for'        => 'lang-controller',
+                        'lang'       => 'de',
+                        'controller' => 'index',
+                    ],
+                ],
+                '/de/index',
+            ],
+            //Tests the url for a different language
+            [
+                [
+                    'base_url' => '/',
+                    'param'    => [
+                        'for'   => 'blogPost',
+                        'year'  => '2010',
+                        'month' => '10',
+                        'title' => 'cloudflare-anade-recursos-a-tu-servidor',
+                    ],
+                ],
+                '/2010/10/cloudflare-anade-recursos-a-tu-servidor',
+            ],
+            //Tests the url with external website
+            [
+                [
+                    'base_url' => '/',
+                    'param'    => [
+                        'for'     => 'wikipedia',
+                        'article' => 'Television_news',
+                    ],
+                ],
+                '/wiki/Television_news',
+            ],
+        ];
     }
 
     /**
@@ -89,171 +242,12 @@ class UrlCest
             $params   = $item[0];
             $expected = $item[1];
 
-            $url    = $this->getService('url');
+            $url = $this->getService('url');
             $url->setBaseUri($params['base_url']);
 
             $actual = $url->get($params['get']);
             $I->assertEquals($expected, $actual);
         }
-    }
-
-    /**
-     * Test should avoid double slash when joining baseUri to provided uri
-     *
-     * @author Olivier Monaco <olivier.monaco@nospam.free.fr>
-     * @since  2015-02-03
-     * @issue  https://github.com/phalcon/cphalcon/issues/3315
-     */
-    public function shouldGetCorrectUrlWithGetParam(UnitTester $I)
-    {
-        $examples = $this->getUrlToSetWithoutDiTwoParam();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-
-            $url = $this->getService('url');
-            $url->setBaseUri($params['base_url']);
-
-            $actual = $url->get($params['get'], $params['second_get']);
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    private function getDataToSetDi(): array
-    {
-        return [
-            [
-                '/admin/:controller/p/:action',
-                [
-                    'controller' => 1,
-                    'action'     => 2,
-                ],
-                'methodName' => 'add',
-                'setname' => 'adminProducts',
-            ],
-            [
-                '/api/classes/{class}',
-                'methodName' => 'add',
-                'setname' => 'classApi',
-            ],
-            [
-                '/{year}/{month}/{title}',
-                'methodName' => 'add',
-                'setname' => 'blogPost',
-            ],
-            [
-                '/wiki/{article:[a-z]+}',
-                'methodName' => 'add',
-                'setname' => 'wikipedia',
-            ],
-            [
-                '/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}',
-                [
-                    'section' => 2,
-                    'article' => 3,
-                ],
-                'methodName' => 'add',
-                'setname' => 'news',
-            ],
-            [
-                '/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)',
-                [
-                    'lang'       => 1,
-                    'module'     => 'main',
-                    'controller' => 2,
-                    'action'     => 'index',
-                ],
-                'methodName' => 'add',
-                'setname' => 'lang-controller',
-            ],
-        ];
-    }
-
-    private function getUrlToSetServer(): array
-    {
-        return [
-            //Tests the base url
-            [
-                [
-                    'server_php_self' => '/index.php',
-                    'get' => null,
-                ],
-                '/',
-            ],
-            //Tests a different url
-            [
-                [
-                    'server_php_self' => '/index.php',
-                    'get' => 'classes/api/Some',
-                ],
-                '/classes/api/Some',
-            ],
-        ];
-    }
-
-    private function getUrlToSetBaseUri(): array
-    {
-        return [
-            //Tests the url with a controller and action
-            [
-                [
-                    'base_url' => '/',
-                    'param' => [
-                        'for'        => 'adminProducts',
-                        'controller' => 'products',
-                        'action'     => 'index',
-                    ],
-                ],
-                '/admin/products/p/index',
-            ],
-            //Tests the url with a controller
-            [
-                [
-                    'base_url' => '/',
-                    'param' => [
-                        'for'   => 'classApi',
-                        'class' => 'Some',
-                    ],
-                ],
-                '/api/classes/Some',
-            ],
-            //Tests the url with a year/month/title
-            [
-                [
-                    'base_url' => '/',
-                    'param' => [
-                        'for'        => 'lang-controller',
-                        'lang'       => 'de',
-                        'controller' => 'index',
-                    ],
-                ],
-                '/de/index',
-            ],
-            //Tests the url for a different language
-            [
-                [
-                    'base_url' => '/',
-                    'param' => [
-                        'for'   => 'blogPost',
-                        'year'  => '2010',
-                        'month' => '10',
-                        'title' => 'cloudflare-anade-recursos-a-tu-servidor',
-                    ],
-                ],
-                '/2010/10/cloudflare-anade-recursos-a-tu-servidor',
-            ],
-            //Tests the url with external website
-            [
-                [
-                    'base_url' => '/',
-                    'param' => [
-                        'for'     => 'wikipedia',
-                        'article' => 'Television_news',
-                    ],
-                ],
-                '/wiki/Television_news'
-            ]
-        ];
     }
 
     private function getUrlToSetWithoutDi(): array
@@ -312,33 +306,39 @@ class UrlCest
         ];
     }
 
+    /**
+     * Test should avoid double slash when joining baseUri to provided uri
+     *
+     * @author Olivier Monaco <olivier.monaco@nospam.free.fr>
+     * @since  2015-02-03
+     * @issue  https://github.com/phalcon/cphalcon/issues/3315
+     */
+    public function shouldGetCorrectUrlWithGetParam(UnitTester $I)
+    {
+        $examples = $this->getUrlToSetWithoutDiTwoParam();
+        foreach ($examples as $item) {
+            $params   = $item[0];
+            $expected = $item[1];
+
+            $url = $this->getService('url');
+            $url->setBaseUri($params['base_url']);
+
+            $actual = $url->get($params['get'], $params['second_get']);
+            $I->assertEquals($expected, $actual);
+        }
+    }
+
     private function getUrlToSetWithoutDiTwoParam(): array
     {
         return [
             [
                 [
-                    'base_url' => 'http://www.test.com/?_url=/',
-                    'get' => 'path',
+                    'base_url'   => 'http://www.test.com/?_url=/',
+                    'get'        => 'path',
                     'second_get' => ['params' => 'one'],
                 ],
                 'http://www.test.com/?_url=/path&params=one',
             ],
         ];
-    }
-
-    /**
-     * Depends on the RouterTrait
-     */
-    private function setupRoutes()
-    {
-        $container = $this->getDi();
-        $router = new Router(false);
-        $routerData = $this->getDataToSetDi();
-        foreach ($routerData as $data) {
-            $this->getRouteAndSetRouteMethod($router, $data)->setName($data['setname']);
-        }
-        $router->removeExtraSlashes(true);
-
-        $container->set('router', $router);
     }
 }

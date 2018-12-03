@@ -3,8 +3,8 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Mvc\Model\Manager as ModelManager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\GossipRobots;
 
 class ModelsEventsCest
@@ -17,7 +17,7 @@ class ModelsEventsCest
         $this->prepareDi($trace);
         $this->setDiMysql();
 
-        $robot = GossipRobots::findFirst();
+        $robot        = GossipRobots::findFirst();
         $robot->trace = &$trace;
         $I->assertEquals(
             $trace,
@@ -29,19 +29,49 @@ class ModelsEventsCest
         );
     }
 
+    /**
+     * @param $trace
+     */
+    private function prepareDI(&$trace)
+    {
+        $this->newFactoryDefault();
+        $eventsManager = $this->newEventsManager();
+        $eventsManager->attach(
+            'model',
+            function ($event, $model) use (&$trace) {
+                if (!isset($trace[$event->getType()][get_class($model)])) {
+                    $trace[$event->getType()][get_class($model)] = 1;
+                } else {
+                    $trace[$event->getType()][get_class($model)]++;
+                }
+            }
+        );
+
+        $this->container->setShared('eventsManager', $eventsManager);
+        $this->container->setShared(
+            'modelsManager',
+            function () use ($eventsManager) {
+                $modelsManager = new ModelManager();
+                $modelsManager->setEventsManager($eventsManager);
+
+                return $modelsManager;
+            }
+        );
+    }
+
     public function testEventsCreate(IntegrationTester $I)
     {
         $trace = [];
         $this->prepareDI($trace);
         $this->setDiMysql();
 
-        $robot = new GossipRobots();
+        $robot           = new GossipRobots();
         $robot->name     = 'Test';
         $robot->year     = 2000;
         $robot->type     = 'Some Type';
         $robot->datetime = '1970/01/01 00:00:00';
         $robot->text     = 'text';
-        $robot->trace = &$trace;
+        $robot->trace    = &$trace;
         $robot->save();
 
         $I->assertEquals(
@@ -81,7 +111,7 @@ class ModelsEventsCest
         $this->prepareDI($trace);
         $this->setDiMysql();
 
-        $robot = GossipRobots::findFirst();
+        $robot        = GossipRobots::findFirst();
         $robot->trace = &$trace;
         $robot->save();
 
@@ -131,7 +161,7 @@ class ModelsEventsCest
         $this->prepareDI($trace);
         $this->setDiMysql();
 
-        $robot = GossipRobots::findFirst();
+        $robot        = GossipRobots::findFirst();
         $robot->trace = &$trace;
         $robot->delete();
 
@@ -145,36 +175,6 @@ class ModelsEventsCest
                     'Phalcon\Test\Models\GossipRobots' => 1,
                 ],
             ]
-        );
-    }
-
-    /**
-     * @param $trace
-     */
-    private function prepareDI(&$trace)
-    {
-        $this->newFactoryDefault();
-        $eventsManager = $this->newEventsManager();
-        $eventsManager->attach(
-            'model',
-            function ($event, $model) use (&$trace) {
-                if (!isset($trace[$event->getType()][get_class($model)])) {
-                    $trace[$event->getType()][get_class($model)] = 1;
-                } else {
-                    $trace[$event->getType()][get_class($model)]++;
-                }
-            }
-        );
-
-        $this->container->setShared('eventsManager', $eventsManager);
-        $this->container->setShared(
-            'modelsManager',
-            function () use ($eventsManager) {
-                $modelsManager = new ModelManager();
-                $modelsManager->setEventsManager($eventsManager);
-
-                return $modelsManager;
-            }
         );
     }
 }

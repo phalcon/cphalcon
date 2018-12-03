@@ -11,17 +11,17 @@
 
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
+use IntegrationTester;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Test\Controllers\Micro\Collections\PersonasController;
 use Phalcon\Test\Controllers\Micro\Collections\PersonasLazyController;
-use IntegrationTester;
 
 class MicroMvcCollectionsCest
 {
     public function testMicroCollections(IntegrationTester $I)
     {
-        $app = new Micro();
+        $app        = new Micro();
         $collection = new Collection();
         $controller = new PersonasController();
 
@@ -42,7 +42,7 @@ class MicroMvcCollectionsCest
 
     public function testMicroCollectionsPrefixed(IntegrationTester $I)
     {
-        $app = new Micro();
+        $app        = new Micro();
         $collection = new Collection();
 
         $collection->setPrefix('/personas');
@@ -63,7 +63,7 @@ class MicroMvcCollectionsCest
 
     public function testMicroCollectionsLazy(IntegrationTester $I)
     {
-        $app = new Micro();
+        $app        = new Micro();
         $collection = new Collection();
 
         $collection->setHandler('Phalcon\Test\Controllers\Micro\Collections\PersonasLazyController', true);

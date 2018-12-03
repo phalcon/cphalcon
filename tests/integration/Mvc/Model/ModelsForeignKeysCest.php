@@ -3,14 +3,14 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Parts;
-use Phalcon\Test\Models\RobotsParts;
-use Phalcon\Test\Models\RobottersDeles;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\Deles;
 use Phalcon\Messages\Message;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Deles;
+use Phalcon\Test\Models\Parts;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Test\Models\Robotters;
+use Phalcon\Test\Models\RobottersDeles;
 
 class ModelsForeignKeysCest
 {
@@ -24,20 +24,6 @@ class ModelsForeignKeysCest
     public function testForeignKeysMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
-
-    public function testForeignKeysPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
-
-    public function testForeignKeysSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
         $this->executeTestsNormal($I);
         $this->executeTestsRenamed($I);
     }
@@ -179,5 +165,19 @@ class ModelsForeignKeysCest
         ];
 
         $I->assertEquals($dele->getMessages(), $messages);
+    }
+
+    public function testForeignKeysPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+        $this->executeTestsNormal($I);
+        $this->executeTestsRenamed($I);
+    }
+
+    public function testForeignKeysSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        $this->executeTestsNormal($I);
+        $this->executeTestsRenamed($I);
     }
 }

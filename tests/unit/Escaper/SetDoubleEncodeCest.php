@@ -13,7 +13,6 @@ namespace Phalcon\Test\Unit\Escaper;
 
 use Phalcon\Escaper;
 use UnitTester;
-use const ENT_HTML5;
 
 class SetDoubleEncodeCest
 {

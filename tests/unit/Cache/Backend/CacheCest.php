@@ -20,12 +20,12 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\Backend\Memory;
 use Phalcon\Cache\Backend\Mongo;
 use Phalcon\Cache\Backend\Xcache;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\Frontend\Output;
 use UnitTester;
 
 class CacheCest
@@ -178,6 +178,23 @@ class CacheCest
         $I->assertTrue($cache->delete('test-output'));
     }
 
+    protected function _prepareMongo(UnitTester $I)
+    {
+        $I->checkExtensionIsLoaded('mongo');
+
+        //remove existing
+        if (class_exists('MongoClient', false)) {
+            $mongo = new \MongoClient();
+        } else {
+            $mongo = new \Mongo();
+        }
+        $database   = $mongo->phalcon_test;
+        $collection = $database->caches;
+        $collection->remove();
+
+        return [$mongo, $collection];
+    }
+
     public function testDataMongoCache(UnitTester $I)
     {
         list($ready, $collection) = $this->_prepareMongo($I);
@@ -291,22 +308,5 @@ class CacheCest
 
         $I->assertFalse($cache->exists('data'));
         $I->assertFalse($cache->exists('data2'));
-    }
-
-    protected function _prepareMongo(UnitTester $I)
-    {
-        $I->checkExtensionIsLoaded('mongo');
-
-        //remove existing
-        if (class_exists('MongoClient', false)) {
-            $mongo = new \MongoClient();
-        } else {
-            $mongo = new \Mongo();
-        }
-        $database   = $mongo->phalcon_test;
-        $collection = $database->caches;
-        $collection->remove();
-
-        return [$mongo, $collection];
     }
 }

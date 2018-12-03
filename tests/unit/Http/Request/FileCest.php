@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Http\Request;
 
-use function dataFolder;
 use Phalcon\Http\Request\File;
 use Phalcon\Test\Module\UnitTest;
 use UnitTester;
+use function dataFolder;
 
 class FileCest
 {

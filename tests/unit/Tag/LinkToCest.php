@@ -67,7 +67,8 @@ class LinkToCest extends TagSetup
     }
 
     /**
-     * Tests Phalcon\Tag :: linkTo() - empty string as URL and string as name parameter
+     * Tests Phalcon\Tag :: linkTo() - empty string as URL and string as name
+     * parameter
      *
      * @param UnitTester $I
      *

@@ -27,7 +27,7 @@ class EscapeUrlCest
     public function escaperEscapeUrl(UnitTester $I)
     {
         $I->wantToTest("Escaper - escapeUrl()");
-        $escaper  = new Escaper();
+        $escaper = new Escaper();
 
         $expected = 'http%3A%2F%2Fphalconphp.com%2Fa.php%3Fc%3Dd%26e%3Df';
         $actual   = $escaper->escapeUrl("http://phalconphp.com/a.php?c=d&e=f");

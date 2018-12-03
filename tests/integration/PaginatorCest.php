@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration;
 
-use Phalcon\Test\Models\Personnes;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Paginator\Adapter\QueryBuilder;
-use Phalcon\Paginator\Adapter\Model;
 use IntegrationTester;
+use Phalcon\Paginator\Adapter\Model;
+use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Personnes;
 
 class PaginatorCest
 {

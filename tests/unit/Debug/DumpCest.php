@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Unit\Debug;
 
-use function dataFolder;
 use Phalcon\Debug\Dump;
 use Phalcon\Test\Unit\Debug\Helper\ClassProperties;
 use UnitTester;
+use function dataFolder;
 
 class DumpCest
 {
