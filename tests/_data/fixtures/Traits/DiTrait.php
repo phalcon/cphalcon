@@ -11,6 +11,10 @@
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function cacheFolder;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
@@ -49,6 +53,41 @@ trait DiTrait
     protected function getService(string $name)
     {
         return $this->container->get($name);
+    }
+
+    protected function getAndSetModelsCacheFile()
+    {
+        $cache = new File(
+            new Data(
+                [
+                    'lifetime' => 3600
+                ]
+            ),
+            [
+                'cacheDir' => cacheFolder()
+            ]
+        );
+        $this->container->set('modelsCache', $cache);
+
+        return $cache;
+    }
+
+    protected function getAndSetModelsCacheFileLibmemcached()
+    {
+        $config = [
+            'servers' => [
+                [
+                    'host'   => env('DATA_MEMCACHED_HOST'),
+                    'port'   => env('DATA_MEMCACHED_PORT'),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
+                ]
+            ],
+        ];
+
+        $cache = new Libmemcached(new Data(['lifetime' => 3600]), $config);
+        $this->container->set('modelsCache', $cache);
+
+        return $cache;
     }
 
     protected function newDi()

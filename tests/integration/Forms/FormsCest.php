@@ -20,6 +20,7 @@
 
 namespace Phalcon\Test\Integration\Forms;
 
+use IntegrationTester;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;

@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Models\Statistics;
 
 use Phalcon\Mvc\Model;
-use Phalcon\Test\Fixtures\resultsets\Stats;
+use Phalcon\Test\Resultsets\Stats;
 
 class AgeStats extends Model
 {

@@ -611,6 +611,7 @@ class ModelsCest
 
     private function issue1534(IntegrationTester $I)
     {
+        $I->skipTest('TODO - Find where the table is');
         $this->prepareDb();
         $db = $this->container->get('db');
 //        if (true === $db->tableExists('issue_1534')) {

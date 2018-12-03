@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Dynamic;
 
-use Phalcon\Model\Behavior\SoftDelete;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model as PhalconModel;
 
 /**

@@ -34,7 +34,7 @@ class ViewTest extends UnitTest
     /**
      * Tests using partials with the mix Twig with PHP Engines
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-01-07
      */
     public function testOverrideLayout()
@@ -59,7 +59,7 @@ class ViewTest extends UnitTest
     /**
      * Test using different layout and pick
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-01-07
      */
     public function testLayoutAndPick()
@@ -140,7 +140,7 @@ class ViewTest extends UnitTest
     /**
      * Tests View::render
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-03-05
      */
     public function testStandardRender()
@@ -275,7 +275,7 @@ class ViewTest extends UnitTest
     /**
      * Tests rendering with partials
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-05-28
      */
     public function testRenderingWithPartials()
@@ -323,7 +323,7 @@ class ViewTest extends UnitTest
     /**
      * Tests View::getRender
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-26-12
      */
     public function testGetRender()

@@ -80,7 +80,7 @@ class ManagerCest
     /**
      * Tests using event listeners
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-08-14
      */
     public function usingEvents(UnitTester $I)
@@ -199,8 +199,7 @@ class ManagerCest
     /**
      * Tests using events propagation
      *
-     * @test
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-11-11
      */
     public function stopEventsInEventsManager(UnitTester $I)

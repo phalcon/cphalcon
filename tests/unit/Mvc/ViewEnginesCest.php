@@ -107,7 +107,7 @@ class ViewEnginesCest
     /**
      * Tests Mustache template engine
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-08-17
      */
     public function shouldWorkWithMustacheEngine(UnitTester $I)
@@ -194,7 +194,7 @@ class ViewEnginesCest
 //     * Tests the mix Mustache with PHP Engines
 //     *
 //     * @test
-//     * @author Andres Gutierrez <andres@phalconphp.com>
+//     * @author Phalcon Team <team@phalconphp.com>
 //     * @since  2012-08-17
 //     */
 //    public function shouldWorkMixPhpMustacheEnginesPartial(UnitTester $I)
@@ -218,7 +218,7 @@ class ViewEnginesCest
 //     * Tests the mix Mustache with PHP Engines
 //     *
 //     * @test
-//     * @author Andres Gutierrez <andres@phalconphp.com>
+//     * @author Phalcon Team <team@phalconphp.com>
 //     * @since  2012-08-17
 //     */
 //    public function shouldWorkMixPhpTwigEnginesPartial(UnitTester $I)
@@ -251,7 +251,7 @@ class ViewEnginesCest
     /**
      * Tests Twig template engine
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-08-17
      */
     public function shouldWorkWithTwigEngine(UnitTester $I)
@@ -293,7 +293,7 @@ class ViewEnginesCest
     /**
      * Tests the mix Twig with PHP Engines
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-08-17
      */
     public function shouldWorkMixPhpTwigEngines(UnitTester $I)
@@ -333,7 +333,7 @@ class ViewEnginesCest
     /**
      * Tests the mix Mustache with PHP Engines
      *
-     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-08-17
      */
     public function shouldWorkMixPhpMustacheEngines(UnitTester $I)
