@@ -23,23 +23,6 @@ class IntegrationTester extends \Codeception\Actor
     /**
      * Define custom actions here
      */
-    /**
-     * Remove files without errors
-     *
-     * @param mixed $function
-     */
-    public function removeFilesWithoutErrors($files)
-    {
-        if (!is_array($files)) {
-            $files = array($files);
-        }
-
-        foreach ($files as $file) {
-            if (file_exists($file) && is_readable($file)) {
-                @unlink($file);
-            }
-        }
-    }
 
     /**
      * Get file name from path

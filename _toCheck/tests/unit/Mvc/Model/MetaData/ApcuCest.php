@@ -31,12 +31,7 @@ class ApcuCest
 
     public function _before(UnitTester $I)
     {
-        if (!function_exists('apc_fetch')) {
-            throw new SkippedTestError(
-                'Warning: apc extension is not loaded'
-            );
-        }
-
+        $I->checkExtensionIsLoaded('apcu');
         $I->haveServiceInDi('modelsMetadata', function () {
             return new Apcu([
                 'prefix'   => 'app\\',
