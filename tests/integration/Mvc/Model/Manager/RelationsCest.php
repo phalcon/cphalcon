@@ -23,7 +23,7 @@ class RelationsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function relationsMysql(IntegrationTester $I)

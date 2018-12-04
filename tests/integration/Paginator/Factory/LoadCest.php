@@ -34,7 +34,7 @@ class LoadCest
     {
         $I->wantToTest("Paginator\Factory - load() - Config");
         $I->skipTest("TODO: need to check this");
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $options          = $this->config->paginator;
         $options->builder = $this
             ->container
@@ -63,7 +63,7 @@ class LoadCest
     {
         $I->wantToTest("Paginator\Factory - load() - array");
         $I->skipTest("TODO: need to check this");
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $options            = $this->arrayConfig["paginator"];
         $options["builder"] = $this
             ->container

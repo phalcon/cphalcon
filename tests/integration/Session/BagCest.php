@@ -22,7 +22,7 @@ class BagCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

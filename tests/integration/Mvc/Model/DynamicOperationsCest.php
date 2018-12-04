@@ -31,7 +31,7 @@ class DynamicOperationsCest
     public function _before(IntegrationTester $I)
     {
         $this->tracer = [];
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
         $connection = $this->container->get('db');
         $manager    = $this->newEventsManager();

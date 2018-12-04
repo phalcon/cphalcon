@@ -17,13 +17,13 @@ trait MysqlTrait
 
     public function _before()
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
 
         $this->connection = $this->getService('db');
     }
 
-    abstract protected function newFactoryDefault();
+    abstract protected function setNewFactoryDefault();
 
     abstract protected function setDiMysql();
 }

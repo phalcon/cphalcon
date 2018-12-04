@@ -40,7 +40,7 @@ class FormsCest
 
     public function _before()
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         Tag::setDoctype(Tag::HTML5);
     }
 

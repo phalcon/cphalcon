@@ -1,6 +1,8 @@
 <?php
 
-class Issue787Task extends \Phalcon\CLI\Task
+use Phalcon\CLI\Task;
+
+class Issue787Task extends Task
 {
     public static $output = '';
 

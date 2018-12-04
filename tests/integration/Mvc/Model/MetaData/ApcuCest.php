@@ -26,7 +26,7 @@ class ApcuCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('apcu');
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
         $this->container->setShared(
             'modelsMetadata',

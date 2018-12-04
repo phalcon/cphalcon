@@ -13,7 +13,7 @@ class ModelsCalculationsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function testCalculationsMysql(IntegrationTester $I)

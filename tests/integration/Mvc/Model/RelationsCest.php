@@ -26,7 +26,7 @@ class RelationsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiSqlite();
     }
 

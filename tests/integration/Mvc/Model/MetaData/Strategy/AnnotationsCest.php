@@ -24,7 +24,7 @@ class AnnotationsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
 
         $metaData = new Memory();
         $metaData->setDI($this->container);

@@ -27,7 +27,7 @@ class ResultsetClassCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
     }
 

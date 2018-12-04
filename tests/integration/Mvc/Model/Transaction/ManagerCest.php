@@ -25,7 +25,7 @@ class ManagerCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     /**

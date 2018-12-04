@@ -97,11 +97,23 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
-    protected function newFactoryDefault()
+    protected function setNewFactoryDefault()
     {
         Di::reset();
-        $this->container = new FactoryDefault();
+        $this->container = $this->newFactoryDefault();
         Di::setDefault($this->container);
+    }
+
+    protected function setNewCliFactoryDefault()
+    {
+        Di::reset();
+        $this->container = $this->newCliFactoryDefault();
+        Di::setDefault($this->container);
+    }
+
+    protected function newFactoryDefault()
+    {
+        return new FactoryDefault();
     }
 
     protected function newCliConsole()
@@ -301,7 +313,7 @@ trait DiTrait
 
     protected function setupPostgres()
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiPostgresql();
 
         $this->connection = $this->getService('db');

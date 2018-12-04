@@ -45,7 +45,7 @@ class UniquenessCest
      */
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
         $this->robot = new Robots(
             [

@@ -26,7 +26,7 @@ class MemoryCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('redis');
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
         $this->container->setShared(
             'modelsMetadata',

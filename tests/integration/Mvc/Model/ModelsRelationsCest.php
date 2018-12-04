@@ -19,7 +19,7 @@ class ModelsRelationsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function testModelsMysql(IntegrationTester $I)

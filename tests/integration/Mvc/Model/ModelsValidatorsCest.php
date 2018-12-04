@@ -14,7 +14,7 @@ class ModelsValidatorsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function testValidatorsMysql(IntegrationTester $I)

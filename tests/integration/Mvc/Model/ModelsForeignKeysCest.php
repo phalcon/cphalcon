@@ -18,7 +18,7 @@ class ModelsForeignKeysCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function testForeignKeysMysql(IntegrationTester $I)

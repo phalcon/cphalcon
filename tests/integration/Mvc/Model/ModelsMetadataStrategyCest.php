@@ -78,7 +78,7 @@ class ModelsMetadataStrategyCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function testMetadataDatabaseIntrospection(IntegrationTester $I)

@@ -22,7 +22,7 @@ class ModelsCest
 
     public function _before(IntegrationTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
     }
 
     public function _after(IntegrationTester $I)

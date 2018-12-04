@@ -25,7 +25,7 @@ class LibmemcachedCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $this->setDiMysql();
         $this->container->setShared(
             'modelsMetadata',

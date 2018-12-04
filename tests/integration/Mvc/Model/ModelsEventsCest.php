@@ -34,7 +34,7 @@ class ModelsEventsCest
      */
     private function prepareDI(&$trace)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
         $eventsManager = $this->newEventsManager();
         $eventsManager->attach(
             'model',
