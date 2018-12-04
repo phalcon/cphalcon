@@ -71,7 +71,7 @@ run.config:
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Get the Zephir phar
-    - wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.7/zephir.phar
+    - wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.8/zephir.phar
     - chmod +x /opt/gonano/bin/zephir
     #===========================================================================
     # This is here so that Phalcon can be used right after compilation
