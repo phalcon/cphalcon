@@ -43,27 +43,34 @@ class Postgresql extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var size, columnType, columnSql, typeValues;
+		var columnType, columnSql, typeValues;
 
-		let size = column->getSize();
-		let columnType = column->getType();
-		let columnSql = "";
-
-		if typeof columnType == "string" {
-			let columnSql .= columnType;
-			let columnType = column->getTypeReference();
-		}
+		let columnSql  = this->checkColumnTypeSql(column);
+		let columnType = this->checkColumnType(column);
 
 		switch columnType {
 
-			case Column::TYPE_INTEGER:
+			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
 					if column->isAutoIncrement() {
-						let columnSql .= "SERIAL";
+						let columnSql .= "BIGSERIAL";
 					} else {
-						let columnSql .= "INT";
+						let columnSql .= "BIGINT";
 					}
 				}
+				break;
+
+			case Column::TYPE_BOOLEAN:
+				if empty columnSql {
+					let columnSql .= "BOOLEAN";
+				}
+				break;
+
+			case Column::TYPE_CHAR:
+				if empty columnSql {
+					let columnSql .= "CHARACTER";
+				}
+				let columnSql .= this->getColumnSize(column);
 				break;
 
 			case Column::TYPE_DATE:
@@ -72,43 +79,17 @@ class Postgresql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER VARYING";
-				}
-				let columnSql .= "(" . size . ")";
-				break;
-
-			case Column::TYPE_DECIMAL:
-				if empty columnSql {
-					let columnSql .= "NUMERIC";
-				}
-				let columnSql .= "(" . size . "," . column->getScale() . ")";
-				break;
-
 			case Column::TYPE_DATETIME:
 				if empty columnSql {
 					let columnSql .= "TIMESTAMP";
 				}
 				break;
 
-			case Column::TYPE_TIMESTAMP:
+			case Column::TYPE_DECIMAL:
 				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
+					let columnSql .= "NUMERIC";
 				}
-				break;
-
-			case Column::TYPE_CHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER";
-				}
-				let columnSql .= "(" . size . ")";
-				break;
-
-			case Column::TYPE_TEXT:
-				if empty columnSql {
-					let columnSql .= "TEXT";
-				}
+				let columnSql .= this->getColumnSizeAndScale(column);
 				break;
 
 			case Column::TYPE_FLOAT:
@@ -117,12 +98,12 @@ class Postgresql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BIGINTEGER:
+			case Column::TYPE_INTEGER:
 				if empty columnSql {
 					if column->isAutoIncrement() {
-						let columnSql .= "BIGSERIAL";
+						let columnSql .= "SERIAL";
 					} else {
-						let columnSql .= "BIGINT";
+						let columnSql .= "INT";
 					}
 				}
 				break;
@@ -139,11 +120,25 @@ class Postgresql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BOOLEAN:
+			case Column::TYPE_TIMESTAMP:
 				if empty columnSql {
-					let columnSql .= "BOOLEAN";
+					let columnSql .= "TIMESTAMP";
 				}
 				break;
+
+			case Column::TYPE_TEXT:
+				if empty columnSql {
+					let columnSql .= "TEXT";
+				}
+				break;
+
+			case Column::TYPE_VARCHAR:
+				if empty columnSql {
+					let columnSql .= "CHARACTER VARYING";
+				}
+				let columnSql .= this->getColumnSize(column);
+				break;
+
 
 			default:
 				if empty columnSql {

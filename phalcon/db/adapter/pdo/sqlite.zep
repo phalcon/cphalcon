@@ -98,14 +98,19 @@ class Sqlite extends PdoAdapter
 			 */
 			let columnType = field[2];
 
-			if memstr(columnType, "tinyint(1)") {
-				/**
-				 * Tinyint(1) is bool
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL,
-					columnType = "bool"; // Change column type to skip size check
-			} elseif memstr(columnType, "bigint") {
+			/**
+			 * The order of these IF statements matters. Since we are using memstr
+			 * to figure out whether a particular string exists in the columnType
+			 * we will end up with false positives if the order changes.
+			 *
+			 * For instance if we have a `varchar` column and we check for `char`
+			 * first, then that will match. Therefore we have firs the IF
+			 * statements that are "unique" and further down the ones that can
+			 * appear a substrings of the columnType above them.
+			 *
+			 * BIGINT/INT
+			 */
+			if memstr(columnType, "bigint") {
 				/**
 				 * Bigint are int
 				 */
@@ -123,21 +128,40 @@ class Sqlite extends PdoAdapter
 				if field[5] {
 					let definition["autoIncrement"] = true;
 				}
-			} elseif memstr(columnType, "varchar") {
+			} elseif memstr(columnType, "tinyint(1)") {
 				/**
-				 * Varchar are varchars
+				 * Tinyint(1) is boolean
 				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL,
+					columnType = "boolean"; // Change column type to skip size check
+
+			/**
+			 * ENUM
+			 */
+			} elseif memstr(columnType, "enum") {
+				/**
+				 * Enum are treated as char
+				 */
+				let definition["type"] = Column::TYPE_CHAR;
+
+			/**
+			 * DATE/DATETIME
+			 */
+			} elseif memstr(columnType, "datetime") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "date") {
 				/**
 				 * Date/Datetime are varchars
 				 */
 				let definition["type"] = Column::TYPE_DATE;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Timestamp as date
-				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
+
+			/**
+			 * FLOAT/DECIMAL/DOUBLE
+			 */
 			} elseif memstr(columnType, "decimal") {
 				/**
 				 * Decimals are floats
@@ -145,21 +169,6 @@ class Sqlite extends PdoAdapter
 				let definition["type"] = Column::TYPE_DECIMAL,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "char") {
-				/**
-				 * Chars are chars
-				 */
-				let definition["type"] = Column::TYPE_CHAR;
-			} elseif memstr(columnType, "datetime") {
-				/**
-				 * Special type for datetime
-				 */
-				let definition["type"] = Column::TYPE_DATETIME;
-			} elseif memstr(columnType, "text") {
-				/**
-				 * Text are varchars
-				 */
-				let definition["type"] = Column::TYPE_TEXT;
 			} elseif memstr(columnType, "float") {
 				/**
 				 * Float/Smallfloats/Decimals are float
@@ -167,11 +176,35 @@ class Sqlite extends PdoAdapter
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::TYPE_DECIMAL;
-			} elseif memstr(columnType, "enum") {
+
+			/**
+			 * TIMESTAMP
+			 */
+			} elseif memstr(columnType, "timestamp") {
 				/**
-				 * Enum are treated as char
+				 * Timestamp as date
+				 */
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+
+			/**
+			 * TEXT/VARCHAR/CHAR
+			 */
+			} elseif memstr(columnType, "varchar") {
+				/**
+				 * Varchar are varchars
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR;
+			} elseif memstr(columnType, "char") {
+				/**
+				 * Chars are chars
 				 */
 				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "text") {
+				/**
+				 * Text are varchars
+				 */
+				let definition["type"] = Column::TYPE_TEXT;
+
 			} else {
 				/**
 				 * By default is string
