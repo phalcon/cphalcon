@@ -44,69 +44,28 @@ class Sqlite extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var columnSql, type, typeValues;
+		var columnType, columnSql, typeValues;
 
-		let columnSql = "";
-
-		let type = column->getType();
-		if typeof type == "string" {
-			let columnSql .= type;
-			let type = column->getTypeReference();
-		}
+		let columnSql  = this->checkColumnTypeSql(column);
+		let columnType = this->checkColumnType(column);
 
 		// SQLite has dynamic column typing. The conversion below maximizes
 		// compatibility with other DBMS's while following the type affinity
 		// rules: http://www.sqlite.org/datatype3.html.
-		switch type {
+		switch columnType {
 
-			case Column::TYPE_INTEGER:
+			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
-					let columnSql .= "INTEGER";
+					let columnSql .= "BIGINT";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
 				}
 				break;
 
-			case Column::TYPE_DATE:
+			case Column::TYPE_BLOB:
 				if empty columnSql {
-					let columnSql .= "DATE";
-				}
-				break;
-
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "VARCHAR";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_DECIMAL:
-				if empty columnSql {
-					let columnSql .= "NUMERIC";
-				}
-				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
-				break;
-
-			case Column::TYPE_DATETIME:
-				if empty columnSql {
-					let columnSql .= "DATETIME";
-				}
-				break;
-
-			case Column::TYPE_TIMESTAMP:
-				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
-				}
-				break;
-
-			case Column::TYPE_CHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_TEXT:
-				if empty columnSql {
-					let columnSql .= "TEXT";
+					let columnSql .= "BLOB";
 				}
 				break;
 
@@ -116,10 +75,30 @@ class Sqlite extends Dialect
 				}
 				break;
 
-			case Column::TYPE_FLOAT:
+			case Column::TYPE_CHAR:
 				if empty columnSql {
-					let columnSql .= "FLOAT";
+					let columnSql .= "CHARACTER";
 				}
+				let columnSql .= this->getColumnSize(column);
+				break;
+
+			case Column::TYPE_DATE:
+				if empty columnSql {
+					let columnSql .= "DATE";
+				}
+				break;
+
+			case Column::TYPE_DATETIME:
+				if empty columnSql {
+					let columnSql .= "DATETIME";
+				}
+				break;
+
+			case Column::TYPE_DECIMAL:
+				if empty columnSql {
+					let columnSql .= "NUMERIC";
+				}
+				let columnSql .= this->getColumnSizeAndScale(column);
 				break;
 
 			case Column::TYPE_DOUBLE:
@@ -131,24 +110,21 @@ class Sqlite extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BIGINTEGER:
+			case Column::TYPE_FLOAT:
 				if empty columnSql {
-					let columnSql .= "BIGINT";
-				}
-				if column->isUnsigned() {
-					let columnSql .= " UNSIGNED";
+					let columnSql .= "FLOAT";
 				}
 				break;
 
-			case Column::TYPE_TINYBLOB:
+			case Column::TYPE_INTEGER:
 				if empty columnSql {
-					let columnSql .= "TINYBLOB";
+					let columnSql .= "INTEGER";
 				}
 				break;
 
-			case Column::TYPE_BLOB:
+			case Column::TYPE_LONGBLOB:
 				if empty columnSql {
-					let columnSql .= "BLOB";
+					let columnSql .= "LONGBLOB";
 				}
 				break;
 
@@ -158,10 +134,29 @@ class Sqlite extends Dialect
 				}
 				break;
 
-			case Column::TYPE_LONGBLOB:
+			case Column::TYPE_TEXT:
 				if empty columnSql {
-					let columnSql .= "LONGBLOB";
+					let columnSql .= "TEXT";
 				}
+				break;
+
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
+			case Column::TYPE_TINYBLOB:
+				if empty columnSql {
+					let columnSql .= "TINYBLOB";
+				}
+				break;
+
+			case Column::TYPE_VARCHAR:
+				if empty columnSql {
+					let columnSql .= "VARCHAR";
+				}
+				let columnSql .= this->getColumnSize(column);
 				break;
 
 			default:

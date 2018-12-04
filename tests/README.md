@@ -26,13 +26,13 @@ A MySQL/PostgreSQL databases is also bundled in this suite. You can create a dat
 *MySQL*
 ```sh
 echo 'create database phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;' | mysql -u root
-mysql -uroot phalcon_test < tests/_data/schemas/mysql/phalcon_test.sql
+mysql -uroot phalcon_test < tests/_data/schemas/phalcon-schema-mysql.sql
 ```
 
 *PostgreSQL*
 ```sh
 psql -c 'create database phalcon_test;' -U postgres
-psql -U postgres phalcon_test -q -f tests/_data/schemas/postgresql/phalcon_test.sql
+psql -U postgres phalcon_test -q -f tests/_data/schemas/phalcon-schema-postgresql.sql
 ```
 
 **Note:** For these MySQL-related we use the user `root` without a password.

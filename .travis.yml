@@ -18,10 +18,14 @@ branches:
 
 addons:
   apt:
+    sources:
+      - mysql-5.7-trusty
     packages:
-    - beanstalkd
-    - gdb
-    - lcov
+      - beanstalkd
+      - gdb
+      - lcov
+      - mysql-server
+      - mysql-client
 
 matrix:
   fast_finish: true

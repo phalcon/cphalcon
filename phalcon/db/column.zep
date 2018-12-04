@@ -82,32 +82,37 @@ class Column implements ColumnInterface
 	const TYPE_BIGINTEGER = 14;
 
 	/**
+	 * Bit abstract data type
+	 */
+	const TYPE_BIT = 19;
+
+	/**
 	 * Blob abstract data type
 	 */
 	const TYPE_BLOB = 11;
 
 	/**
-	 * Boolean abstract data type
+	 * Bool abstract data type
 	 */
 	const TYPE_BOOLEAN = 8;
 
 	/**
-	 * Char abstract type
+	 * Char abstract data type
 	 */
 	const TYPE_CHAR = 5;
 
 	/**
-	 * Date abstract type
+	 * Date abstract data type
 	 */
 	const TYPE_DATE = 1;
 
 	/**
-	 * Datetime abstract type
+	 * Datetime abstract data type
 	 */
 	const TYPE_DATETIME = 4;
 
 	/**
-	 * Decimal abstract type
+	 * Decimal abstract data type
 	 */
 	const TYPE_DECIMAL = 3;
 
@@ -117,22 +122,27 @@ class Column implements ColumnInterface
 	const TYPE_DOUBLE = 9;
 
 	/**
+	 * Enum abstract data type
+	 */
+	const TYPE_ENUM = 18;
+
+	/**
 	 * Float abstract data type
 	 */
 	const TYPE_FLOAT = 7;
 
 	/**
-	 * Integer abstract type
+	 * Int abstract data type
 	 */
 	const TYPE_INTEGER = 0;
 
 	/**
-	 * Json abstract type
+	 * Json abstract data type
 	 */
 	const TYPE_JSON = 15;
 
 	/**
-	 * Jsonb abstract type
+	 * Jsonb abstract data type
 	 */
 	const TYPE_JSONB = 16;
 
@@ -142,9 +152,29 @@ class Column implements ColumnInterface
 	const TYPE_LONGBLOB = 13;
 
 	/**
+	 * Longtext abstract data type
+	 */
+	const TYPE_LONGTEXT = 24;
+
+	/**
 	 * Mediumblob abstract data type
 	 */
 	const TYPE_MEDIUMBLOB = 12;
+
+	/**
+	 * Mediumintegerr abstract data type
+	 */
+	const TYPE_MEDIUMINTEGER = 21;
+
+	/**
+	 * Mediumtext abstract data type
+	 */
+	const TYPE_MEDIUMTEXT = 23;
+
+	/**
+	 * Smallint abstract data type
+	 */
+	const TYPE_SMALLINTEGER = 22;
 
 	/**
 	 * Text abstract data type
@@ -152,7 +182,12 @@ class Column implements ColumnInterface
 	const TYPE_TEXT = 6;
 
 	/**
-	 * Datetime abstract type
+	 * Time abstract data type
+	 */
+	const TYPE_TIME = 20;
+
+	/**
+	 * Timestamp abstract data type
 	 */
 	const TYPE_TIMESTAMP = 17;
 
@@ -162,7 +197,17 @@ class Column implements ColumnInterface
 	const TYPE_TINYBLOB = 10;
 
 	/**
-	 * Varchar abstract type
+	 * Tinyint abstract data type
+	 */
+	const TYPE_TINYINTEGER = 26;
+
+	/**
+	 * Tinytext abstract data type
+	 */
+	const TYPE_TINYTEXT = 25;
+
+	/**
+	 * Varchar abstract data type
 	 */
 	const TYPE_VARCHAR = 2;
 
