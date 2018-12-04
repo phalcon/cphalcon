@@ -7024,13 +7024,13 @@ alter table public.dialect_table_intermediate OWNER TO postgres;
 
 alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_primary__fk
-    foreign key (field_primary_id);
+    foreign key (field_primary_id)
       references dialect_table (field_primary)
         on update cascade on delete restrict;
 
 alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_remote__fk
-    foreign key (field_remote_id);
+    foreign key (field_remote_id)
       references dialect_table_remote (field_primary);
 
 --
