@@ -33,10 +33,10 @@ $configFile = [
         'viewsDir'       => $root . 'tests/_data/fixtures/views/',
         'resultsetsDir'  => $root . 'tests/_data/fixtures/resultsets/',
         'tasksDir'       => $root . 'tests/_data/fixtures/tasks/',
+//        'microDir'       => $root . 'tests/_data/micro/',
 //        'objectsetsDir'  => $root . 'tests/_data/objectsets/',
 //        'debugDir'       => $root . 'tests/_data/debug/',
 //        'collectionsDir' => $root . 'tests/_data/collections/',
-//        'microDir'       => $root . 'tests/_data/micro/',
 //        'aclDir'         => $root . 'tests/_data/acl/',
     ],
     'database'    => [
@@ -91,7 +91,7 @@ $loader->registerDirs(
     [
         $configFile['application']['tasksDir'],
         $configFile['application']['controllersDir'],
-        $configFile['application']['microDir'],
+//        $configFile['application']['microDir'],
     ]
 );
 
@@ -134,25 +134,6 @@ $container->set('dispatcher', Dispatcher::class);
  * Session
  */
 $container->set(CodeceptionMemorySession::class, PhalconMemorySession::class);
-
-/**
- * Initialize the Database connection
- */
-//$container->set(
-//    'db',
-//    function () use ($configFile) {
-//        $config  = $configFile['database'];
-//        $adapter = '\Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
-//
-//        unset($config['adapter']);
-//
-//        /** @var \Phalcon\Db\AdapterInterface $connection */
-//        $connection = new $adapter($config);
-//        $connection->execute('SET NAMES UTF8', []);
-//
-//        return $connection;
-//    }
-//);
 
 $application = new Application();
 $application->setDI($container);

@@ -4,9 +4,15 @@ namespace Phalcon\Test\Integration\Validation;
 
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation;
+use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\Url;
 use IntegrationTester;
+use Phalcon\Test\Models\Users;
 
 /**
  * Phalcon\Test\Integration\ValidationCest
@@ -27,6 +33,32 @@ use IntegrationTester;
  */
 class ValidationCest
 {
+    use DiTrait;
+
+    /**
+     * @var Validation
+     */
+    protected $validation;
+
+    /**
+     * executed before each test
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+        $this->validation = new Validation();
+        $this->validation->add(
+            'name',
+            new PresenceOf(
+                [
+                    'message' => 'Name cant be empty.'
+                ]
+            )
+        );
+        $this->validation->setFilters('name', 'trim');
+    }
+
     /**
      * Tests the get
      *
@@ -60,5 +92,224 @@ class ValidationCest
         ]);
 
         $I->assertEquals($expectedMessages, $validation->getMessages());
+    }
+
+    /**
+     * Tests validate method with entity and filters
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-09-26
+     */
+    public function testWithEntityAndFilter(IntegrationTester $I)
+    {
+        $users = new Users([
+            'name' => ' '
+        ]);
+        $messages = $this->validation->validate(null, $users);
+
+        $I->assertEquals($messages->count(), 1);
+        $I->assertEquals($messages->offsetGet(0)->getMessage(), 'Name cant be empty.');
+
+        $expectedMessages = Messages::__set_state([
+            '_messages' => [
+                Message::__set_state([
+                    '_type' => 'PresenceOf',
+                    '_message' => 'Name cant be empty.',
+                    '_field' => 'name',
+                    '_code' => '0',
+                ])
+            ],
+        ]);
+
+        $I->assertEquals($messages, $expectedMessages);
+    }
+
+    /**
+     * Tests that filters in validation will correctly filter entity values
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-09-26
+     */
+    public function testFilteringEntity(IntegrationTester $I)
+    {
+        $users = new Users([
+            'name' => 'SomeName      '
+        ]);
+
+        $this->validation->validate(null, $users);
+
+        $I->assertEquals($users->name, 'SomeName');
+    }
+
+    public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet(IntegrationTester $I)
+    {
+        $validation = new Validation();
+
+        $I->assertIsEmpty($validation->getDefaultMessage('_notexistentvalidationmessage_'));
+    }
+
+    public function testValidationFiltering(IntegrationTester $I)
+    {
+        $validation = new Validation();
+        $validation->setDI($this->container);
+
+        $validation
+            ->add('name', new PresenceOf([
+                'message' => 'The name is required'
+            ]))
+            ->add('email', new PresenceOf([
+                'message' => 'The email is required'
+            ]));
+
+        $validation->setFilters('name', 'trim');
+        $validation->setFilters('email', 'trim');
+
+        $messages = $validation->validate(['name' => '  ', 'email' => '    ']);
+
+        $I->assertCount(2, $messages);
+
+        $filtered = $messages->filter('email');
+
+        $expectedMessages = [
+            0 => Message::__set_state([
+                '_type' => 'PresenceOf',
+                '_message' => 'The email is required',
+                '_field' => 'email',
+                '_code' => '0',
+            ])
+        ];
+
+        $I->assertEquals($filtered, $expectedMessages);
+    }
+
+    public function testValidationSetLabels(IntegrationTester $I)
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'email',
+            new PresenceOf(
+                [
+                    'message' => 'The :field is required'
+                ]
+            )
+        );
+        $validation->add(
+            'email',
+            new Email(
+                [
+                    'message' => 'The :field must be email',
+                    'label' => 'E-mail'
+                ]
+            )
+        );
+        $validation->add(
+            'firstname',
+            new PresenceOf(
+                [
+                    'message' => 'The :field is required'
+                ]
+            )
+        );
+        $validation->add(
+            'firstname',
+            new StringLength(
+                [
+                    'min' => 4,
+                    'messageMinimum' => 'The :field is too short'
+                ]
+            )
+        );
+
+        $validation->setLabels(['firstname' => 'First name']);
+        $messages = $validation->validate(['email' => '', 'firstname' => '']);
+
+        $expectedMessages = Messages::__set_state([
+            '_messages' => [
+                0 => Message::__set_state([
+                    '_type' => 'PresenceOf',
+                    '_message' => 'The email is required',
+                    '_field' => 'email',
+                    '_code' => '0',
+                ]),
+                1 => Message::__set_state([
+                    '_type' => 'Email',
+                    '_message' => 'The E-mail must be email',
+                    '_field' => 'email',
+                    '_code' => '0',
+                ]),
+                2 => Message::__set_state([
+                    '_type' => 'PresenceOf',
+                    '_message' => 'The First name is required',
+                    '_field' => 'firstname',
+                    '_code' => '0',
+                ]),
+                3 => Message::__set_state([
+                    '_type' => 'TooShort',
+                    '_message' => 'The First name is too short',
+                    '_field' => 'firstname',
+                    '_code' => '0',
+                ])
+            ]
+        ]);
+
+        $I->assertEquals($messages, $expectedMessages);
+    }
+
+    /**
+     * Tests that empty values behaviour.
+     *
+     * @author Gorka Guridi <gorka.guridi@gmail.com>
+     * @since  2016-12-30
+     */
+    public function testEmptyValues(IntegrationTester $I)
+    {
+        $validation = new Validation();
+
+        $validation->setDI($this->container);
+
+        $validation
+            ->add('name', new Alpha([
+                'message' => 'The name is not valid',
+            ]))
+            ->add('name', new PresenceOf([
+                'message' => 'The name is required',
+            ]))
+            ->add('url', new Url([
+                'message' => 'The url is not valid.',
+                'allowEmpty' => true,
+            ]))
+            ->add('email', new Email([
+                'message' => 'The email is not valid.',
+                'allowEmpty' => [null, false],
+            ]));
+
+        $messages = $validation->validate([
+            'name' => '',
+            'url' => null,
+            'email' => '',
+        ]);
+        $I->assertCount(2, $messages);
+
+        $messages = $validation->validate([
+            'name' => 'MyName',
+            'url' => '',
+            'email' => '',
+        ]);
+        $I->assertCount(1, $messages);
+
+        $messages = $validation->validate([
+            'name' => 'MyName',
+            'url' => false,
+            'email' => null,
+        ]);
+        $I->assertCount(0, $messages);
+
+        $messages = $validation->validate([
+            'name' => 'MyName',
+            'url' => 0,
+            'email' => 0,
+        ]);
+        $I->assertCount(1, $messages);
     }
 }
