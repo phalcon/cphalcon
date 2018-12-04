@@ -2286,7 +2286,7 @@ class Compiler implements InjectionAwareInterface
 			 * Enable autoescape globally
 			 */
 			if fetch autoescape, options["autoescape"] {
-				if typeof autoescape != "bool" {
+				if typeof autoescape != "boolean" {
 					throw new Exception("'autoescape' must be bool");
 				}
 				let this->_autoescape = autoescape;
@@ -2488,7 +2488,7 @@ class Compiler implements InjectionAwareInterface
 			 */
 			if isset options["compileAlways"] {
 				let compileAlways = options["compileAlways"];
-				if typeof compileAlways != "bool" {
+				if typeof compileAlways != "boolean" {
 					throw new Exception("'compileAlways' must be a bool value");
 				}
 			}

@@ -1061,7 +1061,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let distinct = this->_distinct;
-		if typeof distinct != "null" && typeof distinct == "bool" {
+		if typeof distinct != "null" && typeof distinct == "boolean" {
 			if distinct {
 				let phql = "SELECT DISTINCT ";
 			} else {
@@ -1308,7 +1308,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let forUpdate = this->_forUpdate;
-		if typeof forUpdate === "bool" {
+		if typeof forUpdate === "boolean" {
 			if forUpdate {
 				let phql .= " FOR UPDATE";
 			}
@@ -1351,7 +1351,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setBindTypes(bindTypes);
 		}
 
-		if typeof this->_sharedLock === "bool" {
+		if typeof this->_sharedLock === "boolean" {
 			query->setSharedLock(this->_sharedLock);
 		}
 

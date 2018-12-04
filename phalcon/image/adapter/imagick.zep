@@ -415,8 +415,8 @@ class Imagick extends Adapter
 
 		let gravity = null;
 
-		if typeof offsetX == "bool" {
-			if typeof offsetY == "bool" {
+		if typeof offsetX == "boolean" {
+			if typeof offsetY == "boolean" {
 				let offsetX	= 0,
 					offsetY = 0;
 				if offsetX && offsetY {
@@ -460,7 +460,7 @@ class Imagick extends Adapter
 			if typeof offsetX == "int" {
 				let x = (int) offsetX;
 				if offsetX {
-					if typeof offsetY == "bool" {
+					if typeof offsetY == "boolean" {
 						if offsetY {
 							if x < 0 {
 								let offsetX	= x * -1,

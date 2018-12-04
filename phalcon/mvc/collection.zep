@@ -665,7 +665,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 		// Call the validation, if it returns not the bool
 		// we append the messages to the current object
-		if typeof messages == "bool" {
+		if typeof messages == "boolean" {
 			return messages;
 		}
 

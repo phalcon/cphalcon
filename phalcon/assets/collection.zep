@@ -119,7 +119,7 @@ class Collection implements \Countable, \Iterator
 	{
 		var collectionLocal, collectionAttributes;
 
-		if typeof local == "bool" {
+		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
 			let collectionLocal = this->_local;
@@ -162,7 +162,7 @@ class Collection implements \Countable, \Iterator
 	{
 		var collectionLocal, collectionAttributes;
 
-		if typeof local == "bool" {
+		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
 			let collectionLocal = this->_local;

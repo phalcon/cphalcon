@@ -98,7 +98,7 @@ class InclusionIn extends Validator
 				let strict = strict[field];
 			}
 
-			if typeof strict != "bool" {
+			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a bool");
 			}
 		}

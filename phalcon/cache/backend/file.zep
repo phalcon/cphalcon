@@ -80,7 +80,7 @@ class File extends Backend
 		}
 
 		if fetch safekey, options["safekey"] {
-			if typeof safekey !== "bool" {
+			if typeof safekey !== "boolean" {
 				throw new Exception("safekey option should be a bool.");
 			}
 
@@ -100,7 +100,7 @@ class File extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, var lifetime = 1) -> var | null
+	public function get(string keyName, var lifetime = null) -> var | null
 	{
 		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, cachedContent, ret;
 		int createdTime, ttl;

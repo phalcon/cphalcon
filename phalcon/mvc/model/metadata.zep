@@ -304,7 +304,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	{
 		var source, schema, key;
 
-		if typeof data != "array" && typeof data != "string" && typeof data != "bool" {
+		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
 			throw new Exception("Invalid data for index");
 		}
 
