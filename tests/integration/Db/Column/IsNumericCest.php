@@ -12,9 +12,14 @@
 namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class IsNumericCest
 {
+    use DiTrait;
+    use MysqlTrait;
+
     /**
      * Tests Phalcon\Db\Column :: isNumeric()
      *
@@ -26,6 +31,10 @@ class IsNumericCest
     public function dbColumnIsNumeric(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isNumeric()");
-        $I->skipTest("Need implementation");
+        $columns         = $this->getColumns();
+        $expectedColumns = $this->getExpectedColumns();
+        foreach ($expectedColumns as $index => $column) {
+            $I->assertEquals($columns[$index]['_isNumeric'], $column->isNumeric());
+        }
     }
 }

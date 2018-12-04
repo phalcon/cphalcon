@@ -12,9 +12,13 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class DescribeIndexesCest
 {
+    use DiTrait;
+    use MysqlTrait;
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeIndexes()
      *
@@ -26,6 +30,9 @@ class DescribeIndexesCest
     public function dbAdapterPdoMysqlDescribeIndexes(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeIndexes()");
-        $I->skipTest("Need implementation");
+        $table = 'dialect_table';
+        $expected = $this->getExpectedIndexes();
+        $I->assertEquals($expected, $this->connection->describeIndexes($table));
+        $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->getSchemaName()));
     }
 }

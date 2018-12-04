@@ -32,15 +32,10 @@ class TableExistsCest
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - tableExists()");
 
-        $actual = $this->connection->tableExists('personas');
-        $I->assertTrue($actual);
-        $actual = $this->connection->tableExists('personas', env('DATA_POSTGRES_SCHEMA'));
-        $I->assertTrue($actual);
-        $actual = $this->connection->tableExists('noexist');
-        $I->assertFalse($actual);
-        $actual = $this->connection->tableExists('noexist', env('DATA_POSTGRES_SCHEMA'));
-        $I->assertFalse($actual);
-        $actual = $this->connection->tableExists('personas', 'test');
-        $I->assertFalse($actual);
+        $table = 'dialect_table';
+        $I->assertTrue($this->connection->tableExists($table));
+        $I->assertFalse($this->connection->tableExists('unknown-table'));
+        $I->assertTrue($this->connection->tableExists($table, $this->getSchemaName()));
+        $I->assertFalse($this->connection->tableExists('unknown-table', 'unknown-db'));
     }
 }

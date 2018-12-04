@@ -12,9 +12,13 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class DescribeColumnsCest
 {
+    use DiTrait;
+    use MysqlTrait;
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeColumns()
      *
@@ -26,6 +30,9 @@ class DescribeColumnsCest
     public function dbAdapterPdoMysqlDescribeColumns(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeColumns()");
-        $I->skipTest("Need implementation");
+        $table = 'dialect_table';
+        $expected = $this->getExpectedColumns();
+        $I->assertEquals($expected, $this->connection->describeColumns($table));
+        $I->assertEquals($expected, $this->connection->describeColumns($table, $this->getSchemaName()));
     }
 }

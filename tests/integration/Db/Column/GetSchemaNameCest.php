@@ -12,9 +12,14 @@
 namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSchemaNameCest
 {
+    use DiTrait;
+    use MysqlTrait;
+
     /**
      * Tests Phalcon\Db\Column :: getSchemaName()
      *
@@ -26,6 +31,10 @@ class GetSchemaNameCest
     public function dbColumnGetSchemaName(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getSchemaName()");
-        $I->skipTest("Need implementation");
+        $columns         = $this->getColumns();
+        $expectedColumns = $this->getExpectedColumns();
+        foreach ($expectedColumns as $index => $column) {
+            $I->assertEquals($columns[$index]['_schemaName'], $column->getSchemaName());
+        }
     }
 }

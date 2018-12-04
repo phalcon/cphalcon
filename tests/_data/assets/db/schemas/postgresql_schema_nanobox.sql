@@ -6937,6 +6937,104 @@ CREATE TABLE table_with_string_field (
                                          field character varying(70) NOT NULL
 );
 
+
+
+drop type if exists type_enum_size;
+create type type_enum_size as enum
+(
+    'xs',
+    's',
+    'm',
+    'l',
+    'xl'
+);
+
+drop table if exists dialect_table;
+create table dialect_table
+(
+  field_primary           serial not null
+    constraint dialect_table_pk
+      primary key,
+  field_blob              text,
+  field_bit               bit,
+  field_bit_default       bit           default B'1'::"bit",
+  field_bigint            bigint,
+  field_bigint_default    bigint        default 1,
+  field_boolean           boolean,
+  field_boolean_default   boolean       default true,
+  field_char              char(10),
+  field_char_default      char(10)      default 'ABC'::bpchar,
+  field_decimal           numeric(10,4),
+  field_decimal_default   numeric(10,4) default 14.5678,
+  field_enum              type_enum_size,
+  field_integer           integer,
+  field_integer_default   integer       default 1,
+  field_json              json,
+  field_float             numeric(10,4),
+  field_float_default     numeric(10,4) default 14.5678,
+  field_date              date,
+  field_date_default      date          default '2018-10-01':: date,
+  field_datetime          timestamp,
+  field_datetime_default  timestamp     default '2018-10-01 12:34:56':: timestamp without time zone,
+  field_time              time,
+  field_time_default      time          default '12:34:56':: time without time zone,
+  field_timestamp         timestamp,
+  field_timestamp_default timestamp     default '2018-10-01 12:34:56':: timestamp without time zone,
+  field_mediumint         integer,
+  field_mediumint_default integer       default 1,
+  field_smallint          smallint,
+  field_smallint_default  smallint      default 1,
+  field_tinyint           smallint,
+  field_tinyint_default   smallint      default 1,
+  field_longtext          text,
+  field_mediumtext        text,
+  field_tinytext          text,
+  field_text              text,
+  field_varchar           varchar(10),
+  field_varchar_default   varchar(10)   default 'D':: character varying
+);
+
+alter table public.dialect_table OWNER TO nanobox;
+
+create index dialect_table_index
+on dialect_table (field_bigint);
+
+create index dialect_table_two_fields
+on dialect_table (field_char, field_char_default);
+
+create unique index dialect_table_unique
+on dialect_table (field_integer);
+
+drop table if exists dialect_table_remote;
+create table dialect_table_remote
+(
+  field_primary serial not null
+    constraint dialect_table_remote_pk
+      primary key,
+  field_text    varchar(20)
+);
+alter table public.dialect_table_remote OWNER TO nanobox;
+
+drop table if exists dialect_table_intermediate;
+create table dialect_table_intermediate
+(
+  field_primary_id integer,
+  field_remote_id  integer
+);
+alter table public.dialect_table_intermediate OWNER TO nanobox;
+
+-- @TODO - Check the constraints
+-- alter table only dialect_table_intermediate
+--   add constraint dialect_table_intermediate_primary__fk
+--     foreign key (field_primary_id);
+--       references dialect_table (field_primary)
+--         on update cascade on delete restrict;
+--
+-- alter table only dialect_table_intermediate
+--   add constraint dialect_table_intermediate_remote__fk
+--     foreign key (field_remote_id);
+--       references dialect_table_remote (field_primary);
+
 --
 -- Name: public; Type: ACL; Schema: -; Owner: nanobox
 --

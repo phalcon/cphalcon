@@ -12,9 +12,14 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class TableExistsCest
 {
+    use DiTrait;
+    use MysqlTrait;
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: tableExists()
      *
@@ -26,6 +31,10 @@ class TableExistsCest
     public function dbAdapterPdoMysqlTableExists(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - tableExists()");
-        $I->skipTest("Need implementation");
+        $table = 'dialect_table';
+        $I->assertTrue($this->connection->tableExists($table));
+        $I->assertFalse($this->connection->tableExists('unknown-table'));
+        $I->assertTrue($this->connection->tableExists($table, $this->getSchemaName()));
+        $I->assertFalse($this->connection->tableExists('unknown-table', 'unknown-db'));
     }
 }

@@ -1,27 +1,32 @@
 <?php
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Db;
+namespace Phalcon\Test\Integration\Db\Column;
 
 use Phalcon\Db\Column;
+use IntegrationTester;
 
-class ColumnCest
+class ConstantsCest
 {
     /**
-     * Check the constants of the class
+     * Tests Phalcon\Db\Column :: constants
      *
-     * @since 2018-10-26
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-10-26
      */
-    public function checkClassConstants(\UnitTester $I)
+    public function checkClassConstants(IntegrationTester $I)
     {
+        $I->wantToTest("Db\Column :: constants");
         $I->assertEquals(3, Column::BIND_PARAM_BLOB);
         $I->assertEquals(5, Column::BIND_PARAM_BOOL);
         $I->assertEquals(32, Column::BIND_PARAM_DECIMAL);
