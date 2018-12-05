@@ -8,7 +8,7 @@ This folder contains all the tests for the Phalcon Framework.
 
 This testing suite uses [Travis CI][0] for each run. Every commit pushed to this repository will queue a build into the continuous integration service and will run all tests to ensure that everything is going well and the project is stable.
 
-The testing suite can be run on your own machine. The only dependencies for running the testing suite or even developing on Phalcon is [nanobox][9]`. Installation instructions for nanobox can be found [here][10]. Also, the main dependency is [Codeception][1] which can be installed using [Composer][6]:
+The testing suite can be run on your own machine. The only dependencies for running the testing suite are [nanobox][9] and [Codeception][1]. Nanobox can also be used for developing Phalcon, and its installation instructions can be found [in the Nanobox documentation][10]. Codeception can be installed using [Composer][6]:
 
 ```sh
 # run this command from project root
@@ -71,7 +71,7 @@ Nanobox reads its configuration, so as to start the environment, from a file cal
 cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
 ```
 
-You cal also create a 7.3 environment by copying the relevant file.
+You can also create a 7.3 environment by copying the relevant file.
 
 Run
 ```bash
@@ -108,18 +108,6 @@ Preparing environment :
 --------------------------------------------------------------------------------
 
 /app $
-```
-
-First update composer:
-```sh
-# run this command from project root
-/app $ composer install --dev --prefer-source
-```
-
-Download the `zephir` phar file and make it executable
-```bash
-/app $ wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.7/zephir.phar
-/app $ chmod +x /opt/gonano/bin/zephir
 ```
 
 Now that zephir is in your environment, you can check it by typing:
@@ -214,5 +202,5 @@ Thanks!
 [6]: http://getcomposer.org
 [7]: https://github.com/phalcon/cphalcon/tree/master/tests/_proxies
 [8]: https://wiki.archlinux.org/index.php/Environment_variables
-[8]: https://nanobox.io/
+[9]: https://nanobox.io/
 [10]: https://docs.nanobox.io/install/
