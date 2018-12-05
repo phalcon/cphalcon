@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Item;
 use UnitTester;
 
 class GetTimeCest
@@ -26,6 +28,11 @@ class GetTimeCest
     public function loggerItemGetTime(UnitTester $I)
     {
         $I->wantToTest("Logger\Item - getTime()");
-        $I->skipTest("Need implementation");
+        $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $expected = $time;
+        $actual   = $item->getTime();
+        $I->assertEquals($expected, $actual);
     }
 }

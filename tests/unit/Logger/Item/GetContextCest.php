@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Item;
 use UnitTester;
 
 class GetContextCest
@@ -26,6 +28,12 @@ class GetContextCest
     public function loggerItemGetContext(UnitTester $I)
     {
         $I->wantToTest("Logger\Item - getContext()");
-        $I->skipTest("Need implementation");
+        $time    = time();
+        $context = ['context'];
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time, $context);
+
+        $expected = $context;
+        $actual   = $item->getContext();
+        $I->assertEquals($expected, $actual);
     }
 }

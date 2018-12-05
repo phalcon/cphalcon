@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Item;
 use UnitTester;
 
 class GetTypeCest
@@ -26,6 +28,11 @@ class GetTypeCest
     public function loggerItemGetType(UnitTester $I)
     {
         $I->wantToTest("Logger\Item - getType()");
-        $I->skipTest("Need implementation");
+        $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $expected = Logger::DEBUG;
+        $actual   = $item->getType();
+        $I->assertEquals($expected, $actual);
     }
 }
