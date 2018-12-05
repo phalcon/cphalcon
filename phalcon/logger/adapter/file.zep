@@ -1,28 +1,19 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\FormatterInterface;
-use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Item;
 
 /**
  * Phalcon\Logger\Adapter\File
@@ -39,29 +30,36 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  * $logger->close();
  *</code>
  */
-class File extends Adapter
+class File extends AbstractAdapter
 {
-
 	/**
 	 * File handler resource
 	 *
 	 * @var resource
 	 */
-	protected _fileHandler;
+	protected fileHandler;
 
 	/**
-	 * File Path
+	 * The file open mode. Defaults to "ab"
+	 *
+	 * @var string
 	 */
-	protected _path { get };
+	protected mode = "ab";
 
 	/**
 	 * Path options
+	 *
+	 * @var array
 	 */
-	protected _options;
+	protected options;
 
 	/**
-	 * Phalcon\Logger\Adapter\File constructor
+	 * File Path
+	 *
+	 * @var string
 	 */
+	protected path { get };
+
 	public function __construct(string! name, array options = [])
 	{
 		var mode = null, handler;
@@ -78,67 +76,22 @@ class File extends Adapter
 			let mode = "ab";
 		}
 
-		/**
-		 * We use 'fopen' to respect to open-basedir directive
-		 */
-		let handler = fopen(name, mode);
-		if typeof handler != "resource" {
-			throw new Exception("Can't open log file at '" . name . "'");
-		}
-
-		let this->_path = name,
-			this->_options = options,
-			this->_fileHandler = handler;
+		let this->path        = name,
+			this->mode        = mode,
+			this->options     = options,
+			this->fileHandler = handler;
 	}
 
-	/**
-	 * Returns the internal formatter
-	 */
-	public function getFormatter() -> <FormatterInterface>
-	{
-		if typeof this->_formatter !== "object" {
-			let this->_formatter = new LineFormatter();
-		}
-
-		return this->_formatter;
-	}
-
-	/**
-	 * Writes the log to the file itself
-	 */
-	public function logInternal(string message, int type, int time, array context) -> void
-	{
-		var fileHandler;
-
-		let fileHandler = this->_fileHandler;
-		if typeof fileHandler !== "resource" {
-			throw new Exception("Cannot send message to the log because it is invalid");
-		}
-
-		fwrite(fileHandler, this->getFormatter()->format(message, type, time, context));
-	}
-
-	/**
- 	 * Closes the logger
- 	 */
-	public function close() -> bool
-	{
-		return fclose(this->_fileHandler);
-	}
-
-	/**
-	 * Opens the internal file handler after unserialization
-	 */
 	public function __wakeup()
 	{
 		var path, mode;
 
-		let path = this->_path;
+		let path = this->path;
 		if typeof path !== "string" {
 			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
-		if !fetch mode, this->_options["mode"] {
+		if !fetch mode, this->options["mode"] {
 			let mode = "ab";
 		}
 
@@ -153,6 +106,29 @@ class File extends Adapter
 		/**
 		 * Re-open the file handler if the logger was serialized
 		 */
-		let this->_fileHandler = fopen(path, mode);
+		let this->fileHandler = fopen(path, mode);
+	}
+
+	public function close() -> boolean
+	{
+		return true;
+	}
+
+	public function process(<Item> item)
+	{
+		var handler, formatter;
+
+		let formatter = this->getFormatter();
+
+		/**
+		 * We use 'fopen' to respect to open-basedir directive
+		 */
+		let handler = fopen(this->path, this->mode);
+		if typeof handler != "resource" {
+			throw new Exception("Can't open log file at '" . this->path . "'");
+		}
+
+		fwrite(handler, formatter->format(item));
+		fclose(handler);
 	}
 }
