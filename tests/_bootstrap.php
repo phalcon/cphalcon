@@ -29,8 +29,6 @@ require_once $root . 'tests/shim.php';
 loadEnvironment($root);
 loadFolders();
 
-print_r($_ENV);
-
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);
     ini_set('xdebug.collect_params', 0);
