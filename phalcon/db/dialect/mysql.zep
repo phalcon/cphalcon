@@ -58,7 +58,7 @@ class Mysql extends Dialect
 
 			case Column::TYPE_BIT:
 				if empty columnSql {
-					let columnSql .= "ΒΙΤ";
+					let columnSql .= "BIT";
 				}
 				let columnSql .= this->getColumnSize(column);
 				break;
