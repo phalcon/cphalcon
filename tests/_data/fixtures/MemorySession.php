@@ -99,10 +99,6 @@ class MemorySession implements AdapterInterface
 
         $return = $this->memory[$key];
 
-        if ($remove) {
-            unset($this->memory[$key]);
-        }
-
         return $return;
     }
 
