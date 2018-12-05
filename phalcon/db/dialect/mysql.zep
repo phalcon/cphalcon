@@ -56,7 +56,7 @@ class Mysql extends Dialect
 				let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
 				break;
 
-			case Column::TYPE_BLOB:
+			case Column::TYPE_BIT:
 				if empty columnSql {
 					let columnSql .= "ΒΙΤ";
 				}
