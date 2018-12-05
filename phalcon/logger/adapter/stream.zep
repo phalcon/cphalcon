@@ -1,28 +1,19 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\Adapter;
-use Phalcon\Logger\FormatterInterface;
-use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Logger\Adapter\AbstractAdapter;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Item;
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -40,19 +31,15 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  * $logger->error("This is another error");
  * </code>
  */
-class Stream extends Adapter
+class Stream extends AbstractAdapter
 {
-
 	/**
 	 * File handler resource
 	 *
 	 * @var resource
 	 */
-	protected _stream;
+	protected stream;
 
-	/**
-	 * Phalcon\Logger\Adapter\Stream constructor
-	 */
 	public function __construct(string! name, array options = [])
 	{
 		var mode, stream;
@@ -73,41 +60,25 @@ class Stream extends Adapter
 			throw new Exception("Can't open stream '" . name . "'");
 		}
 
-		let this->_stream = stream;
+		let this->stream = stream;
 	}
 
-	/**
-	 * Returns the internal formatter
-	 */
-	public function getFormatter() -> <FormatterInterface>
+	public function close() -> bool
 	{
-		if typeof this->_formatter !== "object" {
-			let this->_formatter = new LineFormatter();
-		}
-
-		return this->_formatter;
+		return fclose(this->stream);
 	}
 
-	/**
-	 * Writes the log to the stream itself
-	 */
-	public function logInternal(string message, int type, int time, array context)
+	public function process(<Item> item)
 	{
-		var stream;
+		var stream, formatter;
 
-		let stream = this->_stream;
-		if typeof stream != "resource" {
+		let stream    = this->stream,
+			formatter = this->getFormatter();
+
+		if typeof stream !== "resource" {
 			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
-		fwrite(stream, this->getFormatter()->format(message, type, time, context));
-	}
-
-	/**
- 	 * Closes the logger
- 	 */
-	public function close() -> bool
-	{
-		return fclose(this->_stream);
+		fwrite(stream, formatter->format(item));
 	}
 }

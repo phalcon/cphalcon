@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Logger;
@@ -27,43 +18,54 @@ namespace Phalcon\Logger;
  */
 class Item
 {
-
-	/**
-	 * Log type
-	 *
-	 * @var integer
-	 */
-	protected _type { get };
+	protected context { get };
 
 	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
-	protected _message { get };
+	protected message { get };
+
+	/**
+	 * Log message
+	 *
+	 * @var string
+	 */
+	protected name { get };
 
 	/**
 	 * Log timestamp
 	 *
 	 * @var integer
 	 */
-	protected _time { get };
+	protected time { get };
 
-	protected _context { get };
+	/**
+	 * Log type
+	 *
+	 * @var integer
+	 */
+	protected type { get };
 
 	/**
 	 * Phalcon\Logger\Item constructor
 	 *
-	 * @param array context
+	 * @param string message
+	 * @param string name
+	 * @param int    type
+	 * @param int    time
+	 * @param array  context
 	 */
-	public function __construct(string message, int type, int time = 0, var context = null)
+	public function __construct(string message, string name, int type, int time = 0, var context = [])
 	{
-		let this->_message = message,
-			this->_type = type,
-			this->_time = time;
+		let this->message = message,
+			this->name    = name,
+			this->type    = type,
+			this->time    = time;
 
 		if typeof context == "array" {
-			let this->_context = context;
+			let this->context = context;
 		}
 	}
 }
