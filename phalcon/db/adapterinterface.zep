@@ -20,22 +20,22 @@ interface AdapterInterface
 	/**
 	 * Adds a column to a table
 	 */
-	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean;
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool;
 
 	/**
 	 * Adds an index to a table
 	 */
-	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> boolean;
+	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
 
 	/**
 	 * Adds a foreign key to a table
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean;
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool;
 
 	/**
 	 * Adds a primary key to a table
 	 */
-	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> boolean;
+	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
 
 	/**
 	 * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
@@ -45,39 +45,39 @@ interface AdapterInterface
 	/**
 	 * Starts a transaction in the connection
 	 */
-	public function begin(boolean nesting = true) -> boolean;
+	public function begin(bool nesting = true) -> bool;
 
 	/**
 	 * Closes active connection returning success. Phalcon automatically closes
 	 * and destroys active connections within Phalcon\Db\Pool
 	 */
-	public function close() -> boolean;
+	public function close() -> bool;
 
 	/**
 	 * Commits the active transaction in the connection
 	 */
-	public function commit(boolean nesting = true) -> boolean;
+	public function commit(bool nesting = true) -> bool;
 
 	/**
 	 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection
 	 */
-	public function connect(array descriptor = null) -> boolean;
+	public function connect(array descriptor = null) -> bool;
 
 	/**
 	 * Creates a new savepoint
 	 */
-	public function createSavepoint(string! name) -> boolean;
+	public function createSavepoint(string! name) -> bool;
 
 	/**
 	 * Creates a table
 	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean;
+	public function createTable(string! tableName, string! schemaName, array! definition) -> bool;
 
 	/**
 	 * Creates a view
 	 */
-	public function createView(string! viewName, array! definition, string schemaName = null) -> boolean;
+	public function createView(string! viewName, array! definition, string schemaName = null) -> bool;
 
 	/**
 	 * Deletes data from a table using custom RDBMS SQL syntax
@@ -86,7 +86,7 @@ interface AdapterInterface
 	 * @param  array placeholders
 	 * @param  array dataTypes
 	 */
-	public function delete(string table, whereCondition = null, placeholders = null, dataTypes = null) -> boolean;
+	public function delete(string table, whereCondition = null, placeholders = null, dataTypes = null) -> bool;
 
 	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
@@ -106,32 +106,32 @@ interface AdapterInterface
 	/**
 	 * Drops a column from a table
 	 */
-	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean;
+	public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool;
 
 	/**
 	 * Drops a foreign key from a table
 	 */
-	public function dropForeignKey(string! tableName, string! schemaName, string referenceName) -> boolean;
+	public function dropForeignKey(string! tableName, string! schemaName, string referenceName) -> bool;
 
 	/**
 	 * Drop an index from a table
 	 */
-	public function dropIndex(string! tableName, string! schemaName, string indexName) -> boolean;
+	public function dropIndex(string! tableName, string! schemaName, string indexName) -> bool;
 
 	/**
 	 * Drops primary key from a table
 	 */
-	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean;
+	public function dropPrimaryKey(string! tableName, string! schemaName) -> bool;
 
 	/**
 	 * Drops a table from a schema/database
 	 */
-	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean;
+	public function dropTable(string! tableName, string! schemaName = null, bool ifExists = true) -> bool;
 
 	/**
 	 * Drops a view
 	 */
-	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean;
+	public function dropView(string! viewName, string! schemaName = null, bool ifExists = true) -> bool;
 
 	/**
 	 * Escapes a column/table/schema name
@@ -149,7 +149,7 @@ interface AdapterInterface
 	 * Sends SQL statements to the database server returning the success state.
 	 * Use this method only when the SQL statement sent to the server doesn't return any rows
 	 */
-	public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> boolean;
+	public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> bool;
 
 	/**
 	 * Dumps the complete result of a query into an array
@@ -248,17 +248,17 @@ interface AdapterInterface
 	 * @param 	array fields
 	 * @param 	array dataTypes
 	 */
-	public function insert(string table, array! values, fields = null, dataTypes = null) -> boolean;
+	public function insert(string table, array! values, fields = null, dataTypes = null) -> bool;
 
 	/**
 	 * Returns if nested transactions should use savepoints
 	 */
-	public function isNestedTransactionsWithSavepoints() -> boolean;
+	public function isNestedTransactionsWithSavepoints() -> bool;
 
 	/**
 	 * Checks whether connection is under database transaction
 	 */
-	public function isUnderTransaction() -> boolean;
+	public function isUnderTransaction() -> bool;
 
 	/**
 	 * Returns insert id for the auto_increment column inserted in the last SQL statement
@@ -286,28 +286,28 @@ interface AdapterInterface
 	/**
 	 * Modifies a table column based on a definition
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> boolean;
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool;
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
 	 * Use this method only when the SQL statement sent to the server return rows
 	 */
-	public function query(string! sqlStatement, var placeholders = null, var dataTypes = null) -> <ResultInterface> | boolean;
+	public function query(string! sqlStatement, var placeholders = null, var dataTypes = null) -> <ResultInterface> | bool;
 
 	/**
 	 * Releases given savepoint
 	 */
-	public function releaseSavepoint(string! name) -> boolean;
+	public function releaseSavepoint(string! name) -> bool;
 
 	/**
 	 * Rollbacks the active transaction in the connection
 	 */
-	public function rollback(boolean nesting = true) -> boolean;
+	public function rollback(bool nesting = true) -> bool;
 
 	/**
 	 * Rollbacks given savepoint
 	 */
-	public function rollbackSavepoint(string! name) -> boolean;
+	public function rollbackSavepoint(string! name) -> bool;
 
 	/**
 	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
@@ -317,17 +317,17 @@ interface AdapterInterface
 	/**
 	 * Set if nested transactions should use savepoints
 	 */
-	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>;
+	public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>;
 
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
 	 */
-	public function supportSequences() -> boolean;
+	public function supportSequences() -> bool;
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table
 	 */
-	public function tableExists(string! tableName, string! schemaName = null) -> boolean;
+	public function tableExists(string! tableName, string! schemaName = null) -> bool;
 
 	/**
 	 * Gets creation options from a table
@@ -342,16 +342,16 @@ interface AdapterInterface
 	 * @param 	string whereCondition
 	 * @param 	array dataTypes
 	 */
-	public function update(string table, fields, values, whereCondition = null, dataTypes = null) -> boolean;
+	public function update(string table, fields, values, whereCondition = null, dataTypes = null) -> bool;
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
 	 */
-	public function useExplicitIdValue() -> boolean;
+	public function useExplicitIdValue() -> bool;
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
 	 */
-	public function viewExists(string! viewName, string! schemaName = null) -> boolean;
+	public function viewExists(string! viewName, string! schemaName = null) -> bool;
 
 }

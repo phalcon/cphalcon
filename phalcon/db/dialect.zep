@@ -485,7 +485,7 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Checks whether the platform supports savepoints
 	 */
-	public function supportsSavepoints() -> boolean
+	public function supportsSavepoints() -> bool
 	{
 		return true;
 	}
@@ -493,7 +493,7 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Checks whether the platform supports releasing savepoints.
 	 */
-	public function supportsReleaseSavepoints() -> boolean
+	public function supportsReleaseSavepoints() -> bool
 	{
 		return this->supportsSavePoints();
 	}

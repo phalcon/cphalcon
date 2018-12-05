@@ -283,7 +283,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Check if a param exists
 	 */
-	public function hasParam(var param) -> boolean
+	public function hasParam(var param) -> bool
 	{
 		return isset this->_params[param];
 	}
@@ -299,7 +299,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
 	 */
-	public function isFinished() -> boolean
+	public function isFinished() -> bool
 	{
 		return this->_finished;
 	}
@@ -387,7 +387,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function dispatch()
 	{
-		boolean hasService, hasEventsManager;
+		bool hasService, hasEventsManager;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
@@ -815,7 +815,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Check if the current executed action was forwarded by another one
 	 */
-	public function wasForwarded() -> boolean
+	public function wasForwarded() -> bool
 	{
 		return this->_forwarded;
 	}

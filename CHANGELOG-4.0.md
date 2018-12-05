@@ -19,6 +19,7 @@
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::offset` [#13599](https://github.com/phalcon/cphalcon/pull/13599)
 - Added `Phalcon\Http\Response\Cookies::getCookies` [#13591](https://github.com/phalcon/cphalcon/pull/13591)
 - Added `Phalcon\Mvc\Model::isRelationshipLoaded` to check if relationship is loaded
+- Added an easy way to work with Phalcon and run the tests locally, using [nanobox.io](https://nanobox.io) [#13578](https://github.com/phalcon/cphalcon/issues/13578)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [PR-13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -41,6 +42,7 @@
 - Changed `Phalcon\Tag::getTitle()`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [#13547](https://github.com/phalcon/cphalcon/issues/13547) 
 - Changed `Phalcon\Di\Service` constructor to no longer takes the name of the service.
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
+- Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
 
 ## Removed
 - PHP < 7.0 no longer supported
@@ -57,4 +59,12 @@
 - Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
 - Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
+- Removed deprecated `Phalcon\Annotations\Adapter\Apc`
+- Removed deprecated `Phalcon\Annotations\Adapter\Xcache`
+- Removed deprecated `Phalcon\Cache\Backend\Apc`
+- Removed deprecated `Phalcon\Cache\Backend\Memcache`
+- Removed deprecated `Phalcon\Cache\Backend\Xcache`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Apc`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Memcache`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
 

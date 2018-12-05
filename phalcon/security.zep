@@ -279,7 +279,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Checks a plain text password and its hash version to check if the password matches
 	 */
-	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> boolean
+	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> bool
 	{
 		char ch;
 		string cryptedHash;
@@ -309,7 +309,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Checks if a password hash is a valid bcrypt's hash
 	 */
-	public function isLegacyHash(string passwordHash) -> boolean
+	public function isLegacyHash(string passwordHash) -> bool
 	{
 		return starts_with(passwordHash, "$2a$");
 	}
@@ -361,7 +361,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Check if the CSRF token sent in the request is the same that the current in session
 	 */
-	public function checkToken(var tokenKey = null, var tokenValue = null, boolean destroyIfValid = true) -> boolean
+	public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
 	{
 		var dependencyInjector, session, request, equals, userToken, knownToken;
 
@@ -456,7 +456,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Computes a HMAC
 	 */
-	public function computeHmac(string data, string key, string algo, boolean raw = false) -> string
+	public function computeHmac(string data, string key, string algo, bool raw = false) -> string
 	{
 		var hmac;
 

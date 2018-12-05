@@ -63,7 +63,7 @@ class Complex extends Resultset implements ResultsetInterface
 	/**
 	 * Returns current row in the resultset
 	 */
-	public final function current() -> <ModelInterface> | boolean
+	public final function current() -> <ModelInterface> | bool
 	{
 		var row, hydrateMode, eager,
 			dirtyState, alias, activeRow, type, column, columnValue,
@@ -307,7 +307,7 @@ class Complex extends Resultset implements ResultsetInterface
 	/**
 	 * Unserializing a resultset will allow to only works on the rows present in the saved state
 	 */
-	public function unserialize(string! data) -> void
+	public function unserialize(var data) -> void
 	{
 		var resultset, dependencyInjector, serializer;
 		/**

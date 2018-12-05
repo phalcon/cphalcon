@@ -188,7 +188,7 @@ class Memory extends Adapter
 	 * @param  array|string         accessInherits
 	 * @param  RoleInterface|string|array role
 	 */
-	public function addRole(role, accessInherits = null) -> boolean
+	public function addRole(role, accessInherits = null) -> bool
 	{
 		var roleName, roleObject;
 
@@ -229,7 +229,7 @@ class Memory extends Adapter
      * @param  array|string         accessInherits
      * @param  RoleInterface|string|array role
      */
-	public function addInherit(string roleName, var roleToInherits) -> boolean
+	public function addInherit(string roleName, var roleToInherits) -> bool
 	{
 		var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
 		 checkRoleToInherits, usedRoleToInherits, roleToInheritList, usedRoleToInherit;
@@ -313,7 +313,7 @@ class Memory extends Adapter
 	/**
 	 * Check whether role exist in the roles list
 	 */
-	public function isRole(string roleName) -> boolean
+	public function isRole(string roleName) -> bool
 	{
 		return isset this->_rolesNames[roleName];
 	}
@@ -321,7 +321,7 @@ class Memory extends Adapter
 	/**
 	 * Check whether resource exist in the resources list
 	 */
-	public function isResource(string resourceName) -> boolean
+	public function isResource(string resourceName) -> bool
 	{
 		return isset this->_resourcesNames[resourceName];
 	}
@@ -363,7 +363,7 @@ class Memory extends Adapter
 	 * @param   Phalcon\Acl\Resource|string resourceValue
 	 * @param   array|string accessList
 	 */
-	public function addResource(var resourceValue, var accessList) -> boolean
+	public function addResource(var resourceValue, var accessList) -> bool
 	{
 		var resourceName, resourceObject;
 
@@ -388,7 +388,7 @@ class Memory extends Adapter
 	 *
 	 * @param array|string accessList
 	 */
-	public function addResourceAccess(string resourceName, var accessList) -> boolean
+	public function addResourceAccess(string resourceName, var accessList) -> bool
 	{
 		var accessName, accessKey, exists;
 
@@ -581,7 +581,7 @@ class Memory extends Adapter
 	 * @param  RoleInterface|RoleAware|string roleName
 	 * @param  ResourceInterface|ResourceAware|string resourceName
 	 */
-	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
+	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> bool
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, rolesNames,
@@ -750,7 +750,7 @@ class Memory extends Adapter
 	/**
 	 * Check whether a role is allowed to access an action from a resource
 	 */
-	protected function _isAllowed(string roleName, string resourceName, string access) -> string | boolean
+	protected function _isAllowed(string roleName, string resourceName, string access) -> string | bool
     {
         var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits, usedRoleToInherit;
 

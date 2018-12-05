@@ -2,22 +2,22 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Di;
 use IntegrationTester;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Application;
+use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Application;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\View;
 
 /**
  * \Phalcon\Test\Integration\Mvc\ApplicationCest
  * Tests the Phalcon\Mvc\Application component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -30,12 +30,13 @@ class ApplicationCest
 {
     public function singleModule(IntegrationTester $I)
     {
+        $I->skipTest('TODO - Check me');
         $I->wantTo('handle request and get content by using single modules strategy');
 
         $di = new FactoryDefault();
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(PATH_DATA . 'views/');
+            $view->setViewsDir(dataFolder('fixtures/views/'));
 
             return $view;
         }, true);
@@ -43,7 +44,7 @@ class ApplicationCest
         $application = new Application();
         $application->setDI($di);
 
-        $response = $application->handle("/test2");
+        $response = $application->handle("/micro");
 
         $I->assertEquals('<html>We are here</html>' . PHP_EOL, $response->getContent());
     }
@@ -61,7 +62,7 @@ class ApplicationCest
             $router->add('/index', [
                 'controller' => 'index',
                 'module'     => 'frontend',
-                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers'
+                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
             ]);
 
             return $router;
@@ -71,11 +72,11 @@ class ApplicationCest
 
         $application->registerModules([
             'frontend' => [
-                'path'      => PATH_DATA . 'modules/frontend/Module.php',
+                'path'      => dataFolder('fixtures/modules/frontend/Module.php'),
                 'className' => 'Phalcon\Test\Modules\Frontend\Module',
             ],
-            'backend' => [
-                'path'      => PATH_DATA . 'modules/backend/Module.php',
+            'backend'  => [
+                'path'      => dataFolder('fixtures/modules/backend/Module.php'),
                 'className' => 'Phalcon\Test\Modules\Backend\Module',
             ],
         ]);
@@ -100,33 +101,33 @@ class ApplicationCest
             $router->add('/index', [
                 'controller' => 'index',
                 'module'     => 'frontend',
-                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers'
+                'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
             ]);
 
             $router->add('/login', [
                 'controller' => 'login',
                 'module'     => 'backend',
-                'namespace'  => 'Phalcon\Test\Modules\Backend\Controllers'
+                'namespace'  => 'Phalcon\Test\Modules\Backend\Controllers',
             ]);
 
             return $router;
         });
 
         $application = new Application();
-        $view = new View();
+        $view        = new View();
 
         $application->registerModules([
             'frontend' => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function () use ($view) {
-                    $view->setViewsDir(PATH_DATA . 'modules/frontend/views/');
+                    $view->setViewsDir(dataFolder('fixtures/modules/frontend/views/'));
                     return $view;
                 });
             },
-            'backend' => function ($di) use ($view) {
+            'backend'  => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function () use ($view) {
-                    $view->setViewsDir(PATH_DATA . 'modules/backend/views/');
+                    $view->setViewsDir(dataFolder('fixtures/modules/backend/views/'));
                     return $view;
                 });
             },

@@ -72,7 +72,7 @@ interface ColumnInterface
 	/**
 	 * Returns column type
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function getType() -> int;
 
@@ -86,42 +86,42 @@ interface ColumnInterface
 	/**
 	 * Returns column type values
 	 *
-	 * @return int
+	 * @return array|string
 	 */
-	public function getTypeValues() -> int;
+	public function getTypeValues() -> array | string;
 
 
 	/**
 	 * Check whether column has default value
 	 */
-	public function hasDefault() -> boolean;
+	public function hasDefault() -> bool;
 	/**
 	 * Auto-Increment
 	 */
-	public function isAutoIncrement() -> boolean;
+	public function isAutoIncrement() -> bool;
 
 	/**
 	 * Check whether column have first position in table
 	 */
-	public function isFirst() -> boolean;
+	public function isFirst() -> bool;
 
 	/**
 	 * Not null
 	 */
-	public function isNotNull() -> boolean;
+	public function isNotNull() -> bool;
 
 	/**
 	 * Check whether column have an numeric type
 	 */
-	public function isNumeric() -> boolean;
+	public function isNumeric() -> bool;
 
 	/**
 	 * Column is part of the primary key?
 	 */
-	public function isPrimary() -> boolean;
+	public function isPrimary() -> bool;
 
 	/**
 	 * Returns true if number column is unsigned
 	 */
-	public function isUnsigned() -> boolean;
+	public function isUnsigned() -> bool;
 }

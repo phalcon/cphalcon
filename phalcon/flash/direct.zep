@@ -40,7 +40,7 @@ class Direct extends FlashBase
 	/**
 	 * Prints the messages accumulated in the flasher
 	 */
-	public function output(boolean remove = true) -> void
+	public function output(bool remove = true) -> void
 	{
 		var message, messages;
 

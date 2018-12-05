@@ -125,7 +125,7 @@ class Di implements DiInterface
 	/**
 	 * Registers a service in the services container
 	 */
-	public function set(string! name, var definition, boolean shared = false) -> <ServiceInterface>
+	public function set(string! name, var definition, bool shared = false) -> <ServiceInterface>
 	{
 		var service;
 		let service = new Service(definition, shared),
@@ -156,7 +156,7 @@ class Di implements DiInterface
 	 * Only is successful if a service hasn't been registered previously
 	 * with the same name
 	 */
-	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface> | boolean
+	public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool
 	{
 		var service;
 
@@ -309,7 +309,7 @@ class Di implements DiInterface
 	/**
 	 * Check whether the DI contains a service by a name
 	 */
-	public function has(string! name) -> boolean
+	public function has(string! name) -> bool
 	{
 		return isset this->_services[name];
 	}
@@ -317,7 +317,7 @@ class Di implements DiInterface
 	/**
 	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
 	 */
-	public function wasFreshInstance() -> boolean
+	public function wasFreshInstance() -> bool
 	{
 		return this->_freshInstance;
 	}
@@ -325,7 +325,7 @@ class Di implements DiInterface
 	/**
 	 * Return the services registered in the DI
 	 */
-	public function getServices() -> <Service[]>
+	public function getServices() -> <ServiceInterface[]>
 	{
 		return this->_services;
 	}
@@ -333,7 +333,7 @@ class Di implements DiInterface
 	/**
 	 * Check if a service is registered using the array syntax
 	 */
-	public function offsetExists(string! name) -> boolean
+	public function offsetExists(var name) -> bool
 	{
 		return this->has(name);
 	}
@@ -345,10 +345,9 @@ class Di implements DiInterface
 	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(string! name, var definition) -> boolean
+	public function offsetSet(var name, var definition) -> void
 	{
 		this->setShared(name, definition);
-		return true;
 	}
 
 	/**
@@ -358,7 +357,7 @@ class Di implements DiInterface
 	 * var_dump($di["request"]);
 	 *</code>
 	 */
-	public function offsetGet(string! name) -> var
+	public function offsetGet(var name) -> var
 	{
 		return this->getShared(name);
 	}
@@ -366,9 +365,9 @@ class Di implements DiInterface
 	/**
 	 * Removes a service from the services container using the array syntax
 	 */
-	public function offsetUnset(string! name) -> boolean
+	public function offsetUnset(var name) -> void
 	{
-		return false;
+		this->remove(name);
 	}
 
 	/**

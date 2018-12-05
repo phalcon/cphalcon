@@ -38,7 +38,7 @@ class Memory extends Adapter
 	/**
 	 * Reads parsed annotations from memory
 	 */
-	public function read(string! key) -> <Reflection> | boolean
+	public function read(string! key) -> <Reflection> | bool
 	{
 		var data;
 

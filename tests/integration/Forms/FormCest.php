@@ -1,351 +1,709 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Integration\Forms;
 
-use Phalcon\Tag;
 use IntegrationTester;
+use Phalcon\Forms\Element\Radio;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
-use Phalcon\Forms\Element\Text;
-use Phalcon\Forms\Element\Email;
-use Phalcon\Forms\Element\Password;
 use Phalcon\Messages\Messages;
-use Phalcon\Test\Models\Select as MvcModel;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
 
-/**
- * Phalcon\Test\Integration\Forms\FormCest
- * Tests the \Phalcon\Forms\Form component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Integration\Forms
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
 class FormCest
 {
-    /**
-     * Executed before each test
-     *
-     * @param IntegrationTester $I
-     */
+    use DiTrait;
+
     public function _before(IntegrationTester $I)
     {
-        Tag::resetInput();
-        Tag::setDocType(Tag::HTML5);
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
     }
 
     /**
-     * Tests clearing the Form Elements
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/12165
-     * @issue  https://github.com/phalcon/cphalcon/issues/12099
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-10-01
-     * @param  IntegrationTester $I
+     * executed after each test
      */
-    public function clearFormElements(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $pass = new Password('passwd');
-        $eml = new Email('email');
-
-        $text = new Text('name');
-        $text->setDefault('Serghei Iakovlev');
-
-        $form = new Form;
-        $form
-            ->add($eml)
-            ->add($text)
-            ->add($pass);
-
-        $I->assertNull($form->get('passwd')->getValue());
-        $I->assertEquals('Serghei Iakovlev', $form->get('name')->getValue());
-
-        $I->assertEquals(
-            '<input type="password" id="passwd" name="passwd">',
-            $form->render('passwd')
-        );
-
-        $I->assertEquals(
-            '<input type="email" id="email" name="email">',
-            $form->render('email')
-        );
-
-        $I->assertEquals(
-            '<input type="text" id="name" name="name" value="Serghei Iakovlev">',
-            $form->render('name')
-        );
-
-        $_POST = [
-            'passwd' => 'secret',
-            'name' => 'Andres Gutierrez',
-        ];
-
-        $I->assertEquals('secret', $form->get('passwd')->getValue());
-        $I->assertEquals($pass->getValue(), $form->get('passwd')->getValue());
-        $I->assertEquals('Andres Gutierrez', $form->get('name')->getValue());
-
-        $I->assertEquals(
-            '<input type="password" id="passwd" name="passwd" value="secret">',
-            $form->render('passwd')
-        );
-
-        $I->assertEquals(
-            '<input type="text" id="name" name="name" value="Andres Gutierrez">',
-            $form->render('name')
-        );
-
-        Tag::setDefault('email', 'andres@phalconphp.com');
-
-
-        $I->assertEquals(
-            '<input type="email" id="email" name="email" value="andres@phalconphp.com">',
-            $form->render('email')
-        );
-        $I->assertEquals('andres@phalconphp.com', $form->get('email')->getValue());
-
-        $pass->clear();
-
-        $I->assertEquals(
-            '<input type="password" id="passwd" name="passwd">',
-            $form->render('passwd')
-        );
-
-        $I->assertNull($pass->getValue());
-        $I->assertEquals($pass->getValue(), $form->get('passwd')->getValue());
-
-        $form->clear();
-
-        $I->assertEquals('Serghei Iakovlev', $form->get('name')->getValue());
-        $I->assertNull($form->get('email')->getValue());
-
-        $I->assertEquals(
-            '<input type="text" id="name" name="name" value="Serghei Iakovlev">',
-            $form->render('name')
-        );
-
-        $I->assertEquals(
-            '<input type="email" id="email" name="email">',
-            $form->render('email')
-        );
-
-        $I->assertEquals(['passwd' => 'secret', 'name' => 'Andres Gutierrez'], $_POST);
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
     }
 
-    /**
-     * Tests canceling validation on first fail
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/13149
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-11-19
-     * @param  IntegrationTester $I
-     */
-    public function shouldCancelValidationOnFirstFail(IntegrationTester $I)
+    public function testCount(IntegrationTester $I)
     {
         $form = new Form();
 
-        $lastName = new Text('lastName');
-        $lastName->setLabel('user.lastName');
-        $lastName->setFilters([
-            "string",
-            "striptags",
-            "trim",
-        ]);
+        $expected = 0;
+        $actual   = count($form);
+        $I->assertEquals($expected, $actual);
 
-        $lastName->addValidators([
-            new PresenceOf([
-                'message'      => 'user.lastName.presenceOf',
-                'cancelOnFail' => true,
-            ]),
-            new StringLength([
-                'min'            => 3,
-                'max'            => 255,
-                'messageMaximum' => 'user.lastName.max',
-                'messageMinimum' => 'user.lastName.min',
-            ]),
-        ]);
+        $form->add(
+            new Text("name")
+        );
 
-        $firstName = new Text('firstName');
-        $firstName->setLabel('user.firstName');
-        $firstName->setFilters([
-            "string",
-            "striptags",
-            "trim",
-        ]);
+        $form->add(
+            new Text("telephone")
+        );
 
-        $firstName->addValidators([
-            new PresenceOf([
-                'message'      => 'user.firstName.presenceOf',
-                'cancelOnFail' => true,
-            ]),
-            new StringLength([
-                'min'            => 3,
-                'max'            => 255,
-                'messageMaximum' => 'user.firstName.max',
-                'messageMinimum' => 'user.firstName.min',
-            ]),
-        ]);
+        $expected = 2;
+        $actual   = count($form);
+        $I->assertEquals($expected, $actual);
+    }
 
-        $form->add($lastName);
-        $form->add($firstName);
+    public function testIterator(IntegrationTester $I)
+    {
+        $form = new Form();
+        $data = [];
 
-        $_POST = [];
-        $I->assertFalse($form->isValid($_POST));
+        foreach ($form as $key => $value) {
+            $data[$key] = $value->getName();
+        }
 
-        $actual = $form->getMessages();
-        $expected = Messages::__set_state([
-            '_position' => 0,
-            '_messages' => [
-                Message::__set_state([
-                    '_type' => 'PresenceOf',
-                    '_message' => 'user.lastName.presenceOf',
-                    '_field' => 'lastName',
-                    '_code' => '0',
-                ])
-            ],
-        ]);
+        $expected = [];
+        $actual   = $data;
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals($actual, $expected);
+        $form->add(
+            new Text("name")
+        );
+
+        $form->add(
+            new Text("telephone")
+        );
+
+        foreach ($form as $key => $value) {
+            $data[$key] = $value->getName();
+        }
+
+        $expected = [
+            0 => "name",
+            1 => "telephone",
+        ];
+        $actual   = $data;
+        $I->assertEquals($expected, $actual);
+    }
+
+    public function testLabels(IntegrationTester $I)
+    {
+        $form = new Form();
+
+        $form->add(
+            new Text("name")
+        );
+
+        $telephone = new Text("telephone");
+        $telephone->setLabel("The Telephone");
+        $form->add($telephone);
+
+        $expected = 'name';
+        $actual   = $form->getLabel("name");
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'The Telephone';
+        $actual   = $form->getLabel("telephone");
+        $I->assertEquals($expected, $actual);
+
+        $expected = "<label for=\"name\">name</label>";
+        $actual   = $form->label("name");
+        $I->assertEquals($expected, $actual);
+
+        $expected = "<label for=\"telephone\">The Telephone</label>";
+        $actual   = $form->label("telephone");
+        $I->assertEquals($expected, $actual);
+
+        // https://github.com/phalcon/cphalcon/issues/1029
+        $expected = "<label for=\"name\" class=\"form-control\">name</label>";
+        $actual   = $form->label("name", ["class" => "form-control"]);
+        $I->assertEquals($expected, $actual);
+
+        $expected = "<label for=\"telephone\" class=\"form-control\">The Telephone</label>";
+        $actual   = $form->label("telephone", ["class" => "form-control"]);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests clearing the Form Elements and using Form::isValid
+     * Tests Form::hasMessagesFor
      *
-     * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-10-01
-     * @param  IntegrationTester $I
+     * @author Sid Roberts <Sid@SidRoberts.co.uk>
+     * @since  2016-04-03
      */
-    public function clearFormElementsAndUsingValidation(IntegrationTester $I)
+    public function testFormHasMessagesFor(IntegrationTester $I)
     {
-        $password = new Password('password', ['placeholder' => 'Insert your Password']);
-
-        $password->addValidators(
+        // First element
+        $telephone = new Text('telephone');
+        $telephone->addValidators(
             [
-                new PresenceOf(['message' => 'The field is required', 'cancelOnFail' => true]),
-                new StringLength(['min' => 7, 'messageMinimum' => 'The text is too short']),
+                new Regex(
+                    [
+                        'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                        'message' => 'The telephone has an invalid format',
+                    ]
+                ),
             ]
         );
 
-        $form = new Form;
-        $form->add($password);
+        // Second element
+        $address = new Text('address');
+        $form    = new Form();
 
-        $I->assertNull($form->get('password')->getValue());
+        $form->add($telephone);
+        $form->add($address);
 
-        $input = '<input type="password" id="password" name="password" placeholder="Insert your Password">';
-        $I->assertEquals($input, $form->render('password'));
+        $actual = $form->isValid(['telephone' => '12345', 'address' => 'hello']);
+        $I->assertFalse($actual);
 
-        $_POST = ['password' => 'secret'];
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+        $actual   = $form->getMessagesFor('telephone');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals('secret', $form->get('password')->getValue());
+        $expected = Messages::__set_state(['_messages' => []]);
+        $actual   = $form->getMessagesFor('address');
+        $I->assertEquals($expected, $actual);
 
-        $input = '<input type="password" id="password" name="password" value="secret" placeholder="Insert your Password">';
-        $I->assertEquals($input, $form->render('password'));
+        $actual = $form->hasMessagesFor('telephone');
+        $I->assertTrue($actual);
 
-        $I->assertFalse($form->isValid($_POST));
-
-        $actual = $form->getMessages();
-        $expected = Messages::__set_state([
-            '_position' => 0,
-            '_messages' => [
-                Message::__set_state([
-                    '_type' => 'TooShort',
-                    '_message' => 'The text is too short',
-                    '_field' => 'password',
-                    '_code' => '0',
-                ])
-            ],
-        ]);
-
-        $I->assertEquals($actual, $expected);
-
-        $form->clear(['password']);
-
-        $I->assertNull($form->get('password')->getValue());
-
-        $input = '<input type="password" id="password" name="password" placeholder="Insert your Password">';
-        $I->assertEquals($input, $form->render('password'));
-
-        $I->assertEquals(['password' => 'secret'], $_POST);
+        $actual = $form->hasMessagesFor('address');
+        $I->assertFalse($actual);
     }
 
     /**
-     * Tests clearing the Form Elements by using Form::bind
+     * Tests Form::render
      *
-     * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-10-01
-     * @param  IntegrationTester $I
+     * @issue  https://github.com/phalcon/cphalcon/issues/10398
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2016-07-17
      */
-    public function clearFormElementsByUsingFormBind(IntegrationTester $I)
+    public function testCreatingElementsWithNameSimilarToTheFormMethods(IntegrationTester $I)
     {
-        $name = new Text('sel_name');
-        $text = new Text('sel_text');
+        $names = [
+            'validation',
+            'action',
+            'useroption',
+            'useroptions',
+            'entity',
+            'elements',
+            'messages',
+            'messagesfor',
+            'label',
+            'value',
+            'di',
+            'eventsmanager',
+        ];
 
-        $form = new Form;
-        $form
-            ->add($name)
-            ->add($text);
+        foreach ($names as $name) {
+            $form    = new Form;
+            $element = new Text($name);
 
-        $entity = new MvcModel;
+            $expected = $name;
+            $actual   = $element->getName();
+            $I->assertEquals($expected, $actual);
 
-        $I->assertNull(Tag::getValue('sel_name'));
-        $I->assertNull($form->getValue('sel_name'));
-        $I->assertNull($form->get('sel_name')->getValue());
-        $I->assertNull($name->getValue());
+            $form->add($element);
 
-        Tag::setDefault('sel_name', 'Please specify name');
-        $_POST = ['sel_name' => 'Some Name', 'sel_text' => 'Some Text'];
+            $expected = sprintf('<input type="text" id="%s" name="%s" />', $name, $name);
+            $actual   = $form->render($name);
+            $I->assertEquals($expected, $actual);
 
-        $form->bind($_POST, $entity);
+            $actual = $form->getValue($name);
+            $I->assertNull($actual);
+        }
+    }
 
-        $I->assertEquals('Some Name', $entity->getName());
-        $I->assertEquals('Some Text', $entity->getText());
+    public function testFormValidator(IntegrationTester $I)
+    {
+        //First element
+        $telephone = new Text("telephone");
+        $telephone->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The telephone is required',
+                ]
+            )
+        );
 
-        $I->assertEquals('Some Name', $form->getValue('sel_name'));
-        $I->assertEquals('Some Name', $form->get('sel_name')->getValue());
-        $I->assertEquals('Some Name', $name->getValue());
+        $expected = 1;
+        $actual   = count($telephone->getValidators());
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals('Some Text', $form->getValue('sel_text'));
-        $I->assertEquals('Some Text', $form->get('sel_text')->getValue());
-        $I->assertEquals('Some Text', $text->getValue());
+        $telephone->addValidators(
+            [
+                new StringLength(
+                    [
+                        'min'            => 5,
+                        'messageMinimum' => 'The telephone is too short',
+                    ]
+                ),
+                new Regex(
+                    [
+                        'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                        'message' => 'The telephone has an invalid format',
+                    ]
+                ),
+            ]
+        );
 
-        $form->clear(['sel_name']);
+        $expected = 3;
+        $actual   = count($telephone->getValidators());
+        $I->assertEquals($expected, $actual);
 
-        $I->assertNull(Tag::getValue('sel_name'));
-        $I->assertNull($form->getValue('sel_name'));
-        $I->assertNull($form->get('sel_name')->getValue());
-        $I->assertNull($name->getValue());
+        //Second element
+        $address = new Text('address');
+        $address->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The address is required',
+                ]
+            )
+        );
 
-        $I->assertEquals('Some Text', $form->getValue('sel_text'));
-        $I->assertEquals('Some Text', $form->get('sel_text')->getValue());
-        $I->assertEquals('Some Text', $text->getValue());
+        $expected = 3;
+        $actual   = count($telephone->getValidators());
+        $I->assertEquals($expected, $actual);
 
-        $form->clear(['non_existent', 'another_filed']);
+        $form = new Form();
+        $form->add($telephone);
+        $form->add($address);
 
-        $I->assertEquals('Some Text', $form->getValue('sel_text'));
-        $I->assertEquals('Some Text', $form->get('sel_text')->getValue());
-        $I->assertEquals('Some Text', $text->getValue());
+        $actual = $form->isValid([]);
+        $I->assertFalse($actual);
 
-        $form->clear();
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    0 => Message::__set_state(
+                        [
+                            '_type'    => 'PresenceOf',
+                            '_message' => 'The telephone is required',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                    1 => Message::__set_state(
+                        [
+                            '_type'    => 'TooShort',
+                            '_message' => 'The telephone is too short',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                    2 => Message::__set_state(
+                        [
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                    3 => Message::__set_state(
+                        [
+                            '_type'    => 'PresenceOf',
+                            '_message' => 'The address is required',
+                            '_field'   => 'address',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+        $actual   = $form->getMessages();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertNull(Tag::getValue('sel_text'));
-        $I->assertNull($form->getValue('sel_text'));
-        $I->assertNull($form->get('sel_text')->getValue());
-        $I->assertNull($text->getValue());
+        $actual = $form->isValid(
+            [
+                'telephone' => '12345',
+                'address'   => 'hello',
+            ]
+        );
+        $I->assertFalse($actual);
 
-        $I->assertEquals('Some Name', $entity->getName());
-        $I->assertEquals('Some Text', $entity->getText());
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    0 => Message::__set_state(
+                        [
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+        $actual   = $form->getMessages();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(['sel_name' => 'Some Name', 'sel_text' => 'Some Text'], $_POST);
+        $actual = $form->isValid(
+            [
+                'telephone' => '+44 124 82122',
+                'address'   => 'hello',
+            ]
+        );
+        $I->assertTrue($actual);
+    }
+
+    public function testFormIndirectElementRender(IntegrationTester $I)
+    {
+        $form = new Form();
+
+        $form->add(new Text("name"));
+
+        $expected = '<input type="text" id="name" name="name" />';
+        $actual   = $form->render("name");
+        $I->assertEquals($expected, $actual);
+
+        $expected = '<input type="text" id="name" name="name" class="big-input" />';
+        $actual   = $form->render("name", ["class" => "big-input"]);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/1190
+     */
+    public function testIssue1190(IntegrationTester $I)
+    {
+        $object        = new \stdClass();
+        $object->title = 'Hello "world!"';
+
+        $form = new Form($object);
+        $form->add(new Text("title"));
+
+        $actual   = $form->render("title");
+        $expected = '<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />';
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/706
+     */
+    public function testIssue706(IntegrationTester $I)
+    {
+        $form = new Form();
+        $form->add(new Text("name"));
+
+        $form->add(new Text("before"), "name", true);
+        $form->add(new Text("after"), "name");
+
+        $expected = ["before", "name", "after"];
+        $actual   = [];
+
+        foreach ($form as $element) {
+            $actual[] = $element->getName();
+        }
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Element::hasMessages() Element::getMessages()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/11135
+     * @issue  https://github.com/phalcon/cphalcon/issues/3167
+     */
+    public function testElementMessages(IntegrationTester $I)
+    {
+        // First element
+        $telephone = new Text('telephone');
+
+        $telephone->addValidators(
+            [
+                new Regex(
+                    [
+                        'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                        'message' => 'The telephone has an invalid format',
+                    ]
+                ),
+            ]
+        );
+
+        // Second element
+        $address = new Text('address');
+        $form    = new Form();
+
+        $form->add($telephone);
+        $form->add($address);
+
+        $actual = $form->isValid(['telephone' => '12345', 'address' => 'hello']);
+        $I->assertFalse($actual);
+        $actual = $form->get('telephone')->hasMessages();
+        $I->assertTrue($actual);
+        $actual = $form->get('address')->hasMessages();
+        $I->assertFalse($actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+        $actual   = $form->get('telephone')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $form->getMessages();
+        $actual   = $form->get('telephone')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(['_messages' => []]);
+        $actual   = $form->get('address')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(['_messages' => []]);
+        $actual   = $form->getMessagesFor('notelement');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Form::setValidation()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/12465
+     */
+    public function testCustomValidation(IntegrationTester $I)
+    {
+        // First element
+        $telephone        = new Text('telephone');
+        $customValidation = new Validation();
+        $customValidation->add(
+            'telephone',
+            new Regex(
+                [
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format',
+                ]
+            )
+        );
+        $form    = new Form();
+        $address = new Text('address');
+        $form->add($telephone);
+        $form->add($address);
+        $form->setValidation($customValidation);
+
+        $actual = $form->isValid(['telephone' => '12345', 'address' => 'hello']);
+        $I->assertFalse($actual);
+
+        $actual = $form->get('telephone')->hasMessages();
+        $I->assertTrue($actual);
+
+        $actual = $form->get('address')->hasMessages();
+        $I->assertFalse($actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+        $actual   = $form->get('telephone')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $form->getMessages();
+        $actual   = $form->get('telephone')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(['_messages' => []]);
+        $actual   = $form->get('address')->getMessages();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Form::isValid()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/11500
+     */
+    public function testMergeValidators(IntegrationTester $I)
+    {
+        // First element
+        $telephone = new Text('telephone');
+        $telephone->addValidators(
+            [
+                new PresenceOf(
+                    [
+                        'message' => 'The telephone is required',
+                    ]
+                ),
+            ]
+        );
+        $customValidation = new Validation();
+        $customValidation->add(
+            'telephone',
+            new Regex(
+                [
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format',
+                ]
+            )
+        );
+        $form    = new Form();
+        $address = new Text('address');
+        $form->add($telephone);
+        $form->add($address);
+        $form->setValidation($customValidation);
+
+        $actual = $form->isValid(['address' => 'hello']);
+        $I->assertFalse($actual);
+
+        $actual = $form->get('telephone')->hasMessages();
+        $I->assertTrue($actual);
+
+        $actual = $form->get('address')->hasMessages();
+        $I->assertFalse($actual);
+
+        $expected = Messages::__set_state(
+            [
+                '_messages' => [
+                    Message::__set_state(
+                        [
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                    Message::__set_state(
+                        [
+                            '_type'    => 'PresenceOf',
+                            '_message' => 'The telephone is required',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ]
+                    ),
+                ],
+            ]
+        );
+        $actual   = $form->get('telephone')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $form->getMessages();
+        $actual   = $form->get('telephone')->getMessages();
+        $I->assertEquals($expected, $actual);
+
+        $expected = Messages::__set_state(['_messages' => []]);
+        $actual   = $form->get('address')->getMessages();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Form::getMessages(true)
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/13294
+     *
+     * This should be removed in next major version
+     * We should not return multiple type of result in a single method!
+     * (form->getMessages(true) vs form->getMessages())
+     */
+    public function testGetElementMessagesFromForm(IntegrationTester $I)
+    {
+        // First element
+        $telephone = new Text('telephone');
+        $telephone->addValidators(
+            [
+                new PresenceOf(
+                    [
+                        'message' => 'The telephone is required',
+                    ]
+                ),
+            ]
+        );
+        $customValidation = new Validation();
+        $customValidation->add(
+            'telephone',
+            new Regex(
+                [
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format',
+                ]
+            )
+        );
+        $form    = new Form();
+        $address = new Text('address');
+        $form->add($telephone);
+        $form->add($address);
+        $form->setValidation($customValidation);
+
+        $actual = $form->isValid(['address' => 'hello']);
+        $I->assertFalse($actual);
+
+        $expected = [
+            'telephone' => [
+                Messages::__set_state(
+                    [
+                        '_messages' => [
+                            Message::__set_state(
+                                [
+                                    '_type'    => 'Regex',
+                                    '_message' => 'The telephone has an invalid format',
+                                    '_field'   => 'telephone',
+                                    '_code'    => 0,
+                                ]
+                            ),
+                        ],
+                    ]
+                ),
+                Messages::__set_state(
+                    [
+                        '_messages' => [
+                            Message::__set_state(
+                                [
+                                    '_type'    => 'PresenceOf',
+                                    '_message' => 'The telephone is required',
+                                    '_field'   => 'telephone',
+                                    '_code'    => 0,
+                                ]
+                            ),
+                        ],
+                    ]
+                ),
+            ],
+        ];
+        $actual   = $form->getMessages(true);
+        $I->assertEquals($expected, $actual);
     }
 }

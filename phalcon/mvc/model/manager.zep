@@ -176,7 +176,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets a global events manager
 	 */
-	public function setEventsManager(<EventsManagerInterface> eventsManager) -> <Manager>
+	public function setEventsManager(<EventsManagerInterface> eventsManager) -> <ManagerInterface>
 	{
 		let this->_eventsManager = eventsManager;
 		return this;
@@ -201,7 +201,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Returns a custom events manager related to a model
 	 */
-	public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | boolean
+	public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | bool
 	{
 		var eventsManager;
 
@@ -215,7 +215,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Initializes a model in the model manager
 	 */
-	public function initialize(<ModelInterface> model) -> boolean
+	public function initialize(<ModelInterface> model) -> bool
 	{
 		var className, eventsManager;
 
@@ -259,7 +259,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Check whether a model is already initialized
 	 */
-	public function isInitialized(string! modelName) -> boolean
+	public function isInitialized(string! modelName) -> bool
 	{
 		return isset this->_initialized[strtolower(modelName)];
 	}
@@ -368,7 +368,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * );
 	 * </code>
 	 */
-	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> boolean
+	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
 	{
 		var properties, className;
 
@@ -635,7 +635,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets if a model must keep snapshots
 	 */
-	public function keepSnapshots(<ModelInterface> model, boolean keepSnapshots) -> void
+	public function keepSnapshots(<ModelInterface> model, bool keepSnapshots) -> void
 	{
 		let this->_keepSnapshots[get_class_lower(model)] = keepSnapshots;
 	}
@@ -643,7 +643,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Checks if a model is keeping snapshots for the queried records
 	 */
-	public function isKeepingSnapshots(<ModelInterface> model) -> boolean
+	public function isKeepingSnapshots(<ModelInterface> model) -> bool
 	{
 		var isKeeping;
 
@@ -657,7 +657,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets if a model must use dynamic update instead of the all-field update
 	 */
-	public function useDynamicUpdate(<ModelInterface> model, boolean dynamicUpdate)
+	public function useDynamicUpdate(<ModelInterface> model, bool dynamicUpdate)
 	{
 		var entityName;
 		let entityName = get_class_lower(model),
@@ -668,7 +668,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Checks if a model is using dynamic update instead of all-field update
 	 */
-	public function isUsingDynamicUpdate(<ModelInterface> model) -> boolean
+	public function isUsingDynamicUpdate(<ModelInterface> model) -> bool
 	{
 		var isUsing;
 
@@ -685,7 +685,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -766,7 +766,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
 
@@ -847,7 +847,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	array options
 	 */
 	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options = null) -> <Relation>
+		var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, hasMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -932,7 +932,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param   array options
 	 */
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
-		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
+		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
@@ -1031,7 +1031,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Checks whether a model has a belongsTo relation with another model
 	 */
-	public function existsBelongsTo(string! modelName, string! modelRelation) -> boolean
+	public function existsBelongsTo(string! modelName, string! modelRelation) -> bool
 	{
 		var entityName, keyRelation;
 
@@ -1055,7 +1055,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Checks whether a model has a hasMany relation with another model
 	 */
-	public function existsHasMany(string! modelName, string! modelRelation) -> boolean
+	public function existsHasMany(string! modelName, string! modelRelation) -> bool
 	{
 		var entityName, keyRelation;
 
@@ -1079,7 +1079,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Checks whether a model has a hasOne relation with another model
 	 */
-	public function existsHasOne(string! modelName, string! modelRelation) -> boolean
+	public function existsHasOne(string! modelName, string! modelRelation) -> bool
 	{
 		var entityName, keyRelation;
 
@@ -1103,7 +1103,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Checks whether a model has a hasManyToMany relation with another model
 	 */
-	public function existsHasManyToMany(string! modelName, string! modelRelation) -> boolean
+	public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool
 	{
 		var entityName, keyRelation;
 
@@ -1127,7 +1127,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Returns a relation by its alias
 	 */
-	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean
+	public function getRelationByAlias(string! modelName, string! alias) -> <RelationInterface> | bool
 	{
 		var relation;
 
@@ -1223,7 +1223,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
 			findArguments, retrieveMethod, uniqueKey, records, arguments, rows, firstRow;
-		boolean reusable;
+		bool reusable;
 
 		/**
 		 * Re-use bound parameters
@@ -1366,7 +1366,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Find first results could be reusable
 		 */
-		let reusable = (boolean) relation->isReusable();
+		let reusable = (bool) relation->isReusable();
 		if reusable {
 			let uniqueKey = unique_key(referencedModel, arguments),
 				records = this->getReusableRecords(referencedModel, uniqueKey);
@@ -1423,7 +1423,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Gets belongsTo related records from a model
 	 */
 	public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
-		-> <ResultsetInterface> | boolean
+		-> <ResultsetInterface> | bool
 	{
 		var keyRelation, relations;
 
@@ -1446,7 +1446,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Gets hasMany related records from a model
 	 */
 	public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
-		-> <ResultsetInterface> | boolean
+		-> <ResultsetInterface> | bool
 	{
 		var keyRelation, relations;
 
@@ -1469,7 +1469,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Gets belongsTo related records from a model
 	 */
 	public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
-		-> <ModelInterface> | boolean
+		-> <ModelInterface> | bool
 	{
 		var keyRelation, relations;
 
@@ -1601,7 +1601,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Query the first relationship defined between two models
 	 */
-	public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | boolean
+	public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | bool
 	{
 		var keyRelation, relations;
 

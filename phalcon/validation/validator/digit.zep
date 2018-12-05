@@ -65,7 +65,7 @@ class Digit extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> bool
 	{
 		var value, message, label, replacePairs, code;
 

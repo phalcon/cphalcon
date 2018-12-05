@@ -2,14 +2,13 @@
 
 Welcome to the Phalcon Testing Suite.
 
-This folder includes all the unit tests that test Phalcon components, ensuring that you enjoy a bug free framework.
+This folder contains all the tests for the Phalcon Framework. 
 
 ## Getting Started
 
-This testing suite uses [Travis CI][0] for each run. Every commit pushed to this repository will queue a build into the continuous integration service and will run all
-tests to ensure that everything is going well and the project is stable.
+This testing suite uses [Travis CI][0] for each run. Every commit pushed to this repository will queue a build into the continuous integration service and will run all tests to ensure that everything is going well and the project is stable.
 
-The testing suite can be run on your own machine. The main dependency is  [Codeception][1] which can be installed using [Composer][6]:
+The testing suite can be run on your own machine. The only dependencies for running the testing suite or even developing on Phalcon is [nanobox][9]`. Installation instructions for nanobox can be found [here][10]. Also, the main dependency is [Codeception][1] which can be installed using [Composer][6]:
 
 ```sh
 # run this command from project root
@@ -21,116 +20,135 @@ You can read more about installing and configuring Codeception from the followin
 - [Codeception Introduction][2]
 - [Codeception Console Commands][3]
 
-A MySQL/PostgreSQL databases is also bundled in this suite. You can create a databases as follows:
+The container based environment contains all the services you need to write and run your tests. These services are:
+- Beanstalkd
+- Memcached
+- Mongodb
+- Mysql
+- Postgresql
+- Redis
 
-*MySQL*
-```sh
-echo 'create database phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;' | mysql -u root
-mysql -uroot phalcon_test < tests/_data/schemas/phalcon-schema-mysql.sql
+The PHP extensions enabled are:
+- apcu
+- ctype
+- curl
+- dom
+- fileinfo
+- gd
+- gmp
+- gettext
+- imagick
+- iconv
+- igbinary
+- json
+- memcached
+- mbstring
+- mongodb
+- opcache
+- phar
+- pdo
+- pdo_mysql
+- pdo_pgsql
+- pdo_sqlite
+- redis
+- session
+- simplexml
+- tokenizer
+- yaml
+- zephir_parser
+- xdebug
+- xml
+- xmlwriter
+- zip
+- zlib
+
+## Start the environment
+We will need a terminal window, so open one if you don't have one already and navigate to the folder where you have cloned the repository (or a fork of it)
+
+Nanobox reads its configuration, so as to start the environment, from a file called `boxfile.yml` located at the root of your folder. By default the file is not there to allow for more flexibility. We have two setup files, one for PHP 7.2 and one for PHP 7.3. If you wish to set up an environment for Phalcon using PHP 7.2, you can copy the relevant file at the root of your folder:
+
+```bash
+cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
 ```
 
-*PostgreSQL*
-```sh
-psql -c 'create database phalcon_test;' -U postgres
-psql -U postgres phalcon_test -q -f tests/_data/schemas/phalcon-schema-postgresql.sql
+You cal also create a 7.3 environment by copying the relevant file.
+
+Run
+```bash
+nanobox run
 ```
 
-**Note:** For these MySQL-related we use the user `root` without a password.
-You may need to change this in `codeception.yml` file.
+The process will take a while (for the first time) and once it is done you will be inside the environment. The prompt of your terminal will be:
 
-Obviously, Beanstalk-tests use Beanstalk, Memcached-tests use Memcached, etc.
+```bash
+Preparing environment :
 
-We use the following settings of these services:
+....
 
-**Beanstalk**
+                                   **
+                                ********
+                             ***************
+                          *********************
+                            *****************
+                          ::    *********    ::
+                             ::    ***    ::
+                           ++   :::   :::   ++
+                              ++   :::   ++
+                                 ++   ++
+                                    +
+                    _  _ ____ _  _ ____ ___  ____ _  _
+                    |\ | |__| |\ | |  | |__) |  |  \/
+                    | \| |  | | \| |__| |__) |__| _/\_
 
-* Host: `127.0.0.1`
-* Port: `11300`
+--------------------------------------------------------------------------------
++ You are in a Linux container
++ Your local source code has been mounted into the container
++ Changes to your code in either the container or desktop will be mirrored
++ If you run a server, access it at >> 172.18.0.2
+--------------------------------------------------------------------------------
 
-**Memcached**
+/app $
+```
 
-* Host: `127.0.0.1`
-* Port: `11211`
+First update composer:
+```sh
+# run this command from project root
+/app $ composer install --dev --prefer-source
+```
 
-**SQLite**
+Download the `zephir` phar file and make it executable
+```bash
+/app $ wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.7/zephir.phar
+/app $ chmod +x /opt/gonano/bin/zephir
+```
 
-* DB Name: `tests/_output/tests/phalcon_test.sqlite`
+Now that zephir is in your environment, you can check it by typing:
+```bash
+/app $ zephir
+```
 
-**MySQL**
+This should show you the help screen. You can now compile the extension:
+```bash
+/app $ zephir fullclean
+/app $ zephir build
 
-* Host: `127.0.0.1`
-* Port: `3306`
-* Username: `root`
-* Password: `''` (empty string)
-* DB Name: `phalcon_test`
-* Charset: `utf8`
+```
 
-**PostgreSQL**
+After the compilation is completed, you can check if the extension is loaded:
+```bash
+/app $ php -m | grep phalcon
+```
 
-* Host: `127.0.0.1`
-* Port: `5432`
-* Username: `postgres`
-* Password: `''` (empty string)
-* DB Name: `phalcon_test`
-
-**Mongo**
-
-* Host: `127.0.0.1`
-* Port: `27017`
-* Username: `admin`
-* Password: `''` (empty string)
-* DB Name `phalcon_test`
-
-**Redis**
-
-* Host: `127.0.0.1`
-* Port: `6379`
-* DB Index `0`
-
-You can change the connection settings of these services **before** running tests by using [environment variables][8]:
+## Setup databases
+The SQL dump files are located under `tests/_data/assets/db/schemas`. When importing your Postgresql database, please make sure you use the file suffixed with `*nanobox`. You can run the following commands from your nanobox environment
 
 ```sh
-# Beanstalk
-export TEST_BT_HOST="127.0.0.1"
-export TEST_BT_PORT="11300"
+/app $ cat ./tests/_data/assets/db/schemas/mysql_schema.sql" | mysql -u root gonano
 
-# Memcached
-export TEST_MC_HOST="127.0.0.1"
-export TEST_MC_PORT="11211"
-export TEST_MC_WEIGHT="1"
+/app $ psql -U nanobox gonanophalcon_test -q -f ./tests/_data/assets/db/schemas/postgresql_schema.sql
 
-# SQLite
-export TEST_DB_SQLITE_NAME="/tmp/phalcon_test.sqlite"
-
-# MySQL
-export TEST_DB_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
-export TEST_DB_MYSQL_HOST="127.0.0.1"
-export TEST_DB_MYSQL_PORT="3306"
-export TEST_DB_MYSQL_USER="root"
-export TEST_DB_MYSQL_PASSWD=""
-export TEST_DB_MYSQL_NAME="phalcon_test"
-export TEST_DB_MYSQL_CHARSET="utf8"
-
-# Postgresql
-export TEST_DB_POSTGRESQL_HOST="127.0.0.1"
-export TEST_DB_POSTGRESQL_PORT="5432"
-export TEST_DB_POSTGRESQL_USER="postgres"
-export TEST_DB_POSTGRESQL_PASSWD=""
-export TEST_DB_POSTGRESQL_NAME="phalcon_test"
-
-# Mongo
-export TEST_DB_MONGO_HOST="127.0.0.1"
-export TEST_DB_MONGO_PORT="27017"
-export TEST_DB_MONGO_USER="admin"
-export TEST_DB_MONGO_PASSWD=""
-export TEST_DB_MONGO_NAME="phalcon_test"
-
-# Redis
-export TEST_RS_HOST="127.0.0.1"
-export TEST_RS_PORT="6379"
-export TEST_RS_DB="0"
-
-export TEST_CACHE_DIR="/tmp"
+/app $ sqlite3 ./tests/_output/phalcon_test.sqlite < ./tests/_data/assets/db/schemas/sqlite_schema.sql
+/app $ sqlite3 ./tests/_output/translations.sqlite < ./tests/_data/assets/db/schemas/sqlite_translations_schema.sql
 ```
 
 ## Run tests
@@ -138,37 +156,38 @@ export TEST_CACHE_DIR="/tmp"
 First you need to re-generate base classes for all suites:
 
 ```sh
-vendor/bin/codecept build
+/app $ codecept build
 ```
 
 Once the database is created, run the tests on a terminal:
 
 ```sh
-vendor/bin/codecept run
+/app $ codecept run
 # OR
-vendor/bin/codecept run --debug # Detailed output
+/app $ codecept run --debug # Detailed output
 ```
 
 Execute `unit` test with `run unit` command:
 
 ```sh
-vendor/bin/codecept run unit
+/app $ codecept run unit
 ```
 
 Execute all tests from a folder:
 
 ```sh
-vendor/bin/codecept run tests/unit/some/folder/
+/app $ codecept run tests/unit/some/folder/
 ```
 
 Execute single test:
 
 ```sh
-vendor/bin/codecept run tests/unit/some/folder/some/test/file.php
+/app $ codecept run tests/unit/some/folder/some/test/file.php
 ```
 
 ## Todo
-
+- [ ] Add more information in this readme
+- [ ] Write tests for the skipped ones in the suite
 - [ ] Tests for foreign keys cascade in the ORM
 - [ ] Tests for many-to-many relations
 - [ ] Tests for `+=`, `-=`, `*=`, `/=`, `++`, `--` in Volt
@@ -180,14 +199,13 @@ vendor/bin/codecept run tests/unit/some/folder/some/test/file.php
 
 **Note:** Cache-related tests are slower than others tests because they use wait states (sleep command) to expire generated caches.
 
-The file `.travis.yml` contains full instructions to test Phalcon Framework on Ubuntu 12+
-If you cannot run the tests, please check the file `.travis.yml` for an in depth view on how test Phalcon.
-Additional information regarding our testing environment can be found by looking at the `tests/_bootstrap.php` file.
-
 <hr>
-Please report any issue if you find out bugs or memory leaks.<br>Thanks!
+Please report any issue if you find out bugs or memory leaks.
 
-Phalcon Framework Team<br>2017
+
+Thanks!
+
+<3 Phalcon Framework Team
 
 [0]: https://travis-ci.org/
 [1]: http://codeception.com/
@@ -196,3 +214,5 @@ Phalcon Framework Team<br>2017
 [6]: http://getcomposer.org
 [7]: https://github.com/phalcon/cphalcon/tree/master/tests/_proxies
 [8]: https://wiki.archlinux.org/index.php/Environment_variables
+[8]: https://nanobox.io/
+[10]: https://docs.nanobox.io/install/

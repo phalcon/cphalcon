@@ -38,7 +38,7 @@ interface BackendInterface
 	/**
 	 * Stops the frontend without store any cached content
 	 */
-	public function stop(boolean stopBuffer = true);
+	public function stop(bool stopBuffer = true);
 
 	/**
 	 * Returns front-end instance adapter related to the back-end
@@ -53,12 +53,12 @@ interface BackendInterface
 	/**
 	 * Checks whether the last cache is fresh or cached
 	 */
-	public function isFresh() -> boolean;
+	public function isFresh() -> bool;
 
 	/**
 	 * Checks whether the cache has starting buffering or not
 	 */
-	public function isStarted() -> boolean;
+	public function isStarted() -> bool;
 
 	/**
 	 * Sets the last key used in the cache
@@ -73,7 +73,7 @@ interface BackendInterface
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null;
+	public function get(string keyName, var lifetime = null) -> var | null;
 
 	/**
 	 * Stores cached content into the file backend and stops the frontend
@@ -81,16 +81,16 @@ interface BackendInterface
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @return boolean true on success/false otherwise
+	 * @return bool true on success/false otherwise
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean;
+	public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool;
 
 	/**
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(keyName) -> boolean;
+	public function delete(keyName) -> bool;
 
 	/**
 	 * Query the existing cached keys
@@ -103,5 +103,5 @@ interface BackendInterface
 	 * @param  string keyName
 	 * @param  int lifetime
 	 */
-	public function exists(keyName = null, int lifetime = null) -> boolean;
+	public function exists(var keyName = null, int lifetime = null) -> bool;
 }

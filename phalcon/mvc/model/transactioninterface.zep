@@ -37,17 +37,17 @@ interface TransactionInterface
 	/**
 	 * Starts the transaction
 	 */
-	public function begin() -> boolean;
+	public function begin() -> bool;
 
 	/**
 	 * Commits the transaction
 	 */
-	public function commit() -> boolean;
+	public function commit() -> bool;
 
 	/**
 	 * Rollbacks the transaction
 	 */
-	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> boolean;
+	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> bool;
 
 	/**
 	 * Returns connection related to transaction
@@ -57,17 +57,17 @@ interface TransactionInterface
 	/**
 	 * Sets if is a reused transaction or new once
 	 */
-	public function setIsNewTransaction(boolean isNew);
+	public function setIsNewTransaction(bool isNew);
 
 	/**
 	 * Sets flag to rollback on abort the HTTP connection
 	 */
-	public function setRollbackOnAbort(boolean rollbackOnAbort);
+	public function setRollbackOnAbort(bool rollbackOnAbort);
 
 	/**
 	 * Checks whether transaction is managed by a transaction manager
 	 */
-	public function isManaged() -> boolean;
+	public function isManaged() -> bool;
 
 	/**
 	 * Returns validations messages from last save try
@@ -77,7 +77,7 @@ interface TransactionInterface
 	/**
 	 * Checks whether internal connection is under an active transaction
 	 */
-	public function isValid() -> boolean;
+	public function isValid() -> bool;
 
 	/**
 	 * Sets object which generates rollback action

@@ -483,7 +483,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Sets a service from the DI
 	 */
-	public function setService(string! serviceName, var definition, boolean shared = false) -> <ServiceInterface>
+	public function setService(string! serviceName, var definition, bool shared = false) -> <ServiceInterface>
 	{
 		var dependencyInjector;
 
@@ -499,7 +499,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Checks if a service is registered in the DI
 	 */
-	public function hasService(string! serviceName) -> boolean
+	public function hasService(string! serviceName) -> bool
 	{
 		var dependencyInjector;
 
@@ -1036,7 +1036,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Check if a service is registered in the internal services container using the array syntax
 	 */
-	public function offsetExists(string! alias) -> boolean
+	public function offsetExists(var alias) -> bool
 	{
 		return this->hasService(alias);
 	}
@@ -1048,7 +1048,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *	$app["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(string! alias, var definition)
+	public function offsetSet(var alias, var definition) -> void
 	{
 		this->setService(alias, definition);
 	}
@@ -1064,7 +1064,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet(string! alias)
+	public function offsetGet(var alias) -> var
 	{
 		return this->getService(alias);
 	}
@@ -1072,9 +1072,17 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Removes a service from the internal services container using the array syntax
 	 */
-	public function offsetUnset(string! alias)
+	public function offsetUnset(var alias) -> void
 	{
-		return alias;
+		var dependencyInjector;
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = new FactoryDefault();
+			let this->_dependencyInjector = dependencyInjector;
+		}
+
+		dependencyInjector->remove(alias);
 	}
 
 	/**

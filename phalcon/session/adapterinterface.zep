@@ -19,7 +19,7 @@ interface AdapterInterface
 	/**
 	 * Destroys the active session
 	 */
-	public function destroy(boolean removeData = false) -> boolean;
+	public function destroy(string sessionId = null) -> bool;
 
 	/**
 	 * Gets a session variable from an application context
@@ -44,12 +44,12 @@ interface AdapterInterface
 	/**
 	 * Check whether a session variable is set in an application context
 	 */
-	public function has(string index) -> boolean;
+	public function has(string index) -> bool;
 
 	/**
 	 * Check whether the session has been started
 	 */
-	public function isStarted() -> boolean;
+	public function isStarted() -> bool;
 
 	/**
 	 * Regenerate session's id

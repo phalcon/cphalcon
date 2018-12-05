@@ -64,7 +64,7 @@ class File extends Backend
 	/**
 	 * Default to false for backwards compatibility
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private _useSafeKey = false;
 
@@ -81,7 +81,7 @@ class File extends Backend
 
 		if fetch safekey, options["safekey"] {
 			if typeof safekey !== "boolean" {
-				throw new Exception("safekey option should be a boolean.");
+				throw new Exception("safekey option should be a bool.");
 			}
 
 			let this->_useSafeKey = safekey;
@@ -199,7 +199,7 @@ class File extends Backend
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(var keyName = null, var content = null, var lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastKey, frontend, cacheDir, isBuffering, cacheFile, cachedContent, preparedContent, status,
 			finalContent, lastLifetime;
@@ -287,7 +287,7 @@ class File extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(var keyName) -> boolean
+	public function delete(var keyName) -> bool
 	{
 		var cacheFile, cacheDir;
 
@@ -351,7 +351,7 @@ class File extends Backend
 	 * @param string|int keyName
 	 * @param int lifetime
 	 */
-	public function exists(var keyName = null, int lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey, prefix, cacheFile, cachedContent;
 		int ttl;
@@ -605,7 +605,7 @@ class File extends Backend
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var prefix, cacheDir, item, key, cacheFile;
 

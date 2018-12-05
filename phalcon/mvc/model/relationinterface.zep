@@ -37,7 +37,7 @@ interface RelationInterface
 	/**
 	 * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
 	 */
-	public function isReusable() -> boolean;
+	public function isReusable() -> bool;
 
 	/**
 	 * Returns the relations type
@@ -79,7 +79,7 @@ interface RelationInterface
 	/**
 	 * Check whether the relation act as a foreign key
 	 */
-	public function isForeignKey() -> boolean;
+	public function isForeignKey() -> bool;
 
 	/**
 	 * Returns the foreign key configuration
@@ -91,7 +91,7 @@ interface RelationInterface
 	/**
 	 * Check whether the relation is a 'many-to-many' relation or not
 	 */
-	public function isThrough() -> boolean;
+	public function isThrough() -> bool;
 
 	/**
 	 * Gets the intermediate fields for has-*-through relations

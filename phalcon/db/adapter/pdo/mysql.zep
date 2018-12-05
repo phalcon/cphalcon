@@ -13,6 +13,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
+use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
@@ -48,7 +49,7 @@ class Mysql extends PdoAdapter
 	/**
 	 * Adds a foreign key to a table
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
 	{
 		var foreignKeyCheck;
 
@@ -69,7 +70,7 @@ class Mysql extends PdoAdapter
 	 * );
 	 * </code>
 	 */
-	public function describeColumns(string table, string schema = null) -> <Column[]>
+	public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
@@ -457,7 +458,7 @@ class Mysql extends PdoAdapter
 	 * );
 	 *</code>
 	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

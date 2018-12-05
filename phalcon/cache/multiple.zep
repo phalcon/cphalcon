@@ -154,7 +154,7 @@ class Multiple
 	* @param string keyName
 	* @param string content
 	* @param int lifetime
-	* @param boolean stopBuffer
+	* @param bool stopBuffer
 	*/
 	public function save(var keyName = null, content = null, lifetime = null, stopBuffer = null) -> void
 	{
@@ -170,7 +170,7 @@ class Multiple
 	 *
 	 * @param string|int keyName
 	 */
-	public function delete(var keyName) -> boolean
+	public function delete(var keyName) -> bool
 	{
 		var backend;
 
@@ -187,7 +187,7 @@ class Multiple
 	 * @param  string|int keyName
 	 * @param  int lifetime
 	 */
-	public function exists(var keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, lifetime = null) -> bool
 	{
 		var backend;
 
@@ -203,7 +203,7 @@ class Multiple
 	/**
 	 * Flush all backend(s)
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var backend;
 

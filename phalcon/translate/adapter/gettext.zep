@@ -97,7 +97,7 @@ class Gettext extends Adapter implements \ArrayAccess
 	/**
 	 * Check whether is defined a translation key in the internal array
 	 */
-	public function exists(string! index) -> boolean
+	public function exists(string! index) -> bool
 	{
 		var result;
 
@@ -195,7 +195,7 @@ class Gettext extends Adapter implements \ArrayAccess
 	 * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
 	 * </code>
 	 */
-	public function setLocale(int! category, string! locale) -> string | boolean
+	public function setLocale(int! category, string! locale) -> string | bool
 	{
 		let this->_locale   = call_user_func_array("setlocale", func_get_args());
 		let this->_category = category;

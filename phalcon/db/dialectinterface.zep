@@ -126,7 +126,7 @@ interface DialectInterface
 	/**
 	 * Generates SQL to drop a view
 	 */
-	public function dropView(string! viewName, string schemaName = null, boolean! ifExists = true) -> string;
+	public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string;
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table
@@ -166,12 +166,12 @@ interface DialectInterface
 	/**
 	 * Checks whether the platform supports savepoints
 	 */
-	public function supportsSavepoints() -> boolean;
+	public function supportsSavepoints() -> bool;
 
 	/**
 	 * Checks whether the platform supports releasing savepoints.
 	 */
-	public function supportsReleaseSavepoints() -> boolean;
+	public function supportsReleaseSavepoints() -> bool;
 
 	/**
 	 * Generate SQL to create a new savepoint

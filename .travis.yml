@@ -5,16 +5,15 @@ php:
   - 'master'
   - '7.3'
   - '7.2'
-  - '7.1'
-  - '7.0'
 
 git:
   depth: 1
 
-branches:
-  only:
-    - master
-    - /^(4|5)\.\d+\.(\d+|x)$/
+# TODO - Remove this when we go deploy this
+#branches:
+#  only:
+#    - master
+#    - /^(4|5)\.\d+\.(\d+|x)$/
 
 addons:
   apt:
@@ -26,6 +25,7 @@ addons:
       - lcov
       - mysql-server
       - mysql-client
+  postgresql: "9.4"
 
 matrix:
   fast_finish: true
@@ -42,6 +42,7 @@ cache:
     - ${HOME}/.local/opt
 
 services:
+  - mysql
   - beanstalkd
   - mongodb
   - redis-server
@@ -50,7 +51,7 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.10.14"
+    - ZEPHIR_VERSION="0.11.8"
     - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
     - REPORT_COVERAGE=1
@@ -68,6 +69,8 @@ before_install:
   - tests/_ci/setup-dbs.sh
   - source tests/_ci/environment
   - export $(cut -d= -f1 tests/_ci/environment)
+  - wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar
+  - chmod +x $HOME/bin/zephir
 
 install:
   - tests/_ci/install-prereqs.sh
@@ -84,9 +87,10 @@ script:
   - vendor/bin/phpcs
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
+#  - vendor/bin/codecept run -v
+  - vendor/bin/codecept run -v -n tests/cli/
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
-  # TODO: Refactor legacy unit tests from the "unit-tests" directory
   - phpenv config-rm xdebug.ini || true
   - tests/_ci/volt-tests.sh
 

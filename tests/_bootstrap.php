@@ -17,19 +17,17 @@ if (function_exists('mb_substitute_character')) {
 
 clearstatcache();
 
-$root = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
+$root = dirname(realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+/**
+ * Setting this in the $_ENV so that DotLoad sets everything up properly
+ */
+$_ENV['PROJECT_PATH'] = $root;
 
-defined('TESTS_PATH')   || define('TESTS_PATH', $root);
-defined('PROJECT_PATH') || define('PROJECT_PATH', dirname(TESTS_PATH) . DIRECTORY_SEPARATOR);
-defined('PATH_DATA')    || define('PATH_DATA', $root .  '_data' . DIRECTORY_SEPARATOR);
-defined('PATH_CACHE')   || define('PATH_CACHE', $root . '_cache' . DIRECTORY_SEPARATOR);
-defined('PATH_OUTPUT')  || define('PATH_OUTPUT', $root .  '_output' . DIRECTORY_SEPARATOR);
-defined('PATH_FIXTURES')|| define('PATH_FIXTURES', $root .  '_fixtures' . DIRECTORY_SEPARATOR);
+require_once $root . 'vendor/autoload.php';
+require_once $root . 'tests/shim.php';
 
-unset($root);
-
-require_once PROJECT_PATH . 'vendor/autoload.php';
-require_once TESTS_PATH . 'shim.php';
+loadEnvironment($root);
+loadFolders();
 
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);
@@ -40,62 +38,4 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.var_display_max_depth', 4);
 }
 
-$defaults = [
-    // General
-    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,
-
-    // Beanstalk
-    "TEST_BT_HOST"              => '127.0.0.1',
-    "TEST_BT_PORT"              => 11300,
-
-    // Memcached
-    "TEST_MC_HOST"              => defined('DATA_MEMCACHED_HOST') ? getenv('DATA_MEMCACHED_HOST') : '127.0.0.1',
-    "TEST_MC_PORT"              => 11211,
-    "TEST_MC_WEIGHT"            => 1,
-
-    // SQLite
-    "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',
-    "TEST_DB_I18N_SQLITE_NAME"  => PATH_OUTPUT . 'translations.sqlite',
-
-    // MySQL
-    "TEST_DB_MYSQL_HOST"        => defined('DATA_MYSQL_HOST')            ? getenv('DATA_MYSQL_HOST') : '127.0.0.1',
-    "TEST_DB_MYSQL_PORT"        => 3306,
-    "TEST_DB_MYSQL_USER"        => 'root',
-    "TEST_DB_MYSQL_PASSWD"      => defined('DATA_MYSQL_ROOT_PASS')       ? getenv('DATA_MYSQL_ROOT_PASS') : '',
-    "TEST_DB_MYSQL_NAME"        => defined('DATA_MYSQL_HOST') ? 'gonano' : 'phalcon_test',
-    "TEST_DB_MYSQL_CHARSET"     => 'utf8',
-
-    // Postgresql
-    "TEST_DB_POSTGRESQL_HOST"   => defined('DATA_POSTGRES_HOST')         ? getenv('DATA_POSTGRES_HOST') : '127.0.0.1',
-    "TEST_DB_POSTGRESQL_PORT"   => 5432,
-    "TEST_DB_POSTGRESQL_USER"   => defined('DATA_POSTGRES_NANOBOX_USER') ? getenv('DATA_POSTGRES_NANOBOX_USER') : 'postgres',
-    "TEST_DB_POSTGRESQL_PASSWD" => defined('DATA_POSTGRES_NANOBOX_PASS') ? getenv('DATA_POSTGRES_NANOBOX_PASS') : '',
-    "TEST_DB_POSTGRESQL_NAME"   => defined('DATA_POSTGRES_HOST')         ? 'gonano' : 'phalcon_test',
-    "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
-
-    // Mongo
-    "TEST_DB_MONGO_HOST"        => defined('DATA_MONGODB_HOST') ? getenv('DATA_MONGODB_HOST') : '127.0.0.1',
-    "TEST_DB_MONGO_PORT"        => 27017,
-    "TEST_DB_MONGO_USER"        => 'admin',
-    "TEST_DB_MONGO_PASSWD"      => '',
-    "TEST_DB_MONGO_NAME"        => 'phalcon_test',
-
-    // Redis
-    "TEST_RS_HOST"              => defined('DATA_REDIS_HOST') ? getenv('DATA_REDIS_HOST') : '127.0.0.1',
-    "TEST_RS_PORT"              => 6379,
-    "TEST_RS_DB"                => 0,
-];
-
-/**
- * Check if this is running in nanobox and adjust the above
- */
-
-foreach ($defaults as $key => $defaultValue) {
-    if (defined($key)) {
-        continue;
-    }
-
-    $value = getenv($key) ?: $defaultValue;
-
-    define($key, $value);
-}
+unset($root);

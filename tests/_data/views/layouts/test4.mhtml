@@ -1,3 +1,0 @@
-{{#some_eval}}
-Well, this is the view content: {{content}}.
-{{/some_eval}}

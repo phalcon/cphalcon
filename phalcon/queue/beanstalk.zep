@@ -156,7 +156,7 @@ class Beanstalk
 	/**
 	 * Puts a job on the queue using specified tube.
 	 */
-	public function put(var data, array options = null) -> int|boolean
+	public function put(var data, array options = null) -> int|bool
 	{
 		var priority, delay, ttr, serialized, response, status, length;
 
@@ -199,7 +199,7 @@ class Beanstalk
 	/**
 	 * Reserves/locks a ready job from the specified tube.
 	 */
-	public function reserve(var timeout = null) -> boolean|<Job>
+	public function reserve(var timeout = null) -> bool|<Job>
 	{
 		var command, response;
 
@@ -228,7 +228,7 @@ class Beanstalk
 	/**
 	 * Change the active tube. By default the tube is "default".
 	 */
-	public function choose(string! tube) -> boolean|string
+	public function choose(string! tube) -> bool|string
 	{
 		var response;
 
@@ -245,7 +245,7 @@ class Beanstalk
 	/**
 	 * The watch command adds the named tube to the watch list for the current connection.
 	 */
-	public function watch(string! tube) -> boolean|int
+	public function watch(string! tube) -> bool|int
 	{
 		var response;
 
@@ -262,7 +262,7 @@ class Beanstalk
 	/**
 	 * It removes the named tube from the watch list for the current connection.
 	 */
-	public function ignore(string! tube) -> boolean|int
+	public function ignore(string! tube) -> bool|int
 	{
 		var response;
 
@@ -279,7 +279,7 @@ class Beanstalk
 	/**
 	 * Can delay any new job being reserved for a given time.
 	 */
-	public function pauseTube(string! tube, int delay) -> boolean
+	public function pauseTube(string! tube, int delay) -> bool
 	{
 		var response;
 
@@ -296,7 +296,7 @@ class Beanstalk
 	/**
 	 * The kick command applies only to the currently used tube.
 	 */
-	public function kick(int bound) -> boolean|int
+	public function kick(int bound) -> bool|int
 	{
 		var response;
 
@@ -313,7 +313,7 @@ class Beanstalk
 	/**
 	 * Gives statistical information about the system as a whole.
 	 */
-	public function stats() -> boolean|array
+	public function stats() -> bool|array
 	{
 		var response;
 
@@ -330,7 +330,7 @@ class Beanstalk
 	/**
 	 * Gives statistical information about the specified tube if it exists.
 	 */
-	public function statsTube(string! tube) -> boolean|array
+	public function statsTube(string! tube) -> bool|array
 	{
 		var response;
 
@@ -347,7 +347,7 @@ class Beanstalk
 	/**
 	 * Returns a list of all existing tubes.
 	 */
-	public function listTubes() -> boolean|array
+	public function listTubes() -> bool|array
 	{
 		var response;
 
@@ -364,7 +364,7 @@ class Beanstalk
 	/**
 	 * Returns the tube currently being used by the client.
 	 */
-	public function listTubeUsed() -> boolean|string
+	public function listTubeUsed() -> bool|string
 	{
 		var response;
 
@@ -381,7 +381,7 @@ class Beanstalk
 	/**
 	 * Returns a list tubes currently being watched by the client.
 	 */
-	public function listTubesWatched() -> boolean|array
+	public function listTubesWatched() -> bool|array
 	{
 		var response;
 
@@ -398,7 +398,7 @@ class Beanstalk
 	/**
 	 * Inspect the next ready job.
 	 */
-	public function peekReady() -> boolean|<Job>
+	public function peekReady() -> bool|<Job>
 	{
 		var response;
 
@@ -415,7 +415,7 @@ class Beanstalk
 	/**
 	 * Return the next job in the list of buried jobs.
 	 */
-	public function peekBuried() -> boolean|<Job>
+	public function peekBuried() -> bool|<Job>
 	{
 		var response;
 
@@ -432,7 +432,7 @@ class Beanstalk
 	/**
 	 * Return the next job in the list of buried jobs.
 	 */
-	public function peekDelayed() -> boolean|<Job>
+	public function peekDelayed() -> bool|<Job>
 	{
 		var response;
 
@@ -451,7 +451,7 @@ class Beanstalk
 	/**
 	 * The peek commands let the client inspect a job in the system.
 	 */
-	public function jobPeek(int id) -> boolean|<Job>
+	public function jobPeek(int id) -> bool|<Job>
 	{
 		var response;
 
@@ -513,7 +513,7 @@ class Beanstalk
 	 * Reads a packet from the socket. Prior to reading from the socket will
 	 * check for availability of the connection.
 	 */
-	public function read(int length = 0) -> boolean|string
+	public function read(int length = 0) -> bool|string
 	{
 		var connection, data;
 
@@ -562,7 +562,7 @@ class Beanstalk
 	/**
 	 * Writes data to the socket. Performs a connection if none is available
 	 */
-	public function write(string data) -> boolean|int
+	public function write(string data) -> bool|int
 	{
 		var connection, packet;
 
@@ -581,7 +581,7 @@ class Beanstalk
 	/**
 	 * Closes the connection to the beanstalk server.
 	 */
-	public function disconnect() -> boolean
+	public function disconnect() -> bool
 	{
 		var connection;
 
@@ -599,7 +599,7 @@ class Beanstalk
 	/**
 	 * Simply closes the connection.
 	 */
-	public function quit() -> boolean
+	public function quit() -> bool
 	{
 		this->write("quit");
 		this->disconnect();

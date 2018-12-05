@@ -162,7 +162,7 @@ class File implements FileInterface
 	/**
 	 * Checks whether the file has been uploaded via Post.
 	 */
-	public function isUploadedFile() -> boolean
+	public function isUploadedFile() -> bool
 	{
 		var tmp;
 
@@ -173,7 +173,7 @@ class File implements FileInterface
 	/**
 	 * Moves the temporary file to a destination within the application
 	 */
-	public function moveTo(string! destination) -> boolean
+	public function moveTo(string! destination) -> bool
 	{
 		return move_uploaded_file(this->_tmp, destination);
 	}

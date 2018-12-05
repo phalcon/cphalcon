@@ -93,7 +93,7 @@ class Crypt implements CryptInterface
 	/**
 	 * Phalcon\Crypt constructor.
 	 */
-	public function __construct(string! cipher = "aes-256-cfb", boolean useSigning = false)
+	public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false)
 	{
 		this->initializeAvailableCiphers();
 
@@ -119,7 +119,7 @@ class Crypt implements CryptInterface
 	 * The `aes-256-ctr' is arguably the best choice for cipher
 	 * algorithm for current openssl library version.
 	 */
-	public function setCipher(string! cipher) -> <Crypt>
+	public function setCipher(string! cipher) -> <CryptInterface>
 	{
 		this->assertCipherIsAvailable(cipher);
 
@@ -153,7 +153,7 @@ class Crypt implements CryptInterface
 	 *
 	 * @see \Phalcon\Security\Random
 	 */
-	public function setKey(string! key) -> <Crypt>
+	public function setKey(string! key) -> <CryptInterface>
 	{
 		let this->_key = key;
 		return this;
@@ -172,7 +172,7 @@ class Crypt implements CryptInterface
 	 *
 	 * @throws \Phalcon\Crypt\Exception
 	 */
-	public function setHashAlgo(string! hashAlgo) -> <Crypt>
+	public function setHashAlgo(string! hashAlgo) -> <CryptInterface>
 	{
 		this->assertHashAlgorithmAvailable(hashAlgo);
 
@@ -194,7 +194,7 @@ class Crypt implements CryptInterface
 	 *
 	 * NOTE: This feature will be enabled by default in Phalcon 4.0.0
 	 */
-	public function useSigning(boolean useSigning) -> <Crypt>
+	public function useSigning(bool useSigning) -> <CryptInterface>
 	{
 		let this->useSigning = useSigning;
 
@@ -497,7 +497,7 @@ class Crypt implements CryptInterface
 	/**
 	 * Encrypts a text returning the result as a base64 string.
 	 */
-	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
+	public function encryptBase64(string! text, key = null, bool! safe = false) -> string
 	{
 		if safe == true {
 			return rtrim(strtr(base64_encode(this->encrypt(text, key)), "+/", "-_"), "=");
@@ -510,7 +510,7 @@ class Crypt implements CryptInterface
 	 *
 	 * @throws \Phalcon\Crypt\Mismatch
 	 */
-	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
+	public function decryptBase64(string! text, key = null, bool! safe = false) -> string
 	{
 		if safe == true {
 			return this->decrypt(base64_decode(strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)), key);

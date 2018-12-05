@@ -150,7 +150,7 @@ abstract class Text
 	 * echo Phalcon\Text::startsWith("Hello", "he"); // true
 	 * </code>
 	 */
-	public static function startsWith(string str, string start, boolean ignoreCase = true) -> boolean
+	public static function startsWith(string str, string start, bool ignoreCase = true) -> bool
 	{
 		return starts_with(str, start, ignoreCase);
 	}
@@ -164,7 +164,7 @@ abstract class Text
 	 * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
 	 * </code>
 	 */
-	public static function endsWith(string str, string end, boolean ignoreCase = true) -> boolean
+	public static function endsWith(string str, string end, bool ignoreCase = true) -> bool
 	{
 		return ends_with(str, end, ignoreCase);
 	}

@@ -54,22 +54,22 @@ interface MessageInterface
 	/**
 	 * Sets code for the message
 	 */
-	public function setCode(int code) -> <Message>;
+	public function setCode(int code) -> <MessageInterface>;
 
 	/**
 	 * Sets field name related to message
 	 */
-	public function setField(string! field) -> <Message>;
+	public function setField(string! field) -> <MessageInterface>;
 
 	/**
 	 * Sets verbose message
 	 */
-	public function setMessage(string! message) -> <Message>;
+	public function setMessage(string! message) -> <MessageInterface>;
 
 	/**
 	 * Sets message type
 	 */
-	public function setType(string! type) -> <Message>;
+	public function setType(string! type) -> <MessageInterface>;
 
 	/**
 	 * Magic __toString method returns verbose message

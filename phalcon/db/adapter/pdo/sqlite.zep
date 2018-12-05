@@ -13,6 +13,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
+use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
@@ -46,7 +47,7 @@ class Sqlite extends PdoAdapter
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
 	 */
-	public function connect(array descriptor = null) -> boolean
+	public function connect(array descriptor = null) -> bool
 	{
 		var dbname;
 
@@ -72,7 +73,7 @@ class Sqlite extends PdoAdapter
 	 * );
 	 * </code>
 	 */
-	public function describeColumns(string! table, string! schema = null) -> <Column[]>
+	public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
@@ -405,7 +406,7 @@ class Sqlite extends PdoAdapter
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
 	 */
-	public function useExplicitIdValue() -> boolean
+	public function useExplicitIdValue() -> bool
 	{
 		return true;
 	}

@@ -97,7 +97,7 @@ class Firephp extends Adapter
 	/**
 	 * Closes the logger
 	 */
-	public function close() -> boolean
+	public function close() -> bool
 	{
 		return true;
 	}

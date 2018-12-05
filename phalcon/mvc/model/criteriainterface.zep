@@ -76,12 +76,12 @@ interface CriteriaInterface
 	/**
 	 * Sets the "for_update" parameter to the criteria
 	 */
-	public function forUpdate(boolean forUpdate = true) -> <CriteriaInterface>;
+	public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>;
 
 	/**
 	 * Sets the "shared_lock" parameter to the criteria
 	 */
-	public function sharedLock(boolean sharedLock = true) -> <CriteriaInterface>;
+	public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>;
 
 	/**
 	 * Appends a condition to the current conditions using an AND operator

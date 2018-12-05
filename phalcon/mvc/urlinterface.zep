@@ -53,7 +53,7 @@ interface UrlInterface
 	 * @param string|array uri
 	 * @param array|object args Optional arguments to be appended to the query string
 	 */
-	public function get(uri = null, args = null, boolean local = null) -> string;
+	public function get(uri = null, args = null, bool local = null) -> string;
 
 	/**
 	 * Generates a local path

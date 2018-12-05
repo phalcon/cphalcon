@@ -31,12 +31,12 @@ interface ServiceInterface
 	/**
 	 * Sets if the service is shared or not
 	 */
-	public function setShared(boolean shared);
+	public function setShared(bool shared);
 
 	/**
 	 * Check whether the service is shared or not
 	 */
-	public function isShared() -> boolean;
+	public function isShared() -> bool;
 
 	/**
 	 * Set the service definition

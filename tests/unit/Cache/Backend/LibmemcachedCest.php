@@ -2,22 +2,21 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use UnitTester;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
-use Phalcon\Cache\Backend\Libmemcached;
-use PHPUnit\Framework\SkippedTestError;
+use UnitTester;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\LibmemcachedCest
  * Tests the \Phalcon\Cache\Backend\Libmemcached component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
+ * @link          https://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Unit\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -30,18 +29,14 @@ class LibmemcachedCest
 {
     public function _before(UnitTester $I)
     {
-        if (!extension_loaded('memcached')) {
-            throw new SkippedTestError(
-                'Warning: memcached extension is not loaded'
-            );
-        }
+        $I->checkExtensionIsLoaded('memcached');
     }
 
     public function increment(UnitTester $I)
     {
         $I->wantTo('Increment counter by using Libmemcached as cache backend');
 
-        $key = 'increment';
+        $key   = 'increment';
         $cache = $this->getDataCache(null, 20);
 
         $I->dontSeeInLibmemcached($key);
@@ -57,11 +52,31 @@ class LibmemcachedCest
         $I->seeInLibmemcached($key, 14);
     }
 
+    protected function getDataCache($statsKey = null, $ttl = 0)
+    {
+        $config = [
+            'client'  => [],
+            'servers' => [
+                [
+                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
+                ],
+            ],
+        ];
+
+        if ($statsKey !== null) {
+            $config['statsKey'] = $statsKey;
+        }
+
+        return new Libmemcached(new Data(['lifetime' => $ttl]), $config);
+    }
+
     public function decrement(UnitTester $I)
     {
         $I->wantTo('Decrement counter by using Libmemcached as cache backend');
 
-        $key = 'decrement';
+        $key   = 'decrement';
         $cache = $this->getDataCache(null, 20);
 
         $I->dontSeeInLibmemcached($key);
@@ -81,7 +96,7 @@ class LibmemcachedCest
     {
         $I->wantTo('Get data by using Libmemcached as cache backend');
 
-        $key = 'data-get';
+        $key  = 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = $this->getDataCache(null, 20);
@@ -107,7 +122,7 @@ class LibmemcachedCest
     {
         $I->wantTo('Get the same data from the Memcache regardless of the number of requests');
 
-        $key = 'libmemcached-data-get-test';
+        $key  = 'libmemcached-data-get-test';
         $data = 'this is a test';
 
         $cache = $this->getDataCache(null, 20);
@@ -130,7 +145,7 @@ class LibmemcachedCest
     {
         $I->wantTo('Save data by using Libmemcached as cache backend');
 
-        $key = 'data-save';
+        $key  = 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = $this->getDataCache(null, 20);
@@ -170,7 +185,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey, $lifetime);
 
         $I->haveInLibmemcached('data-flush-1', 1);
         $I->haveInLibmemcached('data-flush-2', 2);
@@ -196,7 +211,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey, $lifetime);
 
         $I->assertEquals([], $cache->queryKeys());
     }
@@ -207,7 +222,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey, $lifetime);
 
         $I->haveInLibmemcached("a", 1);
         $I->haveInLibmemcached("b", 2);
@@ -231,7 +246,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey, $lifetime);
 
         $I->haveInLibmemcached('prefix1-myKey', ['a', 'b']);
         $I->haveInLibmemcached('prefix2-myKey', ['x', 'z']);
@@ -266,9 +281,9 @@ class LibmemcachedCest
     {
         $I->wantTo('Cache output fragments by using Libmemcached as cache backend');
 
-        $time = date('H:i:s');
+        $time     = date('H:i:s');
         $lifetime = 2;
-        $cache = $this->getOutputCache($lifetime);
+        $cache    = $this->getOutputCache($lifetime);
 
         ob_start();
 
@@ -299,36 +314,16 @@ class LibmemcachedCest
         $I->dontSeeInLibmemcached('test-output');
     }
 
-    protected function getDataCache($statsKey = null, $ttl = 0)
-    {
-        $config = [
-            'client'  => [],
-            'servers' => [
-                [
-                    'host'   => env('TEST_MC_HOST', '127.0.0.1'),
-                    'port'   => env('TEST_MC_PORT', 11211),
-                    'weight' => env('TEST_MC_WEIGHT', 1),
-                ]
-            ],
-        ];
-
-        if ($statsKey !== null) {
-            $config['statsKey'] = $statsKey;
-        }
-
-        return new Libmemcached(new Data(['lifetime' => $ttl]), $config);
-    }
-
     protected function getOutputCache($ttl = 0)
     {
         $config = [
             'client'  => [],
             'servers' => [
                 [
-                    'host'   => env('TEST_MC_HOST', '127.0.0.1'),
-                    'port'   => env('TEST_MC_PORT', 11211),
-                    'weight' => env('TEST_MC_WEIGHT', 1),
-                ]
+                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                    'port'   => env('DATA_MEMCACHED_HOST', 11211),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
+                ],
             ],
         ];
 
