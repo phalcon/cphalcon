@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use UnitTester;
 
+/**
+ * Class RollbackCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class RollbackCest
 {
     /**

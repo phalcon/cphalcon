@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,14 @@
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
+use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
+/**
+ * Class GetFormatCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class GetFormatCest
 {
     /**
@@ -26,6 +33,10 @@ class GetFormatCest
     public function loggerFormatterLineGetFormat(UnitTester $I)
     {
         $I->wantToTest("Logger\Formatter\Line - getFormat()");
-        $I->skipTest("Need implementation");
+        $formatter = new Line();
+
+        $expected = '[%date%][%type%] %message%';
+        $actual   = $formatter->getFormat();
+        $I->assertEquals($expected, $actual);
     }
 }

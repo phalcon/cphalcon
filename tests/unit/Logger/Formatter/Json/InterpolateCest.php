@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
 use UnitTester;
 
+/**
+ * Class InterpolateCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class InterpolateCest
 {
     /**
