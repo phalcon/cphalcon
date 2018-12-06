@@ -118,8 +118,8 @@ class File extends AbstractAdapter
             }
 		}
 
-		let formatter        = this->getFormatter();
-		let formattedMessage = formatter->format(item);
+		let formatter        = this->getFormatter(),
+			formattedMessage = formatter->format(item);
 
 		fwrite(this->fileHandler, formattedMessage);
 	}
