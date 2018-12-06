@@ -34,7 +34,7 @@ class InterpolateCest
      */
     public function loggerFormatterLineInterpolate(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - interpolate()");
+        $I->wantToTest('Logger\Formatter\Line - interpolate()');
         $formatter = new Line();
 
         $message = 'The sky is {color}';
@@ -57,7 +57,7 @@ class InterpolateCest
      */
     public function loggerFormatterLineInterpolateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - interpolate() - format()");
+        $I->wantToTest('Logger\Formatter\Line - interpolate() - format()');
         $formatter = new Line();
 
         $message = 'The sky is {color}';

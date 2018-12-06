@@ -31,7 +31,7 @@ class CloseCest
      */
     public function loggerAdapterStreamClose(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - close()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - close()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -34,7 +34,7 @@ class FormatCest
      */
     public function loggerFormatterSyslogFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Syslog - format()");
+        $I->wantToTest('Logger\Formatter\Syslog - format()');
         $formatter = new Syslog();
 
         $time = time();

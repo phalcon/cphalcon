@@ -31,7 +31,7 @@ class RollbackCest
      */
     public function loggerAdapterFileRollback(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - rollback()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - rollback()');
+        $I->skipTest('Need implementation');
     }
 }

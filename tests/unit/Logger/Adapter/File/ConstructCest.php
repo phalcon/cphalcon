@@ -31,7 +31,7 @@ class ConstructCest
      */
     public function loggerAdapterFileConstruct(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

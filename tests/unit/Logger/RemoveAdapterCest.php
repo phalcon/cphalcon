@@ -31,7 +31,7 @@ class RemoveAdapterCest
      */
     public function loggerRemoveAdapter(UnitTester $I)
     {
-        $I->wantToTest("Logger - removeAdapter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - removeAdapter()');
+        $I->skipTest('Need implementation');
     }
 }

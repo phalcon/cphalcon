@@ -32,7 +32,7 @@ class GetDateFormatCest
      */
     public function loggerFormatterLineGetDateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - getDateFormat()");
+        $I->wantToTest('Logger\Formatter\Line - getDateFormat()');
         $formatter = new Line();
 
         $expected = 'D, d M y H:i:s O';

@@ -31,7 +31,7 @@ class RollbackCest
      */
     public function loggerAdapterStreamRollback(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - rollback()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - rollback()');
+        $I->skipTest('Need implementation');
     }
 }

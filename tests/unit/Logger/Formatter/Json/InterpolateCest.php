@@ -34,7 +34,7 @@ class InterpolateCest
      */
     public function loggerFormatterJsonInterpolate(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - interpolate()");
+        $I->wantToTest('Logger\Formatter\Json - interpolate()');
         $formatter = new Json();
 
         $message = 'The sky is {color}';
@@ -57,7 +57,7 @@ class InterpolateCest
      */
     public function loggerFormatterJsonInterpolateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - interpolate() - format()");
+        $I->wantToTest('Logger\Formatter\Json - interpolate() - format()');
         $formatter = new Json();
 
         $message = 'The sky is {color}';

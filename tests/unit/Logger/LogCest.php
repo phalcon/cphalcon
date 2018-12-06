@@ -31,7 +31,7 @@ class LogCest
      */
     public function loggerLog(UnitTester $I)
     {
-        $I->wantToTest("Logger - log()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - log()');
+        $I->skipTest('Need implementation');
     }
 }
