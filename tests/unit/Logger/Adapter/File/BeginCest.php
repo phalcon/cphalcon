@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\File;
 
+use Phalcon\Logger\Adapter\File;
 use UnitTester;
 
 /**
@@ -32,6 +33,15 @@ class BeginCest
     public function loggerAdapterFileBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\File - begin()');
-        $I->skipTest('Need implementation');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = outputFolder('tests/logs/');
+        $adapter    = new File($outputPath . $fileName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
+
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

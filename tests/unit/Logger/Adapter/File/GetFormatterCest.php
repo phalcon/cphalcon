@@ -47,5 +47,6 @@ class GetFormatterCest
         $class  = FormatterInterface::class;
         $actual = $adapter->getFormatter();
         $I->assertInstanceOf($class, $actual);
+        $I->safeDeleteFile($fileName);
     }
 }

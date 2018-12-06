@@ -12,26 +12,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\File;
 
+use Phalcon\Logger\Adapter\File;
 use UnitTester;
 
 /**
- * Class GetPathCest
+ * Class GetNameCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class GetPathCest
+class GetNameCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: getPath()
+     * Tests Phalcon\Logger\Adapter\File :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileGetPath(UnitTester $I)
+    public function loggerAdapterFileGetName(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - getPath()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Logger\Adapter\File - getName()');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = outputFolder('tests/logs/');
+        $adapter    = new File($outputPath . $fileName);
+
+        $expected = $outputPath . $fileName;
+        $actual   = $adapter->getName();
+        $I->assertEquals($expected, $actual);
+
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }
