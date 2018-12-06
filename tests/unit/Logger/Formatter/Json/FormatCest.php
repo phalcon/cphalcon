@@ -41,7 +41,7 @@ class FormatCest
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
-            '{"type":"debug", "message":"log message", "timestamp":"%s"}',
+            '{"type":"debug","message":"log message","timestamp":"%s"}',
             date('D, d M y H:i:s O', $time)
         );
         $actual   = $line->format($item);
@@ -65,7 +65,7 @@ class FormatCest
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
-            '{"type":"debug", "message":"log message", "timestamp":"%s"}',
+            '{"type":"debug","message":"log message","timestamp":"%s"}',
             date('YmdHis', $time)
         );
         $actual   = $line->format($item);
