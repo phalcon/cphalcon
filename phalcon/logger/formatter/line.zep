@@ -20,7 +20,6 @@ use Phalcon\Logger\Item;
  */
 class Line extends AbstractFormatter
 {
-
 	/**
 	 * Default date format
 	 *
@@ -41,7 +40,7 @@ class Line extends AbstractFormatter
 	 * @param string format
 	 * @param string dateFormat
 	 */
-	public function __construct(format = null, dateFormat = null)
+	public function __construct(string format = "", string dateFormat = "") -> void
 	{
 		if format {
 			let this->format = format;
