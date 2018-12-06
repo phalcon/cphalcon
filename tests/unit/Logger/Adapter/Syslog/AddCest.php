@@ -10,28 +10,61 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
-
-use UnitTester;
-
 /**
- * Class AddCest
- *
- * @package Phalcon\Test\Unit\Logger
+ * @todo Until I figure this approach, this stays here and can be used for other
+ *       tests in this namespace
  */
-class AddCest
-{
-    /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: add()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function loggerAdapterSyslogAdd(UnitTester $I)
+namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
+    function syslog($level, $message)
     {
-        $I->wantToTest('Logger\Adapter\Syslog - add()');
-        $I->skipTest('Need implementation');
+    }
+
+    function closelog()
+    {
+        return true;
+    }
+
+    use Phalcon\Logger;
+    use Phalcon\Logger\Adapter\Syslog;
+    use Phalcon\Logger\Item;
+    use UnitTester;
+
+    /**
+     * Class AddCest
+     *
+     * @package Phalcon\Test\Unit\Logger
+     */
+    class AddCest
+    {
+        /**
+         * Tests Phalcon\Logger\Adapter\Syslog :: add()
+         *
+         * @param UnitTester $I
+         *
+         * @author Phalcon Team <team@phalconphp.com>
+         * @since  2018-11-13
+         */
+        public function loggerAdapterSyslogAdd(UnitTester $I)
+        {
+            $I->wantToTest('Logger\Adapter\Syslog - add()');
+            $streamName = $I->getNewFileName('log', 'log');
+            $adapter    = new Syslog($streamName);
+
+            $adapter->begin();
+            $item1 = new Item('Message 1', 'debug', Logger::DEBUG);
+            $item2 = new Item('Message 2', 'debug', Logger::DEBUG);
+            $item3 = new Item('Message 3', 'debug', Logger::DEBUG);
+
+            $adapter
+                ->add($item1)
+                ->add($item2)
+                ->add($item3)
+            ;
+
+            $adapter->commit();
+
+            $actual = $adapter->close();
+            $I->assertTrue($actual);
+        }
     }
 }
