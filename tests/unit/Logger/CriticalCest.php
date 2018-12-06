@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
@@ -21,6 +22,8 @@ use UnitTester;
  */
 class CriticalCest
 {
+    use LoggerTrait;
+
     /**
      * Tests Phalcon\Logger :: critical()
      *
@@ -31,7 +34,7 @@ class CriticalCest
      */
     public function loggerCritical(UnitTester $I)
     {
-        $I->wantToTest("Logger - critical()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - critical()');
+        $this->runLoggerFile($I, 'critical');
     }
 }

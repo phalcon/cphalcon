@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
@@ -21,6 +22,8 @@ use UnitTester;
  */
 class EmergencyCest
 {
+    use LoggerTrait;
+
     /**
      * Tests Phalcon\Logger :: emergency()
      *
@@ -31,7 +34,7 @@ class EmergencyCest
      */
     public function loggerEmergency(UnitTester $I)
     {
-        $I->wantToTest("Logger - emergency()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - emergency()');
+        $this->runLoggerFile($I, 'emergency');
     }
 }

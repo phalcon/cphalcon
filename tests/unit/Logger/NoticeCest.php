@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
@@ -21,6 +22,8 @@ use UnitTester;
  */
 class NoticeCest
 {
+    use LoggerTrait;
+
     /**
      * Tests Phalcon\Logger :: notice()
      *
@@ -31,7 +34,7 @@ class NoticeCest
      */
     public function loggerNotice(UnitTester $I)
     {
-        $I->wantToTest("Logger - notice()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - notice()');
+        $I->skipTest('Need implementation');
     }
 }
