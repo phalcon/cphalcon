@@ -12,7 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\File;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Formatter\Line;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class SetFormatterCest
@@ -31,7 +36,17 @@ class SetFormatterCest
      */
     public function loggerAdapterFileSetFormatter(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - setFormatter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - setFormatter()');
+
+        $fileName = $I->getNewFileName('log', 'log');
+        $fileName = outputFolder('tests/logs/' . $fileName);
+
+        $adapter = new File($fileName);
+        $adapter->setFormatter(new Line());
+
+        $class  = FormatterInterface::class;
+        $actual = $adapter->getFormatter();
+        $I->assertInstanceOf($class, $actual);
     }
 }
+

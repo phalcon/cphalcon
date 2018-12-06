@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
@@ -21,6 +22,8 @@ use UnitTester;
  */
 class ErrorCest
 {
+    use LoggerTrait;
+
     /**
      * Tests Phalcon\Logger :: error()
      *
@@ -31,7 +34,7 @@ class ErrorCest
      */
     public function loggerError(UnitTester $I)
     {
-        $I->wantToTest("Logger - error()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - error()');
+        $this->runLoggerFile($I, 'error');
     }
 }
