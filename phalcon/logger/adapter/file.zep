@@ -65,13 +65,12 @@ class File extends AbstractAdapter
 	 */
 	public function __construct(string! name, array options = [])
 	{
-		string mode;
+		var mode;
 
 		/**
 		 * Mode
 		 */
-		if isset(options["mode"]) {
-			let mode = (string) options["mode"];
+		if fetch mode, options["mode"] {
 			if memstr(mode, "r") {
 				throw new Exception("Adapter cannot be opened in read mode");
 			}

@@ -155,7 +155,7 @@ class Logger implements LoggerInterface
      */
     public function excludeAdapters(array adapters = []) -> <Logger>
     {
-    	var adapter, registered, excluded;
+    	var name, registered;
 
     	let registered = this->getAdapters();
 
@@ -164,12 +164,10 @@ class Logger implements LoggerInterface
     	 * the registered adapters. If they match, add them to the
     	 * this->excluded array
 		 */
-    	for adapter in adapters {
-    		if typeof adapter === "string" {
-				if fetch excluded, registered[adapter] {
-					let this->excluded[] = excluded;
-				}
-    		}
+    	for name, _ in adapters {
+			if isset(registered[name]) {
+				let this->excluded[] = name;
+			}
     	}
 
         return this;
@@ -272,15 +270,19 @@ class Logger implements LoggerInterface
      */
     public function removeAdapter(string name) -> <Logger>
     {
-    	var adapter;
+    	var adapters;
 
-    	if !fetch adapter, this->adapters[name] {
+		let adapters = this->adapters;
+
+    	if true !== isset(adapters[name]) {
     		throw new Exception("Adapter does not exist for this logger");
     	}
 
-    	unset(this->adapters[name]);
+    	unset adapters[name];
 
-        return adapter;
+		let this->adapters = adapters;
+
+        return this;
     }
 
     /**
@@ -325,9 +327,12 @@ class Logger implements LoggerInterface
      */
     protected function addMessage(int level, string message, array context = []) -> bool
     {
-    	var adapter, item, levelName, levels;
+    	var adapter, key, keys, excluded, levelName, levels, item, registered;
 
-    	if count(this->adapters) === 0 {
+		let registered = this->adapters,
+			excluded   = this->excluded;
+
+    	if count(registered) === 0 {
     		throw new Exception("No adapters specified");
     	}
 
@@ -339,9 +344,15 @@ class Logger implements LoggerInterface
 		let item = new Item(message, levelName, level, time(), context);
 
 		/**
-		 * @todo Check if any adapters were excluded and log only to them
+		 * Compare the actual adapters array with the excluded one. Whatever
+		 * the difference is, that is the array of adapters that we will log
+		 * this message to. By default `excluded` is empty so the message will
+		 * be loggged to all registered adapters
 		 */
-		for adapter in this->adapters {
+		 let keys = array_diff(array_keys(registered), excluded);
+
+		for key in keys {
+			let adapter = registered[key];
     		adapter->process(item);
     	}
 
