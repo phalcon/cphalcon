@@ -12,33 +12,26 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
- * Class BeginCest
+ * Class AddCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class BeginCest
+class AddCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: begin()
+     * Tests Phalcon\Logger\Adapter\Stream :: add()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterStreamBegin(UnitTester $I)
+    public function loggerAdapterStreamAdd(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Stream - begin()');
-        $streamName   = $I->getNewFileName('log', 'log');
-        $adapter    = new Stream($streamName);
-
-        $adapter->begin();
-
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->wantToTest('Logger\Adapter\Stream - add()');
+        $I->skipTest('Need implementation');
     }
 }

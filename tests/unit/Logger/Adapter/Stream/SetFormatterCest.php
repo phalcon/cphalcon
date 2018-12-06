@@ -12,7 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Formatter\Line;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class SetFormatterCest
@@ -32,6 +37,14 @@ class SetFormatterCest
     public function loggerAdapterStreamSetFormatter(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - setFormatter()');
-        $I->skipTest('Need implementation');
+
+        $streamName = $I->getNewFileName('log', 'log');
+
+        $adapter = new Stream($streamName);
+        $adapter->setFormatter(new Line());
+
+        $class  = FormatterInterface::class;
+        $actual = $adapter->getFormatter();
+        $I->assertInstanceOf($class, $actual);
     }
 }

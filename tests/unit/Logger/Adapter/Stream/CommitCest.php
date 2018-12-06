@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use UnitTester;
 
 /**
@@ -32,6 +34,44 @@ class CommitCest
     public function loggerAdapterStreamCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - commit()');
-        $I->skipTest('Need implementation');
+        $streamName   = $I->getNewFileName('log', 'log');
+        $adapter    = new Stream($streamName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
+
+        $adapter->commit();
+
+        $actual = $adapter->inTransaction();
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Logger\Adapter\Stream :: commit() - no transaction
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function loggerAdapterStreamCommitNoTransaction(UnitTester $I)
+    {
+        $I->wantToTest('Logger\Adapter\Stream - commit() - no transaction');
+        $streamName   = $I->getNewFileName('log', 'log');
+
+        try {
+            $adapter = new Stream($streamName);
+
+            $actual = $adapter->inTransaction();
+            $I->assertFalse($actual);
+
+            $adapter->commit();
+        } catch (Exception $ex) {
+            $expected = 'There is no active transaction';
+            $actual   = $ex->getMessage();
+            $I->assertEquals($expected, $actual);
+        }
     }
 }
