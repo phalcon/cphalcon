@@ -18,55 +18,59 @@ use Phalcon\Logger\Item;
 use UnitTester;
 
 /**
- * Class FormatCest
+ * Class InterpolateCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class FormatCest
+class InterpolateCest
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Json :: format()
+     * Tests Phalcon\Logger\Formatter\Json :: interpolate()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerFormatterJsonFormat(UnitTester $I)
+    public function loggerFormatterJsonInterpolate(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - format()");
+        $I->wantToTest("Logger\Formatter\Json - interpolate()");
         $formatter = new Json();
 
-        $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+        $message = 'The sky is {color}';
+        $context = [
+            'color' => 'blue',
+        ];
 
-        $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time)
-        );
-        $actual   = $formatter->format($item);
+        $expected = 'The sky is blue';
+        $actual   = $formatter->interpolate($message, $context);
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Logger\Formatter\Json :: format() -custom
+     * Tests Phalcon\Logger\Formatter\Json :: interpolate() - format
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerFormatterJsonFormatCustom(UnitTester $I)
+    public function loggerFormatterJsonInterpolateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - format() - custom");
-        $formatter = new Json('YmdHis');
+        $I->wantToTest("Logger\Formatter\Json - interpolate() - format()");
+        $formatter = new Json();
+
+        $message = 'The sky is {color}';
+        $context = [
+            'color' => 'blue',
+        ];
 
         $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+        $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('YmdHis', $time)
+            '{"type":"debug","message":"The sky is blue","timestamp":"%s"}',
+            date('D, d M y H:i:s O', $time)
         );
         $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);

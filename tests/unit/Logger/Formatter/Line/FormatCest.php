@@ -36,13 +36,13 @@ class FormatCest
     public function loggerFormatterLineFormat(UnitTester $I)
     {
         $I->wantToTest("Logger\Formatter\Line - format()");
-        $line = new Line();
+        $formatter = new Line();
 
         $time = time();
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf('[%s][debug] log message', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $line->format($item);
+        $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);
     }
 
@@ -57,13 +57,13 @@ class FormatCest
     public function loggerFormatterLineFormatCustom(UnitTester $I)
     {
         $I->wantToTest("Logger\Formatter\Line - format() - custom");
-        $line = new Line('%message%-[%type%]-%date%');
+        $formatter = new Line('%message%-[%type%]-%date%');
 
         $time = time();
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf('log message-[debug]-%s', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $line->format($item);
+        $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);
     }
 }
