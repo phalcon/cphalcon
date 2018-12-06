@@ -31,7 +31,7 @@ class BeginCest
      */
     public function loggerAdapterFileBegin(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - begin()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - begin()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -31,7 +31,7 @@ class ProcessCest
      */
     public function loggerAdapterStreamProcess(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - process()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - process()');
+        $I->skipTest('Need implementation');
     }
 }

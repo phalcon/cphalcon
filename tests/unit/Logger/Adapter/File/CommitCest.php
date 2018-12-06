@@ -31,7 +31,7 @@ class CommitCest
      */
     public function loggerAdapterFileCommit(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - commit()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - commit()');
+        $I->skipTest('Need implementation');
     }
 }

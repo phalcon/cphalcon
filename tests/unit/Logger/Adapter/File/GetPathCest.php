@@ -31,7 +31,7 @@ class GetPathCest
      */
     public function loggerAdapterFileGetPath(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - getPath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - getPath()');
+        $I->skipTest('Need implementation');
     }
 }

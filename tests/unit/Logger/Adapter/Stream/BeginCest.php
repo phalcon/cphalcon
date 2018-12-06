@@ -31,7 +31,7 @@ class BeginCest
      */
     public function loggerAdapterStreamBegin(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - begin()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - begin()');
+        $I->skipTest('Need implementation');
     }
 }

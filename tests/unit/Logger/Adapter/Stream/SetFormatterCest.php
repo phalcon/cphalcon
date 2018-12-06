@@ -31,7 +31,7 @@ class SetFormatterCest
      */
     public function loggerAdapterStreamSetFormatter(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - setFormatter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - setFormatter()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -33,7 +33,7 @@ class GetTypeCest
      */
     public function loggerItemGetType(UnitTester $I)
     {
-        $I->wantToTest("Logger\Item - getType()");
+        $I->wantToTest('Logger\Item - getType()');
         $time = time();
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 

@@ -31,7 +31,7 @@ class AddCest
      */
     public function loggerAdapterFileAdd(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - add()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - add()');
+        $I->skipTest('Need implementation');
     }
 }

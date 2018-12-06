@@ -31,7 +31,7 @@ class SetAdaptersCest
      */
     public function loggerSetAdapters(UnitTester $I)
     {
-        $I->wantToTest("Logger - setAdapters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - setAdapters()');
+        $I->skipTest('Need implementation');
     }
 }

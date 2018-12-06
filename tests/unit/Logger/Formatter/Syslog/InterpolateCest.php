@@ -34,7 +34,7 @@ class InterpolateCest
      */
     public function loggerFormatterSyslogInterpolate(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Syslog - interpolate()");
+        $I->wantToTest('Logger\Formatter\Syslog - interpolate()');
         $formatter = new Syslog();
 
         $message = 'The sky is {color}';
@@ -57,7 +57,7 @@ class InterpolateCest
      */
     public function loggerFormatterSyslogInterpolateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Syslog - interpolate() - format()");
+        $I->wantToTest('Logger\Formatter\Syslog - interpolate() - format()');
         $formatter = new Syslog();
 
         $message = 'The sky is {color}';

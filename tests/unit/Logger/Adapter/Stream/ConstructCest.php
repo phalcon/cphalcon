@@ -31,7 +31,7 @@ class ConstructCest
      */
     public function loggerAdapterStreamConstruct(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

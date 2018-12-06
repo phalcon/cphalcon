@@ -31,7 +31,7 @@ class DestructCest
      */
     public function loggerAdapterFileDestruct(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - __destruct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - __destruct()');
+        $I->skipTest('Need implementation');
     }
 }

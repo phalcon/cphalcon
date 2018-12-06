@@ -35,7 +35,7 @@ class FormatCest
      */
     public function loggerFormatterLineFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - format()");
+        $I->wantToTest('Logger\Formatter\Line - format()');
         $formatter = new Line();
 
         $time = time();
@@ -56,7 +56,7 @@ class FormatCest
      */
     public function loggerFormatterLineFormatCustom(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - format() - custom");
+        $I->wantToTest('Logger\Formatter\Line - format() - custom');
         $formatter = new Line('%message%-[%type%]-%date%');
 
         $time = time();

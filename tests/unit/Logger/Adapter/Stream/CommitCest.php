@@ -31,7 +31,7 @@ class CommitCest
      */
     public function loggerAdapterStreamCommit(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - commit()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - commit()');
+        $I->skipTest('Need implementation');
     }
 }

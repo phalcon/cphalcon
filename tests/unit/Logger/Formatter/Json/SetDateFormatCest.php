@@ -32,7 +32,7 @@ class SetDateFormatCest
      */
     public function loggerFormatterJsonSetDateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - setDateFormat()");
+        $I->wantToTest('Logger\Formatter\Json - setDateFormat()');
         $formatter = new Json();
 
         $format = 'YmdHis';

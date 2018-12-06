@@ -33,7 +33,7 @@ class GetTimeCest
      */
     public function loggerItemGetTime(UnitTester $I)
     {
-        $I->wantToTest("Logger\Item - getTime()");
+        $I->wantToTest('Logger\Item - getTime()');
         $time = time();
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Logger;
 use UnitTester;
 
 /**
@@ -31,7 +32,11 @@ class GetNameCest
      */
     public function loggerGetName(UnitTester $I)
     {
-        $I->wantToTest("Logger - getName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger - getName()');
+        $logger = new Logger('my-name');
+
+        $expected = 'my-name';
+        $actual   = $logger->getName();
+        $I->assertEquals($expected, $actual);
     }
 }

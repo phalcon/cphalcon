@@ -31,7 +31,7 @@ class InTransactionCest
      */
     public function loggerAdapterFileInTransaction(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - inTransaction()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - inTransaction()');
+        $I->skipTest('Need implementation');
     }
 }

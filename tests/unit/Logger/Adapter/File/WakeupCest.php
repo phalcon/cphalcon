@@ -31,7 +31,7 @@ class WakeupCest
      */
     public function loggerAdapterFileWakeup(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\File - __wakeup()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\File - __wakeup()');
+        $I->skipTest('Need implementation');
     }
 }

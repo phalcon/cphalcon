@@ -34,7 +34,7 @@ class FormatCest
      */
     public function loggerFormatterJsonFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - format()");
+        $I->wantToTest('Logger\Formatter\Json - format()');
         $formatter = new Json();
 
         $time = time();
@@ -58,7 +58,7 @@ class FormatCest
      */
     public function loggerFormatterJsonFormatCustom(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - format() - custom");
+        $I->wantToTest('Logger\Formatter\Json - format() - custom');
         $formatter = new Json('YmdHis');
 
         $time = time();

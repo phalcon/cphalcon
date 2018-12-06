@@ -32,7 +32,7 @@ class SetFormatCest
      */
     public function loggerFormatterLineSetFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - setFormat()");
+        $I->wantToTest('Logger\Formatter\Line - setFormat()');
         $formatter = new Line();
 
         $format = '%message%-[%date%]-[%type%]';

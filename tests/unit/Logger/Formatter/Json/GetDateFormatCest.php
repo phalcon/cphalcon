@@ -32,7 +32,7 @@ class GetDateFormatCest
      */
     public function loggerFormatterJsonGetDateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Json - getDateFormat()");
+        $I->wantToTest('Logger\Formatter\Json - getDateFormat()');
         $formatter = new Json();
 
         $expected = 'D, d M y H:i:s O';
