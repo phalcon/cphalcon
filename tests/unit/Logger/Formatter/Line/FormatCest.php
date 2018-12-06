@@ -12,7 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Formatter\Line;
+use Phalcon\Logger\Item;
 use UnitTester;
+use const PHP_EOL;
 
 /**
  * Class FormatCest
@@ -32,6 +36,34 @@ class FormatCest
     public function loggerFormatterLineFormat(UnitTester $I)
     {
         $I->wantToTest("Logger\Formatter\Line - format()");
-        $I->skipTest("Need implementation");
+        $line = new Line();
+
+        $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $expected = sprintf('[%s][debug] log message', date('D, d M y H:i:s O', $time)) . PHP_EOL;
+        $actual   = $line->format($item);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Logger\Formatter\Line :: format() -custom
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function loggerFormatterLineFormatCustom(UnitTester $I)
+    {
+        $I->wantToTest("Logger\Formatter\Line - format() - custom");
+        $line = new Line('%message%-[%type%]-%date%');
+
+        $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $expected = sprintf('log message-[debug]-%s', date('D, d M y H:i:s O', $time)) . PHP_EOL;
+        $actual   = $line->format($item);
+        $I->assertEquals($expected, $actual);
     }
 }
