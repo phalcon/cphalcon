@@ -12,8 +12,7 @@ namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\FormatterInterface;
-use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
+use Phalcon\Logger\Formatter\FormatterInterface;
 
 /**
  * Phalcon\Logger\Adapter\Syslog
@@ -38,59 +37,39 @@ use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
  * $logger->error("This is another error");
  *</code>
  */
-class Syslog extends Adapter
+class Syslog extends AbstractAdapter
 {
+	/**
+	 * Name of the default formatter class
+	 *
+	 * @var string
+	 */
+	protected defaultFormatter = "Syslog";
 
-	protected _opened = false;
+    /**
+     * @var bool
+     */
+	protected opened = false;
 
 	/**
 	 * Phalcon\Logger\Adapter\Syslog constructor
 	 */
-	public function __construct(string name, array options = [])
+	public function __construct(string! name, array options = [])
 	{
-		var option, facility;
+		var adapter, option, facility;
 
-		if name {
+        if !fetch option, options["option"] {
+            let option = LOG_ODELAY;
+        }
 
-			if !fetch option, options["option"] {
-				let option = LOG_ODELAY;
-			}
+        if !fetch facility, options["facility"] {
+            let facility = LOG_USER;
+        }
 
-			if !fetch facility, options["facility"] {
-				let facility = LOG_USER;
-			}
+        let adapter = name;
 
-			openlog(name, option, facility);
-			let this->_opened = true;
-		}
-
-	}
-
-	/**
-	 * Returns the internal formatter
-	 */
-	public function getFormatter() -> <FormatterInterface>
-	{
-		if typeof this->_formatter !== "object" {
-			let this->_formatter = new SyslogFormatter();
-		}
-
-		return this->_formatter;
-	}
-
-	/**
-	 * Writes the log to the stream itself
-	 */
-	public function logInternal(string message, int type, int time, array context)
-	{
-		var appliedFormat;
-
-		let appliedFormat = this->getFormatter()->format(message, type, time, context);
-		if typeof appliedFormat !== "array" {
-			throw new Exception("The formatted message is not valid");
-		}
-
-		syslog(appliedFormat[0], appliedFormat[1]);
+        openlog(adapter, option, facility);
+        let this->opened = true;
 	}
 
 	/**
@@ -98,11 +77,27 @@ class Syslog extends Adapter
  	 */
 	public function close() -> bool
 	{
-		if !this->_opened {
+		if !this->opened {
 			return true;
 		}
 
 		return closelog();
 	}
 
+	/**
+	 * Processes the message i.e. writes it to the syslog
+	 */
+	public function process(<Item> item)
+	{
+		var formatter, formattedMessage;
+
+		let formatter        = this->getFormatter();
+		let formattedMessage = formatter->format(item);
+
+		if typeof formattedMessage !== "array" {
+			throw new Exception("The formatted message is not valid");
+		}
+
+		syslog(formattedMessage[0], formattedMessage[1]);
+	}
 }

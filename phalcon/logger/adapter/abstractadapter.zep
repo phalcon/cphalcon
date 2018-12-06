@@ -46,6 +46,9 @@ abstract class AbstractAdapter implements AdapterInterface
 	 */
 	protected queue = [];
 
+	/**
+	 * Destructor cleanup
+	 */
 	public function __destruct()
 	{
 		if this->inTransaction {
@@ -53,6 +56,14 @@ abstract class AbstractAdapter implements AdapterInterface
 		}
 
 		this->close();
+	}
+
+	/**
+ 	 * Adds a message to the queue
+ 	 */
+	public function add(<Item> item) -> void
+	{
+		let this->queue[] = item;
 	}
 
 	/**
@@ -96,7 +107,7 @@ abstract class AbstractAdapter implements AdapterInterface
 		string className;
 
 		if typeof this->formatter !== "object" {
-			let className = "Phalcon\\Logger\\Adapter\\Formatter\\" . this->defaultFormatter;
+			let className = "Phalcon\\Logger\\Formatter\\" . this->defaultFormatter;
 			let this->formatter = new {className}();
 		}
 

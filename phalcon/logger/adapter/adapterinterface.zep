@@ -21,6 +21,11 @@ use Phalcon\Logger\Item;
 interface AdapterInterface
 {
 	/**
+ 	 * Adds a message in the queue
+ 	 */
+	public function add(<Item> item) -> void;
+
+	/**
  	 * Starts a transaction
  	 */
 	public function begin() -> <AdapterInterface>;

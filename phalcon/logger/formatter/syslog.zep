@@ -10,14 +10,15 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use Phalcon\Logger\Formatter;
+use Phalcon\Logger\Formatter\AbstractFormatter;
+use Phalcon\Logger\Item;
 
 /**
  * Phalcon\Logger\Formatter\Syslog
  *
  * Prepares a message to be used in a Syslog backend
  */
-class Syslog extends Formatter
+class Syslog extends AbstractFormatter
 {
 	/**
 	 * Applies a format to a message before sent it to the internal log
@@ -29,10 +30,11 @@ class Syslog extends Formatter
 	public function format(<Item> item) -> array
 	{
 	    var message = item->getMessage(),
-	        type    = item->getType();
+	        type    = item->getType(),
+	        context = item->getContext();
 
 		if typeof context === "array" {
-			let message = this->interpolate(item->getMessage(), item->getContext());
+			let message = this->interpolate(message, context);
 		}
 
 		return [type, message];
