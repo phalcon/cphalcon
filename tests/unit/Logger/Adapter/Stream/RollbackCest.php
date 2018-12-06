@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -32,6 +33,17 @@ class RollbackCest
     public function loggerAdapterStreamRollback(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - rollback()');
-        $I->skipTest('Need implementation');
+        $streamName   = $I->getNewFileName('log', 'log');
+        $adapter    = new Stream($streamName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
+
+        $adapter->rollback();
+
+        $actual = $adapter->inTransaction();
+        $I->assertFalse($actual);
     }
 }
