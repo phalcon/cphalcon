@@ -35,7 +35,7 @@ abstract class AbstractAdapter implements AdapterInterface
 	/**
 	 * Tells if there is an active transaction or not
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected inTransaction = false;
 
@@ -117,7 +117,7 @@ abstract class AbstractAdapter implements AdapterInterface
 	/**
 	 * Returns the whether the logger is currently in an active transaction or not
 	 */
-	public function inTransaction() -> boolean
+	public function inTransaction() -> bool
 	{
 		return this->inTransaction;
 	}
@@ -125,7 +125,7 @@ abstract class AbstractAdapter implements AdapterInterface
 	/**
  	 * Processes the message in the adapter
  	 */
-	public function process(<Item> item) -> boolean
+	public function process(<Item> item) -> bool
 	{
 		throw new Exception("This method cannot be called directly in the adapter");
 	}
