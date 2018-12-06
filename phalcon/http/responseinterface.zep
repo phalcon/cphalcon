@@ -35,6 +35,11 @@ interface ResponseInterface
 	 */
 	public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
 
+    /**
+     * Returns the status code
+     */
+	public function getStatusCode() -> int | null;
+
 	/**
 	 * Returns headers set by the user
 	 */
