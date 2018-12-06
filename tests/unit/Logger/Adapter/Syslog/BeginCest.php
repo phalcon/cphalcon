@@ -33,7 +33,7 @@ class BeginCest
     public function loggerAdapterSyslogBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - begin()');
-        $streamName   = $I->getNewFileName('log', 'log');
+        $streamName = $I->getNewFileName('log', 'log');
         $adapter    = new Syslog($streamName);
 
         $adapter->begin();

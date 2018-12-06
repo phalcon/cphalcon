@@ -77,7 +77,7 @@ class ConstructCest
      */
     public function loggerConstructStreamWithJsonConstants(UnitTester $I)
     {
-        $I->wantToTest('Logger :: __construct() - file with json formatter');
+        $I->wantToTest('Logger - __construct() - file with json formatter');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
         $adapter    = new Stream($outputPath . $fileName);

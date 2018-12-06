@@ -79,7 +79,7 @@ class RemoveAdapterCest
         $outputPath = outputFolder('tests/logs/');
 
         try {
-            $adapter1   = new Stream($outputPath . $fileName1);
+            $adapter1 = new Stream($outputPath . $fileName1);
 
             $logger = new Logger(
                 'my-logger',

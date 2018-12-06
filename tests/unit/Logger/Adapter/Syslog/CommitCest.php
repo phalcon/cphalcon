@@ -34,7 +34,7 @@ class CommitCest
     public function loggerAdapterSyslogCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - commit()');
-        $streamName   = $I->getNewFileName('log', 'log');
+        $streamName = $I->getNewFileName('log', 'log');
         $adapter    = new Syslog($streamName);
 
         $adapter->begin();
@@ -59,7 +59,7 @@ class CommitCest
     public function loggerAdapterSyslogCommitNoTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - commit() - no transaction');
-        $streamName   = $I->getNewFileName('log', 'log');
+        $streamName = $I->getNewFileName('log', 'log');
 
         try {
             $adapter = new Syslog($streamName);

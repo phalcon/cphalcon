@@ -44,15 +44,15 @@ class LogCest
 
         $levels = [
             Logger::ALERT     => 'alert',
-			Logger::CRITICAL  => 'critical',
-			Logger::DEBUG     => 'debug',
-			Logger::EMERGENCY => 'emergency',
-			Logger::ERROR     => 'error',
-			Logger::INFO      => 'info',
-			Logger::NOTICE    => 'notice',
-			Logger::WARNING   => 'warning',
-			Logger::CUSTOM    => 'custom',
-		];
+            Logger::CRITICAL  => 'critical',
+            Logger::DEBUG     => 'debug',
+            Logger::EMERGENCY => 'emergency',
+            Logger::ERROR     => 'error',
+            Logger::INFO      => 'info',
+            Logger::NOTICE    => 'notice',
+            Logger::WARNING   => 'warning',
+            Logger::CUSTOM    => 'custom',
+        ];
 
         foreach ($levels as $level => $levelName) {
             $logger->log($level, 'Message ' . $levelName);
