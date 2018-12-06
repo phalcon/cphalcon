@@ -12,7 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class LogCest
@@ -32,6 +36,41 @@ class LogCest
     public function loggerLog(UnitTester $I)
     {
         $I->wantToTest('Logger - log()');
-        $I->skipTest('Need implementation');
+        $logPath  = outputFolder('tests/logs/');
+        $fileName = $I->getNewFileName('log', 'log');
+        $adapter  = new Stream($logPath . $fileName);
+
+        $logger = new Logger('my-logger', ['one' => $adapter]);
+
+        $levels = [
+            Logger::ALERT     => 'alert',
+			Logger::CRITICAL  => 'critical',
+			Logger::DEBUG     => 'debug',
+			Logger::EMERGENCY => 'emergency',
+			Logger::ERROR     => 'error',
+			Logger::INFO      => 'info',
+			Logger::NOTICE    => 'notice',
+			Logger::WARNING   => 'warning',
+			Logger::CUSTOM    => 'custom',
+		];
+
+        foreach ($levels as $level => $levelName) {
+            $logger->log($level, 'Message ' . $levelName);
+        }
+
+        $I->amInPath($logPath);
+        $I->openFile($fileName);
+
+        foreach ($levels as $levelName) {
+            $expected = sprintf(
+                '[%s][%s] Message %s',
+                date('D, d M y H:i:s O'),
+                $levelName,
+                $levelName
+            );
+
+            $I->seeInThisFile($expected);
+        }
+        $I->safeDeleteFile($fileName);
     }
 }
