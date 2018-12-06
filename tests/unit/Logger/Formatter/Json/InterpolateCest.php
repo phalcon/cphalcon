@@ -69,8 +69,9 @@ class InterpolateCest
         $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
 
         $expected = sprintf(
-            '{"type":"debug","message":"The sky is blue","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time)
+            '{"type":"debug","message":"The sky is blue","timestamp":"%s"}%s',
+            date('D, d M y H:i:s O', $time),
+            PHP_EOL
         );
         $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);

@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Adapter\File;
 use UnitTester;
 
 /**
@@ -32,6 +35,43 @@ class GetAdapterCest
     public function loggerGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Logger - getAdapter()');
-        $I->skipTest('Need implementation');
+        $fileName1  = $I->getNewFileName('log', 'log');
+        $outputPath = outputFolder('tests/logs/');
+        $adapter1   = new File($outputPath . $fileName1);
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter1,
+            ]
+        );
+
+
+        $class  = File::class;
+        $actual = $logger->getAdapter('one');
+        $I->assertInstanceOf($class, $actual);
+
+        $I->safeDeleteFile($outputPath . $fileName1);
+    }
+
+    /**
+     * Tests Phalcon\Logger :: getAdapter() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function loggerGetAdapterUnknown(UnitTester $I)
+    {
+        $I->wantToTest('Logger - getAdapter() - unknown');
+
+        $I->expectThrowable(
+            new Exception('Adapter does not exist for this logger'),
+            function () {
+                $logger = new Logger('my-logger');
+                $logger->getAdapter('unknown');
+            }
+        );
     }
 }
