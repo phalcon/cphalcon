@@ -103,10 +103,9 @@ class Syslog extends AbstractAdapter
 	/**
 	 * Processes the message i.e. writes it to the syslog
 	 */
-	public function process(<Item> item)
+	public function process(<Item> item) -> void
 	{
-		var name, facility, formatter, level, message, opened, option, result
-		;
+		var name, facility, formatter, level, message, opened, option, result;
 
 		let formatter = this->getFormatter(),
 			message   = formatter->format(item);

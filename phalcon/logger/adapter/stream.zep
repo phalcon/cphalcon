@@ -103,7 +103,7 @@ class Stream extends AbstractAdapter
 	/**
 	 * Processes the message i.e. writes it to the file
 	 */
-	public function process(<Item> item)
+	public function process(<Item> item) -> void
 	{
 		var formatter, formattedMessage;
 

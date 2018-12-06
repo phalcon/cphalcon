@@ -48,7 +48,7 @@ interface AdapterInterface
 	/**
  	 * Processes the message in the adapter
  	 */
-	public function process(<Item> item) -> bool;
+	public function process(<Item> item) -> void;
 
 	/**
  	 * Rollbacks the internal transaction
