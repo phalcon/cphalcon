@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use Phalcon\Logger;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Formatter\FormatterInterface;
@@ -47,18 +48,33 @@ class Syslog extends AbstractAdapter
 	protected defaultFormatter = "Syslog";
 
     /**
+     * @var int
+     */
+	protected facility = 0;
+
+    /**
+     * @var string
+     */
+	protected name = "";
+
+    /**
      * @var bool
      */
 	protected opened = false;
+
+    /**
+     * @var int
+     */
+	protected option = 0;
 
 	/**
 	 * Phalcon\Logger\Adapter\Syslog constructor
 	 */
 	public function __construct(string! name, array options = [])
 	{
-		var adapter, option, facility;
+		var option, facility;
 
-        if !fetch option, options["option"] {
+        if fetch option, options["option"] {
             let option = LOG_ODELAY;
         }
 
@@ -66,10 +82,9 @@ class Syslog extends AbstractAdapter
             let facility = LOG_USER;
         }
 
-        let adapter = name;
-
-        openlog(adapter, option, facility);
-        let this->opened = true;
+        let this->name     = name,
+        	this->facility = facility,
+        	this->option   = option;
 	}
 
 	/**
@@ -89,15 +104,62 @@ class Syslog extends AbstractAdapter
 	 */
 	public function process(<Item> item)
 	{
-		var formatter, formattedMessage;
+		var name, facility, formatter, level, message, opened, option, result
+		;
 
-		let formatter        = this->getFormatter();
-		let formattedMessage = formatter->format(item);
+		let formatter = this->getFormatter(),
+			message   = formatter->format(item);
 
-		if typeof formattedMessage !== "array" {
+		if typeof message !== "array" {
 			throw new Exception("The formatted message is not valid");
 		}
 
-		syslog(formattedMessage[0], formattedMessage[1]);
+		let name     = this->name,
+			facility = this->facility,
+			option   = this->option;
+
+		let result = openlog(name, option, facility);
+
+		if (!result) {
+            throw new \LogicException(
+            	sprintf(
+            		"Cannot open syslog for name [%s] and facility [%s]",
+            		name,
+            		facility
+				)
+			);
+        }
+
+		let opened 		 = true,
+			this->opened = opened,
+			level 		 = this->logLevelToSyslog(message[1]);
+
+		syslog(level, message[1]);
+	}
+
+	/**
+	 * Translates a Logger level to a Syslog level
+	 */
+	private function logLevelToSyslog(string level) -> int
+	{
+		var levels, result;
+
+		let levels = [
+			Logger::ALERT     : LOG_ALERT,
+			Logger::CRITICAL  : LOG_CRIT,
+			Logger::CUSTOM    : LOG_ERR,
+			Logger::DEBUG     : LOG_DEBUG,
+			Logger::EMERGENCY : LOG_EMERG,
+			Logger::ERROR     : LOG_ERR,
+			Logger::INFO      : LOG_INFO,
+			Logger::NOTICE    : LOG_NOTICE,
+			Logger::WARNING   : LOG_WARNING
+		];
+
+		if !fetch result, levels[level] {
+			let result = LOG_ERR;
+		}
+
+		return result;
 	}
 }
