@@ -10,35 +10,34 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
+namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\Syslog;
-use Phalcon\Logger\Item;
+use Phalcon\Logger\Adapter\Noop;
 use UnitTester;
 
 /**
- * Class CloseCest
+ * Class BeginCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class CloseCest
+class BeginCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: close()
+     * Tests Phalcon\Logger\Adapter\Noop :: begin()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterSyslogClose(UnitTester $I)
+    public function loggerAdapterNoopBegin(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Syslog - close()');
-        $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
+        $I->wantToTest('Logger\Adapter\Noop - begin()');
+        $adapter    = new Noop();
 
-        $actual = $adapter->close();
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
         $I->assertTrue($actual);
     }
 }
