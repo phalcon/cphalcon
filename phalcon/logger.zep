@@ -18,20 +18,15 @@ use Phalcon\Logger\Exception;
 
 class Logger implements LoggerInterface
 {
-	const ALERT 	= 2;
-	const CRITICAL 	= 1;
-	const DEBUG 	= 7;
+	const ALERT     = 2;
+	const CRITICAL  = 1;
+	const CUSTOM    = 8;
+	const DEBUG     = 7;
 	const EMERGENCY = 0;
-	const ERROR 	= 3;
-	const INFO 		= 6;
-	const NOTICE 	= 5;
-	const WARNING 	= 4;
-	const CUSTOM 	= 8;
-
-    /**
-     * @var string
-     */
-    protected name = "";
+	const ERROR     = 3;
+	const INFO      = 6;
+	const NOTICE    = 5;
+	const WARNING   = 4;
 
     /**
      * The adapter stack
@@ -39,6 +34,18 @@ class Logger implements LoggerInterface
      * @var AdapterInterface[]
      */
     protected adapters = [];
+
+    /**
+     * @var string
+     */
+    protected name = "";
+
+    /**
+     * The excluded adapters for this log process
+     *
+     * @var AdapterInterface[]
+     */
+    protected excluded = [];
 
 	/**
 	 * Constructor.
@@ -139,12 +146,40 @@ class Logger implements LoggerInterface
     }
 
     /**
+     * System is unusable.
+     *
+     * @param string message
+     * @param array  context
+     *
+     * @return void
+     */
+    public function excludeAdapters(array adapters = []) -> <Logger>
+    {
+    	var adapter, registered, excluded;
+
+    	let registered = this->getAdapters();
+
+    	/**
+    	 * Loop through what has been passed. Check these names with
+    	 * the registered adapters. If they match, add them to the
+    	 * this->excluded array
+		 */
+    	for adapter in adapters {
+    		if fetch excluded, registered[adapter] {
+    			let this->excluded[] = excluded;
+    		}
+    	}
+
+        return this;
+    }
+
+    /**
      * Returns an adapter from the stack
      *
      * @param string name The name of the adapter
      *
      * @return <AdapterInterface>
-     * @throws <Logger\Exception>
+     * @throws <Exception>
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
@@ -300,9 +335,18 @@ class Logger implements LoggerInterface
 		}
 
 		let item = new Item(message, levelName, level, time(), context);
+
+		/**
+		 * @todo Check if any adapters were excluded and log only to them
+		 */
 		for adapter in this->adapters {
     		adapter->process(item);
     	}
+
+		/**
+		 * Clear the excluded array since we made the call now
+		 */
+		let this->excluded = [];
 
     	return true;
 	}
