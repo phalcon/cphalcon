@@ -10,75 +10,117 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\Adapter\AbstractAdapter;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Item;
 
 /**
  * Phalcon\Logger\Adapter\Stream
  *
- * Sends logs to a valid PHP stream
+ * Adapter to store logs in plain text files
  *
- * <code>
- * use Phalcon\Logger;
- * use Phalcon\Logger\Adapter\Stream;
- *
- * $logger = new Stream("php://stderr");
+ *<code>
+ * $logger = new \Phalcon\Logger\Adapter\Stream("app/logs/test.log");
  *
  * $logger->log("This is a message");
- * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
- * </code>
+ *
+ * $logger->close();
+ *</code>
  */
 class Stream extends AbstractAdapter
 {
 	/**
-	 * File handler resource
+	 * Stream handler resource
 	 *
-	 * @var resource
+	 * @var resource|null
 	 */
-	protected stream;
+	protected handler = null;
 
+	/**
+	 * The file open mode. Defaults to "ab"
+	 *
+	 * @var string
+	 */
+	protected mode = "ab";
+
+	/**
+	 * Stream name
+	 *
+	 * @var string
+	 */
+	protected name { get };
+
+	/**
+	 * Path options
+	 *
+	 * @var array
+	 */
+	protected options;
+
+	/**
+	 * Constructor. Accepts the name and some options
+	 */
 	public function __construct(string! name, array options = [])
 	{
-		var mode, stream;
+		var mode;
 
+		/**
+		 * Mode
+		 */
 		if fetch mode, options["mode"] {
 			if memstr(mode, "r") {
-				throw new Exception("Stream must be opened in append or write mode");
+				throw new Exception("Adapter cannot be opened in read mode");
 			}
-		} else {
+		}
+
+		if mode === null {
 			let mode = "ab";
 		}
 
-		/**
-		 * We use 'fopen' to respect to open-basedir directive
-		 */
-		let stream = fopen(name, mode);
-		if !stream {
-			throw new Exception("Can't open stream '" . name . "'");
-		}
-
-		let this->stream = stream;
+		let this->name = name,
+			this->mode = mode;
 	}
 
+	/**
+	 * Closes the stream
+	 */
 	public function close() -> bool
 	{
-		return fclose(this->stream);
-	}
+		bool result = true;
 
-	public function process(<Item> item)
-	{
-		var stream, formatter;
-
-		let stream    = this->stream,
-			formatter = this->getFormatter();
-
-		if typeof stream !== "resource" {
-			throw new Exception("Cannot send message to the log because it is invalid");
+		if is_resource(this->handler) {
+			let result = fclose(this->handler);
 		}
 
-		fwrite(stream, formatter->format(item));
+		let this->handler = null;
+
+		return result;
+	}
+
+	/**
+	 * Processes the message i.e. writes it to the file
+	 */
+	public function process(<Item> item)
+	{
+		var formatter, formattedMessage;
+
+		if !is_resource(this->handler) {
+			let this->handler = fopen(this->name, this->mode);
+
+            if !is_resource(this->handler) {
+                let $this->handler = null;
+                throw new \UnexpectedValueException(
+                	sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
+				);
+            }
+		}
+
+		let formatter        = this->getFormatter(),
+			formattedMessage = formatter->format(item);
+
+		fwrite(this->handler, formattedMessage);
 	}
 }

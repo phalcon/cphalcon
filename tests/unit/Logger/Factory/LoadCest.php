@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Unit\Logger\Factory;
 
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;

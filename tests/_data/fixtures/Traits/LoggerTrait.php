@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use UnitTester;
 use function outputFolder;
@@ -33,7 +33,7 @@ trait LoggerTrait
     {
         $logPath  = outputFolder('tests/logs/');
         $fileName = $I->getNewFileName('log', 'log');
-        $adapter  = new File($logPath . $fileName);
+        $adapter  = new Stream($logPath . $fileName);
 
         $logger = new Logger('my-logger', ['one' => $adapter]);
         $logger->{$level}('Hello');

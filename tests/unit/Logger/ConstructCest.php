@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use Psr\Log\LoggerInterface;
@@ -75,12 +75,12 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-28
      */
-    public function loggerConstructFileWithJsonConstants(UnitTester $I)
+    public function loggerConstructStreamWithJsonConstants(UnitTester $I)
     {
         $I->wantToTest('Logger :: __construct() - file with json formatter');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new File($outputPath . $fileName);
+        $adapter    = new Stream($outputPath . $fileName);
         $adapter->setFormatter(new Json());
 
         $logger = new Logger(

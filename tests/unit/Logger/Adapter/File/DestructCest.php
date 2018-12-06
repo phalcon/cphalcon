@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\File;
+namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use UnitTester;
 
@@ -22,16 +22,16 @@ use UnitTester;
 class DestructCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: __destruct()
+     * Tests Phalcon\Logger\Adapter\Stream :: __destruct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileDestruct(UnitTester $I)
+    public function loggerAdapterStreamDestruct(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - __destruct()');
+        $I->wantToTest('Logger\Adapter\Stream - __destruct()');
         $I->skipTest('Need implementation');
     }
 }

@@ -10,40 +10,35 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
-use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
 /**
- * Class RollbackCest
+ * Class BeginCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class RollbackCest
+class BeginCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: rollback()
+     * Tests Phalcon\Logger\Adapter\Syslog :: begin()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterStreamRollback(UnitTester $I)
+    public function loggerAdapterSyslogBegin(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Stream - rollback()');
+        $I->wantToTest('Logger\Adapter\Syslog - begin()');
         $streamName   = $I->getNewFileName('log', 'log');
-        $adapter    = new Stream($streamName);
+        $adapter    = new Syslog($streamName);
 
         $adapter->begin();
 
         $actual = $adapter->inTransaction();
         $I->assertTrue($actual);
-
-        $adapter->rollback();
-
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
     }
 }

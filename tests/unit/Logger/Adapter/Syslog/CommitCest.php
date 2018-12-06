@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
-use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Exception;
 use UnitTester;
 
@@ -24,18 +24,18 @@ use UnitTester;
 class CommitCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: commit()
+     * Tests Phalcon\Logger\Adapter\Syslog :: commit()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterStreamCommit(UnitTester $I)
+    public function loggerAdapterSyslogCommit(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Stream - commit()');
+        $I->wantToTest('Logger\Adapter\Syslog - commit()');
         $streamName   = $I->getNewFileName('log', 'log');
-        $adapter    = new Stream($streamName);
+        $adapter    = new Syslog($streamName);
 
         $adapter->begin();
 
@@ -49,20 +49,20 @@ class CommitCest
     }
 
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: commit() - no transaction
+     * Tests Phalcon\Logger\Adapter\Syslog :: commit() - no transaction
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterStreamCommitNoTransaction(UnitTester $I)
+    public function loggerAdapterSyslogCommitNoTransaction(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Stream - commit() - no transaction');
+        $I->wantToTest('Logger\Adapter\Syslog - commit() - no transaction');
         $streamName   = $I->getNewFileName('log', 'log');
 
         try {
-            $adapter = new Stream($streamName);
+            $adapter = new Syslog($streamName);
 
             $actual = $adapter->inTransaction();
             $I->assertFalse($actual);
