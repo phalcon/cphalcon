@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
+use const PHP_EOL;
 use UnitTester;
 
 /**
@@ -41,8 +42,9 @@ class FormatCest
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time)
+            '{"type":"debug","message":"log message","timestamp":"%s"}%s',
+            date('D, d M y H:i:s O', $time),
+            PHP_EOL
         );
         $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);
@@ -65,8 +67,9 @@ class FormatCest
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('YmdHis', $time)
+            '{"type":"debug","message":"log message","timestamp":"%s"}%s',
+            date('YmdHis', $time),
+            PHP_EOL
         );
         $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);

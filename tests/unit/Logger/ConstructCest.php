@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
+use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Formatter\Json;
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use Psr\Log\LoggerInterface;
 use UnitTester;
@@ -61,5 +63,51 @@ class ConstructCest
         $I->assertEquals(5, Logger::NOTICE);
         $I->assertEquals(4, Logger::WARNING);
         $I->assertEquals(8, Logger::CUSTOM);
+    }
+
+    /**
+     * Tests Phalcon\Logger :: __construct() - file with json formatter
+     *
+     * @param UnitTester $I
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/2262
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2016-01-28
+     */
+    public function loggerConstructFileWithJsonConstants(UnitTester $I)
+    {
+        $I->wantToTest('Logger :: __construct() - file with json formatter');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = outputFolder('tests/logs/');
+        $adapter    = new File($outputPath . $fileName);
+        $adapter->setFormatter(new Json());
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $time = time();
+        $logger->debug('This is a message');
+        $logger->log(Logger::ERROR, "This is an error");
+        $logger->error("This is another error");
+
+        $I->amInPath($outputPath);
+        $I->openFile($fileName);
+
+        $expected = sprintf(
+            '{"type":"debug","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
+            '{"type":"error","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
+            '{"type":"error","message":"This is another error","timestamp":"%s"}',
+            date('D, d M y H:i:s O', $time),
+            date('D, d M y H:i:s O', $time),
+            date('D, d M y H:i:s O', $time)
+        );
+
+        $I->seeInThisFile($expected);
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

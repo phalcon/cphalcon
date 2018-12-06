@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\File;
 use UnitTester;
 
 /**
@@ -32,6 +34,29 @@ class GetAdaptersCest
     public function loggerGetAdapters(UnitTester $I)
     {
         $I->wantToTest('Logger - getAdapters()');
-        $I->skipTest('Need implementation');
+        $fileName1  = $I->getNewFileName('log', 'log');
+        $fileName2  = $I->getNewFileName('log', 'log');
+        $outputPath = outputFolder('tests/logs/');
+        $adapter1   = new File($outputPath . $fileName1);
+        $adapter2   = new File($outputPath . $fileName2);
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter1,
+                'two' => $adapter2,
+            ]
+        );
+
+        $expected = 2;
+        $adapters = $logger->getAdapters();
+        $I->assertCount($expected, $adapters);
+
+        $class = File::class;
+        $I->assertInstanceOf($class, $adapters['one']);
+        $I->assertInstanceOf($class, $adapters['two']);
+
+        $I->safeDeleteFile($outputPath . $fileName1);
+        $I->safeDeleteFile($outputPath . $fileName2);
     }
 }
