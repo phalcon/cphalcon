@@ -21,6 +21,25 @@ use Phalcon\Logger\Item;
 class Json extends AbstractFormatter
 {
 	/**
+	 * Default date format
+	 *
+	 * @var string
+	 */
+	protected dateFormat = "D, d M y H:i:s O" { get, set };
+
+	/**
+	 * Phalcon\Logger\Formatter\Json construct
+	 *
+	 * @param string dateFormat
+	 */
+	public function __construct(string dateFormat = "") -> void
+	{
+		if dateFormat {
+			let this->dateFormat = dateFormat;
+		}
+	}
+
+	/**
 	 * Applies a format to a message before sent it to the internal log
 	 *
 	 * @param <Item> item
@@ -41,8 +60,8 @@ class Json extends AbstractFormatter
 			[
 				"type"      : item->getName(),
 				"message"   : message,
-				"timestamp" : item->getTime()
+				"timestamp" : date(this->dateFormat, item->getTime())
 			]
-		) . PHP_EOL;
+		);
 	}
 }
