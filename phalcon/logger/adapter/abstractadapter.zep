@@ -81,23 +81,26 @@ abstract class AbstractAdapter implements AdapterInterface
  	 */
 	public function commit() -> <AdapterInterface>
 	{
-		var item;
+		var inTransaction, item, queue;
 
-		if !this->inTransaction {
+		let inTransaction = this->inTransaction,
+			queue         = this->queue;
+
+		if !inTransaction {
 			throw new Exception("There is no active transaction");
 		}
-
-		let this->inTansaction = false;
 
 		/**
 		 * Check if the queue has something to log
 		 */
-		for item in this->queue {
+		for item in queue {
 			this->process(item);
 		}
 
 		// Clear logger queue at commit
-		let this->queue = [];
+		let inTransaction = false,
+			this->queue = [],
+			this->inTransaction = inTransaction;
 
 		return this;
 	}
@@ -135,15 +138,17 @@ abstract class AbstractAdapter implements AdapterInterface
  	 */
 	public function rollback() -> <AdapterInterface>
 	{
-		var transaction;
+		var inTransaction;
 
-		let transaction = this->inTransaction;
-		if !transaction {
+		let inTransaction = this->inTransaction;
+
+		if !inTransaction {
 			throw new Exception("There is no active transaction");
 		}
 
-		let this->inTransaction = false,
-			this->queue         = [];
+		let this->queue         = [],
+			inTransaction       = false,
+			this->inTransaction = inTransaction;
 
 		return this;
 	}
