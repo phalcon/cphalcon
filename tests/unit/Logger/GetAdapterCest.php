@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use UnitTester;
 
 /**

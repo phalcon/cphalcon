@@ -14,8 +14,8 @@ namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
-use function outputFolder;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class AddAdapterCest
@@ -39,8 +39,8 @@ class AddAdapterCest
         $fileName1  = $I->getNewFileName('log', 'log');
         $fileName2  = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter1  = new Stream($outputPath . $fileName1);
-        $adapter2  = new Stream($outputPath . $fileName2);
+        $adapter1   = new Stream($outputPath . $fileName1);
+        $adapter2   = new Stream($outputPath . $fileName2);
 
         $logger = new Logger('my-logger', ['one' => $adapter1]);
 

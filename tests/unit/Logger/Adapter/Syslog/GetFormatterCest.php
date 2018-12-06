@@ -17,7 +17,6 @@ use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
-use function outputFolder;
 
 /**
  * Class GetFormatterCest

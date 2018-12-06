@@ -38,8 +38,8 @@ class ExcludeAdaptersCest
         $fileName1  = $I->getNewFileName('log', 'log');
         $fileName2  = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter1  = new Stream($outputPath . $fileName1);
-        $adapter2  = new Stream($outputPath . $fileName2);
+        $adapter1   = new Stream($outputPath . $fileName1);
+        $adapter2   = new Stream($outputPath . $fileName2);
 
         $logger = new Logger(
             'my-logger',
@@ -67,7 +67,8 @@ class ExcludeAdaptersCest
          */
         $logger
             ->excludeAdapters(['two'])
-            ->debug('Goodbye');
+            ->debug('Goodbye')
+        ;
 
         $I->amInPath($outputPath);
         $I->openFile($fileName1);
