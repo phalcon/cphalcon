@@ -35,9 +35,9 @@ class File extends AbstractAdapter
 	/**
 	 * File handler resource
 	 *
-	 * @var resource
+	 * @var resource|null
 	 */
-	protected fileHandler;
+	protected fileHandler = null;
 
 	/**
 	 * The file open mode. Defaults to "ab"
@@ -47,6 +47,13 @@ class File extends AbstractAdapter
 	protected mode = "ab";
 
 	/**
+	 * File name
+	 *
+	 * @var string
+	 */
+	protected name { get };
+
+	/**
 	 * Path options
 	 *
 	 * @var array
@@ -54,21 +61,19 @@ class File extends AbstractAdapter
 	protected options;
 
 	/**
-	 * File Path
-	 *
-	 * @var string
+	 * Constructor. Accepts the name and some options
 	 */
-	protected path { get };
-
 	public function __construct(string! name, array options = [])
 	{
-		var mode = null, handler;
+		string mode;
 
-		if typeof options === "array" {
-			if fetch mode, options["mode"] {
-				if memstr(mode, "r") {
-					throw new Exception("Logger must be opened in append or write mode");
-				}
+		/**
+		 * Mode
+		 */
+		if isset(options["mode"]) {
+			let mode = (string) options["mode"];
+			if memstr(mode, "r") {
+				throw new Exception("Adapter cannot be opened in read mode");
 			}
 		}
 
@@ -76,59 +81,47 @@ class File extends AbstractAdapter
 			let mode = "ab";
 		}
 
-		let this->path        = name,
-			this->mode        = mode,
-			this->options     = options,
-			this->fileHandler = handler;
+		let this->name = name,
+			this->mode = mode;
 	}
 
-	public function __wakeup()
+	/**
+	 * Closes the stream
+	 */
+	public function close() -> bool
 	{
-		var path, mode;
+		bool result = true;
 
-		let path = this->path;
-		if typeof path !== "string" {
-			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+		if is_resource(this->fileHandler) {
+			let result = fclose(this->fileHandler);
 		}
 
-		if !fetch mode, this->options["mode"] {
-			let mode = "ab";
-		}
+		let this->fileHandler = null;
 
-		if typeof mode !== "string" {
-			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
-		}
-
-		if memstr(mode, "r") {
-			throw new Exception("Logger must be opened in append or write mode");
-		}
-
-		/**
-		 * Re-open the file handler if the logger was serialized
-		 */
-		let this->fileHandler = fopen(path, mode);
+		return result;
 	}
 
-	public function close() -> boolean
-	{
-		return true;
-	}
-
+	/**
+	 * Processes the message i.e. writes it to the file
+	 */
 	public function process(<Item> item)
 	{
-		var handler, formatter;
+		var formatter, formattedMessage;
 
-		let formatter = this->getFormatter();
+		if !is_resource(this->fileHandler) {
+			let this->fileHandler = fopen(this->name, this->mode);
 
-		/**
-		 * We use 'fopen' to respect to open-basedir directive
-		 */
-		let handler = fopen(this->path, this->mode);
-		if typeof handler != "resource" {
-			throw new Exception("Can't open log file at '" . this->path . "'");
+            if !is_resource(this->fileHandler) {
+                let $this->fileHandler = null;
+                throw new \UnexpectedValueException(
+                	sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
+				);
+            }
 		}
 
-		fwrite(handler, formatter->format(item));
-		fclose(handler);
+		let formatter        = this->getFormatter();
+		let formattedMessage = formatter->format(item);
+
+		fwrite(this->fileHandler, formattedMessage);
 	}
 }
