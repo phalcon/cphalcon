@@ -165,8 +165,10 @@ class Logger implements LoggerInterface
     	 * this->excluded array
 		 */
     	for adapter in adapters {
-    		if fetch excluded, registered[adapter] {
-    			let this->excluded[] = excluded;
+    		if typeof adapter === "string" {
+				if fetch excluded, registered[adapter] {
+					let this->excluded[] = excluded;
+				}
     		}
     	}
 
