@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\File;
+namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -23,19 +23,19 @@ use UnitTester;
 class GetNameCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: getName()
+     * Tests Phalcon\Logger\Adapter\Stream :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileGetName(UnitTester $I)
+    public function loggerAdapterStreamGetName(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - getName()');
+        $I->wantToTest('Logger\Adapter\Stream - getName()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new File($outputPath . $fileName);
+        $adapter    = new Stream($outputPath . $fileName);
 
         $expected = $outputPath . $fileName;
         $actual   = $adapter->getName();

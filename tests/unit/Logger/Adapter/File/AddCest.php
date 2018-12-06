@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\File;
+namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use UnitTester;
 
@@ -22,16 +22,16 @@ use UnitTester;
 class AddCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: add()
+     * Tests Phalcon\Logger\Adapter\Stream :: add()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileAdd(UnitTester $I)
+    public function loggerAdapterStreamAdd(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - add()');
+        $I->wantToTest('Logger\Adapter\Stream - add()');
         $I->skipTest('Need implementation');
     }
 }

@@ -10,10 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
@@ -27,20 +27,20 @@ use function outputFolder;
 class SetFormatterCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: setFormatter()
+     * Tests Phalcon\Logger\Adapter\Syslog :: setFormatter()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterStreamSetFormatter(UnitTester $I)
+    public function loggerAdapterSyslogSetFormatter(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Stream - setFormatter()');
+        $I->wantToTest('Logger\Adapter\Syslog - setFormatter()');
 
         $streamName = $I->getNewFileName('log', 'log');
 
-        $adapter = new Stream($streamName);
+        $adapter = new Syslog($streamName);
         $adapter->setFormatter(new Line());
 
         $class  = FormatterInterface::class;

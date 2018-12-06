@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -37,8 +37,8 @@ class GetAdaptersCest
         $fileName1  = $I->getNewFileName('log', 'log');
         $fileName2  = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new File($outputPath . $fileName1);
-        $adapter2   = new File($outputPath . $fileName2);
+        $adapter1   = new Stream($outputPath . $fileName1);
+        $adapter2   = new Stream($outputPath . $fileName2);
 
         $logger = new Logger(
             'my-logger',
@@ -52,7 +52,7 @@ class GetAdaptersCest
         $adapters = $logger->getAdapters();
         $I->assertCount($expected, $adapters);
 
-        $class = File::class;
+        $class = Stream::class;
         $I->assertInstanceOf($class, $adapters['one']);
         $I->assertInstanceOf($class, $adapters['two']);
 

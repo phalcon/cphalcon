@@ -13,9 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
-use function print_r;
 use UnitTester;
 
 /**
@@ -40,8 +39,8 @@ class RemoveAdapterCest
         $fileName1  = $I->getNewFileName('log', 'log');
         $fileName2  = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new File($outputPath . $fileName1);
-        $adapter2   = new File($outputPath . $fileName2);
+        $adapter1   = new Stream($outputPath . $fileName1);
+        $adapter2   = new Stream($outputPath . $fileName2);
 
         $logger = new Logger(
             'my-logger',
@@ -80,7 +79,7 @@ class RemoveAdapterCest
         $outputPath = outputFolder('tests/logs/');
 
         try {
-            $adapter1   = new File($outputPath . $fileName1);
+            $adapter1   = new Stream($outputPath . $fileName1);
 
             $logger = new Logger(
                 'my-logger',

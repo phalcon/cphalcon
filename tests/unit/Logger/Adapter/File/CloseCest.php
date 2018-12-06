@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\File;
+namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use UnitTester;
 
@@ -22,16 +22,16 @@ use UnitTester;
 class CloseCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: close()
+     * Tests Phalcon\Logger\Adapter\Stream :: close()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileClose(UnitTester $I)
+    public function loggerAdapterStreamClose(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - close()');
+        $I->wantToTest('Logger\Adapter\Stream - close()');
         $I->skipTest('Need implementation');
     }
 }

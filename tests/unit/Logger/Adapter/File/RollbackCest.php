@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\File;
+namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -23,19 +23,19 @@ use UnitTester;
 class RollbackCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: rollback()
+     * Tests Phalcon\Logger\Adapter\Stream :: rollback()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileRollback(UnitTester $I)
+    public function loggerAdapterStreamRollback(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - rollback()');
+        $I->wantToTest('Logger\Adapter\Stream - rollback()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new File($outputPath . $fileName);
+        $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
 

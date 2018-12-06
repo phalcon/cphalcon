@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -37,7 +37,7 @@ class GetAdapterCest
         $I->wantToTest('Logger - getAdapter()');
         $fileName1  = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new File($outputPath . $fileName1);
+        $adapter1   = new Stream($outputPath . $fileName1);
 
         $logger = new Logger(
             'my-logger',
@@ -47,7 +47,7 @@ class GetAdapterCest
         );
 
 
-        $class  = File::class;
+        $class  = Stream::class;
         $actual = $logger->getAdapter('one');
         $I->assertInstanceOf($class, $actual);
 

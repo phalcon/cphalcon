@@ -10,28 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
 use UnitTester;
 
 /**
- * Class CloseCest
+ * Class AddCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class CloseCest
+class AddCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: close()
+     * Tests Phalcon\Logger\Adapter\Syslog :: add()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterStreamClose(UnitTester $I)
+    public function loggerAdapterSyslogAdd(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Stream - close()');
+        $I->wantToTest('Logger\Adapter\Syslog - add()');
         $I->skipTest('Need implementation');
     }
 }

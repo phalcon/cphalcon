@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\File;
+namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger\Adapter\File;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use UnitTester;
 
@@ -24,19 +24,19 @@ use UnitTester;
 class CommitCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\File :: commit()
+     * Tests Phalcon\Logger\Adapter\Stream :: commit()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileCommit(UnitTester $I)
+    public function loggerAdapterStreamCommit(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - commit()');
+        $I->wantToTest('Logger\Adapter\Stream - commit()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new File($outputPath . $fileName);
+        $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
 
@@ -52,21 +52,21 @@ class CommitCest
     }
 
     /**
-     * Tests Phalcon\Logger\Adapter\File :: commit() - no transaction
+     * Tests Phalcon\Logger\Adapter\Stream :: commit() - no transaction
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAdapterFileCommitNoTransaction(UnitTester $I)
+    public function loggerAdapterStreamCommitNoTransaction(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\File - commit() - no transaction');
+        $I->wantToTest('Logger\Adapter\Stream - commit() - no transaction');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputFolder('tests/logs/');
 
         try {
-            $adapter = new File($outputPath . $fileName);
+            $adapter = new Stream($outputPath . $fileName);
 
             $actual = $adapter->inTransaction();
             $I->assertFalse($actual);
