@@ -49,4 +49,3 @@ class GetFormatterCest
         $I->assertInstanceOf($class, $actual);
     }
 }
-
