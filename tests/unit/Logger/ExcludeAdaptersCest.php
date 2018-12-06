@@ -14,27 +14,26 @@ namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File;
-use function outputFolder;
 use UnitTester;
 
 /**
- * Class AddAdapterCest
+ * Class ExcludeAdaptersCest
  *
  * @package Phalcon\Test\Unit\Logger
  */
-class AddAdapterCest
+class ExcludeAdaptersCest
 {
     /**
-     * Tests Phalcon\Logger :: addAdapter()
+     * Tests Phalcon\Logger :: excludeAdapters()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerAddAdapter(UnitTester $I)
+    public function loggerExcludeAdapters(UnitTester $I)
     {
-        $I->wantToTest('Logger - addAdapter()');
+        $I->wantToTest('Logger - excludeAdapters()');
 
         $fileName1  = $I->getNewFileName('log', 'log');
         $fileName2  = $I->getNewFileName('log', 'log');
@@ -42,27 +41,42 @@ class AddAdapterCest
         $adapter1  = new File($outputPath . $fileName1);
         $adapter2  = new File($outputPath . $fileName2);
 
-        $logger = new Logger('my-logger', ['one' => $adapter1]);
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter1,
+                'two' => $adapter2,
+            ]
+        );
 
-        $expected = 1;
-        $actual   = $logger->getAdapters();
-        $I->assertCount($expected, $actual);
-
-        $logger->addAdapter('two', $adapter2);
-        $expected = 2;
-        $actual   = $logger->getAdapters();
-        $I->assertCount($expected, $actual);
-
+        /**
+         * Log into both
+         */
         $logger->debug('Hello');
 
         $I->amInPath($outputPath);
         $I->openFile($fileName1);
         $I->seeInThisFile('Hello');
-        $I->safeDeleteFile($fileName1);
 
         $I->amInPath($outputPath);
         $I->openFile($fileName2);
         $I->seeInThisFile('Hello');
+
+        /**
+         * Exclude a logger
+         */
+        $logger
+            ->excludeAdapters(['two'])
+            ->debug('Goodbye');
+
+        $I->amInPath($outputPath);
+        $I->openFile($fileName1);
+        $I->seeInThisFile('Goodbye');
+        $I->safeDeleteFile($fileName1);
+
+        $I->amInPath($outputPath);
+        $I->openFile($fileName2);
+        $I->seeInThisFile('Goodbye');
         $I->safeDeleteFile($fileName2);
     }
 }
