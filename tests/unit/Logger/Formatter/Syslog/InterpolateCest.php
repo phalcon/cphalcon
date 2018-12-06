@@ -10,10 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger\Formatter\Line;
+namespace Phalcon\Test\Unit\Logger\Formatter\Syslog;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Formatter\Line;
+use Phalcon\Logger\Formatter\Syslog;
 use Phalcon\Logger\Item;
 use UnitTester;
 
@@ -25,17 +25,17 @@ use UnitTester;
 class InterpolateCest
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: interpolate()
+     * Tests Phalcon\Logger\Formatter\Syslog :: interpolate()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerFormatterLineInterpolate(UnitTester $I)
+    public function loggerFormatterSyslogInterpolate(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - interpolate()");
-        $formatter = new Line();
+        $I->wantToTest("Logger\Formatter\Syslog - interpolate()");
+        $formatter = new Syslog();
 
         $message = 'The sky is {color}';
         $context = [
@@ -48,17 +48,17 @@ class InterpolateCest
     }
 
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: interpolate() - format
+     * Tests Phalcon\Logger\Formatter\Syslog :: interpolate() - format
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function loggerFormatterLineInterpolateFormat(UnitTester $I)
+    public function loggerFormatterSyslogInterpolateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - interpolate() - format()");
-        $formatter = new Line();
+        $I->wantToTest("Logger\Formatter\Syslog - interpolate() - format()");
+        $formatter = new Syslog();
 
         $message = 'The sky is {color}';
         $context = [
@@ -68,7 +68,7 @@ class InterpolateCest
         $time = time();
         $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
 
-        $expected = sprintf('[%s][debug] The sky is blue', date('D, d M y H:i:s O', $time)) . PHP_EOL;
+        $expected = [Logger::DEBUG, 'The sky is blue'];
         $actual   = $formatter->format($item);
         $I->assertEquals($expected, $actual);
     }
