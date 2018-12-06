@@ -15,7 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 use function outputFolder;
 
@@ -34,9 +33,7 @@ trait LoggerTrait
     {
         $logPath  = outputFolder('tests/logs/');
         $fileName = $I->getNewFileName('log', 'log');
-
-        $adapter  = new File($logPath . $fileName, ['mode' => 'ab']);
-        $adapter->setFormatter(new Line());
+        $adapter  = new File($logPath . $fileName);
 
         $logger = new Logger('my-logger', ['one' => $adapter]);
         $logger->{$level}('Hello');
