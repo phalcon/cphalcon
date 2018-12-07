@@ -36,7 +36,7 @@ class GetAssetKeyCest
     public function assetsAssetGetAssetKeyCss(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset - getAssetKey() - css");
-        $asset = new Asset('css', 'css/docs.css');
+        $asset    = new Asset('css', 'css/docs.css');
         $expected = md5('css:css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);
@@ -53,7 +53,7 @@ class GetAssetKeyCest
     public function assetsAssetGetAssetKeyJs(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset - getAssetKey() - js");
-        $asset = new Asset('js', 'js/jquery.js');
+        $asset    = new Asset('js', 'js/jquery.js');
         $expected = md5('js:js/jquery.js');
 
         $this->assetGetAssetKey($I, $asset, $expected);

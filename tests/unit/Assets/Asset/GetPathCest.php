@@ -36,8 +36,8 @@ class GetPathCest
     public function assetsAssetGetPathCss(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset - getPath() - css");
-        $asset = new Asset('css', 'css/docs.css');
-        $expected = md5('css:css/docs.css');
+        $asset    = new Asset('css', 'css/docs.css');
+        $expected = 'css/docs.css';
 
         $this->assetGetPath($I, $asset, $expected);
     }
@@ -53,8 +53,8 @@ class GetPathCest
     public function assetsAssetGetPathJs(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset - getPath() - js");
-        $asset = new Asset('js', 'js/jquery.js');
-        $expected = md5('js:js/jquery.js');
+        $asset    = new Asset('js', 'js/jquery.js');
+        $expected = 'js/jquery.js';
 
         $this->assetGetPath($I, $asset, $expected);
     }

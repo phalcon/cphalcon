@@ -36,7 +36,9 @@ class GetPathCest
     public function assetsAssetJsGetPath(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Js - getPath()");
-        $asset = new Js('js/jquery.js');
-        $this->assetGetPath($I, $asset, 'js');
+        $asset    = new Js('js/jquery.js');
+        $expected = 'js/jquery.js';
+
+        $this->assetGetPath($I, $asset, $expected);
     }
 }

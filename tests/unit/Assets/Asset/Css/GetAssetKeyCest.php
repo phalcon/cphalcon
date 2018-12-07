@@ -36,7 +36,7 @@ class GetAssetKeyCest
     public function assetsAssetCssGetAssetKey(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Css - getAssetKey()");
-        $asset = new Css('css/docs.css');
+        $asset    = new Css('css/docs.css');
         $expected = md5('css:css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);

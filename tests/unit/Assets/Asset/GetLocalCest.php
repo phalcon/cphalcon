@@ -36,7 +36,7 @@ class GetLocalCest
     public function assetsAssetGetLocalCss(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset - getLocal() - css");
-        $asset = new Asset('css', 'css/docs.css');
+        $asset    = new Asset('css', 'css/docs.css');
         $expected = md5('css:css/docs.css');
 
         $this->assetGetLocal($I, $asset, $expected);
@@ -53,7 +53,7 @@ class GetLocalCest
     public function assetsAssetGetLocalJs(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset - getLocal() - js");
-        $asset = new Asset('js', 'js/jquery.js');
+        $asset    = new Asset('js', 'js/jquery.js');
         $expected = md5('js:js/jquery.js');
 
         $this->assetGetLocal($I, $asset, $expected);

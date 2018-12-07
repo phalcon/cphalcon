@@ -36,7 +36,7 @@ class GetAssetKeyCest
     public function assetsAssetJsGetAssetKey(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Js - getAssetKey()");
-        $asset = new Js('js/jquery.js');
+        $asset    = new Js('js/jquery.js');
         $expected = md5('js:js/jquery.js');
 
         $this->assetGetAssetKey($I, $asset, $expected);

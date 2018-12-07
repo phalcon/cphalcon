@@ -47,10 +47,10 @@ trait AssetsTrait
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset
+     * @param string         $expected
      */
-    private function assetGetPath(UnitTester $I, AssetInterface $asset)
+    private function assetGetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $expected = 'js/jquery.js';
         $actual   = $asset->getPath();
         $I->assertEquals($expected, $actual);
     }

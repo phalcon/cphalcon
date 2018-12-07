@@ -36,7 +36,9 @@ class GetPathCest
     public function assetsAssetCssGetPath(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Css - getPath()");
-        $asset = new Css('css/docs.css');
-        $this->assetGetPath($I, $asset, 'css');
+        $asset    = new Css('css/docs.css');
+        $expected = 'css/docs.css';
+
+        $this->assetGetPath($I, $asset, $expected);
     }
 }
