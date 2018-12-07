@@ -12,26 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetAssetKeyCest
  *
- * @package Phalcon\Test\Unit\Assets\Inline\Js
+ * @package Phalcon\Test\Unit\Assets\Inline
  */
 class GetAssetKeyCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Inline\Js :: getAssetKey()
+     * Tests Phalcon\Assets\Inline :: getAssetKey()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineJsGetAssetKey(UnitTester $I)
+    public function assetsInlineGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline\Js - getAssetKey()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Assets\Inline - getAssetKey()');
+        $content = '<script>alert("Hello");</script>';
+        $asset = new Js($content);
+
+        $expected = md5('js:' . $content);
+        $this->assetGetAssetKey($I, $asset, $expected);
     }
 }

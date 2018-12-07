@@ -88,7 +88,7 @@ class ConstructCest
      */
     public function assetsAssetConstructCssFilterSet(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - css filter');
+        $I->wantToTest('Assets\Asset - __construct() - css filter set');
         $asset = new Asset('css', 'css/docs.css', true, false);
 
         $actual = $asset->getFilter();
@@ -194,7 +194,7 @@ class ConstructCest
      */
     public function assetsAssetConstructJsFilterSet(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - js filter');
+        $I->wantToTest('Assets\Asset - __construct() - js filter set');
         $asset = new Asset('js', 'js/jquery.js', true, false);
 
         $actual = $asset->getFilter();

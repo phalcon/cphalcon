@@ -12,26 +12,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class SetAttributesCest
  *
- * @package Phalcon\Test\Unit\Assets\Inline\Js
+ * @package Phalcon\Test\Unit\Assets\Inline
  */
 class SetAttributesCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Inline\Js :: setAttributes()
+     * Tests Phalcon\Assets\Inline :: setAttributes()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineJsSetAttributes(UnitTester $I)
+    public function assetsInlineSetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline\Js - setAttributes()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Assets\Inline - setAttributes()');
+        $content = '<script>alert("Hello");</script>';
+        $asset = new Js($content);
+
+        $expected = ['data-key' => 'phalcon'];
+        $asset->setAttributes($expected);
+        $this->assetGetAttributes($I, $asset, $expected);
     }
 }

@@ -191,6 +191,5 @@ class FilterCest
      */
     public function testAssetsFilterCssmin(UnitTester $I)
     {
-
     }
 }
