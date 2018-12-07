@@ -110,15 +110,15 @@ class Stream extends AbstractAdapter
 		if !is_resource(this->handler) {
 			let this->handler = fopen(this->name, this->mode);
 
-            if !is_resource(this->handler) {
-                let $this->handler = null;
-                throw new \UnexpectedValueException(
-                	sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
+			if !is_resource(this->handler) {
+				let $this->handler = null;
+				throw new \UnexpectedValueException(
+					sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
 				);
-            }
+			}
 		}
 
-		let formatter        = this->getFormatter(),
+		let formatter		= this->getFormatter(),
 			formattedMessage = formatter->format(item);
 
 		fwrite(this->handler, formattedMessage);
