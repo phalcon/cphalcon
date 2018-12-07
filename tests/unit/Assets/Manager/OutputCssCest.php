@@ -30,6 +30,14 @@ class OutputCssCest
     /**
      * @param UnitTester $I
      */
+    public function _after(UnitTester $I)
+    {
+        $this->resetDi();
+    }
+
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $this->newDi();
