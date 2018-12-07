@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css;
 
+use function dataFolder;
+use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
 /**
@@ -32,6 +34,10 @@ class GetContentCest
     public function assetsAssetCssGetContent(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
-        $I->skipTest('Need implementation');
+        $asset = new Css('assets/assets/1198.css');
+
+        $expected = file_get_contents(dataFolder('assets/assets/1198.css'));
+        $actual   = $asset->getContent(dataFolder());
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 /**
@@ -32,6 +33,10 @@ class GetContentCest
     public function assetsAssetJsGetContent(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
-        $I->skipTest('Need implementation');
+        $asset = new Js('assets/assets/signup.js');
+
+        $expected = file_get_contents(dataFolder('assets/assets/signup.js'));
+        $actual   = $asset->getContent(dataFolder());
+        $I->assertEquals($expected, $actual);
     }
 }
