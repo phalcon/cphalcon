@@ -12,15 +12,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Phalcon\Assets\Asset\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetPathCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Js
+ * @package Phalcon\Test\Unit\Logger
  */
 class GetPathCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Asset\Js :: getPath()
      *
@@ -32,6 +36,7 @@ class GetPathCest
     public function assetsAssetJsGetPath(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Js - getPath()");
-        $I->skipTest("Need implementation");
+        $asset = new Js('js/jquery.js');
+        $this->assetGetPath($I, $asset, 'js');
     }
 }

@@ -12,15 +12,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Phalcon\Assets\Asset\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetLocalCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Js
+ * @package Phalcon\Test\Unit\Logger
  */
 class GetLocalCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Asset\Js :: getLocal()
      *
@@ -32,6 +36,7 @@ class GetLocalCest
     public function assetsAssetJsGetLocal(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Js - getLocal()");
-        $I->skipTest("Need implementation");
+        $asset = new Js('js/jquery.js');
+        $this->assetGetLocal($I, $asset, 'js');
     }
 }

@@ -12,26 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Phalcon\Assets\Asset;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetPathCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset
+ * @package Phalcon\Test\Unit\Logger
  */
 class GetPathCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset :: getPath()
+     * Tests Phalcon\Assets\Asset :: getPath() - css
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetGetPath(UnitTester $I)
+    public function assetsAssetGetPathCss(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset - getPath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Assets\Asset - getPath() - css");
+        $asset = new Asset('css', 'css/docs.css');
+        $expected = md5('css:css/docs.css');
+
+        $this->assetGetPath($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getPath() - js
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetPathJs(UnitTester $I)
+    {
+        $I->wantToTest("Assets\Asset - getPath() - js");
+        $asset = new Asset('js', 'js/jquery.js');
+        $expected = md5('js:js/jquery.js');
+
+        $this->assetGetPath($I, $asset, $expected);
     }
 }

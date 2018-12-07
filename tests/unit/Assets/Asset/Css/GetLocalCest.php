@@ -12,15 +12,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetLocalCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\Unit\Logger
  */
 class GetLocalCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Asset\Css :: getLocal()
      *
@@ -32,6 +36,7 @@ class GetLocalCest
     public function assetsAssetCssGetLocal(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Css - getLocal()");
-        $I->skipTest("Need implementation");
+        $asset = new Css('css/docs.css');
+        $this->assetGetLocal($I, $asset, 'css');
     }
 }
