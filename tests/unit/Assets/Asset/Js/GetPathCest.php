@@ -19,26 +19,43 @@ use UnitTester;
 /**
  * Class GetPathCest
  *
- * @package Phalcon\Test\Unit\Logger
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetPathCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getPath()
+     * Tests Phalcon\Assets\Asset :: getPath() - js local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetPath(UnitTester $I)
+    public function assetsAssetJsGetPathLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Js - getPath()");
-        $asset    = new Js('js/jquery.js');
-        $expected = 'js/jquery.js';
+        $I->wantToTest('Assets\Asset - getPath() - js local');
+        $asset = new Js('js/jquery.js');
 
+        $expected = 'js/jquery.js';
+        $this->assetGetPath($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getPath() - js remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetJsGetPathRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getPath() - js remote');
+        $asset = new Js('https://phalcon.ld/js/jquery.js');
+
+        $expected = 'https://phalcon.ld/js/jquery.js';
         $this->assetGetPath($I, $asset, $expected);
     }
 }

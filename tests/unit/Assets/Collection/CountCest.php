@@ -31,7 +31,7 @@ class CountCest
      */
     public function assetsCollectionCount(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - count()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - count()');
+        $I->skipTest('Need implementation');
     }
 }

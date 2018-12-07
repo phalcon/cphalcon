@@ -12,26 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Phalcon\Assets\Asset\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class SetTypeCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Js
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class SetTypeCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Js :: setType()
+     * Tests Phalcon\Assets\Asset :: setType() - js local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsSetType(UnitTester $I)
+    public function assetsAssetJsSetTypeLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Js - setType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - setType() - js local');
+        $asset = new Js('js/jquery.js');
+
+        $expected = 'css';
+        $asset->setType($expected);
+        $this->assetGetType($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: setType() - js remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetJsSetTypeRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - setType() - js remote');
+        $asset = new Js('https://phalcon.ld/js/jquery.js');
+
+        $expected = 'css';
+        $asset->setType($expected);
+        $this->assetGetType($I, $asset, $expected);
     }
 }

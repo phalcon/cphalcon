@@ -10,28 +10,54 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopUnit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class SetTypeCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopUnit\Assets\Asset\Css
  */
 class SetTypeCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setType()
+     * Tests Phalcon\Assets\Asset :: setType() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssSetType(UnitTester $I)
+    public function assetsAssetCssSetTypeLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - setType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - setType() - css local');
+        $asset = new Css('css/docs.css');
+
+        $expected = 'js';
+        $asset->setType($expected);
+        $this->assetGetType($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: setType() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetCssSetTypeRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - setType() - css remote');
+        $asset = new Css('https://phalcon.ld/css/docs.css');
+
+        $expected = 'js';
+        $asset->setType($expected);
+        $this->assetGetType($I, $asset, $expected);
     }
 }

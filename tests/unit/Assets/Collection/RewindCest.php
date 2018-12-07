@@ -31,7 +31,7 @@ class RewindCest
      */
     public function assetsCollectionRewind(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - rewind()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - rewind()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -19,10 +20,18 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 use function dataFolder;
 
+/**
+ * Class NoneCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Filters
+ */
 class NoneCest
 {
     use DiTrait;
 
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $this->newDi();

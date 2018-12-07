@@ -31,7 +31,7 @@ class OutputInlineJsCest
      */
     public function assetsManagerOutputInlineJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - outputInlineJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - outputInlineJs()');
+        $I->skipTest('Need implementation');
     }
 }

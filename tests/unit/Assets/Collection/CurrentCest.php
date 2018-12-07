@@ -31,7 +31,7 @@ class CurrentCest
      */
     public function assetsCollectionCurrent(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - current()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - current()');
+        $I->skipTest('Need implementation');
     }
 }

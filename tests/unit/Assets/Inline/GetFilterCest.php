@@ -31,7 +31,7 @@ class GetFilterCest
      */
     public function assetsInlineGetFilter(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline - getFilter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - getFilter()');
+        $I->skipTest('Need implementation');
     }
 }

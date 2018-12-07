@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Filters\None;
 
+use Phalcon\Assets\Filters\None;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -44,7 +45,7 @@ class FilterCest
      */
     public function assetsFiltersNoneFilter(UnitTester $I)
     {
-        $I->wantToTest("Assets\Filters\None - filter()");
+        $I->wantToTest('Assets\Filters\None - filter()');
         $cssmin   = new None();
         $expected = ' ';
         $actual   = $cssmin->filter(' ');

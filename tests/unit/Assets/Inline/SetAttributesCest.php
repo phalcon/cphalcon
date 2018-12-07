@@ -31,7 +31,7 @@ class SetAttributesCest
      */
     public function assetsInlineSetAttributes(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline - setAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - setAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

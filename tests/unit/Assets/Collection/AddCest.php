@@ -31,7 +31,7 @@ class AddCest
      */
     public function assetsCollectionAdd(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - add()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - add()');
+        $I->skipTest('Need implementation');
     }
 }

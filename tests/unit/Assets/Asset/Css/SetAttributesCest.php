@@ -10,28 +10,54 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopUnit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class SetAttributesCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopUnit\Assets\Asset\Css
  */
 class SetAttributesCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setAttributes()
+     * Tests Phalcon\Assets\Asset :: setAttributes() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssSetAttributes(UnitTester $I)
+    public function assetsAssetCssSetAttributesLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - setAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - setAttributes() - css local');
+        $asset = new Css('css/docs.css');
+
+        $expected = ['data-key' => 'phalcon'];
+        $asset->setAttributes($expected);
+        $this->assetGetAttributes($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: setAttributes() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetCssSetAttributesRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - setAttributes() - css remote');
+        $asset = new Css('https://phalcon.ld/css/docs.css', false);
+
+        $expected = ['data-key' => 'phalcon'];
+        $asset->setAttributes($expected);
+        $this->assetGetAttributes($I, $asset, $expected);
     }
 }

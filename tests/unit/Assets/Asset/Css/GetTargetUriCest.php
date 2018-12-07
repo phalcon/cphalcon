@@ -10,28 +10,54 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopUnit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetTargetUriCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopUnit\Assets\Asset\Css
  */
 class GetTargetUriCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getTargetUri()
+     * Tests Phalcon\Assets\Asset :: getTargetUri() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetTargetUri(UnitTester $I)
+    public function assetsAssetCssGetTargetUriLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - getTargetUri()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - getTargetUri() - css local');
+        $asset = new Css('css/docs.css');
+
+        $expected = '/phalcon/path';
+        $asset->setTargetUri($expected);
+        $this->assetGetTargetUri($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getTargetUri() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetCssGetTargetUriRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getTargetUri() - css remote');
+        $asset = new Css('https://phalcon.ld/css/docs.css', false);
+
+        $expected = '/phalcon/path';
+        $asset->setTargetUri($expected);
+        $this->assetGetTargetUri($I, $asset, $expected);
     }
 }

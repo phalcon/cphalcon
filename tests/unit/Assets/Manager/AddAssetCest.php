@@ -31,7 +31,7 @@ class AddAssetCest
      */
     public function assetsManagerAddAsset(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addAsset()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addAsset()');
+        $I->skipTest('Need implementation');
     }
 }

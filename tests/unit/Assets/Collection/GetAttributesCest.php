@@ -31,7 +31,7 @@ class GetAttributesCest
      */
     public function assetsCollectionGetAttributes(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

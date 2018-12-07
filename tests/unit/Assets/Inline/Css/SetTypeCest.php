@@ -31,7 +31,7 @@ class SetTypeCest
      */
     public function assetsInlineCssSetType(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Css - setType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline\Css - setType()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -10,28 +10,55 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopUnit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class SetLocalCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopUnit\Assets\Asset\Css
  */
 class SetLocalCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setLocal()
+     * Tests Phalcon\Assets\Asset :: setLocal() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssSetLocal(UnitTester $I)
+    public function assetsAssetCssSetLocalLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - setLocal()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - setLocal() - css local');
+        $asset = new Css('https://phalcon.ld/css/docs.css');
+
+        $expected = true;
+        $asset->setLocal($expected);
+        $this->assetGetLocal($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: setLocal() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetCssSetLocalRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - setLocal() - css remote');
+        $I->skipTest('TODO - Need checking');
+        $asset = new Css('https://phalcon.ld/css/docs.css');
+
+        $expected = false;
+        $asset->setLocal($expected);
+        $this->assetGetLocal($I, $asset, $expected);
     }
 }

@@ -31,7 +31,7 @@ class GetCest
      */
     public function assetsManagerGet(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - get()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - get()');
+        $I->skipTest('Need implementation');
     }
 }

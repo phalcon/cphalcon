@@ -10,19 +10,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css;
 
 use UnitTester;
 
 /**
  * Class GetContentCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css
  */
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getContent()
+     * Tests Phalcon\Assets\Asset :: getContent()
      *
      * @param UnitTester $I
      *
@@ -31,7 +31,7 @@ class GetContentCest
      */
     public function assetsAssetCssGetContent(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - getContent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - getContent()');
+        $I->skipTest('Need implementation');
     }
 }

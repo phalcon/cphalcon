@@ -31,7 +31,7 @@ class GetCollectionsCest
      */
     public function assetsManagerGetCollections(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - getCollections()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - getCollections()');
+        $I->skipTest('Need implementation');
     }
 }

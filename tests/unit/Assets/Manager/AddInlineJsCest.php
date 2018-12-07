@@ -31,7 +31,7 @@ class AddInlineJsCest
      */
     public function assetsManagerAddInlineJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addInlineJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addInlineJs()');
+        $I->skipTest('Need implementation');
     }
 }

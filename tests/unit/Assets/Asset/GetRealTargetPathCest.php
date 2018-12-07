@@ -26,19 +26,53 @@ class GetRealTargetPathCest
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css
+     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetGetAssetKeyCss(UnitTester $I)
+    public function assetsAssetGetAssetKeyCssLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset - getRealTargetPath() - css");
+        $I->wantToTest('Assets\Asset - getRealTargetPath() - css local');
         $asset = new Asset('css', 'css/docs.css');
 
         $expected = 'css/docs.css';
+        $this->assetGetRealTargetPath($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetAssetKeyCssRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getRealTargetPath() - css remote');
+        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false);
+
+        $expected = 'https://phalcon.ld/css/docs.css';
+        $this->assetGetRealTargetPath($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - js local
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetAssetKeyJsLocal(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getRealTargetPath() - js local');
+        $asset = new Asset('js', 'js/jquery.js');
+
+        $expected = 'js/jquery.js';
         $this->assetGetRealTargetPath($I, $asset, $expected);
     }
 
@@ -50,12 +84,12 @@ class GetRealTargetPathCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetGetAssetKeyJs(UnitTester $I)
+    public function assetsAssetGetAssetKeyJsRemote(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset - getRealTargetPath() - js");
-        $asset = new Asset('js', 'js/jquery.js');
+        $I->wantToTest('Assets\Asset - getRealTargetPath() - js remote');
+        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
 
-        $expected = 'js/jquery.js';
+        $expected = 'https://phalcon.ld/js/jquery.js';
         $this->assetGetRealTargetPath($I, $asset, $expected);
     }
 }

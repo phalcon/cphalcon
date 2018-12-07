@@ -31,7 +31,7 @@ class SetFilterCest
      */
     public function assetsInlineCssSetFilter(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Css - setFilter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline\Css - setFilter()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -31,7 +31,7 @@ class GetTargetLocalCest
      */
     public function assetsCollectionGetTargetLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getTargetLocal()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getTargetLocal()');
+        $I->skipTest('Need implementation');
     }
 }

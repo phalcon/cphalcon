@@ -31,7 +31,7 @@ class GetTypeCest
      */
     public function assetsInlineJsGetType(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Js - getType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline\Js - getType()');
+        $I->skipTest('Need implementation');
     }
 }

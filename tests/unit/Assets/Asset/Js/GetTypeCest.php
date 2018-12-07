@@ -19,24 +19,43 @@ use UnitTester;
 /**
  * Class GetTypeCest
  *
- * @package Phalcon\Test\Unit\Logger
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetTypeCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getType()
+     * Tests Phalcon\Assets\Asset :: getType() - js local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetType(UnitTester $I)
+    public function assetsAssetJsGetTypeLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Js - getType()");
+        $I->wantToTest('Assets\Asset - getType() - js local');
         $asset = new Js('js/jquery.js');
-        $this->assetGetType($I, $asset, 'js');
+
+        $expected = 'js';
+        $this->assetGetType($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getType() - js remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetJsGetTypeRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getType() - js remote');
+        $asset = new Js('https://phalcon.ld/js/jquery.js');
+
+        $expected = 'js';
+        $this->assetGetType($I, $asset, $expected);
     }
 }

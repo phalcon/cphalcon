@@ -31,7 +31,7 @@ class SetSourcePathCest
      */
     public function assetsCollectionSetSourcePath(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - setSourcePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - setSourcePath()');
+        $I->skipTest('Need implementation');
     }
 }

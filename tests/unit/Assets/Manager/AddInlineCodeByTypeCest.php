@@ -31,7 +31,7 @@ class AddInlineCodeByTypeCest
      */
     public function assetsManagerAddInlineCodeByType(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addInlineCodeByType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addInlineCodeByType()');
+        $I->skipTest('Need implementation');
     }
 }

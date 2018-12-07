@@ -31,7 +31,7 @@ class GetAttributesCest
      */
     public function assetsInlineGetAttributes(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline - getAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - getAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -31,7 +31,7 @@ class GetJsCest
      */
     public function assetsManagerGetJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - getJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - getJs()');
+        $I->skipTest('Need implementation');
     }
 }

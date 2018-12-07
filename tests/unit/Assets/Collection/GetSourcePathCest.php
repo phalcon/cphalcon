@@ -31,7 +31,7 @@ class GetSourcePathCest
      */
     public function assetsCollectionGetSourcePath(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getSourcePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getSourcePath()');
+        $I->skipTest('Need implementation');
     }
 }

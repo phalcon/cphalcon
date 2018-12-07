@@ -31,7 +31,7 @@ class AddJsCest
      */
     public function assetsManagerAddJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addJs()');
+        $I->skipTest('Need implementation');
     }
 }

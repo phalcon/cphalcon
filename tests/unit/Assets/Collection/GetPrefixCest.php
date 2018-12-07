@@ -31,7 +31,7 @@ class GetPrefixCest
      */
     public function assetsCollectionGetPrefix(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getPrefix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getPrefix()');
+        $I->skipTest('Need implementation');
     }
 }

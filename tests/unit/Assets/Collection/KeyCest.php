@@ -31,7 +31,7 @@ class KeyCest
      */
     public function assetsCollectionKey(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - key()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - key()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -36,9 +36,9 @@ trait AssetsTrait
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset
-     * @param string         $expected
+     * @param array          $expected
      */
-    private function assetGetAttributes(UnitTester $I, AssetInterface $asset, string $expected)
+    private function assetGetAttributes(UnitTester $I, AssetInterface $asset, array $expected)
     {
         $actual = $asset->getAttributes();
         $I->assertEquals($expected, $actual);
@@ -58,9 +58,9 @@ trait AssetsTrait
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset
-     * @param string         $expected
+     * @param bool         $expected
      */
-    private function assetGetFilter(UnitTester $I, AssetInterface $asset, string $expected)
+    private function assetGetFilter(UnitTester $I, AssetInterface $asset, bool $expected)
     {
         $actual = $asset->getFilter();
         $I->assertEquals($expected, $actual);
@@ -90,9 +90,9 @@ trait AssetsTrait
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset
-     * @param string         $expected
+     * @param mixed          $expected
      */
-    private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, string $expected)
+    private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, $expected)
     {
         $actual   = $asset->getRealSourcePath();
         $I->assertEquals($expected, $actual);
@@ -112,9 +112,9 @@ trait AssetsTrait
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset
-     * @param string         $expected
+     * @param mixed          $expected
      */
-    private function assetGetRealTargetUri(UnitTester $I, AssetInterface $asset, string $expected)
+    private function assetGetRealTargetUri(UnitTester $I, AssetInterface $asset, $expected)
     {
         $actual   = $asset->getRealTargetUri();
         $I->assertEquals($expected, $actual);

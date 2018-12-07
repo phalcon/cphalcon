@@ -12,26 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Phalcon\Assets\Asset\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class SetSourcePathCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Js
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class SetSourcePathCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Js :: setSourcePath()
+     * Tests Phalcon\Assets\Asset :: setSourcePath() - js local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsSetSourcePath(UnitTester $I)
+    public function assetsAssetJsSetSourcePathLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Js - setSourcePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - setSourcePath() - js local');
+        $asset = new Js('js/jquery.js');
+
+        $expected = '/new/path';
+        $asset->setSourcePath($expected);
+        $this->assetGetSourcePath($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: setSourcePath() - js remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetJsSetSourcePathRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - setSourcePath() - js remote');
+        $asset = new Js('https://phalcon.ld/js/jquery.js');
+
+        $expected = '/new/path';
+        $asset->setSourcePath($expected);
+        $this->assetGetSourcePath($I, $asset, $expected);
     }
 }

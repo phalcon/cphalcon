@@ -31,7 +31,7 @@ class HasCest
      */
     public function assetsCollectionHas(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - has()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - has()');
+        $I->skipTest('Need implementation');
     }
 }

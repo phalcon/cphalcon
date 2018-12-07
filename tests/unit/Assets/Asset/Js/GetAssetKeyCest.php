@@ -19,25 +19,42 @@ use UnitTester;
 /**
  * Class GetAssetKeyCest
  *
- * @package Phalcon\Test\Unit\Logger
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetAssetKeyCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getAssetKey()
+     * Tests Phalcon\Assets\Asset :: getAssetKey() - js local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetAssetKey(UnitTester $I)
+    public function assetsAssetJsGetAssetKeyLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Js - getAssetKey()");
+        $I->wantToTest('Assets\Asset - getAssetKey() - js local');
         $asset    = new Js('js/jquery.js');
         $expected = md5('js:js/jquery.js');
+
+        $this->assetGetAssetKey($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getAssetKey() - js remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetJsGetAssetKeyRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getAssetKey() - js remote');
+        $asset    = new Js('https://phalcon.ld/js/jquery.js', false);
+        $expected = md5('js:https://phalcon.ld/js/jquery.js');
 
         $this->assetGetAssetKey($I, $asset, $expected);
     }

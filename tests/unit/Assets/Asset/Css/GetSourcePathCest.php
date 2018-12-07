@@ -10,28 +10,54 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopUnit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetSourcePathCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopUnit\Assets\Asset\Css
  */
 class GetSourcePathCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getSourcePath()
+     * Tests Phalcon\Assets\Asset :: getSourcePath() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetSourcePath(UnitTester $I)
+    public function assetsAssetCssGetSourcePathLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - getSourcePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - getSourcePath() - css local');
+        $asset = new Css('css/docs.css');
+
+        $expected = '/phalcon/path';
+        $asset->setSourcePath($expected);
+        $this->assetGetSourcePath($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getSourcePath() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetCssGetSourcePathRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getSourcePath() - css remote');
+        $asset = new Css('https://phalcon.ld/css/docs.css', false);
+
+        $expected = '/phalcon/path';
+        $asset->setSourcePath($expected);
+        $this->assetGetSourcePath($I, $asset, $expected);
     }
 }

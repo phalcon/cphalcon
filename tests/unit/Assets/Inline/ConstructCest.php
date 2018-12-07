@@ -31,7 +31,7 @@ class ConstructCest
      */
     public function assetsInlineConstruct(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -31,7 +31,7 @@ class GetLocalCest
      */
     public function assetsCollectionGetLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getLocal()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getLocal()');
+        $I->skipTest('Need implementation');
     }
 }

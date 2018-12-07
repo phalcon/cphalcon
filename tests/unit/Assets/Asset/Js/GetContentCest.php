@@ -17,12 +17,12 @@ use UnitTester;
 /**
  * Class GetContentCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Js
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getContent()
+     * Tests Phalcon\Assets\Asset :: getContent()
      *
      * @param UnitTester $I
      *
@@ -31,7 +31,7 @@ class GetContentCest
      */
     public function assetsAssetJsGetContent(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Js - getContent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Asset - getContent()');
+        $I->skipTest('Need implementation');
     }
 }

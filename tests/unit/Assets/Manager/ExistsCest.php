@@ -31,7 +31,7 @@ class ExistsCest
      */
     public function assetsManagerExists(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - exists()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - exists()');
+        $I->skipTest('Need implementation');
     }
 }

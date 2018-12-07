@@ -31,7 +31,7 @@ class GetAssetKeyCest
      */
     public function assetsInlineGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline - getAssetKey()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - getAssetKey()');
+        $I->skipTest('Need implementation');
     }
 }

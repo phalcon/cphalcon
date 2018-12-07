@@ -31,7 +31,7 @@ class OutputCssCest
      */
     public function assetsManagerOutputCss(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - outputCss()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - outputCss()');
+        $I->skipTest('Need implementation');
     }
 }

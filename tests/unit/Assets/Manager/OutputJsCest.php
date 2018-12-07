@@ -31,7 +31,7 @@ class OutputJsCest
      */
     public function assetsManagerOutputJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - outputJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - outputJs()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -19,23 +19,23 @@ use UnitTester;
 /**
  * Class GetLocalCest
  *
- * @package Phalcon\Test\Unit\Logger
+ * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetLocalCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - css
+     * Tests Phalcon\Assets\Asset :: getLocal() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetGetLocalCss(UnitTester $I)
+    public function assetsAssetGetLocalCssLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset - getLocal() - css");
+        $I->wantToTest('Assets\Asset - getLocal() - css local');
         $asset    = new Asset('css', 'css/docs.css');
         $expected = md5('css:css/docs.css');
 
@@ -43,18 +43,52 @@ class GetLocalCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - js
+     * Tests Phalcon\Assets\Asset :: getLocal() - css remote
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetGetLocalJs(UnitTester $I)
+    public function assetsAssetGetLocalCssRemote(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset - getLocal() - js");
+        $I->wantToTest('Assets\Asset - getLocal() - css remote');
+        $asset    = new Asset('css', 'https://phalcon.ld/css/docs.css');
+        $expected = md5('css:https://phalcon.ld/css/docs.css');
+
+        $this->assetGetLocal($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getLocal() - js local
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetLocalJsLocal(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getLocal() - js local');
         $asset    = new Asset('js', 'js/jquery.js');
         $expected = md5('js:js/jquery.js');
+
+        $this->assetGetLocal($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getLocal() - js remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetLocalJsRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getLocal() - js remote');
+        $asset    = new Asset('js', 'https://phalcon.ld/js/jquery.js');
+        $expected = md5('js:https://phalcon.ld/js/jquery.js');
 
         $this->assetGetLocal($I, $asset, $expected);
     }

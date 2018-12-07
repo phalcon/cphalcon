@@ -31,7 +31,7 @@ class FilterCest
      */
     public function assetsFiltersJsminFilter(UnitTester $I)
     {
-        $I->wantToTest("Assets\Filters\Jsmin - filter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Filters\Jsmin - filter()');
+        $I->skipTest('Need implementation');
     }
 }

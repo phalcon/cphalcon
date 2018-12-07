@@ -31,7 +31,7 @@ class SetFiltersCest
      */
     public function assetsCollectionSetFilters(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - setFilters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - setFilters()');
+        $I->skipTest('Need implementation');
     }
 }

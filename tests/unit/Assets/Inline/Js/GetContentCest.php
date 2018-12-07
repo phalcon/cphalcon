@@ -31,7 +31,7 @@ class GetContentCest
      */
     public function assetsInlineJsGetContent(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Js - getContent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline\Js - getContent()');
+        $I->skipTest('Need implementation');
     }
 }

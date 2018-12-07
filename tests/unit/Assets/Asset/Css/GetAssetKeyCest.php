@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css;
 
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
@@ -19,25 +19,42 @@ use UnitTester;
 /**
  * Class GetAssetKeyCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css
  */
 class GetAssetKeyCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getAssetKey()
+     * Tests Phalcon\Assets\Asset :: getAssetKey() - css local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetAssetKey(UnitTester $I)
+    public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
     {
-        $I->wantToTest("Assets\Asset\Css - getAssetKey()");
+        $I->wantToTest('Assets\Asset - getAssetKey() - css local');
         $asset    = new Css('css/docs.css');
         $expected = md5('css:css/docs.css');
+
+        $this->assetGetAssetKey($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getAssetKey() - css remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
+        $asset    = new Css('https://phalcon.ld/css/docs.css');
+        $expected = md5('css:https://phalcon.ld/css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);
     }

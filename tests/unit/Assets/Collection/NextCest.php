@@ -31,7 +31,7 @@ class NextCest
      */
     public function assetsCollectionNext(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - next()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - next()');
+        $I->skipTest('Need implementation');
     }
 }

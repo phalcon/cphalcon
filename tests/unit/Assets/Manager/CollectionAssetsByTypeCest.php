@@ -31,7 +31,7 @@ class CollectionAssetsByTypeCest
      */
     public function assetsManagerCollectionAssetsByType(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - collectionAssetsByType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - collectionAssetsByType()');
+        $I->skipTest('Need implementation');
     }
 }
