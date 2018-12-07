@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
 use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
-use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -60,7 +60,8 @@ class OutputCssCest
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputCss() - filter chain custom filter with cssmin
+     * Tests Phalcon\Assets\Manager :: outputCss() - filter chain custom filter
+     * with cssmin
      *
      * @param UnitTester $I
      *

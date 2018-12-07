@@ -33,7 +33,7 @@ class FilterCest
     public function assetsFiltersCssminFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter()');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $expected = '{}}';
         $actual   = $cssmin->filter('{}}');
@@ -51,7 +51,7 @@ class FilterCest
     public function assetsFiltersCssminFilterSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - spaces');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $expected = '.s{d : b;}';
         $actual   = $cssmin->filter('.s { d     :        b; }');
@@ -69,7 +69,7 @@ class FilterCest
     public function assetsFiltersCssminFilterAttributesSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - attributes spaces');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $source   = ".social-link {display: inline-block; width: 44px; "
             . "height: 44px; text-align: left; text-indent: "
@@ -94,7 +94,7 @@ class FilterCest
     public function assetsFiltersCssminFilterClassSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - class spaces');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $expected = "h2:after{border-width: 1px;}";
         $actual   = $cssmin->filter("h2:after         { border-width:         1px; }");
@@ -102,7 +102,8 @@ class FilterCest
     }
 
     /**
-     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance spaces
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance
+     * spaces
      *
      * @param UnitTester $I
      *
@@ -112,7 +113,7 @@ class FilterCest
     public function assetsFiltersCssminFilterClassInheritanceSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - class inheritance spaces');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $source   = "h1 > p { font-family: 'Helvetica Neue'; }";
         $expected = "h1> p{font-family: 'Helvetica Neue';}";
@@ -131,7 +132,7 @@ class FilterCest
     public function assetsFiltersCssminFilterComples(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - complex');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $source   = ".navbar .nav>li>a { color: #111; "
             . "text-decoration: underline; }";
@@ -152,7 +153,7 @@ class FilterCest
     public function assetsFiltersCssminFilterLoadFiles(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - load files');
-        $cssmin   = new Cssmin();
+        $cssmin = new Cssmin();
 
         $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
         $targetFile = dataFolder('/assets/assets/cssmin-01-result.css');

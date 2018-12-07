@@ -47,7 +47,8 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated comment
+     * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated
+     * comment
      *
      * @param UnitTester $I
      *

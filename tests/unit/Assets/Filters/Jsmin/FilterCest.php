@@ -125,7 +125,7 @@ class FilterCest
     public function assetsFiltersJsminFilterEmpty(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Jsmin - filter() - empty');
-        $jsmin  = new Jsmin();
+        $jsmin = new Jsmin();
 
         $actual = $jsmin->filter('');
         $I->assertIsEmpty($actual);
@@ -142,7 +142,7 @@ class FilterCest
     public function assetsFiltersJsminFilterComment(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Jsmin - filter() - comment');
-        $jsmin  = new Jsmin();
+        $jsmin = new Jsmin();
 
         $actual = $jsmin->filter('/** this is a comment */');
         $I->assertIsEmpty($actual);

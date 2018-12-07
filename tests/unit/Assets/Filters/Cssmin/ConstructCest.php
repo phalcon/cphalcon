@@ -24,7 +24,8 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Assets\Filters\Cssmin :: __construct() - no string exception
+     * Tests Phalcon\Assets\Filters\Cssmin :: __construct() - no string
+     * exception
      *
      * @param UnitTester $I
      *

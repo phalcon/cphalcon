@@ -36,7 +36,7 @@ class GetFilterCest
     public function assetsAssetJsGetFilterJsFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - js local');
-        $asset    = new Js('js/jquery.js');
+        $asset = new Js('js/jquery.js');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
@@ -53,7 +53,7 @@ class GetFilterCest
     public function assetsAssetJsGetFilterRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - js remote');
-        $asset    = new Js('https://phalcon.ld/js/jquery.js');
+        $asset = new Js('https://phalcon.ld/js/jquery.js');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);

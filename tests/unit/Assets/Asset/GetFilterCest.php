@@ -36,7 +36,7 @@ class GetFilterCest
     public function assetsAssetGetFilterCssFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - css local');
-        $asset    = new Asset('css', 'css/docs.css');
+        $asset = new Asset('css', 'css/docs.css');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
@@ -53,7 +53,7 @@ class GetFilterCest
     public function assetsAssetGetFilterCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - css remote');
-        $asset    = new Asset('css', 'https://phalcon.ld/css/docs.css');
+        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
@@ -70,7 +70,7 @@ class GetFilterCest
     public function assetsAssetGetFilterJsFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - js local');
-        $asset    = new Asset('js', 'js/jquery.js');
+        $asset = new Asset('js', 'js/jquery.js');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
@@ -87,7 +87,7 @@ class GetFilterCest
     public function assetsAssetGetFilterJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - js remote');
-        $asset    = new Asset('js', 'https://phalcon.ld/js/jquery.js');
+        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);

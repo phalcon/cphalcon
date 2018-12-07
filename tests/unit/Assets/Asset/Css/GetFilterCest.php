@@ -36,7 +36,7 @@ class GetFilterCest
     public function assetsAssetCssGetFilterCssFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - css local');
-        $asset    = new Css('css/docs.css');
+        $asset = new Css('css/docs.css');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
@@ -53,7 +53,7 @@ class GetFilterCest
     public function assetsAssetCssGetFilterRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - css remote');
-        $asset    = new Css('https://phalcon.ld/css/docs.css');
+        $asset = new Css('https://phalcon.ld/css/docs.css');
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
