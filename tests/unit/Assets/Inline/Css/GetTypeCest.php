@@ -37,7 +37,7 @@ class GetTypeCest
     {
         $I->wantToTest('Assets\Inline - getType()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = 'css';
         $this->assetGetType($I, $asset, $expected);

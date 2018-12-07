@@ -37,8 +37,8 @@ class GetAttributesCest
     {
         $I->wantToTest('Assets\Inline - getAttributes()');
         $attributes = ['data-key' => 'phalcon'];
-        $content = 'p {color: #000099}';
-        $asset = new Css($content, true, $attributes);
+        $content    = 'p {color: #000099}';
+        $asset      = new Css($content, true, $attributes);
 
         $expected = $attributes;
         $this->assetGetAttributes($I, $asset, $expected);

@@ -34,10 +34,10 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - css');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $expected = 'css';
-        $actual  = $asset->getType();
+        $actual   = $asset->getType();
         $I->assertEquals($expected, $actual);
     }
 
@@ -53,7 +53,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - css filter');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $actual = $asset->getFilter();
         $I->assertTrue($actual);
@@ -71,7 +71,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - css filter set');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content, false);
+        $asset   = new Inline('css', $content, false);
 
         $actual = $asset->getFilter();
         $I->assertFalse($actual);
@@ -89,7 +89,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - css attributes');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $expected = [];
         $actual   = $asset->getAttributes();
@@ -108,7 +108,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - css attributes set');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content, true, ['data' => 'phalcon']);
+        $asset   = new Inline('css', $content, true, ['data' => 'phalcon']);
 
         $expected = ['data' => 'phalcon'];
         $actual   = $asset->getAttributes();
@@ -127,10 +127,10 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - js');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = 'js';
-        $actual  = $asset->getType();
+        $actual   = $asset->getType();
         $I->assertEquals($expected, $actual);
     }
 
@@ -146,7 +146,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - js filter');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $actual = $asset->getFilter();
         $I->assertTrue($actual);
@@ -164,7 +164,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - js filter set');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content, false);
+        $asset   = new Inline('js', $content, false);
 
         $actual = $asset->getFilter();
         $I->assertFalse($actual);
@@ -182,7 +182,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - js attributes');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = [];
         $actual   = $asset->getAttributes();
@@ -201,7 +201,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - js attributes set');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content, true, ['data' => 'phalcon']);
+        $asset   = new Inline('js', $content, true, ['data' => 'phalcon']);
 
         $expected = ['data' => 'phalcon'];
         $actual   = $asset->getAttributes();

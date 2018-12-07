@@ -37,7 +37,7 @@ class SetTypeCest
     {
         $I->wantToTest('Assets\Inline - setType()');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Js($content);
+        $asset   = new Js($content);
 
         $expected = 'css';
         $asset->setType($expected);

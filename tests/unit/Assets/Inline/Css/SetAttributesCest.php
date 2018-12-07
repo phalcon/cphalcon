@@ -37,7 +37,7 @@ class SetAttributesCest
     {
         $I->wantToTest('Assets\Inline - setAttributes()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = ['data-key' => 'phalcon'];
         $asset->setAttributes($expected);

@@ -37,7 +37,7 @@ class GetContentCest
     {
         $I->wantToTest('Assets\Inline - getContent()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = $content;
         $this->assetGetContent($I, $asset, $expected);

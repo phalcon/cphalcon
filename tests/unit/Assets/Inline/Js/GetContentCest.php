@@ -37,7 +37,7 @@ class GetContentCest
     {
         $I->wantToTest('Assets\Inline - getContent()');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Js($content);
+        $asset   = new Js($content);
 
         $expected = $content;
         $this->assetGetContent($I, $asset, $expected);

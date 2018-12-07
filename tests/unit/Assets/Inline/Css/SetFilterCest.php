@@ -37,7 +37,7 @@ class SetFilterCest
     {
         $I->wantToTest('Assets\Inline - setFilter()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);

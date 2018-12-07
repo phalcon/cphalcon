@@ -37,7 +37,7 @@ class GetFilterCest
     {
         $I->wantToTest('Assets\Inline - getFilter()');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Js($content);
+        $asset   = new Js($content);
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);

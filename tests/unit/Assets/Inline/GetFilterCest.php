@@ -37,7 +37,7 @@ class GetFilterCest
     {
         $I->wantToTest('Assets\Inline - getFilter() - css');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);
@@ -55,7 +55,7 @@ class GetFilterCest
     {
         $I->wantToTest('Assets\Inline - getFilter() - js');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = true;
         $this->assetGetFilter($I, $asset, $expected);

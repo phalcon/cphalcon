@@ -37,7 +37,7 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Inline - getAssetKey()');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Js($content);
+        $asset   = new Js($content);
 
         $expected = md5('js:' . $content);
         $this->assetGetAssetKey($I, $asset, $expected);

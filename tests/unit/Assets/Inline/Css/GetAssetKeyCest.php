@@ -37,7 +37,7 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Inline - getAssetKey()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = md5('css:' . $content);
         $this->assetGetAssetKey($I, $asset, $expected);

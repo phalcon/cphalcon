@@ -37,9 +37,9 @@ class SetTypeCest
     {
         $I->wantToTest('Assets\Inline - setType() - css');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
-        $expected ='js';
+        $expected = 'js';
         $asset->setType($expected);
         $this->assetGetType($I, $asset, $expected);
     }
@@ -56,7 +56,7 @@ class SetTypeCest
     {
         $I->wantToTest('Assets\Inline - setType() - js');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = 'css';
         $asset->setType($expected);

@@ -34,10 +34,10 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = 'css';
-        $actual  = $asset->getType();
+        $actual   = $asset->getType();
         $I->assertEquals($expected, $actual);
     }
 
@@ -53,7 +53,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - filter');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $actual = $asset->getFilter();
         $I->assertTrue($actual);
@@ -71,7 +71,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - filter set');
         $content = 'p {color: #000099}';
-        $asset = new Css($content, false);
+        $asset   = new Css($content, false);
 
         $actual = $asset->getFilter();
         $I->assertFalse($actual);
@@ -89,7 +89,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - attributes');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
         $expected = ['type' => 'text/css'];
         $actual   = $asset->getAttributes();
@@ -108,7 +108,7 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Asset - __construct() - attributes set');
         $content = 'p {color: #000099}';
-        $asset = new Css($content, true, ['data' => 'phalcon']);
+        $asset   = new Css($content, true, ['data' => 'phalcon']);
 
         $expected = ['data' => 'phalcon'];
         $actual   = $asset->getAttributes();

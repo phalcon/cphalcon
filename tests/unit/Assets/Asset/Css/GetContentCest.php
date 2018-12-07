@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css;
 
-use function dataFolder;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
+use function dataFolder;
 
 /**
  * Class GetContentCest

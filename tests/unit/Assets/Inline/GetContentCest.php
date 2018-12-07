@@ -37,7 +37,7 @@ class GetContentCest
     {
         $I->wantToTest('Assets\Inline - getContent() - css');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $expected = $content;
         $this->assetGetContent($I, $asset, $expected);
@@ -55,7 +55,7 @@ class GetContentCest
     {
         $I->wantToTest('Assets\Inline - getContent() - js');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = $content;
         $this->assetGetContent($I, $asset, $expected);

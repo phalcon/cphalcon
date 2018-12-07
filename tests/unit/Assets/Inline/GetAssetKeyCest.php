@@ -37,7 +37,7 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Inline - getAssetKey() - css');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $expected = md5('css:' . $content);
         $this->assetGetAssetKey($I, $asset, $expected);
@@ -55,7 +55,7 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Inline - getAssetKey() - js');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = md5('js:' . $content);
         $this->assetGetAssetKey($I, $asset, $expected);

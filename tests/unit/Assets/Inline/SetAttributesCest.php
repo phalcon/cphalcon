@@ -37,7 +37,7 @@ class SetAttributesCest
     {
         $I->wantToTest('Assets\Inline - setAttributes() - css');
         $content = 'p {color: #000099}';
-        $asset = new Inline('css', $content);
+        $asset   = new Inline('css', $content);
 
         $expected = ['data-key' => 'phalcon'];
         $asset->setAttributes($expected);
@@ -56,7 +56,7 @@ class SetAttributesCest
     {
         $I->wantToTest('Assets\Inline - setAttributes() - js');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Inline('js', $content);
+        $asset   = new Inline('js', $content);
 
         $expected = ['data-key' => 'phalcon'];
         $asset->setAttributes($expected);

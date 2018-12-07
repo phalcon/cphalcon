@@ -37,9 +37,9 @@ class SetTypeCest
     {
         $I->wantToTest('Assets\Inline - setType()');
         $content = 'p {color: #000099}';
-        $asset = new Css($content);
+        $asset   = new Css($content);
 
-        $expected ='js';
+        $expected = 'js';
         $asset->setType($expected);
         $this->assetGetType($I, $asset, $expected);
     }

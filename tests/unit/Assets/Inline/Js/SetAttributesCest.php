@@ -37,7 +37,7 @@ class SetAttributesCest
     {
         $I->wantToTest('Assets\Inline - setAttributes()');
         $content = '<script>alert("Hello");</script>';
-        $asset = new Js($content);
+        $asset   = new Js($content);
 
         $expected = ['data-key' => 'phalcon'];
         $asset->setAttributes($expected);
