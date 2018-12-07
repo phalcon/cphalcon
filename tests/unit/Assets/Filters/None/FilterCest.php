@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Filters\None;
 
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
@@ -21,6 +22,18 @@ use UnitTester;
  */
 class FilterCest
 {
+    use DiTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
     /**
      * Tests Phalcon\Assets\Filters\None :: filter()
      *
@@ -32,6 +45,9 @@ class FilterCest
     public function assetsFiltersNoneFilter(UnitTester $I)
     {
         $I->wantToTest("Assets\Filters\None - filter()");
-        $I->skipTest("Need implementation");
+        $cssmin   = new None();
+        $expected = ' ';
+        $actual   = $cssmin->filter(' ');
+        $I->assertEquals($expected, $actual);
     }
 }

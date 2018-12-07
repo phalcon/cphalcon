@@ -12,15 +12,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetRealTargetPathCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Css
+ * @package Phalcon\Test\Unit\Logger
  */
 class GetRealTargetPathCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Asset\Css :: getRealTargetPath()
      *
@@ -32,6 +36,8 @@ class GetRealTargetPathCest
     public function assetsAssetCssGetRealTargetPath(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Css - getRealTargetPath()");
-        $I->skipTest("Need implementation");
+        $asset = new Css('css/docs.css');
+        $expected = 'css/docs.css';
+        $this->assetGetRealTargetPath($I, $asset, $expected);
     }
 }

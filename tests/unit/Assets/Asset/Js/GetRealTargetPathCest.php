@@ -12,15 +12,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Phalcon\Assets\Asset\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetRealTargetPathCest
  *
- * @package Phalcon\Test\Unit\Assets\Asset\Js
+ * @package Phalcon\Test\Unit\Logger
  */
 class GetRealTargetPathCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Asset\Js :: getRealTargetPath()
      *
@@ -32,6 +36,8 @@ class GetRealTargetPathCest
     public function assetsAssetJsGetRealTargetPath(UnitTester $I)
     {
         $I->wantToTest("Assets\Asset\Js - getRealTargetPath()");
-        $I->skipTest("Need implementation");
+        $asset = new Js('js/jquery.js');
+        $expected = 'js/jquery.js';
+        $this->assetGetRealTargetPath($I, $asset, $expected);
     }
 }
