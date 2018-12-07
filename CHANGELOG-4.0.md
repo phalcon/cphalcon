@@ -44,6 +44,13 @@
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
 - Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
 - Changed `Phalcon\Logger` to comply with PSR-3. The component has been rewritten to use adapters that alllow logging to different areas. The [#13438](https://github.com/phalcon/cphalcon/issues/13438)
+- Renamed `Phalcon\Assets\Resource` namespace to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Resource` to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\ResourceInterface` to `Phalcon\Assets\AssetInterface` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::addResource()` to `Phalcon\Assets\Manager::addAsset()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::addResourceByType()` to `Phalcon\Assets\Manager::addAssetByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::collectionResourcesByType()` to `Phalcon\Assets\Manager::collectionAssetsByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+
 
 ## Removed
 - PHP < 7.0 no longer supported
