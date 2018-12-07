@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,16 @@
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Syslog;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Formatter\Syslog;
+use Phalcon\Logger\Item;
 use UnitTester;
 
+/**
+ * Class FormatCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class FormatCest
 {
     /**
@@ -25,7 +34,14 @@ class FormatCest
      */
     public function loggerFormatterSyslogFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Syslog - format()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Formatter\Syslog - format()');
+        $formatter = new Syslog();
+
+        $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $expected = [Logger::DEBUG, 'log message'];
+        $actual   = $formatter->format($item);
+        $I->assertEquals($expected, $actual);
     }
 }

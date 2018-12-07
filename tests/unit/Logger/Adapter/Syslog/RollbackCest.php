@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,14 @@
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
+use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
+/**
+ * Class RollbackCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class RollbackCest
 {
     /**
@@ -25,7 +32,18 @@ class RollbackCest
      */
     public function loggerAdapterSyslogRollback(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Syslog - rollback()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Syslog - rollback()');
+        $streamName = $I->getNewFileName('log', 'log');
+        $adapter    = new Syslog($streamName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
+
+        $adapter->rollback();
+
+        $actual = $adapter->inTransaction();
+        $I->assertFalse($actual);
     }
 }

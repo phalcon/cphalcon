@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,14 @@
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
+use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
+/**
+ * Class BeginCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class BeginCest
 {
     /**
@@ -25,7 +32,13 @@ class BeginCest
      */
     public function loggerAdapterSyslogBegin(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Syslog - begin()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Syslog - begin()');
+        $streamName = $I->getNewFileName('log', 'log');
+        $adapter    = new Syslog($streamName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
     }
 }

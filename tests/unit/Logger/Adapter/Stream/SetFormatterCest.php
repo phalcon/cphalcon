@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,18 @@
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Formatter\Line;
 use UnitTester;
+use function outputFolder;
 
+/**
+ * Class SetFormatterCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class SetFormatterCest
 {
     /**
@@ -25,7 +36,17 @@ class SetFormatterCest
      */
     public function loggerAdapterStreamSetFormatter(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - setFormatter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - setFormatter()');
+
+        $fileName = $I->getNewFileName('log', 'log');
+        $fileName = outputFolder('tests/logs/' . $fileName);
+
+        $adapter = new Stream($fileName);
+        $adapter->setFormatter(new Line());
+
+        $class  = FormatterInterface::class;
+        $actual = $adapter->getFormatter();
+        $I->assertInstanceOf($class, $actual);
+        $I->safeDeleteFile($fileName);
     }
 }

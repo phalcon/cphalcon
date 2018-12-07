@@ -43,6 +43,7 @@
 - Changed `Phalcon\Di\Service` constructor to no longer takes the name of the service.
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
 - Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
+- Changed `Phalcon\Logger` to comply with PSR-3. The component has been rewritten to use adapters that alllow logging to different areas. The [#13438](https://github.com/phalcon/cphalcon/issues/13438)
 
 ## Removed
 - PHP < 7.0 no longer supported
@@ -67,4 +68,5 @@
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Apc`
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Memcache`
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
+- Removed `Phalcon\Logger\Multiple`
 

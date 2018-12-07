@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,14 @@
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
+/**
+ * Class BeginCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class BeginCest
 {
     /**
@@ -25,7 +32,16 @@ class BeginCest
      */
     public function loggerAdapterStreamBegin(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Stream - begin()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Stream - begin()');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = outputFolder('tests/logs/');
+        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
+
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

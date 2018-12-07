@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,15 @@
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Item;
 use UnitTester;
 
+/**
+ * Class GetTypeCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class GetTypeCest
 {
     /**
@@ -25,7 +33,12 @@ class GetTypeCest
      */
     public function loggerItemGetType(UnitTester $I)
     {
-        $I->wantToTest("Logger\Item - getType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Item - getType()');
+        $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $expected = Logger::DEBUG;
+        $actual   = $item->getType();
+        $I->assertEquals($expected, $actual);
     }
 }

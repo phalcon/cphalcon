@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,14 @@
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
+use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
+/**
+ * Class GetDateFormatCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class GetDateFormatCest
 {
     /**
@@ -25,7 +32,11 @@ class GetDateFormatCest
      */
     public function loggerFormatterLineGetDateFormat(UnitTester $I)
     {
-        $I->wantToTest("Logger\Formatter\Line - getDateFormat()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Formatter\Line - getDateFormat()');
+        $formatter = new Line();
+
+        $expected = 'D, d M y H:i:s O';
+        $actual   = $formatter->getDateFormat();
+        $I->assertEquals($expected, $actual);
     }
 }

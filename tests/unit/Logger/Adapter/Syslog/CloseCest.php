@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,16 @@
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Syslog;
+use Phalcon\Logger\Item;
 use UnitTester;
 
+/**
+ * Class CloseCest
+ *
+ * @package Phalcon\Test\Unit\Logger
+ */
 class CloseCest
 {
     /**
@@ -25,7 +34,11 @@ class CloseCest
      */
     public function loggerAdapterSyslogClose(UnitTester $I)
     {
-        $I->wantToTest("Logger\Adapter\Syslog - close()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Logger\Adapter\Syslog - close()');
+        $streamName = $I->getNewFileName('log', 'log');
+        $adapter    = new Syslog($streamName);
+
+        $actual = $adapter->close();
+        $I->assertTrue($actual);
     }
 }
