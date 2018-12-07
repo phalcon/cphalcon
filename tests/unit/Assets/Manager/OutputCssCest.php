@@ -12,6 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Test\Fixtures\Assets\TrimFilter;
+use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
+use Phalcon\Assets\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
@@ -21,6 +25,18 @@ use UnitTester;
  */
 class OutputCssCest
 {
+    use DiTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
     /**
      * Tests Phalcon\Assets\Manager :: outputCss()
      *
@@ -33,5 +49,39 @@ class OutputCssCest
     {
         $I->wantToTest('Assets\Manager - outputCss()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests Phalcon\Assets\Manager :: outputCss() - filter chain custom filter with cssmin
+     *
+     * @param UnitTester $I
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/1198
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2013-09-15
+     */
+    public function assetsManagerOutputCssFilterChainCustomFilterWithCssmin(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Manager - outputCss() - filter chain custom filter with cssmin');
+        $fileName = $I->getNewFileName('assets_', 'css');
+        $assets   = new Manager();
+        $assets->useImplicitOutput(false);
+        $css     = $assets->collection('css');
+        $cssFile = dataFolder('assets/assets/1198.css');
+
+        $css->setTargetPath(cacheFolder($fileName));
+        $css->addCss($cssFile);
+        $css->addFilter(new UppercaseFilter());
+        $css->addFilter(new TrimFilter());
+        $css->join(true);
+        $assets->outputCss('css');
+
+        $expected = 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}';
+        $actual   = file_get_contents(cacheFolder($fileName));
+
+        $I->safeDeleteFile(cacheFolder($fileName));
+
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Filters\Cssmin;
 
+use Phalcon\Assets\Filters\Cssmin;
 use UnitTester;
 
 /**
@@ -27,11 +28,168 @@ class FilterCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-10
      */
     public function assetsFiltersCssminFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter()');
-        $I->skipTest('Need implementation');
+        $cssmin   = new Cssmin();
+
+        $expected = '{}}';
+        $actual   = $cssmin->filter('{}}');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - spaces
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterSpaces(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - spaces');
+        $cssmin   = new Cssmin();
+
+        $expected = '.s{d : b;}';
+        $actual   = $cssmin->filter('.s { d     :        b; }');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - attributes spaces
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterAttributesSpaces(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - attributes spaces');
+        $cssmin   = new Cssmin();
+
+        $source   = ".social-link {display: inline-block; width: 44px; "
+            . "height: 44px; text-align: left; text-indent: "
+            . "-9999px; overflow: hidden; background: "
+            . "url('../images/social-links.png'); }";
+        $expected = ".social-link{display: inline-block;width: 44px;"
+            . "height: 44px;text-align: left;text-indent: "
+            . "-9999px;overflow: hidden;background: "
+            . "url('../images/social-links.png');}";
+        $actual   = $cssmin->filter($source);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class spaces
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterClassSpaces(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - class spaces');
+        $cssmin   = new Cssmin();
+
+        $expected = "h2:after{border-width: 1px;}";
+        $actual   = $cssmin->filter("h2:after         { border-width:         1px; }");
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance spaces
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterClassInheritanceSpaces(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - class inheritance spaces');
+        $cssmin   = new Cssmin();
+
+        $source   = "h1 > p { font-family: 'Helvetica Neue'; }";
+        $expected = "h1> p{font-family: 'Helvetica Neue';}";
+        $actual   = $cssmin->filter($source);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - complex
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterComples(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - complex');
+        $cssmin   = new Cssmin();
+
+        $source   = ".navbar .nav>li>a { color: #111; "
+            . "text-decoration: underline; }";
+        $expected = ".navbar .nav>li>a{color: #111;"
+            . "text-decoration: underline;}";
+        $actual   = $cssmin->filter($source);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - load files
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterLoadFiles(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - load files');
+        $cssmin   = new Cssmin();
+
+        $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
+        $targetFile = dataFolder('/assets/assets/cssmin-01-result.css');
+
+        $I->assertFileExists($sourceFile);
+        $I->assertFileExists($targetFile);
+
+        $source   = file_get_contents($sourceFile);
+        $expected = file_get_contents($targetFile);
+        $actual   = $cssmin->filter($source);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Filters\Cssmin :: filter() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function assetsFiltersCssminFilterEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Filters\Cssmin - filter() - empty');
+        $cssmin = new Cssmin();
+        $actual = $cssmin->filter('');
+        $I->assertEmpty($actual);
+    }
+
+    /**
+     * Tests cssmin filter
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsFilterCssmin(UnitTester $I)
+    {
+
     }
 }
