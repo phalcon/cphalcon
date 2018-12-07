@@ -1,80 +1,103 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Assets;
 
-use Phalcon\Assets\Resource;
+use Phalcon\Assets\Asset;
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Inline;
-use Phalcon\Assets\Resource\Css as ResourceCss;
-use Phalcon\Assets\Resource\Js as ResourceJs;
+use Phalcon\Assets\Asset\Css as AssetCss;
+use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Assets\Inline\Css as InlineCss;
 
 /**
  * Phalcon\Assets\Collection
  *
- * Represents a collection of resources
+ * Represents a collection of assets
  */
 class Collection implements \Countable, \Iterator
 {
+	/**
+	 * @var string 
+	 */
+	protected prefix { get };
 
-	protected _prefix { get };
+	/**
+	 * @var bool 
+	 */
+	protected local = true { get };
 
-	protected _local = true { get };
+	/**
+	 * @var array 
+	 */
+	protected assets = [] { get };
 
-	protected _resources = [] { get };
+	/**
+	 * @var array 
+	 */
+	protected codes = [] { get };
 
-	protected _codes = [] { get };
+	protected position { get };
 
-	protected _position { get };
+	/**
+	 * @var array 
+	 */
+	protected filters = [] { get };
 
-	protected _filters = [] { get };
+	/**
+	 * @var array 
+	 */
+	protected attributes = [] { get };
 
-	protected _attributes = [] { get };
+	/**
+	 * @var bool 
+	 */
+	protected join = true { get };
 
-	protected _join = true { get };
+	/**
+	 * @var string 
+	 */
+	protected targetUri { get };
 
-	protected _targetUri { get };
+	/**
+	 * @var string 
+	 */
+	protected targetPath { get };
 
-	protected _targetPath { get };
+	/**
+	 * @var bool 
+	 */
+	protected targetLocal = true { get };
 
-	protected _targetLocal = true { get };
+	/**
+	 * @var string 
+	 */
+	protected sourcePath { get };
 
-	protected _sourcePath { get };
-
-	protected _includedResources;
+	protected includedAssets;
 
 	/**
 	 * Phalcon\Assets\Collection constructor
 	 */
 	public function __construct()
 	{
-		let this->_includedResources = [];
+		let this->includedAssets = [];
 	}
 
 	/**
-	 * Adds a resource to the collection
+	 * Adds a asset to the collection
 	 */
-	public function add(<$Resource> $resource) -> <Collection>
+	public function add(<AssetInterface> asset) -> <Collection>
 	{
-		this->addResource($resource);
+		this->addAsset(asset);
 
 		return this;
 	}
@@ -84,36 +107,36 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function addInline(<$Inline> code) -> <Collection>
 	{
-		this->addResource(code);
+		this->addAsset(code);
 
 		return this;
 	}
 
 	/**
-	 * Checks this the resource is added to the collection.
+	 * Checks this the asset is added to the collection.
 	 *
 	 * <code>
-	 * use Phalcon\Assets\Resource;
+	 * use Phalcon\Assets\Asset;
 	 * use Phalcon\Assets\Collection;
 	 *
 	 * $collection = new Collection();
-	 * $resource = new Resource("js", "js/jquery.js");
-	 * $collection->add($resource);
-	 * $collection->has($resource); // true
+	 * $asset = new Asset("js", "js/jquery.js");
+	 * $collection->add($asset);
+	 * $collection->has($asset); // true
 	 * </code>
 	 */
-	public function has(<ResourceInterface> $resource) -> bool
+	public function has(<AssetInterface> asset) -> bool
 	{
-		var key, resources;
+		var key, assets;
 
-		let key = $resource->getResourceKey(),
-			resources = this->_includedResources;
+		let key = asset->getAssetKey(),
+			assets = this->includedAssets;
 
-		return in_array(key, resources);
+		return in_array(key, assets);
 	}
 
 	/**
-	 * Adds a CSS resource to the collection
+	 * Adds a CSS asset to the collection
 	 */
 	public function addCss(string! path, var local = null, bool filter = true, attributes = null) -> <Collection>
 	{
@@ -122,16 +145,16 @@ class Collection implements \Countable, \Iterator
 		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
-			let collectionLocal = this->_local;
+			let collectionLocal = this->local;
 		}
 
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
 		} else {
-			let collectionAttributes = this->_attributes;
+			let collectionAttributes = this->attributes;
 		}
 
-		this->add(new ResourceCss(path, collectionLocal, filter, collectionAttributes));
+		this->add(new AssetCss(path, collectionLocal, filter, collectionAttributes));
 
 		return this;
 	}
@@ -146,15 +169,15 @@ class Collection implements \Countable, \Iterator
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
 		} else {
-			let collectionAttributes = this->_attributes;
+			let collectionAttributes = this->attributes;
 		}
 
-		let this->_codes[] = new InlineCss(content, filter, collectionAttributes);
+		let this->codes[] = new InlineCss(content, filter, collectionAttributes);
 		return this;
 	}
 
 	/**
-	 * Adds a javascript resource to the collection
+	 * Adds a javascript asset to the collection
 	 *
 	 * @param array attributes
 	 */
@@ -165,16 +188,16 @@ class Collection implements \Countable, \Iterator
 		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
-			let collectionLocal = this->_local;
+			let collectionLocal = this->local;
 		}
 
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
 		} else {
-			let collectionAttributes = this->_attributes;
+			let collectionAttributes = this->attributes;
 		}
 
-		this->add(new ResourceJs(path, collectionLocal, filter, collectionAttributes));
+		this->add(new AssetJs(path, collectionLocal, filter, collectionAttributes));
 
 		return this;
 	}
@@ -189,10 +212,10 @@ class Collection implements \Countable, \Iterator
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
 		} else {
-			let collectionAttributes = this->_attributes;
+			let collectionAttributes = this->attributes;
 		}
 
-		let this->_codes[] = new InlineJs(content, filter, collectionAttributes);
+		let this->codes[] = new InlineJs(content, filter, collectionAttributes);
 
 		return this;
 	}
@@ -202,7 +225,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function count() -> int
 	{
-		return count(this->_resources);
+		return count(this->assets);
 	}
 
 	/**
@@ -210,15 +233,15 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function rewind() -> void
 	{
-		let this->_position = 0;
+		let this->position = 0;
 	}
 
 	/**
-	 * Returns the current resource in the iterator
+	 * Returns the current asset in the iterator
 	 */
-	public function current() -> <$Resource>
+	public function current() -> <Asset>
 	{
-		return this->_resources[this->_position];
+		return this->assets[this->position];
 	}
 
 	/**
@@ -226,7 +249,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function key() -> int
 	{
-		return this->_position;
+		return this->position;
 	}
 
 	/**
@@ -234,7 +257,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function next() -> void
 	{
-		let this->_position++;
+		let this->position++;
 	}
 
 	/**
@@ -242,7 +265,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function valid() -> bool
 	{
-		return isset this->_resources[this->_position];
+		return isset this->assets[this->position];
 	}
 
 	/**
@@ -250,16 +273,16 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function setTargetPath(string! targetPath) -> <Collection>
 	{
-		let this->_targetPath = targetPath;
+		let this->targetPath = targetPath;
 		return this;
 	}
 
 	/**
-	 * Sets a base source path for all the resources in this collection
+	 * Sets a base source path for all the assets in this collection
 	 */
 	public function setSourcePath(string! sourcePath) -> <Collection>
 	{
-		let this->_sourcePath = sourcePath;
+		let this->sourcePath = sourcePath;
 		return this;
 	}
 
@@ -268,25 +291,25 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function setTargetUri(string! targetUri) -> <Collection>
 	{
-		let this->_targetUri = targetUri;
+		let this->targetUri = targetUri;
 		return this;
 	}
 
 	/**
-	 * Sets a common prefix for all the resources
+	 * Sets a common prefix for all the assets
 	 */
 	public function setPrefix(string! prefix) -> <Collection>
 	{
-		let this->_prefix = prefix;
+		let this->prefix = prefix;
 		return this;
 	}
 
 	/**
-	 * Sets if the collection uses local resources by default
+	 * Sets if the collection uses local assets by default
 	 */
 	public function setLocal(bool! local) -> <Collection>
 	{
-		let this->_local = local;
+		let this->local = local;
 		return this;
 	}
 
@@ -295,7 +318,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function setAttributes(array! attributes) -> <Collection>
 	{
-		let this->_attributes = attributes;
+		let this->attributes = attributes;
 		return this;
 	}
 
@@ -304,7 +327,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function setFilters(array! filters) -> <Collection>
 	{
-		let this->_filters = filters;
+		let this->filters = filters;
 		return this;
 	}
 
@@ -313,16 +336,16 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function setTargetLocal(bool! targetLocal) -> <Collection>
 	{
-		let this->_targetLocal = targetLocal;
+		let this->targetLocal = targetLocal;
 		return this;
 	}
 
 	/**
-	 * Sets if all filtered resources in the collection must be joined in a single result file
+	 * Sets if all filtered assets in the collection must be joined in a single result file
 	 */
 	public function join(bool join) -> <Collection>
 	{
-		let this->_join = join;
+		let this->join = join;
 		return this;
 	}
 
@@ -333,10 +356,10 @@ class Collection implements \Countable, \Iterator
 	{
 		var targetPath, completePath;
 
-		let targetPath = this->_targetPath;
+		let targetPath = this->targetPath;
 
 		/**
-		 * A base path for resources can be set in the assets manager
+		 * A base path for assets can be set in the assets manager
 		 */
 		let completePath = basePath . targetPath;
 
@@ -355,23 +378,23 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function addFilter(<FilterInterface> filter) -> <Collection>
 	{
-		let this->_filters[] = filter;
+		let this->filters[] = filter;
 		return this;
 	}
 
 	/**
-	 * Adds a resource or inline-code to the collection
+	 * Adds a asset or inline-code to the collection
 	 */
-	protected final function addResource(<ResourceInterface> $resource) -> bool
+	protected final function addAsset(<AssetInterface> asset) -> bool
 	{
-		if !this->has($resource) {
-			if $resource instanceof $Resource {
-				let this->_resources[] = $resource;
+		if !this->has(asset) {
+			if asset instanceof Asset {
+				let this->assets[] = asset;
 			} else {
-				let this->_codes[] = $resource;
+				let this->codes[] = asset;
 			}
 
-			let this->_includedResources[] = $resource->getResourceKey();
+			let this->includedAssets[] = asset->getAssetKey();
 
 			return true;
 		}
