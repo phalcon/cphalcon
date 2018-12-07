@@ -16,6 +16,39 @@ use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Item;
 use Phalcon\Logger\Exception;
 
+/**
+ * Phalcon\Logger
+ *
+ * This component offers logging capabilities for your application. The component
+ * accepts multiple adapters, working also as a multiple logger. Phalcon\Logger
+ * implements PSR-3.
+ *
+ *<code>
+ * use Phalcon\Logger;
+ * use Phalcon\Logger\Adapter\Stream;
+ *
+ * $adapter1 = new Stream('/logs/first-log.log');
+ * $adapter2 = new Stream('/remote/second-log.log');
+ * $adapter3 = new Stream('/manager/third-log.log');
+ *
+ * $logger = new Logger(
+ * 		'messages',
+ * 		[
+ * 			'local'   => $adapter1,
+ * 			'remote'  => $adapter2,
+ * 			'manager' => $adapter3,
+ * 		]
+ * 	);
+ *
+ * // Log to all adapters
+ * $logger->error('Something went wrong');
+ *
+ * // Log to specific adapters
+ * $logger
+ * 		->excludeAdapters(['manager'])
+ * 		->info('This does not go to the "manager" logger);
+ *</code>
+ */
 class Logger implements LoggerInterface
 {
 	const ALERT     = 2;
