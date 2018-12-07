@@ -41,6 +41,6 @@ class Noop extends AbstractAdapter
 	 */
 	public function process(<Item> item) -> void
 	{
-	    // noop
+		// noop
 	}
 }

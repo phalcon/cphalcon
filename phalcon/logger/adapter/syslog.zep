@@ -48,24 +48,24 @@ class Syslog extends AbstractAdapter
 	 */
 	protected defaultFormatter = "Syslog";
 
-    /**
-     * @var int
-     */
+	/**
+	 * @var int
+	 */
 	protected facility = 0;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	protected name = "";
 
-    /**
-     * @var bool
-     */
+	/**
+	 * @var bool
+	 */
 	protected opened = false;
 
-    /**
-     * @var int
-     */
+	/**
+	 * @var int
+	 */
 	protected option = 0;
 
 	/**
@@ -75,17 +75,17 @@ class Syslog extends AbstractAdapter
 	{
 		var option, facility;
 
-        if fetch option, options["option"] {
-            let option = LOG_ODELAY;
-        }
+		if fetch option, options["option"] {
+			let option = LOG_ODELAY;
+		}
 
-        if !fetch facility, options["facility"] {
-            let facility = LOG_USER;
-        }
+		if !fetch facility, options["facility"] {
+			let facility = LOG_USER;
+		}
 
-        let this->name     = name,
-        	this->facility = facility,
-        	this->option   = option;
+		let this->name     = name,
+			this->facility = facility,
+			this->option   = option;
 	}
 
 	/**
@@ -121,14 +121,14 @@ class Syslog extends AbstractAdapter
 		let result = openlog(name, option, facility);
 
 		if (!result) {
-            throw new \LogicException(
-            	sprintf(
-            		"Cannot open syslog for name [%s] and facility [%s]",
-            		name,
-            		facility
+			throw new \LogicException(
+				sprintf(
+					"Cannot open syslog for name [%s] and facility [%s]",
+					name,
+					facility
 				)
 			);
-        }
+		}
 
 		let opened 		 = true,
 			this->opened = opened,
