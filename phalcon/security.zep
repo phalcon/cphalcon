@@ -393,7 +393,7 @@ class Security implements InjectionAwareInterface
 			/**
 			 * We always check if the value is correct in post
 			 */
-			let userToken = (string) request->getPost(tokenKey);
+			let userToken = request->getPost(tokenKey, "string");
 		} else {
 			let userToken = tokenValue;
 		}
