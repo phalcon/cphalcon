@@ -16,7 +16,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Test\Controllers\MicroController;
+use Phalcon\Test\Fixtures\Controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
@@ -606,5 +606,27 @@ class MicroCest
         $expected = ["POST", "GET"];
         $actual   = $app->getRouter()->getRouteByName("test")->getHttpMethods();
         $I->assertEquals($expected, $actual);
+    }
+
+    public function testMicroResponseHandler(IntegrationTester $I)
+    {
+        $trace = [];
+        $app = new Micro();
+        $app->setResponseHandler(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+        
+        $app->map(
+            "/blog",
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+        
+        $app->handle("/blog");
+
+        $I->assertCount(2, $trace);
     }
 }
