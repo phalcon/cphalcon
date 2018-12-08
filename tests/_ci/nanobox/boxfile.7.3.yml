@@ -79,8 +79,8 @@ run.config:
     - echo -e 'apcu.enable_cli=1' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Get the Zephir phar
-    - wget --no-clobber -O /opt/gonano/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.8/zephir.phar
-    - chmod +x /opt/gonano/bin/zephir
+    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.8/zephir.phar
+    - chmod +x /data/bin/zephir
 
 data.beanstalkd:
   image: schickling/beanstalkd
