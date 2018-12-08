@@ -331,6 +331,19 @@ class Tag
 	}
 
 	/**
+	 * Resets the request and internal values to avoid those fields will have any default value.
+	 * @deprecated Will be removed in 4.0.0
+	 */
+	deprecated public static function resetInput() -> void
+	{
+		let self::_displayValues = [],
+			self::_documentTitle = null,
+			self::_documentAppendTitle = [],
+			self::_documentPrependTitle = [],
+			self::_documentTitleSeparator = null;
+	}
+
+	/**
 	 * Builds a HTML A tag using framework conventions
 	 *
 	 *<code>
