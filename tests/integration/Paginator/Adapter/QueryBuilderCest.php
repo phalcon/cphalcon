@@ -50,9 +50,9 @@ class QueryBuilderCest
                 "limit"   => 1,
                 "page"    => 2
             ]
-        ))->getPaginate();
+        ))->paginate();
 
-        $I->assertEquals(2, $paginate->total_pages);
+        $I->assertEquals(2, $paginate->last);
         $I->assertEquals(2, $paginate->total_items);
     }
 
@@ -81,7 +81,7 @@ class QueryBuilderCest
                         "limit"   => 1,
                         "page"    => 2
                     ]
-                ))->getPaginate();
+                ))->paginate();
             }
         );
     }
@@ -122,9 +122,9 @@ class QueryBuilderCest
                 "page"    => 2,
                 "columns" => "id,stock"
             ]
-        ))->getPaginate();
+        ))->paginate();
 
-        $I->assertEquals(2, $paginate->total_pages);
+        $I->assertEquals(2, $paginate->last);
         $I->assertEquals(2, $paginate->total_items);
     }
 
@@ -158,9 +158,9 @@ class QueryBuilderCest
                         "limit"   => 1,
                         "page"    => 2
                     ]
-                ))->getPaginate();
+                ))->paginate();
 
-                expect($paginate->total_pages)->equals(2);
+                expect($paginate->last)->equals(2);
                 expect($paginate->total_items)->equals(2);
             }
         );
