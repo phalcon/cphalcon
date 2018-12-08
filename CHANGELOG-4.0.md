@@ -4,7 +4,6 @@
 - Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` to implement custom Postgresql rules
 - Added `Phalcon\Mvc\Router\RouteInterface::convert` so that calling `Phalcon\Mvc\Router\Group::add` will return an instance that has `convert` method [#13380](https://github.com/phalcon/cphalcon/issues/13380)
 - Added `Phalcon\Mvc\ModelInterface::getModelsMetaData` [#13070](https://github.com/phalcon/cphalcon/issues/13402)
-- Added `paginate()` method as a proxy of `getPaginate`. Added `previous` in the paginator object same as `before`. After 4.0 is released we will deprecate `getPaginate()`, `before` and `total_items` [#13492](https://github.com/phalcon/cphalcon/issues/13492)
 - Added `Phalcon\Messages\MessageInterface`, `Phalcon\Messages\Message`, `Phalcon\Messages\Exception` and `Phalcon\Messages\Messages` to handle all messages for the application (model/validation) [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Added `getHandlerSuffix()`, `setHandlerSuffix()` in Dispatcher, `getTaskSuffix()`, `setTaskSuffix()` in the CLI Dispatcher [#13468](https://github.com/phalcon/cphalcon/issues/13468)
 - Added ability to set a custom template for the Flash Messenger. [#13445](https://github.com/phalcon/cphalcon/issues/13445)
@@ -44,29 +43,51 @@
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
 - Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
 - Changed `Phalcon\Logger` to comply with PSR-3. The component has been rewritten to use adapters that alllow logging to different areas. The [#13438](https://github.com/phalcon/cphalcon/issues/13438)
+- Changed `paginate()` in the place of `getPaginate`. Added `previous` in the place of `before`. [#13492](https://github.com/phalcon/cphalcon/issues/13492)
 
 ## Removed
-- PHP < 7.0 no longer supported
-- Removed `Phalcon\Model::reset` [#12317](https://github.com/phalcon/cphalcon/issues/12317)
-- Removed deprecated `Phalcon\Cli\Console::addModules`
-- Removed deprecated `Phalcon\Debug::getMajorVersion`
-- Removed deprecated `Phalcon\Mvc\Model\Criteria::addWhere`
-- Removed deprecated `Phalcon\Mvc\Model\Criteria::order`
-- Removed deprecated `Phalcon\Validation\Validator::isSetOption`
-- Removed deprecated `Phalcon\Security::hasLibreSsl`
-- Removed deprecated `Phalcon\Security::getSslVersionNumber`
-- Removed `Phalcon\Http\RequestInterface::isSoapRequested` in favor of `Phalcon\Http\Request::isSoap`
-- Removed `Phalcon\Http\RequestInterface::isSecureRequest` in favor of `Phalcon\Http\RequestInterface::isSecure`
-- Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
-- Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
-- Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
+- PHP < 7.2 no longer supported
+- Removed `xcache` support from adapters
+- Removed `apc` support from adapters (use `apcu`)
+- Removed `memcache` support from adapters (use `libmemcached`)
 - Removed deprecated `Phalcon\Annotations\Adapter\Apc`
 - Removed deprecated `Phalcon\Annotations\Adapter\Xcache`
 - Removed deprecated `Phalcon\Cache\Backend\Apc`
 - Removed deprecated `Phalcon\Cache\Backend\Memcache`
 - Removed deprecated `Phalcon\Cache\Backend\Xcache`
+- Removed deprecated `Phalcon\Cli\Console::addModules`
+- Removed deprecated `Phalcon\Debug::getMajorVersion`
+- Removed deprecated `Phalcon\Mvc\Model\Criteria::addWhere`
+- Removed deprecated `Phalcon\Mvc\Model\Criteria::order`
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Apc`
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Memcache`
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
+- Removed deprecated `Phalcon\Mvc\View::getParams()`
+- Removed deprecated `Phalcon\Mvc\ViewInterface::getParams()`
+- Removed deprecated `Phalcon\Paginator\Adapter\Model::getPaginate()`
+- Removed deprecated `Phalcon\Paginator\Adapter\Model - before`
+- Removed deprecated `Phalcon\Paginator\Adapter\Model - total_pages`
+- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray::getPaginate()`
+- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray - before`
+- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray - total_pages`
+- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate()`
+- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder - before`
+- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder - total_pages`
+- Removed deprecated `Phalcon\Security::hasLibreSsl`
+- Removed deprecated `Phalcon\Security::getSslVersionNumber`
+- Removed deprecated `Phalcon\Validation\Validator::isSetOption`
+- Removed `Phalcon\Cli\Console::addModules` in favor of `Phalcon\Cli\Console::registerModules`
+- Removed `Phalcon\Debug::getMajorVersion` due to the fact that we never use this method
+- Removed `Phalcon\Dispatcher::setModelBinding` in favor of `Phalcon\Dispatcher::setModelBinder`
+- Removed `Phalcon\Http\RequestInterface::isSecureRequest` in favor of `Phalcon\Http\RequestInterface::isSecure`
+- Removed `Phalcon\Http\RequestInterface::isSoapRequested` in favor of `Phalcon\Http\Request::isSoap`
 - Removed `Phalcon\Logger\Multiple`
-
+- Removed `Phalcon\Mvc\Collection::validationHasFailed`
+- Removed `Phalcon\Mvc\Model\Criteria::order` in favor of `Phalcon\Mvc\Model\Criteria::orderBy`
+- Removed `Phalcon\Mvc\Model\Validator\*` in favor of `Phalcon\Validation\Validator\*`
+- Removed `Phalcon\Mvc\Micro\Lazyloader::__call` in favor of `Phalcon\Mvc\Micro\Lazyloader::callMethod`
+- Removed `Phalcon\Model::reset` [#12317](https://github.com/phalcon/cphalcon/issues/12317)
+- Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
+- Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
+- Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
+- Removed calling `Phalcon\Mvc\Collection::validate` with object of type `Phalcon\Mvc\Model\ValidatorInterface`
