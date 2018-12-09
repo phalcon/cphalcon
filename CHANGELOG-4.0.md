@@ -46,13 +46,21 @@
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
 - Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
 - Changed `Phalcon\Logger` to comply with PSR-3. The component has been rewritten to use adapters that alllow logging to different areas. The [#13438](https://github.com/phalcon/cphalcon/issues/13438)
+- Renamed `Phalcon\Assets\Resource` namespace to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Resource` to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\ResourceInterface` to `Phalcon\Assets\AssetInterface` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::addResource()` to `Phalcon\Assets\Manager::addAsset()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::addResourceByType()` to `Phalcon\Assets\Manager::addAssetByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::collectionResourcesByType()` to `Phalcon\Assets\Manager::collectionAssetsByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
 - Changed `paginate()` in the place of `getPaginate`. Added `previous` in the place of `before`. [#13492](https://github.com/phalcon/cphalcon/issues/13492)
+- Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
+- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
 
 ## Removed
 - PHP < 7.2 no longer supported
-- Removed `xcache` support from adapters
-- Removed `apc` support from adapters (use `apcu`)
-- Removed `memcache` support from adapters (use `libmemcached`)
+- Removed `xcache` support from adapters [#13628](https://github.com/phalcon/cphalcon/pull/13628)
+- Removed `apc` support from adapters (use `apcu`) [#13628](https://github.com/phalcon/cphalcon/pull/13628)
+- Removed `memcache` support from adapters (use `libmemcached`) [#13628](https://github.com/phalcon/cphalcon/pull/13628)
 - Removed deprecated `Phalcon\Annotations\Adapter\Apc`
 - Removed deprecated `Phalcon\Annotations\Adapter\Xcache`
 - Removed deprecated `Phalcon\Cache\Backend\Apc`
@@ -67,15 +75,15 @@
 - Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
 - Removed deprecated `Phalcon\Mvc\View::getParams()`
 - Removed deprecated `Phalcon\Mvc\ViewInterface::getParams()`
-- Removed deprecated `Phalcon\Paginator\Adapter\Model::getPaginate()`
-- Removed deprecated `Phalcon\Paginator\Adapter\Model - before`
-- Removed deprecated `Phalcon\Paginator\Adapter\Model - total_pages`
-- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray::getPaginate()`
-- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray - before`
-- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray - total_pages`
-- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate()`
-- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder - before`
-- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder - total_pages`
+- Removed deprecated `Phalcon\Paginator\Adapter\Model::getPaginate`
+- Removed deprecated `Phalcon\Paginator\Adapter\Model - $before`
+- Removed deprecated `Phalcon\Paginator\Adapter\Model - $total_pages`
+- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray::getPaginate`
+- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray - $before`
+- Removed deprecated `Phalcon\Paginator\Adapter\NativeArray - $total_pages`
+- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate`
+- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder - $before`
+- Removed deprecated `Phalcon\Paginator\Adapter\QueryBuilder - $total_pages`
 - Removed deprecated `Phalcon\Security::hasLibreSsl`
 - Removed deprecated `Phalcon\Security::getSslVersionNumber`
 - Removed deprecated `Phalcon\Validation\Validator::isSetOption`
@@ -95,39 +103,4 @@
 - Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
 - Removed calling `Phalcon\Mvc\Collection::validate` with object of type `Phalcon\Mvc\Model\ValidatorInterface`
-
-
-- Renamed `Phalcon\Assets\Resource` namespace to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-- Renamed `Phalcon\Assets\Resource` to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-- Renamed `Phalcon\Assets\ResourceInterface` to `Phalcon\Assets\AssetInterface` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-- Renamed `Phalcon\Assets\Manager::addResource()` to `Phalcon\Assets\Manager::addAsset()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-- Renamed `Phalcon\Assets\Manager::addResourceByType()` to `Phalcon\Assets\Manager::addAssetByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-- Renamed `Phalcon\Assets\Manager::collectionResourcesByType()` to `Phalcon\Assets\Manager::collectionAssetsByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-- Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
-- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
-
-## Removed
-- PHP < 7.0 no longer supported
-- Removed `Phalcon\Model::reset` [#12317](https://github.com/phalcon/cphalcon/issues/12317)
-- Removed deprecated `Phalcon\Cli\Console::addModules`
-- Removed deprecated `Phalcon\Debug::getMajorVersion`
-- Removed deprecated `Phalcon\Mvc\Model\Criteria::addWhere`
-- Removed deprecated `Phalcon\Mvc\Model\Criteria::order`
-- Removed deprecated `Phalcon\Validation\Validator::isSetOption`
-- Removed deprecated `Phalcon\Security::hasLibreSsl`
-- Removed deprecated `Phalcon\Security::getSslVersionNumber`
-- Removed `Phalcon\Http\RequestInterface::isSoapRequested` in favor of `Phalcon\Http\Request::isSoap`
-- Removed `Phalcon\Http\RequestInterface::isSecureRequest` in favor of `Phalcon\Http\RequestInterface::isSecure`
-- Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
-- Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
-- Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
-- Removed deprecated `Phalcon\Annotations\Adapter\Apc`
-- Removed deprecated `Phalcon\Annotations\Adapter\Xcache`
-- Removed deprecated `Phalcon\Cache\Backend\Apc`
-- Removed deprecated `Phalcon\Cache\Backend\Memcache`
-- Removed deprecated `Phalcon\Cache\Backend\Xcache`
-- Removed deprecated `Phalcon\Mvc\Model\Metadata\Apc`
-- Removed deprecated `Phalcon\Mvc\Model\Metadata\Memcache`
-- Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
-- Removed `Phalcon\Logger\Multiple`
 
