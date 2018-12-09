@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
+/**
+ * Class CountCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Collection
+ */
 class CountCest
 {
     /**
@@ -25,7 +31,7 @@ class CountCest
      */
     public function assetsCollectionCount(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - count()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - count()');
+        $I->skipTest('Need implementation');
     }
 }

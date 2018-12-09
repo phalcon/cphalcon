@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
+/**
+ * Class GetPositionCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Collection
+ */
 class GetPositionCest
 {
     /**
@@ -25,7 +31,7 @@ class GetPositionCest
      */
     public function assetsCollectionGetPosition(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getPosition()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->skipTest('Need implementation');
     }
 }

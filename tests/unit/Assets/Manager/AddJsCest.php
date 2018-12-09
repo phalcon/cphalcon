@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,14 @@
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Assets\Manager;
 use UnitTester;
 
+/**
+ * Class AddJsCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Manager
+ */
 class AddJsCest
 {
     /**
@@ -21,11 +28,28 @@ class AddJsCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-13
      */
     public function assetsManagerAddJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addJs()');
+        $assets = new Manager();
+
+        $assets->addJs('/js/jquery.js');
+        $assets->addJs('/js/jquery-ui.js');
+
+        $collection = $assets->get('js');
+
+        $number   = 0;
+        $expected = 'js';
+        foreach ($collection as $resource) {
+            $actual = $resource->getType();
+            $I->assertEquals($expected, $actual);
+            $number++;
+        }
+
+        $expected = 2;
+        $actual   = $number;
+        $I->assertEquals($expected, $actual);
     }
 }

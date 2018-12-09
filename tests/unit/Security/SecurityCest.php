@@ -28,10 +28,13 @@ class SecurityCest
     {
         $I->checkExtensionIsLoaded('openssl');
 
-        $this->newDi();
+        $this->setNewFactoryDefault();
 //        $this->setDiEscaper();
 //        $this->setDiUrl();
         $this->setDiSession();
+
+        $_SESSION = [];
+        global $_SESSION;
     }
 
     /**
@@ -119,10 +122,6 @@ class SecurityCest
      */
     public function testOneTokenPerRequest(UnitTester $I)
     {
-        /**
-         * @TODO - Check Segfault
-         */
-        $I->skipTest('TODO: Check segfault');
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -150,7 +149,7 @@ class SecurityCest
 
         $expected = $token;
         $actual   = $security->getToken();
-        $I->asserNottEquals($expected, $actual);
+        $I->assertNotEquals($expected, $actual);
 
         $expected = $token;
         $actual   = $security->getSessionToken();
@@ -164,10 +163,6 @@ class SecurityCest
      */
     public function testCheckToken(UnitTester $I)
     {
-        /**
-         * @TODO - Check Segfault
-         */
-        $I->skipTest('TODO: Check segfault');
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -248,5 +243,41 @@ class SecurityCest
 
         $security->setDefaultHash(Security::CRYPT_SHA512);
         $I->assertTrue($security->checkHash($password, $security->hash($password)));
+    }
+
+    public function testRequestToken(UnitTester $I)
+    {
+        $container = $this->getDI();
+
+        // Initialize session.
+        $security = new Security();
+        $security->setDI($container);
+
+        $tokenKey = $security->getTokenKey();
+        $security->getToken();
+
+        // Reinitialize object like if it's a new request.
+        $security = new Security();
+        $security->setDI($container);
+        $requestToken = $security->getRequestToken();
+        $sessionToken = $security->getSessionToken();
+        $tokenKey = $security->getTokenKey();
+        $token = $security->getToken();
+        
+        $I->assertEquals($sessionToken, $requestToken);
+        $I->assertNotEquals($token, $sessionToken);
+        $I->assertEquals($security->getRequestToken(), $requestToken);
+        $I->assertNotEquals($token, $security->getRequestToken());
+
+        $_POST = [$tokenKey => $requestToken];
+        $I->assertTrue($security->checkToken(null, null, false));
+        
+        $_POST = [$tokenKey => $token];
+        $I->assertFalse($security->checkToken(null, null, false));
+        
+        $I->assertFalse($security->checkToken());
+        
+        $security->destroyToken();
+        $I->assertNotEquals($security->getRequestToken(), $requestToken);
     }
 }

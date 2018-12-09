@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,32 +13,26 @@
 namespace Phalcon\Test\Unit\Assets\Filters\None;
 
 use Phalcon\Assets\Filters\None;
-use Phalcon\Assets\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+/**
+ * Class FilterCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Filters\None
+ */
 class FilterCest
 {
-    use DiTrait;
-
-    public function _before(UnitTester $I)
-    {
-        $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
-    }
-
     /**
      * Tests Phalcon\Assets\Filters\None :: filter()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-10
+     * @since  2018-11-13
      */
-    public function testAssetsFilterNone(UnitTester $I)
+    public function assetsFiltersNoneFilter(UnitTester $I)
     {
-        $I->wantToTest("Assets\Filters\None - filter()");
+        $I->wantToTest('Assets\Filters\None - filter()');
         $cssmin   = new None();
         $expected = ' ';
         $actual   = $cssmin->filter(' ');

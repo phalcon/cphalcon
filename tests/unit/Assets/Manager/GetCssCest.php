@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
+/**
+ * Class GetCssCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Manager
+ */
 class GetCssCest
 {
     /**
@@ -25,7 +31,7 @@ class GetCssCest
      */
     public function assetsManagerGetCss(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - getCss()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - getCss()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,23 +12,34 @@
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
-use Phalcon\Assets\Inline;
+use Phalcon\Assets\Inline\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
+/**
+ * Class GetTypeCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Inline
+ */
 class GetTypeCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Inline\Js :: getType()
+     * Tests Phalcon\Assets\Inline :: getType()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetType(UnitTester $I)
+    public function assetsInlineGetType(UnitTester $I)
     {
-        $resource = new Inline('js', '<script>alert("Hello");</script>');
+        $I->wantToTest('Assets\Inline - getType()');
+        $content = '<script>alert("Hello");</script>';
+        $asset   = new Js($content);
 
         $expected = 'js';
-        $actual   = $resource->getType();
-        $I->assertEquals($expected, $actual);
+        $this->assetGetType($I, $asset, $expected);
     }
 }

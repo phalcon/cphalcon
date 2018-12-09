@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,10 +16,11 @@ use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
-use Phalcon\Assets\Resource\Css;
-use Phalcon\Assets\Resource\Js;
+use Phalcon\Assets\Asset\Css;
+use Phalcon\Assets\Asset\Js;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function uniqid;
 use UnitTester;
 use function dataFolder;
 
@@ -31,9 +33,9 @@ class ManagerCest
      */
     public function _before(UnitTester $I)
     {
-        $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+//        $this->newDi();
+//        $this->setDiEscaper();
+//        $this->setDiUrl();
     }
 
     /**
@@ -41,86 +43,9 @@ class ManagerCest
      */
     public function _after(UnitTester $I)
     {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
-    }
-
-    /**
-     * Test Manager::get
-     *
-     * @author                   Phalcon Team <team@phalconphp.com>
-     * @since                    2017-06-04
-     *
-     * @expectedException        \Phalcon\Assets\Exception
-     * @expectedExceptionMessage The collection does not exist in the manager
-     */
-    public function assetsManagerShouldThrowExceptionIfThereIsNoCollection(UnitTester $I)
-    {
-        $I->expectThrowable(
-            new Exception('The collection does not exist in the manager'),
-            function () {
-                $assets = new Manager();
-                $assets->get('some-non-existent-collection');
-            }
-        );
-    }
-
-    /**
-     * Test Manager::exists
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-03-16
-     */
-    public function assetsManagerShouldDetectAbsenceOfACollection(UnitTester $I)
-    {
-        $assets = new Manager();
-        $actual = $assets->exists('some-non-existent-collection');
-        $I->assertFalse($actual);
-    }
-
-    /**
-     * Test Manager::exists
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-03-16
-     */
-    public function assetsManagerShouldDetectCollection(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addCss('/css/style1.css');
-        $assets->addCss('/css/style2.css');
-
-        $actual = $assets->exists('css');
-        $I->assertTrue($actual);
-    }
-
-    /**
-     * Tests addCss
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerAddingCss(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addCss('/css/style1.css');
-        $assets->addCss('/css/style2.css');
-
-        $collection = $assets->get('css');
-
-        $number   = 0;
-        $expected = 'css';
-        foreach ($collection as $resource) {
-            $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
-            $number++;
-        }
-
-        $expected = 2;
-        $actual   = $number;
-        $I->assertEquals($expected, $actual);
+        $this->resetDi();
+//        // Setting the doctype to XHTML5 for other tests to run smoothly
+//        Tag::setDocType(Tag::XHTML5);
     }
 
     /**
@@ -163,159 +88,6 @@ class ManagerCest
 
         $expected = 2;
         $actual   = $JSnumber;
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests addJs
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerAddingJs(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addJs('/js/script1.js');
-        $assets->addJs('/js/script2.js');
-
-        $collection = $assets->get('js');
-
-        $number   = 0;
-        $expected = 'js';
-        foreach ($collection as $resource) {
-            $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
-            $number++;
-        }
-
-        $expected = 2;
-        $actual   = $number;
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * addResource tests
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerAddingCssWithAddResource(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addCss('/css/style1.css');
-        $assets->addCss('/css/style2.css');
-        $assets->addResource(new Css('/css/style.css', false));
-
-        $expected = 3;
-        $actual   = count($assets->get('css'));
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * outputCss - implicitOutput tests
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerOutputCssWithImplicitOutput(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addCss('css/style1.css');
-        $assets->addCss('css/style2.css');
-        $assets->addResource(new Css('/css/style.css', false));
-
-        $expected = sprintf(
-            "%s\n%s\n%s\n",
-            '<link rel="stylesheet" type="text/css" href="/css/style1.css" />',
-            '<link rel="stylesheet" type="text/css" href="/css/style2.css" />',
-            '<link rel="stylesheet" type="text/css" href="/css/style.css" />'
-        );
-
-        ob_start();
-        $assets->outputCss();
-        $actual = ob_get_clean();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * outputJs - implicitOutput tests
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerOutputJsWithImplicitOutput(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addJs('js/script1.js');
-        $assets->addJs('js/script2.js');
-        $assets->addResource(new Js('/js/script3.js', false));
-
-        $expected = sprintf(
-            "%s\n%s\n%s\n",
-            '<script type="text/javascript" src="/js/script1.js"></script>',
-            '<script type="text/javascript" src="/js/script2.js"></script>',
-            '<script type="text/javascript" src="/js/script3.js"></script>'
-        );
-
-        ob_start();
-        $assets->outputJs();
-        $actual = ob_get_clean();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * outputCss - without implicitOutput tests
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerOutputCssWithoutImplicitOutput(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addCss('css/style1.css');
-        $assets->addCss('css/style2.css');
-        $assets->addResource(new Css('/css/style.css', false));
-
-        $expected = sprintf(
-            "%s\n%s\n%s\n",
-            '<link rel="stylesheet" type="text/css" href="/css/style1.css" />',
-            '<link rel="stylesheet" type="text/css" href="/css/style2.css" />',
-            '<link rel="stylesheet" type="text/css" href="/css/style.css" />'
-        );
-
-        $assets->useImplicitOutput(false);
-        $actual = $assets->outputCss();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * outputJs - without implicitOutput tests
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerOutputJsWithoutImplicitOutput(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        $assets->addJs('js/script1.js');
-        $assets->addJs('js/script2.js');
-        $assets->addResource(new Js('/js/script3.js', false));
-
-        $expected = sprintf(
-            "%s\n%s\n%s\n",
-            '<script type="text/javascript" src="/js/script1.js"></script>',
-            '<script type="text/javascript" src="/js/script2.js"></script>',
-            '<script type="text/javascript" src="/js/script3.js"></script>'
-        );
-
-        $assets->useImplicitOutput(false);
-        $actual = $assets->outputJs();
         $I->assertEquals($expected, $actual);
     }
 
@@ -379,7 +151,7 @@ class ManagerCest
      * @author Paul Scarrone <paul@savvysoftworks.com>
      * @since  2017-06-20
      */
-    public function testAssetsManagerOutputJsWithMixedResourceCollection(UnitTester $I)
+    public function testAssetsManagerOutputJsWithMixedAssetCollection(UnitTester $I)
     {
         $assets = new Manager();
 
@@ -421,7 +193,7 @@ class ManagerCest
      */
     public function testTargetLocal(UnitTester $I)
     {
-        $file   = md5(microtime(true)) . '.js';
+        $file   = uniqid() . '.js';
         $assets = new Manager();
         $jsFile = dataFolder('assets/assets/jquery.js');
 
@@ -549,47 +321,6 @@ class ManagerCest
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests avoid duplication of resources when adding a
-     * new one with existing name
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10938
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-06-02
-     */
-    public function doNotAddTheSameResources(UnitTester $I)
-    {
-        $assets = new Manager();
-
-        for ($i = 0; $i < 10; $i++) {
-            $assets
-                ->addCss('css/style.css')
-                ->addJs('script.js')
-            ;
-        }
-
-        $expected = 1;
-        $actual   = count($assets->getCss());
-        $I->assertEquals($expected, $actual);
-        $expected = 1;
-        $actual   = count($assets->getJs());
-        $I->assertEquals($expected, $actual);
-
-        for ($i = 0; $i < 2; $i++) {
-            $assets
-                ->addCss('style_' . $i . '.css')
-                ->addJs('script_' . $i . '.js')
-            ;
-        }
-
-        $expected = 3;
-        $actual   = count($assets->getCss());
-        $I->assertEquals($expected, $actual);
-        $expected = 3;
-        $actual   = count($assets->getJs());
         $I->assertEquals($expected, $actual);
     }
 

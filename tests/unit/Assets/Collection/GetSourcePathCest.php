@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
+/**
+ * Class GetSourcePathCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Collection
+ */
 class GetSourcePathCest
 {
     /**
@@ -25,7 +31,7 @@ class GetSourcePathCest
      */
     public function assetsCollectionGetSourcePath(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getSourcePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getSourcePath()');
+        $I->skipTest('Need implementation');
     }
 }

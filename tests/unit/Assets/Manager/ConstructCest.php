@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Manager
+ */
 class ConstructCest
 {
     /**
@@ -23,9 +29,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function assetsManagerConstruct(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

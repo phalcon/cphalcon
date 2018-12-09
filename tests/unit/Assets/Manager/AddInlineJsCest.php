@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
+/**
+ * Class AddInlineJsCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Manager
+ */
 class AddInlineJsCest
 {
     /**
@@ -25,7 +31,7 @@ class AddInlineJsCest
      */
     public function assetsManagerAddInlineJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addInlineJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addInlineJs()');
+        $I->skipTest('Need implementation');
     }
 }

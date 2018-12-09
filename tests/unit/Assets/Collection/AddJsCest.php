@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
+/**
+ * Class AddJsCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Collection
+ */
 class AddJsCest
 {
     /**
@@ -25,7 +31,7 @@ class AddJsCest
      */
     public function assetsCollectionAddJs(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - addJs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - addJs()');
+        $I->skipTest('Need implementation');
     }
 }

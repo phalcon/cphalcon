@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
+/**
+ * Class OutputInlineCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Manager
+ */
 class OutputInlineCest
 {
     /**
@@ -25,7 +31,7 @@ class OutputInlineCest
      */
     public function assetsManagerOutputInline(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - outputInline()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - outputInline()');
+        $I->skipTest('Need implementation');
     }
 }
