@@ -55,6 +55,7 @@
 - Changed `paginate()` in the place of `getPaginate`. Added `previous` in the place of `before`. [#13492](https://github.com/phalcon/cphalcon/issues/13492)
 - Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
 - CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
+- Changed `Phalcon\Db\Dialect\Postgresql::addPrimaryKey` to make primary key contraints names unique by prefixing them with the table name. [#12629](https://github.com/phalcon/cphalcon/pull/12629)
 
 ## Removed
 - PHP < 7.2 no longer supported
