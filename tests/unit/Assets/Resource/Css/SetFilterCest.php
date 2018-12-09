@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Resource\Css;
 
 use UnitTester;
 
+/**
+ * Class SetFilterCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Resource\Css
+ */
 class SetFilterCest
 {
     /**

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Assets\Resource\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
+/**
+ * Class GetResourceKeyCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Resource\Js
+ */
 class GetResourceKeyCest
 {
     use AssetsTrait;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use UnitTester;
 
+/**
+ * Class AddResourceCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ */
 class AddResourceCest
 {
     /**
@@ -25,7 +31,7 @@ class AddResourceCest
      */
     public function aclAdapterMemoryAddResource(UnitTester $I)
     {
-        $I->wantToTest("Acl\Adapter\Memory - addResource()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Acl\Adapter\Memory - addResource()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
+/**
+ * Class SetDefaultActionCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ */
 class SetDefaultActionCest
 {
     /**
@@ -27,7 +33,7 @@ class SetDefaultActionCest
      */
     public function aclAdapterMemorySetDefaultAction(UnitTester $I)
     {
-        $I->wantToTest("Acl\Adapter\Memory - setDefaultAction()");
+        $I->wantToTest('Acl\Adapter\Memory - setDefaultAction()');
         $acl = new Memory();
 
         $acl->setDefaultAction(Acl::ALLOW);

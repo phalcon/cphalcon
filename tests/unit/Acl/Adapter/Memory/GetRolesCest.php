@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use UnitTester;
 
+/**
+ * Class GetRolesCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ */
 class GetRolesCest
 {
     /**
@@ -25,7 +31,7 @@ class GetRolesCest
      */
     public function aclAdapterMemoryGetRoles(UnitTester $I)
     {
-        $I->wantToTest("Acl\Adapter\Memory - getRoles()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Acl\Adapter\Memory - getRoles()');
+        $I->skipTest('Need implementation');
     }
 }

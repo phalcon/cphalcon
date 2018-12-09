@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Acl\Role;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetDescriptionCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Role
+ */
 class GetDescriptionCest
 {
     /**
@@ -26,7 +32,7 @@ class GetDescriptionCest
      */
     public function aclRoleGetDescription(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - getDescription()");
+        $I->wantToTest('Acl\Role - getDescription()');
         $role = new Role('Administrators', 'The admin unit');
 
         $expected = 'The admin unit';
@@ -44,7 +50,7 @@ class GetDescriptionCest
      */
     public function aclRoleGetDescriptionEmpty(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - getDescription()");
+        $I->wantToTest('Acl\Role - getDescription()');
         $role = new Role('Administrators');
 
         $actual = $role->getDescription();

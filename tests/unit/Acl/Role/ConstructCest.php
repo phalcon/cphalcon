@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,11 @@ use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Role
+ */
 class ConstructCest
 {
     /**
@@ -28,7 +34,7 @@ class ConstructCest
      */
     public function aclRoleConstruct(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - __construct()");
+        $I->wantToTest('Acl\Role - __construct()');
         $actual = new Role('Administrator');
 
         $class = Role::class;
@@ -45,7 +51,7 @@ class ConstructCest
      */
     public function aclRoleConstructWithWildcardThrowsException(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - __construct() - exception with '*'");
+        $I->wantToTest('Acl\Role - __construct() - exception with "*"');
         $I->expectThrowable(
             new Exception("Role name cannot be '*'"),
             function () {
@@ -64,7 +70,7 @@ class ConstructCest
      */
     public function aclRoleConstructWithoutName(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - __construct() - exception params");
+        $I->wantToTest('Acl\Role - __construct() - exception params');
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Inline\Js
+ */
 class ConstructCest
 {
     /**
@@ -23,7 +29,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function assetsInlineJsConstruct(UnitTester $I)
     {
         $I->wantToTest("Assets\Inline\Js - __construct()");
         $I->skipTest("Need implementation");

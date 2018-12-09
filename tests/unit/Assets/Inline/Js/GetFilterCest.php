@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,16 +14,24 @@ namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use UnitTester;
 
+/**
+ * Class GetFilterCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Inline\Js
+ */
 class GetFilterCest
 {
     /**
      * Tests Phalcon\Assets\Inline\Js :: getFilter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetFilter(UnitTester $I)
+    public function assetsInlineJsGetFilter(UnitTester $I)
     {
+        $I->wantToTest("Assets\Inline\Js - getFilter()");
         $I->skipTest("Need implementation");
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,11 @@ use Phalcon\Acl\Exception;
 use Phalcon\Acl\Resource;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Resource
+ */
 class ConstructCest
 {
     /**
@@ -28,7 +34,7 @@ class ConstructCest
      */
     public function aclResourceConstruct(UnitTester $I)
     {
-        $I->wantToTest("Acl\Resource - __construct()");
+        $I->wantToTest('Acl\Resource - __construct()');
         $actual = new Resource('Customers');
 
         $class = Resource::class;
@@ -45,7 +51,7 @@ class ConstructCest
      */
     public function aclResourceConstructWithWildcardThrowsException(UnitTester $I)
     {
-        $I->wantToTest("Acl\Resource - __construct() - exception with '*'");
+        $I->wantToTest('Acl\Resource - __construct() - exception with "*"');
         $I->expectThrowable(
             new Exception("Resource name cannot be '*'"),
             function () {
@@ -64,7 +70,7 @@ class ConstructCest
      */
     public function aclResourceConstructWithoutName(UnitTester $I)
     {
-        $I->wantToTest("Acl\Resource - __construct() - exception parameters");
+        $I->wantToTest('Acl\Resource - __construct() - exception parameters');
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Assets\Resource;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
+/**
+ * Class GetTypeCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Resource
+ */
 class GetTypeCest
 {
     use AssetsTrait;

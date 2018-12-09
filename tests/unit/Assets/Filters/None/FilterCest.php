@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,11 @@ use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+/**
+ * Class FilterCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Filters\None
+ */
 class FilterCest
 {
     use DiTrait;

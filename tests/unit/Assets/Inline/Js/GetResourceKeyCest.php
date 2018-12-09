@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,23 +12,26 @@
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
-use Phalcon\Assets\Inline;
 use UnitTester;
 
+/**
+ * Class GetResourceKeyCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Inline\Js
+ */
 class GetResourceKeyCest
 {
     /**
      * Tests Phalcon\Assets\Inline\Js :: getResourceKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testGetResourceKey(UnitTester $I)
+    public function assetsInlineJsGetResourceKey(UnitTester $I)
     {
-        $resource = new Inline('js', '<script>alert("Hello");</script>');
-
-        $expected = md5('js:<script>alert("Hello");</script>');
-        $actual   = $resource->getResourceKey();
-        $I->assertEquals($expected, $actual);
+        $I->wantToTest("Assets\Inline\Js - getResourceKey()");
+        $I->skipTest("Need implementation");
     }
 }
