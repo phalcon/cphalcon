@@ -433,7 +433,7 @@ class Di implements DiInterface
 	/**
 	 * Set a default dependency injection container to be obtained into static methods
 	 */
-	public static function setDefault(<DiInterface> dependencyInjector)
+	public static function setDefault(<DiInterface> dependencyInjector) -> void
 	{
 		let self::_default = dependencyInjector;
 	}
@@ -441,7 +441,7 @@ class Di implements DiInterface
 	/**
 	 * Return the latest DI created
 	 */
-	public static function getDefault() -> <DiInterface>
+	public static function getDefault() -> <DiInterface> | null
 	{
 		return self::_default;
 	}
