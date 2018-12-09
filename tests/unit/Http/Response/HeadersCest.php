@@ -11,10 +11,13 @@
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Http\Response\Headers;
+use Phalcon\Events\Event;
 use UnitTester;
 
-class HeadersCest
+class HeadersCest extends HttpBase
 {
     /**
      * Tests the instance of the object
@@ -194,5 +197,47 @@ class HeadersCest
         $expected = $headers->toArray();
         $actual   = ['Content-Type' => 'text/html'];
         $I->assertEquals($expected, $actual);
+    }
+
+     /**
+     * Test the event response:beforeSendHeaders
+     *
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2018-11-28
+     */
+    public function testEventBeforeSendHeaders(UnitTester $I)
+    {
+        $this->newFactoryDefault();
+
+        $eventsManager = $this->getDI()->getShared('eventsManager');
+        $eventsManager->attach('response:beforeSendHeaders', function (Event $event, $response) {
+            return false;
+        });
+
+        $response = $this->getResponseObject();
+        $response->setEventsManager($eventsManager);
+        
+        $I->assertFalse($response->sendHeaders());
+    }
+     /**
+     * Test the event response:beforeSendHeaders
+     *
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2018-11-28
+     */
+    public function testEventAfterSendHeaders(UnitTester $I)
+    {
+        $eventsManager = $this->getDI()->getShared('eventsManager');
+        $eventsManager->attach('response:afterSendHeaders', function (Event $event, $response) {
+            echo 'some content';
+        });
+
+        $response = $this->getResponseObject();
+        ob_start();
+        $response->setEventsManager($eventsManager);
+        $response->sendHeaders();
+        $actual = ob_get_clean();
+
+        $I->assertEquals('some content', $actual);
     }
 }

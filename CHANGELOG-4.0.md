@@ -20,6 +20,9 @@
 - Added `Phalcon\Http\Response\Cookies::getCookies` [#13591](https://github.com/phalcon/cphalcon/pull/13591)
 - Added `Phalcon\Mvc\Model::isRelationshipLoaded` to check if relationship is loaded
 - Added an easy way to work with Phalcon and run the tests locally, using [nanobox.io](https://nanobox.io) [#13578](https://github.com/phalcon/cphalcon/issues/13578)
+- Added response handler to `Phalcon\Mvc\Micro`, `Phalcon\Mvc\Micro::setResponseHandler`, to allow use of a custom response handler. [#12452](https://github.com/phalcon/cphalcon/pull/12452)
+- Added two new events `response::beforeSendHeaders` and `response::afterSendHeaders` to `Phalcon\Http\Response` [#10689](https://github.com/phalcon/cphalcon/issue/10689)
+- Added a retainer for the current token to be used during the checkings, so when `Phalcon\Security::getToken` is called the token used for checkings don't change. [#12392](https://github.com/phalcon/cphalcon/issues/12392)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [PR-13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -50,7 +53,8 @@
 - Renamed `Phalcon\Assets\Manager::addResource()` to `Phalcon\Assets\Manager::addAsset()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
 - Renamed `Phalcon\Assets\Manager::addResourceByType()` to `Phalcon\Assets\Manager::addAssetByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
 - Renamed `Phalcon\Assets\Manager::collectionResourcesByType()` to `Phalcon\Assets\Manager::collectionAssetsByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
-
+- Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
+- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
 
 ## Removed
 - PHP < 7.0 no longer supported

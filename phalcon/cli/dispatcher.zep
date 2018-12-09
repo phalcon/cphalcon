@@ -204,11 +204,14 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	 * Calls the action method.
 	 */
 	public function callActionMethod(handler, string actionMethod, array! params = []) -> var
-	{
-		var options;
+	{	
+		var params;
 
-		let options = this->_options;
-		
-		return call_user_func_array([handler, actionMethod], [params, options]);
+		// This is to make sure that the paramters are zero-indexed and 
+		// their order isn't overriden by any options when we merge the array. 
+		let params = array_values(params);
+		let params = array_merge(params, this->_options);
+
+		return call_user_func_array([handler, actionMethod], params);
 	}
 }

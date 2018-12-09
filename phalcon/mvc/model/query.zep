@@ -120,7 +120,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _sqlAliasesModelsInstances;
 
-	protected _sqlColumnAliases;
+	protected _sqlColumnAliases = [];
 
 	protected _modelsInstances;
 
@@ -137,6 +137,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected _enableImplicitJoins;
 
 	protected _sharedLock;
+
+	protected _nestingLevel = -1;
 
 	/**
 	 * TransactionInterface so that the query can wrap a transaction
@@ -230,17 +232,24 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getQualified(array! expr) -> array
 	{
-		var columnName, sqlColumnAliases, metaData, sqlAliases,
+		var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
 			model, models, columnMap, hasModel, className;
 		int number;
 
 		let columnName = expr["name"];
 
+		let nestingLevel = this->_nestingLevel;
+
 		/**
 		 * Check if the qualified name is a column alias
 		 */
-		let sqlColumnAliases = this->_sqlColumnAliases;
+		if isset this->_sqlColumnAliases[nestingLevel] {
+			let sqlColumnAliases = this->_sqlColumnAliases[nestingLevel];
+		} else {
+			let sqlColumnAliases = [];
+		}
+
 		if isset sqlColumnAliases[columnName] && (!isset expr["domain"] || empty expr["domain"]) {
 			return [
 				"type": "qualified",
@@ -1759,6 +1768,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			throw new Exception("Corrupted SELECT AST");
 		}
 
+		let this->_nestingLevel++;
+
 		/**
 		 * sqlModels is an array of the models to be used in the query
 		 */
@@ -2036,7 +2047,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let position++;
 			}
 		}
-		let this->_sqlColumnAliases = sqlColumnAliases;
+		let this->_sqlColumnAliases[this->_nestingLevel] = sqlColumnAliases;
 
 		// sqlSelect is the final prepared SELECT
 		let sqlSelect = [
@@ -2091,6 +2102,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 				this->_sqlModelsAliases = tempSqlModelsAliases,
 				this->_sqlAliasesModelsInstances = tempSqlAliasesModelsInstances;
 		}
+
+		let this->_nestingLevel--;
 
 		return sqlSelect;
 	}
