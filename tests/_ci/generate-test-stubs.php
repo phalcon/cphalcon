@@ -31,7 +31,7 @@ use UnitTester;
 /**
  * Class %m%Cest
  *
- * @package Phalcon\Test\Unit\Logger
+ * @package Phalcon\Test\Unit\%n%
  */
 class %m%Cest
 {
