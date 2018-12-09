@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Assets\Exception;
+use Phalcon\Assets\Manager;
 use UnitTester;
 
 /**
@@ -22,16 +24,22 @@ use UnitTester;
 class GetCest
 {
     /**
-     * Tests Phalcon\Assets\Manager :: get()
+     * Tests Phalcon\Assets\Manager :: get() - unknown
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-06-04
      */
-    public function assetsManagerGet(UnitTester $I)
+    public function assetsManagerGetUnknown(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - get()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - get() - unknown');
+        $I->expectThrowable(
+            new Exception('The collection does not exist in the manager'),
+            function () {
+                $assets = new Manager();
+                $assets->get('some-non-existent-collection');
+            }
+        );
     }
 }

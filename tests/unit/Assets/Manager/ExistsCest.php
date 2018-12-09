@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Assets\Exception;
+use Phalcon\Assets\Manager;
 use UnitTester;
 
 /**
@@ -26,12 +28,35 @@ class ExistsCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
      */
     public function assetsManagerExists(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - exists()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - exists()');
+        $assets = new Manager();
+
+        $assets->addCss('/css/style1.css');
+        $assets->addCss('/css/style2.css');
+
+        $actual = $assets->exists('css');
+        $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Manager :: exists() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
+     */
+    public function assetsManagerExistsEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Manager - exists() - empty');
+        $assets = new Manager();
+
+        $actual = $assets->exists('some-non-existent-collection');
+        $I->assertFalse($actual);
     }
 }

@@ -31,7 +31,7 @@ class UseImplicitOutputCest
      */
     public function assetsManagerUseImplicitOutput(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - useImplicitOutput()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - useImplicitOutput()');
+        $I->skipTest('Need implementation');
     }
 }

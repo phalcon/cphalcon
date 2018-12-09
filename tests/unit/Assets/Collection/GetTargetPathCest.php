@@ -31,7 +31,7 @@ class GetTargetPathCest
      */
     public function assetsCollectionGetTargetPath(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getTargetPath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getTargetPath()');
+        $I->skipTest('Need implementation');
     }
 }

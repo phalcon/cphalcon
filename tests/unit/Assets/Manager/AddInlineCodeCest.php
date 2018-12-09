@@ -31,7 +31,7 @@ class AddInlineCodeCest
      */
     public function assetsManagerAddInlineCode(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addInlineCode()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addInlineCode()');
+        $I->skipTest('Need implementation');
     }
 }

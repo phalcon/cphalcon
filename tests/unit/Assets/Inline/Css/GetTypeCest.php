@@ -12,26 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline\Css;
 
+use Phalcon\Assets\Inline\Css;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetTypeCest
  *
- * @package Phalcon\Test\Unit\Assets\Inline\Css
+ * @package Phalcon\Test\Unit\Assets\Inline
  */
 class GetTypeCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Inline\Css :: getType()
+     * Tests Phalcon\Assets\Inline :: getType()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineCssGetType(UnitTester $I)
+    public function assetsInlineGetType(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Css - getType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - getType()');
+        $content = 'p {color: #000099}';
+        $asset   = new Css($content);
+
+        $expected = 'css';
+        $this->assetGetType($I, $asset, $expected);
     }
 }

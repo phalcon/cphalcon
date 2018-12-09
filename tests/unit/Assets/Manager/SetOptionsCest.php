@@ -31,7 +31,7 @@ class SetOptionsCest
      */
     public function assetsManagerSetOptions(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - setOptions()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - setOptions()');
+        $I->skipTest('Need implementation');
     }
 }

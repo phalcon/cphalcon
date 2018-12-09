@@ -20,6 +20,8 @@
 - Added `Phalcon\Mvc\Model::isRelationshipLoaded` to check if relationship is loaded
 - Added an easy way to work with Phalcon and run the tests locally, using [nanobox.io](https://nanobox.io) [#13578](https://github.com/phalcon/cphalcon/issues/13578)
 - Added response handler to `Phalcon\Mvc\Micro`, `Phalcon\Mvc\Micro::setResponseHandler`, to allow use of a custom response handler. [#12452](https://github.com/phalcon/cphalcon/pull/12452)
+- Added two new events `response::beforeSendHeaders` and `response::afterSendHeaders` to `Phalcon\Http\Response` [#10689](https://github.com/phalcon/cphalcon/issue/10689)
+- Added a retainer for the current token to be used during the checkings, so when `Phalcon\Security::getToken` is called the token used for checkings don't change. [#12392](https://github.com/phalcon/cphalcon/issues/12392)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [PR-13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -90,5 +92,42 @@
 - Removed `Phalcon\Model::reset` [#12317](https://github.com/phalcon/cphalcon/issues/12317)
 - Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
+- Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
 - Removed calling `Phalcon\Mvc\Collection::validate` with object of type `Phalcon\Mvc\Model\ValidatorInterface`
+
+
+- Renamed `Phalcon\Assets\Resource` namespace to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Resource` to `Phalcon\Assets\Asset` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\ResourceInterface` to `Phalcon\Assets\AssetInterface` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::addResource()` to `Phalcon\Assets\Manager::addAsset()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::addResourceByType()` to `Phalcon\Assets\Manager::addAssetByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Renamed `Phalcon\Assets\Manager::collectionResourcesByType()` to `Phalcon\Assets\Manager::collectionAssetsByType()` [#12082](https://github.com/phalcon/cphalcon/issues/12082)
+- Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
+- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
+
+## Removed
+- PHP < 7.0 no longer supported
+- Removed `Phalcon\Model::reset` [#12317](https://github.com/phalcon/cphalcon/issues/12317)
+- Removed deprecated `Phalcon\Cli\Console::addModules`
+- Removed deprecated `Phalcon\Debug::getMajorVersion`
+- Removed deprecated `Phalcon\Mvc\Model\Criteria::addWhere`
+- Removed deprecated `Phalcon\Mvc\Model\Criteria::order`
+- Removed deprecated `Phalcon\Validation\Validator::isSetOption`
+- Removed deprecated `Phalcon\Security::hasLibreSsl`
+- Removed deprecated `Phalcon\Security::getSslVersionNumber`
+- Removed `Phalcon\Http\RequestInterface::isSoapRequested` in favor of `Phalcon\Http\Request::isSoap`
+- Removed `Phalcon\Http\RequestInterface::isSecureRequest` in favor of `Phalcon\Http\RequestInterface::isSecure`
+- Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
+- Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
+- Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
+- Removed deprecated `Phalcon\Annotations\Adapter\Apc`
+- Removed deprecated `Phalcon\Annotations\Adapter\Xcache`
+- Removed deprecated `Phalcon\Cache\Backend\Apc`
+- Removed deprecated `Phalcon\Cache\Backend\Memcache`
+- Removed deprecated `Phalcon\Cache\Backend\Xcache`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Apc`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Memcache`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
+- Removed `Phalcon\Logger\Multiple`
+

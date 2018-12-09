@@ -31,7 +31,7 @@ class GetFiltersCest
      */
     public function assetsCollectionGetFilters(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getFilters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getFilters()');
+        $I->skipTest('Need implementation');
     }
 }

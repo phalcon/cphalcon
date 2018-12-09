@@ -31,7 +31,7 @@ class GetCssCest
      */
     public function assetsManagerGetCss(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - getCss()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - getCss()');
+        $I->skipTest('Need implementation');
     }
 }

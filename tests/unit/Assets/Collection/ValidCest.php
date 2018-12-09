@@ -31,7 +31,7 @@ class ValidCest
      */
     public function assetsCollectionValid(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - valid()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - valid()');
+        $I->skipTest('Need implementation');
     }
 }

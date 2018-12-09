@@ -31,7 +31,7 @@ class SetTargetUriCest
      */
     public function assetsCollectionSetTargetUri(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - setTargetUri()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - setTargetUri()');
+        $I->skipTest('Need implementation');
     }
 }

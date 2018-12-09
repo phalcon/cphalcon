@@ -31,7 +31,7 @@ class ConstructCest
      */
     public function assetsManagerConstruct(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

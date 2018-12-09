@@ -31,7 +31,7 @@ class AddInlineCssCest
      */
     public function assetsManagerAddInlineCss(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - addInlineCss()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - addInlineCss()');
+        $I->skipTest('Need implementation');
     }
 }

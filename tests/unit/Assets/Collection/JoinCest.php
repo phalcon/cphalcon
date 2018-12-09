@@ -31,7 +31,7 @@ class JoinCest
      */
     public function assetsCollectionJoin(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - join()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - join()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -12,26 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 /**
  * Class GetTypeCest
  *
- * @package Phalcon\Test\Unit\Assets\Inline\Js
+ * @package Phalcon\Test\Unit\Assets\Inline
  */
 class GetTypeCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Inline\Js :: getType()
+     * Tests Phalcon\Assets\Inline :: getType()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineJsGetType(UnitTester $I)
+    public function assetsInlineGetType(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Js - getType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - getType()');
+        $content = '<script>alert("Hello");</script>';
+        $asset   = new Js($content);
+
+        $expected = 'js';
+        $this->assetGetType($I, $asset, $expected);
     }
 }

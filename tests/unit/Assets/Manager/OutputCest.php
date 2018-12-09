@@ -31,7 +31,7 @@ class OutputCest
      */
     public function assetsManagerOutput(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - output()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - output()');
+        $I->skipTest('Need implementation');
     }
 }

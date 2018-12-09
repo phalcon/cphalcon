@@ -44,7 +44,7 @@ class TaskCest
 
         $I->assertEquals($task->requestRegistryAction(), "data");
         $I->assertEquals($task->helloAction(), "Hello !");
-        $I->assertEquals($task->helloAction(["World"]), "Hello World!");
+        $I->assertEquals($task->helloAction("World"), "Hello World!");
 
         $task2 = new \EchoTask();
         $task2->setDI($this->container);

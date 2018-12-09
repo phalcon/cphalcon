@@ -31,7 +31,7 @@ class SetPrefixCest
      */
     public function assetsCollectionSetPrefix(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - setPrefix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - setPrefix()');
+        $I->skipTest('Need implementation');
     }
 }

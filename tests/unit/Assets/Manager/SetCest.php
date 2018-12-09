@@ -31,7 +31,7 @@ class SetCest
      */
     public function assetsManagerSet(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - set()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - set()');
+        $I->skipTest('Need implementation');
     }
 }

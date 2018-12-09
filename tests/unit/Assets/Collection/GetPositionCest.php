@@ -31,7 +31,7 @@ class GetPositionCest
      */
     public function assetsCollectionGetPosition(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - getPosition()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -31,7 +31,7 @@ class ConstructCest
      */
     public function assetsCollectionConstruct(UnitTester $I)
     {
-        $I->wantToTest("Assets\Collection - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Collection - __construct()');
+        $I->skipTest('Need implementation');
     }
 }
