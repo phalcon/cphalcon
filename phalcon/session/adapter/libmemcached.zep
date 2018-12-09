@@ -112,7 +112,7 @@ class Libmemcached extends Adapter
 		parent::__construct(options);
 	}
 
-	public function close() -> boolean
+	public function close() -> bool
 	{
 		return true;
 	}
@@ -120,7 +120,7 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function destroy(string sessionId = null) -> boolean
+	public function destroy(string sessionId = null) -> bool
 	{
 		var id;
 
@@ -142,12 +142,12 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function gc() -> boolean
+	public function gc() -> bool
 	{
 		return true;
 	}
 
-	public function open() -> boolean
+	public function open() -> bool
 	{
 		return true;
 	}
@@ -163,7 +163,7 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function write(string sessionId, string data) -> boolean
+	public function write(string sessionId, string data) -> bool
 	{
 		return this->_libmemcached->save(sessionId, data, this->_lifetime);
 	}

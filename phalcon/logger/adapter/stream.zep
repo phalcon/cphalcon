@@ -1,113 +1,126 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Logger\Adapter;
 
-use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\FormatterInterface;
-use Phalcon\Logger\Formatter\Line as LineFormatter;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Item;
 
 /**
  * Phalcon\Logger\Adapter\Stream
  *
- * Sends logs to a valid PHP stream
+ * Adapter to store logs in plain text files
  *
- * <code>
- * use Phalcon\Logger;
- * use Phalcon\Logger\Adapter\Stream;
- *
- * $logger = new Stream("php://stderr");
+ *<code>
+ * $logger = new \Phalcon\Logger\Adapter\Stream("app/logs/test.log");
  *
  * $logger->log("This is a message");
- * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
- * </code>
+ *
+ * $logger->close();
+ *</code>
  */
-class Stream extends Adapter
+class Stream extends AbstractAdapter
 {
-
 	/**
-	 * File handler resource
+	 * Stream handler resource
 	 *
-	 * @var resource
+	 * @var resource|null
 	 */
-	protected _stream;
+	protected handler = null;
 
 	/**
-	 * Phalcon\Logger\Adapter\Stream constructor
+	 * The file open mode. Defaults to "ab"
+	 *
+	 * @var string
+	 */
+	protected mode = "ab";
+
+	/**
+	 * Stream name
+	 *
+	 * @var string
+	 */
+	protected name { get };
+
+	/**
+	 * Path options
+	 *
+	 * @var array
+	 */
+	protected options;
+
+	/**
+	 * Constructor. Accepts the name and some options
 	 */
 	public function __construct(string! name, array options = [])
 	{
-		var mode, stream;
+		var mode;
 
+		/**
+		 * Mode
+		 */
 		if fetch mode, options["mode"] {
 			if memstr(mode, "r") {
-				throw new Exception("Stream must be opened in append or write mode");
+				throw new Exception("Adapter cannot be opened in read mode");
 			}
-		} else {
+		}
+
+		if mode === null {
 			let mode = "ab";
 		}
 
-		/**
-		 * We use 'fopen' to respect to open-basedir directive
-		 */
-		let stream = fopen(name, mode);
-		if !stream {
-			throw new Exception("Can't open stream '" . name . "'");
-		}
-
-		let this->_stream = stream;
+		let this->name = name,
+			this->mode = mode;
 	}
 
 	/**
-	 * Returns the internal formatter
+	 * Closes the stream
 	 */
-	public function getFormatter() -> <FormatterInterface>
+	public function close() -> bool
 	{
-		if typeof this->_formatter !== "object" {
-			let this->_formatter = new LineFormatter();
+		bool result = true;
+
+		if is_resource(this->handler) {
+			let result = fclose(this->handler);
 		}
 
-		return this->_formatter;
+		let this->handler = null;
+
+		return result;
 	}
 
 	/**
-	 * Writes the log to the stream itself
+	 * Processes the message i.e. writes it to the file
 	 */
-	public function logInternal(string message, int type, int time, array context)
+	public function process(<Item> item) -> void
 	{
-		var stream;
+		var formatter, formattedMessage;
 
-		let stream = this->_stream;
-		if typeof stream != "resource" {
-			throw new Exception("Cannot send message to the log because it is invalid");
+		if !is_resource(this->handler) {
+			let this->handler = fopen(this->name, this->mode);
+
+			if !is_resource(this->handler) {
+				let $this->handler = null;
+				throw new \UnexpectedValueException(
+					sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
+				);
+			}
 		}
 
-		fwrite(stream, this->getFormatter()->format(message, type, time, context));
-	}
+		let formatter		= this->getFormatter(),
+			formattedMessage = formatter->format(item);
 
-	/**
- 	 * Closes the logger
- 	 */
-	public function close() -> boolean
-	{
-		return fclose(this->_stream);
+		fwrite(this->handler, formattedMessage);
 	}
 }

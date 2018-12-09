@@ -158,7 +158,7 @@ interface RouterInterface
 	/**
 	 * Check if the router matches any of the defined routes
 	 */
-	public function wasMatched() -> boolean;
+	public function wasMatched() -> bool;
 
 	/**
 	 * Return all the routes defined in the router
@@ -168,10 +168,10 @@ interface RouterInterface
 	/**
 	 * Returns a route object by its id
 	 */
-	public function getRouteById(var id) -> <RouteInterface>;
+	public function getRouteById(var id) -> <RouteInterface> | bool;
 
 	/**
 	 * Returns a route object by its name
 	 */
-	public function getRouteByName(string! name) -> <RouteInterface>;
+	public function getRouteByName(string! name) -> <RouteInterface> | bool;
 }

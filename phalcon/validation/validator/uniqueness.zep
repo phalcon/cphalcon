@@ -107,7 +107,7 @@ class Uniqueness extends CombinedFieldsValidator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, var field) -> boolean
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var message, label;
 
@@ -133,7 +133,7 @@ class Uniqueness extends CombinedFieldsValidator
 		return true;
 	}
 
-	protected function isUniqueness(<Validation> validation, var field) -> boolean
+	protected function isUniqueness(<Validation> validation, var field) -> bool
 	{
 		var values, convert, record, params, className, isModel, isDocument, singleField;
 

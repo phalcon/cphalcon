@@ -97,7 +97,7 @@ class Base64 implements FrontendInterface
 	/**
 	 * Check whether if frontend is buffering output
 	 */
-	public function isBuffering() -> boolean
+	public function isBuffering() -> bool
 	{
 		return false;
 	}

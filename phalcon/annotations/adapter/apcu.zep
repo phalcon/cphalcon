@@ -62,7 +62,7 @@ class Apcu extends Adapter
 	/**
 	 * Reads parsed annotations from APCu
 	 */
-	public function read(string! key) -> <Reflection> | boolean
+	public function read(string! key) -> <Reflection> | bool
 	{
 		return apcu_fetch(strtolower("_PHAN" . this->_prefix . key));
 	}

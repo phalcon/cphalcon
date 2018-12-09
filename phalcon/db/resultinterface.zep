@@ -30,7 +30,7 @@ interface ResultInterface
 	 * Allows to executes the statement again. Some database systems don't support scrollable cursors,
 	 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
 	 */
-	public function execute() -> boolean;
+	public function execute() -> bool;
 
 	/**
 	 * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
@@ -62,14 +62,14 @@ interface ResultInterface
 	/**
 	 * Moves internal resultset cursor to another position letting us to fetch a certain row
 	 *
-	 * @param int number
+	 * @param long number
 	 */
-	public function dataSeek(number);
+	public function dataSeek(long number);
 
 	/**
 	 * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
 	 */
-	public function setFetchMode(int fetchMode) -> boolean;
+	public function setFetchMode(int fetchMode) -> bool;
 
 	/**
 	 * Gets the internal PDO result object

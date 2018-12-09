@@ -74,7 +74,7 @@ class Callback extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> bool
 	{
 		var message, label, replacePairs, code, callback, returnedValue, data;
 
@@ -111,7 +111,7 @@ class Callback extends Validator
 			elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
 				return returnedValue->validate(validation, field);
 			}
-			throw new Exception("Callback must return boolean or Phalcon\\Validation\\Validator object");
+			throw new Exception("Callback must return bool or Phalcon\\Validation\\Validator object");
 		}
 
 		return true;

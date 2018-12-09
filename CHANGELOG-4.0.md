@@ -10,6 +10,7 @@
 - Added ability to set a custom template for the Flash Messenger. [#13445](https://github.com/phalcon/cphalcon/issues/13445)
 - Added `forUpdate` in the Sqlite dialect to override the method from the base dialect. [#13539](https://github.com/phalcon/cphalcon/issues/13539)
 - Added `TYPE_ENUM` in the Mysql adapter. [#11368](https://github.com/phalcon/cphalcon/issues/11368)
+- Added more column types for the Mysql adapter. The adapter supports `TYPE_BIGINTEGER`, `TYPE_BIT`, `TYPE_BLOB`, `TYPE_BOOLEAN`, `TYPE_CHAR`, `TYPE_DATE`, `TYPE_DATETIME`, `TYPE_DECIMAL`, `TYPE_DOUBLE`, `TYPE_ENUM`, `TYPE_FLOAT`, `TYPE_INTEGER`, `TYPE_JSON`, `TYPE_JSONB`, `TYPE_LONGBLOB`, `TYPE_LONGTEXT`, `TYPE_MEDIUMBLOB`, `TYPE_MEDIUMINTEGER`, `TYPE_MEDIUMTEXT`, `TYPE_SMALLINTEGER`, `TYPE_TEXT`, `TYPE_TIME`, `TYPE_TIMESTAMP`, `TYPE_TINYBLOB`, `TYPE_TINYINTEGER`, `TYPE_TINYTEXT`, `TYPE_VARCHAR`  [#13151](https://github.com/phalcon/cphalcon/issues/13151), [#12223](https://github.com/phalcon/cphalcon/issues/12223), [#524](https://github.com/phalcon/cphalcon/issues/524), [#13225](https://github.com/phalcon/cphalcon/pull/13225) [@zGaron](https://github.com/zGaron), [#12523](https://github.com/phalcon/cphalcon/pull/12523) [@Studentsov](https://github.com/Studentsov), [#12471](https://github.com/phalcon/cphalcon/pull/12471) [@ruudboon](https://github.com/ruudboon)
 - Added `Phalcon\Acl\Adapter\Memory::addRole` support multiple inherited
 - Added `Phalcon\Tag::renderTitle()` that renders the title enclosed in `<title>` tags. [#13547](https://github.com/phalcon/cphalcon/issues/13547)
 - Added `hasHeader()` method to `Phalcon\Http\Response` to provide the ability to check if a header exists. [PR-12189](https://github.com/phalcon/cphalcon/pull/12189)
@@ -18,6 +19,9 @@
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::offset` [#13599](https://github.com/phalcon/cphalcon/pull/13599)
 - Added `Phalcon\Http\Response\Cookies::getCookies` [#13591](https://github.com/phalcon/cphalcon/pull/13591)
 - Added `Phalcon\Mvc\Model::isRelationshipLoaded` to check if relationship is loaded
+- Added an easy way to work with Phalcon and run the tests locally, using [nanobox.io](https://nanobox.io) [#13578](https://github.com/phalcon/cphalcon/issues/13578)
+- Added response handler to `Phalcon\Mvc\Micro`, `Phalcon\Mvc\Micro::setResponseHandler`, to allow use of a custom response handler. [#12452](https://github.com/phalcon/cphalcon/pull/12452)
+- Added a retainer for the current token to be used during the checkings, so when `Phalcon\Security::getToken` is called the token used for checkings don't change. [#12392](https://github.com/phalcon/cphalcon/issues/12392)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [PR-13456](https://github.com/phalcon/cphalcon/pull/13456)
@@ -39,6 +43,11 @@
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
 - Changed `Phalcon\Tag::getTitle()`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [#13547](https://github.com/phalcon/cphalcon/issues/13547) 
 - Changed `Phalcon\Di\Service` constructor to no longer takes the name of the service.
+- Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
+- Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
+- Changed `Phalcon\Logger` to comply with PSR-3. The component has been rewritten to use adapters that alllow logging to different areas. The [#13438](https://github.com/phalcon/cphalcon/issues/13438)
+- Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
+- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
 
 ## Removed
 - PHP < 7.0 no longer supported
@@ -55,4 +64,13 @@
 - Removed `Phalcon\Validation\MessageInterface` and `Phalcon\Mvc\Model\MessageInterface` in favor of `Phalcon\Messages\MessageInterface`
 - Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
+- Removed deprecated `Phalcon\Annotations\Adapter\Apc`
+- Removed deprecated `Phalcon\Annotations\Adapter\Xcache`
+- Removed deprecated `Phalcon\Cache\Backend\Apc`
+- Removed deprecated `Phalcon\Cache\Backend\Memcache`
+- Removed deprecated `Phalcon\Cache\Backend\Xcache`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Apc`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Memcache`
+- Removed deprecated `Phalcon\Mvc\Model\Metadata\Xcache`
+- Removed `Phalcon\Logger\Multiple`
 

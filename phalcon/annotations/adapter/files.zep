@@ -57,7 +57,7 @@ class Files extends Adapter
 	/**
 	 * Reads parsed annotations from files
 	 */
-	public function read(string key) -> <Reflection> | boolean | int
+	public function read(string key) -> <Reflection> | bool | int
 	{
 		var path;
 

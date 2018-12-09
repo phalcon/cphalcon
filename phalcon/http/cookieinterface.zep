@@ -50,12 +50,12 @@ interface CookieInterface
 	/**
 	 * Sets if the cookie must be encrypted/decrypted automatically
 	 */
-	public function useEncryption(boolean useEncryption) -> <CookieInterface>;
+	public function useEncryption(bool useEncryption) -> <CookieInterface>;
 
 	/**
 	 * Check if the cookie is using implicit encryption
 	 */
-	public function isUsingEncryption() -> boolean;
+	public function isUsingEncryption() -> bool;
 
 	/**
 	 * Sets the cookie's expiration time
@@ -95,20 +95,20 @@ interface CookieInterface
 	/**
 	 * Sets if the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function setSecure(boolean secure) -> <CookieInterface>;
+	public function setSecure(bool secure) -> <CookieInterface>;
 
 	/**
 	 * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function getSecure() -> boolean;
+	public function getSecure() -> bool;
 
 	/**
 	 * Sets if the cookie is accessible only through the HTTP protocol
 	 */
-	public function setHttpOnly(boolean httpOnly) -> <CookieInterface>;
+	public function setHttpOnly(bool httpOnly) -> <CookieInterface>;
 
 	/**
 	 * Returns if the cookie is accessible only through the HTTP protocol
 	 */
-	public function getHttpOnly() -> boolean;
+	public function getHttpOnly() -> bool;
 }

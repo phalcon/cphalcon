@@ -50,14 +50,14 @@ class Event implements EventInterface
 	/**
 	 * Is event propagation stopped?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _stopped = false;
 
 	/**
 	 * Is event cancelable?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _cancelable = true;
 
@@ -66,7 +66,7 @@ class Event implements EventInterface
 	 *
 	 * @param object source
 	 */
-	public function __construct(string! type, source, var data = null, boolean cancelable = true)
+	public function __construct(string! type, source, var data = null, bool cancelable = true)
 	{
 		let this->_type = type,
 			this->_source = source;
@@ -123,7 +123,7 @@ class Event implements EventInterface
 	/**
 	 * Check whether the event is currently stopped.
 	 */
-	public function isStopped() -> boolean
+	public function isStopped() -> bool
 	{
 		return this->_stopped;
 	}
@@ -137,7 +137,7 @@ class Event implements EventInterface
 	 * }
 	 * </code>
 	 */
-	public function isCancelable() -> boolean
+	public function isCancelable() -> bool
 	{
 		return this->_cancelable;
 	}

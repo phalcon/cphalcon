@@ -1,4 +1,0 @@
-application:
-    controllersDir: !approot  /app/controllers/
-database:
-    password: !decrypt some_decrypted_password_here

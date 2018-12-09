@@ -1,2 +1,2 @@
-/failed
-phalcon_test.sqlite
+*
+!.gitignore

@@ -149,7 +149,7 @@ class Route implements RouteInterface
 	 * );
 	 *</code>
 	 */
-	public function via(var httpMethods) -> <Route>
+	public function via(var httpMethods) -> <RouteInterface>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -158,11 +158,11 @@ class Route implements RouteInterface
 	/**
 	 * Extracts parameters from a string
 	 */
-	public function extractNamedParams(string! pattern) -> array | boolean
+	public function extractNamedParams(string! pattern) -> array | bool
 	{
 		char ch, prevCh = '\0';
 		var tmp, matches;
-		boolean notValid;
+		bool notValid;
 		int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
 		int intermediate = 0, numberMatches = 0;
 		string route, item, variable, regexp;
@@ -448,7 +448,7 @@ class Route implements RouteInterface
 	 * )->setName("about");
 	 *</code>
 	 */
-	public function setName(string name) -> <Route>
+	public function setName(string name) -> <RouteInterface>
 	{
 		let this->_name = name;
 		return this;
@@ -478,7 +478,7 @@ class Route implements RouteInterface
      * );
 	 *</code>
 	 */
-	public function beforeMatch(var callback) -> <Route>
+	public function beforeMatch(var callback) -> <RouteInterface>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -506,7 +506,7 @@ class Route implements RouteInterface
 	 * );
 	 *</code>
 	 */
-	public function match(var callback) -> <Route>
+	public function match(var callback) -> <RouteInterface>
 	{
 		let this->_match = callback;
 		return this;
@@ -574,7 +574,7 @@ class Route implements RouteInterface
 	 * $route->setHttpMethods(["GET", "POST"]);
 	 *</code>
 	 */
-	public function setHttpMethods(var httpMethods) -> <Route>
+	public function setHttpMethods(var httpMethods) -> <RouteInterface>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -595,7 +595,7 @@ class Route implements RouteInterface
 	 * $route->setHostname("localhost");
 	 *</code>
 	 */
-	public function setHostname(string! hostname) -> <Route>
+	public function setHostname(string! hostname) -> <RouteInterface>
 	{
 		let this->_hostname = hostname;
 		return this;
@@ -612,7 +612,7 @@ class Route implements RouteInterface
 	/**
 	 * Sets the group associated with the route
 	 */
-	public function setGroup(<GroupInterface> group) -> <Route>
+	public function setGroup(<GroupInterface> group) -> <RouteInterface>
 	{
 		let this->_group = group;
 		return this;
@@ -629,7 +629,7 @@ class Route implements RouteInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function convert(string! name, var converter) -> <Route>
+	public function convert(string! name, var converter) -> <RouteInterface>
 	{
 		let this->_converters[name] = converter;
 

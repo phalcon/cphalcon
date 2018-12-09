@@ -55,7 +55,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Alias: Check whether a session variable is set in an application context
 	 */
-	public function __isset(string index) -> boolean
+	public function __isset(string index) -> bool
 	{
 		return this->has(index);
 	}
@@ -89,15 +89,13 @@ abstract class Adapter implements AdapterInterface
 	 * );
 	 *
 	 * var_dump(
-	 *     $session->destroy(true)
+	 *     $session->destroy('some-id')
 	 * );
 	 *</code>
 	 */
-	public function destroy(boolean removeData = false) -> boolean
-	{
-		if removeData {
-			this->removeSessionData();
-		}
+	public function destroy(string sessionId = null) -> bool
+	 {
+		this->removeSessionData();
 
 		let this->_started = false;
 		return session_destroy();
@@ -110,7 +108,7 @@ abstract class Adapter implements AdapterInterface
 	 * $session->get("auth", "yes");
 	 * </code>
 	 */
-	public function get(string index, var defaultValue = null, boolean remove = false) -> var
+	public function get(string index, var defaultValue = null, bool remove = false) -> var
 	{
 		var value, key, uniqueId;
 
@@ -168,7 +166,7 @@ abstract class Adapter implements AdapterInterface
 	 * );
 	 *</code>
 	 */
-	public function has(string index) -> boolean
+	public function has(string index) -> bool
 	{
 		var uniqueId;
 
@@ -189,7 +187,7 @@ abstract class Adapter implements AdapterInterface
 	 * );
 	 *</code>
 	 */
-	public function isStarted() -> boolean
+	public function isStarted() -> bool
 	{
 		return this->_started;
 	}
@@ -197,7 +195,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>
 	{
 		session_regenerate_id(deleteOldSession);
 		return this;
@@ -288,7 +286,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Starts the session (if headers are already sent the session will not be started)
 	 */
-	public function start() -> boolean
+	public function start() -> bool
 	{
 		if !headers_sent() {
 			if !this->_started && this->status() !== self::SESSION_ACTIVE {

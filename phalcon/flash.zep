@@ -82,7 +82,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->error("This is an error");
 	 *</code>
 	 */
-	public function error(var message) -> string
+	public function error(string message) -> string
 	{
 		return this->{"message"}("error", message);
 	}
@@ -142,7 +142,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->notice("This is an information");
 	 *</code>
 	 */
-	public function notice(var message) -> string
+	public function notice(string message) -> string
 	{
 		return this->{"message"}("notice", message);
 	}
@@ -150,7 +150,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	/**
 	 * Set the autoescape mode in generated html
 	 */
-	public function setAutoescape(boolean autoescape) -> <Flash>
+	public function setAutoescape(bool autoescape) -> <Flash>
 	{
 		let this->_autoescape = autoescape;
 		return this;
@@ -159,7 +159,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	/**
 	 * Set if the output must be implicitly formatted with HTML
 	 */
-	public function setAutomaticHtml(boolean automaticHtml) -> <FlashInterface>
+	public function setAutomaticHtml(bool automaticHtml) -> <FlashInterface>
 	{
 		let this->_automaticHtml = automaticHtml;
 		return this;
@@ -204,7 +204,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	/**
 	 * Set whether the output must be implicitly flushed to the output or returned as string
 	 */
-	public function setImplicitFlush(boolean implicitFlush) -> <FlashInterface>
+	public function setImplicitFlush(bool implicitFlush) -> <FlashInterface>
 	{
 		let this->_implicitFlush = implicitFlush;
 		return this;
@@ -217,7 +217,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->success("The process was finished successfully");
 	 *</code>
 	 */
-	public function success(var message) -> string
+	public function success(string message) -> string
 	{
 		return this->{"message"}("success", message);
 	}
@@ -234,7 +234,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 */
 	public function outputMessage(string type, var message)
 	{
-		boolean implicitFlush;
+		bool implicitFlush;
 		var content, msg,
 			htmlMessage, preparedMsg;
 
@@ -307,7 +307,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 * $flash->warning("Hey, this is important");
 	 *</code>
 	 */
-	public function warning(var message) -> string
+	public function warning(string message) -> string
 	{
 		return this->{"message"}("warning", message);
 	}

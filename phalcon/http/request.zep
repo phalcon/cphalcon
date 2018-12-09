@@ -22,6 +22,7 @@ namespace Phalcon\Http;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Http\Request\File;
+use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -91,7 +92,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * $userEmail = $request->get("user_email", "email");
 	 *</code>
 	 */
-	public function get(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
+	public function get(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
 		return this->getHelper(_REQUEST, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -108,7 +109,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * $userEmail = $request->getPost("user_email", "email");
 	 *</code>
 	 */
-	public function getPost(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
+	public function getPost(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
 		return this->getHelper(_POST, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -124,7 +125,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * $userEmail = $request->getPut("user_email", "email");
 	 *</code>
 	 */
-	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
+	public function getPut(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
 		var put, contentType;
 
@@ -163,7 +164,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * $id = $request->getQuery("id", null, 150);
 	 *</code>
 	 */
-	public function getQuery(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
+	public function getQuery(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
 		return this->getHelper(_GET, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -172,7 +173,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Helper to get data from superglobals, applying filters if needed.
 	 * If no parameters are given the superglobal is returned.
 	 */
-	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
+	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
 		var value, filter, dependencyInjector;
 
@@ -221,7 +222,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether $_REQUEST superglobal has certain index
 	 */
-	public function has(string! name) -> boolean
+	public function has(string! name) -> bool
 	{
 		return isset _REQUEST[name];
 	}
@@ -229,7 +230,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether $_POST superglobal has certain index
 	 */
-	public function hasPost(string! name) -> boolean
+	public function hasPost(string! name) -> bool
 	{
 		return isset _POST[name];
 	}
@@ -237,7 +238,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether the PUT data has certain index
 	 */
-	public function hasPut(string! name) -> boolean
+	public function hasPut(string! name) -> bool
 	{
 		var put;
 
@@ -249,7 +250,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether $_GET superglobal has certain index
 	 */
-	public function hasQuery(string! name) -> boolean
+	public function hasQuery(string! name) -> bool
 	{
 		return isset _GET[name];
 	}
@@ -257,7 +258,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether $_SERVER superglobal has certain index
 	 */
-	public final function hasServer(string! name) -> boolean
+	public final function hasServer(string! name) -> bool
 	{
 		return isset _SERVER[name];
 	}
@@ -265,7 +266,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Checks whether headers has certain index
      */
-    public final function hasHeader(string! header) -> boolean
+    public final function hasHeader(string! header) -> bool
     {
         var name;
 
@@ -325,7 +326,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether request has been made using ajax
 	 */
-	public function isAjax() -> boolean
+	public function isAjax() -> bool
 	{
 		return isset _SERVER["HTTP_X_REQUESTED_WITH"] && _SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest";
 	}
@@ -333,7 +334,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether request has been made using SOAP
 	 */
-	public function isSoap() -> boolean
+	public function isSoap() -> bool
 	{
 		var contentType;
 
@@ -351,7 +352,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether request has been made using any secure layer
 	 */
-	public function isSecure() -> boolean
+	public function isSecure() -> bool
 	{
 		return this->getScheme() === "https";
 	}
@@ -380,7 +381,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets decoded JSON HTTP raw request body
 	 */
-	public function getJsonRawBody(boolean associative = false) -> <\stdClass> | array | boolean
+	public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool
 	{
 		var rawBody;
 
@@ -501,7 +502,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Sets if the `Request::getHttpHost` method must be use strict validation of host name or not
 	 */
-	public function setStrictHostCheck(bool flag = true) -> <Request>
+	public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
 	{
 		let this->_strictHostCheck = flag;
 
@@ -511,7 +512,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks if the `Request::getHttpHost` method will be use strict validation of host name or not
 	 */
-	public function isStrictHostCheck() -> boolean
+	public function isStrictHostCheck() -> bool
 	{
 		return this->_strictHostCheck;
 	}
@@ -560,7 +561,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Gets most possible client IPv4 Address. This method searches in
 	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
-	public function getClientAddress(boolean trustForwardedHeader = false) -> string | boolean
+	public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
 	{
 		var address = null;
 
@@ -647,7 +648,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks if a method is a valid HTTP method
 	 */
-	public function isValidHttpMethod(string method) -> boolean
+	public function isValidHttpMethod(string method) -> bool
 	{
 		switch strtoupper(method) {
 			case "GET":
@@ -670,7 +671,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Check if HTTP method match any of the passed methods
 	 * When strict is true it checks if validated methods are real HTTP methods
 	 */
-	public function isMethod(var methods, boolean strict = false) -> boolean
+	public function isMethod(var methods, bool strict = false) -> bool
 	{
 		var httpMethod, method;
 
@@ -703,7 +704,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]==="POST"
 	 */
-	public function isPost() -> boolean
+	public function isPost() -> bool
 	{
 		return this->getMethod() === "POST";
 	}
@@ -711,7 +712,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is GET. if _SERVER["REQUEST_METHOD"]==="GET"
 	 */
-	public function isGet() -> boolean
+	public function isGet() -> bool
 	{
 		return this->getMethod() === "GET";
 	}
@@ -719,7 +720,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is PUT. if _SERVER["REQUEST_METHOD"]==="PUT"
 	 */
-	public function isPut() -> boolean
+	public function isPut() -> bool
 	{
 		return this->getMethod() === "PUT";
 	}
@@ -727,7 +728,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is PATCH. if _SERVER["REQUEST_METHOD"]==="PATCH"
 	 */
-	public function isPatch() -> boolean
+	public function isPatch() -> bool
 	{
 		return this->getMethod() === "PATCH";
 	}
@@ -735,7 +736,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is HEAD. if _SERVER["REQUEST_METHOD"]==="HEAD"
 	 */
-	public function isHead() -> boolean
+	public function isHead() -> bool
 	{
 		return this->getMethod() === "HEAD";
 	}
@@ -743,7 +744,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is DELETE. if _SERVER["REQUEST_METHOD"]==="DELETE"
 	 */
-	public function isDelete() -> boolean
+	public function isDelete() -> bool
 	{
 		return this->getMethod() === "DELETE";
 	}
@@ -751,7 +752,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is OPTIONS. if _SERVER["REQUEST_METHOD"]==="OPTIONS"
 	 */
-	public function isOptions() -> boolean
+	public function isOptions() -> bool
 	{
 		return this->getMethod() === "OPTIONS";
 	}
@@ -759,7 +760,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
 	 */
-	public function isPurge() -> boolean
+	public function isPurge() -> bool
 	{
 		return this->getMethod() === "PURGE";
 	}
@@ -767,7 +768,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
 	 */
-	public function isTrace() -> boolean
+	public function isTrace() -> bool
 	{
 		return this->getMethod() === "TRACE";
 	}
@@ -775,15 +776,17 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
 	 */
-	public function isConnect() -> boolean
+	public function isConnect() -> bool
 	{
 		return this->getMethod() === "CONNECT";
 	}
 
 	/**
-	 * Checks whether request include attached files
+	 * Returns the number of files available
+	 *
+	 * TODO: Check this
 	 */
-	public function hasFiles(boolean onlySuccessful = false) -> long
+	public function hasFiles(bool onlySuccessful = false) -> long
 	{
 		var files, file, error;
 		int numberFiles = 0;
@@ -815,7 +818,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Recursively counts file in an array of files
 	 */
-	protected final function hasFileHelper(var data, boolean onlySuccessful) -> long
+	protected final function hasFileHelper(var data, bool onlySuccessful) -> long
 	{
 		var value;
 		int numberFiles = 0;
@@ -842,7 +845,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(boolean onlySuccessful = false) -> <File[]>
+	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -1139,7 +1142,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
-	public function getClientCharsets() -> var
+	public function getClientCharsets() -> array
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}

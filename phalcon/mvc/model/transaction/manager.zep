@@ -139,7 +139,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Set if the transaction manager must register a shutdown function to clean up pendent transactions
 	 */
-	public function setRollbackPendent(boolean rollbackPendent) -> <Manager>
+	public function setRollbackPendent(bool rollbackPendent) -> <Manager>
 	{
 		let this->_rollbackPendent = rollbackPendent;
 		return this;
@@ -148,7 +148,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
 	 */
-	public function getRollbackPendent() -> boolean
+	public function getRollbackPendent() -> bool
 	{
 		return this->_rollbackPendent;
 	}
@@ -156,7 +156,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Checks whether the manager has an active transaction
 	 */
-	public function has() -> boolean
+	public function has() -> bool
 	{
 		return this->_number > 0;
 	}
@@ -165,7 +165,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
 	 * This method registers a shutdown function to rollback active connections
 	 */
-	public function get(boolean autoBegin = true) -> <TransactionInterface>
+	public function get(bool autoBegin = true) -> <TransactionInterface>
 	{
 		if !this->_initialized {
 			if this->_rollbackPendent {
@@ -179,7 +179,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Create/Returns a new transaction or an existing one
 	 */
-	public function getOrCreateTransaction(boolean autoBegin = true) -> <TransactionInterface>
+	public function getOrCreateTransaction(bool autoBegin = true) -> <TransactionInterface>
 	{
 		var dependencyInjector, transaction, transactions;
 
@@ -237,7 +237,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	 * Rollbacks active transactions within the manager
 	 * Collect will remove the transaction from the manager
 	 */
-	public function rollback(boolean collect = true)
+	public function rollback(bool collect = true)
 	{
 		var transactions, transaction, connection;
 

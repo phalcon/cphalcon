@@ -8,7 +8,9 @@
         <exclude name="Generic.Files.LineLength.TooLong"/>
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
     </rule>
+    <file>tests/cli</file>
     <file>tests/integration</file>
     <file>tests/unit</file>
+    <file>tests/_data/fixtures/Traits</file>
     <file>tests/_support/Helper</file>
 </ruleset>

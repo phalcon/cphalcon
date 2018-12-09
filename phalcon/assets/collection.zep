@@ -102,7 +102,7 @@ class Collection implements \Countable, \Iterator
 	 * $collection->has($resource); // true
 	 * </code>
 	 */
-	public function has(<ResourceInterface> $resource) -> boolean
+	public function has(<ResourceInterface> $resource) -> bool
 	{
 		var key, resources;
 
@@ -115,7 +115,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a CSS resource to the collection
 	 */
-	public function addCss(string! path, var local = null, boolean filter = true, attributes = null) -> <Collection>
+	public function addCss(string! path, var local = null, bool filter = true, attributes = null) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -139,7 +139,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds an inline CSS to the collection
 	 */
-	public function addInlineCss(string content, boolean filter = true, attributes = null) -> <Collection>
+	public function addInlineCss(string content, bool filter = true, attributes = null) -> <Collection>
 	{
 		var collectionAttributes;
 
@@ -158,7 +158,7 @@ class Collection implements \Countable, \Iterator
 	 *
 	 * @param array attributes
 	 */
-	public function addJs(string! path, boolean local = null, boolean filter = true, attributes = null) -> <Collection>
+	public function addJs(string! path, bool local = null, bool filter = true, attributes = null) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -182,7 +182,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds an inline javascript to the collection
 	 */
-	public function addInlineJs(string content, boolean filter = true, attributes = null) -> <Collection>
+	public function addInlineJs(string content, bool filter = true, attributes = null) -> <Collection>
 	{
 		var collectionAttributes;
 
@@ -240,7 +240,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Check if the current element in the iterator is valid
 	 */
-	public function valid() -> boolean
+	public function valid() -> bool
 	{
 		return isset this->_resources[this->_position];
 	}
@@ -284,7 +284,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Sets if the collection uses local resources by default
 	 */
-	public function setLocal(boolean! local) -> <Collection>
+	public function setLocal(bool! local) -> <Collection>
 	{
 		let this->_local = local;
 		return this;
@@ -311,7 +311,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Sets the target local
 	 */
-	public function setTargetLocal(boolean! targetLocal) -> <Collection>
+	public function setTargetLocal(bool! targetLocal) -> <Collection>
 	{
 		let this->_targetLocal = targetLocal;
 		return this;
@@ -320,7 +320,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Sets if all filtered resources in the collection must be joined in a single result file
 	 */
-	public function join(boolean join) -> <Collection>
+	public function join(bool join) -> <Collection>
 	{
 		let this->_join = join;
 		return this;
@@ -362,7 +362,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a resource or inline-code to the collection
 	 */
-	protected final function addResource(<ResourceInterface> $resource) -> boolean
+	protected final function addResource(<ResourceInterface> $resource) -> bool
 	{
 		if !this->has($resource) {
 			if $resource instanceof $Resource {

@@ -45,7 +45,7 @@ class Imagick extends Adapter
 	/**
 	 * Checks if Imagick is enabled
 	 */
-	public static function check() -> boolean
+	public static function check() -> bool
 	{
 		if self::_checked {
 			return true;
@@ -256,7 +256,7 @@ class Imagick extends Adapter
 	/**
 	 * Execute a reflection.
 	 */
-	protected function _reflection(int height, int opacity, boolean fadeIn)
+	protected function _reflection(int height, int opacity, bool fadeIn)
 	{
 		var reflection, fade, pseudo, image, pixel, ret;
 
@@ -415,8 +415,8 @@ class Imagick extends Adapter
 
 		let gravity = null;
 
-		if typeof offsetX == "bool" {
-			if typeof offsetY == "bool" {
+		if typeof offsetX == "boolean" {
+			if typeof offsetY == "boolean" {
 				let offsetX	= 0,
 					offsetY = 0;
 				if offsetX && offsetY {
@@ -460,7 +460,7 @@ class Imagick extends Adapter
 			if typeof offsetX == "int" {
 				let x = (int) offsetX;
 				if offsetX {
-					if typeof offsetY == "bool" {
+					if typeof offsetY == "boolean" {
 						if offsetY {
 							if x < 0 {
 								let offsetX	= x * -1,

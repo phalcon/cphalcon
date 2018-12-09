@@ -69,7 +69,7 @@ class NativeArray extends Adapter implements \ArrayAccess
 	/**
 	 * Check whether is defined a translation key in the internal array
 	 */
-	public function exists(string! index) -> boolean
+	public function exists(string! index) -> bool
 	{
 		return isset this->_translate[index];
 	}

@@ -1,5 +1,4 @@
-# can be changed while bootstrapping project
-actor: Tester
+actor_suffix: Tester
 
 paths:
     # where the modules stored
@@ -23,7 +22,7 @@ settings:
 
 coverage:
     # Disable Code Coverage by default to speed up Travis tests
-   enabled: false
+    enabled: false
 
 extensions:
     enabled:

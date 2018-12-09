@@ -183,7 +183,7 @@ class Annotation
 	 *
 	 * @param int|string position
 	 */
-	public function hasArgument(var position) -> boolean
+	public function hasArgument(var position) -> bool
 	{
 		return isset this->_arguments[position];
 	}

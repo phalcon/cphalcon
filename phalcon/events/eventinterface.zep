@@ -54,10 +54,10 @@ interface EventInterface
 	/**
 	 * Check whether the event is currently stopped
 	 */
-	public function isStopped() -> boolean;
+	public function isStopped() -> bool;
 
 	/**
 	 * Check whether the event is cancelable
 	 */
-	public function isCancelable() -> boolean;
+	public function isCancelable() -> bool;
 }

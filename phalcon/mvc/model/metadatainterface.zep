@@ -58,7 +58,7 @@ interface MetaDataInterface
 	/**
 	 * Reads the ordered/reversed column map for certain model
 	 */
-	public function readColumnMap(<ModelInterface> model) -> array;
+	public function readColumnMap(<ModelInterface> model) -> array | null;
 
 	/**
 	 * Reads column-map information for certain model using a MODEL_* constant
@@ -153,12 +153,12 @@ interface MetaDataInterface
 	/**
 	 * Check if a model has certain attribute
 	 */
-	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean;
+	public function hasAttribute(<ModelInterface> model, string attribute) -> bool;
 
 	/**
 	 * Checks if the internal meta-data container is empty
 	 */
-	public function isEmpty() -> boolean;
+	public function isEmpty() -> bool;
 
 	/**
 	 * Resets internal meta-data in order to regenerate it

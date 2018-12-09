@@ -2,21 +2,22 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
-use Phalcon\Mvc\View;
 use IntegrationTester;
-use Phalcon\Events\Manager;
-use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Manager;
+use Phalcon\Mvc\Application;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\View;
+use function dataFolder;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\ForwardCest
  * Tests the Phalcon\Mvc\Dispatcher
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc\Dispatcher
+ * @link          http://www.phalconphp.com
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -36,7 +37,7 @@ class ForwardCest
         $di = new FactoryDefault();
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(PATH_DATA . 'views/');
+            $view->setViewsDir(dataFolder('fixtures/views/'));
 
             return $view;
         }, true);
@@ -46,7 +47,7 @@ class ForwardCest
         $eventsManager->attach('dispatch:beforeException', function ($event, $dispatcher, $exception) {
             $dispatcher->forward([
                 'controller' => 'exception',
-                'action' => 'second'
+                'action'     => 'second',
             ]);
 
             // Prevent the exception from bubbling

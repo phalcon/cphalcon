@@ -45,17 +45,17 @@ interface CollectionInterface
 	/**
 	 * Sets the main handler
 	 */
-	public function setHandler(var handler, boolean lazy = false) -> <CollectionInterface>;
+	public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>;
 
 	/**
 	 * Sets if the main handler must be lazy loaded
 	 */
-	public function setLazy(boolean! lazy) -> <CollectionInterface>;
+	public function setLazy(bool! lazy) -> <CollectionInterface>;
 
 	/**
 	 * Returns if the main handler must be lazy loaded
 	 */
-	public function isLazy() -> boolean;
+	public function isLazy() -> bool;
 
 	/**
 	 * Returns the main handler

@@ -139,7 +139,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register namespaces and their related directories
 	 */
-	public function registerNamespaces(array! namespaces, boolean merge = false) -> <Loader>
+	public function registerNamespaces(array! namespaces, bool merge = false) -> <Loader>
 	{
 		var preparedNamespaces, name, paths;
 
@@ -189,7 +189,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register directories in which "not found" classes could be found
 	 */
-	public function registerDirs(array! directories, boolean merge = false) -> <Loader>
+	public function registerDirs(array! directories, bool merge = false) -> <Loader>
 	{
 		if merge {
 			let this->_directories = array_merge(this->_directories, directories);
@@ -212,7 +212,7 @@ class Loader implements EventsAwareInterface
 	 * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
 	 * have functions
 	 */
-	public function registerFiles(array! files, boolean merge = false) -> <Loader>
+	public function registerFiles(array! files, bool merge = false) -> <Loader>
 	{
 		if merge {
 			let this->_files = array_merge(this->_files, files);
@@ -234,7 +234,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register classes and their locations
 	 */
-	public function registerClasses(array! classes, boolean merge = false) -> <Loader>
+	public function registerClasses(array! classes, bool merge = false) -> <Loader>
 	{
 		if merge {
 			let this->_classes = array_merge(this->_classes, classes);
@@ -256,7 +256,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register the autoload method
 	 */
-	public function register(boolean prepend = false) -> <Loader>
+	public function register(bool prepend = false) -> <Loader>
 	{
 		if this->_registered === false {
 			/**
@@ -325,7 +325,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Autoloads the registered classes
 	 */
-	public function autoLoad(string! className) -> boolean
+	public function autoLoad(string! className) -> bool
 	{
 		var eventsManager, classes, extensions, filePath, ds, fixedDirectory,
 			directories, ns, namespaces, nsPrefix,

@@ -54,7 +54,7 @@ class Job
 	/**
 	 * Removes a job from the server entirely
 	 */
-	public function delete() -> boolean
+	public function delete() -> bool
 	{
 		var queue;
 
@@ -69,7 +69,7 @@ class Job
 	 * its state as "ready") to be run by any client. It is normally used when the job
 	 * fails because of a transitory error.
 	 */
-	public function release(int priority = 100, int delay = 0) -> boolean
+	public function release(int priority = 100, int delay = 0) -> bool
 	{
 		var queue;
 
@@ -83,7 +83,7 @@ class Job
 	 * a FIFO linked list and will not be touched by the server again until a client
 	 * kicks them with the "kick" command.
 	 */
-	public function bury(int priority = 100) -> boolean
+	public function bury(int priority = 100) -> bool
 	{
 		var queue;
 
@@ -100,7 +100,7 @@ class Job
 	 * a job (e.g. it may do this on `DEADLINE_SOON`). The command postpones the auto
 	 * release of a reserved job until TTR seconds from when the command is issued.
 	 */
-	public function touch() -> boolean
+	public function touch() -> bool
 	{
 		var queue;
 
@@ -112,7 +112,7 @@ class Job
 	/**
 	 * Move the job to the ready queue if it is delayed or buried.
 	 */
-	public function kick() -> boolean
+	public function kick() -> bool
 	{
 		var queue;
 
@@ -124,7 +124,7 @@ class Job
 	/**
 	 * Gives statistical information about the specified job if it exists.
 	 */
-	public function stats() -> boolean|array
+	public function stats() -> bool|array
 	{
 		var queue, response;
 

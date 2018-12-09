@@ -168,7 +168,7 @@ class Redis extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, var lifetime = null) -> var | null
 	{
 		var redis, frontend, cachedContent;
 
@@ -206,9 +206,9 @@ class Redis extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
+	 * @param bool stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var prefixedKey, frontend, redis, cachedContent, preparedContent,
 			tmp, ttl, success, isBuffering;
@@ -296,7 +296,7 @@ class Redis extends Backend
 	 *
 	 * @param int|string keyName
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(var keyName) -> bool
 	{
 		var redis, prefixedKey;
 
@@ -331,7 +331,7 @@ class Redis extends Backend
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
-		var redis, options, keys, key, idx;
+		var redis, keys, key, idx;
 
 		let redis = this->redis;
  		if typeof redis != "object" {
@@ -366,7 +366,7 @@ class Redis extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var redis;
 
@@ -434,7 +434,7 @@ class Redis extends Backend
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var redis, keys, key, lastKey;
 

@@ -52,22 +52,22 @@ interface AdapterInterface
 	/**
 	 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
 	 */
-	public function addRole(role, accessInherits = null) -> boolean;
+	public function addRole(role, accessInherits = null) -> bool;
 
 	/**
 	 * Do a role inherit from another existing role
 	 */
-	public function addInherit(string roleName, roleToInherit) -> boolean;
+	public function addInherit(string roleName, roleToInherit) -> bool;
 
 	/**
 	 * Check whether role exist in the roles list
 	 */
-	public function isRole(string roleName) -> boolean;
+	public function isRole(string roleName) -> bool;
 
 	/**
 	 * Check whether resource exist in the resources list
 	 */
-	public function isResource(string resourceName) -> boolean;
+	public function isResource(string resourceName) -> bool;
 
 	/**
 	 * Adds a resource to the ACL list
@@ -75,7 +75,7 @@ interface AdapterInterface
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
 	 */
-	public function addResource(resourceObject, accessList) -> boolean;
+	public function addResource(resourceObject, accessList) -> bool;
 
 	/**
 	 * Adds access to resources
@@ -100,7 +100,7 @@ interface AdapterInterface
 	/**
 	 * Check whether a role is allowed to access an action from a resource
 	 */
-	public function isAllowed(roleName, resourceName, access, array parameters = null) -> boolean;
+	public function isAllowed(roleName, resourceName, string access, array parameters = null) -> bool;
 
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access

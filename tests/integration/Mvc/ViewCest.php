@@ -17,12 +17,12 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Tag;
-use Phalcon\Mvc\View;
 use IntegrationTester;
 use Phalcon\Events\Manager;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Test\Module\View\AfterRenderListener;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Mvc\View\AfterRenderListener;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\ViewCest
@@ -38,7 +38,7 @@ class ViewCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12139
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-08-14
      */
     public function shouldGetActiveRenderPath(IntegrationTester $I)
@@ -46,33 +46,35 @@ class ViewCest
         $I->wantToTest('Gitting active path');
 
         $eventsManager = new Manager;
-        $eventsManager->attach('view', new AfterRenderListener);
+        $eventsManager->attach('view', new AfterRenderListener());
 
         $view = new View;
-        $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+        $view->setViewsDir(dataFolder('views' . DIRECTORY_SEPARATOR));
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->setEventsManager($eventsManager);
 
-        expect($view->getActiveRenderPath())->equals('');
+        $expected = '';
+        $actual   = $view->getActiveRenderPath();
+        $I->assertEquals($expected, $actual);
 
         $view->start();
-        $view->render('test15', 'index');
+        $view->render('activerender', 'index');
         $view->finish();
 
         $view->getContent();
 
         $I->assertEquals(
-            PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
+            dataFolder('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'),
             $view->getActiveRenderPath()
         );
 
         $view->setViewsDir([
-            PATH_DATA . 'views' . DIRECTORY_SEPARATOR,
-            PATH_DATA . 'views2' . DIRECTORY_SEPARATOR,
+            dataFolder('views' . DIRECTORY_SEPARATOR),
+            dataFolder('views2' . DIRECTORY_SEPARATOR),
         ]);
 
         $I->assertEquals(
-            [PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml'],
+            [dataFolder('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml')],
             $view->getActiveRenderPath()
         );
     }
@@ -87,18 +89,18 @@ class ViewCest
      */
     public function shouldGetCurrentRenderLevel(IntegrationTester $I)
     {
-        $I->wantToTest('Gitting current path');
-
-        $listener = new AfterRenderListener;
+        $I->wantToTest('Getting current path');
+        $I->skipTest('TODO - Check me');
+        $listener      = new AfterRenderListener;
         $eventsManager = new Manager;
         $eventsManager->attach('view', $listener);
 
         $view = new View;
-        $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+        $view->setViewsDir(dataFolder('fixtures/views' . DIRECTORY_SEPARATOR));
         $view->setEventsManager($eventsManager);
 
         $view->start();
-        $view->render('test3', 'other');
+        $view->render('currentrender', 'other');
         $view->finish();
         $I->assertEquals("<html>lolhere</html>\n", $view->getContent());
         $I->assertEquals('1,3,5', $listener->getLevels());
@@ -106,7 +108,7 @@ class ViewCest
         $listener->reset();
         $view->setTemplateAfter('test');
         $view->start();
-        $view->render('test3', 'other');
+        $view->render('currentrender', 'other');
         $view->finish();
         $I->assertEquals("<html>zuplolhere</html>\n", $view->getContent());
         $I->assertEquals('1,3,4,5', $listener->getLevels());
@@ -115,7 +117,7 @@ class ViewCest
         $view->cleanTemplateAfter();
         $view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
         $view->start();
-        $view->render('test3', 'other');
+        $view->render('currentrender', 'other');
         $view->finish();
         $I->assertEquals("<html>lolhere</html>\n", $view->getContent());
         $I->assertEquals('1,3,5', $listener->getLevels());
@@ -123,7 +125,7 @@ class ViewCest
         $listener->reset();
         $view->setRenderLevel(View::LEVEL_LAYOUT);
         $view->start();
-        $view->render('test3', 'other');
+        $view->render('currentrender', 'other');
         $view->finish();
         $I->assertEquals('lolhere', $view->getContent());
         $I->assertEquals('1,3', $listener->getLevels());
@@ -131,7 +133,7 @@ class ViewCest
         $listener->reset();
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->start();
-        $view->render('test3', 'other');
+        $view->render('currentrender', 'other');
         $view->finish();
         $I->assertEquals('here', $view->getContent());
         $I->assertEquals('1', $listener->getLevels());

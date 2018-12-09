@@ -82,32 +82,37 @@ class Column implements ColumnInterface
 	const TYPE_BIGINTEGER = 14;
 
 	/**
+	 * Bit abstract data type
+	 */
+	const TYPE_BIT = 19;
+
+	/**
 	 * Blob abstract data type
 	 */
 	const TYPE_BLOB = 11;
 
 	/**
-	 * Boolean abstract data type
+	 * Bool abstract data type
 	 */
 	const TYPE_BOOLEAN = 8;
 
 	/**
-	 * Char abstract type
+	 * Char abstract data type
 	 */
 	const TYPE_CHAR = 5;
 
 	/**
-	 * Date abstract type
+	 * Date abstract data type
 	 */
 	const TYPE_DATE = 1;
 
 	/**
-	 * Datetime abstract type
+	 * Datetime abstract data type
 	 */
 	const TYPE_DATETIME = 4;
 
 	/**
-	 * Decimal abstract type
+	 * Decimal abstract data type
 	 */
 	const TYPE_DECIMAL = 3;
 
@@ -117,22 +122,27 @@ class Column implements ColumnInterface
 	const TYPE_DOUBLE = 9;
 
 	/**
+	 * Enum abstract data type
+	 */
+	const TYPE_ENUM = 18;
+
+	/**
 	 * Float abstract data type
 	 */
 	const TYPE_FLOAT = 7;
 
 	/**
-	 * Integer abstract type
+	 * Int abstract data type
 	 */
 	const TYPE_INTEGER = 0;
 
 	/**
-	 * Json abstract type
+	 * Json abstract data type
 	 */
 	const TYPE_JSON = 15;
 
 	/**
-	 * Jsonb abstract type
+	 * Jsonb abstract data type
 	 */
 	const TYPE_JSONB = 16;
 
@@ -142,9 +152,29 @@ class Column implements ColumnInterface
 	const TYPE_LONGBLOB = 13;
 
 	/**
+	 * Longtext abstract data type
+	 */
+	const TYPE_LONGTEXT = 24;
+
+	/**
 	 * Mediumblob abstract data type
 	 */
 	const TYPE_MEDIUMBLOB = 12;
+
+	/**
+	 * Mediumintegerr abstract data type
+	 */
+	const TYPE_MEDIUMINTEGER = 21;
+
+	/**
+	 * Mediumtext abstract data type
+	 */
+	const TYPE_MEDIUMTEXT = 23;
+
+	/**
+	 * Smallint abstract data type
+	 */
+	const TYPE_SMALLINTEGER = 22;
 
 	/**
 	 * Text abstract data type
@@ -152,7 +182,12 @@ class Column implements ColumnInterface
 	const TYPE_TEXT = 6;
 
 	/**
-	 * Datetime abstract type
+	 * Time abstract data type
+	 */
+	const TYPE_TIME = 20;
+
+	/**
+	 * Timestamp abstract data type
 	 */
 	const TYPE_TIMESTAMP = 17;
 
@@ -162,7 +197,17 @@ class Column implements ColumnInterface
 	const TYPE_TINYBLOB = 10;
 
 	/**
-	 * Varchar abstract type
+	 * Tinyint abstract data type
+	 */
+	const TYPE_TINYINTEGER = 26;
+
+	/**
+	 * Tinytext abstract data type
+	 */
+	const TYPE_TINYTEXT = 25;
+
+	/**
+	 * Varchar abstract data type
 	 */
 	const TYPE_VARCHAR = 2;
 
@@ -176,7 +221,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column is autoIncrement?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _autoIncrement = false;
 
@@ -193,7 +238,7 @@ class Column implements ColumnInterface
 	/**
 	 * Position is first
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _first = false;
 
@@ -212,7 +257,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column not nullable?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _notNull = false;
 
@@ -245,7 +290,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column data type
 	 *
-	 * @var int|string
+	 * @var int
 	 */
 	protected _type { get };
 
@@ -266,7 +311,7 @@ class Column implements ColumnInterface
 	/**
 	 * Integer column unsigned?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected _unsigned = false;
 
@@ -402,7 +447,7 @@ class Column implements ColumnInterface
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
 	 */
-	public static function __set_state(array! data) -> <Column>
+	public static function __set_state(array! data) -> <ColumnInterface>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary, columnName, scale,
@@ -509,7 +554,7 @@ class Column implements ColumnInterface
 	/**
 	 * Check whether column has default value
 	 */
-	public function hasDefault() -> boolean
+	public function hasDefault() -> bool
 	{
 		if this->isAutoIncrement() {
 			return false;
@@ -521,7 +566,7 @@ class Column implements ColumnInterface
 	/**
 	 * Auto-Increment
 	 */
-	public function isAutoIncrement() -> boolean
+	public function isAutoIncrement() -> bool
 	{
 		return this->_autoIncrement;
 	}
@@ -529,7 +574,7 @@ class Column implements ColumnInterface
 	/**
 	 * Check whether column have first position in table
 	 */
-	public function isFirst() -> boolean
+	public function isFirst() -> bool
 	{
 		return this->_first;
 	}
@@ -537,7 +582,7 @@ class Column implements ColumnInterface
 	/**
 	 * Not null
 	 */
-	public function isNotNull() -> boolean
+	public function isNotNull() -> bool
 	{
 		return this->_notNull;
 	}
@@ -545,7 +590,7 @@ class Column implements ColumnInterface
 	/**
 	 * Check whether column have an numeric type
 	 */
-	public function isNumeric() -> boolean
+	public function isNumeric() -> bool
 	{
 		return this->_isNumeric;
 	}
@@ -553,7 +598,7 @@ class Column implements ColumnInterface
 	/**
 	 * Column is part of the primary key?
 	 */
-	public function isPrimary() -> boolean
+	public function isPrimary() -> bool
 	{
 		return this->_primary;
 	}
@@ -561,7 +606,7 @@ class Column implements ColumnInterface
 	/**
 	 * Returns true if number column is unsigned
 	 */
-	public function isUnsigned() -> boolean
+	public function isUnsigned() -> bool
 	{
 		return this->_unsigned;
 	}

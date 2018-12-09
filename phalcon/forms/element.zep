@@ -149,7 +149,7 @@ abstract class Element implements ElementInterface
 	 *
 	 * @param \Phalcon\Validation\ValidatorInterface[] validators
 	 */
-	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>
+	public function addValidators(array! validators, bool merge = true) -> <ElementInterface>
 	{
 		var currentValidators, mergedValidators;
 		if merge {
@@ -186,7 +186,7 @@ abstract class Element implements ElementInterface
 	 * Returns an array of prepared attributes for Phalcon\Tag helpers
 	 * according to the element parameters
 	 */
-	public function prepareAttributes(array attributes = null, boolean useChecked = false) -> array
+	public function prepareAttributes(array attributes = null, bool useChecked = false) -> array
 	{
 		var value, name, widgetAttributes, mergedAttributes,
 			defaultAttributes, currentValue;
@@ -451,7 +451,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Checks whether there are messages attached to the element
 	 */
-	public function hasMessages() -> boolean
+	public function hasMessages() -> bool
 	{
 		return count(this->_messages) > 0;
 	}
@@ -477,7 +477,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Clears element to its default value
 	 */
-	public function clear() -> <Element>
+	public function clear() -> <ElementInterface>
 	{
 		var form  = this->_form,
 			name  = this->_name,

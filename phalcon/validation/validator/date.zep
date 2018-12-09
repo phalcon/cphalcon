@@ -69,7 +69,7 @@ class Date extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> bool
 	{
 		var value, format, label, message, replacePairs, code;
 
@@ -106,7 +106,7 @@ class Date extends Validator
 		return true;
 	}
 
-	private function checkDate(value, format) -> boolean
+	private function checkDate(value, format) -> bool
 	{
 		var date, errors;
 

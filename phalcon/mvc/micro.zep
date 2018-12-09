@@ -77,6 +77,8 @@ class Micro extends Injectable implements \ArrayAccess
 
 	protected _modelBinder;
 
+	protected _responseHandler;
+
 	protected _afterBindingHandlers;
 
 	/**
@@ -483,7 +485,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Sets a service from the DI
 	 */
-	public function setService(string! serviceName, var definition, boolean shared = false) -> <ServiceInterface>
+	public function setService(string! serviceName, var definition, bool shared = false) -> <ServiceInterface>
 	{
 		var dependencyInjector;
 
@@ -499,7 +501,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Checks if a service is registered in the DI
 	 */
-	public function hasService(string! serviceName) -> boolean
+	public function hasService(string! serviceName) -> bool
 	{
 		var dependencyInjector;
 
@@ -967,28 +969,40 @@ class Micro extends Injectable implements \ArrayAccess
 			}
 		}
 
-		/**
-		 * Check if the returned value is a string and take it as response body
-		 */
-		if typeof returnedValue == "string" {
-			let response = <ResponseInterface> dependencyInjector->getShared("response");
-			if !response->isSent() {
-				response->setContent(returnedValue);
-				response->send();
-			}
-		}
 
 		/**
-		 * Check if the returned object is already a response
+		 * Check if a response handler is defined, else use default response handler
 		 */
-		if typeof returnedValue == "object" {
-			if returnedValue instanceof ResponseInterface {
-				/**
-				 * Automatically send the response
-				 */
-				 if !returnedValue->isSent() {
-				 	returnedValue->send();
-				 }
+		if this->_responseHandler {
+
+			if !is_callable(this->_responseHandler) {
+				throw new Exception("Response handler is not callable or is not defined");
+			}
+
+			let returnedValue = call_user_func(this->_responseHandler);
+
+		} else {
+
+			/**
+			 * Check if the returned value is a string and take it as response body
+			 */
+			if typeof returnedValue == "string" {
+				let response = <ResponseInterface> dependencyInjector->getShared("response");
+				if !response->isSent() {
+					response->setContent(returnedValue);
+					response->send();
+				}
+			}
+
+			/**
+			 * Check if the returned object is already a response
+			 */
+			if typeof returnedValue == "object" {
+				if returnedValue instanceof ResponseInterface {
+					if !response->isSent() {
+						returnedValue->send();
+					}
+				}
 			}
 		}
 
@@ -1036,7 +1050,7 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Check if a service is registered in the internal services container using the array syntax
 	 */
-	public function offsetExists(string! alias) -> boolean
+	public function offsetExists(var alias) -> bool
 	{
 		return this->hasService(alias);
 	}
@@ -1048,7 +1062,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *	$app["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(string! alias, var definition)
+	public function offsetSet(var alias, var definition) -> void
 	{
 		this->setService(alias, definition);
 	}
@@ -1064,7 +1078,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet(string! alias)
+	public function offsetGet(var alias) -> var
 	{
 		return this->getService(alias);
 	}
@@ -1072,9 +1086,17 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Removes a service from the internal services container using the array syntax
 	 */
-	public function offsetUnset(string! alias)
+	public function offsetUnset(var alias) -> void
 	{
-		return alias;
+		var dependencyInjector;
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = new FactoryDefault();
+			let this->_dependencyInjector = dependencyInjector;
+		}
+
+		dependencyInjector->remove(alias);
 	}
 
 	/**
@@ -1128,6 +1150,17 @@ class Micro extends Injectable implements \ArrayAccess
 	public function getHandlers() -> array
 	{
 		return this->_handlers;
+	}
+
+	/**
+	 * Appends a custom 'reponse' handler to be called insted of the default reponse handler
+	 *
+	 * @param callable handler
+	 */
+	public function setResponseHandler(handler) -> <Micro>
+	{
+		let this->_responseHandler = handler;
+		return this;
 	}
 
 	/**

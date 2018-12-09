@@ -129,7 +129,7 @@ class Manager implements ManagerInterface
 	/**
 	 * Set if priorities are enabled in the EventsManager
 	 */
-	public function enablePriorities(boolean enablePriorities)
+	public function enablePriorities(bool enablePriorities)
 	{
 		let this->_enablePriorities = enablePriorities;
 	}
@@ -137,7 +137,7 @@ class Manager implements ManagerInterface
 	/**
 	 * Returns if priorities are enabled
 	 */
-	public function arePrioritiesEnabled() -> boolean
+	public function arePrioritiesEnabled() -> bool
 	{
 		return this->_enablePriorities;
 	}
@@ -146,7 +146,7 @@ class Manager implements ManagerInterface
 	 * Tells the event manager if it needs to collect all the responses returned by every
 	 * registered listener in a single fire
 	 */
-	public function collectResponses(boolean collect)
+	public function collectResponses(bool collect)
 	{
 		let this->_collect = collect;
 	}
@@ -155,7 +155,7 @@ class Manager implements ManagerInterface
 	 * Check if the events manager is collecting all all the responses returned by every
 	 * registered listener in a single fire
 	 */
-	public function isCollecting() -> boolean
+	public function isCollecting() -> bool
 	{
 		return this->_collect;
 	}
@@ -191,7 +191,7 @@ class Manager implements ManagerInterface
 	public final function fireQueue(var queue, <EventInterface> event)
 	{
 		var status, arguments, eventName, data, iterator, source, handler;
-		boolean collect, cancelable;
+		bool collect, cancelable;
 
 		if typeof queue != "array" {
 			if typeof queue == "object" {
@@ -223,10 +223,10 @@ class Manager implements ManagerInterface
 		let data = event->getData();
 
 		// Tell if the event is cancelable
-		let cancelable = (boolean) event->isCancelable();
+		let cancelable = (bool) event->isCancelable();
 
 		// Responses need to be traced?
-		let collect = (boolean) this->_collect;
+		let collect = (bool) this->_collect;
 
 		if typeof queue == "object" {
 
@@ -365,7 +365,7 @@ class Manager implements ManagerInterface
 	 * @param mixed  data
 	 * @return mixed
 	 */
-	public function fire(string! eventType, source, data = null, boolean cancelable = true)
+	public function fire(string! eventType, source, data = null, bool cancelable = true)
 	{
 		var events, eventParts, type, eventName, event, status, fireEvents;
 
@@ -426,7 +426,7 @@ class Manager implements ManagerInterface
 	/**
 	 * Check whether certain type of event has listeners
 	 */
-	public function hasListeners(string! type) -> boolean
+	public function hasListeners(string! type) -> bool
 	{
 		return isset this->_events[type];
 	}

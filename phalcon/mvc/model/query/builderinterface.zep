@@ -18,6 +18,8 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Mvc\Model\QueryInterface;
+
 /**
  * Phalcon\Mvc\Model\Query\BuilderInterface
  *

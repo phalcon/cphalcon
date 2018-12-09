@@ -80,7 +80,7 @@ abstract class Pdo extends Adapter
 	/**
 	 * Starts a transaction in the connection
 	 */
-	public function begin(boolean nesting = true) -> boolean
+	public function begin(bool nesting = true) -> bool
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -138,7 +138,7 @@ abstract class Pdo extends Adapter
 	/**
 	 * Commits the active transaction in the connection
 	 */
-	public function commit(boolean nesting = true) -> boolean
+	public function commit(bool nesting = true) -> bool
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -211,7 +211,7 @@ abstract class Pdo extends Adapter
 	 * Closes the active connection returning success. Phalcon automatically closes and destroys
 	 * active connections when the request ends
 	 */
-	public function close() -> boolean
+	public function close() -> bool
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -244,7 +244,7 @@ abstract class Pdo extends Adapter
 	 * $connection->connect();
 	 * </code>
 	 */
-	public function connect(array descriptor = null) -> boolean
+	public function connect(array descriptor = null) -> bool
 	{
 		var username, password, dsnParts, dsnAttributes,
 			persistent, options, key, value;
@@ -409,7 +409,7 @@ abstract class Pdo extends Adapter
 	 * );
 	 *</code>
 	 */
-	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
+	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> bool
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -496,10 +496,11 @@ abstract class Pdo extends Adapter
 			if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
 
 				/**
-				 * The bind type is double so we try to get the double value
+				 * The bind type needs to be string because the precision
+				 * is lost if it is casted as a double
 				 */
 				if type == Column::BIND_PARAM_DECIMAL {
-					let castValue = doubleval(value),
+					let castValue = (string) value,
 						type = Column::BIND_SKIP;
 				} else {
 					if globals_get("db.force_casting") {
@@ -519,7 +520,7 @@ abstract class Pdo extends Adapter
 									break;
 
 								case Column::BIND_PARAM_BOOL:
-									let castValue = (boolean) value;
+									let castValue = (bool) value;
 									break;
 
 								default:
@@ -605,7 +606,7 @@ abstract class Pdo extends Adapter
 	 * );
 	 *</code>
 	 */
-	public function isUnderTransaction() -> boolean
+	public function isUnderTransaction() -> bool
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -638,7 +639,7 @@ abstract class Pdo extends Adapter
 	 *
 	 * @param string sequenceName
 	 */
-	public function lastInsertId(sequenceName = null) -> int | boolean
+	public function lastInsertId(sequenceName = null) -> int | bool
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -692,7 +693,7 @@ abstract class Pdo extends Adapter
 	 * );
 	 *</code>
 	 */
-	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
+	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | bool
 	{
 		var eventsManager, pdo, statement, params, types;
 
@@ -742,7 +743,7 @@ abstract class Pdo extends Adapter
 	/**
 	 * Rollbacks the active transaction in the connection
 	 */
-	public function rollback(boolean nesting = true) -> boolean
+	public function rollback(bool nesting = true) -> bool
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 

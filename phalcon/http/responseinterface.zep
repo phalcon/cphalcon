@@ -35,6 +35,11 @@ interface ResponseInterface
 	 */
 	public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
 
+    /**
+     * Returns the status code
+     */
+	public function getStatusCode() -> int | null;
+
 	/**
 	 * Returns headers set by the user
 	 */
@@ -43,7 +48,7 @@ interface ResponseInterface
 	/**
 	 * Checks if a header exists
 	 */
-	public function hasHeader(string name) -> boolean;
+	public function hasHeader(string name) -> bool;
 
 	/**
 	 * Overwrites a header in the response
@@ -85,7 +90,7 @@ interface ResponseInterface
 	/**
 	 * Redirect by HTTP to another action or URL
 	 */
-	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
+	public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
 	/**
 	 * Sets HTTP response body
@@ -134,5 +139,4 @@ interface ResponseInterface
 	 * Sets an attached file to be sent at the end of the request
 	 */
 	public function setFileToSend(string filePath, attachmentName = null) -> <ResponseInterface>;
-
 }

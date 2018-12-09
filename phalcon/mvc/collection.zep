@@ -227,7 +227,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Sets if a model must use implicit objects ids
 	 */
-	protected function useImplicitObjectIds(boolean useImplicitObjectIds)
+	protected function useImplicitObjectIds(bool useImplicitObjectIds)
 	{
 		this->_modelsManager->useImplicitObjectIds(this, useImplicitObjectIds);
 	}
@@ -341,7 +341,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * @param \MongoDb connection
 	 * @return array
 	 */
-	protected static function _getResultset(var params, <CollectionInterface> collection, connection, boolean unique)
+	protected static function _getResultset(var params, <CollectionInterface> collection, connection, bool unique)
 	{
 		var source, mongoCollection, conditions, base, documentsCursor,
 			fields, skip, limit, sort, document, collections, className;
@@ -519,7 +519,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Executes internal hooks before save a document
 	 */
-	protected final function _preSave(<DiInterface> dependencyInjector, boolean disableEvents, boolean exists) -> boolean
+	protected final function _preSave(<DiInterface> dependencyInjector, bool disableEvents, bool exists) -> bool
 	{
 		var eventName;
 
@@ -598,7 +598,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Executes internal events after save a document
 	 */
-	protected final function _postSave(boolean disableEvents, boolean success, boolean exists) -> boolean
+	protected final function _postSave(bool disableEvents, bool success, bool exists) -> bool
 	{
 		var eventName;
 
@@ -657,13 +657,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 *</code>
 	 */
-	protected function validate(<ValidationInterface> validator) -> boolean
+	protected function validate(<ValidationInterface> validator) -> bool
 	{
 		var messages, message;
 
 		let messages = validator->validate(null, this);
 
-		// Call the validation, if it returns not the boolean
+		// Call the validation, if it returns not the bool
 		// we append the messages to the current object
 		if typeof messages == "boolean" {
 			return messages;
@@ -716,7 +716,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 *</code>
 	 */
-	public function validationHasFailed() -> boolean
+	public function validationHasFailed() -> bool
 	{
 		return (count(this->_errorMessages) > 0);
 	}
@@ -724,7 +724,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Fires an internal event
 	 */
-	public function fireEvent(string! eventName) -> boolean
+	public function fireEvent(string! eventName) -> bool
 	{
 		/**
 		 * Check if there is a method with the same name of the event
@@ -742,7 +742,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Fires an internal event that cancels the operation
 	 */
-	public function fireEventCancel(string! eventName) -> boolean
+	public function fireEventCancel(string! eventName) -> bool
 	{
 		/**
 		 * Check if there is a method with the same name of the event
@@ -766,7 +766,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Cancel the current operation
 	 */
-	protected function _cancelOperation(boolean disableEvents) -> boolean
+	protected function _cancelOperation(bool disableEvents) -> bool
 	{
 		var eventName;
 
@@ -786,7 +786,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *
 	 * @param \MongoCollection collection
 	 */
-	protected function _exists(collection) -> boolean
+	protected function _exists(collection) -> bool
 	{
 		var id, mongoId, exists;
 
@@ -915,7 +915,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Creates/Updates a collection based on the values in the attributes
 	 */
-	public function save() -> boolean
+	public function save() -> bool
 	{
 		var exists, data, success, status, id, ok, collection;
 
@@ -976,7 +976,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Creates a collection based on the values in the attributes
 	 */
-	public function create() -> boolean
+	public function create() -> bool
 	{
 		var exists, data, success, status, id, ok, collection;
 
@@ -1048,7 +1048,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * );
 	 * </code>
 	 */
-	public function createIfNotExist(array! criteria) -> boolean
+	public function createIfNotExist(array! criteria) -> bool
 	{
 		var exists, data, keys, query,
 			success, status, doc, collection;
@@ -1124,7 +1124,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Creates/Updates a collection based on the values in the attributes
 	 */
-	public function update() -> boolean
+	public function update() -> bool
 	{
 		var exists, data, success, status, ok, collection;
 
@@ -1196,7 +1196,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 * </code>
 	 */
-	public static function findById(var id) -> <Collection> | null
+	public static function findById(var id) -> <CollectionInterface> | null
 	{
 		var className, collection, mongoId;
 
@@ -1449,7 +1449,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 * </code>
 	 */
-	public function delete() -> boolean
+	public function delete() -> bool
 	{
 		var disableEvents, status, id, connection, source,
 			collection, mongoId, success, ok;
@@ -1551,7 +1551,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip)
+	public function skipOperation(bool skip)
 	{
 		let this->_skipped = skip;
 	}
@@ -1620,7 +1620,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize(var data)
 	{
 		var attributes, dependencyInjector, manager, key, value, serializer;
 

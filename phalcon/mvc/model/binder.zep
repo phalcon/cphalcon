@@ -34,6 +34,8 @@ class Binder implements BinderInterface
 {
 	/**
 	 * Array for storing active bound models
+	 * 
+	 * @var array
 	 */
 	protected boundModels = [] { get };
 
@@ -112,7 +114,7 @@ class Binder implements BinderInterface
 	/**
 	 * Find the model by param value.
 	 */
-	protected function findBoundModel(var paramValue, string className) -> object | boolean
+	protected function findBoundModel(var paramValue, string className) -> object | bool
 	{
 		return {className}::findFirst(paramValue);
 	}

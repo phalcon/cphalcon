@@ -33,7 +33,7 @@ class Document implements EntityInterface, \ArrayAccess
 	/**
 	 * Checks whether an offset exists in the document
 	 */
-	public function offsetExists(string! index) -> boolean
+	public function offsetExists(var index) -> bool
 	{
 		return isset this->{index};
 	}
@@ -41,7 +41,7 @@ class Document implements EntityInterface, \ArrayAccess
 	/**
 	 * Returns the value of a field using the ArrayAccess interfase
 	 */
-	public function offsetGet(string! index)
+	public function offsetGet(var index) -> var
 	{
 		var value;
 		if fetch value, this->{index} {
@@ -53,7 +53,7 @@ class Document implements EntityInterface, \ArrayAccess
 	/**
 	 * Change a value using the ArrayAccess interface
 	 */
-	public function offsetSet(string! index, value) -> void
+	public function offsetSet(var index, value) -> void
 	{
 		let this->{index} = value;
 	}
@@ -61,7 +61,7 @@ class Document implements EntityInterface, \ArrayAccess
 	/**
 	 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 	 */
-	public function offsetUnset(string! index)
+	public function offsetUnset(var index) -> void
 	{
 		throw new Exception("The index does not exist in the row");
 	}

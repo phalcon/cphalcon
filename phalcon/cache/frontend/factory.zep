@@ -42,7 +42,7 @@ class Factory extends BaseFactory
 	/**
 	 * @param \Phalcon\Config|array config
 	 */
-	public static function load(var config) -> <FrontendInterface>
+	public static function load(var config) -> object
 	{
 		return self::loadClass("Phalcon\\Cache\\Frontend", config);
 	}

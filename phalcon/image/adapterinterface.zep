@@ -27,7 +27,7 @@ interface AdapterInterface
 	public function rotate(int degrees);
 	public function flip(int direction);
 	public function sharpen(int amount);
-	public function reflection(int height, int opacity = 100, boolean fadeIn = false);
+	public function reflection(int height, int opacity = 100, bool fadeIn = false);
 	public function watermark(<Adapter> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100);
 	public function text(string text, int offsetX = 0, int offsetY = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null);
 	public function mask(<Adapter> watermark);

@@ -1,28 +1,20 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Filter\Helper;
 
 use Phalcon\Filter;
-use Phalcon\Test\Module\UnitTest;
+use UnitTester;
 
-/**
- * \Phalcon\Test\Unit\Filter\Helper\FilterBase
- * Base test class for \Phalcon\Filter component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Filter\Helper
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
-class FilterBase extends UnitTest
+class FilterBase
 {
     /**
      * Tests integers
@@ -34,10 +26,10 @@ class FilterBase extends UnitTest
      * @param mixed  $expected
      * @param mixed  $value
      */
-    protected function sanitizer($filter, $expected, $value)
+    protected function sanitizer(UnitTester $I, $filter, $expected, $value)
     {
-        $fl = new Filter();
+        $fl     = new Filter();
         $actual = $fl->sanitize($value, $filter);
-        expect($expected)->equals($actual);
+        $I->assertEquals($expected, $actual);
     }
 }

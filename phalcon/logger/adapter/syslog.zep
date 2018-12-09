@@ -1,27 +1,20 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Logger\Adapter;
 
-use Phalcon\Logger\Exception;
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Formatter\FormatterInterface;
+use Phalcon\Logger\Item;
 
 /**
  * Phalcon\Logger\Adapter\Syslog
@@ -46,71 +39,127 @@ use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
  * $logger->error("This is another error");
  *</code>
  */
-class Syslog extends Adapter
+class Syslog extends AbstractAdapter
 {
+	/**
+	 * Name of the default formatter class
+	 *
+	 * @var string
+	 */
+	protected defaultFormatter = "Syslog";
 
-	protected _opened = false;
+	/**
+	 * @var int
+	 */
+	protected facility = 0;
+
+	/**
+	 * @var string
+	 */
+	protected name = "";
+
+	/**
+	 * @var bool
+	 */
+	protected opened = false;
+
+	/**
+	 * @var int
+	 */
+	protected option = 0;
 
 	/**
 	 * Phalcon\Logger\Adapter\Syslog constructor
 	 */
-	public function __construct(string name, array options = [])
+	public function __construct(string! name, array options = [])
 	{
 		var option, facility;
 
-		if name {
-
-			if !fetch option, options["option"] {
-				let option = LOG_ODELAY;
-			}
-
-			if !fetch facility, options["facility"] {
-				let facility = LOG_USER;
-			}
-
-			openlog(name, option, facility);
-			let this->_opened = true;
+		if fetch option, options["option"] {
+			let option = LOG_ODELAY;
 		}
 
-	}
-
-	/**
-	 * Returns the internal formatter
-	 */
-	public function getFormatter() -> <SyslogFormatter>
-	{
-		if typeof this->_formatter !== "object" {
-			let this->_formatter = new SyslogFormatter();
+		if !fetch facility, options["facility"] {
+			let facility = LOG_USER;
 		}
 
-		return this->_formatter;
-	}
-
-	/**
-	 * Writes the log to the stream itself
-	 */
-	public function logInternal(string message, int type, int time, array context)
-	{
-		var appliedFormat;
-
-		let appliedFormat = this->getFormatter()->format(message, type, time, context);
-		if typeof appliedFormat !== "array" {
-			throw new Exception("The formatted message is not valid");
-		}
-
-		syslog(appliedFormat[0], appliedFormat[1]);
+		let this->name     = name,
+			this->facility = facility,
+			this->option   = option;
 	}
 
 	/**
  	 * Closes the logger
  	 */
-	public function close() -> boolean
+	public function close() -> bool
 	{
-		if !this->_opened {
+		if !this->opened {
 			return true;
 		}
 
 		return closelog();
 	}
 
+	/**
+	 * Processes the message i.e. writes it to the syslog
+	 */
+	public function process(<Item> item) -> void
+	{
+		var name, facility, formatter, level, message, opened, option, result;
+
+		let formatter = this->getFormatter(),
+			message   = formatter->format(item);
+
+		if typeof message !== "array" {
+			throw new Exception("The formatted message is not valid");
+		}
+
+		let name     = this->name,
+			facility = this->facility,
+			option   = this->option;
+
+		let result = openlog(name, option, facility);
+
+		if (!result) {
+			throw new \LogicException(
+				sprintf(
+					"Cannot open syslog for name [%s] and facility [%s]",
+					name,
+					facility
+				)
+			);
+		}
+
+		let opened 		 = true,
+			this->opened = opened,
+			level 		 = this->logLevelToSyslog(message[1]);
+
+		syslog(level, message[1]);
+	}
+
+	/**
+	 * Translates a Logger level to a Syslog level
+	 */
+	private function logLevelToSyslog(string level) -> int
+	{
+		var levels, result;
+
+		let levels = [
+			Logger::ALERT     : LOG_ALERT,
+			Logger::CRITICAL  : LOG_CRIT,
+			Logger::CUSTOM    : LOG_ERR,
+			Logger::DEBUG     : LOG_DEBUG,
+			Logger::EMERGENCY : LOG_EMERG,
+			Logger::ERROR     : LOG_ERR,
+			Logger::INFO      : LOG_INFO,
+			Logger::NOTICE    : LOG_NOTICE,
+			Logger::WARNING   : LOG_WARNING
+		];
+
+		if !fetch result, levels[level] {
+			let result = LOG_ERR;
+		}
+
+		return result;
+	}
 }

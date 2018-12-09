@@ -146,7 +146,7 @@ class Console extends BaseApplication
 	/**
 	 * Set an specific argument
 	 */
-	public function setArgument(array! arguments = null, boolean! str = true, boolean! shift = true) -> <Console>
+	public function setArgument(array! arguments = null, bool! str = true, bool! shift = true) -> <Console>
 	{
 		var arg, pos, args, opts, handleArgs;
 

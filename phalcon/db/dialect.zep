@@ -485,7 +485,7 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Checks whether the platform supports savepoints
 	 */
-	public function supportsSavepoints() -> boolean
+	public function supportsSavepoints() -> bool
 	{
 		return true;
 	}
@@ -493,7 +493,7 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Checks whether the platform supports releasing savepoints.
 	 */
-	public function supportsReleaseSavepoints() -> boolean
+	public function supportsReleaseSavepoints() -> bool
 	{
 		return this->supportsSavePoints();
 	}
@@ -520,6 +520,46 @@ abstract class Dialect implements DialectInterface
 	public function rollbackSavepoint(string! name) -> string
 	{
 		return "ROLLBACK TO SAVEPOINT " . name;
+	}
+
+	/**
+	 * Checks the column type and if not string it returns the type reference
+	 */
+	protected function checkColumnType(<ColumnInterface> column) -> string
+	{
+		if typeof column->getType() == "string" {
+			return column->getTypeReference();
+		}
+
+		return column->getType();
+	}
+
+	/**
+	 * Checks the column type and returns the updated SQL statement
+	 */
+	protected function checkColumnTypeSql(<ColumnInterface> column) -> string
+	{
+		if typeof column->getType() == "string" {
+			return column->getType();
+		}
+
+		return "";
+	}
+
+	/**
+	 * Returns the size of the column enclosed in parentheses
+	 */
+	protected function getColumnSize(<ColumnInterface> column) -> string
+	{
+		return "(" . column->getSize() . ")";
+	}
+
+	/**
+	 * Returns the column size and scale enclosed in parentheses
+	 */
+	protected function getColumnSizeAndScale(<ColumnInterface> column) -> string
+	{
+		return "(" . column->getSize() . "," . column->getScale() . ")";
 	}
 
 	/**

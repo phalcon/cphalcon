@@ -94,7 +94,7 @@ interface RouterInterface
 	/**
 	 * Check if the router matches any of the defined routes
 	 */
-	public function wasMatched() -> boolean;
+	public function wasMatched() -> bool;
 
 	/**
 	 * Return all the routes defined in the router

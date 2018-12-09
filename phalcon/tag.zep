@@ -227,7 +227,7 @@ class Tag
 	/**
 	 * Set autoescape mode in generated html
 	 */
-	public static function setAutoescape(boolean autoescape) -> void
+	public static function setAutoescape(bool autoescape) -> void
 	{
 		let self::_autoEscape = autoescape;
 	}
@@ -270,7 +270,7 @@ class Tag
 	 * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
 	 * </code>
 	 */
-	public static function setDefaults(array! values, boolean merge = false) -> void
+	public static function setDefaults(array! values, bool merge = false) -> void
 	{
 		if merge && typeof self::_displayValues == "array" {
 			let self::_displayValues = array_merge(self::_displayValues, values);
@@ -294,7 +294,7 @@ class Tag
 	 *
 	 * @param string name
 	 */
-	public static function hasValue(var name) -> boolean
+	public static function hasValue(var name) -> bool
 	{
 		/**
 		 * Check if there is a predefined or a POST value for it
@@ -395,7 +395,7 @@ class Tag
 	 *
 	 * @param array|string parameters
 	 * @param string text
-	 * @param boolean local
+	 * @param bool local
 	 */
 	public static function linkTo(parameters, text = null, local = true) -> string
 	{
@@ -450,7 +450,7 @@ class Tag
 	 *
 	 * @param array parameters
 	 */
-	static protected final function _inputField(string type, parameters, boolean asValue = false) -> string
+	static protected final function _inputField(string type, parameters, bool asValue = false) -> string
 	{
 		var params, id, value, code, name;
 
@@ -1014,7 +1014,7 @@ class Tag
 		}
 
 		let code = self::renderAttributes("<textarea", params),
-			code .= ">" . content . "</textarea>";
+			code .= ">" . htmlspecialchars(content) . "</textarea>";
 
 		return code;
 	}
@@ -1168,7 +1168,7 @@ class Tag
 	 * {{ get_title() }}
 	 * </code>
 	 */
-	public static function getTitle(boolean prepend = true, boolean append = true) -> string
+	public static function getTitle(bool prepend = true, bool append = true) -> string
 	{
 		var items, output, title, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
 
@@ -1274,7 +1274,7 @@ class Tag
 	 *
 	 * @param array parameters
 	 */
-	public static function stylesheetLink(var parameters = null, boolean local = true) -> string
+	public static function stylesheetLink(var parameters = null, bool local = true) -> string
 	{
 		var params, code;
 
@@ -1285,10 +1285,10 @@ class Tag
 		}
 
 		if isset params[1] {
-			let local = (boolean) params[1];
+			let local = (bool) params[1];
 		} else {
 			if isset params["local"] {
-				let local = (boolean) params["local"];
+				let local = (bool) params["local"];
 				unset params["local"];
 			}
 		}
@@ -1346,7 +1346,7 @@ class Tag
 	 *
 	 * @param array parameters
 	 */
-	public static function javascriptInclude(var parameters = null, boolean local = true) -> string
+	public static function javascriptInclude(var parameters = null, bool local = true) -> string
 	{
 		var params, code;
 
@@ -1357,10 +1357,10 @@ class Tag
 		}
 
 		if isset params[1] {
-			let local = (boolean) params[1];
+			let local = (bool) params[1];
 		} else {
 			if isset params["local"] {
-				let local = (boolean) params["local"];
+				let local = (bool) params["local"];
 				unset params["local"];
 			}
 		}
@@ -1413,7 +1413,7 @@ class Tag
 	 *
 	 * @param  array parameters
 	 */
-	public static function image(var parameters = null, boolean local = true) -> string
+	public static function image(var parameters = null, bool local = true) -> string
 	{
 		var params, code, src;
 
@@ -1422,7 +1422,7 @@ class Tag
 		} else {
 			let params = parameters;
 			if isset params[1] {
-				let local = (boolean) params[1];
+				let local = (bool) params[1];
 			}
 		}
 
@@ -1462,7 +1462,7 @@ class Tag
 	 * echo Phalcon\Tag::friendlyTitle("These are big important news", "-")
 	 *</code>
 	 */
-	public static function friendlyTitle(string text, string separator = "-", boolean lowercase = true, var replace = null) -> string
+	public static function friendlyTitle(string text, string separator = "-", bool lowercase = true, var replace = null) -> string
 	{
 		var friendly, locale, search;
 
@@ -1562,8 +1562,8 @@ class Tag
 	/**
 	 * Builds a HTML tag
 	 */
-	public static function tagHtml(string tagName, var parameters = null, boolean selfClose = false,
-		boolean onlyStart = false, boolean useEol = false) -> string
+	public static function tagHtml(string tagName, var parameters = null, bool selfClose = false,
+		bool onlyStart = false, bool useEol = false) -> string
 	{
 		var params, localCode;
 
@@ -1606,7 +1606,7 @@ class Tag
 	 * echo Phalcon\Tag::tagHtmlClose("script", true);
 	 *</code>
 	 */
-	public static function tagHtmlClose(string tagName, boolean useEol = false) -> string
+	public static function tagHtmlClose(string tagName, bool useEol = false) -> string
 	{
 		if useEol {
 			return "</" . tagName . ">" . PHP_EOL;

@@ -63,7 +63,7 @@ class Reflection
 	/**
 	 * Returns the annotations found in the class docblock
 	 */
-	public function getClassAnnotations() -> <Collection> | boolean
+	public function getClassAnnotations() -> <Collection> | bool
 	{
 		var annotations, reflectionClass, collection;
 
@@ -83,7 +83,7 @@ class Reflection
 	/**
 	 * Returns the annotations found in the methods' docblocks
 	 */
-	public function getMethodsAnnotations() -> <Collection[]> | boolean
+	public function getMethodsAnnotations() -> <Collection[]> | bool
 	{
 		var annotations, reflectionMethods,
 			collections, methodName, reflectionMethod;
@@ -111,7 +111,7 @@ class Reflection
 	/**
 	 * Returns the annotations found in the properties' docblocks
 	 */
-	public function getPropertiesAnnotations() -> <Collection[]> | boolean
+	public function getPropertiesAnnotations() -> <Collection[]> | bool
 	{
 		var annotations, reflectionProperties,
 			collections, property, reflectionProperty;

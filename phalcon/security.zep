@@ -60,6 +60,8 @@ class Security implements InjectionAwareInterface
 
 	protected _tokenKey;
 
+	protected _requestToken;
+
 	protected _random;
 
 	protected _defaultHash;
@@ -279,7 +281,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Checks a plain text password and its hash version to check if the password matches
 	 */
-	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> boolean
+	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> bool
 	{
 		char ch;
 		string cryptedHash;
@@ -309,7 +311,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Checks if a password hash is a valid bcrypt's hash
 	 */
-	public function isLegacyHash(string passwordHash) -> boolean
+	public function isLegacyHash(string passwordHash) -> bool
 	{
 		return starts_with(passwordHash, "$2a$");
 	}
@@ -343,6 +345,7 @@ class Security implements InjectionAwareInterface
 		var dependencyInjector, session;
 
 		if null === this->_token {
+			let this->_requestToken = this->getSessionToken();
 			let this->_token = this->_random->base64Safe(this->_numberBytes);
 
 			let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -361,7 +364,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Check if the CSRF token sent in the request is the same that the current in session
 	 */
-	public function checkToken(var tokenKey = null, var tokenValue = null, boolean destroyIfValid = true) -> boolean
+	public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
 	{
 		var dependencyInjector, session, request, equals, userToken, knownToken;
 
@@ -390,7 +393,7 @@ class Security implements InjectionAwareInterface
 			/**
 			 * We always check if the value is correct in post
 			 */
-			let userToken = request->getPost(tokenKey);
+			let userToken = request->getPost(tokenKey, "string");
 		} else {
 			let userToken = tokenValue;
 		}
@@ -398,7 +401,7 @@ class Security implements InjectionAwareInterface
 		/**
 		 * The value is the same?
 		 */
-		let knownToken = session->get(this->_tokenValueSessionID);
+		let knownToken = this->getRequestToken();
 		let equals = hash_equals(knownToken, userToken);
 
 		/**
@@ -409,6 +412,17 @@ class Security implements InjectionAwareInterface
 		}
 
 		return equals;
+	}
+
+	/**
+	 * Returns the value of the CSRF token for the current request.
+	 */
+	public function getRequestToken() -> string
+	{
+		if empty this->_requestToken {
+			return this->getSessionToken();                    
+		}
+		return this->_requestToken;
 	}
 
 	/**
@@ -449,6 +463,7 @@ class Security implements InjectionAwareInterface
 
 		let this->_token = null;
 		let this->_tokenKey = null;
+		let this->_requestToken = null;
 
 		return this;
 	}
@@ -456,7 +471,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Computes a HMAC
 	 */
-	public function computeHmac(string data, string key, string algo, boolean raw = false) -> string
+	public function computeHmac(string data, string key, string algo, bool raw = false) -> string
 	{
 		var hmac;
 

@@ -7,17 +7,17 @@ use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Output;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Simple;
-use PHPUnit\Framework\SkippedTestError;
+use PHPIntegration\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Integration\Mvc\View\SimpleCest
  * Tests the Phalcon\Mvc\View\Simple component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc\View
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Integration\Mvc\View
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -32,8 +32,8 @@ class SimpleCest
     {
         $I->wantToTest('Set and get View vars');
 
-        $view = new Simple;
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view = new Simple();
+        $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $I->assertNull($view->getVar('some_var'));
         $some_var = time();
@@ -53,15 +53,15 @@ class SimpleCest
         $I->wantToTest('Render by using simple view with cache');
 
         if (PHP_MAJOR_VERSION == 7) {
-            throw new SkippedTestError(
+            $I->skipTest(
                 'Skipped in view of the experimental support for PHP 7.'
             );
         }
 
         // Create cache at first run
-        $view = new Simple;
+        $view = new Simple();
         codecept_debug(gettype($view->getParamsToView()));
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
 
         // No cache before DI is set
         $I->assertFalse($view->getCache());
@@ -77,7 +77,7 @@ class SimpleCest
 
         $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
 
-        $I->amInPath(PATH_CACHE);
+        $I->amInPath(cacheFolder());
         $I->seeFileFound('view_simple_cache');
         $I->seeInThisFile("<p>$timeNow</p>");
 
@@ -85,7 +85,7 @@ class SimpleCest
 
         // Re-use the cached contents
         $view = new Simple;
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view->setViewsDir(dataFolder('fixtures/views/'));
         $view->setDI($this->getDi());
         $view->cache(['key' => 'view_simple_cache']);
 
@@ -95,11 +95,12 @@ class SimpleCest
         $I->assertNotEmpty($view->getContent());
         $I->assertEquals("<p></p>", rtrim($view->render('test3/coolVar')));
 
-        $I->deleteFile('view_simple_cache');
+        $I->safeDeleteFile('view_simple_cache');
     }
 
     /**
      * Setup viewCache service and DI
+     *
      * @return Di
      */
     protected function getDi()
@@ -107,7 +108,7 @@ class SimpleCest
         $di = new Di;
 
         $di->set('viewCache', function () {
-            return new File(new Output(['lifetime' => 2]), ['cacheDir' => PATH_CACHE]);
+            return new File(new Output(['lifetime' => 2]), ['cacheDir' => cacheFolder()]);
         });
 
         return $di;

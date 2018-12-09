@@ -32,7 +32,7 @@ class Php extends Engine
 	/**
 	 * Renders a view using the template engine
 	 */
-	public function render(string! path, var params, boolean mustClean = false)
+	public function render(string! path, var params, bool mustClean = false)
 	{
 		var key, value;
 

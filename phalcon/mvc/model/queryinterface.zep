@@ -46,12 +46,12 @@ interface QueryInterface
 	/**
 	 * Tells to the query if only the first row in the resultset must be returned
 	 */
-	public function setUniqueRow(boolean uniqueRow) -> <QueryInterface>;
+	public function setUniqueRow(bool uniqueRow) -> <QueryInterface>;
 
 	/**
 	 * Check if the query is programmed to get only the first row in the resultset
 	 */
-	public function getUniqueRow() -> boolean;
+	public function getUniqueRow() -> bool;
 
 	/**
 	 * Executes a parsed PHQL statement

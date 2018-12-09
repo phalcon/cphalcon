@@ -66,7 +66,7 @@ interface ManagerInterface
 	/**
 	 * Check whether a model is already initialized
 	 */
-	public function isInitialized(string! modelName) -> boolean;
+	public function isInitialized(string! modelName) -> bool;
 
 	/**
 	 * Get the latest initialized model
@@ -81,12 +81,12 @@ interface ManagerInterface
 	/**
 	 * Sets if a model must use implicit objects ids
 	 */
-	public function useImplicitObjectIds(<CollectionInterface> model, boolean useImplicitObjectIds);
+	public function useImplicitObjectIds(<CollectionInterface> model, bool useImplicitObjectIds);
 
 	/**
 	 * Checks if a model is using implicit object ids
 	 */
-	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> boolean;
+	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> bool;
 
 	/**
 	 * Returns the connection related to a model

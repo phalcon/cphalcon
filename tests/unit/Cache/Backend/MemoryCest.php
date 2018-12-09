@@ -2,20 +2,20 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use UnitTester;
+use Phalcon\Cache\Backend\Memory;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\None;
-use Phalcon\Cache\Backend\Memory;
+use UnitTester;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\MemoryCest
  * Tests the \Phalcon\Cache\Backend\Memory component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
+ * @link          https://phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Unit\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -30,7 +30,7 @@ class MemoryCest
     {
         $I->wantTo('Get cached by using Memory as cache backend');
 
-        $key = 'data-get';
+        $key  = 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Memory(new Data(['lifetime' => 20]));
@@ -52,7 +52,7 @@ class MemoryCest
     {
         $I->wantTo('Save data by using Memory as cache backend');
 
-        $key = 'data-save';
+        $key  = 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Memory(new Data(['lifetime' => 20]));
@@ -90,7 +90,7 @@ class MemoryCest
     {
         $I->wantTo('Increment counter by using Memory as cache backend');
 
-        $key = 'increment';
+        $key   = 'increment';
         $cache = new Memory(new Data(['lifetime' => 20]));
 
         $I->setProtectedProperty($cache, '_data', [$key => 20]);
@@ -106,7 +106,7 @@ class MemoryCest
     {
         $I->wantTo('Decrement counter by using Memory as cache backend');
 
-        $key = 'decrement';
+        $key   = 'decrement';
         $cache = new Memory(new Data(['lifetime' => 20]));
 
         $I->setProtectedProperty($cache, '_data', [$key => 100]);

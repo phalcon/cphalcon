@@ -68,7 +68,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * );
 	 *</code>
 	 */
-	public function __isset(string! property) -> boolean
+	public function __isset(string! property) -> bool
 	{
 		return this->has(property);
 	}
@@ -92,7 +92,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * unset($user["name"]);
 	 *</code>
 	 */
-	public function __unset(string! property) -> boolean
+	public function __unset(string! property) -> bool
 	{
 		return this->remove(property);
 	}
@@ -185,7 +185,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * );
 	 *</code>
 	 */
-	public function has(string! property) -> boolean
+	public function has(string! property) -> bool
 	{
 		if this->_initialized === false {
 			this->initialize();
@@ -226,22 +226,22 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		let this->_initialized = true;
 	}
 
-	public final function offsetExists(string! property) -> boolean
+	public final function offsetExists(var property) -> bool
 	{
 		return this->has(property);
 	}
 
-	public final function offsetGet(string! property) -> var
+	public final function offsetGet(var property) -> var
 	{
 		return this->get(property);
 	}
 
-	public final function offsetSet(string! property, var value)
+	public final function offsetSet(var property, var value)
 	{
 		return this->set(property, value);
 	}
 
-	public final function offsetUnset(string! property)
+	public final function offsetUnset(var property)
 	{
 		return this->remove(property);
 	}
@@ -253,7 +253,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * $user->remove("name");
 	 *</code>
 	 */
-	public function remove(string! property) -> boolean
+	public function remove(string! property) -> bool
 	{
 		if this->_initialized === false {
 			this->initialize();
