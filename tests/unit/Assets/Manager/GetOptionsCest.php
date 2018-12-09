@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
+/**
+ * Class GetOptionsCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Manager
+ */
 class GetOptionsCest
 {
     /**
@@ -25,7 +31,7 @@ class GetOptionsCest
      */
     public function assetsManagerGetOptions(UnitTester $I)
     {
-        $I->wantToTest("Assets\Manager - getOptions()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Manager - getOptions()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,21 +12,34 @@
 
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
+use Phalcon\Assets\Inline\Js;
+use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
+/**
+ * Class GetContentCest
+ *
+ * @package Phalcon\Test\Unit\Assets\Inline
+ */
 class GetContentCest
 {
+    use AssetsTrait;
+
     /**
-     * Tests Phalcon\Assets\Inline\Js :: getContent()
+     * Tests Phalcon\Assets\Inline :: getContent()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineJsGetContent(UnitTester $I)
+    public function assetsInlineGetContent(UnitTester $I)
     {
-        $I->wantToTest("Assets\Inline\Js - getContent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Assets\Inline - getContent()');
+        $content = '<script>alert("Hello");</script>';
+        $asset   = new Js($content);
+
+        $expected = $content;
+        $this->assetGetContent($I, $asset, $expected);
     }
 }
