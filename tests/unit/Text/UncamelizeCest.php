@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,23 +12,44 @@
 
 namespace Phalcon\Test\Unit\Text;
 
+use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
+/**
+ * Class UncamelizeCest
+ *
+ * @package Phalcon\Test\Unit\Text
+ */
 class UncamelizeCest
 {
     /**
-     * Tests Phalcon\Text :: uncamelize()
+     * Tests Phalcon\Text :: camelize()
+     *
+     * @dataProvider getSources
      *
      * @param UnitTester $I
+     * @param Example    $item
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function textUncamelize(UnitTester $I)
+    public function textUncamelize(UnitTester $I, Example $item)
     {
-        $I->wantToTest('Text - uncamelize()');
-        $examples = [
+        $I->wantToTest("Text - uncamelize()");
+        $value     = $item[0];
+        $expected  = $item[1];
+        $delimiter = $item[2];
+        $actual    = Text::uncamelize($value, $delimiter);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    private function getSources(): array
+    {
+        return [
             ['camelize', 'camelize', null],
             ['CameLiZe', 'came_li_ze', null],
             ['cAmeLize', 'c_ame_lize', null],
@@ -47,13 +69,5 @@ class UncamelizeCest
             ["CameLiZe", 'came-li-ze', "-"],
             ["CAMELIZE", 'c/a/m/e/l/i/z/e', "/"],
         ];
-
-        foreach ($examples as $item) {
-            $value     = $item[0];
-            $expected  = $item[1];
-            $delimiter = $item[2];
-            $actual    = Text::uncamelize($value, $delimiter);
-            $I->assertEquals($expected, $actual);
-        }
     }
 }

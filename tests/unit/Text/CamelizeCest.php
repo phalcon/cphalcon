@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,23 +12,44 @@
 
 namespace Phalcon\Test\Unit\Text;
 
+use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
+/**
+ * Class CamelizeCest
+ *
+ * @package Phalcon\Test\Unit\Text
+ */
 class CamelizeCest
 {
     /**
      * Tests Phalcon\Text :: camelize()
      *
+     * @dataProvider getSources
+     *
      * @param UnitTester $I
+     * @param Example    $item
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function textCamelize(UnitTester $I)
+    public function textCamelize(UnitTester $I, Example $item)
     {
         $I->wantToTest("Text - camelize()");
-        $examples = [
+        $value     = $item[0];
+        $expected  = $item[1];
+        $delimiter = $item[2];
+        $actual    = Text::camelize($value, $delimiter);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    private function getSources(): array
+    {
+        return [
             ['camelize', 'Camelize', null],
             ['CameLiZe', 'Camelize', null],
             ['cAmeLize', 'Camelize', null],
@@ -49,13 +71,5 @@ class CamelizeCest
             ["came-li-ze", 'CameLiZe', "-"],
             ["c+a+m+e+l+i+z+e", 'CAMELIZE', "+"],
         ];
-
-        foreach ($examples as $item) {
-            $value     = $item[0];
-            $expected  = $item[1];
-            $delimiter = $item[2];
-            $actual    = Text::camelize($value, $delimiter);
-            $I->assertEquals($expected, $actual);
-        }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
+/**
+ * Class UnderscoreCest
+ *
+ * @package Phalcon\Test\Unit\Text
+ */
 class UnderscoreCest
 {
     /**

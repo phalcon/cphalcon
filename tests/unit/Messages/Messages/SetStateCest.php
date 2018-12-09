@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
+/**
+ * Class SetStateCest
+ *
+ * @package Phalcon\Test\Unit\Messages\Messages
+ */
 class SetStateCest
 {
     /**

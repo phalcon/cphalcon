@@ -1,4 +1,4 @@
-<?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +13,11 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
 use UnitTester;
 
+/**
+ * Class _Cest
+ *
+ * @package Phalcon\Test\Unit\Translate\Adapter\Csv
+ */
 class UnderscoreCest
 {
     /**
