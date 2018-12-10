@@ -26,6 +26,11 @@ class GetIteratorCest
     public function sessionBagGetIterator(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - getIterator()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("CountTest");
+        $session->test1 = "test";
+        $session->test2 = "test";
+        $session->test3 = "test";
+
+        $I->assertInstanceOf("\ArrayIterator", $session->getIterator());
     }
 }
