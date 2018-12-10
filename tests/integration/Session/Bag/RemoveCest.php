@@ -26,6 +26,12 @@ class RemoveCest
     public function sessionBagRemove(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - remove()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("RemoveTest");
+
+        $testValue = "TestValue";
+        $session->set("test", $testValue);
+        $session->remove("test");
+
+        $I->assertFalse($session->has("test"));
     }
 }

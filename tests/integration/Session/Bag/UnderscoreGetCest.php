@@ -26,6 +26,11 @@ class UnderscoreGetCest
     public function sessionBagUnderscoreGet(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - __get()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("SetterTest");
+
+        $testValue = "TestValue";
+        $session->set("test", $testValue);
+
+        $I->assertEquals($testValue, $session->test);
     }
 }

@@ -26,6 +26,7 @@ class ConstructCest
     public function sessionBagConstruct(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - __construct()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("test");
+        $I->assertInstanceOf("\Phalcon\Session\Bag", $session);
     }
 }

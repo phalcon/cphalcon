@@ -26,6 +26,13 @@ class HasCest
     public function sessionBagHas(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - has()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("SetTest");
+
+        $testValue = "TestValue";
+        $session->set("test", $testValue);
+
+        $I->assertTrue($session->has("test"));
+        $I->assertFalse($session->has("unknown"));
+        
     }
 }
