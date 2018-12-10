@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
@@ -21,6 +23,17 @@ use UnitTester;
  */
 class TitleRenderCest
 {
+    use DiTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+    }
+
     /**
      * Tests Phalcon\Html\Tag :: titleRender()
      *
@@ -32,6 +45,15 @@ class TitleRenderCest
     public function htmlTagTitleRender(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - titleRender()');
-        $I->skipTest('Need implementation');
+        $tag   = new Tag();
+        $container = $this->getDi();
+        $tag->setDI($container);
+        $value = "Hello </title><script>alert('Got your nose!');</script><title>";
+
+        $tag->titleSet($value);
+        $expected = '<title>Hello &lt;/title&gt;&lt;script&gt;alert(&#039;'
+            . 'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;</title>' . PHP_EOL;
+        $actual   = $tag->titleRender();
+        $I->assertEquals($expected, $actual);
     }
 }

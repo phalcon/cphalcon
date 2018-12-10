@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
@@ -21,6 +23,17 @@ use UnitTester;
  */
 class TitleGetCest
 {
+    use DiTrait;
+
+    /**
+     * @param UnitTester $I
+     */
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+    }
+
     /**
      * Tests Phalcon\Html\Tag :: titleGet()
      *
@@ -32,6 +45,37 @@ class TitleGetCest
     public function htmlTagTitleGet(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - titleGet()');
-        $I->skipTest('Need implementation');
+        $tag = new Tag();
+        $container = $this->getDi();
+        $tag->setDI($container);
+        $value = "Hello Title";
+
+        $tag->titleSet($value);
+        $expected = 'Hello Title';
+        $actual   = $tag->titleGet();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: titleGet() - escape
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagTitleGetEscape(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - titleGet() - escape');
+        $tag = new Tag();
+        $container = $this->getDi();
+        $tag->setDI($container);
+        $value = "Hello </title><script>alert('Got your nose!');</script><title>";
+
+        $tag->titleSet($value);
+        $expected = 'Hello &lt;/title&gt;&lt;script&gt;alert(&#039;'
+            . 'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;';
+        $actual   = $tag->titleGet();
+        $I->assertEquals($expected, $actual);
     }
 }
