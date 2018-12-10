@@ -100,6 +100,16 @@ class Tag implements InjectionAwareInterface
 		return this->container;
 	}
 
+	/**
+	 * Appends a text to current document title
+	 */
+	public function appendTitle(array title) -> <Tag>
+	{
+		let this->append = title;
+
+		return this;
+	}
+
 	public function buttonSubmit(array parameters = []) -> string
 	{
 	}
@@ -119,13 +129,84 @@ class Tag implements InjectionAwareInterface
 			this->values     = [];
 	}
 
+	public function element(array parameters = []) -> string
+	{
+	}
+
+	/**
+	 * Builds the closing tag of an html element
+	 *
+	 * @param array parameters ["name", "useEol"]
+	 *
+	 * @return string
+	 *
+	 *<code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tab = new Tag();
+	 *
+	 * echo $tag->elementClose(
+	 *     [
+	 *         'name' => 'aside',
+     *     ]
+     * ); // </aside>
+	 *
+	 * echo $tag->elementClose(
+	 *     [
+	 *         'name'   => 'aside',
+	 *         'useEol' => true,
+	 *     ]
+	 * ); // "</aside>" . PHP_EOL
+	 *</code>
+	 */
+	public function elementClose(array parameters = []) -> string
+	{
+		var name, useEol = false;
+
+		if !fetch name, parameters["name"] {
+			throw new Exception("The 'name' parameter must be specified");
+		}
+
+		let useEol = this->arrayGetDefault("useEol", parameters, false);
+
+		if useEol {
+			return "</" . name . ">" . PHP_EOL;
+		}
+		return "</" . name . ">";
+
+	}
+
+	/**
+	 * Returns the closing tag of a form element
+	 */
+	public function endForm(bool eol = true) -> string
+	{
+		if eol {
+			return "</form>" . PHP_EOL;
+		} else {
+			return "</form>";
+		}
+	}
+
+	public function form(array parameters = []) -> string
+	{
+	}
+
+	/**
+	 * 'text'
+	 * 'separator'
+	 * 'lowercase'
+	 * 'replace'
+	 */
+	public function friendlyTitle(array parameters = []) -> string
+	{
+	}
+
 	/**
 	 * Get the document type declaration of content. If the docType has not
 	 * been set properly, XHTML5 is returned
-	 *
-	 * @return string
 	 */
-	public function docTypeGet() -> string
+	public function getDocType() -> string
 	{
 		switch this->docType
 		{
@@ -178,88 +259,89 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * Set the document type of content
+	 * Gets the current document title.
+	 * The title will be automatically escaped.
 	 *
-	 * @param int doctype A valid doctype for the content
-	 *
-	 * @return <Tag>
-	 */
-	public function docTypeSet(int doctype) -> <Tag>
-	{
-		if (doctype < self::HTML32 || doctype > self::XHTML5) {
-			let this->docType = self::HTML5;
-		} else {
-			let this->docType = doctype;
-		}
-
-		return this;
-	}
-
-	public function element(array parameters = []) -> string
-	{
-	}
-
-	/**
-	 * Builds the closing tag of an html element
-	 *
-	 * @param array parameters ["name", "useEol"]
-	 *
-	 * @return string
-	 *
-	 *<code>
+	 * <code>
 	 * use Phalcon\Html\Tag;
 	 *
-	 * $tab = new Tag();
+	 * $tag = new Tag();
 	 *
-	 * echo $tag->elementClose(
-	 *     [
-	 *         'name' => 'aside',
-     *     ]
-     * ); // </aside>
+	 * $tag
+	 * 		->prependTitle('Hello')
+	 * 		->setTitle('World')
+	 * 		->appendTitle('from Phalcon');
 	 *
-	 * echo $tag->elementClose(
-	 *     [
-	 *         'name'   => 'aside',
-	 *         'useEol' => true,
-	 *     ]
-	 * ); // "</aside>" . PHP_EOL
-	 *</code>
+	 * echo $tag->getTitle();             // Hello World from Phalcon
+	 * echo $tag->getTitle(false);        // World from Phalcon
+	 * echo $tag->getTitle(true, false);  // Hello World
+	 * echo $tag->getTitle(false, false); // World
+	 * </code>
+	 *
+	 * <code>
+	 * {{ get_title() }}
+	 * </code>
 	 */
-	public function elementClose(array parameters = []) -> string
+	public function getTitle(bool prepend = true, bool append = true) -> string
 	{
-		var name, useEol = false;
+		var item, items, output, title, appendTitle, prependTitle, separator, escaper;
 
-		if !fetch name, parameters["name"] {
-			throw new Exception("The 'name' parameter must be specified");
+		let escaper   = <EscaperInterface> this->getEscaper(["escape": true]),
+			items     = [],
+			output    = "",
+			title     = escaper->escapeHtml(this->title),
+			separator = escaper->escapeHtml(this->separator);
+
+		if prepend {
+			let prependTitle = this->prepend;
+
+			if !empty prependTitle {
+				var prependArray = array_reverse(prependTitle);
+				for item in prependArray {
+					let items[] = escaper->escapeHtml(item);
+				}
+			}
 		}
 
-		let useEol = this->arrayGetDefault("useEol", parameters, false);
-
-		if useEol {
-			return "</" . name . ">" . PHP_EOL;
+		if !empty title {
+			let items[] = title;
 		}
-		return "</" . name . ">";
 
-	}
+		if append {
+			let appendTitle = this->append;
 
-	public function form(array parameters = []) -> string
-	{
+			if !empty appendTitle {
+				for item in appendTitle {
+					let items[] = escaper->escapeHtml(item);
+				}
+			}
+		}
+
+		if !empty items {
+			let output = implode(separator, items);
+		}
+
+		return output;
 	}
 
 	/**
-	 * Returns the closing tag of a form element
+	 * Gets the current document title separator
 	 *
-	 * @param bool eol
+	 * <code>
+	 * use Phalcon\Html\Tag;
 	 *
-	 * @return string
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->getTitleSeparator();
+	 * </code>
+	 *
+	 * <code>
+	 * {{ get_title_separator() }}
+	 * </code>
 	 */
-	public function formEnd(bool eol = true) -> string
+	public function getTitleSeparator() -> string
 	{
-		if eol {
-			return "</form>" . PHP_EOL;
-		} else {
-			return "</form>";
-		}
+		return this->separator;
 	}
 
 	/**
@@ -269,7 +351,7 @@ class Tag implements InjectionAwareInterface
 	 * @param string name
 	 * @param array  parameters
 	 */
-	public function get(string name, array parameters = []) -> var | null
+	public function getValue(string name, array parameters = []) -> var | null
 	{
 		var value;
 
@@ -297,7 +379,7 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * @return bool
 	 */
-	public function has(string name) -> bool
+	public function hasValue(string name) -> bool
 	{
 		/**
 		 * Check if there is a predefined or a POST value for it
@@ -315,6 +397,7 @@ class Tag implements InjectionAwareInterface
 
 	public function inputColor(array parameters = []) -> string
 	{
+		return this->renderInput("color", parameters);
 	}
 
 	public function inputDate(array parameters = []) -> string
@@ -397,8 +480,39 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	public function renderAttributes(string! code, array! attributes) -> string
+	/**
+	 * Prepends a text to current document title
+	 */
+	public function prependTitle(array title) -> <Tag>
 	{
+		let this->prepend = title;
+
+		return this;
+	}
+
+	/**
+	 * Renders the title with title tags. The title is automaticall escaped
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * $tag
+	 * 		->prependTitle('Hello')
+	 * 		->setTitle('World')
+	 * 		->appendTitle('from Phalcon');
+	 *
+	 * echo $tag->renderTitle(); // <title>Hello World From Phalcon</title>
+	 * </code>
+	 *
+	 * <code>
+	 * {{ render_title() }}
+	 * </code>
+	 */
+	public function renderTitle() -> string
+	{
+		return "<title>" . this->getTitle() . "</title>" . PHP_EOL;
 	}
 
 	public function select(array parameters = [], data = null) -> string
@@ -483,149 +597,22 @@ class Tag implements InjectionAwareInterface
 		return this;
 	}
 
-	public function stylesheet(array parameters = []) -> string
-	{
-	}
-
-	public function textArea(array parameters = []) -> string
-	{
-	}
-
 	/**
-	 * Appends a text to current document title
+	 * Set the document type of content
+	 *
+	 * @param int doctype A valid doctype for the content
+	 *
+	 * @return <Tag>
 	 */
-	public function titleAppend(array title) -> <Tag>
+	public function setDocType(int doctype) -> <Tag>
 	{
-		let this->append = title;
+		if (doctype < self::HTML32 || doctype > self::XHTML5) {
+			let this->docType = self::HTML5;
+		} else {
+			let this->docType = doctype;
+		}
 
 		return this;
-	}
-
-	public function titleFriendly(string text, string separator = "-", bool lowercase = true, var replace = null) -> string
-	{
-	}
-
-	/**
-	 * Gets the current document title.
-	 * The title will be automatically escaped.
-	 *
-	 * <code>
-	 * Tag::prependTitle('Hello');
-	 * Tag::setTitle('World');
-	 * Tag::appendTitle('from Phalcon');
-	 *
-	 * echo Tag::getTitle();             // Hello World from Phalcon
-	 * echo Tag::getTitle(false);        // World from Phalcon
-	 * echo Tag::getTitle(true, false);  // Hello World
-	 * echo Tag::getTitle(false, false); // World
-	 * </code>
-	 *
-	 * <code>
-	 * {{ get_title() }}
-	 * </code>
-	 */
-	public function titleGet(bool prepend = true, bool append = true) -> string
-	{
-		var item,
-			items,
-			output,
-			title,
-			appendTitle,
-			prependTitle,
-			separator,
-			escaper;
-
-		let escaper   = <EscaperInterface> this->getEscaper(["escape": true]),
-			items     = [],
-			output    = "",
-			title     = escaper->escapeHtml(this->title),
-			separator = escaper->escapeHtml(this->separator);
-
-		if prepend {
-			let prependTitle = this->prepend;
-
-			if !empty prependTitle {
-				var prependArray = array_reverse(prependTitle);
-				for item in prependArray {
-					let items[] = escaper->escapeHtml(item);
-				}
-			}
-		}
-
-		if !empty title {
-			let items[] = title;
-		}
-
-		if append {
-			let appendTitle = this->append;
-
-			if !empty appendTitle {
-				for item in appendTitle {
-					let items[] = escaper->escapeHtml(item);
-				}
-			}
-		}
-
-		if !empty items {
-			let output = implode(separator, items);
-		}
-
-		return output;
-	}
-
-	/**
-	 * Prepends a text to current document title
-	 */
-	public function titlePrepend(array title) -> <Tag>
-	{
-		let this->prepend = title;
-
-		return this;
-	}
-
-	/**
-	 * Renders the title with title tags. The title is automaticall escaped
-	 *
-	 * <code>
-	 * use Phalcon\Html\Tag;
-	 *
-	 * $tag = new Tag();
-	 *
-	 * $tag
-	 * 		->titlePrepend('Hello')
-	 * 		->titleSet('World')
-	 * 		->titleAppend('from Phalcon');
-	 *
-	 * echo $tag->titleRender(); // <title>Hello World From Phalcon</title>
-	 * </code>
-	 *
-	 * <code>
-	 * {{ render_title() }}
-	 * </code>
-	 */
-	public function titleRender() -> string
-	{
-		return "<title>" . this->titleGet() . "</title>" . PHP_EOL;
-	}
-
-	/**
-	 * Gets the current document title separator
-	 *
-	 * <code>
-	 * use Phalcon\Html\Tag;
-	 *
-	 * $tag = new Tag();
-	 *
-	 * echo $tag->titleSeparatorGet();
-	 * </code>
-	 *
-	 * <code>
-	 * {{ title_separator_get() }}
-	 * </code>
-	 */
-	public function titleSeparatorGet() -> string
-	{
-		return this->separator;
 	}
 
 	/**
@@ -636,32 +623,40 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * $tag = new Tag();
 	 *
-	 * echo $tag->titleSeparatorSet('-');
+	 * $tag->setTitle('Phalcon Framework');
 	 * </code>
 	 */
-	public function titleSeparatorSet(string separator) -> <Tag>
+	public function setTitle(string title) -> <Tag>
+	{
+		let this->title = title;
+
+		return this;
+	}
+
+	/**
+	 * Set the title separator of view content
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->setTitleSeparator('-');
+	 * </code>
+	 */
+	public function setTitleSeparator(string separator) -> <Tag>
 	{
 		let this->separator = separator;
 
 		return this;
 	}
 
-	/**
-	 * Set the title separator of view content
-	 *
-	 * <code>
-	 * use Phalcon\Html\Tag;
-	 *
-	 * $tag = new Tag();
-	 *
-	 * $tag->titleSet('Phalcon Framework');
-	 * </code>
-	 */
-	public function titleSet(string title) -> <Tag>
+	public function stylesheet(array parameters = []) -> string
 	{
-		let this->title = title;
+	}
 
-		return this;
+	public function textArea(array parameters = []) -> string
+	{
 	}
 
 	/**
@@ -674,11 +669,13 @@ class Tag implements InjectionAwareInterface
 	 */
 	private function arrayGetDefault(string name, array parameters, var defaultValue = null) -> var
 	{
-		if isset(parameters[name]) {
-			return parameters[name];
-		} else {
-			return defaultValue;
+		var value;
+
+		if likely fetch value, parameters[name] {
+			return value;
 		}
+
+		return defaultValue;
 	}
 
 	/**
@@ -721,12 +718,116 @@ class Tag implements InjectionAwareInterface
 		return escaper;
 	}
 
-	private function inputField(string type, parameters, bool asValue = false) -> string
+	private function inputFieldChecked(string type, array parameters = []) -> string
 	{
 	}
 
-	private function inputFieldChecked(string type, array parameters = []) -> string
+	private function renderAttributes(string! code, array! attributes) -> string
 	{
+		var attrs, escaper, escaped, key, newCode, intersect, order, value;
+
+		let order = [
+			"rel"    : null,
+			"type"   : null,
+			"for"    : null,
+			"src"    : null,
+			"href"   : null,
+			"action" : null,
+			"id"     : null,
+			"name"   : null,
+			"value"  : null,
+			"class"  : null
+		];
+
+		let intersect = array_intersect_key(order, attributes),
+			attrs     = array_merge(intersect, attributes),
+			escaper   = this->getEscaper(attributes);
+
+		unset attrs["escape"];
+
+		let newCode = code;
+		for key, value in attrs {
+			if typeof key == "string" && value !== null {
+				if typeof value == "array" || typeof value == "resource" {
+					throw new Exception(
+						"Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
+					);
+				}
+				if escaper {
+					let escaped = escaper->escapeHtmlAttr(value);
+				} else {
+					let escaped = value;
+				}
+				let newCode .= " " . key . "=\"" . escaped . "\"";
+			}
+		}
+
+		return newCode;
+	}
+
+	/**
+	 * Returns the closing tag depending on the doctype
+	 */
+	private function renderCloseTag() -> string
+	{
+		/**
+		 * Check if Doctype is XHTML
+		 */
+		if this->docType > self::HTML5 {
+			return " />";
+		} else {
+			return ">";
+		}
+	}
+
+	/**
+	 * Builds `input` elements
+	 */
+	private function renderInput(string type, array parameters = [], bool asValue = false) -> string
+	{
+		var name, id, output, value;
+
+		if asValue == false {
+
+			if !fetch id, parameters[0] {
+				let parameters[0] = parameters["id"];
+			}
+
+			if fetch name, parameters["name"] {
+				if empty name {
+					let parameters["name"] = id;
+				}
+			} else {
+				let parameters["name"] = id;
+			}
+
+			/**
+			 * Automatically assign the id if the name is not an array
+			 */
+			if typeof id == "string" {
+				if !memstr(id, "[") && !isset parameters["id"] {
+					let parameters["id"] = id;
+				}
+			}
+
+			let parameters["value"] = this->getValue(id, parameters);
+
+		} else {
+			/**
+			 * Use the "id" as value if the user hadn't set it
+			 */
+			if !isset parameters["value"] {
+				if fetch value, parameters[0] {
+					let parameters["value"] = value;
+				}
+			}
+		}
+
+		let parameters["type"] = type;
+
+		let output = this->renderAttributes("<input", parameters) . this->renderCloseTag();
+
+		return output;
 	}
 
 }

@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use UnitTester;
 
 /**
- * Class TitleSetCest
+ * Class HasValueCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class TitleSetCest
+class HasValueCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: titleSet()
+     * Tests Phalcon\Html\Tag :: hasValue()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagTitleSet(UnitTester $I)
+    public function htmlTagHasValue(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titleSet()');
+        $I->wantToTest('Html\Tag - hasValue()');
         $I->skipTest('Need implementation');
     }
 }

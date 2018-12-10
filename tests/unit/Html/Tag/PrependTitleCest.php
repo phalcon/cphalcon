@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use UnitTester;
 
 /**
- * Class TitlePrependCest
+ * Class PrependTitleCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class TitlePrependCest
+class PrependTitleCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: titlePrepend()
+     * Tests Phalcon\Html\Tag :: prependTitle()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagTitlePrepend(UnitTester $I)
+    public function htmlTagPrependTitle(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titlePrepend()');
+        $I->wantToTest('Html\Tag - prependTitle()');
         $I->skipTest('Need implementation');
     }
 }

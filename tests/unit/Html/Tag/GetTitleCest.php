@@ -17,11 +17,11 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
- * Class TitleGetCest
+ * Class GetTitleCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class TitleGetCest
+class GetTitleCest
 {
     use DiTrait;
 
@@ -35,47 +35,45 @@ class TitleGetCest
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: titleGet()
+     * Tests Phalcon\Html\Tag :: getTitle()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagTitleGet(UnitTester $I)
+    public function htmlTagGetTitle(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titleGet()');
+        $I->wantToTest('Html\Tag - getTitle()');
         $tag = new Tag();
-        $container = $this->getDi();
-        $tag->setDI($container);
+        $tag->setDI($this->container);
         $value = "Hello Title";
 
-        $tag->titleSet($value);
+        $tag->setTitle($value);
         $expected = 'Hello Title';
-        $actual   = $tag->titleGet();
+        $actual   = $tag->getTitle();
         $I->assertEquals($expected, $actual);
     }
-
+    
     /**
-     * Tests Phalcon\Html\Tag :: titleGet() - escape
+     * Tests Phalcon\Html\Tag :: getTitle() - escape
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagTitleGetEscape(UnitTester $I)
+    public function htmlTagGetTitleEscape(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titleGet() - escape');
+        $I->wantToTest('Html\Tag - getTitle() - escape');
         $tag = new Tag();
-        $container = $this->getDi();
-        $tag->setDI($container);
+        $tag->setDI($this->container);
         $value = "Hello </title><script>alert('Got your nose!');</script><title>";
 
-        $tag->titleSet($value);
+        $tag->setTitle($value);
         $expected = 'Hello &lt;/title&gt;&lt;script&gt;alert(&#039;'
             . 'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;';
-        $actual   = $tag->titleGet();
+        $actual   = $tag->getTitle();
         $I->assertEquals($expected, $actual);
     }
 }

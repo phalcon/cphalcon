@@ -17,45 +17,45 @@ use UnitTester;
 use const PHP_EOL;
 
 /**
- * Class FormEndCest
+ * Class EndFormCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class FormEndCest
+class EndFormCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: formEnd()
+     * Tests Phalcon\Html\Tag :: endForm()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagFormEnd(UnitTester $I)
+    public function htmlTagEndForm(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - formEnd()');
+        $I->wantToTest('Html\Tag - endForm()');
         $tag = new Tag();
 
-        $expected = '</form>' . PHP_EOL;
-        $actual   = $tag->formEnd();
+        $expected = '</form>';
+        $actual   = $tag->endForm(false);
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: formEnd() - no EOL
+     * Tests Phalcon\Html\Tag :: endForm() - EOL
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagFormEndEol(UnitTester $I)
+    public function htmlTagEndFormEol(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - formEnd() - no EOL');
+        $I->wantToTest('Html\Tag - endForm() - EOL');
         $tag = new Tag();
 
-        $expected = '</form>';
-        $actual   = $tag->formEnd(false);
+        $expected = '</form>' . PHP_EOL;
+        $actual   = $tag->endForm();
         $I->assertEquals($expected, $actual);
     }
 }

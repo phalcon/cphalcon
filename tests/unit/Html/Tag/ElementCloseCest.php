@@ -38,13 +38,13 @@ class ElementCloseCest
         $expected   = '</canvas>';
 
         $actual = $tag
-            ->docTypeSet(Tag::XHTML10_STRICT)
+            ->setDocType(Tag::XHTML10_STRICT)
             ->elementClose($parameters)
         ;
         $I->assertEquals($expected, $actual);
 
         $actual = $tag
-            ->docTypeSet(Tag::HTML5)
+            ->setDocType(Tag::HTML5)
             ->elementClose($parameters)
         ;
         $I->assertEquals($expected, $actual);
@@ -69,13 +69,13 @@ class ElementCloseCest
         $expected   = '</canvas>' . PHP_EOL;
 
         $actual = $tag
-            ->docTypeSet(Tag::XHTML10_STRICT)
+            ->setDocType(Tag::XHTML10_STRICT)
             ->elementClose($parameters)
         ;
         $I->assertEquals($expected, $actual);
 
         $actual = $tag
-            ->docTypeSet(Tag::HTML5)
+            ->setDocType(Tag::HTML5)
             ->elementClose($parameters)
         ;
         $I->assertEquals($expected, $actual);
