@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Files;
 
 use UnitTester;
 
+/**
+ * Class GetReaderCest
+ *
+ * @package Phalcon\Test\Unit\Annotations\Adapter\Files
+ */
 class GetReaderCest
 {
     /**

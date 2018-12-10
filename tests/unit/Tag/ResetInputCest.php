@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,7 +16,12 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class ResetInputCest extends TagSetup
+/**
+ * Class ResetInputCest
+ *
+ * @package Phalcon\Test\Unit\Tag
+ */
+class ResetInputCest
 {
     /**
      * Tests Phalcon\Tag :: resetInput()
@@ -36,10 +42,8 @@ class ResetInputCest extends TagSetup
         Tag::resetInput();
         $expected = ['a' => '1', 'b' => '2'];
         $actual   = $_POST;
-
         $I->assertEquals($expected, $actual);
     }
-
     /**
      * Tests Phalcon\Tag :: resetInput() - setDefault
      *
@@ -53,37 +57,27 @@ class ResetInputCest extends TagSetup
     {
         $I->wantToTest("Tag - resetInput() - setDefault()");
         Tag::setDocType(Tag::XHTML10_STRICT);
-
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" name="x_name" value="x_other" />';
         Tag::setDefault('x_name', 'x_other');
         $actual = Tag::textField($options);
         Tag::resetInput();
-
         $I->assertEquals($expected, $actual);
-
         $expected = '<input type="text" id="x_name" name="x_name" />';
         $actual   = Tag::textField($options);
-
         $I->assertEquals($expected, $actual);
-
         Tag::setDocType(Tag::HTML5);
-
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" '
             . 'name="x_name" value="x_other">';
         Tag::setDefault('x_name', 'x_other');
         $actual = Tag::textField($options);
         Tag::resetInput();
-
         $I->assertEquals($expected, $actual);
-
         $expected = '<input type="text" id="x_name" name="x_name">';
         $actual   = Tag::textField($options);
-
         $I->assertEquals($expected, $actual);
     }
-
     /**
      * Tests Phalcon\Tag :: resetInput() - displayTo
      *
@@ -96,35 +90,26 @@ class ResetInputCest extends TagSetup
     {
         $I->wantToTest("Tag - resetInput() - displayTo()");
         Tag::setDocType(Tag::XHTML10_STRICT);
-
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" name="x_name" '
             . 'value="x_other" />';
         Tag::displayTo('x_name', 'x_other');
         $actual = Tag::textField($options);
         Tag::resetInput();
-
         $I->assertEquals($expected, $actual);
-
         $expected = '<input type="text" id="x_name" name="x_name" />';
         $actual   = Tag::textField($options);
-
         $I->assertEquals($expected, $actual);
-
         Tag::setDocType(Tag::HTML5);
-
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" name="x_name" '
             . 'value="x_other">';
         Tag::displayTo('x_name', 'x_other');
         $actual = Tag::textField($options);
         Tag::resetInput();
-
         $I->assertEquals($expected, $actual);
-
         $expected = '<input type="text" id="x_name" name="x_name">';
         $actual   = Tag::textField($options);
-
         $I->assertEquals($expected, $actual);
     }
 }

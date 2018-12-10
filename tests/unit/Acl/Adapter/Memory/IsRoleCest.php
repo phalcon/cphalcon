@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,11 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class IsRoleCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ */
 class IsRoleCest
 {
     /**
@@ -28,7 +34,7 @@ class IsRoleCest
      */
     public function aclAdapterMemoryIsRole(UnitTester $I)
     {
-        $I->wantToTest("Acl\Adapter\Memory - isRole()");
+        $I->wantToTest('Acl\Adapter\Memory - isRole()');
         $acl     = new Memory();
         $aclRole = new Role('Administrators', 'Super User access');
 

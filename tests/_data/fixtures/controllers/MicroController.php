@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\Controllers;
+namespace Phalcon\Test\Controllers;
 
 use Phalcon\Mvc\Controller;
 

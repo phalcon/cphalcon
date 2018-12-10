@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
+/**
+ * Class AppendTitleCest
+ *
+ * @package Phalcon\Test\Unit\Tag
+ */
 class AppendTitleCest extends TagSetup
 {
     /**

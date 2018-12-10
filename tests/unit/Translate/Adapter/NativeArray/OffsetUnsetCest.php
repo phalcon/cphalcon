@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,11 @@ use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use UnitTester;
 
+/**
+ * Class OffsetUnsetCest
+ *
+ * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
+ */
 class OffsetUnsetCest
 {
     use TranslateTrait;

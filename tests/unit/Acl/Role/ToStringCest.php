@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Acl\Role;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class ToStringCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Role
+ */
 class ToStringCest
 {
     /**
@@ -26,7 +32,7 @@ class ToStringCest
      */
     public function aclRoleToString(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - __toString()");
+        $I->wantToTest('Acl\Role - __toString()');
         $role = new Role('Administrator');
 
         $expected = 'Administrator';

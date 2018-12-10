@@ -123,7 +123,7 @@ interface ResponseInterface
 	/**
 	 * Sends headers to the client
 	 */
-	public function sendHeaders() -> <ResponseInterface>;
+	public function sendHeaders() -> <ResponseInterface> | boolean;
 
 	/**
 	 * Sends cookies to the client

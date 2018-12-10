@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Acl\Resource;
 use Phalcon\Acl\Resource;
 use UnitTester;
 
+/**
+ * Class GetDescriptionCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Resource
+ */
 class GetDescriptionCest
 {
     /**
@@ -26,7 +32,7 @@ class GetDescriptionCest
      */
     public function aclResourceGetDescription(UnitTester $I)
     {
-        $I->wantToTest("Acl\Resource - getDescription()");
+        $I->wantToTest('Acl\Resource - getDescription()');
         $resource = new Resource('Customers', 'Customer management');
 
         $expected = 'Customer management';

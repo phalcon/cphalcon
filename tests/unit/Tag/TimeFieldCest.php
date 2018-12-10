@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
+/**
+ * Class TimeFieldCest
+ *
+ * @package Phalcon\Test\Unit\Tag
+ */
 class TimeFieldCest extends TagHelper
 {
     protected $function  = 'timeField';

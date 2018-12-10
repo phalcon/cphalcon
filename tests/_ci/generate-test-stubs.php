@@ -45,8 +45,8 @@ class %m%Cest
      */
     public function %nn%%m%(UnitTester $I)
     {
-        $I->wantToTest("%n% - %sm%()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest(\'%n% - %sm%()\');
+        $I->skipTest(\'Need implementation\');
     }
 }
 ';

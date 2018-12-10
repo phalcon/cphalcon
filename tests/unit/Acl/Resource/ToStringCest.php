@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Acl\Resource;
 use Phalcon\Acl\Resource;
 use UnitTester;
 
+/**
+ * Class ToStringCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Resource
+ */
 class ToStringCest
 {
     /**
@@ -26,7 +32,7 @@ class ToStringCest
      */
     public function aclResourceToString(UnitTester $I)
     {
-        $I->wantToTest("Acl\Resource - __toString()");
+        $I->wantToTest('Acl\Resource - __toString()');
         $resource = new Resource('Customers');
 
         $expected = 'Customers';

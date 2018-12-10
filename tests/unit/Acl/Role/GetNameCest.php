@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Unit\Acl\Role;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetNameCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Role
+ */
 class GetNameCest
 {
     /**
@@ -26,7 +32,7 @@ class GetNameCest
      */
     public function aclRoleGetName(UnitTester $I)
     {
-        $I->wantToTest("Acl\Role - getName()");
+        $I->wantToTest('Acl\Role - getName()');
         $role = new Role('Administrators');
 
         $expected = 'Administrators';

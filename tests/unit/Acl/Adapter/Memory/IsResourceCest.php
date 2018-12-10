@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,11 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Resource;
 use UnitTester;
 
+/**
+ * Class IsResourceCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ */
 class IsResourceCest
 {
     /**
@@ -28,7 +34,7 @@ class IsResourceCest
      */
     public function aclAdapterMemoryIsResource(UnitTester $I)
     {
-        $I->wantToTest("Acl\Adapter\Memory - isResource()");
+        $I->wantToTest('Acl\Adapter\Memory - isResource()');
         $acl         = new Memory();
         $aclResource = new Resource('Customers', 'Customer management');
 

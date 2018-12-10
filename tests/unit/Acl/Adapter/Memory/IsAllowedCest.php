@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,11 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use UnitTester;
 
+/**
+ * Class IsAllowedCest
+ *
+ * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ */
 class IsAllowedCest
 {
     /**
@@ -25,7 +31,7 @@ class IsAllowedCest
      */
     public function aclAdapterMemoryIsAllowed(UnitTester $I)
     {
-        $I->wantToTest("Acl\Adapter\Memory - isAllowed()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Acl\Adapter\Memory - isAllowed()');
+        $I->skipTest('Need implementation');
     }
 }
