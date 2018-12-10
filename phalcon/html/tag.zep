@@ -55,7 +55,135 @@ class Tag implements InjectionAwareInterface
 		return this->container;
 	}
 
-	public function getEscaper(array! params) -> <EscaperInterface> | null
+	public function buttonSubmit(array parameters = []) -> string
+	{
+	}
+
+	public function clear() -> void
+	{
+	}
+
+	public function docTypeGet() -> void
+	{
+	}
+
+	public function docTypeSet(int doctype) -> void
+	{
+	}
+
+	public function element(array parameters = []) -> string
+	{
+	}
+
+	public function elementClose(array parameters = []) -> string
+	{
+	}
+
+	public function form(array parameters = []) -> string
+	{
+	}
+
+	public function formEnd() -> string
+	{
+	}
+
+	public function get(string name, array parameters = [])
+	{
+	}
+
+	public function has(string name) -> bool
+	{
+	}
+
+	public function image(array parameters = []) -> string
+	{
+	}
+
+	public function inputCheckbox(array parameters = []) -> string
+	{
+	}
+
+	public function inputColor(array parameters = []) -> string
+	{
+	}
+
+	public function inputDate(array parameters = []) -> string
+	{
+	}
+
+	public function inputDateTime(array parameters = []) -> string
+	{
+	}
+
+	public function inputDateTimeLocal(array parameters = []) -> string
+	{
+	}
+
+	public function inputEmail(array parameters = []) -> string
+	{
+	}
+
+	public function inputFile(array parameters = []) -> string
+	{
+	}
+
+	public function inputHidden(array parameters = []) -> string
+	{
+	}
+
+	public function inputImage(array parameters = []) -> string
+	{
+	}
+
+	public function inputMonth(array parameters = []) -> string
+	{
+	}
+
+	public function inputNumeric(array parameters = []) -> string
+	{
+	}
+
+	public function inputPassword(array parameters = []) -> string
+	{
+	}
+
+	public function inputRadio(array parameters = []) -> string
+	{
+	}
+
+	public function inputRange(array parameters = []) -> string
+	{
+	}
+
+	public function inputSearch(array parameters = []) -> string
+	{
+	}
+
+	public function inputTel(array parameters = []) -> string
+	{
+	}
+
+	public function inputText(array parameters = []) -> string
+	{
+	}
+
+	public function inputTime(array parameters = []) -> string
+	{
+	}
+
+	public function inputUrl(array parameters = []) -> string
+	{
+	}
+
+	public function inputWeek(array parameters = []) -> string
+	{
+	}
+
+	public function javascript(array parameters = []) -> string
+	{
+	}
+
+	public function link(array parameters = []) -> string
 	{
 	}
 
@@ -63,11 +191,11 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	public function getUrlService() -> <UrlInterface>
+	public function select(array parameters = [], data = null) -> string
 	{
 	}
 
-	public function getEscaperService() -> <EscaperInterface>
+	public function selectStatic(array parameters, data = null) -> string
 	{
 	}
 
@@ -83,188 +211,43 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	public function displayTo(string! id, value) -> void
+	public function stylesheet(array parameters = []) -> string
 	{
 	}
 
-	public function hasValue(var name) -> bool
+	public function textArea(array parameters = []) -> string
 	{
 	}
 
-	public function getValue(var name, array params = [])
+	public function titleAppend(string title) -> void
 	{
 	}
 
-	public function clear() -> void
+	public function titleFriendly(string text, string separator = "-", bool lowercase = true, var replace = null) -> string
 	{
 	}
 
-	public function linkTo(parameters, text = null, local = true) -> string
+	public function titleGet(bool prepend = true, bool append = true) -> string
 	{
 	}
 
-	public function colorField(var parameters) -> string
+	public function titlePrepend(string title) -> void
 	{
 	}
 
-	public function textField(var parameters) -> string
+	public function titleRender() -> string
 	{
 	}
 
-	public function numericField(var parameters) -> string
+	public function titleSeparatorGet() -> string
 	{
 	}
 
-	public function rangeField(var parameters) -> string
+	public function titleSeparatorSet(string separator) -> void
 	{
 	}
 
-	public function emailField(var parameters) -> string
-	{
-	}
-
-	public function dateField(var parameters) -> string
-	{
-	}
-
-	public function dateTimeField(var parameters) -> string
-	{
-	}
-
-	public function dateTimeLocalField(var parameters) -> string
-	{
-	}
-
-	public function monthField(var parameters) -> string
-	{
-	}
-
-	public function timeField(var parameters) -> string
-	{
-	}
-
-	public function weekField(var parameters) -> string
-	{
-	}
-
-	public function passwordField(var parameters) -> string
-	{
-	}
-
-	public function hiddenField(var parameters) -> string
-	{
-	}
-
-	public function fileField(var parameters) -> string
-	{
-	}
-
-	public function searchField(var parameters) -> string
-	{
-	}
-
-	public function telField(var parameters) -> string
-	{
-	}
-
-	public function urlField(var parameters) -> string
-	{
-	}
-
-	public function checkField(var parameters) -> string
-	{
-	}
-
-	public function radioField(var parameters) -> string
-	{
-	}
-
-	public function imageInput(var parameters) -> string
-	{
-	}
-
-	public function submitButton(var parameters) -> string
-	{
-	}
-
-	public function selectStatic(parameters, data = null) -> string
-	{
-	}
-
-	public function select(var parameters, data = null) -> string
-	{
-	}
-
-	public function textArea(var parameters) -> string
-	{
-	}
-
-	public function form(var parameters) -> string
-	{
-	}
-
-	public function endForm() -> string
-	{
-	}
-
-	public function setTitle(string title) -> void
-	{
-	}
-
-	public function setTitleSeparator(string titleSeparator) -> void
-	{
-	}
-
-	public function appendTitle(var title) -> void
-	{
-	}
-
-	public function prependTitle(var title) -> void
-	{
-	}
-
-	public function getTitle(bool prepend = true, bool append = true) -> string
-	{
-	}
-
-	public function renderTitle() -> string
-	{
-	}
-
-	public function getTitleSeparator() -> string
-	{
-	}
-
-	public function stylesheetLink(var parameters = null, bool local = true) -> string
-	{
-	}
-
-	public function javascriptInclude(var parameters = null, bool local = true) -> string
-	{
-	}
-
-	public function image(var parameters = null, bool local = true) -> string
-	{
-	}
-
-	public function friendlyTitle(string text, string separator = "-", bool lowercase = true, var replace = null) -> string
-	{
-	}
-
-	public function setDocType(int doctype) -> void
-	{
-	}
-
-	public function getDocType() -> string
-	{
-	}
-
-	public function tagHtml(string tagName, var parameters = null, bool selfClose = false,
-		bool onlyStart = false, bool useEol = false) -> string
-	{
-	}
-
-	public function tagHtmlClose(string tagName, bool useEol = false) -> string
+	public function titleSet(string title) -> void
 	{
 	}
 
@@ -272,7 +255,7 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	private function inputFieldChecked(string type, var parameters) -> string
+	private function inputFieldChecked(string type, array parameters = []) -> string
 	{
 	}
 
