@@ -131,7 +131,7 @@ After the compilation is completed, you can check if the extension is loaded:
 The SQL dump files are located under `tests/_data/assets/db/schemas`. When importing your Postgresql database, please make sure you use the file suffixed with `*nanobox`. You can run the following commands from your nanobox environment
 
 ```sh
-/app $ cat ./tests/_data/assets/db/schemas/mysql_schema.sql" | mysql -u root gonano
+/app $ cat ./tests/_data/assets/db/schemas/mysql_schema.sql | mysql -u root gonano
 
 /app $ psql -U nanobox gonanophalcon_test -q -f ./tests/_data/assets/db/schemas/postgresql_schema.sql
 
