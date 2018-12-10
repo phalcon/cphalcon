@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
@@ -27,11 +28,56 @@ class ElementCloseCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-09-05
      */
     public function htmlTagElementClose(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - elementClose()');
-        $I->skipTest('Need implementation');
+        $tag        = new Tag();
+        $parameters = ['name' => 'canvas'];
+        $expected   = '</canvas>';
+
+        $actual = $tag
+            ->docTypeSet(Tag::XHTML10_STRICT)
+            ->elementClose($parameters)
+        ;
+        $I->assertEquals($expected, $actual);
+
+        $actual = $tag
+            ->docTypeSet(Tag::HTML5)
+            ->elementClose($parameters)
+        ;
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: elementClose() - EOL
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-09-05
+     */
+    public function htmlTagElementCloseEol(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - elementClose()');
+        $tag        = new Tag();
+        $parameters = [
+            'name'   => 'canvas',
+            'useEol' => true,
+        ];
+        $expected   = '</canvas>' . PHP_EOL;
+
+        $actual = $tag
+            ->docTypeSet(Tag::XHTML10_STRICT)
+            ->elementClose($parameters)
+        ;
+        $I->assertEquals($expected, $actual);
+
+        $actual = $tag
+            ->docTypeSet(Tag::HTML5)
+            ->elementClose($parameters)
+        ;
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -27,6 +27,12 @@ class Tag implements InjectionAwareInterface
 	 */
 	protected container;
 
+	/**
+	 * @var int
+	 */
+	private docType = 5; // HTML5
+
+
 	const HTML32               = 1;
 	const HTML401_STRICT       = 2;
 	const HTML401_TRANSITIONAL = 3;
@@ -63,20 +69,125 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	public function docTypeGet() -> void
+	/**
+	 * Get the document type declaration of content. If the docType has not
+	 * been set properly, XHTML5 is returned
+	 */
+	public function docTypeGet() -> string
 	{
+		switch this->docType
+		{
+			case 1:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
+				/* no break */
+
+			case 2:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/html4/strict.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 3:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 4:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 6:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 7:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 8:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 9:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
+				/* no break */
+
+			case 10:
+				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL .
+						"\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
+				/* no break */
+		}
+
+		return "<!DOCTYPE html>" . PHP_EOL;
 	}
 
-	public function docTypeSet(int doctype) -> void
+	/**
+	 * Set the document type of content
+	 *
+	 * @param int doctype A valid doctype for the content
+	 *
+	 * @return <Tag>
+	 */
+	public function docTypeSet(int doctype) -> <Tag>
 	{
+		if (doctype < self::HTML32 || doctype > self::XHTML5) {
+			let this->docType = self::HTML5;
+		} else {
+			let this->docType = doctype;
+		}
+
+		return this;
 	}
 
 	public function element(array parameters = []) -> string
 	{
 	}
 
+	/**
+	 * Builds the closing tag of an html element
+	 *
+	 * @param array parameters ["name", "useEol"]
+	 *
+	 * @return string
+	 *
+	 *<code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tab = new Tag();
+	 *
+	 * echo $tag->elementClose(
+	 *     [
+	 *         'name' => 'aside',
+     *     ]
+     * ); // </aside>
+	 *
+	 * echo $tag->elementClose(
+	 *     [
+	 *         'name'   => 'aside',
+	 *         'useEol' => true,
+	 *     ]
+	 * ); // "</aside>" . PHP_EOL
+	 *</code>
+	 */
 	public function elementClose(array parameters = []) -> string
 	{
+		var name, useEol = false;
+
+		if !fetch name, parameters["name"] {
+			throw new Exception("The 'name' parameter must be specified");
+		}
+
+		let useEol = this->arrayGetDefault("useEol", parameters, false);
+
+		if useEol {
+			return "</" . name . ">" . PHP_EOL;
+		}
+		return "</" . name . ">";
+
 	}
 
 	public function form(array parameters = []) -> string
@@ -249,6 +360,23 @@ class Tag implements InjectionAwareInterface
 
 	public function titleSet(string title) -> void
 	{
+	}
+
+	/**
+	 * Helper method to check an array for an element. If it exists it returns it,
+	 * if not, it returns the supplied default value
+	 *
+	 * @param string name
+	 * @param arrays parameters
+	 * @param mixed  defaultValue
+	 */
+	private function arrayGetDefault(string name, array parameters, var defaultValue = null) -> var
+	{
+		if isset(parameters[name]) {
+			return parameters[name];
+		} else {
+			return defaultValue;
+		}
 	}
 
 	private function inputField(string type, parameters, bool asValue = false) -> string
