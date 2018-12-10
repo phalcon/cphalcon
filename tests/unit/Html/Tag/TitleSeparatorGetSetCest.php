@@ -12,17 +12,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
- * Class TitleSeparatorGetCest
+ * Class TitleSeparatorGetSetCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class TitleSeparatorGetCest
+class TitleSeparatorGetSetCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: titleSeparatorGet()
+     * Tests Phalcon\Html\Tag :: titleSeparatorGet()/titleSeparatorSet()
      *
      * @param UnitTester $I
      *
@@ -31,7 +32,15 @@ class TitleSeparatorGetCest
      */
     public function htmlTagTitleSeparatorGet(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titleSeparatorGet()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Html\Tag - titleSeparatorGet/Set()');
+        $tag = new Tag();
+
+        $actual = $tag->titleSeparatorGet();
+        $I->assertEmpty($actual);
+
+        $separator = '--::--';
+        $tag->titleSeparatorSet($separator);
+        $actual = $tag->titleSeparatorGet();
+        $I->assertEquals($separator, $actual);
     }
 }

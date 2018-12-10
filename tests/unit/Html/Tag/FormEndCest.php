@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
+use const PHP_EOL;
 
 /**
  * Class FormEndCest
@@ -32,6 +34,28 @@ class FormEndCest
     public function htmlTagFormEnd(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - formEnd()');
-        $I->skipTest('Need implementation');
+        $tag = new Tag();
+
+        $expected = '</form>' . PHP_EOL;
+        $actual   = $tag->formEnd();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: formEnd() - no EOL
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagFormEndEol(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - formEnd() - no EOL');
+        $tag = new Tag();
+
+        $expected = '</form>';
+        $actual   = $tag->formEnd(false);
+        $I->assertEquals($expected, $actual);
     }
 }
