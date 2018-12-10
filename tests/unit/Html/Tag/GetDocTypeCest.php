@@ -17,34 +17,33 @@ use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
- * Class DocTypeGetSetCest
+ * Class GetDocTypeCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class DocTypeGetSetCest
+class GetDocTypeCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: docTypeGet()
+     * Tests Phalcon\Html\Tag :: getDocType()
      *
      * @param UnitTester $I
-     * @param Example    $examples
      *
      * @dataProvider getDocTypes
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagDocTypeGetSet(UnitTester $I, Example $examples)
+    public function htmlTagGetDocType(UnitTester $I, Example $example)
     {
-        $I->skipTest('Need implementation');
-        $doctype = $examples['value'];
+        $I->wantToTest('Html\Tag - getDocType()');
+        $doctype = $example['value'];
         $I->wantToTest(sprintf('Html\Tag - docTypeGet() - %s', $doctype));
 
         $tag = new Tag();
 
-        $tag->docTypeSet($doctype);
-        $expected = $examples['string'];
-        $actual   = $tag->docTypeGet();
+        $tag->setDocType($doctype);
+        $expected = $example['string'];
+        $actual   = $tag->getDocType();
         $I->assertEquals($expected, $actual);
     }
 

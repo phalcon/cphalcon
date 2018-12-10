@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use UnitTester;
 
 /**
- * Class HasCest
+ * Class SetTitleSeparatorCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class HasCest
+class SetTitleSeparatorCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: has()
+     * Tests Phalcon\Html\Tag :: setTitleSeparator()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagHas(UnitTester $I)
+    public function htmlTagSetTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - has()');
+        $I->wantToTest('Html\Tag - setTitleSeparator()');
         $I->skipTest('Need implementation');
     }
 }

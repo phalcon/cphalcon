@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use UnitTester;
 
 /**
- * Class RenderAttributesCest
+ * Class AppendTitleCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class RenderAttributesCest
+class AppendTitleCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: renderAttributes()
+     * Tests Phalcon\Html\Tag :: appendTitle()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagRenderAttributes(UnitTester $I)
+    public function htmlTagAppendTitle(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - renderAttributes()');
+        $I->wantToTest('Html\Tag - appendTitle()');
         $I->skipTest('Need implementation');
     }
 }

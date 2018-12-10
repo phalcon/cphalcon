@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use UnitTester;
 
 /**
- * Class TitleAppendCest
+ * Class GetValueCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class TitleAppendCest
+class GetValueCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: titleAppend()
+     * Tests Phalcon\Html\Tag :: getValue()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagTitleAppend(UnitTester $I)
+    public function htmlTagGetValue(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titleAppend()');
+        $I->wantToTest('Html\Tag - getValue()');
         $I->skipTest('Need implementation');
     }
 }

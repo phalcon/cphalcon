@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use UnitTester;
 
 /**
- * Class GetCest
+ * Class FriendlyTitleCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class GetCest
+class FriendlyTitleCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: get()
+     * Tests Phalcon\Html\Tag :: friendlyTitle()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagGet(UnitTester $I)
+    public function htmlTagFriendlyTitle(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - get()');
+        $I->wantToTest('Html\Tag - friendlyTitle()');
         $I->skipTest('Need implementation');
     }
 }

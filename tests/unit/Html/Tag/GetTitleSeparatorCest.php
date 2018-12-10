@@ -16,31 +16,31 @@ use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
- * Class TitleSeparatorGetSetCest
+ * Class GetTitleSeparatorCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class TitleSeparatorGetSetCest
+class GetTitleSeparatorCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: titleSeparatorGet()/titleSeparatorSet()
+     * Tests Phalcon\Html\Tag :: getTitleSeparator()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagTitleSeparatorGet(UnitTester $I)
+    public function htmlTagGetTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - titleSeparatorGet/Set()');
+        $I->wantToTest('Html\Tag - getTitleSeparator()');
         $tag = new Tag();
 
-        $actual = $tag->titleSeparatorGet();
+        $actual = $tag->getTitleSeparator();
         $I->assertEmpty($actual);
 
         $separator = '--::--';
-        $tag->titleSeparatorSet($separator);
-        $actual = $tag->titleSeparatorGet();
+        $tag->setTitleSeparator($separator);
+        $actual = $tag->getTitleSeparator();
         $I->assertEquals($separator, $actual);
     }
 }
