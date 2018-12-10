@@ -110,7 +110,7 @@ interface DiInterface extends \ArrayAccess
 	/**
 	 * Return the last DI created
 	 */
-	public static function getDefault() -> <DiInterface>;
+	public static function getDefault() -> <DiInterface> | null;
 
 	/**
 	 * Resets the internal default DI
