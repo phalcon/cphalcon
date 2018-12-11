@@ -12,26 +12,32 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
- * Class SetDefaultCest
+ * Class SetAttributeCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class SetDefaultCest
+class SetAttributeCest
 {
     /**
-     * Tests Phalcon\Html\Tag :: setDefault()
+     * Tests Phalcon\Html\Tag :: setAttribute()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagSetDefault(UnitTester $I)
+    public function htmlTagSetAttribute(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - setDefault()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Html\Tag - setAttribute()');
+        $tag = new Tag();
+
+        $tag->setAttribute('name', 'Phalcon');
+        $expected = 'Phalcon';
+        $actual   = $tag->getValue('name');
+        $I->assertEquals($expected, $actual);
     }
 }

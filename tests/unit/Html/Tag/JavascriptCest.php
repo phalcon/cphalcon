@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
 /**
@@ -21,17 +24,48 @@ use UnitTester;
  */
 class JavascriptCest
 {
+    use DiTrait;
+    use TagSetupTrait;
+    
     /**
-     * Tests Phalcon\Html\Tag :: javascript()
+     * Tests Phalcon\Tag :: javascript() - local
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-09-29
      */
-    public function htmlTagJavascript(UnitTester $I)
+    public function htmlTagJavascriptLocal(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - javascript()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest("Tag - javascript() - local");
+        $tag = new Tag();
+        $tag->setDI($this->container);
+
+        $url      = 'js/phalcon.js';
+        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
+        $actual   = $tag->javascript($url);
+        $I->assertEquals($expected, $actual);
+    }
+
+
+    /**
+     * Tests Phalcon\Tag :: javascript() - remote
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-09-29
+     */
+    public function htmlTagJavascriptRemote(UnitTester $I)
+    {
+        $I->wantToTest("Tag - javascript() - remote link");
+        $tag = new Tag();
+        $tag->setDI($this->container);
+
+        $url      = 'http://my.local.com/js/phalcon.js';
+        $options  = ['local' => false];
+        $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
+        $actual   = $tag->javascript($url, $options);
+        $I->assertEquals($expected, $actual);
     }
 }
