@@ -15,6 +15,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Escaper;
 use Phalcon\EscaperInterface;
 use Phalcon\Html\Exception;
+use Phalcon\UrlInterface;
 
 /**
  * Phalcon\Html\Tag
@@ -68,6 +69,11 @@ class Tag implements InjectionAwareInterface
 	 * @var array
 	 */
 	private values = [];
+
+	/**
+	 * @var <UrlInterface>
+	 */
+	private url;
 
 	/**
 	 * Constants
@@ -129,18 +135,61 @@ class Tag implements InjectionAwareInterface
 			this->values     = [];
 	}
 
-	public function element(array parameters = []) -> string
+	/**
+	 * Builds a HTML tag
+	 *
+	 * Parameters
+	 * `tag`       The name of the element
+	 * `onlyStart` Only process the start of th element
+	 * `selfClose` It is a self close element
+	 * `useEol`    Append PHP_EOL at the end
+	 */
+	public function element(string! tag, array parameters = []) -> string
 	{
+		var onlyStart, output, selfClose, useEol;
+
+		let useEol    = this->arrayGetDefault("useEol", parameters, false),
+			onlyStart = this->arrayGetDefault("onlyStart", parameters, false),
+			selfClose = this->arrayGetDefault("selfClose", parameters, false);
+
+		/**
+		 * Unset options for this control
+		 */
+		unset parameters["onlyStart"];
+		unset parameters["selfClose"];
+		unset parameters["useEol"];
+
+		let output = this->renderAttributes("<" . tag, parameters);
+
+		if this->docType > self::HTML5 {
+			if selfClose {
+				let output .= " />";
+			} else {
+				let output .= ">";
+			}
+		} else {
+			if onlyStart {
+				let output .= ">";
+			} else {
+				let output .= "></" . tag . ">";
+			}
+		}
+
+		if useEol {
+			let output .= PHP_EOL;
+		}
+
+		return output;
 	}
 
 	/**
 	 * Builds the closing tag of an html element
 	 *
-	 * @param array parameters ["name", "useEol"]
+	 * @param array parameters ['name', 'useEol']
 	 *
 	 * @return string
 	 *
-	 *<code>
+	 * <code>
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tab = new Tag();
@@ -156,23 +205,19 @@ class Tag implements InjectionAwareInterface
 	 *         'name'   => 'aside',
 	 *         'useEol' => true,
 	 *     ]
-	 * ); // "</aside>" . PHP_EOL
-	 *</code>
+	 * ); // '</aside>' . PHP_EOL
+	 * </code>
 	 */
-	public function elementClose(array parameters = []) -> string
+	public function elementClose(string! tag, array parameters = []) -> string
 	{
-		var name, useEol = false;
-
-		if !fetch name, parameters["name"] {
-			throw new Exception("The 'name' parameter must be specified");
-		}
+		var useEol = false;
 
 		let useEol = this->arrayGetDefault("useEol", parameters, false);
 
 		if useEol {
-			return "</" . name . ">" . PHP_EOL;
+			return "</" . tag . ">" . PHP_EOL;
 		}
-		return "</" . name . ">";
+		return "</" . tag . ">";
 
 	}
 
@@ -193,13 +238,80 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * 'text'
-	 * 'separator'
-	 * 'lowercase'
-	 * 'replace'
+	 * Converts text to URL-friendly strings
+	 *
+	 * Parameters
+	 * `text`      The text to be processed
+	 * `separator` Separator to use (default '-')
+	 * `lowercase` Convert to lowercase
+	 * `replace`
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tab = new Tag();
+	 *
+	 * echo $tag->friendlyTitle(
+	 *     [
+	 *         'text'       => 'These are big important news',
+	 *         'separator' => '-',
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt Syntax:
+	 * <code>
+	 * {{ friendly_title(['text': 'These are big important news', 'separator': '-']) }}
+	 * </code>
 	 */
-	public function friendlyTitle(array parameters = []) -> string
+	public function friendlyTitle(string! text, array parameters = []) -> string
 	{
+		var count, from, locale, lowercase, replace, separator, to, output;
+
+		if extension_loaded("iconv") {
+			/**
+			 * Save the old locale and set the new locale to UTF-8
+			 */
+			let locale = setlocale(LC_ALL, "en_US.UTF-8"),
+				text   = iconv("UTF-8", "ASCII//TRANSLIT", text);
+		}
+
+		let lowercase = this->arrayGetDefault("lowercase", parameters, true),
+			replace   = this->arrayGetDefault("replace", parameters, []),
+			separator = this->arrayGetDefault("separator", parameters, "-");
+
+		if !empty replace {
+			if typeof replace !== "array" && typeof replace !== "string"{
+				throw new Exception("Parameter replace must be an array or a string");
+			}
+
+			if typeof replace === "string" {
+				let from = [replace];
+			} else {
+				let from = replace;
+			}
+
+			let count = count(from),
+				to    = array_fill(0, count - 1, " "),
+				text  = str_replace(from, to, text);
+		}
+
+		let output = preg_replace("/[^a-zA-Z0-9\\/_|+ -]/", "", text);
+		if lowercase {
+			let output = strtolower(output);
+		}
+
+		let output = preg_replace("/[\\/_|+ -]+/", separator, output),
+			output = trim(output, separator);
+
+		if extension_loaded("iconv") {
+			/**
+			 * Revert back to the old locale
+			 */
+			setlocale(LC_ALL, locale);
+		}
+
+		return output;
 	}
 
 	/**
@@ -278,6 +390,7 @@ class Tag implements InjectionAwareInterface
 	 * echo $tag->getTitle(false, false); // World
 	 * </code>
 	 *
+	 * Volt syntax:
 	 * <code>
 	 * {{ get_title() }}
 	 * </code>
@@ -335,6 +448,7 @@ class Tag implements InjectionAwareInterface
 	 * echo $tag->getTitleSeparator();
 	 * </code>
 	 *
+	 * Volt syntax:
 	 * <code>
 	 * {{ get_title_separator() }}
 	 * </code>
@@ -347,9 +461,6 @@ class Tag implements InjectionAwareInterface
 	/**
 	 * Every helper calls this function to check whether a component has a predefined
 	 * value using `setDefault` or value from $_POST
-	 *
-	 * @param string name
-	 * @param array  parameters
 	 */
 	public function getValue(string name, array parameters = []) -> var | null
 	{
@@ -374,10 +485,6 @@ class Tag implements InjectionAwareInterface
 
 	/**
 	 * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
-	 *
-	 * @param string name
-	 *
-	 * @return bool
 	 */
 	public function hasValue(string name) -> bool
 	{
@@ -391,85 +498,355 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	public function inputCheckbox(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type="check"] tag
+	 *
+	 *<code>
+	 * echo $tag->inputCheckbox(
+	 *     [
+	 *         'name'  => 'terms,
+	 *         'value' => 'Y',
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ input_checkbox(['name': 'terms, 'value': 'Y']) }}
+	 *</code>
+	 *
+	 * @param array parameters
+	 */
+	public function inputCheckbox(string! name, array parameters = []) -> string
 	{
+		return this->renderInputChecked("checkbox", name, parameters);
 	}
 
-	public function inputColor(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='color'] tag
+	 */
+	public function inputColor(string! name, array parameters = []) -> string
 	{
-		return this->renderInput("color", parameters);
+		return this->renderInput("color", name, parameters);
 	}
 
-	public function inputDate(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='date'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputDate(
+	 *     [
+	 *         'name'  => 'born',
+	 *         'value' => '14-12-1980',
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_date(['name':'born', 'value':'14-12-1980']) }}
+	 * </code>
+	 */
+	public function inputDate(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("date", name, parameters);
 	}
 
-	public function inputDateTime(array parameters = []) -> string
+	/**
+	* Builds a HTML input[type='datetime'] tag
+	*
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputDateTime(
+	 *     [
+	 *         'name'  => 'born',
+	 *         'value' => '14-12-1980',
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_date_time(['name':'born', 'value':'14-12-1980']) }}
+	 * </code>
+	*/
+	public function inputDateTime(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("datetime", name, parameters);
 	}
 
-	public function inputDateTimeLocal(array parameters = []) -> string
+	/**
+	* Builds a HTML input[type='datetime-local'] tag
+	*
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputDateTimeLocal(
+	 *     [
+	 *         'name'  => 'born',
+	 *         'value' => '14-12-1980',
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_date_time_local(['name':'born', 'value':'14-12-1980']) }}
+	 * </code>
+	*/
+	public function inputDateTimeLocal(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("datetime-local", name, parameters);
 	}
 
-	public function inputEmail(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='email'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputEmail(
+	 *     [
+	 *         'name' => 'email',
+ 	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_email(['name': 'email']);
+	 * </code>
+	 */
+	public function inputEmail(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("email", name, parameters);
 	}
 
-	public function inputFile(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='file'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputFile(
+	 *     [
+	 *         'name' => 'file',
+ 	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_file(['name': 'file']);
+	 * </code>
+	 */
+	public function inputFile(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("file", name, parameters);
 	}
 
-	public function inputHidden(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='hidden'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputHidden(
+	 *     [
+	 *         'name'  => 'my-field',
+	 *         'value' => 'mike',
+	 *     ]
+	 * );
+	 * </code>
+	 */
+	public function inputHidden(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("hidden", name, parameters);
 	}
 
-	public function inputImage(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type="image"] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 * echo $tag->inputImage(
+	 *     [
+	 *         'src' => '/img/button.png',
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_image(['src': '/img/button.png']) }}
+	 * </code>
+	 */
+	public function inputImage(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("image", name, parameters);
 	}
 
-	public function inputMonth(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='month'] tag
+	 */
+	public function inputMonth(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("month", name, parameters);
 	}
 
-	public function inputNumeric(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='number'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->numericField(
+	 *     [
+	 *         'name' => 'price',
+	 *         'min'  => '1',
+	 *         'max'  => '5',
+	 *     ]
+	 * );
+	 * </code>
+	 */
+	public function inputNumeric(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("numeric", name, parameters);
 	}
 
-	public function inputPassword(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='password'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->passwordField(
+	 *     [
+	 *         'name' => 'my-field',
+	 *         'size' => 30,
+	 *     ]
+	 * );
+	 * </code>
+	 */
+	public function inputPassword(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("password", name, parameters);
 	}
 
-	public function inputRadio(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type="radio"] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputRadio(
+	 *     [
+	 *         'name'  => 'weather',
+	 *         'value" => 'hot',
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ input_radio(['name': 'weather', 'value": 'hot']) }}
+	 * </code>
+	 */
+	public function inputRadio(string! name, array parameters = []) -> string
 	{
+		return this->renderInputChecked("radio", name, parameters);
 	}
 
-	public function inputRange(array parameters = []) -> string
+	/**
+	* Builds a HTML input[type='range'] tag
+	*/
+	public function inputRange(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("range", name, parameters);
 	}
 
-	public function inputSearch(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='search'] tag
+	 */
+	public function inputSearch(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("search", name, parameters);
 	}
 
-	public function inputTel(array parameters = []) -> string
+	/**
+	* Builds a HTML input[type='tel'] tag
+	*/
+	public function inputTel(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("tel", name, parameters);
 	}
 
-	public function inputText(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='text'] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->inputText(
+	 *     [
+	 *         'name' => 'my-field',
+	 *         'size' => 30,
+	 *     ]
+	 * );
+	 * </code>
+	 */
+	public function inputText(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("text", name, parameters);
 	}
 
-	public function inputTime(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='time'] tag
+	 */
+	public function inputTime(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("time", name, parameters);
 	}
 
-	public function inputUrl(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='url'] tag
+	 */
+	public function inputUrl(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("url", name, parameters);
 	}
 
-	public function inputWeek(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type='week'] tag
+	 */
+	public function inputWeek(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("week", name, parameters);
 	}
 
 	public function javascript(array parameters = []) -> string
@@ -545,14 +922,12 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * $tag = new Tag();
 	 *
-	 * // Assigning "peter" to "name" component
-	 * $tag->setDefault("name", "peter");
+	 * // Assigning 'peter' to 'name' component
+	 * $tag->setDefault('name', 'peter');
 	 *
 	 * // Later in the view
-	 * echo $tag->inputText("name"); // Will have the value "peter" by default
+	 * echo $tag->inputText('name'); // Will have the value 'peter' by default
 	 * </code>
-	 *
-	 * @param string value
 	 */
 	public function setDefault(string! name, value) -> <Tag>
 	{
@@ -575,15 +950,15 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * $tag = new Tag();
 	 *
-	 * // Assigning "peter" to "name" component
+	 * // Assigning 'peter' to 'name' component
 	 * $tag->setDefault(
 	 *     [
-	 *         "name" => "peter",
+	 *         'name' => 'peter',
 	 *     ]
 	 * );
 	 *
 	 * // Later in the view
-	 * echo $tag->inputText("name"); // Will have the value "peter" by default
+	 * echo $tag->inputText('name'); // Will have the value 'peter' by default
 	 * </code>
 	 */
 	public function setDefaults(array! values, bool merge = false) -> <Tag>
@@ -655,17 +1030,73 @@ class Tag implements InjectionAwareInterface
 	{
 	}
 
-	public function textArea(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type="submit"] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->submit(['name' => 'Save'])
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ submit(['name': 'Save']) }}
+	 * </code>
+	 */
+	public function submit(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("submit", name, parameters);
+	}
+
+	/**
+	 * Builds a HTML TEXTAREA tag
+	 *
+	 *<code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->textArea(
+	 *     [
+	 *         'name' => 'comments',
+	 *         'cols' => 10,
+	 *         'rows' => 4,
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ text_area(['name': 'comments', 'cols': 10, 'rows': 4) }}
+	 *</code>
+	 *
+	 * @param array parameters
+	 */
+	public function textArea(string! name, array parameters = []) -> string
+	{
+		var content, id, name, output;
+
+		let id = this->arrayGetDefault("id", parameters, name);
+
+		if isset parameters["value"] {
+			let content = parameters["value"];
+			unset parameters["value"];
+		} else {
+			let content = self::getValue(id, parameters);
+		}
+
+		let output = this->renderAttributes("<textarea", parameters) . ">" .
+					 htmlspecialchars(content) . "</textarea>";
+
+		return output;
 	}
 
 	/**
 	 * Helper method to check an array for an element. If it exists it returns it,
 	 * if not, it returns the supplied default value
-	 *
-	 * @param string name
-	 * @param arrays parameters
-	 * @param mixed  defaultValue
 	 */
 	private function arrayGetDefault(string name, array parameters, var defaultValue = null) -> var
 	{
@@ -693,35 +1124,44 @@ class Tag implements InjectionAwareInterface
 			return null;
 		}
 
-		return this->getEscaperService();
+		return this->getService("escaper");
 	}
 
 	/**
 	 * Returns the escaper service from the DI container
 	 */
-	private function getEscaperService() -> <EscaperInterface>
+	private function getService(string name)
 	{
-		var escaper, container;
+		var service, container;
 
-		let escaper = this->escaper;
-		if typeof escaper != "object" {
+		if ("escaper" === name) {
+			let service = this->escaper;
+		} else {
+			let service = this->url;
+		}
+
+		if typeof service !== "object" {
 			let container = this->getDI();
 
 			if typeof container != "object" {
-				throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
+				throw new Exception("A dependency injector container is required to obtain the '" . name . "' service");
 			}
 
-			let escaper       = <EscaperInterface> container->getShared("escaper"),
-				this->escaper = escaper;
+			if ("escaper" === name) {
+				let service       = <EscaperInterface> container->getShared(name),
+					this->escaper = service;
+			} else {
+				let service   = <UrlInterface> container->getShared(name),
+					this->url = service;
+			}
 		}
 
-		return escaper;
+		return service;
 	}
 
-	private function inputFieldChecked(string type, array parameters = []) -> string
-	{
-	}
-
+	/**
+	 * Renders the attributes of an HTML element
+	 */
 	private function renderAttributes(string! code, array! attributes) -> string
 	{
 		var attrs, escaper, escaped, key, newCode, intersect, order, value;
@@ -783,47 +1223,61 @@ class Tag implements InjectionAwareInterface
 	/**
 	 * Builds `input` elements
 	 */
-	private function renderInput(string type, array parameters = [], bool asValue = false) -> string
+	private function renderInput(string type, string name, array parameters = []) -> string
 	{
-		var name, id, output, value;
+		var name, id, output;
 
-		if asValue == false {
+		let id = this->arrayGetDefault("id", parameters, name);
 
-			if !fetch id, parameters[0] {
-				let parameters[0] = parameters["id"];
+		let parameters["id"]    = id,
+			parameters["name"]  = name,
+			parameters["type"]  = type,
+			parameters["value"] = this->getValue(id, parameters);
+
+		let output = this->renderAttributes("<input", parameters) . this->renderCloseTag();
+
+		return output;
+	}
+	/**
+	 * Builds INPUT tags that implements the checked attribute
+	 */
+	private function renderInputChecked(string type, string name, array parameters = []) -> string
+	{
+		var currentValue, id, name, output, value;
+
+		let id = this->arrayGetDefault("id", parameters, name);
+
+		/**
+		 * Automatically check inputs
+		 */
+		if fetch currentValue, parameters["value"] {
+			unset parameters["value"];
+
+			let value = this->getValue(id, parameters);
+
+			if value !== null && currentValue === value {
+				let parameters["checked"] = "checked";
 			}
-
-			if fetch name, parameters["name"] {
-				if empty name {
-					let parameters["name"] = id;
-				}
-			} else {
-				let parameters["name"] = id;
-			}
-
-			/**
-			 * Automatically assign the id if the name is not an array
-			 */
-			if typeof id == "string" {
-				if !memstr(id, "[") && !isset parameters["id"] {
-					let parameters["id"] = id;
-				}
-			}
-
-			let parameters["value"] = this->getValue(id, parameters);
-
+			let parameters["value"] = currentValue;
 		} else {
+			let value = this->getValue(id, parameters);
+
 			/**
-			 * Use the "id" as value if the user hadn't set it
-			 */
-			if !isset parameters["value"] {
-				if fetch value, parameters[0] {
-					let parameters["value"] = value;
-				}
+			* Evaluate the value in POST
+			*/
+			if value !== null {
+				let parameters["checked"] = "checked";
 			}
+
+			/**
+			* Update the value anyways
+			*/
+			let parameters["value"] = value;
 		}
 
-		let parameters["type"] = type;
+		let parameters["id"]    = id,
+			parameters["name"]  = name,
+			parameters["type"]  = type;
 
 		let output = this->renderAttributes("<input", parameters) . this->renderCloseTag();
 
