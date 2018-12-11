@@ -202,6 +202,25 @@ interface BuilderInterface
 	/**
 	 * Sets an OFFSET clause
 	 */
-	 public function offset(int offset) -> <BuilderInterface>;
+	public function offset(int offset) -> <BuilderInterface>;
 
+	/**
+	 * Set default bind parameters
+	 */
+	public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>;
+
+	/**
+	 * Set default bind types
+	 */
+	public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>;
+	
+	/**
+	 * Returns default bind params
+	 */
+	public function getBindParams() -> array;
+
+	/**
+	 * Returns default bind types
+	 */
+	public function getBindTypes() -> array;
 }
