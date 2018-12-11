@@ -31,11 +31,6 @@ class Tag implements InjectionAwareInterface
 	protected container;
 
 	/**
-	 * @var bool
-	 */
-	private autoescape = true;
-
-	/**
 	 * @var array
 	 */
 	private append = [];
@@ -91,22 +86,6 @@ class Tag implements InjectionAwareInterface
 	const XHTML5               = 11;
 
 	/**
-	 * Sets the dependency injector
-	 */
-	public function setDI(<DiInterface> container) -> void
-	{
-		let this->container = container;
-	}
-
-	/**
-	 * Returns the internal dependency injector
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		return this->container;
-	}
-
-	/**
 	 * Appends a text to current document title
 	 */
 	public function appendTitle(array title) -> <Tag>
@@ -126,8 +105,7 @@ class Tag implements InjectionAwareInterface
 	 */
 	public function clear() -> void
 	{
-		let this->autoEscape = true,
-			this->append     = [],
+		let this->append     = [],
 			this->docType    = self::HTML5,
 			this->prepend    = [],
 			this->separator  = "",
@@ -358,6 +336,14 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
+	 * Returns the internal dependency injector
+	 */
+	public function getDI() -> <DiInterface>
+	{
+		return this->container;
+	}
+
+	/**
 	 * Get the document type declaration of content. If the docType has not
 	 * been set properly, XHTML5 is returned
 	 */
@@ -441,7 +427,7 @@ class Tag implements InjectionAwareInterface
 	{
 		var item, items, output, title, appendTitle, prependTitle, separator, escaper;
 
-		let escaper   = <EscaperInterface> this->getEscaper(["escape": true]),
+		let escaper   = this->getService("escaper"),
 			items     = [],
 			output    = "",
 			title     = escaper->escapeHtml(this->title),
@@ -577,7 +563,7 @@ class Tag implements InjectionAwareInterface
 		var local, service, src, output;
 
 		let local = this->arrayGetDefault("local", parameters, true),
-			src   = url;
+			src   = this->arrayGetDefault("src", parameters, url);
 
 		/**
 		 * Use the "url" service if the URI is local
@@ -1219,20 +1205,6 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * Set autoescape mode in generated html
-	 *
-	 * @param bool autoescape
-	 *
-	 * @return <Tag>
-	 */
-	public function setAutoescape(bool autoescape) -> <Tag>
-	{
-		let this->autoescape = autoescape;
-
-		return this;
-	}
-
-	/**
 	 * Assigns default values to generated tags by helpers
 	 *
 	 * <code>
@@ -1288,6 +1260,14 @@ class Tag implements InjectionAwareInterface
 		}
 
 		return this;
+	}
+
+	/**
+	 * Sets the dependency injector
+	 */
+	public function setDI(<DiInterface> container) -> void
+	{
+		let this->container = container;
 	}
 
 	/**
@@ -1475,24 +1455,6 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * Obtains the 'escaper' service if required
-	 */
-	private function getEscaper(array! parameters) -> <EscaperInterface> | null
-	{
-		var autoescape;
-
-		if !fetch autoescape, parameters["escape"] {
-			let autoescape = this->autoescape;
-		}
-
-		if !autoescape {
-			return null;
-		}
-
-		return this->getService("escaper");
-	}
-
-	/**
 	 * Returns the escaper service from the DI container
 	 */
 	private function getService(string name)
@@ -1546,7 +1508,7 @@ class Tag implements InjectionAwareInterface
 
 		let intersect = array_intersect_key(order, attributes),
 			attrs     = array_merge(intersect, attributes),
-			escaper   = this->getEscaper(attributes);
+			escaper   = this->getService("escaper");
 
 		unset attrs["escape"];
 
