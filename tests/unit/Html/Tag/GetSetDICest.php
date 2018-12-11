@@ -12,26 +12,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Di;
+use Phalcon\Html\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
- * Class SetDICest
+ * Class GetSetDICest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class SetDICest
+class GetSetDICest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Html\Tag :: setDI()
+     * Tests Phalcon\Html\Tag :: getDI()/setDI()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function htmlTagSetDI(UnitTester $I)
+    public function htmlTagGetSetDI(UnitTester $I)
     {
-        $I->wantToTest('Html\Tag - setDI()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Html\Tag - getDI()/setDI()');
+        $tag = new Tag();
+        $this->newDi();
+        $tag->setDI($this->container);
+
+        $class  = Di::class;
+        $actual = $tag->getDI();
+        $I->assertInstanceOf($class, $actual);
     }
 }

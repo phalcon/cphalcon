@@ -41,28 +41,29 @@ class ElementCest
     public function htmlTagElement(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - element()');
-        $tag      = new Tag();
+        $tag = new Tag();
         $tag->setDI($this->container);
-        $name        = 'canvas';
-        $parameters  = [
+        $name       = 'canvas';
+        $parameters = [
             'width'  => 300,
             'height' => 300,
         ];
-        $expected = '<canvas width="300" height="300">';
+        $expected   = '<canvas width="300" height="300">';
 
         $actual = $tag
             ->setDocType(Tag::XHTML10_STRICT)
-            ->element($name, $parameters);
+            ->element($name, $parameters)
+        ;
         $I->assertEquals($expected, $actual);
 
-        $parameters  = [
+        $parameters = [
             'id'     => 'canvas1',
             'name'   => 'canvas2',
             'width'  => 300,
             'height' => 300,
         ];
-        $expected = '<canvas id="canvas1" name="canvas2" width="300" height="300"></canvas>';
-        $actual   = $tag
+        $expected   = '<canvas id="canvas1" name="canvas2" width="300" height="300"></canvas>';
+        $actual     = $tag
             ->setDocType(Tag::HTML5)
             ->element($name, $parameters)
         ;
@@ -100,7 +101,7 @@ class ElementCest
     public function htmlTagElementSelfClose(UnitTester $I)
     {
         $I->wantToTest("Tag - tagHtml() - self close");
-        $tag        = new Tag();
+        $tag = new Tag();
         $tag->setDI($this->container);
         $name       = 'aside';
         $parameters = [
@@ -134,7 +135,7 @@ class ElementCest
     public function htmlTagElementOnlyStart(UnitTester $I)
     {
         $I->wantToTest("Tag - tagHtml() - only start");
-        $tag        = new Tag();
+        $tag = new Tag();
         $tag->setDI($this->container);
         $name       = 'aside';
         $parameters = [
@@ -149,7 +150,7 @@ class ElementCest
         ;
         $I->assertEquals($expected, $actual);
 
-        $actual   = $tag
+        $actual = $tag
             ->setDocType(Tag::HTML5)
             ->element($name, $parameters)
         ;
@@ -167,7 +168,7 @@ class ElementCest
     public function htmlTagElementEol(UnitTester $I)
     {
         $I->wantToTest("Tag - tagHtml() - name parameter EOL");
-        $tag        = new Tag();
+        $tag = new Tag();
         $tag->setDI($this->container);
         $name       = 'aside';
         $parameters = [

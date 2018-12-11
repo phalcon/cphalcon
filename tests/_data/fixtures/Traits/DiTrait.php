@@ -12,20 +12,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function cacheFolder;
-use Phalcon\Cache\Frontend\Data;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Di;
-use Phalcon\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
+use Phalcon\DiInterface;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
@@ -37,6 +36,7 @@ use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Files as FilesSession;
+use function cacheFolder;
 use function dataFolder;
 
 /**
@@ -56,21 +56,16 @@ trait DiTrait
         return $this->container;
     }
 
-    protected function getService(string $name)
-    {
-        return $this->container->get($name);
-    }
-
     protected function getAndSetModelsCacheFile()
     {
         $cache = new File(
             new Data(
                 [
-                    'lifetime' => 3600
+                    'lifetime' => 3600,
                 ]
             ),
             [
-                'cacheDir' => cacheFolder()
+                'cacheDir' => cacheFolder(),
             ]
         );
         $this->container->set('modelsCache', $cache);
@@ -86,7 +81,7 @@ trait DiTrait
                     'host'   => env('DATA_MEMCACHED_HOST'),
                     'port'   => env('DATA_MEMCACHED_PORT'),
                     'weight' => env('DATA_MEMCACHED_WEIGHT'),
-                ]
+                ],
             ],
         ];
 
@@ -110,6 +105,11 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
+    protected function newFactoryDefault()
+    {
+        return new FactoryDefault();
+    }
+
     protected function setNewCliFactoryDefault()
     {
         Di::reset();
@@ -117,19 +117,14 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
-    protected function newFactoryDefault()
+    protected function newCliFactoryDefault()
     {
-        return new FactoryDefault();
+        return new CliFactoryDefault();
     }
 
     protected function newCliConsole()
     {
         return new CliConsole();
-    }
-
-    protected function newCliFactoryDefault()
-    {
-        return new CliFactoryDefault();
     }
 
     protected function newEventsManager()
@@ -204,14 +199,6 @@ trait DiTrait
     }
 
     /**
-     * Set up db service (Postgresql)
-     */
-    protected function setDiPostgresql()
-    {
-        $this->container->set('db', $this->newDiPostgresql());
-    }
-
-    /**
      * Set up db service (mysql)
      */
     protected function newDiMysql()
@@ -230,6 +217,14 @@ trait DiTrait
     /**
      * Set up db service (Postgresql)
      */
+    protected function setDiPostgresql()
+    {
+        $this->container->set('db', $this->newDiPostgresql());
+    }
+
+    /**
+     * Set up db service (Postgresql)
+     */
     protected function newDiPostgresql()
     {
         $options = [
@@ -241,18 +236,6 @@ trait DiTrait
         ];
 
         return new Postgresql($options);
-    }
-
-    /**
-     * Set up db service (Sqlite)
-     */
-    protected function newDiSqlite()
-    {
-        $options = [
-            'dbname' => env('DATA_SQLITE_NAME'),
-        ];
-
-        return new Sqlite($options);
     }
 
     protected function setDiResponse()
@@ -276,6 +259,18 @@ trait DiTrait
     protected function setDiSqlite()
     {
         $this->container->set('db', $this->newDiSqlite());
+    }
+
+    /**
+     * Set up db service (Sqlite)
+     */
+    protected function newDiSqlite()
+    {
+        $options = [
+            'dbname' => env('DATA_SQLITE_NAME'),
+        ];
+
+        return new Sqlite($options);
     }
 
     protected function setDiUrl()
@@ -323,5 +318,10 @@ trait DiTrait
         $this->setDiPostgresql();
 
         $this->connection = $this->getService('db');
+    }
+
+    protected function getService(string $name)
+    {
+        return $this->container->get($name);
     }
 }

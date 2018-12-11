@@ -38,7 +38,7 @@ class RenderTitleCest
     public function htmlTagRenderTitle(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - renderTitle()');
-        $tag   = new Tag();
+        $tag = new Tag();
         $tag->setDI($this->container);
         $value = "Hello </title><script>alert('Got your nose!');</script><title>";
 

@@ -47,7 +47,7 @@ class GetTitleCest
         $actual   = $tag->getTitle();
         $I->assertEquals($expected, $actual);
     }
-    
+
     /**
      * Tests Phalcon\Html\Tag :: getTitle() - escape
      *

@@ -26,7 +26,7 @@ class StylesheetCest
 {
     use DiTrait;
     use TagSetupTrait;
-    
+
     /**
      * Tests Phalcon\Html\Tag :: stylesheet() - local
      *
@@ -48,16 +48,18 @@ class StylesheetCest
 
         $actual = $tag
             ->setDocType(Tag::XHTML10_STRICT)
-            ->stylesheet($url);
+            ->stylesheet($url)
+        ;
 
         $I->assertEquals($expected, $actual);
 
         $expected = '<link rel="stylesheet" type="text/css" '
             . 'href="/css/phalcon.css">'
             . PHP_EOL;
-        $actual = $tag
+        $actual   = $tag
             ->setDocType(Tag::HTML5)
-            ->stylesheet($url);
+            ->stylesheet($url)
+        ;
         $I->assertEquals($expected, $actual);
     }
 
@@ -82,15 +84,17 @@ class StylesheetCest
 
         $actual = $tag
             ->setDocType(Tag::XHTML10_STRICT)
-            ->stylesheet($url, $options);
+            ->stylesheet($url, $options)
+        ;
         $I->assertEquals($expected, $actual);
 
         $expected = '<link rel="stylesheet" type="text/css" '
             . 'href="http://phalconphp.com/css/phalcon.css">'
             . PHP_EOL;
-        $actual = $tag
+        $actual   = $tag
             ->setDocType(Tag::HTML5)
-            ->stylesheet($url);
+            ->stylesheet($url)
+        ;
         $I->assertEquals($expected, $actual);
     }
 
@@ -116,15 +120,17 @@ class StylesheetCest
 
         $actual = $tag
             ->setDocType(Tag::XHTML10_STRICT)
-            ->stylesheet($url, $options);
+            ->stylesheet($url, $options)
+        ;
         $I->assertEquals($expected, $actual);
 
         $expected = '<link rel="stylesheet/less" type="text/css" '
             . 'href="/css/phalcon.css">'
             . PHP_EOL;
-        $actual = $tag
+        $actual   = $tag
             ->setDocType(Tag::HTML5)
-            ->stylesheet($url, $options);
+            ->stylesheet($url, $options)
+        ;
         $I->assertEquals($expected, $actual);
     }
 }

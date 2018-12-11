@@ -26,7 +26,7 @@ class JavascriptCest
 {
     use DiTrait;
     use TagSetupTrait;
-    
+
     /**
      * Tests Phalcon\Tag :: javascript() - local
      *

@@ -144,19 +144,4 @@ class TextAreaCest
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

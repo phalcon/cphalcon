@@ -36,8 +36,8 @@ class GetValueCest
         $tag = new Tag();
 
         $attributes = ['value' => 'Phalcon'];
-        $expected = 'Phalcon';
-        $actual   = $tag->getValue('name', $attributes);
+        $expected   = 'Phalcon';
+        $actual     = $tag->getValue('name', $attributes);
         $I->assertEquals($expected, $actual);
     }
 

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Validation\ValidatorInterface;
 use IntegrationTester;
+use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Trait ValidationTrait
@@ -25,7 +25,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: __construct()
      *
-     * @param IntegrationTester         $I
+     * @param IntegrationTester  $I
      * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -55,7 +55,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: getOption()
      *
-     * @param IntegrationTester         $I
+     * @param IntegrationTester  $I
      * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -74,7 +74,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: hasOption()
      *
-     * @param IntegrationTester         $I
+     * @param IntegrationTester  $I
      * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -93,7 +93,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: setOption()
      *
-     * @param IntegrationTester         $I
+     * @param IntegrationTester  $I
      * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>

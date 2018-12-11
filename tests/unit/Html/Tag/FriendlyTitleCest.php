@@ -136,7 +136,8 @@ class FriendlyTitleCest
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: friendlyTitle() - special characters and escaping
+     * Tests Phalcon\Html\Tag :: friendlyTitle() - special characters and
+     * escaping
      *
      * @param UnitTester $I
      *
@@ -149,9 +150,9 @@ class FriendlyTitleCest
         $tag = new Tag();
 
         $text     = "Mess'd up --text-- just (to) stress /test/ ?our! "
-                  . "`little` \\clean\\ url fun.ction!?-->";
+            . "`little` \\clean\\ url fun.ction!?-->";
         $expected = 'messd-up-text-just-to-stress-test-our-little-'
-                  . 'clean-url-function';
+            . 'clean-url-function';
         $actual   = $tag->friendlyTitle($text);
         $I->assertEquals($expected, $actual);
     }
@@ -172,14 +173,15 @@ class FriendlyTitleCest
         $text     = "Perché l'erba è verde?";
         $expected = 'perche-lerba-e-verde';
         $options  = [
-            'replace' => "'"
+            'replace' => "'",
         ];
         $actual   = $tag->friendlyTitle($text, $options);
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: friendlyTitle() - accented characters replace array
+     * Tests Phalcon\Html\Tag :: friendlyTitle() - accented characters replace
+     * array
      *
      * @param UnitTester $I
      *
@@ -194,7 +196,7 @@ class FriendlyTitleCest
         $text     = "Perché l'erba è verde?";
         $expected = 'p-rch-l-rb-v-rd';
         $options  = [
-            'replace' => ['e', 'a']
+            'replace' => ['e', 'a'],
         ];
         $actual   = $tag->friendlyTitle($text, $options);
         $I->assertEquals($expected, $actual);
@@ -214,8 +216,8 @@ class FriendlyTitleCest
         $I->expectThrowable(
             new Exception('Parameter replace must be an array or a string'),
             function () {
-                $tag = new Tag();
-                $options  = ['replace' => true];
+                $tag     = new Tag();
+                $options = ['replace' => true];
                 $tag->friendlyTitle('test', $options);
             }
         );
