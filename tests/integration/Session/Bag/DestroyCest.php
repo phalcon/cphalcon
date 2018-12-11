@@ -32,7 +32,6 @@ class DestroyCest
         $session->destroy();
 
         $session = new \Phalcon\Session\Bag("DestroyTest");
-        $I->assertEquals(NULL, $session->test);
-
+        $I->assertEquals(null, $session->test);
     }
 }
