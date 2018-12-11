@@ -39,7 +39,7 @@ abstract class Adapter implements AdapterInterface
 	 * Repository for pagination
 	 * @var RepositoryInterface
 	 */
-	private _repository;
+	protected _repository;
 
 	/**
 	 * Phalcon\Paginator\Adapter\Model constructor
@@ -99,7 +99,7 @@ abstract class Adapter implements AdapterInterface
 	 */
 	protected function getRepository(array properties = null) -> <RepositoryInterface>
 	{
-		if !this->_repository {
+		if typeof this->_repository != "object" {
 			let this->_repository = new Repository();
 		}
 

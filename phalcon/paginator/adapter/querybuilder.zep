@@ -69,20 +69,29 @@ class QueryBuilder extends Adapter
 	 */
 	public function __construct(array config)
 	{
-		parent::__construct(config);
+		var builder, limit, page, columns;
+
 		let this->_config = config;
 
-		if !isset config["builder"] {
+		if !fetch builder, config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
 		}
 
-		if !isset config["limit"] {
+		if !fetch limit, config["limit"] {
 			throw new Exception("Parameter 'limit' is required");
 		}
 
-		this->setQueryBuilder(config["builder"]);
-	}
+		if fetch columns, config["columns"] {
+		    let this->_columns = columns;
+		}
 
+		this->setQueryBuilder(builder);
+		this->setLimit(limit);
+
+		if fetch page, config["page"] {
+			this->setCurrentPage(page);
+		}
+	}
 	/**
 	 * Get the current page number
 	 */
@@ -112,10 +121,10 @@ class QueryBuilder extends Adapter
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <RepositoryInterface>
+	public function paginate() -> <RepositoryInterface>
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
-			limit, numberPage, number, query, page, previous, items, totalQuery,
+			limit, numberPage, number, query, previous, items, totalQuery,
 			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
 			model, modelClass, dbService;
 
@@ -243,7 +252,6 @@ class QueryBuilder extends Adapter
 
 		return this->getRepository([
 			RepositoryInterface::PROPERTY_ITEMS 		: items,
-			RepositoryInterface::PROPERTY_TOTAL_PAGES	: totalPages,
 			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: rowcount,
 			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
 			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,

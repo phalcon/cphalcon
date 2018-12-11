@@ -59,15 +59,7 @@ class Repository implements RepositoryInterface
 	{
 		return this->getProperty(self::PROPERTY_ITEMS, null);
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getTotalPages() -> int
-	{
-		return this->getProperty(self::PROPERTY_TOTAL_PAGES, 0);
-	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -87,7 +79,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFirstPage() -> int
+	public function getFirst() -> int
 	{
 		return this->getProperty(self::PROPERTY_FIRST_PAGE, 0);
 	}
@@ -95,7 +87,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPreviousPage() -> int
+	public function getPrevious() -> int
 	{
 		return this->getProperty(self::PROPERTY_PREVIOUS_PAGE, 0);
 	}
@@ -103,7 +95,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getCurrentPage() -> int
+	public function getCurrent() -> int
 	{
 		return this->getProperty(self::PROPERTY_CURRENT_PAGE, 0);
 	}
@@ -111,7 +103,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getNextPage() -> int
+	public function getNext() -> int
 	{
 		return this->getProperty(self::PROPERTY_NEXT_PAGE, 0);
 	}
@@ -119,7 +111,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLastPage() -> int
+	public function getLast() -> int
 	{
 		return this->getProperty(self::PROPERTY_LAST_PAGE, 0);
 	}

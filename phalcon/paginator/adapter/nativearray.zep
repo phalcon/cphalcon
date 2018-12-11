@@ -66,9 +66,9 @@ class NativeArray extends Adapter
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <RepositoryInterface>
+	public function paginate() -> <RepositoryInterface>
 	{
-		var config, items, page;
+		var config, items;
 		int show, pageNumber, totalPages, number, previous, next;
 		double roundedTotal;
 
@@ -117,7 +117,6 @@ class NativeArray extends Adapter
 
 		return this->getRepository([
 			RepositoryInterface::PROPERTY_ITEMS 		: items,
-			RepositoryInterface::PROPERTY_TOTAL_PAGES	: totalPages,
 			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: number,
 			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
 			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,

@@ -12,7 +12,8 @@
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
  | Authors: Stanislav Kiryukhin <korsar.zn@gmail.com>                     |
- +------------------------------------------------------------------------+
+ | Authors: Cameron Hall <me@chall.id.au>                                 |
+ +------------------------------------------------------------------------+ 
  */
 namespace Phalcon\Paginator;
 
@@ -24,14 +25,13 @@ namespace Phalcon\Paginator;
 interface RepositoryInterface
 {
 	const PROPERTY_ITEMS            = "items";
-	const PROPERTY_TOTAL_PAGES      = "total_pages";
 	const PROPERTY_TOTAL_ITEMS      = "total_items";
 	const PROPERTY_LIMIT            = "limit";
-	const PROPERTY_FIRST_PAGE       = "first_page";
-	const PROPERTY_PREVIOUS_PAGE    = "previous_page";
-	const PROPERTY_CURRENT_PAGE     = "current_page";
-	const PROPERTY_NEXT_PAGE        = "next_page";
-	const PROPERTY_LAST_PAGE        = "last_page";
+	const PROPERTY_FIRST_PAGE       = "first";
+	const PROPERTY_PREVIOUS_PAGE    = "previous";
+	const PROPERTY_CURRENT_PAGE     = "current";
+	const PROPERTY_NEXT_PAGE        = "next";
+	const PROPERTY_LAST_PAGE        = "last";
 
 	/**
 	 * Sets values for properties of the repository
@@ -54,11 +54,6 @@ interface RepositoryInterface
 	public function getItems() -> var;
 
 	/**
-	 * Gets the total number of pages
-	 */
-	public function getTotalPages() -> int;
-
-	/**
 	 * Gets the total number of items
 	 */
 	public function getTotalItems() -> int;
@@ -71,25 +66,25 @@ interface RepositoryInterface
 	/**
 	 * Gets number of the first page
 	 */
-	public function getFirstPage() -> int;
+	public function getFirst() -> int;
 
 	/**
 	 * Gets number of the previous page
 	 */
-	public function getPreviousPage() -> int;
+	public function getPrevious() -> int;
 
 	/**
 	 * Gets number of the current page
 	 */
-	public function getCurrentPage() -> int;
+	public function getCurrent() -> int;
 
 	/**
 		 * Gets number of the next page
 	 */
-	public function getNextPage() -> int;
+	public function getNext() -> int;
 
 	/**
 	 * Gets number of the last page
 	 */
-	public function getLastPage() -> int;
+	public function getLast() -> int;
 }
