@@ -95,8 +95,25 @@ class Tag implements InjectionAwareInterface
 		return this;
 	}
 
-	public function buttonSubmit(array parameters = []) -> string
+	/**
+	 * Builds a HTML input[type="button"] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->button('Click Me')
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ button('Click Me) }}
+	 * </code>
+	 */
+	public function button(string! name, array parameters = []) -> string
 	{
+		return this->renderInput("button", name, parameters);
 	}
 
 	/**
@@ -1079,6 +1096,27 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
+	 * Builds a HTML input[type="reset"] tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->reset('Reset')
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ reset('Save') }}
+	 * </code>
+	 */
+	public function reset(string! name, array parameters = []) -> string
+	{
+		return this->renderInput("reset", name, parameters);
+	}
+
+	/**
 	 * Builds a select element. It accepts an array or a resultset from
 	 * a Phalcon\Mvc\Model
 	 *
@@ -1383,12 +1421,12 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * $tag = new Tag();
 	 *
-	 * echo $tag->submit(['name' => 'Save'])
+	 * echo $tag->submit('Save')
 	 * </code>
 	 *
 	 * Volt syntax:
 	 * <code>
-	 * {{ submit(['name': 'Save']) }}
+	 * {{ submit('Save') }}
 	 * </code>
 	 */
 	public function submit(string! name, array parameters = []) -> string
@@ -1405,8 +1443,8 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * echo $tag->textArea(
+	 *     'comments',
 	 *     [
-	 *         'name' => 'comments',
 	 *         'cols' => 10,
 	 *         'rows' => 4,
 	 *     ]
@@ -1415,7 +1453,7 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * Volt syntax:
 	 *<code>
-	 * {{ text_area(['name': 'comments', 'cols': 10, 'rows': 4) }}
+	 * {{ text_area('comments', ['cols': 10, 'rows': 4]) }}
 	 *</code>
 	 */
 	public function textArea(string! name, array parameters = []) -> string
