@@ -65,6 +65,10 @@ class QueryBuilder extends Adapter
 	public function __construct(array config)
 	{
 		var builder, columns;
+		
+		if !isset config["limit"] {
+			throw new Exception("Parameter 'limit' is required");
+		}
 
 		if !fetch builder, config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
@@ -72,10 +76,6 @@ class QueryBuilder extends Adapter
 
 		if fetch columns, config["columns"] {
 		    let this->_columns = columns;
-		}
-		
-		if !isset config["limit"] {
-			throw new Exception("Parameter 'limit' is required");
 		}
 
 		parent::__construct(config);

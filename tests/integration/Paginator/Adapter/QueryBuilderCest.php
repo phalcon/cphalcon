@@ -16,6 +16,8 @@ use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robos;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Stock;
 
 class QueryBuilderCest
@@ -136,33 +138,63 @@ class QueryBuilderCest
      */
     public function testIssue12957(IntegrationTester $I)
     {
-        $I->skipTest('TODO: This needs to be checked for logic');
-        $this->specify(
-            "Query builder paginator doesn't work correctly with a different db service",
-            function () {
-                $modelsManager = $this->setUpModelsManager();
-                $di = $modelsManager->getDI();
-                $di->set(
-                    'dbTwo',
-                    $di->get('db')
-                );
-                $builder = $modelsManager->createBuilder()
-                    ->columns("COUNT(*) as robos_count")
-                    ->from(['Robos' => Robos::class])
-                    ->groupBy('type')
-                    ->having('MAX(Robos.year) > 1970');
+        $this->setDiMysql();
+        $modelsManager = $this->getService('modelsManager');
 
-                $paginate = (new QueryBuilder(
-                    [
-                        "builder" => $builder,
-                        "limit"   => 1,
-                        "page"    => 2
-                    ]
-                ))->paginate();
-
-                expect($paginate->last)->equals(2);
-                expect($paginate->total_items)->equals(2);
-            }
+        $this->container->set(
+            'dbTwo',
+            $this->container->get('db')
         );
+
+        $builder = $modelsManager->createBuilder()
+            ->columns("COUNT(*) as robos_count")
+            ->from(['Robos' => Robos::class])
+            ->groupBy('type')
+            ->having('MAX(Robos.year) > 1970');
+
+        $paginate = (new QueryBuilder(
+            [
+                "builder" => $builder,
+                "limit"   => 1,
+                "page"    => 2
+            ]
+        ))->paginate();
+
+        $I->assertEquals(2, $paginate->last);
+        $I->assertEquals(2, $paginate->total_items);
+    }
+
+    /**
+     * Tests for "Column not found: 1054 Unknown column in 'having clause'".
+     * Pending further information from reporter.
+     *
+     * @author Cameron Hall
+     * @since  2018-12-12
+     */
+    public function testIssue13552(IntegrationTester $I)
+    {
+        $this->setDiMysql();
+        $modelsManager = $this->getService('modelsManager');
+
+        $builder = $modelsManager->createBuilder()
+            ->columns("COUNT(*) as robos_count")
+            ->from(['Robots' => Robots::class])
+            ->join(RobotsParts::class, "RobotsParts.robots_id = Robots.id", "RobotsParts", "LEFT")
+            ->join(RobotsParts::class, "RobotsParts_2.robots_id = Robots.id", "RobotsParts_2", "LEFT")
+            ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id, RobotsParts_2.id, RobotsParts_2.parts_id')
+            ->having('MAX(Robots.year) > 1970');
+
+        // var_dump($builder->getQuery()->getSql());
+
+        $paginate = (new QueryBuilder(
+            [
+                "builder" => $builder,
+                "limit"   => 1,
+                "page"    => 2
+            ]
+        ))->paginate();
+
+        $I->assertEquals(4, $paginate->last);
+        $I->assertEquals(4, $paginate->total_items);
     }
 }
