@@ -77,7 +77,7 @@ class ExclusionIn extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> bool
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var value, domain, message, label, replacePairs, strict, fieldDomain, code;
 

@@ -26,6 +26,12 @@ class DestroyCest
     public function sessionBagDestroy(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - destroy()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("DestroyTest");
+        // test using magic setter
+        $session->test = "test";
+        $session->destroy();
+
+        $session = new \Phalcon\Session\Bag("DestroyTest");
+        $I->assertEquals(null, $session->test);
     }
 }

@@ -26,6 +26,9 @@ class GetDICest
     public function sessionBagGetDI(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - getDI()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("DiTest");
+        $di = new \Phalcon\Di\FactoryDefault();
+        $session->setDI($di);
+        $I->assertEquals($di, $session->getDI());
     }
 }

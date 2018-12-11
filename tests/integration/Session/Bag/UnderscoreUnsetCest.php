@@ -26,6 +26,13 @@ class UnderscoreUnsetCest
     public function sessionBagUnderscoreUnset(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - __unset()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("UnSetterTest");
+
+        $testValue = "TestValue";
+        $session->set('test', $testValue);
+        unset($session->test);
+
+
+        $I->assertEquals(null, $session->get("test"));
     }
 }

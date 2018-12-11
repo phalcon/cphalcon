@@ -26,6 +26,12 @@ class CountCest
     public function sessionBagCount(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - count()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("CountTest");
+        $session->test1 = "test";
+        $session->test2 = "test";
+        $session->test3 = "test";
+
+        $expected = 3;
+        $I->assertEquals($expected, $session->count());
     }
 }

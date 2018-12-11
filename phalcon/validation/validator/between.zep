@@ -76,7 +76,7 @@ class Between extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> bool
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var value, minimum, maximum, message, label, replacePairs, code;
 

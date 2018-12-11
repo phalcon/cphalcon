@@ -26,6 +26,11 @@ class SetCest
     public function sessionBagSet(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - set()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("SetTest");
+
+        $testValue = "TestValue";
+        $session->set("test", $testValue);
+
+        $I->assertEquals($testValue, $session->get("test"));
     }
 }

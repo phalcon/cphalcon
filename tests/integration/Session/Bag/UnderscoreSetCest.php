@@ -26,6 +26,11 @@ class UnderscoreSetCest
     public function sessionBagUnderscoreSet(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - __set()");
-        $I->skipTest("Need implementation");
+        $session = new \Phalcon\Session\Bag("SetterTest");
+
+        $testValue = "TestValue";
+        $session->test = $testValue;
+
+        $I->assertEquals($testValue, $session->get("test"));
     }
 }
