@@ -83,7 +83,7 @@ class StringLength extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> bool
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var isSetMin, isSetMax, value, length, message, minimum, maximum, label, replacePairs, code;
 
