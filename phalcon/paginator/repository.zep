@@ -59,7 +59,7 @@ class Repository implements RepositoryInterface
 	{
 		return this->getProperty(self::PROPERTY_ITEMS, null);
 	}
-	
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -153,21 +153,6 @@ class Repository implements RepositoryInterface
 
 		if isset aliases[property] {
 			return aliases[property];
-		}
-
-		/**
-		 * Resolve legacy alias to maintain compatibility with version 2.0.x
-		 */
-		array legacyAliases = [
-			"first" 	: self::PROPERTY_FIRST_PAGE,
-			"before" 	: self::PROPERTY_PREVIOUS_PAGE,
-			"current" 	: self::PROPERTY_CURRENT_PAGE,
-			"next" 		: self::PROPERTY_NEXT_PAGE,
-			"last" 		: self::PROPERTY_LAST_PAGE
-		];
-
-		if isset legacyAliases[property] {
-			return legacyAliases[property];
 		}
 
 		return property;

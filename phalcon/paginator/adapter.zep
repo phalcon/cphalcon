@@ -42,10 +42,17 @@ abstract class Adapter implements AdapterInterface
 	protected _repository;
 
 	/**
+	 * Configuration of paginator by model
+	 */
+	protected _config = null;
+
+	/**
 	 * Phalcon\Paginator\Adapter\Model constructor
 	 */
 	public function __construct(array! config)
 	{
+		let this->_config = config;
+
 		if isset config["limit"] {
 			this->setLimit(config["limit"]);
 		}

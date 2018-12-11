@@ -45,21 +45,6 @@ use Phalcon\Paginator\RepositoryInterface;
  */
 class Model extends Adapter
 {
-
-	/**
-	 * Configuration of paginator by model
-	 */
-	protected _config = null;
-
-	/**
-	 * Phalcon\Paginator\Adapter\Model constructor
-	 */
-	public function __construct(array! config)
-	{
-		parent::__construct(config);
-		let this->_config = config;
-	}
-
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */

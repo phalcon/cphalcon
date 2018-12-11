@@ -50,11 +50,6 @@ use Phalcon\Db;
 class QueryBuilder extends Adapter
 {
 	/**
-	 * Configuration of paginator by model
-	 */
-	protected _config;
-
-	/**
 	 * Paginator's data
 	 */
 	protected _builder;
@@ -69,28 +64,23 @@ class QueryBuilder extends Adapter
 	 */
 	public function __construct(array config)
 	{
-		var builder, limit, page, columns;
-
-		let this->_config = config;
+		var builder, columns;
 
 		if !fetch builder, config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
 		}
 
-		if !fetch limit, config["limit"] {
-			throw new Exception("Parameter 'limit' is required");
-		}
-
 		if fetch columns, config["columns"] {
 		    let this->_columns = columns;
 		}
+		
+		if !isset config["limit"] {
+			throw new Exception("Parameter 'limit' is required");
+		}
+
+		parent::__construct(config);
 
 		this->setQueryBuilder(builder);
-		this->setLimit(limit);
-
-		if fetch page, config["page"] {
-			this->setCurrentPage(page);
-		}
 	}
 	/**
 	 * Get the current page number
