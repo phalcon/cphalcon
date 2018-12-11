@@ -32,6 +32,24 @@ class Base58Cest
     public function securityRandomBase58(UnitTester $I)
     {
         $I->wantToTest("Security\Random - base58()");
-        $I->skipTest("Need implementation");
+        $random = new \Phalcon\Security\Random;
+        $base58 = $random->base58();
+
+        //test forbidden characters
+        $I->assertFalse(strpos($base58, '0'));
+        $I->assertFalse(strpos($base58, 'O'));
+        $I->assertFalse(strpos($base58, 'I'));
+        $I->assertFalse(strpos($base58, 'l'));
+
+        //Default length is 16 bytes
+        $I->assertEquals(16, strlen($base58));
+        
+        $differentString = $random->base58();
+        //Buy lottery ticket if this fails (or fix the bug)
+        $I->assertNotEquals($base58, $differentString);
+
+        $expectedLength=30;
+        $base58 = $random->base58($expectedLength);
+        $I->assertEquals($expectedLength, strlen($base58));
     }
 }
