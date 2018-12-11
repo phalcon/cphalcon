@@ -98,7 +98,7 @@ class File extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> bool
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width,
 			height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes, code,
