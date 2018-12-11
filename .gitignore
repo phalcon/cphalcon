@@ -43,7 +43,6 @@ ext/run-tests.php
 lemon
 
 .libs/
-.temp/
 autom4te.cache/
 /vendor
 /ide/
