@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Fixtures\Traits;
 use function dataFolder;
 use UnitTester;
 
+/**
+ * Trait TranslateTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits
+ */
 trait TranslateTrait
 {
     /**

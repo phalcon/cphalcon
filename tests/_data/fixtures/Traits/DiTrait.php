@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -38,6 +39,11 @@ use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Files as FilesSession;
 use function dataFolder;
 
+/**
+ * Trait DiTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits
+ */
 trait DiTrait
 {
     /**

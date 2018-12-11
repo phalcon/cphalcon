@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,11 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Validation\ValidatorInterface;
 use IntegrationTester;
 
+/**
+ * Trait ValidationTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits
+ */
 trait ValidationTrait
 {
     /**

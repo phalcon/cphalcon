@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
+/**
+ * Trait MysqlTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits\Db
+ */
 trait MysqlTrait
 {
     protected $connection = null;
