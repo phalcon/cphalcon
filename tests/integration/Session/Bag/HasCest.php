@@ -33,6 +33,5 @@ class HasCest
 
         $I->assertTrue($session->has("test"));
         $I->assertFalse($session->has("unknown"));
-        
     }
 }

@@ -33,6 +33,6 @@ class UnderscoreUnsetCest
         unset($session->test);
 
 
-        $I->assertEquals(NULL, $session->get("test"));
+        $I->assertEquals(null, $session->get("test"));
     }
 }
