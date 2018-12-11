@@ -142,6 +142,7 @@ class Tag implements InjectionAwareInterface
 	 * `onlyStart` Only process the start of th element
 	 * `selfClose` It is a self close element
 	 * `useEol`    Append PHP_EOL at the end
+	 *
 	 */
 	public function element(string! tag, array parameters = []) -> string
 	{
@@ -184,9 +185,8 @@ class Tag implements InjectionAwareInterface
 	/**
 	 * Builds the closing tag of an html element
 	 *
-	 * @param array parameters ['name', 'useEol']
-	 *
-	 * @return string
+	 * Parameters
+	 * `useEol`    Append PHP_EOL at the end
 	 *
 	 * <code>
 	 * use Phalcon\Html\Tag;
@@ -206,6 +206,7 @@ class Tag implements InjectionAwareInterface
 	 *     ]
 	 * ); // '</aside>' . PHP_EOL
 	 * </code>
+	 *
 	 */
 	public function elementClose(string! tag, array parameters = []) -> string
 	{
@@ -413,8 +414,7 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * Gets the current document title.
-	 * The title will be automatically escaped.
+	 * Gets the current document title. The title will be automatically escaped.
 	 *
 	 * <code>
 	 * use Phalcon\Html\Tag;
@@ -526,7 +526,8 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * Check if a helper has a default value set using Phalcon\Tag::setAttribute or value from $_POST
+	 * Check if a helper has a default value set using `setAttribute()` or
+	 * value from $_POST
 	 */
 	public function hasValue(string name) -> bool
 	{
@@ -1039,9 +1040,13 @@ class Tag implements InjectionAwareInterface
 		var local, query, output, service, text;
 
 		let service = this->getService("url"),
+			url     = this->arrayGetDefault("url", parameters, url),
+			text    = this->arrayGetDefault("text", parameters, text),
 			local   = this->arrayGetDefault("local", parameters, true),
 			query   = this->arrayGetDefault("query", parameters, null);
 
+		unset parameters["url"];
+		unset parameters["local"];
 		unset parameters["text"];
 		unset parameters["query"];
 
@@ -1087,12 +1092,130 @@ class Tag implements InjectionAwareInterface
 		return "<title>" . this->getTitle() . "</title>" . PHP_EOL;
 	}
 
-	public function select(array parameters = [], data = null) -> string
+	/**
+	 * Builds a select element. It accepts an array or a resultset from
+	 * a Phalcon\Mvc\Model
+	 *
+	 *<code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->select(
+	 *     'status',
+	 *     [
+	 *         'id'        => 'status-id',
+	 *         'useEmpty'  => true,
+	 *         'emptyValue => '',
+	 *         'emptyText' => 'Choose Status...',
+	 *     ],
+	 *     [
+	 *         'A' => 'Active',
+	 *         'I' => 'Inactive',
+	 *     ]
+	 * );
+	 *
+	 * echo $tag->select(
+	 *     'status',
+	 *     [
+	 *         'id'        => 'status-id',
+	 *         'useEmpty'  => true,
+	 *         'emptyValue => '',
+	 *         'emptyText' => 'Choose Type...',
+	 *         'using'     => [
+	 *             'id,
+	 *             'name',
+	 *         ],
+	 *     ],
+	 *     Robots::find(
+	 *         [
+	 *             'conditions' => 'type = :type:',
+	 *             'bind'       => [
+	 *                 'type' => 'mechanical',
+	 *             ]
+	 *         ]
+	 *     )
+	 * );
+	 *
+	 *</code>
+	 *
+	 * @param array parameters
+	 * @param array data
+	 */
+	public function select(string! name, array parameters = [], data = null) -> string
 	{
-	}
+		var emptyText, emptyValue, id, output, outputEmpty, useEmpty, using, value;
 
-	public function selectStatic(array parameters, data = null) -> string
-	{
+		let id                 = this->arrayGetDefault("id", parameters, name),
+			name               = this->arrayGetDefault("name", parameters, name),
+			useEmpty           = this->arrayGetDefault("useEmpty", parameters, false),
+			using              = [],
+			parameters["name"] = name,
+			parameters["id"]   = id,
+			outputEmpty        = "";
+
+		/**
+		 * First check the data passed. We only accept datasets or arrays
+		 */
+		if typeof data !== "array" && data !== "object" {
+			throw new Exception("The dataset must be either an array or a ResultsetInterface");
+		}
+
+		/**
+		 * For the ResultsetInterface we need the 'using' parameter
+		 */
+		if typeof data === "object" {
+			let using = this->arrayGetDefault("using", parameters, []);
+			if typeof using === "array" && count(using) === 2 {
+				unset parameters["using"];
+			} else {
+				throw new Exception("The 'using' parameter is not a valid array");
+			}
+		}
+
+		/**
+		 * Check if `useEmpty` has been passed
+		 */
+		if useEmpty {
+			let emptyText   = this->arrayGetDefault("emptyText", parameters, "Choose..."),
+				emptyValue  = this->arrayGetDefault("emptyValue", parameters, ""),
+				outputEmpty = sprintf(
+					"\t<option value=\"%s\">%s</option>" . PHP_EOL,
+					emptyValue,
+					emptyText
+				);
+
+			unset parameters["useEmpty"];
+			unset parameters["emptyText"];
+			unset parameters["emptyValue"];
+		}
+
+		if !fetch value, parameters["value"] {
+			let value = this->getValue(id, parameters);
+		} else {
+			unset parameters["value"];
+		}
+
+		let output = this->renderAttributes("<select", parameters) . ">" . PHP_EOL
+				   . outputEmpty;
+
+		if typeof data == "object" {
+			/**
+			 * Create the SELECT's option from a resultset
+			 */
+			let output .= this->renderSelectResultset(data, using, value, "</option>" . PHP_EOL);
+		} elseif typeof data == "array" {
+			/**
+			 * Create the SELECT's option from an array
+			 */
+			let output .= this->renderSelectArray(data, value, "</option>" . PHP_EOL);
+		} else {
+			throw new Exception("Invalid data provided to SELECT helper");
+		}
+
+		let output .= "</select>";
+
+		return output;
 	}
 
 	/**
@@ -1528,6 +1651,128 @@ class Tag implements InjectionAwareInterface
 			parameters["type"]  = type;
 
 		let output = this->renderAttributes("<input", parameters) . this->renderCloseTag();
+
+		return output;
+	}
+
+	/**
+	 * Generates the option values or optgroup from an array
+	 */
+	private function renderSelectArray(array options, var value, string closeOption) -> string
+	{
+		var label, strOptionValue, strValue, optionText, optionValue, output;
+
+		let output = "";
+
+		for optionValue, optionText in options {
+			let label = htmlspecialchars(optionValue);
+
+			/**
+			 * Check if this is an option group
+			 */
+			 if typeof optionText === "array" {
+			 	let output .= "\t<optgroup label=\"" . label . "\">" . PHP_EOL
+			 				. this->renderSelectArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
+			 	continue;
+			 }
+
+			 if typeof value === "array" {
+				if in_array(optionValue, value) {
+					let output .= "\t<option selected=\"selected\" value=\"" . label . "\">"
+								. optionText . closeOption;
+				} else {
+					let output .= "\t<option value=\"" . label . "\">" . optionText . closeOption;
+				}
+			 } else {
+				let strOptionValue = (string) optionValue,
+					strValue       = (string) value;
+
+				if strOptionValue === strValue {
+					let output .= "\t<option selected=\"selected\" value=\"" . label . "\">"
+								. optionText . closeOption;
+				} else {
+					let output .= "\t<option value=\"" . label . "\">" . optionText . closeOption;
+				}
+			 }
+		}
+
+		return output;
+	}
+
+	/**
+	 * Generates the option values from a resultset
+	 */
+	private function renderSelectResultset(<ResulsetInterface> resultset, using, var value, string closeOption) -> string
+	{
+		var escaper, option, output, optionValue, optionText, parameters, strOptionValue, strValue;
+
+		let escaper    = this->getService("escaper"),
+			parameters = [],
+			output     = "";
+
+		/**
+		 * This needs to be here because we don't want assignments inside the loop
+		 * for things that will not change
+		 */
+		if typeof using === "array" {
+			let optionValue = using[0],
+            	optionText  = using[1];
+		}
+
+		for option in iterator(resultset) {
+
+			if typeof using == "array" {
+				if typeof option == "object" {
+					if method_exists(option, "readAttribute") {
+						let optionValue = option->readAttribute(optionValue),
+							optionText  = option->readAttribute(optionText);
+					} else {
+						let optionValue = option->optionValue,
+							optionText  = option->optionText;
+					}
+				} else {
+					if typeof option == "array" {
+						let optionValue = option[optionValue],
+							optionText  = option[optionText];
+					} else {
+						throw new Exception("Resultset returned an invalid value");
+					}
+				}
+
+				let optionValue = escaper->escapeHtmlAttr(optionValue);
+				let optionText  = escaper->escapeHtml(optionText);
+
+				/**
+				 * If the value is equal to the option's value we mark it as selected
+				 */
+				if typeof value == "array" {
+					if in_array(optionValue, value) {
+						let output .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">"
+									. optionText . closeOption;
+					} else {
+						let output .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+					}
+				} else {
+					let strOptionValue = (string) optionValue,
+						strValue       = (string) value;
+					if strOptionValue === strValue {
+						let output .= "\t<option selected=\"selected\" value=\"" . strOptionValue . "\">"
+									. optionText . closeOption;
+					} else {
+						let output .= "\t<option value=\"" . strOptionValue . "\">" . optionText . closeOption;
+					}
+				}
+			} else {
+
+				/**
+				 * Check if using is a closure
+				 */
+				if typeof using == "object" {
+					let parameters[0] = option,
+						output       .= call_user_func_array(using, parameters);
+				}
+			}
+		}
 
 		return output;
 	}

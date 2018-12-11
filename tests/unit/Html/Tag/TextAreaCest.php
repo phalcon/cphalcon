@@ -70,7 +70,7 @@ class TextAreaCest
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: textArea() - setAttribute
+     * Tests Phalcon\Html\Tag :: textArea() - setAttribute()
      *
      * @param UnitTester $I
      *
@@ -95,7 +95,7 @@ class TextAreaCest
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: textArea() - setAttribute element not present
+     * Tests Phalcon\Html\Tag :: textArea() - setAttribute() element not present
      *
      * @param UnitTester $I
      *
@@ -142,6 +142,4 @@ class TextAreaCest
 
         $I->assertEquals($expected, $actual);
     }
-
-
 }
