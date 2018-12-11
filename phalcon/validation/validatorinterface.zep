@@ -41,6 +41,5 @@ interface ValidatorInterface
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! attribute) -> bool;
-
+	public function validate(<\Phalcon\Validation> validation, var field) -> bool;
 }

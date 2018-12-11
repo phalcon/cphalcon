@@ -48,8 +48,8 @@ class AddPrimaryKeyCest
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [
-            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
+            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
         ];
     }
 }
