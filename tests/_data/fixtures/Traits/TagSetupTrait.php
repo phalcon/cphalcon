@@ -34,6 +34,7 @@ trait TagSetupTrait
     {
         $this->newDi();
         $this->setDiEscaper();
+        $this->setDiUrl();
     }
 
     /**
@@ -45,6 +46,11 @@ trait TagSetupTrait
      * @inheritdoc
      */
     abstract protected function setDiEscaper();
+
+    /**
+     * @inheritdoc
+     */
+    abstract protected function setDiUrl();
 
     /**
      * Runs the test for a Tag::$function with $options
@@ -68,7 +74,7 @@ trait TagSetupTrait
         bool $xhtml = false,
         string $set = ''
     ) {
-        if ($xhtml) {
+        if ($xhtml && 'textArea' !== $function) {
             $tag->setDocType(Tag::XHTML10_STRICT);
             $expected .= ' />';
         } else {

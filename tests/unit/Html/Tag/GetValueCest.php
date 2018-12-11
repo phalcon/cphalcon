@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
@@ -32,6 +33,54 @@ class GetValueCest
     public function htmlTagGetValue(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - getValue()');
-        $I->skipTest('Need implementation');
+        $tag = new Tag();
+
+        $attributes = ['value' => 'Phalcon'];
+        $expected = 'Phalcon';
+        $actual   = $tag->getValue('name', $attributes);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: getValue() - internal array
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagGetValueInternal(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - getValue() - internal array');
+        $tag = new Tag();
+
+        $tag->setAttribute('name', 'Phalcon');
+        $expected = 'Phalcon';
+        $actual   = $tag->getValue('name');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: getValue() - POST
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagGetValuePost(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - getValue() - POST');
+        $tag = new Tag();
+
+        $oldPost       = $_POST;
+        $_POST         = [];
+        $_POST['name'] = 'Phalcon';
+
+        $expected = 'Phalcon';
+        $actual   = $tag->getValue('name');
+        $I->assertEquals($expected, $actual);
+
+        $_POST = $oldPost;
     }
 }

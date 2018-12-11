@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
@@ -32,6 +33,14 @@ class SetTitleSeparatorCest
     public function htmlTagSetTitleSeparator(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - setTitleSeparator()');
-        $I->skipTest('Need implementation');
+        $tag = new Tag();
+
+        $actual = $tag->getTitleSeparator();
+        $I->assertEmpty($actual);
+
+        $separator = '--::--';
+        $tag->setTitleSeparator($separator);
+        $actual = $tag->getTitleSeparator();
+        $I->assertEquals($separator, $actual);
     }
 }

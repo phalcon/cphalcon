@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
@@ -32,6 +33,34 @@ class HasValueCest
     public function htmlTagHasValue(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - hasValue()');
-        $I->skipTest('Need implementation');
+        $tag = new Tag();
+
+        $tag->setAttribute('name', 'Phalcon');
+
+        $actual   = $tag->hasValue('name');
+        $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: hasValue() - POST
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagHasValuePost(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - hasValue() - POST');
+        $tag = new Tag();
+
+        $oldPost       = $_POST;
+        $_POST         = [];
+        $_POST['name'] = 'Phalcon';
+
+        $actual   = $tag->hasValue('name');
+        $I->assertTrue($actual);
+
+        $_POST = $oldPost;
     }
 }

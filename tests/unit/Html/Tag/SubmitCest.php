@@ -17,16 +17,16 @@ use Phalcon\Test\Fixtures\Traits\TagHelperTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 
 /**
- * Class InputCheckboxCest
+ * Class SubmitCest
  *
  * @package Phalcon\Test\Unit\Html\Tag
  */
-class InputCheckboxCest
+class SubmitCest
 {
     use DiTrait;
     use TagSetupTrait;
     use TagHelperTrait;
 
-    protected $function  = 'inputCheckbox';
-    protected $inputType = 'checkbox';
+    protected $function  = 'submit';
+    protected $inputType = 'submit';
 }

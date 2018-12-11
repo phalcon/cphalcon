@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
+use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
@@ -32,6 +33,15 @@ class ClearCest
     public function htmlTagClear(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - clear()');
-        $I->skipTest('Need implementation');
+        $tag = new Tag();
+
+        $tag->setAttribute('name', 'Phalcon');
+        $actual = $tag->hasValue('name');
+        $I->assertTrue($actual);
+
+        $tag->clear();
+
+        $actual = $tag->hasValue('name');
+        $I->assertFalse($actual);
     }
 }

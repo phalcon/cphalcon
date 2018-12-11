@@ -139,7 +139,6 @@ class Tag implements InjectionAwareInterface
 	 * Builds a HTML tag
 	 *
 	 * Parameters
-	 * `tag`       The name of the element
 	 * `onlyStart` Only process the start of th element
 	 * `selfClose` It is a self close element
 	 * `useEol`    Append PHP_EOL at the end
@@ -233,8 +232,51 @@ class Tag implements InjectionAwareInterface
 		}
 	}
 
-	public function form(array parameters = []) -> string
+	/**
+	 * Builds a HTML FORM tag
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tab = new Tag();
+	 *
+	 * echo $tag->form('posts/save');
+	 *
+	 * echo $tag->form(
+	 *     'posts/save',
+	 *     [
+	 *         "method" => "post",
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ form('posts/save') }}
+	 * {{ form('posts/save', ['method': 'post') }}
+	 * </code>
+	 */
+	public function form(string action, array parameters = []) -> string
 	{
+		var output, params, service;
+
+		let service = this->getService("url");
+
+		let parameters["method"] = this->arrayGetDefault("method", parameters, "post"),
+			parameters["action"] = service->get(action);
+
+		/**
+		 * Check for extra parameters
+		 */
+		if fetch params, parameters["parameters"] {
+			let parameters["action"] .= "?" . params;
+			unset parameters["parameters"];
+		}
+
+		let output = this->renderAttributes("<form", parameters) . ">";
+
+		return output;
+
 	}
 
 	/**
@@ -460,7 +502,7 @@ class Tag implements InjectionAwareInterface
 
 	/**
 	 * Every helper calls this function to check whether a component has a predefined
-	 * value using `setDefault` or value from $_POST
+	 * value using `setAttribute` or value from $_POST
 	 */
 	public function getValue(string name, array parameters = []) -> var | null
 	{
@@ -484,7 +526,7 @@ class Tag implements InjectionAwareInterface
 	}
 
 	/**
-	 * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
+	 * Check if a helper has a default value set using Phalcon\Tag::setAttribute or value from $_POST
 	 */
 	public function hasValue(string name) -> bool
 	{
@@ -494,8 +536,63 @@ class Tag implements InjectionAwareInterface
 		return isset this->values[name] || isset _POST[name];
 	}
 
-	public function image(array parameters = []) -> string
+	/**
+	 * Builds HTML IMG tags
+	 *
+	 * Parameters
+	 * `local` Local resource or not (default `true`)
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->image('img/bg.png');
+	 *
+	 * echo $tag->image(
+	 *     'img/photo.jpg',
+	 *     [
+	 *         'alt' => 'Some Photo',
+	 *     ]
+	 * );
+	 *
+	 * echo $tag->image(
+	 *     'http://static.mywebsite.com/img/bg.png',
+	 *     [
+	 *         'local' => false,
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * Volt Syntax:
+	 * <code>
+	 * {{ image('img/bg.png') }}
+	 * {{ image('img/photo.jpg', ['alt': 'Some Photo') }}
+	 * {{ image('http://static.mywebsite.com/img/bg.png', ['local': false]) }}
+	 * </code>
+	 */
+	public function image(string url = "", array parameters = []) -> string
 	{
+		var local, service, src, output;
+
+		let local = this->arrayGetDefault("local", parameters, true),
+			src   = url;
+
+		/**
+		 * Use the "url" service if the URI is local
+		 */
+		if local {
+			let service = this->getService("url"),
+				src     = service->getStatic(url);
+		}
+
+		unset parameters["local"];
+
+		let parameters["src"]  = src;
+
+		let output = this->renderAttributes("<img", parameters) . this->renderCloseTag();
+
+		return output;
 	}
 
 	/**
@@ -849,12 +946,110 @@ class Tag implements InjectionAwareInterface
 		return this->renderInput("week", name, parameters);
 	}
 
-	public function javascript(array parameters = []) -> string
+	/**
+	 * Builds a script[type="javascript"] tag
+	 *
+	 * Parameters
+	 * `local` Local resource or not (default `true`)
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 * echo $tag->javascript(
+	 *     'http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js',
+	 * 	   ['local' => false]
+	 * );
+	 * echo $tag->javascript('javascript/jquery.js');
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ javascript('http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js', ['local': false]) }}
+	 * {{ javascript('javascript/jquery.js') }}
+	 * </code>
+	 */
+	public function javascript(string url, array parameters = []) -> string
 	{
+		var local, service, output;
+
+		let local = (bool) this->arrayGetDefault("local", parameters, true);
+
+		/**
+		 * URLs are generated through the "url" service
+		 */
+		if (local === true) {
+			let service           = this->getService("url"),
+				parameters["src"] = service->getStatic(url);
+		} else {
+			let parameters["src"] = url;
+		}
+
+		unset parameters["local"];
+
+		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/javascript"),
+			output             = this->renderAttributes("<script", parameters) ."></script>" . PHP_EOL;
+
+		return output;
+
 	}
 
-	public function link(array parameters = []) -> string
+	/**
+	 * Builds a HTML A tag using framework conventions
+	 *
+	 * Parameters
+	 * `local` Local resource or not (default `true`)
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 *
+	 * echo $tag->link('signup/register', 'Register Here!');
+	 *
+	 * echo $tag->link(
+	 *     'signup/register',
+	 *     'Register Here!',
+	 *     [
+	 *         'class' => 'btn-primary',
+	 *     ]
+	 * );
+	 *
+	 * echo $tag->link(
+	 *     'https://phalconphp.com/',
+	 *     'Phalcon!',
+	 *     [
+	 *         'local' => false,
+	 *     ]
+	 * );
+	 *
+	 * echo $tag->linkTo(
+	 *     'https://phalconphp.com/',
+	 *     'Phalcon!',
+	 *     [
+	 *         'local'  => false,
+	 *         'target' => '_new'
+	 *     ]
+	 * );
+	 *
+	 *</code>
+	 */
+	public function link(string url, string text = "", array parameters = []) -> string
 	{
+		var local, query, output, service, text;
+
+		let service = this->getService("url"),
+			local   = this->arrayGetDefault("local", parameters, true),
+			query   = this->arrayGetDefault("query", parameters, null);
+
+		unset parameters["text"];
+		unset parameters["query"];
+
+		let parameters["href"] = service->get(url, query, local);
+
+		let output = this->renderAttributes("<a", parameters) . ">" . text . "</a>";
+
+		return output;
 	}
 
 	/**
@@ -923,13 +1118,13 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * // Assigning 'peter' to 'name' component
-	 * $tag->setDefault('name', 'peter');
+	 * $tag->setAttribute('name', 'peter');
 	 *
 	 * // Later in the view
 	 * echo $tag->inputText('name'); // Will have the value 'peter' by default
 	 * </code>
 	 */
-	public function setDefault(string! name, value) -> <Tag>
+	public function setAttribute(string! name, value) -> <Tag>
 	{
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
@@ -951,7 +1146,7 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * // Assigning 'peter' to 'name' component
-	 * $tag->setDefault(
+	 * $tag->setAttribute(
 	 *     [
 	 *         'name' => 'peter',
 	 *     ]
@@ -961,7 +1156,7 @@ class Tag implements InjectionAwareInterface
 	 * echo $tag->inputText('name'); // Will have the value 'peter' by default
 	 * </code>
 	 */
-	public function setDefaults(array! values, bool merge = false) -> <Tag>
+	public function setAttributes(array! values, bool merge = false) -> <Tag>
 	{
 		if merge {
 			let this->values = array_merge(this->values, values);
@@ -1026,8 +1221,55 @@ class Tag implements InjectionAwareInterface
 		return this;
 	}
 
-	public function stylesheet(array parameters = []) -> string
+	/**
+	 * Builds a LINK[rel="stylesheet"] tag
+	 *
+	 * Parameters
+	 * `local` Local resource or not (default `true`)
+	 *
+	 * <code>
+	 * use Phalcon\Html\Tag;
+	 *
+	 * $tag = new Tag();
+	 * echo $tag->stylesheet(
+	 *     'http://fonts.googleapis.com/css?family=Rosario',
+	 * 	   ['local' => false]
+	 * );
+	 * echo $tag->stylesheet('css/style.css');
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ stylesheet('http://fonts.googleapis.com/css?family=Rosario', ['local': false]) }}
+	 * {{ stylesheet('css/style.css') }}
+	 * </code>
+	 */
+	public function stylesheet(string url, array parameters = []) -> string
 	{
+		var local, service, output;
+
+		let local = (bool) this->arrayGetDefault("local", parameters, true);
+
+		unset parameters["local"];
+
+		/**
+		 * URLs are generated through the "url" service
+		 */
+		if (local === true) {
+			let service            = this->getService("url"),
+				parameters["href"] = service->getStatic(url);
+		} else {
+			let parameters["href"] = url;
+		}
+
+		if !isset parameters["rel"] {
+			let parameters["rel"] = "stylesheet";
+		}
+
+		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/css"),
+			output             = this->renderAttributes("<link", parameters) . this->renderCloseTag(true);
+
+		return output;
 	}
 
 	/**
@@ -1072,21 +1314,21 @@ class Tag implements InjectionAwareInterface
 	 *<code>
 	 * {{ text_area(['name': 'comments', 'cols': 10, 'rows': 4) }}
 	 *</code>
-	 *
-	 * @param array parameters
 	 */
 	public function textArea(string! name, array parameters = []) -> string
 	{
-		var content, id, name, output;
+		var content, output;
 
-		let id = this->arrayGetDefault("id", parameters, name);
+		let parameters["id"]   = this->arrayGetDefault("id", parameters, name),
+			parameters["name"] = this->arrayGetDefault("name", parameters, name);
 
 		if isset parameters["value"] {
 			let content = parameters["value"];
 			unset parameters["value"];
 		} else {
-			let content = self::getValue(id, parameters);
+			let content = this->getValue(parameters["id"], parameters);
 		}
+
 
 		let output = this->renderAttributes("<textarea", parameters) . ">" .
 					 htmlspecialchars(content) . "</textarea>";
@@ -1208,15 +1450,21 @@ class Tag implements InjectionAwareInterface
 	/**
 	 * Returns the closing tag depending on the doctype
 	 */
-	private function renderCloseTag() -> string
+	private function renderCloseTag(bool addEol = false) -> string
 	{
+		var eol = "";
+
+		if addEol {
+			let eol = PHP_EOL;
+		}
+
 		/**
 		 * Check if Doctype is XHTML
 		 */
 		if this->docType > self::HTML5 {
-			return " />";
+			return " />" . eol;
 		} else {
-			return ">";
+			return ">" . eol;
 		}
 	}
 
@@ -1283,5 +1531,4 @@ class Tag implements InjectionAwareInterface
 
 		return output;
 	}
-
 }
