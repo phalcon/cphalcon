@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function dataFolder;
 use UnitTester;
+use function dataFolder;
 
 /**
  * Trait TranslateTrait

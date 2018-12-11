@@ -58,7 +58,7 @@ trait AssetsTrait
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset
-     * @param bool         $expected
+     * @param bool           $expected
      */
     private function assetGetFilter(UnitTester $I, AssetInterface $asset, bool $expected)
     {
@@ -83,7 +83,7 @@ trait AssetsTrait
      */
     private function assetGetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual   = $asset->getPath();
+        $actual = $asset->getPath();
         $I->assertEquals($expected, $actual);
     }
 
@@ -94,7 +94,7 @@ trait AssetsTrait
      */
     private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, $expected)
     {
-        $actual   = $asset->getRealSourcePath();
+        $actual = $asset->getRealSourcePath();
         $I->assertEquals($expected, $actual);
     }
 
@@ -105,7 +105,7 @@ trait AssetsTrait
      */
     private function assetGetRealTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual   = $asset->getRealTargetPath();
+        $actual = $asset->getRealTargetPath();
         $I->assertEquals($expected, $actual);
     }
 
@@ -116,7 +116,7 @@ trait AssetsTrait
      */
     private function assetGetRealTargetUri(UnitTester $I, AssetInterface $asset, $expected)
     {
-        $actual   = $asset->getRealTargetUri();
+        $actual = $asset->getRealTargetUri();
         $I->assertEquals($expected, $actual);
     }
 
@@ -127,7 +127,7 @@ trait AssetsTrait
      */
     private function assetGetSourcePath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual   = $asset->getSourcePath();
+        $actual = $asset->getSourcePath();
         $I->assertEquals($expected, $actual);
     }
 
@@ -138,7 +138,7 @@ trait AssetsTrait
      */
     private function assetGetTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual   = $asset->getTargetPath();
+        $actual = $asset->getTargetPath();
         $I->assertEquals($expected, $actual);
     }
 
@@ -149,10 +149,10 @@ trait AssetsTrait
      */
     private function assetGetTargetUri(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual   = $asset->getTargetUri();
+        $actual = $asset->getTargetUri();
         $I->assertEquals($expected, $actual);
     }
-    
+
     /**
      * @param UnitTester     $I
      * @param AssetInterface $asset

@@ -41,11 +41,12 @@ class SetTitleCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $value = 'This is my title';
+        $value    = 'This is my title';
         $expected = "<title>{$value}</title>" . PHP_EOL;
         $actual   = $tag
             ->setTitle($value)
-            ->renderTitle();
+            ->renderTitle()
+        ;
         $I->assertEquals($expected, $actual);
 
         $expected = "{$value}";

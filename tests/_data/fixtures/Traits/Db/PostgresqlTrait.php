@@ -25,7 +25,7 @@ trait PostgresqlTrait
      * Constructor
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     public function _before()
     {
@@ -51,7 +51,7 @@ trait PostgresqlTrait
      * @return string
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     protected function getDatabaseName(): string
     {
@@ -64,7 +64,7 @@ trait PostgresqlTrait
      * @return string
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     protected function getSchemaName(): string
     {
@@ -77,12 +77,12 @@ trait PostgresqlTrait
      * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     protected function getColumns(): array
     {
         return [
-            0  =>  [
+            0  => [
                 '_columnName'    => 'field_primary',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -98,7 +98,7 @@ trait PostgresqlTrait
                 '_after'         => null,
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            1  =>  [
+            1  => [
                 '_columnName'    => 'field_blob',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
@@ -114,7 +114,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_primary',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            2  =>  [
+            2  => [
                 '_columnName'    => 'field_bit',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIT,
@@ -130,7 +130,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_blob',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            3  =>  [
+            3  => [
                 '_columnName'    => 'field_bit_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIT,
@@ -146,7 +146,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_bit',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            4  =>  [
+            4  => [
                 '_columnName'    => 'field_bigint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIGINTEGER,
@@ -162,7 +162,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_bit_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            5  =>  [
+            5  => [
                 '_columnName'    => 'field_bigint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIGINTEGER,
@@ -178,7 +178,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_bigint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            6  =>  [
+            6  => [
                 '_columnName'    => 'field_boolean',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_BOOLEAN,
@@ -194,7 +194,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_bigint_default',
                 '_bindType'      => Column::BIND_PARAM_BOOL,
             ],
-            7  =>  [
+            7  => [
                 '_columnName'    => 'field_boolean_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_BOOLEAN,
@@ -210,7 +210,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_boolean',
                 '_bindType'      => Column::BIND_PARAM_BOOL,
             ],
-            8  =>  [
+            8  => [
                 '_columnName'    => 'field_char',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_CHAR,
@@ -226,7 +226,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_boolean_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            9  =>  [
+            9  => [
                 '_columnName'    => 'field_char_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_CHAR,
@@ -242,7 +242,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_char',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            10 =>  [
+            10 => [
                 '_columnName'    => 'field_decimal',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
@@ -258,7 +258,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_char_default',
                 '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
-            11 =>  [
+            11 => [
                 '_columnName'    => 'field_decimal_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
@@ -274,7 +274,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_decimal',
                 '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
-            12 =>  [
+            12 => [
                 '_columnName'    => 'field_enum',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
@@ -290,7 +290,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_decimal_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            13 =>  [
+            13 => [
                 '_columnName'    => 'field_integer',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -306,7 +306,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_enum',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            14 =>  [
+            14 => [
                 '_columnName'    => 'field_integer_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -322,7 +322,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_integer',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            15 =>  [
+            15 => [
                 '_columnName'    => 'field_json',
                 '_schemaName'    => false,
                 '_type'          => Column::TYPE_JSON,
@@ -338,7 +338,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_integer_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            16 =>  [
+            16 => [
                 '_columnName'    => 'field_float',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
@@ -354,7 +354,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_json',
                 '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
-            17 =>  [
+            17 => [
                 '_columnName'    => 'field_float_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
@@ -370,7 +370,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_float',
                 '_bindType'      => Column::BIND_PARAM_DECIMAL,
             ],
-            18 =>  [
+            18 => [
                 '_columnName'    => 'field_date',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_DATE,
@@ -386,7 +386,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_float_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            19 =>  [
+            19 => [
                 '_columnName'    => 'field_date_default',
                 '_schemaName'    => false,
                 '_type'          => Column::TYPE_DATE,
@@ -402,7 +402,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_date',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            20 =>  [
+            20 => [
                 '_columnName'    => 'field_datetime',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
@@ -418,7 +418,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_date_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            21 =>  [
+            21 => [
                 '_columnName'    => 'field_datetime_default',
                 '_schemaName'    => false,
                 '_type'          => Column::TYPE_TIMESTAMP,
@@ -434,7 +434,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_datetime',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            22 =>  [
+            22 => [
                 '_columnName'    => 'field_time',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIME,
@@ -450,7 +450,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_datetime_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            23 =>  [
+            23 => [
                 '_columnName'    => 'field_time_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIME,
@@ -466,7 +466,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_time',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            24 =>  [
+            24 => [
                 '_columnName'    => 'field_timestamp',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
@@ -482,7 +482,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_time_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            25 =>  [
+            25 => [
                 '_columnName'    => 'field_timestamp_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
@@ -498,7 +498,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_timestamp',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            26 =>  [
+            26 => [
                 '_columnName'    => 'field_mediumint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -514,7 +514,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_timestamp_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            27 =>  [
+            27 => [
                 '_columnName'    => 'field_mediumint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
@@ -530,7 +530,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_mediumint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            28 =>  [
+            28 => [
                 '_columnName'    => 'field_smallint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
@@ -546,7 +546,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_mediumint_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            29 =>  [
+            29 => [
                 '_columnName'    => 'field_smallint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
@@ -562,7 +562,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_smallint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            30 =>  [
+            30 => [
                 '_columnName'    => 'field_tinyint',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
@@ -578,7 +578,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_smallint_default',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            31 =>  [
+            31 => [
                 '_columnName'    => 'field_tinyint_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
@@ -594,7 +594,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_tinyint',
                 '_bindType'      => Column::BIND_PARAM_INT,
             ],
-            32 =>  [
+            32 => [
                 '_columnName'    => 'field_longtext',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
@@ -610,7 +610,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_tinyint_default',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            33 =>  [
+            33 => [
                 '_columnName'    => 'field_mediumtext',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
@@ -626,7 +626,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_longtext',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            34 =>  [
+            34 => [
                 '_columnName'    => 'field_tinytext',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
@@ -642,7 +642,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_mediumtext',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            35 =>  [
+            35 => [
                 '_columnName'    => 'field_text',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
@@ -658,7 +658,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_tinytext',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            36 =>  [
+            36 => [
                 '_columnName'    => 'field_varchar',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
@@ -674,7 +674,7 @@ trait PostgresqlTrait
                 '_after'         => 'field_text',
                 '_bindType'      => Column::BIND_PARAM_STR,
             ],
-            37 =>  [
+            37 => [
                 '_columnName'    => 'field_varchar_default',
                 '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
@@ -699,7 +699,7 @@ trait PostgresqlTrait
      * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     protected function getExpectedColumns(): array
     {
@@ -718,33 +718,33 @@ trait PostgresqlTrait
      * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     protected function getExpectedIndexes(): array
     {
         return [
-            'dialect_table_pk'         =>  Index::__set_state(
+            'dialect_table_pk'         => Index::__set_state(
                 [
                     '_name'    => 'dialect_table_pk',
                     '_columns' => ['field_primary'],
                     '_type'    => '',
                 ]
             ),
-            'dialect_table_unique'     =>  Index::__set_state(
+            'dialect_table_unique'     => Index::__set_state(
                 [
                     '_name'    => 'dialect_table_unique',
                     '_columns' => ['field_integer'],
                     '_type'    => '',
                 ]
             ),
-            'dialect_table_index'      =>  Index::__set_state(
+            'dialect_table_index'      => Index::__set_state(
                 [
                     '_name'    => 'dialect_table_index',
                     '_columns' => ['field_bigint'],
                     '_type'    => '',
                 ]
             ),
-            'dialect_table_two_fields' =>  Index::__set_state(
+            'dialect_table_two_fields' => Index::__set_state(
                 [
                     '_name'    => 'dialect_table_two_fields',
                     '_columns' => ['field_char', 'field_char_default'],
@@ -760,7 +760,7 @@ trait PostgresqlTrait
      * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since 2018-10-26
+     * @since  2018-10-26
      */
     protected function getExpectedReferences(): array
     {
@@ -773,10 +773,10 @@ trait PostgresqlTrait
                     '_referencedColumns' => ['field_primary'],
                     '_referencedSchema'  => $this->getDatabaseName(),
                     '_onUpdate'          => 'NO ACTION',
-                    '_onDelete'          => 'NO ACTION'
+                    '_onDelete'          => 'NO ACTION',
                 ]
             ),
-            'dialect_table_intermediate_remote__fk' => Reference::__set_state(
+            'dialect_table_intermediate_remote__fk'  => Reference::__set_state(
                 [
                     '_referenceName'     => 'dialect_table_intermediate_remote__fk',
                     '_referencedTable'   => 'dialect_table_remote',
@@ -784,7 +784,7 @@ trait PostgresqlTrait
                     '_referencedColumns' => ['field_primary'],
                     '_referencedSchema'  => $this->getDatabaseName(),
                     '_onUpdate'          => 'NO ACTION',
-                    '_onDelete'          => 'NO ACTION'
+                    '_onDelete'          => 'NO ACTION',
                 ]
             ),
         ];

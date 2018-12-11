@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function dataFolder;
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use UnitTester;
+use function dataFolder;
 
 /**
  * Trait ConfigTrait

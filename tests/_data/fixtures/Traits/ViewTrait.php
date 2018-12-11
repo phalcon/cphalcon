@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Mvc\View;
 use DirectoryIterator;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
@@ -36,7 +36,7 @@ trait ViewTrait
     public function _before()
     {
         $this->level = ob_get_level();
-        $this->view = new View();
+        $this->view  = new View();
     }
 
     /**
@@ -60,8 +60,8 @@ trait ViewTrait
      * Set params and check expected data after render view
      *
      * @param string $errorMessage
-     * @param array $params
-     * @param View $view
+     * @param array  $params
+     * @param View   $view
      */
     protected function setParamAndCheckData($errorMessage, $params, $view)
     {

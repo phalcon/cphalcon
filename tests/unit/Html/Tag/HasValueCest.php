@@ -37,7 +37,7 @@ class HasValueCest
 
         $tag->setAttribute('name', 'Phalcon');
 
-        $actual   = $tag->hasValue('name');
+        $actual = $tag->hasValue('name');
         $I->assertTrue($actual);
     }
 
@@ -58,7 +58,7 @@ class HasValueCest
         $_POST         = [];
         $_POST['name'] = 'Phalcon';
 
-        $actual   = $tag->hasValue('name');
+        $actual = $tag->hasValue('name');
         $I->assertTrue($actual);
 
         $_POST = $oldPost;

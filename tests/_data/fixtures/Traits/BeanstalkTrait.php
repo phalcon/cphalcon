@@ -14,7 +14,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Queue\Beanstalk;
 use UnitTester;
-use function var_dump;
 
 /**
  * Trait BeanstalkTrait
@@ -42,7 +41,7 @@ trait BeanstalkTrait
         $this->client = new Beanstalk(
             [
                 'host' => DATA_BEANSTALKD_HOST,
-                'port' => DATA_BEANSTALKD_PORT
+                'port' => DATA_BEANSTALKD_PORT,
             ]
         );
 
