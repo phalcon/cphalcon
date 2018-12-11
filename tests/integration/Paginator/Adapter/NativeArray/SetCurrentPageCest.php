@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
 
 use Phalcon\Paginator\Adapter\NativeArray;
-use stdClass;
+use Phalcon\Paginator\Repository;
 use IntegrationTester;
 
 class SetCurrentPageCest
@@ -39,7 +39,7 @@ class SetCurrentPageCest
         $paginator->setCurrentPage(2);
         $page = $paginator->paginate();
 
-        $expected = stdClass::class;
+        $expected = Repository::class;
         $I->assertInstanceOf($expected, $page);
 
         $I->assertCount(10, $page->items);

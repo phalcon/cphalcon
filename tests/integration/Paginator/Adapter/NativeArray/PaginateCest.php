@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
 
 use Phalcon\Paginator\Adapter\NativeArray;
-use stdClass;
+use Phalcon\Paginator\Repository;
 use IntegrationTester;
 
 class PaginateCest
@@ -38,15 +38,14 @@ class PaginateCest
 
         $page = $paginator->paginate();
 
-        $expected = stdClass::class;
+        $expected = Repository::class;
         $I->assertInstanceOf($expected, $page);
 
-        $I->assertCount(25, $page->items);
-        $I->assertEquals(1, $page->previous);
-        $I->assertEquals(2, $page->next);
-        $I->assertEquals(2, $page->last);
-        $I->assertEquals(25, $page->limit);
-        $I->assertEquals(1, $page->current);
-        $I->assertEquals(30, $page->total_items);
+        $I->assertCount(25, $page->getItems());
+        $I->assertEquals($page->getPrevious(), 1);
+        $I->assertEquals($page->getNext(), 2);
+        $I->assertEquals($page->getLast(), 2);
+        $I->assertEquals($page->getLimit(), 25);
+        $I->assertEquals($page->getCurrent(), 1);
     }
 }
