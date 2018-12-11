@@ -1537,4 +1537,61 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		return this;
 	}
 
+	/**
+	 * Set default bind parameters
+	 */
+	public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>
+	{
+		var currentBindParams;
+
+		if merge {
+			let currentBindParams = this->_bindParams;
+			if typeof currentBindParams == "array" {
+				let this->_bindParams = currentBindParams + bindParams;
+			} else {
+				let this->_bindParams = bindParams;
+			}
+		} else {
+			let this->_bindParams = bindParams;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Returns default bind params
+	 */
+	public function getBindParams() -> array
+	{
+		return this->_bindParams;
+	}
+
+	/**
+	 * Set default bind types
+	 */
+	public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>
+	{
+		var currentBindTypes;
+
+		if unlikely merge {
+			let currentBindTypes = this->_bindTypes;
+			if typeof currentBindTypes == "array" {
+				let this->_bindTypes = currentBindTypes + bindTypes;
+			} else {
+				let this->_bindTypes = bindTypes;
+			}
+		} else {
+			let this->_bindTypes = bindTypes;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Returns default bind types
+	 */
+	public function getBindTypes() -> array
+	{
+		return this->_bindTypes;
+	}
 }
