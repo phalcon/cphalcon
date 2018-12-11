@@ -34,7 +34,7 @@ interface AdapterInterface
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <PaginateInterface>;
+	public function paginate() -> <PaginateInterface>;
 
 	/**
 	 * Set current rows limit

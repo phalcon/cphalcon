@@ -63,7 +63,7 @@ class Model extends Adapter
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <RepositoryInterface>
+	public function paginate() -> <RepositoryInterface>
 	{
 		var config, items, pageItems;
 		int pageNumber, show, n, start, lastShowPage,
@@ -135,11 +135,10 @@ class Model extends Adapter
 
 		return this->getRepository([
 			RepositoryInterface::PROPERTY_ITEMS 		: pageItems,
-			RepositoryInterface::PROPERTY_TOTAL_PAGES	: totalPages,
 			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: n,
 			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
 			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,
-			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : before,
+			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
 			RepositoryInterface::PROPERTY_CURRENT_PAGE 	: pageNumber,
 			RepositoryInterface::PROPERTY_NEXT_PAGE 	: next,
 			RepositoryInterface::PROPERTY_LAST_PAGE 	: totalPages
