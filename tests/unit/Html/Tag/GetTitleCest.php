@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Html\Tag;
 
 use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
 /**
@@ -24,15 +25,7 @@ use UnitTester;
 class GetTitleCest
 {
     use DiTrait;
-
-    /**
-     * @param UnitTester $I
-     */
-    public function _before(UnitTester $I)
-    {
-        $this->newDi();
-        $this->setDiEscaper();
-    }
+    use TagSetupTrait;
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle()

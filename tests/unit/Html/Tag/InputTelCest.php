@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\TagHelperTrait;
+use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 
 /**
  * Class InputTelCest
@@ -21,17 +23,10 @@ use UnitTester;
  */
 class InputTelCest
 {
-    /**
-     * Tests Phalcon\Html\Tag :: inputTel()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function htmlTagInputTel(UnitTester $I)
-    {
-        $I->wantToTest('Html\Tag - inputTel()');
-        $I->skipTest('Need implementation');
-    }
+    use DiTrait;
+    use TagSetupTrait;
+    use TagHelperTrait;
+
+    protected $function  = 'inputTel';
+    protected $inputType = 'tel';
 }

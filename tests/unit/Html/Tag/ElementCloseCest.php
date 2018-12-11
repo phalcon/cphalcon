@@ -33,19 +33,19 @@ class ElementCloseCest
     public function htmlTagElementClose(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - elementClose()');
-        $tag        = new Tag();
-        $parameters = ['name' => 'canvas'];
-        $expected   = '</canvas>';
+        $tag      = new Tag();
+        $name     = 'canvas';
+        $expected = '</canvas>';
 
         $actual = $tag
             ->setDocType(Tag::XHTML10_STRICT)
-            ->elementClose($parameters)
+            ->elementClose($name)
         ;
         $I->assertEquals($expected, $actual);
 
         $actual = $tag
             ->setDocType(Tag::HTML5)
-            ->elementClose($parameters)
+            ->elementClose($name)
         ;
         $I->assertEquals($expected, $actual);
     }
@@ -62,21 +62,21 @@ class ElementCloseCest
     {
         $I->wantToTest('Html\Tag - elementClose()');
         $tag        = new Tag();
+        $name       = 'canvas';
         $parameters = [
-            'name'   => 'canvas',
             'useEol' => true,
         ];
         $expected   = '</canvas>' . PHP_EOL;
 
         $actual = $tag
             ->setDocType(Tag::XHTML10_STRICT)
-            ->elementClose($parameters)
+            ->elementClose($name, $parameters)
         ;
         $I->assertEquals($expected, $actual);
 
         $actual = $tag
             ->setDocType(Tag::HTML5)
-            ->elementClose($parameters)
+            ->elementClose($name, $parameters)
         ;
         $I->assertEquals($expected, $actual);
     }

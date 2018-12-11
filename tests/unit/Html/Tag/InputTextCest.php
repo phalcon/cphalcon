@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\TagHelperTrait;
+use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 
 /**
  * Class InputTextCest
@@ -21,17 +23,10 @@ use UnitTester;
  */
 class InputTextCest
 {
-    /**
-     * Tests Phalcon\Html\Tag :: inputText()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function htmlTagInputText(UnitTester $I)
-    {
-        $I->wantToTest('Html\Tag - inputText()');
-        $I->skipTest('Need implementation');
-    }
+    use DiTrait;
+    use TagSetupTrait;
+    use TagHelperTrait;
+
+    protected $function  = 'inputText';
+    protected $inputType = 'text';
 }

@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Tag;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\TagHelperTrait;
+use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 
 /**
  * Class InputWeekCest
@@ -21,17 +23,10 @@ use UnitTester;
  */
 class InputWeekCest
 {
-    /**
-     * Tests Phalcon\Html\Tag :: inputWeek()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function htmlTagInputWeek(UnitTester $I)
-    {
-        $I->wantToTest('Html\Tag - inputWeek()');
-        $I->skipTest('Need implementation');
-    }
+    use DiTrait;
+    use TagSetupTrait;
+    use TagHelperTrait;
+
+    protected $function  = 'inputWeek';
+    protected $inputType = 'week';
 }
