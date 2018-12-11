@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,11 @@ use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use function cacheFolder;
 
+/**
+ * Trait FileTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits\Cache
+ */
 trait FileTrait
 {
     /**

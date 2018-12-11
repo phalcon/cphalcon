@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -19,6 +20,11 @@ use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use UnitTester;
 
+/**
+ * Trait ConfigTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits
+ */
 trait ConfigTrait
 {
     /**

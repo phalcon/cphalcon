@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -18,6 +19,11 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
+/**
+ * Trait DialectTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits
+ */
 trait DialectTrait
 {
     /**
