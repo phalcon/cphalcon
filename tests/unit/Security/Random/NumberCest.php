@@ -33,11 +33,11 @@ class NumberCest
     {
         $I->wantToTest("Security\Random - number()");
         $random = new \Phalcon\Security\Random;
-        $I->expectException(\Exception::class, function() {
+        $I->expectException(\Exception::class, function () {
             $randNumber = $random->number();
         });
 
-        $I->expectException(\Exception::class, function() {
+        $I->expectException(\Exception::class, function () {
             $randNumber = $random->number(-1);
         });
 
