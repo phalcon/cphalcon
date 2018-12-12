@@ -85,7 +85,7 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Executes the validation
 	 */
-	abstract public function validate(<Validation> validation, string! attribute) -> bool;
+	abstract public function validate(<Validation> validation, var field) -> bool;
 
 	/**
 	 * Prepares a label for the field.
