@@ -36,10 +36,7 @@ class Base58Cest
         $base58 = $random->base58();
 
         //test forbidden characters
-        $I->assertFalse(strpos($base58, '0'));
-        $I->assertFalse(strpos($base58, 'O'));
-        $I->assertFalse(strpos($base58, 'I'));
-        $I->assertFalse(strpos($base58, 'l'));
+        $I->assertRegExp("/^[1-9A-Za-z][^OIl0]+$/", $base58);
 
         //Default length is 16 bytes
         $I->assertEquals(16, strlen($base58));
