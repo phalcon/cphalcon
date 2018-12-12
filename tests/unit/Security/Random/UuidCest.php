@@ -32,6 +32,14 @@ class UuidCest
     public function securityRandomUuid(UnitTester $I)
     {
         $I->wantToTest("Security\Random - uuid()");
-        $I->skipTest("Need implementation");
+        $random = new \Phalcon\Security\Random;
+        $uuid = $random->uuid();
+
+        //test forbidden characters
+        $I->assertRegExp("/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}$/", $uuid);
+
+        $differentUuid = $random->uuid();
+        //Buy lottery ticket if this fails (or fix the bug)
+        $I->assertNotEquals($uuid, $differentUuid);
     }
 }
