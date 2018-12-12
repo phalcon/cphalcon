@@ -32,6 +32,21 @@ class Base64Cest
     public function securityRandomBase64(UnitTester $I)
     {
         $I->wantToTest("Security\Random - base64()");
-        $I->skipTest("Need implementation");
+        $examples = [null, 2, 12, 16, 24, 48, 100];
+
+        foreach ($examples as $len) {
+            $random = new Random();
+
+            $isValid = function ($base64) {
+                return (preg_match("#[^a-z0-9+_=/-]+#i", $base64) === 0);
+            };
+
+            $base64 = $random->base64($len);
+
+            $expected = ($len === null) ? 16 : $len;
+            $actual   = strlen($base64);
+            $I->assertTrue($this->checkSize($base64, $expected));
+            $I->assertTrue($isValid($actual));
+        }
     }
 }
