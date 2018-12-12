@@ -54,7 +54,7 @@ class Base64SafeCest
             $padding = $example[1];
             $pattern = $example[2];
 
-            $random = new Random();
+            $random = new \Phalcon\Security\Random();
 
             $isValid = function ($base64) use ($pattern) {
                 return (preg_match("#[^$pattern]+#i", $base64) === 0);
