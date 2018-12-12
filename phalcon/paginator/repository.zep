@@ -29,7 +29,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setProperties(array properties) -> <Repository>
+	public function setProperties(array properties) -> <RepositoryInterface>
 	{
 		let this->_properties = properties;
 		return this;
@@ -38,7 +38,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setAliases(array aliases) -> <Repository>
+	public function setAliases(array aliases) -> <RepositoryInterface>
 	{
 		let this->_aliases = aliases;
 		return this;
