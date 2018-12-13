@@ -177,24 +177,21 @@ class QueryBuilderCest
         $modelsManager = $this->getService('modelsManager');
 
         $builder = $modelsManager->createBuilder()
-            ->columns("COUNT(*) as robos_count")
+            ->columns("Robots.*")
             ->from(['Robots' => Robots::class])
             ->join(RobotsParts::class, "RobotsParts.robots_id = Robots.id", "RobotsParts", "LEFT")
-            ->join(RobotsParts::class, "RobotsParts_2.robots_id = Robots.id", "RobotsParts_2", "LEFT")
-            ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id, RobotsParts_2.id, RobotsParts_2.parts_id')
-            ->having('MAX(Robots.year) > 1970');
-
-        // var_dump($builder->getQuery()->getSql());
+            ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id')
+            ->having('Robots.id > 2');
 
         $paginate = (new QueryBuilder(
             [
                 "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2
+                "limit"   => 10,
+                "page"    => 1
             ]
         ))->paginate();
 
-        $I->assertEquals(4, $paginate->last);
-        $I->assertEquals(4, $paginate->total_items);
+        $I->assertEquals(1, $paginate->last);
+        $I->assertEquals(1, $paginate->total_items);
     }
 }
