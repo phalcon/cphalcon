@@ -10,30 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Resource;
+namespace Phalcon\Test\Unit\Acl\Subject;
 
-use Phalcon\Acl\Resource;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
  * Class GetDescriptionCest
- *
- * @package Phalcon\Test\Unit\Acl\Resource
  */
 class GetDescriptionCest
 {
     /**
-     * Tests Phalcon\Acl\Resource :: getDescription()
+     * Tests Phalcon\Acl\Subject :: getDescription()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceGetDescription(UnitTester $I)
+    public function aclSubjectGetDescription(UnitTester $I)
     {
-        $I->wantToTest('Acl\Resource - getDescription()');
-        $resource = new Resource('Customers', 'Customer management');
+        $I->wantToTest('Acl\Subject - getDescription()');
+        $resource = new Subject('Customers', 'Customer management');
 
         $expected = 'Customer management';
         $actual   = $resource->getDescription();
@@ -41,17 +39,17 @@ class GetDescriptionCest
     }
 
     /**
-     * Tests Phalcon\Acl\Resource :: getDescription() - empty
+     * Tests Phalcon\Acl\Subject :: getDescription() - empty
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceGetDescriptionEmpty(UnitTester $I)
+    public function aclSubjectGetDescriptionEmpty(UnitTester $I)
     {
-        $I->wantToTest("Acl\Resource - getDescription() - empty");
-        $resource = new Resource('Customers');
+        $I->wantToTest("Acl\Subject - getDescription() - empty");
+        $resource = new Subject('Customers');
 
         $actual = $resource->getDescription();
         $I->assertEmpty($actual);

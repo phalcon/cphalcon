@@ -10,30 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Resource;
+namespace Phalcon\Test\Unit\Acl\Subject;
 
-use Phalcon\Acl\Resource;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
  * Class ToStringCest
- *
- * @package Phalcon\Test\Unit\Acl\Resource
  */
 class ToStringCest
 {
     /**
-     * Tests Phalcon\Acl\Resource :: __toString()
+     * Tests Phalcon\Acl\Subject :: __toString()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceToString(UnitTester $I)
+    public function aclSubjectToString(UnitTester $I)
     {
-        $I->wantToTest('Acl\Resource - __toString()');
-        $resource = new Resource('Customers');
+        $I->wantToTest('Acl\Subject - __toString()');
+        $resource = new Subject('Customers');
 
         $expected = 'Customers';
         $actual   = $resource->__toString();
