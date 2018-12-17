@@ -10,30 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Role;
+namespace Phalcon\Test\Unit\Acl\Operation;
 
-use Phalcon\Acl\Role;
+use Phalcon\Acl\Operation;
 use UnitTester;
 
 /**
  * Class GetDescriptionCest
- *
- * @package Phalcon\Test\Unit\Acl\Role
  */
 class GetDescriptionCest
 {
     /**
-     * Tests Phalcon\Acl\Role :: getDescription()
+     * Tests Phalcon\Acl\Operation :: getDescription()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclRoleGetDescription(UnitTester $I)
+    public function aclOperationGetDescription(UnitTester $I)
     {
-        $I->wantToTest('Acl\Role - getDescription()');
-        $role = new Role('Administrators', 'The admin unit');
+        $I->wantToTest('Acl\Operation - getDescription()');
+        $role = new Operation('Administrators', 'The admin unit');
 
         $expected = 'The admin unit';
         $actual   = $role->getDescription();
@@ -41,17 +39,17 @@ class GetDescriptionCest
     }
 
     /**
-     * Tests Phalcon\Acl\Role :: getDescription() - empty
+     * Tests Phalcon\Acl\Operation :: getDescription() - empty
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclRoleGetDescriptionEmpty(UnitTester $I)
+    public function aclOperationGetDescriptionEmpty(UnitTester $I)
     {
-        $I->wantToTest('Acl\Role - getDescription()');
-        $role = new Role('Administrators');
+        $I->wantToTest('Acl\Operation - getDescription()');
+        $role = new Operation('Administrators');
 
         $actual = $role->getDescription();
         $I->assertEmpty($actual);

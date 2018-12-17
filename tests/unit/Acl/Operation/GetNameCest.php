@@ -10,30 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Role;
+namespace Phalcon\Test\Unit\Acl\Operation;
 
-use Phalcon\Acl\Role;
+use Phalcon\Acl\Operation;
 use UnitTester;
 
 /**
  * Class GetNameCest
- *
- * @package Phalcon\Test\Unit\Acl\Role
  */
 class GetNameCest
 {
     /**
-     * Tests Phalcon\Acl\Role :: getName()
+     * Tests Phalcon\Acl\Operation :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclRoleGetName(UnitTester $I)
+    public function aclOperationGetName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Role - getName()');
-        $role = new Role('Administrators');
+        $I->wantToTest('Acl\Operation - getName()');
+        $role = new Operation('Administrators');
 
         $expected = 'Administrators';
         $actual   = $role->getName();

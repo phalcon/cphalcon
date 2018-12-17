@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,12 @@
 namespace Phalcon\Test\Fixtures\Acl;
 
 use Phalcon\Acl\ResourceAware;
-use Phalcon\Acl\RoleAware;
+use Phalcon\Acl\OperationAware;
 
-class TestRoleResourceAware implements RoleAware, ResourceAware
+/**
+ * Class TestOperationResourceAware
+ */
+class TestOperationResourceAware implements OperationAware, ResourceAware
 {
     /**
      * @var int
@@ -54,7 +58,7 @@ class TestRoleResourceAware implements RoleAware, ResourceAware
     /**
      * @return string
      */
-    public function getRoleName(): string
+    public function getOperationName(): string
     {
         return $this->roleName;
     }
