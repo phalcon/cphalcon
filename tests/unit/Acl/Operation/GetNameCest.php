@@ -10,33 +10,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Resource;
+namespace Phalcon\Test\Unit\Acl\Operation;
 
-use Phalcon\Acl\Resource;
+use Phalcon\Acl\Operation;
 use UnitTester;
 
 /**
  * Class GetNameCest
- *
- * @package Phalcon\Test\Unit\Acl\Resource
  */
 class GetNameCest
 {
     /**
-     * Tests Phalcon\Acl\Resource :: getName()
+     * Tests Phalcon\Acl\Operation :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceGetName(UnitTester $I)
+    public function aclOperationGetName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Resource - getName()');
-        $resource = new Resource('Customers');
+        $I->wantToTest('Acl\Operation - getName()');
+        $operation = new Operation('Administrators');
 
-        $expected = 'Customers';
-        $actual   = $resource->getName();
+        $expected = 'Administrators';
+        $actual   = $operation->getName();
         $I->assertEquals($expected, $actual);
     }
 }

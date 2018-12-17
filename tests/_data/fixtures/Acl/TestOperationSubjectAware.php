@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,10 +12,13 @@
 
 namespace Phalcon\Test\Fixtures\Acl;
 
-use Phalcon\Acl\ResourceAware;
-use Phalcon\Acl\RoleAware;
+use Phalcon\Acl\SubjectAware;
+use Phalcon\Acl\OperationAware;
 
-class TestRoleResourceAware implements RoleAware, ResourceAware
+/**
+ * Class TestOperationSubjectAware
+ */
+class TestOperationSubjectAware implements OperationAware, SubjectAware
 {
     /**
      * @var int
@@ -24,39 +28,39 @@ class TestRoleResourceAware implements RoleAware, ResourceAware
     /**
      * @var string
      */
-    protected $resourceName;
+    protected $subjectName;
 
     /**
      * @var string
      */
-    protected $roleName;
+    protected $operationName;
 
     /**
      * @param $user
-     * @param $resourceName
-     * @param $roleName
+     * @param $subjectName
+     * @param $operationName
      */
-    public function __construct($user, $resourceName, $roleName)
+    public function __construct($user, $subjectName, $operationName)
     {
         $this->user         = $user;
-        $this->resourceName = $resourceName;
-        $this->roleName     = $roleName;
+        $this->subjectName = $subjectName;
+        $this->operationName     = $operationName;
     }
 
     /**
      * @return string
      */
-    public function getResourceName(): string
+    public function getSubjectName(): string
     {
-        return $this->resourceName;
+        return $this->subjectName;
     }
 
     /**
      * @return string
      */
-    public function getRoleName(): string
+    public function getOperationName(): string
     {
-        return $this->roleName;
+        return $this->operationName;
     }
 
     /**

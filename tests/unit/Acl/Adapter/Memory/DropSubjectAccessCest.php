@@ -12,35 +12,26 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
-use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use UnitTester;
 
 /**
- * Class IsRoleCest
+ * Class DropSubjectAccessCest
  *
  * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
-class IsRoleCest
+class DropSubjectAccessCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isRole()
+     * Tests Phalcon\Acl\Adapter\Memory :: dropSubjectAccess()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryIsRole(UnitTester $I)
+    public function aclAdapterMemoryDropSubjectAccess(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - isRole()');
-        $acl     = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
-
-        $acl->addRole($aclRole);
-
-        $actual = $acl->isRole('Administrators');
-        $I->assertTrue($actual);
+        $I->wantToTest('Acl\Adapter\Memory - dropSubjectAccess()');
+        $I->skipTest('Need implementation');
     }
 }

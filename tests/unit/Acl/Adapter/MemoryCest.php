@@ -13,11 +13,11 @@ namespace Phalcon\Test\Unit\Acl\Adapter;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Resource;
-use Phalcon\Acl\Role;
-use Phalcon\Test\Fixtures\Acl\TestResourceAware;
-use Phalcon\Test\Fixtures\Acl\TestRoleAware;
-use Phalcon\Test\Fixtures\Acl\TestRoleResourceAware;
+use Phalcon\Acl\Subject;
+use Phalcon\Acl\Operation;
+use Phalcon\Test\Fixtures\Acl\TestSubjectAware;
+use Phalcon\Test\Fixtures\Acl\TestOperationAware;
+use Phalcon\Test\Fixtures\Acl\TestOperationSubjectAware;
 use PHPUnit\Framework\Exception;
 use UnitTester;
 
@@ -25,34 +25,34 @@ class MemoryCest
 {
 
     /**
-     * Tests the addRole for the same role twice
+     * Tests the addOperation for the same operation twice
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testAclAddRoleTwiceReturnsFalse(UnitTester $I)
+    public function testAclAddOperationTwiceReturnsFalse(UnitTester $I)
     {
         $acl     = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
+        $aclOperation = new Operation('Administrators', 'Super User access');
 
-        $acl->addRole($aclRole);
-        $actual = $acl->addRole($aclRole);
+        $acl->addOperation($aclOperation);
+        $actual = $acl->addOperation($aclOperation);
         $I->assertFalse($actual);
     }
 
     /**
-     * Tests the addRole for the same role twice by key
+     * Tests the addOperation for the same operation twice by key
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testAclAddRoleTwiceByKeyReturnsFalse(UnitTester $I)
+    public function testAclAddOperationTwiceByKeyReturnsFalse(UnitTester $I)
     {
         $acl     = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
+        $aclOperation = new Operation('Administrators', 'Super User access');
 
-        $acl->addRole($aclRole);
-        $actual = $acl->addRole('Administrators');
+        $acl->addOperation($aclOperation);
+        $actual = $acl->addOperation('Administrators');
         $I->assertFalse($actual);
     }
 
@@ -67,48 +67,48 @@ class MemoryCest
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
 
-        $aclRoles = [
-            'Admin'  => new Role('Admin'),
-            'Users'  => new Role('Users'),
-            'Guests' => new Role('Guests'),
+        $aclOperations = [
+            'Admin'  => new Operation('Admin'),
+            'Users'  => new Operation('Users'),
+            'Guests' => new Operation('Guests'),
         ];
 
-        $aclResources = [
+        $aclSubjects = [
             'welcome' => ['index', 'about'],
             'account' => ['index'],
         ];
 
-        foreach ($aclRoles as $role => $object) {
-            $acl->addRole($object);
+        foreach ($aclOperations as $operation => $object) {
+            $acl->addOperation($object);
         }
 
-        foreach ($aclResources as $resource => $actions) {
-            $acl->addResource(new Resource($resource), $actions);
+        foreach ($aclSubjects as $subject => $actions) {
+            $acl->addSubject(new Subject($subject), $actions);
         }
         $acl->allow("*", "welcome", "index");
 
-        foreach ($aclRoles as $role => $object) {
-            $actual = $acl->isAllowed($role, 'welcome', 'index');
+        foreach ($aclOperations as $operation => $object) {
+            $actual = $acl->isAllowed($operation, 'welcome', 'index');
             $I->assertTrue($actual);
         }
 
         $acl->deny("*", "welcome", "index");
-        foreach ($aclRoles as $role => $object) {
-            $actual = $acl->isAllowed($role, 'welcome', 'index');
+        foreach ($aclOperations as $operation => $object) {
+            $actual = $acl->isAllowed($operation, 'welcome', 'index');
             $I->assertFalse($actual);
         }
     }
 
     /**
-     * Tests the isRole with wrong keyword
+     * Tests the isOperation with wrong keyword
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testAclIsRoleWithWrongKeyReturnsFalse(UnitTester $I)
+    public function testAclIsOperationWithWrongKeyReturnsFalse(UnitTester $I)
     {
         $acl    = new Memory();
-        $actual = $acl->isRole('Wrong');
+        $actual = $acl->isOperation('Wrong');
         $I->assertFalse($actual);
     }
 
@@ -121,26 +121,26 @@ class MemoryCest
     public function testAclObjectsWithDefaultAction(UnitTester $I)
     {
         $acl         = new Memory();
-        $aclRole     = new Role('Administrators', 'Super User access');
-        $aclResource = new Resource('Customers', 'Customer management');
+        $aclOperation     = new Operation('Administrators', 'Super User access');
+        $aclSubject = new Subject('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole($aclRole);
-        $acl->addResource($aclResource, ['search', 'destroy']);
+        $acl->addOperation($aclOperation);
+        $acl->addSubject($aclSubject, ['search', 'destroy']);
 
         $expected = Acl::DENY;
         $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
         $I->assertEquals($expected, $actual);
 
         $acl         = new Memory();
-        $aclRole     = new Role('Administrators', 'Super User access');
-        $aclResource = new Resource('Customers', 'Customer management');
+        $aclOperation     = new Operation('Administrators', 'Super User access');
+        $aclSubject = new Subject('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole($aclRole);
-        $acl->addResource($aclResource, ['search', 'destroy']);
+        $acl->addOperation($aclOperation);
+        $acl->addSubject($aclSubject, ['search', 'destroy']);
 
         $expected = Acl::DENY;
         $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
@@ -156,13 +156,13 @@ class MemoryCest
     public function testAclObjects(UnitTester $I)
     {
         $acl         = new Memory();
-        $aclRole     = new Role('Administrators', 'Super User access');
-        $aclResource = new Resource('Customers', 'Customer management');
+        $aclOperation     = new Operation('Administrators', 'Super User access');
+        $aclSubject = new Subject('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole($aclRole);
-        $acl->addResource($aclResource, ['search', 'destroy']);
+        $acl->addOperation($aclOperation);
+        $acl->addSubject($aclSubject, ['search', 'destroy']);
 
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
@@ -172,13 +172,13 @@ class MemoryCest
         $I->assertEquals($expected, $actual);
 
         $acl         = new Memory();
-        $aclRole     = new Role('Administrators', 'Super User access');
-        $aclResource = new Resource('Customers', 'Customer management');
+        $aclOperation     = new Operation('Administrators', 'Super User access');
+        $aclSubject = new Subject('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole($aclRole);
-        $acl->addResource($aclResource, ['search', 'destroy']);
+        $acl->addOperation($aclOperation);
+        $acl->addSubject($aclSubject, ['search', 'destroy']);
 
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
@@ -199,11 +199,11 @@ class MemoryCest
         $filename = $I->getNewFileName('acl', 'log');
 
         $acl         = new Memory();
-        $aclRole     = new Role('Administrators', 'Super User access');
-        $aclResource = new Resource('Customers', 'Customer management');
+        $aclOperation     = new Operation('Administrators', 'Super User access');
+        $aclSubject = new Subject('Customers', 'Customer management');
 
-        $acl->addRole($aclRole);
-        $acl->addResource($aclResource, ['search', 'destroy']);
+        $acl->addOperation($aclOperation);
+        $acl->addSubject($aclSubject, ['search', 'destroy']);
 
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
@@ -221,10 +221,10 @@ class MemoryCest
         $actual = ($acl instanceof Memory);
         $I->assertTrue($actual);
 
-        $actual = $acl->isRole('Administrators');
+        $actual = $acl->isOperation('Administrators');
         $I->assertTrue($actual);
 
-        $actual = $acl->isResource('Customers');
+        $actual = $acl->isSubject('Customers');
         $I->assertTrue($actual);
 
         $expected = Acl::ALLOW;
@@ -237,22 +237,22 @@ class MemoryCest
     }
 
     /**
-     * Tests negation of inherited roles
+     * Tests negation of inherited operations
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/65
      *
      * @author  Phalcon Team <team@phalconphp.com>
      * @since   2014-10-04
      */
-    public function testAclNegationOfInheritedRoles(UnitTester $I)
+    public function testAclNegationOfInheritedOperations(UnitTester $I)
     {
         $acl = new Memory;
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole('Guests');
-        $acl->addRole('Members', 'Guests');
+        $acl->addOperation('Guests');
+        $acl->addOperation('Members', 'Guests');
 
-        $acl->addResource('Login', ['help', 'index']);
+        $acl->addSubject('Login', ['help', 'index']);
 
         $acl->allow('Guests', 'Login', '*');
         $acl->deny('Guests', 'Login', ['help']);
@@ -269,22 +269,22 @@ class MemoryCest
     }
 
     /**
-     * Tests ACL Resources with numeric values
+     * Tests ACL Subjects with numeric values
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/1513
      *
      * @author  Phalcon Team <team@phalconphp.com>
      * @since   2014-10-04
      */
-    public function testAclResourcesWithNumericValues(UnitTester $I)
+    public function testAclSubjectsWithNumericValues(UnitTester $I)
     {
         $acl = new Memory;
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole(new Role('11'));
-        $acl->addResource(new Resource('11'), ['index']);
+        $acl->addOperation(new Operation('11'));
+        $acl->addSubject(new Subject('11'), ['index']);
 
-        $actual = $acl->isResource('11');
+        $actual = $acl->isSubject('11');
         $I->assertTrue($actual);
     }
 
@@ -300,19 +300,19 @@ class MemoryCest
     {
         $acl = new Memory;
         $acl->setDefaultAction(Acl::DENY);
-        $acl->addRole('Guests');
-        $acl->addRole('Members', 'Guests');
-        $acl->addRole('Admins', 'Members');
-        $acl->addResource('Post', ['update']);
+        $acl->addOperation('Guests');
+        $acl->addOperation('Members', 'Guests');
+        $acl->addOperation('Admins', 'Members');
+        $acl->addSubject('Post', ['update']);
 
-        $guest         = new TestRoleAware(1, 'Guests');
-        $member        = new TestRoleAware(2, 'Members');
-        $anotherMember = new TestRoleAware(3, 'Members');
-        $admin         = new TestRoleAware(4, 'Admins');
-        $model         = new TestResourceAware(2, 'Post');
+        $guest         = new TestOperationAware(1, 'Guests');
+        $member        = new TestOperationAware(2, 'Members');
+        $anotherMember = new TestOperationAware(3, 'Members');
+        $admin         = new TestOperationAware(4, 'Admins');
+        $model         = new TestSubjectAware(2, 'Post');
 
         $acl->deny('Guests', 'Post', 'update');
-        $acl->allow('Members', 'Post', 'update', function (TestRoleAware $user, TestResourceAware $model) {
+        $acl->allow('Members', 'Post', 'update', function (TestOperationAware $user, TestSubjectAware $model) {
             return $user->getId() == $model->getUser();
         });
         $acl->allow('Admins', 'Post', 'update');
@@ -344,29 +344,29 @@ class MemoryCest
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $roleGuest      = new Role("guest");
-        $roleUser       = new Role("user");
-        $roleAdmin      = new Role("admin");
-        $roleSuperAdmin = new Role("superadmin");
+        $operationGuest      = new Operation("guest");
+        $operationUser       = new Operation("user");
+        $operationAdmin      = new Operation("admin");
+        $operationSuperAdmin = new Operation("superadmin");
 
-        $acl->addRole($roleGuest);
-        $acl->addRole($roleUser, $roleGuest);
-        $acl->addRole($roleAdmin, $roleUser);
-        $acl->addRole($roleSuperAdmin, $roleAdmin);
+        $acl->addOperation($operationGuest);
+        $acl->addOperation($operationUser, $operationGuest);
+        $acl->addOperation($operationAdmin, $operationUser);
+        $acl->addOperation($operationSuperAdmin, $operationAdmin);
 
-        $acl->addResource("payment", ["paypal", "facebook",]);
+        $acl->addSubject("payment", ["paypal", "facebook",]);
 
-        $acl->allow($roleGuest->getName(), "payment", "paypal");
-        $acl->allow($roleGuest->getName(), "payment", "facebook");
-        $acl->allow($roleUser->getName(), "payment", "*");
+        $acl->allow($operationGuest->getName(), "payment", "paypal");
+        $acl->allow($operationGuest->getName(), "payment", "facebook");
+        $acl->allow($operationUser->getName(), "payment", "*");
 
-        $actual = $acl->isAllowed($roleUser->getName(), "payment", "notSet");
+        $actual = $acl->isAllowed($operationUser->getName(), "payment", "notSet");
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($roleUser->getName(), "payment", "*");
+        $actual = $acl->isAllowed($operationUser->getName(), "payment", "*");
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($roleAdmin->getName(), "payment", "notSet");
+        $actual = $acl->isAllowed($operationAdmin->getName(), "payment", "notSet");
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($roleAdmin->getName(), "payment", "*");
+        $actual = $acl->isAllowed($operationAdmin->getName(), "payment", "*");
         $I->assertTrue($actual);
     }
 
@@ -383,16 +383,16 @@ class MemoryCest
         $acl = new Memory;
         $acl->setDefaultAction(Acl::ALLOW);
         $acl->setNoArgumentsDefaultAction(Acl::DENY);
-        $acl->addRole('Guests');
-        $acl->addRole('Members', 'Guests');
-        $acl->addRole('Admins', 'Members');
-        $acl->addResource('Post', ['update']);
+        $acl->addOperation('Guests');
+        $acl->addOperation('Members', 'Guests');
+        $acl->addOperation('Admins', 'Members');
+        $acl->addSubject('Post', ['update']);
 
-        $guest         = new TestRoleAware(1, 'Guests');
-        $member        = new TestRoleAware(2, 'Members');
-        $anotherMember = new TestRoleAware(3, 'Members');
-        $admin         = new TestRoleAware(4, 'Admins');
-        $model         = new TestResourceAware(2, 'Post');
+        $guest         = new TestOperationAware(1, 'Guests');
+        $member        = new TestOperationAware(2, 'Members');
+        $anotherMember = new TestOperationAware(3, 'Members');
+        $admin         = new TestOperationAware(4, 'Admins');
+        $model         = new TestSubjectAware(2, 'Post');
 
         $acl->allow('Guests', 'Post', 'update', function ($parameter) {
             return $parameter % 2 == 0;
@@ -431,16 +431,16 @@ class MemoryCest
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::ALLOW);
                 $acl->setNoArgumentsDefaultAction(Acl::DENY);
-                $acl->addRole('Guests');
-                $acl->addRole('Members', 'Guests');
-                $acl->addRole('Admins', 'Members');
-                $acl->addResource('Post', ['update']);
+                $acl->addOperation('Guests');
+                $acl->addOperation('Members', 'Guests');
+                $acl->addOperation('Admins', 'Members');
+                $acl->addSubject('Post', ['update']);
 
-                $guest         = new TestRoleAware(1, 'Guests');
-                $member        = new TestRoleAware(2, 'Members');
-                $anotherMember = new TestRoleAware(3, 'Members');
-                $admin         = new TestRoleAware(4, 'Admins');
-                $model         = new TestResourceAware(2, 'Post');
+                $guest         = new TestOperationAware(1, 'Guests');
+                $member        = new TestOperationAware(2, 'Members');
+                $anotherMember = new TestOperationAware(3, 'Members');
+                $admin         = new TestOperationAware(4, 'Admins');
+                $model         = new TestSubjectAware(2, 'Post');
 
                 $acl->allow('Guests', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
@@ -463,18 +463,18 @@ class MemoryCest
     }
 
     /**
-     * Tests acl with adding new rule for role after adding wildcard rule
+     * Tests acl with adding new rule for operation after adding wildcard rule
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
      */
-    public function testWildCardLastRole(UnitTester $I)
+    public function testWildCardLastOperation(UnitTester $I)
     {
         $acl = new Memory();
-        $acl->addRole(new Role("Guests"));
-        $acl->addResource(new Resource('Post'), ['index', 'update', 'create']);
+        $acl->addOperation(new Operation("Guests"));
+        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
 
         $acl->allow('Guests', 'Post', 'create');
         $acl->allow('*', 'Post', 'index');
@@ -499,8 +499,8 @@ class MemoryCest
     public function testWildCardSecondTime(UnitTester $I)
     {
         $acl = new Memory();
-        $acl->addRole(new Role("Guests"));
-        $acl->addResource(new Resource('Post'), ['index', 'update', 'create']);
+        $acl->addOperation(new Operation("Guests"));
+        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
 
         $acl->allow('Guests', 'Post', 'create');
         $acl->allow('*', 'Post', 'index');
@@ -526,8 +526,8 @@ class MemoryCest
     {
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $acl->addResource(new Acl\Resource('Post'), ['index', 'update', 'create']);
-        $acl->addRole(new Role('Guests'));
+        $acl->addSubject(new Acl\Subject('Post'), ['index', 'update', 'create']);
+        $acl->addOperation(new Operation('Guests'));
 
         $acl->allow('Guests', 'Post', 'index');
         $actual = $acl->isAllowed('Guests', 'Post', 'index');
@@ -537,76 +537,76 @@ class MemoryCest
     }
 
     /**
-     * Tests role and resource objects as isAllowed parameters
+     * Tests operation and subject objects as isAllowed parameters
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
      */
-    public function testRoleResourceObjects(UnitTester $I)
+    public function testOperationSubjectObjects(UnitTester $I)
     {
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $role     = new Role('Guests');
-        $resource = new Resource('Post');
-        $acl->addRole($role);
-        $acl->addResource($resource, ['index', 'update', 'create']);
+        $operation     = new Operation('Guests');
+        $subject = new Subject('Post');
+        $acl->addOperation($operation);
+        $acl->addSubject($subject, ['index', 'update', 'create']);
 
         $acl->allow('Guests', 'Post', 'index');
 
-        $actual = $acl->isAllowed($role, $resource, 'index');
+        $actual = $acl->isAllowed($operation, $subject, 'index');
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($role, $resource, 'update');
+        $actual = $acl->isAllowed($operation, $subject, 'update');
         $I->assertFalse($actual);
     }
 
     /**
-     * Tests role and resource objects as isAllowed parameters of the same class
+     * Tests operation and subject objects as isAllowed parameters of the same class
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
      */
-    public function testRoleResourceSameClassObjects(UnitTester $I)
+    public function testOperationSubjectSameClassObjects(UnitTester $I)
     {
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $role     = new TestRoleResourceAware(1, 'User', 'Admin');
-        $resource = new TestRoleResourceAware(2, 'User', 'Admin');
-        $acl->addRole('Admin');
-        $acl->addResource('User', ['update']);
+        $operation     = new TestOperationSubjectAware(1, 'User', 'Admin');
+        $subject = new TestOperationSubjectAware(2, 'User', 'Admin');
+        $acl->addOperation('Admin');
+        $acl->addSubject('User', ['update']);
         $acl->allow(
             'Admin',
             'User',
             ['update'],
-            function (TestRoleResourceAware $admin, TestRoleResourceAware $user) {
+            function (TestOperationSubjectAware $admin, TestOperationSubjectAware $user) {
                 return $admin->getUser() == $user->getUser();
             }
         );
 
-        $actual = $acl->isAllowed($role, $resource, 'update');
+        $actual = $acl->isAllowed($operation, $subject, 'update');
         $I->assertFalse($actual);
-        $actual = $acl->isAllowed($role, $role, 'update');
+        $actual = $acl->isAllowed($operation, $operation, 'update');
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($resource, $resource, 'update');
+        $actual = $acl->isAllowed($subject, $subject, 'update');
         $I->assertTrue($actual);
     }
 
     /**
-     * Tests negation of multiple inherited roles
+     * Tests negation of multiple inherited operations
      *
      *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
      */
-    public function testAclNegationOfMultipleInheritedRoles(UnitTester $I)
+    public function testAclNegationOfMultipleInheritedOperations(UnitTester $I)
     {
         $acl = new Memory;
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole('Guests');
-        $acl->addRole('Guests2');
-        $acl->addRole('Members', ['Guests', 'Guests2']);
+        $acl->addOperation('Guests');
+        $acl->addOperation('Guests2');
+        $acl->addOperation('Members', ['Guests', 'Guests2']);
 
-        $acl->addResource('Login', ['help', 'index']);
+        $acl->addSubject('Login', ['help', 'index']);
 
         $acl->allow('Guests', 'Login', '*');
         $acl->deny('Guests2', 'Login', ['help']);
@@ -623,25 +623,25 @@ class MemoryCest
     }
 
     /**
-     * Tests negation of multilayer inherited roles
+     * Tests negation of multilayer inherited operations
      *
      *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
      */
-    public function testAclNegationOfMultilayerInheritedRoles(UnitTester $I)
+    public function testAclNegationOfMultilayerInheritedOperations(UnitTester $I)
     {
         $acl = new Memory;
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addRole('Guests1');
-        $acl->addRole('Guests12', 'Guests1');
-        $acl->addRole('Guests2');
-        $acl->addRole('Guests22', 'Guests2');
-        $acl->addRole('Members', ['Guests12', 'Guests22']);
+        $acl->addOperation('Guests1');
+        $acl->addOperation('Guests12', 'Guests1');
+        $acl->addOperation('Guests2');
+        $acl->addOperation('Guests22', 'Guests2');
+        $acl->addOperation('Members', ['Guests12', 'Guests22']);
 
-        $acl->addResource('Login', ['help', 'index']);
-        $acl->addResource('Logout', ['help', 'index']);
+        $acl->addSubject('Login', ['help', 'index']);
+        $acl->addSubject('Logout', ['help', 'index']);
 
         $acl->allow('Guests1', 'Login', '*');
         $acl->deny('Guests12', 'Login', ['help']);
