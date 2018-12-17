@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,18 @@
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class GetCest
+ */
 class GetCest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: get()
      *
@@ -26,7 +36,7 @@ class GetCest
     public function sessionBagGet(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - get()");
-        $session = new \Phalcon\Session\Bag("SetTest");
+        $session = new Bag("SetTest");
 
         $testValue = "TestValue";
         $session->set("test", $testValue);

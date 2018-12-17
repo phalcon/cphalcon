@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,18 @@
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class UnderscoreSetCest
+ */
 class UnderscoreSetCest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: __set()
      *
@@ -26,9 +36,9 @@ class UnderscoreSetCest
     public function sessionBagUnderscoreSet(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - __set()");
-        $session = new \Phalcon\Session\Bag("SetterTest");
+        $session = new Bag("SetterTest");
 
-        $testValue = "TestValue";
+        $testValue     = "TestValue";
         $session->test = $testValue;
 
         $I->assertEquals($testValue, $session->get("test"));
