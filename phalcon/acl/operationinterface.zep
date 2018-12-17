@@ -20,19 +20,19 @@
 namespace Phalcon\Acl;
 
 /**
- * Phalcon\Acl\RoleInterface
+ * Phalcon\Acl\OperationInterface
  *
- * Interface for Phalcon\Acl\Role
+ * Interface for Phalcon\Acl\Operation
  */
-interface RoleInterface
+interface OperationInterface
 {
 	/**
-	 * Returns the role name
+	 * Returns the operation name
 	 */
 	public function getName() -> string;
 
 	/**
-	 * Returns role description
+	 * Returns operation description
 	 */
 	public function getDescription() -> string;
 

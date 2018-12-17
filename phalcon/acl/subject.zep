@@ -15,7 +15,7 @@ use Phalcon\Acl\Exception;
 /**
  * Phalcon\Acl\Subject
  *
- * This class defines resource entity and its description
+ * This class defines subject entity and its description
  */
 class Subject implements SubjectInterface
 {

@@ -18,7 +18,7 @@ namespace Phalcon\Acl;
 interface SubjectAware
 {
     /**
-     * Returns resource name
+     * Returns subject name
     */
     public function getSubjectName() -> string;
 }

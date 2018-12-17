@@ -19,12 +19,12 @@ namespace Phalcon\Acl;
 interface SubjectInterface
 {
 	/**
-	 * Returns resource description
+	 * Returns subject description
 	 */
 	public function getDescription() -> string;
 
 	/**
-	 * Returns the resource name
+	 * Returns the subject name
 	 */
 	public function getName() -> string;
 
