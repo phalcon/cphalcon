@@ -31,14 +31,14 @@ class ToStringCest
     public function aclOperationToString(UnitTester $I)
     {
         $I->wantToTest('Acl\Operation - __toString()');
-        $role = new Operation('Administrator');
+        $operation = new Operation('Administrator');
 
         $expected = 'Administrator';
-        $actual   = $role->__toString();
+        $actual   = $operation->__toString();
         $I->assertEquals($expected, $actual);
 
         $expected = 'Administrator';
-        $actual   = (string) $role;
+        $actual   = (string) $operation;
         $I->assertEquals($expected, $actual);
     }
 }

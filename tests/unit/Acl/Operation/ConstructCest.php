@@ -53,7 +53,7 @@ class ConstructCest
         $I->expectThrowable(
             new Exception("Operation name cannot be '*'"),
             function () {
-                $role = new Operation('*');
+                $operation = new Operation('*');
             }
         );
     }
@@ -72,7 +72,7 @@ class ConstructCest
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {
-                $role = new Operation();
+                $operation = new Operation();
             }
         );
     }

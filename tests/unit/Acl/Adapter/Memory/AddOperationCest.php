@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
- * Class GetResourcesCest
+ * Class AddOperationCest
  *
  * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
-class GetResourcesCest
+class AddOperationCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getResources()
+     * Tests Phalcon\Acl\Adapter\Memory :: addOperation()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetResources(UnitTester $I)
+    public function aclAdapterMemoryAddOperation(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getResources()');
+        $I->wantToTest('Acl\Adapter\Memory - addOperation()');
         $I->skipTest('Need implementation');
     }
 }

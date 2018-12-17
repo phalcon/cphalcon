@@ -31,10 +31,10 @@ class GetDescriptionCest
     public function aclOperationGetDescription(UnitTester $I)
     {
         $I->wantToTest('Acl\Operation - getDescription()');
-        $role = new Operation('Administrators', 'The admin unit');
+        $operation = new Operation('Administrators', 'The admin unit');
 
         $expected = 'The admin unit';
-        $actual   = $role->getDescription();
+        $actual   = $operation->getDescription();
         $I->assertEquals($expected, $actual);
     }
 
@@ -49,9 +49,9 @@ class GetDescriptionCest
     public function aclOperationGetDescriptionEmpty(UnitTester $I)
     {
         $I->wantToTest('Acl\Operation - getDescription()');
-        $role = new Operation('Administrators');
+        $operation = new Operation('Administrators');
 
-        $actual = $role->getDescription();
+        $actual = $operation->getDescription();
         $I->assertEmpty($actual);
     }
 }

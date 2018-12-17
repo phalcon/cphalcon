@@ -31,10 +31,10 @@ class GetDescriptionCest
     public function aclSubjectGetDescription(UnitTester $I)
     {
         $I->wantToTest('Acl\Subject - getDescription()');
-        $resource = new Subject('Customers', 'Customer management');
+        $subject = new Subject('Customers', 'Customer management');
 
         $expected = 'Customer management';
-        $actual   = $resource->getDescription();
+        $actual   = $subject->getDescription();
         $I->assertEquals($expected, $actual);
     }
 
@@ -49,9 +49,9 @@ class GetDescriptionCest
     public function aclSubjectGetDescriptionEmpty(UnitTester $I)
     {
         $I->wantToTest("Acl\Subject - getDescription() - empty");
-        $resource = new Subject('Customers');
+        $subject = new Subject('Customers');
 
-        $actual = $resource->getDescription();
+        $actual = $subject->getDescription();
         $I->assertEmpty($actual);
     }
 }

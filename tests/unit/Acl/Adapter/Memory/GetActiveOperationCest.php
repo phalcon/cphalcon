@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
- * Class GetActiveRoleCest
+ * Class GetActiveOperationCest
  *
  * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
-class GetActiveRoleCest
+class GetActiveOperationCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole()
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveOperation()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetActiveRole(UnitTester $I)
+    public function aclAdapterMemoryGetActiveOperation(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getActiveRole()');
+        $I->wantToTest('Acl\Adapter\Memory - getActiveOperation()');
         $I->skipTest('Need implementation');
     }
 }

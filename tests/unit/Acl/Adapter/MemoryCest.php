@@ -25,7 +25,7 @@ class MemoryCest
 {
 
     /**
-     * Tests the addOperation for the same role twice
+     * Tests the addOperation for the same operation twice
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
@@ -41,7 +41,7 @@ class MemoryCest
     }
 
     /**
-     * Tests the addOperation for the same role twice by key
+     * Tests the addOperation for the same operation twice by key
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-04
@@ -78,23 +78,23 @@ class MemoryCest
             'account' => ['index'],
         ];
 
-        foreach ($aclOperations as $role => $object) {
+        foreach ($aclOperations as $operation => $object) {
             $acl->addOperation($object);
         }
 
-        foreach ($aclSubjects as $resource => $actions) {
-            $acl->addSubject(new Subject($resource), $actions);
+        foreach ($aclSubjects as $subject => $actions) {
+            $acl->addSubject(new Subject($subject), $actions);
         }
         $acl->allow("*", "welcome", "index");
 
-        foreach ($aclOperations as $role => $object) {
-            $actual = $acl->isAllowed($role, 'welcome', 'index');
+        foreach ($aclOperations as $operation => $object) {
+            $actual = $acl->isAllowed($operation, 'welcome', 'index');
             $I->assertTrue($actual);
         }
 
         $acl->deny("*", "welcome", "index");
-        foreach ($aclOperations as $role => $object) {
-            $actual = $acl->isAllowed($role, 'welcome', 'index');
+        foreach ($aclOperations as $operation => $object) {
+            $actual = $acl->isAllowed($operation, 'welcome', 'index');
             $I->assertFalse($actual);
         }
     }
@@ -237,7 +237,7 @@ class MemoryCest
     }
 
     /**
-     * Tests negation of inherited roles
+     * Tests negation of inherited operations
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/65
      *
@@ -344,29 +344,29 @@ class MemoryCest
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $roleGuest      = new Operation("guest");
-        $roleUser       = new Operation("user");
-        $roleAdmin      = new Operation("admin");
-        $roleSuperAdmin = new Operation("superadmin");
+        $operationGuest      = new Operation("guest");
+        $operationUser       = new Operation("user");
+        $operationAdmin      = new Operation("admin");
+        $operationSuperAdmin = new Operation("superadmin");
 
-        $acl->addOperation($roleGuest);
-        $acl->addOperation($roleUser, $roleGuest);
-        $acl->addOperation($roleAdmin, $roleUser);
-        $acl->addOperation($roleSuperAdmin, $roleAdmin);
+        $acl->addOperation($operationGuest);
+        $acl->addOperation($operationUser, $operationGuest);
+        $acl->addOperation($operationAdmin, $operationUser);
+        $acl->addOperation($operationSuperAdmin, $operationAdmin);
 
         $acl->addSubject("payment", ["paypal", "facebook",]);
 
-        $acl->allow($roleGuest->getName(), "payment", "paypal");
-        $acl->allow($roleGuest->getName(), "payment", "facebook");
-        $acl->allow($roleUser->getName(), "payment", "*");
+        $acl->allow($operationGuest->getName(), "payment", "paypal");
+        $acl->allow($operationGuest->getName(), "payment", "facebook");
+        $acl->allow($operationUser->getName(), "payment", "*");
 
-        $actual = $acl->isAllowed($roleUser->getName(), "payment", "notSet");
+        $actual = $acl->isAllowed($operationUser->getName(), "payment", "notSet");
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($roleUser->getName(), "payment", "*");
+        $actual = $acl->isAllowed($operationUser->getName(), "payment", "*");
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($roleAdmin->getName(), "payment", "notSet");
+        $actual = $acl->isAllowed($operationAdmin->getName(), "payment", "notSet");
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($roleAdmin->getName(), "payment", "*");
+        $actual = $acl->isAllowed($operationAdmin->getName(), "payment", "*");
         $I->assertTrue($actual);
     }
 
@@ -463,7 +463,7 @@ class MemoryCest
     }
 
     /**
-     * Tests acl with adding new rule for role after adding wildcard rule
+     * Tests acl with adding new rule for operation after adding wildcard rule
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
      *
@@ -537,7 +537,7 @@ class MemoryCest
     }
 
     /**
-     * Tests role and resource objects as isAllowed parameters
+     * Tests operation and subject objects as isAllowed parameters
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
@@ -546,21 +546,21 @@ class MemoryCest
     {
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $role     = new Operation('Guests');
-        $resource = new Subject('Post');
-        $acl->addOperation($role);
-        $acl->addSubject($resource, ['index', 'update', 'create']);
+        $operation     = new Operation('Guests');
+        $subject = new Subject('Post');
+        $acl->addOperation($operation);
+        $acl->addSubject($subject, ['index', 'update', 'create']);
 
         $acl->allow('Guests', 'Post', 'index');
 
-        $actual = $acl->isAllowed($role, $resource, 'index');
+        $actual = $acl->isAllowed($operation, $subject, 'index');
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($role, $resource, 'update');
+        $actual = $acl->isAllowed($operation, $subject, 'update');
         $I->assertFalse($actual);
     }
 
     /**
-     * Tests role and resource objects as isAllowed parameters of the same class
+     * Tests operation and subject objects as isAllowed parameters of the same class
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
@@ -569,8 +569,8 @@ class MemoryCest
     {
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $role     = new TestOperationSubjectAware(1, 'User', 'Admin');
-        $resource = new TestOperationSubjectAware(2, 'User', 'Admin');
+        $operation     = new TestOperationSubjectAware(1, 'User', 'Admin');
+        $subject = new TestOperationSubjectAware(2, 'User', 'Admin');
         $acl->addOperation('Admin');
         $acl->addSubject('User', ['update']);
         $acl->allow(
@@ -582,16 +582,16 @@ class MemoryCest
             }
         );
 
-        $actual = $acl->isAllowed($role, $resource, 'update');
+        $actual = $acl->isAllowed($operation, $subject, 'update');
         $I->assertFalse($actual);
-        $actual = $acl->isAllowed($role, $role, 'update');
+        $actual = $acl->isAllowed($operation, $operation, 'update');
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($resource, $resource, 'update');
+        $actual = $acl->isAllowed($subject, $subject, 'update');
         $I->assertTrue($actual);
     }
 
     /**
-     * Tests negation of multiple inherited roles
+     * Tests negation of multiple inherited operations
      *
      *
      * @author  cq-z <64899484@qq.com>
@@ -623,7 +623,7 @@ class MemoryCest
     }
 
     /**
-     * Tests negation of multilayer inherited roles
+     * Tests negation of multilayer inherited operations
      *
      *
      * @author  cq-z <64899484@qq.com>

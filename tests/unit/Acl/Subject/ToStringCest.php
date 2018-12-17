@@ -31,14 +31,14 @@ class ToStringCest
     public function aclSubjectToString(UnitTester $I)
     {
         $I->wantToTest('Acl\Subject - __toString()');
-        $resource = new Subject('Customers');
+        $subject = new Subject('Customers');
 
         $expected = 'Customers';
-        $actual   = $resource->__toString();
+        $actual   = $subject->__toString();
         $I->assertEquals($expected, $actual);
 
         $expected = 'Customers';
-        $actual   = (string) $resource;
+        $actual   = (string) $subject;
         $I->assertEquals($expected, $actual);
     }
 }

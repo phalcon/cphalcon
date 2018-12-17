@@ -53,7 +53,7 @@ class ConstructCest
         $I->expectThrowable(
             new Exception("Subject name cannot be '*'"),
             function () {
-                $resource = new Subject('*');
+                $subject = new Subject('*');
             }
         );
     }
@@ -72,7 +72,7 @@ class ConstructCest
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {
-                $resource = new Subject();
+                $subject = new Subject();
             }
         );
     }

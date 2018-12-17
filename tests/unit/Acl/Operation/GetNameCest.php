@@ -31,10 +31,10 @@ class GetNameCest
     public function aclOperationGetName(UnitTester $I)
     {
         $I->wantToTest('Acl\Operation - getName()');
-        $role = new Operation('Administrators');
+        $operation = new Operation('Administrators');
 
         $expected = 'Administrators';
-        $actual   = $role->getName();
+        $actual   = $operation->getName();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -31,10 +31,10 @@ class GetNameCest
     public function aclSubjectGetName(UnitTester $I)
     {
         $I->wantToTest('Acl\Subject - getName()');
-        $resource = new Subject('Customers');
+        $subject = new Subject('Customers');
 
         $expected = 'Customers';
-        $actual   = $resource->getName();
+        $actual   = $subject->getName();
         $I->assertEquals($expected, $actual);
     }
 }
