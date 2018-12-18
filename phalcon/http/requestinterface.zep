@@ -28,62 +28,65 @@ use Phalcon\Http\Request\FileInterface;
  */
 interface RequestInterface
 {
-
 	/**
-	 * Gets a variable from the $_REQUEST superglobal applying filters if needed
+	 * Gets a variable from the $_REQUEST superglobal applying filters if needed.
+	 * If no parameters are given the $_REQUEST superglobal is returned
 	 *
-	 * @param string|array filters
-	 * @return mixed
-	 */
-	public function get(string! name = null, var filters = null, var defaultValue = null);
-
-	/**
-	 * Gets a variable from the $_POST superglobal applying filters if needed
+	 *<code>
+	 * // Returns value from $_REQUEST["user_email"] without sanitizing
+	 * $userEmail = $request->get("user_email");
 	 *
-	 * @param string|array filters
-	 * @return mixed
+	 * // Returns value from $_REQUEST["user_email"] with sanitizing
+	 * $userEmail = $request->get("user_email", "email");
+	 *</code>
 	 */
-	public function getPost(string! name = null, var filters = null, var defaultValue = null);
+	public function get(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
 
 	/**
-	 * Gets variable from $_GET superglobal applying filters if needed
-	 *
-	 * @param string|array filters
-	 * @return mixed
+	 * Gets an array with mime/types and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
 	 */
-	public function getQuery(string! name = null, var filters = null, var defaultValue = null);
+	public function getAcceptableContent() -> array;
 
 	/**
-	 * Gets variable from $_SERVER superglobal
-	 *
-	 * @return mixed
+	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
 	 */
-	public function getServer(string! name);
+	public function getBasicAuth() -> array | null;
 
 	/**
-	 * Checks whether $_REQUEST superglobal has certain index
+	 * Gets best mime/type accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
 	 */
-	public function has(string! name) -> bool;
+	public function getBestAccept() -> string;
 
 	/**
-	 * Checks whether $_POST superglobal has certain index
+	 * Gets best charset accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
-	public function hasPost(string! name) -> bool;
+	public function getBestCharset() -> string;
 
 	/**
-	 * Checks whether the PUT data has certain index
+	 * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
 	 */
-	public function hasPut(string! name) -> bool;
+	public function getBestLanguage() -> string;
 
 	/**
-	 * Checks whether $_GET superglobal has certain index
+	 * Gets most possible client IPv4 Address. This method searches in
+	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
-	public function hasQuery(string! name) -> bool;
+	public function getClientAddress(bool trustForwardedHeader = false) -> string | bool;
 
 	/**
-	 * Checks whether $_SERVER superglobal has certain index
+	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
-	public function hasServer(string! name) -> bool;
+	public function getClientCharsets() -> array;
+
+	/**
+	 * Gets content type which request has been made
+	 */
+	public function getContentType() -> string | null;
+
+	/**
+	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
+	 */
+	public function getDigestAuth() -> array;
 
 	/**
 	 * Gets HTTP header from request data
@@ -91,29 +94,154 @@ interface RequestInterface
 	public function getHeader(string! header) -> string;
 
 	/**
-	 * Gets HTTP schema (http/https)
+	 * Returns the available headers in the request
+	 *
+	 * <code>
+	 * $_SERVER = [
+	 *     "PHP_AUTH_USER" => "phalcon",
+	 *     "PHP_AUTH_PW"   => "secret",
+	 * ];
+	 *
+	 * $headers = $request->getHeaders();
+	 *
+	 * echo $headers["Authorization"]; // Basic cGhhbGNvbjpzZWNyZXQ=
+	 * </code>
 	 */
-	public function getScheme() -> string;
+	public function getHeaders() -> array;
 
 	/**
-	 * Checks whether request has been made using ajax. Checks if $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
+	 * Gets host name used by the request.
+	 *
+	 * `Request::getHttpHost` trying to find host name in following order:
+	 *
+	 * - `$_SERVER["HTTP_HOST"]`
+	 * - `$_SERVER["SERVER_NAME"]`
+	 * - `$_SERVER["SERVER_ADDR"]`
+	 *
+	 * Optionally `Request::getHttpHost` validates and clean host name.
+	 * The `Request::$_strictHostCheck` can be used to validate host name.
+	 *
+	 * Note: validation and cleaning have a negative performance impact because
+	 * they use regular expressions.
+	 *
+	 * <code>
+	 * use Phalcon\Http\Request;
+	 *
+	 * $request = new Request;
+	 *
+	 * $_SERVER["HTTP_HOST"] = "example.com";
+	 * $request->getHttpHost(); // example.com
+	 *
+	 * $_SERVER["HTTP_HOST"] = "example.com:8080";
+	 * $request->getHttpHost(); // example.com:8080
+	 *
+	 * $request->setStrictHostCheck(true);
+	 * $_SERVER["HTTP_HOST"] = "ex=am~ple.com";
+	 * $request->getHttpHost(); // UnexpectedValueException
+	 *
+	 * $_SERVER["HTTP_HOST"] = "ExAmPlE.com";
+	 * $request->getHttpHost(); // example.com
+	 * </code>
 	 */
-	public function isAjax() -> bool;
+	public function getHttpHost() -> string;
 
 	/**
-	 * Checks whether request has been made using SOAP
+	 * Gets web page that refers active request. ie: http://www.google.com
 	 */
-	public function isSoap() -> bool;
+	public function getHTTPReferer() -> string;
 
 	/**
-	 * Checks whether request has been made using any secure layer
+	 * Gets decoded JSON HTTP raw request body
 	 */
-	public function isSecure() -> bool;
+	public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool;
+
+	/**
+	 * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+	 */
+	public function getLanguages() -> array;
+
+	/**
+	 * Gets HTTP method which request has been made
+	 *
+	 * If the X-HTTP-Method-Override header is set, and if the method is a POST,
+	 * then it is used to determine the "real" intended HTTP method.
+	 *
+	 * The _method request parameter can also be used to determine the HTTP method,
+	 * but only if setHttpMethodParameterOverride(true) has been called.
+	 *
+	 * The method is always an uppercased string.
+	 */
+	public function getMethod() -> string;
+
+	/**
+	 * Gets information about the port on which the request is made
+	 */
+	public function getPort() -> int;
+
+	/**
+	 * Gets HTTP URI which request has been made
+	 */
+	public final function getURI() -> string;
+
+	/**
+	 * Gets a variable from the $_POST superglobal applying filters if needed
+	 * If no parameters are given the $_POST superglobal is returned
+	 *
+	 *<code>
+	 * // Returns value from $_POST["user_email"] without sanitizing
+	 * $userEmail = $request->getPost("user_email");
+	 *
+	 * // Returns value from $_POST["user_email"] with sanitizing
+	 * $userEmail = $request->getPost("user_email", "email");
+	 *</code>
+	 */
+	public function getPost(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
+
+	/**
+	 * Gets a variable from put request
+	 *
+	 *<code>
+	 * // Returns value from $_PUT["user_email"] without sanitizing
+	 * $userEmail = $request->getPut("user_email");
+	 *
+	 * // Returns value from $_PUT["user_email"] with sanitizing
+	 * $userEmail = $request->getPut("user_email", "email");
+	 *</code>
+	 */
+	public function getPut(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
+
+	/**
+	 * Gets variable from $_GET superglobal applying filters if needed
+	 * If no parameters are given the $_GET superglobal is returned
+	 *
+	 *<code>
+	 * // Returns value from $_GET["id"] without sanitizing
+	 * $id = $request->getQuery("id");
+	 *
+	 * // Returns value from $_GET["id"] with sanitizing
+	 * $id = $request->getQuery("id", "int");
+	 *
+	 * // Returns value from $_GET["id"] with a default value
+	 * $id = $request->getQuery("id", null, 150);
+	 *</code>
+	 */
+	public function getQuery(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
 
 	/**
 	 * Gets HTTP raw request body
 	 */
 	public function getRawBody() -> string;
+
+	/**
+	 * Gets HTTP schema (http/https)
+	 */
+	public function getScheme() -> string;
+
+
+	/**
+	 * Gets variable from $_SERVER superglobal
+	 */
+	public function getServer(string! name) -> string | null;
 
 	/**
 	 * Gets active server address IP
@@ -126,25 +254,9 @@ interface RequestInterface
 	public function getServerName() -> string;
 
 	/**
-	 * Gets host name used by the request
+	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
 	 */
-	public function getHttpHost() -> string;
-
-	/**
-	 * Gets information about the port on which the request is made
-	 */
-	public function getPort() -> int;
-
-	/**
-	 * Gets most possibly client IPv4 Address. This methods searches in
-	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
-	 */
-	public function getClientAddress(bool trustForwardedHeader = false) -> string | bool;
-
-	/**
-	 * Gets HTTP method which request has been made
-	 */
-	public function getMethod() -> string;
+	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>;
 
 	/**
 	 * Gets HTTP user agent used to made the request
@@ -152,56 +264,9 @@ interface RequestInterface
 	public function getUserAgent() -> string;
 
 	/**
-	 * Check if HTTP method match any of the passed methods
-	 *
-	 * @param string|array methods
+	 * Checks whether $_REQUEST superglobal has certain index
 	 */
-	public function isMethod(methods, bool strict = false) -> bool;
-
-	/**
-	 * Checks whether HTTP method is POST. if $_SERVER["REQUEST_METHOD"] === "POST"
-	 */
-	public function isPost() -> bool;
-
-	/**
-	 * Checks whether HTTP method is GET. if $_SERVER["REQUEST_METHOD"] === "GET"
-	 */
-	public function isGet() -> bool;
-
-	/**
-	 * Checks whether HTTP method is PUT. if $_SERVER["REQUEST_METHOD"] === "PUT"
-	 */
-	public function isPut() -> bool;
-
-	/**
-	 * Checks whether HTTP method is HEAD. if $_SERVER["REQUEST_METHOD"] === "HEAD"
-	 */
-	public function isHead() -> bool;
-
-	/**
-	 * Checks whether HTTP method is DELETE. if $_SERVER["REQUEST_METHOD"] === "DELETE"
-	 */
-	public function isDelete() -> bool;
-
-	/**
-	 * Checks whether HTTP method is OPTIONS. if $_SERVER["REQUEST_METHOD"] === "OPTIONS"
-	 */
-	public function isOptions() -> bool;
-
-	/**
-	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if $_SERVER["REQUEST_METHOD"] === "PURGE"
-	 */
-	public function isPurge() -> bool;
-
-	/**
-	 * Checks whether HTTP method is TRACE. if $_SERVER["REQUEST_METHOD"] === "TRACE"
-	 */
-	public function isTrace() -> bool;
-
-	/**
-	 * Checks whether HTTP method is CONNECT. if $_SERVER["REQUEST_METHOD"] === "CONNECT"
-	 */
-	public function isConnect() -> bool;
+	public function has(string! name) -> bool;
 
 	/**
 	 * Checks whether request include attached files
@@ -209,53 +274,95 @@ interface RequestInterface
 	 */
 	public function hasFiles(bool onlySuccessful = false) -> long;
 
-	/**
-	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
-	 */
-	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>;
+    /**
+     * Checks whether headers has certain index
+     */
+    public function hasHeader(string! header) -> bool;
 
 	/**
-	 * Gets web page that refers active request. ie: http://www.google.com
+	 * Checks whether $_GET superglobal has certain index
 	 */
-	public function getHTTPReferer() -> string;
+	public function hasQuery(string! name) -> bool;
 
 	/**
-	 * Gets array with mime/types and their quality accepted by the browser/client from $_SERVER["HTTP_ACCEPT"]
+	 * Checks whether $_POST superglobal has certain index
 	 */
-	public function getAcceptableContent() -> array;
+	public function hasPost(string! name) -> bool;
 
 	/**
-	 * Gets best mime/type accepted by the browser/client from $_SERVER["HTTP_ACCEPT"]
+	 * Checks whether the PUT data has certain index
 	 */
-	public function getBestAccept() -> string;
+	public function hasPut(string! name) -> bool;
 
 	/**
-	 * Gets charsets array and their quality accepted by the browser/client from $_SERVER["HTTP_ACCEPT_CHARSET"]
+	 * Checks whether $_SERVER superglobal has certain index
 	 */
-	public function getClientCharsets() -> array;
+	public function hasServer(string! name) -> bool;
 
 	/**
-	 * Gets best charset accepted by the browser/client from $_SERVER["HTTP_ACCEPT_CHARSET"]
+	 * Checks whether request has been made using ajax. Checks if $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
 	 */
-	public function getBestCharset() -> string;
+	public function isAjax() -> bool;
 
 	/**
-	 * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+	 * Checks whether HTTP method is CONNECT. if $_SERVER["REQUEST_METHOD"] === "CONNECT"
 	 */
-	public function getLanguages() -> array;
+	public function isConnect() -> bool;
 
 	/**
-	 * Gets best language accepted by the browser/client from $_SERVER["HTTP_ACCEPT_LANGUAGE"]
+	 * Checks whether HTTP method is DELETE. if $_SERVER["REQUEST_METHOD"] === "DELETE"
 	 */
-	public function getBestLanguage() -> string;
+	public function isDelete() -> bool;
 
 	/**
-	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
+	 * Checks whether HTTP method is GET. if $_SERVER["REQUEST_METHOD"] === "GET"
 	 */
-	public function getBasicAuth() -> array | null;
+	public function isGet() -> bool;
 
 	/**
-	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
+	 * Checks whether HTTP method is HEAD. if $_SERVER["REQUEST_METHOD"] === "HEAD"
 	 */
-	public function getDigestAuth() -> array;
+	public function isHead() -> bool;
+
+	/**
+	 * Check if HTTP method match any of the passed methods
+	 *
+	 * @param string|array methods
+	 */
+	public function isMethod(var methods, bool strict = false) -> bool;
+
+	/**
+	 * Checks whether HTTP method is OPTIONS. if $_SERVER["REQUEST_METHOD"] === "OPTIONS"
+	 */
+	public function isOptions() -> bool;
+
+	/**
+	 * Checks whether HTTP method is POST. if $_SERVER["REQUEST_METHOD"] === "POST"
+	 */
+	public function isPost() -> bool;
+
+	/**
+	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if $_SERVER["REQUEST_METHOD"] === "PURGE"
+	 */
+	public function isPurge() -> bool;
+
+	/**
+	 * Checks whether HTTP method is PUT. if $_SERVER["REQUEST_METHOD"] === "PUT"
+	 */
+	public function isPut() -> bool;
+
+	/**
+	 * Checks whether request has been made using any secure layer
+	 */
+	public function isSecure() -> bool;
+
+	/**
+	 * Checks whether request has been made using SOAP
+	 */
+	public function isSoap() -> bool;
+
+	/**
+	 * Checks whether HTTP method is TRACE. if $_SERVER["REQUEST_METHOD"] === "TRACE"
+	 */
+	public function isTrace() -> bool;
 }

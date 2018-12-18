@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,7 +13,11 @@
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Session\Bag;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     /**
@@ -26,7 +31,7 @@ class ConstructCest
     public function sessionBagConstruct(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - __construct()");
-        $session = new \Phalcon\Session\Bag("test");
+        $session = new Bag("test");
         $I->assertInstanceOf("\Phalcon\Session\Bag", $session);
     }
 }

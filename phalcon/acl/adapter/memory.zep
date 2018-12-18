@@ -21,15 +21,15 @@ namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter;
-use Phalcon\Acl\Role;
-use Phalcon\Acl\RoleInterface;
-use Phalcon\Acl\Resource;
+use Phalcon\Acl\Operation;
+use Phalcon\Acl\OperationInterface;
+use Phalcon\Acl\Subject;
 use Phalcon\Acl\Exception;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Acl\RoleAware;
-use Phalcon\Acl\ResourceAware;
-use Phalcon\Acl\RoleInterface;
-use Phalcon\Acl\ResourceInterface;
+use Phalcon\Acl\OperationAware;
+use Phalcon\Acl\SubjectAware;
+use Phalcon\Acl\OperationInterface;
+use Phalcon\Acl\SubjectInterface;
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -43,55 +43,55 @@ use Phalcon\Acl\ResourceInterface;
  *     \Phalcon\Acl::DENY
  * );
  *
- * // Register roles
- * $roles = [
- *     "users"  => new \Phalcon\Acl\Role("Users"),
- *     "guests" => new \Phalcon\Acl\Role("Guests"),
+ * // Register operations
+ * $operations = [
+ *     "users"  => new \Phalcon\Acl\Operation("Users"),
+ *     "guests" => new \Phalcon\Acl\Operation("Guests"),
  * ];
- * foreach ($roles as $role) {
- *     $acl->addRole($role);
+ * foreach ($operations as $operation) {
+ *     $acl->addOperation($operation);
  * }
  *
- * // Private area resources
- * $privateResources = [
+ * // Private area subjects
+ * $privateSubjects = [
  *     "companies" => ["index", "search", "new", "edit", "save", "create", "delete"],
  *     "products"  => ["index", "search", "new", "edit", "save", "create", "delete"],
  *     "invoices"  => ["index", "profile"],
  * ];
  *
- * foreach ($privateResources as $resourceName => $actions) {
- *     $acl->addResource(
- *         new \Phalcon\Acl\Resource($resourceName),
+ * foreach ($privateSubjects as $subjectName => $actions) {
+ *     $acl->addSubject(
+ *         new \Phalcon\Acl\Subject($subjectName),
  *         $actions
  *     );
  * }
  *
- * // Public area resources
- * $publicResources = [
+ * // Public area subjects
+ * $publicSubjects = [
  *     "index"   => ["index"],
  *     "about"   => ["index"],
  *     "session" => ["index", "register", "start", "end"],
  *     "contact" => ["index", "send"],
  * ];
  *
- * foreach ($publicResources as $resourceName => $actions) {
- *     $acl->addResource(
- *         new \Phalcon\Acl\Resource($resourceName),
+ * foreach ($publicSubjects as $subjectName => $actions) {
+ *     $acl->addSubject(
+ *         new \Phalcon\Acl\Subject($subjectName),
  *         $actions
  *     );
  * }
  *
  * // Grant access to public areas to both users and guests
- * foreach ($roles as $role){
- *     foreach ($publicResources as $resource => $actions) {
- *         $acl->allow($role->getName(), $resource, "*");
+ * foreach ($operations as $operation){
+ *     foreach ($publicSubjects as $subject => $actions) {
+ *         $acl->allow($operation->getName(), $subject, "*");
  *     }
  * }
  *
- * // Grant access to private area to role Users
- * foreach ($privateResources as $resource => $actions) {
+ * // Grant access to private area to operation Users
+ * foreach ($privateSubjects as $subject => $actions) {
  *     foreach ($actions as $action) {
- *         $acl->allow("Users", $resource, $action);
+ *         $acl->allow("Users", $subject, $action);
  *     }
  * }
  *</code>
@@ -100,32 +100,32 @@ class Memory extends Adapter
 {
 
 	/**
-	 * Roles Names
+	 * Operations Names
 	 *
 	 * @var mixed
 	 */
-	protected _rolesNames;
+	protected _operationsNames;
 
 	/**
-	 * Roles
+	 * Operations
 	 *
 	 * @var mixed
 	 */
-	protected _roles;
+	protected _operations;
 
 	/**
-	 * Resource Names
+	 * Subject Names
 	 *
 	 * @var mixed
 	 */
-	protected _resourcesNames;
+	protected _subjectsNames;
 
 	/**
-	 * Resources
+	 * Subjects
 	 *
 	 * @var mixed
 	 */
-	protected _resources;
+	protected _subjects;
 
 	/**
 	 * Access
@@ -135,11 +135,11 @@ class Memory extends Adapter
 	protected _access;
 
 	/**
-	 * Role Inherits
+	 * Operation Inherits
 	 *
 	 * @var mixed
 	 */
-	protected _roleInherits;
+	protected _operationInherits;
 
 	/**
 	 * Access List
@@ -167,191 +167,191 @@ class Memory extends Adapter
 	 */
 	public function __construct()
 	{
-		let this->_resourcesNames = ["*": true];
+		let this->_subjectsNames = ["*": true];
 		let this->_accessList = ["*!*": true];
 	}
 
 	/**
-	 * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
+	 * Adds a operation to the ACL list. Second parameter allows inheriting access data from other existing operation
 	 *
 	 * Example:
 	 * <code>
-	 * $acl->addRole(
-	 *     new Phalcon\Acl\Role("administrator"),
+	 * $acl->addOperation(
+	 *     new Phalcon\Acl\Operation("administrator"),
 	 *     "consultant"
 	 * );
 	 *
-	 * $acl->addRole("administrator", "consultant");
-	 * $acl->addRole("administrator", ["consultant", "consultant2"]);
+	 * $acl->addOperation("administrator", "consultant");
+	 * $acl->addOperation("administrator", ["consultant", "consultant2"]);
 	 * </code>
 	 *
 	 * @param  array|string         accessInherits
-	 * @param  RoleInterface|string|array role
+	 * @param  OperationInterface|string|array operation
 	 */
-	public function addRole(role, accessInherits = null) -> bool
+	public function addOperation(operation, accessInherits = null) -> bool
 	{
-		var roleName, roleObject;
+		var operationName, operationObject;
 
-		if typeof role == "object" && role instanceof RoleInterface {
-			let roleName = role->getName();
-			let roleObject = role;
-		} elseif is_string(role) {
-			let roleName = role;
-			let roleObject = new Role(role);
+		if typeof operation == "object" && operation instanceof OperationInterface {
+			let operationName = operation->getName();
+			let operationObject = operation;
+		} elseif is_string(operation) {
+			let operationName = operation;
+			let operationObject = new Operation(operation);
 		} else {
-			throw new Exception("Role must be either an string or implement RoleInterface");
+			throw new Exception("Operation must be either an string or implement OperationInterface");
 		}
 
-		if isset this->_rolesNames[roleName] {
+		if isset this->_operationsNames[operationName] {
 			return false;
 		}
 
-		let this->_roles[] = roleObject;
-		let this->_rolesNames[roleName] = true;
+		let this->_operations[] = operationObject;
+		let this->_operationsNames[operationName] = true;
 
 		if accessInherits != null {
-			return this->addInherit(roleName, accessInherits);
+			return this->addInherit(operationName, accessInherits);
 		}
 
 		return true;
 	}
 
 	/**
-     * Do a role inherit from another existing role
+     * Do a operation inherit from another existing operation
      *
      * Example:
      * <code>
      *
-     * $acl->addRole("administrator", "consultant");
-     * $acl->addRole("administrator", ["consultant", "consultant2"]);
+     * $acl->addOperation("administrator", "consultant");
+     * $acl->addOperation("administrator", ["consultant", "consultant2"]);
      * </code>
      *
      * @param  array|string         accessInherits
-     * @param  RoleInterface|string|array role
+     * @param  OperationInterface|string|array operation
      */
-	public function addInherit(string roleName, var roleToInherits) -> bool
+	public function addInherit(string operationName, var operationToInherits) -> bool
 	{
-		var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
-		 checkRoleToInherits, usedRoleToInherits, roleToInheritList, usedRoleToInherit;
+		var operationInheritName, operationsNames, operationToInherit, checkOperationToInherit,
+		 checkOperationToInherits, usedOperationToInherits, operationToInheritList, usedOperationToInherit;
 
-		let rolesNames = this->_rolesNames;
-		if !isset rolesNames[roleName] {
-			throw new Exception("Role '" . roleName . "' does not exist in the role list");
+		let operationsNames = this->_operationsNames;
+		if !isset operationsNames[operationName] {
+			throw new Exception("Operation '" . operationName . "' does not exist in the operation list");
 		}
 
-		if !isset this->_roleInherits[roleName] {
-            let this->_roleInherits[roleName] = [];
+		if !isset this->_operationInherits[operationName] {
+            let this->_operationInherits[operationName] = [];
         }
 		/**
 		 * Type conversion
          */
-        if typeof roleToInherits != "array" {
-            let roleToInheritList = [roleToInherits];
+        if typeof operationToInherits != "array" {
+            let operationToInheritList = [operationToInherits];
         }else{
-            let roleToInheritList = roleToInherits;
+            let operationToInheritList = operationToInherits;
         }
         /**
          * inherits
          */
-        for roleToInherit in roleToInheritList {
-            if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
-                let roleInheritName = roleToInherit->getName();
+        for operationToInherit in operationToInheritList {
+            if typeof operationToInherit == "object" && operationToInherit instanceof OperationInterface {
+                let operationInheritName = operationToInherit->getName();
             } else {
-                let roleInheritName = roleToInherit;
+                let operationInheritName = operationToInherit;
             }
             /**
-             * Check if the role to inherit is repeat
+             * Check if the operation to inherit is repeat
              */
-            if in_array(roleInheritName, this->_roleInherits[roleName]) {
+            if in_array(operationInheritName, this->_operationInherits[operationName]) {
                 continue;
             }
             /**
-             * Check if the role to inherit is valid
+             * Check if the operation to inherit is valid
              */
-            if !isset rolesNames[roleInheritName] {
-                throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
+            if !isset operationsNames[operationInheritName] {
+                throw new Exception("Operation '" . operationInheritName . "' (to inherit) does not exist in the operation list");
             }
 
-            if roleName == roleInheritName {
+            if operationName == operationInheritName {
                 return false;
             }
             /**
-             * Deep check if the role to inherit is valid
+             * Deep check if the operation to inherit is valid
              */
-            if isset this->_roleInherits[roleInheritName] {
-                let checkRoleToInherits = [];
-                for usedRoleToInherit in this->_roleInherits[roleInheritName] {
-                    array_push(checkRoleToInherits,usedRoleToInherit);
+            if isset this->_operationInherits[operationInheritName] {
+                let checkOperationToInherits = [];
+                for usedOperationToInherit in this->_operationInherits[operationInheritName] {
+                    array_push(checkOperationToInherits,usedOperationToInherit);
                 }
-                let usedRoleToInherits = [];
-                while !empty checkRoleToInherits {
-                    let checkRoleToInherit = array_shift(checkRoleToInherits);
+                let usedOperationToInherits = [];
+                while !empty checkOperationToInherits {
+                    let checkOperationToInherit = array_shift(checkOperationToInherits);
                     
-                    if isset usedRoleToInherits[checkRoleToInherit] {
+                    if isset usedOperationToInherits[checkOperationToInherit] {
                         continue;
                     }
-                    let usedRoleToInherits[checkRoleToInherit]=true;
-                    if roleName == checkRoleToInherit {
-                        throw new Exception("Role '" . roleInheritName . "' (to inherit) is infinite loop ");
+                    let usedOperationToInherits[checkOperationToInherit]=true;
+                    if operationName == checkOperationToInherit {
+                        throw new Exception("Operation '" . operationInheritName . "' (to inherit) is infinite loop ");
                     }
                     /**
-                     * Push inherited roles
+                     * Push inherited operations
                      */
-                    if isset this->_roleInherits[checkRoleToInherit] {
-                        for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
-                            array_push(checkRoleToInherits,usedRoleToInherit);
+                    if isset this->_operationInherits[checkOperationToInherit] {
+                        for usedOperationToInherit in this->_operationInherits[checkOperationToInherit] {
+                            array_push(checkOperationToInherits,usedOperationToInherit);
                         }
                     }
                 }
             }
 
-            let this->_roleInherits[roleName][] = roleInheritName;
+            let this->_operationInherits[operationName][] = operationInheritName;
         }
 		return true;
 	}
 
 	/**
-	 * Check whether role exist in the roles list
+	 * Check whether operation exist in the operations list
 	 */
-	public function isRole(string roleName) -> bool
+	public function isOperation(string operationName) -> bool
 	{
-		return isset this->_rolesNames[roleName];
+		return isset this->_operationsNames[operationName];
 	}
 
 	/**
-	 * Check whether resource exist in the resources list
+	 * Check whether subject exist in the subjects list
 	 */
-	public function isResource(string resourceName) -> bool
+	public function isSubject(string subjectName) -> bool
 	{
-		return isset this->_resourcesNames[resourceName];
+		return isset this->_subjectsNames[subjectName];
 	}
 
 	/**
-	 * Adds a resource to the ACL list
+	 * Adds a subject to the ACL list
 	 *
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
 	 *
 	 * Example:
 	 * <code>
-	 * // Add a resource to the the list allowing access to an action
-	 * $acl->addResource(
-	 *     new Phalcon\Acl\Resource("customers"),
+	 * // Add a subject to the the list allowing access to an action
+	 * $acl->addSubject(
+	 *     new Phalcon\Acl\Subject("customers"),
 	 *     "search"
 	 * );
 	 *
-	 * $acl->addResource("customers", "search");
+	 * $acl->addSubject("customers", "search");
 	 *
-	 * // Add a resource  with an access list
-	 * $acl->addResource(
-	 *     new Phalcon\Acl\Resource("customers"),
+	 * // Add a subject  with an access list
+	 * $acl->addSubject(
+	 *     new Phalcon\Acl\Subject("customers"),
 	 *     [
 	 *         "create",
 	 *         "search",
 	 *     ]
 	 * );
 	 *
-	 * $acl->addResource(
+	 * $acl->addSubject(
 	 *     "customers",
 	 *     [
 	 *         "create",
@@ -360,40 +360,40 @@ class Memory extends Adapter
 	 * );
 	 * </code>
 	 *
-	 * @param   Phalcon\Acl\Resource|string resourceValue
+	 * @param   Phalcon\Acl\Subject|string subjectValue
 	 * @param   array|string accessList
 	 */
-	public function addResource(var resourceValue, var accessList) -> bool
+	public function addSubject(var subjectValue, var accessList) -> bool
 	{
-		var resourceName, resourceObject;
+		var subjectName, subjectObject;
 
-		if typeof resourceValue == "object" && resourceValue instanceof ResourceInterface {
-			let resourceName   = resourceValue->getName();
-			let resourceObject = resourceValue;
+		if typeof subjectValue == "object" && subjectValue instanceof SubjectInterface {
+			let subjectName   = subjectValue->getName();
+			let subjectObject = subjectValue;
 		 } else {
-			let resourceName   = resourceValue;
-			let resourceObject = new $Resource(resourceName);
+			let subjectName   = subjectValue;
+			let subjectObject = new $Subject(subjectName);
 		 }
 
-		 if !isset this->_resourcesNames[resourceName] {
-			let this->_resources[] = resourceObject;
-			let this->_resourcesNames[resourceName] = true;
+		 if !isset this->_subjectsNames[subjectName] {
+			let this->_subjects[] = subjectObject;
+			let this->_subjectsNames[subjectName] = true;
 		 }
 
-		 return this->addResourceAccess(resourceName, accessList);
+		 return this->addSubjectAccess(subjectName, accessList);
 	}
 
 	/**
-	 * Adds access to resources
+	 * Adds access to subjects
 	 *
 	 * @param array|string accessList
 	 */
-	public function addResourceAccess(string resourceName, var accessList) -> bool
+	public function addSubjectAccess(string subjectName, var accessList) -> bool
 	{
 		var accessName, accessKey, exists;
 
-		if !isset this->_resourcesNames[resourceName] {
-			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
+		if !isset this->_subjectsNames[subjectName] {
+			throw new Exception("Subject '" . subjectName . "' does not exist in ACL");
 		}
 
 		if typeof accessList != "array" && typeof accessList != "string" {
@@ -403,13 +403,13 @@ class Memory extends Adapter
 		let exists = true;
 		if typeof accessList == "array" {
 			for accessName in accessList {
-				let accessKey = resourceName . "!" . accessName;
+				let accessKey = subjectName . "!" . accessName;
 				if !isset this->_accessList[accessKey] {
 					let this->_accessList[accessKey] = exists;
 				}
 			}
 		} else {
-			let accessKey = resourceName . "!" . accessList;
+			let accessKey = subjectName . "!" . accessList;
 			if !isset this->_accessList[accessKey] {
 				let this->_accessList[accessKey] = exists;
 			}
@@ -419,24 +419,24 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Removes an access from a resource
+	 * Removes an access from a subject
 	 *
 	 * @param array|string accessList
 	 */
-	public function dropResourceAccess(string resourceName, var accessList)
+	public function dropSubjectAccess(string subjectName, var accessList)
 	{
 		var accessName, accessKey;
 
 		if typeof accessList == "array" {
 			for accessName in accessList {
-				let accessKey = resourceName . "!" . accessName;
+				let accessKey = subjectName . "!" . accessName;
 				if isset this->_accessList[accessKey] {
 					unset this->_accessList[accessKey];
 				}
 			}
 		} else {
 			if typeof accessList == "string" {
-				let accessKey = resourceName . "!" . accessName;
+				let accessKey = subjectName . "!" . accessName;
 				if isset this->_accessList[accessKey] {
 					unset this->_accessList[accessKey];
 				}
@@ -445,18 +445,18 @@ class Memory extends Adapter
 	 }
 
 	/**
-	 * Checks if a role has access to a resource
+	 * Checks if a operation has access to a subject
 	 */
-	protected function _allowOrDeny(string roleName, string resourceName, var access, var action, var func = null)
+	protected function _allowOrDeny(string operationName, string subjectName, var access, var action, var func = null)
 	{
 		var accessList, accessName, accessKey;
 
-		if !isset this->_rolesNames[roleName] {
-			throw new Exception("Role '" . roleName . "' does not exist in ACL");
+		if !isset this->_operationsNames[operationName] {
+			throw new Exception("Operation '" . operationName . "' does not exist in ACL");
 		}
 
-		if !isset this->_resourcesNames[resourceName] {
-			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
+		if !isset this->_subjectsNames[subjectName] {
+			throw new Exception("Subject '" . subjectName . "' does not exist in ACL");
 		}
 
 		let accessList = this->_accessList;
@@ -464,15 +464,15 @@ class Memory extends Adapter
 		if typeof access == "array" {
 
 			for accessName in access {
-				let accessKey = resourceName . "!" . accessName;
+				let accessKey = subjectName . "!" . accessName;
 				if !isset accessList[accessKey] {
-					throw new Exception("Access '" . accessName . "' does not exist in resource '" . resourceName . "'");
+					throw new Exception("Access '" . accessName . "' does not exist in subject '" . subjectName . "'");
 				}
 			}
 
 			for accessName in access {
 
-				let accessKey = roleName . "!" .resourceName . "!" . accessName;
+				let accessKey = operationName . "!" .subjectName . "!" . accessName;
 				let this->_access[accessKey] = action;
 				if func != null {
 				    let this->_func[accessKey] = func;
@@ -482,13 +482,13 @@ class Memory extends Adapter
 		} else {
 
 			if access != "*" {
-				let accessKey = resourceName . "!" . access;
+				let accessKey = subjectName . "!" . access;
 				if !isset accessList[accessKey] {
-					throw new Exception("Access '" . access . "' does not exist in resource '" . resourceName . "'");
+					throw new Exception("Access '" . access . "' does not exist in subject '" . subjectName . "'");
 				}
 			}
 
-			let accessKey = roleName . "!" . resourceName . "!" . access;
+			let accessKey = operationName . "!" . subjectName . "!" . access;
 
 			/**
 			 * Define the access action for the specified accessKey
@@ -502,7 +502,7 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Allow access to a role on a resource
+	 * Allow access to a operation on a subject
 	 *
 	 * You can use '*' as wildcard
 	 *
@@ -514,28 +514,28 @@ class Memory extends Adapter
 	 * //Allow access to guests to search or create on customers
 	 * $acl->allow("guests", "customers", ["search", "create"]);
 	 *
-	 * //Allow access to any role to browse on products
+	 * //Allow access to any operation to browse on products
 	 * $acl->allow("*", "products", "browse");
 	 *
-	 * //Allow access to any role to browse on any resource
+	 * //Allow access to any operation to browse on any subject
 	 * $acl->allow("*", "*", "browse");
 	 * </code>
 	 */
-	public function allow(string roleName, string resourceName, var access, var func = null)
+	public function allow(string operationName, string subjectName, var access, var func = null)
 	{
-		var innerRoleName;
+		var innerOperationName;
 
-		if roleName != "*" {
-			return this->_allowOrDeny(roleName, resourceName, access, Acl::ALLOW, func);
+		if operationName != "*" {
+			return this->_allowOrDeny(operationName, subjectName, access, Acl::ALLOW, func);
 		} else {
-			for innerRoleName, _ in this->_rolesNames {
-				this->_allowOrDeny(innerRoleName, resourceName, access, Acl::ALLOW, func);
+			for innerOperationName, _ in this->_operationsNames {
+				this->_allowOrDeny(innerOperationName, subjectName, access, Acl::ALLOW, func);
 			}
 		}
 	}
 
 	/**
-	 * Deny access to a role on a resource
+	 * Deny access to a operation on a subject
 	 *
 	 * You can use '*' as wildcard
 	 *
@@ -547,74 +547,74 @@ class Memory extends Adapter
 	 * //Deny access to guests to search or create on customers
 	 * $acl->deny("guests", "customers", ["search", "create"]);
 	 *
-	 * //Deny access to any role to browse on products
+	 * //Deny access to any operation to browse on products
 	 * $acl->deny("*", "products", "browse");
 	 *
-	 * //Deny access to any role to browse on any resource
+	 * //Deny access to any operation to browse on any subject
 	 * $acl->deny("*", "*", "browse");
 	 * </code>
 	 */
-	public function deny(string roleName, string resourceName, var access, var func = null)
+	public function deny(string operationName, string subjectName, var access, var func = null)
 	{
-		var innerRoleName;
+		var innerOperationName;
 
-		if roleName != "*" {
-			return this->_allowordeny(roleName, resourceName, access, Acl::DENY, func);
+		if operationName != "*" {
+			return this->_allowordeny(operationName, subjectName, access, Acl::DENY, func);
 		} else {
-			for innerRoleName, _ in this->_rolesNames {
-				this->_allowordeny(innerRoleName, resourceName, access, Acl::DENY, func);
+			for innerOperationName, _ in this->_operationsNames {
+				this->_allowordeny(innerOperationName, subjectName, access, Acl::DENY, func);
 			}
 		}
 	}
 
 	/**
-	 * Check whether a role is allowed to access an action from a resource
+	 * Check whether a operation is allowed to access an action from a subject
 	 *
 	 * <code>
-	 * //Does andres have access to the customers resource to create?
+	 * //Does andres have access to the customers subject to create?
 	 * $acl->isAllowed("andres", "Products", "create");
 	 *
-	 * //Do guests have access to any resource to edit?
+	 * //Do guests have access to any subject to edit?
 	 * $acl->isAllowed("guests", "*", "edit");
 	 * </code>
 	 *
-	 * @param  RoleInterface|RoleAware|string roleName
-	 * @param  ResourceInterface|ResourceAware|string resourceName
+	 * @param  OperationInterface|OperationAware|string operationName
+	 * @param  SubjectInterface|SubjectAware|string subjectName
 	 */
-	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> bool
+	public function isAllowed(var operationName, var subjectName, string access, array parameters = null) -> bool
 	{
 		var eventsManager, accessList, accessKey,
-			haveAccess = null, rolesNames,
-			funcAccess = null, resourceObject = null, roleObject = null, funcList,
+			haveAccess = null, operationsNames,
+			funcAccess = null, subjectObject = null, operationObject = null, funcList,
 			reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
 			numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,
-			reflectionParameter, hasRole = false, hasResource = false;
+			reflectionParameter, hasOperation = false, hasSubject = false;
 
-		if typeof roleName == "object" {
-			if roleName instanceof RoleAware {
-				let roleObject = roleName;
-				let roleName = roleObject->getRoleName();
-			} elseif roleName instanceof RoleInterface {
-				let roleName = roleName->getName();
+		if typeof operationName == "object" {
+			if operationName instanceof OperationAware {
+				let operationObject = operationName;
+				let operationName = operationObject->getOperationName();
+			} elseif operationName instanceof OperationInterface {
+				let operationName = operationName->getName();
 			} else {
-				throw new Exception("Object passed as roleName must implement Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface");
+				throw new Exception("Object passed as operationName must implement Phalcon\\Acl\\OperationAware or Phalcon\\Acl\\OperationInterface");
 			}
 		}
 
-		if typeof resourceName == "object" {
-			if resourceName instanceof ResourceAware {
-				let resourceObject = resourceName;
-				let resourceName = resourceObject->getResourceName();
-			} elseif resourceName instanceof ResourceInterface {
-				let resourceName = resourceName->getName();
+		if typeof subjectName == "object" {
+			if subjectName instanceof SubjectAware {
+				let subjectObject = subjectName;
+				let subjectName = subjectObject->getSubjectName();
+			} elseif subjectName instanceof SubjectInterface {
+				let subjectName = subjectName->getName();
 			} else {
-				throw new Exception("Object passed as resourceName must implement Phalcon\\Acl\\ResourceAware or Phalcon\\Acl\\ResourceInterface");
+				throw new Exception("Object passed as subjectName must implement Phalcon\\Acl\\SubjectAware or Phalcon\\Acl\\SubjectInterface");
 			}
 
 		}
 
-		let this->_activeRole = roleName;
-		let this->_activeResource = resourceName;
+		let this->_activeOperation = operationName;
+		let this->_activeSubject = subjectName;
 		let this->_activeAccess = access;
 		let accessList = this->_access;
 		let eventsManager = <EventsManager> this->_eventsManager;
@@ -627,17 +627,17 @@ class Memory extends Adapter
 		}
 
 		/**
-		 * Check if the role exists
+		 * Check if the operation exists
 		 */
-		let rolesNames = this->_rolesNames;
-		if !isset rolesNames[roleName] {
+		let operationsNames = this->_operationsNames;
+		if !isset operationsNames[operationName] {
 			return (this->_defaultAccess == Acl::ALLOW);
 		}
 
 		/**
-		 * Check if there is a direct combination for role-resource-access
+		 * Check if there is a direct combination for operation-subject-access
 		 */
-		let accessKey = this->_isAllowed(roleName, resourceName, access);
+		let accessKey = this->_isAllowed(operationName, subjectName, access);
 
 		if accessKey != false && isset accessList[accessKey] {
 			let haveAccess = accessList[accessKey];
@@ -645,7 +645,7 @@ class Memory extends Adapter
 		}
 
 		/**
-		 * Check in the inherits roles
+		 * Check in the inherits operations
 		 */
 
 
@@ -680,19 +680,19 @@ class Memory extends Adapter
 				let parameterToCheck = reflectionParameter->getName();
 
 				if reflectionClass !== null {
-					// roleObject is this class
-					if roleObject !== null && reflectionClass->isInstance(roleObject) && !hasRole {
-						let hasRole = true;
-						let parametersForFunction[] = roleObject;
+					// operationObject is this class
+					if operationObject !== null && reflectionClass->isInstance(operationObject) && !hasOperation {
+						let hasOperation = true;
+						let parametersForFunction[] = operationObject;
 						let userParametersSizeShouldBe--;
 
 						continue;
 					}
 
-					// resourceObject is this class
-					if resourceObject !== null && reflectionClass->isInstance(resourceObject) && !hasResource {
-						let hasResource = true;
-						let parametersForFunction[] = resourceObject;
+					// subjectObject is this class
+					if subjectObject !== null && reflectionClass->isInstance(subjectObject) && !hasSubject {
+						let hasSubject = true;
+						let parametersForFunction[] = subjectObject;
 						let userParametersSizeShouldBe--;
 
 						continue;
@@ -701,7 +701,7 @@ class Memory extends Adapter
 					// This is some user defined class, check if his parameter is instance of it
 					if isset parameters[parameterToCheck] && typeof parameters[parameterToCheck] == "object" && !reflectionClass->isInstance(parameters[parameterToCheck]) {
 						throw new Exception(
-							"Your passed parameter doesn't have the same class as the parameter in defined function when check " . roleName . " can " . access . " " . resourceName . ". Class passed: " . get_class(parameters[parameterToCheck])." , Class in defined function: " . reflectionClass->getName() . "."
+							"Your passed parameter doesn't have the same class as the parameter in defined function when check " . operationName . " can " . access . " " . subjectName . ". Class passed: " . get_class(parameters[parameterToCheck])." , Class in defined function: " . reflectionClass->getName() . "."
 						);
 					}
 				}
@@ -714,7 +714,7 @@ class Memory extends Adapter
 
 			if count(parameters) > userParametersSizeShouldBe {
 				trigger_error(
-					"Number of parameters in array is higher than the number of parameters in defined function when check " . roleName . " can " . access . " " . resourceName . ". Remember that more parameters than defined in function will be ignored.",
+					"Number of parameters in array is higher than the number of parameters in defined function when check " . operationName . " can " . access . " " . subjectName . ". Remember that more parameters than defined in function will be ignored.",
 					E_USER_WARNING
 				);
 			}
@@ -723,7 +723,7 @@ class Memory extends Adapter
 			if count(parametersForFunction) == 0 {
 				if numberOfRequiredParameters > 0 {
 					trigger_error(
-						"You didn't provide any parameters when check " . roleName . " can " . access . " "  . resourceName . ". We will use default action when no arguments."
+						"You didn't provide any parameters when check " . operationName . " can " . access . " "  . subjectName . ". We will use default action when no arguments."
 					);
 
 					return haveAccess == Acl::ALLOW && this->_noArgumentsDefaultAction == Acl::ALLOW;
@@ -740,7 +740,7 @@ class Memory extends Adapter
 
 			// We don't have enough parameters
 			throw new Exception(
-				"You didn't provide all necessary parameters for defined function when check " . roleName . " can " . access . " " . resourceName
+				"You didn't provide all necessary parameters for defined function when check " . operationName . " can " . access . " " . subjectName
 			);
 		}
 
@@ -748,80 +748,80 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Check whether a role is allowed to access an action from a resource
+	 * Check whether a operation is allowed to access an action from a subject
 	 */
-	protected function _isAllowed(string roleName, string resourceName, string access) -> string | bool
+	protected function _isAllowed(string operationName, string subjectName, string access) -> string | bool
     {
-        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits, usedRoleToInherit;
+        var accessList, accessKey,checkOperationToInherit, checkOperationToInherits, usedOperationToInherits, usedOperationToInherit;
 
 		let accessList = this->_access;
 
-        let accessKey = roleName . "!" . resourceName . "!" . access;
+        let accessKey = operationName . "!" . subjectName . "!" . access;
 
 		/**
-		 * Check if there is a direct combination for role-resource-access
+		 * Check if there is a direct combination for operation-subject-access
 		 */
 		if isset accessList[accessKey] {
 			return accessKey;
 		}
 		/**
-         * Check if there is a direct combination for role-*-*
+         * Check if there is a direct combination for operation-*-*
          */
-        let accessKey = roleName . "!" . resourceName . "!*";
+        let accessKey = operationName . "!" . subjectName . "!*";
         if isset accessList[accessKey] {
             return accessKey;
         }
         /**
-         * Check if there is a direct combination for role-*-*
+         * Check if there is a direct combination for operation-*-*
          */
-        let accessKey = roleName . "!*!*";
+        let accessKey = operationName . "!*!*";
         if isset accessList[accessKey] {
             return accessKey;
         }
         /**
-         * Deep check if the role to inherit is valid
+         * Deep check if the operation to inherit is valid
          */
-        if isset this->_roleInherits[roleName] {
-            let checkRoleToInherits = [];
-            for usedRoleToInherit in this->_roleInherits[roleName] {
-                array_push(checkRoleToInherits,usedRoleToInherit);
+        if isset this->_operationInherits[operationName] {
+            let checkOperationToInherits = [];
+            for usedOperationToInherit in this->_operationInherits[operationName] {
+                array_push(checkOperationToInherits,usedOperationToInherit);
             }
-            let usedRoleToInherits = [];
-            while !empty checkRoleToInherits {
-                let checkRoleToInherit = array_shift(checkRoleToInherits);
+            let usedOperationToInherits = [];
+            while !empty checkOperationToInherits {
+                let checkOperationToInherit = array_shift(checkOperationToInherits);
 
-                if isset usedRoleToInherits[checkRoleToInherit] {
+                if isset usedOperationToInherits[checkOperationToInherit] {
                     continue;
                 }
-                let usedRoleToInherits[checkRoleToInherit]=true;
+                let usedOperationToInherits[checkOperationToInherit]=true;
 
-                let accessKey = checkRoleToInherit . "!" . resourceName . "!" . access;
+                let accessKey = checkOperationToInherit . "!" . subjectName . "!" . access;
                 /**
-                 * Check if there is a direct combination in one of the inherited roles
+                 * Check if there is a direct combination in one of the inherited operations
                  */
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
                 /**
-                 * Check if there is a direct combination for role-*-*
+                 * Check if there is a direct combination for operation-*-*
                  */
-                let accessKey = checkRoleToInherit . "!" . resourceName . "!*";
+                let accessKey = checkOperationToInherit . "!" . subjectName . "!*";
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
                 /**
-                 * Check if there is a direct combination for role-*-*
+                 * Check if there is a direct combination for operation-*-*
                  */
-                let accessKey = checkRoleToInherit . "!*!*";
+                let accessKey = checkOperationToInherit . "!*!*";
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
                 /**
-                 * Push inherited roles
+                 * Push inherited operations
                  */
-                if isset this->_roleInherits[checkRoleToInherit] {
-                    for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
-                        array_push(checkRoleToInherits,usedRoleToInherit);
+                if isset this->_operationInherits[checkOperationToInherit] {
+                    for usedOperationToInherit in this->_operationInherits[checkOperationToInherit] {
+                        array_push(checkOperationToInherits,usedOperationToInherit);
                     }
                 }
             }
@@ -849,18 +849,18 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Return an array with every role registered in the list
+	 * Return an array with every operation registered in the list
 	 */
-	public function getRoles() -> <RoleInterface[]>
+	public function getOperations() -> <OperationInterface[]>
 	{
-		return this->_roles;
+		return this->_operations;
 	}
 
 	/**
-	 * Return an array with every resource registered in the list
+	 * Return an array with every subject registered in the list
 	 */
-	public function getResources() -> <ResourceInterface[]>
+	public function getSubjects() -> <SubjectInterface[]>
 	{
-		return this->_resources;
+		return this->_subjects;
 	}
 }
