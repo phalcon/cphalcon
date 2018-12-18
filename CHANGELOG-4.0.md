@@ -87,6 +87,11 @@
 - Renamed `Phalcon\Acl\Adapter\Memory::getRoless()` to `Phalcon\Acl\Adapter\Memory::getOperations()` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
 - Renamed `Phalcon\Acl\Adapter\Memory::getResources()` to `Phalcon\Acl\Adapter\Memory::getSubjects()` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
 - Changed `Phalcon\Http\Response::setHeaders()` now merges the headers with any pre-existing ones in the internal collection [#12836](https://github.com/phalcon/cphalcon/issues/12836)
+- Changed `Phalcon\DI\FactoryDefault` to not load by default
+    - the `Phalcon\Session\Adapter\Files` using the name `session` 
+    - the `Phalcon\Session\Bag` using the name `sessionBag` 
+  [#12921](https://github.com/phalcon/cphalcon/issues/12921)
+
 ## Removed
 - PHP < 7.2 no longer supported
 - Removed `xcache` support from adapters [#13628](https://github.com/phalcon/cphalcon/pull/13628)
