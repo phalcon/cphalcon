@@ -26,7 +26,7 @@ class ConstructCest
      */
     public function diFactorydefaultConstruct(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault - __construct()");
+        $I->wantToTest('Di\FactoryDefault - __construct()');
         $container = new FactoryDefault();
         $services  = $this->getServices();
 
@@ -40,22 +40,20 @@ class ConstructCest
         return [
             'annotations'        => 'Phalcon\Annotations\Adapter\Memory',
             'assets'             => 'Phalcon\Assets\Manager',
-            'cookies'            => 'Phalcon\Http\Response\Cookies',
             'crypt'              => 'Phalcon\Crypt',
+            'cookies'            => 'Phalcon\Http\Response\Cookies',
             'dispatcher'         => 'Phalcon\Mvc\Dispatcher',
             'escaper'            => 'Phalcon\Escaper',
             'eventsManager'      => 'Phalcon\Events\Manager',
-            'filter'             => 'Phalcon\Filter',
             'flash'              => 'Phalcon\Flash\Direct',
             'flashSession'       => 'Phalcon\Flash\Session',
+            'filter'             => 'Phalcon\Filter',
             'modelsManager'      => 'Phalcon\Mvc\Model\Manager',
             'modelsMetadata'     => 'Phalcon\Mvc\Model\MetaData\Memory',
-            'response'           => 'Phalcon\Http\Response',
             'request'            => 'Phalcon\Http\Request',
+            'response'           => 'Phalcon\Http\Response',
             'router'             => 'Phalcon\Mvc\Router',
             'security'           => 'Phalcon\Security',
-            'session'            => 'Phalcon\Session\Adapter\Files',
-            'sessionBag'         => 'Phalcon\Session\Bag',
             'tag'                => 'Phalcon\Tag',
             'transactionManager' => 'Phalcon\Mvc\Model\Transaction\Manager',
             'url'                => 'Phalcon\Mvc\Url',
@@ -72,7 +70,7 @@ class ConstructCest
      */
     public function diFactoryDefaultConstructServices(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault - __construct() - Check services");
+        $I->wantToTest('Di\FactoryDefault - __construct() - Check services');
         $container = new FactoryDefault();
         $services  = $this->getServices();
 
