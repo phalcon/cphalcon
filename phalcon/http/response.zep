@@ -532,7 +532,17 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 	 */
 	public function setHeaders(<HeadersInterface> headers) -> <ResponseInterface>
 	{
-		let this->_headers = headers;
+		var data, existing, name, value;
+
+		let data = headers->toArray(),
+			existing = this->getHeaders();
+
+		for name, value in data {
+			existing->set(name, value);
+		}
+
+		let this->_headers = existing;
+
 		return this;
 	}
 

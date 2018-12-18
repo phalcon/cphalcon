@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,8 +12,13 @@
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response;
+use Phalcon\Http\Response\Headers;
 use UnitTester;
 
+/**
+ * Class ResetHeadersCest
+ */
 class ResetHeadersCest
 {
     /**
@@ -26,6 +32,19 @@ class ResetHeadersCest
     public function httpResponseResetHeaders(UnitTester $I)
     {
         $I->wantToTest("Http\Response - resetHeaders()");
-        $I->skipTest("Need implementation");
+        $response = new Response();
+        $headers  = new Headers();
+
+        $headers->set('Cache-Control', 'no-cache');
+        $response->setHeaders($headers);
+
+        $expected = $headers;
+        $actual   = $response->getHeaders();
+        $I->assertEquals($expected, $actual);
+
+        $response->resetHeaders();
+        $actual = $response->getHeaders();
+        $actual = $actual->toArray();
+        $I->assertCount(0, $actual);
     }
 }
