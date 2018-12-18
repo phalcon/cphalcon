@@ -1,21 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Zamrony P. Juhara <zamronypj@yahoo.com>                       |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Http;
@@ -86,11 +76,28 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 	}
 
 	/**
-	 * Sets the dependency injector
+	 * Appends a string to the HTTP response body
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function appendContent(content) -> <ResponseInterface>
 	{
-		let this->_dependencyInjector = dependencyInjector;
+		let this->_content = this->getContent() . content;
+		return this;
+	}
+
+	/**
+	 * Gets the HTTP response body
+	 */
+	public function getContent() -> string
+	{
+		return this->_content;
+	}
+
+	/**
+	 * Returns cookies set by the user
+	 */
+	public function getCookies() -> <CookiesInterface>
+	{
+		return this->_cookies;
 	}
 
 	/**
@@ -111,6 +118,368 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 	}
 
 	/**
+	 * Returns the internal event manager
+	 */
+	public function getEventsManager() -> <ManagerInterface>
+	{
+		return this->_eventsManager;
+	}
+
+	/**
+	 * Returns headers set by the user
+	 */
+	public function getHeaders() -> <HeadersInterface>
+	{
+		return this->_headers;
+	}
+
+	/**
+	 * Returns the reason phrase
+	 *
+	 *<code>
+	 * echo $response->getReasonPhrase();
+	 *</code>
+	 */
+	public function getReasonPhrase() -> string | null
+	{
+		var statusReasonPhrase;
+		let statusReasonPhrase = substr(this->getHeaders()->get("Status"), 4);
+		return statusReasonPhrase ? statusReasonPhrase : null;
+	}
+
+	/**
+	 * Returns the status code
+	 *
+	 *<code>
+	 * echo $response->getStatusCode();
+	 *</code>
+	 */
+	public function getStatusCode() -> int | null
+	{
+		var statusCode;
+		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
+		return statusCode ? (int) statusCode : null;
+	}
+
+	/**
+	 * Checks if a header exists
+	 *
+	 *<code>
+	 * $response->hasHeader("Content-Type");
+	 *</code>
+	 */
+	public function hasHeader(string name) -> bool
+	{
+		var headers;
+		let headers = this->getHeaders();
+
+		return headers->has(name);
+	}
+
+	/**
+	 * Check if the response is already sent
+	 */
+	public function isSent() -> bool
+	{
+		return this->_sent;
+	}
+
+	/**
+	 * Redirect by HTTP to another action or URL
+	 *
+	 *<code>
+	 * // Using a string redirect (internal/external)
+	 * $response->redirect("posts/index");
+	 * $response->redirect("http://en.wikipedia.org", true);
+	 * $response->redirect("http://www.example.com/new-location", true, 301);
+	 *
+	 * // Making a redirection based on a named route
+	 * $response->redirect(
+	 *     [
+	 *         "for"        => "index-lang",
+	 *         "lang"       => "jp",
+	 *         "controller" => "index",
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
+	{
+		var header, url, dependencyInjector, matched, view;
+
+		if !location {
+			let location = "";
+		}
+
+		if externalRedirect {
+			let header = location;
+		} else {
+			if typeof location == "string" && strstr(location, "://") {
+				let matched = preg_match("/^[^:\\/?#]++:/", location);
+				if matched {
+					let header = location;
+				} else {
+					let header = null;
+				}
+			} else {
+				let header = null;
+			}
+		}
+
+		let dependencyInjector = this->getDI();
+
+		if !header {
+			let url = <UrlInterface> dependencyInjector->getShared("url"),
+				header = url->get(location);
+		}
+
+		if dependencyInjector->has("view") {
+			let view = dependencyInjector->getShared("view");
+			if view instanceof ViewInterface {
+				view->disable();
+			}
+		}
+
+		/**
+		 * The HTTP status is 302 by default, a temporary redirection
+		 */
+		if statusCode < 300 || statusCode > 308 {
+			let statusCode = 302;
+		}
+
+		this->setStatusCode(statusCode);
+
+		/**
+		 * Change the current location using 'Location'
+		 */
+		this->setHeader("Location", header);
+
+		return this;
+	}
+
+	/**
+	 * Remove a header in the response
+	 *
+	 *<code>
+	 * $response->removeHeader("Expires");
+	 *</code>
+	 */
+	public function removeHeader(string name) -> <ResponseInterface>
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->remove(name);
+		return this;
+	}
+	/**
+	 * Resets all the established headers
+	 */
+	public function resetHeaders() -> <ResponseInterface>
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->reset();
+		return this;
+	}
+
+	/**
+	 * Prints out HTTP response to the client
+	 */
+	public function send() -> <ResponseInterface>
+	{
+		var content, file;
+
+		if this->_sent {
+			throw new Exception("Response was already sent");
+		}
+
+		this->sendHeaders();
+
+		this->sendCookies();
+
+		/**
+		 * Output the response body
+		 */
+		let content = this->_content;
+		if content != null {
+			echo content;
+		} else {
+			let file = this->_file;
+
+			if typeof file == "string" && strlen(file) {
+				readfile(file);
+			}
+		}
+
+		let this->_sent = true;
+		return this;
+	}
+
+	/**
+	 * Sends cookies to the client
+	 */
+	public function sendCookies() -> <ResponseInterface>
+	{
+		var cookies;
+		let cookies = this->_cookies;
+		if typeof cookies == "object" {
+			cookies->send();
+		}
+		return this;
+	}
+
+	/**
+	 * Sends headers to the client
+	 */
+	public function sendHeaders() -> <ResponseInterface> | boolean
+	{
+		var headers, eventsManager;
+
+		let headers = <HeadersInterface> this->getHeaders();
+		let eventsManager = <ManagerInterface> this->getEventsManager();
+
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("response:beforeSendHeaders", this) === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Send headers
+		 */
+		if headers->send() && typeof eventsManager == "object" {
+			eventsManager->fire("response:afterSendHeaders", this);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Sets Cache headers to use HTTP cache
+	 *
+	 *<code>
+	 * $this->response->setCache(60);
+	 *</code>
+	 */
+	public function setCache(int! minutes) -> <ResponseInterface>
+	{
+		var date;
+
+		let date = new \DateTime();
+		date->modify("+" . minutes . " minutes");
+
+		this->setExpires(date);
+		this->setHeader("Cache-Control", "max-age=" . (minutes * 60));
+
+		return this;
+	}
+
+	/**
+	 * Sets HTTP response body
+	 *
+	 *<code>
+	 * $response->setContent("<h1>Hello!</h1>");
+	 *</code>
+	 */
+	public function setContent(string content) -> <ResponseInterface>
+	{
+		let this->_content = content;
+		return this;
+	}
+
+	/**
+	 * Sets the response content-length
+	 *
+	 *<code>
+	 * $response->setContentLength(2048);
+	 *</code>
+	 */
+	public function setContentLength(int contentLength) -> <ResponseInterface>
+	{
+		this->setHeader("Content-Length", contentLength);
+
+		return this;
+	}
+
+	/**
+	 * Sets the response content-type mime, optionally the charset
+	 *
+	 *<code>
+	 * $response->setContentType("application/pdf");
+	 * $response->setContentType("text/plain", "UTF-8");
+	 *</code>
+	 */
+	public function setContentType(string contentType, charset = null) -> <ResponseInterface>
+	{
+		if charset === null {
+			this->setHeader("Content-Type", contentType);
+		} else {
+			this->setHeader("Content-Type", contentType . "; charset=" . charset);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Sets a cookies bag for the response externally
+	 */
+	public function setCookies(<CookiesInterface> cookies) -> <ResponseInterface>
+	{
+		let this->_cookies = cookies;
+		return this;
+	}
+
+	/**
+	 * Sets the dependency injector
+	 */
+	public function setDI(<DiInterface> dependencyInjector)
+	{
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Set a custom ETag
+	 *
+	 *<code>
+	 * $response->setEtag(md5(time()));
+	 *</code>
+	 */
+	public function setEtag(string etag) -> <ResponseInterface>
+	{
+		this->setHeader("Etag", etag);
+
+		return this;
+	}
+
+	/**
+	 * Sets an Expires header in the response that allows to use the HTTP cache
+	 *
+	 *<code>
+	 * $this->response->setExpires(
+	 *     new DateTime()
+	 * );
+	 *</code>
+	 */
+	public function setExpires(<\DateTime> datetime) -> <ResponseInterface>
+	{
+		var date;
+
+		let date = clone datetime;
+
+		/**
+		 * All the expiration times are sent in UTC
+		 * Change the timezone to utc
+		 */
+		date->setTimezone(new \DateTimeZone("UTC"));
+
+		/**
+		 * The 'Expires' header set this info
+		 */
+		this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
+		return this;
+	}
+
+	/**
 	 * Sets the events manager
 	 */
 	public function setEventsManager(<ManagerInterface> eventsManager)
@@ -119,11 +488,108 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 	}
 
 	/**
-	 * Returns the internal event manager
+	 * Sets an attached file to be sent at the end of the request
 	 */
-	public function getEventsManager() -> <ManagerInterface>
+	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
 	{
-		return this->_eventsManager;
+		var basePath;
+
+		if typeof attachmentName != "string" {
+			let basePath = basename(filePath);
+		} else {
+			let basePath = attachmentName;
+		}
+
+		if attachment {
+			this->setRawHeader("Content-Description: File Transfer");
+			this->setRawHeader("Content-Type: application/octet-stream");
+			this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . ";");
+			this->setRawHeader("Content-Transfer-Encoding: binary");
+		}
+
+		let this->_file = filePath;
+
+		return this;
+	}
+
+	/**
+	 * Overwrites a header in the response
+	 *
+	 *<code>
+	 * $response->setHeader("Content-Type", "text/plain");
+	 *</code>
+	 */
+	public function setHeader(string name, value) -> <ResponseInterface>
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->set(name, value);
+		return this;
+	}
+
+	/**
+	 * Sets a headers bag for the response externally
+	 */
+	public function setHeaders(<HeadersInterface> headers) -> <ResponseInterface>
+	{
+		let this->_headers = headers;
+		return this;
+	}
+
+	/**
+	 * Sets HTTP response body. The parameter is automatically converted to JSON
+	 * and also sets default header: Content-Type: "application/json; charset=UTF-8"
+	 *
+	 *<code>
+	 * $response->setJsonContent(
+	 *     [
+	 *         "status" => "OK",
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
+	{
+		this->setContentType("application/json", "UTF-8");
+		this->setContent(json_encode(content, jsonOptions, depth));
+		return this;
+	}
+
+	/**
+	 * Sets Last-Modified header
+	 *
+	 *<code>
+	 * $this->response->setLastModified(
+	 *     new DateTime()
+	 * );
+	 *</code>
+	 */
+	public function setLastModified(<\DateTime> datetime) -> <ResponseInterface>
+	{
+		var date;
+
+		let date = clone datetime;
+
+		/**
+		 * All the Last-Modified times are sent in UTC
+		 * Change the timezone to utc
+		 */
+		date->setTimezone(new \DateTimeZone("UTC"));
+
+		/**
+		 * The 'Last-Modified' header sets this info
+		 */
+		this->setHeader("Last-Modified", date->format("D, d M Y H:i:s") . " GMT");
+		return this;
+	}
+
+	/**
+	 * Sends a Not-Modified response
+	 */
+	public function setNotModified() -> <ResponseInterface>
+	{
+		this->setStatusCode(304, "Not modified");
+		return this;
 	}
 
 	/**
@@ -248,98 +714,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 	}
 
 	/**
-	 * Returns the status code
-	 *
-	 *<code>
-	 * echo $response->getStatusCode();
-	 *</code>
-	 */
-	public function getStatusCode() -> int | null
-	{
-		var statusCode;
-		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
-		return statusCode ? (int) statusCode : null;
-	}
-	
-	/**
-	 * Returns the reason phrase
-	 *
-	 *<code>
-	 * echo $response->getReasonPhrase();
-	 *</code>
-	 */
-	public function getReasonPhrase() -> string | null
-	{
-		var statusReasonPhrase;
-		let statusReasonPhrase = substr(this->getHeaders()->get("Status"), 4);
-		return statusReasonPhrase ? statusReasonPhrase : null;
-	}
-
-	/**
-	 * Sets a headers bag for the response externally
-	 */
-	public function setHeaders(<HeadersInterface> headers) -> <ResponseInterface>
-	{
-		let this->_headers = headers;
-		return this;
-	}
-
-	/**
-	 * Returns headers set by the user
-	 */
-	public function getHeaders() -> <HeadersInterface>
-	{
-		return this->_headers;
-	}
-
-	/**
-	 * Sets a cookies bag for the response externally
-	 */
-	public function setCookies(<CookiesInterface> cookies) -> <ResponseInterface>
-	{
-		let this->_cookies = cookies;
-		return this;
-	}
-
-	/**
-	 * Returns cookies set by the user
-	 */
-	public function getCookies() -> <CookiesInterface>
-	{
-		return this->_cookies;
-	}
-
-	/**
-	 * Checks if a header exists
-	 *
-	 *<code>
-	 * $response->hasHeader("Content-Type");
-	 *</code>
-	 */
-	public function hasHeader(string name) -> bool
-	{
-		var headers;
-		let headers = this->getHeaders();
-
-		return headers->has(name);
-	}
-
-	/**
-	 * Overwrites a header in the response
-	 *
-	 *<code>
-	 * $response->setHeader("Content-Type", "text/plain");
-	 *</code>
-	 */
-	public function setHeader(string name, value) -> <ResponseInterface>
-	{
-		var headers;
-		let headers = this->getHeaders();
-		headers->set(name, value);
-		return this;
-	}
-
-	/**
 	 * Send a raw header to the response
 	 *
 	 *<code>
@@ -351,391 +725,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 		var headers;
 		let headers = this->getHeaders();
 		headers->setRaw(header);
-		return this;
-	}
-
-	/**
-	 * Resets all the established headers
-	 */
-	public function resetHeaders() -> <ResponseInterface>
-	{
-		var headers;
-		let headers = this->getHeaders();
-		headers->reset();
-		return this;
-	}
-
-	/**
-	 * Sets an Expires header in the response that allows to use the HTTP cache
-	 *
-	 *<code>
-	 * $this->response->setExpires(
-	 *     new DateTime()
-	 * );
-	 *</code>
-	 */
-	public function setExpires(<\DateTime> datetime) -> <ResponseInterface>
-	{
-		var date;
-
-		let date = clone datetime;
-
-		/**
-		 * All the expiration times are sent in UTC
-		 * Change the timezone to utc
-		 */
-		date->setTimezone(new \DateTimeZone("UTC"));
-
-		/**
-		 * The 'Expires' header set this info
-		 */
-		this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
-		return this;
-	}
-
-	/**
-	 * Sets Last-Modified header
-	 *
-	 *<code>
-	 * $this->response->setLastModified(
-	 *     new DateTime()
-	 * );
-	 *</code>
-	 */
-	public function setLastModified(<\DateTime> datetime) -> <ResponseInterface>
-	{
-		var date;
-
-		let date = clone datetime;
-
-		/**
-		 * All the Last-Modified times are sent in UTC
-		 * Change the timezone to utc
-		 */
-		date->setTimezone(new \DateTimeZone("UTC"));
-
-		/**
-		 * The 'Last-Modified' header sets this info
-		 */
-		this->setHeader("Last-Modified", date->format("D, d M Y H:i:s") . " GMT");
-		return this;
-	}
-
-	/**
-	 * Sets Cache headers to use HTTP cache
-	 *
-	 *<code>
-	 * $this->response->setCache(60);
-	 *</code>
-	 */
-	public function setCache(int! minutes) -> <ResponseInterface>
-	{
-		var date;
-
-		let date = new \DateTime();
-		date->modify("+" . minutes . " minutes");
-
-		this->setExpires(date);
-		this->setHeader("Cache-Control", "max-age=" . (minutes * 60));
-
-		return this;
-	}
-
-	/**
-	 * Sends a Not-Modified response
-	 */
-	public function setNotModified() -> <ResponseInterface>
-	{
-		this->setStatusCode(304, "Not modified");
-		return this;
-	}
-
-	/**
-	 * Sets the response content-type mime, optionally the charset
-	 *
-	 *<code>
-	 * $response->setContentType("application/pdf");
-	 * $response->setContentType("text/plain", "UTF-8");
-	 *</code>
-	 */
-	public function setContentType(string contentType, charset = null) -> <ResponseInterface>
-	{
-		if charset === null {
-			this->setHeader("Content-Type", contentType);
-		} else {
-			this->setHeader("Content-Type", contentType . "; charset=" . charset);
-		}
-
-		return this;
-	}
-
-	/**
-	 * Sets the response content-length
-	 *
-	 *<code>
-	 * $response->setContentLength(2048);
-	 *</code>
-	 */
-	public function setContentLength(int contentLength) -> <ResponseInterface>
-	{
-		this->setHeader("Content-Length", contentLength);
-
-		return this;
-	}
-
-	/**
-	 * Set a custom ETag
-	 *
-	 *<code>
-	 * $response->setEtag(md5(time()));
-	 *</code>
-	 */
-	public function setEtag(string etag) -> <ResponseInterface>
-	{
-		this->setHeader("Etag", etag);
-
-		return this;
-	}
-
-	/**
-	 * Redirect by HTTP to another action or URL
-	 *
-	 *<code>
-	 * // Using a string redirect (internal/external)
-	 * $response->redirect("posts/index");
-	 * $response->redirect("http://en.wikipedia.org", true);
-	 * $response->redirect("http://www.example.com/new-location", true, 301);
-	 *
-	 * // Making a redirection based on a named route
-	 * $response->redirect(
-	 *     [
-	 *         "for"        => "index-lang",
-	 *         "lang"       => "jp",
-	 *         "controller" => "index",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
-	{
-		var header, url, dependencyInjector, matched, view;
-
-		if !location {
-			let location = "";
-		}
-
-		if externalRedirect {
-			let header = location;
-		} else {
-			if typeof location == "string" && strstr(location, "://") {
-				let matched = preg_match("/^[^:\\/?#]++:/", location);
-				if matched {
-					let header = location;
-				} else {
-					let header = null;
-				}
-			} else {
-				let header = null;
-			}
-		}
-
-		let dependencyInjector = this->getDI();
-
-		if !header {
-			let url = <UrlInterface> dependencyInjector->getShared("url"),
-				header = url->get(location);
-		}
-
-		if dependencyInjector->has("view") {
-			let view = dependencyInjector->getShared("view");
-			if view instanceof ViewInterface {
-				view->disable();
-			}
-		}
-
-		/**
-		 * The HTTP status is 302 by default, a temporary redirection
-		 */
-		if statusCode < 300 || statusCode > 308 {
-			let statusCode = 302;
-		}
-
-		this->setStatusCode(statusCode);
-
-		/**
-		 * Change the current location using 'Location'
-		 */
-		this->setHeader("Location", header);
-
-		return this;
-	}
-
-	/**
-	 * Sets HTTP response body
-	 *
-	 *<code>
-	 * $response->setContent("<h1>Hello!</h1>");
-	 *</code>
-	 */
-	public function setContent(string content) -> <ResponseInterface>
-	{
-		let this->_content = content;
-		return this;
-	}
-
-	/**
-	 * Sets HTTP response body. The parameter is automatically converted to JSON
-	 * and also sets default header: Content-Type: "application/json; charset=UTF-8"
-	 *
-	 *<code>
-	 * $response->setJsonContent(
-	 *     [
-	 *         "status" => "OK",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
-	{
-		this->setContentType("application/json", "UTF-8");
-		this->setContent(json_encode(content, jsonOptions, depth));
-		return this;
-	}
-
-	/**
-	 * Appends a string to the HTTP response body
-	 */
-	public function appendContent(content) -> <ResponseInterface>
-	{
-		let this->_content = this->getContent() . content;
-		return this;
-	}
-
-	/**
-	 * Gets the HTTP response body
-	 */
-	public function getContent() -> string
-	{
-		return this->_content;
-	}
-
-	/**
-	 * Check if the response is already sent
-	 */
-	public function isSent() -> bool
-	{
-		return this->_sent;
-	}
-
-	/**
-	 * Sends headers to the client
-	 */
-	public function sendHeaders() -> <ResponseInterface> | boolean
-	{
-		var headers, eventsManager;
-
-		let headers = <HeadersInterface> this->getHeaders();
-		let eventsManager = <ManagerInterface> this->getEventsManager();
-
-		if typeof eventsManager == "object" {
-			if eventsManager->fire("response:beforeSendHeaders", this) === false {
-				return false;
-			}
-		}
-
-		/**
-		 * Send headers
-		 */
-		if headers->send() && typeof eventsManager == "object" {
-			eventsManager->fire("response:afterSendHeaders", this);
-		}
-
-		return this;
-	}
-
-	/**
-	 * Sends cookies to the client
-	 */
-	public function sendCookies() -> <ResponseInterface>
-	{
-		var cookies;
-		let cookies = this->_cookies;
-		if typeof cookies == "object" {
-			cookies->send();
-		}
-		return this;
-	}
-
-	/**
-	 * Prints out HTTP response to the client
-	 */
-	public function send() -> <ResponseInterface>
-	{
-		var content, file;
-
-		if this->_sent {
-			throw new Exception("Response was already sent");
-		}
-
-		this->sendHeaders();
-
-		this->sendCookies();
-
-		/**
-		 * Output the response body
-		 */
-		let content = this->_content;
-		if content != null {
-			echo content;
-		} else {
-			let file = this->_file;
-
-			if typeof file == "string" && strlen(file) {
-				readfile(file);
-			}
-		}
-
-		let this->_sent = true;
-		return this;
-	}
-
-	/**
-	 * Sets an attached file to be sent at the end of the request
-	 */
-	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
-	{
-		var basePath;
-
-		if typeof attachmentName != "string" {
-			let basePath = basename(filePath);
-		} else {
-			let basePath = attachmentName;
-		}
-
-		if attachment {
-			this->setRawHeader("Content-Description: File Transfer");
-			this->setRawHeader("Content-Type: application/octet-stream");
-			this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . ";");
-			this->setRawHeader("Content-Transfer-Encoding: binary");
-		}
-
-		let this->_file = filePath;
-
-		return this;
-	}
-
-	/**
-	 * Remove a header in the response
-	 *
-	 *<code>
-	 * $response->removeHeader("Expires");
-	 *</code>
-	 */
-	public function removeHeader(string name) -> <ResponseInterface>
-	{
-		var headers;
-		let headers = this->getHeaders();
-		headers->remove(name);
 		return this;
 	}
 }
