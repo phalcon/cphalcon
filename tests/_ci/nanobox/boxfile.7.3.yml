@@ -89,7 +89,7 @@ data.memcached:
   image: nanobox/memcached:1.4
 
 data.mongodb:
-  image: nanobox/mongodb:3.0
+  image: mongo:4.0
 
 data.mysql:
   image: nanobox/mysql:5.7
