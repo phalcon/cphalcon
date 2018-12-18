@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -15,19 +15,43 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
-*/
+ */
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exception;
+
 /**
- * Phalcon\Acl\RoleAware
+ * Phalcon\Acl\Operation
  *
- * Interface for classes which could be used in allow method as ROLE
+ * This class defines operation entity and its description
  */
-interface RoleAware
+class Operation implements OperationInterface
 {
-    /**
-     * Returns role name
-    */
-    public function getRoleName() -> string;
+	/**
+	 * Operation name
+	 * @var string
+	 */
+	protected _name { get, __toString };
+
+	/**
+	 * Operation description
+	 * @var string
+	 */
+	protected _description { get };
+
+	/**
+	 * Phalcon\Acl\Operation constructor
+	 */
+	public function __construct(string! name, string description = null)
+	{
+		if name == "*" {
+			throw new Exception("Operation name cannot be '*'");
+		}
+		let this->_name = name;
+
+		if description {
+			let this->_description = description;
+		}
+	}
 }

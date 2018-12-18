@@ -50,80 +50,80 @@ interface AdapterInterface
 	public function getNoArgumentsDefaultAction() -> int;
 
 	/**
-	 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
+	 * Adds a operation to the ACL list. Second parameter lets to inherit access data from other existing operation
 	 */
-	public function addRole(role, accessInherits = null) -> bool;
+	public function addOperation(operation, accessInherits = null) -> bool;
 
 	/**
-	 * Do a role inherit from another existing role
+	 * Do a operation inherit from another existing operation
 	 */
-	public function addInherit(string roleName, roleToInherit) -> bool;
+	public function addInherit(string operationName, operationToInherit) -> bool;
 
 	/**
-	 * Check whether role exist in the roles list
+	 * Check whether operation exist in the operations list
 	 */
-	public function isRole(string roleName) -> bool;
+	public function isOperation(string operationName) -> bool;
 
 	/**
-	 * Check whether resource exist in the resources list
+	 * Check whether subject exist in the subjects list
 	 */
-	public function isResource(string resourceName) -> bool;
+	public function isSubject(string subjectName) -> bool;
 
 	/**
-	 * Adds a resource to the ACL list
+	 * Adds a subject to the ACL list
 	 *
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
 	 */
-	public function addResource(resourceObject, accessList) -> bool;
+	public function addSubject(subjectObject, accessList) -> bool;
 
 	/**
-	 * Adds access to resources
+	 * Adds access to subjects
 	 */
-	public function addResourceAccess(string resourceName, accessList);
+	public function addSubjectAccess(string subjectName, accessList);
 
 	/**
-	 * Removes an access from a resource
+	 * Removes an access from a subject
 	 */
-	public function dropResourceAccess(string resourceName, accessList);
+	public function dropSubjectAccess(string subjectName, accessList);
 
 	/**
-	 * Allow access to a role on a resource
+	 * Allow access to a operation on a subject
 	 */
-	public function allow(string roleName, string resourceName, access, func = null);
+	public function allow(string operationName, string subjectName, access, func = null);
 
 	/**
-	 * Deny access to a role on a resource
+	 * Deny access to a operation on a subject
 	 */
-	public function deny(string roleName, string resourceName, access, func = null);
+	public function deny(string operationName, string subjectName, access, func = null);
 
 	/**
-	 * Check whether a role is allowed to access an action from a resource
+	 * Check whether a operation is allowed to access an action from a subject
 	 */
-	public function isAllowed(roleName, resourceName, string access, array parameters = null) -> bool;
+	public function isAllowed(operationName, subjectName, string access, array parameters = null) -> bool;
 
 	/**
-	 * Returns the role which the list is checking if it's allowed to certain resource/access
+	 * Returns the operation which the list is checking if it's allowed to certain subject/access
 	 */
-	public function getActiveRole() -> string;
+	public function getActiveOperation() -> string;
 
 	/**
-	 * Returns the resource which the list is checking if some role can access it
+	 * Returns the subject which the list is checking if some operation can access it
 	 */
-	public function getActiveResource() -> string;
+	public function getActiveSubject() -> string;
 
 	/**
-	 * Returns the access which the list is checking if some role can access it
+	 * Returns the access which the list is checking if some operation can access it
 	 */
 	public function getActiveAccess() -> string;
 
 	/**
-	 * Return an array with every role registered in the list
+	 * Return an array with every operation registered in the list
 	 */
-	public function getRoles() -> <RoleInterface[]>;
+	public function getOperations() -> <OperationInterface[]>;
 
 	/**
-	 * Return an array with every resource registered in the list
+	 * Return an array with every subject registered in the list
 	 */
-	public function getResources() -> <ResourceInterface[]>;
+	public function getSubjects() -> <SubjectInterface[]>;
 }

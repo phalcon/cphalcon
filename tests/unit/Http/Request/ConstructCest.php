@@ -10,28 +10,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
+use Phalcon\Http\RequestInterface;
 use UnitTester;
 
 /**
- * Class GetRolesCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
+ * Class ConstructCest
  */
-class GetRolesCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getRoles()
+     * Tests Phalcon\Http\Cookie :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetRoles(UnitTester $I)
+    public function httpRequestConstruct(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getRoles()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest("Http\Request - __construct()");
+
+        $actual = new Request();
+        $class  = RequestInterface::class;
+        $I->assertInstanceOf($class, $actual);
     }
 }

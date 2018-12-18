@@ -10,33 +10,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Role;
+namespace Phalcon\Test\Unit\Acl\Subject;
 
-use Phalcon\Acl\Role;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
  * Class GetNameCest
- *
- * @package Phalcon\Test\Unit\Acl\Role
  */
 class GetNameCest
 {
     /**
-     * Tests Phalcon\Acl\Role :: getName()
+     * Tests Phalcon\Acl\Subject :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclRoleGetName(UnitTester $I)
+    public function aclSubjectGetName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Role - getName()');
-        $role = new Role('Administrators');
+        $I->wantToTest('Acl\Subject - getName()');
+        $subject = new Subject('Customers');
 
-        $expected = 'Administrators';
-        $actual   = $role->getName();
+        $expected = 'Customers';
+        $actual   = $subject->getName();
         $I->assertEquals($expected, $actual);
     }
 }
