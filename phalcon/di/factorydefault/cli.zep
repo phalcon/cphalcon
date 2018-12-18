@@ -41,15 +41,15 @@ class Cli extends FactoryDefault
 		parent::__construct();
 
 		let this->_services = [
-			"router":             new Service("Phalcon\\Cli\\Router", true),
+			"annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
 			"dispatcher":         new Service("Phalcon\\Cli\\Dispatcher", true),
+			"escaper":            new Service("Phalcon\\Escaper", true),
+			"eventsManager":      new Service("Phalcon\\Events\\Manager", true),
+			"filter":             new Service("Phalcon\\Filter", true),
 			"modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
 			"modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
-			"filter":             new Service("Phalcon\\Filter", true),
-			"escaper":            new Service("Phalcon\\Escaper", true),
-			"annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
+			"router":             new Service("Phalcon\\Cli\\Router", true),
 			"security":           new Service("Phalcon\\Security", true),
-			"eventsManager":      new Service("Phalcon\\Events\\Manager", true),
 			"transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
 		];
 	}

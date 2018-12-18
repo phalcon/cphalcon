@@ -15,23 +15,23 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
- * Class DropResourceAccessCest
+ * Class GetActiveSubjectCest
  *
  * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
-class DropResourceAccessCest
+class GetActiveSubjectCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: dropResourceAccess()
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveSubject()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryDropResourceAccess(UnitTester $I)
+    public function aclAdapterMemoryGetActiveSubject(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - dropResourceAccess()');
+        $I->wantToTest('Acl\Adapter\Memory - getActiveSubject()');
         $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,19 @@
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class SetDICest
+ */
 class SetDICest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: setDI()
      *
@@ -26,8 +37,8 @@ class SetDICest
     public function sessionBagSetDI(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - setDI()");
-        $session = new \Phalcon\Session\Bag("DiTest");
-        $di = new \Phalcon\Di\FactoryDefault();
+        $session = new Bag("DiTest");
+        $di      = new FactoryDefault();
         $session->setDI($di);
         $I->assertEquals($di, $session->getDI());
     }

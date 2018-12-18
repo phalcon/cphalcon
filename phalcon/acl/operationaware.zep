@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -15,44 +15,19 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
- */
+*/
 
 namespace Phalcon\Acl;
 
-use Phalcon\Acl\Exception;
-
 /**
- * Phalcon\Acl\Resource
+ * Phalcon\Acl\OperationAware
  *
- * This class defines resource entity and its description
+ * Interface for classes which could be used in allow method as ROLE
  */
-class $Resource implements ResourceInterface
+interface OperationAware
 {
-
-	/**
-	 * Resource name
-	 * @var string
-	 */
-	protected _name { get, __toString };
-
-	/**
-	 * Resource description
-	 * @var string
-	 */
-	protected _description { get };
-
-	/**
-	 * Phalcon\Acl\Resource constructor
-	 */
-	public function __construct(string! name, string description = null)
-	{
-		if name == "*" {
-			throw new Exception("Resource name cannot be '*'");
-		}
-
-		let this->_name = name;
-		if description {
-			let this->_description = description;
-		}
-	}
+    /**
+     * Returns operation name
+    */
+    public function getOperationName() -> string;
 }

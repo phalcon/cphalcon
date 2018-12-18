@@ -14,32 +14,33 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Resource;
+use Phalcon\Acl\Operation;
 use UnitTester;
 
 /**
- * Class IsResourceCest
+ * Class IsOperationCest
  *
  * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
-class IsResourceCest
+class IsOperationCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isResource()
+     * Tests Phalcon\Acl\Adapter\Memory :: isOperation()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryIsResource(UnitTester $I)
+    public function aclAdapterMemoryIsOperation(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - isResource()');
-        $acl         = new Memory();
-        $aclResource = new Resource('Customers', 'Customer management');
+        $I->wantToTest('Acl\Adapter\Memory - isOperation()');
+        $acl     = new Memory();
+        $aclOperation = new Operation('Administrators', 'Super User access');
 
-        $acl->addResource($aclResource, 'search');
-        $actual = $acl->isResource('Customers');
+        $acl->addOperation($aclOperation);
+
+        $actual = $acl->isOperation('Administrators');
         $I->assertTrue($actual);
     }
 }

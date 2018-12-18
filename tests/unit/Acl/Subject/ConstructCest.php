@@ -10,71 +10,69 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Resource;
+namespace Phalcon\Test\Unit\Acl\Subject;
 
 use BadMethodCallException;
 use Phalcon\Acl\Exception;
-use Phalcon\Acl\Resource;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Acl\Resource
  */
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Acl\Resource :: __construct()
+     * Tests Phalcon\Acl\Subject :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceConstruct(UnitTester $I)
+    public function aclSubjectConstruct(UnitTester $I)
     {
-        $I->wantToTest('Acl\Resource - __construct()');
-        $actual = new Resource('Customers');
+        $I->wantToTest('Acl\Subject - __construct()');
+        $actual = new Subject('Customers');
 
-        $class = Resource::class;
+        $class = Subject::class;
         $I->assertInstanceOf($class, $actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Resource :: __construct() - wildcard
+     * Tests Phalcon\Acl\Subject :: __construct() - wildcard
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceConstructWithWildcardThrowsException(UnitTester $I)
+    public function aclSubjectConstructWithWildcardThrowsException(UnitTester $I)
     {
-        $I->wantToTest('Acl\Resource - __construct() - exception with "*"');
+        $I->wantToTest('Acl\Subject - __construct() - exception with "*"');
         $I->expectThrowable(
-            new Exception("Resource name cannot be '*'"),
+            new Exception("Subject name cannot be '*'"),
             function () {
-                $resource = new Resource('*');
+                $subject = new Subject('*');
             }
         );
     }
 
     /**
-     * Tests Phalcon\Acl\Resource :: __construct() - without name
+     * Tests Phalcon\Acl\Subject :: __construct() - without name
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclResourceConstructWithoutName(UnitTester $I)
+    public function aclSubjectConstructWithoutName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Resource - __construct() - exception parameters');
+        $I->wantToTest('Acl\Subject - __construct() - exception parameters');
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {
-                $resource = new Resource();
+                $subject = new Subject();
             }
         );
     }

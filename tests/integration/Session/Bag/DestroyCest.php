@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,18 @@
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class DestroyCest
+ */
 class DestroyCest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: destroy()
      *
@@ -26,12 +36,12 @@ class DestroyCest
     public function sessionBagDestroy(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - destroy()");
-        $session = new \Phalcon\Session\Bag("DestroyTest");
+        $session = new Bag("DestroyTest");
         // test using magic setter
         $session->test = "test";
         $session->destroy();
 
-        $session = new \Phalcon\Session\Bag("DestroyTest");
+        $session = new Bag("DestroyTest");
         $I->assertEquals(null, $session->test);
     }
 }

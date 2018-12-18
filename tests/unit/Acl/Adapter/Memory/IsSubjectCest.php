@@ -12,26 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
- * Class AddResourceAccessCest
+ * Class IsSubjectCest
  *
  * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
-class AddResourceAccessCest
+class IsSubjectCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addResourceAccess()
+     * Tests Phalcon\Acl\Adapter\Memory :: isSubject()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryAddResourceAccess(UnitTester $I)
+    public function aclAdapterMemoryIsSubject(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - addResourceAccess()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Acl\Adapter\Memory - isSubject()');
+        $acl         = new Memory();
+        $aclSubject = new Subject('Customers', 'Customer management');
+
+        $acl->addSubject($aclSubject, 'search');
+        $actual = $acl->isSubject('Customers');
+        $I->assertTrue($actual);
     }
 }

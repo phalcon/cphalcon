@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,9 +12,12 @@
 
 namespace Phalcon\Test\Fixtures\Acl;
 
-use Phalcon\Acl\ResourceAware;
+use Phalcon\Acl\SubjectAware;
 
-class TestResourceAware implements ResourceAware
+/**
+ * Class TestSubjectAware
+ */
+class TestSubjectAware implements SubjectAware
 {
     /**
      * @var int
@@ -46,7 +50,7 @@ class TestResourceAware implements ResourceAware
     /**
      * @return string
      */
-    public function getResourceName(): string
+    public function getSubjectName(): string
     {
         return $this->resourceName;
     }
