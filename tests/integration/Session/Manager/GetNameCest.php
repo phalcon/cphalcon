@@ -10,26 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Redis;
+namespace Phalcon\Test\Unit\Session\Manager;
 
 use UnitTester;
 
 /**
- * Class OpenCest
+ * Class GetNameCest
  */
-class OpenCest
+class GetNameCest
 {
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: open()
+     * Tests Phalcon\Session\Manager :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisOpen(UnitTester $I)
+    public function sessionManagerGetName(UnitTester $I)
     {
-        $I->wantToTest('Session\Adapter\Redis - open()');
+        $I->wantToTest('Session\Manager - getName()');
         $I->skipTest('Need implementation');
     }
 }

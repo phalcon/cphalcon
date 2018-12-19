@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,21 +12,24 @@
 
 namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use IntegrationTester;
+use UnitTester;
 
+/**
+ * Class GcCest
+ */
 class GcCest
 {
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: gc()
      *
-     * @param IntegrationTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterLibmemcachedGc(IntegrationTester $I)
+    public function sessionAdapterLibmemcachedGc(UnitTester $I)
     {
-        $I->wantToTest("Session\Adapter\Libmemcached - gc()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Libmemcached - gc()');
+        $I->skipTest('Need implementation');
     }
 }

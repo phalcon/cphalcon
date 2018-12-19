@@ -10,26 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Redis;
+namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
- * Class OpenCest
+ * Class DestroyCest
  */
-class OpenCest
+class DestroyCest
 {
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: open()
+     * Tests Phalcon\Session\Adapter\Noop :: destroy()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisOpen(UnitTester $I)
+    public function sessionAdapterNoopDestroy(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Redis - open()');
+        $I->wantToTest('Session\Adapter\Noop - destroy()');
         $I->skipTest('Need implementation');
     }
 }

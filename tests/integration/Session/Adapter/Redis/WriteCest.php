@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,21 +12,24 @@
 
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use IntegrationTester;
+use UnitTester;
 
+/**
+ * Class WriteCest
+ */
 class WriteCest
 {
     /**
      * Tests Phalcon\Session\Adapter\Redis :: write()
      *
-     * @param IntegrationTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisWrite(IntegrationTester $I)
+    public function sessionAdapterRedisWrite(UnitTester $I)
     {
-        $I->wantToTest("Session\Adapter\Redis - write()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Redis - write()');
+        $I->skipTest('Need implementation');
     }
 }

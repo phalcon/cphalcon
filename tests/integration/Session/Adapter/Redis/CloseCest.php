@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Redis;
+namespace Phalcon\Test\Unit\Session\Adapter\Redis;
 
-use IntegrationTester;
+use UnitTester;
 
+/**
+ * Class CloseCest
+ */
 class CloseCest
 {
     /**
      * Tests Phalcon\Session\Adapter\Redis :: close()
      *
-     * @param IntegrationTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisClose(IntegrationTester $I)
+    public function sessionAdapterRedisClose(UnitTester $I)
     {
-        $I->wantToTest("Session\Adapter\Redis - close()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Redis - close()');
+        $I->skipTest('Need implementation');
     }
 }

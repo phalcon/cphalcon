@@ -10,26 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Redis;
+namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
- * Class OpenCest
+ * Class ReadCest
  */
-class OpenCest
+class ReadCest
 {
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: open()
+     * Tests Phalcon\Session\Adapter\Files :: read()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisOpen(UnitTester $I)
+    public function sessionAdapterFilesRead(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Redis - open()');
+        $I->wantToTest('Session\Adapter\Files - read()');
         $I->skipTest('Need implementation');
     }
 }

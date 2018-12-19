@@ -16,6 +16,9 @@ use Phalcon\Session\Adapter\Files;
 use Phalcon\Session\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 
+/**
+ * Class LoadCest
+ */
 class LoadCest
 {
     use FactoryTrait;

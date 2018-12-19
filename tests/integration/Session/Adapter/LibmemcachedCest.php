@@ -21,6 +21,7 @@ class LibmemcachedCest
      */
     public function _before(IntegrationTester $I)
     {
+        $I->skipTest('REFACTOR');
         $I->checkExtensionIsLoaded('redis');
 
         if (!isset($_SESSION)) {
