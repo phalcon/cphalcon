@@ -1,0 +1,124 @@
+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Session\Adapter;
+
+use Phalcon\Session\Exception;
+
+/**
+ * Phalcon\Session\Adapter\Noop
+ *
+ * This is the file based adapter. It stores sessions in a file based system
+ *
+ * <code>
+ * <?php
+ *
+ * use Phalcon\Session\Manager;
+ * use Phalcon\Session\Adapter\Files
+ *
+ * $session = new Manager();
+ * $files = new Files(
+ *     [
+ *         'savePath' => '/tmp',
+ *     ]
+ * );
+ * $session->setAdapter(new Files());
+ * </code>
+ */
+class Files extends Noop
+{
+    /**
+     * @var string
+     */
+	private path = "";
+
+	public function __construct(array options = [])
+	{
+		var path, options;
+
+		parent::__construct(options);
+
+		let options = this->options;
+
+		if !fetch path, options["savePath"] {
+			throw new Exception("No 'savePath' specified in the options");
+		}
+
+		let this->path = path;
+	}
+
+	public function destroy(var id) -> bool
+	{
+		var name;
+
+		let name = this->getPrefixedName(id);
+
+		if (file_exists(name)) {
+			unlink(name);
+		}
+
+		return true;
+	}
+
+	public function gc(var maxlifetime) -> bool
+	{
+		var file, pattern;
+
+		let pattern = this->path . this->prefix . "*";
+
+		for file in glob(pattern) {
+			if (true === file_exists(file) && filemtime(file) + maxlifetime < time()) {
+				unlink(file);
+			}
+		}
+
+		return true;
+	}
+
+	public function open(var savePath, var sessionName) -> bool
+	{
+		var path;
+
+		if ends_with(savePath, "/") {
+			let path = savePath . "/";
+		}
+
+		let this->path = path;
+
+		if (!is_dir(path)) {
+			mkdir(path, 0777, true);
+		}
+
+		return true;
+	}
+
+	public function read(var id) -> string
+	{
+		var data, name;
+
+		let name = this->getPrefixedName(id),
+			data = file_get_contents(name);
+
+		if (false === data) {
+			return "";
+		} else {
+			return data;
+		}
+	}
+
+	public function write(var id, var data) -> void
+	{
+		var name;
+
+		let name = this->getPrefixedName(id);
+
+		file_put_contents(name, data);
+	}
+}
