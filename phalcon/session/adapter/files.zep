@@ -47,9 +47,17 @@ class Files extends Noop
 
 		let options = this->options;
 
-		if !fetch path, options["savePath"] {
-			throw new Exception("No 'savePath' specified in the options");
+        /**
+         * Get the save_path from the passed options. If not defined
+         * get it from php.ini
+         */
+		if !fetch path, options["save_path"] {
+            let path = ini_get("session.save_path");
 		}
+
+        if true !== is_writable(path) {
+            throw new Exception("The save_path [" . path . "]is not writeable");
+        }
 
 		let this->path = path;
 	}
