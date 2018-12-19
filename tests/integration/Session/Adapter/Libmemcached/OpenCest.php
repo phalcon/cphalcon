@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
+namespace Phalcon\Test\Unit\Session\Adapter\Libmemcached;
 
-use IntegrationTester;
+use UnitTester;
 
+/**
+ * Class OpenCest
+ */
 class OpenCest
 {
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: open()
      *
-     * @param IntegrationTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterLibmemcachedOpen(IntegrationTester $I)
+    public function sessionAdapterLibmemcachedOpen(UnitTester $I)
     {
-        $I->wantToTest("Session\Adapter\Libmemcached - open()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Libmemcached - open()');
+        $I->skipTest('Need implementation');
     }
 }

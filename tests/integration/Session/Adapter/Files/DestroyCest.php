@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Files;
+namespace Phalcon\Test\Unit\Session\Adapter\Files;
 
-use IntegrationTester;
+use UnitTester;
 
+/**
+ * Class DestroyCest
+ */
 class DestroyCest
 {
     /**
      * Tests Phalcon\Session\Adapter\Files :: destroy()
      *
-     * @param IntegrationTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesDestroy(IntegrationTester $I)
+    public function sessionAdapterFilesDestroy(UnitTester $I)
     {
-        $I->wantToTest("Session\Adapter\Files - destroy()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Files - destroy()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
 use IntegrationTester;
 
+/**
+ * Class ReadCest
+ */
 class ReadCest
 {
     /**
@@ -25,7 +29,7 @@ class ReadCest
      */
     public function sessionAdapterLibmemcachedRead(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Adapter\Libmemcached - read()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Libmemcached - read()');
+        $I->skipTest('Need implementation');
     }
 }

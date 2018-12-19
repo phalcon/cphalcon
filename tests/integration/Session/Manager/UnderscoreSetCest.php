@@ -10,26 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Redis;
+namespace Phalcon\Test\Integration\Session\Manager;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
- * Class OpenCest
+ * Class __setCest
+ *
+ * @package Phalcon\Test\Integration\Session\Manager
  */
-class OpenCest
+class UnderscoreSetCest
 {
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: open()
+     * Tests Phalcon\Session\Manager :: __set()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisOpen(UnitTester $I)
+    public function sessionManagerUnderscoreSet(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Redis - open()');
+        $I->wantToTest('Session\Manager - __set()');
         $I->skipTest('Need implementation');
     }
 }

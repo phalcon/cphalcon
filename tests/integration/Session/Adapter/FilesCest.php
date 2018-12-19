@@ -22,6 +22,7 @@ class FilesCest
 
     public function _before(IntegrationTester $I)
     {
+        $I->skipTest('REFACTOR');
         $this->sessionConfig = [
             'save_handler'      => ini_get('session.save_handler'),
             'save_path'         => ini_get('session.save_path'),
