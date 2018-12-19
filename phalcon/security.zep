@@ -23,7 +23,7 @@ use Phalcon\DiInterface;
 use Phalcon\Security\Random;
 use Phalcon\Security\Exception;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Session\AdapterInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
  * Phalcon\Security
@@ -46,7 +46,7 @@ use Phalcon\Session\AdapterInterface as SessionInterface;
 class Security implements InjectionAwareInterface
 {
 
-	protected _dependencyInjector;
+	protected container;
 
 	protected _workFactor = 8 { set, get };
 
@@ -97,9 +97,9 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Sets the dependency injector
 	 */
-	public function setDI(<DiInterface> dependencyInjector) -> void
+	public function setDI(<DiInterface> container) -> void
 	{
-		let this->_dependencyInjector = dependencyInjector;
+		let this->container = container;
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
-		return this->_dependencyInjector;
+		return this->container;
 	}
 
 	/**
@@ -321,16 +321,16 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getTokenKey() -> string
 	{
-		var dependencyInjector, session;
+		var container, session;
 
 		if null === this->_tokenKey {
-			let dependencyInjector = <DiInterface> this->_dependencyInjector;
-			if typeof dependencyInjector != "object" {
+			let container = <DiInterface> this->container;
+			if typeof container != "object" {
 				throw new Exception("A dependency injection container is required to access the 'session' service");
 			}
 
 			let this->_tokenKey = this->_random->base64Safe(this->_numberBytes);
-			let session = <SessionInterface> dependencyInjector->getShared("session");
+			let session = <SessionInterface> container->getShared("session");
 			session->set(this->_tokenKeySessionID, this->_tokenKey);
 		}
 
@@ -342,19 +342,19 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getToken() -> string
 	{
-		var dependencyInjector, session;
+		var container, session;
 
 		if null === this->_token {
 			let this->_requestToken = this->getSessionToken();
 			let this->_token = this->_random->base64Safe(this->_numberBytes);
 
-			let dependencyInjector = <DiInterface> this->_dependencyInjector;
+			let container = <DiInterface> this->container;
 
-			if typeof dependencyInjector != "object" {
+			if typeof container != "object" {
 				throw new Exception("A dependency injection container is required to access the 'session' service");
 			}
 
-			let session = <SessionInterface> dependencyInjector->getShared("session");
+			let session = <SessionInterface> container->getShared("session");
 			session->set(this->_tokenValueSessionID, this->_token);
 		}
 
@@ -366,15 +366,15 @@ class Security implements InjectionAwareInterface
 	 */
 	public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
 	{
-		var dependencyInjector, session, request, equals, userToken, knownToken;
+		var container, session, request, equals, userToken, knownToken;
 
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		let container = <DiInterface> this->container;
 
-		if typeof dependencyInjector != "object" {
+		if typeof container != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <SessionInterface> dependencyInjector->getShared("session");
+		let session = <SessionInterface> container->getShared("session");
 
 		if !tokenKey {
 			let tokenKey = session->get(this->_tokenKeySessionID);
@@ -388,7 +388,7 @@ class Security implements InjectionAwareInterface
 		}
 
 		if !tokenValue {
-			let request = dependencyInjector->getShared("request");
+			let request = container->getShared("request");
 
 			/**
 			 * We always check if the value is correct in post
@@ -430,15 +430,15 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getSessionToken() -> string
 	{
-		var dependencyInjector, session;
+		var container, session;
 
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		let container = <DiInterface> this->container;
 
-		if typeof dependencyInjector != "object" {
+		if typeof container != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <SessionInterface> dependencyInjector->getShared("session");
+		let session = <SessionInterface> container->getShared("session");
 
 		return session->get(this->_tokenValueSessionID);
 	}
@@ -448,15 +448,15 @@ class Security implements InjectionAwareInterface
 	 */
 	public function destroyToken() -> <Security>
 	{
-		var dependencyInjector, session;
+		var container, session;
 
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		let container = <DiInterface> this->container;
 
-		if typeof dependencyInjector != "object" {
+		if typeof container != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <SessionInterface> dependencyInjector->getShared("session");
+		let session = <SessionInterface> container->getShared("session");
 
 		session->remove(this->_tokenKeySessionID);
 		session->remove(this->_tokenValueSessionID);
