@@ -35,7 +35,8 @@ use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Session\Adapter\Files as FilesSession;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Session\Adapter\Files as SessionFiles;
 use function cacheFolder;
 use function dataFolder;
 
@@ -250,7 +251,15 @@ trait DiTrait
 
     protected function setDiSession()
     {
-        $this->container->set('session', FilesSession::class);
+        $this->container->set(
+            'session',
+            function () {
+                $manager = new SessionManager();
+                $manager->setHandler(new SessionFiles());
+
+                return $manager;
+            }
+        );
     }
 
     /**
