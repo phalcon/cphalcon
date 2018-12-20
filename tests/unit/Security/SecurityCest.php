@@ -31,7 +31,7 @@ class SecurityCest
         $this->setNewFactoryDefault();
 //        $this->setDiEscaper();
 //        $this->setDiUrl();
-        $this->setDiSession();
+        $this->setDiSessionFiles();
 
         $_SESSION = [];
         global $_SESSION;
