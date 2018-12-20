@@ -25,7 +25,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
 use Phalcon\Crypt\Mismatch;
-use Phalcon\Session\ManagerInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
 /**
  * Phalcon\Http\Cookie
@@ -291,8 +291,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 		 * The definition is stored in session
 		 */
 		if count(definition) {
-			let session = <SessionInterface> dependencyInjector->getShared("session");
-			if session->isStarted() {
+			let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+			if session->exists() {
 				session->set("_PHCOOKIE_" . name, definition);
 			}
 		}
@@ -357,7 +357,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 				let session = dependencyInjector->getShared("session");
 
-				if session->isStarted() {
+				if session->exists() {
 					let definition = session->get("_PHCOOKIE_" . this->_name);
 					if typeof definition == "array" {
 
@@ -405,8 +405,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
-			let session = <SessionInterface> dependencyInjector->getShared("session");
-			if session->isStarted() {
+			let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+			if session->exists() {
 				session->remove("_PHCOOKIE_" . name);
 			}
 		}
