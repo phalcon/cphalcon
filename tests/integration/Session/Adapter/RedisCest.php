@@ -48,18 +48,18 @@ class RedisCest
     public function testReadAndWriteSession(IntegrationTester $I)
     {
         $sessionID = "abcdef123456";
-        $session = new Redis(
+        $session   = new Redis(
             [
                 'host'  => env('DATA_REDIS_HOST'),
                 'port'  => env('DATA_REDIS_PORT'),
                 'index' => env('DATA_REDIS_NAME'),
             ]
         );
-        $data = serialize(
+        $data      = serialize(
             [
                 "abc" => "123",
                 "def" => "678",
-                "xyz" => "zyx"
+                "xyz" => "zyx",
             ]
         );
 
@@ -77,18 +77,18 @@ class RedisCest
     public function testDestroySession(IntegrationTester $I)
     {
         $sessionID = "abcdef123456";
-        $session = new Redis(
+        $session   = new Redis(
             [
                 'host'  => env('DATA_REDIS_HOST'),
                 'port'  => env('DATA_REDIS_PORT'),
                 'index' => env('DATA_REDIS_NAME'),
             ]
         );
-        $data = serialize(
+        $data      = serialize(
             [
                 "abc" => "123",
                 "def" => "678",
-                "xyz" => "zyx"
+                "xyz" => "zyx",
             ]
         );
 

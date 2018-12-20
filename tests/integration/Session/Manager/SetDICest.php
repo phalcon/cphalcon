@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Manager;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
  * Class SetDICest
@@ -22,12 +22,12 @@ class SetDICest
     /**
      * Tests Phalcon\Session\Manager :: setDI()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerSetDI(UnitTester $I)
+    public function sessionManagerSetDI(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - setDI()');
         $I->skipTest('Need implementation');

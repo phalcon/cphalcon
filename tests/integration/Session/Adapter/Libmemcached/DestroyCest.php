@@ -10,26 +10,49 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Libmemcached;
+namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use UnitTester;
+use function cacheFolder;
+use function file_put_contents;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
 /**
  * Class DestroyCest
  */
 class DestroyCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: destroy()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterLibmemcachedDestroy(UnitTester $I)
+    public function sessionAdapterLibmemcachedDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - destroy()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionLibmemcached();
+
+        $value = uniqid();
+        $serialized = serialize($value);
+        $I->haveInLibmemcached('test1', $serialized);
+        $actual  = $adapter->destroy('test1');
+        $I->assertTrue($actual);
+        $I->dontSeeInLibmemcached('test1');
     }
 }

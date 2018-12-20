@@ -48,20 +48,20 @@ class LibmemcachedCest
     public function testReadAndWriteSession(IntegrationTester $I)
     {
         $sessionID = "abcdef123456";
-        $session = new Libmemcached([
+        $session   = new Libmemcached([
             'servers' => [
                 [
                     'host' => env('DATA_MEMCACHED_HOST'),
                     'port' => env('DATA_MEMCACHED_PORT'),
-                ]
+                ],
             ],
-            'client' => []
+            'client'  => [],
         ]);
-        $data = serialize(
+        $data      = serialize(
             [
                 'abc' => '123',
                 'def' => '678',
-                'xyz' => 'zyx'
+                'xyz' => 'zyx',
             ]
         );
 
@@ -79,20 +79,20 @@ class LibmemcachedCest
     public function testDestroySession(IntegrationTester $I)
     {
         $sessionID = "abcdef123456";
-        $session = new Libmemcached([
+        $session   = new Libmemcached([
             'servers' => [
                 [
                     'host' => env('DATA_MEMCACHED_HOST'),
                     'port' => env('DATA_MEMCACHED_PORT'),
-                ]
+                ],
             ],
-            'client' => []
+            'client'  => [],
         ]);
-        $data = serialize(
+        $data      = serialize(
             [
                 'abc' => '123',
                 'def' => '678',
-                'xyz' => 'zyx'
+                'xyz' => 'zyx',
             ]
         );
 

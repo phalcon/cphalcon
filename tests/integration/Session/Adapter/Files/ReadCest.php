@@ -16,6 +16,7 @@ use function cacheFolder;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
 /**
  * Class ReadCest
@@ -45,9 +46,11 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Files - write()');
         $adapter = $this->getSessionFiles();
-        $adapter->write('test1', 'xxxx');
 
-        $expected = 'xxxx';
+        $value = uniqid();
+        $adapter->write('test1', $value);
+
+        $expected = $value;
         $actual   = $adapter->read('test1');
         $I->assertEquals($expected, $actual);
         $I->safeDeleteFile(cacheFolder('test1'));

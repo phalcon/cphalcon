@@ -10,26 +10,51 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Libmemcached;
+namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use UnitTester;
+use function cacheFolder;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function serialize;
+use function uniqid;
 
 /**
  * Class WriteCest
  */
 class WriteCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: write()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterLibmemcachedWrite(UnitTester $I)
+    public function sessionAdapterLibmemcachedWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - write()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionLibmemcached();
+        $value = uniqid();
+        $adapter->write('test1', $value);
+
+        /**
+         * Serialize the value because the adapter does not have a serializer
+         */
+        $value = serialize($value);
+        $I->seeInLibmemcached('test1', $value);
+        $I->removeFromLibmemcached('test1');
     }
 }

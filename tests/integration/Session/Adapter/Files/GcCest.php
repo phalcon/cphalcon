@@ -18,6 +18,7 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function sleep;
+use function uniqid;
 
 /**
  * Class GcCest
@@ -51,8 +52,8 @@ class GcCest
         /**
          * Add two session files
          */
-        file_put_contents(cacheFolder('gc_1'), 'xxxx');
-        file_put_contents(cacheFolder('gc_2'), 'xxxx');
+        file_put_contents(cacheFolder('gc_1'), uniqid());
+        file_put_contents(cacheFolder('gc_2'), uniqid());
         /**
          * Sleep to make sure that the time expired
          */

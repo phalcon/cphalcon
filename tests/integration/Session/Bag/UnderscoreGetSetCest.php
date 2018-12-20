@@ -38,7 +38,7 @@ class UnderscoreGetSetCest
         $I->wantToTest("Session\Bag - __get()/__set()");
         $session = new Bag("SetterTest");
 
-        $testValue = "TestValue";
+        $testValue     = "TestValue";
         $session->test = $testValue;
 
         $I->assertEquals($testValue, $session->test);

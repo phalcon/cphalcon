@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
-use Phalcon\Session\Bag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Session\BagInterface;
-use IteratorAggregate;
 use ArrayAccess;
 use Countable;
+use IntegrationTester;
+use IteratorAggregate;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Session\Bag;
+use Phalcon\Session\BagInterface;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
  * Class InitializeCest

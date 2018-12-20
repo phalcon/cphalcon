@@ -10,26 +10,46 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Redis;
+namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use UnitTester;
+use function cacheFolder;
+use function file_put_contents;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function sleep;
+use function uniqid;
 
 /**
  * Class GcCest
  */
 class GcCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Redis :: gc()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisGc(UnitTester $I)
+    public function sessionAdapterRedisGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - gc()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionRedis();
+
+        $actual  = $adapter->gc(1);
+        $I->assertTrue($actual);
     }
 }

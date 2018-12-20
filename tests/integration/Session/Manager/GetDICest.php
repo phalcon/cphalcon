@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Manager;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
  * Class GetDICest
@@ -22,12 +22,12 @@ class GetDICest
     /**
      * Tests Phalcon\Session\Manager :: getDI()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerGetDI(UnitTester $I)
+    public function sessionManagerGetDI(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getDI()');
         $I->skipTest('Need implementation');

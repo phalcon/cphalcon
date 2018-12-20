@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Manager;
+namespace Phalcon\Test\Integration\Session\Manager;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
  * Class SetHandlerCest
@@ -22,12 +22,12 @@ class SetHandlerCest
     /**
      * Tests Phalcon\Session\Manager :: setHandler()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerSetHandler(UnitTester $I)
+    public function sessionManagerSetHandler(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - setHandler()');
         $I->skipTest('Need implementation');

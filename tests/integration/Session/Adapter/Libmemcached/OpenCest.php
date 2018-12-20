@@ -10,26 +10,41 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Libmemcached;
+namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class OpenCest
  */
 class OpenCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: open()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterLibmemcachedOpen(UnitTester $I)
+    public function sessionAdapterLibmemcachedOpen(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - open()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionLibmemcached();
+        $actual  = $adapter->open('test', 'test1');
+        $I->assertTrue($actual);
     }
 }

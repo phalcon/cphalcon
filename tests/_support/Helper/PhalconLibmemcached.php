@@ -1,29 +1,24 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
 namespace Helper;
 
 use Codeception\Module;
 use Codeception\TestInterface;
 use Codeception\Exception\ModuleException;
+use function intval;
 
 /**
- * \Phalcon\Test\Module\Libmemcached
- *
- * Connects to [memcached](http://www.memcached.org/) using _Memcached_ extension.
- * Performs a cleanup by flushing all values after each test run.
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- * @package   Phalcon\Test\Module
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * Class PhalconLibmemcached
  */
 class PhalconLibmemcached extends Module
 {
@@ -66,6 +61,9 @@ class PhalconLibmemcached extends Module
         $this->_cleanup();
     }
 
+    /**
+     * @throws ModuleException
+     */
     public function _cleanup()
     {
         if (!$this->memcached) {
@@ -77,6 +75,18 @@ class PhalconLibmemcached extends Module
     }
 
     /**
+     * Flushes all Memcached data.
+     */
+    public function clearMemcache()
+    {
+        if (!$this->memcached) {
+            $this->connect();
+        }
+
+        $this->memcached->flush();
+    }
+
+    /**
      * Grabs value from memcached by key.
      *
      * <code>
@@ -85,6 +95,7 @@ class PhalconLibmemcached extends Module
      *
      * @param mixed $key
      * @return mixed
+     * @throws ModuleException
      */
     public function grabValueFromLibmemcached($key)
     {
@@ -104,34 +115,28 @@ class PhalconLibmemcached extends Module
     }
 
     /**
-     * Checks item in Memcached exists and the same as expected.
+     * Stores an item `$value` with `$key` on the Memcached server.
      *
      * <code>
-     * // With only one argument, only checks the key exists
-     * $I->seeInLibmemcached('users_count');
-     *
-     * // Checks a 'users_count' exists and has the value 200
-     * $I->seeInLibmemcached('users_count', 200);
+     * $I->haveInLibmemcached('users_count', 200);
      * </code>
      *
-     * @param mixed $key
-     * @param mixed $value
+     * @param string $key
+     * @param mixed  $value
+     * @param int    $expiration
+     *
+     * @throws ModuleException
      */
-    public function seeInLibmemcached($key, $value = null)
+    public function haveInLibmemcached($key, $value, $expiration = null)
     {
         if (!$this->memcached) {
             $this->connect();
         }
 
-        $actual = $this->memcached->get($key);
-        $this->debugSection('Value', $actual);
+        $this->memcached->set($key, $value, intval($expiration));
 
         if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
-            $this->fail("Cannot find key '$key' in the Memcached");
-        }
-
-        if ($value !== null) {
-            $this->assertEquals($value, $actual, "Cannot find key '$key' in the Memcached with the provided value");
+            $this->fail("[{$this->memcached->getResultCode()}] Unable to store the '$key' in the Memcached");
         }
     }
 
@@ -148,6 +153,8 @@ class PhalconLibmemcached extends Module
      *
      * @param mixed $key
      * @param mixed $value
+     *
+     * @throws ModuleException
      */
     public function dontSeeInLibmemcached($key, $value = null)
     {
@@ -174,39 +181,67 @@ class PhalconLibmemcached extends Module
     }
 
     /**
-     * Stores an item `$value` with `$key` on the Memcached server.
+     * Removes an item from memcached
      *
      * <code>
-     * $I->haveInLibmemcached('users_count', 200);
+     * // With only one argument, only checks the key exists
+     * $I->removeFromLibmemcached('users_count');
+     *
+     * // Checks a 'users_count' exists and has the value 200
+     * $I->seeInLibmemcached('users_count', 200);
      * </code>
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $expiration
+     * @param mixed $key
+     *
+     * @throws ModuleException
      */
-    public function haveInLibmemcached($key, $value, $expiration = null)
+    public function removeFromLibmemcached($key)
     {
         if (!$this->memcached) {
             $this->connect();
         }
 
-        $this->memcached->set($key, $value, $expiration);
+        $actual = $this->memcached->get($key);
+        $this->debugSection('Value', $actual);
 
-        if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
-            $this->fail("[{$this->memcached->getResultCode()}] Unable to store the '$key' in the Memcached");
+        if ($this->memcached->getResultCode() === \Memcached::RES_SUCCESS) {
+            $actual = $this->memcached->delete($key);
+            $this->assertTrue($actual, "Cannot delete key '$key' from Memcached");
         }
     }
 
     /**
-     * Flushes all Memcached data.
+     * Checks item in Memcached exists and the same as expected.
+     *
+     * <code>
+     * // With only one argument, only checks the key exists
+     * $I->seeInLibmemcached('users_count');
+     *
+     * // Checks a 'users_count' exists and has the value 200
+     * $I->seeInLibmemcached('users_count', 200);
+     * </code>
+     *
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @throws ModuleException
      */
-    public function clearMemcache()
+    public function seeInLibmemcached($key, $value = null)
     {
         if (!$this->memcached) {
             $this->connect();
         }
 
-        $this->memcached->flush();
+        $actual = $this->memcached->get($key);
+        $this->debugSection('Value', $actual);
+
+        if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
+            $this->fail("Cannot find key '$key' in the Memcached");
+        }
+
+        if ($value !== null) {
+            $this->assertEquals($value, $actual, "Cannot find key '$key' in the Memcached with the provided value");
+        }
     }
 
     /**
@@ -222,8 +257,8 @@ class PhalconLibmemcached extends Module
         if (empty($this->memcached->getServerList())) {
             $connect = $this->memcached->addServer(
                 $this->config['host'],
-                $this->config['port'],
-                $this->config['weight']
+                intval($this->config['port']),
+                intval($this->config['weight'])
             );
 
             if (!$connect) {

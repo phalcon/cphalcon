@@ -12,24 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use UnitTester;
+use function cacheFolder;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function serialize;
+use function uniqid;
 
 /**
  * Class WriteCest
  */
 class WriteCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Redis :: write()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisWrite(UnitTester $I)
+    public function sessionAdapterRedisWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - write()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionRedis();
+        $value = uniqid();
+        $adapter->write('test1', $value);
+
+        /**
+         * Serialize the value because the adapter does not have a serializer
+         */
+        $expected = $value;
+        $actual   = $I->grabFromRedis('test1');
+        $I->assertEquals($expected, $actual);
+        $I->sendCommandToRedis('del', 'test1');
     }
 }

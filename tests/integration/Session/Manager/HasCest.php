@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Manager;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
  * Class HasCest
@@ -22,12 +22,12 @@ class HasCest
     /**
      * Tests Phalcon\Session\Manager :: has()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerHas(UnitTester $I)
+    public function sessionManagerHas(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - has()');
         $I->skipTest('Need implementation');

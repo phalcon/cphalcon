@@ -12,13 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
+use function cacheFolder;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
 /**
  * Class WriteCest
  */
 class WriteCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Noop :: write()
      *
@@ -30,6 +45,7 @@ class WriteCest
     public function sessionAdapterNoopWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionNoop();
+        $adapter->write('test1', uniqid());
     }
 }
