@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Manager;
 
-use function cacheFolder;
 use IntegrationTester;
-use Phalcon\Session\Adapter\Files;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function uniqid;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class ExistsCest
@@ -25,6 +23,7 @@ use function uniqid;
 class ExistsCest
 {
     use DiTrait;
+    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: exists()
@@ -38,11 +37,7 @@ class ExistsCest
     {
         $I->wantToTest('Session\Manager - exists()');
         $manager = new Manager();
-        $files   = new Files(
-            [
-                'save_path' => cacheFolder()
-            ]
-        );
+        $files   = $this->getSessionFiles();
         $manager->setHandler($files);
 
         $actual = $manager->start();
@@ -51,8 +46,7 @@ class ExistsCest
         $actual = $manager->exists();
         $I->assertTrue($actual);
 
-        $actual = $manager->destroy();
-        $I->assertTrue($actual);
+        $manager->destroy();
 
         $actual = $manager->exists();
         $I->assertFalse($actual);

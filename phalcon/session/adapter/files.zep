@@ -94,15 +94,11 @@ class Files extends Noop
 	{
 		var path;
 
-		if ends_with(savePath, "/") {
+		if true !== ends_with(savePath, "/") {
 			let path = savePath . "/";
 		}
 
 		let this->path = path;
-
-		if (!is_dir(path)) {
-			mkdir(path, 0777, true);
-		}
 
 		return true;
 	}
@@ -112,13 +108,17 @@ class Files extends Noop
 		var data, name;
 
 		let name = this->path . this->getPrefixedName(id),
-			data = file_get_contents(name);
+			data = "";
 
-		if (false === data) {
-			return "";
-		} else {
-			return data;
+		if true === file_exists(name) {
+			let data = file_get_contents(name);
+
+			if (false === data) {
+				return "";
+			}
 		}
+
+		return data;
 	}
 
 	public function write(var id, var data) -> void
