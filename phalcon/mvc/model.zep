@@ -345,12 +345,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let lowerProperty = strtolower(property),
 				modelName = get_class(this),
 				manager = this->getModelsManager();
-
+			
+			let haveRelation = false;
 			let related = [];
 			for key, item in value {
 				if typeof item == "object" {
 					if item instanceof ModelInterface {
 						let related[] = item;
+						haveRelation = true;
 					}
 				} else {
 					let lowerKey = strtolower(key),
@@ -359,6 +361,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if typeof relation == "object" {
 						let referencedModel = manager->load(relation->getReferencedModel());
 						referencedModel->writeAttribute(lowerKey, item);
+						haveRelation = true;
 					}
 				}
 			}
@@ -367,8 +370,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->_related[lowerProperty] = related,
 					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
 			}
-
-			return value;
+			
+			if haveRelation === true {
+				return value;
+			}
 		}
 
 		// Use possible setter.
