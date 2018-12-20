@@ -73,7 +73,8 @@ run.config:
     # This is here so that Phalcon can be used right after compilation
     - echo -e 'extension=phalcon.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
-    # Options for opcache and apcu
+    # Options for session, opcache and apcu
+    - echo -e 'session.save_path="/tmp"' >> "/data/etc/php/dev_php.ini"
     - echo -e 'opcache.enable_cli=1' >> "/data/etc/php/dev_php.ini"
     - echo -e 'apcu.enabled=1' >> "/data/etc/php/dev_php.ini"
     - echo -e 'apcu.enable_cli=1' >> "/data/etc/php/dev_php.ini"
