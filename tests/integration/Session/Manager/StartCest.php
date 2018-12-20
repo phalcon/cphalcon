@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Manager;
 
-use UnitTester;
+use IntegrationTester;
 
 /**
  * Class StartCest
@@ -22,12 +22,12 @@ class StartCest
     /**
      * Tests Phalcon\Session\Manager :: start()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerStart(UnitTester $I)
+    public function sessionManagerStart(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - start()');
         $I->skipTest('Need implementation');

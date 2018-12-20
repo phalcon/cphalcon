@@ -13,12 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class OpenCest
  */
 class OpenCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Noop :: open()
      *
@@ -30,6 +43,8 @@ class OpenCest
     public function sessionAdapterNoopOpen(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - open()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionNoop();
+        $actual  = $adapter->open(cacheFolder(), 'test1');
+        $I->assertTrue($actual);
     }
 }

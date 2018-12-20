@@ -10,26 +10,41 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Redis;
+namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class CloseCest
  */
 class CloseCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Redis :: close()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisClose(UnitTester $I)
+    public function sessionAdapterRedisClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - close()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionRedis();
+        $actual  = $adapter->close();
+        $I->assertTrue($actual);
     }
 }

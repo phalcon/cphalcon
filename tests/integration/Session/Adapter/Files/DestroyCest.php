@@ -17,6 +17,7 @@ use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
 /**
  * Class DestroyCest
@@ -50,7 +51,7 @@ class DestroyCest
         /**
          * Create a file in the session folder
          */
-        file_put_contents(cacheFolder('test1'), 'xxxx');
+        file_put_contents(cacheFolder('test1'), uniqid());
         $actual  = $adapter->destroy('test1');
         $I->assertTrue($actual);
 

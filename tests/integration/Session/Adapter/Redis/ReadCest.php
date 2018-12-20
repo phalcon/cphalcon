@@ -10,26 +10,49 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Redis;
+namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use UnitTester;
+use function cacheFolder;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
 /**
  * Class ReadCest
  */
 class ReadCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: read()
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
+    /**
+     * Tests Phalcon\Session\Adapter\Redis :: write()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterRedisRead(UnitTester $I)
+    public function sessionAdapterRedisRead(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Redis - read()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Session\Adapter\Redis - write()');
+        $adapter = $this->getSessionRedis();
+        $value = uniqid();
+
+        $I->haveInRedis('string', 'test1', $value);
+
+        $expected = $value;
+        $actual   = $adapter->read('test1');
+        $I->assertEquals($expected, $actual);
+        $I->sendCommandToRedis('del', 'test1');
     }
 }

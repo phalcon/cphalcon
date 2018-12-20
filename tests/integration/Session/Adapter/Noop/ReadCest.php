@@ -12,15 +12,30 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
+use function cacheFolder;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
 /**
  * Class ReadCest
  */
 class ReadCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
-     * Tests Phalcon\Session\Adapter\Noop :: read()
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
+    /**
+     * Tests Phalcon\Session\Adapter\Noop :: write()
      *
      * @param IntegrationTester $I
      *
@@ -29,7 +44,13 @@ class ReadCest
      */
     public function sessionAdapterNoopRead(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Noop - read()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Session\Adapter\Noop - write()');
+        $adapter = $this->getSessionNoop();
+        $value = uniqid();
+        $adapter->write('test1', $value);
+
+        $expected = '';
+        $actual   = $adapter->read('test1');
+        $I->assertEquals($expected, $actual);
     }
 }

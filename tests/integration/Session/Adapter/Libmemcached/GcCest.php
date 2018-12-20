@@ -12,24 +12,55 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use UnitTester;
+use function cacheFolder;
+use function file_put_contents;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function sleep;
+use function uniqid;
 
 /**
  * Class GcCest
  */
 class GcCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: gc()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterLibmemcachedGc(UnitTester $I)
+    public function sessionAdapterLibmemcachedGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - gc()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionLibmemcached();
+
+        /**
+         * Add two session keys
+         */
+        $I->haveInLibmemcached('gc_1', uniqid(), 1);
+        $I->haveInLibmemcached('gc_2', uniqid(), 1);
+        /**
+         * Sleep to make sure that the time expired
+         */
+        sleep(2);
+        $actual  = $adapter->gc(1);
+        $I->assertTrue($actual);
+        $I->dontSeeInLibmemcached('gc_1');
+        $I->dontSeeInLibmemcached('gc_2');
     }
 }

@@ -13,12 +13,26 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use SessionHandlerInterface;
 
 /**
  * Class ConstructCest
  */
 class ConstructCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Noop :: __construct()
      *
@@ -30,6 +44,8 @@ class ConstructCest
     public function sessionAdapterNoopConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - __construct()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionNoop();
+        $class   = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }
