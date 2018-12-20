@@ -50,7 +50,7 @@ use Phalcon\Session\Exception;
  */
 class Libmemcached extends Noop
 {
-	public function __construct(array options = [])
+	public function __construct(array! options = [])
 	{
 		var client, options, persistentId, prefix, servers, statsKey, ttl;
 

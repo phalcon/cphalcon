@@ -118,7 +118,6 @@ class Redis extends Backend
 		}
 
 		let this->statsKey = options["statsKey"];
-
 		parent::__construct(frontend, options);
 	}
 

@@ -13,12 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class CloseCest
  */
 class CloseCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Files :: close()
      *
@@ -30,6 +43,8 @@ class CloseCest
     public function sessionAdapterFilesClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - close()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionFiles();
+        $actual  = $adapter->close();
+        $I->assertTrue($actual);
     }
 }

@@ -12,13 +12,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
+use function cacheFolder;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class WriteCest
  */
 class WriteCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Files :: write()
      *
@@ -30,6 +44,11 @@ class WriteCest
     public function sessionAdapterFilesWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - write()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionFiles();
+        $adapter->write('test1', 'xxxx');
+        $I->amInPath(cacheFolder());
+        $I->seeFileFound('test1');
+        $I->seeInThisFile('xxxx');
+        $I->safeDeleteFile(cacheFolder('test1'));
     }
 }

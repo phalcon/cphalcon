@@ -40,13 +40,14 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * </code>
  */class Redis extends Noop
 {
-	public function __construct(array options = [])
+	public function __construct(array! options = [])
 	{
 		var options, params;
 
 	    parent::__construct(options);
 
 	    let options              = this->options,
+	        params               = [],
 	        params["host"]       = this->arrayGetDefault(options, "host", "127.0.0.1"),
 		    params["port"]       = this->arrayGetDefault(options, "port", 6379),
 		    params["index"]      = this->arrayGetDefault(options, "index", 0),

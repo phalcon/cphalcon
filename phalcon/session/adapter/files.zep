@@ -39,7 +39,7 @@ class Files extends Noop
      */
 	private path = "";
 
-	public function __construct(array options = [])
+	public function __construct(array! options = [])
 	{
 		var path, options;
 
@@ -66,9 +66,9 @@ class Files extends Noop
 	{
 		var name;
 
-		let name = this->getPrefixedName(id);
+		let name = this->path . this->getPrefixedName(id);
 
-		if (file_exists(name)) {
+		if (true === file_exists(name)) {
 			unlink(name);
 		}
 
@@ -111,7 +111,7 @@ class Files extends Noop
 	{
 		var data, name;
 
-		let name = this->getPrefixedName(id),
+		let name = this->path . this->getPrefixedName(id),
 			data = file_get_contents(name);
 
 		if (false === data) {
@@ -125,7 +125,7 @@ class Files extends Noop
 	{
 		var name;
 
-		let name = this->getPrefixedName(id);
+		let name = this->path . this->getPrefixedName(id);
 
 		file_put_contents(name, data);
 	}
