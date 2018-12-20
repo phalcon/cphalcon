@@ -49,6 +49,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
 	    let options              = this->options,
 	        params["host"]       = this->arrayGetDefault(options, "host", "127.0.0.1"),
 		    params["port"]       = this->arrayGetDefault(options, "port", 6379),
+		    params["index"]      = this->arrayGetDefault(options, "index", 0),
 		    params["persistent"] = this->arrayGetDefault(options, "persistent", false),
 		    this->ttl            = this->arrayGetDefault(options, "ttl", this->ttl);
 
