@@ -13,12 +13,23 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Session\BagInterface;
+use IteratorAggregate;
+use ArrayAccess;
+use Countable;
 
 /**
  * Class InitializeCest
  */
 class InitializeCest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: initialize()
      *
@@ -30,6 +41,12 @@ class InitializeCest
     public function sessionBagInitialize(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - initialize()");
-        $I->skipTest("Need implementation");
+        $session = new Bag("SetTest");
+
+        $I->assertInstanceOf(InjectionAwareInterface::class, $session);
+        $I->assertInstanceOf(BagInterface::class, $session);
+        $I->assertInstanceOf(IteratorAggregate::class, $session);
+        $I->assertInstanceOf(ArrayAccess::class, $session);
+        $I->assertInstanceOf(Countable::class, $session);
     }
 }
