@@ -18,29 +18,29 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class OffsetSetCest
+ * Class GetSetCest
  */
-class OffsetSetCest
+class GetSetCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: offsetSet()
+     * Tests Phalcon\Session\Bag :: __get/__set()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagOffsetSet(IntegrationTester $I)
+    public function sessionBagGetSet(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - offsetSet()");
-        $session = new Bag("SetTest");
+        $I->wantToTest("Session\Bag - __get/__set()");
+        $session = new Bag("SetterTest");
 
-        $testValue = "TestValue";
-        $session->offsetSet("test", $testValue);
+        $testValue     = "TestValue";
+        $session->test = $testValue;
 
-        $I->assertEquals($testValue, $session->offsetGet("test"));
+        $I->assertEquals($testValue, $session->get("test"));
     }
 }

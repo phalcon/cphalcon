@@ -13,34 +13,33 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class OffsetGetCest
+ * Class GetSetDICest
  */
-class OffsetGetCest
+class GetSetDICest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: offsetGet()
+     * Tests Phalcon\Session\Bag :: getDI()/setDI()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagOffsetGet(IntegrationTester $I)
+    public function sessionBagGetSetDI(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - offsetGet()");
-        $session = new Bag("SetTest");
-
-        $testValue = "TestValue";
-        $session->set("test", $testValue);
-
-        $I->assertEquals($testValue, $session->offsetGet("test"));
+        $I->wantToTest("Session\Bag - getDI()/setDI()");
+        $session = new Bag("DiTest");
+        $di      = new FactoryDefault();
+        $session->setDI($di);
+        $I->assertEquals($di, $session->getDI());
     }
 }
