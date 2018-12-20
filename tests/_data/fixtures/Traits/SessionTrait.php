@@ -12,35 +12,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Exception;
-use UnitTester;
-use function outputFolder;
+use IntegrationTester;
 
 /**
- * Trait SessionBagTrait
+ * Trait SessionTrait
  *
  * @package Phalcon\Test\Fixtures\Traits
  */
-trait SessionBagTrait
+trait SessionTrait
 {
     /**
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      */
-    public function _before(UnitTester $I)
+    public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
     }
 
     /**
      * @return mixed
      */
     abstract protected function setNewFactoryDefault();
-
-    /**
-     * @return mixed
-     */
-    abstract protected function setDiSessionFiles();
 }
