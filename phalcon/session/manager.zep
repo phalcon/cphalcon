@@ -107,11 +107,9 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function destroy() -> void
 	{
-		if (true !== this->exists()) {
-			return;
+		if (true === this->exists()) {
+		    session_destroy();
 		}
-
-		session_destroy();
 	}
 
 	/**
@@ -119,15 +117,9 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function exists() -> bool
 	{
-		if (session_status() === self::SESSION_ACTIVE) {
-			return true;
-		}
-
-		if (true !== empty(this->getId())) {
-			return true;
-		}
-
-		if (true === headers_sent()) {
+		if (session_status() === self::SESSION_ACTIVE ||
+		    true !== empty(this->getId()) ||
+		    true === headers_sent()) {
 			return true;
 		}
 
@@ -357,6 +349,8 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 		 */
 		if (this->handler instanceof SessionHandlerInterface) {
 			this->registerHandler(this->handler);
+		} else {
+		    throw new Exception("The session handler is not valid");
 		}
 
 		let oldSession = _SESSION;

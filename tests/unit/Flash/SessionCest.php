@@ -35,7 +35,7 @@ class SessionCest
     {
         $this->newDi();
         $this->setDiEscaper();
-        $this->setDiSession();
+        $this->setDiSessionFiles();
     }
 
 
