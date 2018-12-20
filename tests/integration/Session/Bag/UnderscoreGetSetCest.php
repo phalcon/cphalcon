@@ -18,29 +18,29 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class UnderscoreSetCest
+ * Class UnderscoreGetSetCest
  */
-class UnderscoreSetCest
+class UnderscoreGetSetCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: __set()
+     * Tests Phalcon\Session\Bag :: __get()/__set()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagUnderscoreSet(IntegrationTester $I)
+    public function sessionBagUnderscoreGetSet(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - __set()");
+        $I->wantToTest("Session\Bag - __get()/__set()");
         $session = new Bag("SetterTest");
 
-        $testValue     = "TestValue";
+        $testValue = "TestValue";
         $session->test = $testValue;
 
-        $I->assertEquals($testValue, $session->get("test"));
+        $I->assertEquals($testValue, $session->test);
     }
 }
