@@ -10,26 +10,42 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use SessionHandlerInterface;
 
 /**
  * Class ConstructCest
  */
 class ConstructCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Files :: __construct()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesConstruct(UnitTester $I)
+    public function sessionAdapterFilesConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - __construct()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionFiles();
+        $class   = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }

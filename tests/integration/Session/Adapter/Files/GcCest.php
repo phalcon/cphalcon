@@ -12,13 +12,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
+use function cacheFolder;
+use function file_put_contents;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function sleep;
 
 /**
  * Class GcCest
  */
 class GcCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Files :: gc()
      *
@@ -30,6 +46,21 @@ class GcCest
     public function sessionAdapterFilesGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - gc()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionFiles();
+
+        /**
+         * Add two session files
+         */
+        file_put_contents(cacheFolder('gc_1'), 'xxxx');
+        file_put_contents(cacheFolder('gc_2'), 'xxxx');
+        /**
+         * Sleep to make sure that the time expired
+         */
+        sleep(2);
+        $actual  = $adapter->gc(1);
+        $I->assertTrue($actual);
+        $I->amInPath(cacheFolder());
+        $I->dontSeeFileFound('gc_1');
+        $I->dontSeeFileFound('gc_2');
     }
 }

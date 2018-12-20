@@ -12,15 +12,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
+use function cacheFolder;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class ReadCest
  */
 class ReadCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
-     * Tests Phalcon\Session\Adapter\Files :: read()
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
+    /**
+     * Tests Phalcon\Session\Adapter\Files :: write()
      *
      * @param IntegrationTester $I
      *
@@ -29,7 +43,13 @@ class ReadCest
      */
     public function sessionAdapterFilesRead(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Files - read()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Session\Adapter\Files - write()');
+        $adapter = $this->getSessionFiles();
+        $adapter->write('test1', 'xxxx');
+
+        $expected = 'xxxx';
+        $actual   = $adapter->read('test1');
+        $I->assertEquals($expected, $actual);
+        $I->safeDeleteFile(cacheFolder('test1'));
     }
 }

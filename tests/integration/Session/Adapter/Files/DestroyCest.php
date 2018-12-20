@@ -10,26 +10,50 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
-use UnitTester;
+use function cacheFolder;
+use function file_put_contents;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class DestroyCest
  */
 class DestroyCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Files :: destroy()
      *
-     * @param UnitTester $I
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesDestroy(UnitTester $I)
+    public function sessionAdapterFilesDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - destroy()');
-        $I->skipTest('Need implementation');
+        $adapter = $this->getSessionFiles();
+
+        /**
+         * Create a file in the session folder
+         */
+        file_put_contents(cacheFolder('test1'), 'xxxx');
+        $actual  = $adapter->destroy('test1');
+        $I->assertTrue($actual);
+
+        $I->dontSeeFileFound('test1', cacheFolder());
     }
 }

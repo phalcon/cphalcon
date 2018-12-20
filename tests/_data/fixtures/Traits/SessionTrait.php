@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use IntegrationTester;
+use Phalcon\Session\Adapter\Files;
+use Phalcon\Session\Adapter\Libmemcached;
+use Phalcon\Session\Adapter\Noop;
+use Phalcon\Session\Adapter\Redis;
 
 /**
  * Trait SessionTrait
@@ -22,15 +25,53 @@ use IntegrationTester;
 trait SessionTrait
 {
     /**
-     * @param IntegrationTester $I
+     * @return Files
      */
-    public function _before(IntegrationTester $I)
+    protected function getSessionFiles(): Files
     {
-        $this->setNewFactoryDefault();
+        return new Files(
+            [
+                'save_path' => cacheFolder(),
+            ]
+        );
     }
 
     /**
-     * @return mixed
+     * @return Libmemcached
      */
-    abstract protected function setNewFactoryDefault();
+    protected function getSessionLibmemcached(): Libmemcached
+    {
+        return new Libmemcached(
+            [
+                'servers' => [
+                    [
+                        'host' => env('DATA_MEMCACHED_HOST'),
+                        'port' => env('DATA_MEMCACHED_PORT'),
+                    ],
+                ],
+            ]
+        );
+    }
+
+    /**
+     * @return Noop
+     */
+    protected function getSessionNoop(): Noop
+    {
+        return new Noop();
+    }
+
+    /**
+     * @return Redis
+     */
+    protected function getSessionRedis(): Redis
+    {
+        return new Redis(
+            [
+                'host'  => env('DATA_REDIS_HOST'),
+                'port'  => env('DATA_REDIS_PORT'),
+                'index' => env('DATA_REDIS_NAME'),
+            ]
+        );
+    }
 }
