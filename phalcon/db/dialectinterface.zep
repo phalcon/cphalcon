@@ -188,4 +188,18 @@ interface DialectInterface
 	 */
 	public function rollbackSavepoint(string! name) -> string;
 
+	/**
+	 * Registers custom SQL functions
+	 */
+	public function registerCustomFunction(string name, callable customFunction) -> <Dialect>;
+
+	/**
+	 * Returns registered functions
+	 */
+	public function getCustomFunctions() -> array;
+
+	/**
+	 * Transforms an intermediate representation for an expression into a database system valid expression
+	 */
+	public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string;
 }

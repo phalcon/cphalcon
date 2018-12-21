@@ -122,7 +122,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Sets the database service used to run the isolated transactions
 	 */
-	public function setDbService(string! service) -> <Manager>
+	public function setDbService(string! service) -> <ManagerInterface>
 	{
 		let this->_service = service;
 		return this;
@@ -139,7 +139,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Set if the transaction manager must register a shutdown function to clean up pendent transactions
 	 */
-	public function setRollbackPendent(bool rollbackPendent) -> <Manager>
+	public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>
 	{
 		let this->_rollbackPendent = rollbackPendent;
 		return this;

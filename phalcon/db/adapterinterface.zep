@@ -159,6 +159,26 @@ interface AdapterInterface
 	public function fetchAll(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
 
 	/**
+	 * Returns the n'th field of first row in a SQL query result
+	 *
+	 *<code>
+	 * // Getting count of robots
+	 * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+	 * print_r($robotsCount);
+	 *
+	 * // Getting name of last edited robot
+	 * $robot = $connection->fetchColumn(
+	 *     "SELECT id, name FROM robots order by modified desc",
+	 *     1
+	 * );
+	 * print_r($robot);
+	 *</code>
+	 *
+	 * @param  int|string column
+	 */
+	public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool;
+
+	/**
 	 * Returns the first row in a SQL query result
 	 *
 	 * @param int placeholders
@@ -249,6 +269,28 @@ interface AdapterInterface
 	 * @param 	array dataTypes
 	 */
 	public function insert(string table, array! values, fields = null, dataTypes = null) -> bool;
+
+	/**
+	 * Inserts data into a table using custom RBDM SQL syntax
+	 *
+	 * <code>
+	 * // Inserting a new robot
+	 * $success = $connection->insertAsDict(
+	 *     "robots",
+	 *     [
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
+	 *
+	 * // Next SQL sentence is sent to the database system
+	 * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+	 * </code>
+	 *
+	 * @param 	array data
+	 * @param 	array dataTypes
+	 */
+	public function insertAsDict(string table, data, var dataTypes = null) -> bool;
 
 	/**
 	 * Returns if nested transactions should use savepoints
@@ -343,6 +385,30 @@ interface AdapterInterface
 	 * @param 	array dataTypes
 	 */
 	public function update(string table, fields, values, whereCondition = null, dataTypes = null) -> bool;
+
+	/**
+	 * Updates data on a table using custom RBDM SQL syntax
+	 * Another, more convenient syntax
+	 *
+	 * <code>
+	 * // Updating existing robot
+	 * $success = $connection->updateAsDict(
+	 *     "robots",
+	 *     [
+	 *         "name" => "New Astro Boy",
+	 *     ],
+	 *     "id = 101"
+	 * );
+	 *
+	 * // Next SQL sentence is sent to the database system
+	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+	 * </code>
+	 *
+	 * @param 	array data
+	 * @param 	string whereCondition
+	 * @param 	array dataTypes
+	 */
+	public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool;
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns

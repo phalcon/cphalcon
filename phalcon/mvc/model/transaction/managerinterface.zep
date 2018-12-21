@@ -69,4 +69,23 @@ interface ManagerInterface
 	 */
 	public function collectTransactions();
 
+	/**
+	 * Sets the database service used to run the isolated transactions
+	 */
+	public function setDbService(string! service) -> <ManagerInterface>;
+
+	/**
+	 * Returns the database service used to isolate the transaction
+	 */
+	public function getDbService() -> string;
+
+	/**
+	 * Set if the transaction manager must register a shutdown function to clean up pendent transactions
+	 */
+	public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>;
+
+	/**
+	 * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
+	 */
+	public function getRollbackPendent() -> bool;
 }

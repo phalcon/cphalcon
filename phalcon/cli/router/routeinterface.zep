@@ -76,4 +76,13 @@ interface RouteInterface
 	 */
 	public static function reset() -> void;
 
+	/**
+	 * Set the routing delimiter
+	 */
+	public static function delimiter(string! delimiter = null);
+
+	/**
+	 * Get routing delimiter
+	 */
+	public static function getDelimiter() -> string;
 }
