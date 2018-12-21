@@ -13,12 +13,19 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Manager;
 
 use IntegrationTester;
+use Phalcon\Session\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+
 
 /**
  * Class HasCest
  */
 class HasCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
      * Tests Phalcon\Session\Manager :: has()
      *
@@ -30,6 +37,23 @@ class HasCest
     public function sessionManagerHas(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - has()');
-        $I->skipTest('Need implementation');
+        $manager = new Manager();
+        $files   = $this->getSessionFiles();
+        $manager->setHandler($files);
+
+        $actual = $manager->start();
+        $I->assertTrue($actual);
+
+        $actual = $manager->has('test');
+        $I->assertFalse($actual);
+
+        $manager->set('test', 'myval');
+        $actual = $manager->has('test');
+        $I->assertTrue($actual);
+
+        $manager->destroy();
+
+        $actual = $manager->exists();
+        $I->assertFalse($actual);
     }
 }

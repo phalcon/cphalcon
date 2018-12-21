@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use function cacheFolder;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -46,7 +45,7 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Redis - write()');
         $adapter = $this->getSessionRedis();
-        $value = uniqid();
+        $value   = uniqid();
 
         $I->haveInRedis('string', 'test1', $value);
 

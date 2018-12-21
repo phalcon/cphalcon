@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -58,7 +56,7 @@ class GcCest
          * Sleep to make sure that the time expired
          */
         sleep(2);
-        $actual  = $adapter->gc(1);
+        $actual = $adapter->gc(1);
         $I->assertTrue($actual);
         $I->dontSeeInLibmemcached('gc_1');
         $I->dontSeeInLibmemcached('gc_2');

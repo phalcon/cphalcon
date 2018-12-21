@@ -108,7 +108,7 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	public function destroy() -> void
 	{
 		if (true === this->exists()) {
-		    session_destroy();
+			session_destroy();
 		}
 	}
 
@@ -117,9 +117,7 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function exists() -> bool
 	{
-		if (session_status() === self::SESSION_ACTIVE ||
-		    true !== empty(this->getId()) ||
-		    true === headers_sent()) {
+		if (session_status() === self::SESSION_ACTIVE) {
 			return true;
 		}
 
@@ -299,7 +297,7 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 			);
 		}
 
-		if (!preg_match("/[^a-zA-Z0-9-_]/", name)) {
+		if !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
 			throw new InvalidArgumentException(
 				"The name contains non alphanum characters"
 			);
@@ -387,20 +385,6 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 		}
 
 		return self::SESSION_NONE;
-	}
-
-	/**
-	 * Returns the status of the current session.
-	 */
-	public function writeClose() -> void
-	{
-	    var oldSession;
-
-		let oldSession = _SESSION;
-
-		session_write_close();
-
-		let _SESSION = oldSession;
 	}
 
 	/**

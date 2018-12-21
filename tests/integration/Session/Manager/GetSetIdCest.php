@@ -16,49 +16,41 @@ use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
+
 
 /**
- * Class __unsetCest
- *
- * @package Phalcon\Test\Integration\Session\Manager
+ * Class GetSetIdCest
  */
-class UnderscoreUnsetCest
+class GetSetIdCest
 {
     use DiTrait;
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: __unset()
+     * Tests Phalcon\Session\Manager :: getId()/setId()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerUnderscoreUnset(IntegrationTester $I)
+    public function sessionManagerGetSetId(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Manager - __unset()');
+        $I->wantToTest('Session\Manager - getId()/setId()');
         $manager = new Manager();
         $files   = $this->getSessionFiles();
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+        $expected = '';
+        $actual   = $manager->getId();
+        $I->assertEquals($expected, $actual);
 
-        $actual = $manager->has('test');
-        $I->assertFalse($actual);
-
-        $manager->set('test', 'myval');
-        $actual = $manager->has('test');
-        $I->assertTrue($actual);
-
-        unset($manager->test);
-        $actual = $manager->has('test');
-        $I->assertFalse($actual);
-
+        $id = uniqid();
+        $manager->setId($id);
+        $expected = $id;
+        $actual   = $manager->getId();
+        $I->assertEquals($expected, $actual);
         $manager->destroy();
-
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
     }
 }

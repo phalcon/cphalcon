@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function sleep;
 
 /**
  * Class GcCest
@@ -48,7 +45,7 @@ class GcCest
         $I->wantToTest('Session\Adapter\Noop - gc()');
         $adapter = $this->getSessionNoop();
 
-        $actual  = $adapter->gc(1);
+        $actual = $adapter->gc(1);
         $I->assertTrue($actual);
     }
 }

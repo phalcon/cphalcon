@@ -16,39 +16,33 @@ use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use SessionHandlerInterface;
 
 /**
- * Class ExistsCest
+ * Class GetSetHandlerCest
  */
-class ExistsCest
+class GetSetHandlerCest
 {
     use DiTrait;
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: exists()
+     * Tests Phalcon\Session\Manager :: getHandler()/setHandler()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerExists(IntegrationTester $I)
+    public function sessionManagerGetSetHandler(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Manager - exists()');
+        $I->wantToTest('Session\Manager - getHandler()/setHandler()');
         $manager = new Manager();
         $files   = $this->getSessionFiles();
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
-
-        $actual = $manager->exists();
-        $I->assertTrue($actual);
-
-        $manager->destroy();
-
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+        $actual = $manager->getHandler();
+        $class  = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $actual);
     }
 }

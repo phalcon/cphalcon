@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function cacheFolder;
+use function file_put_contents;
 use function sleep;
 use function uniqid;
 
@@ -58,7 +58,7 @@ class GcCest
          * Sleep to make sure that the time expired
          */
         sleep(2);
-        $actual  = $adapter->gc(1);
+        $actual = $adapter->gc(1);
         $I->assertTrue($actual);
         $I->amInPath(cacheFolder());
         $I->dontSeeFileFound('gc_1');

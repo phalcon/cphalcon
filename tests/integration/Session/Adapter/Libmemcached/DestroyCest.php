@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -48,10 +46,10 @@ class DestroyCest
         $I->wantToTest('Session\Adapter\Libmemcached - destroy()');
         $adapter = $this->getSessionLibmemcached();
 
-        $value = uniqid();
+        $value      = uniqid();
         $serialized = serialize($value);
         $I->haveInLibmemcached('test1', $serialized);
-        $actual  = $adapter->destroy('test1');
+        $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
         $I->dontSeeInLibmemcached('test1');
     }

@@ -23,7 +23,7 @@ interface ManagerInterface
 {
 	const SESSION_ACTIVE   = 2;
 	const SESSION_DISABLED = 0;
-	const SESSION_NONE	 = 1;
+	const SESSION_NONE     = 1;
 
 	/**
 	 * Alias: Gets a session variable from an application context
@@ -144,9 +144,4 @@ interface ManagerInterface
 	 * Registers a handler with the session
 	 */
 	public function registerHandler(<SessionHandlerInterface> handler) -> bool;
-
-	/**
-	 * Returns the status of the current session.
-	 */
-	public function writeClose() -> void;
 }

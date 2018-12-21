@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -47,7 +45,7 @@ class DestroyCest
         $I->wantToTest('Session\Adapter\Noop - destroy()');
         $adapter = $this->getSessionNoop();
 
-        $actual  = $adapter->destroy('test1');
+        $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
     }
 }

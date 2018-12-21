@@ -12,13 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function sleep;
-use function uniqid;
 
 /**
  * Class GcCest
@@ -49,7 +45,7 @@ class GcCest
         $I->wantToTest('Session\Adapter\Redis - gc()');
         $adapter = $this->getSessionRedis();
 
-        $actual  = $adapter->gc(1);
+        $actual = $adapter->gc(1);
         $I->assertTrue($actual);
     }
 }
