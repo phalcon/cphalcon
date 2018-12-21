@@ -18,7 +18,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
-
 /**
  * Class GetSetIdCest
  */
