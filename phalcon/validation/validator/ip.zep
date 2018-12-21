@@ -77,72 +77,71 @@ use Phalcon\Messages\Message;
  */
 class Ip extends Validator
 {
+	const VERSION_4  = FILTER_FLAG_IPV4;
+	const VERSION_6  = FILTER_FLAG_IPV6;
 
-    const VERSION_4  = FILTER_FLAG_IPV4;
-    const VERSION_6  = FILTER_FLAG_IPV6;
+	/**
+	 * Executes the validation
+	 */
+	public function validate(<Validation> validation, string! field) -> boolean
+	{
+		var value, version, allowPrivate, allowReserved, allowEmpty, message, label, replacePairs, options;
 
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, string! field) -> boolean
-    {
-        var value, version, allowPrivate, allowReserved, allowEmpty, message, label, replacePairs, options;
+		let value = validation->getValue(field);
 
-        let value = validation->getValue(field);
+		let label = this->getOption("label");
+		if typeof label == "array" {
+		  let label = label[field];
+		}
+		if empty label {
+		  let label = validation->getLabel(field);
+		}
 
-        let label = this->getOption("label");
-        if typeof label == "array" {
-          let label = label[field];
-        }
-        if empty label {
-          let label = validation->getLabel(field);
-        }
+		let message = this->getOption("message");
+		if typeof message == "array" {
+			let message = message[field];
+		}
+		if empty message {
+			let message = validation->getDefaultMessage("Ip");
+		}
 
-        let message = this->getOption("message");
-        if typeof message == "array" {
-            let message = message[field];
-        }
-        if empty message {
-            let message = validation->getDefaultMessage("Ip");
-        }
+		let version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
+		if typeof version == "array" {
+			let version = version[field];
+		}
 
-        let version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
-        if typeof version == "array" {
-            let version = version[field];
-        }
+		let allowPrivate = this->getOption("allowPrivate") ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
+		if typeof allowPrivate == "array" {
+			let allowPrivate = allowPrivate[field];
+		}
 
-        let allowPrivate = this->getOption("allowPrivate") ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
-        if typeof allowPrivate == "array" {
-            let allowPrivate = allowPrivate[field];
-        }
+		let allowReserved = this->getOption("allowReserved") ? 0 : FILTER_FLAG_NO_RES_RANGE;
+		if typeof allowReserved == "array" {
+			let allowReserved = allowReserved[field];
+		}
 
-        let allowReserved = this->getOption("allowReserved") ? 0 : FILTER_FLAG_NO_RES_RANGE;
-        if typeof allowReserved == "array" {
-            let allowReserved = allowReserved[field];
-        }
+		let allowEmpty = this->getOption("allowEmpty", false);
+		if typeof allowEmpty == "array" {
+			let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
+		}
 
-        let allowEmpty = this->getOption("allowEmpty", false);
-        if typeof allowEmpty == "array" {
-            let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
-        }
+		if allowEmpty && empty value {
+			return true;
+		}
 
-        if allowEmpty && empty value {
-            return true;
-        }
+		let options = [
+		   "options": [
+			 "default": false
+		   ],
+		   "flags": version | allowPrivate | allowReserved
+		];
 
-        let options = [
-           "options": [
-             "default": false
-           ],
-           "flags": version | allowPrivate | allowReserved
-        ];
-
-        if !filter_var(value, FILTER_VALIDATE_IP, options) {
-            let replacePairs = [":field": label];
-            validation->appendMessage(new Message(strtr(message, replacePairs), field, "Ip"));
-            return false;
+		if !filter_var(value, FILTER_VALIDATE_IP, options) {
+			let replacePairs = [":field": label];
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Ip"));
+			return false;
 	}
 
 	return true;
-    }
+	}
 }
