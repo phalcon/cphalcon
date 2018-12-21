@@ -141,4 +141,4 @@
 - Removed calling `Phalcon\Mvc\Collection::validate` with object of type `Phalcon\Mvc\Model\ValidatorInterface`
 
 ## Fixed
-- Fixed `Phalcon\Mvc\Models` magic method (setter) is fixed for arrays  [#13677](https://github.com/phalcon/cphalcon/pull/13677)
+- Fixed `Phalcon\Mvc\Models` magic method (setter) is fixed for arrays  [#13661](https://github.com/phalcon/cphalcon/issues/13661)
