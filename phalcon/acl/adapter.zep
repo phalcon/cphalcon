@@ -48,20 +48,23 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	protected _accessGranted = false;
 
 	/**
-	 * Role which the list is checking if it's allowed to certain resource/access
-	 * @var mixed
+	 * Operation which the list is checking if it's allowed to certain subject/access
+	 *
+	 * @var string
 	 */
-	protected _activeRole { get };
+	protected _activeOperation { get };
 
 	/**
-	 * Resource which the list is checking if some role can access it
-	 * @var mixed
+	 * Subject which the list is checking if some operation can access it
+	 *
+	 * @var string
 	 */
-	protected _activeResource { get };
+	protected _activeSubject { get };
 
 	/**
-	 * Active access which the list is checking if some role can access it
-	 * @var mixed
+	 * Active access which the list is checking if some operation can access it
+	 *
+	 * @var string
 	 */
 	protected _activeAccess { get };
 

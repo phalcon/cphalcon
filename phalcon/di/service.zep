@@ -21,6 +21,7 @@ namespace Phalcon\Di;
 
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
 
@@ -41,8 +42,6 @@ use Phalcon\Di\Service\Builder;
 class Service implements ServiceInterface
 {
 
-	protected _name;
-
 	protected _definition;
 
 	protected _shared = false;
@@ -56,25 +55,16 @@ class Service implements ServiceInterface
 	 *
 	 * @param mixed definition
 	 */
-	public final function __construct(string! name, definition, boolean shared = false)
+	public final function __construct(definition, bool shared = false)
 	{
-		let this->_name = name,
-			this->_definition = definition,
+		let this->_definition = definition,
 			this->_shared = shared;
-	}
-
-	/**
-	 * Returns the service's name
-	 */
-	public function getName() -> string
-	{
-		return this->_name;
 	}
 
 	/**
 	 * Sets if the service is shared or not
 	 */
-	public function setShared(boolean shared) -> void
+	public function setShared(bool shared) -> void
 	{
 		let this->_shared = shared;
 	}
@@ -82,7 +72,7 @@ class Service implements ServiceInterface
 	/**
 	 * Check whether the service is shared or not
 	 */
-	public function isShared() -> boolean
+	public function isShared() -> bool
 	{
 		return this->_shared;
 	}
@@ -125,7 +115,7 @@ class Service implements ServiceInterface
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
-		boolean found;
+		bool found;
 		var shared, definition, sharedInstance, instance, builder;
 
 		let shared = this->_shared;
@@ -201,8 +191,8 @@ class Service implements ServiceInterface
 		/**
 		 * If the service can't be built, we must throw an exception
 		 */
-		if found === false  {
-			throw new Exception("Service '" . this->_name . "' cannot be resolved");
+		if found === false {
+			throw new ServiceResolutionException();
 		}
 
 		/**
@@ -220,7 +210,7 @@ class Service implements ServiceInterface
 	/**
 	 * Changes a parameter in the definition without resolve the service
 	 */
-	public function setParameter(int position, array! parameter) -> <Service>
+	public function setParameter(int position, array! parameter) -> <ServiceInterface>
 	{
 		var definition, arguments;
 
@@ -280,7 +270,7 @@ class Service implements ServiceInterface
 	/**
 	 * Returns true if the service was resolved
 	 */
-	public function isResolved() -> boolean
+	public function isResolved() -> bool
 	{
 		return this->_resolved;
 	}
@@ -288,13 +278,9 @@ class Service implements ServiceInterface
 	/**
 	 * Restore the internal state of a service
 	 */
-	public static function __set_state(array! attributes) -> <Service>
+	public static function __set_state(array! attributes) -> <ServiceInterface>
 	{
-		var name, definition, shared;
-
-		if !fetch name, attributes["_name"] {
-			throw new Exception("The attribute '_name' is required");
-		}
+		var definition, shared;
 
 		if !fetch definition, attributes["_definition"] {
 			throw new Exception("The attribute '_definition' is required");
@@ -304,6 +290,6 @@ class Service implements ServiceInterface
 			throw new Exception("The attribute '_shared' is required");
 		}
 
-		return new self(name, definition, shared);
+		return new self(definition, shared);
 	}
 }

@@ -108,7 +108,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Phalcon\Mvc\Router constructor
 	 */
-	public function __construct(boolean! defaultRoutes = true)
+	public function __construct(bool! defaultRoutes = true)
 	{
 		array routes = [];
 
@@ -166,7 +166,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Set whether router must remove the extra slashes in the handled routes
 	 */
-	public function removeExtraSlashes(boolean! remove) -> <RouterInterface>
+	public function removeExtraSlashes(bool! remove) -> <RouterInterface>
 	{
 		let this->_removeExtraSlashes = remove;
 		return this;
@@ -887,7 +887,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Checks if the router matches any of the defined routes
 	 */
-	public function wasMatched() -> boolean
+	public function wasMatched() -> bool
 	{
 		return this->_wasMatched;
 	}
@@ -903,7 +903,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Returns a route object by its id
 	 */
-	public function getRouteById(var id) -> <RouteInterface> | boolean
+	public function getRouteById(var id) -> <RouteInterface> | bool
 	{
 		var route, routeId, key;
 
@@ -925,7 +925,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Returns a route object by its name
 	 */
-	public function getRouteByName(string! name) -> <RouteInterface> | boolean
+	public function getRouteByName(string! name) -> <RouteInterface> | bool
 	{
 		var route, routeName, key;
 
@@ -949,7 +949,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Returns whether controller name should not be mangled
 	 */
-	public function isExactControllerName() -> boolean
+	public function isExactControllerName() -> bool
 	{
 		return true;
 	}

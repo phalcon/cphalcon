@@ -58,7 +58,7 @@ interface ModelInterface
 	 * @param array columnMap
 	 * @return \Phalcon\Mvc\Model result
 	 */
-	public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <ModelInterface>;
+	public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>;
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
@@ -79,12 +79,12 @@ interface ModelInterface
 	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 */
-	public function create() -> boolean;
+	public function create() -> bool;
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 */
-	public function delete() -> boolean;
+	public function delete() -> bool;
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
@@ -101,13 +101,13 @@ interface ModelInterface
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
-	public function fireEvent(string! eventName) -> boolean;
+	public function fireEvent(string! eventName) -> bool;
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 * This method stops if one of the callbacks/listeners returns boolean false
+	 * This method stops if one of the callbacks/listeners returns bool false
 	 */
-	public function fireEventCancel(string! eventName) -> boolean;
+	public function fireEventCancel(string! eventName) -> bool;
 
 	/**
 	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
@@ -196,7 +196,7 @@ interface ModelInterface
 	/**
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 */
-	public function save() -> boolean;
+	public function save() -> bool;
 
 	/**
 	 * Sets both read/write connection services
@@ -206,7 +206,7 @@ interface ModelInterface
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
 	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface>;
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool;
 
 	/**
 	 * Sets the DependencyInjection connection service used to read data
@@ -234,7 +234,7 @@ interface ModelInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip) -> void;
+	public function skipOperation(bool skip) -> void;
 
 	/**
 	 * Allows to calculate a sum on a column that match the specified conditions
@@ -247,11 +247,11 @@ interface ModelInterface
 	/**
 	 * Check whether validation process has generated any messages
 	 */
-	public function validationHasFailed() -> boolean;
+	public function validationHasFailed() -> bool;
 
 	/**
 	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 */
-	public function update() -> boolean;
+	public function update() -> bool;
 }

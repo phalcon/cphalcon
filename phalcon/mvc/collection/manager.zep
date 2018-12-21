@@ -164,7 +164,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	/**
 	 * Check whether a model is already initialized
 	 */
-	public function isInitialized(string! modelName) -> boolean
+	public function isInitialized(string! modelName) -> bool
 	{
 		return isset this->_initialized[strtolower(modelName)];
 	}
@@ -204,7 +204,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	/**
 	 * Sets whether a model must use implicit objects ids
 	 */
-	public function useImplicitObjectIds(<CollectionInterface> model, boolean useImplicitObjectIds) -> void
+	public function useImplicitObjectIds(<CollectionInterface> model, bool useImplicitObjectIds) -> void
 	{
 		let this->_implicitObjectsIds[get_class(model)] = useImplicitObjectIds;
 	}
@@ -212,7 +212,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	/**
 	 * Checks if a model is using implicit object ids
 	 */
-	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> boolean
+	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> bool
 	{
 		var implicit;
 
@@ -320,7 +320,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 * This method expects that the endpoint listeners/behaviors returns true
 	 * meaning that at least one was implemented
 	 */
-	public function missingMethod(<CollectionInterface> model, string! eventName, var data) -> boolean
+	public function missingMethod(<CollectionInterface> model, string! eventName, var data) -> bool
 	{
 		var behaviors, modelsBehaviors, result, eventsManager, behavior;
 

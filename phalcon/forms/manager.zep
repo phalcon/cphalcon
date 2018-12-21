@@ -56,7 +56,7 @@ class Manager
 	/**
 	 * Checks if a form is registered in the forms manager
 	 */
-	public function has(string name) -> boolean
+	public function has(string name) -> bool
 	{
 		return isset this->_forms[name];
 	}

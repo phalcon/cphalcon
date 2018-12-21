@@ -43,12 +43,16 @@ ext/run-tests.php
 lemon
 
 .libs/
-.temp/
 autom4te.cache/
 /vendor
 /ide/
 
+.zephir/
+boxfile.yml
 composer.lock
 php_test_results_*.txt
 docker-compose.yml
 build/gccarch
+tests/_cache
+.zephir/
+.temp/

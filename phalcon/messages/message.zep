@@ -97,7 +97,7 @@ class Message implements MessageInterface, \JsonSerializable
 	/**
 	 * Sets code for the message
 	 */
-	public function setCode(int code) -> <Message>
+	public function setCode(int code) -> <MessageInterface>
 	{
 		let this->_code = code;
 		return this;
@@ -106,7 +106,7 @@ class Message implements MessageInterface, \JsonSerializable
 	/**
 	 * Sets field name related to message
 	 */
-	public function setField(var field) -> <Message>
+	public function setField(var field) -> <MessageInterface>
 	{
 		let this->_field = field;
 		return this;
@@ -115,7 +115,7 @@ class Message implements MessageInterface, \JsonSerializable
 	/**
 	 * Sets verbose message
 	 */
-	public function setMessage(string! message) -> <Message>
+	public function setMessage(string! message) -> <MessageInterface>
 	{
 		let this->_message = message;
 		return this;
@@ -124,7 +124,7 @@ class Message implements MessageInterface, \JsonSerializable
 	/**
 	 * Sets message type
 	 */
-	public function setType(string! type) -> <Message>
+	public function setType(string! type) -> <MessageInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -141,7 +141,7 @@ class Message implements MessageInterface, \JsonSerializable
 	/**
 	 * Magic __set_state helps to re-build messages variable exporting
 	 */
-	public static function __set_state(array! message) -> <Message>
+	public static function __set_state(array! message) -> <MessageInterface>
 	{
 		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
 	}

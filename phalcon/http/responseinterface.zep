@@ -1,21 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Zamrony P. Juhara <zamronypj@yahoo.com>                       |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Http;
@@ -29,11 +19,20 @@ use Phalcon\Http\Response\HeadersInterface;
  */
 interface ResponseInterface
 {
+	/**
+	 * Appends a string to the HTTP response body
+	 */
+	public function appendContent(content) -> <ResponseInterface>;
 
 	/**
-	 * Sets the HTTP response code
+	 * Gets the HTTP response body
 	 */
-	public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
+	public function getContent() -> string;
+
+    /**
+     * Returns the status code
+     */
+	public function getStatusCode() -> int | null;
 
 	/**
 	 * Returns headers set by the user
@@ -41,14 +40,14 @@ interface ResponseInterface
 	public function getHeaders() -> <HeadersInterface>;
 
 	/**
-	 * Overwrites a header in the response
+	 * Checks if a header exists
 	 */
-	public function setHeader(string name, value) -> <ResponseInterface>;
+	public function hasHeader(string name) -> bool;
 
 	/**
-	 * Send a raw header to the response
+	 * Redirect by HTTP to another action or URL
 	 */
-	public function setRawHeader(string header) -> <ResponseInterface>;
+	public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
 	/**
 	 * Resets all the established headers
@@ -56,14 +55,14 @@ interface ResponseInterface
 	public function resetHeaders() -> <ResponseInterface>;
 
 	/**
-	 * Sets output expire time header
+	 * Sets HTTP response body
 	 */
-	public function setExpires(<\DateTime> datetime) -> <ResponseInterface>;
+	public function setContent(string content) -> <ResponseInterface>;
 
 	/**
-	 * Sends a Not-Modified response
+	 * Sets the response content-length
 	 */
-	public function setNotModified() -> <ResponseInterface>;
+	public function setContentLength(int contentLength) -> <ResponseInterface>;
 
 	/**
 	 * Sets the response content-type mime, optionally the charset
@@ -73,19 +72,19 @@ interface ResponseInterface
 	public function setContentType(string contentType, charset = null) -> <ResponseInterface>;
 
 	/**
-	 * Sets the response content-length
+	 * Sets output expire time header
 	 */
-	public function setContentLength(int contentLength) -> <ResponseInterface>;
+	public function setExpires(<\DateTime> datetime) -> <ResponseInterface>;
 
 	/**
-	 * Redirect by HTTP to another action or URL
+	 * Sets an attached file to be sent at the end of the request
 	 */
-	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
+	public function setFileToSend(string filePath, attachmentName = null) -> <ResponseInterface>;
 
 	/**
-	 * Sets HTTP response body
+	 * Overwrites a header in the response
 	 */
-	public function setContent(string content) -> <ResponseInterface>;
+	public function setHeader(string name, value) -> <ResponseInterface>;
 
 	/**
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
@@ -101,24 +100,19 @@ interface ResponseInterface
 	public function setJsonContent(content) -> <ResponseInterface>;
 
 	/**
-	 * Appends a string to the HTTP response body
+	 * Sends a Not-Modified response
 	 */
-	public function appendContent(content) -> <ResponseInterface>;
+	public function setNotModified() -> <ResponseInterface>;
 
 	/**
-	 * Gets the HTTP response body
+	 * Send a raw header to the response
 	 */
-	public function getContent() -> string;
+	public function setRawHeader(string header) -> <ResponseInterface>;
 
 	/**
-	 * Sends headers to the client
+	 * Sets the HTTP response code
 	 */
-	public function sendHeaders() -> <ResponseInterface>;
-
-	/**
-	 * Sends cookies to the client
-	 */
-	public function sendCookies() -> <ResponseInterface>;
+	public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
 
 	/**
 	 * Prints out HTTP response to the client
@@ -126,8 +120,12 @@ interface ResponseInterface
 	public function send() -> <ResponseInterface>;
 
 	/**
-	 * Sets an attached file to be sent at the end of the request
+	 * Sends cookies to the client
 	 */
-	public function setFileToSend(string filePath, attachmentName = null) -> <ResponseInterface>;
+	public function sendCookies() -> <ResponseInterface>;
 
+	/**
+	 * Sends headers to the client
+	 */
+	public function sendHeaders() -> <ResponseInterface> | boolean;
 }

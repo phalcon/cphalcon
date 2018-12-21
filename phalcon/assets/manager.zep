@@ -1,30 +1,21 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Assets;
 
 use Phalcon\Tag;
-use Phalcon\Assets\Resource;
+use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use Phalcon\Assets\Exception;
-use Phalcon\Assets\Resource\Js as ResourceJs;
-use Phalcon\Assets\Resource\Css as ResourceCss;
+use Phalcon\Assets\Asset\Js as AssetJs;
+use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
 
@@ -40,18 +31,21 @@ class Manager
 	 * Options configure
 	 * @var array
 	 */
-	protected _options;
+	protected options;
 
-	protected _collections;
+	protected collections;
 
-	protected _implicitOutput = true;
+	/**
+	 * @var bool 
+	 */
+	protected implicitOutput = true;
 
 	/**
 	 * Phalcon\Assets\Manager
 	 */
 	public function __construct(array options = [])
 	{
-		let this->_options = options;
+		let this->options = options;
 	}
 
 	/**
@@ -59,7 +53,7 @@ class Manager
 	 */
 	public function setOptions(array! options) -> <Manager>
 	{
-		let this->_options = options;
+		let this->options = options;
 		return this;
 	}
 
@@ -68,30 +62,30 @@ class Manager
 	 */
 	public function getOptions() -> array
 	{
-		return this->_options;
+		return this->options;
 	}
 
 	/**
 	 * Sets if the HTML generated must be directly printed or returned
 	 */
-	public function useImplicitOutput(boolean implicitOutput) -> <Manager>
+	public function useImplicitOutput(bool implicitOutput) -> <Manager>
 	{
-		let this->_implicitOutput = implicitOutput;
+		let this->implicitOutput = implicitOutput;
 		return this;
 	}
 
 
 	/**
-	* Adds a Css resource to the 'css' collection
+	* Adds a Css asset to the 'css' collection
 	*
 	*<code>
-	*	$assets->addCss("css/bootstrap.css");
-	*	$assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
+	*	assets->addCss("css/bootstrap.css");
+	*	assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
 	*</code>
 	*/
 	public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
 	{
-		this->addResourceByType("css", new ResourceCss(path, local, filter, attributes));
+		this->addAssetByType("css", new AssetCss(path, local, filter, attributes));
 		return this;
 	}
 
@@ -105,16 +99,16 @@ class Manager
 	}
 
 	/**
-	 * Adds a javascript resource to the 'js' collection
+	 * Adds a javascript asset to the 'js' collection
 	 *
 	 *<code>
-	 * $assets->addJs("scripts/jquery.js");
-	 * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
+	 * assets->addJs("scripts/jquery.js");
+	 * assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
 	 *</code>
 	 */
 	public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
 	{
-		this->addResourceByType("js", new ResourceJs(path, local, filter, attributes));
+		this->addAssetByType("js", new AssetJs(path, local, filter, attributes));
 		return this;
 	}
 
@@ -128,27 +122,27 @@ class Manager
 	}
 
 	/**
-	 * Adds a resource by its type
+	 * Adds a asset by its type
 	 *
 	 *<code>
-	 * $assets->addResourceByType("css",
-	 *     new \Phalcon\Assets\Resource\Css("css/style.css")
+	 * assets->addAssetByType("css",
+	 *     new \Phalcon\Assets\Asset\Css("css/style.css")
 	 * );
 	 *</code>
 	 */
-	public function addResourceByType(string! type, <$Resource> $resource) -> <Manager>
+	public function addAssetByType(string! type, <$Asset> asset) -> <Manager>
 	{
 		var collection;
 
-		if !fetch collection, this->_collections[type] {
+		if !fetch collection, this->collections[type] {
 			let collection = new Collection();
-			let this->_collections[type] = collection;
+			let this->collections[type] = collection;
 		}
 
 		/**
-		 * Add the resource to the collection
+		 * Add the asset to the collection
 		 */
-		collection->add($resource);
+		collection->add(asset);
 
 		return this;
 	}
@@ -160,9 +154,9 @@ class Manager
 	{
 		var collection;
 
-		if !fetch collection, this->_collections[type] {
+		if !fetch collection, this->collections[type] {
 			let collection = new Collection();
-			let this->_collections[type] = collection;
+			let this->collections[type] = collection;
 		}
 
 		/**
@@ -174,20 +168,20 @@ class Manager
 	}
 
 	/**
-	 * Adds a raw resource to the manager
+	 * Adds a raw asset to the manager
 	 *
 	 *<code>
-	 * $assets->addResource(
-	 *     new Phalcon\Assets\Resource("css", "css/style.css")
+	 * assets->addAsset(
+	 *     new Phalcon\Assets\Asset("css", "css/style.css")
 	 * );
 	 *</code>
 	 */
-	public function addResource(<$Resource> $resource) -> <Manager>
+	public function addAsset(<$Asset> asset) -> <Manager>
 	{
 		/**
-		 * Adds the resource by its type
+		 * Adds the asset by its type
 		 */
-		this->addResourceByType($resource->getType(), $resource);
+		this->addAssetByType(asset->getType(), asset);
 		return this;
 	}
 
@@ -207,12 +201,12 @@ class Manager
 	 * Sets a collection in the Assets Manager
 	 *
 	 *<code>
-	 * $assets->set("js", $collection);
+	 * assets->set("js", $collection);
 	 *</code>
 	 */
 	public function set(string! id, <Collection> collection) -> <Manager>
 	{
-		let this->_collections[id] = collection;
+		let this->collections[id] = collection;
 		return this;
 	}
 
@@ -220,14 +214,14 @@ class Manager
 	 * Returns a collection by its id.
 	 *
 	 * <code>
-	 * $scripts = $assets->get("js");
+	 * $scripts = assets->get("js");
 	 * </code>
 	 */
 	public function get(string! id) -> <Collection>
 	{
 		var collection;
 
-		if !fetch collection, this->_collections[id] {
+		if !fetch collection, this->collections[id] {
 			throw new Exception("The collection does not exist in the manager");
 		}
 
@@ -244,7 +238,7 @@ class Manager
 		/**
 		 * Check if the collection does not exist and create an implicit collection
 		 */
-		if !fetch collection, this->_collections["css"] {
+		if !fetch collection, this->collections["css"] {
 			return new Collection();
 		}
 
@@ -261,7 +255,7 @@ class Manager
 		/**
 		 * Check if the collection does not exist and create an implicit collection
 		 */
-		if !fetch collection, this->_collections["js"] {
+		if !fetch collection, this->collections["js"] {
 			return new Collection();
 		}
 
@@ -269,26 +263,26 @@ class Manager
 	}
 
 	/**
-	 * Creates/Returns a collection of resources
+	 * Creates/Returns a collection of assets
 	 */
 	public function collection(string name) -> <Collection>
 	{
 		var collection;
 
-		if !fetch collection, this->_collections[name] {
+		if !fetch collection, this->collections[name] {
 			let collection = new Collection();
-			let this->_collections[name] = collection;
+			let this->collections[name] = collection;
 		}
 
 		return collection;
 	}
 
-	public function collectionResourcesByType(array resources, string type) -> array
+	public function collectionAssetsByType(array assets, string type) -> array
 	{
-		var $filtered = [], $resource;
-		for $resource in resources {
-			if $resource->getType() == type {
-				let $filtered[] = $resource;
+		var $filtered = [], asset;
+		for asset in assets {
+			if asset->getType() == type {
+				let $filtered[] = asset;
 			}
 		}
 
@@ -303,21 +297,21 @@ class Manager
 	 */
 	public function output(<Collection> collection, callback, type) -> string | null
 	{
-		var output, resources, filters, prefix, sourceBasePath = null,
+		var output, assets, filters, prefix, sourceBasePath = null,
 			targetBasePath = null, options, collectionSourcePath, completeSourcePath,
 			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
-			$resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
+			asset, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
 			attributes, parameters, html, useImplicitOutput, content, mustFilter,
 			filter, filteredContent, typeCss, targetUri;
 
-		let useImplicitOutput = this->_implicitOutput;
+		let useImplicitOutput = this->implicitOutput;
 
 		let output = "";
 
 		/**
-		 * Get the resources as an array
+		 * Get the assets as an array
 		 */
-		let resources = this->collectionResourcesByType(collection->getResources(), type);
+		let assets = this->collectionAssetsByType(collection->getAssets(), type);
 
 		/**
 		 * Get filters in the collection
@@ -336,7 +330,7 @@ class Manager
 		 */
 		if count(filters) {
 
-			let options = this->_options;
+			let options = this->options;
 
 			/**
 			 * Check for global options in the assets manager
@@ -344,12 +338,12 @@ class Manager
 			if typeof options == "array" {
 
 				/**
-				 * The source base path is a global location where all resources are located
+				 * The source base path is a global location where all assets are located
 				 */
 				fetch sourceBasePath, options["sourceBasePath"];
 
 				/**
-				 * The target base path is a global location where all resources are written
+				 * The target base path is a global location where all assets are written
 				 */
 				fetch targetBasePath, options["targetBasePath"];
 			}
@@ -410,17 +404,17 @@ class Manager
 		}
 
 		/**
-		 * walk in resources
+		 * walk in assets
 		 */
-		for $resource in resources {
+		for asset in assets {
 
 			let filterNeeded = false;
-			let type = $resource->getType();
+			let type = asset->getType();
 
 			/**
-			 * Is the resource local?
+			 * Is the asset local?
 			 */
-			let local = $resource->getLocal();
+			let local = asset->getLocal();
 
 			/**
 			 * If the collection must not be joined we must print a HTML for each one
@@ -431,24 +425,24 @@ class Manager
 					/**
 					 * Get the complete path
 					 */
-					let sourcePath = $resource->getRealSourcePath(completeSourcePath);
+					let sourcePath = asset->getRealSourcePath(completeSourcePath);
 
 					/**
 					 * We need a valid source path
 					 */
 					if !sourcePath {
-						let sourcePath = $resource->getPath();
-						throw new Exception("Resource '". sourcePath. "' does not have a valid source path");
+						let sourcePath = asset->getPath();
+						throw new Exception("Asset '". sourcePath. "' does not have a valid source path");
 					}
 				} else {
 
 					/**
 					 * Get the complete source path
 					 */
-					let sourcePath = $resource->getPath();
+					let sourcePath = asset->getPath();
 
 					/**
-					 * resources paths are always filtered
+					 * assets paths are always filtered
 					 */
 					let filterNeeded = true;
 				}
@@ -456,13 +450,13 @@ class Manager
 				/**
 				 * Get the target path, we need to write the filtered content to a file
 				 */
-				let targetPath = $resource->getRealTargetPath(completeTargetPath);
+				let targetPath = asset->getRealTargetPath(completeTargetPath);
 
 				/**
 				 * We need a valid final target path
 				 */
 				if !targetPath {
-					throw new Exception("Resource '". sourcePath. "' does not have a valid target path");
+					throw new Exception("Asset '". sourcePath. "' does not have a valid target path");
 				}
 
 				if local {
@@ -471,7 +465,7 @@ class Manager
 					 * Make sure the target path is not the same source path
 					 */
 					if targetPath == sourcePath {
-						throw new Exception("Resource '". targetPath. "' have the same source and target paths");
+						throw new Exception("Asset '". targetPath. "' have the same source and target paths");
 					}
 
 					if file_exists(targetPath) {
@@ -487,7 +481,7 @@ class Manager
 				/**
 				 * If there are not filters, just print/buffer the HTML
 				 */
-				let path = $resource->getRealTargetUri();
+				let path = asset->getRealTargetUri();
 
 				if prefix {
 					let prefixedPath = prefix . path;
@@ -496,9 +490,9 @@ class Manager
 				}
 
 				/**
-				 * Gets extra HTML attributes in the resource
+				 * Gets extra HTML attributes in the asset
 				 */
-				let attributes = $resource->getAttributes();
+				let attributes = asset->getAttributes();
 
 				/**
 				 * Prepare the parameters for the callback
@@ -532,17 +526,17 @@ class Manager
 			if filterNeeded == true {
 
 				/**
-				 * Gets the resource's content
+				 * Gets the asset's content
 				 */
-				let content = $resource->getContent(completeSourcePath);
+				let content = asset->getContent(completeSourcePath);
 
 				/**
-				 * Check if the resource must be filtered
+				 * Check if the asset must be filtered
 				 */
-				let mustFilter = $resource->getFilter();
+				let mustFilter = asset->getFilter();
 
 				/**
-				 * Only filter the resource if it's marked as 'filterable'
+				 * Only filter the asset if it's marked as 'filterable'
 				 */
 				if mustFilter == true {
 					for filter in filters {
@@ -594,9 +588,9 @@ class Manager
 			if !join {
 
 				/**
-				 * Generate the HTML using the original path in the resource
+				 * Generate the HTML using the original path in the asset
 				 */
-				let path = $resource->getRealTargetUri();
+				let path = asset->getRealTargetUri();
 
 				if prefix {
 					let prefixedPath = prefix . path;
@@ -605,12 +599,12 @@ class Manager
 				}
 
 				/**
-				 * Gets extra HTML attributes in the resource
+				 * Gets extra HTML attributes in the asset
 				 */
-				let attributes = $resource->getAttributes();
+				let attributes = asset->getAttributes();
 
 				/**
-				 * Filtered resources are always local
+				 * Filtered assets are always local
 				 */
 				let local = true;
 
@@ -653,7 +647,7 @@ class Manager
 				file_put_contents(completeTargetPath, filteredJoinedContent);
 
 				/**
-				 * Generate the HTML using the original path in the resource
+				 * Generate the HTML using the original path in the asset
 				 */
 				let targetUri = collection->getTargetUri();
 
@@ -754,7 +748,7 @@ class Manager
 			/**
 			 * Implicit output prints the content directly
 			 */
-			if this->_implicitOutput == true {
+			if this->implicitOutput == true {
 				echo html;
 			} else {
 				let output .= html;
@@ -765,7 +759,7 @@ class Manager
 	}
 
 	/**
-	 * Prints the HTML for CSS resources
+	 * Prints the HTML for CSS assets
 	 */
 	public function outputCss(string collectionName = null) -> string
 	{
@@ -797,7 +791,7 @@ class Manager
 	}
 
 	/**
-	 * Prints the HTML for JS resources
+	 * Prints the HTML for JS assets
 	 */
 	public function outputJs(string collectionName = null) -> string
 	{
@@ -833,21 +827,21 @@ class Manager
 	 */
 	public function getCollections() -> <Collection[]>
 	{
-		return this->_collections;
+		return this->collections;
 	}
 
 	/**
 	 * Returns true or false if collection exists.
 	 *
 	 * <code>
-	 * if ($assets->exists("jsHeader")) {
+	 * if (assets->exists("jsHeader")) {
 	 *     // \Phalcon\Assets\Collection
-	 *     $collection = $assets->get("jsHeader");
+	 *     $collection = assets->get("jsHeader");
 	 * }
 	 * </code>
 	 */
 	public function exists(string! id) -> bool
 	{
-		return isset this->_collections[id];
+		return isset this->collections[id];
 	}
 }

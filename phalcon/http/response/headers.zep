@@ -33,6 +33,14 @@ class Headers implements HeadersInterface
 	/**
 	 * Sets a header to be sent at the end of the request
 	 */
+	public function has(string name) -> bool
+	{
+		return isset(this->_headers[name]);
+	}
+
+	/**
+	 * Sets a header to be sent at the end of the request
+	 */
 	public function set(string name, string value)
 	{
 		let this->_headers[name] = value;
@@ -41,7 +49,7 @@ class Headers implements HeadersInterface
 	/**
 	 * Gets a header value from the internal bag
 	 */
-	public function get(string name) -> string | boolean
+	public function get(string name) -> string | bool
 	{
 		var headers, headerValue;
 		let headers = this->_headers;
@@ -76,7 +84,7 @@ class Headers implements HeadersInterface
 	/**
 	 * Sends the headers to the client
 	 */
-	public function send() -> boolean
+	public function send() -> bool
 	{
 		var header, value;
 		if !headers_sent() {
@@ -115,7 +123,7 @@ class Headers implements HeadersInterface
 	/**
 	 * Restore a \Phalcon\Http\Response\Headers object
 	 */
-	public static function __set_state(array! data) -> <Headers>
+	public static function __set_state(array! data) -> <HeadersInterface>
 	{
 		var headers, key, value, dataHeaders;
 		let headers = new self();

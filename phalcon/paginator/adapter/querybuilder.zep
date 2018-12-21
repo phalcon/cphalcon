@@ -21,6 +21,7 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter;
+use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
 use Phalcon\Db;
 
@@ -49,11 +50,6 @@ use Phalcon\Db;
 class QueryBuilder extends Adapter
 {
 	/**
-	 * Configuration of paginator by model
-	 */
-	protected _config;
-
-	/**
 	 * Paginator's data
 	 */
 	protected _builder;
@@ -68,30 +64,24 @@ class QueryBuilder extends Adapter
 	 */
 	public function __construct(array config)
 	{
-		var builder, limit, page, columns;
-
-		let this->_config = config;
+		var builder, columns;
+		
+		if !isset config["limit"] {
+			throw new Exception("Parameter 'limit' is required");
+		}
 
 		if !fetch builder, config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
-		}
-
-		if !fetch limit, config["limit"] {
-			throw new Exception("Parameter 'limit' is required");
 		}
 
 		if fetch columns, config["columns"] {
 		    let this->_columns = columns;
 		}
 
+		parent::__construct(config);
+
 		this->setQueryBuilder(builder);
-		this->setLimit(limit);
-
-		if fetch page, config["page"] {
-			this->setCurrentPage(page);
-		}
 	}
-
 	/**
 	 * Get the current page number
 	 */
@@ -120,21 +110,11 @@ class QueryBuilder extends Adapter
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
-	 *
-	 * @deprecated will be removed after 4.0
 	 */
-	public function getPaginate() -> <\stdClass>
-	{
-		return this->paginate();
-	}
-
-	/**
-	 * Returns a slice of the resultset to show in the pagination
-	 */
-	public function paginate() -> <\stdClass>
+	public function paginate() -> <RepositoryInterface>
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
-			limit, numberPage, number, query, page, previous, items, totalQuery,
+			limit, numberPage, number, query, previous, items, totalQuery,
 			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
 			model, modelClass, dbService;
 
@@ -260,24 +240,15 @@ class QueryBuilder extends Adapter
 			let next = totalPages;
 		}
 
-		let page = new \stdClass(),
-			page->items = items,
-			page->first = 1,
-			/**
-			 * @deprecated `before` will be removed after 4.0
-			 */
-			page->before = previous,
-			page->previous = previous,
-			page->current = numberPage,
-			page->last = totalPages,
-			page->next = next,
-			/**
-			 * @deprecated `total_pages` will be removed after 4.0
-			 */
-			page->total_pages = totalPages,
-			page->total_items = rowcount,
-			page->limit = this->_limitRows;
-
-		return page;
+		return this->getRepository([
+			RepositoryInterface::PROPERTY_ITEMS 		: items,
+			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: rowcount,
+			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
+			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,
+			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
+			RepositoryInterface::PROPERTY_CURRENT_PAGE 	: numberPage,
+			RepositoryInterface::PROPERTY_NEXT_PAGE 	: next,
+			RepositoryInterface::PROPERTY_LAST_PAGE 	: totalPages
+		]);
 	}
 }

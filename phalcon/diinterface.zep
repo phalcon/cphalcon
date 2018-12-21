@@ -35,7 +35,7 @@ interface DiInterface extends \ArrayAccess
 	 *
 	 * @param mixed definition
 	 */
-	public function set(string! name, definition, boolean shared = false) -> <ServiceInterface>;
+	public function set(string! name, definition, bool shared = false) -> <ServiceInterface>;
 
 	/**
 	 * Registers an "always shared" service in the services container
@@ -56,7 +56,7 @@ interface DiInterface extends \ArrayAccess
 	 *
 	 * @param mixed definition
 	 */
-	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface>;
+	public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool;
 
 	/**
 	 * Resolves the service based on its configuration
@@ -90,12 +90,12 @@ interface DiInterface extends \ArrayAccess
 	/**
 	 * Check whether the DI contains a service by a name
 	 */
-	public function has(string! name) -> boolean;
+	public function has(string! name) -> bool;
 
 	/**
 	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
 	 */
-	public function wasFreshInstance() -> boolean;
+	public function wasFreshInstance() -> bool;
 
 	/**
 	 * Return the services registered in the DI
@@ -110,7 +110,7 @@ interface DiInterface extends \ArrayAccess
 	/**
 	 * Return the last DI created
 	 */
-	public static function getDefault() -> <DiInterface>;
+	public static function getDefault() -> <DiInterface> | null;
 
 	/**
 	 * Resets the internal default DI

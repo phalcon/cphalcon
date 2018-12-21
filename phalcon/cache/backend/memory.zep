@@ -51,7 +51,7 @@ class Memory extends Backend implements \Serializable
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, var lifetime = null) -> var | null
 	{
 		var lastKey, cachedContent;
 
@@ -79,7 +79,7 @@ class Memory extends Backend implements \Serializable
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(var keyName = null, var content = null, lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastKey, frontend, cachedContent, preparedContent, isBuffering;
 
@@ -129,7 +129,7 @@ class Memory extends Backend implements \Serializable
 	 *
 	 * @param string keyName
 	 */
-	public function delete(var keyName) -> boolean
+	public function delete(var keyName) -> bool
 	{
 		var key, data;
 
@@ -181,7 +181,7 @@ class Memory extends Backend implements \Serializable
 	 * @param string|int keyName
 	 * @param int lifetime
 	 */
-	public function exists(var keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey;
 
@@ -265,7 +265,7 @@ class Memory extends Backend implements \Serializable
 	/**
 	 * Immediately invalidates all existing items.
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		let this->_data = null;
 		return true;

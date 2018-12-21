@@ -20,6 +20,7 @@ use Phalcon\Config;
 use Phalcon\Di\Service;
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Di\ServiceInterface;
@@ -124,10 +125,10 @@ class Di implements DiInterface
 	/**
 	 * Registers a service in the services container
 	 */
-	public function set(string! name, var definition, boolean shared = false) -> <ServiceInterface>
+	public function set(string! name, var definition, bool shared = false) -> <ServiceInterface>
 	{
 		var service;
-		let service = new Service(name, definition, shared),
+		let service = new Service(definition, shared),
 			this->_services[name] = service;
 		return service;
 	}
@@ -155,12 +156,12 @@ class Di implements DiInterface
 	 * Only is successful if a service hasn't been registered previously
 	 * with the same name
 	 */
-	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface> | boolean
+	public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool
 	{
 		var service;
 
 		if !isset this->_services[name] {
-			let service = new Service(name, definition, shared),
+			let service = new Service(definition, shared),
 				this->_services[name] = service;
 			return service;
 		}
@@ -210,7 +211,7 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null;
+		var service, eventsManager, instance = null, e;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -227,7 +228,11 @@ class Di implements DiInterface
 				/**
 				 * The service is registered in the DI
 				 */
-				let instance = service->resolve(parameters, this);
+				try {
+					let instance = service->resolve(parameters, this);
+				} catch ServiceResolutionException, e {
+					throw new Exception("Service '" . name . "' cannot be resolved");
+				}
 			} else {
 				/**
 				 * The DI also acts as builder for any class even if it isn't defined in the DI
@@ -304,7 +309,7 @@ class Di implements DiInterface
 	/**
 	 * Check whether the DI contains a service by a name
 	 */
-	public function has(string! name) -> boolean
+	public function has(string! name) -> bool
 	{
 		return isset this->_services[name];
 	}
@@ -312,7 +317,7 @@ class Di implements DiInterface
 	/**
 	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
 	 */
-	public function wasFreshInstance() -> boolean
+	public function wasFreshInstance() -> bool
 	{
 		return this->_freshInstance;
 	}
@@ -320,7 +325,7 @@ class Di implements DiInterface
 	/**
 	 * Return the services registered in the DI
 	 */
-	public function getServices() -> <Service[]>
+	public function getServices() -> <ServiceInterface[]>
 	{
 		return this->_services;
 	}
@@ -328,7 +333,7 @@ class Di implements DiInterface
 	/**
 	 * Check if a service is registered using the array syntax
 	 */
-	public function offsetExists(string! name) -> boolean
+	public function offsetExists(var name) -> bool
 	{
 		return this->has(name);
 	}
@@ -340,10 +345,9 @@ class Di implements DiInterface
 	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 */
-	public function offsetSet(string! name, var definition) -> boolean
+	public function offsetSet(var name, var definition) -> void
 	{
 		this->setShared(name, definition);
-		return true;
 	}
 
 	/**
@@ -353,7 +357,7 @@ class Di implements DiInterface
 	 * var_dump($di["request"]);
 	 *</code>
 	 */
-	public function offsetGet(string! name) -> var
+	public function offsetGet(var name) -> var
 	{
 		return this->getShared(name);
 	}
@@ -361,9 +365,9 @@ class Di implements DiInterface
 	/**
 	 * Removes a service from the services container using the array syntax
 	 */
-	public function offsetUnset(string! name) -> boolean
+	public function offsetUnset(var name) -> void
 	{
-		return false;
+		this->remove(name);
 	}
 
 	/**
@@ -429,7 +433,7 @@ class Di implements DiInterface
 	/**
 	 * Set a default dependency injection container to be obtained into static methods
 	 */
-	public static function setDefault(<DiInterface> dependencyInjector)
+	public static function setDefault(<DiInterface> dependencyInjector) -> void
 	{
 		let self::_default = dependencyInjector;
 	}
@@ -437,7 +441,7 @@ class Di implements DiInterface
 	/**
 	 * Return the latest DI created
 	 */
-	public static function getDefault() -> <DiInterface>
+	public static function getDefault() -> <DiInterface> | null
 	{
 		return self::_default;
 	}

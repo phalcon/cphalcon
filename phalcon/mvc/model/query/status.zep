@@ -60,7 +60,7 @@ class Status implements StatusInterface
 	/**
 	 * Phalcon\Mvc\Model\Query\Status
 	 */
-	public function __construct(boolean success, <ModelInterface> model = null)
+	public function __construct(bool success, <ModelInterface> model = null)
 	{
 		let this->_success = success,
 			this->_model = model;
@@ -90,7 +90,7 @@ class Status implements StatusInterface
 	/**
 	 * Allows to check if the executed operation was successful
 	 */
-	public function success() -> boolean
+	public function success() -> bool
 	{
 		return this->_success;
 	}

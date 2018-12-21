@@ -21,6 +21,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\QueryInterface;
 
@@ -95,7 +96,7 @@ interface ManagerInterface
 	/**
 	 * Check of a model is already initialized
 	 */
-	public function isInitialized(string! modelName) -> boolean;
+	public function isInitialized(string! modelName) -> bool;
 
 	/**
 	 * Get last initialized model
@@ -137,17 +138,17 @@ interface ManagerInterface
 	/**
 	 * Checks whether a model has a belongsTo relation with another model
 	 */
-	public function existsBelongsTo(string! modelName, string! modelRelation) -> boolean;
+	public function existsBelongsTo(string! modelName, string! modelRelation) -> bool;
 
 	/**
 	 * Checks whether a model has a hasMany relation with another model
 	 */
-	public function existsHasMany(string! modelName, string! modelRelation) -> boolean;
+	public function existsHasMany(string! modelName, string! modelRelation) -> bool;
 
 	/**
 	 * Checks whether a model has a hasOne relation with another model
 	 */
-	public function existsHasOne(string! modelName, string! modelRelation) -> boolean;
+	public function existsHasOne(string! modelName, string! modelRelation) -> bool;
 
 	/**
 	 * Gets belongsTo related records from a model
@@ -155,7 +156,7 @@ interface ManagerInterface
 	 * @param string modelRelation
 	 * @param array  parameters
 	 */
-	public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | boolean;
+	public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | bool;
 
 	/**
 	 * Gets hasMany related records from a model
@@ -163,7 +164,7 @@ interface ManagerInterface
 	 * @param string modelRelation
 	 * @param array  parameters
 	 */
-	public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | boolean;
+	public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | bool;
 
 	/**
 	 * Gets belongsTo related records from a model
@@ -171,22 +172,22 @@ interface ManagerInterface
 	 * @param string modelRelation
 	 * @param array  parameters
 	 */
-	public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ModelInterface> | boolean;
+	public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ModelInterface> | bool;
 
 	/**
 	 * Gets belongsTo relations defined on a model
 	 */
-	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasMany relations defined on a model
 	 */
-	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasOne relations defined on a model
 	 */
-	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]>;
+	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]> | array;
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -201,7 +202,7 @@ interface ManagerInterface
 	/**
 	 * Query the relations between two models
 	 */
-	public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | boolean;
+	public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | bool;
 
 	/**
 	 * Creates a Phalcon\Mvc\Model\Query without execute it
@@ -233,7 +234,7 @@ interface ManagerInterface
 	 *
 	 * @param string $eventName
 	 */
-	public function notifyEvent(eventName, <ModelInterface> model);
+	public function notifyEvent(string! eventName, <ModelInterface> model);
 
 	/**
 	 * Dispatch an event to the listeners and behaviors
@@ -241,7 +242,7 @@ interface ManagerInterface
 	 * meaning that a least one is implemented
 	 *
 	 * @param array data
-	 * @return boolean
+	 * @return bool
 	 */
 	public function missingMethod(<ModelInterface> model, string! eventName, data);
 
@@ -253,6 +254,6 @@ interface ManagerInterface
 	/**
 	 * Returns a relation by its alias
 	 */
-	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean;
+	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | bool;
 
 }

@@ -87,7 +87,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Phalcon\Mvc\Model\Transaction constructor
 	 */
-	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, string service = null)
+	public function __construct(<DiInterface> dependencyInjector, bool autoBegin = false, string service = null)
 	{
 		var connection;
 
@@ -116,7 +116,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Starts the transaction
 	 */
-	public function begin() -> boolean
+	public function begin() -> bool
 	{
 		return this->_connection->begin();
 	}
@@ -124,7 +124,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Commits the transaction
 	 */
-	public function commit() -> boolean
+	public function commit() -> bool
 	{
 		var manager;
 
@@ -139,7 +139,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Rollbacks the transaction
 	 */
-	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> boolean
+	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> bool
 	{
 		var manager, connection;
 
@@ -178,7 +178,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Sets if is a reused transaction or new once
 	 */
-	public function setIsNewTransaction(boolean isNew)
+	public function setIsNewTransaction(bool isNew)
 	{
 		let this->_isNewTransaction = isNew;
 	}
@@ -186,7 +186,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Sets flag to rollback on abort the HTTP connection
 	 */
-	public function setRollbackOnAbort(boolean rollbackOnAbort)
+	public function setRollbackOnAbort(bool rollbackOnAbort)
 	{
 		let this->_rollbackOnAbort = rollbackOnAbort;
 	}
@@ -194,7 +194,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Checks whether transaction is managed by a transaction manager
 	 */
-	public function isManaged() -> boolean
+	public function isManaged() -> bool
 	{
 		return typeof this->_manager == "object";
 	}
@@ -210,7 +210,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Checks whether internal connection is under an active transaction
 	 */
-	public function isValid() -> boolean
+	public function isValid() -> bool
 	{
 		return this->_connection->isUnderTransaction();
 	}

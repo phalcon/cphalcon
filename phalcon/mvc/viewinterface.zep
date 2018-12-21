@@ -61,7 +61,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Sets the render level for the view
 	 */
-	public function setRenderLevel(string! level);
+	public function setRenderLevel(int level) -> <ViewInterface>;
 
 	/**
 	 * Sets default view name. Must be a file without extension in the views directory
@@ -118,13 +118,6 @@ interface ViewInterface extends ViewBaseInterface
 	public function getActionName() -> string;
 
 	/**
-	 * Gets extra parameters of the action rendered
-	 *
-	 * @deprecated Will be removed in 4.0.0
-	 */
-	deprecated public function getParams() -> array;
-
-	/**
 	 * Starts rendering process enabling the output buffering
 	 */
 	public function start();
@@ -137,7 +130,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Executes render process from dispatching data
 	 */
-	public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | boolean;
+	public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | bool;
 
 	/**
 	 * Choose a view different to render than last-controller/last-action
@@ -152,7 +145,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Returns the path of the view that is currently rendered
 	 */
-	public function getActiveRenderPath() -> string;
+	public function getActiveRenderPath() -> string | array;
 
 	/**
 	 * Disables the auto-rendering process
@@ -172,5 +165,5 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Whether the automatic rendering is disabled
 	 */
-	public function isDisabled() -> boolean;
+	public function isDisabled() -> bool;
 }

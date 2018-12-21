@@ -75,7 +75,7 @@ class Config implements \ArrayAccess, \Countable
 	 * );
 	 *</code>
 	 */
-	public function offsetExists(var index) -> boolean
+	public function offsetExists(var index) -> bool
 	{
 		let index = strval(index);
 
@@ -153,7 +153,7 @@ class Config implements \ArrayAccess, \Countable
 	 * );
 	 *</code>
 	 */
-	public function offsetGet(var index) -> string
+	public function offsetGet(var index) -> var
 	{
 		let index = strval(index);
 
@@ -169,7 +169,7 @@ class Config implements \ArrayAccess, \Countable
 	 * ];
 	 *</code>
 	 */
-	public function offsetSet(var index, var value)
+	public function offsetSet(var index, var value) -> void
 	{
 		let index = strval(index);
 
@@ -187,7 +187,7 @@ class Config implements \ArrayAccess, \Countable
 	 * unset($config["database"]);
 	 *</code>
 	 */
-	public function offsetUnset(var index)
+	public function offsetUnset(var index) -> void
 	{
 		let index = strval(index);
 
@@ -318,9 +318,13 @@ class Config implements \ArrayAccess, \Countable
 			}
 
 			if is_numeric(key) {
-				let key = strval(number),
-					number++;
-			}
+				let key = strval(key);
+				while instance->offsetExists(key) {
+					// increment the number afterwards, because "number" starts at one not zero.
+					let key = strval(number);
+					let number++;
+				}
+ 			}
 			let instance->{key} = value;
 		}
 

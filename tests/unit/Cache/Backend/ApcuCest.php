@@ -12,10 +12,10 @@ use UnitTester;
  * Tests the \Phalcon\Cache\Backend\Apcu component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
+ * @link          http://www.phalconphp.com
+ * @author        Andres Gutierrez <andres@phalconphp.com>
+ * @author        Phalcon Team <team@phalconphp.com>
+ * @package       Phalcon\Test\Unit\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -28,11 +28,7 @@ class ApcuCest
 {
     public function _before(UnitTester $I)
     {
-        if (!extension_loaded('apcu')) {
-            throw new SkippedTestError(
-                'Warning: APCu extension is not loaded'
-            );
-        }
+        $I->checkExtensionIsLoaded('apcu');
 
         if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
             throw new SkippedTestError(
@@ -41,7 +37,7 @@ class ApcuCest
         }
 
         if (version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new SkippedTestError(
+            $I->skipTest(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }
@@ -49,7 +45,7 @@ class ApcuCest
 
     public function _after(UnitTester $I)
     {
-        $I->flushApc();
+//        $I->flushApc();
     }
 
     public function increment(UnitTester $I)
@@ -124,7 +120,7 @@ class ApcuCest
     {
         $I->wantTo('Get data by using APCu as cache backend');
 
-        $key = '_PHCA' . 'data-get';
+        $key  = '_PHCA' . 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Apcu(new Data(['lifetime' => 20]));
@@ -146,7 +142,7 @@ class ApcuCest
     {
         $I->wantTo('Save data by using APCu as cache backend');
 
-        $key = '_PHCA' . 'data-save';
+        $key  = '_PHCA' . 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Apcu(new Data(['lifetime' => 20]));
@@ -170,7 +166,7 @@ class ApcuCest
             'Delete from cache by using APCu as cache backend'
         );
 
-        $key = '_PHCA' . 'data-delete';
+        $key   = '_PHCA' . 'data-delete';
         $cache = new Apcu(new Data(['lifetime' => 20]));
 
         $I->assertFalse($cache->delete('non-existent-keys'));
@@ -209,7 +205,7 @@ class ApcuCest
         $I->wantTo('Flush prefixed keys from cache by using APCu as cache backend');
 
         $prefix = 'app-data';
-        $cache = new Apcu(new Data(['lifetime' => 20]), ['prefix' => $prefix]);
+        $cache  = new Apcu(new Data(['lifetime' => 20]), ['prefix' => $prefix]);
 
         $key1 = '_PHCA' . 'app-data' . 'data-flush-1';
         $key2 = '_PHCA' . 'app-data' . 'data-flush-2';
@@ -244,7 +240,7 @@ class ApcuCest
         $I->wantTo('Get prefixed cache keys by using APCu as cache backend');
 
         $prefix = 'app-data';
-        $cache = new Apcu(new Data(['lifetime' => 20]), ['prefix' => $prefix]);
+        $cache  = new Apcu(new Data(['lifetime' => 20]), ['prefix' => $prefix]);
 
         $key1 = '_PHCA' . 'app-data' . 'data-key-1';
         $key2 = '_PHCA' . 'app-data' . 'data-key-2';

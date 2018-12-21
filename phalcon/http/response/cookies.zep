@@ -133,7 +133,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Set if cookies in the bag must be automatically encrypted/decrypted
 	 */
-	public function useEncryption(boolean useEncryption) -> <Cookies>
+	public function useEncryption(bool useEncryption) -> <CookiesInterface>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -142,7 +142,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Returns if the bag is automatically encrypting/decrypting cookies
 	 */
-	public function isUsingEncryption() -> boolean
+	public function isUsingEncryption() -> bool
 	{
 		return this->_useEncryption;
 	}
@@ -171,10 +171,10 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		value = null,
 		int expire = 0,
 		string path = "/",
-		boolean secure = null,
+		bool secure = null,
 		string! domain = null,
-		boolean httpOnly = null
-	) -> <Cookies> {
+		bool httpOnly = null
+	) -> <CookiesInterface> {
 		var cookie, encryption, dependencyInjector, response;
 
 		let encryption = this->_useEncryption;
@@ -283,10 +283,18 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		return cookie;
 	}
 
+    /**
+     * Gets all cookies from the bag
+     */
+	public function getCookies() -> array
+	{
+	    return this->_cookies;
+	}
+
 	/**
 	 * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
 	 */
-	public function has(string! name) -> boolean
+	public function has(string! name) -> bool
 	{
 		/**
 		 * Check the internal bag
@@ -309,7 +317,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	 * Deletes a cookie by its name
 	 * This method does not removes cookies from the _COOKIE superglobal
 	 */
-	public function delete(string! name) -> boolean
+	public function delete(string! name) -> bool
 	{
 		var cookie;
 
@@ -328,7 +336,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	 * Sends the cookies to the client
 	 * Cookies aren't sent if headers are sent in the current request
 	 */
-	public function send() -> boolean
+	public function send() -> bool
 	{
 		var cookie;
 
@@ -346,7 +354,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Reset set cookies
 	 */
-	public function reset() -> <Cookies>
+	public function reset() -> <CookiesInterface>
 	{
 		let this->_cookies = [];
 		return this;

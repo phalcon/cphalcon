@@ -277,7 +277,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Sets the DependencyInjector container
 	 */
-	public function setDI(<DiInterface> dependencyInjector) -> <Builder>
+	public function setDI(<DiInterface> dependencyInjector) -> <BuilderInterface>
 	{
 		let this->_dependencyInjector = dependencyInjector;
 		return this;
@@ -299,7 +299,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->distinct(null);
 	 *</code>
 	 */
-	 public function distinct(var distinct) -> <Builder>
+	 public function distinct(var distinct) -> <BuilderInterface>
 	 {
 	 	let this->_distinct = distinct;
 	 	return this;
@@ -308,7 +308,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns SELECT DISTINCT / SELECT ALL flag
 	 */
-	public function getDistinct() -> boolean
+	public function getDistinct() -> bool
 	{
 		return this->_distinct;
 	}
@@ -334,7 +334,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function columns(var columns) -> <Builder>
+	public function columns(var columns) -> <BuilderInterface>
 	{
 		let this->_columns = columns;
 		return this;
@@ -371,7 +371,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function from(var models) -> <Builder>
+	public function from(var models) -> <BuilderInterface>
 	{
 		let this->_models = models;
 		return this;
@@ -388,7 +388,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->addFrom("Robots", "r");
 	 *</code>
 	 */
-	public function addFrom(string model, string alias = null) -> <Builder>
+	public function addFrom(string model, string alias = null) -> <BuilderInterface>
 	{
 		var models, currentModel;
 
@@ -439,7 +439,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
 	 *</code>
 	 */
-	public function join(string! model, string conditions = null, string alias = null, string type = null) -> <Builder>
+	public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
 	{
 		let this->_joins[] = [model, conditions, alias, type];
 		return this;
@@ -459,7 +459,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 */
-	public function innerJoin(string! model, string conditions = null, string alias = null) -> <Builder>
+	public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
 	{
 		let this->_joins[] = [model, conditions, alias, "INNER"];
 		return this;
@@ -472,7 +472,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 */
-	public function leftJoin(string! model, string conditions = null, string alias = null) -> <Builder>
+	public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
 	{
 		let this->_joins[] = [model, conditions, alias, "LEFT"];
 		return this;
@@ -485,7 +485,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 */
-	public function rightJoin(string! model, string conditions = null, string alias = null) -> <Builder>
+	public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
 	{
 		let this->_joins[] = [model, conditions, alias, "RIGHT"];
 		return this;
@@ -516,7 +516,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function where(string conditions, array bindParams = [], array bindTypes = []) -> <Builder>
+	public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
 	{
 		var currentBindParams, currentBindTypes;
 
@@ -564,7 +564,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <Builder>
+	public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
 	{
 		var currentConditions;
 
@@ -595,7 +595,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <Builder>
+	public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
 	{
 		var currentConditions;
 
@@ -618,7 +618,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->betweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
-	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionBetween("Where", operator, expr, minimum, maximum);
 	}
@@ -630,7 +630,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->notBetweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
-	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionNotBetween("Where", operator, expr, minimum, maximum);
 	}
@@ -642,7 +642,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->inWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
-	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionIn("Where", operator, expr, values);
 	}
@@ -654,7 +654,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->notInWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
-	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionNotIn("Where", operator, expr, values);
 	}
@@ -680,7 +680,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @param string|array orderBy
 	 */
-	public function orderBy(var orderBy) -> <Builder>
+	public function orderBy(var orderBy) -> <BuilderInterface>
 	{
 		let this->_order = orderBy;
 		return this;
@@ -715,7 +715,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function having(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+	public function having(var conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
 	{
 		var currentBindParams, currentBindTypes;
 
@@ -767,7 +767,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function andHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+	public function andHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
 	{
 		var currentConditions;
 
@@ -802,7 +802,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+	public function orHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
 	{
 		var currentConditions;
 
@@ -825,7 +825,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->betweenHaving("SUM(Robots.price)", 100.25, 200.50);
 	 *</code>
 	 */
-	public function betweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function betweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionBetween("Having", operator, expr, minimum, maximum);
 	}
@@ -837,7 +837,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->notBetweenHaving("SUM(Robots.price)", 100.25, 200.50);
 	 *</code>
 	 */
-	public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionNotBetween("Having", operator, expr, minimum, maximum);
 	}
@@ -849,7 +849,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->inHaving("SUM(Robots.price)", [100, 200]);
 	 *</code>
 	 */
-	public function inHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function inHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionIn("Having", operator, expr, values);
 	}
@@ -861,7 +861,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->notInHaving("SUM(Robots.price)", [100, 200]);
 	 *</code>
 	 */
-	public function notInHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
+	public function notInHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
 	{
 		return this->_conditionNotIn("Having", operator, expr, values);
 	}
@@ -881,7 +881,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->forUpdate(true);
 	 *</code>
 	 */
-	public function forUpdate(boolean forUpdate) -> <Builder>
+	public function forUpdate(bool forUpdate) -> <BuilderInterface>
 	{
 		let this->_forUpdate = forUpdate;
 		return this;
@@ -896,7 +896,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->limit("100", "20");
 	 * </code>
 	 */
-	public function limit(int limit, var offset = null) -> <Builder>
+	public function limit(int limit, var offset = null) -> <BuilderInterface>
 	{
 		let limit = abs(limit);
 
@@ -930,7 +930,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->offset(30);
 	 *</code>
 	 */
-	public function offset(int offset) -> <Builder>
+	public function offset(int offset) -> <BuilderInterface>
 	{
 		let this->_offset = offset;
 		return this;
@@ -957,7 +957,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @param string|array group
 	 */
-	public function groupBy(var group) -> <Builder>
+	public function groupBy(var group) -> <BuilderInterface>
 	{
 		let this->_group = group;
 		return this;
@@ -983,7 +983,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
 			limit, number, offset, forUpdate, distinct;
-		boolean noPrimary;
+		bool noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -1061,7 +1061,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let distinct = this->_distinct;
-		if typeof distinct != "null" && typeof distinct == "bool" {
+		if typeof distinct != "null" && typeof distinct == "boolean" {
 			if distinct {
 				let phql = "SELECT DISTINCT ";
 			} else {
@@ -1373,7 +1373,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends a BETWEEN condition
 	 */
-	protected function _conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <Builder>
+	protected function _conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1412,7 +1412,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends a NOT BETWEEN condition
 	 */
-	protected function _conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <Builder>
+	protected function _conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1450,7 +1450,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends an IN condition
 	 */
-	protected function _conditionIn(string! clause, string! operator, string! expr, array! values) -> <Builder>
+	protected function _conditionIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
 	{
 		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
@@ -1495,7 +1495,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends a NOT IN condition
 	 */
-	protected function _conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <Builder>
+	protected function _conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
 	{
 		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
@@ -1537,4 +1537,61 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		return this;
 	}
 
+	/**
+	 * Set default bind parameters
+	 */
+	public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>
+	{
+		var currentBindParams;
+
+		if merge {
+			let currentBindParams = this->_bindParams;
+			if typeof currentBindParams == "array" {
+				let this->_bindParams = currentBindParams + bindParams;
+			} else {
+				let this->_bindParams = bindParams;
+			}
+		} else {
+			let this->_bindParams = bindParams;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Returns default bind params
+	 */
+	public function getBindParams() -> array
+	{
+		return this->_bindParams;
+	}
+
+	/**
+	 * Set default bind types
+	 */
+	public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>
+	{
+		var currentBindTypes;
+
+		if unlikely merge {
+			let currentBindTypes = this->_bindTypes;
+			if typeof currentBindTypes == "array" {
+				let this->_bindTypes = currentBindTypes + bindTypes;
+			} else {
+				let this->_bindTypes = bindTypes;
+			}
+		} else {
+			let this->_bindTypes = bindTypes;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Returns default bind types
+	 */
+	public function getBindTypes() -> array
+	{
+		return this->_bindTypes;
+	}
 }

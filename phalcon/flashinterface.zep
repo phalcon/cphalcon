@@ -30,25 +30,25 @@ interface FlashInterface
 	/**
 	 * Shows a HTML error message
 	 */
-	public function error(message);
+	public function error(string message);
 
 	/**
 	 * Outputs a message
 	 */
-	public function message(string type, var message);
+	public function message(string type, string message);
 
 	/**
 	 * Shows a HTML notice/information message
 	 */
-	public function notice(message);
+	public function notice(string message);
 
 	/**
 	 * Shows a HTML success message
 	 */
-	public function success(message);
+	public function success(string message);
 
 	/**
 	 * Shows a HTML warning message
 	 */
-	public function warning(message);
+	public function warning(string message);
 }

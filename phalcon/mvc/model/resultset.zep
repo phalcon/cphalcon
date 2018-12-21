@@ -182,7 +182,7 @@ abstract class Resultset
 	/**
 	 * Check whether internal resource has rows to fetch
 	 */
-	public function valid() -> boolean
+	public function valid() -> bool
 	{
 		return this->_pointer < this->_count;
 	}
@@ -211,7 +211,7 @@ abstract class Resultset
 	 * Changes the internal pointer to a specific position in the resultset.
 	 * Set the new position if required, and then set this->_row
 	 */
-	public final function seek(int position) -> void
+	public final function seek(var position) -> void
 	{
 		var result, row;
 
@@ -277,7 +277,7 @@ abstract class Resultset
 	/**
 	 * Checks whether offset exists in the resultset
 	 */
-	public function offsetExists(int index) -> boolean
+	public function offsetExists(var index) -> bool
 	{
 		return index < this->_count;
 	}
@@ -285,7 +285,7 @@ abstract class Resultset
 	/**
 	 * Gets row in a specific position of the resultset
 	 */
-	public function offsetGet(int! index) -> <ModelInterface> | boolean
+	public function offsetGet(var index) -> <ModelInterface> | bool
 	{
 		if index < this->_count {
 	   		/**
@@ -305,7 +305,7 @@ abstract class Resultset
 	 * @param int index
 	 * @param \Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, var value)
+	public function offsetSet(var index, var value) -> void
 	{
 		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}
@@ -313,7 +313,7 @@ abstract class Resultset
 	/**
 	 * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 	 */
-	public function offsetUnset(int offset)
+	public function offsetUnset(var offset) -> void
 	{
 		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}
@@ -329,7 +329,7 @@ abstract class Resultset
 	/**
 	 * Get first row in the resultset
 	 */
-	public function getFirst() -> <ModelInterface> | boolean
+	public function getFirst() -> <ModelInterface> | bool
 	{
 		if this->_count == 0 {
 			return false;
@@ -342,7 +342,7 @@ abstract class Resultset
 	/**
 	 * Get last row in the resultset
 	 */
-	public function getLast() -> <ModelInterface> | boolean
+	public function getLast() -> <ModelInterface> | bool
 	{
 		var count;
 		let count = this->_count;
@@ -357,7 +357,7 @@ abstract class Resultset
 	/**
 	 * Set if the resultset is fresh or an old one cached
 	 */
-	public function setIsFresh(boolean isFresh) -> <Resultset>
+	public function setIsFresh(bool isFresh) -> <Resultset>
 	{
 		let this->_isFresh = isFresh;
 		return this;
@@ -366,7 +366,7 @@ abstract class Resultset
 	/**
 	 * Tell if the resultset if fresh or an old one cached
 	 */
-	public function isFresh() -> boolean
+	public function isFresh() -> bool
 	{
 		return this->_isFresh;
 	}
@@ -409,9 +409,9 @@ abstract class Resultset
 	 *
 	 * @param array data
 	 */
-	public function update(var data, <\Closure> conditionCallback = null) -> boolean
+	public function update(var data, <\Closure> conditionCallback = null) -> bool
 	{
-		boolean transaction;
+		bool transaction;
 		var record, connection = null;
 
 		let transaction = false;
@@ -481,9 +481,9 @@ abstract class Resultset
 	/**
 	 * Deletes every record in the resultset
 	 */
-	public function delete(<\Closure> conditionCallback = null) -> boolean
+	public function delete(<\Closure> conditionCallback = null) -> bool
 	{
-		boolean result, transaction;
+		bool result, transaction;
 		var record, connection = null;
 
 		let result = true;

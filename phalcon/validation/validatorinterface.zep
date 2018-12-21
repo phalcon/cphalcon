@@ -30,7 +30,7 @@ interface ValidatorInterface
 	/**
 	 * Checks if an option is defined
 	 */
-	public function hasOption(string! key) -> boolean;
+	public function hasOption(string! key) -> bool;
 
 	/**
 	 * Returns an option in the validator's options
@@ -41,6 +41,5 @@ interface ValidatorInterface
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! attribute) -> boolean;
-
+	public function validate(<\Phalcon\Validation> validation, var field) -> bool;
 }

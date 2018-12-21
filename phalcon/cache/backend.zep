@@ -29,12 +29,24 @@ use Phalcon\Cache\FrontendInterface;
 abstract class Backend implements BackendInterface
 {
 
-	protected _frontend { get, set };
+	/**
+	 * @var Phalcon\Cache\FrontendInterface
+	 */
+	protected _frontend;
 
+	/**
+	 * @var array
+	 */
 	protected _options { get, set };
 
+	/**
+	 * @var string
+	 */
 	protected _prefix = "";
 
+	/**
+	 * @var string
+	 */
 	protected _lastKey = "" { get, set };
 
 	protected _lastLifetime = null;
@@ -59,6 +71,19 @@ abstract class Backend implements BackendInterface
 
 		let this->_frontend = frontend,
 			this->_options = options;
+	}
+
+	/**
+	 * @var Phalcon\Cache\FrontendInterface
+	 */
+	public function getFrontend() -> <FrontendInterface>
+	{
+		return this->_frontend;
+	}
+
+	public function setFrontend(<FrontendInterface> frontend) -> void
+	{
+		let this->_frontend = frontend;
 	}
 
 	/**
@@ -100,7 +125,7 @@ abstract class Backend implements BackendInterface
 	/**
 	 * Stops the frontend without store any cached content
 	 */
-	public function stop(boolean stopBuffer = true) -> void
+	public function stop(bool stopBuffer = true) -> void
 	{
 		if stopBuffer === true {
 			this->_frontend->stop();
@@ -111,7 +136,7 @@ abstract class Backend implements BackendInterface
 	/**
 	 * Checks whether the last cache is fresh or cached
 	 */
-	public function isFresh() -> boolean
+	public function isFresh() -> bool
 	{
 		return this->_fresh;
 	}
@@ -119,7 +144,7 @@ abstract class Backend implements BackendInterface
 	/**
 	 * Checks whether the cache has starting buffering or not
 	 */
-	public function isStarted() -> boolean
+	public function isStarted() -> bool
 	{
 		return this->_started;
 	}

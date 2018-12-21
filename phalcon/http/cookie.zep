@@ -25,7 +25,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
 use Phalcon\Crypt\Mismatch;
-use Phalcon\Session\AdapterInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
 /**
  * Phalcon\Http\Cookie
@@ -73,9 +73,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 		var value = null,
 		int expire = 0,
 		string path = "/",
-		boolean secure = null,
+		bool secure = null,
 		string domain = null,
-		boolean httpOnly = null
+		bool httpOnly = null
 	) {
 		let this->_name = name;
 
@@ -291,8 +291,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 		 * The definition is stored in session
 		 */
 		if count(definition) {
-			let session = <SessionInterface> dependencyInjector->getShared("session");
-			if session->isStarted() {
+			let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+			if session->exists() {
 				session->set("_PHCOOKIE_" . name, definition);
 			}
 		}
@@ -357,7 +357,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 				let session = dependencyInjector->getShared("session");
 
-				if session->isStarted() {
+				if session->exists() {
 					let definition = session->get("_PHCOOKIE_" . this->_name);
 					if typeof definition == "array" {
 
@@ -405,8 +405,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
-			let session = <SessionInterface> dependencyInjector->getShared("session");
-			if session->isStarted() {
+			let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+			if session->exists() {
 				session->remove("_PHCOOKIE_" . name);
 			}
 		}
@@ -418,7 +418,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets if the cookie must be encrypted/decrypted automatically
 	 */
-	public function useEncryption(boolean useEncryption) -> <CookieInterface>
+	public function useEncryption(bool useEncryption) -> <CookieInterface>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -427,7 +427,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Check if the cookie is using implicit encryption
 	 */
-	public function isUsingEncryption() -> boolean
+	public function isUsingEncryption() -> bool
 	{
 		return this->_useEncryption;
 	}
@@ -512,7 +512,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets if the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function setSecure(boolean secure) -> <CookieInterface>
+	public function setSecure(bool secure) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -524,7 +524,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function getSecure() -> boolean
+	public function getSecure() -> bool
 	{
 		if !this->_restored {
 			this->restore();
@@ -535,7 +535,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets if the cookie is accessible only through the HTTP protocol
 	 */
-	public function setHttpOnly(boolean httpOnly) -> <CookieInterface>
+	public function setHttpOnly(bool httpOnly) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -547,7 +547,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Returns if the cookie is accessible only through the HTTP protocol
 	 */
-	public function getHttpOnly() -> boolean
+	public function getHttpOnly() -> bool
 	{
 		if !this->_restored {
 			this->restore();

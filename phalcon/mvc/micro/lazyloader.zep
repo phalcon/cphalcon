@@ -28,49 +28,16 @@ use Phalcon\Mvc\Model\BinderInterface;
  */
 class LazyLoader
 {
-	protected _handler;
+	protected handler;
 
-	protected _modelBinder;
-
-	protected _definition {
-		get
-	};
+	protected definition { get };
 
 	/**
 	 * Phalcon\Mvc\Micro\LazyLoader constructor
 	 */
 	public function __construct(string! definition)
 	{
-		let this->_definition = definition;
-	}
-
-	/**
-	 * Initializes the internal handler, calling functions on it
-	 */
-	public function __call(string! method, array arguments) -> var
-	{
- 		var handler, definition, modelBinder, bindCacheKey;
-
-		let handler = this->_handler;
-
-		let definition = this->_definition;
-
-		if typeof handler != "object" {
-			let handler = new {definition}();
-			let this->_handler = handler;
-		}
-
-		let modelBinder = this->_modelBinder;
-
-		if modelBinder != null {
-			let bindCacheKey = "_PHMB_" . definition . "_" . method;
-			let arguments = modelBinder->bindToHandler(handler, arguments, bindCacheKey, method);
-		}
-
-		/**
-		 * Call the handler
-		 */
-		return call_user_func_array([handler, method], arguments);
+		let this->definition = definition;
 	}
 
 	/**
@@ -82,8 +49,24 @@ class LazyLoader
 	 */
 	public function callMethod(string! method, arguments, <BinderInterface> modelBinder = null)
 	{
-		let this->_modelBinder = modelBinder;
+ 		var handler, definition, bindCacheKey;
 
-		return this->__call(method, arguments);
+		let handler    = this->handler,
+			definition = this->definition;
+
+		if typeof handler != "object" {
+			let handler = new {definition}();
+			let this->handler = handler;
+		}
+
+		if modelBinder != null {
+			let bindCacheKey = "_PHMB_" . definition . "_" . method;
+			let arguments = modelBinder->bindToHandler(handler, arguments, bindCacheKey, method);
+		}
+
+		/**
+		 * Call the handler
+		 */
+		return call_user_func_array([handler, method], arguments);
 	}
 }

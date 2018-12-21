@@ -42,7 +42,7 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Checks if an option is defined
 	 */
-	public function hasOption(string! key) -> boolean
+	public function hasOption(string! key) -> bool
 	{
 		return isset this->_options[key];
 	}
@@ -85,7 +85,7 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Executes the validation
 	 */
-	abstract public function validate(<Validation> validation, string! attribute) -> boolean;
+	abstract public function validate(<Validation> validation, var field) -> bool;
 
 	/**
 	 * Prepares a label for the field.

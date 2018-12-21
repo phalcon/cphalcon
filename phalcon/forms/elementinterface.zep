@@ -76,7 +76,7 @@ interface ElementInterface
 	 *
 	 * @param \Phalcon\Validation\ValidatorInterface[]
 	 */
-	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>;
+	public function addValidators(array! validators, bool merge = true) -> <ElementInterface>;
 
 	/**
 	 * Adds a validator to the element
@@ -92,7 +92,7 @@ interface ElementInterface
 	 * Returns an array of prepared attributes for Phalcon\Tag helpers
 	 * according to the element's parameters
 	 */
-	public function prepareAttributes(array attributes = null, boolean useChecked = false) -> array;
+	public function prepareAttributes(array attributes = null, bool useChecked = false) -> array;
 
 	/**
 	 * Sets a default attribute for the element
@@ -174,7 +174,7 @@ interface ElementInterface
 	/**
 	 * Checks whether there are messages attached to the element
 	 */
-	public function hasMessages() -> boolean;
+	public function hasMessages() -> bool;
 
 	/**
 	 * Sets the validation messages related to the element

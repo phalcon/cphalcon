@@ -508,6 +508,65 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
+			 * The code below will be activated when Html\Tag is enabled
+			 */
+			/**
+			let className = "Phalcon\\Html\\Tag";
+
+			if method_exists(className, method) {
+				let arrayHelpers = this->_arrayHelpers;
+				if typeof arrayHelpers != "array" {
+					let arrayHelpers = [
+						"button_submit"         : true.
+						"element"               : true.
+						"element_close"         : true.
+						"end_form"              : true.
+						"form"                  : true.
+						"friendly_title"        : true.
+						"get_doc_type"          : true.
+						"get_title"             : true.
+						"get_title_separator"   : true.
+						"image"                 : true.
+						"input_checkbox"        : true.
+						"input_color"           : true.
+						"input_date"            : true.
+						"input_date_time"       : true.
+						"input_date_time_local" : true.
+						"input_email"           : true.
+						"input_file"            : true.
+						"input_hidden"          : true.
+						"input_image"           : true.
+						"input_month"           : true.
+						"input_numeric"         : true.
+						"input_password"        : true.
+						"input_radio"           : true.
+						"input_range"           : true.
+						"input_search"          : true.
+						"input_tel"             : true.
+						"input_text"            : true.
+						"input_time"            : true.
+						"input_url"             : true.
+						"input_week"            : true.
+						"javascript"            : true.
+						"link"                  : true.
+						"prepend_title"         : true.
+						"render_title"          : true.
+						"select"                : true.
+						"stylesheet"            : true.
+						"submit"                : true.
+						"text_area"             : true.
+					];
+					let this->_arrayHelpers = arrayHelpers;
+				}
+
+				if isset arrayHelpers[name] {
+					return "$this->tag->" . method . "([" . arguments . "])";
+				}
+				return "$this->tag->" . method . "(" . arguments . ")";
+			}
+			*/
+
+			/**
 			 * Get a dynamic URL
 			 */
 			if name == "url" {
@@ -1284,7 +1343,7 @@ class Compiler implements InjectionAwareInterface
 	final protected function _statementListOrExtends(var statements)
 	{
 		var statement;
-		boolean isStatementList;
+		bool isStatementList;
 
 		/**
 		 * Resolve the statement list as normal
@@ -1322,7 +1381,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles a "foreach" intermediate code representation into plain PHP code
 	 */
-	public function compileForeach(array! statement, boolean extendsMode = false) -> string
+	public function compileForeach(array! statement, bool extendsMode = false) -> string
 	{
 		var compilation, prefix, level, prefixLevel, expr,
 			exprCode, bstatement, type, blockStatements, forElse, code,
@@ -1495,7 +1554,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles a 'if' statement returning PHP code
 	 */
-	public function compileIf(array! statement, boolean extendsMode = false) -> string
+	public function compileIf(array! statement, bool extendsMode = false) -> string
 	{
 		var compilation, blockStatements, expr;
 
@@ -1530,7 +1589,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles a 'switch' statement returning PHP code
 	 */
-	public function compileSwitch(array! statement, boolean extendsMode = false) -> string
+	public function compileSwitch(array! statement, bool extendsMode = false) -> string
 	{
 		var compilation, caseClauses, expr, lines;
 
@@ -1630,7 +1689,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles a "cache" statement returning PHP code
 	 */
-	public function compileCache(array! statement, boolean extendsMode = false) -> string
+	public function compileCache(array! statement, bool extendsMode = false) -> string
 	{
 		var compilation, expr, exprCode, lifetime;
 
@@ -1784,7 +1843,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles a "autoescape" statement returning PHP code
 	 */
-	public function compileAutoEscape(array! statement, boolean extendsMode) -> string
+	public function compileAutoEscape(array! statement, bool extendsMode) -> string
 	{
 		var autoescape, oldAutoescape, compilation;
 
@@ -1922,7 +1981,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles macros
 	 */
-	public function compileMacro(array! statement, boolean extendsMode) -> string
+	public function compileMacro(array! statement, bool extendsMode) -> string
 	{
 		var code, name, defaultValue, macroName, parameters, position, parameter, variableName, blockStatements;
 
@@ -2002,7 +2061,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles calls to macros
 	 */
-	public function compileCall(array! statement, boolean extendsMode)
+	public function compileCall(array! statement, bool extendsMode)
 	{
 
 	}
@@ -2010,7 +2069,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Traverses a statement list compiling each of its nodes
 	 */
-	final protected function _statementList(array! statements, boolean extendsMode = false) -> string
+	final protected function _statementList(array! statements, bool extendsMode = false) -> string
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
@@ -2268,7 +2327,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Compiles a Volt source code returning a PHP plain version
 	 */
-	protected function _compileSource(string! viewCode, boolean extendsMode = false) -> string
+	protected function _compileSource(string! viewCode, bool extendsMode = false) -> string
 	{
 		var currentPath, intermediate, extended,
 			finalCompilation, blocks, extendedBlocks, name, block,
@@ -2286,8 +2345,8 @@ class Compiler implements InjectionAwareInterface
 			 * Enable autoescape globally
 			 */
 			if fetch autoescape, options["autoescape"] {
-				if typeof autoescape != "bool" {
-					throw new Exception("'autoescape' must be boolean");
+				if typeof autoescape != "boolean" {
+					throw new Exception("'autoescape' must be bool");
 				}
 				let this->_autoescape = autoescape;
 			}
@@ -2384,7 +2443,7 @@ class Compiler implements InjectionAwareInterface
 	 * echo $compiler->compileString('{{ "hello world" }}');
 	 *</code>
 	 */
-	public function compileString(string! viewCode, boolean extendsMode = false) -> string
+	public function compileString(string! viewCode, bool extendsMode = false) -> string
 	{
 		let this->_currentPath = "eval code";
 		return this->_compileSource(viewCode, extendsMode);
@@ -2399,7 +2458,7 @@ class Compiler implements InjectionAwareInterface
 	 *
 	 * @return string|array
 	 */
-	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false)
+	public function compileFile(string! path, string! compiledPath, bool extendsMode = false)
 	{
 		var viewCode, compilation, finalCompilation;
 
@@ -2455,7 +2514,7 @@ class Compiler implements InjectionAwareInterface
 	 * require $compiler->getCompiledTemplatePath();
 	 *</code>
 	 */
-	public function compile(string! templatePath, boolean extendsMode = false)
+	public function compile(string! templatePath, bool extendsMode = false)
 	{
 		var stat, compileAlways, prefix, compiledPath, compiledSeparator, blocksCode,
 			compiledExtension, compilation, options, realCompiledPath,

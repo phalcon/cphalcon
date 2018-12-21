@@ -73,7 +73,7 @@ class Filter implements FilterInterface
 	/**
 	 * Adds a user-defined filter
 	 */
-	public function add(string! name, handler) -> <Filter>
+	public function add(string! name, handler) -> <FilterInterface>
 	{
 		if typeof handler != "object" && !is_callable(handler) {
 			throw new Exception("Filter must be an object or callable");
@@ -86,7 +86,7 @@ class Filter implements FilterInterface
 	/**
 	 * Sanitizes a value with a specified single or set of filters
 	 */
-	public function sanitize(var value, var filters, boolean noRecursive = false) -> var
+	public function sanitize(var value, var filters, bool noRecursive = false) -> var
 	{
 		var filter, arrayValue, itemKey, itemValue, sanitizedValue;
 

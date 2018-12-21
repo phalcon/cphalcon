@@ -1,0 +1,57 @@
+001+ sh: 1: tests/syntax: Permission denied
+001- array(1) {
+002-   [0]=>
+003-   array(5) {
+004-     ["type"]=>
+005-     int(411)
+006-     ["expr"]=>
+007-     array(4) {
+008-       ["type"]=>
+009-       int(265)
+010-       ["value"]=>
+011-       string(3) "foo"
+012-       ["file"]=>
+013-       string(9) "eval code"
+014-       ["line"]=>
+015-       int(1)
+016-     }
+017-     ["case_clauses"]=>
+018-     array(3) {
+019-       [0]=>
+020-       array(4) {
+021-         ["type"]=>
+022-         int(357)
+023-         ["value"]=>
+024-         string(1) " "
+025-         ["file"]=>
+026-         string(9) "eval code"
+027-         ["line"]=>
+028-         int(1)
+029-       }
+030-       [1]=>
+031-       array(3) {
+032-         ["type"]=>
+033-         int(413)
+034-         ["file"]=>
+035-         string(9) "eval code"
+036-         ["line"]=>
+037-         int(1)
+038-       }
+039-       [2]=>
+040-       array(4) {
+041-         ["type"]=>
+042-         int(357)
+043-         ["value"]=>
+044-         string(1) " "
+045-         ["file"]=>
+046-         string(9) "eval code"
+047-         ["line"]=>
+048-         int(1)
+049-       }
+050-     }
+051-     ["file"]=>
+052-     string(9) "eval code"
+053-     ["line"]=>
+054-     int(1)
+055-   }
+056- }

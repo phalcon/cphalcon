@@ -89,7 +89,7 @@ class Volt extends Engine
 	/**
 	 * Renders a view using the template engine
 	 */
-	public function render(string! templatePath, var params, boolean mustClean = false)
+	public function render(string! templatePath, var params, bool mustClean = false)
 	{
 		var compiler, compiledTemplatePath, key, value;
 
@@ -141,7 +141,7 @@ class Volt extends Engine
 	/**
 	 * Checks if the needle is included in the haystack
 	 */
-	public function isIncluded(var needle, var haystack) -> boolean
+	public function isIncluded(var needle, var haystack) -> bool
 	{
 		if typeof haystack == "array" {
 			return in_array(needle, haystack);

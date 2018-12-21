@@ -36,7 +36,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	/**
 	 * Set the current object's state
 	 */
-	public function setDirtyState(int dirtyState) -> boolean
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
 	{
 		return false;
 	}
@@ -46,7 +46,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 *
 	 * @param string|int $index
 	 */
-	public function offsetExists(var index) -> boolean
+	public function offsetExists(var index) -> bool
 	{
 		return isset this->{index};
 	}
@@ -57,7 +57,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * @param string|int index
 	 * @return string|Phalcon\Mvc\ModelInterface
 	 */
-	public function offsetGet(var index)
+	public function offsetGet(var index) -> var
 	{
 		var value;
 		if fetch value, this->{index} {
@@ -72,7 +72,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * @param string|int index
 	 * @param \Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, var value)
+	public function offsetSet(var index, var value) -> void
 	{
 		throw new Exception("Row is an immutable ArrayAccess object");
 	}
@@ -82,7 +82,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 *
 	 * @param string|int offset
 	 */
-	public function offsetUnset(int offset)
+	public function offsetUnset(var offset) -> void
 	{
 		throw new Exception("Row is an immutable ArrayAccess object");
 	}

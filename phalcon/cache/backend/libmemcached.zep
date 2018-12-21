@@ -146,7 +146,7 @@ class Libmemcached extends Backend
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, var lifetime = null) -> var | null
 	{
 		var memcache, prefixedKey, cachedContent;
 
@@ -178,7 +178,7 @@ class Libmemcached extends Backend
 	 * @param string content
 	 * @param int lifetime
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+	public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool
 	{
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
 			specialKey, keys, isBuffering;
@@ -278,9 +278,9 @@ class Libmemcached extends Backend
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
+	 * @return bool
 	 */
-	public function delete(keyName)
+	public function delete(var keyName) -> bool
 	{
 		var memcache, prefixedKey, options, keys, specialKey, ret;
 
@@ -367,7 +367,7 @@ class Libmemcached extends Backend
 	 * @param string keyName
 	 * @param int lifetime
 	 */
-	public function exists(keyName = null, lifetime = null) -> boolean
+	public function exists(var keyName = null, int lifetime = null) -> bool
 	{
 		var lastKey, memcache, value;
 
@@ -398,7 +398,7 @@ class Libmemcached extends Backend
 	 *
 	 * @param string keyName
 	 */
-	public function increment(keyName = null, int value = 1) -> int | boolean
+	public function increment(keyName = null, int value = 1) -> int | bool
 	{
 		var memcache, prefix, lastKey;
 
@@ -425,7 +425,7 @@ class Libmemcached extends Backend
 	 *
 	 * @param string keyName
 	 */
-	public function decrement(keyName = null, int value = 1) -> int | boolean
+	public function decrement(keyName = null, int value = 1) -> int | bool
 	{
 		var memcache, prefix, lastKey;
 
@@ -467,7 +467,7 @@ class Libmemcached extends Backend
      * $cache->flush();
      *</code>
 	 */
-	public function flush() -> boolean
+	public function flush() -> bool
 	{
 		var memcache, options, keys, specialKey, key;
 

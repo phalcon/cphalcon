@@ -107,12 +107,12 @@ interface DispatcherInterface
 	/**
 	 * Check if a param exists
 	 */
-	public function hasParam(var param) -> boolean;
+	public function hasParam(var param) -> bool;
 
 	/**
 	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
 	 */
-	public function isFinished() -> boolean;
+	public function isFinished() -> bool;
 
 	/**
 	 * Returns value returned by the latest dispatched action

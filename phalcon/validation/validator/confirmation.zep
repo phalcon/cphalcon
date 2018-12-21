@@ -71,7 +71,7 @@ class Confirmation extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var fieldWith, value, valueWith, message, label, labelWith, replacePairs, code;
 
@@ -117,7 +117,7 @@ class Confirmation extends Validator
 	/**
 	 * Compare strings
 	 */
-	protected final function compare(string a, string b) -> boolean
+	protected final function compare(string a, string b) -> bool
 	{
 		if this->getOption("ignoreCase", false) {
 

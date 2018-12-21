@@ -1,43 +1,82 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use Phalcon\Di;
-use IntegrationTester;
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\People;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Test\Models\Personas;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Db\Adapter\Pdo\Sqlite;
+use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Db\Adapter\Pdo\Postgresql;
-use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\People;
+use Phalcon\Test\Models\Personers;
+use Phalcon\Test\Models\Personas;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Users;
 
 class CriteriaCest
 {
-    /**
-     * Executed before each test
-     *
-     * @param IntegrationTester $I
-     */
+    use DiTrait;
+
     public function _before(IntegrationTester $I)
     {
-        $I->haveServiceInDi('modelsManager', Manager::class, true);
-        $I->haveServiceInDi('modelsMetadata', Memory::class, true);
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
 
-        Di::setDefault($I->getApplication()->getDI());
+    /**
+     * Tests Criteria::inWhere with empty array.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/10676
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2016-08-11
+     */
+    public function shouldExecuteInWhereQueryWithEmptyArray(IntegrationTester $I)
+    {
+        $criteria = Users::query()->inWhere(Users::class . '.id', []);
+
+        $I->assertEquals(Users::class . '.id != ' . Users::class . '.id', $criteria->getWhere());
+        $I->assertInstanceOf(Simple::class, $criteria->execute());
+    }
+
+    /**
+     * Tests work with limit / offset
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12419
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2016-12-18
+     */
+    public function shouldCorrectHandleLimitAndOffset(IntegrationTester $I)
+    {
+        $I->skipTest('TODO - Check the test data');
+        $examples = $this->getLimitOffset();
+        foreach ($examples as $item) {
+            $limit    = $item[0];
+            $offset   = $item[1];
+            $expected = $item[2];
+            /** @var \Phalcon\Mvc\Model\Criteria $query */
+            $query = Users::query();
+            $query->limit($limit, $offset);
+
+            $actual = $query->getLimit();
+            $I->assertEquals($expected, $actual);
+        }
     }
 
     /**
      * Tests creating builder from criteria
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-05-21
      *
      * @param IntegrationTester $I
@@ -64,8 +103,7 @@ class CriteriaCest
      */
     public function where(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->where("estado='I'")->execute();
         $people = People::find("estado='I'");
@@ -82,8 +120,7 @@ class CriteriaCest
      */
     public function whereRenamed(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $I->assertInstanceOf(Simple::class, Personers::query()->where("status='I'")->execute());
     }
@@ -96,8 +133,7 @@ class CriteriaCest
      */
     public function conditions(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->conditions("estado='I'")->execute();
         $people = People::find("estado='I'");
@@ -113,8 +149,7 @@ class CriteriaCest
      */
     public function conditionsRenamed(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $I->assertInstanceOf(Simple::class, Personers::query()->conditions("status='I'")->execute());
     }
@@ -127,13 +162,12 @@ class CriteriaCest
      */
     public function whereOrderBy(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-            ->where("estado='A'")
-            ->orderBy("nombres")
-            ->execute();
+                            ->where("estado='A'")
+                            ->orderBy("nombres")
+                            ->execute();
 
         $people = People::find(["estado='A'", "order" => "nombres"]);
 
@@ -149,13 +183,12 @@ class CriteriaCest
      */
     public function whereOrderByRenamed(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
-            ->where("status='A'")
-            ->orderBy("navnes")
-            ->execute();
+                              ->where("status='A'")
+                              ->orderBy("navnes")
+                              ->execute();
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -169,14 +202,13 @@ class CriteriaCest
      */
     public function whereOrderByLimit(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-            ->where("estado='A'")
-            ->orderBy("nombres")
-            ->limit(100)
-            ->execute();
+                            ->where("estado='A'")
+                            ->orderBy("nombres")
+                            ->limit(100)
+                            ->execute();
 
         $people = People::find([
             "estado='A'",
@@ -196,14 +228,13 @@ class CriteriaCest
      */
     public function whereOrderByLimitRenamed(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
-            ->where("status='A'")
-            ->orderBy("navnes")
-            ->limit(100)
-            ->execute();
+                              ->where("status='A'")
+                              ->orderBy("navnes")
+                              ->limit(100)
+                              ->execute();
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -217,15 +248,14 @@ class CriteriaCest
      */
     public function bindParamsWithLimit(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-            ->where("estado=?1")
-            ->bind([1 => "A"])
-            ->orderBy("nombres")
-            ->limit(100)
-            ->execute();
+                            ->where("estado=?1")
+                            ->bind([1 => "A"])
+                            ->orderBy("nombres")
+                            ->limit(100)
+                            ->execute();
 
         $people = People::find([
             "estado=?1",
@@ -246,15 +276,14 @@ class CriteriaCest
      */
     public function bindParamsWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
-            ->where("status=?1")
-            ->bind([1 => "A"])
-            ->orderBy("navnes")
-            ->limit(100)
-            ->execute();
+                              ->where("status=?1")
+                              ->bind([1 => "A"])
+                              ->orderBy("navnes")
+                              ->limit(100)
+                              ->execute();
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -268,15 +297,14 @@ class CriteriaCest
      */
     public function bindParamsAsPlaceholdersWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
-            ->where("status=:status:")
-            ->bind(["status" => "A"])
-            ->orderBy("navnes")
-            ->limit(100)
-            ->execute();
+                              ->where("status=:status:")
+                              ->bind(["status" => "A"])
+                              ->orderBy("navnes")
+                              ->limit(100)
+                              ->execute();
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -290,15 +318,14 @@ class CriteriaCest
      */
     public function limitWithOffset(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-            ->where("estado=?1")
-            ->bind([1 => "A"])
-            ->orderBy("nombres")
-            ->limit(100, 10)
-            ->execute();
+                            ->where("estado=?1")
+                            ->bind([1 => "A"])
+                            ->orderBy("nombres")
+                            ->limit(100, 10)
+                            ->execute();
 
         $people = People::find([
             "estado=?1",
@@ -319,15 +346,14 @@ class CriteriaCest
      */
     public function bindOrderLimit(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-            ->where("estado=:estado:")
-            ->bind(["estado" => "A"])
-            ->orderBy("nombres")
-            ->limit(100)
-            ->execute();
+                            ->where("estado=:estado:")
+                            ->bind(["estado" => "A"])
+                            ->orderBy("nombres")
+                            ->limit(100)
+                            ->execute();
 
         $people = People::find([
             "estado=:estado:",
@@ -348,8 +374,7 @@ class CriteriaCest
      */
     public function orderBy(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-        $di->setShared('db', $example['adapter']);
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->orderBy("nombres");
 
@@ -365,59 +390,58 @@ class CriteriaCest
      */
     public function freshCache(IntegrationTester $I, Example $example)
     {
-        $di = Di::getDefault();
-
-        $di->setShared('db', $example['adapter']);
-        $di->setShared('modelsCache', function () {
-            return new File(new Data(), ['cacheDir' => PATH_CACHE]);
-        });
+        $this->container->setShared('db', $example['adapter']);
+        $this->getAndSetModelsCacheFile();
 
         $personas = Personas::query()
-            ->where("estado='I'")
-            ->cache(['key' => 'cache-for-issue-2131'])
-            ->execute();
+                            ->where("estado='I'")
+                            ->cache(['key' => 'cache-for-issue-2131'])
+                            ->execute();
 
         $I->assertTrue($personas->isFresh());
 
         $personas = Personas::query()
-            ->where("estado='I'")
-            ->cache(['key' => 'cache-for-issue-2131'])
-            ->execute();
+                            ->where("estado='I'")
+                            ->cache(['key' => 'cache-for-issue-2131'])
+                            ->execute();
 
         $I->assertFalse($personas->isFresh());
 
-        $I->amInPath(PATH_CACHE);
-        $I->deleteFile('cache-for-issue-2131');
+        $I->amInPath(cacheFolder());
+        $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
-
+    /**
+     * The data providers
+     *
+     * @return array
+     */
     protected function adapterProvider()
     {
         return [
             [
-                'adapter' => new Mysql([
-                    'host'     => env('TEST_DB_MYSQL_HOST', '127.0.0.1'),
-                    'username' => env('TEST_DB_MYSQL_USER', 'root'),
-                    'password' => env('TEST_DB_MYSQL_PASSWD', ''),
-                    'dbname'   => env('TEST_DB_MYSQL_NAME', 'phalcon_test'),
-                    'port'     => env('TEST_DB_MYSQL_PORT', 3306),
-                    'charset'  => env('TEST_DB_MYSQL_CHARSET', 'utf8'),
-                ]),
+                'adapter' => $this->newDiMysql(),
             ],
             [
-                'adapter' => new Sqlite([
-                    'dbname' => env('TEST_DB_SQLITE_NAME', '/tmp/phalcon_test.sqlite'),
-                ]),
+                'adapter' => $this->newDiSqlite(),
             ],
             [
-                'adapter' => new Postgresql([
-                    'host'     => env('TEST_DB_POSTGRESQL_HOST', '127.0.0.1'),
-                    'username' => env('TEST_DB_POSTGRESQL_USER', 'postgres'),
-                    'password' => env('TEST_DB_POSTGRESQL_PASSWD', ''),
-                    'dbname'   => env('TEST_DB_POSTGRESQL_NAME', 'phalcon_test'),
-                    'port'     => env('TEST_DB_POSTGRESQL_PORT', 5432),
-                ]),
+                'adapter' => $this->newDiPostgresql(),
             ],
+        ];
+    }
+
+    private function getLimitOffset(): array
+    {
+        return [
+            [-7, null, 7],
+            ["-7234", null, 7234],
+            ["18", null, 18],
+            ["18", 2, ['number' => 18, 'offset' => 2]],
+            ["-1000", -200, ['number' => 1000, 'offset' => 200]],
+            ["1000", "-200", ['number' => 1000, 'offset' => 200]],
+            ["0", "-200", null],
+            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, null],
         ];
     }
 }

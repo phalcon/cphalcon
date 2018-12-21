@@ -114,7 +114,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	/**
 	 * Returns the current message in the iterator
 	 */
-	public function current() -> <Message>
+	public function current() -> <MessageInterface>
 	{
 		return this->_messages[this->_position];
 	}
@@ -201,7 +201,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 *
 	 * @param int index
 	 */
-	public function offsetExists(string index) -> boolean
+	public function offsetExists(var index) -> boolean
 	{
 		return isset this->_messages[index];
 	}
@@ -215,13 +215,15 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 * );
 	 *</code>
 	 */
-	public function offsetGet(int! index) -> <Message> | boolean
+	public function offsetGet(var index) -> var
 	{
-		var message;
+		var message, returnValue = null;
+
 		if fetch message, this->_messages[index] {
-			return message;
+			let returnValue = message;
 		}
-		return false;
+
+		return returnValue;
 	}
 
 	/**
@@ -233,7 +235,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 *
 	 * @param \Phalcon\Messages\Message message
 	 */
-	public function offsetSet(int! index, var message)
+	public function offsetSet(var index, var message) -> void
 	{
 		if typeof message != "object" {
 			throw new Exception("The message must be an object");
@@ -248,7 +250,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 * unset($message["database"]);
 	 *</code>
 	 */
-	public function offsetUnset(index)
+	public function offsetUnset(var index) -> void
 	{
 		if isset this->_messages[index] {
 			array_splice(this->_messages, index, 1);

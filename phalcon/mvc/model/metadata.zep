@@ -236,7 +236,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public final function readMetaData(<ModelInterface> model)
+	public final function readMetaData(<ModelInterface> model) -> array
 	{
 		var source, schema, key;
 
@@ -334,7 +334,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public final function readColumnMap(<ModelInterface> model)
+	public final function readColumnMap(<ModelInterface> model) -> array | null
 	{
 		var keyName, data;
 
@@ -523,7 +523,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return string
 	 */
-	public function getIdentityField(<ModelInterface> model)
+	public function getIdentityField(<ModelInterface> model) -> string
 	{
 		return this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
 	}
@@ -740,7 +740,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean
+	public function hasAttribute(<ModelInterface> model, string attribute) -> bool
 	{
 		var columnMap;
 
@@ -761,7 +761,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * );
 	 *</code>
 	 */
-	public function isEmpty() -> boolean
+	public function isEmpty() -> bool
 	{
 		return count(this->_metaData) == 0;
 	}

@@ -46,6 +46,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
 	/**
 	 * Name of the dialect used
+	 *
+	 * @var string
 	 */
 	protected _dialectType { get };
 
@@ -89,6 +91,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
 	/**
 	 * Type of database system the adapter is used for
+	 *
+	 * @var string
 	 */
 	protected _type { get };
 
@@ -127,7 +131,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Adds a column to a table
 	 */
-	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool
 	{
 		return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
 	}
@@ -135,7 +139,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Adds a foreign key to a table
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
 	{
 		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
@@ -143,7 +147,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Adds an index to a table
 	 */
-	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> boolean
+	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool
 	{
 		return this->{"execute"}(this->_dialect->addIndex(tableName, schemaName, index));
 	}
@@ -151,7 +155,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Adds a primary key to a table
 	 */
-	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> boolean
+	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool
 	{
 		return this->{"execute"}(this->_dialect->addPrimaryKey(tableName, schemaName, index));
 	}
@@ -159,7 +163,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Creates a new savepoint
 	 */
-	public function createSavepoint(string! name) -> boolean
+	public function createSavepoint(string! name) -> bool
 	{
 		var dialect;
 
@@ -175,7 +179,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Creates a table
 	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
+	public function createTable(string! tableName, string! schemaName, array! definition) -> bool
 	{
 		var columns;
 
@@ -193,7 +197,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Creates a view
 	 */
-	public function createView(string! viewName, array! definition, var schemaName = null) -> boolean
+	public function createView(string! viewName, array! definition, string schemaName = null) -> bool
 	{
 		if !isset definition["sql"] {
 			throw new Exception("The table must contain at least one column");
@@ -220,7 +224,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @param  array placeholders
 	 * @param  array dataTypes
 	 */
-	public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> boolean
+	public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
 	{
 		var sql, escapedTable;
 
@@ -249,7 +253,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 *
 	 * @param	string schema
 	 */
-	public function describeIndexes(string! table, schema = null) -> <Index[]>
+	public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
@@ -288,7 +292,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,
@@ -338,7 +342,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drops a column from a table
 	 */
-	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean
+	public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool
 	{
 		return this->{"execute"}(this->_dialect->dropColumn(tableName, schemaName, columnName));
 	}
@@ -346,7 +350,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drops a foreign key from a table
 	 */
-	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> boolean
+	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> bool
 	{
 		return this->{"execute"}(this->_dialect->dropForeignKey(tableName, schemaName, referenceName));
 	}
@@ -354,7 +358,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drop an index from a table
 	 */
-	public function dropIndex(string! tableName, string! schemaName, indexName) -> boolean
+	public function dropIndex(string! tableName, string! schemaName, indexName) -> bool
 	{
 		return this->{"execute"}(this->_dialect->dropIndex(tableName, schemaName, indexName));
 	}
@@ -362,7 +366,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drops a table's primary key
 	 */
-	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean
+	public function dropPrimaryKey(string! tableName, string! schemaName) -> bool
 	{
 		return this->{"execute"}(this->_dialect->dropPrimaryKey(tableName, schemaName));
 	}
@@ -370,7 +374,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drops a table from a schema/database
 	 */
-	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean
+	public function dropTable(string! tableName, string! schemaName = null, bool ifExists = true) -> bool
 	{
 		return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
 	}
@@ -378,7 +382,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Drops a view
 	 */
-	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean
+	public function dropView(string! viewName, string! schemaName = null, bool ifExists = true) -> bool
 	{
 		return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
 	}
@@ -474,7 +478,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 *
 	 * @param  int|string column
 	 */
-	public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | boolean
+	public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool
 	{
 		var row, columnValue;
 
@@ -670,7 +674,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @param 	array fields
 	 * @param 	array dataTypes
 	 */
-	public function insert(string table, array! values, var fields = null, var dataTypes = null) -> boolean
+	public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
 	{
 		var placeholders, insertValues, bindDataTypes, bindType,
 			position, value, escapedTable, joinedValues, escapedFields,
@@ -692,9 +696,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		 * Objects are casted using __toString, null values are converted to string "null", everything else is passed as "?"
 		 */
 		for position, value in values {
-			if typeof value == "object" {
+			if typeof value == "object" && value instanceof RawValue {
 				let placeholders[] = (string) value;
 			} else {
+				if typeof value == "object" {
+					let value = (string) value;
+				}
+
 				if typeof value == "null" {
 					let placeholders[] = "null";
 				} else {
@@ -757,7 +765,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @param 	array data
 	 * @param 	array dataTypes
 	 */
-	public function insertAsDict(string table, data, var dataTypes = null) -> boolean
+	public function insertAsDict(string table, data, var dataTypes = null) -> bool
 	{
 		var values = [], fields = [];
 		var field, value;
@@ -777,7 +785,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Returns if nested transactions should use savepoints
 	 */
-	public function isNestedTransactionsWithSavepoints() -> boolean
+	public function isNestedTransactionsWithSavepoints() -> bool
 	{
 		return this->_transactionsWithSavepoints;
 	}
@@ -837,7 +845,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Modifies a table column based on a definition
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> boolean
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
 	{
 		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn));
 	}
@@ -845,7 +853,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Releases given savepoint
 	 */
-	public function releaseSavepoint(string! name) -> boolean
+	public function releaseSavepoint(string! name) -> bool
 	{
 		var dialect;
 
@@ -865,7 +873,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Rollbacks given savepoint
 	 */
-	public function rollbackSavepoint(string! name) -> boolean
+	public function rollbackSavepoint(string! name) -> bool
 	{
 		var dialect;
 
@@ -897,7 +905,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Set if nested transactions should use savepoints
 	 */
-	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>
+	public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
 	{
 
 		if this->_transactionLevel > 0 {
@@ -923,7 +931,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
 	 */
-	public function supportSequences() -> boolean
+	public function supportSequences() -> bool
 	{
 		return false;
 	}
@@ -937,7 +945,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function tableExists(string! tableName, string! schemaName = null) -> boolean
+	public function tableExists(string! tableName, string! schemaName = null) -> bool
 	{
 		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), Db::FETCH_NUM)[0] > 0;
 	}
@@ -1001,7 +1009,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @param 	string|array whereCondition
 	 * @param 	array dataTypes
 	 */
-	public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> boolean
+	public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
 	{
 		var placeholders, updateValues, position, value,
 			field, bindDataTypes, escapedField, bindType, escapedTable,
@@ -1022,10 +1030,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			}
 
 			let escapedField = this->escapeIdentifier(field);
-
-			if typeof value == "object" {
-				let placeholders[] = escapedField . " = " . value;
+			if typeof value == "object" && value instanceof RawValue {
+				let placeholders[] = escapedField . " = " . (string) value;
 			} else {
+				if typeof value == "object" {
+					let value = (string) value;
+				}
+
 				if typeof value == "null" {
 					let placeholders[] = escapedField . " = null";
 				} else {
@@ -1120,7 +1131,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * @param 	string whereCondition
 	 * @param 	array dataTypes
 	 */
-	public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> boolean
+	public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool
 	{
 		var values = [], fields = [];
 		var field, value;
@@ -1140,7 +1151,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
 	 */
-	public function useExplicitIdValue() -> boolean
+	public function useExplicitIdValue() -> bool
 	{
 		return false;
 	}
@@ -1154,7 +1165,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function viewExists(string! viewName, string! schemaName = null) -> boolean
+	public function viewExists(string! viewName, string! schemaName = null) -> bool
 	{
 		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), Db::FETCH_NUM)[0] > 0;
 	}

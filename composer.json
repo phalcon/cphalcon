@@ -41,14 +41,12 @@
         "ext-psr": "*",
         "ext-xml": "*",
         "codeception/codeception": "^2.4",
-        "codeception/specify": "1.0.*",
-        "codeception/verify": "1.0.*",
         "mustache/mustache": "^2.11",
-        "phalcon/zephir": "^0.10",
         "phpunit/phpunit": "^6.4",
         "predis/predis": "^1.1",
         "squizlabs/php_codesniffer": "^3.2",
-        "twig/twig": "~1.35"
+        "twig/twig": "~1.35",
+        "vlucas/phpdotenv": "^2.5"
     },
     "config": {
         "optimize-autoloader": true,
@@ -60,8 +58,10 @@
             "Zephir\\Optimizers\\": "optimizers/",
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
+            "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/",
-            "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
+            "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
+            "Phalcon\\Test\\Db\\": "tests/_data/db/"
         }
     },
     "support": {

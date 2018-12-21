@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\ModelInterface;
+
 /**
  * Phalcon\Mvc\Model\ResultInterface
  *
@@ -30,5 +32,5 @@ interface ResultInterface
 	/**
 	 * Sets the object's state
 	 */
-	public function setDirtyState(boolean dirtyState);
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool;
 }

@@ -570,7 +570,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * );
 	 *</code>
 	 */
-	public function setVars(array! params, boolean merge = true) -> <Simple>
+	public function setVars(array! params, bool merge = true) -> <Simple>
 	{
 		if merge && typeof this->_viewParams == "array" {
 			let this->_viewParams = array_merge(this->_viewParams, params);

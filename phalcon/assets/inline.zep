@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Assets;
@@ -28,59 +19,68 @@ namespace Phalcon\Assets;
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  *</code>
  */
-class $Inline implements ResourceInterface
+class $Inline implements AssetInterface
 {
 
-	protected _type { get };
+	/**
+	 * @var string
+	 */
+	protected type { get };
 
-	protected _content { get };
+	protected content { get };
 
-	protected _filter { get };
+	/**
+	 * @var bool
+	 */
+	protected filter { get };
 
-	protected _attributes { get };
+	/**
+	 * @var array | null
+	 */
+	protected attributes { get };
 
 	/**
 	 * Phalcon\Assets\Inline constructor
 	 */
-	public function __construct(string type, string content, boolean filter = true, array attributes = [])
+	public function __construct(string type, string content, bool filter = true, array attributes = [])
 	{
-		let this->_type = type,
-			this->_content = content,
-			this->_filter = filter,
-			this->_attributes = attributes;
+		let this->type = type,
+			this->content = content,
+			this->filter = filter,
+			this->attributes = attributes;
 	}
 
 	/**
 	 * Sets the inline's type
 	 */
-	public function setType(string type) -> <$Inline>
+	public function setType(string type) -> <AssetInterface>
 	{
-		let this->_type = type;
+		let this->type = type;
 		return this;
 	}
 
 	/**
-	 * Sets if the resource must be filtered or not
+	 * Sets if the asset must be filtered or not
 	 */
-	public function setFilter(boolean filter) -> <$Inline>
+	public function setFilter(bool filter) -> <AssetInterface>
 	{
-		let this->_filter = filter;
+		let this->filter = filter;
 		return this;
 	}
 
 	/**
 	 * Sets extra HTML attributes
 	 */
-	public function setAttributes(array attributes) -> <$Inline>
+	public function setAttributes(array attributes) -> <AssetInterface>
 	{
-		let this->_attributes = attributes;
+		let this->attributes = attributes;
 		return this;
 	}
 
 	/**
-	 * Gets the resource's key.
+	 * Gets the asset's key.
 	 */
-	public function getResourceKey() -> string
+	public function getAssetKey() -> string
 	{
 		var key;
 

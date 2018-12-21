@@ -31,12 +31,12 @@ interface ManagerInterface
 	/**
 	 * Checks whether manager has an active transaction
 	 */
-	public function has() -> boolean;
+	public function has() -> bool;
 
 	/**
 	 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
 	 */
-	public function get(boolean autoBegin = true) -> <\Phalcon\Mvc\Model\TransactionInterface>;
+	public function get(bool autoBegin = true) -> <\Phalcon\Mvc\Model\TransactionInterface>;
 
 	/**
 	 * Rollbacks active transactions within the manager
@@ -52,7 +52,7 @@ interface ManagerInterface
 	 * Rollbacks active transactions within the manager
 	 * Collect will remove transaction from the manager
 	 */
-	public function rollback(boolean collect = false);
+	public function rollback(bool collect = false);
 
 	/**
 	 * Notifies the manager about a rollbacked transaction

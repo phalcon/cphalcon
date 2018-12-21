@@ -64,7 +64,7 @@ class CreditCard extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var message, label, replacePairs, value, valid, code;
 
@@ -97,7 +97,7 @@ class CreditCard extends Validator
 	/**
 	 * is a simple checksum formula used to validate a variety of identification numbers
 	 */
-	private function verifyByLuhnAlgorithm(string number) -> boolean
+	private function verifyByLuhnAlgorithm(string number) -> bool
 	{
 		array digits;
 		let digits = (array) str_split(number);

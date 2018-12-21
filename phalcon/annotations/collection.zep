@@ -84,7 +84,7 @@ class Collection implements \Iterator, \Countable
 	/**
 	 * Returns the current annotation in the iterator
 	 */
-	public function current() -> <Annotation> | boolean
+	public function current() -> <Annotation> | bool
 	{
 		var annotation;
 		if fetch annotation, this->_annotations[this->_position] {
@@ -112,7 +112,7 @@ class Collection implements \Iterator, \Countable
 	/**
 	 * Check if the current annotation in the iterator is valid
 	 */
-	public function valid() -> boolean
+	public function valid() -> bool
 	{
 		return isset this->_annotations[this->_position];
 	}
@@ -166,7 +166,7 @@ class Collection implements \Iterator, \Countable
 	/**
 	 * Check if an annotation exists in a collection
 	 */
-	public function has(string name) -> boolean
+	public function has(string name) -> bool
 	{
 		var annotations, annotation;
 

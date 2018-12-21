@@ -78,7 +78,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Phalcon\Cli\Router constructor
 	 */
-	public function __construct(boolean defaultRoutes = true)
+	public function __construct(bool defaultRoutes = true)
 	{
 		var routes;
 
@@ -448,7 +448,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Checks if the router matches any of the defined routes
 	 */
-	public function wasMatched() -> boolean
+	public function wasMatched() -> bool
 	{
 		return this->_wasMatched;
 	}
@@ -466,7 +466,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param int id
 	 */
-	public function getRouteById(var id) -> <RouteInterface> | boolean
+	public function getRouteById(var id) -> <RouteInterface> | bool
 	{
 		var route;
 
@@ -481,7 +481,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Returns a route object by its name
 	 */
-	public function getRouteByName(string! name) -> <RouteInterface> | boolean
+	public function getRouteByName(string! name) -> <RouteInterface> | bool
 	{
 		var route;
 

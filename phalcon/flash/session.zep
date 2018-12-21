@@ -22,7 +22,7 @@ namespace Phalcon\Flash;
 use Phalcon\Flash as FlashBase;
 use Phalcon\DiInterface;
 use Phalcon\Flash\Exception;
-use Phalcon\Session\AdapterInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
  * Phalcon\Flash\Session
@@ -34,7 +34,7 @@ class Session extends FlashBase
 	/**
 	 * Returns the messages stored in session
 	 */
-	protected function _getSessionMessages(boolean remove, type = null) -> array
+	protected function _getSessionMessages(bool remove, type = null) -> array
 	{
 		var dependencyInjector, session, messages, returnMessages;
 
@@ -99,7 +99,7 @@ class Session extends FlashBase
 	/**
 	 * Checks whether there are messages
 	 */
-	public function has(type = null) -> boolean
+	public function has(type = null) -> bool
 	{
 		var messages;
 
@@ -116,7 +116,7 @@ class Session extends FlashBase
 	/**
 	 * Returns the messages in the session flasher
 	 */
-	public function getMessages(type = null, boolean remove = true) -> array
+	public function getMessages(type = null, bool remove = true) -> array
 	{
 		return this->_getSessionMessages(remove, type);
 	}
@@ -124,7 +124,7 @@ class Session extends FlashBase
 	/**
 	 * Prints the messages in the session flasher
 	 */
-	public function output(boolean remove = true) -> void
+	public function output(bool remove = true) -> void
 	{
 		var type, message, messages;
 

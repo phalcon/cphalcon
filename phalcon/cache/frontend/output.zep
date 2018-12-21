@@ -106,7 +106,7 @@ class Output implements FrontendInterface
 	/**
 	 * Check whether if frontend is buffering output
 	 */
-	public function isBuffering() -> boolean
+	public function isBuffering() -> bool
 	{
 		return this->_buffering;
 	}

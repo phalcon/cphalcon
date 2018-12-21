@@ -33,15 +33,8 @@ interface AdapterInterface
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
-	 *
-	 * @deprecated will be removed after 4.0
 	 */
-	public function getPaginate() -> <\stdClass>;
-
-	/**
-	 * Returns a slice of the resultset to show in the pagination
-	 */
-	public function paginate() -> <\stdClass>;
+	public function paginate() -> <RepositoryInterface>;
 
 	/**
 	 * Set current rows limit

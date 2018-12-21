@@ -289,7 +289,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 * </code>
 	 */
-	public function setRenderLevel(int level) -> <View>
+	public function setRenderLevel(int level) -> <ViewInterface>
 	{
 		let this->_renderLevel = level;
 		return this;
@@ -305,7 +305,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 *</code>
 	 */
-	public function disableLevel(var level) -> <View>
+	public function disableLevel(var level) -> <ViewInterface>
 	{
 		if typeof level == "array" {
 			let this->_disabledLevels = level;
@@ -426,7 +426,7 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 *</code>
 	 */
-	public function setVars(array! params, boolean merge = true) -> <View>
+	public function setVars(array! params, bool merge = true) -> <View>
 	{
 		if merge {
 			let this->_viewParams = array_merge(this->_viewParams, params);
@@ -486,16 +486,6 @@ class View extends Injectable implements ViewInterface
 	public function getActionName() -> string
 	{
 		return this->_actionName;
-	}
-
-	/**
-	 * Gets extra parameters of the action rendered
-	 *
-	 * @deprecated Will be removed in 4.0.0
-	 */
-	deprecated public function getParams() -> array
-	{
-		return this->_params;
 	}
 
 	/**
@@ -576,9 +566,9 @@ class View extends Injectable implements ViewInterface
 	/**
 	 * Checks whether view exists on registered extensions and render it
 	 */
-	protected function _engineRender(array engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
+	protected function _engineRender(array engines, string viewPath, bool silence, bool mustClean, <BackendInterface> cache = null)
 	{
-		boolean notExists;
+		bool notExists;
 		int renderLevel, cacheLevel;
 		var key, lifetime, viewsDir, basePath, viewsDirPath,
 			viewOptions, cacheOptions, cachedView, viewParams, eventsManager,
@@ -723,7 +713,7 @@ class View extends Injectable implements ViewInterface
 	/**
 	 * Checks whether view exists
 	 */
-	public function exists(string! view) -> boolean
+	public function exists(string! view) -> bool
 	{
 		var basePath, viewsDir, engines, extension;
 
@@ -755,9 +745,9 @@ class View extends Injectable implements ViewInterface
 	 * $view->start()->render("posts", "recent")->finish();
 	 *</code>
 	 */
-	public function render(string! controllerName, string! actionName, array params = []) -> <View> | boolean
+	public function render(string! controllerName, string! actionName, array params = []) -> <View> | bool
 	{
-		boolean silence, mustClean;
+		bool silence, mustClean;
 		int renderLevel;
 		var layoutsDir, layout, pickView, layoutName,
 			engines, renderView, pickViewAction, eventsManager,
@@ -839,9 +829,7 @@ class View extends Injectable implements ViewInterface
 		 * Create a virtual symbol table.
 		 * Variables are shared across symbol tables in PHP5
 		 */
-		if PHP_MAJOR_VERSION == 5 {
-			create_symbol_table();
-		}
+		create_symbol_table();
 
 		/**
 		 * Call beforeRender if there is an events manager
@@ -1194,7 +1182,7 @@ class View extends Injectable implements ViewInterface
 	/**
 	 * Check if the component is currently caching the output content
 	 */
-	public function isCaching() -> boolean
+	public function isCaching() -> bool
 	{
 		return this->_cacheLevel > 0;
 	}
@@ -1383,7 +1371,7 @@ class View extends Injectable implements ViewInterface
 	/**
 	 * Whether automatic rendering is enabled
 	 */
-	public function isDisabled() -> boolean
+	public function isDisabled() -> bool
 	{
 		return this->_disabled;
 	}
@@ -1395,7 +1383,7 @@ class View extends Injectable implements ViewInterface
 	 * echo isset($this->view->products);
 	 *</code>
 	 */
-	public function __isset(string! key) -> boolean
+	public function __isset(string! key) -> bool
 	{
 		return isset this->_viewParams[key];
 	}

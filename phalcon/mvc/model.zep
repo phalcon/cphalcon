@@ -38,6 +38,8 @@ use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Mvc\Model
@@ -267,11 +269,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->{lowerProperty} = result;
 
 				/**
-				 * For belongs-to relations we store the object in the related bag
+				 * We store relationship objects in the related bag
 				 */
-				if result instanceof ModelInterface {
-					let this->_related[lowerProperty] = result;
-				}
+				let this->_related[lowerProperty] = result;
 			}
 
 			return result;
@@ -296,7 +296,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Magic method to check if a property is a valid relation
 	 */
-	public function __isset(string! property) -> boolean
+	public function __isset(string! property) -> bool
 	{
 		var modelName, manager, relation;
 
@@ -318,7 +318,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item, dirtyState;
+			relation, referencedModel, key, item, dirtyState, haveRelation;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -345,12 +345,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let lowerProperty = strtolower(property),
 				modelName = get_class(this),
 				manager = this->getModelsManager();
-
+			
+			let haveRelation = false;
 			let related = [];
 			for key, item in value {
 				if typeof item == "object" {
 					if item instanceof ModelInterface {
 						let related[] = item;
+						let haveRelation = true;
 					}
 				} else {
 					let lowerKey = strtolower(key),
@@ -359,6 +361,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if typeof relation == "object" {
 						let referencedModel = manager->load(relation->getReferencedModel());
 						referencedModel->writeAttribute(lowerKey, item);
+						let haveRelation = true;
 					}
 				}
 			}
@@ -367,8 +370,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->_related[lowerProperty] = related,
 					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
 			}
-
-			return value;
+			
+			if haveRelation === true {
+				return value;
+			}
 		}
 
 		// Use possible setter.
@@ -497,7 +502,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array dataColumnMap array to transform keys of data to another
 	 * @param array whiteList
 	 */
-	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
+	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
 	{
 		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
 
@@ -528,6 +533,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		for attribute in metaData->getAttributes(this) {
+
+			// Try to find case-insensitive key variant
+			if !isset columnMap[attribute] && globals_get("orm.case_insensitive_column_map") {
+				let attribute = self::caseInsensitiveColumnMap(columnMap, attribute);
+			}
 
 			// Check if we need to rename the field
 			if typeof columnMap == "array" {
@@ -655,7 +665,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
 	 * @param array columnMap
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <ModelInterface>
+	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
 	{
 		var instance, attribute, key, value, castValue, attributeName;
 
@@ -702,7 +712,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 							break;
 
 						case Column::TYPE_BOOLEAN:
-							let castValue = (boolean) value;
+							let castValue = (bool) value;
 							break;
 
 						default:
@@ -783,6 +793,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 
 			if typeof columnMap == "array" {
+
+				// Try to find case-insensitive key variant
+				if !isset columnMap[key] && globals_get("orm.case_insensitive_column_map") {
+					let key = self::caseInsensitiveColumnMap(columnMap, key);
+				}
 
 				/**
 				 * Every field must be part of the column map
@@ -882,7 +897,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $robot->create();
 	 *</code>
 	 */
-	public function create() -> boolean
+	public function create() -> bool
 	{
 		var metaData;
 
@@ -920,7 +935,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 * </code>
 	 */
-	public function delete() -> boolean
+	public function delete() -> bool
 	{
 		var metaData, writeConnection, values, bindTypes, primaryKeys,
 			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
@@ -1278,7 +1293,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
-	public function fireEvent(string! eventName) -> boolean
+	public function fireEvent(string! eventName) -> bool
 	{
 		/**
 		 * Check if there is a method with the same name of the event
@@ -1295,9 +1310,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 * This method stops if one of the callbacks/listeners returns boolean false
+	 * This method stops if one of the callbacks/listeners returns bool false
 	 */
-	public function fireEventCancel(string! eventName) -> boolean
+	public function fireEventCancel(string! eventName) -> bool
 	{
 		/**
 		 * Check if there is a method with the same name of the event
@@ -1559,6 +1574,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		return manager->getRelationRecords(relation, null, this, arguments);
 	}
 
+	public function isRelationshipLoaded(string relationshipAlias) -> bool
+	{
+		return isset this->_related[relationshipAlias];
+	}
+
 	/**
 	 * Returns schema name where the mapped table is located
 	 */
@@ -1686,7 +1706,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array fieldName
 	 */
-	public function hasChanged(var fieldName = null, boolean allFields = false) -> boolean
+	public function hasChanged(var fieldName = null, bool allFields = false) -> bool
 	{
 		var changedFields;
 
@@ -1711,7 +1731,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Checks if the object has internal snapshot data
 	 */
-	public function hasSnapshotData() -> boolean
+	public function hasSnapshotData() -> bool
 	{
 		var snapshot;
 		let snapshot = this->_snapshot;
@@ -1725,7 +1745,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array fieldName
 	 */
-	public function hasUpdated(var fieldName = null, boolean allFields = false) -> boolean
+	public function hasUpdated(var fieldName = null, bool allFields = false) -> bool
 	{
 		var updatedFields;
 
@@ -1826,7 +1846,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Create a criteria for a specific model
 	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <Criteria>
+	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>
 	{
 		var criteria;
 
@@ -1969,7 +1989,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $robot->save();
 	 *</code>
 	 */
-	public function save() -> boolean
+	public function save() -> bool
 	{
 		var metaData, related, schema, writeConnection, readConnection,
 			source, table, identityField, exists, success;
@@ -2133,7 +2153,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Unserializes the object from a serialized string
 	 */
-	public function unserialize(string! data)
+	public function unserialize(var data)
 	{
 		var attributes, dependencyInjector, manager, key, value, snapshot;
 
@@ -2192,7 +2212,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name
 	 */
-	public function setConnectionService(string! connectionService) -> <Model>
+	public function setConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
 		return this;
@@ -2201,7 +2221,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
 	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface>
+	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
 	{
 		let this->_dirtyState = dirtyState;
 		return this;
@@ -2226,7 +2246,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to read data
 	 */
-	public function setReadConnectionService(string! connectionService) -> <Model>
+	public function setReadConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
 		return this;
@@ -2307,6 +2327,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					continue;
 				}
 
+				// Try to find case-insensitive key variant
+				if !isset columnMap[key] && globals_get("orm.case_insensitive_column_map") {
+					let key = self::caseInsensitiveColumnMap(columnMap, key);
+				}
+
 				/**
 				 * Every field must be part of the column map
 				 */
@@ -2377,7 +2402,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
 	{
 		let this->_transaction = transaction;
 		return this;
@@ -2391,7 +2416,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
 			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-			updateSnapshotOnSave, disableAssignSetters;
+			updateSnapshotOnSave, disableAssignSetters, caseInsensitiveColumnMap;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -2456,6 +2481,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
 		}
 
+		if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
+			globals_set("orm.case_insensitive_column_map", caseInsensitiveColumnMap);
+		}
+
 		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
 			globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
 		}
@@ -2468,7 +2497,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to write data
 	 */
-	public function setWriteConnectionService(string! connectionService) -> <Model>
+	public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
 	}
@@ -2477,7 +2506,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip) -> void
+	public function skipOperation(bool skip) -> void
 	{
 		let this->_skipped = skip;
 	}
@@ -2540,6 +2569,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * Check if the columns must be renamed
 			 */
 			if typeof columnMap == "array" {
+				// Try to find case-insensitive key variant
+				if !isset columnMap[attribute] && globals_get("orm.case_insensitive_column_map") {
+					let attribute = self::caseInsensitiveColumnMap(columnMap, attribute);
+				}
+
 				if !fetch attributeField, columnMap[attribute] {
 					if !globals_get("orm.ignore_unknown_columns") {
 						throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
@@ -2580,7 +2614,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $robot->update();
 	 *</code>
 	 */
-	public function update() -> boolean
+	public function update() -> bool
 	{
 		var metaData;
 
@@ -2626,13 +2660,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
 	 */
-	protected final function _checkForeignKeysRestrict() -> boolean
+	protected final function _checkForeignKeysRestrict() -> bool
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
 			referencedFields, field, referencedModel, value, allowNulls;
 		int action, numberNull;
-		boolean error, validateWithNulls;
+		bool error, validateWithNulls;
 
 		/**
 		 * Get the models manager
@@ -2726,7 +2760,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 */
 			if validateWithNulls {
 				if fetch allowNulls, foreignKey["allowNulls"] {
-					let validateWithNulls = (boolean) allowNulls;
+					let validateWithNulls = (bool) allowNulls;
 				} else {
 					let validateWithNulls = false;
 				}
@@ -2775,7 +2809,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
 	 */
-	protected final function _checkForeignKeysReverseCascade() -> boolean
+	protected final function _checkForeignKeysReverseCascade() -> bool
 	{
 		var manager, relations, relation, foreignKey,
 			resultset, conditions, bindParams, referencedModel,
@@ -2880,9 +2914,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
 	 */
-	protected final function _checkForeignKeysReverseRestrict() -> boolean
+	protected final function _checkForeignKeysReverseRestrict() -> bool
 	{
-		boolean error;
+		bool error;
 		var manager, relations, foreignKey, relation,
 			relationClass, referencedModel, fields, referencedFields,
 			conditions, bindParams,position, field,
@@ -3007,15 +3041,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
 	 * @param string|array table
-	 * @param boolean|string identityField
+	 * @param bool|string identityField
 	 */
 	protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
-		table, identityField) -> boolean
+		table, identityField) -> bool
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType,
 			defaultValue, sequenceName, defaultValues, source, schema, snapshot, lastInsertedId, manager;
-		boolean useExplicitIdentity;
+		bool useExplicitIdentity;
 
 		let bindSkip = Column::BIND_SKIP;
 		let manager = <ManagerInterface> this->_modelsManager;
@@ -3108,7 +3142,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * Not all the database systems require an explicit value for identity columns
 			 */
-			let useExplicitIdentity = (boolean) connection->useExplicitIdValue();
+			let useExplicitIdentity = (bool) connection->useExplicitIdValue();
 			if useExplicitIdentity {
 				let fields[] = identityField;
 			}
@@ -3212,12 +3246,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array table
 	 */
-	 protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
+	 protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
  	{
  		var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field,
  			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
  			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType, newSnapshot, success;
- 		boolean useDynamicUpdate, changed;
+ 		bool useDynamicUpdate, changed;
 
  		let bindSkip = Column::BIND_SKIP,
  			fields = [],
@@ -3229,7 +3263,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		/**
  		 * Check if the model must use dynamic update
  		 */
- 		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
+ 		let useDynamicUpdate = (bool) manager->isUsingDynamicUpdate(this);
 
 		let snapshot = this->_snapshot;
 
@@ -3317,7 +3351,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  									switch dataType {
 
  										case Column::TYPE_BOOLEAN:
- 											let changed = (boolean) snapshotValue !== (boolean) value;
+ 											let changed = (bool) snapshotValue !== (bool) value;
  											break;
 
  										case Column::TYPE_DECIMAL:
@@ -3443,7 +3477,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array table
 	 */
-	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> bool
 	{
 		int numberEmpty, numberPrimary;
 		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
@@ -3717,7 +3751,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Try to check if the query must invoke a finder
 	 *
-	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
+	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|bool
 	 */
 	protected final static function _invokeFinder(string method, array arguments)
 	{
@@ -3811,7 +3845,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Check for, and attempt to use, possible setter.
 	 */
-	protected final function _possibleSetter(string property, var value) -> boolean
+	protected final function _possibleSetter(string property, var value) -> bool
 	{
 		var possibleSetter;
 
@@ -3826,11 +3860,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Executes internal hooks before save a record
 	 */
-	protected function _preSave(<MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
+	protected function _preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
 	{
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
 			field, attributeField, value, emptyStringValues;
-		boolean error, isNull;
+		bool error, isNull;
 
 		/**
 		 * Run Validation Callbacks Before
@@ -4060,7 +4094,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface[] related
 	 */
-	protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
+	protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
 	{
 		var className, manager, type, relation, columns, referencedFields,
 			referencedModel, message, nesting, name, record;
@@ -4152,7 +4186,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Executes internal events after save a record
 	 */
-	protected function _postSave(boolean success, boolean exists) -> boolean
+	protected function _postSave(bool success, bool exists) -> bool
 	{
 		if success === true {
 			if exists {
@@ -4170,13 +4204,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param  Phalcon\Mvc\ModelInterface[] related
 	 */
-	protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
+	protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
 	{
 		var nesting, className, manager, relation, name, record, message,
 			columns, referencedModel, referencedFields, relatedRecords, value,
 			recordAfter, intermediateModel, intermediateFields, intermediateValue,
 			intermediateModelName, intermediateReferencedFields;
-		boolean isThrough;
+		bool isThrough;
 
 		let nesting = false,
 			className = get_class(this),
@@ -4229,7 +4263,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				 * Get the value of the field from the current model
 				 * Check if the relation is a has-many-to-many
 				 */
-				let isThrough = (boolean) relation->isThrough();
+				let isThrough = (bool) relation->isThrough();
 
 				/**
 				 * Get the rest of intermediate model info
@@ -4579,7 +4613,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	protected function keepSnapshots(boolean keepSnapshot) -> void
+	protected function keepSnapshots(bool keepSnapshot) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
 	}
@@ -4587,7 +4621,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets schema name where the mapped table is located
 	 */
-	protected function setSchema(string! schema) -> <Model>
+	protected function setSchema(string! schema) -> <ModelInterface>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
 	}
@@ -4595,7 +4629,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the table name to which model should be mapped
 	 */
-	protected function setSource(string! source) -> <Model>
+	protected function setSource(string! source) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
 		return this;
@@ -4704,7 +4738,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
+	protected function useDynamicUpdate(bool dynamicUpdate) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
 	}
@@ -4740,13 +4774,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	protected function validate(<ValidationInterface> validator) -> boolean
+	protected function validate(<ValidationInterface> validator) -> bool
 	{
 		var messages, message;
 
 		let messages = validator->validate(null, this);
 
-		// Call the validation, if it returns not the boolean
+		// Call the validation, if it returns not the bool
 		// we append the messages to the current object
 		if typeof messages == "boolean" {
 			return messages;
@@ -4798,8 +4832,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *</code>
 	 */
-	public function validationHasFailed() -> boolean
+	public function validationHasFailed() -> bool
 	{
 		return count(this->_errorMessages) > 0;
+	}
+
+	/**
+	 * Attempts to find key case-insensitively
+	 */
+	private static function caseInsensitiveColumnMap(var columnMap, var key) -> string
+	{
+		var cmKey;
+
+		for cmKey in array_keys(columnMap) {
+			if strtolower(cmKey) == strtolower(key) {
+				return cmKey;
+			}
+		}
+
+		return key;
 	}
 }
