@@ -318,7 +318,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item, dirtyState;
+			relation, referencedModel, key, item, dirtyState, haveRelation;
 
 		/**
 		 * Values are probably relationships if they are objects
