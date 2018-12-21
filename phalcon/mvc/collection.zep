@@ -341,7 +341,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * @param \MongoDb connection
 	 * @return array
 	 */
-	protected static function _getResultset(var params, <CollectionInterface> collection, connection, bool unique)
+	protected static function _getResultset(array params, <CollectionInterface> collection, connection, bool unique)
 	{
 		var source, mongoCollection, conditions, base, documentsCursor,
 			fields, skip, limit, sort, document, collections, className;
@@ -1235,7 +1235,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * echo "The robot id is ", $robot->_id, "\n";
 	 * </code>
 	 */
-	public static function findFirst(array parameters = null) -> array
+	public static function findFirst(array parameters = []) -> array
 	{
 		var className, collection, connection;
 
@@ -1302,7 +1302,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 * </code>
 	 */
-	public static function find(array parameters = null) -> array
+	public static function find(array parameters = []) -> array
 	{
 		var className, collection;
 

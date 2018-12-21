@@ -1096,7 +1096,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * // How many mechanical robots are there?
 	 * $robots = Robots::find(
-	 *     "type = 'mechanical'"
+	 *     [
+	 *         "type = 'mechanical'"
+	 *     ]
 	 * );
 	 *
 	 * echo "There are ", count($robots), "\n";
@@ -1182,20 +1184,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $transaction2->rollback();
 	 * </code>
 	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>
+	public static function find(array! parameters = []) -> <ResultsetInterface>
 	{
-		var params, query, resultset, hydration;
+		var query, resultset, hydration;
 
-		if typeof parameters != "array" {
-			let params = [];
-			if parameters !== null {
-				let params[] = parameters;
-			}
-		} else {
-			let params = parameters;
-		}
-
-		let query = static::getPreparedQuery(params);
+		let query = static::getPreparedQuery(parameters);
 
 		/**
 		 * Execute the query passing the bind-params and casting-types
@@ -1225,7 +1218,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * // What's the first mechanical robot in robots table?
 	 * $robot = Robots::findFirst(
-	 *     "type = 'mechanical'"
+	 *     [
+	 *         "type = 'mechanical'"
+	 *     ]
 	 * );
 	 *
 	 * echo "The first mechanical robot name is ", $robot->name;
@@ -1259,20 +1254,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array parameters
 	 */
-	public static function findFirst(var parameters = null) -> <ModelInterface>
+	public static function findFirst(array! parameters = []) -> <ModelInterface>
 	{
-		var params, query;
+		var query;
 
-		if typeof parameters != "array" {
-			let params = [];
-			if parameters !== null {
-				let params[] = parameters;
-			}
-		} else {
-			let params = parameters;
-		}
-
-		let query = static::getPreparedQuery(params, 1);
+		let query = static::getPreparedQuery(parameters, 1);
 
 		/**
 		 * Return only the first row
@@ -4455,7 +4441,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * shared prepare query logic for find and findFirst method
 	 */
-	private static function getPreparedQuery(var params, var limit = null) -> <Query>
+	private static function getPreparedQuery(array params, var limit = null) -> <Query>
 	{
 		var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
 

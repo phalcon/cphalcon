@@ -89,14 +89,14 @@ interface ModelInterface
 	/**
 	 * Allows to query a set of records that match the specified conditions
 	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>;
+	public static function find(array parameters = []) -> <ResultsetInterface>;
 
 	/**
 	 * Allows to query the first record that match the specified conditions
 	 *
 	 * @param array parameters
 	 */
-	public static function findFirst(parameters = null) -> <ModelInterface>;
+	public static function findFirst(array! parameters = []) -> <ModelInterface>;
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
