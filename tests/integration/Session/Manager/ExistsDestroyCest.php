@@ -16,6 +16,7 @@ use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function print_r;
 
 /**
  * Class ExistsDestroyCest
@@ -51,4 +52,40 @@ class ExistsDestroyCest
         $actual = $manager->exists();
         $I->assertFalse($actual);
     }
+
+    /**
+     * Tests Phalcon\Session\Manager :: destroy() - clean $_SESSION
+     *
+     * @param IntegrationTester $I
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12326
+     * @issue  https://github.com/phalcon/cphalcon/issues/12835
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function sessionManagerDestroySuperGlobal(IntegrationTester $I)
+    {
+        $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
+        $manager = new Manager();
+        $files   = $this->getSessionFiles();
+        $manager->setHandler($files);
+
+        $actual = $manager->start();
+        $I->assertTrue($actual);
+
+        $actual = $manager->exists();
+        $I->assertTrue($actual);
+
+        $manager->set('test1', __METHOD__);
+        $I->assertArrayHasKey('#test1', $_SESSION);
+        $I->assertContains(__METHOD__, $_SESSION['#test1']);
+
+        $manager->destroy();
+        $I->assertArrayNotHasKey('#test1', $_SESSION);
+
+        $actual = $manager->exists();
+        $I->assertFalse($actual);
+    }
+
 }

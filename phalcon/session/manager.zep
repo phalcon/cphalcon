@@ -60,15 +60,6 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 		this->setOptions(options);
 	}
 
-	/**
-	 * Manager destructor
-	 */
-	public function __destruct()
-	{
-		if (true === this->exists()) {
-			session_write_close();
-		}
-	}
 
 	/**
 	 * Alias: Gets a session variable from an application context
@@ -109,6 +100,7 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	{
 		if (true === this->exists()) {
 			session_destroy();
+			let _SESSION = [];
 		}
 	}
 
