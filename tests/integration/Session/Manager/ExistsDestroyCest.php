@@ -18,26 +18,24 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
- * Class __unsetCest
- *
- * @package Phalcon\Test\Integration\Session\Manager
+ * Class ExistsDestroyCest
  */
-class UnderscoreUnsetCest
+class ExistsDestroyCest
 {
     use DiTrait;
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: __unset()
+     * Tests Phalcon\Session\Manager :: exists()/destroy()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionManagerUnderscoreUnset(IntegrationTester $I)
+    public function sessionManagerExistsDestroy(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Manager - __unset()');
+        $I->wantToTest('Session\Manager - exists()/destroy()');
         $manager = new Manager();
         $files   = $this->getSessionFiles();
         $manager->setHandler($files);
@@ -45,16 +43,8 @@ class UnderscoreUnsetCest
         $actual = $manager->start();
         $I->assertTrue($actual);
 
-        $actual = $manager->has('test');
-        $I->assertFalse($actual);
-
-        $manager->set('test', 'myval');
-        $actual = $manager->has('test');
+        $actual = $manager->exists();
         $I->assertTrue($actual);
-
-        unset($manager->test);
-        $actual = $manager->has('test');
-        $I->assertFalse($actual);
 
         $manager->destroy();
 

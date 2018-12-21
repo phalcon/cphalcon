@@ -13,12 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Manager;
 
 use IntegrationTester;
+use Phalcon\Session\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class RegenerateIdCest
  */
 class RegenerateIdCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
      * Tests Phalcon\Session\Manager :: regenerateId()
      *
@@ -30,6 +36,15 @@ class RegenerateIdCest
     public function sessionManagerRegenerateId(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - regenerateId()');
-        $I->skipTest('Need implementation');
+        $manager = new Manager();
+        $files   = $this->getSessionFiles();
+        $manager->setHandler($files);
+        $manager->start();
+
+        $current = $manager->getId();
+        $manager->regenerateId(true);
+        $actual = $manager->getId();
+        $I->assertNotEquals($current, $actual);
+        $manager->destroy();
     }
 }

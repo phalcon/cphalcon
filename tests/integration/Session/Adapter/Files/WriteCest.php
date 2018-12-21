@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
-use function cacheFolder;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function cacheFolder;
 use function uniqid;
 
 /**
@@ -46,7 +46,7 @@ class WriteCest
     {
         $I->wantToTest('Session\Adapter\Files - write()');
         $adapter = $this->getSessionFiles();
-        $value = uniqid();
+        $value   = uniqid();
         $adapter->write('test1', $value);
         $I->amInPath(cacheFolder());
         $I->seeFileFound('test1');

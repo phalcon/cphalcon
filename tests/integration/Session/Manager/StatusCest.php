@@ -13,12 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Manager;
 
 use IntegrationTester;
+use Phalcon\Session\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class StatusCest
  */
 class StatusCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
      * Tests Phalcon\Session\Manager :: status()
      *
@@ -30,6 +36,25 @@ class StatusCest
     public function sessionManagerStatus(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - status()');
-        $I->skipTest('Need implementation');
+        $manager = new Manager();
+        $files   = $this->getSessionFiles();
+        $manager->setHandler($files);
+
+        $expected = $manager::SESSION_NONE;
+        $actual   = $manager->status();
+        $I->assertEquals($expected, $actual);
+
+        $actual = $manager->start();
+        $I->assertTrue($actual);
+
+        $expected = $manager::SESSION_ACTIVE;
+        $actual   = $manager->status();
+        $I->assertEquals($expected, $actual);
+
+        $manager->destroy();
+
+        $expected = $manager::SESSION_NONE;
+        $actual   = $manager->status();
+        $I->assertEquals($expected, $actual);
     }
 }

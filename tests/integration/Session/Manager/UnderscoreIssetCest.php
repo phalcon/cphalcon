@@ -13,12 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Manager;
 
 use IntegrationTester;
+use Phalcon\Session\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
  * Class __issetCest
  */
 class UnderscoreIssetCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
      * Tests Phalcon\Session\Manager :: __isset()
      *
@@ -30,6 +36,24 @@ class UnderscoreIssetCest
     public function sessionManagerUnderscoreIsset(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __isset()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Session\Manager - has()');
+        $manager = new Manager();
+        $files   = $this->getSessionFiles();
+        $manager->setHandler($files);
+
+        $actual = $manager->start();
+        $I->assertTrue($actual);
+
+        $actual = isset($manager->test);
+        $I->assertFalse($actual);
+
+        $manager->set('test', 'myval');
+        $actual = isset($manager->test);
+        $I->assertTrue($actual);
+
+        $manager->destroy();
+
+        $actual = $manager->exists();
+        $I->assertFalse($actual);
     }
 }

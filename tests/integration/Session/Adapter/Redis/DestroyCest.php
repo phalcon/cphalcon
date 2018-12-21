@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -48,10 +46,10 @@ class DestroyCest
         $I->wantToTest('Session\Adapter\Redis - destroy()');
         $adapter = $this->getSessionRedis();
 
-        $value = uniqid();
+        $value      = uniqid();
         $serialized = serialize($value);
         $I->haveInRedis('string', 'test1', $serialized);
-        $actual  = $adapter->destroy('test1');
+        $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
         $I->dontSeeInRedis('test1');
     }

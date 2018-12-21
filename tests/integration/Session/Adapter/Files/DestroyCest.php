@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Files;
 
-use function cacheFolder;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function cacheFolder;
+use function file_put_contents;
 use function uniqid;
 
 /**
@@ -52,7 +52,7 @@ class DestroyCest
          * Create a file in the session folder
          */
         file_put_contents(cacheFolder('test1'), uniqid());
-        $actual  = $adapter->destroy('test1');
+        $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
 
         $I->dontSeeFileFound('test1', cacheFolder());

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Noop;
 
-use function cacheFolder;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -46,7 +45,7 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
         $adapter = $this->getSessionNoop();
-        $value = uniqid();
+        $value   = uniqid();
         $adapter->write('test1', $value);
 
         $expected = '';
