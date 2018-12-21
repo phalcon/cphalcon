@@ -192,7 +192,7 @@ class DynamicOperationsCest
         $robot->year = new RawValue('year + 1');
         $I->assertTrue($robot->save());
 
-        $robot = Robots::findFirst($robot->id);
+        $robot = Robots::findFirst([$robot->id]);
         $I->assertEquals(2, $robot->year);
     }
 }

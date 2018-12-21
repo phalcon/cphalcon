@@ -1199,7 +1199,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Define an hydration mode
 		 */
 		if typeof resultset == "object" {
-			if fetch hydration, params["hydration"] {
+			if fetch hydration, parameters["hydration"] {
 				resultset->setHydrateMode(hydration);
 			}
 		}

@@ -106,7 +106,7 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->where("estado='I'")->execute();
-        $people = People::find("estado='I'");
+        $people = People::find(["estado='I'"]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
         $I->assertInstanceOf(Simple::class, $personas);
@@ -136,7 +136,7 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->conditions("estado='I'")->execute();
-        $people = People::find("estado='I'");
+        $people = People::find(["estado='I'"]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
     }

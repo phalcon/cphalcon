@@ -337,7 +337,7 @@ class ModelsResultsetCest
     {
         $this->setDiMysql();
 
-        $robots = Robots::find('id > 1000');
+        $robots = Robots::find(['id > 1000']);
 
         $I->assertCount(0, $robots);
         $I->assertEquals($robots->count(), 0);

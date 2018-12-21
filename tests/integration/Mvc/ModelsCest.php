@@ -74,10 +74,10 @@ class ModelsCest
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $people = People::findFirst("estado='I'");
+        $people = People::findFirst(["estado='I'"]);
         $I->assertInternalType('object', $people);
 
-        $persona = Personas::findFirst("estado='I'");
+        $persona = Personas::findFirst(["estado='I'"]);
         $I->assertInternalType('object', $persona);
 
         $I->assertEquals($people->nombres, $persona->nombres);
@@ -118,7 +118,7 @@ class ModelsCest
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $robot = Robots::findFirst(1);
+        $robot = Robots::findFirst([1]);
         $I->assertInstanceOf('Phalcon\Test\Models\Robots', $robot);
 
         //Find tests
@@ -126,8 +126,8 @@ class ModelsCest
         $people   = People::find();
         $I->assertCount(count($personas), $people);
 
-        $personas = Personas::find("estado='I'");
-        $people   = People::find("estado='I'");
+        $personas = Personas::find(["estado='I'"]);
+        $people   = People::find(["estado='I'"]);
         $I->assertCount(count($personas), $people);
 
         $personas = Personas::find(["estado='I'"]);
@@ -387,7 +387,7 @@ class ModelsCest
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $personer = Personers::findFirst("status = 'I'");
+        $personer = Personers::findFirst(["status = 'I'"]);
         $I->assertInternalType('object', $personer);
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
@@ -427,14 +427,14 @@ class ModelsCest
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $robotter = Robotters::findFirst(1);
+        $robotter = Robotters::findFirst([1]);
         $I->assertInstanceOf('Phalcon\Test\Models\Robotters', $robotter);
 
         //Find tests
         $personers = Personers::find();
         $I->assertGreaterThan(0, count($personers));
 
-        $personers = Personers::find("status='I'");
+        $personers = Personers::find(["status='I'"]);
         $I->assertGreaterThan(0, count($personers));
 
         $personers = Personers::find(["status='I'"]);

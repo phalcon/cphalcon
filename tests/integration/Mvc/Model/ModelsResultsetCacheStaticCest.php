@@ -34,10 +34,10 @@ class ModelsResultsetCacheStaticCest
             );
         };
 
-        $robot = Robots::findFirst(2);
+        $robot = Robots::findFirst([2]);
         $I->assertInstanceOf(Robots::class, $robot);
 
-        $robot = Robots::findFirst(2);
+        $robot = Robots::findFirst([2]);
         $I->assertInstanceOf(Robots::class, $robot);
 
         $robot = Robots::findFirst(['id = 2']);
@@ -52,7 +52,7 @@ class ModelsResultsetCacheStaticCest
         $robot = Robots::findFirst(['order' => 'id DESC']);
         $I->assertInstanceOf(Robots::class, $robot);
 
-        $robot = Robots::findFirst(1);
+        $robot = Robots::findFirst([1]);
         $I->assertInstanceOf(Robots::class, $robot);
 
         $robotParts = $robot->getRobotsParts();
