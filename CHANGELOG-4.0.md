@@ -91,6 +91,7 @@
     - the `Phalcon\Session\Adapter\Files` using the name `session` 
     - the `Phalcon\Session\Bag` using the name `sessionBag` 
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
+Changed `find` and `findFirst` in `Phalcon\Mvc\Model` to align with the signature of `Phalcon\Mvc\Collection`. These methods now accept only array as parameters. [#10406](https://github.com/phalcon/cphalcon/issues/10406)
 
 ## Removed
 - PHP < 7.2 no longer supported
