@@ -87,5 +87,4 @@ class ExistsDestroyCest
         $actual = $manager->exists();
         $I->assertFalse($actual);
     }
-
 }

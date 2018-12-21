@@ -17,7 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-
 /**
  * Class GetCest
  */
