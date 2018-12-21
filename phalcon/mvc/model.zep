@@ -352,7 +352,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				if typeof item == "object" {
 					if item instanceof ModelInterface {
 						let related[] = item;
-						haveRelation = true;
+						let haveRelation = true;
 					}
 				} else {
 					let lowerKey = strtolower(key),
@@ -361,7 +361,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if typeof relation == "object" {
 						let referencedModel = manager->load(relation->getReferencedModel());
 						referencedModel->writeAttribute(lowerKey, item);
-						haveRelation = true;
+						let haveRelation = true;
 					}
 				}
 			}
