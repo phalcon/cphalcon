@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\GroupInterface;
 
@@ -109,6 +110,11 @@ interface RouterInterface
 	 * Adds a route to the router that only match if the HTTP method is CONNECT
 	 */
 	public function addConnect(string! pattern, var paths = null) -> <RouteInterface>;
+
+	/**
+	 * Attach Route object to the routes stack.
+	 */
+	public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>;
 
 	/**
 	 * Mounts a group of routes in the router
