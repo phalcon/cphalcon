@@ -123,17 +123,17 @@ interface CollectionInterface
 	/**
 	 * Allows to query the first record that match the specified conditions
 	 */
-	public static function findFirst(array parameters = null) -> array;
+	public static function findFirst(array parameters = []) -> array;
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
 	 */
-	public static function find(array parameters = null) -> array;
+	public static function find(array parameters = []) -> array;
 
 	/**
 	 * Perform a count over a collection
 	 */
-	public static function count(array parameters = null) -> int;
+	public static function count(array parameters = []) -> int;
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise
