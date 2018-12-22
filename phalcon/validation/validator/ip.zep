@@ -83,7 +83,7 @@ class Ip extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, var field) -> bool
 	{
 		var value, version, allowPrivate, allowReserved, allowEmpty, message, label, replacePairs, options;
 
