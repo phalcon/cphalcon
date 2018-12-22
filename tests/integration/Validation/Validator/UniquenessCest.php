@@ -382,7 +382,7 @@ class UniquenessCest
     {
         $validation = new Validation();
         $validation->add('theName', new Uniqueness());
-        $robot = Robotters::findFirst(1);
+        $robot = Robotters::findFirst([1]);
         $robot->theName = 'Astro Boy';
         $messages = $validation->validate(null, $robot);
         $expected = 1;
