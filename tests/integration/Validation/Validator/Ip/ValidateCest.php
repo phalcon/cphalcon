@@ -171,4 +171,3 @@ class ValidateCest
         $I->assertCount(1, $messages);
     }
 }
-
