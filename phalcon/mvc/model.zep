@@ -318,7 +318,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item, dirtyState;
+			relation, referencedModel, key, item, dirtyState, haveRelation;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -345,12 +345,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let lowerProperty = strtolower(property),
 				modelName = get_class(this),
 				manager = this->getModelsManager();
-
+			
+			let haveRelation = false;
 			let related = [];
 			for key, item in value {
 				if typeof item == "object" {
 					if item instanceof ModelInterface {
 						let related[] = item;
+						let haveRelation = true;
 					}
 				} else {
 					let lowerKey = strtolower(key),
@@ -359,6 +361,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if typeof relation == "object" {
 						let referencedModel = manager->load(relation->getReferencedModel());
 						referencedModel->writeAttribute(lowerKey, item);
+						let haveRelation = true;
 					}
 				}
 			}
@@ -367,8 +370,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->_related[lowerProperty] = related,
 					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
 			}
-
-			return value;
+			
+			if haveRelation === true {
+				return value;
+			}
 		}
 
 		// Use possible setter.

@@ -55,4 +55,3 @@ docker-compose.yml
 build/gccarch
 tests/_cache
 .zephir/
-.temp/

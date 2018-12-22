@@ -7,7 +7,8 @@ use Phalcon\Http\Cookie;
 use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Session\Adapter\Files as SessionFiles;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -58,7 +59,11 @@ class CookiesCest extends HttpBase
             return new Response();
         });
         $di->set('session', function () {
-            return new SessionAdapter();
+            $manager = new SessionManager();
+            $adapter = new SessionFiles();
+            $manager->setHandler($adapter);
+
+            return $manager;
         });
 
         $cookies->setDI($di);

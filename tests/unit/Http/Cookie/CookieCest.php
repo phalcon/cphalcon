@@ -31,7 +31,7 @@ class CookieCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSession();
+        $this->setDiSessionFiles();
     }
 
     /**

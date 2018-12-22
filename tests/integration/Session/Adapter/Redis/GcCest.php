@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,25 @@
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
+/**
+ * Class GcCest
+ */
 class GcCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Redis :: gc()
      *
@@ -25,7 +42,10 @@ class GcCest
      */
     public function sessionAdapterRedisGc(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Adapter\Redis - gc()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Redis - gc()');
+        $adapter = $this->getSessionRedis();
+
+        $actual = $adapter->gc(1);
+        $I->assertTrue($actual);
     }
 }
