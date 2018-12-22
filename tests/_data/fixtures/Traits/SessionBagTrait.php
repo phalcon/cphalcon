@@ -31,7 +31,7 @@ trait SessionBagTrait
     public function _before(UnitTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiSession();
+        $this->setDiSessionFiles();
     }
 
     /**
@@ -42,5 +42,5 @@ trait SessionBagTrait
     /**
      * @return mixed
      */
-    abstract protected function setDiSession();
+    abstract protected function setDiSessionFiles();
 }

@@ -42,7 +42,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Filter|\Phalcon\FilterInterface $filter
  * @property \Phalcon\Flash\Direct $flash
  * @property \Phalcon\Flash\Session $flashSession
- * @property \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface $session
+ * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
  * @property \Phalcon\Db\AdapterInterface $db
  * @property \Phalcon\Security $security

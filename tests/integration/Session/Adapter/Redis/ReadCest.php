@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,11 +13,28 @@
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function uniqid;
 
+/**
+ * Class ReadCest
+ */
 class ReadCest
 {
+    use DiTrait;
+    use SessionTrait;
+
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: read()
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
+    /**
+     * Tests Phalcon\Session\Adapter\Redis :: write()
      *
      * @param IntegrationTester $I
      *
@@ -25,7 +43,15 @@ class ReadCest
      */
     public function sessionAdapterRedisRead(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Adapter\Redis - read()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Redis - write()');
+        $adapter = $this->getSessionRedis();
+        $value   = uniqid();
+
+        $I->haveInRedis('string', 'test1', $value);
+
+        $expected = $value;
+        $actual   = $adapter->read('test1');
+        $I->assertEquals($expected, $actual);
+        $I->sendCommandToRedis('del', 'test1');
     }
 }

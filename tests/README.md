@@ -133,7 +133,7 @@ The SQL dump files are located under `tests/_data/assets/db/schemas`. When impor
 ```sh
 /app $ cat ./tests/_data/assets/db/schemas/mysql_schema.sql | mysql -u root gonano
 
-/app $ psql -U nanobox gonanophalcon_test -q -f ./tests/_data/assets/db/schemas/postgresql_schema.sql
+/app $ psql -U nanobox gonano -q -f ./tests/_data/assets/db/schemas/postgresql_schema.sql
 
 /app $ sqlite3 ./tests/_output/phalcon_test.sqlite < ./tests/_data/assets/db/schemas/sqlite_schema.sql
 /app $ sqlite3 ./tests/_output/translations.sqlite < ./tests/_data/assets/db/schemas/sqlite_translations_schema.sql

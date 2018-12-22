@@ -35,7 +35,11 @@ use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Session\Adapter\Files as FilesSession;
+use Phalcon\Session\Manager as SessionManager;
+use Phalcon\Session\Adapter\Files as SessionFiles;
+use Phalcon\Session\Adapter\Libmemcached as SessionLibmemcached;
+use Phalcon\Session\Adapter\Noop as SessionNoop;
+use Phalcon\Session\Adapter\Redis as SessionRedis;
 use function cacheFolder;
 use function dataFolder;
 
@@ -51,11 +55,17 @@ trait DiTrait
      */
     protected $container = null;
 
+    /**
+     * @return DiInterface|null
+     */
     protected function getDi()
     {
         return $this->container;
     }
 
+    /**
+     * @return File
+     */
     protected function getAndSetModelsCacheFile()
     {
         $cache = new File(
@@ -73,6 +83,9 @@ trait DiTrait
         return $cache;
     }
 
+    /**
+     * @return Libmemcached
+     */
     protected function getAndSetModelsCacheFileLibmemcached()
     {
         $config = [
@@ -91,6 +104,9 @@ trait DiTrait
         return $cache;
     }
 
+    /**
+     * Set up a new DI
+     */
     protected function newDi()
     {
         Di::reset();
@@ -98,6 +114,9 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
+    /**
+     * Set up a new FactoryDefault
+     */
     protected function setNewFactoryDefault()
     {
         Di::reset();
@@ -105,11 +124,17 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
+    /**
+     * @return FactoryDefault
+     */
     protected function newFactoryDefault()
     {
         return new FactoryDefault();
     }
 
+    /**
+     * Set up a new Cli\FactoryDefault
+     */
     protected function setNewCliFactoryDefault()
     {
         Di::reset();
@@ -117,41 +142,65 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
+    /**
+     * @return CliFactoryDefault
+     */
     protected function newCliFactoryDefault()
     {
         return new CliFactoryDefault();
     }
 
+    /**
+     * @return CliConsole
+     */
     protected function newCliConsole()
     {
         return new CliConsole();
     }
 
+    /**
+     * @return EventsManager
+     */
     protected function newEventsManager()
     {
         return new EventsManager();
     }
 
+    /**
+     * @return ModelsManager
+     */
     protected function newModelsManager()
     {
         return new ModelsManager();
     }
 
+    /**
+     * Reset the DI
+     */
     protected function resetDi()
     {
         Di::reset();
     }
 
+    /**
+     * @return mixed
+     */
     protected function setCliConsole()
     {
         return $this->container->get('console');
     }
 
+    /**
+     * Setup new Annotations\Memory
+     */
     protected function setDiAnnotations()
     {
         $this->container->set('annotations', new AnnotationsMemory());
     }
 
+    /**
+     * Setup a new Crypt
+     */
     protected function setDiCrypt()
     {
         $this->container->set(
@@ -165,26 +214,41 @@ trait DiTrait
         );
     }
 
+    /**
+     * Setup a new Escaper
+     */
     protected function setDiEscaper()
     {
         $this->container->set('escaper', Escaper::class);
     }
 
+    /**
+     * Setup a new Events Manager
+     */
     protected function setDiEventsManager()
     {
         $this->container->set('eventsManager', EventsManager::class);
     }
 
+    /**
+     * Setup a new Filter
+     */
     protected function setDiFilter()
     {
         $this->container->set('filter', Filter::class);
     }
 
+    /**
+     * Setup a new Models Manager
+     */
     protected function setDiModelsManager()
     {
         $this->container->setShared('modelsManager', ModelsManager::class);
     }
 
+    /**
+     * Setup a new Models Metadata
+     */
     protected function setDiModelsMetadata()
     {
         $this->container->setShared('modelsMetadata', MetadataMemory::class);
@@ -238,19 +302,102 @@ trait DiTrait
         return new Postgresql($options);
     }
 
+    /**
+     * Setup a new Response
+     */
     protected function setDiResponse()
     {
         $this->container->set('response', Response::class);
     }
 
+    /**
+     * Setup a new Request
+     */
     protected function setDiRequest()
     {
         $this->container->set('request', Request::class);
     }
 
-    protected function setDiSession()
+    /**
+     * Setup a new Session Manager (Files)
+     */
+    protected function setDiSessionFiles()
     {
-        $this->container->set('session', FilesSession::class);
+        $this->container->set(
+            'session',
+            function () {
+                $manager = new SessionManager();
+                $manager->setHandler(
+                    new SessionFiles(
+                        [
+                            'save_path' => cacheFolder(),
+                        ]
+                    )
+                );
+
+                return $manager;
+            }
+        );
+    }
+
+    /**
+     * Setup a new Session Manager (Libmemcached)
+     */
+    protected function setDiSessionLibmemcached()
+    {
+        $this->container->set(
+            'session',
+            function () {
+                $manager = new SessionManager();
+                $manager->setHandler(
+                    new SessionLibmemcached(
+                        [
+                            'servers' => [
+                                [
+                                    'host'   => env('DATA_MEMCACHED_HOST'),
+                                    'port'   => env('DATA_MEMCACHED_PORT'),
+                                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
+                                ],
+                            ],
+                        ]
+                    )
+                );
+
+                return $manager;
+            }
+        );
+    }
+
+    /**
+     * Setup a new Session Manager (Noop)
+     */
+    protected function setDiSessionNoop()
+    {
+        $this->container->set(
+            'session',
+            function () {
+                $manager = new SessionManager();
+                $manager->setHandler(new SessionNoop());
+
+                return $manager;
+            }
+        );
+    }
+
+    /**
+     * Setup a new Session Manager (Redis)
+     */
+    protected function setDiSessionRedis()
+    {
+        $this->container->set(
+            'session',
+            function () {
+                $manager = new SessionManager();
+                $manager->setHandler(new SessionRedis());
+
+                return $manager;
+            }
+        );
     }
 
     /**
@@ -273,6 +420,9 @@ trait DiTrait
         return new Sqlite($options);
     }
 
+    /**
+     * Setup a new Url
+     */
     protected function setDiUrl()
     {
         $this->container->set(
@@ -286,6 +436,9 @@ trait DiTrait
         );
     }
 
+    /**
+     * Setup a new View
+     */
     protected function setDiView()
     {
         $this->container->set(
@@ -299,6 +452,9 @@ trait DiTrait
         );
     }
 
+    /**
+     * Setup a new View]Simple
+     */
     protected function setDiViewSimple()
     {
         $this->container->set(
@@ -312,6 +468,9 @@ trait DiTrait
         );
     }
 
+    /**
+     * Setup a new Postgresql connection
+     */
     protected function setupPostgres()
     {
         $this->setNewFactoryDefault();
@@ -320,6 +479,13 @@ trait DiTrait
         $this->connection = $this->getService('db');
     }
 
+    /**
+     * Return a service from the container
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     protected function getService(string $name)
     {
         return $this->container->get($name);
