@@ -191,7 +191,7 @@ class QueryBuilderCest
             ]
         ))->paginate();
 
-        $I->assertEquals(4, $paginate->last);
+        $I->assertEquals(1, $paginate->last);
         $I->assertEquals(4, $paginate->total_items);
     }
 }
