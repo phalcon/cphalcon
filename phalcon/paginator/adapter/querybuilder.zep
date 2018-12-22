@@ -116,7 +116,7 @@ class QueryBuilder extends Adapter
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, previous, items, totalQuery,
 			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
-			model, modelClass, dbService;
+			model, modelClass, dbService, groups, groupColumn;
 
 		let originalBuilder = this->_builder;
 		let columns = this->_columns;
@@ -164,7 +164,7 @@ class QueryBuilder extends Adapter
 
 		let hasHaving = !empty totalBuilder->getHaving();
 
-        var groups = totalBuilder->getGroupBy();
+        let groups = totalBuilder->getGroupBy();
 
 		let hasGroup = !empty groups;
 
@@ -185,7 +185,6 @@ class QueryBuilder extends Adapter
 		 * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
 		 */
 		if hasGroup {
-			var groupColumn;
 			if typeof groups == "array" {
 				let groupColumn = implode(", ", groups);
 			} else {

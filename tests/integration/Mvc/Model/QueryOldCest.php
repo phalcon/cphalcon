@@ -317,7 +317,7 @@ class QueryOldCest
                         ],
                     ],
                     'columns' => [
-                        'id'   => [
+                        'r_id'   => [
                             'type'     => 'scalar',
                             'balias'   => 'id',
                             'sqlAlias' => 'id',
@@ -328,7 +328,7 @@ class QueryOldCest
                                 'balias' => 'id',
                             ],
                         ],
-                        'name' => [
+                        'r_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -466,7 +466,7 @@ class QueryOldCest
                         'personas',
                     ],
                     'columns' => [
-                        'cedula' => [
+                        People::class . '_cedula' => [
                             'type'     => 'scalar',
                             'balias'   => 'cedula',
                             'sqlAlias' => 'cedula',
@@ -490,7 +490,7 @@ class QueryOldCest
                         'personas',
                     ],
                     'columns' => [
-                        'cedula' => [
+                        strtolower(People::class) . '_cedula' => [
                             'type'     => 'scalar',
                             'balias'   => 'cedula',
                             'sqlAlias' => 'cedula',
@@ -3450,7 +3450,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name'      => [
+                        Robots::class . '_name'      => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -3503,7 +3503,7 @@ class QueryOldCest
                         ],
                     ],
                     'columns' => [
-                        'id'        => [
+                        'r_id'        => [
                             'type'     => 'scalar',
                             'balias'   => 'id',
                             'sqlAlias' => 'id',
@@ -3514,7 +3514,7 @@ class QueryOldCest
                                 'balias' => 'id',
                             ],
                         ],
-                        'name'      => [
+                        'r_name'      => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -3818,7 +3818,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -3879,7 +3879,7 @@ class QueryOldCest
                         'le_products',
                     ],
                     'columns' => [
-                        'type'  => [
+                        SomeProducts::class . '_type'  => [
                             'type'     => 'scalar',
                             'balias'   => 'type',
                             'sqlAlias' => 'type',
@@ -4075,7 +4075,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -4150,7 +4150,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -4233,7 +4233,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -4322,7 +4322,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -4478,7 +4478,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -4559,7 +4559,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        'name' => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -4810,7 +4810,7 @@ class QueryOldCest
                         ],
                     ],
                     'columns' => [
-                        'code'    => [
+                        'r_code'    => [
                             'type'     => 'scalar',
                             'balias'   => 'code',
                             'sqlAlias' => 'code',
@@ -4821,7 +4821,7 @@ class QueryOldCest
                                 'balias' => 'code',
                             ],
                         ],
-                        'theName' => [
+                        'r_theName' => [
                             'type'     => 'scalar',
                             'balias'   => 'theName',
                             'sqlAlias' => 'theName',
@@ -4959,7 +4959,7 @@ class QueryOldCest
                         'personas',
                     ],
                     'columns' => [
-                        'borgerId' => [
+                        Personers::class . '_borgerId' => [
                             'type'     => 'scalar',
                             'balias'   => 'borgerId',
                             'sqlAlias' => 'borgerId',
@@ -4983,7 +4983,7 @@ class QueryOldCest
                         'personas',
                     ],
                     'columns' => [
-                        'borgerId' => [
+                        strtolower(Personers::class) . '_borgerId' => [
                             'type'     => 'scalar',
                             'balias'   => 'borgerId',
                             'sqlAlias' => 'borgerId',

@@ -1,3 +1,4 @@
+
 /**
  * This file is part of the Phalcon.
  *
@@ -9,20 +10,24 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Session\Adapter;
-use Phalcon\Session\Exception;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Backend\Libmemcached as CacheLibmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
+use Phalcon\Session\Exception;
 
 /**
- * Phalcon\Session\Adapter\Libmemcached
+ * Phalcon\Session\Adapter\Noop
  *
- * This adapter store sessions in libmemcached
+ * This is an "empty" or null adapter. It can be used for testing or any
+ * other purpose that no session needs to be invoked
  *
  * <code>
- * use Phalcon\Session\Adapter\Libmemcached;
+ * <?php
  *
- * $session = new Libmemcached(
+ * use Phalcon\Session\Manager;
+ * use Phalcon\Session\Adapter\Libmemcached
+ *
+ * $session = new Manager();
+ * $adapter = new Libmemcached(
  *     [
  *         "servers" => [
  *             [
@@ -32,139 +37,78 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *             ],
  *         ],
  *         "client" => [
- *             \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
- *             \Memcached::OPT_PREFIX_KEY => "prefix.",
+ *              Memcached::OPT_HASH       => Memcached::HASH_MD5,
+ *              Memcached::OPT_PREFIX_KEY => "prefix.",
  *         ],
- *         "lifetime" => 3600,
- *         "prefix"   => "my_",
+ *         "ttl"    => 3600,
+ *         "prefix" => "my_",
  *     ]
  * );
  *
- * $session->start();
- *
- * $session->set("var", "some-value");
- *
- * echo $session->get("var");
+ * $session->setAdapter($adapter);
  * </code>
  */
-class Libmemcached extends Adapter
+class Libmemcached extends Noop
 {
-	protected _libmemcached = null { get };
-
-	protected _lifetime = 8600 { get };
-
-	/**
-	 * Phalcon\Session\Adapter\Libmemcached constructor
-	 *
-	 * @throws \Phalcon\Session\Exception
-	 */
-	public function __construct(array options)
+	public function __construct(array! options = [])
 	{
-		var servers, client, lifetime, prefix, statsKey, persistentId;
-
-		if !fetch servers, options["servers"] {
-			throw new Exception("No servers given in options");
-		}
-
-		if !fetch client, options["client"] {
-			let client = null;
-		}
-
-		if !fetch lifetime, options["lifetime"] {
-			let lifetime = 8600;
-		}
-
-		// Memcached has an internal max lifetime of 30 days
-		let this->_lifetime = min(lifetime, 2592000);
-
-		if !fetch prefix, options["prefix"] {
-			let prefix = null;
-		}
-
-		if !fetch statsKey, options["statsKey"] {
-			let statsKey = "";
-		}
-
-		if !fetch persistentId, options["persistent_id"] {
-			let persistentId = "phalcon-session";
-		}
-
-		let this->_libmemcached = new Libmemcached(
-			new FrontendData(["lifetime": this->_lifetime]),
-			[
-				"servers":  servers,
-				"client":   client,
-				"prefix":   prefix,
-				"statsKey": statsKey,
-				"persistent_id": persistentId
-			]
-		);
-
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
+		var client, options, persistentId, prefix, servers, statsKey, ttl;
 
 		parent::__construct(options);
-	}
 
-	public function close() -> bool
-	{
-		return true;
-	}
+		let options = this->options;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function destroy(string sessionId = null) -> bool
-	{
-		var id;
-
-		if sessionId === null {
-			let id = this->getId();
-		} else {
-			let id = sessionId;
+		if !fetch servers, options["servers"] {
+			throw new Exception("No 'servers' specified in the options");
 		}
 
-		this->removeSessionData();
+		let client       = this->arrayGetDefault(options, "client", []),
+			ttl          = this->arrayGetDefault(options, "ttl", this->ttl),
+			statsKey     = this->arrayGetDefault(options, "statsKey", ""),
+			persistentId = this->arrayGetDefault(options, "persistent_id", "phalcon-session");
 
-		if !empty id && this->_libmemcached->exists(id) {
-			return (bool) this->_libmemcached->delete(id);
+
+		// Memcached has an internal max lifetime of 30 days
+		let this->ttl = min(ttl, 2592000);
+
+		let this->connection = new CacheLibmemcached(
+			new FrontendData(
+				[
+					"lifetime" : this->ttl
+				]
+			),
+			[
+				"servers"       : servers,
+				"client"     	: client,
+				"prefix"        : prefix,
+				"statsKey"      : statsKey,
+				"persistent_id" : persistentId
+			]
+		);
+	}
+
+	public function destroy(var id) -> bool
+	{
+		var name = this->getPrefixedName(id);
+		if (true !== empty(name) && this->connection->exists(name)) {
+			return (bool) this->connection->delete(name);
 		}
 
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function gc() -> bool
+	public function read(var id) -> string
 	{
-		return true;
+		var name = this->getPrefixedName(id),
+			data = this->connection->get(name, this->ttl);
+
+		return data;
 	}
 
-	public function open() -> bool
+	public function write(var id, var data) -> void
 	{
-		return true;
-	}
+		var name = this->getPrefixedName(id);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function read(string sessionId) -> string
-	{
-		return (string) this->_libmemcached->get(sessionId, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function write(string sessionId, string data) -> bool
-	{
-		return this->_libmemcached->save(sessionId, data, this->_lifetime);
+		this->connection->save(name, data, this->ttl);
 	}
 }

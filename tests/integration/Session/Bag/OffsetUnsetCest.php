@@ -13,12 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
+use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
  * Class OffsetUnsetCest
  */
 class OffsetUnsetCest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: offsetUnset()
      *
@@ -30,6 +36,12 @@ class OffsetUnsetCest
     public function sessionBagOffsetUnset(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - offsetUnset()");
-        $I->skipTest("Need implementation");
+        $session = new Bag("UnSetterTest");
+
+        $testValue = "TestValue";
+        $session->set('test', $testValue);
+        $session->offsetUnset('test');
+
+        $I->assertEquals(null, $session->get("test"));
     }
 }

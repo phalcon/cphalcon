@@ -1,3 +1,4 @@
+
 /**
  * This file is part of the Phalcon.
  *
@@ -9,139 +10,83 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Session\Adapter;
-use Phalcon\Cache\Backend\Redis;
+use Phalcon\Cache\Backend\Redis as CacheRedis;
 use Phalcon\Cache\Frontend\None as FrontendNone;
 
 /**
- * Phalcon\Session\Adapter\Redis
+ * Phalcon\Session\Adapter\Noop
  *
- * This adapter store sessions in Redis
+ * This is an "empty" or null adapter. It can be used for testing or any
+ * other purpose that no session needs to be invoked
  *
  * <code>
- * use Phalcon\Session\Adapter\Redis;
+ * <?php
  *
- * $session = new Redis(
+ * use Phalcon\Session\Manager;
+ * use Phalcon\Session\Adapter\Redis
+ *
+ * $session = new Manager();
+ * $adapter = new Redis(
  *     [
- *         "uniqueId"   => "my-private-app",
  *         "host"       => "localhost",
  *         "port"       => 6379,
  *         "auth"       => "foobared",
  *         "persistent" => false,
- *         "lifetime"   => 3600,
- *         "prefix"     => "my",
- *         "index"      => 1,
+ *         "index"      => 0,
  *     ]
  * );
  *
- * $session->start();
- *
- * $session->set("var", "some-value");
- *
- * echo $session->get("var");
+ * $session->setAdapter($adapter);
  * </code>
- */
-class Redis extends Adapter
+ */class Redis extends Noop
 {
-	protected _lifetime = 8600 { get };
-
-	protected _redis = null { get };
-
-	/**
-	 * Phalcon\Session\Adapter\Redis constructor
-	 */
-	public function __construct(array options = [])
+	public function __construct(array! options = [])
 	{
-		var lifetime;
+		var options, params;
 
-		if !isset options["host"] {
-			let options["host"] = "127.0.0.1";
-		}
+	    parent::__construct(options);
 
-		if !isset options["port"] {
-			let options["port"] = 6379;
-		}
+	    let options              = this->options,
+	        params               = [],
+	        params["host"]       = this->arrayGetDefault(options, "host", "127.0.0.1"),
+		    params["port"]       = this->arrayGetDefault(options, "port", 6379),
+		    params["index"]      = this->arrayGetDefault(options, "index", 0),
+		    params["persistent"] = this->arrayGetDefault(options, "persistent", false),
+		    this->ttl            = this->arrayGetDefault(options, "ttl", this->ttl);
 
-		if !isset options["persistent"] {
-			let options["persistent"] = false;
-		}
-
-		if fetch lifetime, options["lifetime"] {
-			let this->_lifetime = lifetime;
-		}
-
-		let this->_redis = new Redis(
-			new FrontendNone(["lifetime": this->_lifetime]),
-			options
+		let this->connection = new CacheRedis(
+			new FrontendNone(
+				[
+					"lifetime" : this->ttl
+				]
+			),
+			params
 		);
-
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
-
-		parent::__construct(options);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function close() -> bool
+	public function destroy(var id) -> bool
 	{
-		return true;
-	}
+		var name = this->getPrefixedName(id);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function destroy(string sessionId = null) -> bool
-	{
-		var id;
-
-		if sessionId === null {
-			let id = this->getId();
-		} else {
-			let id = sessionId;
+		if (true !== empty(name) && this->connection->exists(name)) {
+			return (bool) this->connection->delete(name);
 		}
 
-		this->removeSessionData();
-
-		return this->_redis->exists(id) ? this->_redis->delete(id) : true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function gc() -> bool
-	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function open() -> bool
+	public function read(var id) -> string
 	{
-		return true;
+		var name = this->getPrefixedName(id),
+		    data = this->connection->get(name, this->ttl);
+
+		return data;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function read(sessionId) -> string
+	public function write(var id, var data) -> void
 	{
-		return (string) this->_redis->get(sessionId, this->_lifetime);
-	}
+		var name = this->getPrefixedName(id);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function write(string sessionId, string data) -> bool
-	{
-		return this->_redis->save(sessionId, data, this->_lifetime);
+		this->connection->save(name, data, this->ttl);
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,25 @@
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
+/**
+ * Class OpenCest
+ */
 class OpenCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Redis :: open()
      *
@@ -25,7 +42,9 @@ class OpenCest
      */
     public function sessionAdapterRedisOpen(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Adapter\Redis - open()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Redis - open()');
+        $adapter = $this->getSessionRedis();
+        $actual  = $adapter->open('test', 'test1');
+        $I->assertTrue($actual);
     }
 }

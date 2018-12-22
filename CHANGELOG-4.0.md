@@ -4,6 +4,7 @@
 - Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` to implement custom Postgresql rules
 - Added `Phalcon\Mvc\Router\RouteInterface::convert` so that calling `Phalcon\Mvc\Router\Group::add` will return an instance that has `convert` method [#13380](https://github.com/phalcon/cphalcon/issues/13380)
 - Added `Phalcon\Mvc\ModelInterface::getModelsMetaData` [#13070](https://github.com/phalcon/cphalcon/issues/13402)
+- Added `Phalcon\Validation\Validator\Ip`, class used to validate ip address fields. It allows to validate a field selecting IPv4 or IPv6, allowing private or reserved ranges and empty values if necessary.
 - Added `Phalcon\Messages\MessageInterface`, `Phalcon\Messages\Message`, `Phalcon\Messages\Exception` and `Phalcon\Messages\Messages` to handle all messages for the application (model/validation) [#13114](https://github.com/phalcon/cphalcon/issues/13114)
 - Added `getHandlerSuffix()`, `setHandlerSuffix()` in Dispatcher, `getTaskSuffix()`, `setTaskSuffix()` in the CLI Dispatcher [#13468](https://github.com/phalcon/cphalcon/issues/13468)
 - Added ability to set a custom template for the Flash Messenger. [#13445](https://github.com/phalcon/cphalcon/issues/13445)
@@ -60,6 +61,7 @@
 - Scope SQL Column Aliases (on nesting level), in `Phalcon\Mvc\Model\Query`, to prevent overwrite _root_ query's `_sqlColumnAliases` by sub-queries. [#13006](https://github.com/phalcon/cphalcon/issues/13006), [#12548](https://github.com/phalcon/cphalcon/issues/12548) and [#1731](https://github.com/phalcon/cphalcon/issues/1731)
 - CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
 - Changed `Phalcon\Db\Dialect\Postgresql::addPrimaryKey` to make primary key contraints names unique by prefixing them with the table name. [#12629](https://github.com/phalcon/cphalcon/pull/12629)
+- Fixed `Phalcon\Mvc\Model\Query::_prepareSelect` overwriting columns with the same alias [#13552](https://github.com/phalcon/cphalcon/issues/13552)
 - Changed `Phalcon\Http\RequestInterface` to align with `Phalcon\Http\Request` [#13061](https://github.com/phalcon/cphalcon/pull/13061)
 - Renamed `Phalcon\Acl\Resource` to `Phalcon\Acl\Subject` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Renamed `Phalcon\Acl\ResourceInterface` to `Phalcon\Acl\SubjectInterface` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
@@ -92,6 +94,7 @@
     - the `Phalcon\Session\Adapter\Files` using the name `session` 
     - the `Phalcon\Session\Bag` using the name `sessionBag` 
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
+- Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Files`, `Phalcon\Session\Libmemcached`, `Phalcon\Session\Noop` and `Phalcon\Session\Redis`.  [#12921](https://github.com/phalcon/cphalcon/issues/12833), (https://github.com/phalcon/cphalcon/issues/11341), (https://github.com/phalcon/cphalcon/issues/13535)
 
 ## Removed
 - PHP < 7.2 no longer supported

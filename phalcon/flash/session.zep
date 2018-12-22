@@ -22,7 +22,7 @@ namespace Phalcon\Flash;
 use Phalcon\Flash as FlashBase;
 use Phalcon\DiInterface;
 use Phalcon\Flash\Exception;
-use Phalcon\Session\AdapterInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
  * Phalcon\Flash\Session
