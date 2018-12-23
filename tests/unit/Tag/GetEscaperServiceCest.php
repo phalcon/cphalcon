@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
+/**
+ * Class GetEscaperServiceCest
+ */
 class GetEscaperServiceCest
 {
     /**
@@ -25,7 +29,7 @@ class GetEscaperServiceCest
      */
     public function tagGetEscaperService(UnitTester $I)
     {
-        $I->wantToTest("Tag - getEscaperService()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - getEscaperService()');
+        $I->skipTest('Need implementation');
     }
 }

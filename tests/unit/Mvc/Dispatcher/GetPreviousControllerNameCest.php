@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPreviousControllerNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetPreviousControllerNameCest
 {
@@ -31,7 +29,7 @@ class GetPreviousControllerNameCest
      */
     public function mvcDispatcherGetPreviousControllerName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getPreviousControllerName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getPreviousControllerName()');
+        $I->skipTest('Need implementation');
     }
 }

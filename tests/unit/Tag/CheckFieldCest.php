@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
+/**
+ * Class CheckFieldCest
+ */
 class CheckFieldCest
 {
     /**
@@ -25,7 +29,7 @@ class CheckFieldCest
      */
     public function tagCheckField(UnitTester $I)
     {
-        $I->wantToTest("Tag - checkField()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - checkField()');
+        $I->skipTest('Need implementation');
     }
 }

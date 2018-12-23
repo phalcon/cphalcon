@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetRandomBytesCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class SetRandomBytesCest
 {
@@ -31,7 +29,7 @@ class SetRandomBytesCest
      */
     public function securitySetRandomBytes(UnitTester $I)
     {
-        $I->wantToTest("Security - setRandomBytes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - setRandomBytes()');
+        $I->skipTest('Need implementation');
     }
 }

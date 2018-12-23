@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
+/**
+ * Class RegisterCest
+ */
 class RegisterCest
 {
     /**
@@ -25,7 +29,7 @@ class RegisterCest
      */
     public function diRegister(UnitTester $I)
     {
-        $I->wantToTest("Di - register()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di - register()');
+        $I->skipTest('Need implementation');
     }
 }

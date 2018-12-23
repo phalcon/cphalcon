@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -17,6 +18,9 @@ use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
+/**
+ * Class GetFrontendCest
+ */
 class GetFrontendCest
 {
     use RedisTrait;
@@ -31,11 +35,7 @@ class GetFrontendCest
      */
     public function cacheBackendRedisGetFrontend(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Redis - getFrontend()");
-        $cache = new Redis(new Data(['lifetime' => 20]), $this->options);
-
-        $class  = Data::class;
-        $actual = $cache->getFrontend();
-        $I->assertInstanceOf($class, $actual);
+        $I->wantToTest('Cache\Backend\Redis - getFrontend()');
+        $I->skipTest('Need implementation');
     }
 }

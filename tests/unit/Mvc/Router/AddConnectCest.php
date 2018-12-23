@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddConnectCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class AddConnectCest
 {
@@ -31,7 +29,7 @@ class AddConnectCest
      */
     public function mvcRouterAddConnect(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - addConnect()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - addConnect()');
+        $I->skipTest('Need implementation');
     }
 }

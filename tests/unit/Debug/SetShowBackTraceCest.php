@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
+/**
+ * Class SetShowBackTraceCest
+ */
 class SetShowBackTraceCest
 {
     /**
@@ -25,7 +29,7 @@ class SetShowBackTraceCest
      */
     public function debugSetShowBackTrace(UnitTester $I)
     {
-        $I->wantToTest("Debug - setShowBackTrace()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug - setShowBackTrace()');
+        $I->skipTest('Need implementation');
     }
 }

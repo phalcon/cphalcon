@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SerializeCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class SerializeCest
 {
@@ -31,7 +29,7 @@ class SerializeCest
      */
     public function mvcCollectionSerialize(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - serialize()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - serialize()');
+        $I->skipTest('Need implementation');
     }
 }

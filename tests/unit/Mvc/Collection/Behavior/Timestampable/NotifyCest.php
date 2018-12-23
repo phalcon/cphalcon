@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NotifyCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Behavior\Timestampable
  */
 class NotifyCest
 {
@@ -31,7 +29,7 @@ class NotifyCest
      */
     public function mvcCollectionBehaviorTimestampableNotify(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Behavior\Timestampable - notify()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Behavior\Timestampable - notify()');
+        $I->skipTest('Need implementation');
     }
 }

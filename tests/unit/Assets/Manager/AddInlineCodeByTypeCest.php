@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddInlineCodeByTypeCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class AddInlineCodeByTypeCest
 {

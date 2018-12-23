@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Memory;
 
 use UnitTester;
 
+/**
+ * Class SaveCest
+ */
 class SaveCest
 {
     /**
@@ -25,7 +29,7 @@ class SaveCest
      */
     public function cacheBackendMemorySave(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Memory - save()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Memory - save()');
+        $I->skipTest('Need implementation');
     }
 }

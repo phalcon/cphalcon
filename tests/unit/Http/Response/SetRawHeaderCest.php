@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
+/**
+ * Class SetRawHeaderCest
+ */
 class SetRawHeaderCest
 {
     /**
@@ -25,7 +29,7 @@ class SetRawHeaderCest
      */
     public function httpResponseSetRawHeader(UnitTester $I)
     {
-        $I->wantToTest("Http\Response - setRawHeader()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Response - setRawHeader()');
+        $I->skipTest('Need implementation');
     }
 }

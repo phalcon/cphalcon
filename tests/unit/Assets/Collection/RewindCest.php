@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class RewindCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class RewindCest
 {

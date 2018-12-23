@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
+/**
+ * Class GetServiceCest
+ */
 class GetServiceCest
 {
     /**
@@ -25,7 +29,7 @@ class GetServiceCest
      */
     public function diGetService(UnitTester $I)
     {
-        $I->wantToTest("Di - getService()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di - getService()');
+        $I->skipTest('Need implementation');
     }
 }

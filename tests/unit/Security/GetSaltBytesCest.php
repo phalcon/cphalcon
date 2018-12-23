@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetSaltBytesCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class GetSaltBytesCest
 {
@@ -31,7 +29,7 @@ class GetSaltBytesCest
      */
     public function securityGetSaltBytes(UnitTester $I)
     {
-        $I->wantToTest("Security - getSaltBytes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - getSaltBytes()');
+        $I->skipTest('Need implementation');
     }
 }

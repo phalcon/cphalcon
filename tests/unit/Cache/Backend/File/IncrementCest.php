@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
+/**
+ * Class IncrementCest
+ */
 class IncrementCest
 {
     use FileTrait;
@@ -29,8 +33,8 @@ class IncrementCest
      */
     public function cacheBackendFileIncrement(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\File - increment()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\File - increment()');
+        $I->skipTest('Need implementation');
     }
 
 

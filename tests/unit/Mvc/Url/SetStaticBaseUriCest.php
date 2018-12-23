@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetStaticBaseUriCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class SetStaticBaseUriCest
 {
@@ -31,7 +29,7 @@ class SetStaticBaseUriCest
      */
     public function mvcUrlSetStaticBaseUri(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - setStaticBaseUri()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Url - setStaticBaseUri()');
+        $I->skipTest('Need implementation');
     }
 }

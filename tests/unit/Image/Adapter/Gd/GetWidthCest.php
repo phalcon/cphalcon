@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use UnitTester;
 
+/**
+ * Class GetWidthCest
+ */
 class GetWidthCest
 {
     /**
@@ -25,7 +29,7 @@ class GetWidthCest
      */
     public function imageAdapterGdGetWidth(UnitTester $I)
     {
-        $I->wantToTest("Image\Adapter\Gd - getWidth()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Image\Adapter\Gd - getWidth()');
+        $I->skipTest('Need implementation');
     }
 }

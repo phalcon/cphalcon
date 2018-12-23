@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DispatchCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class DispatchCest
 {
@@ -31,7 +29,7 @@ class DispatchCest
      */
     public function mvcDispatcherDispatch(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - dispatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - dispatch()');
+        $I->skipTest('Need implementation');
     }
 }

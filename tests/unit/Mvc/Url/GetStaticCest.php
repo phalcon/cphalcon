@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetStaticCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class GetStaticCest
 {
@@ -31,7 +29,7 @@ class GetStaticCest
      */
     public function mvcUrlGetStatic(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - getStatic()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Url - getStatic()');
+        $I->skipTest('Need implementation');
     }
 }

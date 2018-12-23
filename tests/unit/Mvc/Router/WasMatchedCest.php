@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WasMatchedCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class WasMatchedCest
 {
@@ -31,7 +29,7 @@ class WasMatchedCest
      */
     public function mvcRouterWasMatched(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - wasMatched()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - wasMatched()');
+        $I->skipTest('Need implementation');
     }
 }

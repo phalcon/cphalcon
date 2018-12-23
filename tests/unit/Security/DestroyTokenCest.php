@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DestroyTokenCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class DestroyTokenCest
 {
@@ -31,7 +29,7 @@ class DestroyTokenCest
      */
     public function securityDestroyToken(UnitTester $I)
     {
-        $I->wantToTest("Security - destroyToken()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - destroyToken()');
+        $I->skipTest('Need implementation');
     }
 }

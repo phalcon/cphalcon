@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class PathCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class PathCest
 {
@@ -31,7 +29,7 @@ class PathCest
      */
     public function mvcUrlPath(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - path()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Url - path()');
+        $I->skipTest('Need implementation');
     }
 }

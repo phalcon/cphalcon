@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class HumanizeCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class HumanizeCest
 {

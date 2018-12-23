@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddOptionsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Group
  */
 class AddOptionsCest
 {
@@ -31,7 +29,7 @@ class AddOptionsCest
      */
     public function mvcRouterGroupAddOptions(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Group - addOptions()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Group - addOptions()');
+        $I->skipTest('Need implementation');
     }
 }

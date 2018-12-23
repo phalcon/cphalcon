@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class MountCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class MountCest
 {
@@ -31,7 +29,7 @@ class MountCest
      */
     public function mvcRouterAnnotationsMount(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - mount()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - mount()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class JsonSerializeCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class JsonSerializeCest
 {

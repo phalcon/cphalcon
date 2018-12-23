@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class RewindCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class RewindCest
 {
@@ -31,7 +29,7 @@ class RewindCest
      */
     public function annotationsCollectionRewind(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - rewind()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - rewind()');
+        $I->skipTest('Need implementation');
     }
 }

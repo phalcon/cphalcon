@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt;
 
 use UnitTester;
 
+/**
+ * Class SortCest
+ */
 class SortCest
 {
     /**
@@ -25,7 +29,7 @@ class SortCest
      */
     public function mvcViewEngineVoltSort(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View\Engine\Volt - sort()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View\Engine\Volt - sort()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class OffsetExistsCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class OffsetExistsCest
 {
@@ -31,7 +29,7 @@ class OffsetExistsCest
      */
     public function translateAdapterCsvOffsetExists(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Csv - offsetExists()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Csv - offsetExists()');
+        $I->skipTest('Need implementation');
     }
 }

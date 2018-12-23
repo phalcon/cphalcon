@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPropertyCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Memory
  */
 class GetPropertyCest
 {
@@ -31,7 +29,7 @@ class GetPropertyCest
      */
     public function annotationsAdapterMemoryGetProperty(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Memory - getProperty()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Memory - getProperty()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
+/**
+ * Class GetPreviousCest
+ */
 class GetPreviousCest
 {
     /**
@@ -25,7 +29,7 @@ class GetPreviousCest
      */
     public function cryptMismatchGetPrevious(UnitTester $I)
     {
-        $I->wantToTest("Crypt\Mismatch - getPrevious()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt\Mismatch - getPrevious()');
+        $I->skipTest('Need implementation');
     }
 }

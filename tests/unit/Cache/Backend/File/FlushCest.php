@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
+/**
+ * Class FlushCest
+ */
 class FlushCest
 {
     /**
@@ -25,7 +29,7 @@ class FlushCest
      */
     public function cacheBackendFileFlush(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\File - flush()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\File - flush()');
+        $I->skipTest('Need implementation');
     }
 }

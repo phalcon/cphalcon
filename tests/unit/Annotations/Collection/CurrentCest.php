@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CurrentCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class CurrentCest
 {
@@ -31,7 +29,7 @@ class CurrentCest
      */
     public function annotationsCollectionCurrent(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - current()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - current()');
+        $I->skipTest('Need implementation');
     }
 }

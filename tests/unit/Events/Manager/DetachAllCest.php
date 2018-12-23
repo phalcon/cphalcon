@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Events\Manager;
 
 use UnitTester;
 
+/**
+ * Class DetachAllCest
+ */
 class DetachAllCest
 {
     /**
@@ -25,7 +29,7 @@ class DetachAllCest
      */
     public function eventsManagerDetachAll(UnitTester $I)
     {
-        $I->wantToTest("Events\Manager - detachAll()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Events\Manager - detachAll()');
+        $I->skipTest('Need implementation');
     }
 }

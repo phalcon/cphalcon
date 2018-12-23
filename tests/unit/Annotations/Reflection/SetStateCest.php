@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetStateCest
- *
- * @package Phalcon\Test\Unit\Annotations\Reflection
  */
 class SetStateCest
 {
@@ -31,7 +29,7 @@ class SetStateCest
      */
     public function annotationsReflectionSetState(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Reflection - __set_state()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Reflection - __set_state()');
+        $I->skipTest('Need implementation');
     }
 }

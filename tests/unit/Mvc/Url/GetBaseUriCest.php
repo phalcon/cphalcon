@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetBaseUriCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class GetBaseUriCest
 {
@@ -31,7 +29,7 @@ class GetBaseUriCest
      */
     public function mvcUrlGetBaseUri(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - getBaseUri()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Url - getBaseUri()');
+        $I->skipTest('Need implementation');
     }
 }

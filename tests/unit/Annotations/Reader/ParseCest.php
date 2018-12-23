@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ParseCest
- *
- * @package Phalcon\Test\Unit\Annotations\Reader
  */
 class ParseCest
 {
@@ -31,7 +29,7 @@ class ParseCest
      */
     public function annotationsReaderParse(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Reader - parse()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Reader - parse()');
+        $I->skipTest('Need implementation');
     }
 }

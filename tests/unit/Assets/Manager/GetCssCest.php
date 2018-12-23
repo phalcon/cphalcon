@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetCssCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class GetCssCest
 {

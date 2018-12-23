@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class HexCest
- *
- * @package Phalcon\Test\Unit\Security\Random
  */
 class HexCest
 {

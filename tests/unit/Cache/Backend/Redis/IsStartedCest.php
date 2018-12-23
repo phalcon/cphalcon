@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
+/**
+ * Class IsStartedCest
+ */
 class IsStartedCest
 {
     /**
@@ -25,7 +29,7 @@ class IsStartedCest
      */
     public function cacheBackendRedisIsStarted(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Redis - isStarted()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Redis - isStarted()');
+        $I->skipTest('Need implementation');
     }
 }

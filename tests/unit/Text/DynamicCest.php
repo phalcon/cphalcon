@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class DynamicCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class DynamicCest
 {

@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class OffsetUnsetCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class OffsetUnsetCest
 {

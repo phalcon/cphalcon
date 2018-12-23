@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CountCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class CountCest
 {

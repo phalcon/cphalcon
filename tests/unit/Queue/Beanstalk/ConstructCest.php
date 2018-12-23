@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function queueBeanstalkConstruct(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
+/**
+ * Class SetInternalEventsManagerCest
+ */
 class SetInternalEventsManagerCest
 {
     /**
@@ -25,7 +29,7 @@ class SetInternalEventsManagerCest
      */
     public function diFactorydefaultSetInternalEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault - setInternalEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault - setInternalEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

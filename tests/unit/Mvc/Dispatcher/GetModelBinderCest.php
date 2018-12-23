@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetModelBinderCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetModelBinderCest
 {
@@ -31,7 +29,7 @@ class GetModelBinderCest
      */
     public function mvcDispatcherGetModelBinder(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getModelBinder()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getModelBinder()');
+        $I->skipTest('Need implementation');
     }
 }

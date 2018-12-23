@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
+/**
+ * Class HasParamCest
+ */
 class HasParamCest
 {
     /**
@@ -25,7 +29,7 @@ class HasParamCest
      */
     public function dispatcherHasParam(UnitTester $I)
     {
-        $I->wantToTest("Dispatcher - hasParam()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Dispatcher - hasParam()');
+        $I->skipTest('Need implementation');
     }
 }

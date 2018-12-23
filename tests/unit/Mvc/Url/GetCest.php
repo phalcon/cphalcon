@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class GetCest
 {
@@ -31,7 +29,7 @@ class GetCest
      */
     public function mvcUrlGet(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - get()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Url - get()');
+        $I->skipTest('Need implementation');
     }
 }

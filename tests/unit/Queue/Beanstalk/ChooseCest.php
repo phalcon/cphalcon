@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ChooseCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ChooseCest
 {
@@ -31,7 +29,7 @@ class ChooseCest
      */
     public function queueBeanstalkChoose(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - choose()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - choose()');
+        $I->skipTest('Need implementation');
     }
 }

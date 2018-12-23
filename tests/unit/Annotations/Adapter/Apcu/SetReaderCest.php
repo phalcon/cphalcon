@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetReaderCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Apcu
  */
 class SetReaderCest
 {
@@ -31,7 +29,7 @@ class SetReaderCest
      */
     public function annotationsAdapterApcuSetReader(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Apcu - setReader()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Apcu - setReader()');
+        $I->skipTest('Need implementation');
     }
 }

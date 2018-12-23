@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
+/**
+ * Class WakeupCest
+ */
 class WakeupCest
 {
     /**
@@ -25,7 +29,7 @@ class WakeupCest
      */
     public function cryptMismatchWakeup(UnitTester $I)
     {
-        $I->wantToTest("Crypt\Mismatch - __wakeup()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt\Mismatch - __wakeup()');
+        $I->skipTest('Need implementation');
     }
 }

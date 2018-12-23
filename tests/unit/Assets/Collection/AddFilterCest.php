@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddFilterCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class AddFilterCest
 {

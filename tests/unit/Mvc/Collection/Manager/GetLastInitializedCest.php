@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetLastInitializedCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class GetLastInitializedCest
 {
@@ -31,7 +29,7 @@ class GetLastInitializedCest
      */
     public function mvcCollectionManagerGetLastInitialized(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - getLastInitialized()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - getLastInitialized()');
+        $I->skipTest('Need implementation');
     }
 }

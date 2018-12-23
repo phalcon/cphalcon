@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class IsUsingImplicitObjectIdsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class IsUsingImplicitObjectIdsCest
 {
@@ -31,7 +29,7 @@ class IsUsingImplicitObjectIdsCest
      */
     public function mvcCollectionManagerIsUsingImplicitObjectIds(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - isUsingImplicitObjectIds()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - isUsingImplicitObjectIds()');
+        $I->skipTest('Need implementation');
     }
 }

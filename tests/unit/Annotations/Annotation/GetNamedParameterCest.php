@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetNamedParameterCest
- *
- * @package Phalcon\Test\Unit\Annotations\Annotation
  */
 class GetNamedParameterCest
 {
@@ -31,7 +29,7 @@ class GetNamedParameterCest
      */
     public function annotationsAnnotationGetNamedParameter(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Annotation - getNamedParameter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Annotation - getNamedParameter()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class OffsetGetCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Document
  */
 class OffsetGetCest
 {
@@ -31,7 +29,7 @@ class OffsetGetCest
      */
     public function mvcCollectionDocumentOffsetGet(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Document - offsetGet()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Document - offsetGet()');
+        $I->skipTest('Need implementation');
     }
 }

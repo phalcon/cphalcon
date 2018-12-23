@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WriteCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Files
  */
 class WriteCest
 {
@@ -31,7 +29,7 @@ class WriteCest
      */
     public function annotationsAdapterFilesWrite(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Files - write()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Files - write()');
+        $I->skipTest('Need implementation');
     }
 }

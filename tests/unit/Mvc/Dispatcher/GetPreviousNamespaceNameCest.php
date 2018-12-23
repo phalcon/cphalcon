@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPreviousNamespaceNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetPreviousNamespaceNameCest
 {
@@ -31,7 +29,7 @@ class GetPreviousNamespaceNameCest
      */
     public function mvcDispatcherGetPreviousNamespaceName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getPreviousNamespaceName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getPreviousNamespaceName()');
+        $I->skipTest('Need implementation');
     }
 }

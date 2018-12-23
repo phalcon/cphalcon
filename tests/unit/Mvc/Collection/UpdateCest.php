@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class UpdateCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class UpdateCest
 {
@@ -31,7 +29,7 @@ class UpdateCest
      */
     public function mvcCollectionUpdate(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - update()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - update()');
+        $I->skipTest('Need implementation');
     }
 }

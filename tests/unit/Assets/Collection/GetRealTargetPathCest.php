@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetRealTargetPathCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class GetRealTargetPathCest
 {

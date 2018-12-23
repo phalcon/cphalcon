@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,16 +14,22 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
+/**
+ * Class SelectCest
+ */
 class SelectCest
 {
     /**
      * Tests Phalcon\Tag :: select()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSelect(UnitTester $I)
+    public function tagSelect(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - select()');
+        $I->skipTest('Need implementation');
     }
 }

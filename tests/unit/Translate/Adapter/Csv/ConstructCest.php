@@ -20,8 +20,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class ConstructCest
 {

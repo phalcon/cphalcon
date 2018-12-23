@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDefaultHashCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class GetDefaultHashCest
 {
@@ -31,7 +29,7 @@ class GetDefaultHashCest
      */
     public function securityGetDefaultHash(UnitTester $I)
     {
-        $I->wantToTest("Security - getDefaultHash()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - getDefaultHash()');
+        $I->skipTest('Need implementation');
     }
 }

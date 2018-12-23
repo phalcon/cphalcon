@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class HasArgumentCest
- *
- * @package Phalcon\Test\Unit\Annotations\Annotation
  */
 class HasArgumentCest
 {
@@ -31,7 +29,7 @@ class HasArgumentCest
      */
     public function annotationsAnnotationHasArgument(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Annotation - hasArgument()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Annotation - hasArgument()');
+        $I->skipTest('Need implementation');
     }
 }

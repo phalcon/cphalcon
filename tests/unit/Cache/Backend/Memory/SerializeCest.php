@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Memory;
 
 use UnitTester;
 
+/**
+ * Class SerializeCest
+ */
 class SerializeCest
 {
     /**
@@ -25,7 +29,7 @@ class SerializeCest
      */
     public function cacheBackendMemorySerialize(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Memory - serialize()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Memory - serialize()');
+        $I->skipTest('Need implementation');
     }
 }

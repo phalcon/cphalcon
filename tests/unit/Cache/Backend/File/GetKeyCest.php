@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
+/**
+ * Class GetKeyCest
+ */
 class GetKeyCest
 {
     /**
@@ -25,7 +29,7 @@ class GetKeyCest
      */
     public function cacheBackendFileGetKey(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\File - getKey()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\File - getKey()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
+/**
+ * Class SetExtensionsCest
+ */
 class SetExtensionsCest
 {
     /**
@@ -25,7 +29,7 @@ class SetExtensionsCest
      */
     public function loaderSetExtensions(UnitTester $I)
     {
-        $I->wantToTest("Loader - setExtensions()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Loader - setExtensions()');
+        $I->skipTest('Need implementation');
     }
 }

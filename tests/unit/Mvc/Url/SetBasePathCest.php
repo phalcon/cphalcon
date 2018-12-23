@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetBasePathCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class SetBasePathCest
 {
@@ -31,7 +29,7 @@ class SetBasePathCest
      */
     public function mvcUrlSetBasePath(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - setBasePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Url - setBasePath()');
+        $I->skipTest('Need implementation');
     }
 }

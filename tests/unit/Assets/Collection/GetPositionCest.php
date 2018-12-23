@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPositionCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class GetPositionCest
 {

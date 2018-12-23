@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class CountCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class CountCest
 {

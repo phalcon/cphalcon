@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View;
 
 use UnitTester;
 
+/**
+ * Class PickCest
+ */
 class PickCest
 {
     /**
@@ -25,7 +29,7 @@ class PickCest
      */
     public function mvcViewPick(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View - pick()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View - pick()');
+        $I->skipTest('Need implementation');
     }
 }

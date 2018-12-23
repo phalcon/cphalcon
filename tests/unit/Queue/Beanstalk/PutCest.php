@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class PutCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class PutCest
 {
@@ -31,7 +29,7 @@ class PutCest
      */
     public function queueBeanstalkPut(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - put()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - put()');
+        $I->skipTest('Need implementation');
     }
 }

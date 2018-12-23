@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View\Simple;
 
 use UnitTester;
 
+/**
+ * Class GetVarCest
+ */
 class GetVarCest
 {
     /**
@@ -25,7 +29,7 @@ class GetVarCest
      */
     public function mvcViewSimpleGetVar(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View\Simple - getVar()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View\Simple - getVar()');
+        $I->skipTest('Need implementation');
     }
 }

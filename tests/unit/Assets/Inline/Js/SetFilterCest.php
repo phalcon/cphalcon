@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class SetFilterCest
- *
- * @package Phalcon\Test\Unit\Assets\Inline
  */
 class SetFilterCest
 {

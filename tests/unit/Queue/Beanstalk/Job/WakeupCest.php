@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WakeupCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class WakeupCest
 {
@@ -31,7 +29,7 @@ class WakeupCest
      */
     public function queueBeanstalkJobWakeup(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - __wakeup()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - __wakeup()');
+        $I->skipTest('Need implementation');
     }
 }

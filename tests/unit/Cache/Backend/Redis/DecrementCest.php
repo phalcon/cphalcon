@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,16 +12,13 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
-use Phalcon\Cache\Backend\Redis;
-use Phalcon\Cache\BackendInterface;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
+/**
+ * Class DecrementCest
+ */
 class DecrementCest
 {
-    use RedisTrait;
-
     /**
      * Tests Phalcon\Cache\Backend\Redis :: decrement()
      *
@@ -31,21 +29,7 @@ class DecrementCest
      */
     public function cacheBackendRedisDecrement(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Redis - decrement()");
-        $I->skipTest('TODO: Find out why the module cannot connect with the port');
-        $key   = '_PHCR' . 'decrement';
-        $cache = new Redis(new Data(['lifetime' => 20]), $this->options);
-
-        $I->dontSeeInRedis($key);
-        $I->haveInRedis('string', $key, 100);
-
-        $I->assertEquals(99, $cache->decrement('decrement'));
-        $I->seeInRedis($key, 99);
-
-        $I->assertEquals(97, $cache->decrement('decrement', 2));
-        $I->seeInRedis($key, 97);
-
-        $I->assertEquals(87, $cache->decrement('decrement', 10));
-        $I->seeInRedis($key, 87);
+        $I->wantToTest('Cache\Backend\Redis - decrement()');
+        $I->skipTest('Need implementation');
     }
 }

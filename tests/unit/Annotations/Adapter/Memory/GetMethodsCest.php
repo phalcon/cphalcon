@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetMethodsCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Memory
  */
 class GetMethodsCest
 {
@@ -31,7 +29,7 @@ class GetMethodsCest
      */
     public function annotationsAdapterMemoryGetMethods(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Memory - getMethods()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Memory - getMethods()');
+        $I->skipTest('Need implementation');
     }
 }

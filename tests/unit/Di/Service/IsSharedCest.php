@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
+/**
+ * Class IsSharedCest
+ */
 class IsSharedCest
 {
     /**
@@ -25,7 +29,7 @@ class IsSharedCest
      */
     public function diServiceIsShared(UnitTester $I)
     {
-        $I->wantToTest("Di\Service - isShared()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\Service - isShared()');
+        $I->skipTest('Need implementation');
     }
 }

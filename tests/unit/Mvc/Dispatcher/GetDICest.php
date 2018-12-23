@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDICest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetDICest
 {
@@ -31,7 +29,7 @@ class GetDICest
      */
     public function mvcDispatcherGetDI(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getDI()');
+        $I->skipTest('Need implementation');
     }
 }

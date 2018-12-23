@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetHostnameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetHostnameCest
 {
@@ -31,7 +29,7 @@ class GetHostnameCest
      */
     public function mvcRouterRouteGetHostname(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getHostname()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getHostname()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class OffsetExistsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Document
  */
 class OffsetExistsCest
 {
@@ -31,7 +29,7 @@ class OffsetExistsCest
      */
     public function mvcCollectionDocumentOffsetExists(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Document - offsetExists()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Document - offsetExists()');
+        $I->skipTest('Need implementation');
     }
 }

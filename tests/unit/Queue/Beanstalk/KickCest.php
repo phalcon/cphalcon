@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class KickCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class KickCest
 {
@@ -31,7 +29,7 @@ class KickCest
      */
     public function queueBeanstalkKick(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - kick()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - kick()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetDefaultsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class SetDefaultsCest
 {
@@ -31,7 +29,7 @@ class SetDefaultsCest
      */
     public function mvcRouterSetDefaults(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - setDefaults()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - setDefaults()');
+        $I->skipTest('Need implementation');
     }
 }

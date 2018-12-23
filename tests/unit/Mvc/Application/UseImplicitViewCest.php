@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class UseImplicitViewCest
- *
- * @package Phalcon\Test\Unit\Mvc\Application
  */
 class UseImplicitViewCest
 {
@@ -31,7 +29,7 @@ class UseImplicitViewCest
      */
     public function mvcApplicationUseImplicitView(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Application - useImplicitView()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Application - useImplicitView()');
+        $I->skipTest('Need implementation');
     }
 }

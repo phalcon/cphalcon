@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetControllerNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class GetControllerNameCest
 {
@@ -31,7 +29,7 @@ class GetControllerNameCest
      */
     public function mvcRouterAnnotationsGetControllerName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - getControllerName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - getControllerName()');
+        $I->skipTest('Need implementation');
     }
 }

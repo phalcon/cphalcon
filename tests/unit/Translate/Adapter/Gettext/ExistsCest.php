@@ -12,19 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
-use Phalcon\Translate\Adapter\Gettext;
 use UnitTester;
 
 /**
  * Class ExistsCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class ExistsCest
 {
-    use TranslateTrait;
-
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: exists()
      *
@@ -36,11 +30,6 @@ class ExistsCest
     public function translateAdapterGettextExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - exists()');
-        $params     = $this->getGettextConfig();
-        $translator = new Gettext($params);
-
-        $I->assertFalse($translator->exists('更多的中国'));
-        $I->assertFalse($translator->exists('Some non-existent string string'));
-        $I->assertTrue($translator->exists('你好！'));
+        $I->skipTest('Need implementation');
     }
 }

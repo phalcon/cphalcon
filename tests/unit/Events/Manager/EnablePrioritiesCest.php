@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Events\Manager;
 
 use UnitTester;
 
+/**
+ * Class EnablePrioritiesCest
+ */
 class EnablePrioritiesCest
 {
     /**
@@ -25,7 +29,7 @@ class EnablePrioritiesCest
      */
     public function eventsManagerEnablePriorities(UnitTester $I)
     {
-        $I->wantToTest("Events\Manager - enablePriorities()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Events\Manager - enablePriorities()');
+        $I->skipTest('Need implementation');
     }
 }

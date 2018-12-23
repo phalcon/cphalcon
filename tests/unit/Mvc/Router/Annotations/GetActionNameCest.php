@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetActionNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class GetActionNameCest
 {
@@ -31,7 +29,7 @@ class GetActionNameCest
      */
     public function mvcRouterAnnotationsGetActionName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - getActionName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - getActionName()');
+        $I->skipTest('Need implementation');
     }
 }

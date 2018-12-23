@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class BuryCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class BuryCest
 {
@@ -31,7 +29,7 @@ class BuryCest
      */
     public function queueBeanstalkJobBury(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - bury()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - bury()');
+        $I->skipTest('Need implementation');
     }
 }

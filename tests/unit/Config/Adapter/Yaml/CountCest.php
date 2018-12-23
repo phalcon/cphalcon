@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,13 +15,16 @@ namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
+/**
+ * Class CountCest
+ */
 class CountCest
 {
     use ConfigTrait;
 
     /**
-     * @param UnitTester $I
-     */
+ * Class CountCest
+ */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('yaml');

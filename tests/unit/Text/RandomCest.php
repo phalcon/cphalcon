@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class RandomCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class RandomCest
 {

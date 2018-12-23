@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class StartsWithCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class StartsWithCest
 {

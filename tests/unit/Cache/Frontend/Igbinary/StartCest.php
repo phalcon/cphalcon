@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Igbinary;
 
 use UnitTester;
 
+/**
+ * Class StartCest
+ */
 class StartCest
 {
     /**
@@ -25,7 +29,7 @@ class StartCest
      */
     public function cacheFrontendIgbinaryStart(UnitTester $I)
     {
-        $I->wantToTest("Cache\Frontend\Igbinary - start()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Frontend\Igbinary - start()');
+        $I->skipTest('Need implementation');
     }
 }

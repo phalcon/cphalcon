@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetNoArgumentsDefaultActionCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class SetNoArgumentsDefaultActionCest
 {
