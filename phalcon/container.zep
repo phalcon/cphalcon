@@ -13,7 +13,7 @@ namespace Phalcon;
 use Psr\Container\ContainerInterface;
 use Phalcon\DiInterface;
 
-final class Container implements ContainerInterface
+class Container implements ContainerInterface
 {
 	/**
 	 * @var <DiInterface>
