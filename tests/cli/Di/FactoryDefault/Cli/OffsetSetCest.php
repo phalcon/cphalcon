@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class OffsetSetCest
+ */
 class OffsetSetCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: offsetSet()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliOffsetSet(CliTester $I)
+    public function diFactorydefaultCliOffsetSet(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault\Cli - offsetSet()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault\Cli - offsetSet()');
+        $I->skipTest('Need implementation');
     }
 }

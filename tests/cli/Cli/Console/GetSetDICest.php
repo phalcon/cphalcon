@@ -14,26 +14,26 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class GetDICest
+ * Class GetSetDICest
  */
-class GetDICest
+class GetSetDICest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Console :: getDI()
+     * Tests Phalcon\Cli\Console :: getDI()/setDI()
      *
      * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliConsoleGetDI(CliTester $I)
+    public function cliConsoleGetSetDI(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - getDI()");
-        $I->wantToTest("Cli\Console - setDI()");
+        $I->wantToTest('Cli\Console - getDI()/setDI()');
         $container = $this->newCliFactoryDefault();
 
         $console = $this->newCliConsole();

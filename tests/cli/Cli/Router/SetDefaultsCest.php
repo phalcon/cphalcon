@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Router;
+namespace Phalcon\Test\Unit\Cli\Router;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class SetDefaultsCest
+ */
 class SetDefaultsCest
 {
     /**
      * Tests Phalcon\Cli\Router :: setDefaults()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterSetDefaults(CliTester $I)
+    public function cliRouterSetDefaults(UnitTester $I)
     {
-        $I->wantToTest("Cli\Router - setDefaults()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Router - setDefaults()');
+        $I->skipTest('Need implementation');
     }
 }

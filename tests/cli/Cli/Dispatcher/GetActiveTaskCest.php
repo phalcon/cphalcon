@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Test\Unit\Cli\Dispatcher;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class GetActiveTaskCest
+ */
 class GetActiveTaskCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: getActiveTask()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherGetActiveTask(CliTester $I)
+    public function cliDispatcherGetActiveTask(UnitTester $I)
     {
-        $I->wantToTest("Cli\Dispatcher - getActiveTask()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Dispatcher - getActiveTask()');
+        $I->skipTest('Need implementation');
     }
 }

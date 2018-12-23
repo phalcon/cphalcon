@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Console;
+namespace Phalcon\Test\Unit\Cli\Console;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class GetDefaultModuleCest
+ */
 class GetDefaultModuleCest
 {
     /**
      * Tests Phalcon\Cli\Console :: getDefaultModule()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliConsoleGetDefaultModule(CliTester $I)
+    public function cliConsoleGetDefaultModule(UnitTester $I)
     {
-        $I->wantToTest("Cli\Console - getDefaultModule()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Console - getDefaultModule()');
+        $I->skipTest('Need implementation');
     }
 }

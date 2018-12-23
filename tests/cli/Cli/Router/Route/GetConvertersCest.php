@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Router\Route;
+namespace Phalcon\Test\Unit\Cli\Router\Route;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class GetConvertersCest
+ */
 class GetConvertersCest
 {
     /**
      * Tests Phalcon\Cli\Router\Route :: getConverters()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterRouteGetConverters(CliTester $I)
+    public function cliRouterRouteGetConverters(UnitTester $I)
     {
-        $I->wantToTest("Cli\Router\Route - getConverters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Router\Route - getConverters()');
+        $I->skipTest('Need implementation');
     }
 }

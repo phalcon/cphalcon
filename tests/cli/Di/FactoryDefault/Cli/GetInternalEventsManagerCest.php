@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class GetInternalEventsManagerCest
+ */
 class GetInternalEventsManagerCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: getInternalEventsManager()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliGetInternalEventsManager(CliTester $I)
+    public function diFactorydefaultCliGetInternalEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault\Cli - getInternalEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault\Cli - getInternalEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

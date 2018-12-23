@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Test\Unit\Cli\Dispatcher;
 
-use CliTester;
+use UnitTester;
 
+/**
+ * Class SetParamCest
+ */
 class SetParamCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: setParam()
      *
-     * @param CliTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherSetParam(CliTester $I)
+    public function cliDispatcherSetParam(UnitTester $I)
     {
-        $I->wantToTest("Cli\Dispatcher - setParam()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Dispatcher - setParam()');
+        $I->skipTest('Need implementation');
     }
 }

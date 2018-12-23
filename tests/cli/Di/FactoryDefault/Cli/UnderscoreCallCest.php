@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 
+/**
+ * Class UnderscoreCallCest
+ */
 class UnderscoreCallCest
 {
     /**
@@ -25,7 +29,7 @@ class UnderscoreCallCest
      */
     public function diFactorydefaultCliUnderscoreCall(CliTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault\Cli - __call()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault\Cli - __call()');
+        $I->skipTest('Need implementation');
     }
 }
