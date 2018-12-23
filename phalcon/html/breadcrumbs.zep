@@ -15,7 +15,9 @@ use Phalcon\DiInterface;
 /**
  * Phalcon\Html\Breadcrumbs
  *
- * Handles the breadcrumbs for the application.
+ * This component offers an easy way to create breadcrumbs for your application.
+ * The resulting HTML when calling `render()` will have each breadcrumb enclosed
+ * in `<dt>` tags, while the whole string is enclosed in `<dl>` tags.
  */
 class Breadcrumbs
 {
@@ -34,11 +36,11 @@ class Breadcrumbs
     private separator = " / " { get, set };
 
     /**
-     * Array holding output template
+     * The HTML template to use to render the breadcrumbs.
      * 
-     * @var array
+     * @var string
      */
-    private template = "<li><a href=\"%link%\">%label%</a></li>";
+    private template = "<dt><a href=\"%link%\">%label%</a></dt>";
 
     /**
      * Adds a new crumb.
@@ -80,11 +82,15 @@ class Breadcrumbs
      * $breadcrumbs->remove();
      * </code>
      */
-    public function remove(string link) -> <Breadcrumbs>
+    public function remove(string link) -> void
     {
-		unset(this->elements[link]);
+    	var elements;
 
-        return this;
+    	let elements = this->elements;
+
+    	unset(elements[link]);
+
+    	let this->elements = elements;
     }
 
     /**
@@ -92,12 +98,10 @@ class Breadcrumbs
      *
      * <code>
      * // Php Engine
-     * $breadcrumbs->render();
+     * echo $breadcrumbs->render();
      * </code>
-     *
-     * @return string
      */
-    public function render()
+    public function render() -> string
     {
     	var element, elements, lastLabel, lastUrl, output, template, url, urls;
 
@@ -111,10 +115,10 @@ class Breadcrumbs
         unset(elements[lastUrl]);
 
 		for url, element in elements {
-			let output = str_replace(
+			let output[] = str_replace(
 				[
 					"%label%",
-					"%url%"
+					"%link%"
 				],
 				[
 					element,
@@ -128,12 +132,12 @@ class Breadcrumbs
          * Check if this is the "Home" element i.e. count() = 0
          */
 		if 0 !== count(elements) {
-			let elements[] = lastLabel;
+			let output[] = "<dt>" . lastLabel . "</dt>";
         } else {
-			let elements[] = str_replace(
+			let output[] = str_replace(
 				[
 					"%label%",
-					"%url%"
+					"%link%"
 				],
 				[
 					lastLabel,
@@ -143,23 +147,7 @@ class Breadcrumbs
 			);
 		}
 
-		return implode(this->separator, elements);
-    }
-
-    /**
-     * Sets rendering template.
-     *
-     * <code>
-     * $breadcrumbs->setTemplate(
-     *     "<li><a href="%link%">%label%</a></li>"
-     * );
-     * </code>
-     */
-    public function setTemplate(string template = "") -> <Breadcrumbs>
-    {
-		let this->template = template;
-
-        return this;
+		return "<dl>" . implode("<dt>" . this->separator . "</dt>", output) . "</dl>";
     }
 
     /**
