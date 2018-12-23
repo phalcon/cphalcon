@@ -97,6 +97,7 @@
     - the `Phalcon\Session\Bag` using the name `sessionBag` 
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
 - Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Files`, `Phalcon\Session\Libmemcached`, `Phalcon\Session\Noop` and `Phalcon\Session\Redis`.  [#12921](https://github.com/phalcon/cphalcon/issues/12833), (https://github.com/phalcon/cphalcon/issues/11341), (https://github.com/phalcon/cphalcon/issues/13535)
+- Changed the license header for all `phalcon` files; Added same header in all tests as well as `declare(strict_types=1);` [#13684](https://github.com/phalcon/cphalcon/issues/13684)
 
 ## Removed
 - PHP < 7.2 no longer supported
