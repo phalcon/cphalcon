@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetTaskSuffixCest
@@ -22,12 +22,12 @@ class SetTaskSuffixCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: setTaskSuffix()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherSetTaskSuffix(UnitTester $I)
+    public function cliDispatcherSetTaskSuffix(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - setTaskSuffix()');
         $I->skipTest('Need implementation');

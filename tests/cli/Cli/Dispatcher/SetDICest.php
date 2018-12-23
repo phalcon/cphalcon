@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetDICest
@@ -22,12 +22,12 @@ class SetDICest
     /**
      * Tests Phalcon\Cli\Dispatcher :: setDI()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherSetDI(UnitTester $I)
+    public function cliDispatcherSetDI(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - setDI()');
         $I->skipTest('Need implementation');

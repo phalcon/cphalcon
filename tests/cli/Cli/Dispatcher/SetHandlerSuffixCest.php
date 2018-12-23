@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetHandlerSuffixCest
@@ -22,12 +22,12 @@ class SetHandlerSuffixCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: setHandlerSuffix()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherSetHandlerSuffix(UnitTester $I)
+    public function cliDispatcherSetHandlerSuffix(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - setHandlerSuffix()');
         $I->skipTest('Need implementation');

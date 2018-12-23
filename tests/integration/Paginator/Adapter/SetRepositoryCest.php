@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Adapter;
 
 use IntegrationTester;
 
-class SetValidatorsCest
+/**
+ * Class SetRepositoryCest
+ */
+class SetRepositoryCest
 {
     /**
-     * Tests Phalcon\Validation :: setValidators()
+     * Tests Phalcon\Paginator\Adapter :: setRepository()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationSetValidators(IntegrationTester $I)
+    public function paginatorAdapterSetRepository(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - setValidators()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter - setRepository()');
+        $I->skipTest('Need implementation');
     }
 }

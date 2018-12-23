@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Repository;
 
 use IntegrationTester;
 
-class SetEventsManagerCest
+/**
+ * Class GetFirstCest
+ */
+class GetFirstCest
 {
     /**
-     * Tests Phalcon\Validation :: setEventsManager()
+     * Tests Phalcon\Paginator\Repository :: getFirst()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationSetEventsManager(IntegrationTester $I)
+    public function paginatorRepositoryGetFirst(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - setEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Repository - getFirst()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetCest
@@ -22,12 +22,12 @@ class SetCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: set()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliSet(UnitTester $I)
+    public function diFactorydefaultCliSet(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - set()');
         $I->skipTest('Need implementation');

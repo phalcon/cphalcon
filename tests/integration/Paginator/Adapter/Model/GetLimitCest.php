@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\Model;
 
 use IntegrationTester;
 
+/**
+ * Class GetLimitCest
+ */
 class GetLimitCest
 {
     /**
@@ -25,7 +29,7 @@ class GetLimitCest
      */
     public function paginatorAdapterModelGetLimit(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\Model - getLimit()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter\Model - getLimit()');
+        $I->skipTest('Need implementation');
     }
 }

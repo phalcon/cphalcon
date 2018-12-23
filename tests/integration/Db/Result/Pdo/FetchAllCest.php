@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
+/**
+ * Class FetchAllCest
+ */
 class FetchAllCest
 {
     /**
@@ -25,7 +29,7 @@ class FetchAllCest
      */
     public function dbResultPdoFetchAll(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Result\Pdo - fetchAll()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Result\Pdo - fetchAll()');
+        $I->skipTest('Need implementation');
     }
 }

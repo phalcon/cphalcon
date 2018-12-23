@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Submit;
 
 use IntegrationTester;
 
+/**
+ * Class SetUserOptionCest
+ */
 class SetUserOptionCest
 {
     /**
@@ -25,7 +29,7 @@ class SetUserOptionCest
      */
     public function formsElementSubmitSetUserOption(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Submit - setUserOption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Submit - setUserOption()');
+        $I->skipTest('Need implementation');
     }
 }

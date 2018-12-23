@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
 
+/**
+ * Class RemoveCest
+ */
 class RemoveCest
 {
     /**
@@ -25,7 +29,7 @@ class RemoveCest
      */
     public function formsFormRemove(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Form - remove()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Form - remove()');
+        $I->skipTest('Need implementation');
     }
 }

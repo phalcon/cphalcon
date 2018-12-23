@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Task;
+namespace Phalcon\Test\Cli\Cli\Task;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetEventsManagerCest
@@ -22,12 +22,12 @@ class GetEventsManagerCest
     /**
      * Tests Phalcon\Cli\Task :: getEventsManager()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliTaskGetEventsManager(UnitTester $I)
+    public function cliTaskGetEventsManager(CliTester $I)
     {
         $I->wantToTest('Cli\Task - getEventsManager()');
         $I->skipTest('Need implementation');

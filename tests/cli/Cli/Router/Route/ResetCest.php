@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router\Route;
+namespace Phalcon\Test\Cli\Cli\Router\Route;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class ResetCest
@@ -22,12 +22,12 @@ class ResetCest
     /**
      * Tests Phalcon\Cli\Router\Route :: reset()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterRouteReset(UnitTester $I)
+    public function cliRouterRouteReset(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - reset()');
         $I->skipTest('Need implementation');

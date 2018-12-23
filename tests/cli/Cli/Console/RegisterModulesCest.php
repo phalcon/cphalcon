@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Console;
+namespace Phalcon\Test\Cli\Cli\Console;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class RegisterModulesCest
@@ -22,12 +22,12 @@ class RegisterModulesCest
     /**
      * Tests Phalcon\Cli\Console :: registerModules()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliConsoleRegisterModules(UnitTester $I)
+    public function cliConsoleRegisterModules(CliTester $I)
     {
         $I->wantToTest('Cli\Console - registerModules()');
         $I->skipTest('Need implementation');

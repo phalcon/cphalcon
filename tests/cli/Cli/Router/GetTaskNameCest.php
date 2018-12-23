@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router;
+namespace Phalcon\Test\Cli\Cli\Router;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetTaskNameCest
@@ -22,12 +22,12 @@ class GetTaskNameCest
     /**
      * Tests Phalcon\Cli\Router :: getTaskName()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterGetTaskName(UnitTester $I)
+    public function cliRouterGetTaskName(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getTaskName()');
         $I->skipTest('Need implementation');

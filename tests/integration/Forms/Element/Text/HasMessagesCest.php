@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Text;
 
 use IntegrationTester;
 
+/**
+ * Class HasMessagesCest
+ */
 class HasMessagesCest
 {
     /**
@@ -25,7 +29,7 @@ class HasMessagesCest
      */
     public function formsElementTextHasMessages(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Text - hasMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Text - hasMessages()');
+        $I->skipTest('Need implementation');
     }
 }

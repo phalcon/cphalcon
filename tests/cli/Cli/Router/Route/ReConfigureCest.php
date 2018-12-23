@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router\Route;
+namespace Phalcon\Test\Cli\Cli\Router\Route;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class ReConfigureCest
@@ -22,12 +22,12 @@ class ReConfigureCest
     /**
      * Tests Phalcon\Cli\Router\Route :: reConfigure()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterRouteReConfigure(UnitTester $I)
+    public function cliRouterRouteReConfigure(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - reConfigure()');
         $I->skipTest('Need implementation');

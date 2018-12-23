@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
 
 use IntegrationTester;
 
-class GetMessagesCest
+/**
+ * Class SetRepositoryCest
+ */
+class SetRepositoryCest
 {
     /**
-     * Tests Phalcon\Validation :: getMessages()
+     * Tests Phalcon\Paginator\Adapter\NativeArray :: setRepository()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationGetMessages(IntegrationTester $I)
+    public function paginatorAdapterNativearraySetRepository(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - getMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter\NativeArray - setRepository()');
+        $I->skipTest('Need implementation');
     }
 }

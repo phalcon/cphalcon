@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class LoadFromYamlCest
@@ -22,12 +22,12 @@ class LoadFromYamlCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: loadFromYaml()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliLoadFromYaml(UnitTester $I)
+    public function diFactorydefaultCliLoadFromYaml(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - loadFromYaml()');
         $I->skipTest('Need implementation');

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Password;
 
 use IntegrationTester;
 
+/**
+ * Class GetValidatorsCest
+ */
 class GetValidatorsCest
 {
     /**
@@ -25,7 +29,7 @@ class GetValidatorsCest
      */
     public function formsElementPasswordGetValidators(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Password - getValidators()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Password - getValidators()');
+        $I->skipTest('Need implementation');
     }
 }

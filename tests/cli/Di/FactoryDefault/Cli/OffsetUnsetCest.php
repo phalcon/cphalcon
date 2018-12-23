@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class OffsetUnsetCest
@@ -22,12 +22,12 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: offsetUnset()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliOffsetUnset(UnitTester $I)
+    public function diFactorydefaultCliOffsetUnset(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - offsetUnset()');
         $I->skipTest('Need implementation');

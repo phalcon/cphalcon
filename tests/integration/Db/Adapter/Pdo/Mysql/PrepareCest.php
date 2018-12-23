@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
+/**
+ * Class PrepareCest
+ */
 class PrepareCest
 {
     /**
@@ -25,7 +29,7 @@ class PrepareCest
      */
     public function dbAdapterPdoMysqlPrepare(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Mysql - prepare()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Mysql - prepare()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Radio;
 
 use IntegrationTester;
 
+/**
+ * Class SetUserOptionsCest
+ */
 class SetUserOptionsCest
 {
     /**
@@ -25,7 +29,7 @@ class SetUserOptionsCest
      */
     public function formsElementRadioSetUserOptions(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Radio - setUserOptions()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Radio - setUserOptions()');
+        $I->skipTest('Need implementation');
     }
 }

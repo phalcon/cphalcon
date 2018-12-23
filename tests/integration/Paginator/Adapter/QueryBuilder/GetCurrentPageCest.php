@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
 
+/**
+ * Class GetCurrentPageCest
+ */
 class GetCurrentPageCest
 {
     /**
@@ -25,7 +29,7 @@ class GetCurrentPageCest
      */
     public function paginatorAdapterQuerybuilderGetCurrentPage(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\QueryBuilder - getCurrentPage()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter\QueryBuilder - getCurrentPage()');
+        $I->skipTest('Need implementation');
     }
 }

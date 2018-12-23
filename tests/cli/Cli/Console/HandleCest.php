@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Console;
+namespace Phalcon\Test\Cli\Cli\Console;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class HandleCest
@@ -22,12 +22,12 @@ class HandleCest
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliConsoleHandle(UnitTester $I)
+    public function cliConsoleHandle(CliTester $I)
     {
         $I->wantToTest('Cli\Console - handle()');
         $I->skipTest('Need implementation');

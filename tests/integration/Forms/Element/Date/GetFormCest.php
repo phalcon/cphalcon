@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Date;
 
 use IntegrationTester;
 
+/**
+ * Class GetFormCest
+ */
 class GetFormCest
 {
     /**
@@ -25,7 +29,7 @@ class GetFormCest
      */
     public function formsElementDateGetForm(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Date - getForm()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Date - getForm()');
+        $I->skipTest('Need implementation');
     }
 }

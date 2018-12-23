@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
+/**
+ * Class DescribeColumnsCest
+ */
 class DescribeColumnsCest
 {
     /**
@@ -25,7 +29,7 @@ class DescribeColumnsCest
      */
     public function dbDialectSqliteDescribeColumns(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Sqlite - describeColumns()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Sqlite - describeColumns()');
+        $I->skipTest('Need implementation');
     }
 }

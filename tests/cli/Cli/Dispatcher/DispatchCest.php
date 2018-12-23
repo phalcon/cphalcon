@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class DispatchCest
@@ -22,12 +22,12 @@ class DispatchCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: dispatch()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherDispatch(UnitTester $I)
+    public function cliDispatcherDispatch(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - dispatch()');
         $I->skipTest('Need implementation');

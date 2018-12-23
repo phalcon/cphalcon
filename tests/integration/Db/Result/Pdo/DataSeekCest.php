@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
+/**
+ * Class DataSeekCest
+ */
 class DataSeekCest
 {
     /**
@@ -25,7 +29,7 @@ class DataSeekCest
      */
     public function dbResultPdoDataSeek(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Result\Pdo - dataSeek()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Result\Pdo - dataSeek()');
+        $I->skipTest('Need implementation');
     }
 }

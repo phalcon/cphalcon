@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetParamsCest
@@ -22,12 +22,12 @@ class SetParamsCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: setParams()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherSetParams(UnitTester $I)
+    public function cliDispatcherSetParams(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - setParams()');
         $I->skipTest('Need implementation');

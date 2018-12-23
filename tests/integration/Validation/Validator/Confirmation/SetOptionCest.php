@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Confirmation;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class SetOptionCest
      */
     public function validationValidatorConfirmationSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Confirmation - setOption()");
+        $I->wantToTest('Validation\Validator\Confirmation - setOption()');
         $validator = new Confirmation();
         $this->checkSetOption($I, $validator);
     }

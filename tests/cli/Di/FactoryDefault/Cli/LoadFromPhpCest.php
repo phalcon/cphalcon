@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class LoadFromPhpCest
@@ -22,12 +22,12 @@ class LoadFromPhpCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: loadFromPhp()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliLoadFromPhp(UnitTester $I)
+    public function diFactorydefaultCliLoadFromPhp(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - loadFromPhp()');
         $I->skipTest('Need implementation');

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
 
+/**
+ * Class ForUpdateCest
+ */
 class ForUpdateCest
 {
     /**
@@ -25,7 +29,7 @@ class ForUpdateCest
      */
     public function dbAdapterPdoSqliteForUpdate(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Sqlite - forUpdate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Sqlite - forUpdate()');
+        $I->skipTest('Need implementation');
     }
 }

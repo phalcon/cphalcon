@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Adapter;
 
 use IntegrationTester;
 
-class GetDICest
+/**
+ * Class ConstructCest
+ */
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Validation :: getDI()
+     * Tests Phalcon\Paginator\Adapter :: __construct()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationGetDI(IntegrationTester $I)
+    public function paginatorAdapterConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

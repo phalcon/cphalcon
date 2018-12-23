@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router\Route;
+namespace Phalcon\Test\Cli\Cli\Router\Route;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetPathsCest
@@ -22,12 +22,12 @@ class GetPathsCest
     /**
      * Tests Phalcon\Cli\Router\Route :: getPaths()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterRouteGetPaths(UnitTester $I)
+    public function cliRouterRouteGetPaths(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - getPaths()');
         $I->skipTest('Need implementation');

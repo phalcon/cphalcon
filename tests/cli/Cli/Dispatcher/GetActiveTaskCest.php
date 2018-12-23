@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetActiveTaskCest
@@ -22,12 +22,12 @@ class GetActiveTaskCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: getActiveTask()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherGetActiveTask(UnitTester $I)
+    public function cliDispatcherGetActiveTask(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getActiveTask()');
         $I->skipTest('Need implementation');

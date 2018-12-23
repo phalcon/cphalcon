@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Task;
+namespace Phalcon\Test\Cli\Cli\Task;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetEventsManagerCest
@@ -22,12 +22,12 @@ class SetEventsManagerCest
     /**
      * Tests Phalcon\Cli\Task :: setEventsManager()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliTaskSetEventsManager(UnitTester $I)
+    public function cliTaskSetEventsManager(CliTester $I)
     {
         $I->wantToTest('Cli\Task - setEventsManager()');
         $I->skipTest('Need implementation');

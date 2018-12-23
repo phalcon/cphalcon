@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,19 +14,22 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
 
-class GetPaginateCest
+/**
+ * Class SetRepositoryCest
+ */
+class SetRepositoryCest
 {
     /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getPaginate()
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: setRepository()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function paginatorAdapterQuerybuilderGetPaginate(IntegrationTester $I)
+    public function paginatorAdapterQuerybuilderSetRepository(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\QueryBuilder - getPaginate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter\QueryBuilder - setRepository()');
+        $I->skipTest('Need implementation');
     }
 }

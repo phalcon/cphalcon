@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Task;
+namespace Phalcon\Test\Cli\Cli\Task;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetDICest
@@ -22,12 +22,12 @@ class SetDICest
     /**
      * Tests Phalcon\Cli\Task :: setDI()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliTaskSetDI(UnitTester $I)
+    public function cliTaskSetDI(CliTester $I)
     {
         $I->wantToTest('Cli\Task - setDI()');
         $I->skipTest('Need implementation');

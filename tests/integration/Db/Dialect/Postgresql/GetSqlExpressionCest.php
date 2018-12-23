@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
 
+/**
+ * Class GetSqlExpressionCest
+ */
 class GetSqlExpressionCest
 {
     /**
@@ -25,7 +29,7 @@ class GetSqlExpressionCest
      */
     public function dbDialectPostgresqlGetSqlExpression(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Postgresql - getSqlExpression()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Postgresql - getSqlExpression()');
+        $I->skipTest('Need implementation');
     }
 }

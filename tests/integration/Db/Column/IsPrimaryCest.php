@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class IsPrimaryCest
+ */
 class IsPrimaryCest
 {
     use DiTrait;

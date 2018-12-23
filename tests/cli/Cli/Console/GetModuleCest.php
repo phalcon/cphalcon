@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Console;
+namespace Phalcon\Test\Cli\Cli\Console;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetModuleCest
@@ -22,12 +22,12 @@ class GetModuleCest
     /**
      * Tests Phalcon\Cli\Console :: getModule()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliConsoleGetModule(UnitTester $I)
+    public function cliConsoleGetModule(CliTester $I)
     {
         $I->wantToTest('Cli\Console - getModule()');
         $I->skipTest('Need implementation');

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Profiler\Item;
 
 use IntegrationTester;
 
+/**
+ * Class GetFinalTimeCest
+ */
 class GetFinalTimeCest
 {
     /**
@@ -25,7 +29,7 @@ class GetFinalTimeCest
      */
     public function dbProfilerItemGetFinalTime(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Profiler\Item - getFinalTime()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Profiler\Item - getFinalTime()');
+        $I->skipTest('Need implementation');
     }
 }

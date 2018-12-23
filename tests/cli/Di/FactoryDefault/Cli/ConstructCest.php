@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class ConstructCest
@@ -22,12 +22,12 @@ class ConstructCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: __construct()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliConstruct(UnitTester $I)
+    public function diFactorydefaultCliConstruct(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - __construct()');
         $I->skipTest('Need implementation');

@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router;
+namespace Phalcon\Test\Cli\Cli\Router;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetRouteByIdCest
@@ -22,12 +22,12 @@ class GetRouteByIdCest
     /**
      * Tests Phalcon\Cli\Router :: getRouteById()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterGetRouteById(UnitTester $I)
+    public function cliRouterGetRouteById(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getRouteById()');
         $I->skipTest('Need implementation');

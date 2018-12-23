@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetCest
@@ -22,12 +22,12 @@ class GetCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: get()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliGet(UnitTester $I)
+    public function diFactorydefaultCliGet(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - get()');
         $I->skipTest('Need implementation');

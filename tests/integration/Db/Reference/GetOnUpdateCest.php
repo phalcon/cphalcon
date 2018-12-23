@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
 
+/**
+ * Class GetOnUpdateCest
+ */
 class GetOnUpdateCest
 {
     /**
@@ -25,7 +29,7 @@ class GetOnUpdateCest
      */
     public function dbReferenceGetOnUpdate(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Reference - getOnUpdate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Reference - getOnUpdate()');
+        $I->skipTest('Need implementation');
     }
 }

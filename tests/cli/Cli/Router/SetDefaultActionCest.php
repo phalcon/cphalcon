@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router;
+namespace Phalcon\Test\Cli\Cli\Router;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class SetDefaultActionCest
@@ -22,12 +22,12 @@ class SetDefaultActionCest
     /**
      * Tests Phalcon\Cli\Router :: setDefaultAction()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterSetDefaultAction(UnitTester $I)
+    public function cliRouterSetDefaultAction(CliTester $I)
     {
         $I->wantToTest('Cli\Router - setDefaultAction()');
         $I->skipTest('Need implementation');

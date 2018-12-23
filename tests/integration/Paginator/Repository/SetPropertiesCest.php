@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Repository;
 
 use IntegrationTester;
 
-class UnderscoreGetCest
+/**
+ * Class SetPropertiesCest
+ */
+class SetPropertiesCest
 {
     /**
-     * Tests Phalcon\Validation :: __get()
+     * Tests Phalcon\Paginator\Repository :: setProperties()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationUnderscoreGet(IntegrationTester $I)
+    public function paginatorRepositorySetProperties(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - __get()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Repository - setProperties()');
+        $I->skipTest('Need implementation');
     }
 }

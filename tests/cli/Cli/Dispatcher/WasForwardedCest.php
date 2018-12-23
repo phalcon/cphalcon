@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class WasForwardedCest
@@ -22,12 +22,12 @@ class WasForwardedCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: wasForwarded()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherWasForwarded(UnitTester $I)
+    public function cliDispatcherWasForwarded(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - wasForwarded()');
         $I->skipTest('Need implementation');

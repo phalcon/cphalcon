@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
+namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetRawCest
@@ -22,12 +22,12 @@ class GetRawCest
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: getRaw()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultCliGetRaw(UnitTester $I)
+    public function diFactorydefaultCliGetRaw(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - getRaw()');
         $I->skipTest('Need implementation');

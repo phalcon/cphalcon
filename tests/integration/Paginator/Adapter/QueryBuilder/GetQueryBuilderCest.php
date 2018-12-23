@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
 
+/**
+ * Class GetQueryBuilderCest
+ */
 class GetQueryBuilderCest
 {
     /**
@@ -25,7 +29,7 @@ class GetQueryBuilderCest
      */
     public function paginatorAdapterQuerybuilderGetQueryBuilder(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\QueryBuilder - getQueryBuilder()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter\QueryBuilder - getQueryBuilder()');
+        $I->skipTest('Need implementation');
     }
 }

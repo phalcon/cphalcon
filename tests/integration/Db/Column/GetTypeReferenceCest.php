@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
 
+/**
+ * Class GetTypeReferenceCest
+ */
 class GetTypeReferenceCest
 {
     /**
@@ -25,7 +29,7 @@ class GetTypeReferenceCest
      */
     public function dbColumnGetTypeReference(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Column - getTypeReference()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Column - getTypeReference()');
+        $I->skipTest('Need implementation');
     }
 }

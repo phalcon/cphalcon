@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Router\Route;
+namespace Phalcon\Test\Cli\Cli\Router\Route;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetBeforeMatchCest
@@ -22,12 +22,12 @@ class GetBeforeMatchCest
     /**
      * Tests Phalcon\Cli\Router\Route :: getBeforeMatch()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliRouterRouteGetBeforeMatch(UnitTester $I)
+    public function cliRouterRouteGetBeforeMatch(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - getBeforeMatch()');
         $I->skipTest('Need implementation');

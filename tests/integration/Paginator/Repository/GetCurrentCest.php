@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Repository;
 
 use IntegrationTester;
 
-class SetDefaultMessagesCest
+/**
+ * Class GetCurrentCest
+ */
+class GetCurrentCest
 {
     /**
-     * Tests Phalcon\Validation :: setDefaultMessages()
+     * Tests Phalcon\Paginator\Repository :: getCurrent()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationSetDefaultMessages(IntegrationTester $I)
+    public function paginatorRepositoryGetCurrent(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - setDefaultMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Repository - getCurrent()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Date;
 
 use IntegrationTester;
 
+/**
+ * Class LabelCest
+ */
 class LabelCest
 {
     /**
@@ -25,7 +29,7 @@ class LabelCest
      */
     public function formsElementDateLabel(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Date - label()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Date - label()');
+        $I->skipTest('Need implementation');
     }
 }

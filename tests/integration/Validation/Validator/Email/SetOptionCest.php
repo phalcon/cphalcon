@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Email;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class SetOptionCest
      */
     public function validationValidatorEmailSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Email - setOption()");
+        $I->wantToTest('Validation\Validator\Email - setOption()');
         $validator = new Email();
         $this->checkSetOption($I, $validator);
     }

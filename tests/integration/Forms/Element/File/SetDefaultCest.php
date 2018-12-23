@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\File;
 
 use IntegrationTester;
 
+/**
+ * Class SetDefaultCest
+ */
 class SetDefaultCest
 {
     /**
@@ -25,7 +29,7 @@ class SetDefaultCest
      */
     public function formsElementFileSetDefault(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\File - setDefault()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\File - setDefault()');
+        $I->skipTest('Need implementation');
     }
 }

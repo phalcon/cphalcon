@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Dispatcher;
+namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class GetOptionCest
@@ -22,12 +22,12 @@ class GetOptionCest
     /**
      * Tests Phalcon\Cli\Dispatcher :: getOption()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliDispatcherGetOption(UnitTester $I)
+    public function cliDispatcherGetOption(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getOption()');
         $I->skipTest('Need implementation');

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Adapter;
 
 use IntegrationTester;
 
-class BindCest
+/**
+ * Class GetLimitCest
+ */
+class GetLimitCest
 {
     /**
-     * Tests Phalcon\Validation :: bind()
+     * Tests Phalcon\Paginator\Adapter :: getLimit()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationBind(IntegrationTester $I)
+    public function paginatorAdapterGetLimit(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - bind()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter - getLimit()');
+        $I->skipTest('Need implementation');
     }
 }

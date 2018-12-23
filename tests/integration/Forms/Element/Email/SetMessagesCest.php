@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Email;
 
 use IntegrationTester;
 
+/**
+ * Class SetMessagesCest
+ */
 class SetMessagesCest
 {
     /**
@@ -25,7 +29,7 @@ class SetMessagesCest
      */
     public function formsElementEmailSetMessages(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Email - setMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Email - setMessages()');
+        $I->skipTest('Need implementation');
     }
 }

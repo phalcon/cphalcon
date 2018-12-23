@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Integration\Paginator\Repository;
 
 use IntegrationTester;
 
-class GetDataCest
+/**
+ * Class SetAliasesCest
+ */
+class SetAliasesCest
 {
     /**
-     * Tests Phalcon\Validation :: getData()
+     * Tests Phalcon\Paginator\Repository :: setAliases()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function validationGetData(IntegrationTester $I)
+    public function paginatorRepositorySetAliases(IntegrationTester $I)
     {
-        $I->wantToTest("Validation - getData()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Repository - setAliases()');
+        $I->skipTest('Need implementation');
     }
 }

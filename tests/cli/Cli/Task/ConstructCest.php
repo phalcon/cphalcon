@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli\Task;
+namespace Phalcon\Test\Cli\Cli\Task;
 
-use UnitTester;
+use CliTester;
 
 /**
  * Class ConstructCest
@@ -22,12 +22,12 @@ class ConstructCest
     /**
      * Tests Phalcon\Cli\Task :: __construct()
      *
-     * @param UnitTester $I
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cliTaskConstruct(UnitTester $I)
+    public function cliTaskConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Task - __construct()');
         $I->skipTest('Need implementation');
