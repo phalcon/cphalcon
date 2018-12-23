@@ -20,7 +20,7 @@ use UnitTester;
 /**
  * Class LoadCest
  */
- class LoadCest
+class LoadCest
 {
     use FactoryTrait;
 

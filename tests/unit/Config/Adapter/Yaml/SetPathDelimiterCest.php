@@ -18,7 +18,7 @@ use UnitTester;
 /**
  * Class SetPathDelimiterCest
  */
- class SetPathDelimiterCest
+class SetPathDelimiterCest
 {
     use ConfigTrait;
 

@@ -18,7 +18,7 @@ use UnitTester;
 /**
  * Class PathCest
  */
- class PathCest
+class PathCest
 {
     use ConfigTrait;
 

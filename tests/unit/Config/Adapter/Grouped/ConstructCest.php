@@ -21,7 +21,7 @@ use function dataFolder;
 /**
  * Class ConstructCest
  */
- class ConstructCest
+class ConstructCest
 {
     use ConfigTrait;
 

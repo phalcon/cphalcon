@@ -34,7 +34,7 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
      *
      * @package Phalcon\Test\Unit\Logger
      */
-   class AddCest
+    class AddCest
     {
         /**
          * Tests Phalcon\Logger\Adapter\Syslog :: add()

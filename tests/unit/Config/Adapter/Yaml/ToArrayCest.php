@@ -18,7 +18,7 @@ use UnitTester;
 /**
  * Class ToArrayCest
  */
- class ToArrayCest
+class ToArrayCest
 {
     use ConfigTrait;
 
