@@ -20,6 +20,7 @@ use Phalcon\Test\Fixtures\Acl\TestOperationAware;
 use Phalcon\Test\Fixtures\Acl\TestOperationSubjectAware;
 use PHPUnit\Framework\Exception;
 use UnitTester;
+use Closure;
 
 class MemoryCest
 {
@@ -660,5 +661,47 @@ class MemoryCest
 
         $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests checking active key method
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-13
+     */
+    public function testActiveKey(UnitTester $I)
+    {
+        $acl = new Memory();
+        $acl->addOperation(new Operation("Guests"));
+        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
+
+        $acl->allow('Guests', 'Post', 'create');
+        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create'));
+        $I->assertEquals('Guests!Post!create', $acl->getActiveKey());
+    }
+
+    /**
+     * Tests checking active function method
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-13
+     */
+    public function testActiveFunction(UnitTester $I)
+    {
+        $function = function ($a) {
+            return true;
+        };
+
+        $acl = new Memory();
+        $acl->addOperation(new Operation("Guests"));
+        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
+
+        $acl->allow('Guests', 'Post', 'create', $function);
+        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create', ['a' => 1]));
+        $returnedFunction = $acl->getActiveFunction();
+
+        $I->assertInstanceOf(Closure::class, $returnedFunction);
+        $I->assertEquals(1, $function(1));
+        $I->assertEquals(1, $acl->getActiveFunctionCustomArgumentsCount());
     }
 }

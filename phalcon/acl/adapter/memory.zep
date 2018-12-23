@@ -686,7 +686,7 @@ class Memory extends Adapter
 			/**
 			 * Change activeKey to most narrow if there was no access for any patterns found
 			 */
-			let this->_activeKey = roleName . "!" . resourceName . "!" . access;
+			let this->_activeKey = operationName . "!" . subjectName . "!" . access;
 
 			return this->_defaultAccess == Acl::ALLOW;
 		}
