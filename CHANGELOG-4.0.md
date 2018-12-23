@@ -45,6 +45,9 @@
     - `Phalcon\Session\AdapterInterface` - `setId`, `status`
     - `Phalcon\Validation\MessageInteraface` - `getCode`, `setCode`                     
     - `Phalcon\CryptInterface` - `setPadding`                                   
+- Added `attach()` to `Phalcon\Mvc\RouterInterface`
+- Added `Phalcon\Container`, a proxy container class to the `Phalcon\DI` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
+- Added `Phalcon\Acl\Adapter\Memory::getActiveKey`, `Phalcon\Acl\Adapter\Memory::activeFunctionCustomArgumentsCount` and `Phalcon\Acl\Adapter\Memory::getActiveFunction` to get latest key, number of custom arguments, and function used to acquire access
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [#13656](https://github.com/phalcon/cphalcon/pull/13656)

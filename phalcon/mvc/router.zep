@@ -635,8 +635,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 *     Router::POSITION_FIRST
 	 * );
 	 * </code>
-	 *
-	 * @todo Add to the interface for 4.0.0
 	 */
 	public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>
 	{
