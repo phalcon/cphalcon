@@ -87,7 +87,7 @@ class File extends Backend
 	 */
 	public function __construct(<FrontendInterface> frontend, array options)
 	{
-		var prefix, safekey;
+		var prefix, safekey,subdir;
 
 		if !isset options["cacheDir"] {
 			throw new Exception("Cache directory must be specified with the option cacheDir");
@@ -528,9 +528,9 @@ class File extends Backend
 	 private function getSubDir(key) -> string
 	 {
 		var counter,subdir;
-		let counter = this->_useSubDirLevel,subdir = '/';
+		let counter = this->_useSubDirLevel,subdir = "/";
 		while counter {
-			let subdir = subdir.substr(key,-counter,1).'/';
+			let subdir = subdir . substr(key,-counter,1). "/";
 			let counter -= 1;
 		}
 		return subdir;
