@@ -275,7 +275,6 @@ Function TuneUpPhp {
 	Write-Output "extension = php_fileinfo.dll"      | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_gettext.dll"       | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_gd2.dll"           | Out-File -Encoding "ASCII" -Append $IniFile
-	Write-Output "extension = ${Env:EXTENSION_FILE}" | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_zephir_parser.dll" | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_psr.dll"           | Out-File -Encoding "ASCII" -Append $IniFile
 }
