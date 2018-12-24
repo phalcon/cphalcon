@@ -101,6 +101,7 @@
 - Changed `Phalcon\Http\RequestInterface::getUploadedFiles()` now returns an associative array if the second argument is passed as true
 - Changed the `Phalcon\Mvc\Url::get()` to correctly calculate the '/' and not produce URLs with double slashes [13495](https://github.com/phalcon/cphalcon/issues/13495)
 - Changed the license header for all `phalcon` files; Added same header in all tests as well as `declare(strict_types=1);` [#13684](https://github.com/phalcon/cphalcon/issues/13684)
+- Changed the `Phalcon\Mvc\Engine\Volt` to recognize `null` values when working with macros. [#13660](https://github.com/phalcon/cphalcon/issues/13660)
 
 ## Removed
 - PHP < 7.2 no longer supported
