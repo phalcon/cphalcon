@@ -2007,7 +2007,6 @@ class Compiler implements InjectionAwareInterface
 		let macroName = "$this->_macros['" . name . "']";
 
 		let code = "<?php ";
-
 		if !fetch parameters, statement["parameters"] {
 			let code .= macroName . " = function() { ?>";
 		} else {
@@ -2023,7 +2022,7 @@ class Compiler implements InjectionAwareInterface
 				let code .= "if (isset($__p[" . position . "])) { ";
 				let code .= "$" . variableName . " = $__p[" . position ."];";
 				let code .= " } else { ";
-				let code .= "if (isset($__p[\"" . variableName."\"])) { ";
+				let code .= "if (array_key_exists(\"" . variableName . "\", $__p)) { ";
 				let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
 				let code .= " } else { ";
 				if fetch defaultValue, parameter["default"] {

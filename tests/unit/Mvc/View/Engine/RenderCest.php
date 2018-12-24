@@ -11,10 +11,15 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine;
 
+use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use stdClass;
 use UnitTester;
 
 class RenderCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Mvc\View\Engine :: render()
      *
@@ -27,5 +32,47 @@ class RenderCest
     {
         $I->wantToTest("Mvc\View\Engine - render()");
         $I->skipTest("Need implementation");
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine :: render() - macro with null value
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcViewEngineRenderMacroWithNullValue(UnitTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine - render() - macro with null value");
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/null-value.volt.php'));
+
+        $this->newDi();
+        $this->setDiView();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+
+        $view = $this->container->get('view');
+        $view->registerEngines(
+            [
+                '.volt' => new Volt($view, $this->container),
+            ]
+        );
+        $object = new stdClass();
+        $object->notNullValue = 'Text';
+        $object->nullValue    = null;
+
+        $view->setVar('object', $object);
+        $view->start();
+        $view->render('macro', 'null-value');
+        $view->finish();
+        ob_start();
+        echo 'Not Null: Text - Null: ';
+        $actual = ob_get_clean();
+
+        $expected = $view->getContent();
+        $I->assertEquals($expected, $actual);
+
+        $I->safeDeleteFile(dataFolder('fixtures/views/macro/null-value.volt.php'));
     }
 }
