@@ -12,26 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Mvc\Url;
 
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 /**
- * Class GetStaticBaseUriCest
+ * Class GetSetBasePathCest
  *
  * @package Phalcon\Test\Unit\Mvc\Url
  */
-class GetStaticBaseUriCest
+class GetSetBasePathCest
 {
     /**
-     * Tests Phalcon\Mvc\Url :: getStaticBaseUri()
+     * Tests Phalcon\Mvc\Url :: getBasePath()/setBasePath()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUrlGetStaticBaseUri(UnitTester $I)
+    public function mvcUrlGetSetBasePath(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - getStaticBaseUri()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Mvc\Url - getBasePath()/setBasePath()");
+        $url = new Url();
+
+        $path = '/en/team';
+        $url->setBasePath($path);
+
+        $expected = $path;
+        $actual   = $url->getBasePath();
+        $I->assertEquals($expected, $actual);
     }
 }

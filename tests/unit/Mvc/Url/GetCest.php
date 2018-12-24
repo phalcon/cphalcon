@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Mvc\Url;
 
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 /**
@@ -32,6 +33,23 @@ class GetCest
     public function mvcUrlGet(UnitTester $I)
     {
         $I->wantToTest("Mvc\Url - get()");
-        $I->skipTest("Need implementation");
+        $url = new Url();
+
+        $url->setBaseUri('https://phalconphp.com');
+
+        $expected = 'https://phalconphp.com';
+        $actual   = $url->get();
+        $I->assertEquals($expected, $actual);
+
+        $actual = $url->get('');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'https://phalconphp.com/';
+        $actual   = $url->get('/');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'https://phalconphp.com/en/team';
+        $actual   = $url->get('/en/team');
+        $I->assertEquals($expected, $actual);
     }
 }

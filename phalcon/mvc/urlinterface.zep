@@ -26,11 +26,18 @@ namespace Phalcon\Mvc;
  */
 interface UrlInterface
 {
+	/**
+	 * Generates a URL
+	 *
+	 * @param string|array uri
+	 * @param array|object args Optional arguments to be appended to the query string
+	 */
+	public function get(uri = null, args = null, bool local = null) -> string;
 
 	/**
-	 * Sets a prefix to all the urls generated
+	 * Returns a base path
 	 */
-	public function setBaseUri(string! baseUri);
+	public function getBasePath() -> string;
 
 	/**
 	 * Returns the prefix for all the generated urls. By default /
@@ -40,20 +47,12 @@ interface UrlInterface
 	/**
 	 * Sets a base paths for all the generated paths
 	 */
-	public function setBasePath(string! basePath);
+	public function setBasePath(string! basePath) -> <UrlInterface>;
 
 	/**
-	 * Returns a base path
+	 * Sets a prefix to all the urls generated
 	 */
-	public function getBasePath() -> string;
-
-	/**
-	 * Generates a URL
-	 *
-	 * @param string|array uri
-	 * @param array|object args Optional arguments to be appended to the query string
-	 */
-	public function get(uri = null, args = null, bool local = null) -> string;
+	public function setBaseUri(string! baseUri) -> <UrlInterface>;
 
 	/**
 	 * Generates a local path
