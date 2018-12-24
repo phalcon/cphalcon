@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Db\Index
  *
  * Allows to define indexes to be used on tables. Indexes are a common way
@@ -136,7 +144,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -184,12 +192,12 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	ZEPHIR_OBS_VAR(&indexName);
 	if (!(zephir_array_isset_string_fetch(&indexName, &data, SL("_name"), 0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 95);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 86);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&columns);
 	if (!(zephir_array_isset_string_fetch(&columns, &data, SL("_columns"), 0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 99);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 90);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&type);
@@ -198,7 +206,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 		ZVAL_STRING(&type, "");
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 19, &indexName, &columns, &type);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 14, &indexName, &columns, &type);
 	zephir_check_call_status();
 	RETURN_MM();
 

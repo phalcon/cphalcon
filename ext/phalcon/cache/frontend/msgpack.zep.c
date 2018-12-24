@@ -21,6 +21,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Frontend\Msgpack
  *
  * Allows to cache native PHP data in a serialized form using msgpack extension
@@ -108,7 +116,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, __construct) {
 	ZEPHIR_OBS_VAR(&lifetime);
 	if (zephir_array_isset_string_fetch(&lifetime, &frontendOptions, SL("lifetime"), 0)) {
 		if (Z_TYPE_P(&lifetime) != IS_LONG) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Option 'lifetime' must be an integer", "phalcon/cache/frontend/msgpack.zep", 89);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Option 'lifetime' must be an integer", "phalcon/cache/frontend/msgpack.zep", 80);
 			return;
 		}
 	}
@@ -201,7 +209,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 125, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 108, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -227,7 +235,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 126, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 109, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

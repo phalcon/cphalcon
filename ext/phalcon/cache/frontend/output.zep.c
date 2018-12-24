@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Frontend\Output
  *
  * Allows to cache output fragments captured with ob_* functions
@@ -164,7 +172,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
 	} else {
 		zephir_update_property_zval(this_ptr, SL("_buffering"), &__$false);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 127);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 110);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -187,7 +195,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
 
 	zephir_read_property(&_0, this_ptr, SL("_buffering"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_contents", NULL, 128);
+		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_contents", NULL, 111);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -212,7 +220,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
 	zephir_read_property(&_0, this_ptr, SL("_buffering"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 129);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 112);
 		zephir_check_call_status();
 	}
 	if (0) {

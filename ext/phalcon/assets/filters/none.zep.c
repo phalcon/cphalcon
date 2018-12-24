@@ -19,6 +19,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Assets\Filters\None
  *
  * Returns the content without make any modification to the original source
@@ -47,7 +55,7 @@ PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 	zephir_fetch_params(1, 1, 0, &content_param);
 
 	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {

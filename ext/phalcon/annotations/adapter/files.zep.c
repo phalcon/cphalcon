@@ -25,6 +25,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Annotations\Adapter\Files
  *
  * Stores the parsed annotations in files. This adapter is suitable for production
@@ -142,7 +150,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -168,7 +176,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_SVS(&_5, "<?php return ", &_4, "; ");
 	zephir_file_put_contents(&_3, &path, &_5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 89);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 80);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

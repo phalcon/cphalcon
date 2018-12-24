@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Backend\Memory
  *
  * Stores content in memory. Data is lost when the request is finished
@@ -59,12 +67,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memory) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 
-	zend_long lifetime, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName_param = NULL, *lifetime_param = NULL, lastKey, cachedContent, _1, _2, _0$$4;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *keyName_param = NULL, *lifetime = NULL, lifetime_sub, __$null, lastKey, cachedContent, _1, _2, _0$$4;
 	zval keyName;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keyName);
+	ZVAL_UNDEF(&lifetime_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&lastKey);
 	ZVAL_UNDEF(&cachedContent);
 	ZVAL_UNDEF(&_1);
@@ -72,13 +82,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 	ZVAL_UNDEF(&_0$$4);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &keyName_param, &lifetime_param);
+	zephir_fetch_params(1, 1, 1, &keyName_param, &lifetime);
 
 	zephir_get_strval(&keyName, keyName_param);
-	if (!lifetime_param) {
-		lifetime = 0;
-	} else {
-		lifetime = zephir_get_intval(lifetime_param);
+	if (!lifetime) {
+		lifetime = &lifetime_sub;
+		lifetime = &__$null;
 	}
 
 
@@ -165,7 +174,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 		zephir_update_property_zval(this_ptr, SL("_lastKey"), &lastKey);
 	}
 	if (!(zephir_is_true(&lastKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/memory.zep", 94);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/memory.zep", 85);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&frontend);
@@ -279,7 +288,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	}
 	ZEPHIR_INIT_VAR(&keys);
 	zephir_array_keys(&keys, &data TSRMLS_CC);
-	zephir_is_iterable(&keys, 1, "phalcon/cache/backend/memory.zep", 175);
+	zephir_is_iterable(&keys, 1, "phalcon/cache/backend/memory.zep", 166);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&keys), _1, _2, _0)
 	{
 		ZEPHIR_INIT_NVAR(&idx);
@@ -312,26 +321,27 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, exists) {
 
-	zval *keyName = NULL, keyName_sub, *lifetime = NULL, lifetime_sub, __$null, lastKey, _0$$4, _1$$5;
+	zend_long lifetime;
+	zval *keyName = NULL, keyName_sub, *lifetime_param = NULL, __$null, lastKey, _0$$4, _1$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keyName_sub);
-	ZVAL_UNDEF(&lifetime_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&lastKey);
 	ZVAL_UNDEF(&_0$$4);
 	ZVAL_UNDEF(&_1$$5);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime_param);
 
 	if (!keyName) {
 		keyName = &keyName_sub;
 		keyName = &__$null;
 	}
-	if (!lifetime) {
-		lifetime = &lifetime_sub;
-		lifetime = &__$null;
+	if (!lifetime_param) {
+		lifetime = 0;
+	} else {
+		lifetime = zephir_get_intval(lifetime_param);
 	}
 
 
@@ -501,7 +511,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, serialize) {
 	ZEPHIR_OBS_VAR(&_1);
 	zephir_read_property(&_1, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("frontend"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 62, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 51, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -525,13 +535,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, unserialize) {
 
 
 
-	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 63, data);
+	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 52, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&unserialized) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unserialized data must be an array", "phalcon/cache/backend/memory.zep", 293);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unserialized data must be an array", "phalcon/cache/backend/memory.zep", 284);
 		return;
 	}
-	zephir_array_fetch_string(&_0, &unserialized, SL("frontend"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/memory.zep", 296 TSRMLS_CC);
+	zephir_array_fetch_string(&_0, &unserialized, SL("frontend"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/memory.zep", 287 TSRMLS_CC);
 	zephir_update_property_zval(this_ptr, SL("_frontend"), &_0);
 	ZEPHIR_MM_RESTORE();
 

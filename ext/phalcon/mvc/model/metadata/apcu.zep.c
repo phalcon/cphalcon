@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\MetaData\Apcu
  *
  * Stores model meta-data in the APCu cache. Data will erased if the web server is restarted
@@ -108,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, read) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -122,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, read) {
 	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
-	ZEPHIR_CALL_FUNCTION(&data, "apcu_fetch", NULL, 83, &_1);
+	ZEPHIR_CALL_FUNCTION(&data, "apcu_fetch", NULL, 73, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		RETURN_CCTOR(&data);
@@ -152,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -168,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, write) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
 	zephir_read_property(&_2, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 84, &_1, &data, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 74, &_1, &data, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

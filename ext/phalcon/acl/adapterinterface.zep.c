@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Acl\AdapterInterface
  *
  * Interface for Phalcon\Acl adapters
@@ -48,80 +56,80 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setNoArgumentsDefaultAction);
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getNoArgumentsDefaultAction);
 
 /**
- * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
+ * Adds a operation to the ACL list. Second parameter lets to inherit access data from other existing operation
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addRole);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addOperation);
 
 /**
- * Do a role inherit from another existing role
+ * Do a operation inherit from another existing operation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addInherit);
 
 /**
- * Check whether role exist in the roles list
+ * Check whether operation exist in the operations list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isRole);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isOperation);
 
 /**
- * Check whether resource exist in the resources list
+ * Check whether subject exist in the subjects list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isResource);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isSubject);
 
 /**
- * Adds a resource to the ACL list
+ * Adds a subject to the ACL list
  *
  * Access names can be a particular action, by example
  * search, update, delete, etc or a list of them
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResource);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addSubject);
 
 /**
- * Adds access to resources
+ * Adds access to subjects
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResourceAccess);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addSubjectAccess);
 
 /**
- * Removes an access from a resource
+ * Removes an access from a subject
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropResourceAccess);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropSubjectAccess);
 
 /**
- * Allow access to a role on a resource
+ * Allow access to a operation on a subject
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, allow);
 
 /**
- * Deny access to a role on a resource
+ * Deny access to a operation on a subject
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, deny);
 
 /**
- * Check whether a role is allowed to access an action from a resource
+ * Check whether a operation is allowed to access an action from a subject
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isAllowed);
 
 /**
- * Returns the role which the list is checking if it's allowed to certain resource/access
+ * Returns the operation which the list is checking if it's allowed to certain subject/access
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveRole);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveOperation);
 
 /**
- * Returns the resource which the list is checking if some role can access it
+ * Returns the subject which the list is checking if some operation can access it
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveResource);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveSubject);
 
 /**
- * Returns the access which the list is checking if some role can access it
+ * Returns the access which the list is checking if some operation can access it
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
 
 /**
- * Return an array with every role registered in the list
+ * Return an array with every operation registered in the list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getRoles);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getOperations);
 
 /**
- * Return an array with every resource registered in the list
+ * Return an array with every subject registered in the list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getResources);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getSubjects);
 

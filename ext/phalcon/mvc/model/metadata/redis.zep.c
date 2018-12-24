@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\MetaData\Redis
  *
  * Stores model meta-data in the Redis.
@@ -130,9 +138,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 	ZEPHIR_OBS_VAR(&_7);
 	zephir_read_property(&_7, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_6, SL("lifetime"), &_7, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 316, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 326, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 319, &_5, options);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 328, &_5, options);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("_redis"), &_4);
 	ZEPHIR_MM_RESTORE();
@@ -157,7 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, read) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -197,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -240,7 +248,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 	zephir_read_property(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(&meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_is_iterable(&meta, 0, "phalcon/mvc/model/metadata/redis.zep", 134);
+		zephir_is_iterable(&meta, 0, "phalcon/mvc/model/metadata/redis.zep", 125);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&meta), _2$$3, _3$$3, _1$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);

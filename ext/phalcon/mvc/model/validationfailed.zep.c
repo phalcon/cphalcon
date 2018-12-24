@@ -21,6 +21,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\ValidationFailed
  *
  * This exception is generated when a model fails to save a record
@@ -63,7 +71,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 
 	if (zephir_fast_count_int(&validationMessages TSRMLS_CC) > 0) {
 		ZEPHIR_OBS_VAR(&message);
-		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/mvc/model/validationfailed.zep", 50 TSRMLS_CC);
+		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/mvc/model/validationfailed.zep", 41 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {

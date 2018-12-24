@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cli\DispatcherInterface
  *
  * Interface for Phalcon\Cli\Dispatcher
@@ -47,6 +55,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setTaskName);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskName);
 
 /**
+ * Gets default task suffix
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskSuffix);
+
+/**
  * Returns the latest dispatched controller
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getLastTask);
@@ -55,4 +68,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getLastTask);
  * Returns the active task in the dispatcher
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getActiveTask);
+
+/**
+ * Set the options to be dispatched
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setOptions);
+
+/**
+ * Get dispatched options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getOptions);
 

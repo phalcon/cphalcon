@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Validation\Validator
  *
  * This is a base class for validators
@@ -80,7 +88,7 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -118,7 +126,7 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -169,7 +177,7 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -212,7 +220,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareLabel) {
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
 	if (UNEXPECTED(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
@@ -228,7 +236,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareLabel) {
 	ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&label) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 99 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 91 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&label, &_1$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&label)) {
@@ -260,7 +268,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 	zephir_fetch_params(1, 3, 1, &validation, &field_param, &type_param, &option_param);
 
 	if (UNEXPECTED(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
@@ -270,7 +278,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 		ZVAL_EMPTY_STRING(&field);
 	}
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -284,7 +292,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 		ZVAL_STRING(&option, "message");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(option_param) != IS_STRING && Z_TYPE_P(option_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(option_param) == IS_STRING)) {
@@ -299,7 +307,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 	ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, &option);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&message) == IS_ARRAY) {
-		zephir_array_fetch(&_0$$3, &message, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 118 TSRMLS_CC);
+		zephir_array_fetch(&_0$$3, &message, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 110 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&message, &_0$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&message)) {
@@ -329,7 +337,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareCode) {
 	zephir_fetch_params(1, 1, 0, &field_param);
 
 	if (UNEXPECTED(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
@@ -345,7 +353,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareCode) {
 	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&code) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 137 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 129 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&code, &_1$$3);
 	}
 	RETURN_CCTOR(&code);

@@ -16,6 +16,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Frontend\None
  *
  * Discards any kind of frontend data input. This frontend does not have expiration time or any other options

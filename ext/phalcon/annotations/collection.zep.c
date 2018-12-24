@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Annotations\Collection
  *
  * Represents a collection of annotations. This class allows to traverse a group of annotations easily
@@ -85,16 +93,16 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
 	ZEPHIR_INIT_VAR(&annotations);
 	array_init(&annotations);
-	zephir_is_iterable(&reflectionData, 0, "phalcon/annotations/collection.zep", 65);
+	zephir_is_iterable(&reflectionData, 0, "phalcon/annotations/collection.zep", 56);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&reflectionData), _0)
 	{
 		ZEPHIR_INIT_NVAR(&annotationData);
 		ZVAL_COPY(&annotationData, _0);
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_annotations_annotation_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", &_2, 88, &annotationData);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", &_2, 76, &annotationData);
 		zephir_check_call_status();
-		zephir_array_append(&annotations, &_1$$3, PH_SEPARATE, "phalcon/annotations/collection.zep", 62);
+		zephir_array_append(&annotations, &_1$$3, PH_SEPARATE, "phalcon/annotations/collection.zep", 53);
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&annotationData);
 	zephir_update_property_zval(this_ptr, SL("_annotations"), &annotations);
@@ -237,7 +245,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	ZEPHIR_OBS_VAR(&annotations);
 	zephir_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(&annotations) == IS_ARRAY) {
-		zephir_is_iterable(&annotations, 0, "phalcon/annotations/collection.zep", 141);
+		zephir_is_iterable(&annotations, 0, "phalcon/annotations/collection.zep", 132);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&annotations), _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&annotation);
@@ -254,9 +262,9 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	object_init_ex(&_2, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, "Collection doesn't have an annotation called '", &name, "'");
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 4, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 3, &_3);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_2, "phalcon/annotations/collection.zep", 143 TSRMLS_CC);
+	zephir_throw_exception_debug(&_2, "phalcon/annotations/collection.zep", 134 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -289,7 +297,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 	ZEPHIR_OBS_VAR(&annotations);
 	zephir_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(&annotations) == IS_ARRAY) {
-		zephir_is_iterable(&annotations, 0, "phalcon/annotations/collection.zep", 161);
+		zephir_is_iterable(&annotations, 0, "phalcon/annotations/collection.zep", 152);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&annotations), _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&annotation);
@@ -297,7 +305,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 			ZEPHIR_CALL_METHOD(&_1$$4, &annotation, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(&name, &_1$$4)) {
-				zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/annotations/collection.zep", 158);
+				zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/annotations/collection.zep", 149);
 			}
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&annotation);
@@ -330,7 +338,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 	ZEPHIR_OBS_VAR(&annotations);
 	zephir_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(&annotations) == IS_ARRAY) {
-		zephir_is_iterable(&annotations, 0, "phalcon/annotations/collection.zep", 180);
+		zephir_is_iterable(&annotations, 0, "phalcon/annotations/collection.zep", 171);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&annotations), _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&annotation);

@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Loads Frontend Cache Adapter class using 'adapter' option
  *
  *<code>
@@ -103,7 +111,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Factory, loadClass) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/cache/frontend/factory.zep", 59);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/cache/frontend/factory.zep", 50);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&adapter);
@@ -133,7 +141,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Factory, loadClass) {
 			RETURN_MM();
 		}
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/cache/frontend/factory.zep", 73);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/cache/frontend/factory.zep", 64);
 	return;
 
 }

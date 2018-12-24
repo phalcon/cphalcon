@@ -24,6 +24,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Annotations\Adapter\Apcu
  *
  * Stores the parsed annotations in APCu. This adapter is suitable for production
@@ -99,7 +107,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -115,7 +123,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 83, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 73, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -142,7 +150,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -159,7 +167,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
 	zephir_read_property(&_3, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 84, &_0, data, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 74, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -13,12 +13,20 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 /**
  * Phalcon\Cache\Backend
  *
@@ -28,12 +36,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, Backend, phalcon, cache_backend, phalcon_cache_backend_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	/**
+	 * @var Phalcon\Cache\FrontendInterface
+	 */
 	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontend"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var array
+	 */
 	zend_declare_property_null(phalcon_cache_backend_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_string(phalcon_cache_backend_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_string(phalcon_cache_backend_ce, SL("_lastKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_cache_backend_ce, SL("_lastLifetime"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -47,31 +67,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 
 }
 
-PHP_METHOD(Phalcon_Cache_Backend, getFrontend) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_frontend");
-
-}
-
-PHP_METHOD(Phalcon_Cache_Backend, setFrontend) {
-
-	zval *frontend, frontend_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&frontend_sub);
-
-	zephir_fetch_params(0, 1, 0, &frontend);
-
-
-
-	zephir_update_property_zval(this_ptr, SL("_frontend"), frontend);
-	RETURN_THISW();
-
-}
-
+/**
+ */
 PHP_METHOD(Phalcon_Cache_Backend, getOptions) {
 
 	zval *this_ptr = getThis();
@@ -81,22 +78,29 @@ PHP_METHOD(Phalcon_Cache_Backend, getOptions) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Cache_Backend, setOptions) {
 
-	zval *options, options_sub;
+	zval *options_param = NULL;
+	zval options;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&options_sub);
+	ZVAL_UNDEF(&options);
 
-	zephir_fetch_params(0, 1, 0, &options);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options_param);
+
+	zephir_get_arrval(&options, options_param);
 
 
-
-	zephir_update_property_zval(this_ptr, SL("_options"), options);
-	RETURN_THISW();
+	zephir_update_property_zval(this_ptr, SL("_options"), &options);
+	RETURN_THIS();
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Cache_Backend, getLastKey) {
 
 	zval *this_ptr = getThis();
@@ -106,19 +110,24 @@ PHP_METHOD(Phalcon_Cache_Backend, getLastKey) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Cache_Backend, setLastKey) {
 
-	zval *lastKey, lastKey_sub;
+	zval *lastKey_param = NULL;
+	zval lastKey;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&lastKey_sub);
+	ZVAL_UNDEF(&lastKey);
 
-	zephir_fetch_params(0, 1, 0, &lastKey);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &lastKey_param);
+
+	zephir_get_strval(&lastKey, lastKey_param);
 
 
-
-	zephir_update_property_zval(this_ptr, SL("_lastKey"), lastKey);
-	RETURN_THISW();
+	zephir_update_property_zval(this_ptr, SL("_lastKey"), &lastKey);
+	RETURN_THIS();
 
 }
 
@@ -152,6 +161,33 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 	zephir_update_property_zval(this_ptr, SL("_frontend"), frontend);
 	zephir_update_property_zval(this_ptr, SL("_options"), &options);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * @var Phalcon\Cache\FrontendInterface
+ */
+PHP_METHOD(Phalcon_Cache_Backend, getFrontend) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "_frontend");
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, setFrontend) {
+
+	zval *frontend, frontend_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&frontend_sub);
+
+	zephir_fetch_params(0, 1, 0, &frontend);
+
+
+
+	zephir_update_property_zval(this_ptr, SL("_frontend"), frontend);
 
 }
 

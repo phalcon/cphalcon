@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Db\Reference
  *
  * Allows to define reference constraints on tables
@@ -55,8 +63,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Schema name
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Referenced Schema
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
@@ -83,14 +101,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 	/**
 	 * ON DELETE
 	 *
-	 * @var array
+	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_onDelete"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * ON UPDATE
 	 *
-	 * @var array
+	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_onUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -111,6 +129,9 @@ PHP_METHOD(Phalcon_Db_Reference, getName) {
 
 }
 
+/**
+ * Schema name
+ */
 PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
 
 	zval *this_ptr = getThis();
@@ -120,6 +141,9 @@ PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
 
 }
 
+/**
+ * Referenced Schema
+ */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
 
 	zval *this_ptr = getThis();
@@ -213,7 +237,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -320,7 +344,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	zephir_array_update_string(&_0, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("onDelete"), &onDelete, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("onUpdate"), &onUpdate, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20, &constraintName, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 15, &constraintName, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -189,9 +189,10 @@ void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3)
 	}
 }
 
-long zephir_mt_rand(long min, long max)
+zend_long
+zephir_mt_rand(zend_long min, zend_long max)
 {
-	long number;
+	zend_long number;
 
 	if (max < min) {
 		php_error_docref(NULL, E_WARNING, "max(%ld) is smaller than min(%ld)", max, min);
@@ -202,8 +203,18 @@ long zephir_mt_rand(long min, long max)
 		php_mt_srand(GENERATE_SEED());
 	}
 
-	number = (long) (php_mt_rand() >> 1);
+	number = (zend_long) (php_mt_rand() >> 1);
+
+	/**
+	 * The RAND_RANGE() macro has been removed since PHP 7.3.
+	 * php_mt_rand_range() should be used instead.
+	 * However, php_mt_rand_range() has been present since PHP 7.1.
+	 */
+#if PHP_VERSION_ID < 70100
 	RAND_RANGE(number, min, max, PHP_MT_RAND_MAX);
+#else
+	number = php_mt_rand_range(min, max);
+#endif
 
 	return number;
 }

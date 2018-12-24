@@ -31,7 +31,7 @@ double zephir_acos(zval *op1);
 double zephir_sqrt(zval *op1);
 
 double zephir_floor(zval *op1);
-long zephir_mt_rand(long min, long max);
+zend_long zephir_mt_rand(zend_long min, zend_long max);
 double zephir_ceil(zval *op1);
 void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3);
 

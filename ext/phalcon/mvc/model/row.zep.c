@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\Row
  *
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
@@ -101,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
 		RETURN_CCTOR(&value);
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/mvc/model/row.zep", 66);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/mvc/model/row.zep", 57);
 	return;
 
 }
@@ -124,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/mvc/model/row.zep", 77);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/mvc/model/row.zep", 68);
 	return;
 
 }
@@ -136,17 +144,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
-	zval *offset_param = NULL;
-	zend_long offset;
+	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&offset_sub);
 
-	zephir_fetch_params(0, 1, 0, &offset_param);
-
-	offset = zephir_get_intval(offset_param);
+	zephir_fetch_params(0, 1, 0, &offset);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/mvc/model/row.zep", 87);
+
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/mvc/model/row.zep", 78);
 	return;
 
 }
@@ -173,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 	zephir_fetch_params(1, 1, 0, &attribute_param);
 
 	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(attribute_param) == IS_STRING)) {
@@ -214,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(attribute_param) == IS_STRING)) {
@@ -241,7 +248,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 17, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 13, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

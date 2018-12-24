@@ -19,6 +19,14 @@
 #include "kernel/operators.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, IndexedArray, phalcon, translate_interpolator_indexedarray, phalcon_translate_interpolator_indexedarray_method_entry, 0);
@@ -48,7 +56,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
 
 	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
@@ -69,7 +77,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 378, placeholders, &translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 385, placeholders, &translation);
 		ZEPHIR_UNREF(placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);

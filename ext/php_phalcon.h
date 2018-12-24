@@ -14,7 +14,7 @@
 #define PHP_PHALCON_VERSION     "4.0.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.10.11-d7afdc0ea0"
+#define PHP_PHALCON_ZEPVERSION  "0.11.8-4495e75"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -39,6 +39,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool ignore_unknown_columns;
 	zend_bool update_snapshot_on_save;
 	zend_bool disable_assign_setters;
+	zend_bool case_insensitive_column_map;
 } zephir_struct_orm;
 
 

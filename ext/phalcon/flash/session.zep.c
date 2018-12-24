@@ -21,6 +21,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Flash\Session
  *
  * Temporarily stores the messages in session, then messages can be printed in the next request
@@ -292,7 +300,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "phalcon/flash/session.zep", 136);
+		zephir_is_iterable(&messages, 0, "phalcon/flash/session.zep", 127);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _2$$3, _3$$3, _1$$3)
 		{
 			ZEPHIR_INIT_NVAR(&type);

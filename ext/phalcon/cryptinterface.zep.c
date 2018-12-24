@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\CryptInterface
  *
  * Interface for Phalcon\Crypt
@@ -24,6 +32,11 @@ ZEPHIR_INIT_CLASS(Phalcon_CryptInterface) {
 	return SUCCESS;
 
 }
+
+/**
+ * Changes the padding scheme used.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setPadding);
 
 /**
  * Sets the cipher algorithm

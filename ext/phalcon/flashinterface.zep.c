@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\FlashInterface
  *
  * Interface for Phalcon\Flash
@@ -31,6 +39,11 @@ ZEPHIR_INIT_CLASS(Phalcon_FlashInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_FlashInterface, error);
 
 /**
+ * Outputs a message
+ */
+ZEPHIR_DOC_METHOD(Phalcon_FlashInterface, message);
+
+/**
  * Shows a HTML notice/information message
  */
 ZEPHIR_DOC_METHOD(Phalcon_FlashInterface, notice);
@@ -44,9 +57,4 @@ ZEPHIR_DOC_METHOD(Phalcon_FlashInterface, success);
  * Shows a HTML warning message
  */
 ZEPHIR_DOC_METHOD(Phalcon_FlashInterface, warning);
-
-/**
- * Outputs a message
- */
-ZEPHIR_DOC_METHOD(Phalcon_FlashInterface, message);
 

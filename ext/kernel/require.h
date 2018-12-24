@@ -1,22 +1,13 @@
-
 /*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+ * This file is part of the Zephir.
+ *
+ * (c) Zephir Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifndef ZEPHIR_KERNEL_REQUIRE_H
 #define ZEPHIR_KERNEL_REQUIRE_H

@@ -10,6 +10,40 @@
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 
+void zephir_concat_ss(zval *result, const char *op1, zend_uint op1_len, const char *op2, zend_uint op2_len, int self_var){
+
+	zval result_copy;
+	int use_copy = 0;
+	uint offset = 0, length;
+
+	length = op1_len + op2_len;
+	if (self_var) {
+
+		if (Z_TYPE_P(result) != IS_STRING) {
+			use_copy = zend_make_printable_zval(result, &result_copy);
+			if (use_copy) {
+				ZEPHIR_CPY_WRT_CTOR(result, (&result_copy));
+			}
+		}
+
+		offset = Z_STRLEN_P(result);
+		length += offset;
+		Z_STR_P(result) = zend_string_realloc(Z_STR_P(result), length, 0);
+
+	} else {
+		ZVAL_STR(result, zend_string_alloc(length, 0));
+	}
+
+	memcpy(Z_STRVAL_P(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len, op2, op2_len);
+	Z_STRVAL_P(result)[length] = 0;
+	zend_string_forget_hash_val(Z_STR_P(result));
+	if (use_copy) {
+	   zval_dtor(&result_copy);
+	}
+
+}
+
 void zephir_concat_sv(zval *result, const char *op1, zend_uint op1_len, zval *op2, int self_var){
 
 	zval result_copy, op2_copy;

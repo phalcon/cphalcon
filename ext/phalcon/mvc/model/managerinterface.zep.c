@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\ManagerInterface
  *
  * Interface for Phalcon\Mvc\Model\Manager
@@ -234,7 +242,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
  * meaning that a least one is implemented
  *
  * @param array data
- * @return boolean
+ * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
 
@@ -247,4 +255,74 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastQuery);
  * Returns a relation by its alias
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationByAlias);
+
+/**
+ * Check whether a model property is declared as public.
+ *
+ * <code>
+ * $isPublic = $manager->isVisibleModelProperty(
+ *     new Robots(),
+ *     "name"
+ * );
+ * </code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isVisibleModelProperty);
+
+/**
+ * Sets if a model must keep snapshots
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, keepSnapshots);
+
+/**
+ * Checks if a model is keeping snapshots for the queried records
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isKeepingSnapshots);
+
+/**
+ * Sets if a model must use dynamic update instead of the all-field update
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, useDynamicUpdate);
+
+/**
+ * Checks if a model is using dynamic update instead of all-field update
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isUsingDynamicUpdate);
+
+/**
+ * Setups a relation n-m between two models
+ *
+ * @param	string fields
+ * @param	string intermediateFields
+ * @param	string intermediateReferencedFields
+ * @param	string referencedFields
+ * @param   array options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasManyToMany);
+
+/**
+ * Checks whether a model has a hasManyToMany relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasManyToMany);
+
+/**
+ * Helper method to query records based on a relation definition
+ *
+ * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationRecords);
+
+/**
+ * Gets hasManyToMany relations defined on a model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyToMany);
+
+/**
+ * Registers shorter aliases for namespaces in PHQL statements
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, registerNamespaceAlias);
+
+/**
+ * Returns a real namespace from its alias
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getNamespaceAlias);
 

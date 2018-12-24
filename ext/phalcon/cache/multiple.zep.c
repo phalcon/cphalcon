@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Multiple
  *
  * Allows to read to chained backend adapters writing to multiple backends
@@ -113,7 +121,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	if (Z_TYPE_P(backends) != IS_NULL) {
 		if (Z_TYPE_P(backends) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 100);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 91);
 			return;
 		}
 		zephir_update_property_zval(this_ptr, SL("_backends"), backends);
@@ -170,7 +178,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("_backends"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 133);
+	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 124);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&backend);
@@ -214,7 +222,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("_backends"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 149);
+	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 140);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&backend);
@@ -233,7 +241,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
  * @param string keyName
  * @param string content
  * @param int lifetime
- * @param boolean stopBuffer
+ * @param bool stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
@@ -271,7 +279,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("_backends"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 166);
+	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 157);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&backend);
@@ -305,7 +313,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("_backends"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 181);
+	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 172);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&backend);
@@ -351,7 +359,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("_backends"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 200);
+	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 191);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&backend);
@@ -382,7 +390,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, flush) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("_backends"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 214);
+	zephir_is_iterable(&_0, 0, "phalcon/cache/multiple.zep", 205);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&backend);

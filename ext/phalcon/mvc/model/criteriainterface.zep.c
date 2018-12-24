@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\CriteriaInterface
  *
  * Interface for Phalcon\Mvc\Model\Criteria
@@ -177,4 +185,71 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
  * Executes a find using the parameters built with the criteria
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);
+
+/**
+ * Sets SELECT DISTINCT / SELECT ALL flag
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, distinct);
+
+/**
+ * Adds an INNER join to the query
+ *
+ *<code>
+ * $criteria->innerJoin("Robots");
+ * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
+ * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
+
+/**
+ * Adds a LEFT join to the query
+ *
+ *<code>
+ * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
+
+/**
+ * Adds a RIGHT join to the query
+ *
+ *<code>
+ * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, rightJoin);
+
+/**
+ * Adds the group-by clause to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, groupBy);
+
+/**
+ * Adds the having clause to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
+
+/**
+ * Sets the cache options in the criteria
+ * This method replaces all previously set cache options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, cache);
+
+/**
+ * Returns the columns to be queried
+ *
+ * @return string|array|null
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getColumns);
+
+/**
+ * Returns the group clause in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
+
+/**
+ * Returns the having clause in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
 

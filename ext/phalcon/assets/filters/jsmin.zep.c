@@ -20,11 +20,19 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Assets\Filters\Jsmin
  *
- * Deletes the characters which are insignificant to JavaScript. Comments will be removed. Tabs will be
- * replaced with spaces. Carriage returns will be replaced with linefeeds.
- * Most spaces and linefeeds will be removed.
+ * Deletes the characters which are insignificant to JavaScript. Comments will
+ * be removed. Tabs will be replaced with spaces. Carriage returns will be
+ * replaced with linefeeds. Most spaces and linefeeds will be removed.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
 
@@ -50,7 +58,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 	zephir_fetch_params(1, 1, 0, &content_param);
 
 	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {

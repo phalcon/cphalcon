@@ -45,6 +45,16 @@
  * Not all methods must grow/restore the zephir_memory_entry.
  */
 
+static zend_always_inline zend_execute_data*
+find_symbol_table(zend_execute_data* ex)
+{
+    while (ex && (!ex->func || !ZEND_USER_CODE(ex->func->common.type))) {
+        ex = ex->prev_execute_data;
+    }
+
+    return ex;
+}
+
 static zephir_memory_entry* zephir_memory_grow_stack_common(zend_zephir_globals_def *g)
 {
 	assert(g->start_memory != NULL);
@@ -102,8 +112,14 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g)
 		if (g->active_symbol_table) {
 			active_symbol_table = g->active_symbol_table;
 			while (active_symbol_table && active_symbol_table->scope == active_memory) {
-				zend_execute_data *ex = EG(current_execute_data);
-
+				zend_execute_data *ex = find_symbol_table(EG(current_execute_data));
+#ifndef ZEPHIR_RELEASE
+				if (UNEXPECTED(!ex)) {
+					fprintf(stderr, "ERROR: unable to find a symbol table");
+					zephir_print_backtrace();
+					return;
+				}
+#endif
 				zend_hash_destroy(ex->symbol_table);
 				efree(ex->symbol_table);
 				ex->symbol_table = active_symbol_table->symbol_table;
@@ -237,6 +253,7 @@ int ZEPHIR_FASTCALL zephir_memory_restore_stack(const char *func)
 		fprintf(stderr, "The frame was created by %s\n", zephir_globals_ptr->active_memory->func);
 		fprintf(stderr, "Calling function: %s\n", func);
 		zephir_print_backtrace();
+		return FAILURE;
 	}
 
 	zephir_memory_restore_stack_common(zephir_globals_ptr);
@@ -386,7 +403,6 @@ void zephir_create_symbol_table()
 {
 	zephir_symbol_table *entry;
 	zend_zephir_globals_def *gptr = ZEPHIR_VGLOBAL;
-	zend_execute_data *ex = EG(current_execute_data);
 	zend_array *symbol_table;
 
 #ifndef ZEPHIR_RELEASE
@@ -395,6 +411,15 @@ void zephir_create_symbol_table()
 		zephir_print_backtrace();
 		return;
 	}
+#endif
+
+	zend_execute_data* ex = find_symbol_table(EG(current_execute_data));
+#ifndef ZEPHIR_RELEASE
+    if (UNEXPECTED(!ex)) {
+        fprintf(stderr, "ERROR: unable to find a symbol table");
+        zephir_print_backtrace();
+        return;
+    }
 #endif
 
 	zend_rebuild_symbol_table();

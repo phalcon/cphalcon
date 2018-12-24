@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\BackendInterface
  *
  * Interface for Phalcon\Cache\Backend adapters
@@ -80,7 +88,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
  * @param int|string keyName
  * @param string content
  * @param int lifetime
- * @return boolean true on success/false otherwise
+ * @return bool true on success/false otherwise
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
 

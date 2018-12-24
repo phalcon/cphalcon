@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\MetaData\Strategy\Introspection
  *
  * Queries the table meta-data in order to introspect the model's metadata
@@ -109,9 +117,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_get_class(&_2$$3, model, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVSV(&_3$$3, "Table '", &completeTable, "' doesn't exist in database when dumping meta-data for ", &_2$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/mvc/model/metadata/strategy/introspection.zep", 68 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/mvc/model/metadata/strategy/introspection.zep", 60 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -130,9 +138,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_get_class(&_5$$6, model, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_6$$6);
 		ZEPHIR_CONCAT_SVSV(&_6$$6, "Cannot obtain table columns for the mapped source '", &completeTable, "' used in model ", &_5$$6);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 4, &_6$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 3, &_6$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$6, "phalcon/mvc/model/metadata/strategy/introspection.zep", 88 TSRMLS_CC);
+		zephir_throw_exception_debug(&_4$$6, "phalcon/mvc/model/metadata/strategy/introspection.zep", 80 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -158,20 +166,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	array_init(&defaultValues);
 	ZEPHIR_INIT_VAR(&emptyStringValues);
 	array_init(&emptyStringValues);
-	zephir_is_iterable(&columns, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 165);
+	zephir_is_iterable(&columns, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 157);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&columns), _7)
 	{
 		ZEPHIR_INIT_NVAR(&column);
 		ZVAL_COPY(&column, _7);
 		ZEPHIR_CALL_METHOD(&fieldName, &column, "getname", NULL, 0);
 		zephir_check_call_status();
-		zephir_array_append(&attributes, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 109);
+		zephir_array_append(&attributes, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 101);
 		ZEPHIR_CALL_METHOD(&_8$$9, &column, "isprimary", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(&_8$$9)) {
-			zephir_array_append(&primaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 115);
+			zephir_array_append(&primaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 107);
 		} else {
-			zephir_array_append(&nonPrimaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 117);
+			zephir_array_append(&nonPrimaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 109);
 		}
 		ZEPHIR_CALL_METHOD(&_9$$9, &column, "isnumeric", NULL, 0);
 		zephir_check_call_status();
@@ -181,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_CALL_METHOD(&_10$$9, &column, "isnotnull", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(&_10$$9)) {
-			zephir_array_append(&notNull, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 131);
+			zephir_array_append(&notNull, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 123);
 		}
 		ZEPHIR_CALL_METHOD(&_11$$9, &column, "isautoincrement", NULL, 0);
 		zephir_check_call_status();
@@ -260,13 +268,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 		ZEPHIR_CALL_METHOD(&userColumnMap, model, "columnmap", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&userColumnMap) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "columnMap() not returned an array", "phalcon/mvc/model/metadata/strategy/introspection.zep", 198);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "columnMap() not returned an array", "phalcon/mvc/model/metadata/strategy/introspection.zep", 190);
 			return;
 		}
 		ZEPHIR_INIT_NVAR(&reversedColumnMap);
 		array_init(&reversedColumnMap);
 		ZEPHIR_CPY_WRT(&orderedColumnMap, &userColumnMap);
-		zephir_is_iterable(&userColumnMap, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 205);
+		zephir_is_iterable(&userColumnMap, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 197);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&userColumnMap), _1$$3, _2$$3, _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&name);

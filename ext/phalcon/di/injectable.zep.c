@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Di\Injectable
  *
  * This class allows to access services in the services container by just only accessing a public property
@@ -37,7 +45,7 @@
  * @property \Phalcon\Filter|\Phalcon\FilterInterface $filter
  * @property \Phalcon\Flash\Direct $flash
  * @property \Phalcon\Flash\Session $flashSession
- * @property \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface $session
+ * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
  * @property \Phalcon\Db\AdapterInterface $db
  * @property \Phalcon\Security $security
@@ -176,7 +184,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	zephir_fetch_params(1, 1, 0, &propertyName_param);
 
 	if (UNEXPECTED(Z_TYPE_P(propertyName_param) != IS_STRING && Z_TYPE_P(propertyName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'propertyName' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'propertyName' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(propertyName_param) == IS_STRING)) {
@@ -193,7 +201,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services", "phalcon/di/injectable.zep", 127);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services", "phalcon/di/injectable.zep", 118);
 			return;
 		}
 	}

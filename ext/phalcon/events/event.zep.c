@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Events\Event
  *
  * This class offers contextual information of a fired event in the EventsManager
@@ -52,14 +60,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 	/**
 	 * Is event propagation stopped?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_events_event_ce, SL("_stopped"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Is event cancelable?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_events_event_ce, SL("_cancelable"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -127,7 +135,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable_param);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -202,7 +210,7 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	zephir_fetch_params(1, 1, 0, &type_param);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -239,7 +247,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 	zephir_read_property(&_0, this_ptr, SL("_cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 115);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 106);
 		return;
 	}
 	if (1) {

@@ -12,12 +12,19 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 /**
  * Phalcon\Logger\Formatter\Syslog
  *
@@ -25,7 +32,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Syslog, phalcon, logger_formatter_syslog, phalcon_logger_formatter_ce, phalcon_logger_formatter_syslog_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Syslog, phalcon, logger_formatter_syslog, phalcon_logger_formatter_abstractformatter_ce, phalcon_logger_formatter_syslog_method_entry, 0);
 
 	return SUCCESS;
 
@@ -34,43 +41,41 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
 /**
  * Applies a format to a message before sent it to the internal log
  *
- * @param string message
- * @param array context
+ * @param <Item> item
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 
-	zend_long type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message = NULL, message_sub, *type_param = NULL, *timestamp_param = NULL, *context = NULL, context_sub, __$null, _0$$3, _1;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *item, item_sub, message, type, context, _0$$3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&message_sub);
-	ZVAL_UNDEF(&context_sub);
-	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&item_sub);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 1, &message, &type_param, &timestamp_param, &context);
-
-	ZEPHIR_SEPARATE_PARAM(message);
-	type = zephir_get_intval(type_param);
-	timestamp = zephir_get_intval(timestamp_param);
-	if (!context) {
-		context = &context_sub;
-		context = &__$null;
-	}
+	zephir_fetch_params(1, 1, 0, &item);
 
 
-	if (Z_TYPE_P(context) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, message, context);
+
+	ZEPHIR_CALL_METHOD(&message, item, "getmessage", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&type, item, "gettype", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&context, item, "getcontext", NULL, 0);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&context) == IS_ARRAY) {
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, &message, &context);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(message, &_0$$3);
+		ZEPHIR_CPY_WRT(&message, &_0$$3);
 	}
 	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, type);
-	zephir_array_fast_append(return_value, &_1);
-	zephir_array_fast_append(return_value, message);
+	zephir_array_fast_append(return_value, &type);
+	zephir_array_fast_append(return_value, &message);
 	RETURN_MM();
 
 }

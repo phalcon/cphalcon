@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Events\Manager
  *
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
@@ -54,6 +62,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, detachAll);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
+
+/**
+ * Check whether certain type of event has listeners
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, hasListeners);
 
 /**
  * Returns all the attached listeners of a certain type

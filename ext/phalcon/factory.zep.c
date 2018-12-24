@@ -21,6 +21,14 @@
 #include "kernel/operators.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Factory) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Factory, phalcon, factory, phalcon_factory_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
@@ -63,7 +71,7 @@ PHP_METHOD(Phalcon_Factory, loadClass) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/factory.zep", 37);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/factory.zep", 27);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&adapter);
@@ -80,7 +88,7 @@ PHP_METHOD(Phalcon_Factory, loadClass) {
 		}
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/factory.zep", 47);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/factory.zep", 37);
 	return;
 
 }
