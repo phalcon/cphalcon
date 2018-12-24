@@ -12,26 +12,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Mvc\Url;
 
+use Phalcon\Di;
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 /**
- * Class GetDICest
+ * Class GetSetDICest
  *
  * @package Phalcon\Test\Unit\Mvc\Url
  */
-class GetDICest
+class GetSetDICest
 {
     /**
-     * Tests Phalcon\Mvc\Url :: getDI()
+     * Tests Phalcon\Mvc\Url :: getDI()/setDI()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUrlGetDI(UnitTester $I)
+    public function mvcUrlGetSetDI(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Url - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Mvc\Url - getDI()/setDI()");
+        $url       = new Url();
+        $container = new Di();
+
+        $url->setDI($container);
+
+        $class  = Di::class;
+        $actual = $url->getDI();
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = $container;
+        $I->assertEquals($expected, $actual);
     }
 }

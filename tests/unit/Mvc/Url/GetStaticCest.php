@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Mvc\Url;
 
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 /**
@@ -32,6 +33,12 @@ class GetStaticCest
     public function mvcUrlGetStatic(UnitTester $I)
     {
         $I->wantToTest("Mvc\Url - getStatic()");
-        $I->skipTest("Need implementation");
+        $url = new Url();
+
+        $url->setStaticBaseUri('https://phalconphp.com');
+
+        $expected = 'https://phalconphp.com/en/team';
+        $actual   = $url->getStatic('/en/team');
+        $I->assertEquals($expected, $actual);
     }
 }
