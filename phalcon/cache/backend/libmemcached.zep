@@ -151,15 +151,16 @@ class Libmemcached extends Backend
 		let this->_lastKey = prefixedKey;
 
 		let cachedContent = memcache->get(prefixedKey);
-		if !cachedContent {
+
+		if false === cachedContent {
 			return null;
 		}
 
 		if is_numeric(cachedContent) {
 			return cachedContent;
-		} else {
-			return this->_frontend->afterRetrieve(cachedContent);
 		}
+
+		return this->_frontend->afterRetrieve(cachedContent);
 	}
 
 	/**
