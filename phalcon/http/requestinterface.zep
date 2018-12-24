@@ -256,7 +256,7 @@ interface RequestInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
 	 */
-	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>;
+	public function getUploadedFiles(bool onlySuccessful = false, bool namedKeys = false) -> <FileInterface[]>;
 
 	/**
 	 * Gets HTTP user agent used to made the request
