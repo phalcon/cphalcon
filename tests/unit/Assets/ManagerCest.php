@@ -139,8 +139,8 @@ class ManagerCest
 
         $expected = sprintf(
             "%s\n%s\n",
-            '<script type="text/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
-            '<script type="text/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
+            '<script src="http:://cdn.example.com/js/script1.js"></script>',
+            '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
         $I->assertEquals($expected, $actual);
     }
@@ -169,8 +169,8 @@ class ManagerCest
         $actualJS   = $assets->outputJs('header');
         $expectedJS = sprintf(
             "%s\n%s\n",
-            '<script type="text/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
-            '<script type="text/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
+            '<script src="http:://cdn.example.com/js/script1.js"></script>',
+            '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
         $I->assertEquals($expectedJS, $actualJS);
 
@@ -208,7 +208,7 @@ class ManagerCest
                ->setTargetUri('js/jquery.js')
         ;
 
-        $expected = '<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL;
+        $expected = '<script src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL;
         $actual   = $assets->outputJs('js');
         $I->assertEquals($expected, $actual);
 
@@ -234,7 +234,7 @@ class ManagerCest
         ;
 
         $expected = sprintf(
-            '<script type="text/javascript" src="%s"></script>%s',
+            '<script src="%s"></script>%s',
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
@@ -261,7 +261,7 @@ class ManagerCest
         ;
 
         $expected = sprintf(
-            '<script type="text/javascript" src="%s"></script>%s',
+            '<script src="%s"></script>%s',
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
@@ -288,7 +288,7 @@ class ManagerCest
         ;
 
         $expected = sprintf(
-            '<script type="text/javascript" src="%s"></script>%s',
+            '<script src="%s"></script>%s',
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
@@ -316,7 +316,7 @@ class ManagerCest
         ;
 
         $expected = sprintf(
-            '<script type="text/javascript" src="%s"></script>%s',
+            '<script src="%s"></script>%s',
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
