@@ -525,8 +525,8 @@ class File extends Backend
 	/**
 	 * Returns the formatted subfolder for the given key
 	 */
-	 private function getSubDir(key) -> string
-	 {
+	private function getSubDir(key) -> string
+	{
 		var counter,subdir;
 		let counter = this->_useSubDirLevel,subdir = "/";
 		while counter {
@@ -534,8 +534,25 @@ class File extends Backend
 			let counter -= 1;
 		}
 		return subdir;
-	 }
+	}
 
+	/**
+	 * Set SubDirLevel
+	 */
+	public function useSubDirLevel(bool useSubDirLevel) -> <File>
+	{
+		let this->_useSubDirLevel = useSubDirLevel;
+		return this;
+	}
+
+	 /**
+	 * Set useSubDir
+	 */
+	public function useSubDir(bool useSubDir) -> <File>
+	{
+		let this->_useSubDir = useSubDir;
+		return this;
+	}
 
 	/**
 	 * Set whether to use the safekey or not
