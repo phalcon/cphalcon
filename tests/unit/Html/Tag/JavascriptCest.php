@@ -42,7 +42,7 @@ class JavascriptCest
         $tag->setDI($this->container);
 
         $url      = 'js/phalcon.js';
-        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
+        $expected = '<script src="/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = $tag->javascript($url);
         $I->assertEquals($expected, $actual);
     }
@@ -64,8 +64,31 @@ class JavascriptCest
 
         $url      = 'http://my.local.com/js/phalcon.js';
         $options  = ['local' => false];
-        $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
+        $expected = '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = $tag->javascript($url, $options);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Tag :: javascript() - HTML5
+     *
+     * @param UnitTester $I
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13341
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-12-22
+     */
+    public function htmlTagJavascriptHtml5(UnitTester $I)
+    {
+        $I->wantToTest("Tag - javascript() - HTML5");
+        $tag = new Tag();
+        $tag->setDI($this->container);
+        $tag->setDocType(Tag::HTML32);
+
+        $url      = 'js/phalcon.js';
+        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
+        $actual   = $tag->javascript($url);
         $I->assertEquals($expected, $actual);
     }
 }
