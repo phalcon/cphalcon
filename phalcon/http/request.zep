@@ -661,7 +661,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>
+	public function getUploadedFiles(bool onlySuccessful = false, bool namedKeys = false) -> <FileInterface[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -691,12 +691,20 @@ class Request implements RequestInterface, InjectionAwareInterface
 								"error": file["error"]
 							];
 
-							let files[] = new File(dataFile, file["key"]);
+                            if namedKeys == true {
+                                let files[file["key"]] = new File(dataFile, file["key"]);
+                            } else {
+                                let files[] = new File(dataFile, file["key"]);
+                            }
 						}
 					}
 				} else {
 					if onlySuccessful == false || input["error"] == UPLOAD_ERR_OK {
-						let files[] = new File(input, prefix);
+						if namedKeys == true {
+                            let files[prefix] = new File(input, prefix);
+                        } else {
+                            let files[] = new File(input, prefix);
+                        }
 					}
 				}
 			}
