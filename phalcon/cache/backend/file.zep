@@ -80,7 +80,7 @@ class File extends Backend
 	 *
 	 * @var boolean
 	 */
-	 private _useSubDirLevel = 2;
+	private _useSubDirLevel = 2;	
 
 	/**
 	 * Phalcon\Cache\Backend\File constructor
