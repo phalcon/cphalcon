@@ -137,6 +137,11 @@ class Igbinary extends Data implements FrontendInterface
 			return data;
 		}
 
+		// do not unserialize empty string, null, false, etc
+		if empty data {
+			return data;
+		}
+
 		return igbinary_unserialize(data);
 	}
 
