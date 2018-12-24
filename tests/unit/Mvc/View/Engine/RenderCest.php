@@ -39,6 +39,8 @@ class RenderCest
      *
      * @param UnitTester $I
      *
+     * @issue https://github.com/phalcon/cphalcon/issues/13660
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
