@@ -97,7 +97,9 @@
     - the `Phalcon\Session\Bag` using the name `sessionBag` 
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
 - Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Files`, `Phalcon\Session\Libmemcached`, `Phalcon\Session\Noop` and `Phalcon\Session\Redis`.  [#12921](https://github.com/phalcon/cphalcon/issues/12833), (https://github.com/phalcon/cphalcon/issues/11341), (https://github.com/phalcon/cphalcon/issues/13535)
-Changed `find` and `findFirst` in `Phalcon\Mvc\Model` to align with the signature of `Phalcon\Mvc\Collection`. These methods now accept only array as parameters. [#10406](https://github.com/phalcon/cphalcon/issues/10406)
+- Changed `find` and `findFirst` in `Phalcon\Mvc\Model` to align with the signature of `Phalcon\Mvc\Collection`. These methods now accept only array as parameters. [#10406](https://github.com/phalcon/cphalcon/issues/10406)
+- Fixed `Phalcon\Mvc\Models` magic method (setter) is fixed for arrays  [#13661](https://github.com/phalcon/cphalcon/issues/13661)
+- Fixed `Phalcon\Mvc\Model::skipAttributes` and `Phalcon\Mvc\Model::allowEmptyColumns` allowEmptyStrings & skipAttributes repsect the column mapping. [#12975](https://github.com/phalcon/cphalcon/issues/12975), [#13477](https://github.com/phalcon/cphalcon/issues/13477) 
 
 ## Removed
 - PHP < 7.2 no longer supported
