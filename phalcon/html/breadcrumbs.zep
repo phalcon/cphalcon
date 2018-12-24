@@ -64,7 +64,7 @@ class Breadcrumbs
      * Clears the crumbx
      *
      * <code>
-     * $$breadcrumbs->clear()
+     * $breadcrumbs->clear()
      * </code>
      */
     public function clear() -> void
@@ -75,7 +75,7 @@ class Breadcrumbs
     /**
      * Removes crumb by url.
      *
-     * <core>
+     * <code>
      * $breadcrumbs->remove("/admin/user/create");
      *
      * // remove a crumb without an url (last link)
