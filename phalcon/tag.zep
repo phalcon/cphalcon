@@ -1355,7 +1355,7 @@ class Tag
 			}
 		}
 
-		if !isset params["type"] {
+		if !isset params["type"] && self::_documentType < self::HTML5 {
 			let params["type"] = "text/javascript";
 		}
 

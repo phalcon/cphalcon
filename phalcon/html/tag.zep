@@ -991,8 +991,13 @@ class Tag implements InjectionAwareInterface
 
 		unset parameters["local"];
 
-		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/javascript"),
-			output             = this->renderAttributes("<script", parameters) ."></script>" . PHP_EOL;
+		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/javascript");
+
+		if this->docType >= self::HTML5 && "text/javascript" == parameters["type"] {
+			unset(parameters["type"]);
+		}
+
+		let output = this->renderAttributes("<script", parameters) ."></script>" . PHP_EOL;
 
 		return output;
 
