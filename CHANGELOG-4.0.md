@@ -27,6 +27,25 @@
 - Added `Phalcon\Paginator\RepositoryInterface` for repository the current state of `paginator` and also optional sets the aliases for properties repository [#10985](https://github.com/phalcon/cphalcon/pull/10985), [#10957](https://github.com/phalcon/cphalcon/issues/10957)
 - Added bind support to `Phalcon\Mvc\Model\Query\Builder`. The Query Builder has the same methods as `Phalcon\Mvc\Model\Query`; `getBindParams`, `setBindParams`, `getBindTypes` and `setBindTypes`. [#13368](https://github.com/phalcon/cphalcon/issues/13368)
 - Added `Phalcon\Html\Breadcrumbs`, a component that creates HTML code for breadcrumbs. [#13680](https://github.com/phalcon/cphalcon/issues/13680)
+- Added more methods to interfaces. 
+    - `Phalcon\Cli\Router\RouteInterface` - `delimiter`, `getDelimiter`                        
+    - `Phalcon\Cli\DispatcherInterface` - `setOptions`, `getOptions`
+    - `Phalcon\Db\AdapterInterface` - `fetchColumn`, `insertAsDict`, `updateAsDict`                              
+    - `Phalcon\Db\DialectInterface` - `registerCustomFunction`, `getCustomFunctions`, `getSqlExpression`                              
+    - `Phalcon\Di\ServiceInterface` - `getParameter`, `isResolved`
+    - `Phalcon\Events\ManagerInterface` - `hasListeners`                          
+    - `Phalcon\Mvc\Model\Query\BuilderInterface` - `distinct`, `getDistinct`, `forUpdate`, `offset`, `getOffset`                 
+    - `Phalcon\Mvc\Model\Transaction\ManagerInterface` - `setDbService`, `getDbService`, `setRollbackPendent`, `getRollbackPendent`           
+    - `Phalcon\Mvc\Model\CriteriaInterface` - `distinct`, `leftJoin`, `innerJoin`, `rightJoin`, `groupBy`, `having`, `cache`, `getColumns`, `getGroupBy`, `getHaving`                      
+    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`, `registerNamespaceAlias`, `getNamespaceAlias`                       
+    - `Phalcon\Mvc\Model\MessageInterface` - `setModel`, `getModel`, `setCode`, `getCode`                       
+    - `Phalcon\Mvc\Model\QueryInterface` - `getSingleResult`, `setBindParams`, `getBindParams`, `setBindTypes`, `setSharedLock`, `getBindTypes`, `getSql`                         
+    - `Phalcon\Mvc\Model\RelationInterface` - `getParams`
+    - `Phalcon\Mvc\Model\ResultsetInterface` - `setHydrateMode`, `getHydrateMode`, `getMessages`, `update`, `delete`, `filter`
+    - `Phalcon\Mvc\ModelInterface` - `getModelsMetaData`
+    - `Phalcon\Session\AdapterInterface` - `setId`, `status`
+    - `Phalcon\Validation\MessageInteraface` - `getCode`, `setCode`                     
+    - `Phalcon\CryptInterface` - `setPadding`                                   
 - Added `attach()` to `Phalcon\Mvc\RouterInterface`
 - Added `Phalcon\Container`, a proxy container class to the `Phalcon\DI` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
 - Added `Phalcon\Acl\Adapter\Memory::getActiveKey`, `Phalcon\Acl\Adapter\Memory::activeFunctionCustomArgumentsCount` and `Phalcon\Acl\Adapter\Memory::getActiveFunction` to get latest key, number of custom arguments, and function used to acquire access
@@ -97,12 +116,7 @@
     - the `Phalcon\Session\Adapter\Files` using the name `session` 
     - the `Phalcon\Session\Bag` using the name `sessionBag` 
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
-- Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Files`, `Phalcon\Session\Libmemcached`, `Phalcon\Session\Noop` and `Phalcon\Session\Redis`.  [#12921](https://github.com/phalcon/cphalcon/issues/12833), [11341](https://github.com/phalcon/cphalcon/issues/11341), [13535](https://github.com/phalcon/cphalcon/issues/13535)
-- Changed the `Phalcon\Tag` and `Phalcon\Html\Tag` to not output `type="text/javascript"` when the doctype is HTML5 [#13341](https://github.com/phalcon/cphalcon/issues/13341)
-- Changed `Phalcon\Http\RequestInterface::getUploadedFiles()` now returns an associative array if the second argument is passed as true
-- Changed the `Phalcon\Mvc\Url::get()` to correctly calculate the '/' and not produce URLs with double slashes [13495](https://github.com/phalcon/cphalcon/issues/13495)
-- Changed the license header for all `phalcon` files; Added same header in all tests as well as `declare(strict_types=1);` [#13684](https://github.com/phalcon/cphalcon/issues/13684)
-- Changed the `Phalcon\Mvc\Engine\Volt` to recognize `null` values when working with macros. [#13660](https://github.com/phalcon/cphalcon/issues/13660)
+- Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Files`, `Phalcon\Session\Libmemcached`, `Phalcon\Session\Noop` and `Phalcon\Session\Redis`.  [#12921](https://github.com/phalcon/cphalcon/issues/12833), (https://github.com/phalcon/cphalcon/issues/11341), (https://github.com/phalcon/cphalcon/issues/13535)
 
 ## Removed
 - PHP < 7.2 no longer supported
