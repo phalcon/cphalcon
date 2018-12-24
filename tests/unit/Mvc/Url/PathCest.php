@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Mvc\Url;
 
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 /**
@@ -32,6 +33,13 @@ class PathCest
     public function mvcUrlPath(UnitTester $I)
     {
         $I->wantToTest("Mvc\Url - path()");
-        $I->skipTest("Need implementation");
+        $url = new Url();
+
+        $url->setBasePath('/en');
+        $path = '/en';
+
+        $expected = '/en/team';
+        $actual   = $url->path('/team');
+        $I->assertEquals($expected, $actual);
     }
 }
