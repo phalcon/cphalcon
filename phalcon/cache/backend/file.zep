@@ -514,9 +514,11 @@ class File extends Backend
 	public function getKey(key) -> string
 	{
 		if this->_useSafeKey === true {
+			if this->_useSubDir === true {
+				return  this->getSubDir(md5(key)). md5(key);
+			}
 			return md5(key);
 		}
-
 		return key;
 	}
 
