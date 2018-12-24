@@ -17,6 +17,10 @@ namespace Phalcon;
  */
 interface CryptInterface
 {
+	/**
+	 * Changes the padding scheme used.
+	 */
+	public function setPadding(int! scheme) -> <CryptInterface>;
 
 	/**
 	 * Sets the cipher algorithm

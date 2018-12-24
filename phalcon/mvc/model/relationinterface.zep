@@ -80,6 +80,13 @@ interface RelationInterface
 	public function getForeignKey();
 
 	/**
+	 * Returns parameters that must be always used when the related records are obtained
+	 *
+	 * @return array
+	 */
+	public function getParams();
+
+	/**
 	 * Check whether the relation is a 'many-to-many' relation or not
 	 */
 	public function isThrough() -> bool;

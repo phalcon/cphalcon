@@ -54,4 +54,14 @@ interface DispatcherInterface extends DispatcherInterfaceBase
 	 * Returns the active task in the dispatcher
 	 */
 	public function getActiveTask() -> <TaskInterface>;
+
+	/**
+	 * Set the options to be dispatched
+	 */
+	public function setOptions(array options);
+
+	/**
+	 * Get dispatched options
+	 */
+	public function getOptions() -> array;
 }

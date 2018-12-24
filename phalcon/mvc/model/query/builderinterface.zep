@@ -215,4 +215,34 @@ interface BuilderInterface
 	 * Returns default bind types
 	 */
 	public function getBindTypes() -> array;
+
+	/**
+	 * Sets SELECT DISTINCT / SELECT ALL flag
+	 *
+	 *<code>
+	 * $builder->distinct("status");
+	 * $builder->distinct(null);
+	 *</code>
+	 */
+	public function distinct(var distinct) -> <BuilderInterface>;
+
+	/**
+	 * Returns SELECT DISTINCT / SELECT ALL flag
+	 */
+	public function getDistinct() -> bool;
+
+	/**
+	 * Sets a FOR UPDATE clause
+	 *
+	 *<code>
+	 * $builder->forUpdate(true);
+	 *</code>
+	 */
+	public function forUpdate(bool forUpdate) -> <BuilderInterface>;
+
+
+	/**
+	 * Returns the current OFFSET clause
+	 */
+	public function getOffset() -> int;
 }
