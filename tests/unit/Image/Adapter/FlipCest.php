@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Image\Adapter;
 
 use UnitTester;
 
+/**
+ * Class FlipCest
+ */
 class FlipCest
 {
     /**
@@ -25,7 +29,7 @@ class FlipCest
      */
     public function imageAdapterFlip(UnitTester $I)
     {
-        $I->wantToTest("Image\Adapter - flip()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Image\Adapter - flip()');
+        $I->skipTest('Need implementation');
     }
 }

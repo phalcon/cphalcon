@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddBehaviorCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class AddBehaviorCest
 {
@@ -31,7 +29,7 @@ class AddBehaviorCest
      */
     public function mvcCollectionManagerAddBehavior(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - addBehavior()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - addBehavior()');
+        $I->skipTest('Need implementation');
     }
 }

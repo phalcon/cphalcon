@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
+/**
+ * Class DescribeReferencesCest
+ */
 class DescribeReferencesCest
 {
     /**
@@ -25,7 +29,7 @@ class DescribeReferencesCest
      */
     public function dbDialectSqliteDescribeReferences(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Sqlite - describeReferences()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Sqlite - describeReferences()');
+        $I->skipTest('Need implementation');
     }
 }

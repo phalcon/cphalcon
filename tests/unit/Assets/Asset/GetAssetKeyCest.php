@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class GetAssetKeyCest
- *
- * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetAssetKeyCest
 {

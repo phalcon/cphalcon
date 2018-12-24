@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class OffsetExistsCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
  */
 class OffsetExistsCest
 {

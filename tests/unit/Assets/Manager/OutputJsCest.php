@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class OutputJsCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class OutputJsCest
 {

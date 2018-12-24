@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class HandleCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class HandleCest
 {
@@ -31,7 +29,7 @@ class HandleCest
      */
     public function mvcRouterAnnotationsHandle(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - handle()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - handle()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Submit;
 
 use IntegrationTester;
 
+/**
+ * Class AddFilterCest
+ */
 class AddFilterCest
 {
     /**
@@ -25,7 +29,7 @@ class AddFilterCest
      */
     public function formsElementSubmitAddFilter(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Submit - addFilter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Submit - addFilter()');
+        $I->skipTest('Need implementation');
     }
 }

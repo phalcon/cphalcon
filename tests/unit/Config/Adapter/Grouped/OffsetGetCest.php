@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
+/**
+ * Class OffsetGetCest
+ */
 class OffsetGetCest
 {
     /**
@@ -25,7 +29,7 @@ class OffsetGetCest
      */
     public function configAdapterGroupedOffsetGet(UnitTester $I)
     {
-        $I->wantToTest("Config\Adapter\Grouped - offsetGet()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Grouped - offsetGet()');
+        $I->skipTest('Need implementation');
     }
 }

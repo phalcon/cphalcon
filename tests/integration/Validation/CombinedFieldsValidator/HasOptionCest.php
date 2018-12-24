@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Validation\CombinedFieldsValidator;
 
 use IntegrationTester;
 
+/**
+ * Class HasOptionCest
+ */
 class HasOptionCest
 {
     /**
@@ -25,7 +29,7 @@ class HasOptionCest
      */
     public function validationCombinedfieldsvalidatorHasOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\CombinedFieldsValidator - hasOption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Validation\CombinedFieldsValidator - hasOption()');
+        $I->skipTest('Need implementation');
     }
 }

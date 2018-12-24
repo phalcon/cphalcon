@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class OffsetGetCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class OffsetGetCest
 {
@@ -31,7 +29,7 @@ class OffsetGetCest
      */
     public function translateAdapterCsvOffsetGet(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Csv - offsetGet()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Csv - offsetGet()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDefaultDomainCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class GetDefaultDomainCest
 {
@@ -31,7 +29,7 @@ class GetDefaultDomainCest
      */
     public function translateAdapterGettextGetDefaultDomain(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - getDefaultDomain()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - getDefaultDomain()');
+        $I->skipTest('Need implementation');
     }
 }

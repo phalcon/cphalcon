@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetMethodsAnnotationsCest
- *
- * @package Phalcon\Test\Unit\Annotations\Reflection
  */
 class GetMethodsAnnotationsCest
 {
@@ -31,7 +29,7 @@ class GetMethodsAnnotationsCest
      */
     public function annotationsReflectionGetMethodsAnnotations(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Reflection - getMethodsAnnotations()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Reflection - getMethodsAnnotations()');
+        $I->skipTest('Need implementation');
     }
 }

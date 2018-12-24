@@ -35,24 +35,6 @@ class CookieCest extends HttpBase
     }
 
     /**
-     * Tests Cookie::setSignKey
-     *
-     * @test
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-05-06
-     */
-    public function shouldThrowExceptionIfSignKeyIsNotLongEnough(UnitTester $I)
-    {
-        $I->expectThrowable(
-            new Exception("The cookie's key should be at least 32 characters long. Current length is 10."),
-            function () {
-                $cookie = new Cookie('test-cookie', 'test', time() + 3600);
-                $cookie->setSignKey('1234567890');
-            }
-        );
-    }
-
-    /**
      * Tests Cookie::getValue using message authentication code and request
      * forgery
      *

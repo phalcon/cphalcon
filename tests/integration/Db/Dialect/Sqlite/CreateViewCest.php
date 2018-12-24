@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
+/**
+ * Class CreateViewCest
+ */
 class CreateViewCest
 {
     /**
@@ -25,7 +29,7 @@ class CreateViewCest
      */
     public function dbDialectSqliteCreateView(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Sqlite - createView()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Sqlite - createView()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class ReduceSlashesCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class ReduceSlashesCest
 {

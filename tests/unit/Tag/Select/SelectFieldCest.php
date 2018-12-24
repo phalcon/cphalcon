@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SelectFieldCest
- *
- * @package Phalcon\Test\Unit\Tag\Select
  */
 class SelectFieldCest
 {
@@ -31,7 +29,7 @@ class SelectFieldCest
      */
     public function tagSelectSelectField(UnitTester $I)
     {
-        $I->wantToTest("Tag\Select - selectField()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag\Select - selectField()');
+        $I->skipTest('Need implementation');
     }
 }

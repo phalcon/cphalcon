@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetCompiledPatternCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetCompiledPatternCest
 {
@@ -31,7 +29,7 @@ class GetCompiledPatternCest
      */
     public function mvcRouterRouteGetCompiledPattern(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getCompiledPattern()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getCompiledPattern()');
+        $I->skipTest('Need implementation');
     }
 }

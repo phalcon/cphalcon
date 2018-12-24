@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
+/**
+ * Class SetActionSuffixCest
+ */
 class SetActionSuffixCest
 {
     /**
@@ -25,7 +29,7 @@ class SetActionSuffixCest
      */
     public function cliDispatcherSetActionSuffix(CliTester $I)
     {
-        $I->wantToTest("Cli\Dispatcher - setActionSuffix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Dispatcher - setActionSuffix()');
+        $I->skipTest('Need implementation');
     }
 }

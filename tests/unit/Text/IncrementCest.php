@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class IncrementCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class IncrementCest
 {

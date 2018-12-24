@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
+/**
+ * Class ListenLowSeverityCest
+ */
 class ListenLowSeverityCest
 {
     /**
@@ -25,7 +29,7 @@ class ListenLowSeverityCest
      */
     public function debugListenLowSeverity(UnitTester $I)
     {
-        $I->wantToTest("Debug - listenLowSeverity()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug - listenLowSeverity()');
+        $I->skipTest('Need implementation');
     }
 }

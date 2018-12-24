@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ComputeHmacCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class ComputeHmacCest
 {
@@ -31,7 +29,7 @@ class ComputeHmacCest
      */
     public function securityComputeHmac(UnitTester $I)
     {
-        $I->wantToTest("Security - computeHmac()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - computeHmac()');
+        $I->skipTest('Need implementation');
     }
 }

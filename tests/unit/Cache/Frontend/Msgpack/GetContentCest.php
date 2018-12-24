@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Msgpack;
 
 use UnitTester;
 
+/**
+ * Class GetContentCest
+ */
 class GetContentCest
 {
     /**
@@ -25,7 +29,7 @@ class GetContentCest
      */
     public function cacheFrontendMsgpackGetContent(UnitTester $I)
     {
-        $I->wantToTest("Cache\Frontend\Msgpack - getContent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Frontend\Msgpack - getContent()');
+        $I->skipTest('Need implementation');
     }
 }

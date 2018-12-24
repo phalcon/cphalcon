@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetReservedAttributesCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class GetReservedAttributesCest
 {
@@ -31,7 +29,7 @@ class GetReservedAttributesCest
      */
     public function mvcCollectionGetReservedAttributes(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - getReservedAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getReservedAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ViaCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class ViaCest
 {
@@ -31,7 +29,7 @@ class ViaCest
      */
     public function mvcRouterRouteVia(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - via()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - via()');
+        $I->skipTest('Need implementation');
     }
 }

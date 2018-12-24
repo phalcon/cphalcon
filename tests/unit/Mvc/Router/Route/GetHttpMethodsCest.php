@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetHttpMethodsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetHttpMethodsCest
 {
@@ -31,7 +29,7 @@ class GetHttpMethodsCest
      */
     public function mvcRouterRouteGetHttpMethods(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getHttpMethods()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getHttpMethods()');
+        $I->skipTest('Need implementation');
     }
 }

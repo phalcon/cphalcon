@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetActionNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetActionNameCest
 {
@@ -31,7 +29,7 @@ class GetActionNameCest
      */
     public function mvcDispatcherGetActionName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getActionName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getActionName()');
+        $I->skipTest('Need implementation');
     }
 }

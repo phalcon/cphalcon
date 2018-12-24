@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetDICest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class SetDICest
 {
@@ -31,7 +29,7 @@ class SetDICest
      */
     public function securitySetDI(UnitTester $I)
     {
-        $I->wantToTest("Security - setDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - setDI()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class AddCssCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class AddCssCest
 {

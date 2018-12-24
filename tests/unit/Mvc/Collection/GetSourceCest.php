@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetSourceCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class GetSourceCest
 {
@@ -31,7 +29,7 @@ class GetSourceCest
      */
     public function mvcCollectionGetSource(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - getSource()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getSource()');
+        $I->skipTest('Need implementation');
     }
 }

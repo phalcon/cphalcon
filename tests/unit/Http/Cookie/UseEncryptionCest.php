@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
+/**
+ * Class UseEncryptionCest
+ */
 class UseEncryptionCest
 {
     /**
@@ -25,7 +29,7 @@ class UseEncryptionCest
      */
     public function httpCookieUseEncryption(UnitTester $I)
     {
-        $I->wantToTest("Http\Cookie - useEncryption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Cookie - useEncryption()');
+        $I->skipTest('Need implementation');
     }
 }

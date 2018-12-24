@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Radio;
 
 use IntegrationTester;
 
+/**
+ * Class SetLabelCest
+ */
 class SetLabelCest
 {
     /**
@@ -25,7 +29,7 @@ class SetLabelCest
      */
     public function formsElementRadioSetLabel(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Radio - setLabel()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Radio - setLabel()');
+        $I->skipTest('Need implementation');
     }
 }

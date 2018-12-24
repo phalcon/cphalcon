@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class UnserializeCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class UnserializeCest
 {
@@ -31,7 +29,7 @@ class UnserializeCest
      */
     public function mvcCollectionUnserialize(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - unserialize()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - unserialize()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetParamCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetParamCest
 {
@@ -31,7 +29,7 @@ class GetParamCest
      */
     public function mvcDispatcherGetParam(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getParam()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getParam()');
+        $I->skipTest('Need implementation');
     }
 }

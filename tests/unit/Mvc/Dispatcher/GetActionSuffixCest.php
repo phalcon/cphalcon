@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetActionSuffixCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetActionSuffixCest
 {
@@ -31,7 +29,7 @@ class GetActionSuffixCest
      */
     public function mvcDispatcherGetActionSuffix(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getActionSuffix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getActionSuffix()');
+        $I->skipTest('Need implementation');
     }
 }

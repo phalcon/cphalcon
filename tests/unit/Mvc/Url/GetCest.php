@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class GetCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class GetCest
 {

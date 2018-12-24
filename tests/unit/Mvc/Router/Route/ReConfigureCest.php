@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReConfigureCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class ReConfigureCest
 {
@@ -31,7 +29,7 @@ class ReConfigureCest
      */
     public function mvcRouterRouteReConfigure(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - reConfigure()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - reConfigure()');
+        $I->skipTest('Need implementation');
     }
 }

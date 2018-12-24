@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ResetDomainCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class ResetDomainCest
 {
@@ -31,7 +29,7 @@ class ResetDomainCest
      */
     public function translateAdapterGettextResetDomain(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - resetDomain()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - resetDomain()');
+        $I->skipTest('Need implementation');
     }
 }

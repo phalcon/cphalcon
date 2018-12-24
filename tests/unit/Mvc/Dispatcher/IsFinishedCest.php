@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class IsFinishedCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class IsFinishedCest
 {
@@ -31,7 +29,7 @@ class IsFinishedCest
      */
     public function mvcDispatcherIsFinished(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - isFinished()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - isFinished()');
+        $I->skipTest('Need implementation');
     }
 }

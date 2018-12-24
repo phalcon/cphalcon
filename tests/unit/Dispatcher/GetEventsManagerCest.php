@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
+/**
+ * Class GetEventsManagerCest
+ */
 class GetEventsManagerCest
 {
     /**
@@ -25,7 +29,7 @@ class GetEventsManagerCest
      */
     public function dispatcherGetEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Dispatcher - getEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Dispatcher - getEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

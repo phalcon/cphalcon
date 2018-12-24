@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class HashCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class HashCest
 {
@@ -31,7 +29,7 @@ class HashCest
      */
     public function securityHash(UnitTester $I)
     {
-        $I->wantToTest("Security - hash()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - hash()');
+        $I->skipTest('Need implementation');
     }
 }

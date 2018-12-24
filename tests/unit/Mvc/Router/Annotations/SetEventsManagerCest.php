@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetEventsManagerCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class SetEventsManagerCest
 {
@@ -31,7 +29,7 @@ class SetEventsManagerCest
      */
     public function mvcRouterAnnotationsSetEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - setEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - setEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

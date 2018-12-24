@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DenyCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class DenyCest
 {

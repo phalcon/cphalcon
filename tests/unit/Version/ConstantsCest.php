@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class ConstantsCest
- *
- * @package Phalcon\Test\Unit\Version
  */
 class ConstantsCest
 {

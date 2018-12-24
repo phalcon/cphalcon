@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
+/**
+ * Class GetDICest
+ */
 class GetDICest
 {
     /**
@@ -25,7 +29,7 @@ class GetDICest
      */
     public function flashGetDI(UnitTester $I)
     {
-        $I->wantToTest("Flash - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Flash - getDI()');
+        $I->skipTest('Need implementation');
     }
 }

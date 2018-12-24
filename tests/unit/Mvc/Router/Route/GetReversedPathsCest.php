@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetReversedPathsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetReversedPathsCest
 {
@@ -31,7 +29,7 @@ class GetReversedPathsCest
      */
     public function mvcRouterRouteGetReversedPaths(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getReversedPaths()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getReversedPaths()');
+        $I->skipTest('Need implementation');
     }
 }

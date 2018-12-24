@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDefaultNamespaceCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetDefaultNamespaceCest
 {
@@ -31,7 +29,7 @@ class GetDefaultNamespaceCest
      */
     public function mvcDispatcherGetDefaultNamespace(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getDefaultNamespace()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getDefaultNamespace()');
+        $I->skipTest('Need implementation');
     }
 }

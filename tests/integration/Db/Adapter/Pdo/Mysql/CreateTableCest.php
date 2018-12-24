@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
+/**
+ * Class CreateTableCest
+ */
 class CreateTableCest
 {
     /**
@@ -25,7 +29,7 @@ class CreateTableCest
      */
     public function dbAdapterPdoMysqlCreateTable(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Mysql - createTable()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Mysql - createTable()');
+        $I->skipTest('Need implementation');
     }
 }

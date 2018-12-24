@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
 
+/**
+ * Class EncryptBase64Cest
+ */
 class EncryptBase64Cest
 {
     /**
@@ -25,7 +29,7 @@ class EncryptBase64Cest
      */
     public function cryptEncryptBase64(UnitTester $I)
     {
-        $I->wantToTest("Crypt - encryptBase64()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt - encryptBase64()');
+        $I->skipTest('Need implementation');
     }
 }

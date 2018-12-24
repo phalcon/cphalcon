@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SendCookiesOnHandleRequestCest
- *
- * @package Phalcon\Test\Unit\Mvc\Application
  */
 class SendCookiesOnHandleRequestCest
 {
@@ -31,7 +29,7 @@ class SendCookiesOnHandleRequestCest
      */
     public function mvcApplicationSendCookiesOnHandleRequest(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Application - sendCookiesOnHandleRequest()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Application - sendCookiesOnHandleRequest()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetActiveControllerCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetActiveControllerCest
 {
@@ -31,7 +29,7 @@ class GetActiveControllerCest
      */
     public function mvcDispatcherGetActiveController(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getActiveController()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getActiveController()');
+        $I->skipTest('Need implementation');
     }
 }

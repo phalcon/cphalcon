@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class FilterCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class FilterCest
 {

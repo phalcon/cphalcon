@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetActionSuffixCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class SetActionSuffixCest
 {
@@ -31,7 +29,7 @@ class SetActionSuffixCest
      */
     public function mvcRouterAnnotationsSetActionSuffix(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - setActionSuffix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - setActionSuffix()');
+        $I->skipTest('Need implementation');
     }
 }

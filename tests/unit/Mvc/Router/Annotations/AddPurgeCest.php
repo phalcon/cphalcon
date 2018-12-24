@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddPurgeCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class AddPurgeCest
 {
@@ -31,7 +29,7 @@ class AddPurgeCest
      */
     public function mvcRouterAnnotationsAddPurge(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - addPurge()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - addPurge()');
+        $I->skipTest('Need implementation');
     }
 }

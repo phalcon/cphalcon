@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Between;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class SetOptionCest
      */
     public function validationValidatorBetweenSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Between - setOption()");
+        $I->wantToTest('Validation\Validator\Between - setOption()');
         $validator = new Between();
         $this->checkSetOption($I, $validator);
     }

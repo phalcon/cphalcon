@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Numeric;
 
 use IntegrationTester;
 
+/**
+ * Class RenderCest
+ */
 class RenderCest
 {
     /**
@@ -25,7 +29,7 @@ class RenderCest
      */
     public function formsElementNumericRender(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Numeric - render()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Numeric - render()');
+        $I->skipTest('Need implementation');
     }
 }

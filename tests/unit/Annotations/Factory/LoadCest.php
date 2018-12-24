@@ -19,8 +19,6 @@ use UnitTester;
 
 /**
  * Class LoadCest
- *
- * @package Phalcon\Test\Unit\Annotations\Factory
  */
 class LoadCest
 {

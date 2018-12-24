@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Annotations\Reflection
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function annotationsReflectionConstruct(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Reflection - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Reflection - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

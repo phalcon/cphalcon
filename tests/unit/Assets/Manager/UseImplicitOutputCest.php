@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class UseImplicitOutputCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class UseImplicitOutputCest
 {

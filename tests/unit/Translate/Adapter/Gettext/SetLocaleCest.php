@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetLocaleCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class SetLocaleCest
 {
@@ -31,7 +29,7 @@ class SetLocaleCest
      */
     public function translateAdapterGettextSetLocale(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - setLocale()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - setLocale()');
+        $I->skipTest('Need implementation');
     }
 }

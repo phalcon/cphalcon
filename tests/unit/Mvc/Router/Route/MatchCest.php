@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class MatchCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class MatchCest
 {
@@ -31,7 +29,7 @@ class MatchCest
      */
     public function mvcRouterRouteMatch(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - match()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - match()');
+        $I->skipTest('Need implementation');
     }
 }

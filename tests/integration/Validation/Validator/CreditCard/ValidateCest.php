@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -17,19 +18,11 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\CreditCard;
 use IntegrationTester;
 
+/**
+ * Class ValidateCest
+ */
 class ValidateCest
 {
-    /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function validationValidatorCreditCardValidate(IntegrationTester $I)
-    {
-        $I->skipTest("Need implementation");
-    }
-
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single
      * field

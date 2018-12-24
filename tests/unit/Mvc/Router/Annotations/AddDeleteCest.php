@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddDeleteCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class AddDeleteCest
 {
@@ -31,7 +29,7 @@ class AddDeleteCest
      */
     public function mvcRouterAnnotationsAddDelete(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - addDelete()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - addDelete()');
+        $I->skipTest('Need implementation');
     }
 }

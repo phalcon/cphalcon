@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class UpperCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class UpperCest
 {

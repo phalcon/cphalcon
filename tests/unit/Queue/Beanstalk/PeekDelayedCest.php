@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class PeekDelayedCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class PeekDelayedCest
 {
@@ -31,7 +29,7 @@ class PeekDelayedCest
      */
     public function queueBeanstalkPeekDelayed(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - peekDelayed()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - peekDelayed()');
+        $I->skipTest('Need implementation');
     }
 }

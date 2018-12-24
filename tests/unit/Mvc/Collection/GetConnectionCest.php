@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetConnectionCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class GetConnectionCest
 {
@@ -31,7 +29,7 @@ class GetConnectionCest
      */
     public function mvcCollectionGetConnection(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - getConnection()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getConnection()');
+        $I->skipTest('Need implementation');
     }
 }

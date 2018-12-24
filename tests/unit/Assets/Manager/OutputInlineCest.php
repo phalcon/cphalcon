@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class OutputInlineCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class OutputInlineCest
 {

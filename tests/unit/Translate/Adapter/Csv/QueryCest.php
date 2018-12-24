@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class QueryCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class QueryCest
 {
@@ -31,7 +29,7 @@ class QueryCest
      */
     public function translateAdapterCsvQuery(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Csv - query()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Csv - query()');
+        $I->skipTest('Need implementation');
     }
 }

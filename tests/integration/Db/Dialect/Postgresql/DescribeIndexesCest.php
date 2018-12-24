@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
 
+/**
+ * Class DescribeIndexesCest
+ */
 class DescribeIndexesCest
 {
     /**
@@ -25,7 +29,7 @@ class DescribeIndexesCest
      */
     public function dbDialectPostgresqlDescribeIndexes(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Postgresql - describeIndexes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Postgresql - describeIndexes()');
+        $I->skipTest('Need implementation');
     }
 }

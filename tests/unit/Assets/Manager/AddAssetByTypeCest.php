@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddAssetByTypeCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class AddAssetByTypeCest
 {

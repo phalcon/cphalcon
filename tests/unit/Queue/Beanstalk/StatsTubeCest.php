@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class StatsTubeCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class StatsTubeCest
 {
@@ -31,7 +29,7 @@ class StatsTubeCest
      */
     public function queueBeanstalkStatsTube(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - statsTube()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - statsTube()');
+        $I->skipTest('Need implementation');
     }
 }

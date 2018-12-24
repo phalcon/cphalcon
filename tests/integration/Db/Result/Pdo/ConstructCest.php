@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     /**
@@ -25,7 +29,7 @@ class ConstructCest
      */
     public function dbResultPdoConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Result\Pdo - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Result\Pdo - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

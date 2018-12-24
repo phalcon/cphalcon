@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ResetCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class ResetCest
 {
@@ -31,7 +29,7 @@ class ResetCest
      */
     public function mvcRouterRouteReset(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - reset()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - reset()');
+        $I->skipTest('Need implementation');
     }
 }

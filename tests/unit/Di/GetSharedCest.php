@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
+/**
+ * Class GetSharedCest
+ */
 class GetSharedCest
 {
     /**
@@ -25,7 +29,7 @@ class GetSharedCest
      */
     public function diGetShared(UnitTester $I)
     {
-        $I->wantToTest("Di - getShared()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di - getShared()');
+        $I->skipTest('Need implementation');
     }
 }

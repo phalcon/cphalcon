@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetPrefixCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Group
  */
 class SetPrefixCest
 {
@@ -31,7 +29,7 @@ class SetPrefixCest
      */
     public function mvcRouterGroupSetPrefix(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Group - setPrefix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Group - setPrefix()');
+        $I->skipTest('Need implementation');
     }
 }

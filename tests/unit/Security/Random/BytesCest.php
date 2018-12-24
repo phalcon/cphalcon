@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class BytesCest
- *
- * @package Phalcon\Test\Unit\Security\Random
  */
 class BytesCest
 {

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class IsLegacyHashCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class IsLegacyHashCest
 {
@@ -31,7 +29,7 @@ class IsLegacyHashCest
      */
     public function securityIsLegacyHash(UnitTester $I)
     {
-        $I->wantToTest("Security - isLegacyHash()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - isLegacyHash()');
+        $I->skipTest('Need implementation');
     }
 }

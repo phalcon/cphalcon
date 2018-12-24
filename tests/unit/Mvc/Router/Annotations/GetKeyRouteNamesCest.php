@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetKeyRouteNamesCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class GetKeyRouteNamesCest
 {
@@ -31,7 +29,7 @@ class GetKeyRouteNamesCest
      */
     public function mvcRouterAnnotationsGetKeyRouteNames(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - getKeyRouteNames()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - getKeyRouteNames()');
+        $I->skipTest('Need implementation');
     }
 }

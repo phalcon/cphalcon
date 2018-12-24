@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetSessionTokenCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class GetSessionTokenCest
 {
@@ -31,7 +29,7 @@ class GetSessionTokenCest
      */
     public function securityGetSessionToken(UnitTester $I)
     {
-        $I->wantToTest("Security - getSessionToken()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - getSessionToken()');
+        $I->skipTest('Need implementation');
     }
 }

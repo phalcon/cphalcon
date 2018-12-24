@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Profiler;
 
 use IntegrationTester;
 
+/**
+ * Class GetLastProfileCest
+ */
 class GetLastProfileCest
 {
     /**
@@ -25,7 +29,7 @@ class GetLastProfileCest
      */
     public function dbProfilerGetLastProfile(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Profiler - getLastProfile()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Profiler - getLastProfile()');
+        $I->skipTest('Need implementation');
     }
 }

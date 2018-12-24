@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetModuleCest
- *
- * @package Phalcon\Test\Unit\Application
  */
 class GetModuleCest
 {
@@ -31,7 +29,7 @@ class GetModuleCest
      */
     public function applicationGetModule(UnitTester $I)
     {
-        $I->wantToTest("Application - getModule()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Application - getModule()');
+        $I->skipTest('Need implementation');
     }
 }

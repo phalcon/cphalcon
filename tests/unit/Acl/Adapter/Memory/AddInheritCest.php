@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddInheritCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class AddInheritCest
 {

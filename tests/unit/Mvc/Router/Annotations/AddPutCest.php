@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddPutCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class AddPutCest
 {
@@ -31,7 +29,7 @@ class AddPutCest
      */
     public function mvcRouterAnnotationsAddPut(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - addPut()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - addPut()');
+        $I->skipTest('Need implementation');
     }
 }

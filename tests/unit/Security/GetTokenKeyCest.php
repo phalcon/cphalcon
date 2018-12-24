@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetTokenKeyCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class GetTokenKeyCest
 {
@@ -31,7 +29,7 @@ class GetTokenKeyCest
      */
     public function securityGetTokenKey(UnitTester $I)
     {
-        $I->wantToTest("Security - getTokenKey()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - getTokenKey()');
+        $I->skipTest('Need implementation');
     }
 }

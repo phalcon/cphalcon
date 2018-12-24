@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Index;
 
 use IntegrationTester;
 
+/**
+ * Class SetStateCest
+ */
 class SetStateCest
 {
     /**
@@ -25,7 +29,7 @@ class SetStateCest
      */
     public function dbIndexSetState(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Index - __set_state()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Index - __set_state()');
+        $I->skipTest('Need implementation');
     }
 }

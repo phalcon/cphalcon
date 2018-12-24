@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class GetLocalCest
- *
- * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetLocalCest
 {

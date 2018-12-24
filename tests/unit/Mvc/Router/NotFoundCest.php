@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NotFoundCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class NotFoundCest
 {
@@ -31,7 +29,7 @@ class NotFoundCest
      */
     public function mvcRouterNotFound(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - notFound()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - notFound()');
+        $I->skipTest('Need implementation');
     }
 }

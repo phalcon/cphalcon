@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class PauseTubeCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class PauseTubeCest
 {
@@ -31,7 +29,7 @@ class PauseTubeCest
      */
     public function queueBeanstalkPauseTube(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - pauseTube()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - pauseTube()');
+        $I->skipTest('Need implementation');
     }
 }

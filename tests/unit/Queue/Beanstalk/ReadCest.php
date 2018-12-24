@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReadCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ReadCest
 {
@@ -31,7 +29,7 @@ class ReadCest
      */
     public function queueBeanstalkRead(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - read()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - read()');
+        $I->skipTest('Need implementation');
     }
 }

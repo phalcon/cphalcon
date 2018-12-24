@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SendHeadersOnHandleRequestCest
- *
- * @package Phalcon\Test\Unit\Mvc\Application
  */
 class SendHeadersOnHandleRequestCest
 {
@@ -31,7 +29,7 @@ class SendHeadersOnHandleRequestCest
      */
     public function mvcApplicationSendHeadersOnHandleRequest(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Application - sendHeadersOnHandleRequest()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Application - sendHeadersOnHandleRequest()');
+        $I->skipTest('Need implementation');
     }
 }

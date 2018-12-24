@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
+/**
+ * Class SetTypeCest
+ */
 class SetTypeCest
 {
     /**
@@ -25,7 +29,7 @@ class SetTypeCest
      */
     public function eventsEventSetType(UnitTester $I)
     {
-        $I->wantToTest("Events\Event - setType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Events\Event - setType()');
+        $I->skipTest('Need implementation');
     }
 }

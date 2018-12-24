@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
+/**
+ * Class ResetCest
+ */
 class ResetCest
 {
     /**
@@ -25,7 +29,7 @@ class ResetCest
      */
     public function diReset(UnitTester $I)
     {
-        $I->wantToTest("Di - reset()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di - reset()');
+        $I->skipTest('Need implementation');
     }
 }

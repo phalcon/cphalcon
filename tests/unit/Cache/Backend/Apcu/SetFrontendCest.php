@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Apcu;
 
 use UnitTester;
 
+/**
+ * Class SetFrontendCest
+ */
 class SetFrontendCest
 {
     /**
@@ -25,7 +29,7 @@ class SetFrontendCest
      */
     public function cacheBackendApcuSetFrontend(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Apcu - setFrontend()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Apcu - setFrontend()');
+        $I->skipTest('Need implementation');
     }
 }

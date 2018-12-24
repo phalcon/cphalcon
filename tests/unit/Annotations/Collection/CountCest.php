@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CountCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class CountCest
 {
@@ -31,7 +29,7 @@ class CountCest
      */
     public function annotationsCollectionCount(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - count()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - count()');
+        $I->skipTest('Need implementation');
     }
 }

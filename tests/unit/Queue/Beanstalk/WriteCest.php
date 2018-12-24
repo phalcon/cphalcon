@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WriteCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class WriteCest
 {
@@ -31,7 +29,7 @@ class WriteCest
      */
     public function queueBeanstalkWrite(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - write()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - write()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Confirmation;
 use IntegrationTester;
 
+/**
+ * Class HasOptionCest
+ */
 class HasOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class HasOptionCest
      */
     public function validationValidatorConfirmationHasOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Confirmation - hasOption()");
+        $I->wantToTest('Validation\Validator\Confirmation - hasOption()');
         $validator = new Confirmation(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

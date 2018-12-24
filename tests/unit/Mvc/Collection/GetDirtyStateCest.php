@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDirtyStateCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class GetDirtyStateCest
 {
@@ -31,7 +29,7 @@ class GetDirtyStateCest
      */
     public function mvcCollectionGetDirtyState(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - getDirtyState()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getDirtyState()');
+        $I->skipTest('Need implementation');
     }
 }

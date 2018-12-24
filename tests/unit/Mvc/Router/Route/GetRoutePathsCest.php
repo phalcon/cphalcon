@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetRoutePathsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetRoutePathsCest
 {
@@ -31,7 +29,7 @@ class GetRoutePathsCest
      */
     public function mvcRouterRouteGetRoutePaths(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getRoutePaths()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getRoutePaths()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class FireEventCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class FireEventCest
 {
@@ -31,7 +29,7 @@ class FireEventCest
      */
     public function mvcCollectionFireEvent(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - fireEvent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - fireEvent()');
+        $I->skipTest('Need implementation');
     }
 }

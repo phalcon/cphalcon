@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class GetRealTargetUriCest
- *
- * @package Phalcon\Test\Unit\Assets\Asset
  */
 class GetRealTargetUriCest
 {

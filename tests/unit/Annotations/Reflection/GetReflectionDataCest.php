@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetReflectionDataCest
- *
- * @package Phalcon\Test\Unit\Annotations\Reflection
  */
 class GetReflectionDataCest
 {
@@ -31,7 +29,7 @@ class GetReflectionDataCest
      */
     public function annotationsReflectionGetReflectionData(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Reflection - getReflectionData()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Reflection - getReflectionData()');
+        $I->skipTest('Need implementation');
     }
 }

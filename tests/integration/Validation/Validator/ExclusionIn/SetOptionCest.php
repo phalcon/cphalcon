@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\ExclusionIn;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class SetOptionCest
      */
     public function validationValidatorExclusionInSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\ExclusionIn - setOption()");
+        $I->wantToTest('Validation\Validator\ExclusionIn - setOption()');
         $validator = new ExclusionIn();
         $this->checkSetOption($I, $validator);
     }

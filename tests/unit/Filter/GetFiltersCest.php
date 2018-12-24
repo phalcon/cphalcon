@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Filter;
 
 use UnitTester;
 
+/**
+ * Class GetFiltersCest
+ */
 class GetFiltersCest
 {
     /**
@@ -25,7 +29,7 @@ class GetFiltersCest
      */
     public function filterGetFilters(UnitTester $I)
     {
-        $I->wantToTest("Filter - getFilters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Filter - getFilters()');
+        $I->skipTest('Need implementation');
     }
 }

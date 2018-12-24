@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReadAttributeCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class ReadAttributeCest
 {
@@ -31,7 +29,7 @@ class ReadAttributeCest
      */
     public function mvcCollectionReadAttribute(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - readAttribute()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - readAttribute()');
+        $I->skipTest('Need implementation');
     }
 }

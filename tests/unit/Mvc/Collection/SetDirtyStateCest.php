@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetDirtyStateCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class SetDirtyStateCest
 {
@@ -31,7 +29,7 @@ class SetDirtyStateCest
      */
     public function mvcCollectionSetDirtyState(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - setDirtyState()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - setDirtyState()');
+        $I->skipTest('Need implementation');
     }
 }

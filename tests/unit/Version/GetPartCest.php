@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class GetPartCest
- *
- * @package Phalcon\Test\Unit\Version
  */
 class GetPartCest
 {

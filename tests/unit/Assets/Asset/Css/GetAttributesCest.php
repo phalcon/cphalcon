@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css;
+namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class GetAttributesCest
- *
- * @package Phalcon\Test\NoopNoopUnit\Assets\Asset\Css\Css
  */
 class GetAttributesCest
 {

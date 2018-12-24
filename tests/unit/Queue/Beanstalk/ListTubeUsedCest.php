@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ListTubeUsedCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ListTubeUsedCest
 {
@@ -31,7 +29,7 @@ class ListTubeUsedCest
      */
     public function queueBeanstalkListTubeUsed(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - listTubeUsed()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - listTubeUsed()');
+        $I->skipTest('Need implementation');
     }
 }

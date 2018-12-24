@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class ToStringCest
- *
- * @package Phalcon\Test\Unit\Messages\Message
  */
 class ToStringCest
 {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Check;
 
 use IntegrationTester;
 
+/**
+ * Class ClearCest
+ */
 class ClearCest
 {
     /**
@@ -25,7 +29,7 @@ class ClearCest
      */
     public function formsElementCheckClear(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Check - clear()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Check - clear()');
+        $I->skipTest('Need implementation');
     }
 }

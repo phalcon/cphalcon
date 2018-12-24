@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,9 @@ use Phalcon\Validation\Validator\Digit;
 use Phalcon\Validation\ValidatorInterface;
 use IntegrationTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     use ValidationTrait;
@@ -30,7 +34,7 @@ class ConstructCest
      */
     public function validationValidatorDigitConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Digit - __construct()");
+        $I->wantToTest('Validation\Validator\Digit - __construct()');
         $validator = new Digit();
         $this->checkConstruct($I, $validator);
     }

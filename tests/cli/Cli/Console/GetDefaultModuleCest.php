@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 
+/**
+ * Class GetDefaultModuleCest
+ */
 class GetDefaultModuleCest
 {
     /**
@@ -25,7 +29,7 @@ class GetDefaultModuleCest
      */
     public function cliConsoleGetDefaultModule(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - getDefaultModule()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Console - getDefaultModule()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CreateIfNotExistCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class CreateIfNotExistCest
 {
@@ -31,7 +29,7 @@ class CreateIfNotExistCest
      */
     public function mvcCollectionCreateIfNotExist(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - createIfNotExist()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - createIfNotExist()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Regex;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class SetOptionCest
      */
     public function validationValidatorRegexSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Regex - setOption()");
+        $I->wantToTest('Validation\Validator\Regex - setOption()');
         $validator = new Regex();
         $this->checkSetOption($I, $validator);
     }

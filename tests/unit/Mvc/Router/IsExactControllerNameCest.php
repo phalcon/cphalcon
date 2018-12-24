@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class IsExactControllerNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class IsExactControllerNameCest
 {
@@ -31,7 +29,7 @@ class IsExactControllerNameCest
      */
     public function mvcRouterIsExactControllerName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - isExactControllerName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - isExactControllerName()');
+        $I->skipTest('Need implementation');
     }
 }

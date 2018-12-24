@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class ConcatCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class ConcatCest
 {

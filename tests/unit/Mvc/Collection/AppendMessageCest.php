@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AppendMessageCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class AppendMessageCest
 {
@@ -31,7 +29,7 @@ class AppendMessageCest
      */
     public function mvcCollectionAppendMessage(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - appendMessage()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - appendMessage()');
+        $I->skipTest('Need implementation');
     }
 }

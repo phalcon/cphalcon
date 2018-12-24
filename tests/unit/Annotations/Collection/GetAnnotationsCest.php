@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetAnnotationsCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class GetAnnotationsCest
 {
@@ -31,7 +29,7 @@ class GetAnnotationsCest
      */
     public function annotationsCollectionGetAnnotations(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - getAnnotations()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - getAnnotations()');
+        $I->skipTest('Need implementation');
     }
 }

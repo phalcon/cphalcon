@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Behavior\Timestampable
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function mvcCollectionBehaviorTimestampableConstruct(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Behavior\Timestampable - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Behavior\Timestampable - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

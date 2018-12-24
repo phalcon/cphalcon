@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,15 +15,20 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
+/**
+ * Class SetTitleCest
+ */
 class SetTitleCest
 {
     /**
      * Tests Phalcon\Tag :: setTitle()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetTitle(UnitTester $I)
+    public function tagSetTitle(UnitTester $I)
     {
         $I->wantToTest("Tag - setTitle()");
         Tag::resetInput();

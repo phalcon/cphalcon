@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetAllCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class GetAllCest
 {
@@ -31,7 +29,7 @@ class GetAllCest
      */
     public function annotationsCollectionGetAll(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - getAll()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - getAll()');
+        $I->skipTest('Need implementation');
     }
 }

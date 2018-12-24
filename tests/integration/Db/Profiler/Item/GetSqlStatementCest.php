@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Profiler\Item;
 
 use IntegrationTester;
 
+/**
+ * Class GetSqlStatementCest
+ */
 class GetSqlStatementCest
 {
     /**
@@ -25,7 +29,7 @@ class GetSqlStatementCest
      */
     public function dbProfilerItemGetSqlStatement(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Profiler\Item - getSqlStatement()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Profiler\Item - getSqlStatement()');
+        $I->skipTest('Need implementation');
     }
 }

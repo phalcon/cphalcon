@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class EndsWithCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class EndsWithCest
 {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class TableOptionsCest
+ */
 class TableOptionsCest
 {
     use DiTrait;
@@ -30,7 +34,7 @@ class TableOptionsCest
      */
     public function dbAdapterPdoMysqlTableOptions(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Mysql - tableOptions()");
+        $I->wantToTest('Db\Adapter\Pdo\Mysql - tableOptions()');
         $table    = 'dialect_table';
         $expected = [
             'auto_increment'  => '1',

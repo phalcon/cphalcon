@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class MissingMethodCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Behavior\SoftDelete
  */
 class MissingMethodCest
 {
@@ -31,7 +29,7 @@ class MissingMethodCest
      */
     public function mvcCollectionBehaviorSoftdeleteMissingMethod(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Behavior\SoftDelete - missingMethod()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Behavior\SoftDelete - missingMethod()');
+        $I->skipTest('Need implementation');
     }
 }

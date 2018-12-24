@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetLocalCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class SetLocalCest
 {

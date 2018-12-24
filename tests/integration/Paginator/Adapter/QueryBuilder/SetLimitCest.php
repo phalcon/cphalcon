@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
 
+/**
+ * Class SetLimitCest
+ */
 class SetLimitCest
 {
     /**
@@ -25,7 +29,7 @@ class SetLimitCest
      */
     public function paginatorAdapterQuerybuilderSetLimit(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\QueryBuilder - setLimit()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Paginator\Adapter\QueryBuilder - setLimit()');
+        $I->skipTest('Need implementation');
     }
 }

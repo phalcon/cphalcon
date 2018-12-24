@@ -12,37 +12,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
-use Phalcon\Translate\Adapter\Csv;
 use UnitTester;
 
 /**
  * Class ExistsCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class ExistsCest
 {
-    use TranslateTrait;
-
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: exists()
      *
      * @param UnitTester $I
      *
-     * @author Ivan Zubok <chi_no@ukr.net>
-     * @since  2014-11-04
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
     public function translateAdapterCsvExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - exists()');
-        $params     = $this->getCsvConfig()['ru'];
-        $translator = new Csv($params);
-
-        $actual = $translator->exists('Hi!');
-        $I->assertFalse($actual);
-
-        $actual = $translator->exists('Hello!');
-        $I->assertTrue($actual);
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ForwardCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class ForwardCest
 {
@@ -31,7 +29,7 @@ class ForwardCest
      */
     public function mvcDispatcherForward(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - forward()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - forward()');
+        $I->skipTest('Need implementation');
     }
 }

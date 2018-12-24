@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View;
 
 use UnitTester;
 
+/**
+ * Class IsCachingCest
+ */
 class IsCachingCest
 {
     /**
@@ -25,7 +29,7 @@ class IsCachingCest
      */
     public function mvcViewIsCaching(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View - isCaching()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View - isCaching()');
+        $I->skipTest('Need implementation');
     }
 }

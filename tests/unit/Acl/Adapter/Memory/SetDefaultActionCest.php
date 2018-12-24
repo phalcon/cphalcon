@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class SetDefaultActionCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class SetDefaultActionCest
 {

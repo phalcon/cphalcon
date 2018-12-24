@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,16 +14,22 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Di\Service :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testConstruct(UnitTester $I)
+    public function diServiceConstruct(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\Service - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

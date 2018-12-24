@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDefaultsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class GetDefaultsCest
 {
@@ -31,7 +29,7 @@ class GetDefaultsCest
      */
     public function mvcRouterAnnotationsGetDefaults(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - getDefaults()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - getDefaults()');
+        $I->skipTest('Need implementation');
     }
 }

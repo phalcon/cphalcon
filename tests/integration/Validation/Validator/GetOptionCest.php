@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Validation\Validator;
 
 use IntegrationTester;
 
+/**
+ * Class GetOptionCest
+ */
 class GetOptionCest
 {
     /**
@@ -25,7 +29,7 @@ class GetOptionCest
      */
     public function validationValidatorGetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator - getOption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Validation\Validator - getOption()');
+        $I->skipTest('Need implementation');
     }
 }
