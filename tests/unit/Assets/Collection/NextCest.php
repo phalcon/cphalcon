@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NextCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class NextCest
 {

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CountCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class CountCest
 {
@@ -31,7 +29,7 @@ class CountCest
      */
     public function mvcCollectionCount(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - count()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - count()');
+        $I->skipTest('Need implementation');
     }
 }

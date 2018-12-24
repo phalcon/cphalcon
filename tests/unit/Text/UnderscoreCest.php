@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class UnderscoreCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class UnderscoreCest
 {

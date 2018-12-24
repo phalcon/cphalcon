@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetCollectionManagerCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class GetCollectionManagerCest
 {
@@ -31,7 +29,7 @@ class GetCollectionManagerCest
      */
     public function mvcCollectionGetCollectionManager(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - getCollectionManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getCollectionManager()');
+        $I->skipTest('Need implementation');
     }
 }

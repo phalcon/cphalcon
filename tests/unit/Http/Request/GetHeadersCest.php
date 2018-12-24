@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
+/**
+ * Class GetHeadersCest
+ */
 class GetHeadersCest
 {
     /**
@@ -25,7 +29,7 @@ class GetHeadersCest
      */
     public function httpRequestGetHeaders(UnitTester $I)
     {
-        $I->wantToTest("Http\Request - getHeaders()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Request - getHeaders()');
+        $I->skipTest('Need implementation');
     }
 }

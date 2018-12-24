@@ -1,47 +1,40 @@
 <?php
+declare(strict_types=1);
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Zephir\Optimizers\FunctionCall;
 
 use Zephir\Call;
 use Zephir\CompilationContext;
-use Zephir\CompilerException;
 use Zephir\CompiledExpression;
+use Zephir\CompilerException;
 use Zephir\Optimizers\OptimizerAbstract;
 
 class PhalconOrmDestroyCacheOptimizer extends OptimizerAbstract
 {
-	/**
-	 * @param array $expression
-	 * @param Call $call
-	 * @param CompilationContext $context
-	 * @return bool|CompiledExpression|mixed
-	 * @throws CompilerException
-	 */
-	public function optimize(array $expression, Call $call, CompilationContext $context)
-	{
+    /**
+     * @param array              $expression
+     * @param Call               $call
+     * @param CompilationContext $context
+     *
+     * @return bool|CompiledExpression|mixed
+     * @throws CompilerException
+     */
+    public function optimize(array $expression, Call $call, CompilationContext $context)
+    {
 
-		$context->headersManager->add('phalcon/mvc/model/orm');
+        $context->headersManager->add('phalcon/mvc/model/orm');
 
-		$context->codePrinter->output('phalcon_orm_destroy_cache(TSRMLS_C);');
+        $context->codePrinter->output('phalcon_orm_destroy_cache(TSRMLS_C);');
 
-		return new CompiledExpression('null', null, $expression);
-	}
+        return new CompiledExpression('null', null, $expression);
+    }
 }

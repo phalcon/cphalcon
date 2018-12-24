@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class SetNameCest
 {
@@ -31,7 +29,7 @@ class SetNameCest
      */
     public function mvcRouterRouteSetName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - setName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - setName()');
+        $I->skipTest('Need implementation');
     }
 }

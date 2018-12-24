@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use UnitTester;
 
+/**
+ * Class SetDICest
+ */
 class SetDICest
 {
     /**
@@ -25,7 +29,7 @@ class SetDICest
      */
     public function httpResponseCookiesSetDI(UnitTester $I)
     {
-        $I->wantToTest("Http\Response\Cookies - setDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Response\Cookies - setDI()');
+        $I->skipTest('Need implementation');
     }
 }

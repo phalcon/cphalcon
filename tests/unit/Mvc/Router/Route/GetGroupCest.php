@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetGroupCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetGroupCest
 {
@@ -31,7 +29,7 @@ class GetGroupCest
      */
     public function mvcRouterRouteGetGroup(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getGroup()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getGroup()');
+        $I->skipTest('Need implementation');
     }
 }

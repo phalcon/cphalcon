@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetIdCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class GetIdCest
 {
@@ -31,7 +29,7 @@ class GetIdCest
      */
     public function queueBeanstalkJobGetId(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - getId()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - getId()');
+        $I->skipTest('Need implementation');
     }
 }

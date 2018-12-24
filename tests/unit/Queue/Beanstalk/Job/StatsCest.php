@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class StatsCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class StatsCest
 {
@@ -31,7 +29,7 @@ class StatsCest
      */
     public function queueBeanstalkJobStats(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - stats()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - stats()');
+        $I->skipTest('Need implementation');
     }
 }

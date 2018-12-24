@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class HasCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class HasCest
 {
@@ -31,7 +29,7 @@ class HasCest
      */
     public function annotationsCollectionHas(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - has()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - has()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     /**
@@ -25,7 +29,7 @@ class ConstructCest
      */
     public function debugDumpConstruct(UnitTester $I)
     {
-        $I->wantToTest("Debug\Dump - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug\Dump - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

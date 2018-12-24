@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Select;
 
 use IntegrationTester;
 
+/**
+ * Class GetUserOptionCest
+ */
 class GetUserOptionCest
 {
     /**
@@ -25,7 +29,7 @@ class GetUserOptionCest
      */
     public function formsElementSelectGetUserOption(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Select - getUserOption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Select - getUserOption()');
+        $I->skipTest('Need implementation');
     }
 }

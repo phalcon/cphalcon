@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Igbinary;
 
 use UnitTester;
 
+/**
+ * Class IsBufferingCest
+ */
 class IsBufferingCest
 {
     /**
@@ -25,7 +29,7 @@ class IsBufferingCest
      */
     public function cacheFrontendIgbinaryIsBuffering(UnitTester $I)
     {
-        $I->wantToTest("Cache\Frontend\Igbinary - isBuffering()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Frontend\Igbinary - isBuffering()');
+        $I->skipTest('Need implementation');
     }
 }

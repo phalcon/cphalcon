@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class UnderscoreGetCest
- *
- * @package Phalcon\Test\Unit\Application
  */
 class UnderscoreGetCest
 {
@@ -31,7 +29,7 @@ class UnderscoreGetCest
      */
     public function applicationUnderscoreGet(UnitTester $I)
     {
-        $I->wantToTest("Application - __get()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Application - __get()');
+        $I->skipTest('Need implementation');
     }
 }

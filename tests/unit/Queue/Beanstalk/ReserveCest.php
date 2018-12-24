@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReserveCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ReserveCest
 {
@@ -31,7 +29,7 @@ class ReserveCest
      */
     public function queueBeanstalkReserve(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - reserve()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - reserve()');
+        $I->skipTest('Need implementation');
     }
 }

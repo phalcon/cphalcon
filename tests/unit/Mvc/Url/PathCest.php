@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class PathCest
- *
- * @package Phalcon\Test\Unit\Mvc\Url
  */
 class PathCest
 {

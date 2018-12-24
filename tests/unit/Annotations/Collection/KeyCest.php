@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class KeyCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class KeyCest
 {
@@ -31,7 +29,7 @@ class KeyCest
      */
     public function annotationsCollectionKey(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - key()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - key()');
+        $I->skipTest('Need implementation');
     }
 }

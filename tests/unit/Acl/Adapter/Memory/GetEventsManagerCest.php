@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetEventsManagerCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class GetEventsManagerCest
 {

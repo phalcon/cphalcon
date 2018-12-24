@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
+/**
+ * Class GetLineCest
+ */
 class GetLineCest
 {
     /**
@@ -25,7 +29,7 @@ class GetLineCest
      */
     public function cryptMismatchGetLine(UnitTester $I)
     {
-        $I->wantToTest("Crypt\Mismatch - getLine()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt\Mismatch - getLine()');
+        $I->skipTest('Need implementation');
     }
 }

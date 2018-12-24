@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
+/**
+ * Class PathCest
+ */
 class PathCest
 {
     /**
@@ -25,7 +29,7 @@ class PathCest
      */
     public function configAdapterGroupedPath(UnitTester $I)
     {
-        $I->wantToTest("Config\Adapter\Grouped - path()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Grouped - path()');
+        $I->skipTest('Need implementation');
     }
 }

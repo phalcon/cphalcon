@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NotifyCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Behavior
  */
 class NotifyCest
 {
@@ -31,7 +29,7 @@ class NotifyCest
      */
     public function mvcCollectionBehaviorNotify(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Behavior - notify()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Behavior - notify()');
+        $I->skipTest('Need implementation');
     }
 }

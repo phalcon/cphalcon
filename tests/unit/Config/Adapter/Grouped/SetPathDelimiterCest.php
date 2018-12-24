@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
+/**
+ * Class SetPathDelimiterCest
+ */
 class SetPathDelimiterCest
 {
     /**
@@ -25,7 +29,7 @@ class SetPathDelimiterCest
      */
     public function configAdapterGroupedSetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest("Config\Adapter\Grouped - setPathDelimiter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Config\Adapter\Grouped - setPathDelimiter()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use UnitTester;
 
+/**
+ * Class IsUsingEncryptionCest
+ */
 class IsUsingEncryptionCest
 {
     /**
@@ -25,7 +29,7 @@ class IsUsingEncryptionCest
      */
     public function httpResponseCookiesIsUsingEncryption(UnitTester $I)
     {
-        $I->wantToTest("Http\Response\Cookies - isUsingEncryption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Response\Cookies - isUsingEncryption()');
+        $I->skipTest('Need implementation');
     }
 }

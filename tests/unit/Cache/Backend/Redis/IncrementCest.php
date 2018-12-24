@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,16 +12,13 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
-use Phalcon\Cache\Backend\Redis;
-use Phalcon\Cache\BackendInterface;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
+/**
+ * Class IncrementCest
+ */
 class IncrementCest
 {
-    use RedisTrait;
-
     /**
      * Tests Phalcon\Cache\Backend\Redis :: increment()
      *
@@ -31,21 +29,7 @@ class IncrementCest
      */
     public function cacheBackendRedisIncrement(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Redis - increment()");
-        $I->skipTest('TODO: Find out why the module cannot connect with the port');
-        $key   = '_PHCR' . 'decrement';
-        $cache = new Redis(new Data(['lifetime' => 20]), $this->options);
-
-        $I->dontSeeInRedis($key);
-        $I->haveInRedis('string', $key, 1);
-
-        $I->assertEquals(2, $cache->increment('increment'));
-        $I->seeInRedis($key, 2);
-
-        $I->assertEquals(4, $cache->increment('increment', 2));
-        $I->seeInRedis($key, 4);
-
-        $I->assertEquals(14, $cache->increment('increment', 10));
-        $I->seeInRedis($key, 14);
+        $I->wantToTest('Cache\Backend\Redis - increment()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetControllerNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class SetControllerNameCest
 {
@@ -31,7 +29,7 @@ class SetControllerNameCest
      */
     public function mvcDispatcherSetControllerName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - setControllerName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - setControllerName()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Assets\Asset
  */
 class ConstructCest
 {

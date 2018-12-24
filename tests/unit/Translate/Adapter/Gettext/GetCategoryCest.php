@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetCategoryCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class GetCategoryCest
 {
@@ -31,7 +29,7 @@ class GetCategoryCest
      */
     public function translateAdapterGettextGetCategory(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - getCategory()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - getCategory()');
+        $I->skipTest('Need implementation');
     }
 }

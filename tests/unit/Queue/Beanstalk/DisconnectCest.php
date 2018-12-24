@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DisconnectCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class DisconnectCest
 {
@@ -31,7 +29,7 @@ class DisconnectCest
      */
     public function queueBeanstalkDisconnect(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - disconnect()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - disconnect()');
+        $I->skipTest('Need implementation');
     }
 }

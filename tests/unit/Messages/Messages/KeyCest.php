@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class KeyCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class KeyCest
 {

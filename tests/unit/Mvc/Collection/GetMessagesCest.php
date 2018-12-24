@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetMessagesCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class GetMessagesCest
 {
@@ -31,7 +29,7 @@ class GetMessagesCest
      */
     public function mvcCollectionGetMessages(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - getMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getMessages()');
+        $I->skipTest('Need implementation');
     }
 }

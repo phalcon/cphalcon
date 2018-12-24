@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
+/**
+ * Class DecrementCest
+ */
 class DecrementCest
 {
     use FileTrait;

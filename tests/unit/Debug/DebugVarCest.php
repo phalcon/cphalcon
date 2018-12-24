@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
+/**
+ * Class DebugVarCest
+ */
 class DebugVarCest
 {
     /**
@@ -25,7 +29,7 @@ class DebugVarCest
      */
     public function debugDebugVar(UnitTester $I)
     {
-        $I->wantToTest("Debug - debugVar()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug - debugVar()');
+        $I->skipTest('Need implementation');
     }
 }

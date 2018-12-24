@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddHeadCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Group
  */
 class AddHeadCest
 {
@@ -31,7 +29,7 @@ class AddHeadCest
      */
     public function mvcRouterGroupAddHead(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Group - addHead()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Group - addHead()');
+        $I->skipTest('Need implementation');
     }
 }

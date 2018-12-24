@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NqueryCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class NqueryCest
 {
@@ -31,7 +29,7 @@ class NqueryCest
      */
     public function translateAdapterGettextNquery(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - nquery()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - nquery()');
+        $I->skipTest('Need implementation');
     }
 }

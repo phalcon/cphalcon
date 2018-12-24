@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetLastControllerCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetLastControllerCest
 {
@@ -31,7 +29,7 @@ class GetLastControllerCest
      */
     public function mvcDispatcherGetLastController(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getLastController()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getLastController()');
+        $I->skipTest('Need implementation');
     }
 }

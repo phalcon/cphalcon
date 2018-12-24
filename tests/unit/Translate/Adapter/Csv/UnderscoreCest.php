@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class _Cest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class UnderscoreCest
 {

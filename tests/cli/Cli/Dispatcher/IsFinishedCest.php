@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
+/**
+ * Class IsFinishedCest
+ */
 class IsFinishedCest
 {
     /**
@@ -25,7 +29,7 @@ class IsFinishedCest
      */
     public function cliDispatcherIsFinished(CliTester $I)
     {
-        $I->wantToTest("Cli\Dispatcher - isFinished()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Dispatcher - isFinished()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function annotationsCollectionConstruct(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

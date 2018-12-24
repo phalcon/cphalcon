@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
+/**
+ * Class GetClientCharsetsCest
+ */
 class GetClientCharsetsCest
 {
     /**
@@ -25,7 +29,7 @@ class GetClientCharsetsCest
      */
     public function httpRequestGetClientCharsets(UnitTester $I)
     {
-        $I->wantToTest("Http\Request - getClientCharsets()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Request - getClientCharsets()');
+        $I->skipTest('Need implementation');
     }
 }

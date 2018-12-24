@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetHandlerSuffixCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetHandlerSuffixCest
 {
@@ -31,7 +29,7 @@ class GetHandlerSuffixCest
      */
     public function mvcDispatcherGetHandlerSuffix(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getHandlerSuffix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getHandlerSuffix()');
+        $I->skipTest('Need implementation');
     }
 }

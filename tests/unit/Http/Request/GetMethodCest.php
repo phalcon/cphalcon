@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
+/**
+ * Class GetMethodCest
+ */
 class GetMethodCest
 {
     /**
@@ -25,7 +29,7 @@ class GetMethodCest
      */
     public function httpRequestGetMethod(UnitTester $I)
     {
-        $I->wantToTest("Http\Request - getMethod()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Request - getMethod()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DropSubjectAccessCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class DropSubjectAccessCest
 {

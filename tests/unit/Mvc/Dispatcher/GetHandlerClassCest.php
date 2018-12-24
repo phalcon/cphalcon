@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetHandlerClassCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetHandlerClassCest
 {
@@ -31,7 +29,7 @@ class GetHandlerClassCest
      */
     public function mvcDispatcherGetHandlerClass(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getHandlerClass()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getHandlerClass()');
+        $I->skipTest('Need implementation');
     }
 }

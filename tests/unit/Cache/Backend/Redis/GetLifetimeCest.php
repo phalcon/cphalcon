@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
+/**
+ * Class GetLifetimeCest
+ */
 class GetLifetimeCest
 {
     /**
@@ -25,7 +29,7 @@ class GetLifetimeCest
      */
     public function cacheBackendRedisGetLifetime(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Redis - getLifetime()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Redis - getLifetime()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
 
+/**
+ * Class BeforeMatchCest
+ */
 class BeforeMatchCest
 {
     /**
@@ -25,7 +29,7 @@ class BeforeMatchCest
      */
     public function cliRouterRouteBeforeMatch(CliTester $I)
     {
-        $I->wantToTest("Cli\Router\Route - beforeMatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Router\Route - beforeMatch()');
+        $I->skipTest('Need implementation');
     }
 }

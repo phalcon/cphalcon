@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AggregateCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class AggregateCest
 {
@@ -31,7 +29,7 @@ class AggregateCest
      */
     public function mvcCollectionAggregate(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - aggregate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - aggregate()');
+        $I->skipTest('Need implementation');
     }
 }

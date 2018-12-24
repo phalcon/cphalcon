@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
 
+/**
+ * Class EscapeSchemaCest
+ */
 class EscapeSchemaCest
 {
     /**
@@ -25,7 +29,7 @@ class EscapeSchemaCest
      */
     public function dbDialectMysqlEscapeSchema(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Mysql - escapeSchema()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Mysql - escapeSchema()');
+        $I->skipTest('Need implementation');
     }
 }

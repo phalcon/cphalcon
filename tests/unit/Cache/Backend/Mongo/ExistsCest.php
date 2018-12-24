@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
+/**
+ * Class ExistsCest
+ */
 class ExistsCest
 {
     /**
@@ -25,7 +29,7 @@ class ExistsCest
      */
     public function cacheBackendMongoExists(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Mongo - exists()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Mongo - exists()');
+        $I->skipTest('Need implementation');
     }
 }

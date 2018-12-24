@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
+/**
+ * Class SetUriCest
+ */
 class SetUriCest
 {
     /**
@@ -25,7 +29,7 @@ class SetUriCest
      */
     public function debugSetUri(UnitTester $I)
     {
-        $I->wantToTest("Debug - setUri()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug - setUri()');
+        $I->skipTest('Need implementation');
     }
 }

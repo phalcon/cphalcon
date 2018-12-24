@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ValidCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class ValidCest
 {
@@ -31,7 +29,7 @@ class ValidCest
      */
     public function annotationsCollectionValid(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - valid()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - valid()');
+        $I->skipTest('Need implementation');
     }
 }

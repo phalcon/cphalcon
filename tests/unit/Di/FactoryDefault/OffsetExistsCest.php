@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
+/**
+ * Class OffsetExistsCest
+ */
 class OffsetExistsCest
 {
     /**
@@ -25,7 +29,7 @@ class OffsetExistsCest
      */
     public function diFactorydefaultOffsetExists(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault - offsetExists()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault - offsetExists()');
+        $I->skipTest('Need implementation');
     }
 }

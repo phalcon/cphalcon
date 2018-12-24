@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ExtractNamedParamsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class ExtractNamedParamsCest
 {
@@ -31,7 +29,7 @@ class ExtractNamedParamsCest
      */
     public function mvcRouterRouteExtractNamedParams(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - extractNamedParams()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - extractNamedParams()');
+        $I->skipTest('Need implementation');
     }
 }

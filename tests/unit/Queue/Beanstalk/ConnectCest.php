@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConnectCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ConnectCest
 {
@@ -31,7 +29,7 @@ class ConnectCest
      */
     public function queueBeanstalkConnect(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - connect()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - connect()');
+        $I->skipTest('Need implementation');
     }
 }

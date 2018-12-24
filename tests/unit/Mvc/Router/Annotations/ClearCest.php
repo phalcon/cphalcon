@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ClearCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class ClearCest
 {
@@ -31,7 +29,7 @@ class ClearCest
      */
     public function mvcRouterAnnotationsClear(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - clear()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - clear()');
+        $I->skipTest('Need implementation');
     }
 }

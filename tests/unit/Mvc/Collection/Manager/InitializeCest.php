@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class InitializeCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class InitializeCest
 {
@@ -31,7 +29,7 @@ class InitializeCest
      */
     public function mvcCollectionManagerInitialize(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - initialize()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - initialize()');
+        $I->skipTest('Need implementation');
     }
 }

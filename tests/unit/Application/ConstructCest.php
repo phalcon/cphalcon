@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Application
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function applicationConstruct(UnitTester $I)
     {
-        $I->wantToTest("Application - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Application - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
 use UnitTester;
 
+/**
+ * Class CheckCest
+ */
 class CheckCest
 {
     /**
@@ -25,7 +29,7 @@ class CheckCest
      */
     public function imageAdapterImagickCheck(UnitTester $I)
     {
-        $I->wantToTest("Image\Adapter\Imagick - check()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Image\Adapter\Imagick - check()');
+        $I->skipTest('Need implementation');
     }
 }

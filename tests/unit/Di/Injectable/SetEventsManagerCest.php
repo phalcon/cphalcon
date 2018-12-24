@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
 
+/**
+ * Class SetEventsManagerCest
+ */
 class SetEventsManagerCest
 {
     /**
@@ -25,7 +29,7 @@ class SetEventsManagerCest
      */
     public function diInjectableSetEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Di\Injectable - setEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\Injectable - setEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

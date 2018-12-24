@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -18,6 +19,9 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use function var_dump;
 
+/**
+ * Class LoadCest
+ */
 class LoadCest
 {
     use FactoryTrait;

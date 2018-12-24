@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -49,25 +50,6 @@ class JavascriptIncludeCest extends TagSetup
         $options  = ['js/phalcon.js'];
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
         $actual   = Tag::javascriptInclude($options);
-
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Tag :: javascriptInclude() - string as the second
-     * parameter - local
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-29
-     */
-    public function tagJavascriptIncludeWithStringAsSecondParameterLocal(UnitTester $I)
-    {
-        $I->wantToTest("Tag - javascriptInclude() - string as the second parameter - local");
-        $options  = ['js/phalcon.js'];
-        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = Tag::javascriptInclude($options, 'hello');
 
         $I->assertEquals($expected, $actual);
     }

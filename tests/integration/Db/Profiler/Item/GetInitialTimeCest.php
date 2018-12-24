@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Profiler\Item;
 
 use IntegrationTester;
 
+/**
+ * Class GetInitialTimeCest
+ */
 class GetInitialTimeCest
 {
     /**
@@ -25,7 +29,7 @@ class GetInitialTimeCest
      */
     public function dbProfilerItemGetInitialTime(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Profiler\Item - getInitialTime()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Profiler\Item - getInitialTime()');
+        $I->skipTest('Need implementation');
     }
 }

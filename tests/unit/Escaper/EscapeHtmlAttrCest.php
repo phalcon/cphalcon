@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -17,6 +18,10 @@ use const ENT_HTML401;
 use const ENT_HTML5;
 use const ENT_XHTML;
 use const ENT_XML1;
+
+/**
+ * Class EscapeHtmlAttrCest
+ */
 
 class EscapeHtmlAttrCest
 {

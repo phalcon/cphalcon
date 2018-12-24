@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class BeforeMatchCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Group
  */
 class BeforeMatchCest
 {
@@ -31,7 +29,7 @@ class BeforeMatchCest
      */
     public function mvcRouterGroupBeforeMatch(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Group - beforeMatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Group - beforeMatch()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetMatchesCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class GetMatchesCest
 {
@@ -31,7 +29,7 @@ class GetMatchesCest
      */
     public function mvcRouterAnnotationsGetMatches(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - getMatches()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - getMatches()');
+        $I->skipTest('Need implementation');
     }
 }

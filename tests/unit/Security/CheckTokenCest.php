@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CheckTokenCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class CheckTokenCest
 {
@@ -31,7 +29,7 @@ class CheckTokenCest
      */
     public function securityCheckToken(UnitTester $I)
     {
-        $I->wantToTest("Security - checkToken()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - checkToken()');
+        $I->skipTest('Need implementation');
     }
 }

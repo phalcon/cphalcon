@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 
+/**
+ * Class GetServicesCest
+ */
 class GetServicesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetServicesCest
      */
     public function diFactorydefaultCliGetServices(CliTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault\Cli - getServices()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault\Cli - getServices()');
+        $I->skipTest('Need implementation');
     }
 }

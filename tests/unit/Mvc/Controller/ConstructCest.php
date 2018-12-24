@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Mvc\Controller
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function mvcControllerConstruct(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Controller - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Controller - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

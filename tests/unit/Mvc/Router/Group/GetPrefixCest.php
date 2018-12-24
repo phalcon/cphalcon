@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPrefixCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Group
  */
 class GetPrefixCest
 {
@@ -31,7 +29,7 @@ class GetPrefixCest
      */
     public function mvcRouterGroupGetPrefix(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Group - getPrefix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Group - getPrefix()');
+        $I->skipTest('Need implementation');
     }
 }

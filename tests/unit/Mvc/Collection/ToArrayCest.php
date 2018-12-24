@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ToArrayCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class ToArrayCest
 {
@@ -31,7 +29,7 @@ class ToArrayCest
      */
     public function mvcCollectionToArray(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - toArray()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - toArray()');
+        $I->skipTest('Need implementation');
     }
 }

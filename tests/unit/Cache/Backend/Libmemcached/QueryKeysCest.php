@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
+/**
+ * Class QueryKeysCest
+ */
 class QueryKeysCest
 {
     /**
@@ -25,7 +29,7 @@ class QueryKeysCest
      */
     public function cacheBackendLibmemcachedQueryKeys(UnitTester $I)
     {
-        $I->wantToTest("Cache\Backend\Libmemcached - queryKeys()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Backend\Libmemcached - queryKeys()');
+        $I->skipTest('Need implementation');
     }
 }

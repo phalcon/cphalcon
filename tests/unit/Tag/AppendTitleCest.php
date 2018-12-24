@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class AppendTitleCest
- *
- * @package Phalcon\Test\Unit\Tag
  */
 class AppendTitleCest extends TagSetup
 {

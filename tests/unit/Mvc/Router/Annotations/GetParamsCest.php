@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetParamsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class GetParamsCest
 {
@@ -31,7 +29,7 @@ class GetParamsCest
      */
     public function mvcRouterAnnotationsGetParams(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - getParams()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - getParams()');
+        $I->skipTest('Need implementation');
     }
 }

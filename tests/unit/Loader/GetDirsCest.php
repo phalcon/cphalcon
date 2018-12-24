@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
+/**
+ * Class GetDirsCest
+ */
 class GetDirsCest
 {
     /**
@@ -25,7 +29,7 @@ class GetDirsCest
      */
     public function loaderGetDirs(UnitTester $I)
     {
-        $I->wantToTest("Loader - getDirs()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Loader - getDirs()');
+        $I->skipTest('Need implementation');
     }
 }

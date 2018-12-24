@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
+/**
+ * Class GetHTTPRefererCest
+ */
 class GetHTTPRefererCest
 {
     /**
@@ -25,7 +29,7 @@ class GetHTTPRefererCest
      */
     public function httpRequestGetHTTPReferer(UnitTester $I)
     {
-        $I->wantToTest("Http\Request - getHTTPReferer()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Request - getHTTPReferer()');
+        $I->skipTest('Need implementation');
     }
 }

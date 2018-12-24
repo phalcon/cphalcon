@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,16 +14,22 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
+/**
+ * Class SetDICest
+ */
 class SetDICest
 {
     /**
      * Tests Phalcon\Tag :: setDI()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function testSetDI(UnitTester $I)
+    public function tagSetDI(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - setDI()');
+        $I->skipTest('Need implementation');
     }
 }

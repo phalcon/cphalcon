@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class HandleCest
- *
- * @package Phalcon\Test\Unit\Mvc\Application
  */
 class HandleCest
 {
@@ -31,7 +29,7 @@ class HandleCest
      */
     public function mvcApplicationHandle(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Application - handle()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Application - handle()');
+        $I->skipTest('Need implementation');
     }
 }

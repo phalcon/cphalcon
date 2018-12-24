@@ -19,8 +19,6 @@ use UnitTester;
 
 /**
  * Class IsOperationCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class IsOperationCest
 {

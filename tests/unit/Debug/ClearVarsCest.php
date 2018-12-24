@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
+/**
+ * Class ClearVarsCest
+ */
 class ClearVarsCest
 {
     /**
@@ -25,7 +29,7 @@ class ClearVarsCest
      */
     public function debugClearVars(UnitTester $I)
     {
-        $I->wantToTest("Debug - clearVars()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug - clearVars()');
+        $I->skipTest('Need implementation');
     }
 }

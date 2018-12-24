@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Submit;
 
 use IntegrationTester;
 
+/**
+ * Class GetLabelCest
+ */
 class GetLabelCest
 {
     /**
@@ -25,7 +29,7 @@ class GetLabelCest
      */
     public function formsElementSubmitGetLabel(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Submit - getLabel()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Submit - getLabel()');
+        $I->skipTest('Need implementation');
     }
 }

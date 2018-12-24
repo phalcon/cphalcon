@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetInterpolatorCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class SetInterpolatorCest
 {
@@ -31,7 +29,7 @@ class SetInterpolatorCest
      */
     public function translateAdapterGettextSetInterpolator(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - setInterpolator()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - setInterpolator()');
+        $I->skipTest('Need implementation');
     }
 }

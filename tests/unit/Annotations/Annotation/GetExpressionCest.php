@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetExpressionCest
- *
- * @package Phalcon\Test\Unit\Annotations\Annotation
  */
 class GetExpressionCest
 {
@@ -31,7 +29,7 @@ class GetExpressionCest
      */
     public function annotationsAnnotationGetExpression(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Annotation - getExpression()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Annotation - getExpression()');
+        $I->skipTest('Need implementation');
     }
 }

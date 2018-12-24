@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function mvcRouterAnnotationsConstruct(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

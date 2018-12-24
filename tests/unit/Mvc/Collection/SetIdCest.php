@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetIdCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class SetIdCest
 {
@@ -31,7 +29,7 @@ class SetIdCest
      */
     public function mvcCollectionSetId(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - setId()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - setId()');
+        $I->skipTest('Need implementation');
     }
 }

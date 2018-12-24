@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
+/**
+ * Class SetShowFilesCest
+ */
 class SetShowFilesCest
 {
     /**
@@ -25,7 +29,7 @@ class SetShowFilesCest
      */
     public function debugSetShowFiles(UnitTester $I)
     {
-        $I->wantToTest("Debug - setShowFiles()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Debug - setShowFiles()');
+        $I->skipTest('Need implementation');
     }
 }

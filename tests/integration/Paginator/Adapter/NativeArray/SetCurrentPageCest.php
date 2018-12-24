@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Repository;
 use IntegrationTester;
 
+/**
+ * Class SetCurrentPageCest
+ */
 class SetCurrentPageCest
 {
     /**
@@ -27,7 +31,7 @@ class SetCurrentPageCest
      */
     public function paginatorAdapterNativearraySetCurrentPage(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\NativeArray - setCurrentPage()");
+        $I->wantToTest('Paginator\Adapter\NativeArray - setCurrentPage()');
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),

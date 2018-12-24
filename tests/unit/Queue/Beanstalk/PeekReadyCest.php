@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class PeekReadyCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class PeekReadyCest
 {
@@ -31,7 +29,7 @@ class PeekReadyCest
      */
     public function queueBeanstalkPeekReady(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - peekReady()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - peekReady()');
+        $I->skipTest('Need implementation');
     }
 }

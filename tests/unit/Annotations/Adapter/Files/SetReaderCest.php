@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetReaderCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Files
  */
 class SetReaderCest
 {
@@ -31,7 +29,7 @@ class SetReaderCest
      */
     public function annotationsAdapterFilesSetReader(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Files - setReader()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Files - setReader()');
+        $I->skipTest('Need implementation');
     }
 }

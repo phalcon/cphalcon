@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
 
+/**
+ * Class SetupCest
+ */
 class SetupCest
 {
     /**
@@ -25,7 +29,7 @@ class SetupCest
      */
     public function dbSetup(IntegrationTester $I)
     {
-        $I->wantToTest("Db - setup()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db - setup()');
+        $I->skipTest('Need implementation');
     }
 }

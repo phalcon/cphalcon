@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class HasCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class HasCest
 {

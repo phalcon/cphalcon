@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetServiceNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class GetServiceNameCest
 {
@@ -31,7 +29,7 @@ class GetServiceNameCest
      */
     public function mvcCollectionManagerGetServiceName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - getServiceName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - getServiceName()');
+        $I->skipTest('Need implementation');
     }
 }

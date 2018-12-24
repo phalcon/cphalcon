@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetWorkFactorCest
- *
- * @package Phalcon\Test\Unit\Security
  */
 class GetWorkFactorCest
 {
@@ -31,7 +29,7 @@ class GetWorkFactorCest
      */
     public function securityGetWorkFactor(UnitTester $I)
     {
-        $I->wantToTest("Security - getWorkFactor()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Security - getWorkFactor()');
+        $I->skipTest('Need implementation');
     }
 }

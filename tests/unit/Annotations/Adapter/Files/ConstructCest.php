@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Files
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function annotationsAdapterFilesConstruct(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Files - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Files - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

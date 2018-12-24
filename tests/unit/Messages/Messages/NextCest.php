@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class NextCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class NextCest
 {

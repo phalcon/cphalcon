@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WatchCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class WatchCest
 {
@@ -31,7 +29,7 @@ class WatchCest
      */
     public function queueBeanstalkWatch(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - watch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - watch()');
+        $I->skipTest('Need implementation');
     }
 }

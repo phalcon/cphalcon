@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class QuitCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class QuitCest
 {
@@ -31,7 +29,7 @@ class QuitCest
      */
     public function queueBeanstalkQuit(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - quit()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - quit()');
+        $I->skipTest('Need implementation');
     }
 }

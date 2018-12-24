@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Profiler\Item;
 
 use IntegrationTester;
 
+/**
+ * Class GetSqlVariablesCest
+ */
 class GetSqlVariablesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetSqlVariablesCest
      */
     public function dbProfilerItemGetSqlVariables(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Profiler\Item - getSqlVariables()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Profiler\Item - getSqlVariables()');
+        $I->skipTest('Need implementation');
     }
 }

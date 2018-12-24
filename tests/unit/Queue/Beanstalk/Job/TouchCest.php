@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class TouchCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class TouchCest
 {
@@ -31,7 +29,7 @@ class TouchCest
      */
     public function queueBeanstalkJobTouch(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - touch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - touch()');
+        $I->skipTest('Need implementation');
     }
 }

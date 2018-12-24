@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class SetTypeCest
- *
- * @package Phalcon\Test\Unit\Assets\Asset
  */
 class SetTypeCest
 {

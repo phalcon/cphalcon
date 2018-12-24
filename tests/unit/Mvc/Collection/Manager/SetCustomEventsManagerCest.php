@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetCustomEventsManagerCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class SetCustomEventsManagerCest
 {
@@ -31,7 +29,7 @@ class SetCustomEventsManagerCest
      */
     public function mvcCollectionManagerSetCustomEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - setCustomEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - setCustomEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

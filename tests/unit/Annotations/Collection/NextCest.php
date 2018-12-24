@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NextCest
- *
- * @package Phalcon\Test\Unit\Annotations\Collection
  */
 class NextCest
 {
@@ -31,7 +29,7 @@ class NextCest
      */
     public function annotationsCollectionNext(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Collection - next()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Collection - next()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Manager;
 
 use IntegrationTester;
 
+/**
+ * Class SetCest
+ */
 class SetCest
 {
     /**
@@ -25,7 +29,7 @@ class SetCest
      */
     public function formsManagerSet(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Manager - set()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Manager - set()');
+        $I->skipTest('Need implementation');
     }
 }

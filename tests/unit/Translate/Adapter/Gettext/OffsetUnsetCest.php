@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class OffsetUnsetCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class OffsetUnsetCest
 {
@@ -31,7 +29,7 @@ class OffsetUnsetCest
      */
     public function translateAdapterGettextOffsetUnset(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - offsetUnset()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - offsetUnset()');
+        $I->skipTest('Need implementation');
     }
 }

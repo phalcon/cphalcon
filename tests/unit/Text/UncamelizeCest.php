@@ -18,13 +18,11 @@ use UnitTester;
 
 /**
  * Class UncamelizeCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class UncamelizeCest
 {
     /**
-     * Tests Phalcon\Text :: camelize()
+     * Tests Phalcon\Text :: uncamelize()
      *
      * @dataProvider getSources
      *
@@ -36,7 +34,7 @@ class UncamelizeCest
      */
     public function textUncamelize(UnitTester $I, Example $item)
     {
-        $I->wantToTest("Text - uncamelize()");
+        $I->wantToTest('Text - uncamelize()');
         $value     = $item[0];
         $expected  = $item[1];
         $delimiter = $item[2];

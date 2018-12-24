@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,9 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Adapter\NativeArray;
 use IntegrationTester;
 
+/**
+ * Class GetLimitCest
+ */
 class GetLimitCest
 {
     /**
@@ -26,7 +30,7 @@ class GetLimitCest
      */
     public function paginatorAdapterNativearrayGetLimit(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\NativeArray - getLimit()");
+        $I->wantToTest('Paginator\Adapter\NativeArray - getLimit()');
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),

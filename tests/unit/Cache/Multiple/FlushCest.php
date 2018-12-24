@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Multiple;
 
 use UnitTester;
 
+/**
+ * Class FlushCest
+ */
 class FlushCest
 {
     /**
@@ -25,7 +29,7 @@ class FlushCest
      */
     public function cacheMultipleFlush(UnitTester $I)
     {
-        $I->wantToTest("Cache\Multiple - flush()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Multiple - flush()');
+        $I->skipTest('Need implementation');
     }
 }

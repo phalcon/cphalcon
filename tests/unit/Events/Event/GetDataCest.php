@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
+/**
+ * Class GetDataCest
+ */
 class GetDataCest
 {
     /**
@@ -25,7 +29,7 @@ class GetDataCest
      */
     public function eventsEventGetData(UnitTester $I)
     {
-        $I->wantToTest("Events\Event - getData()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Events\Event - getData()');
+        $I->skipTest('Need implementation');
     }
 }

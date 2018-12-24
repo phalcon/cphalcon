@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cli;
+namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;

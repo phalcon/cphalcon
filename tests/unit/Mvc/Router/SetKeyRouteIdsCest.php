@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetKeyRouteIdsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class SetKeyRouteIdsCest
 {
@@ -31,7 +29,7 @@ class SetKeyRouteIdsCest
      */
     public function mvcRouterSetKeyRouteIds(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - setKeyRouteIds()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - setKeyRouteIds()');
+        $I->skipTest('Need implementation');
     }
 }

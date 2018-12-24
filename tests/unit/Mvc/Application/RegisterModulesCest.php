@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class RegisterModulesCest
- *
- * @package Phalcon\Test\Unit\Mvc\Application
  */
 class RegisterModulesCest
 {
@@ -31,7 +29,7 @@ class RegisterModulesCest
      */
     public function mvcApplicationRegisterModules(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Application - registerModules()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Application - registerModules()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class UnderscoreGetCest
- *
- * @package Phalcon\Test\Unit\Mvc\Controller
  */
 class UnderscoreGetCest
 {
@@ -31,7 +29,7 @@ class UnderscoreGetCest
      */
     public function mvcControllerUnderscoreGet(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Controller - __get()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Controller - __get()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class OffsetGetCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
  */
 class OffsetGetCest
 {

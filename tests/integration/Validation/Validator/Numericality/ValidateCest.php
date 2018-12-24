@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Validation\Validator\Numericality;
 
 use IntegrationTester;
 
+/**
+ * Class ValidateCest
+ */
 class ValidateCest
 {
     /**
@@ -25,7 +29,7 @@ class ValidateCest
      */
     public function validationValidatorNumericalityValidate(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Numericality - validate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Validation\Validator\Numericality - validate()');
+        $I->skipTest('Need implementation');
     }
 }
