@@ -118,7 +118,7 @@ Function EnableExtension {
 	}
 
 	If (Test-Path -Path "${PhpExe}") {
-		& "${PhpExe}" --ri "${Env:EXTENSION_NAME}"
+		& "${PhpExe}" -d "extension=${Env:EXTENSION_FILE}" --ri "${Env:EXTENSION_NAME}"
 
 		$PhpExitCode = $LASTEXITCODE
 		If ($PhpExitCode -ne 0) {
