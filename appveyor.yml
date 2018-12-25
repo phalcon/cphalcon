@@ -14,7 +14,6 @@ environment:
     PHP_SDK_PATH: C:\Projects\php-sdk
     PHP_DEVPACK: C:\Projects\php-devpack
     TEST_PHP_EXECUTABLE: C:\Projects\php\php.exe
-    ZEPHIR_PATH: C:\Projects\zephir
     PHP_SDK_VERSION: 2.0.7
     PACKAGE_PREFIX: phalcon
     EXTENSION_NAME: phalcon
@@ -68,7 +67,7 @@ build_script:
     - '"%VSCOMNTOOLS%\VsDevCmd" %PLATFORM%'
     - '"%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%'
     - '%PHP_SDK_PATH%\bin\phpsdk_setvars'
-    - '%ZEPHIR_PATH%\bin\zephir.bat generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
+    - '%APPVEYOR_BUILD_FOLDER%\zephir.bat generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
     - 'cd %APPVEYOR_BUILD_FOLDER%\build'
     - 'php gen-build.php'
     - 'cd %APPVEYOR_BUILD_FOLDER%\build\php7\safe'
