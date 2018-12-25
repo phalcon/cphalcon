@@ -87,12 +87,6 @@ Function InstallBuildDependencies {
 
 		& cmd /c ".\composer.bat install ${ComposerOptions}"
 	}
-
-	If (-not (Test-Path "${Env:ZEPHIR_PATH}\vendor")) {
-		Set-Location "${Env:ZEPHIR_PATH}"
-
-		& cmd /c "${Env:APPVEYOR_BUILD_FOLDER}\composer.bat install ${ComposerOptions}"
-	}
 }
 
 Function EnsurePandocIsInstalled {
@@ -374,23 +368,19 @@ Function InstallParser {
 }
 
 Function InstallZephir {
-	$BaseUri = "https://github.com/phalcon/zephir/archive"
-	$RemoteUrl = "${BaseUri}/${Env:ZEPHIR_VERSION}.zip"
+	$ZephirBatch = "${Env:APPVEYOR_BUILD_FOLDER}\zephir.bat"
 
-	$DestinationPath = "C:\Downloads\zephir-${Env:ZEPHIR_VERSION}.zip"
-	If (-not (Test-Path ${Env:ZEPHIR_PATH})) {
-		If (-not [System.IO.File]::Exists($DestinationPath)) {
-			Write-Host "Downloading Zephir: ${RemoteUrl} ..."
-			DownloadFile $RemoteUrl $DestinationPath
-		}
+	If (-not (Test-Path -Path $ZephirBatch)) {
+		$Php = "${Env:PHP_PATH}\php.exe"
+		$ZephirPhar = "${Env:APPVEYOR_BUILD_FOLDER}\zephir.phar"
 
-		$DestinationUnzipPath = "${Env:Temp}\zephir-${Env:ZEPHIR_VERSION}"
+		$BaseUri = "https://github.com/phalcon/zephir/releases/download"
+		$RemoteUrl = "${BaseUri}/${Env:ZEPHIR_VERSION}/zephir.phar"
 
-		If (-not (Test-Path "$DestinationUnzipPath")) {
-			Expand-Item7zip $DestinationPath $Env:Temp
-		}
+		DownloadFile "${RemoteUrl}" "${ZephirPhar}"
 
-		Move-Item -Path "$DestinationUnzipPath" -Destination "${Env:ZEPHIR_PATH}"
+		Write-Output "@echo off"                   | Out-File -Encoding "ASCII" -Append $ZephirBatch
+		Write-Output "${Php} `"${ZephirPhar}`" %*" | Out-File -Encoding "ASCII" -Append $ZephirBatch
 	}
 }
 
