@@ -17,21 +17,21 @@ use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
- * Class SetDefaultActionCest
+ * Class GetSetDefaultActionCest
  */
-class SetDefaultActionCest
+class GetSetDefaultActionCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: setDefaultAction()
+     * Tests Phalcon\Acl\Adapter\Memory :: getDefaultAction()/setDefaultAction()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemorySetDefaultAction(UnitTester $I)
+    public function aclAdapterMemoryGetSetDefaultAction(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - setDefaultAction()');
+        $I->wantToTest('Acl\Adapter\Memory - getDefaultAction()/setDefaultAction()');
         $acl = new Memory();
 
         $acl->setDefaultAction(Acl::ALLOW);
