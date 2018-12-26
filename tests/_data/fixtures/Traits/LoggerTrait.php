@@ -35,16 +35,19 @@ trait LoggerTrait
         $fileName = $I->getNewFileName('log', 'log');
         $adapter  = new Stream($logPath . $fileName);
 
+        $logString = "Hello";
+
         $logger = new Logger('my-logger', ['one' => $adapter]);
-        $logger->{$level}('Hello');
+        $logTime = date('D, d M y H:i:s O');
+        $logger->{$level}($logString);
 
         $logger->getAdapter('one')->close();
 
         $I->amInPath($logPath);
         $I->openFile($fileName);
         $expected = sprintf(
-            "[%s][%s] Hello",
-            date('D, d M y H:i:s O'),
+            "[%s][%s] ".$logString,
+            $logTime,
             $level
         );
 
