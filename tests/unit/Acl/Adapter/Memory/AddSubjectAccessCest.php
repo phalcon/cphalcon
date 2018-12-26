@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Exception;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
@@ -31,5 +34,48 @@ class AddSubjectAccessCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addSubjectAccess()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: addSubjectAccess() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryAddSubjectAccessUnknown(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - addSubjectAccess() - unknown');
+        $I->expectThrowable(
+            new Exception("Subject 'Post' does not exist in ACL"),
+            function () {
+                $acl = new Memory();
+                $acl->addSubjectAccess('Post', ['update']);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: addSubjectAccess() - wrong access
+     * list
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryAddSubjectAccessWrongAccessList(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - addSubjectAccess() - wrong access list');
+        $I->expectThrowable(
+            new Exception('Invalid value for accessList'),
+            function () {
+                $acl  = new Memory();
+                $post = new Subject('Post');
+                $acl->addSubject($post, ['update']);
+                $acl->addSubjectAccess('Post', 123);
+            }
+        );
     }
 }

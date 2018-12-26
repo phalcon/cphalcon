@@ -12,6 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Closure;
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Operation;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
@@ -24,12 +28,32 @@ class GetActiveFunctionCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-13
      */
     public function aclAdapterMemoryGetActiveFunction(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveFunction()');
-        $I->skipTest('Need implementation');
+        $function = function ($a) {
+            return true;
+        };
+
+        $acl = new Memory();
+        $acl->addOperation(new Operation('Guests'));
+        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
+
+        $acl->allow('Guests', 'Post', 'create', $function);
+        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create', ['a' => 1]));
+        $returnedFunction = $acl->getActiveFunction();
+
+        $I->assertInstanceOf(Closure::class, $returnedFunction);
+
+        $expected = 1;
+        $actual   = $function(1);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 1;
+        $actual   = $acl->getActiveFunctionCustomArgumentsCount();
+        $I->assertEquals($expected, $actual);
     }
 }

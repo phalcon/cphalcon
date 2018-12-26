@@ -12,24 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Events\Manager;
 use UnitTester;
 
 /**
- * Class GetEventsManagerCest
+ * Class GetSetEventsManagerCest
  */
-class GetEventsManagerCest
+class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getEventsManager()
+     * Tests Phalcon\Acl\Adapter\Memory :: getEventsManager()/setEventsManager()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetEventsManager(UnitTester $I)
+    public function aclAdapterMemoryGetSetEventsManager(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getEventsManager()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Acl\Adapter\Memory - getEventsManager()/setEventsManager()');
+        $acl     = new Memory();
+        $manager = new Manager();
+
+        $acl->setEventsManager($manager);
+
+        $actual = $acl->getEventsManager();
+        $class  = Manager::class;
+        $I->assertInstanceOf($class, $actual);
+        $I->assertEquals($manager, $actual);
     }
 }

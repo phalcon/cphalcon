@@ -24,39 +24,6 @@ use Closure;
 
 class MemoryCest
 {
-
-    /**
-     * Tests the addOperation for the same operation twice
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclAddOperationTwiceReturnsFalse(UnitTester $I)
-    {
-        $acl     = new Memory();
-        $aclOperation = new Operation('Administrators', 'Super User access');
-
-        $acl->addOperation($aclOperation);
-        $actual = $acl->addOperation($aclOperation);
-        $I->assertFalse($actual);
-    }
-
-    /**
-     * Tests the addOperation for the same operation twice by key
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclAddOperationTwiceByKeyReturnsFalse(UnitTester $I)
-    {
-        $acl     = new Memory();
-        $aclOperation = new Operation('Administrators', 'Super User access');
-
-        $acl->addOperation($aclOperation);
-        $actual = $acl->addOperation('Administrators');
-        $I->assertFalse($actual);
-    }
-
     /**
      * Tests the wildcard allow/deny
      *
@@ -98,54 +65,6 @@ class MemoryCest
             $actual = $acl->isAllowed($operation, 'welcome', 'index');
             $I->assertFalse($actual);
         }
-    }
-
-    /**
-     * Tests the isOperation with wrong keyword
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclIsOperationWithWrongKeyReturnsFalse(UnitTester $I)
-    {
-        $acl    = new Memory();
-        $actual = $acl->isOperation('Wrong');
-        $I->assertFalse($actual);
-    }
-
-    /**
-     * Tests the ACL objects default action
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testAclObjectsWithDefaultAction(UnitTester $I)
-    {
-        $acl         = new Memory();
-        $aclOperation     = new Operation('Administrators', 'Super User access');
-        $aclSubject = new Subject('Customers', 'Customer management');
-
-        $acl->setDefaultAction(Acl::DENY);
-
-        $acl->addOperation($aclOperation);
-        $acl->addSubject($aclSubject, ['search', 'destroy']);
-
-        $expected = Acl::DENY;
-        $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
-        $I->assertEquals($expected, $actual);
-
-        $acl         = new Memory();
-        $aclOperation     = new Operation('Administrators', 'Super User access');
-        $aclSubject = new Subject('Customers', 'Customer management');
-
-        $acl->setDefaultAction(Acl::DENY);
-
-        $acl->addOperation($aclOperation);
-        $acl->addSubject($aclSubject, ['search', 'destroy']);
-
-        $expected = Acl::DENY;
-        $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
-        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -270,68 +189,6 @@ class MemoryCest
     }
 
     /**
-     * Tests ACL Subjects with numeric values
-     *
-     * @issue   https://github.com/phalcon/cphalcon/issues/1513
-     *
-     * @author  Phalcon Team <team@phalconphp.com>
-     * @since   2014-10-04
-     */
-    public function testAclSubjectsWithNumericValues(UnitTester $I)
-    {
-        $acl = new Memory;
-        $acl->setDefaultAction(Acl::DENY);
-
-        $acl->addOperation(new Operation('11'));
-        $acl->addSubject(new Subject('11'), ['index']);
-
-        $actual = $acl->isSubject('11');
-        $I->assertTrue($actual);
-    }
-
-    /**
-     * Tests function in Acl Allow Method
-     *
-     * @issue   https://github.com/phalcon/cphalcon/issues/11235
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2015-12-16
-     */
-    public function testAclAllowFunction(UnitTester $I)
-    {
-        $acl = new Memory;
-        $acl->setDefaultAction(Acl::DENY);
-        $acl->addOperation('Guests');
-        $acl->addOperation('Members', 'Guests');
-        $acl->addOperation('Admins', 'Members');
-        $acl->addSubject('Post', ['update']);
-
-        $guest         = new TestOperationAware(1, 'Guests');
-        $member        = new TestOperationAware(2, 'Members');
-        $anotherMember = new TestOperationAware(3, 'Members');
-        $admin         = new TestOperationAware(4, 'Admins');
-        $model         = new TestSubjectAware(2, 'Post');
-
-        $acl->deny('Guests', 'Post', 'update');
-        $acl->allow('Members', 'Post', 'update', function (TestOperationAware $user, TestSubjectAware $model) {
-            return $user->getId() == $model->getUser();
-        });
-        $acl->allow('Admins', 'Post', 'update');
-
-        $actual = $acl->isAllowed($guest, $model, 'update');
-        $I->assertFalse($actual);
-
-        $actual = $acl->isAllowed($member, $model, 'update');
-        $I->assertTrue($actual);
-
-        $actual = $acl->isAllowed($anotherMember, $model, 'update');
-        $I->assertFalse($actual);
-
-        $actual = $acl->isAllowed($admin, $model, 'update');
-        $I->assertTrue($actual);
-    }
-
-    /**
      * Tests function in Acl Allow Method
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/12004
@@ -369,98 +226,6 @@ class MemoryCest
         $I->assertTrue($actual);
         $actual = $acl->isAllowed($operationAdmin->getName(), "payment", "*");
         $I->assertTrue($actual);
-    }
-
-    /**
-     * Tests function in Acl Allow Method without arguments
-     *
-     * @issue   https://github.com/phalcon/cphalcon/issues/12094
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2016-06-05
-     */
-    public function testAclAllowFunctionNoArguments(UnitTester $I)
-    {
-        $acl = new Memory;
-        $acl->setDefaultAction(Acl::ALLOW);
-        $acl->setNoArgumentsDefaultAction(Acl::DENY);
-        $acl->addOperation('Guests');
-        $acl->addOperation('Members', 'Guests');
-        $acl->addOperation('Admins', 'Members');
-        $acl->addSubject('Post', ['update']);
-
-        $guest         = new TestOperationAware(1, 'Guests');
-        $member        = new TestOperationAware(2, 'Members');
-        $anotherMember = new TestOperationAware(3, 'Members');
-        $admin         = new TestOperationAware(4, 'Admins');
-        $model         = new TestSubjectAware(2, 'Post');
-
-        $acl->allow('Guests', 'Post', 'update', function ($parameter) {
-            return $parameter % 2 == 0;
-        });
-        $acl->allow('Members', 'Post', 'update', function ($parameter) {
-            return $parameter % 2 == 0;
-        });
-        $acl->allow('Admins', 'Post', 'update');
-
-        $actual = @$acl->isAllowed($guest, $model, 'update');
-        $I->assertFalse($actual);
-        $actual = @$acl->isAllowed($member, $model, 'update');
-        $I->assertFalse($actual);
-        $actual = @$acl->isAllowed($anotherMember, $model, 'update');
-        $I->assertFalse($actual);
-        $actual = @$acl->isAllowed($admin, $model, 'update');
-        $I->assertTrue($actual);
-    }
-
-    /**
-     * Tests function in Acl Allow Method without arguments
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/12094
-     * @author                   Wojciech Slawski <jurigag@gmail.com>
-     * @since                    2016-06-05
-     */
-    public function testAclAllowFunctionNoArgumentsWithWarning(UnitTester $I)
-    {
-        $I->expectThrowable(
-            new Exception(
-                "You didn't provide any parameters when check Guests can " .
-                "update Post. We will use default action when no arguments.",
-                1024
-            ),
-            function () {
-                $acl = new Memory;
-                $acl->setDefaultAction(Acl::ALLOW);
-                $acl->setNoArgumentsDefaultAction(Acl::DENY);
-                $acl->addOperation('Guests');
-                $acl->addOperation('Members', 'Guests');
-                $acl->addOperation('Admins', 'Members');
-                $acl->addSubject('Post', ['update']);
-
-                $guest         = new TestOperationAware(1, 'Guests');
-                $member        = new TestOperationAware(2, 'Members');
-                $anotherMember = new TestOperationAware(3, 'Members');
-                $admin         = new TestOperationAware(4, 'Admins');
-                $model         = new TestSubjectAware(2, 'Post');
-
-                $acl->allow('Guests', 'Post', 'update', function ($parameter) {
-                    return $parameter % 2 == 0;
-                });
-                $acl->allow('Members', 'Post', 'update', function ($parameter) {
-                    return $parameter % 2 == 0;
-                });
-                $acl->allow('Admins', 'Post', 'update');
-
-                $actual = $acl->isAllowed($guest, $model, 'update');
-                $I->assertFalse($actual);
-                $actual = $acl->isAllowed($member, $model, 'update');
-                $I->assertFalse($actual);
-                $actual = $acl->isAllowed($anotherMember, $model, 'update');
-                $I->assertFalse($actual);
-                $actual = $acl->isAllowed($admin, $model, 'update');
-                $I->assertTrue($actual);
-            }
-        );
     }
 
     /**
@@ -515,81 +280,6 @@ class MemoryCest
         $I->assertTrue($actual);
     }
 
-    /**
-     * Tests adding wildcard rule second time
-     *
-     * @issue   https://github.com/phalcon/cphalcon/issues/12573
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2017-01-25
-     */
-    public function testDefaultAction(UnitTester $I)
-    {
-        $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
-        $acl->addSubject(new Acl\Subject('Post'), ['index', 'update', 'create']);
-        $acl->addOperation(new Operation('Guests'));
-
-        $acl->allow('Guests', 'Post', 'index');
-        $actual = $acl->isAllowed('Guests', 'Post', 'index');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed('Guests', 'Post', 'update');
-        $I->assertFalse($actual);
-    }
-
-    /**
-     * Tests operation and subject objects as isAllowed parameters
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2017-02-15
-     */
-    public function testOperationSubjectObjects(UnitTester $I)
-    {
-        $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
-        $operation     = new Operation('Guests');
-        $subject = new Subject('Post');
-        $acl->addOperation($operation);
-        $acl->addSubject($subject, ['index', 'update', 'create']);
-
-        $acl->allow('Guests', 'Post', 'index');
-
-        $actual = $acl->isAllowed($operation, $subject, 'index');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed($operation, $subject, 'update');
-        $I->assertFalse($actual);
-    }
-
-    /**
-     * Tests operation and subject objects as isAllowed parameters of the same class
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2017-02-15
-     */
-    public function testOperationSubjectSameClassObjects(UnitTester $I)
-    {
-        $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
-        $operation     = new TestOperationSubjectAware(1, 'User', 'Admin');
-        $subject = new TestOperationSubjectAware(2, 'User', 'Admin');
-        $acl->addOperation('Admin');
-        $acl->addSubject('User', ['update']);
-        $acl->allow(
-            'Admin',
-            'User',
-            ['update'],
-            function (TestOperationSubjectAware $admin, TestOperationSubjectAware $user) {
-                return $admin->getUser() == $user->getUser();
-            }
-        );
-
-        $actual = $acl->isAllowed($operation, $subject, 'update');
-        $I->assertFalse($actual);
-        $actual = $acl->isAllowed($operation, $operation, 'update');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed($subject, $subject, 'update');
-        $I->assertTrue($actual);
-    }
 
     /**
      * Tests negation of multiple inherited operations
@@ -663,45 +353,4 @@ class MemoryCest
         $I->assertTrue($actual);
     }
 
-    /**
-     * Tests checking active key method
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2017-01-13
-     */
-    public function testActiveKey(UnitTester $I)
-    {
-        $acl = new Memory();
-        $acl->addOperation(new Operation("Guests"));
-        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
-
-        $acl->allow('Guests', 'Post', 'create');
-        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create'));
-        $I->assertEquals('Guests!Post!create', $acl->getActiveKey());
-    }
-
-    /**
-     * Tests checking active function method
-     *
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2017-01-13
-     */
-    public function testActiveFunction(UnitTester $I)
-    {
-        $function = function ($a) {
-            return true;
-        };
-
-        $acl = new Memory();
-        $acl->addOperation(new Operation("Guests"));
-        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
-
-        $acl->allow('Guests', 'Post', 'create', $function);
-        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create', ['a' => 1]));
-        $returnedFunction = $acl->getActiveFunction();
-
-        $I->assertInstanceOf(Closure::class, $returnedFunction);
-        $I->assertEquals(1, $function(1));
-        $I->assertEquals(1, $acl->getActiveFunctionCustomArgumentsCount());
-    }
 }

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
@@ -30,6 +32,16 @@ class GetSubjectsCest
     public function aclAdapterMemoryGetSubjects(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getSubjects()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+
+        $subject1 = new Subject('Posts');
+        $subject2 = new Subject('Tags');
+
+        $acl->addSubject($subject1, ['index']);
+        $acl->addSubject($subject2, ['index']);
+
+        $expected = [$subject1, $subject2];
+        $actual   = $acl->getSubjects();
+        $I->assertEquals($expected, $actual);
     }
 }

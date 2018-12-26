@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
@@ -20,7 +22,23 @@ use UnitTester;
 class GetActiveOperationCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveOperation()
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveOperation() - default
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryGetActiveOperationDefault(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - getActiveOperation() - default');
+        $acl = new Memory();
+        $actual   = $acl->getActiveOperation();
+        $I->assertNull($actual);
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveOperation() - default
      *
      * @param UnitTester $I
      *
@@ -30,6 +48,18 @@ class GetActiveOperationCest
     public function aclAdapterMemoryGetActiveOperation(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveOperation()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+
+        $acl->addOperation('Guests');
+        $acl->addSubject('Login', ['help', 'index']);
+
+        $acl->allow('Guests', 'Login', '*');
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
+
+        $expected = 'Guests';
+        $actual   = $acl->getActiveOperation();
+        $I->assertEquals($expected, $actual);
     }
 }
