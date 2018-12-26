@@ -352,5 +352,4 @@ class MemoryCest
         $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
         $I->assertTrue($actual);
     }
-
 }
