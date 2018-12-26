@@ -20,7 +20,8 @@ use UnitTester;
 class GetActiveFunctionCustomArgumentsCountCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveFunctionCustomArgumentsCount()
+     * Tests Phalcon\Acl\Adapter\Memory ::
+     * getActiveFunctionCustomArgumentsCount()
      *
      * @param UnitTester $I
      *
