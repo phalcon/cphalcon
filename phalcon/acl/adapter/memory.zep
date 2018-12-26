@@ -622,7 +622,6 @@ class Memory extends Adapter
 			} else {
 				throw new Exception("Object passed as subjectName must implement Phalcon\\Acl\\SubjectAware or Phalcon\\Acl\\SubjectInterface");
 			}
-
 		}
 
 		let this->_activeOperation = operationName;
@@ -663,8 +662,6 @@ class Memory extends Adapter
 		/**
 		 * Check in the inherits operations
 		 */
-
-
 		let this->_accessGranted = haveAccess;
 		if typeof eventsManager == "object" {
 			eventsManager->fire("acl:afterCheckAccess", this);
@@ -749,7 +746,9 @@ class Memory extends Adapter
 			if count(parametersForFunction) == 0 {
 				if numberOfRequiredParameters > 0 {
 					trigger_error(
-						"You didn't provide any parameters when check " . operationName . " can " . access . " "  . subjectName . ". We will use default action when no arguments."
+						"You didn't provide any parameters when '" . operationName .
+						"' can '" . access . "' '"  . subjectName .
+						"'. We will use default action when no arguments."
 					);
 
 					return haveAccess == Acl::ALLOW && this->_noArgumentsDefaultAction == Acl::ALLOW;
@@ -766,7 +765,8 @@ class Memory extends Adapter
 
 			// We don't have enough parameters
 			throw new Exception(
-				"You didn't provide all necessary parameters for defined function when check " . operationName . " can " . access . " " . subjectName
+				"You didn't provide all necessary parameters for defined function when check " .
+				operationName . " can " . access . " " . subjectName
 			);
 		}
 
@@ -778,7 +778,9 @@ class Memory extends Adapter
 	 */
 	protected function _isAllowed(string operationName, string subjectName, string access) -> string | bool
     {
-        var accessList, accessKey,checkOperationToInherit, checkOperationToInherits, usedOperationToInherits, usedOperationToInherit;
+        var accessList, accessKey,checkOperationToInherit,
+        	checkOperationToInherits, usedOperationToInherits,
+        	usedOperationToInherit;
 
 		let accessList = this->_access;
 

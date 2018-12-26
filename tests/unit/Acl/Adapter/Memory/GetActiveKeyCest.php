@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Operation;
+use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
@@ -24,12 +27,21 @@ class GetActiveKeyCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-13
      */
     public function aclAdapterMemoryGetActiveKey(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveKey()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+        $acl->addOperation(new Operation('Guests'));
+        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
+
+        $acl->allow('Guests', 'Post', 'create');
+        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create'));
+
+        $expected = 'Guests!Post!create';
+        $actual   = $acl->getActiveKey();
+        $I->assertEquals($expected, $actual);
     }
 }
