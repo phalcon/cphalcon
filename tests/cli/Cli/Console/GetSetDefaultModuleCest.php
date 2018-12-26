@@ -12,20 +12,33 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class GetDefaultModuleCest
+class GetSetDefaultModuleCest
 {
+	use DiTrait;
     /**
      * Tests Phalcon\Cli\Console :: getDefaultModule()
+     * Tests Phalcon\Cli\Console :: setDefaultModule()
      *
      * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @since 2018-12-26
      */
-    public function cliConsoleGetDefaultModule(CliTester $I)
+    public function cliConsoleSetGetDefaultModule(CliTester $I)
     {
         $I->wantToTest("Cli\Console - getDefaultModule()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Cli\Console - setDefaultModule()");
+
+	    $console = $this->newCliConsole();
+	    $console->setDefaultModule("moduleName");
+
+	    $I->assertEquals("moduleName", $console->getDefaultModule());
+
     }
 }

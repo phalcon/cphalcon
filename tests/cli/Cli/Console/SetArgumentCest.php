@@ -12,9 +12,12 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Cli\Router;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class SetArgumentCest
 {
+	use DiTrait;
     /**
      * Tests Phalcon\Cli\Console :: setArgument()
      *
@@ -22,10 +25,41 @@ class SetArgumentCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @since 2018-12-26
      */
     public function cliConsoleSetArgument(CliTester $I)
     {
+    	//TODO:: Import the MainTask
         $I->wantToTest("Cli\Console - setArgument()");
-        $I->skipTest("Need implementation");
+	    $this->setNewCliFactoryDefault();
+
+	    $this->container->setShared(
+		    'router',
+		    function () {
+			    $router = new Router(true);
+
+			    return $router;
+		    }
+	    );
+
+	    $console = $this->newCliConsole();
+        $console->setDI($this->container);
+
+	    $dispatcher = $this->container->getShared("dispatcher");
+        $console->setArgument([
+        	"php",
+        	"--foo=bar",
+	        "-bar",
+	        "main",
+	        "hello",
+	        "a",
+	        "B"
+        ])->handle();
+        $I->assertEquals("main", $dispatcher->getTaskName());
+        $I->assertEquals("hello", $dispatcher->getActionName());
+        $I->assertEquals(["a", "B"], $dispatcher->getParams());
+        $I->assertEquals(["foo" => "bar", "bar" => true], $dispatcher->getOptions());
     }
 }

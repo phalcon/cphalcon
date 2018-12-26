@@ -29,7 +29,6 @@ class HandleCest
     public function cliConsoleHandle(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle()");
-        $I->skipTest("TODO - check this");
         $container = $this->newCliFactoryDefault();
         $container->set(
             'data',
@@ -113,5 +112,33 @@ class HandleCest
         $expected = 'Hello World######';
         $actual   = $dispatcher->getReturnedValue();
         $I->assertEquals($expected, $actual);
+    }
+
+	/**
+	 * Tests Phalcon\Cli\Console :: handle()
+	 *
+	 * @param CliTester $I
+	 *
+	 * @author Nathan Edwards <npfedwards@gmail.com>
+	 * @since 2018-12-26
+	 */
+    public function cliConsoleHandleModule(CliTester $I)
+    {
+	    $I->wantToTest("Cli\Console - handle() - Modules");
+	    $I->skipTest("Needs Implementing");
+    }
+
+	/**
+	 * Tests Phalcon\Cli\Console :: handle()
+	 *
+	 * @param CliTester $I
+	 *
+	 * @author Nathan Edwards <npfedwards@gmail.com>
+	 * @since 2018-12-26
+	 */
+    public function cliConsoleHandleEvents(CliTester $I)
+    {
+	    $I->wantToTest("Cli\Console - handle() - Events");
+	    $I->skipTest("Needs Implementing");
     }
 }

@@ -12,9 +12,11 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetModulesCest
 {
+	use DiTrait;
     /**
      * Tests Phalcon\Cli\Console :: getModules()
      *
@@ -22,10 +24,16 @@ class GetModulesCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @since 2018-12-26
      */
     public function cliConsoleGetModules(CliTester $I)
     {
         $I->wantToTest("Cli\Console - getModules()");
-        $I->skipTest("Need implementation");
+        $console = $this->newCliConsole();
+        $expected = [];
+        $actual = $console->getModules();
+		$I->assertEquals($expected, $actual);
     }
 }

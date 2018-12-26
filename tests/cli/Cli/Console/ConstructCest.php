@@ -12,9 +12,13 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class ConstructCest
 {
+    use DiTrait;
     /**
      * Tests Phalcon\Cli\Console :: __construct()
      *
@@ -22,10 +26,23 @@ class ConstructCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @since 2018-12-23
      */
     public function cliConsoleConstruct(CliTester $I)
     {
         $I->wantToTest("Cli\Console - __construct()");
-        $I->skipTest("Need implementation");
+        $this->newDi(); //Make sure the Default DI has no services.
+        $container = $this->newCliFactoryDefault();
+
+        $console = $this->newCliConsole();
+        $I->assertFalse($console->getDI()->has('dispatcher'));
+
+        $console = new CliConsole($container);
+
+        $expected = Dispatcher::class;
+        $actual   = $console->getDI()->getShared('dispatcher');
+        $I->assertInstanceOf($expected, $actual);
     }
 }
