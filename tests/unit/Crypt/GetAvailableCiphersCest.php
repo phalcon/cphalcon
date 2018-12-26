@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
+use Phalcon\Crypt;
 
 /**
  * Class GetAvailableCiphersCest
@@ -30,6 +31,7 @@ class GetAvailableCiphersCest
     public function cryptGetAvailableCiphers(UnitTester $I)
     {
         $I->wantToTest('Crypt - getAvailableCiphers()');
-        $I->skipTest('Need implementation');
+        $crypt = new Crypt();
+        $I->assertInternalType("array", $crypt->getAvailableCiphers());
     }
 }
