@@ -149,4 +149,22 @@ class CookieCest extends HttpBase
         $actual  = $cookies->send();
         $I->assertTrue($actual);
     }
+
+    public function testIssue13464(UnitTester $I)
+    {
+        $I->wantToTest("Issue #13464");
+        
+        $this->setDiCrypt();
+        $container = $this->getDi();
+        
+        $cookie = new Cookies();
+        $cookie->setDI($container);
+        $cookie->useEncryption(false);
+        $cookie->set(__METHOD__, 'potato', time() + 86400, '/', false, 'localhost', false);
+        $cookie->send();
+
+        $cookie = $this->getCookie(__METHOD__);
+
+        $I->assertNotRegexp('/HttpOnly$/', $cookie);
+    }
 }
