@@ -993,7 +993,7 @@ class Micro extends Injectable implements \ArrayAccess
 			 */
 			if typeof returnedValue == "object" {
 				if returnedValue instanceof ResponseInterface {
-					if !response->isSent() {
+					if !returnedValue->isSent() {
 						returnedValue->send();
 					}
 				}
