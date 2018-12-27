@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Operation;
 use UnitTester;
 
 /**
@@ -30,6 +32,16 @@ class GetOperationsCest
     public function aclAdapterMemoryGetOperations(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getOperations()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+
+        $operation1 = new Operation('Admin');
+        $operation2 = new Operation('Guest');
+
+        $acl->addOperation($operation1);
+        $acl->addOperation($operation2);
+
+        $expected = [$operation1, $operation2];
+        $actual   = $acl->getOperations();
+        $I->assertEquals($expected, $actual);
     }
 }
