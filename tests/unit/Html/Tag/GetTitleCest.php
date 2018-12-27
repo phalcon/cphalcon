@@ -72,9 +72,9 @@ class GetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle() - parameters
-     * 
+     *
      * @param UnitTester $I
-     * 
+     *
      * @since  2018-12-27
      */
     public function htmlTagGetTitleParameters(UnitTester $I)

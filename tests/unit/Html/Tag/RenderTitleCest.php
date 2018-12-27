@@ -51,9 +51,9 @@ class RenderTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: renderTitle() - parameters
-     * 
+     *
      * @param UnitTester $I
-     * 
+     *
      * @since 2018-12-27
      */
     public function htmlTagRenderTitleParameters(UnitTester $I)
