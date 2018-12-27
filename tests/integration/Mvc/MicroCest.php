@@ -16,6 +16,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
+use Phalcon\Http\Response;
 use Phalcon\Test\Controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
@@ -628,5 +629,24 @@ class MicroCest
         $app->handle("/blog");
 
         $I->assertCount(2, $trace);
+    }
+
+    public function testMicroResponseReturnResponseObject(IntegrationTester $I)
+    {
+        $app        = new Micro();
+        $collection = new Micro\Collection();
+        $collection->setHandler(new MicroController());
+        $collection->mapVia(
+            "/test",
+            'returnResponseAction',
+            ["GET"],
+            "test"
+        );
+        $app->mount($collection);
+
+        $response = $app->handle("/test");
+
+        //returnResponseAction sets "test" as content
+        $I->assertEquals("test", $response->getContent());
     }
 }
