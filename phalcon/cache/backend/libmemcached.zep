@@ -152,7 +152,7 @@ class Libmemcached extends Backend
 
 		let cachedContent = memcache->get(prefixedKey);
 
-		if false === cachedContent {
+		if \Memcached::RES_NOTFOUND === memcache->getResultCode() {
 			return null;
 		}
 
