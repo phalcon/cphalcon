@@ -6,6 +6,9 @@ use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
+use Phalcon\Cache\Frontend\None;
+use Phalcon\Cache\Frontend;
+use Phalcon\Cache\FrontendInterface;
 use UnitTester;
 
 /**
@@ -37,7 +40,7 @@ class LibmemcachedCest
         $I->wantTo('Increment counter by using Libmemcached as cache backend');
 
         $key   = 'increment';
-        $cache = $this->getDataCache(null, 20);
+        $cache = $this->getDataCache();
 
         $I->dontSeeInLibmemcached($key);
         $I->haveInLibmemcached($key, 1);
@@ -52,24 +55,14 @@ class LibmemcachedCest
         $I->seeInLibmemcached($key, 14);
     }
 
-    protected function getDataCache($statsKey = null, $ttl = 0)
+    protected function getDataCache($statsKey = null, $ttl = 20)
     {
-        $config = [
-            'client'  => [],
-            'servers' => [
-                [
-                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
-                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
-                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
-                ],
-            ],
-        ];
-
+        $config = [];
         if ($statsKey !== null) {
             $config['statsKey'] = $statsKey;
         }
 
-        return new Libmemcached(new Data(['lifetime' => $ttl]), $config);
+        return $this->getCache(new Data(['lifetime' => $ttl]), $config);
     }
 
     public function decrement(UnitTester $I)
@@ -77,7 +70,7 @@ class LibmemcachedCest
         $I->wantTo('Decrement counter by using Libmemcached as cache backend');
 
         $key   = 'decrement';
-        $cache = $this->getDataCache(null, 20);
+        $cache = $this->getDataCache();
 
         $I->dontSeeInLibmemcached($key);
         $I->haveInLibmemcached($key, 100);
@@ -99,7 +92,7 @@ class LibmemcachedCest
         $key  = 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
-        $cache = $this->getDataCache(null, 20);
+        $cache = $this->getDataCache();
 
         $I->haveInLibmemcached($key, serialize($data));
         $I->assertEquals($data, $cache->get('data-get'));
@@ -125,7 +118,7 @@ class LibmemcachedCest
         $key  = 'libmemcached-data-get-test';
         $data = 'this is a test';
 
-        $cache = $this->getDataCache(null, 20);
+        $cache = $this->getDataCache();
 
         $I->haveInLibmemcached($key, serialize($data));
 
@@ -148,7 +141,7 @@ class LibmemcachedCest
         $key  = 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
-        $cache = $this->getDataCache(null, 20);
+        $cache = $this->getDataCache();
 
         $I->dontSeeInLibmemcached($key);
         $cache->save('data-save', $data);
@@ -169,7 +162,7 @@ class LibmemcachedCest
             'Delete from cache by using Libmemcached as cache backend'
         );
 
-        $cache = $this->getDataCache(null, 20);
+        $cache = $this->getDataCache();
 
         $I->assertFalse($cache->delete('non-existent-keys'));
 
@@ -185,7 +178,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache    = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey);
 
         $I->haveInLibmemcached('data-flush-1', 1);
         $I->haveInLibmemcached('data-flush-2', 2);
@@ -211,7 +204,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache    = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey);
 
         $I->assertEquals([], $cache->queryKeys());
     }
@@ -222,7 +215,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache    = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey);
 
         $I->haveInLibmemcached("a", 1);
         $I->haveInLibmemcached("b", 2);
@@ -246,7 +239,7 @@ class LibmemcachedCest
 
         $lifetime = 20;
         $statsKey = '_PHCM';
-        $cache    = $this->getDataCache($statsKey, $lifetime);
+        $cache    = $this->getDataCache($statsKey);
 
         $I->haveInLibmemcached('prefix1-myKey', ['a', 'b']);
         $I->haveInLibmemcached('prefix2-myKey', ['x', 'z']);
@@ -316,17 +309,46 @@ class LibmemcachedCest
 
     protected function getOutputCache($ttl = 0)
     {
-        $config = [
+        return $this->getCache(new Output(['lifetime' => $ttl]));
+    }
+
+    protected function getCache(FrontendInterface $frontend, $config = [])
+    {
+        $config = array_merge($config, [
             'client'  => [],
             'servers' => [
                 [
                     'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
-                    'port'   => env('DATA_MEMCACHED_HOST', 11211),
+                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
                     'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
                 ],
             ],
-        ];
+        ]);
 
-        return new Libmemcached(new Output(['lifetime' => $ttl]), $config);
+        return new Libmemcached($frontend, $config);
+    }
+
+    public function testIssue13497(UnitTester $I)
+    {
+        $I->wantToTest('Issue #13497');
+
+        $cache = $this->getCache(new None());
+
+        $cache->save('empty.array', []);
+        $I->assertEquals([], $cache->get('empty.array'));
+
+        $cache->save('empty.int', 0);
+        $I->assertEquals(0, $cache->get('empty.int'));
+
+        $cache->save('empty.string', '');
+        $I->assertEquals('', $cache->get('empty.string'));
+
+        $cache->save('empty.bool', false);
+        $I->assertFalse($cache->get('empty.bool'));
+
+        $I->assertNull(null, $cache->get('valuethatdoesnotexist'));
+
+        $cache->save('empty.null', null);
+        $I->assertNull($cache->get('null'));
     }
 }
