@@ -80,7 +80,6 @@ class FileCest
             if ($i >= 1) {
                 $cache->useSafeKey(true);
             }
-
             // On the third run, set up the subfolders 
             if ($i >= 2) {
                 $cache->useSubDir(true);
