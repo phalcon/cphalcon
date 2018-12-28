@@ -48,4 +48,39 @@ class RenderTitleCest
         $actual   = $tag->renderTitle();
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Html\Tag :: renderTitle() - parameters
+     *
+     * @param UnitTester $I
+     *
+     * @since 2018-12-27
+     */
+    public function htmlTagRenderTitleParameters(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - renderTitle() - parameters');
+        $tag = new Tag();
+        $tag->setDI($this->container);
+        $tag->setTitleSeparator(' ');
+
+        $tag->prependTitle(['Hello'])
+            ->setTitle('World')
+            ->appendTitle(['from Phalcon']);
+
+        $expected = '<title>Hello World from Phalcon</title>' . PHP_EOL;
+        $actual   = $tag->renderTitle();
+        $I->assertEquals($expected, $actual);
+
+        $expected = '<title>World from Phalcon</title>' . PHP_EOL;
+        $actual   = $tag->renderTitle(false);
+        $I->assertEquals($expected, $actual);
+
+        $expected = '<title>Hello World</title>' . PHP_EOL;
+        $actual   = $tag->renderTitle(true, false);
+        $I->assertEquals($expected, $actual);
+
+        $expected = '<title>World</title>' . PHP_EOL;
+        $actual   = $tag->renderTitle(false, false);
+        $I->assertEquals($expected, $actual);
+    }
 }

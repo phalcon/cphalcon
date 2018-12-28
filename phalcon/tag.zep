@@ -1220,16 +1220,19 @@ class Tag
 	 * Tag::setTitle('World');
 	 * Tag::appendTitle('from Phalcon');
 	 *
-	 * echo Tag::renderTitle(); // <title>Hello World From Phalcon</title>
+	 * echo Tag::renderTitle();             // <title>Hello World from Phalcon</title>
+	 * echo Tag::renderTitle(false);        // <title>World from Phalcon</title>
+	 * echo Tag::renderTitle(true, false);  // <title>Hello World</title>
+	 * echo Tag::renderTitle(false, false); // <title>World</title>
 	 * </code>
 	 *
 	 * <code>
 	 * {{ render_title() }}
 	 * </code>
 	 */
-	public static function renderTitle() -> string
+	public static function renderTitle(bool prepend = true, bool append = true) -> string
 	{
-		return "<title>" . self::getTitle() . "</title>" . PHP_EOL;
+		return "<title>" . self::getTitle(prepend, append) . "</title>" . PHP_EOL;
 	}
 
 	/**
