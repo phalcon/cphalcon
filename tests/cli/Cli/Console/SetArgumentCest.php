@@ -31,7 +31,7 @@ class SetArgumentCest
      */
     public function cliConsoleSetArgument(CliTester $I)
     {
-    	//TODO:: Import the MainTask
+	    require_once dataFolder('fixtures/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - setArgument()");
 	    $this->setNewCliFactoryDefault();
 

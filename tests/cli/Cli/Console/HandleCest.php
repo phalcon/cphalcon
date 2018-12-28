@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class HandleCest
@@ -28,6 +29,8 @@ class HandleCest
      */
     public function cliConsoleHandle(CliTester $I)
     {
+	    require_once dataFolder('fixtures/tasks/MainTask.php');
+	    require_once dataFolder('fixtures/tasks/EchoTask.php');
         $I->wantToTest("Cli\Console - handle()");
         $container = $this->newCliFactoryDefault();
         $container->set(
@@ -125,7 +128,7 @@ class HandleCest
     public function cliConsoleHandleModule(CliTester $I)
     {
 	    $I->wantToTest("Cli\Console - handle() - Modules");
-	    $I->skipTest("Needs Implementing");
+		$I->skipTest();
     }
 
 	/**
@@ -139,6 +142,21 @@ class HandleCest
     public function cliConsoleHandleEvents(CliTester $I)
     {
 	    $I->wantToTest("Cli\Console - handle() - Events");
-	    $I->skipTest("Needs Implementing");
+	    $this->setNewCliFactoryDefault();
+	    $this->setDiEventsManager();
+	    $eventsManager = $this->container->getShared('eventsManager');
+	    $eventsManager->attach(
+		    'console:boot',
+		    function (Event $event, $console) {
+			    throw new \Exception("Console Boot Event Fired");
+		    }
+	    );
+	    $console = $this->newCliConsole();
+	    $console->setDI($this->container);
+	    $console->setEventsManager($eventsManager);
+	    $I->expectThrowable(new \Exception("Console Boot Event Fired"), function () use ($console) {
+	    	$console->handle([]);
+	    });
+	    $I->skipTest();
     }
 }

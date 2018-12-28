@@ -12,9 +12,13 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class UnderscoreGetCest
 {
+
+	use DiTrait;
     /**
      * Tests Phalcon\Cli\Console :: __get()
      *
@@ -26,6 +30,16 @@ class UnderscoreGetCest
     public function cliConsoleUnderscoreGet(CliTester $I)
     {
         $I->wantToTest("Cli\Console - __get()");
-        $I->skipTest("Need implementation");
+        $this->setNewCliFactoryDefault();
+        $console = $this->newCliConsole();
+        $console->setDI($this->container);
+
+        $expected = Dispatcher::class;
+        $actual = $console->dispatcher;
+        $I->assertInstanceOf($expected, $actual);
+
+        $expected = $this->container;
+        $actual = $console->di;
+        $I->assertSame($expected, $actual);
     }
 }
