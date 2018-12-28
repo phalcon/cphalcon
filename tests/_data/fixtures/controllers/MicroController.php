@@ -54,4 +54,11 @@ class MicroController extends Controller
     {
         return $this->dispatcher->getParam('param1') + $this->dispatcher->getParam('param2');
     }
+    
+    public function returnResponseAction()
+    {
+        $response = new Response();
+        $response->setContent("test");
+        return $response;
+    }
 }
