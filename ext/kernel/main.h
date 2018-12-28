@@ -1,21 +1,13 @@
-
 /*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  +------------------------------------------------------------------------+
-*/
+ * This file is part of the Zephir.
+ *
+ * (c) Zephir Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifndef ZEPHIR_KERNEL_MAIN_H
 #define ZEPHIR_KERNEL_MAIN_H
@@ -24,6 +16,7 @@
 #include <ext/spl/spl_exceptions.h>
 #include <ext/spl/spl_iterators.h>
 #include <Zend/zend_string.h>
+#include <Zend/zend.h>
 
 extern zend_string* i_parent;
 extern zend_string* i_static;
@@ -59,14 +52,20 @@ extern zend_string* i_self;
 #include <Zend/zend_constants.h>
 #include "kernel/exception.h"
 
-/** class/interface registering */
-#define ZEPHIR_REGISTER_CLASS(ns, class_name, lower_ns, name, methods, flags) \
-	{ \
-		zend_class_entry ce; \
-		memset(&ce, 0, sizeof(zend_class_entry)); \
-		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
-		lower_ns## _ ##name## _ce = zend_register_internal_class(&ce); \
-		lower_ns## _ ##name## _ce->ce_flags |= flags;  \
+/* class/interface registering */
+#define ZEPHIR_REGISTER_CLASS(ns, class_name, lower_ns, name, methods, flags)		\
+	{																				\
+		zend_class_entry ce;														\
+		memset(&ce, 0, sizeof(zend_class_entry));									\
+		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods);							\
+		lower_ns## _ ##name## _ce = zend_register_internal_class(&ce);				\
+		if (UNEXPECTED(!lower_ns## _ ##name## _ce)) {								\
+			const char *_n = (#ns);													\
+			const char *_c = (#class_name);											\
+			zend_error(E_ERROR, "%s\\%s: class registration has failed.", _n, _c);	\
+			return FAILURE;															\
+		}																			\
+		lower_ns## _ ##name## _ce->ce_flags |= flags;								\
 	}
 
 #define ZEPHIR_REGISTER_CLASS_EX(ns, class_name, lower_ns, lcname, parent_ce, methods, flags) \
@@ -296,8 +295,6 @@ int zephir_declare_class_constant_bool(zend_class_entry *ce, const char *name, s
 int zephir_declare_class_constant_double(zend_class_entry *ce, const char *name, size_t name_length, double value);
 int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name, size_t name_length, const char *value, size_t value_length);
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value);
-
-#define ZEPHIR_CHECK_POINTER(v)
 
 int zephir_is_php_version(unsigned int id);
 

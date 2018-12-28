@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetDefaultNamespaceCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class SetDefaultNamespaceCest
 {
@@ -31,7 +29,7 @@ class SetDefaultNamespaceCest
      */
     public function mvcRouterSetDefaultNamespace(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - setDefaultNamespace()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - setDefaultNamespace()');
+        $I->skipTest('Need implementation');
     }
 }

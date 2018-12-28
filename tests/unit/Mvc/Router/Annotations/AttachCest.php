@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AttachCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class AttachCest
 {
@@ -31,7 +29,7 @@ class AttachCest
      */
     public function mvcRouterAnnotationsAttach(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - attach()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - attach()');
+        $I->skipTest('Need implementation');
     }
 }

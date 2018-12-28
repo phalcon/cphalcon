@@ -12,15 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class ConstructCest
 {
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: __construct() - constants
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryConstructConstants(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - __construct() - constants');
+        $I->assertEquals(1, Acl::ALLOW);
+        $I->assertEquals(0, Acl::DENY);
+    }
+
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: __construct()
      *
@@ -32,6 +45,9 @@ class ConstructCest
     public function aclAdapterMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - __construct()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+
+        $class = Memory::class;
+        $I->assertInstanceOf($class, $acl);
     }
 }

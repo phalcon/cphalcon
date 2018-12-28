@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,9 @@ use Phalcon\Validation\Validator\Url;
 use Phalcon\Validation\ValidatorInterface;
 use IntegrationTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     use ValidationTrait;
@@ -30,7 +34,7 @@ class ConstructCest
      */
     public function validationValidatorUrlConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Url - __construct()");
+        $I->wantToTest('Validation\Validator\Url - __construct()');
         $validator = new Url();
         $this->checkConstruct($I, $validator);
     }

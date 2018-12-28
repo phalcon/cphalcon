@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReleaseCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class ReleaseCest
 {
@@ -31,7 +29,7 @@ class ReleaseCest
      */
     public function queueBeanstalkJobRelease(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - release()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - release()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -24,6 +24,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Config
  *
  * Phalcon\Config is designed to simplify the access to, and the use of, configuration data within applications.
@@ -91,7 +99,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	}
 
 
-	zephir_is_iterable(&arrayConfig, 0, "phalcon/config.zep", 67);
+	zephir_is_iterable(&arrayConfig, 0, "phalcon/config.zep", 58);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&arrayConfig), _1, _2, _0)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -135,7 +143,7 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 13, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 9, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, &_0);
 	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
@@ -172,7 +180,7 @@ PHP_METHOD(Phalcon_Config, path) {
 	zephir_fetch_params(1, 1, 2, &path_param, &defaultValue, &delimiter);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
@@ -210,7 +218,7 @@ PHP_METHOD(Phalcon_Config, path) {
 			break;
 		}
 		ZEPHIR_MAKE_REF(&keys);
-		ZEPHIR_CALL_FUNCTION(&key, "array_shift", &_1, 14, &keys);
+		ZEPHIR_CALL_FUNCTION(&key, "array_shift", &_1, 10, &keys);
 		ZEPHIR_UNREF(&keys);
 		zephir_check_call_status();
 		if (!(zephir_isset_property_zval(&config, &key TSRMLS_CC))) {
@@ -263,7 +271,7 @@ PHP_METHOD(Phalcon_Config, get) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 13, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 9, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, &_0);
 	if (zephir_isset_property_zval(this_ptr, index TSRMLS_CC)) {
@@ -301,7 +309,7 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 13, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 9, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, &_0);
 	ZEPHIR_OBS_VAR(&_1);
@@ -336,13 +344,13 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 13, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 9, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, &_0);
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 15, value);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 11, value);
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, index, &_1$$3 TSRMLS_CC);
 	} else {
@@ -375,7 +383,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 13, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 9, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, &_0);
 	zephir_update_property_zval_zval(this_ptr, index, &__$null TSRMLS_CC);
@@ -411,7 +419,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 16, config);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 12, config);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -444,9 +452,9 @@ PHP_METHOD(Phalcon_Config, toArray) {
 
 	ZEPHIR_INIT_VAR(&arrayConfig);
 	array_init(&arrayConfig);
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 17, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 13, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 243);
+	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 234);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -498,7 +506,7 @@ PHP_METHOD(Phalcon_Config, count) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 17, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 13, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM_LONG(zephir_fast_count_int(&_0 TSRMLS_CC));
 
@@ -523,7 +531,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_config_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 15, &data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 11, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -548,7 +556,7 @@ PHP_METHOD(Phalcon_Config, setPathDelimiter) {
 		ZVAL_STRING(&delimiter, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(delimiter_param) != IS_STRING && Z_TYPE_P(delimiter_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'delimiter' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'delimiter' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(delimiter_param) == IS_STRING)) {
@@ -595,9 +603,9 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zend_bool _5$$5, _6$$6;
 	zend_string *_3;
 	zend_ulong _2;
-	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, config_sub, *instance = NULL, instance_sub, __$null, key, value, number, localObject, property, _0, *_1;
+	zval *config, config_sub, *instance = NULL, instance_sub, __$null, key, value, number, localObject, property, _0, *_1, _8$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
@@ -609,6 +617,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	ZVAL_UNDEF(&localObject);
 	ZVAL_UNDEF(&property);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_8$$8);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &config, &instance);
@@ -626,9 +635,9 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	}
 	ZEPHIR_CALL_METHOD(&number, instance, "count", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 17, config);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 13, config);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 327);
+	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 322);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -639,7 +648,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZVAL_COPY(&value, _1);
-		ZEPHIR_CALL_FUNCTION(&property, "strval", &_4, 13, &key);
+		ZEPHIR_CALL_FUNCTION(&property, "strval", &_4, 9, &key);
 		zephir_check_call_status();
 		ZEPHIR_OBS_NVAR(&localObject);
 		if (zephir_fetch_property_zval(&localObject, instance, &property, PH_SILENT_CC)) {
@@ -653,17 +662,27 @@ PHP_METHOD(Phalcon_Config, _merge) {
 					_6$$6 = zephir_instance_of_ev(&value, phalcon_config_ce TSRMLS_CC);
 				}
 				if (_6$$6) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_7, 16, &value, &localObject);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_7, 12, &value, &localObject);
 					zephir_check_call_status();
 					continue;
 				}
 			}
 		}
 		if (zephir_is_numeric(&key)) {
-			ZEPHIR_CALL_FUNCTION(&key, "strval", &_4, 13, &number);
+			ZEPHIR_CALL_FUNCTION(&_8$$8, "strval", &_4, 9, &key);
 			zephir_check_call_status();
-			ZEPHIR_SEPARATE(&number);
-			zephir_increment(&number);
+			ZEPHIR_CPY_WRT(&key, &_8$$8);
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_8$$8, instance, "offsetexists", &_9, 0, &key);
+				zephir_check_call_status();
+				if (!(zephir_is_true(&_8$$8))) {
+					break;
+				}
+				ZEPHIR_CALL_FUNCTION(&key, "strval", &_4, 9, &number);
+				zephir_check_call_status();
+				ZEPHIR_SEPARATE(&number);
+				zephir_increment(&number);
+			}
 		}
 		zephir_update_property_zval_zval(instance, &key, &value TSRMLS_CC);
 	} ZEND_HASH_FOREACH_END();

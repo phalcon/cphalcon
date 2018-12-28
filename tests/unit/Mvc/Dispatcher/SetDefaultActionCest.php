@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetDefaultActionCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class SetDefaultActionCest
 {
@@ -31,7 +29,7 @@ class SetDefaultActionCest
      */
     public function mvcDispatcherSetDefaultAction(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - setDefaultAction()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - setDefaultAction()');
+        $I->skipTest('Need implementation');
     }
 }

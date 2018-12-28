@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetInterpolatorCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
  */
 class SetInterpolatorCest
 {
@@ -31,7 +29,7 @@ class SetInterpolatorCest
      */
     public function translateAdapterNativearraySetInterpolator(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\NativeArray - setInterpolator()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\NativeArray - setInterpolator()');
+        $I->skipTest('Need implementation');
     }
 }

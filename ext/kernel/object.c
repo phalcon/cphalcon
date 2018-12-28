@@ -26,6 +26,7 @@
 #include "php_ext.h"
 
 #include <Zend/zend_closures.h>
+#include <Zend/zend_string.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -353,14 +354,13 @@ int zephir_clone(zval *destination, zval *obj)
 		clone_call =  Z_OBJ_HT_P(obj)->clone_obj;
 		if (!clone_call) {
 			if (ce) {
-				php_error_docref(NULL, E_ERROR, "Trying to clone an uncloneable object of class %s", ce->name);
+				php_error_docref(NULL, E_ERROR, "Trying to clone an uncloneable object of class %s", ZSTR_VAL(ce->name));
 			} else {
 				php_error_docref(NULL, E_ERROR, "Trying to clone an uncloneable object");
 			}
 			status = FAILURE;
 		} else {
 			if (!EG(exception)) {
-				//zval_ptr_dtor(destination);
 				ZVAL_OBJ(destination, clone_call(obj));
 				if (EG(exception)) {
 					zval_ptr_dtor(destination);
@@ -1166,7 +1166,9 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 			fci.no_separation    = 1;
 			ZVAL_NULL(&fci.function_name);
 
+#if PHP_VERSION_ID < 70300
 			fcc.initialized      = 1;
+#endif
 			fcc.object           = obj;
 			fcc.called_scope     = ce;
 			fcc.calling_scope    = ce;
@@ -1228,7 +1230,9 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 			fci.no_separation    = 1;
 			ZVAL_NULL(&fci.function_name);
 
+#if PHP_VERSION_ID < 70300
 			fcc.initialized      = 1;
+#endif
 			fcc.object           = obj;
 			fcc.called_scope     = ce;
 			fcc.calling_scope    = ce;

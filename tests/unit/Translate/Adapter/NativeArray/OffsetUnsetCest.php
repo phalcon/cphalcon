@@ -19,8 +19,6 @@ use UnitTester;
 
 /**
  * Class OffsetUnsetCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
  */
 class OffsetUnsetCest
 {

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetHostnameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class SetHostnameCest
 {
@@ -31,7 +29,7 @@ class SetHostnameCest
      */
     public function mvcRouterRouteSetHostname(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - setHostname()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - setHostname()');
+        $I->skipTest('Need implementation');
     }
 }

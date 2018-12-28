@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,11 +14,13 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
 
+/**
+ * Class SetNestedTransactionsWithSavepointsCest
+ */
 class SetNestedTransactionsWithSavepointsCest
 {
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite ::
-     * setNestedTransactionsWithSavepoints()
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: setNestedTransactionsWithSavepoints()
      *
      * @param IntegrationTester $I
      *
@@ -26,7 +29,7 @@ class SetNestedTransactionsWithSavepointsCest
      */
     public function dbAdapterPdoSqliteSetNestedTransactionsWithSavepoints(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Sqlite - setNestedTransactionsWithSavepoints()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Sqlite - setNestedTransactionsWithSavepoints()');
+        $I->skipTest('Need implementation');
     }
 }

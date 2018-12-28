@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Check;
 
 use IntegrationTester;
 
+/**
+ * Class ToStringCest
+ */
 class ToStringCest
 {
     /**
@@ -25,7 +29,7 @@ class ToStringCest
      */
     public function formsElementCheckToString(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Check - __toString()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Check - __toString()');
+        $I->skipTest('Need implementation');
     }
 }

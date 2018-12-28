@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Http;
@@ -661,7 +652,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(bool onlySuccessful = false) -> <FileInterface[]>
+	public function getUploadedFiles(bool onlySuccessful = false, bool namedKeys = false) -> <FileInterface[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -691,12 +682,20 @@ class Request implements RequestInterface, InjectionAwareInterface
 								"error": file["error"]
 							];
 
-							let files[] = new File(dataFile, file["key"]);
+                            if namedKeys == true {
+                                let files[file["key"]] = new File(dataFile, file["key"]);
+                            } else {
+                                let files[] = new File(dataFile, file["key"]);
+                            }
 						}
 					}
 				} else {
 					if onlySuccessful == false || input["error"] == UPLOAD_ERR_OK {
-						let files[] = new File(input, prefix);
+						if namedKeys == true {
+                            let files[prefix] = new File(input, prefix);
+                        } else {
+                            let files[] = new File(input, prefix);
+                        }
 					}
 				}
 			}

@@ -16,13 +16,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_select__optionsfromresultset, 0, 0, 4
 	ZEND_ARG_OBJ_INFO(0, resultset, Phalcon\\Mvc\\Model\\ResulsetInterface, 0)
 	ZEND_ARG_INFO(0, using)
 	ZEND_ARG_INFO(0, value)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, closeOption, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, closeOption)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_select__optionsfromarray, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 	ZEND_ARG_INFO(0, value)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, closeOption, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, closeOption)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_tag_select_method_entry) {

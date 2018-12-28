@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetInterpolatorCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class SetInterpolatorCest
 {
@@ -31,7 +29,7 @@ class SetInterpolatorCest
      */
     public function translateAdapterCsvSetInterpolator(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Csv - setInterpolator()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Csv - setInterpolator()');
+        $I->skipTest('Need implementation');
     }
 }

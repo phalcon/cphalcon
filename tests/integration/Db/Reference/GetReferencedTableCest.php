@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
 
+/**
+ * Class GetReferencedTableCest
+ */
 class GetReferencedTableCest
 {
     /**
@@ -25,7 +29,7 @@ class GetReferencedTableCest
      */
     public function dbReferenceGetReferencedTable(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Reference - getReferencedTable()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Reference - getReferencedTable()');
+        $I->skipTest('Need implementation');
     }
 }

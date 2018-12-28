@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class FindCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class FindCest
 {
@@ -31,7 +29,7 @@ class FindCest
      */
     public function mvcCollectionFind(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - find()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - find()');
+        $I->skipTest('Need implementation');
     }
 }

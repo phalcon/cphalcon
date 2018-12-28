@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
 
+/**
+ * Class SetDICest
+ */
 class SetDICest
 {
     /**
@@ -25,7 +29,7 @@ class SetDICest
      */
     public function cliTaskSetDI(CliTester $I)
     {
-        $I->wantToTest("Cli\Task - setDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Task - setDI()');
+        $I->skipTest('Need implementation');
     }
 }

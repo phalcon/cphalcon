@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -16,6 +17,9 @@ use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Validation\ValidatorInterface;
 use IntegrationTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     use ValidationTrait;
@@ -30,7 +34,7 @@ class ConstructCest
      */
     public function validationValidatorStringLengthConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\StringLength - __construct()");
+        $I->wantToTest('Validation\Validator\StringLength - __construct()');
         $validator = new StringLength();
         $this->checkConstruct($I, $validator);
     }

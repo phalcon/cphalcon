@@ -19,6 +19,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Flash\Direct
  *
  * This is a variant of the Phalcon\Flash that immediately outputs any message passed to it
@@ -83,7 +91,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 	ZEPHIR_OBS_VAR(&messages);
 	zephir_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "phalcon/flash/direct.zep", 52);
+		zephir_is_iterable(&messages, 0, "phalcon/flash/direct.zep", 43);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&message);

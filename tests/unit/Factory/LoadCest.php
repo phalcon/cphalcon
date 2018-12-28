@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Factory;
 
 use UnitTester;
 
+/**
+ * Class LoadCest
+ */
 class LoadCest
 {
     /**
@@ -25,7 +29,7 @@ class LoadCest
      */
     public function factoryLoad(UnitTester $I)
     {
-        $I->wantToTest("Factory - load()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Factory - load()');
+        $I->skipTest('Need implementation');
     }
 }

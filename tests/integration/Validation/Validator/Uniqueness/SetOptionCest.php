@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,10 +12,17 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator\Uniqueness;
 
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\Uniqueness;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness :: setOption()
      *
@@ -25,7 +33,8 @@ class SetOptionCest
      */
     public function validationValidatorUniquenessSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Uniqueness - setOption()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Validation\Validator\Uniqueness - setOption()');
+        $validator = new Uniqueness();
+        $this->checkSetOption($I, $validator);
     }
 }

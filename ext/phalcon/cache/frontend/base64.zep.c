@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Frontend\Base64
  *
  * Allows to cache data converting/deconverting them to base64.
@@ -188,7 +196,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 121, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 98, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -210,7 +218,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 122, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 99, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

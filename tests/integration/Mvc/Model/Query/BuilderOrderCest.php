@@ -81,7 +81,7 @@ class BuilderOrderCest
             $orderBy  = $item[0];
             $expected = $item[1];
             $builder  = new Builder();
-            $query    = "SELECT `r`.`year` AS `year`, `r`.`name` AS `robot_name` FROM `robots` AS `r` ";
+            $query    = "SELECT `r`.`year` AS `r_year`, `r`.`name` AS `robot_name` FROM `robots` AS `r` ";
 
             $phql = $builder
                 ->setDi($this->container)

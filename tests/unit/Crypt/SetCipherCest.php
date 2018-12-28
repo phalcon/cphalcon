@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,7 +13,12 @@
 namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
+use Phalcon\Crypt;
+use Phalcon\Crypt\Exception;
 
+/**
+ * Class SetCipherCest
+ */
 class SetCipherCest
 {
     /**
@@ -25,7 +31,32 @@ class SetCipherCest
      */
     public function cryptSetCipher(UnitTester $I)
     {
-        $I->wantToTest("Crypt - setCipher()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt - setCipher()');
+
+        $cipher = "aes-256-cfb";
+        $crypt = new Crypt();
+        $crypt->setCipher($cipher);
+        $I->assertEquals($cipher, $crypt->getCipher());
+    }
+
+    /**
+     * Tests the Crypt::setCipher
+     *
+     * @author                   Phalcon Team <team@phalconphp.com>
+     * @since                    2018-05-06
+     *
+     * @expectedException        \Phalcon\Crypt\Exception
+     * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not
+     *                           supported on this system.
+     */
+    public function shouldThrowExceptionIfCipherIsUnknown(UnitTester $I)
+    {
+        $I->expectThrowable(
+            Exception::class,
+            function () {
+                $crypt = new Crypt();
+                $crypt->setCipher('xxx-yyy-zzz');
+            }
+        );
     }
 }

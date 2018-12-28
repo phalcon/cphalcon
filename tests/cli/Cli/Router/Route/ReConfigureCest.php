@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
 
+/**
+ * Class ReConfigureCest
+ */
 class ReConfigureCest
 {
     /**
@@ -25,7 +29,7 @@ class ReConfigureCest
      */
     public function cliRouterRouteReConfigure(CliTester $I)
     {
-        $I->wantToTest("Cli\Router\Route - reConfigure()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Router\Route - reConfigure()');
+        $I->skipTest('Need implementation');
     }
 }

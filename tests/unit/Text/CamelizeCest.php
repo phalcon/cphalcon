@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class CamelizeCest
- *
- * @package Phalcon\Test\Unit\Text
  */
 class CamelizeCest
 {
@@ -36,7 +34,7 @@ class CamelizeCest
      */
     public function textCamelize(UnitTester $I, Example $item)
     {
-        $I->wantToTest("Text - camelize()");
+        $I->wantToTest('Text - camelize()');
         $value     = $item[0];
         $expected  = $item[1];
         $delimiter = $item[2];

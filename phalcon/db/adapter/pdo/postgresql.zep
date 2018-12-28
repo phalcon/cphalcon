@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db;

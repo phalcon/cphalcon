@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
+/**
+ * Class GetModuleNameCest
+ */
 class GetModuleNameCest
 {
     /**
@@ -25,7 +29,7 @@ class GetModuleNameCest
      */
     public function cliDispatcherGetModuleName(CliTester $I)
     {
-        $I->wantToTest("Cli\Dispatcher - getModuleName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Dispatcher - getModuleName()');
+        $I->skipTest('Need implementation');
     }
 }

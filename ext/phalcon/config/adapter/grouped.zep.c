@@ -21,6 +21,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Config\Adapter\Grouped
  *
  * Reads multiple files (or arrays) and merges them all together.
@@ -110,7 +118,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct) {
 		ZVAL_STRING(&defaultAdapter, "php");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(defaultAdapter_param) != IS_STRING && Z_TYPE_P(defaultAdapter_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultAdapter' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultAdapter' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(defaultAdapter_param) == IS_STRING)) {
@@ -126,7 +134,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct) {
 	array_init(&_1);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_grouped_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();
-	zephir_is_iterable(&arrayConfig, 0, "phalcon/config/adapter/grouped.zep", 115);
+	zephir_is_iterable(&arrayConfig, 0, "phalcon/config/adapter/grouped.zep", 106);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&arrayConfig), _2)
 	{
 		ZEPHIR_INIT_NVAR(&configName);
@@ -140,17 +148,17 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct) {
 		} else if (!(zephir_array_isset_string(&configInstance, SL("adapter")))) {
 			zephir_array_update_string(&configInstance, SL("adapter"), &defaultAdapter, PH_COPY | PH_SEPARATE);
 		}
-		zephir_array_fetch_string(&_3$$3, &configInstance, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/config/adapter/grouped.zep", 100 TSRMLS_CC);
+		zephir_array_fetch_string(&_3$$3, &configInstance, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/config/adapter/grouped.zep", 91 TSRMLS_CC);
 		if (ZEPHIR_IS_STRING_IDENTICAL(&_3$$3, "array")) {
 			if (!(zephir_array_isset_string(&configInstance, SL("config")))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "To use 'array' adapter you have to specify the 'config' as an array.", "phalcon/config/adapter/grouped.zep", 104);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "To use 'array' adapter you have to specify the 'config' as an array.", "phalcon/config/adapter/grouped.zep", 95);
 				return;
 			} else {
 				ZEPHIR_OBS_NVAR(&configArray);
-				zephir_array_fetch_string(&configArray, &configInstance, SL("config"), PH_NOISY, "phalcon/config/adapter/grouped.zep", 106 TSRMLS_CC);
+				zephir_array_fetch_string(&configArray, &configInstance, SL("config"), PH_NOISY, "phalcon/config/adapter/grouped.zep", 97 TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(&configInstance);
 				object_init_ex(&configInstance, phalcon_config_ce);
-				ZEPHIR_CALL_METHOD(NULL, &configInstance, "__construct", &_4, 15, &configArray);
+				ZEPHIR_CALL_METHOD(NULL, &configInstance, "__construct", &_4, 11, &configArray);
 				zephir_check_call_status();
 			}
 		} else {
@@ -158,7 +166,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct) {
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&configInstance, &_5$$9);
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_7, 16, &configInstance);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_7, 12, &configInstance);
 		zephir_check_call_status();
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&configName);

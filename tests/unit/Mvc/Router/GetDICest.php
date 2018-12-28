@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDICest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class GetDICest
 {
@@ -31,7 +29,7 @@ class GetDICest
      */
     public function mvcRouterGetDI(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - getDI()');
+        $I->skipTest('Need implementation');
     }
 }

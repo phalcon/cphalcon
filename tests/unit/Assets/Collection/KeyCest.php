@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class KeyCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class KeyCest
 {

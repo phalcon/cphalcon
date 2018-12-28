@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetBeforeMatchCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Group
  */
 class GetBeforeMatchCest
 {
@@ -31,7 +29,7 @@ class GetBeforeMatchCest
      */
     public function mvcRouterGroupGetBeforeMatch(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Group - getBeforeMatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Group - getBeforeMatch()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function mvcRouterRouteConstruct(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Db\ResultInterface
  *
  * Interface for Phalcon\Db\Result objects
@@ -61,7 +69,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, numRows);
 /**
  * Moves internal resultset cursor to another position letting us to fetch a certain row
  *
- * @param int number
+ * @param long number
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, dataSeek);
 

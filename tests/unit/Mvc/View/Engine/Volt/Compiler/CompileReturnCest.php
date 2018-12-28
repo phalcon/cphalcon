@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use UnitTester;
 
+/**
+ * Class CompileReturnCest
+ */
 class CompileReturnCest
 {
     /**
@@ -25,7 +29,7 @@ class CompileReturnCest
      */
     public function mvcViewEngineVoltCompilerCompileReturn(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileReturn()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View\Engine\Volt\Compiler - compileReturn()');
+        $I->skipTest('Need implementation');
     }
 }

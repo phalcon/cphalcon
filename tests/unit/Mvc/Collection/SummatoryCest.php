@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SummatoryCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class SummatoryCest
 {
@@ -31,7 +29,7 @@ class SummatoryCest
      */
     public function mvcCollectionSummatory(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - summatory()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - summatory()');
+        $I->skipTest('Need implementation');
     }
 }

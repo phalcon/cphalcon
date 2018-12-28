@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
  * Class DenyCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class DenyCest
 {
@@ -32,6 +32,17 @@ class DenyCest
     public function aclAdapterMemoryDeny(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - deny()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::ALLOW);
+        $acl->addOperation('Guests');
+        $acl->addOperation('Member');
+        $acl->addSubject('Post', ['update']);
+
+        $acl->deny('Member', 'Post', 'update');
+
+        $actual = $acl->isAllowed('Guest', 'Post', 'update');
+        $I->assertTrue($actual);
+        $actual = $acl->isAllowed('Member', 'Post', 'update');
+        $I->assertFalse($actual);
     }
 }

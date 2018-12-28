@@ -20,6 +20,14 @@
 #include "kernel/exception.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, AssociativeArray, phalcon, translate_interpolator_associativearray, phalcon_translate_interpolator_associativearray_method_entry, 0);
@@ -53,7 +61,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
 
 	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
@@ -73,7 +81,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 		_0 = ((zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0);
 	}
 	if (_0) {
-		zephir_is_iterable(placeholders, 0, "phalcon/translate/interpolator/associativearray.zep", 38);
+		zephir_is_iterable(placeholders, 0, "phalcon/translate/interpolator/associativearray.zep", 29);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(placeholders), _2$$3, _3$$3, _1$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);

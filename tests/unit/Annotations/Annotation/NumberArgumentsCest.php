@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NumberArgumentsCest
- *
- * @package Phalcon\Test\Unit\Annotations\Annotation
  */
 class NumberArgumentsCest
 {
@@ -31,7 +29,7 @@ class NumberArgumentsCest
      */
     public function annotationsAnnotationNumberArguments(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Annotation - numberArguments()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Annotation - numberArguments()');
+        $I->skipTest('Need implementation');
     }
 }

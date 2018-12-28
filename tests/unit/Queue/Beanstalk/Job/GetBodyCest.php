@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetBodyCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class GetBodyCest
 {
@@ -31,7 +29,7 @@ class GetBodyCest
      */
     public function queueBeanstalkJobGetBody(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - getBody()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - getBody()');
+        $I->skipTest('Need implementation');
     }
 }

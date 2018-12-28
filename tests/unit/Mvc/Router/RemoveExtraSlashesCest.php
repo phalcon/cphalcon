@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class RemoveExtraSlashesCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class RemoveExtraSlashesCest
 {
@@ -31,7 +29,7 @@ class RemoveExtraSlashesCest
      */
     public function mvcRouterRemoveExtraSlashes(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - removeExtraSlashes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - removeExtraSlashes()');
+        $I->skipTest('Need implementation');
     }
 }

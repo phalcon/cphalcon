@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPropertiesCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Apcu
  */
 class GetPropertiesCest
 {
@@ -31,7 +29,7 @@ class GetPropertiesCest
      */
     public function annotationsAdapterApcuGetProperties(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Apcu - getProperties()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Apcu - getProperties()');
+        $I->skipTest('Need implementation');
     }
 }

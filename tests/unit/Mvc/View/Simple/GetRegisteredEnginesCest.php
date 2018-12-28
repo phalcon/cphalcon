@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View\Simple;
 
 use UnitTester;
 
+/**
+ * Class GetRegisteredEnginesCest
+ */
 class GetRegisteredEnginesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetRegisteredEnginesCest
      */
     public function mvcViewSimpleGetRegisteredEngines(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View\Simple - getRegisteredEngines()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View\Simple - getRegisteredEngines()');
+        $I->skipTest('Need implementation');
     }
 }

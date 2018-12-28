@@ -12,15 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
  * Class IsSubjectCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class IsSubjectCest
 {
@@ -35,11 +32,30 @@ class IsSubjectCest
     public function aclAdapterMemoryIsSubject(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isSubject()');
-        $acl         = new Memory();
+        $acl        = new Memory();
         $aclSubject = new Subject('Customers', 'Customer management');
 
         $acl->addSubject($aclSubject, 'search');
         $actual = $acl->isSubject('Customers');
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: isSubject() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryIsSubjectUnknown(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - isSubject() - unknown');
+        $acl        = new Memory();
+        $aclSubject = new Subject('Customers', 'Customer management');
+
+        $acl->addSubject($aclSubject, 'search');
+        $actual = $acl->isSubject('unknown');
+        $I->assertFalse($actual);
     }
 }

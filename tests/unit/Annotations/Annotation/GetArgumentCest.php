@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetArgumentCest
- *
- * @package Phalcon\Test\Unit\Annotations\Annotation
  */
 class GetArgumentCest
 {
@@ -31,7 +29,7 @@ class GetArgumentCest
      */
     public function annotationsAnnotationGetArgument(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Annotation - getArgument()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Annotation - getArgument()');
+        $I->skipTest('Need implementation');
     }
 }

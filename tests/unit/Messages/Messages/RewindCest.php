@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class RewindCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class RewindCest
 {

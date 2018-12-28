@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WriteAttributeCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class WriteAttributeCest
 {
@@ -31,7 +29,7 @@ class WriteAttributeCest
      */
     public function mvcCollectionWriteAttribute(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - writeAttribute()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - writeAttribute()');
+        $I->skipTest('Need implementation');
     }
 }

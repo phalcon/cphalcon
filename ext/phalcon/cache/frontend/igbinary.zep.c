@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Frontend\Igbinary
  *
  * Allows to cache native PHP data in a serialized form using igbinary extension
@@ -188,7 +196,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 123, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 100, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -214,7 +222,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 124, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 101, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ProcessControllerAnnotationCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class ProcessControllerAnnotationCest
 {
@@ -31,7 +29,7 @@ class ProcessControllerAnnotationCest
      */
     public function mvcRouterAnnotationsProcessControllerAnnotation(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - processControllerAnnotation()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - processControllerAnnotation()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetControllerSuffixCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class SetControllerSuffixCest
 {
@@ -31,7 +29,7 @@ class SetControllerSuffixCest
      */
     public function mvcDispatcherSetControllerSuffix(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - setControllerSuffix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - setControllerSuffix()');
+        $I->skipTest('Need implementation');
     }
 }

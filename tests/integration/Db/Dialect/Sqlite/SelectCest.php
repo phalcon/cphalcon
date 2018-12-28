@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
+/**
+ * Class SelectCest
+ */
 class SelectCest
 {
     /**
@@ -25,7 +29,7 @@ class SelectCest
      */
     public function dbDialectSqliteSelect(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Dialect\Sqlite - select()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Dialect\Sqlite - select()');
+        $I->skipTest('Need implementation');
     }
 }

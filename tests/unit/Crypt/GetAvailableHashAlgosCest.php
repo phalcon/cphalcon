@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,7 +13,11 @@
 namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
+use Phalcon\Crypt;
 
+/**
+ * Class GetAvailableHashAlgosCest
+ */
 class GetAvailableHashAlgosCest
 {
     /**
@@ -25,7 +30,8 @@ class GetAvailableHashAlgosCest
      */
     public function cryptGetAvailableHashAlgos(UnitTester $I)
     {
-        $I->wantToTest("Crypt - getAvailableHashAlgos()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt - getAvailableHashAlgos()');
+        $crypt = new Crypt();
+        $I->assertInternalType("array", $crypt->getAvailableHashAlgos());
     }
 }

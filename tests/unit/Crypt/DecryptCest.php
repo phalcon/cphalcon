@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,20 +13,79 @@
 namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
+use Phalcon\Crypt;
+use Phalcon\Crypt\Exception;
 
+/**
+ * Class DecryptCest
+ */
 class DecryptCest
 {
     /**
-     * Tests Phalcon\Crypt :: decrypt()
+     * Tests decrypt without using HMAC
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
      */
-    public function cryptDecrypt(UnitTester $I)
+    public function shouldNotThrowExceptionIfKeyMismatch(UnitTester $I)
     {
-        $I->wantToTest("Crypt - decrypt()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt - decrypt() not throwing Exception on key mismatch');
+        $crypt = new Crypt();
+
+        $actual = $crypt->decrypt(
+            $crypt->encrypt('le text', 'encrypt key'),
+            'wrong key'
+        );
+
+        $I->assertNotEmpty($actual);
+    }
+
+    /**
+     * Tests decrypt using HMAC
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author                   <k@yejune.com>
+     * @since                    2018-05-16
+     *
+     * @expectedException        \Phalcon\Crypt\Mismatch
+     * @expectedExceptionMessage Hash does not match.
+     */
+    public function shouldThrowExceptionIfHashMismatch(UnitTester $I)
+    {
+        $I->expectThrowable(
+            Exception::class,
+            function () {
+                $crypt = new Crypt();
+                $crypt->useSigning(true);
+
+                $crypt->decrypt(
+                    $crypt->encrypt('le text', 'encrypt key'),
+                    'wrong key'
+                );
+            }
+        );
+    }
+
+    /**
+     * Tests decrypt using HMAC
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldDecryptSignedString(UnitTester $I)
+    {
+        $crypt = new Crypt();
+        $crypt->useSigning(true);
+
+        $key = 'secret';
+        $crypt->setKey($key);
+
+        $expected  = 'le text';
+        $encrypted = $crypt->encrypt($expected);
+        $actual    = $crypt->decrypt($encrypted);
+
+        $I->assertEquals($expected, $actual);
     }
 }

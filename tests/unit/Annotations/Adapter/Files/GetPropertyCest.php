@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetPropertyCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Files
  */
 class GetPropertyCest
 {
@@ -31,7 +29,7 @@ class GetPropertyCest
      */
     public function annotationsAdapterFilesGetProperty(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Files - getProperty()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Files - getProperty()');
+        $I->skipTest('Need implementation');
     }
 }

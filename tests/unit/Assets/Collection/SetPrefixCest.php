@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetPrefixCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class SetPrefixCest
 {

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NotifyCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Behavior\SoftDelete
  */
 class NotifyCest
 {
@@ -31,7 +29,7 @@ class NotifyCest
      */
     public function mvcCollectionBehaviorSoftdeleteNotify(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Behavior\SoftDelete - notify()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Behavior\SoftDelete - notify()');
+        $I->skipTest('Need implementation');
     }
 }

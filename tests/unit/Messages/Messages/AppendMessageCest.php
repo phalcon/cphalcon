@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class AppendMessageCest
- *
- * @package Phalcon\Test\Unit\Messages\Messages
  */
 class AppendMessageCest
 {

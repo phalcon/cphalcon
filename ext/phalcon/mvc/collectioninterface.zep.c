@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\CollectionInterface
  *
  * Interface for Phalcon\Mvc\Collection
@@ -85,7 +93,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, fireEvent);
 
 /**
  * Fires an event, implicitly listeners in the events manager are notified
- * This method stops if one of the callbacks/listeners returns boolean false
+ * This method stops if one of the callbacks/listeners returns bool false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, fireEventCancel);
 

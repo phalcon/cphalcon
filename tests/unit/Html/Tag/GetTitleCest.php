@@ -69,4 +69,39 @@ class GetTitleCest
         $actual   = $tag->getTitle();
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Html\Tag :: getTitle() - parameters
+     *
+     * @param UnitTester $I
+     *
+     * @since  2018-12-27
+     */
+    public function htmlTagGetTitleParameters(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - getTitle() - parameters');
+        $tag = new Tag();
+        $tag->setDI($this->container);
+        $tag->setTitleSeparator(' ');
+
+        $tag->prependTitle(['Hello'])
+            ->setTitle('World')
+            ->appendTitle(['from Phalcon']);
+
+        $expected = 'Hello World from Phalcon';
+        $actual   = $tag->getTitle();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'World from Phalcon';
+        $actual   = $tag->getTitle(false);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'Hello World';
+        $actual   = $tag->getTitle(true, false);
+        $I->assertEquals($expected, $actual);
+        
+        $expected = 'World';
+        $actual   = $tag->getTitle(false, false);
+        $I->assertEquals($expected, $actual);
+    }
 }

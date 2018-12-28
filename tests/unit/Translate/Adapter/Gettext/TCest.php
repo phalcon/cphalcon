@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class TCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class TCest
 {
@@ -31,7 +29,7 @@ class TCest
      */
     public function translateAdapterGettextT(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - t()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - t()');
+        $I->skipTest('Need implementation');
     }
 }

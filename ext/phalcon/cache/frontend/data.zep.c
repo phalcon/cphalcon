@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cache\Frontend\Data
  *
  * Allows to cache native PHP data in a serialized form
@@ -193,7 +201,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 62, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 51, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -223,7 +231,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 63, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 52, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

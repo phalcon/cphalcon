@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DeleteCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk\Job
  */
 class DeleteCest
 {
@@ -31,7 +29,7 @@ class DeleteCest
      */
     public function queueBeanstalkJobDelete(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk\Job - delete()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk\Job - delete()');
+        $I->skipTest('Need implementation');
     }
 }

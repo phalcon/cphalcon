@@ -24,6 +24,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Collection\Behavior\Timestampable
  *
  * Allows to automatically update a model’s attribute saving the
@@ -62,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -83,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&field);
 		if (!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The option 'field' is required", "phalcon/mvc/collection/behavior/timestampable.zep", 56);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The option 'field' is required", "phalcon/mvc/collection/behavior/timestampable.zep", 47);
 			return;
 		}
 		ZEPHIR_INIT_VAR(&timestamp);
@@ -109,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 			zephir_time(&timestamp);
 		}
 		if (Z_TYPE_P(&field) == IS_ARRAY) {
-			zephir_is_iterable(&field, 0, "phalcon/mvc/collection/behavior/timestampable.zep", 94);
+			zephir_is_iterable(&field, 0, "phalcon/mvc/collection/behavior/timestampable.zep", 85);
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1$$12)
 			{
 				ZEPHIR_INIT_NVAR(&singleField);

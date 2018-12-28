@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
+/**
+ * Class SetContentTypeCest
+ */
 class SetContentTypeCest
 {
     /**
@@ -25,7 +29,7 @@ class SetContentTypeCest
      */
     public function httpResponseSetContentType(UnitTester $I)
     {
-        $I->wantToTest("Http\Response - setContentType()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Response - setContentType()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\ViewInterface
  *
  * Interface for Phalcon\Mvc\View
@@ -116,13 +124,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getControllerName);
  * Gets the name of the action rendered
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getActionName);
-
-/**
- * Gets extra parameters of the action rendered
- *
- * @deprecated Will be removed in 4.0.0
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getParams);
 
 /**
  * Starts rendering process enabling the output buffering

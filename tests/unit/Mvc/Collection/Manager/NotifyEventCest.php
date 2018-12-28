@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NotifyEventCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class NotifyEventCest
 {
@@ -31,7 +29,7 @@ class NotifyEventCest
      */
     public function mvcCollectionManagerNotifyEvent(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - notifyEvent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - notifyEvent()');
+        $I->skipTest('Need implementation');
     }
 }

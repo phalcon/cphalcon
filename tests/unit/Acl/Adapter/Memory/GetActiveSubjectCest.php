@@ -12,15 +12,31 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl;
+use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
  * Class GetActiveSubjectCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class GetActiveSubjectCest
 {
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveSubject() - default
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryGetActiveSubjectDefault(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - getActiveSubject() - default');
+        $acl = new Memory();
+        $actual   = $acl->getActiveSubject();
+        $I->assertNull($actual);
+    }
+
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveSubject()
      *
@@ -32,6 +48,18 @@ class GetActiveSubjectCest
     public function aclAdapterMemoryGetActiveSubject(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveSubject()');
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+
+        $acl->addOperation('Guests');
+        $acl->addSubject('Login', ['help', 'index']);
+
+        $acl->allow('Guests', 'Login', '*');
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
+
+        $expected = 'Login';
+        $actual   = $acl->getActiveSubject();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class DeleteCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class DeleteCest
 {
@@ -31,7 +29,7 @@ class DeleteCest
      */
     public function mvcCollectionDelete(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - delete()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - delete()');
+        $I->skipTest('Need implementation');
     }
 }

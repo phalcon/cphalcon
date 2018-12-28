@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetDICest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class SetDICest
 {
@@ -31,7 +29,7 @@ class SetDICest
      */
     public function mvcCollectionSetDI(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - setDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - setDI()');
+        $I->skipTest('Need implementation');
     }
 }

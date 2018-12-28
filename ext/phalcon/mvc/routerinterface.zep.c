@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\RouterInterface
  *
  * Interface for Phalcon\Mvc\Router
@@ -104,6 +112,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addTrace);
  * Adds a route to the router that only match if the HTTP method is CONNECT
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addConnect);
+
+/**
+ * Attach Route object to the routes stack.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, attach);
 
 /**
  * Mounts a group of routes in the router

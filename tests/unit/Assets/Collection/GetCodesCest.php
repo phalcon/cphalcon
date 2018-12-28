@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetCodesCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class GetCodesCest
 {

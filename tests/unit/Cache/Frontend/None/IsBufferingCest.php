@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Frontend\None;
 
 use UnitTester;
 
+/**
+ * Class IsBufferingCest
+ */
 class IsBufferingCest
 {
     /**
@@ -25,7 +29,7 @@ class IsBufferingCest
      */
     public function cacheFrontendNoneIsBuffering(UnitTester $I)
     {
-        $I->wantToTest("Cache\Frontend\None - isBuffering()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Frontend\None - isBuffering()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Apcu
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function annotationsAdapterApcuConstruct(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Apcu - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Apcu - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

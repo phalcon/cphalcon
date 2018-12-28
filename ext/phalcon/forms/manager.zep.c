@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Forms\Manager
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
@@ -63,7 +71,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 	ZEPHIR_INIT_VAR(&form);
 	object_init_ex(&form, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 204, entity);
+	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 183, entity);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_forms"), &name, &form TSRMLS_CC);
 	RETURN_CCTOR(&form);
@@ -99,9 +107,9 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		object_init_ex(&_1$$3, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "There is no form with name='", &name, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/forms/manager.zep", 51 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/forms/manager.zep", 43 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

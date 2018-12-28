@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View;
 
 use UnitTester;
 
+/**
+ * Class SetLayoutsDirCest
+ */
 class SetLayoutsDirCest
 {
     /**
@@ -25,7 +29,7 @@ class SetLayoutsDirCest
      */
     public function mvcViewSetLayoutsDir(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View - setLayoutsDir()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View - setLayoutsDir()');
+        $I->skipTest('Need implementation');
     }
 }

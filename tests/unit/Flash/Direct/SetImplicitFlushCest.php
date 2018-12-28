@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Flash\Direct;
 
 use UnitTester;
 
+/**
+ * Class SetImplicitFlushCest
+ */
 class SetImplicitFlushCest
 {
     /**
@@ -25,7 +29,7 @@ class SetImplicitFlushCest
      */
     public function flashDirectSetImplicitFlush(UnitTester $I)
     {
-        $I->wantToTest("Flash\Direct - setImplicitFlush()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Flash\Direct - setImplicitFlush()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -21,6 +21,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Assets\Inline
  *
  * Represents an inline asset
@@ -33,25 +41,36 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Inline, phalcon, assets_inline, phalcon_assets_inline_method_entry, 0);
 
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_assets_inline_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("_content"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_inline_ce, SL("content"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var bool
+	 */
+	zend_declare_property_null(phalcon_assets_inline_ce, SL("filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var array | null
+	 */
+	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_assets_inline_ce TSRMLS_CC, 1, phalcon_assets_resourceinterface_ce);
+	zend_class_implements(phalcon_assets_inline_ce TSRMLS_CC, 1, phalcon_assets_assetinterface_ce);
 	return SUCCESS;
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Inline, getType) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_type");
+	RETURN_MEMBER(getThis(), "type");
 
 }
 
@@ -60,25 +79,29 @@ PHP_METHOD(Phalcon_Assets_Inline, getContent) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_content");
+	RETURN_MEMBER(getThis(), "content");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Inline, getFilter) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_filter");
+	RETURN_MEMBER(getThis(), "filter");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_attributes");
+	RETURN_MEMBER(getThis(), "attributes");
 
 }
 
@@ -117,14 +140,14 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_type"), &type);
-	zephir_update_property_zval(this_ptr, SL("_content"), &content);
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
+	zephir_update_property_zval(this_ptr, SL("content"), &content);
 	if (filter) {
-		zephir_update_property_zval(this_ptr, SL("_filter"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("filter"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("_filter"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("filter"), &__$false);
 	}
-	zephir_update_property_zval(this_ptr, SL("_attributes"), &attributes);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &attributes);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -146,13 +169,13 @@ PHP_METHOD(Phalcon_Assets_Inline, setType) {
 	zephir_get_strval(&type, type_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("_type"), &type);
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	RETURN_THIS();
 
 }
 
 /**
- * Sets if the resource must be filtered or not
+ * Sets if the asset must be filtered or not
  */
 PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
@@ -169,9 +192,9 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
 
 	if (filter) {
-		zephir_update_property_zval(this_ptr, SL("_filter"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("filter"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("_filter"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("filter"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -194,15 +217,15 @@ PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
 	zephir_get_arrval(&attributes, attributes_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("_attributes"), &attributes);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &attributes);
 	RETURN_THIS();
 
 }
 
 /**
- * Gets the resource's key.
+ * Gets the asset's key.
  */
-PHP_METHOD(Phalcon_Assets_Inline, getResourceKey) {
+PHP_METHOD(Phalcon_Assets_Inline, getAssetKey) {
 
 	zval key, _0, _1;
 	zend_long ZEPHIR_LAST_CALL_STATUS;

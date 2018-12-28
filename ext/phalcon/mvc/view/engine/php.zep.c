@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\View\Engine\Php
  *
  * Adapter to use PHP itself as templating engine
@@ -59,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
@@ -80,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, 0, "phalcon/mvc/view/engine/php.zep", 50);
+		zephir_is_iterable(params, 0, "phalcon/mvc/view/engine/php.zep", 41);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _1$$4, _2$$4, _0$$4)
 		{
 			ZEPHIR_INIT_NVAR(&key);
@@ -104,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	}
 	if (mustClean == 1) {
 		zephir_read_property(&_4$$6, this_ptr, SL("_view"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 128);
+		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 105);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "setcontent", NULL, 0, &_5$$6);
 		zephir_check_call_status();

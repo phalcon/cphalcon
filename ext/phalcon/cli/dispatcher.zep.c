@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Cli\Dispatcher
  *
  * Dispatching is the process of taking the command-line arguments, extracting the module name,
@@ -141,6 +149,18 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
 }
 
 /**
+ * Gets the default task suffix
+ */
+PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskSuffix) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "_handlerSuffix");
+
+}
+
+/**
  * Throws an internal exception
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
@@ -169,14 +189,14 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_cli_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 4, &message, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 3, &message, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/cli/dispatcher.zep", 106 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/cli/dispatcher.zep", 104 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -369,18 +389,19 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 
+	zval _3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval params, _0, _1;
 	zval actionMethod;
-	zval *handler, handler_sub, *actionMethod_param = NULL, *params_param = NULL, options;
+	zval *handler, handler_sub, *actionMethod_param = NULL, params, *params_param = NULL, _0, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler_sub);
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&actionMethod);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&actionMethod);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &handler, &actionMethod_param, &params_param);
@@ -394,17 +415,18 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	}
 
 
-	ZEPHIR_OBS_VAR(&options);
-	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 2, 0 TSRMLS_CC);
-	zephir_array_fast_append(&_0, handler);
-	zephir_array_fast_append(&_0, &actionMethod);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 108, &params);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_create_array(&_1, 2, 0 TSRMLS_CC);
-	zephir_array_fast_append(&_1, &params);
-	zephir_array_fast_append(&_1, &options);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0, &_1);
+	zephir_read_property(&_2, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	zephir_fast_array_merge(&_1, &params, &_2 TSRMLS_CC);
+	ZEPHIR_CPY_WRT(&params, &_1);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(&_3, handler);
+	zephir_array_fast_append(&_3, &actionMethod);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &params);
 	zephir_check_call_status();
 	RETURN_MM();
 

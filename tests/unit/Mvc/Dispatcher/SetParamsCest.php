@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetParamsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class SetParamsCest
 {
@@ -31,7 +29,7 @@ class SetParamsCest
      */
     public function mvcDispatcherSetParams(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - setParams()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - setParams()');
+        $I->skipTest('Need implementation');
     }
 }

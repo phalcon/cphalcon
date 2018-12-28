@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ParseDocBlockCest
- *
- * @package Phalcon\Test\Unit\Annotations\Reader
  */
 class ParseDocBlockCest
 {
@@ -31,7 +29,7 @@ class ParseDocBlockCest
      */
     public function annotationsReaderParseDocBlock(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Reader - parseDocBlock()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Reader - parseDocBlock()');
+        $I->skipTest('Need implementation');
     }
 }

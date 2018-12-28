@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class TCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Csv
  */
 class TCest
 {
@@ -31,7 +29,7 @@ class TCest
      */
     public function translateAdapterCsvT(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Csv - t()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Csv - t()');
+        $I->skipTest('Need implementation');
     }
 }

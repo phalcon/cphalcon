@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Output;
 
 use UnitTester;
 
+/**
+ * Class BeforeStoreCest
+ */
 class BeforeStoreCest
 {
     /**
@@ -25,7 +29,7 @@ class BeforeStoreCest
      */
     public function cacheFrontendOutputBeforeStore(UnitTester $I)
     {
-        $I->wantToTest("Cache\Frontend\Output - beforeStore()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cache\Frontend\Output - beforeStore()');
+        $I->skipTest('Need implementation');
     }
 }

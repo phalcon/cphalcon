@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CallActionMethodCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class CallActionMethodCest
 {
@@ -31,7 +29,7 @@ class CallActionMethodCest
      */
     public function mvcDispatcherCallActionMethod(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - callActionMethod()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - callActionMethod()');
+        $I->skipTest('Need implementation');
     }
 }

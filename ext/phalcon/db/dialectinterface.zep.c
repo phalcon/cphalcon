@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Db\DialectInterface
  *
  * Interface for Phalcon\Db dialects
@@ -179,4 +187,19 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, releaseSavepoint);
  * Generate SQL to rollback a savepoint
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, rollbackSavepoint);
+
+/**
+ * Registers custom SQL functions
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, registerCustomFunction);
+
+/**
+ * Returns registered functions
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getCustomFunctions);
+
+/**
+ * Transforms an intermediate representation for an expression into a database system valid expression
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getSqlExpression);
 

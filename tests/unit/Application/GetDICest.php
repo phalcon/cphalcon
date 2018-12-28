@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDICest
- *
- * @package Phalcon\Test\Unit\Application
  */
 class GetDICest
 {
@@ -31,7 +29,7 @@ class GetDICest
      */
     public function applicationGetDI(UnitTester $I)
     {
-        $I->wantToTest("Application - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Application - getDI()');
+        $I->skipTest('Need implementation');
     }
 }

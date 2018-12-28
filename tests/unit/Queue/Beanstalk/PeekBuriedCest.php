@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class PeekBuriedCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class PeekBuriedCest
 {
@@ -31,7 +29,7 @@ class PeekBuriedCest
      */
     public function queueBeanstalkPeekBuried(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - peekBuried()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - peekBuried()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetBoundModelsCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class GetBoundModelsCest
 {
@@ -31,7 +29,7 @@ class GetBoundModelsCest
      */
     public function mvcDispatcherGetBoundModels(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - getBoundModels()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - getBoundModels()');
+        $I->skipTest('Need implementation');
     }
 }

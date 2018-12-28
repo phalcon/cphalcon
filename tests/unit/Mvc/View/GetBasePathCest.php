@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Mvc\View;
 
 use UnitTester;
 
+/**
+ * Class GetBasePathCest
+ */
 class GetBasePathCest
 {
     /**
@@ -25,7 +29,7 @@ class GetBasePathCest
      */
     public function mvcViewGetBasePath(UnitTester $I)
     {
-        $I->wantToTest("Mvc\View - getBasePath()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\View - getBasePath()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
-use Phalcon\Http\Response;
 
 /**
  * Class HasHeaderCest
@@ -30,14 +29,7 @@ class HasHeaderCest
      */
     public function httpResponseHasHeader(UnitTester $I)
     {
-        $I->wantToTest("Http\Response - hasHeader()");
-        $response = new Response();
-        $response->setHeader('Content-Length', '1234');
-
-        $actual = $response->hasHeader('Content-Length');
-        $I->assertTrue($actual);
-
-        $actual = $response->hasHeader('Cache-Control');
-        $I->assertFalse($actual);
+        $I->wantToTest('Http\Response - hasHeader()');
+        $I->skipTest('Need implementation');
     }
 }

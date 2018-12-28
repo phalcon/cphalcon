@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
+/**
+ * Class DispatchCest
+ */
 class DispatchCest
 {
     /**
@@ -25,7 +29,7 @@ class DispatchCest
      */
     public function dispatcherDispatch(UnitTester $I)
     {
-        $I->wantToTest("Dispatcher - dispatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Dispatcher - dispatch()');
+        $I->skipTest('Need implementation');
     }
 }

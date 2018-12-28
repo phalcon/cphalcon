@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\ResultsetInterface
  *
  * Interface for Phalcon\Mvc\Model\Resultset
@@ -60,4 +68,48 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
  * it could consume more memory than currently it does.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, toArray);
+
+/**
+ * Sets the hydration mode in the resultset
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setHydrateMode);
+
+/**
+ * Returns the current hydration mode
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getHydrateMode);
+
+/**
+ * Returns the error messages produced by a batch operation
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getMessages);
+
+/**
+ * Updates every record in the resultset
+ *
+ * @param array data
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, update);
+
+/**
+ * Deletes every record in the resultset
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, delete);
+
+/**
+ * Filters a resultset returning only those the developer requires
+ *
+ *<code>
+ * $filtered = $robots->filter(
+ *     function ($robot) {
+ *         if ($robot->id < 3) {
+ *             return $robot;
+ *         }
+ *     }
+ * );
+ *</code>
+ *
+ * @return \Phalcon\Mvc\Model[]
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, filter);
 

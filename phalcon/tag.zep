@@ -1,21 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Nikolaos Dimopoulos <nikos@phalconphp.com>                    |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon;
@@ -1230,16 +1220,19 @@ class Tag
 	 * Tag::setTitle('World');
 	 * Tag::appendTitle('from Phalcon');
 	 *
-	 * echo Tag::renderTitle(); // <title>Hello World From Phalcon</title>
+	 * echo Tag::renderTitle();             // <title>Hello World from Phalcon</title>
+	 * echo Tag::renderTitle(false);        // <title>World from Phalcon</title>
+	 * echo Tag::renderTitle(true, false);  // <title>Hello World</title>
+	 * echo Tag::renderTitle(false, false); // <title>World</title>
 	 * </code>
 	 *
 	 * <code>
 	 * {{ render_title() }}
 	 * </code>
 	 */
-	public static function renderTitle() -> string
+	public static function renderTitle(bool prepend = true, bool append = true) -> string
 	{
-		return "<title>" . self::getTitle() . "</title>" . PHP_EOL;
+		return "<title>" . self::getTitle(prepend, append) . "</title>" . PHP_EOL;
 	}
 
 	/**
@@ -1365,7 +1358,7 @@ class Tag
 			}
 		}
 
-		if !isset params["type"] {
+		if !isset params["type"] && self::_documentType < self::HTML5 {
 			let params["type"] = "text/javascript";
 		}
 

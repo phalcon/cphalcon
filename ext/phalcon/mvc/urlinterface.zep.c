@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\UrlInterface
  *
  * Interface for Phalcon\Mvc\UrlInterface
@@ -26,9 +34,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_UrlInterface) {
 }
 
 /**
- * Sets a prefix to all the urls generated
+ * Generates a URL
+ *
+ * @param string|array uri
+ * @param array|object args Optional arguments to be appended to the query string
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBaseUri);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
+
+/**
+ * Returns a base path
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
 
 /**
  * Returns the prefix for all the generated urls. By default /
@@ -41,17 +57,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBaseUri);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBasePath);
 
 /**
- * Returns a base path
+ * Sets a prefix to all the urls generated
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
-
-/**
- * Generates a URL
- *
- * @param string|array uri
- * @param array|object args Optional arguments to be appended to the query string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBaseUri);
 
 /**
  * Generates a local path

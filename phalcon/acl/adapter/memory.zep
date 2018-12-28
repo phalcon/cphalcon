@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Acl\Adapter;
@@ -161,6 +152,27 @@ class Memory extends Adapter
 	 * @var mixed
 	 */
 	protected _noArgumentsDefaultAction = Acl::ALLOW;
+
+	/**
+	 * Returns latest key used to acquire access
+	 *
+	 * @var string|null
+	 */
+	protected _activeKey { get };
+
+	/**
+	 * Returns latest function used to acquire access
+	 *
+	 * @var mixed
+	 */
+	protected _activeFunction { get };
+
+	/**
+	 * Returns number of additional arguments(excluding role and resource) for active function
+	 *
+	 * @var int
+	 */
+	protected _activeFunctionCustomArgumentsCount = 0 { get };
 
 	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
@@ -610,12 +622,15 @@ class Memory extends Adapter
 			} else {
 				throw new Exception("Object passed as subjectName must implement Phalcon\\Acl\\SubjectAware or Phalcon\\Acl\\SubjectInterface");
 			}
-
 		}
 
 		let this->_activeOperation = operationName;
 		let this->_activeSubject = subjectName;
 		let this->_activeAccess = access;
+		let this->_activeKey = null;
+        let this->_activeFunction = null;
+        let this->_activeFunctionCustomArgumentsCount = 0;
+
 		let accessList = this->_access;
 		let eventsManager = <EventsManager> this->_eventsManager;
 		let funcList = this->_func;
@@ -647,14 +662,20 @@ class Memory extends Adapter
 		/**
 		 * Check in the inherits operations
 		 */
-
-
 		let this->_accessGranted = haveAccess;
 		if typeof eventsManager == "object" {
 			eventsManager->fire("acl:afterCheckAccess", this);
 		}
 
+		let this->_activeKey = accessKey;
+		let this->_activeFunction = funcAccess;
+
 		if haveAccess == null {
+			/**
+			 * Change activeKey to most narrow if there was no access for any patterns found
+			 */
+			let this->_activeKey = operationName . "!" . subjectName . "!" . access;
+
 			return this->_defaultAccess == Acl::ALLOW;
 		}
 
@@ -712,6 +733,8 @@ class Memory extends Adapter
 				}
 			}
 
+			let this->_activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
+
 			if count(parameters) > userParametersSizeShouldBe {
 				trigger_error(
 					"Number of parameters in array is higher than the number of parameters in defined function when check " . operationName . " can " . access . " " . subjectName . ". Remember that more parameters than defined in function will be ignored.",
@@ -723,7 +746,9 @@ class Memory extends Adapter
 			if count(parametersForFunction) == 0 {
 				if numberOfRequiredParameters > 0 {
 					trigger_error(
-						"You didn't provide any parameters when check " . operationName . " can " . access . " "  . subjectName . ". We will use default action when no arguments."
+						"You didn't provide any parameters when '" . operationName .
+						"' can '" . access . "' '"  . subjectName .
+						"'. We will use default action when no arguments."
 					);
 
 					return haveAccess == Acl::ALLOW && this->_noArgumentsDefaultAction == Acl::ALLOW;
@@ -740,7 +765,8 @@ class Memory extends Adapter
 
 			// We don't have enough parameters
 			throw new Exception(
-				"You didn't provide all necessary parameters for defined function when check " . operationName . " can " . access . " " . subjectName
+				"You didn't provide all necessary parameters for defined function when check " .
+				operationName . " can " . access . " " . subjectName
 			);
 		}
 
@@ -752,7 +778,9 @@ class Memory extends Adapter
 	 */
 	protected function _isAllowed(string operationName, string subjectName, string access) -> string | bool
     {
-        var accessList, accessKey,checkOperationToInherit, checkOperationToInherits, usedOperationToInherits, usedOperationToInherit;
+        var accessList, accessKey,checkOperationToInherit,
+        	checkOperationToInherits, usedOperationToInherits,
+        	usedOperationToInherit;
 
 		let accessList = this->_access;
 

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SkipOperationCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class SkipOperationCest
 {
@@ -31,7 +29,7 @@ class SkipOperationCest
      */
     public function mvcCollectionSkipOperation(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - skipOperation()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - skipOperation()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -12,15 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Operation;
 use UnitTester;
 
 /**
  * Class IsOperationCest
- *
- * @package Phalcon\Test\Unit\Acl\Adapter\Memory
  */
 class IsOperationCest
 {
@@ -35,12 +32,32 @@ class IsOperationCest
     public function aclAdapterMemoryIsOperation(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isOperation()');
-        $acl     = new Memory();
+        $acl          = new Memory();
         $aclOperation = new Operation('Administrators', 'Super User access');
 
         $acl->addOperation($aclOperation);
 
         $actual = $acl->isOperation('Administrators');
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: isOperation() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryIsOperationUnknown(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - isOperation() - unknown');
+        $acl          = new Memory();
+        $aclOperation = new Operation('Administrators', 'Super User access');
+
+        $acl->addOperation($aclOperation);
+
+        $actual = $acl->isOperation('unknown');
+        $I->assertFalse($actual);
     }
 }

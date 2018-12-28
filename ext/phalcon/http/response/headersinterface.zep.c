@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Http\Response\HeadersInterface
  *
  * Interface for Phalcon\Http\Response\Headers compatible bags
@@ -24,6 +32,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface) {
 	return SUCCESS;
 
 }
+
+/**
+ * Returns true if the header is set, false otherwise
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, has);
 
 /**
  * Sets a header to be sent at the end of the request

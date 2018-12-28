@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
 
+/**
+ * Class GetRouteByNameCest
+ */
 class GetRouteByNameCest
 {
     /**
@@ -25,7 +29,7 @@ class GetRouteByNameCest
      */
     public function cliRouterGetRouteByName(CliTester $I)
     {
-        $I->wantToTest("Cli\Router - getRouteByName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Cli\Router - getRouteByName()');
+        $I->skipTest('Need implementation');
     }
 }

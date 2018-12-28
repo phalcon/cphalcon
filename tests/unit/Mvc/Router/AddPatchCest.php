@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddPatchCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class AddPatchCest
 {
@@ -31,7 +29,7 @@ class AddPatchCest
      */
     public function mvcRouterAddPatch(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - addPatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - addPatch()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class SetReturnedValueCest
- *
- * @package Phalcon\Test\Unit\Mvc\Dispatcher
  */
 class SetReturnedValueCest
 {
@@ -31,7 +29,7 @@ class SetReturnedValueCest
      */
     public function mvcDispatcherSetReturnedValue(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Dispatcher - setReturnedValue()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Dispatcher - setReturnedValue()');
+        $I->skipTest('Need implementation');
     }
 }

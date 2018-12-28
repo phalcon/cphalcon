@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetEventsManagerCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class GetEventsManagerCest
 {
@@ -31,7 +29,7 @@ class GetEventsManagerCest
      */
     public function mvcCollectionManagerGetEventsManager(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - getEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - getEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

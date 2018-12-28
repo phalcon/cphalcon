@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
+/**
+ * Class TagHtmlCloseCest
+ */
 class TagHtmlCloseCest extends TagSetup
 {
     /**
@@ -27,7 +31,7 @@ class TagHtmlCloseCest extends TagSetup
      */
     public function tagTagHtmlClose(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtmlClose()");
+        $I->wantToTest('Tag - tagHtmlClose()');
         Tag::resetInput();
         $name     = 'canvas';
         $expected = '</canvas>';

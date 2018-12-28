@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
 use UnitTester;
 
+/**
+ * Class LiquidRescaleCest
+ */
 class LiquidRescaleCest
 {
     /**
@@ -25,7 +29,7 @@ class LiquidRescaleCest
      */
     public function imageAdapterImagickLiquidRescale(UnitTester $I)
     {
-        $I->wantToTest("Image\Adapter\Imagick - liquidRescale()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Image\Adapter\Imagick - liquidRescale()');
+        $I->skipTest('Need implementation');
     }
 }

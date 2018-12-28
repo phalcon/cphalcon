@@ -18,6 +18,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Acl\Adapter
  *
  * Adapter for Phalcon\Acl adapters
@@ -45,20 +53,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Role which the list is checking if it's allowed to certain resource/access
-	 * @var mixed
+	 * Operation which the list is checking if it's allowed to certain subject/access
+	 *
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeOperation"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Resource which the list is checking if some role can access it
-	 * @var mixed
+	 * Subject which the list is checking if some operation can access it
+	 *
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeSubject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Active access which the list is checking if some role can access it
-	 * @var mixed
+	 * Active access which the list is checking if some operation can access it
+	 *
+	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -69,31 +80,31 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 }
 
 /**
- * Role which the list is checking if it's allowed to certain resource/access
+ * Operation which the list is checking if it's allowed to certain subject/access
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveOperation) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_activeRole");
+	RETURN_MEMBER(getThis(), "_activeOperation");
 
 }
 
 /**
- * Resource which the list is checking if some role can access it
+ * Subject which the list is checking if some operation can access it
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveSubject) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_activeResource");
+	RETURN_MEMBER(getThis(), "_activeSubject");
 
 }
 
 /**
- * Active access which the list is checking if some role can access it
+ * Active access which the list is checking if some operation can access it
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 

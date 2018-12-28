@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WriteCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Apcu
  */
 class WriteCest
 {
@@ -31,7 +29,7 @@ class WriteCest
      */
     public function annotationsAdapterApcuWrite(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Apcu - write()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Apcu - write()');
+        $I->skipTest('Need implementation');
     }
 }

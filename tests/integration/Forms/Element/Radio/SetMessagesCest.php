@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Radio;
 
 use IntegrationTester;
 
+/**
+ * Class SetMessagesCest
+ */
 class SetMessagesCest
 {
     /**
@@ -25,7 +29,7 @@ class SetMessagesCest
      */
     public function formsElementRadioSetMessages(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Radio - setMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Radio - setMessages()');
+        $I->skipTest('Need implementation');
     }
 }

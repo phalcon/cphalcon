@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class OutputJsCest
- *
- * @package Phalcon\Test\Unit\Assets\Manager
  */
 class OutputJsCest
 {
@@ -40,9 +38,9 @@ class OutputJsCest
         $assets->addJs('js/script2.js');
         $assets->addAsset(new Js('/js/script3.js', false));
 
-        $expected = '<script type="text/javascript" src="/js/script1.js"></script>' . PHP_EOL
-                  . '<script type="text/javascript" src="/js/script2.js"></script>' . PHP_EOL
-                  . '<script type="text/javascript" src="/js/script3.js"></script>' . PHP_EOL;
+        $expected = '<script src="/js/script1.js"></script>' . PHP_EOL
+                  . '<script src="/js/script2.js"></script>' . PHP_EOL
+                  . '<script src="/js/script3.js"></script>' . PHP_EOL;
 
         $assets->useImplicitOutput(false);
         $actual = $assets->outputJs();
@@ -66,9 +64,9 @@ class OutputJsCest
         $assets->addJs('js/script2.js');
         $assets->addAsset(new Js('/js/script3.js', false));
 
-        $expected = '<script type="text/javascript" src="/js/script1.js"></script>' . PHP_EOL
-                  . '<script type="text/javascript" src="/js/script2.js"></script>' . PHP_EOL
-                  . '<script type="text/javascript" src="/js/script3.js"></script>' . PHP_EOL;
+        $expected = '<script src="/js/script1.js"></script>' . PHP_EOL
+                  . '<script src="/js/script2.js"></script>' . PHP_EOL
+                  . '<script src="/js/script3.js"></script>' . PHP_EOL;
 
         ob_start();
         $assets->outputJs();

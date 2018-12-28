@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Translate\Adapter
  *
  * Base class for Phalcon\Translate adapters
@@ -107,7 +115,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
 
 	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
@@ -148,7 +156,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
 
 	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
@@ -176,29 +184,17 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 
-	zval *offset_param = NULL, *value, value_sub;
-	zval offset;
+	zval *offset, offset_sub, *value, value_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&offset);
+	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &offset_param, &value);
-
-	if (UNEXPECTED(Z_TYPE_P(offset_param) != IS_STRING && Z_TYPE_P(offset_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'offset' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(offset_param) == IS_STRING)) {
-		zephir_get_strval(&offset, offset_param);
-	} else {
-		ZEPHIR_INIT_VAR(&offset);
-		ZVAL_EMPTY_STRING(&offset);
-	}
+	zephir_fetch_params(0, 2, 0, &offset, &value);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 81);
+
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 72);
 	return;
 
 }
@@ -209,28 +205,17 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey_param = NULL;
-	zval translateKey;
+	zval *translateKey, translateKey_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&translateKey);
+	ZVAL_UNDEF(&translateKey_sub);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &translateKey_param);
-
-	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		zephir_get_strval(&translateKey, translateKey_param);
-	} else {
-		ZEPHIR_INIT_VAR(&translateKey);
-		ZVAL_EMPTY_STRING(&translateKey);
-	}
+	zephir_fetch_params(1, 1, 0, &translateKey);
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "exists", NULL, 0, &translateKey);
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "exists", NULL, 0, translateKey);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -241,28 +226,16 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 
-	zval *offset_param = NULL;
-	zval offset;
+	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&offset);
+	ZVAL_UNDEF(&offset_sub);
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &offset_param);
-
-	if (UNEXPECTED(Z_TYPE_P(offset_param) != IS_STRING && Z_TYPE_P(offset_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'offset' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(offset_param) == IS_STRING)) {
-		zephir_get_strval(&offset, offset_param);
-	} else {
-		ZEPHIR_INIT_VAR(&offset);
-		ZVAL_EMPTY_STRING(&offset);
-	}
+	zephir_fetch_params(0, 1, 0, &offset);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 97);
+
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 88);
 	return;
 
 }
@@ -273,30 +246,19 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey_param = NULL, _0;
-	zval translateKey;
+	zval *translateKey, translateKey_sub, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&translateKey);
+	ZVAL_UNDEF(&translateKey_sub);
 	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &translateKey_param);
+	zephir_fetch_params(1, 1, 0, &translateKey);
 
-	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		zephir_get_strval(&translateKey, translateKey_param);
-	} else {
-		ZEPHIR_INIT_VAR(&translateKey);
-		ZVAL_EMPTY_STRING(&translateKey);
-	}
 
 
 	ZVAL_NULL(&_0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, &translateKey, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -321,7 +283,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
 
 	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {

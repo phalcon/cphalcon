@@ -25,6 +25,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Db\Result\Pdo
  *
  * Encapsulates the resultset internals
@@ -314,7 +322,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
 	zend_bool _0$$3;
-	zval sqlStatement, rowCount, connection, type, pdoStatement, matches, result, row, _1$$6, _2$$6, _3$$7, _4$$7, _5$$7, _6$$7;
+	zval sqlStatement, rowCount, connection, type, pdoStatement, matches, result, row, _1$$6, _2$$6, _3$$6, _4$$7, _5$$7, _6$$7, _7$$7;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -328,10 +336,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 	ZVAL_UNDEF(&row);
 	ZVAL_UNDEF(&_1$$6);
 	ZVAL_UNDEF(&_2$$6);
-	ZVAL_UNDEF(&_3$$7);
+	ZVAL_UNDEF(&_3$$6);
 	ZVAL_UNDEF(&_4$$7);
 	ZVAL_UNDEF(&_5$$7);
 	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_7$$7);
 
 	ZEPHIR_MM_GROW();
 
@@ -359,21 +368,23 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZEPHIR_INIT_VAR(&matches);
 				ZVAL_NULL(&matches);
 				ZEPHIR_INIT_VAR(&_1$$6);
+				ZVAL_STRING(&_1$$6, "/^SELECT\\s+(.*)/i");
 				ZEPHIR_INIT_VAR(&_2$$6);
-				ZVAL_STRING(&_2$$6, "/^SELECT\\s+(.*)/i");
-				zephir_preg_match(&_1$$6, &_2$$6, &sqlStatement, &matches, 0, 0 , 0  TSRMLS_CC);
-				if (zephir_is_true(&_1$$6)) {
-					zephir_array_fetch_long(&_3$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 238 TSRMLS_CC);
-					ZEPHIR_INIT_VAR(&_4$$7);
-					ZEPHIR_CONCAT_SVS(&_4$$7, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", &_3$$7, ")");
-					zephir_read_property(&_5$$7, this_ptr, SL("_bindParams"), PH_NOISY_CC | PH_READONLY);
-					zephir_read_property(&_6$$7, this_ptr, SL("_bindTypes"), PH_NOISY_CC | PH_READONLY);
-					ZEPHIR_CALL_METHOD(&result, &connection, "query", NULL, 0, &_4$$7, &_5$$7, &_6$$7);
+				ZEPHIR_INIT_VAR(&_3$$6);
+				ZVAL_STRING(&_3$$6, "/^SELECT\\s+(.*)/i");
+				zephir_preg_match(&_2$$6, &_3$$6, &sqlStatement, &matches, 0, 0 , 0  TSRMLS_CC);
+				if (zephir_is_true(&_2$$6)) {
+					zephir_array_fetch_long(&_4$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 229 TSRMLS_CC);
+					ZEPHIR_INIT_VAR(&_5$$7);
+					ZEPHIR_CONCAT_SVS(&_5$$7, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", &_4$$7, ")");
+					zephir_read_property(&_6$$7, this_ptr, SL("_bindParams"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_7$$7, this_ptr, SL("_bindTypes"), PH_NOISY_CC | PH_READONLY);
+					ZEPHIR_CALL_METHOD(&result, &connection, "query", NULL, 0, &_5$$7, &_6$$7, &_7$$7);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&row, &result, "fetch", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&rowCount);
-					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 244 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 235 TSRMLS_CC);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(&rowCount);

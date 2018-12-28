@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class IgnoreCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class IgnoreCest
 {
@@ -31,7 +29,7 @@ class IgnoreCest
      */
     public function queueBeanstalkIgnore(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - ignore()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - ignore()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -318,7 +318,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item, dirtyState;
+			relation, referencedModel, key, item, dirtyState, haveRelation;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -345,12 +345,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let lowerProperty = strtolower(property),
 				modelName = get_class(this),
 				manager = this->getModelsManager();
-
+			
+			let haveRelation = false;
 			let related = [];
 			for key, item in value {
 				if typeof item == "object" {
 					if item instanceof ModelInterface {
 						let related[] = item;
+						let haveRelation = true;
 					}
 				} else {
 					let lowerKey = strtolower(key),
@@ -359,6 +361,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if typeof relation == "object" {
 						let referencedModel = manager->load(relation->getReferencedModel());
 						referencedModel->writeAttribute(lowerKey, item);
+						let haveRelation = true;
 					}
 				}
 			}
@@ -367,8 +370,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->_related[lowerProperty] = related,
 					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
 			}
-
-			return value;
+			
+			if haveRelation === true {
+				return value;
+			}
 		}
 
 		// Use possible setter.
@@ -3070,18 +3075,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		for field in attributes {
 
-			if !isset automaticAttributes[field] {
-
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[field] {
+					throw new Exception("Column '" . field . "' isn't part of the column map");
 				}
+			} else {
+				let attributeField = field;
+			}
+
+			if !isset automaticAttributes[attributeField] {
 
 				/**
 				 * Check every attribute in the model except identity field
@@ -3269,7 +3274,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		}
 
  		let dataTypes = metaData->getDataTypes(this),
-			 bindDataTypes = metaData->getBindTypes(this),
+			bindDataTypes = metaData->getBindTypes(this),
  			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
  			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
@@ -3284,7 +3289,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 */
  		for field in nonPrimary {
 
- 			if !isset automaticAttributes[field] {
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[field] {
+					throw new Exception("Column '" . field . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = field;
+			}
+
+ 			if !isset automaticAttributes[attributeField] {
 
  				/**
  				 * Check a bind type for field to update
@@ -3293,16 +3309,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  					throw new Exception("Column '" . field . "' have not defined a bind data type");
  				}
 
- 				/**
- 				 * Check if the model has a column map
- 				 */
- 				if typeof columnMap == "array" {
- 					if !fetch attributeField, columnMap[field] {
- 						throw new Exception("Column '" . field . "' isn't part of the column map");
- 					}
- 				} else {
- 					let attributeField = field;
- 				}
 
  				/**
  				 * Get the field's value
@@ -3934,20 +3940,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let error = false;
 				for field in notNull {
 
+					if typeof columnMap == "array" {
+						if !fetch attributeField, columnMap[field] {
+							throw new Exception("Column '" . field . "' isn't part of the column map");
+						}
+					} else {
+						let attributeField = field;
+					}
+
 					/**
 					 * We don't check fields that must be omitted
 					 */
-					if !isset automaticAttributes[field] {
+					if !isset automaticAttributes[attributeField] {
 
 						let isNull = false;
 
-						if typeof columnMap == "array" {
-							if !fetch attributeField, columnMap[field] {
-								throw new Exception("Column '" . field . "' isn't part of the column map");
-							}
-						} else {
-							let attributeField = field;
-						}
 
 						/**
 						 * Field is null when: 1) is not set, 2) is numeric but

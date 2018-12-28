@@ -12,6 +12,14 @@
 #include "kernel/main.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Image_AdapterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Image, AdapterInterface, phalcon, image_adapterinterface, phalcon_image_adapterinterface_method_entry);

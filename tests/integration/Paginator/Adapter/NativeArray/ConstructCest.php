@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use BadMethodCallException;
 use Phalcon\Paginator\Adapter\NativeArray;
 use IntegrationTester;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     /**
@@ -27,7 +31,7 @@ class ConstructCest
      */
     public function paginatorAdapterNativearrayConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter\NativeArray - __construct() - wrong parameters");
+        $I->wantToTest('Paginator\Adapter\NativeArray - __construct()');
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -256,4 +247,74 @@ interface ManagerInterface
 	 */
 	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | bool;
 
+	/**
+	 * Check whether a model property is declared as public.
+	 *
+	 * <code>
+	 * $isPublic = $manager->isVisibleModelProperty(
+	 *     new Robots(),
+	 *     "name"
+	 * );
+	 * </code>
+	 */
+	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> bool;
+
+	/**
+	 * Sets if a model must keep snapshots
+	 */
+	public function keepSnapshots(<ModelInterface> model, bool keepSnapshots) -> void;
+
+	/**
+	 * Checks if a model is keeping snapshots for the queried records
+	 */
+	public function isKeepingSnapshots(<ModelInterface> model) -> bool;
+
+	/**
+	 * Sets if a model must use dynamic update instead of the all-field update
+	 */
+	public function useDynamicUpdate(<ModelInterface> model, bool dynamicUpdate);
+
+	/**
+	 * Checks if a model is using dynamic update instead of all-field update
+	 */
+	public function isUsingDynamicUpdate(<ModelInterface> model) -> bool;
+
+	/**
+	 * Setups a relation n-m between two models
+	 *
+	 * @param	string fields
+	 * @param	string intermediateFields
+	 * @param	string intermediateReferencedFields
+	 * @param	string referencedFields
+	 * @param   array options
+	 */
+	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
+		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>;
+
+	/**
+	 * Checks whether a model has a hasManyToMany relation with another model
+	 */
+	public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool;
+
+	/**
+	 * Helper method to query records based on a relation definition
+	 *
+	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
+	 */
+	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null);
+
+	/**
+	 * Gets hasManyToMany relations defined on a model
+	 */
+	public function getHasManyToMany(<ModelInterface> model) -> <RelationInterface[]> | array;
+
+	/**
+	 * Registers shorter aliases for namespaces in PHQL statements
+	 */
+	public function registerNamespaceAlias(string alias, string namespaceName) -> void;
+
+	/**
+	 * Returns a real namespace from its alias
+	 */
+	public function getNamespaceAlias(string! alias) -> string;
 }

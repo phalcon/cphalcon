@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class BeforeMatchCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class BeforeMatchCest
 {
@@ -31,7 +29,7 @@ class BeforeMatchCest
      */
     public function mvcRouterRouteBeforeMatch(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - beforeMatch()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - beforeMatch()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Http;
@@ -25,7 +16,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
 use Phalcon\Crypt\Mismatch;
-use Phalcon\Session\AdapterInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
 /**
  * Phalcon\Http\Cookie
@@ -291,8 +282,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 		 * The definition is stored in session
 		 */
 		if count(definition) {
-			let session = <SessionInterface> dependencyInjector->getShared("session");
-			if session->isStarted() {
+			let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+			if session->exists() {
 				session->set("_PHCOOKIE_" . name, definition);
 			}
 		}
@@ -357,7 +348,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 				let session = dependencyInjector->getShared("session");
 
-				if session->isStarted() {
+				if session->exists() {
 					let definition = session->get("_PHCOOKIE_" . this->_name);
 					if typeof definition == "array" {
 
@@ -405,8 +396,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
-			let session = <SessionInterface> dependencyInjector->getShared("session");
-			if session->isStarted() {
+			let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+			if session->exists() {
 				session->remove("_PHCOOKIE_" . name);
 			}
 		}

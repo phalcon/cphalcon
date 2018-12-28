@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
+/**
+ * Class SetExpirationCest
+ */
 class SetExpirationCest
 {
     /**
@@ -25,7 +29,7 @@ class SetExpirationCest
      */
     public function httpCookieSetExpiration(UnitTester $I)
     {
-        $I->wantToTest("Http\Cookie - setExpiration()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Cookie - setExpiration()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CreateCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class CreateCest
 {
@@ -31,7 +29,7 @@ class CreateCest
      */
     public function mvcCollectionCreate(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - create()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - create()');
+        $I->skipTest('Need implementation');
     }
 }

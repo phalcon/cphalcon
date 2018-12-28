@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetMethodsCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Files
  */
 class GetMethodsCest
 {
@@ -31,7 +29,7 @@ class GetMethodsCest
      */
     public function annotationsAdapterFilesGetMethods(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Files - getMethods()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Files - getMethods()');
+        $I->skipTest('Need implementation');
     }
 }

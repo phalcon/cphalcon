@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Queue\Beanstalk\Job
  *
  * Represents a job in a beanstalk queue
@@ -120,7 +128,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 64 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 55 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_3, "DELETED"));
 
 }
@@ -172,7 +180,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_5, &_4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 78 TSRMLS_CC);
+	zephir_array_fetch_long(&_5, &_4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 69 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_5, "RELEASED"));
 
 }
@@ -216,7 +224,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, &_3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 92 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, &_3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 83 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_4, "BURIED"));
 
 }
@@ -252,7 +260,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 109 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 100 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_3, "TOUCHED"));
 
 }
@@ -283,7 +291,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 121 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 112 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_3, "KICKED"));
 
 }
@@ -315,11 +323,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&response, &queue, "readyaml", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_2, &response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 135 TSRMLS_CC);
+	zephir_array_fetch_long(&_2, &response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 126 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(&_2, "NOT_FOUND")) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_array_fetch_long(&_3, &response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 139 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, &response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 130 TSRMLS_CC);
 	RETURN_CTOR(&_3);
 
 }
@@ -339,7 +347,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 	ZEPHIR_OBS_VAR(&_0);
 	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_beanstalk_exception_ce, "Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!", "phalcon/queue/beanstalk/job.zep", 150);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_beanstalk_exception_ce, "Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!", "phalcon/queue/beanstalk/job.zep", 141);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

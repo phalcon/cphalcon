@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReadYamlCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class ReadYamlCest
 {
@@ -31,7 +29,7 @@ class ReadYamlCest
      */
     public function queueBeanstalkReadYaml(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - readYaml()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - readYaml()');
+        $I->skipTest('Need implementation');
     }
 }

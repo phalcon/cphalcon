@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Behavior\SoftDelete
  */
 class ConstructCest
 {
@@ -31,7 +29,7 @@ class ConstructCest
      */
     public function mvcCollectionBehaviorSoftdeleteConstruct(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Behavior\SoftDelete - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Behavior\SoftDelete - __construct()');
+        $I->skipTest('Need implementation');
     }
 }

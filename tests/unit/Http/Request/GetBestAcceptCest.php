@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
+/**
+ * Class GetBestAcceptCest
+ */
 class GetBestAcceptCest
 {
     /**
@@ -25,7 +29,7 @@ class GetBestAcceptCest
      */
     public function httpRequestGetBestAccept(UnitTester $I)
     {
-        $I->wantToTest("Http\Request - getBestAccept()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Request - getBestAccept()');
+        $I->skipTest('Need implementation');
     }
 }

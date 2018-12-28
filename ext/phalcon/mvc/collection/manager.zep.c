@@ -24,6 +24,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Collection\Manager
  *
  * This components controls the initialization of models, keeping record of relations
@@ -205,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 		ZEPHIR_INIT_VAR(&className);
 		zephir_get_class(&className, model, 1 TSRMLS_CC);
 		if (zephir_array_isset(&customEventsManager, &className)) {
-			zephir_array_fetch(&_0$$4, &customEventsManager, &className, PH_NOISY | PH_READONLY, "phalcon/mvc/collection/manager.zep", 122 TSRMLS_CC);
+			zephir_array_fetch(&_0$$4, &customEventsManager, &className, PH_NOISY | PH_READONLY, "phalcon/mvc/collection/manager.zep", 113 TSRMLS_CC);
 			RETURN_CTOR(&_0$$4);
 		}
 	}
@@ -274,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 	zephir_fetch_params(1, 1, 0, &modelName_param);
 
 	if (UNEXPECTED(Z_TYPE_P(modelName_param) != IS_STRING && Z_TYPE_P(modelName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(modelName_param) == IS_STRING)) {
@@ -321,7 +329,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
 	if (UNEXPECTED(Z_TYPE_P(connectionService_param) != IS_STRING && Z_TYPE_P(connectionService_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(connectionService_param) == IS_STRING)) {
@@ -366,7 +374,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnectionService) {
 	if (zephir_array_isset(&_0, &entityName)) {
 		zephir_read_property(&_1$$3, this_ptr, SL("_connectionServices"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&service);
-		zephir_array_fetch(&service, &_1$$3, &entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 198 TSRMLS_CC);
+		zephir_array_fetch(&service, &_1$$3, &entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 189 TSRMLS_CC);
 	}
 	RETURN_CCTOR(&service);
 
@@ -460,19 +468,19 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 		zephir_get_class(&entityName, model, 0 TSRMLS_CC);
 		if (zephir_array_isset(&connectionService, &entityName)) {
 			ZEPHIR_OBS_NVAR(&service);
-			zephir_array_fetch(&service, &connectionService, &entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 247 TSRMLS_CC);
+			zephir_array_fetch(&service, &connectionService, &entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 238 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_OBS_VAR(&dependencyInjector);
 	zephir_read_property(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 253);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 244);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&connection, &dependencyInjector, "getshared", NULL, 0, &service);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&connection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 261);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 252);
 		return;
 	}
 	RETURN_CCTOR(&connection);
@@ -507,7 +515,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 	zephir_fetch_params(1, 2, 0, &eventName_param, &model);
 
 	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
@@ -527,7 +535,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_get_class(&_0$$3, model, 1 TSRMLS_CC);
 		if (zephir_array_isset_fetch(&modelsBehaviors, &behaviors, &_0$$3, 0 TSRMLS_CC)) {
-			zephir_is_iterable(&modelsBehaviors, 0, "phalcon/mvc/collection/manager.zep", 288);
+			zephir_is_iterable(&modelsBehaviors, 0, "phalcon/mvc/collection/manager.zep", 279);
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&modelsBehaviors), _1$$4)
 			{
 				ZEPHIR_INIT_NVAR(&behavior);
@@ -598,7 +606,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 	zephir_fetch_params(1, 3, 0, &model, &eventName_param, &data);
 
 	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
@@ -616,7 +624,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_get_class(&_0$$3, model, 1 TSRMLS_CC);
 		if (zephir_array_isset_fetch(&modelsBehaviors, &behaviors, &_0$$3, 0 TSRMLS_CC)) {
-			zephir_is_iterable(&modelsBehaviors, 0, "phalcon/mvc/collection/manager.zep", 344);
+			zephir_is_iterable(&modelsBehaviors, 0, "phalcon/mvc/collection/manager.zep", 335);
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&modelsBehaviors), _1$$4)
 			{
 				ZEPHIR_INIT_NVAR(&behavior);
@@ -670,7 +678,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, addBehavior) {
 		ZEPHIR_INIT_NVAR(&modelsBehaviors);
 		array_init(&modelsBehaviors);
 	}
-	zephir_array_append(&modelsBehaviors, behavior, PH_SEPARATE, "phalcon/mvc/collection/manager.zep", 377);
+	zephir_array_append(&modelsBehaviors, behavior, PH_SEPARATE, "phalcon/mvc/collection/manager.zep", 368);
 	zephir_update_property_array(this_ptr, SL("_behaviors"), &entityName, &modelsBehaviors TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

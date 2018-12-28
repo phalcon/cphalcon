@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\Transaction\ManagerInterface
  *
  * Interface for Phalcon\Mvc\Model\Transaction\Manager
@@ -65,4 +73,24 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, notifyCommit);
  * Remove all the transactions from the manager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, collectTransactions);
+
+/**
+ * Sets the database service used to run the isolated transactions
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, setDbService);
+
+/**
+ * Returns the database service used to isolate the transaction
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, getDbService);
+
+/**
+ * Set if the transaction manager must register a shutdown function to clean up pendent transactions
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, setRollbackPendent);
+
+/**
+ * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, getRollbackPendent);
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Http\Request\File;
 
 use UnitTester;
 
+/**
+ * Class GetNameCest
+ */
 class GetNameCest
 {
     /**
@@ -25,7 +29,7 @@ class GetNameCest
      */
     public function httpRequestFileGetName(UnitTester $I)
     {
-        $I->wantToTest("Http\Request\File - getName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Http\Request\File - getName()');
+        $I->skipTest('Need implementation');
     }
 }

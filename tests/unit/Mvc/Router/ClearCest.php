@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ClearCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class ClearCest
 {
@@ -31,7 +29,7 @@ class ClearCest
      */
     public function mvcRouterClear(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - clear()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - clear()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -29,10 +29,16 @@
 
 void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint size, int initialize);
 
+/**
+ * Simple convenience function which ensures that you are dealing with an array and you can
+ * eliminate noise from your code.
+ */
+void ZEPHIR_FASTCALL zephir_ensure_array(zval *probable_array);
+
 /** Combined isset/fetch */
 int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int readonly);
-int zephir_array_isset_string_fetch(zval *fetched, zval *arr, char *index, uint index_length, int readonly);
-int zephir_array_isset_long_fetch(zval *fetched, zval *arr, unsigned long index, int readonly);
+int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index, uint index_length, int readonly);
+int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, unsigned long index, int readonly);
 
 /** Check for index existence */
 int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index);

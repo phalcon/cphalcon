@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetMethodsCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Apcu
  */
 class GetMethodsCest
 {
@@ -31,7 +29,7 @@ class GetMethodsCest
      */
     public function annotationsAdapterApcuGetMethods(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Apcu - getMethods()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Apcu - getMethods()');
+        $I->skipTest('Need implementation');
     }
 }

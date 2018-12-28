@@ -23,6 +23,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Loads Config Adapter class using 'adapter' option, if no extension is provided it will be added to filePath
  *
  *<code>
@@ -110,13 +118,13 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		ZEPHIR_CPY_WRT(&oldConfig, config);
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, ".");
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "strrchr", NULL, 137, config, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "strrchr", NULL, 115, config, &_0$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_INIT_VAR(&extension);
 		zephir_substr(&extension, &_1$$3, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 		if (ZEPHIR_IS_EMPTY(&extension)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You need to provide extension in file path", "phalcon/config/factory.zep", 59);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You need to provide extension in file path", "phalcon/config/factory.zep", 49);
 			return;
 		}
 		ZEPHIR_INIT_NVAR(config);
@@ -134,12 +142,12 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		ZEPHIR_CPY_WRT(config, &_4$$5);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/config/factory.zep", 73);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/config/factory.zep", 63);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&filePath);
 	if (!(zephir_array_isset_string_fetch(&filePath, config, SL("filePath"), 0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/config/factory.zep", 77);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/config/factory.zep", 67);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&adapter);
@@ -153,7 +161,7 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		ZEPHIR_INIT_VAR(&_7$$8);
 		zephir_fast_strpos(&_7$$8, &filePath, &_6$$8, 0 );
 		if (!(zephir_is_true(&_7$$8))) {
-			ZEPHIR_CALL_FUNCTION(&_8$$9, "lcfirst", NULL, 65, &adapter);
+			ZEPHIR_CALL_FUNCTION(&_8$$9, "lcfirst", NULL, 54, &adapter);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_9$$9);
 			ZEPHIR_CONCAT_VSV(&_9$$9, &filePath, ".", &_8$$9);
@@ -193,7 +201,7 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		}
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/config/factory.zep", 99);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/config/factory.zep", 89);
 	return;
 
 }

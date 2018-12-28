@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
 
+/**
+ * Class AddColumnCest
+ */
 class AddColumnCest
 {
     /**
@@ -25,7 +29,7 @@ class AddColumnCest
      */
     public function dbAdapterPdoPostgresqlAddColumn(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Postgresql - addColumn()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Postgresql - addColumn()');
+        $I->skipTest('Need implementation');
     }
 }

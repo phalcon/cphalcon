@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetDirectoryCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\Gettext
  */
 class GetDirectoryCest
 {
@@ -31,7 +29,7 @@ class GetDirectoryCest
      */
     public function translateAdapterGettextGetDirectory(UnitTester $I)
     {
-        $I->wantToTest("Translate\Adapter\Gettext - getDirectory()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Translate\Adapter\Gettext - getDirectory()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -24,6 +24,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\Binding
  *
  * This is an class for binding models into params for handler
@@ -34,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder) {
 
 	/**
 	 * Array for storing active bound models
+	 * 
+	 * @var array
 	 */
 	zend_declare_property_null(phalcon_mvc_model_binder_ce, SL("boundModels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -174,7 +184,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 		ZVAL_STRING(&methodName, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(methodName_param) != IS_STRING && Z_TYPE_P(methodName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'methodName' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'methodName' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(methodName_param) == IS_STRING)) {
@@ -194,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 		_1 = ZEPHIR_IS_STRING_IDENTICAL(&methodName, "");
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "You must specify methodName for handler or pass Closure as handler", "phalcon/mvc/model/binder.zep", 91);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "You must specify methodName for handler or pass Closure as handler", "phalcon/mvc/model/binder.zep", 82);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_2);
@@ -203,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 	ZEPHIR_CALL_METHOD(&paramsCache, this_ptr, "getparamsfromcache", NULL, 0, &cacheKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&paramsCache) == IS_ARRAY) {
-		zephir_is_iterable(&paramsCache, 0, "phalcon/mvc/model/binder.zep", 106);
+		zephir_is_iterable(&paramsCache, 0, "phalcon/mvc/model/binder.zep", 97);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paramsCache), _4$$4, _5$$4, _3$$4)
 		{
 			ZEPHIR_INIT_NVAR(&paramKey);
@@ -215,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 			ZEPHIR_INIT_NVAR(&className);
 			ZVAL_COPY(&className, _3$$4);
 			ZEPHIR_OBS_NVAR(&paramValue);
-			zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/mvc/model/binder.zep", 99 TSRMLS_CC);
+			zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/mvc/model/binder.zep", 90 TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(&boundModel, this_ptr, "findboundmodel", &_6, 0, &paramValue, &className);
 			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("originalValues"), &paramKey, &paramValue TSRMLS_CC);
@@ -351,7 +361,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	zephir_get_arrval(&params, params_param);
 	zephir_get_strval(&cacheKey, cacheKey_param);
 	if (UNEXPECTED(Z_TYPE_P(methodName_param) != IS_STRING && Z_TYPE_P(methodName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'methodName' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'methodName' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(methodName_param) == IS_STRING)) {
@@ -369,20 +379,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	ZEPHIR_INIT_VAR(&reflection);
 	if (!ZEPHIR_IS_STRING(&methodName, "")) {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionmethod")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 309, handler, &methodName);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 311, handler, &methodName);
 		zephir_check_call_status();
 	} else {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 78, handler);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 70, handler);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_0, this_ptr, SL("cache"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&cache, &_0);
-	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 79);
+	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 71);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&paramsKeys);
 	zephir_array_keys(&paramsKeys, &params TSRMLS_CC);
-	zephir_is_iterable(&methodParams, 0, "phalcon/mvc/model/binder.zep", 216);
+	zephir_is_iterable(&methodParams, 0, "phalcon/mvc/model/binder.zep", 207);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methodParams), _2, _3, _1)
 	{
 		ZEPHIR_INIT_NVAR(&paramKey);
@@ -401,16 +411,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 		ZEPHIR_CALL_METHOD(&className, &reflectionClass, "getname", NULL, 0);
 		zephir_check_call_status();
 		if (!(zephir_array_isset(&params, &paramKey))) {
-			zephir_array_fetch(&_4$$7, &paramsKeys, &paramKey, PH_NOISY | PH_READONLY, "phalcon/mvc/model/binder.zep", 174 TSRMLS_CC);
+			zephir_array_fetch(&_4$$7, &paramsKeys, &paramKey, PH_NOISY | PH_READONLY, "phalcon/mvc/model/binder.zep", 165 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&paramKey, &_4$$7);
 		}
 		ZEPHIR_INIT_NVAR(&boundModel);
 		ZVAL_NULL(&boundModel);
 		ZEPHIR_OBS_NVAR(&paramValue);
-		zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/mvc/model/binder.zep", 178 TSRMLS_CC);
+		zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/mvc/model/binder.zep", 169 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(&_5$$5);
 		ZVAL_STRING(&_5$$5, "Phalcon\\Mvc\\Model");
-		ZEPHIR_CALL_FUNCTION(&_6$$5, "is_subclass_of", &_7, 310, &className, &_5$$5);
+		ZEPHIR_CALL_FUNCTION(&_6$$5, "is_subclass_of", &_7, 312, &className, &_5$$5);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 			if (Z_TYPE_P(&realClasses) == IS_NULL) {
@@ -424,7 +434,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 					ZEPHIR_CALL_METHOD(&realClasses, handler, "getmodelname", NULL, 0);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter", "phalcon/mvc/model/binder.zep", 188);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter", "phalcon/mvc/model/binder.zep", 179);
 					return;
 				}
 			}
@@ -435,9 +445,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 					object_init_ex(&_9$$14, phalcon_mvc_model_exception_ce);
 					ZEPHIR_INIT_LNVAR(_10$$14);
 					ZEPHIR_CONCAT_SVS(&_10$$14, "You should provide model class name for ", &paramKey, " parameter");
-					ZEPHIR_CALL_METHOD(NULL, &_9$$14, "__construct", &_11, 4, &_10$$14);
+					ZEPHIR_CALL_METHOD(NULL, &_9$$14, "__construct", &_11, 3, &_10$$14);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_9$$14, "phalcon/mvc/model/binder.zep", 194 TSRMLS_CC);
+					zephir_throw_exception_debug(&_9$$14, "phalcon/mvc/model/binder.zep", 185 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -448,7 +458,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 				ZEPHIR_CALL_METHOD(&boundModel, this_ptr, "findboundmodel", &_12, 0, &paramValue, &className);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "getModelName should return array or string", "phalcon/mvc/model/binder.zep", 202);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "getModelName should return array or string", "phalcon/mvc/model/binder.zep", 193);
 				return;
 			}
 		} else if (zephir_is_true(&_6$$5)) {

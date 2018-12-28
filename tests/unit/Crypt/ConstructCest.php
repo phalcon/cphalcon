@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,7 +13,11 @@
 namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
+use Phalcon\Crypt;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
     /**
@@ -25,7 +30,32 @@ class ConstructCest
      */
     public function cryptConstruct(UnitTester $I)
     {
-        $I->wantToTest("Crypt - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Crypt - __construct()');
+        $actual = new Crypt();
+        $class = Crypt::class;
+        $I->assertInstanceOf($class, $actual);
+
+        $actual = new Crypt("aes-256-cfb", true);
+        $class = Crypt::class;
+        $I->assertInstanceOf($class, $actual);
+    }
+
+    /**
+     * Tests the Crypt constants
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2015-12-20
+     */
+    public function testCryptConstants(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - Constants');
+
+        $I->assertEquals(0, Crypt::PADDING_DEFAULT);
+        $I->assertEquals(1, Crypt::PADDING_ANSI_X_923);
+        $I->assertEquals(2, Crypt::PADDING_PKCS7);
+        $I->assertEquals(3, Crypt::PADDING_ISO_10126);
+        $I->assertEquals(4, Crypt::PADDING_ISO_IEC_7816_4);
+        $I->assertEquals(5, Crypt::PADDING_ZERO);
+        $I->assertEquals(6, Crypt::PADDING_SPACE);
     }
 }

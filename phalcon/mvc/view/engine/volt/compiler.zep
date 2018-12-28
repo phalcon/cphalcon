@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\View\Engine\Volt;
@@ -2007,7 +1998,6 @@ class Compiler implements InjectionAwareInterface
 		let macroName = "$this->_macros['" . name . "']";
 
 		let code = "<?php ";
-
 		if !fetch parameters, statement["parameters"] {
 			let code .= macroName . " = function() { ?>";
 		} else {
@@ -2023,7 +2013,7 @@ class Compiler implements InjectionAwareInterface
 				let code .= "if (isset($__p[" . position . "])) { ";
 				let code .= "$" . variableName . " = $__p[" . position ."];";
 				let code .= " } else { ";
-				let code .= "if (isset($__p[\"" . variableName."\"])) { ";
+				let code .= "if (array_key_exists(\"" . variableName . "\", $__p)) { ";
 				let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
 				let code .= " } else { ";
 				if fetch defaultValue, parameter["default"] {

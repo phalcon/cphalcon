@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\CreditCard;
 use IntegrationTester;
 
+/**
+ * Class HasOptionCest
+ */
 class HasOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class HasOptionCest
      */
     public function validationValidatorCreditCardHasOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\CreditCard - hasOption()");
+        $I->wantToTest('Validation\Validator\CreditCard - hasOption()');
         $validator = new CreditCard(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }

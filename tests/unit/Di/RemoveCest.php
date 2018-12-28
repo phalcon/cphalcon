@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
+/**
+ * Class RemoveCest
+ */
 class RemoveCest
 {
     /**
@@ -25,7 +29,7 @@ class RemoveCest
      */
     public function diRemove(UnitTester $I)
     {
-        $I->wantToTest("Di - remove()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di - remove()');
+        $I->skipTest('Need implementation');
     }
 }

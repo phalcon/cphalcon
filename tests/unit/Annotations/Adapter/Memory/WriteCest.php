@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class WriteCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Memory
  */
 class WriteCest
 {
@@ -31,7 +29,7 @@ class WriteCest
      */
     public function annotationsAdapterMemoryWrite(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Memory - write()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Memory - write()');
+        $I->skipTest('Need implementation');
     }
 }

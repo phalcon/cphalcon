@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
 
+/**
+ * Class GetErrorInfoCest
+ */
 class GetErrorInfoCest
 {
     /**
@@ -25,7 +29,7 @@ class GetErrorInfoCest
      */
     public function dbAdapterPdoPostgresqlGetErrorInfo(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Postgresql - getErrorInfo()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Postgresql - getErrorInfo()');
+        $I->skipTest('Need implementation');
     }
 }

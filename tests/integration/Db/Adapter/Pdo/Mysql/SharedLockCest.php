@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
+/**
+ * Class SharedLockCest
+ */
 class SharedLockCest
 {
     /**
@@ -25,7 +29,7 @@ class SharedLockCest
      */
     public function dbAdapterPdoMysqlSharedLock(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Adapter\Pdo\Mysql - sharedLock()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Db\Adapter\Pdo\Mysql - sharedLock()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class ArrayAccessCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
  */
 class ArrayAccessCest
 {

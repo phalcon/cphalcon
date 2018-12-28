@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Paginator\AdapterInterface
  *
  * Interface for Phalcon\Paginator adapters
@@ -33,7 +41,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
 /**
  * Returns a slice of the resultset to show in the pagination
  */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getPaginate);
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, paginate);
 
 /**
  * Set current rows limit

@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class GetCodeCest
- *
- * @package Phalcon\Test\Unit\Messages\Message
  */
 class GetCodeCest
 {

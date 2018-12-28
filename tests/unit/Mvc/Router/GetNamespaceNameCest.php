@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetNamespaceNameCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class GetNamespaceNameCest
 {
@@ -31,7 +29,7 @@ class GetNamespaceNameCest
      */
     public function mvcRouterGetNamespaceName(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - getNamespaceName()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - getNamespaceName()');
+        $I->skipTest('Need implementation');
     }
 }

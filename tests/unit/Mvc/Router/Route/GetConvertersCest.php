@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetConvertersCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Route
  */
 class GetConvertersCest
 {
@@ -31,7 +29,7 @@ class GetConvertersCest
      */
     public function mvcRouterRouteGetConverters(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Route - getConverters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Route - getConverters()');
+        $I->skipTest('Need implementation');
     }
 }

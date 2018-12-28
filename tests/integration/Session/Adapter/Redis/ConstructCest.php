@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,26 @@
 namespace Phalcon\Test\Integration\Session\Adapter\Redis;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use SessionHandlerInterface;
 
+/**
+ * Class ConstructCest
+ */
 class ConstructCest
 {
+    use DiTrait;
+    use SessionTrait;
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Session\Adapter\Redis :: __construct()
      *
@@ -25,7 +43,9 @@ class ConstructCest
      */
     public function sessionAdapterRedisConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Adapter\Redis - __construct()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Session\Adapter\Redis - __construct()');
+        $adapter = $this->getSessionRedis();
+        $class   = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }

@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\Query\BuilderInterface
  *
  * Interface for Phalcon\Mvc\Model\Query\Builder
@@ -196,4 +204,58 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getPhql);
  * Returns the query built
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getQuery);
+
+/**
+ * Sets an OFFSET clause
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, offset);
+
+/**
+ * Set default bind parameters
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, setBindParams);
+
+/**
+ * Set default bind types
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, setBindTypes);
+
+/**
+ * Returns default bind params
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getBindParams);
+
+/**
+ * Returns default bind types
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getBindTypes);
+
+/**
+ * Sets SELECT DISTINCT / SELECT ALL flag
+ *
+ *<code>
+ * $builder->distinct("status");
+ * $builder->distinct(null);
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, distinct);
+
+/**
+ * Returns SELECT DISTINCT / SELECT ALL flag
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getDistinct);
+
+/**
+ * Sets a FOR UPDATE clause
+ *
+ *<code>
+ * $builder->forUpdate(true);
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, forUpdate);
+
+/**
+ * Returns the current OFFSET clause
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOffset);
 

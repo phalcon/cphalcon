@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,8 +14,10 @@ namespace Phalcon\Test\Unit\Escaper;
 
 use Phalcon\Escaper;
 use UnitTester;
-use const ENT_HTML401;
 
+/**
+ * Class SetHtmlQuoteTypeCest
+ */
 class SetHtmlQuoteTypeCest
 {
     /**

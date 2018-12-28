@@ -22,6 +22,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Micro\Collection
  *
  * Groups Micro-Mvc handlers as controllers
@@ -80,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 	zephir_fetch_params(1, 4, 0, &method, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -118,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 	zephir_fetch_params(1, 1, 0, &prefix_param);
 
 	if (UNEXPECTED(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(prefix_param) == IS_STRING)) {
@@ -207,7 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
 	zephir_fetch_params(0, 1, 0, &lazy_param);
 
 	if (UNEXPECTED(Z_TYPE_P(lazy_param) != IS_TRUE && Z_TYPE_P(lazy_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'lazy' must be a bool") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'lazy' must be of the type bool") TSRMLS_CC);
 		RETURN_NULL();
 	}
 	lazy = (Z_TYPE_P(lazy_param) == IS_TRUE);
@@ -267,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -317,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
 	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -361,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -407,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -453,7 +461,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -499,7 +507,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -545,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -591,7 +599,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
@@ -637,7 +645,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {

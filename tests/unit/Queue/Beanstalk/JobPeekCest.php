@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class JobPeekCest
- *
- * @package Phalcon\Test\Unit\Queue\Beanstalk
  */
 class JobPeekCest
 {
@@ -31,7 +29,7 @@ class JobPeekCest
      */
     public function queueBeanstalkJobPeek(UnitTester $I)
     {
-        $I->wantToTest("Queue\Beanstalk - jobPeek()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Queue\Beanstalk - jobPeek()');
+        $I->skipTest('Need implementation');
     }
 }

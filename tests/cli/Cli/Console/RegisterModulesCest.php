@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,9 @@ namespace Phalcon\Test\Cli\Cli\Console;
 use CliTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class RegisterModulesCest
+ */
 class RegisterModulesCest {
 	use DiTrait;
 

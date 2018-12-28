@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class MissingMethodCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection\Manager
  */
 class MissingMethodCest
 {
@@ -31,7 +29,7 @@ class MissingMethodCest
      */
     public function mvcCollectionManagerMissingMethod(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection\Manager - missingMethod()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection\Manager - missingMethod()');
+        $I->skipTest('Need implementation');
     }
 }

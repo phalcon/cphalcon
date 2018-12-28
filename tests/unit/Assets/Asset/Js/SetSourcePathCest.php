@@ -18,8 +18,6 @@ use UnitTester;
 
 /**
  * Class SetSourcePathCest
- *
- * @package Phalcon\Test\Unit\Assets\Asset
  */
 class SetSourcePathCest
 {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Hidden;
 
 use IntegrationTester;
 
+/**
+ * Class GetFiltersCest
+ */
 class GetFiltersCest
 {
     /**
@@ -25,7 +29,7 @@ class GetFiltersCest
      */
     public function formsElementHiddenGetFilters(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Hidden - getFilters()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Hidden - getFilters()');
+        $I->skipTest('Need implementation');
     }
 }

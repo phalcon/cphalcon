@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class GetJoinCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class GetJoinCest
 {

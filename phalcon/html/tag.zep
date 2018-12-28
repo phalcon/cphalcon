@@ -425,9 +425,10 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * $tag
-	 * 		->prependTitle('Hello')
+	 *		->setTitleSeparator(' ')
+	 * 		->prependTitle(['Hello'])
 	 * 		->setTitle('World')
-	 * 		->appendTitle('from Phalcon');
+	 * 		->appendTitle(['from Phalcon']);
 	 *
 	 * echo $tag->getTitle();             // Hello World from Phalcon
 	 * echo $tag->getTitle(false);        // World from Phalcon
@@ -991,8 +992,13 @@ class Tag implements InjectionAwareInterface
 
 		unset parameters["local"];
 
-		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/javascript"),
-			output             = this->renderAttributes("<script", parameters) ."></script>" . PHP_EOL;
+		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/javascript");
+
+		if this->docType >= self::HTML5 && "text/javascript" == parameters["type"] {
+			unset(parameters["type"]);
+		}
+
+		let output = this->renderAttributes("<script", parameters) ."></script>" . PHP_EOL;
 
 		return output;
 
@@ -1079,20 +1085,24 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * $tag
-	 * 		->prependTitle('Hello')
+	 *		->setTitleSeparator(' ')
+	 * 		->prependTitle(['Hello'])
 	 * 		->setTitle('World')
-	 * 		->appendTitle('from Phalcon');
+	 * 		->appendTitle(['from Phalcon']);
 	 *
-	 * echo $tag->renderTitle(); // <title>Hello World From Phalcon</title>
+	 * echo $tag->renderTitle();             // <title>Hello World from Phalcon</title>
+	 * echo $tag->renderTitle(false);        // <title>World from Phalcon</title>
+	 * echo $tag->renderTitle(true, false);  // <title>Hello World</title>
+	 * echo $tag->renderTitle(false, false); // <title>World</title>
 	 * </code>
 	 *
 	 * <code>
 	 * {{ render_title() }}
 	 * </code>
 	 */
-	public function renderTitle() -> string
+	public function renderTitle(bool prepend = true, bool append = true) -> string
 	{
-		return "<title>" . this->getTitle() . "</title>" . PHP_EOL;
+		return "<title>" . this->getTitle(prepend, append) . "</title>" . PHP_EOL;
 	}
 
 	/**

@@ -19,6 +19,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Forms\Element\Select
  *
  * Component SELECT (choice) for forms
@@ -130,7 +138,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, 0, "phalcon/forms/element/select.zep", 81);
+		zephir_is_iterable(option, 0, "phalcon/forms/element/select.zep", 72);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _1$$3, _2$$3, _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);

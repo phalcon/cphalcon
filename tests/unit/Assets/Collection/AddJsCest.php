@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddJsCest
- *
- * @package Phalcon\Test\Unit\Assets\Collection
  */
 class AddJsCest
 {

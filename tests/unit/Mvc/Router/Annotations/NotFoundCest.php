@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class NotFoundCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router\Annotations
  */
 class NotFoundCest
 {
@@ -31,7 +29,7 @@ class NotFoundCest
      */
     public function mvcRouterAnnotationsNotFound(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router\Annotations - notFound()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router\Annotations - notFound()');
+        $I->skipTest('Need implementation');
     }
 }

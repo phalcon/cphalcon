@@ -251,13 +251,16 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data)
 	}
 
 	switch (Z_TYPE_P(data)) {
-
 		case IS_NULL:
 		case IS_LONG:
 		case IS_DOUBLE:
 		case IS_TRUE:
 		case IS_FALSE:
+#if PHP_VERSION_ID < 70300
 		case IS_CONSTANT:
+#else
+		case IS_CONSTANT_AST:
+#endif
 			use_copy = zend_make_printable_zval(data, &copy);
 			if (use_copy) {
 				data = &copy;
@@ -268,7 +271,7 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data)
 			if (Z_STRLEN_P(data)) {
 				numbytes = php_stream_write(stream, Z_STRVAL_P(data), Z_STRLEN_P(data));
 				if (numbytes != Z_STRLEN_P(data)) {
-					php_error_docref(NULL, E_WARNING, "Only %d of %d bytes written, possibly out of free disk space", numbytes, Z_STRLEN_P(data));
+					php_error_docref(NULL, E_WARNING, "Only %d of %zu bytes written, possibly out of free disk space", numbytes, Z_STRLEN_P(data));
 					numbytes = -1;
 				}
 			}

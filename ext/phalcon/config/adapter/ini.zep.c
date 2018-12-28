@@ -24,6 +24,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Config\Adapter\Ini
  *
  * Reads ini files and converts them to Phalcon\Config objects.
@@ -110,7 +118,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	zephir_fetch_params(1, 1, 1, &filePath_param, &mode);
 
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(filePath_param) == IS_STRING)) {
@@ -131,7 +139,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_LONG(mode, 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 132, &filePath, &__$true, mode);
+	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 110, &filePath, &__$true, mode);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&iniConfig)) {
 		ZEPHIR_INIT_VAR(&_0$$4);
@@ -140,15 +148,15 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		zephir_basename(&_1$$4, &filePath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SVS(&_2$$4, "Configuration file ", &_1$$4, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 4, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 3, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$4, "phalcon/config/adapter/ini.zep", 85 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$4, "phalcon/config/adapter/ini.zep", 75 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(&config);
 	array_init(&config);
-	zephir_is_iterable(&iniConfig, 0, "phalcon/config/adapter/ini.zep", 106);
+	zephir_is_iterable(&iniConfig, 0, "phalcon/config/adapter/ini.zep", 96);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&iniConfig), _4, _5, _3)
 	{
 		ZEPHIR_INIT_NVAR(&section);
@@ -162,7 +170,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		if (Z_TYPE_P(&directives) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(&sections);
 			array_init(&sections);
-			zephir_is_iterable(&directives, 0, "phalcon/config/adapter/ini.zep", 98);
+			zephir_is_iterable(&directives, 0, "phalcon/config/adapter/ini.zep", 88);
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&directives), _7$$6, _8$$6, _6$$6)
 			{
 				ZEPHIR_INIT_NVAR(&path);
@@ -176,14 +184,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 				zephir_get_strval(&_10$$7, &path);
 				ZEPHIR_CALL_METHOD(&_9$$7, this_ptr, "_parseinistring", &_11, 0, &_10$$7, &lastValue);
 				zephir_check_call_status();
-				zephir_array_append(&sections, &_9$$7, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 96);
+				zephir_array_append(&sections, &_9$$7, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 86);
 			} ZEND_HASH_FOREACH_END();
 			ZEPHIR_INIT_NVAR(&lastValue);
 			ZEPHIR_INIT_NVAR(&path);
 			if (zephir_fast_count_int(&sections TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(&_12$$8);
 				ZEPHIR_INIT_NVAR(&_13$$8);
-				ZVAL_STRING(&_13$$8, "array_merge_recursive");
+				ZVAL_STRING(&_13$$8, "array_replace_recursive");
 				ZEPHIR_CALL_USER_FUNC_ARRAY(&_12$$8, &_13$$8, &sections);
 				zephir_check_call_status();
 				zephir_array_update_zval(&config, &section, &_12$$8, PH_COPY | PH_SEPARATE);
@@ -239,7 +247,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_fetch_params(1, 2, 0, &path_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
@@ -271,7 +279,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_substr(&_4, &path, zephir_get_intval(&_3), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(&path, &_4);
 	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_parseinistring", NULL, 133, &path, value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_parseinistring", NULL, 111, &path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(return_value, &key, &_0, PH_COPY);
 	RETURN_MM();
@@ -290,7 +298,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast) {
 	zend_ulong _1$$3;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *ini, ini_sub, key, val, *_0$$3, _3$$4, _7$$5, _10$$5, _11$$9, _12$$9, _13$$9;
+	zval *ini, ini_sub, key, val, *_0$$3, _3$$4, _7$$5, _10$$5, _11$$9, _12$$9, _13$$9, _14$$9;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ini_sub);
@@ -302,6 +310,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast) {
 	ZVAL_UNDEF(&_11$$9);
 	ZVAL_UNDEF(&_12$$9);
 	ZVAL_UNDEF(&_13$$9);
+	ZVAL_UNDEF(&_14$$9);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &ini);
@@ -310,7 +319,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast) {
 
 
 	if (Z_TYPE_P(ini) == IS_ARRAY) {
-		zephir_is_iterable(ini, 1, "phalcon/config/adapter/ini.zep", 152);
+		zephir_is_iterable(ini, 1, "phalcon/config/adapter/ini.zep", 142);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(ini), _1$$3, _2$$3, _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);
@@ -321,7 +330,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast) {
 			}
 			ZEPHIR_INIT_NVAR(&val);
 			ZVAL_COPY(&val, _0$$3);
-			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "_cast", &_4, 134, &val);
+			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "_cast", &_4, 112, &val);
 			zephir_check_call_status();
 			zephir_array_update_zval(ini, &key, &_3$$4, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -361,10 +370,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast) {
 		if (zephir_is_numeric(ini)) {
 			ZEPHIR_INIT_VAR(&_11$$9);
 			ZEPHIR_INIT_VAR(&_12$$9);
+			ZVAL_STRING(&_12$$9, "/[.]+/");
 			ZEPHIR_INIT_VAR(&_13$$9);
-			ZVAL_STRING(&_13$$9, "/[.]+/");
-			zephir_preg_match(&_12$$9, &_13$$9, ini, &_11$$9, 0, 0 , 0  TSRMLS_CC);
-			if (zephir_is_true(&_12$$9)) {
+			ZEPHIR_INIT_VAR(&_14$$9);
+			ZVAL_STRING(&_14$$9, "/[.]+/");
+			zephir_preg_match(&_13$$9, &_14$$9, ini, &_11$$9, 0, 0 , 0  TSRMLS_CC);
+			if (zephir_is_true(&_13$$9)) {
 				RETURN_MM_DOUBLE(zephir_get_doubleval(ini));
 			} else {
 				RETURN_MM_LONG(zephir_get_intval(ini));

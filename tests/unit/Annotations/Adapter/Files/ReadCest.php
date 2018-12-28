@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class ReadCest
- *
- * @package Phalcon\Test\Unit\Annotations\Adapter\Files
  */
 class ReadCest
 {
@@ -31,7 +29,7 @@ class ReadCest
      */
     public function annotationsAdapterFilesRead(UnitTester $I)
     {
-        $I->wantToTest("Annotations\Adapter\Files - read()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Annotations\Adapter\Files - read()');
+        $I->skipTest('Need implementation');
     }
 }

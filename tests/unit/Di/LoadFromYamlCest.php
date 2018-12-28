@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
+/**
+ * Class LoadFromYamlCest
+ */
 class LoadFromYamlCest
 {
     /**
@@ -25,7 +29,7 @@ class LoadFromYamlCest
      */
     public function diLoadFromYaml(UnitTester $I)
     {
-        $I->wantToTest("Di - loadFromYaml()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di - loadFromYaml()');
+        $I->skipTest('Need implementation');
     }
 }

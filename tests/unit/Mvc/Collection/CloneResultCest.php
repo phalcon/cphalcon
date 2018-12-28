@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class CloneResultCest
- *
- * @package Phalcon\Test\Unit\Mvc\Collection
  */
 class CloneResultCest
 {
@@ -31,7 +29,7 @@ class CloneResultCest
      */
     public function mvcCollectionCloneResult(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Collection - cloneResult()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - cloneResult()');
+        $I->skipTest('Need implementation');
     }
 }

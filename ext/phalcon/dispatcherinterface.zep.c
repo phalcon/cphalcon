@@ -13,6 +13,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\DispatcherInterface
  *
  * Interface for Phalcon\Dispatcher
@@ -36,9 +44,19 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setActionSuffix);
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getActionSuffix);
 
 /**
+ * Gets the default handler suffix
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getHandlerSuffix);
+
+/**
  * Sets the default namespace
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setDefaultNamespace);
+
+/**
+ * Sets the default suffix for the handler
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setHandlerSuffix);
 
 /**
  * Sets the default action name

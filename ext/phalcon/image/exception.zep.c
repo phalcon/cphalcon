@@ -14,6 +14,14 @@
 #include "kernel/main.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Image_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image, Exception, phalcon, image_exception, phalcon_exception_ce, NULL, 0);

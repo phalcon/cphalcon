@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Identical;
 use IntegrationTester;
 
+/**
+ * Class SetOptionCest
+ */
 class SetOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class SetOptionCest
      */
     public function validationValidatorIdenticalSetOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Identical - setOption()");
+        $I->wantToTest('Validation\Validator\Identical - setOption()');
         $validator = new Identical();
         $this->checkSetOption($I, $validator);
     }

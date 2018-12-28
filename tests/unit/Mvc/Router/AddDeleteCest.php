@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Class AddDeleteCest
- *
- * @package Phalcon\Test\Unit\Mvc\Router
  */
 class AddDeleteCest
 {
@@ -31,7 +29,7 @@ class AddDeleteCest
      */
     public function mvcRouterAddDelete(UnitTester $I)
     {
-        $I->wantToTest("Mvc\Router - addDelete()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Router - addDelete()');
+        $I->skipTest('Need implementation');
     }
 }

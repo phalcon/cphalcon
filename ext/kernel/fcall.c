@@ -211,11 +211,16 @@ static void resolve_callable(zval* retval, zephir_call_type type, zend_class_ent
 static void populate_fcic(zend_fcall_info_cache* fcic, zephir_call_type type, zend_class_entry* ce, zval *this_ptr, zval *func, zend_class_entry* called_scope)
 {
 	zend_class_entry* calling_scope;
+
+#if PHP_VERSION_ID < 70300
 	fcic->initialized      = 0;
+#endif
 	fcic->function_handler = NULL;
 
 	if (type == zephir_fcall_function && Z_TYPE_P(func) == IS_STRING) {
+#if PHP_VERSION_ID < 70300
 		fcic->initialized   = 1;
+#endif
 		fcic->called_scope  = NULL;
 		fcic->calling_scope = NULL;
 		fcic->object        = NULL;
@@ -276,7 +281,9 @@ static void populate_fcic(zend_fcall_info_cache* fcic, zephir_call_type type, ze
 			return;
 	}
 
+#if PHP_VERSION_ID < 70300
 	fcic->initialized = 1;
+#endif
 }
 
 /**
@@ -295,7 +302,6 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	int key_ok = FAILURE;
 	zephir_fcall_cache_entry *temp_cache_entry = NULL;
 	zval callable;
-	int i;
 	zend_class_entry* called_scope = zend_get_called_scope(EG(current_execute_data));
 
 	assert(obj_ce || !object_pp);
@@ -316,7 +322,8 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 			key_ok = zephir_make_fcall_key((zend_string*)fcall_key, type, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_P(object_pp) : obj_ce), function_name, called_scope);
 			if (SUCCESS == key_ok) {
 				zend_string* zs  = (zend_string*)fcall_key;
-				GC_REFCOUNT(zs)  = 1;
+
+				GC_SET_REFCOUNT(zs, 1);
 				GC_TYPE_INFO(zs) = IS_STRING;
 
 				temp_cache_entry = zend_hash_find_ptr(zephir_globals_ptr->fcache, zs);
@@ -338,7 +345,10 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	fci.params         = NULL;
 	fci.no_separation  = 1;
 
+#if PHP_VERSION_ID < 70300
 	fcic.initialized = 0;
+#endif
+
 	if (cache_entry && *cache_entry) {
 	/* We have a cache record, initialize scope */
 		populate_fcic(&fcic, type, obj_ce, object_pp, function_name, called_scope);
@@ -354,41 +364,25 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 		zend_is_callable_ex(&callable, fci.object, IS_CALLABLE_CHECK_SILENT, NULL, &fcic, NULL);
 	}
 
+#if PHP_VERSION_ID < 70300
 	if (!fcic.initialized) {
 		resolve_callable(&callable, type, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_P(object_pp) : obj_ce), object_pp, function_name);
 		ZVAL_COPY_VALUE(&fci.function_name, &callable);
 	}
+#endif
 
 #ifdef _MSC_VER
 	zval *p = emalloc(sizeof(zval) * (fci.param_count + 1));
 #else
 	zval p[fci.param_count];
 #endif
-	for (i=0; i<fci.param_count; ++i) {
+	uint32_t i;
+	for (i = 0; i < fci.param_count; ++i) {
 		ZVAL_COPY_VALUE(&p[i], params[i]);
 	}
 
 	fci.params = p;
-
-#if 0
-/*
-	fcic.initialized = 0;
-	if (Z_TYPE(callable) == IS_NULL) {
-		resolve_callable(&callable, type, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_P(object_pp) : obj_ce), object_pp, function_name);
-	}
-*/
-	zval tmp;
-	zephir_var_export_ex(&tmp, function_name);
-	if (obj_ce) {
-		fprintf(stderr, "obj_ce: %s\n", ZSTR_VAL(obj_ce->name));
-	}
-	fprintf(stderr, "> %s called: %p, calling: %p, obj: %p, h: %p, type=%d\n", Z_STRVAL(tmp), fcic.called_scope, fcic.calling_scope, fcic.object, fcic.function_handler, (int)type);
-#endif
 	status = zend_call_function(&fci, &fcic);
-#if 0
-	fprintf(stderr, "< called: %p, calling: %p, obj: %p, h: %p\n", fcic.called_scope, fcic.calling_scope, fcic.object, fcic.function_handler);
-#endif
-
 #ifdef _MSC_VER
 	efree(p);
 #endif
@@ -401,7 +395,12 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	 * call failed OR there was an exception (to be safe) OR cache key is not defined OR
 	 * fcall cache was deinitialized OR we have a slot cache
 	 */
-	if (EXPECTED(status != FAILURE) && !EG(exception) && SUCCESS == key_ok && fcic.initialized && !temp_cache_entry) {
+	int initialized = 1;
+#if PHP_VERSION_ID < 70300
+	initialized = fcic.initialized;
+#endif
+
+	if (EXPECTED(status != FAILURE) && !EG(exception) && SUCCESS == key_ok && initialized && !temp_cache_entry) {
 		zephir_fcall_cache_entry *cache_entry_temp = fcic.function_handler;
 
 		if (cache_entry) {

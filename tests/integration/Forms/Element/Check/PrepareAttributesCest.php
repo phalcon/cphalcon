@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Forms\Element\Check;
 
 use IntegrationTester;
 
+/**
+ * Class PrepareAttributesCest
+ */
 class PrepareAttributesCest
 {
     /**
@@ -25,7 +29,7 @@ class PrepareAttributesCest
      */
     public function formsElementCheckPrepareAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Forms\Element\Check - prepareAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Forms\Element\Check - prepareAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

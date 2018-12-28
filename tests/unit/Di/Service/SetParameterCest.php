@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
+/**
+ * Class SetParameterCest
+ */
 class SetParameterCest
 {
     /**
@@ -25,7 +29,7 @@ class SetParameterCest
      */
     public function diServiceSetParameter(UnitTester $I)
     {
-        $I->wantToTest("Di\Service - setParameter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\Service - setParameter()');
+        $I->skipTest('Need implementation');
     }
 }

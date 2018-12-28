@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -15,6 +16,9 @@ use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Date;
 use IntegrationTester;
 
+/**
+ * Class HasOptionCest
+ */
 class HasOptionCest
 {
     use ValidationTrait;
@@ -29,7 +33,7 @@ class HasOptionCest
      */
     public function validationValidatorDateHasOption(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Date - hasOption()");
+        $I->wantToTest('Validation\Validator\Date - hasOption()');
         $validator = new Date(['message' => 'This is a message']);
         $this->checkHasOption($I, $validator);
     }
