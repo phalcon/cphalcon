@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Controllers;
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Http\Response;
 
 class MicroController extends Controller
 {
