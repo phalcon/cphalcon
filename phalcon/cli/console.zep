@@ -123,6 +123,7 @@ class Console extends BaseApplication
 
 		let dispatcher = <\Phalcon\Cli\Dispatcher> dependencyInjector->getShared("dispatcher");
 
+		dispatcher->setModuleName(router->getModuleName());
 		dispatcher->setTaskName(router->getTaskName());
 		dispatcher->setActionName(router->getActionName());
 		dispatcher->setParams(router->getParams());
