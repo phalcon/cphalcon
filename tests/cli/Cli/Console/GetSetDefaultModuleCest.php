@@ -17,7 +17,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSetDefaultModuleCest
 {
-	use DiTrait;
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: getDefaultModule()
      * Tests Phalcon\Cli\Console :: setDefaultModule()
@@ -35,10 +36,9 @@ class GetSetDefaultModuleCest
         $I->wantToTest("Cli\Console - getDefaultModule()");
         $I->wantToTest("Cli\Console - setDefaultModule()");
 
-	    $console = $this->newCliConsole();
-	    $console->setDefaultModule("moduleName");
+        $console = $this->newCliConsole();
+        $console->setDefaultModule("moduleName");
 
-	    $I->assertEquals("moduleName", $console->getDefaultModule());
-
+        $I->assertEquals("moduleName", $console->getDefaultModule());
     }
 }

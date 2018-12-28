@@ -17,7 +17,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class SetArgumentCest
 {
-	use DiTrait;
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: setArgument()
      *
@@ -31,31 +32,31 @@ class SetArgumentCest
      */
     public function cliConsoleSetArgument(CliTester $I)
     {
-	    require_once dataFolder('fixtures/tasks/MainTask.php');
+        require_once dataFolder('fixtures/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - setArgument()");
-	    $this->setNewCliFactoryDefault();
+        $this->setNewCliFactoryDefault();
 
-	    $this->container->setShared(
-		    'router',
-		    function () {
-			    $router = new Router(true);
+        $this->container->setShared(
+            'router',
+            function () {
+                $router = new Router(true);
 
-			    return $router;
-		    }
-	    );
+                return $router;
+            }
+        );
 
-	    $console = $this->newCliConsole();
+        $console = $this->newCliConsole();
         $console->setDI($this->container);
 
-	    $dispatcher = $this->container->getShared("dispatcher");
+        $dispatcher = $this->container->getShared("dispatcher");
         $console->setArgument([
-        	"php",
-        	"--foo=bar",
-	        "-bar",
-	        "main",
-	        "hello",
-	        "a",
-	        "B"
+            "php",
+            "--foo=bar",
+            "-bar",
+            "main",
+            "hello",
+            "a",
+            "B"
         ])->handle();
         $I->assertEquals("main", $dispatcher->getTaskName());
         $I->assertEquals("hello", $dispatcher->getActionName());

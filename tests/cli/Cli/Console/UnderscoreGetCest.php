@@ -18,7 +18,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 class UnderscoreGetCest
 {
 
-	use DiTrait;
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: __get()
      *

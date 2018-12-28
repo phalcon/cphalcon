@@ -17,7 +17,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSetEventsManagerCest
 {
-	use DiTrait;
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: getEventsManager()
      * Tests Phalcon\Cli\Console :: setEventsManager()
@@ -35,13 +36,13 @@ class GetSetEventsManagerCest
         $I->wantToTest("Cli\Console - getEventsManager()");
         $I->wantToTest("Cli\Console - setEventsManager()");
 
-	    $console = $this->newCliConsole();
-	    $eventsManager = $this->newEventsManager();
+        $console = $this->newCliConsole();
+        $eventsManager = $this->newEventsManager();
 
-	    $console->setEventsManager($eventsManager);
-	    $expected = Manager::class;
-	    $actual = $console->getEventsManager();
+        $console->setEventsManager($eventsManager);
+        $expected = Manager::class;
+        $actual = $console->getEventsManager();
 
-	    $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf($expected, $actual);
     }
 }
