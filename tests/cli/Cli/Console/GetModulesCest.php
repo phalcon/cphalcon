@@ -20,7 +20,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
  */
 class GetModulesCest
 {
-	use DiTrait;
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: getModules()
      *
@@ -38,6 +39,6 @@ class GetModulesCest
         $console = $this->newCliConsole();
         $expected = [];
         $actual = $console->getModules();
-		$I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $actual);
     }
 }

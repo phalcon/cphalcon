@@ -21,7 +21,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
  */
 class GetModuleCest
 {
-	use DiTrait;
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: getModule()
      *
@@ -39,29 +40,29 @@ class GetModuleCest
         $console = $this->newCliConsole();
 
         $console->registerModules(
-	        [
-		        "frontend" => [
-			        "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-			        "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
-		        ],
-		        "backend" => [
-			        "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-			        "path"      => __DIR__ . "/../../../_data/modules/backend/Module.php",
-		        ]
-	        ]
+            [
+                "frontend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
+                    "path" => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                ],
+                "backend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
+                    "path" => __DIR__ . "/../../../_data/modules/backend/Module.php",
+                ]
+            ]
         );
         $expected = [
-	        "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-	        "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+            "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
+            "path" => __DIR__ . "/../../../_data/modules/frontend/Module.php",
         ];
         $actual = $console->getModule("frontend");
         $I->assertEquals($expected, $actual);
 
-	    $I->expectThrowable(
-		    new Exception("Module 'foo' isn't registered in the application container"),
-		    function () use ($console) {
-			    $console->getModule( "foo" );
-		    }
-	    );
+        $I->expectThrowable(
+            new Exception("Module 'foo' isn't registered in the application container"),
+            function () use ($console) {
+                $console->getModule("foo");
+            }
+        );
     }
 }
