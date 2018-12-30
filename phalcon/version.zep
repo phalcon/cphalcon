@@ -85,13 +85,11 @@ class Version
 	 */
 	protected static function _getVersion() -> array
 	{
-		return [4, 0, 0, 1, 0];
+		return [4, 0, 0, 1, 2];
 	}
 
 	/**
-	 * Translates a number to a special release
-	 *
-	 * If Special release = 1 this function will return ALPHA
+	 * Translates a number to a special release.
 	 */
 	protected final static function _getSpecial(int special) -> string
 	{
@@ -99,10 +97,10 @@ class Version
 
 		switch special {
 			case 1:
-				let suffix = "ALPHA";
+				let suffix = "alpha";
 				break;
 			case 2:
-				let suffix = "BETA";
+				let suffix = "beta";
 				break;
 			case 3:
 				let suffix = "RC";
@@ -132,11 +130,15 @@ class Version
 			special       = version[self::VERSION_SPECIAL],
 			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
-		let result  = major . "." . medium . "." . minor . " ";
+		let result  = major . "." . medium . "." . minor;
 		let suffix  = static::_getSpecial(special);
 
 		if suffix != "" {
-			let result .= suffix . " " . specialNumber;
+			/**
+			 * A pre-release version should be denoted by appending a hyphen and a series
+			 * of dot separated identifiers immediately following the patch version.
+			 */
+			let result .= "-". suffix . "." .specialNumber;
 		}
 
 		return trim(result);

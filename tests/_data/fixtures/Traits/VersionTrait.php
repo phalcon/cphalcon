@@ -20,7 +20,7 @@ namespace Phalcon\Test\Fixtures\Traits;
 trait VersionTrait
 {
     /**
-     * Translates a number to a special version string (ALPHA, BETA, RC)
+     * Translates a number to a special version string (alpha, beta, RC)
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -35,10 +35,10 @@ trait VersionTrait
 
         switch ($number) {
             case '1':
-                $special = 'ALPHA';
+                $special = 'alpha';
                 break;
             case '2':
-                $special = 'BETA';
+                $special = 'beta';
                 break;
             case '3':
                 $special = 'RC';
@@ -49,7 +49,7 @@ trait VersionTrait
     }
 
     /**
-     * Translates a special version (ALPHA, BETA, RC) to a version number
+     * Translates a special version (alpha, beta, RC) to a version number
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -61,10 +61,10 @@ trait VersionTrait
     protected function specialToNumber($input): string
     {
         switch ($input) {
-            case 'ALPHA':
+            case 'alpha':
                 $special = '1';
                 break;
-            case 'BETA':
+            case 'beta':
                 $special = '2';
                 break;
             case 'RC':
