@@ -50,7 +50,6 @@ services:
 
 env:
   global:
-    - secure: "eL8spffzdRIDAjdxG+OPJPeUCdpc/jVz6PEVYcs3z4nOnjsKDURm8cmBmGeyHMxvkdHZ6g0PO/srIKAYufZkjDCeK0vl7OBv6kNlGEuO3M7SUCAVX+J2OSg+hNlK467woxsPeMB19/vkC1HmytgpdAefFGtFp4+zsMT41YVupuA="
     - CC="gcc"
     - ZEPHIR_VERSION="0.11.8"
     - RE2C_VERSION="1.1.1"
