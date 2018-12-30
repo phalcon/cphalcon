@@ -630,6 +630,4 @@ class MicroCest
 
         $I->assertCount(2, $trace);
     }
-
-
 }
