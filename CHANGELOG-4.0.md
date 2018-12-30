@@ -2,10 +2,8 @@
 ## Changed
 - Changed the `Phalcon\Tag::renderTitle()` parameters such as `Phalcon\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
 - Changed the `Phalcon\Html\Tag::renderTitle()` parameters such as `Phalcon\Html\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
-- Changed the `Phalcon\Version::get()` to follow [semantic versioning](https://semver.org/) [#13720](https://github.com/phalcon/cphalcon/pull/13720)
-- Changed the `Phalcon\Tag::renderTitle()` parameters to match `Phalcon\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
-- Changed the `Phalcon\Html\Tag::renderTitle()` parameters to match `Phalcon\Html\Tag::getTitle()`[#13706](https://github.com/phalcon/cphalcon/pull/13706)
 - Fixed `trying to call issent on a non object` when Micro application returns a response object [#13712](https://github.com/phalcon/cphalcon/issues/13712)
+- Changed the `Phalcon\Version::get()` to follow [semantic versioning](https://semver.org/) [#13720](https://github.com/phalcon/cphalcon/pull/13720)
 
 # [4.0.0-alpha1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha1) (2018-12-25)
 ## Added
