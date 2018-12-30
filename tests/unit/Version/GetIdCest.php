@@ -48,15 +48,19 @@ class GetIdCest
     {
         $I->wantToTest('Version - get() to getId()');
         $version = Version::get();
-        $chunks  = explode(' ', $version);
+        $chunks  = explode('-', $version);
 
         $special   = '4';
         $specialNo = '0';
 
-        // There are special versions
+        // There are pre-release version parts (eg. 4.0.0-alpha.2)
         if (count($chunks) > 1) {
-            $specialNo = $chunks[2];
-            $special   = $this->specialToNumber($chunks[1]);
+            if (false === strpos($chunks[1], '.')) { // 4.0.0-alpha
+                $special = $this->specialToNumber($chunks[1]);
+            } else { // 4.0.0-alpha.2
+                $specialNo = substr($chunks[1], strpos($chunks[1], '.') + 1);
+                $special = $this->specialToNumber(substr($chunks[1], 0, strpos($chunks[1], '.')));
+            }
         }
 
         // Now the version itself
