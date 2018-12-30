@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Controllers;
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Http\Response;
 
 class MicroController extends Controller
 {
@@ -53,5 +54,12 @@ class MicroController extends Controller
     public function anotherFiveAction()
     {
         return $this->dispatcher->getParam('param1') + $this->dispatcher->getParam('param2');
+    }
+    
+    public function returnResponseAction()
+    {
+        $response = new Response();
+        $response->setContent("test");
+        return $response;
     }
 }
