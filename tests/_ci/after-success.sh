@@ -45,10 +45,10 @@ fi
 # Note: to upload a coverage report, set the CODECOV_TOKEN environment variable
 #    export CODECOV_TOKEN=<codecov token>
 
-if [[ -z ${CODECOV_TOKEN+x} ]]; then
-	echo -e "\nThe CODECOV_TOKEN variable is absent or empty.\nSkip uploading reports to Codecov.\n"
-	exit 0
-fi
+#if [[ -z ${CODECOV_TOKEN+x} ]]; then
+#	echo -e "\nThe CODECOV_TOKEN variable is absent or empty.\nSkip uploading reports to Codecov.\n"
+#	exit 0
+#fi
 
 curl -sSl https://codecov.io/bash -o codecov.sh
 chmod +x codecov.sh
