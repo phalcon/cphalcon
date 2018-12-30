@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,9 +13,10 @@
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
-use Phalcon\Mvc\Micro;
-use Phalcon\Test\Controllers\MicroController;
 
+/**
+ * Class HandleCest
+ */
 class HandleCest
 {
     /**
@@ -27,35 +29,7 @@ class HandleCest
      */
     public function mvcMicroHandle(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro - handle()");
-        $I->skipTest("Need implementation");
-    }
-
-    /**
-     * Tests Phalcon\Mvc\Micro :: handle() - return response object
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcMicroHandleReturnResponseObject(IntegrationTester $I)
-    {
-        $I->wantToTest("Mvc\Micro - handle()");
-        $app        = new Micro();
-        $collection = new Micro\Collection();
-        $collection->setHandler(new MicroController());
-        $collection->mapVia(
-            "/test",
-            'returnResponseAction',
-            ["GET"],
-            "test"
-        );
-        $app->mount($collection);
-
-        $response = $app->handle("/test");
-
-        //returnResponseAction sets "test" as content
-        $I->assertEquals("test", $response->getContent());
+        $I->wantToTest('Mvc\Micro - handle()');
+        $I->skipTest('Need implementation');
     }
 }

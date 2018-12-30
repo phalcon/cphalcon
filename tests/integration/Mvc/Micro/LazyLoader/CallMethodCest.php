@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro\LazyLoader;
 
 use IntegrationTester;
 
+/**
+ * Class CallMethodCest
+ */
 class CallMethodCest
 {
     /**
@@ -25,7 +29,7 @@ class CallMethodCest
      */
     public function mvcMicroLazyloaderCallMethod(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro\LazyLoader - callMethod()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro\LazyLoader - callMethod()');
+        $I->skipTest('Need implementation');
     }
 }

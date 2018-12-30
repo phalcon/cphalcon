@@ -26,7 +26,7 @@ use function dataFolder;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class ForwardCest
+class RefactorForwardCest
 {
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/11819
