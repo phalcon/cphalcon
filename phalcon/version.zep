@@ -80,7 +80,7 @@ class Version
 	 * A - Major version
 	 * B - Med version (two digits)
 	 * C - Min version (two digits)
-	 * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
+	 * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
 	 * E - Special release version i.e. RC1, Beta2 etc.
 	 */
 	protected static function _getVersion() -> array
@@ -138,10 +138,13 @@ class Version
 			 * A pre-release version should be denoted by appending a hyphen and a series
 			 * of dot separated identifiers immediately following the patch version.
 			 */
-			let result .= "-". suffix . "." .specialNumber;
+			let result .= "-". suffix;
+			if specialNumber != 0 {
+				let result .= "." . specialNumber;
+			}
 		}
 
-		return trim(result);
+		return result;
 	}
 
 	/**
@@ -184,7 +187,6 @@ class Version
 		let version = static::_getVersion();
 
 		switch part {
-
 			case self::VERSION_MAJOR:
 			case self::VERSION_MEDIUM:
 			case self::VERSION_MINOR:
