@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\ValidationFailed;
 
 use IntegrationTester;
 
+/**
+ * Class ToStringCest
+ */
 class ToStringCest
 {
     /**
@@ -25,7 +29,7 @@ class ToStringCest
      */
     public function mvcModelValidationfailedToString(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\ValidationFailed - __toString()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\ValidationFailed - __toString()');
+        $I->skipTest('Need implementation');
     }
 }

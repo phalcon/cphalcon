@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,23 +10,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Micro;
+namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
 
+/**
+ * Class GetDICest
+ */
 class GetDICest
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: getDI()
+     * Tests Phalcon\Mvc\Collection :: getDI()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcMicroGetDI(IntegrationTester $I)
+    public function mvcCollectionGetDI(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro - getDI()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Collection - getDI()');
+        $I->skipTest('Need implementation');
     }
 }

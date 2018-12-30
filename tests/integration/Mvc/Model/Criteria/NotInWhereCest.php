@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Criteria;
 
 use IntegrationTester;
 
+/**
+ * Class NotInWhereCest
+ */
 class NotInWhereCest
 {
     /**
@@ -25,7 +29,7 @@ class NotInWhereCest
      */
     public function mvcModelCriteriaNotInWhere(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Criteria - notInWhere()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Criteria - notInWhere()');
+        $I->skipTest('Need implementation');
     }
 }

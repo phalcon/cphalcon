@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Strategy\Annotations;
 
 use IntegrationTester;
 
+/**
+ * Class GetColumnMapsCest
+ */
 class GetColumnMapsCest
 {
     /**
@@ -25,7 +29,7 @@ class GetColumnMapsCest
      */
     public function mvcModelMetadataStrategyAnnotationsGetColumnMaps(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Strategy\Annotations - getColumnMaps()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Strategy\Annotations - getColumnMaps()');
+        $I->skipTest('Need implementation');
     }
 }

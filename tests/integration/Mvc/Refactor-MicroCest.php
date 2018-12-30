@@ -631,22 +631,5 @@ class MicroCest
         $I->assertCount(2, $trace);
     }
 
-    public function testMicroResponseReturnResponseObject(IntegrationTester $I)
-    {
-        $app        = new Micro();
-        $collection = new Micro\Collection();
-        $collection->setHandler(new MicroController());
-        $collection->mapVia(
-            "/test",
-            'returnResponseAction',
-            ["GET"],
-            "test"
-        );
-        $app->mount($collection);
 
-        $response = $app->handle("/test");
-
-        //returnResponseAction sets "test" as content
-        $I->assertEquals("test", $response->getContent());
-    }
 }

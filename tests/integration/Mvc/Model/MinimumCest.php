@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 
+/**
+ * Class MinimumCest
+ */
 class MinimumCest
 {
     /**
@@ -25,7 +29,7 @@ class MinimumCest
      */
     public function mvcModelMinimum(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model - minimum()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model - minimum()');
+        $I->skipTest('Need implementation');
     }
 }

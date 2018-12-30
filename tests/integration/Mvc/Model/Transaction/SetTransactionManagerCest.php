@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
 
 use IntegrationTester;
 
+/**
+ * Class SetTransactionManagerCest
+ */
 class SetTransactionManagerCest
 {
     /**
@@ -25,7 +29,7 @@ class SetTransactionManagerCest
      */
     public function mvcModelTransactionSetTransactionManager(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Transaction - setTransactionManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Transaction - setTransactionManager()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Transaction\Manager;
 
 use IntegrationTester;
 
+/**
+ * Class SetRollbackPendentCest
+ */
 class SetRollbackPendentCest
 {
     /**
@@ -25,7 +29,7 @@ class SetRollbackPendentCest
      */
     public function mvcModelTransactionManagerSetRollbackPendent(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Transaction\Manager - setRollbackPendent()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Transaction\Manager - setRollbackPendent()');
+        $I->skipTest('Need implementation');
     }
 }

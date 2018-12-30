@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Row;
 
 use IntegrationTester;
 
+/**
+ * Class SetDirtyStateCest
+ */
 class SetDirtyStateCest
 {
     /**
@@ -25,7 +29,7 @@ class SetDirtyStateCest
      */
     public function mvcModelRowSetDirtyState(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Row - setDirtyState()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Row - setDirtyState()');
+        $I->skipTest('Need implementation');
     }
 }

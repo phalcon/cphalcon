@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,11 +14,13 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 
+/**
+ * Class GetEmptyStringAttributesCest
+ */
 class GetEmptyStringAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
-     * getEmptyStringAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getEmptyStringAttributes()
      *
      * @param IntegrationTester $I
      *
@@ -26,7 +29,7 @@ class GetEmptyStringAttributesCest
      */
     public function mvcModelMetadataLibmemcachedGetEmptyStringAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Libmemcached - getEmptyStringAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Libmemcached - getEmptyStringAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

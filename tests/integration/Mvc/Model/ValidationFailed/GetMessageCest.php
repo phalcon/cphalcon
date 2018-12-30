@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\ValidationFailed;
 
 use IntegrationTester;
 
+/**
+ * Class GetMessageCest
+ */
 class GetMessageCest
 {
     /**
@@ -25,7 +29,7 @@ class GetMessageCest
      */
     public function mvcModelValidationfailedGetMessage(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\ValidationFailed - getMessage()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\ValidationFailed - getMessage()');
+        $I->skipTest('Need implementation');
     }
 }

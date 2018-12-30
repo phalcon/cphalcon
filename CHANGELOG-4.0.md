@@ -1,5 +1,7 @@
-# [4.1.x](https://github.com/phalcon/cphalcon/releases/tag/v4.1.x) (2019-XX-XX)
-
+# [4.0.0-alpha2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha2) (2019-XX-XX)
+- Changed the `Phalcon\Tag::renderTitle()` parameters to match `Phalcon\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
+- Changed the `Phalcon\Html\Tag::renderTitle()` parameters to match `Phalcon\Html\Tag::getTitle()`[#13706](https://github.com/phalcon/cphalcon/pull/13706)
+- Fixed `trying to call issent on a non object` when Micro application returns a response object [#13712](https://github.com/phalcon/cphalcon/issues/13712)
 
 # [4.0.0-alpha1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha1) (2018-12-25)
 ## Added
@@ -122,8 +124,6 @@
 - Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Files`, `Phalcon\Session\Libmemcached`, `Phalcon\Session\Noop` and `Phalcon\Session\Redis`.  [#12921](https://github.com/phalcon/cphalcon/issues/12833), (https://github.com/phalcon/cphalcon/issues/11341), (https://github.com/phalcon/cphalcon/issues/13535)
 - Fixed `Phalcon\Mvc\Models` magic method (setter) is fixed for arrays  [#13661](https://github.com/phalcon/cphalcon/issues/13661)
 - Fixed `Phalcon\Mvc\Model::skipAttributes` and `Phalcon\Mvc\Model::allowEmptyColumns` allowEmptyStrings & skipAttributes repsect the column mapping. [#12975](https://github.com/phalcon/cphalcon/issues/12975), [#13477](https://github.com/phalcon/cphalcon/issues/13477) 
-- Changed the `Phalcon\Tag::renderTitle()` parameters such as `Phalcon\Tag::getTitle()`
-- Changed the `Phalcon\Html\Tag::renderTitle()` parameters such as `Phalcon\Html\Tag::getTitle()`
 
 ## Removed
 - PHP < 7.2 no longer supported

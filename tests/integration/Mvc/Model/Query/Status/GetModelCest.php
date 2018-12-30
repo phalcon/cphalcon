@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Query\Status;
 
 use IntegrationTester;
 
+/**
+ * Class GetModelCest
+ */
 class GetModelCest
 {
     /**
@@ -25,7 +29,7 @@ class GetModelCest
      */
     public function mvcModelQueryStatusGetModel(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Query\Status - getModel()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Query\Status - getModel()');
+        $I->skipTest('Need implementation');
     }
 }
