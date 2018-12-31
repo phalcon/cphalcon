@@ -149,21 +149,16 @@ class DateCest
             $validation = new Validation();
             $validation->add('date', new Date(['format' => $format]));
 
-            $expected = Messages::__set_state(
+            $expected = new Messages(
                 [
-                    '_messages' => [
-                        Message::__set_state(
-                            [
-                                '_type'    => 'Date',
-                                '_message' => 'Field date is not a valid date',
-                                '_field'   => 'date',
-                                '_code'    => '0',
-                            ]
-                        ),
-                    ],
+                    new Message(
+                        'Field date is not a valid date',
+                        'date',
+                        'Date',
+                        0
+                    ),
                 ]
             );
-
             $actual = $validation->validate(['date' => $date]);
             $I->assertEquals($expected, $actual);
         }

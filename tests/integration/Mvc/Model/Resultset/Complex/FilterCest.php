@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Complex;
 
 use IntegrationTester;
 
+/**
+ * Class FilterCest
+ */
 class FilterCest
 {
     /**
@@ -25,7 +29,7 @@ class FilterCest
      */
     public function mvcModelResultsetComplexFilter(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Resultset\Complex - filter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Resultset\Complex - filter()');
+        $I->skipTest('Need implementation');
     }
 }

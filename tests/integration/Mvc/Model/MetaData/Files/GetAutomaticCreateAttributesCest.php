@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Files;
 
 use IntegrationTester;
 
+/**
+ * Class GetAutomaticCreateAttributesCest
+ */
 class GetAutomaticCreateAttributesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetAutomaticCreateAttributesCest
      */
     public function mvcModelMetadataFilesGetAutomaticCreateAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Files - getAutomaticCreateAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Files - getAutomaticCreateAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

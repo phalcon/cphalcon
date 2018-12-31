@@ -162,18 +162,14 @@ class ValidateCest
     public function validationValidatorConfirmationValidateEmptyValues(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Confirmation - validate() - empty value");
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Confirmation',
-                            '_message' => 'Field password must be the same as password2',
-                            '_field'   => 'password',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field password must be the same as password2',
+                    'password',
+                    'Confirmation',
+                    0
+                ),
             ]
         );
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
+use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 
 /**
@@ -19,13 +20,15 @@ use UnitTester;
  */
 class GetInternalImInstanceCest
 {
+    use ImagickTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getInternalImInstance()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2016-02-19
      */
     public function imageAdapterImagickGetInternalImInstance(UnitTester $I)
     {

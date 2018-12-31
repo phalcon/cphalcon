@@ -31,7 +31,7 @@ class FilterCest
      */
     public function messagesMessagesFilter(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - filter()");
+        $I->wantToTest('Messages\Messages - filter()');
         $messages = new Messages(
             [
                 new Message('Password: no number present', 'Password', 'MyType1', 111),

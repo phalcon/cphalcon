@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Messages\Messages;
 
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use TypeError;
 use UnitTester;
 
 /**
@@ -31,7 +32,7 @@ class AppendMessagesCest
      */
     public function messagesMessagesAppendMessagesArray(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - appendMessages()");
+        $I->wantToTest('Messages\Messages - appendMessages()');
         $messages = new Messages();
         $messages->appendMessage(new Message('This is a message #3', 'MyField3', 'MyType3', 111));
         $I->assertCount(1, $messages);
@@ -43,5 +44,33 @@ class AppendMessagesCest
 
         $messages->appendMessages($newMessages);
         $I->assertCount(3, $messages);
+    }
+
+    /**
+     * Tests Phalcon\Messages\Messages :: __construct() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function messagesMessagesConstructException(UnitTester $I)
+    {
+        $I->wantToTest('Messages\Messages - appendMessages() - exception');
+        /**
+         * Sometimes Travis reports 'boolean' vs 'bool' and the test fails. This
+         * is why `expectThrowable` is not used here
+         */
+        $actual = '';
+        try {
+            (new Messages())->appendMessage(true);
+        } catch (TypeError $ex) {
+            $actual = $ex->getMessage();
+        }
+
+        $expected = 'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() '
+            . 'must implement interface Phalcon\Messages\MessageInterface, bool';
+        $actual   = substr($actual, 0, 128);
+        $I->assertEquals($expected, $actual);
     }
 }

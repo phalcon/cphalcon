@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 
+/**
+ * Class GetEventsManagerCest
+ */
 class GetEventsManagerCest
 {
     /**
@@ -25,7 +29,7 @@ class GetEventsManagerCest
      */
     public function mvcModelGetEventsManager(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model - getEventsManager()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model - getEventsManager()');
+        $I->skipTest('Need implementation');
     }
 }

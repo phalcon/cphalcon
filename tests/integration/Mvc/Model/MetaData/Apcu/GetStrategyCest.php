@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
 use IntegrationTester;
 
+/**
+ * Class GetStrategyCest
+ */
 class GetStrategyCest
 {
     /**
@@ -25,7 +29,7 @@ class GetStrategyCest
      */
     public function mvcModelMetadataApcuGetStrategy(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Apcu - getStrategy()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Apcu - getStrategy()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -31,7 +31,7 @@ class JsonSerializeCest
      */
     public function messagesMessagesJsonSerialize(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - jsonSerialize()");
+        $I->wantToTest('Messages\Messages - jsonSerialize()');
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

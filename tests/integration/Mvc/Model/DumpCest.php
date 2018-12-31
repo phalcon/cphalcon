@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 
+/**
+ * Class DumpCest
+ */
 class DumpCest
 {
     /**
@@ -25,7 +29,7 @@ class DumpCest
      */
     public function mvcModelDump(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model - dump()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model - dump()');
+        $I->skipTest('Need implementation');
     }
 }

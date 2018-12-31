@@ -12,24 +12,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
+use Phalcon\Image\Adapter\Imagick;
+use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class SaveCest
  */
 class SaveCest
 {
+    use ImagickTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: save()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2016-02-19
      */
     public function imageAdapterImagickSave(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - save()');
-        $I->skipTest('Need implementation');
+        $image = new Imagick(outputFolder('tests/image/imagick/new.jpg'), 100, 100);
+        $image->setResourceLimit(6, 1);
+        $image->save();
+
+        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->seeFileFound('new.jpg');
+        $I->safeDeleteFile('new.jpg');
     }
 }

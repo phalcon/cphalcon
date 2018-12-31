@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
 
 use IntegrationTester;
 
+/**
+ * Class IsLazyCest
+ */
 class IsLazyCest
 {
     /**
@@ -25,7 +29,7 @@ class IsLazyCest
      */
     public function mvcMicroCollectionIsLazy(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro\Collection - isLazy()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro\Collection - isLazy()');
+        $I->skipTest('Need implementation');
     }
 }

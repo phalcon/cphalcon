@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
 
+/**
+ * Class AddBehaviorCest
+ */
 class AddBehaviorCest
 {
     /**
@@ -25,7 +29,7 @@ class AddBehaviorCest
      */
     public function mvcModelManagerAddBehavior(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Manager - addBehavior()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Manager - addBehavior()');
+        $I->skipTest('Need implementation');
     }
 }

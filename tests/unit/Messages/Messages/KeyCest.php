@@ -31,7 +31,7 @@ class KeyCest
      */
     public function messagesMessagesKey(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - key()");
+        $I->wantToTest('Messages\Messages - key()');
         $messages = new Messages(
             [
                 0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),

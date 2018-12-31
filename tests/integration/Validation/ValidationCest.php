@@ -84,13 +84,16 @@ class ValidationCest
 
         $myValidator->validate($validation, 'foo');
 
-        $expectedMessages = Messages::__set_state([
-            '_position' => 0,
-            '_messages' => [
-                new Message('Field foo is required', 'foo', 'PresenceOf', 0),
-            ],
-        ]);
-
+        $expectedMessages = new Messages(
+            [
+                new Message(
+                    'Field foo is required',
+                    'foo',
+                    'PresenceOf',
+                    0
+                ),
+            ]
+        );
         $I->assertEquals($expectedMessages, $validation->getMessages());
     }
 
@@ -110,17 +113,16 @@ class ValidationCest
         $I->assertEquals($messages->count(), 1);
         $I->assertEquals($messages->offsetGet(0)->getMessage(), 'Name cant be empty.');
 
-        $expectedMessages = Messages::__set_state([
-            '_messages' => [
-                Message::__set_state([
-                    '_type' => 'PresenceOf',
-                    '_message' => 'Name cant be empty.',
-                    '_field' => 'name',
-                    '_code' => '0',
-                ])
-            ],
-        ]);
-
+        $expectedMessages = new Messages(
+            [
+                new Message(
+                    'Name cant be empty.',
+                    'name',
+                    'PresenceOf',
+                    0
+                ),
+            ]
+        );
         $I->assertEquals($messages, $expectedMessages);
     }
 
@@ -171,14 +173,13 @@ class ValidationCest
         $filtered = $messages->filter('email');
 
         $expectedMessages = [
-            0 => Message::__set_state([
-                '_type' => 'PresenceOf',
-                '_message' => 'The email is required',
-                '_field' => 'email',
-                '_code' => '0',
-            ])
+            new Message(
+                'The email is required',
+                'email',
+                'PresenceOf',
+                0
+            )
         ];
-
         $I->assertEquals($filtered, $expectedMessages);
     }
 
@@ -224,35 +225,34 @@ class ValidationCest
         $validation->setLabels(['firstname' => 'First name']);
         $messages = $validation->validate(['email' => '', 'firstname' => '']);
 
-        $expectedMessages = Messages::__set_state([
-            '_messages' => [
-                0 => Message::__set_state([
-                    '_type' => 'PresenceOf',
-                    '_message' => 'The email is required',
-                    '_field' => 'email',
-                    '_code' => '0',
-                ]),
-                1 => Message::__set_state([
-                    '_type' => 'Email',
-                    '_message' => 'The E-mail must be email',
-                    '_field' => 'email',
-                    '_code' => '0',
-                ]),
-                2 => Message::__set_state([
-                    '_type' => 'PresenceOf',
-                    '_message' => 'The First name is required',
-                    '_field' => 'firstname',
-                    '_code' => '0',
-                ]),
-                3 => Message::__set_state([
-                    '_type' => 'TooShort',
-                    '_message' => 'The First name is too short',
-                    '_field' => 'firstname',
-                    '_code' => '0',
-                ])
+        $expectedMessages = new Messages(
+            [
+                new Message(
+                    'The email is required',
+                    'email',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'The E-mail must be email',
+                    'email',
+                    'Email',
+                    0
+                ),
+                new Message(
+                    'The First name is required',
+                    'firstname',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'The First name is too short',
+                    'firstname',
+                    'TooShort',
+                    0
+                ),
             ]
-        ]);
-
+        );
         $I->assertEquals($messages, $expectedMessages);
     }
 

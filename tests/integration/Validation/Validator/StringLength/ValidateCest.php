@@ -76,21 +76,16 @@ class ValidateCest
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'TooShort',
-                            '_message' => 'Field name must be at least 3 characters long',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field name must be at least 3 characters long',
+                    'name',
+                    'TooShort',
+                    0
+                )
             ]
         );
-
         $messages = $validation->validate(['name' => 'So']);
         $actual   = $messages;
         $I->assertEquals($expected, $actual);
@@ -119,24 +114,18 @@ class ValidateCest
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'TooShort',
-                            '_message' => 'The message is too short',
-                            '_field'   => 'message',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The message is too short',
+                    'message',
+                    'TooShort',
+                    0
+                )
             ]
         );
-
         $messages = $validation->validate(['message' => 'So']);
-        $expected = 1;
-        $actual   = $messages->count();
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
     }
 
@@ -159,21 +148,16 @@ class ValidateCest
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'TooLong',
-                            '_message' => 'Field name must not exceed 4 characters long',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field name must not exceed 4 characters long',
+                    'name',
+                    'TooLong',
+                    0
+                )
             ]
         );
-
         $messages = $validation->validate(['name' => 'Johannes']);
         $actual   = $messages;
         $I->assertEquals($expected, $actual);
@@ -202,21 +186,16 @@ class ValidateCest
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'TooLong',
-                            '_message' => 'The message is too long',
-                            '_field'   => 'message',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The message is too long',
+                    'message',
+                    'TooLong',
+                    0
+                )
             ]
         );
-
         $messages = $validation->validate(['message' => 'Validation']);
         $actual   = $messages;
         $I->assertEquals($expected, $actual);
