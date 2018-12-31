@@ -31,7 +31,7 @@ class RewindCest
      */
     public function messagesMessagesRewind(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - rewind()");
+        $I->wantToTest('Messages\Messages - rewind()');
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

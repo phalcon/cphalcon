@@ -32,7 +32,7 @@ class AppendMessagesCest
      */
     public function messagesMessagesAppendMessagesArray(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - appendMessages()");
+        $I->wantToTest('Messages\Messages - appendMessages()');
         $messages = new Messages();
         $messages->appendMessage(new Message('This is a message #3', 'MyField3', 'MyType3', 111));
         $I->assertCount(1, $messages);
@@ -56,7 +56,7 @@ class AppendMessagesCest
      */
     public function messagesMessagesConstructException(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - appendMessages() - exception");
+        $I->wantToTest('Messages\Messages - appendMessages() - exception');
         /**
          * Sometimes Travis reports 'boolean' vs 'bool' and the test fails. This
          * is why `expectThrowable` is not used here

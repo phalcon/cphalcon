@@ -16,26 +16,30 @@ use Phalcon\Messages\Message;
 use UnitTester;
 
 /**
- * Class SetTypeCest
+ * Class GetSetMessageCest
  */
-class SetTypeCest
+class GetSetMessageCest
 {
     /**
-     * Tests Phalcon\Messages\Message :: setType()
+     * Tests Phalcon\Messages\Message :: getMessage()/setMessage()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function messagesMessageSetType(UnitTester $I)
+    public function messagesMessageGetSetMessage(UnitTester $I)
     {
-        $I->wantToTest("Messages\Message - setType()");
-        $message = new Message('This is a message #1');
-        $message->setType('MyType');
+        $I->wantToTest('Messages\Message - getMessage()/setMessage()');
 
-        $expected = 'MyType';
-        $actual   = $message->getType();
+        $expected = 'This is a message #1';
+        $message = new Message($expected);
+        $actual   = $message->getMessage();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'This is a message #2';
+        $message->setMessage($expected);
+        $actual   = $message->getMessage();
         $I->assertEquals($expected, $actual);
     }
 }

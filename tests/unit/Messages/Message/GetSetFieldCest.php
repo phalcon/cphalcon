@@ -16,25 +16,30 @@ use Phalcon\Messages\Message;
 use UnitTester;
 
 /**
- * Class GetMessageCest
+ * Class GetSetFieldCest
  */
-class GetMessageCest
+class GetSetFieldCest
 {
     /**
-     * Tests Phalcon\Messages\Message :: getMessage()
+     * Tests Phalcon\Messages\Message :: getField()/setField()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function messagesMessageGetMessage(UnitTester $I)
+    public function messagesMessageGetSetField(UnitTester $I)
     {
-        $I->wantToTest("Messages\Message - getMessage()");
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
+        $I->wantToTest('Messages\Message - getField()/setField()');
+        $message = new Message(
+            'This is a message #1',
+            'MyField',
+            'MyType',
+            111
+        );
 
-        $expected = 'This is a message #1';
-        $actual   = $message->getMessage();
+        $expected = 'MyField';
+        $actual   = $message->getField();
         $I->assertEquals($expected, $actual);
     }
 }
