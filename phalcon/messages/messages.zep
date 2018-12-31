@@ -19,7 +19,7 @@ use Phalcon\Messages\MessageInterface;
  *
  * Represents a collection of messages
  */
-class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, \Serializable
+class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
 {
 	/**
 	 * @var int
@@ -261,22 +261,6 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
 	public function rewind() -> void
 	{
 		let this->position = 0;
-	}
-
-	/**
-	 * Serializes the object
-	 */
-	public function serialize() -> string
-	{
-		return serialize(this->messages);
-	}
-
-	/**
-	 * Unserializes the object
-	 */
-	public function unserialize(var messages) -> void
-	{
-		let this->messages = unserialize(messages);
 	}
 
 	/**

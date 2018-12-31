@@ -65,7 +65,7 @@ class ConstructCest
         $I->expectThrowable(
             new TypeError(
                 'Argument 1 passed to Phalcon\Messages\Message::__construct() ' .
-                'must be of the type string, boolean given'
+                'must be of the type string, bool given'
             ),
             function () {
                 (new Message(true));
