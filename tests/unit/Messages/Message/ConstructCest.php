@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Messages\Message;
 
 use Phalcon\Messages\Message;
+use function strpos;
+use function substr;
 use TypeError;
 use UnitTester;
 
@@ -62,14 +64,20 @@ class ConstructCest
     public function messagesMessageConstructException(UnitTester $I)
     {
         $I->wantToTest("Messages\Message - __construct() - exception");
-        $I->expectThrowable(
-            new TypeError(
-                'Argument 1 passed to Phalcon\Messages\Message::__construct() ' .
-                'must be of the type string, boolean given'
-            ),
-            function () {
-                (new Message(true));
-            }
-        );
+        /**
+         * Sometimes Travis reports 'boolean' vs 'bool' and the test fails. This
+         * is why `expectThrowable` is not used here
+         */
+        $actual = '';
+        try {
+            (new Message(true));
+        } catch (TypeError $ex) {
+            $actual = $ex->getMessage();
+        }
+
+        $expected = 'Argument 1 passed to Phalcon\Messages\Message::__construct() '
+                  . 'must be of the type string, bool';
+        $actual   = substr($actual, 0, 93);
+        $I->assertEquals($expected, $actual);
     }
 }

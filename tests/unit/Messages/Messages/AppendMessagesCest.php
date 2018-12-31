@@ -57,14 +57,20 @@ class AppendMessagesCest
     public function messagesMessagesConstructException(UnitTester $I)
     {
         $I->wantToTest("Messages\Messages - appendMessages() - exception");
-        $I->expectThrowable(
-            new TypeError(
-                'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() ' .
-                'must implement interface Phalcon\Messages\MessageInterface, boolean given'
-            ),
-            function () {
-                (new Messages())->appendMessage(true);
-            }
-        );
+        /**
+         * Sometimes Travis reports 'boolean' vs 'bool' and the test fails. This
+         * is why `expectThrowable` is not used here
+         */
+        $actual = '';
+        try {
+            (new Messages())->appendMessage(true);
+        } catch (TypeError $ex) {
+            $actual = $ex->getMessage();
+        }
+
+        $expected = 'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() '
+            . 'must implement interface Phalcon\Messages\MessageInterface, bool';
+        $actual   = substr($actual, 0, 128);
+        $I->assertEquals($expected, $actual);
     }
 }
