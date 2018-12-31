@@ -10,26 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Image\Adapter;
+namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
 
 /**
- * Class BlurCest
+ * Trait ImagickTrait
  */
-class BlurCest
+trait ImagickTrait
 {
     /**
-     * Tests Phalcon\Image\Adapter :: blur()
+     * executed before each test
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
-    public function imageAdapterBlur(UnitTester $I)
+    public function _before(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter - blur()');
-        $I->skipTest('Need implementation');
+        $I->checkExtensionIsLoaded('imagick');
     }
 }

@@ -10,26 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Image\Adapter;
+namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
 
 /**
- * Class FlipCest
+ * Trait GdTrait
  */
-class FlipCest
+trait GdTrait
 {
     /**
-     * Tests Phalcon\Image\Adapter :: flip()
+     * executed before each test
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
-    public function imageAdapterFlip(UnitTester $I)
+    public function _before(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter - flip()');
-        $I->skipTest('Need implementation');
+        $I->checkExtensionIsLoaded('gd');
     }
 }
