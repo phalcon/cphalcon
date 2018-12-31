@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug\Dump;
 
+use Phalcon\Debug\Dump;
 use UnitTester;
 
 /**
@@ -26,10 +27,45 @@ class SetStylesCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @throws \ReflectionException
      */
     public function debugDumpSetStyles(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - setStyles()');
-        $I->skipTest('Need implementation');
+        $dump = new Dump([], true);
+
+        $expected = 'color:blue';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
+        $I->assertEquals($expected, $actual);
+
+        $dump->setStyles(['int' => 'color:indigo']);
+        $expected = 'color:indigo';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Debug\Dump :: getStyle()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     *
+     * @throws \ReflectionException
+     */
+    public function debugDumpGetStyle(UnitTester $I)
+    {
+        $I->wantToTest('Debug\Dump - getStyle()');
+        $dump = new Dump([], true);
+
+        $expected = 'color:gray';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'unknown');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'color:blue';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
+        $I->assertEquals($expected, $actual);
     }
 }

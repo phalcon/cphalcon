@@ -16,28 +16,28 @@ use Phalcon\Debug\Dump;
 use UnitTester;
 
 /**
- * Class ToJsonCest
+ * Class GetSetDetailedCest
  */
-class ToJsonCest
+class GetSetDetailedCest
 {
     /**
-     * Tests Phalcon\Debug\Dump :: toJson()
+     * Tests Phalcon\Debug\Dump :: getDetailed()/setDetailed()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function debugDumpToJson(UnitTester $I)
+    public function debugDumpGetSetDetailed(UnitTester $I)
     {
-        $I->wantToTest('Debug\Dump - toJson()');
-        $test = [
-            'key' => 'value',
-        ];
-        $dump = new Dump();
+        $I->wantToTest('Debug\Dump - getDetailed()/setDetailed()');
+        $dump = new Dump([], false);
 
-        $expected = "{\n    \"key\": \"value\"\n}";
-        $actual   = $dump->toJson($test);
-        $I->assertEquals($expected, $actual);
+        $actual = $dump->getDetailed();
+        $I->assertFalse($actual);
+
+        $dump->setDetailed(true);
+        $actual = $dump->getDetailed();
+        $I->assertTrue($actual);
     }
 }

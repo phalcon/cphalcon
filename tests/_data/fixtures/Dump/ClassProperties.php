@@ -1,7 +1,11 @@
 <?php
+declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Debug\Helper;
+namespace Phalcon\Test\Fixtures\Dump;
 
+/**
+ * Class ClassProperties
+ */
 class ClassProperties
 {
     public $foo = 1;
