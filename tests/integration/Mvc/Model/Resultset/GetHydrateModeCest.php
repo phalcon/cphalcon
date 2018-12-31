@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
 
+/**
+ * Class GetHydrateModeCest
+ */
 class GetHydrateModeCest
 {
     /**
@@ -25,7 +29,7 @@ class GetHydrateModeCest
      */
     public function mvcModelResultsetGetHydrateMode(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Resultset - getHydrateMode()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Resultset - getHydrateMode()');
+        $I->skipTest('Need implementation');
     }
 }

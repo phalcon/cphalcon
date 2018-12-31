@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\ValidationFailed;
 
 use IntegrationTester;
 
+/**
+ * Class GetFileCest
+ */
 class GetFileCest
 {
     /**
@@ -25,7 +29,7 @@ class GetFileCest
      */
     public function mvcModelValidationfailedGetFile(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\ValidationFailed - getFile()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\ValidationFailed - getFile()');
+        $I->skipTest('Need implementation');
     }
 }

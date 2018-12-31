@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 
+/**
+ * Class CountCest
+ */
 class CountCest
 {
     /**
@@ -23,9 +27,9 @@ class CountCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcModelCountMysql(IntegrationTester $I)
+    public function mvcModelCount(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model - count()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model - count()');
+        $I->skipTest('Need implementation');
     }
 }

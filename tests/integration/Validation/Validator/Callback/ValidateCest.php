@@ -68,18 +68,14 @@ class ValidateCest
         $actual   = count($messages);
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Callback',
-                            '_message' => 'You cant provide both admin and user.',
-                            '_field'   => 'user',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'You cant provide both admin and user.',
+                    'user',
+                    'Callback',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -136,18 +132,14 @@ class ValidateCest
         $actual   = count($messages);
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'TooShort',
-                            '_message' => 'User name should be minimum 4 characters.',
-                            '_field'   => 'user',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'User name should be minimum 4 characters.',
+                    'user',
+                    'TooShort',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -200,26 +192,20 @@ class ValidateCest
         $actual   = count($messages);
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Callback',
-                            '_message' => 'There must be only an user or admin set',
-                            '_field'   => 'user',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Callback',
-                            '_message' => 'There must be only an user or admin set',
-                            '_field'   => 'admin',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'There must be only an user or admin set',
+                    'user',
+                    'Callback',
+                    0
+                ),
+                new Message(
+                    'There must be only an user or admin set',
+                    'admin',
+                    'Callback',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -269,26 +255,20 @@ class ValidateCest
         $actual   = count($messages);
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'You must provide admin or user',
-                            '_field'   => 'user',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'You must provide admin or user',
-                            '_field'   => 'admin',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'You must provide admin or user',
+                    'user',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'You must provide admin or user',
+                    'admin',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -309,26 +289,20 @@ class ValidateCest
         $actual   = count($messages);
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Callback',
-                            '_message' => 'There must be only an user or admin set',
-                            '_field'   => 'user',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Callback',
-                            '_message' => 'There must be only an user or admin set',
-                            '_field'   => 'admin',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'There must be only an user or admin set',
+                    'user',
+                    'Callback',
+                    0
+                ),
+                new Message(
+                    'There must be only an user or admin set',
+                    'admin',
+                    'Callback',
+                    0
+                ),
             ]
         );
         $actual   = $messages;

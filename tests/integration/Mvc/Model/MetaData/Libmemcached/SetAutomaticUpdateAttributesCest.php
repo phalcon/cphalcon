@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,11 +14,13 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 
+/**
+ * Class SetAutomaticUpdateAttributesCest
+ */
 class SetAutomaticUpdateAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
-     * setAutomaticUpdateAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: setAutomaticUpdateAttributes()
      *
      * @param IntegrationTester $I
      *
@@ -26,7 +29,7 @@ class SetAutomaticUpdateAttributesCest
      */
     public function mvcModelMetadataLibmemcachedSetAutomaticUpdateAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Libmemcached - setAutomaticUpdateAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Libmemcached - setAutomaticUpdateAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

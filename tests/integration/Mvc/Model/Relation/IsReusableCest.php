@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
 
+/**
+ * Class IsReusableCest
+ */
 class IsReusableCest
 {
     /**
@@ -25,7 +29,7 @@ class IsReusableCest
      */
     public function mvcModelRelationIsReusable(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Relation - isReusable()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Relation - isReusable()');
+        $I->skipTest('Need implementation');
     }
 }

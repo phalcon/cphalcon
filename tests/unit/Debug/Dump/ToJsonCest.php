@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug\Dump;
 
+use Phalcon\Debug\Dump;
 use UnitTester;
 
 /**
@@ -30,6 +31,13 @@ class ToJsonCest
     public function debugDumpToJson(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - toJson()');
-        $I->skipTest('Need implementation');
+        $test = [
+            'key' => 'value',
+        ];
+        $dump = new Dump();
+
+        $expected = "{\n    \"key\": \"value\"\n}";
+        $actual   = $dump->toJson($test);
+        $I->assertEquals($expected, $actual);
     }
 }

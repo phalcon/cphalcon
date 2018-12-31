@@ -38,21 +38,16 @@ class ValidateCest
         $validation->add('url', new Url());
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Url',
-                            '_message' => 'Field url must be a url',
-                            '_field'   => 'url',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field url must be a url',
+                    'url',
+                    'Url',
+                    0
+                )
             ]
         );
-
         $actual = $messages;
         $I->assertEquals($expected, $actual);
 
@@ -159,21 +154,16 @@ class ValidateCest
         );
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Url',
-                            '_message' => 'The url is not valid',
-                            '_field'   => 'url',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The url is not valid',
+                    'url',
+                    'Url',
+                    0
+                )
             ]
         );
-
         $actual = $messages;
         $I->assertEquals($expected, $actual);
 

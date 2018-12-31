@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -14,6 +15,9 @@ namespace Phalcon\Test\Controllers;
 use Phalcon\Mvc\Controller;
 use Phalcon\Http\Response;
 
+/**
+ * Class MicroController
+ */
 class MicroController extends Controller
 {
     public function indexAction()

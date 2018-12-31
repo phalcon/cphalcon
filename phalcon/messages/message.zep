@@ -19,24 +19,35 @@ use Phalcon\Messages\MessageInterface;
  */
 class Message implements MessageInterface, \JsonSerializable
 {
+	/**
+	 * @var int
+	 */
+	protected code;
 
-	protected _type;
+	/**
+	 * @var string
+	 */
+	protected field;
 
-	protected _message;
+	/**
+	 * @var string
+	 */
+	protected message;
 
-	protected _field;
-
-	protected _code;
+	/**
+	 * @var string
+	 */
+	protected type;
 
 	/**
 	 * Phalcon\Messages\Message constructor
 	 */
-	public function __construct(string! message, var field = null, string type = null, int code = null)
+	public function __construct(string! message, var field = "", string type = "", int code = 0)
 	{
-		let this->_message = message,
-			this->_field = field,
-			this->_type = type,
-			this->_code = code;
+		let this->message = message,
+			this->field   = field,
+			this->type    = type,
+			this->code    = code;
 	}
 
 	/**
@@ -44,7 +55,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function getCode() -> int
 	{
-		return this->_code;
+		return this->code;
 	}
 
 	/**
@@ -54,7 +65,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function getField()
 	{
-		return this->_field;
+		return this->field;
 	}
 
 	/**
@@ -62,7 +73,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function getMessage() -> string
 	{
-		return this->_message;
+		return this->message;
 	}
 
 	/**
@@ -70,7 +81,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function getType() -> string
 	{
-		return this->_type;
+		return this->type;
 	}
 
     /**
@@ -79,10 +90,10 @@ class Message implements MessageInterface, \JsonSerializable
 	public function jsonSerialize() -> array
 	{
 		return [
-			"field": this->_field,
-			"message": this->_message,
-			"type": this->_type,
-			"code": this->_code
+			"field"   : this->field,
+			"message" : this->message,
+			"type"    : this->type,
+			"code"    : this->code
 		];
 	}
 
@@ -91,7 +102,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function setCode(int code) -> <MessageInterface>
 	{
-		let this->_code = code;
+		let this->code = code;
 		return this;
 	}
 
@@ -100,7 +111,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function setField(var field) -> <MessageInterface>
 	{
-		let this->_field = field;
+		let this->field = field;
 		return this;
 	}
 
@@ -109,7 +120,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function setMessage(string! message) -> <MessageInterface>
 	{
-		let this->_message = message;
+		let this->message = message;
 		return this;
 	}
 
@@ -118,7 +129,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function setType(string! type) -> <MessageInterface>
 	{
-		let this->_type = type;
+		let this->type = type;
 		return this;
 	}
 
@@ -127,7 +138,7 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public function __toString() -> string
 	{
-		return this->_message;
+		return this->message;
 	}
 
 	/**

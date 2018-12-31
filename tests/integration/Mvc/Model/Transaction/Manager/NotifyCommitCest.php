@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Transaction\Manager;
 
 use IntegrationTester;
 
+/**
+ * Class NotifyCommitCest
+ */
 class NotifyCommitCest
 {
     /**
@@ -25,7 +29,7 @@ class NotifyCommitCest
      */
     public function mvcModelTransactionManagerNotifyCommit(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Transaction\Manager - notifyCommit()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Transaction\Manager - notifyCommit()');
+        $I->skipTest('Need implementation');
     }
 }

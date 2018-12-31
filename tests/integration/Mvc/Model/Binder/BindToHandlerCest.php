@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Binder;
 
 use IntegrationTester;
 
+/**
+ * Class BindToHandlerCest
+ */
 class BindToHandlerCest
 {
     /**
@@ -25,7 +29,7 @@ class BindToHandlerCest
      */
     public function mvcModelBinderBindToHandler(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Binder - bindToHandler()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Binder - bindToHandler()');
+        $I->skipTest('Need implementation');
     }
 }

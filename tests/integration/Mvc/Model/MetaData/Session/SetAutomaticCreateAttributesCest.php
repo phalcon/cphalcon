@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,11 +14,13 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Session;
 
 use IntegrationTester;
 
+/**
+ * Class SetAutomaticCreateAttributesCest
+ */
 class SetAutomaticCreateAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Session ::
-     * setAutomaticCreateAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Session :: setAutomaticCreateAttributes()
      *
      * @param IntegrationTester $I
      *
@@ -26,7 +29,7 @@ class SetAutomaticCreateAttributesCest
      */
     public function mvcModelMetadataSessionSetAutomaticCreateAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Session - setAutomaticCreateAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Session - setAutomaticCreateAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

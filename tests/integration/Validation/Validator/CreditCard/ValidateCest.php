@@ -175,21 +175,16 @@ class ValidateCest
             $validation = new Validation();
             $validation->add('creditCard', new CreditCard());
 
-            $expected = Messages::__set_state(
+            $expected = new Messages(
                 [
-                    '_messages' => [
-                        Message::__set_state(
-                            [
-                                '_type'    => 'CreditCard',
-                                '_message' => 'Field creditCard is not valid for a credit card number',
-                                '_field'   => 'creditCard',
-                                '_code'    => '0',
-                            ]
-                        ),
-                    ],
+                    new Message(
+                        'Field creditCard is not valid for a credit card number',
+                        'creditCard',
+                        'CreditCard',
+                        0
+                    ),
                 ]
             );
-
             $actual = $validation->validate(['creditCard' => $number]);
             $I->assertEquals($expected, $actual);
         }

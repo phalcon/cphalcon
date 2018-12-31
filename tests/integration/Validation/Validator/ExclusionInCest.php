@@ -39,18 +39,14 @@ class ExclusionInCest
         );
 
         $messages = $validation->validate(['status' => 'A']);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'ExclusionIn',
-                            '_message' => 'Field status must not be a part of list: A, I',
-                            '_field'   => 'status',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field status must not be a part of list: A, I',
+                    'status',
+                    'ExclusionIn',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -199,18 +195,14 @@ class ExclusionInCest
         );
 
         $messages = $validation->validate(['status' => 'A']);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'ExclusionIn',
-                            '_message' => 'The status must not be A=Active or I=Inactive',
-                            '_field'   => 'status',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The status must not be A=Active or I=Inactive',
+                    'status',
+                    'ExclusionIn',
+                    0
+                ),
             ]
         );
         $actual   = $messages;

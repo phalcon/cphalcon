@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro\LazyLoader;
 
 use IntegrationTester;
 
+/**
+ * Class GetDefinitionCest
+ */
 class GetDefinitionCest
 {
     /**
@@ -25,7 +29,7 @@ class GetDefinitionCest
      */
     public function mvcMicroLazyloaderGetDefinition(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro\LazyLoader - getDefinition()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro\LazyLoader - getDefinition()');
+        $I->skipTest('Need implementation');
     }
 }

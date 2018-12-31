@@ -34,22 +34,31 @@ use Phalcon\Di;
 class Dump
 {
 
-	protected _detailed = false { get, set };
+	/**
+	 * @var bool 
+	 */
+	protected detailed = false { get, set };
 
-	protected _methods = [];
+	/**
+	 * @var array
+	 */
+	protected methods = [];
 
-	protected _styles;
+	/**
+	 * @var array
+	 */
+	protected styles = [];
 
 	/**
 	 * Phalcon\Debug\Dump constructor
 	 *
 	 * @param bool detailed debug object's private and protected properties
 	 */
-	public function __construct(array styles = [], bool detailed = false)
+	public function __construct(array! styles = [], bool detailed = false)
 	{
 		this->setStyles(styles);
 
-		let this->_detailed = detailed;
+		let this->detailed = detailed;
 	}
 
 
@@ -65,52 +74,6 @@ class Dump
 	}
 
 	/**
-	 * Get style for type
-	 */
-	protected function getStyle(string! type) -> string
-	{
-		var style;
-
-		if fetch style, this->_styles[type] {
-			return style;
-		} else {
-			return "color:gray";
-		}
-	}
-
-	/**
-	 * Set styles for vars type
-	 */
-	public function setStyles(array styles = []) -> array
-	{
-		var defaultStyles;
-
-		if typeof styles == "null" {
-			let styles = [];
-		}
-		if typeof styles != "array" {
-			throw new Exception("The styles must be an array");
-		}
-
-		let defaultStyles = [
-			"pre": "background-color:#f3f3f3; font-size:11px; padding:10px; border:1px solid #ccc; text-align:left; color:#333",
-			"arr": "color:red",
-			"bool": "color:green",
-			"float": "color:fuchsia",
-			"int": "color:blue",
-			"null": "color:black",
-			"num": "color:navy",
-			"obj": "color:purple",
-			"other": "color:maroon",
-			"res": "color:lime",
-			"str": "color:teal"
-		];
-
-		let this->_styles = array_merge(defaultStyles, styles);
-		return this->_styles;
-	}
-
-	/**
 	 * Alias of variable() method
 	 */
 	public function one(var variable, string name = null) -> string
@@ -119,137 +82,49 @@ class Dump
 	}
 
 	/**
-	 * Prepare an HTML string of information about a single variable.
+	 * Set styles for vars type
 	 */
-	protected function output(var variable, string name = null, int tab = 1) -> string
+	public function setStyles(array! styles = []) -> array
 	{
-		var key, value, output, space, type, attr;
-		let space = "  ",
-			output = "";
+		var defaultStyles;
 
-		if name {
-			let output = name . " ";
-		}
+		let defaultStyles = [
+			"pre"   : "background-color:#f3f3f3; font-size:11px; padding:10px; border:1px solid #ccc; text-align:left; color:#333",
+			"arr"   : "color:red",
+			"bool"  : "color:green",
+			"float" : "color:fuchsia",
+			"int"   : "color:blue",
+			"null"  : "color:black",
+			"num"   : "color:navy",
+			"obj"   : "color:purple",
+			"other" : "color:maroon",
+			"res"   : "color:lime",
+			"str"   : "color:teal"
+		];
 
-		if typeof variable == "array" {
-			let output .= strtr(
-				"<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n",
-				[
-					":style": this->getStyle("arr"),
-					":count": count(variable)
-				]
-			);
+		let this->styles = array_merge(defaultStyles, styles);
+		return this->styles;
+	}
 
-			for key, value in variable {
-				let output .= str_repeat(space, tab) . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
-
-				if tab == 1 && name != "" && !is_int(key) && name == key {
-					continue;
-				} else {
-					let output .= this->output(value, "", tab + 1) . "\n";
-				}
-			}
-			return output . str_repeat(space, tab - 1) . ")";
-		}
-
-		if typeof variable == "object" {
-
-			let output .= strtr(
-				"<b style=':style'>Object</b> :class",
-				[
-					":style": this->getStyle("obj"),
-					":class": get_class(variable)
-				]
-			);
-
-			if get_parent_class(variable) {
-				let output .= strtr(
-					" <b style=':style'>extends</b> :parent",
-					[
-						":style": this->getStyle("obj"),
-						":parent": get_parent_class(variable)
-					]
-				);
-			}
-			let output .= " (\n";
-
-			if variable instanceof Di {
-				// Skip debugging di
-				let output .= str_repeat(space, tab) . "[skipped]\n";
-			} elseif !this->_detailed || variable instanceof \stdClass {
-				// Debug only public properties
-				for key, value in get_object_vars(variable) {
-					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
-					let output .= this->output(value, "", tab + 1) . "\n";
-				}
-			} else {
-				// Debug all properties
-				var reflect, props, property;
-
-				let reflect = new \ReflectionClass(variable);
-				let props = reflect->getProperties(
-					\ReflectionProperty::IS_PUBLIC |
-					\ReflectionProperty::IS_PROTECTED |
-					\ReflectionProperty::IS_PRIVATE
-				);
-
-				for property in props {
-					property->setAccessible(true);
-
-					let key = property->getName(),
-						type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
-
-					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
-					let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
-				}
-			}
-
-			let attr = get_class_methods(variable);
-			let output .= str_repeat(space, tab) . strtr(":class <b style=':style'>methods</b>: (<span style=':style'>:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
-
-			if in_array(get_class(variable), this->_methods) {
-				let output .= str_repeat(space, tab) . "[already listed]\n";
-			} else {
-				for value in attr {
-					let this->_methods[] = get_class(variable);
-
-					if value == "__construct" {
-						let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
-					} else {
-						let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
-					}
-				}
-				let output .= str_repeat(space, tab) . ")\n";
-			}
-
-			return output . str_repeat(space, tab - 1) . ")";
-		}
-
-		if is_int(variable) {
-			return output . strtr("<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
-		}
-
-		if is_float(variable) {
-			return output . strtr("<b style=':style'>Float</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("float"), ":var": variable]);
-		}
-
-		if is_numeric(variable) {
-			return output . strtr("<b style=':style'>Numeric string</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("num"), ":length": strlen(variable), ":var": variable]);
-		}
-
-		if is_string(variable) {
-			return output . strtr("<b style=':style'>String</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("str"), ":length": strlen(variable), ":var": nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))]);
-		}
-
-		if is_bool(variable) {
-			return output . strtr("<b style=':style'>Boolean</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("bool"), ":var": (variable ? "TRUE" : "FALSE")]);
-		}
-
-		if is_null(variable) {
-			return output . strtr("<b style=':style'>NULL</b>", [":style": this->getStyle("null")]);
-		}
-
-		return output . strtr("(<span style=':style'>:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
+	/**
+	 * Returns an JSON string of information about a single variable.
+	 *
+	 * <code>
+	 * $foo = [
+	 *     "key" => "value",
+	 * ];
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 *
+	 * $foo = new stdClass();
+	 * $foo->bar = "buz";
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 * </code>
+	 */
+	public function toJson(var variable) -> string
+	{
+		return json_encode(variable, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 	}
 
 	/**
@@ -295,23 +170,149 @@ class Dump
 	}
 
 	/**
-	 * Returns an JSON string of information about a single variable.
-	 *
-	 * <code>
-	 * $foo = [
-	 *     "key" => "value",
-	 * ];
-	 *
-	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
-	 *
-	 * $foo = new stdClass();
-	 * $foo->bar = "buz";
-	 *
-	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
-	 * </code>
+	 * Get style for type
 	 */
-	public function toJson(var variable) -> string
+	protected function getStyle(string! type) -> string
 	{
-		return json_encode(variable, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		var style;
+
+		if fetch style, this->styles[type] {
+			return style;
+		} else {
+			return "color:gray";
+		}
+	}
+
+	/**
+	 * Prepare an HTML string of information about a single variable.
+	 */
+	protected function output(var variable, string name = null, int tab = 1) -> string
+	{
+		var key, value, output, space, type, attr;
+		let space = "  ",
+			output = "";
+
+		if name {
+			let output = name . " ";
+		}
+
+		if typeof variable == "array" {
+			let output .= strtr(
+				"<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n",
+				[
+					":style": this->getStyle("arr"),
+					":count": count(variable)
+				]
+			);
+
+			for key, value in variable {
+				let output .= str_repeat(space, tab) . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
+
+				if tab == 1 && name != "" && !is_int(key) && name == key {
+					continue;
+				} else {
+					let output .= this->output(value, "", tab + 1) . "\n";
+				}
+			}
+			return output . str_repeat(space, tab - 1) . ")";
+		}
+
+		if typeof variable == "object" {
+			let output .= strtr(
+				"<b style=':style'>Object</b> :class",
+				[
+					":style": this->getStyle("obj"),
+					":class": get_class(variable)
+				]
+			);
+
+			if get_parent_class(variable) {
+				let output .= strtr(
+					" <b style=':style'>extends</b> :parent",
+					[
+						":style": this->getStyle("obj"),
+						":parent": get_parent_class(variable)
+					]
+				);
+			}
+			let output .= " (\n";
+
+			if variable instanceof Di {
+				// Skip debugging di
+				let output .= str_repeat(space, tab) . "[skipped]\n";
+			} elseif !this->detailed || variable instanceof \stdClass {
+				// Debug only public properties
+				for key, value in get_object_vars(variable) {
+					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
+					let output .= this->output(value, "", tab + 1) . "\n";
+				}
+			} else {
+				// Debug all properties
+				var reflect, props, property;
+
+				let reflect = new \ReflectionClass(variable);
+				let props = reflect->getProperties(
+					\ReflectionProperty::IS_PUBLIC |
+					\ReflectionProperty::IS_PROTECTED |
+					\ReflectionProperty::IS_PRIVATE
+				);
+
+				for property in props {
+					property->setAccessible(true);
+
+					let key = property->getName(),
+						type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
+
+					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
+					let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
+				}
+			}
+
+			let attr = get_class_methods(variable);
+			let output .= str_repeat(space, tab) . strtr(":class <b style=':style'>methods</b>: (<span style=':style'>:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
+
+			if in_array(get_class(variable), this->methods) {
+				let output .= str_repeat(space, tab) . "[already listed]\n";
+			} else {
+				for value in attr {
+					let this->methods[] = get_class(variable);
+
+					if value == "__construct" {
+						let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
+					} else {
+						let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
+					}
+				}
+				let output .= str_repeat(space, tab) . ")\n";
+			}
+
+			return output . str_repeat(space, tab - 1) . ")";
+		}
+
+		if is_int(variable) {
+			return output . strtr("<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
+		}
+
+		if is_float(variable) {
+			return output . strtr("<b style=':style'>Float</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("float"), ":var": variable]);
+		}
+
+		if is_numeric(variable) {
+			return output . strtr("<b style=':style'>Numeric string</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("num"), ":length": strlen(variable), ":var": variable]);
+		}
+
+		if is_string(variable) {
+			return output . strtr("<b style=':style'>String</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("str"), ":length": strlen(variable), ":var": nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))]);
+		}
+
+		if is_bool(variable) {
+			return output . strtr("<b style=':style'>Boolean</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("bool"), ":var": (variable ? "TRUE" : "FALSE")]);
+		}
+
+		if is_null(variable) {
+			return output . strtr("<b style=':style'>NULL</b>", [":style": this->getStyle("null")]);
+		}
+
+		return output . strtr("(<span style=':style'>:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
 	}
 }
