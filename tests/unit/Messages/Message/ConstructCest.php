@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Messages\Message;
 
 use Phalcon\Messages\Message;
+use TypeError;
 use UnitTester;
 
 /**
@@ -48,5 +49,27 @@ class ConstructCest
         $expected = 111;
         $actual   = $message->getCode();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Messages\Message :: __construct() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function messagesMessageConstructException(UnitTester $I)
+    {
+        $I->wantToTest("Messages\Message - __construct() - exception");
+        $I->expectThrowable(
+            new TypeError(
+                'Argument 1 passed to Phalcon\Messages\Message::__construct() ' .
+                'must be of the type string, boolean given'
+            ),
+            function () {
+                (new Message(true));
+            }
+        );
     }
 }

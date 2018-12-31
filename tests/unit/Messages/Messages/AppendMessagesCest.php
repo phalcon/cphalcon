@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Messages\Messages;
 
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use TypeError;
 use UnitTester;
 
 /**
@@ -43,5 +44,27 @@ class AppendMessagesCest
 
         $messages->appendMessages($newMessages);
         $I->assertCount(3, $messages);
+    }
+
+    /**
+     * Tests Phalcon\Messages\Messages :: __construct() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function messagesMessagesConstructException(UnitTester $I)
+    {
+        $I->wantToTest("Messages\Messages - appendMessages() - exception");
+        $I->expectThrowable(
+            new TypeError(
+                'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() ' .
+                'must implement interface Phalcon\Messages\MessageInterface, boolean given'
+            ),
+            function () {
+                (new Messages())->appendMessage(true);
+            }
+        );
     }
 }

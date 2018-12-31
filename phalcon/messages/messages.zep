@@ -19,18 +19,24 @@ use Phalcon\Messages\MessageInterface;
  *
  * Represents a collection of messages
  */
-class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
+class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, \Serializable
 {
-	protected _position = 0;
+	/**
+	 * @var int
+	 */
+	protected position = 0;
 
-	protected _messages;
+	/**
+	 * @var array
+	 */
+	protected messages;
 
 	/**
 	 * Phalcon\Messages\Messages constructor
 	 */
 	public function __construct(array messages = [])
 	{
-		let this->_messages = messages;
+		let this->messages = messages;
 	}
 
 	/**
@@ -44,7 +50,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function appendMessage(<MessageInterface> message)
 	{
-		let this->_messages[] = message;
+		let this->messages[] = message;
 	}
 
 	/**
@@ -64,7 +70,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 			throw new Exception("The messages must be array or object");
 		}
 
-		let currentMessages = this->_messages;
+		let currentMessages = this->messages;
 		if typeof messages == "array" {
 
 			/**
@@ -75,7 +81,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 			} else {
 				let finalMessages = messages;
 			}
-			let this->_messages = finalMessages;
+			let this->messages = finalMessages;
 
 		} else {
 
@@ -100,7 +106,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function count() -> int
 	{
-		return count(this->_messages);
+		return count(this->messages);
 	}
 
 	/**
@@ -108,7 +114,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function current() -> <MessageInterface>
 	{
-		return this->_messages[this->_position];
+		return this->messages[this->position];
 	}
 
 	/**
@@ -119,7 +125,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 		var filtered, messages, message;
 
 		let filtered = [],
-			messages = this->_messages;
+			messages = this->messages;
 		if typeof messages == "array" {
 
 			/**
@@ -155,7 +161,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
     	var records, message;
     	let records = [];
 
-    	for message in this->_messages {
+    	for message in this->messages {
         	if typeof message == "object" && method_exists(message, "jsonSerialize") {
         		let records[] = message->{"jsonSerialize"}();
         	} else {
@@ -171,7 +177,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function key() -> int
 	{
-		return this->_position;
+		return this->position;
 	}
 
 	/**
@@ -179,7 +185,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function next() -> void
 	{
-		let this->_position++;
+		let this->position++;
 	}
 
 	/**
@@ -195,7 +201,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function offsetExists(var index) -> boolean
 	{
-		return isset this->_messages[index];
+		return isset this->messages[index];
 	}
 
 	/**
@@ -211,7 +217,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	{
 		var message, returnValue = null;
 
-		if fetch message, this->_messages[index] {
+		if fetch message, this->messages[index] {
 			let returnValue = message;
 		}
 
@@ -232,7 +238,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 		if typeof message != "object" {
 			throw new Exception("The message must be an object");
 		}
-		let this->_messages[index] = message;
+		let this->messages[index] = message;
 	}
 
 	/**
@@ -244,8 +250,8 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function offsetUnset(var index) -> void
 	{
-		if isset this->_messages[index] {
-			array_splice(this->_messages, index, 1);
+		if isset this->messages[index] {
+			array_splice(this->messages, index, 1);
 		}
 	}
 
@@ -254,7 +260,23 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function rewind() -> void
 	{
-		let this->_position = 0;
+		let this->position = 0;
+	}
+
+	/**
+	 * Serializes the object
+	 */
+	public function serialize() -> string
+	{
+		return serialize(this->messages);
+	}
+
+	/**
+	 * Unserializes the object
+	 */
+	public function unserialize(var messages) -> void
+	{
+		let this->messages = unserialize(messages);
 	}
 
 	/**
@@ -262,14 +284,6 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 	 */
 	public function valid() -> boolean
 	{
-		return isset this->_messages[this->_position];
-	}
-
-	/**
-	 * Magic __set_state helps to re-build messages variable when exporting
-	 */
-	public static function __set_state(array group) -> <Messages>
-	{
-		return new self(group["_messages"]);
+		return isset this->messages[this->position];
 	}
 }
