@@ -60,7 +60,7 @@ class AppendMessagesCest
         $I->expectThrowable(
             new TypeError(
                 'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() ' .
-                'must implement interface Phalcon\Messages\MessageInterface, bool given'
+                'must implement interface Phalcon\Messages\MessageInterface, boolean given'
             ),
             function () {
                 (new Messages())->appendMessage(true);
