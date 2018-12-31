@@ -48,18 +48,14 @@ class IdenticalCest
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Identical',
-                            '_message' => 'Field name does not have the expected value',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field name does not have the expected value',
+                    'name',
+                    'Identical',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -200,18 +196,14 @@ class IdenticalCest
         );
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Identical',
-                            '_message' => 'The name must be peter',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The name must be peter',
+                    'name',
+                    'Identical',
+                    0
+                ),
             ]
         );
         $actual   = $messages;

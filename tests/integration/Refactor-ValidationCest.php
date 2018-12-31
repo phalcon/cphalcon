@@ -44,13 +44,16 @@ class ValidationCest
 
         $myValidator->validate($validation, 'foo');
 
-        $expectedMessages = Messages::__set_state([
-            '_position' => 0,
-            '_messages' => [
-                new Message('Field foo is required', 'foo', 'PresenceOf', 0),
-            ],
-        ]);
-
+        $expectedMessages = new Messages(
+            [
+                new Message(
+                    'Field foo is required',
+                    'foo',
+                    'PresenceOf',
+                    0
+                ),
+            ]
+        );
         $I->assertEquals($expectedMessages, $validation->getMessages());
     }
 }

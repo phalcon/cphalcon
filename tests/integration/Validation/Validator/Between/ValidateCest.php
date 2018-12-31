@@ -47,18 +47,14 @@ class ValidateCest
 
         $messages = $validation->validate(['price' => 5]);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Between',
-                            '_message' => 'Field price must be within the range of 1 to 3',
-                            '_field'   => 'price',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field price must be within the range of 1 to 3',
+                    'price',
+                    'Between',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -168,18 +164,14 @@ class ValidateCest
 
         $messages = $validation->validate(['price' => 5]);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Between',
-                            '_message' => 'The price must be between 1 and 3',
-                            '_field'   => 'price',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The price must be between 1 and 3',
+                    'price',
+                    'Between',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
