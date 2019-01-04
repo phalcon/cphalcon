@@ -218,7 +218,7 @@ class HandleCest
         $I->expectThrowable(new \Exception("Console Before Start Module Event Fired"), function () use ($console) {
             $console->handle([
                 "module" => "backend",
-                "action" => "echo"
+                "action" => "noop"
             ]);
         });
 
@@ -232,7 +232,7 @@ class HandleCest
         $I->expectThrowable(new \Exception("Console After Start Module Event Fired"), function () use ($console) {
             $console->handle([
                 "module" => "backend",
-                "action" => "echo"
+                "action" => "noop"
             ]);
         });
         $eventsManager->detachAll();
@@ -257,9 +257,8 @@ class HandleCest
         $I->expectThrowable(new \Exception("Console After Handle Task Event Fired"), function () use ($console) {
             $console->handle([
                 "module" => "backend",
-                "action" => "echo"
+                "action" => "noop"
             ]);
         });
-
     }
 }
