@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
@@ -50,11 +51,18 @@ class QueryKeysCest
         $I->assertEquals(['a', 'b', 'c'], $keys);
     }
 
-    public function emptyQueryKeys(UnitTester $I)
+    /**
+     * Tests Phalcon\Cache\Backend\Libmemcached :: queryKeys() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function cacheBackendLibmemcachedQueryKeysEmpty(UnitTester $I)
     {
-        $I->wantToTest('Getting empty keys list by using Libmemcached as cache backend');
+        $I->wantToTest('Cache\Backend\Libmemcached - queryKeys() - empty');
 
-        $lifetime = 20;
         $statsKey = '_PHCM';
         $cache    = $this->getDataCache($statsKey);
 
@@ -65,9 +73,17 @@ class QueryKeysCest
      * @issue https://github.com/phalcon/cphalcon/issues/11024
      * @param UnitTester $I
      */
-    public function prefixedQueryKeys(UnitTester $I)
+    /**
+     * Tests Phalcon\Cache\Backend\Libmemcached :: queryKeys() - prefixed
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function cacheBackendLibmemcachedQueryKeysPrefixed(UnitTester $I)
     {
-        $I->wantToTest('Getting prefixed cache keys by using Libmemcached as cache backend');
+        $I->wantToTest('Cache\Backend\Libmemcached - queryKeys() - prefixed');
 
         $lifetime = 20;
         $statsKey = '_PHCM';
@@ -85,21 +101,26 @@ class QueryKeysCest
         $I->assertEquals([], $cache->queryKeys('prefix123'));
     }
 
-    public function queryKeysWithoutStatsKey(UnitTester $I)
+    /**
+     * Tests Phalcon\Cache\Backend\Libmemcached :: queryKeys() - without stats key exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function cacheBackendLibmemcachedQueryKeysNoStatsKeyException(UnitTester $I)
     {
-        $I->wantTo(
-            'Catch exception during the attempt getting cache keys by using ' .
-            'Libmemcached as cache backend without statsKey'
-        );
+        $I->wantToTest('Cache\Backend\Libmemcached - queryKeys() - no stats key exception');
 
-        $cache = $this->getDataCache(null, 1);
-
-        $I->expectException(
-            new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!"),
-            function () use ($cache) {
+        $I->expectThrowable(
+            new Exception(
+                "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!"
+            ),
+            function () {
+                $cache = $this->getDataCache(null, 1);
                 $cache->queryKeys();
             }
         );
     }
-
 }

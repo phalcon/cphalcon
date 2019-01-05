@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -11,10 +12,16 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
+/**
+ * Class ConnectCest
+ */
 class ConnectCest
 {
+    use LibmemcachedTrait;
+
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: _connect()
      *
@@ -27,7 +34,7 @@ class ConnectCest
     {
         $I->wantToTest("Cache\Backend\Libmemcached - _connect()");
         
-        $cache = $this->getCache();
+        $cache = $this->getDataCache();
         $cache->_connect(); // Throws an exception if fails.
     }
 }
