@@ -82,3 +82,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setType);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __toString);
 
+/**
+ * Magic __set_state helps to recover messages from serialization
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __set_state);
+

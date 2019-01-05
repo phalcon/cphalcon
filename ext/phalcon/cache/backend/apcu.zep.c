@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, get) {
 	ZEPHIR_INIT_VAR(&prefixedKey);
 	ZEPHIR_CONCAT_SVV(&prefixedKey, "_PHCA", &_0, &keyName);
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &prefixedKey);
-	ZEPHIR_CALL_FUNCTION(&cachedContent, "apcu_fetch", NULL, 73, &prefixedKey);
+	ZEPHIR_CALL_FUNCTION(&cachedContent, "apcu_fetch", NULL, 0, &prefixedKey);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&cachedContent)) {
 		RETURN_MM_NULL();
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, save) {
 	} else {
 		ZEPHIR_CPY_WRT(&ttl, lifetime);
 	}
-	ZEPHIR_CALL_FUNCTION(&success, "apcu_store", NULL, 74, &lastKey, &preparedContent, &ttl);
+	ZEPHIR_CALL_FUNCTION(&success, "apcu_store", NULL, 0, &lastKey, &preparedContent, &ttl);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&success))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing data in APCu", "phalcon/cache/backend/apcu.zep", 127);
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, increment) {
 	ZEPHIR_CONCAT_SVV(&prefixedKey, "_PHCA", &_0, keyName);
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &prefixedKey);
 	ZVAL_LONG(&_1, value);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 92, &prefixedKey, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 0, &prefixedKey, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, decrement) {
 	ZEPHIR_CONCAT_SVV(&lastKey, "_PHCA", &_0, keyName);
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &lastKey);
 	ZVAL_LONG(&_1, value);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 93, &lastKey, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 0, &lastKey, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, delete) {
 	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVV(&_1, "_PHCA", &_0, keyName);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 94, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -357,9 +357,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apcu, queryKeys) {
 
-	zend_object_iterator *_4;
+	zend_class_entry *_3$$5 = NULL;
+	zend_object_iterator *_5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *prefix_param = NULL, prefixPattern, apc, keys, key, _1, _2, _5, _3$$6, _6$$8, _7$$8;
+	zval *prefix_param = NULL, prefixPattern, apc, keys, key, _1, _2, _6, _4$$6, _7$$8, _8$$8;
 	zval prefix, _0$$4;
 	zval *this_ptr = getThis();
 
@@ -371,10 +372,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, queryKeys) {
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_3$$6);
-	ZVAL_UNDEF(&_6$$8);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&_7$$8);
+	ZVAL_UNDEF(&_8$$8);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix_param);
@@ -403,35 +404,40 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, queryKeys) {
 	ZVAL_STRING(&_2, "APCIterator");
 	if (zephir_class_exists(&_1, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(&apc);
-		object_init_ex(&apc, zephir_get_internal_ce(SL("apcuiterator")));
-		ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &prefixPattern);
-		zephir_check_call_status();
+		if (!_3$$5) {
+		_3$$5 = zephir_fetch_class_str_ex(SL("APCUIterator"), ZEND_FETCH_CLASS_AUTO);
+		}
+		object_init_ex(&apc, _3$$5);
+		if (zephir_has_constructor(&apc TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &prefixPattern);
+			zephir_check_call_status();
+		}
 	} else if (zephir_class_exists(&_2, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_NVAR(&apc);
 		object_init_ex(&apc, zephir_get_internal_ce(SL("apciterator")));
-		ZEPHIR_INIT_VAR(&_3$$6);
-		ZVAL_STRING(&_3$$6, "user");
-		ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &_3$$6, &prefixPattern);
+		ZEPHIR_INIT_VAR(&_4$$6);
+		ZVAL_STRING(&_4$$6, "user");
+		ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &_4$$6, &prefixPattern);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&apc) != IS_OBJECT) {
 		array_init(return_value);
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(&_5);
-	_4 = zephir_get_iterator(&apc TSRMLS_CC);
-	_4->funcs->rewind(_4 TSRMLS_CC);
-	for (;_4->funcs->valid(_4 TSRMLS_CC) == SUCCESS && !EG(exception); _4->funcs->move_forward(_4 TSRMLS_CC)) {
-		ZEPHIR_GET_IMKEY(key, _4);
+	ZEPHIR_INIT_VAR(&_6);
+	_5 = zephir_get_iterator(&apc TSRMLS_CC);
+	_5->funcs->rewind(_5 TSRMLS_CC);
+	for (;_5->funcs->valid(_5 TSRMLS_CC) == SUCCESS && !EG(exception); _5->funcs->move_forward(_5 TSRMLS_CC)) {
+		ZEPHIR_GET_IMKEY(key, _5);
 		{
-			ZEPHIR_ITERATOR_COPY(&_5, _4);
+			ZEPHIR_ITERATOR_COPY(&_6, _5);
 		}
-		ZVAL_LONG(&_6$$8, 5);
-		ZEPHIR_INIT_NVAR(&_7$$8);
-		zephir_substr(&_7$$8, &key, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		zephir_array_append(&keys, &_7$$8, PH_SEPARATE, "phalcon/cache/backend/apcu.zep", 217);
+		ZVAL_LONG(&_7$$8, 5);
+		ZEPHIR_INIT_NVAR(&_8$$8);
+		zephir_substr(&_8$$8, &key, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+		zephir_array_append(&keys, &_8$$8, PH_SEPARATE, "phalcon/cache/backend/apcu.zep", 217);
 	}
-	zend_iterator_dtor(_4);
+	zend_iterator_dtor(_5);
 	RETURN_CCTOR(&keys);
 
 }
@@ -483,7 +489,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, exists) {
 	if (ZEPHIR_IS_EMPTY(&lastKey)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 95, &lastKey);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 0, &lastKey);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -505,9 +511,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apcu, flush) {
 
-	zend_object_iterator *_4;
-	zval item, prefixPattern, apc, _0, _1, _2, _3$$4, _5$$6;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zend_class_entry *_3$$3 = NULL;
+	zend_object_iterator *_5;
+	zval item, prefixPattern, apc, _0, _1, _2, _4$$4, _6$$6;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -517,8 +523,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, flush) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_6$$6);
 
 	ZEPHIR_MM_GROW();
 
@@ -533,31 +539,36 @@ PHP_METHOD(Phalcon_Cache_Backend_Apcu, flush) {
 	ZVAL_STRING(&_2, "APCIterator");
 	if (zephir_class_exists(&_1, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_NVAR(&apc);
-		object_init_ex(&apc, zephir_get_internal_ce(SL("apcuiterator")));
-		ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &prefixPattern);
-		zephir_check_call_status();
+		if (!_3$$3) {
+		_3$$3 = zephir_fetch_class_str_ex(SL("APCUIterator"), ZEND_FETCH_CLASS_AUTO);
+		}
+		object_init_ex(&apc, _3$$3);
+		if (zephir_has_constructor(&apc TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &prefixPattern);
+			zephir_check_call_status();
+		}
 	} else if (zephir_class_exists(&_2, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_NVAR(&apc);
 		object_init_ex(&apc, zephir_get_internal_ce(SL("apciterator")));
-		ZEPHIR_INIT_VAR(&_3$$4);
-		ZVAL_STRING(&_3$$4, "user");
-		ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &_3$$4, &prefixPattern);
+		ZEPHIR_INIT_VAR(&_4$$4);
+		ZVAL_STRING(&_4$$4, "user");
+		ZEPHIR_CALL_METHOD(NULL, &apc, "__construct", NULL, 0, &_4$$4, &prefixPattern);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&apc) != IS_OBJECT) {
 		RETURN_MM_BOOL(0);
 	}
-	_4 = zephir_get_iterator(&apc TSRMLS_CC);
-	_4->funcs->rewind(_4 TSRMLS_CC);
-	for (;_4->funcs->valid(_4 TSRMLS_CC) == SUCCESS && !EG(exception); _4->funcs->move_forward(_4 TSRMLS_CC)) {
+	_5 = zephir_get_iterator(&apc TSRMLS_CC);
+	_5->funcs->rewind(_5 TSRMLS_CC);
+	for (;_5->funcs->valid(_5 TSRMLS_CC) == SUCCESS && !EG(exception); _5->funcs->move_forward(_5 TSRMLS_CC)) {
 		{
-			ZEPHIR_ITERATOR_COPY(&item, _4);
+			ZEPHIR_ITERATOR_COPY(&item, _5);
 		}
-		zephir_array_fetch_string(&_5$$6, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apcu.zep", 278 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(NULL, "apcu_delete", &_6, 94, &_5$$6);
+		zephir_array_fetch_string(&_6$$6, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apcu.zep", 278 TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(NULL, "apcu_delete", NULL, 0, &_6$$6);
 		zephir_check_call_status();
 	}
-	zend_iterator_dtor(_4);
+	zend_iterator_dtor(_5);
 	RETURN_MM_BOOL(1);
 
 }
