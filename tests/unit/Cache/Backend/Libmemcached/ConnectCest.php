@@ -26,6 +26,8 @@ class ConnectCest
     public function cacheBackendLibmemcachedConnect(UnitTester $I)
     {
         $I->wantToTest("Cache\Backend\Libmemcached - _connect()");
-        $I->skipTest("Need implementation");
+        
+        $cache = $this->getCache();
+        $cache->_connect(); // Throws an exception if fails.
     }
 }

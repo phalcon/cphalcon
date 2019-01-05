@@ -124,7 +124,6 @@ class Json implements FrontendInterface
 	 */
 	public function afterRetrieve(var data) -> var
 	{
-
 		return json_decode(data);
 	}
 }

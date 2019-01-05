@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
 /**
@@ -19,6 +20,8 @@ use UnitTester;
  */
 class DecrementCest
 {
+    use LibmemcachedTrait;
+    
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: decrement()
      *
@@ -30,6 +33,20 @@ class DecrementCest
     public function cacheBackendLibmemcachedDecrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - decrement()');
-        $I->skipTest('Need implementation');
+
+        $key   = 'decrement';
+        $cache = $this->getDataCache();
+
+        $I->dontSeeInLibmemcached($key);
+        $I->haveInLibmemcached($key, 100);
+
+        $I->assertEquals(99, $cache->decrement($key));
+        $I->seeInLibmemcached($key, 99);
+
+        $I->assertEquals(97, $cache->decrement($key, 2));
+        $I->seeInLibmemcached($key, 97);
+
+        $I->assertEquals(87, $cache->decrement($key, 10));
+        $I->seeInLibmemcached($key, 87);
     }
 }
