@@ -15,21 +15,21 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 use UnitTester;
 
 /**
- * Class GetFrontendCest
+ * Class GetSetFrontendCest
  */
-class GetFrontendCest
+class GetSetFrontendCest
 {
     /**
-     * Tests Phalcon\Cache\Backend\Libmemcached :: getFrontend()
+     * Tests Phalcon\Cache\Backend\Libmemcached :: getFrontend()/setFrontend()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function cacheBackendLibmemcachedGetFrontend(UnitTester $I)
+    public function cacheBackendLibmemcachedGetSetFrontend(UnitTester $I)
     {
-        $I->wantToTest('Cache\Backend\Libmemcached - getFrontend()');
+        $I->wantToTest('Cache\Backend\Libmemcached - getFrontend()/setFrontend()');
         $I->skipTest('Need implementation');
     }
 }

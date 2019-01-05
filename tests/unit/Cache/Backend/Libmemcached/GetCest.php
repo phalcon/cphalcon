@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Cache\Frontend\None;
 use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
@@ -53,17 +54,18 @@ class GetCest
     }
 
     /**
-     * @issue https://github.com/phalcon/cphalcon/issue/13947
+     * If an empty value is stored, it is returned instead of null always
      *
      * @param UnitTester $I
+     *
+     * @issue https://github.com/phalcon/cphalcon/issue/13947
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2018-01-05
      */
-    public function shouldGetEmptyValuesInsteadOfNull(UnitTester $I)
+    public function cacheBackendLibmemcachedGetEmptyValuesInsteadOfNull(UnitTester $I)
     {
-        $I->wantToTest('Issue #13497');
-
+        $I->wantToTest('Cache\Backend\Libmemcached - get() - return empty value vs null [#13497]');
         $cache = $this->getCache(new None());
 
         $cache->save('empty.array', []);
@@ -85,12 +87,18 @@ class GetCest
     }
 
     /**
+     * Return the same result irrespective of number of requests
+     *
      * @param UnitTester $I
-     * @issue https://github.com/phalcon/cphalcon/issues/13092
+     *
+     * @issue https://github.com/phalcon/cphalcon/issue/13092
+     *
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2018-01-05
      */
-    public function shouldGetTheSameValueRegardlessOfTheNumberOfRequests(UnitTester $I)
+    public function cacheBackendLibmemcachedGetSameValueRegardlessOfTheNumberOfRequests(UnitTester $I)
     {
-        $I->wantTo('Get the same data from the Memcache regardless of the number of requests');
+        $I->wantTo('Cache\Backend\Libmemcached - get() - Same data regardless of the number of requests');
 
         $key  = 'libmemcached-data-get-test';
         $data = 'this is a test';
