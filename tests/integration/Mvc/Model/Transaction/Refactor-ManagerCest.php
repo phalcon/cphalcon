@@ -12,12 +12,11 @@
 namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
 
 use IntegrationTester;
-use Phalcon\Test\Models\Select;
-use Phalcon\Test\Models\Personas;
-use Phalcon\Mvc\Model\Transaction\Failed;
-use Phalcon\Mvc\Model\Transaction\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Mvc\Model\Transaction;
+use Phalcon\Mvc\Model\Transaction\Failed;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Personas;
+use Phalcon\Test\Models\Select;
 
 class ManagerCest
 {
@@ -45,45 +44,10 @@ class ManagerCest
         $this->testTransactionRemovedOnRollback($I);
     }
 
-    /**
-     * Tests Manager::get
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-08-07
-     */
-    public function checkTransactionPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $this->testGetNewExistingTransactionOnce($I);
-        $this->testRollbackNewInserts($I);
-        $this->testCommitNewInserts($I);
-        $this->testTransactionRemovedOnCommit($I);
-        $this->testTransactionRemovedOnRollback($I);
-    }
-
-    /**
-     * Tests Manager::get
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-08-07
-     */
-    public function checkTransactionSqlite(IntegrationTester $I)
-    {
-        $I->skipTest('TODO - Check Sqlite locking');
-        $this->setDiSqlite();
-
-        $this->testGetNewExistingTransactionOnce($I);
-        $this->testRollbackNewInserts($I);
-        $this->testCommitNewInserts($I);
-        $this->testTransactionRemovedOnCommit($I);
-        $this->testTransactionRemovedOnRollback($I);
-    }
-
     private function testGetNewExistingTransactionOnce(IntegrationTester $I)
     {
-        $tm = $this->container->getShared('transactionManager');
-        $db = $this->container->getShared('db');
+        $tm          = $this->container->getShared('transactionManager');
+        $db          = $this->container->getShared('db');
         $transaction = $tm->get();
 
         $I->assertInstanceOf(Transaction::class, $transaction);
@@ -158,9 +122,28 @@ class ManagerCest
         $I->assertEquals($numPersonas + 10, Personas::count());
     }
 
+    private function testTransactionRemovedOnCommit(IntegrationTester $I)
+    {
+        $tm          = $this->container->getShared('transactionManager');
+        $transaction = $tm->get();
+
+        $select = new Select();
+        $select->setTransaction($transaction);
+        $select->assign(['name' => 'Crack of Dawn']);
+        $select->create();
+
+        $I->assertEquals(1, $I->getProtectedProperty($tm, '_number'));
+        $I->assertCount(1, $I->getProtectedProperty($tm, '_transactions'));
+
+        $transaction->commit();
+
+        $I->assertEquals(0, $I->getProtectedProperty($tm, '_number'));
+        $I->assertCount(0, $I->getProtectedProperty($tm, '_transactions'));
+    }
+
     private function testTransactionRemovedOnRollback(IntegrationTester $I)
     {
-        $tm = $this->container->getShared('transactionManager');
+        $tm          = $this->container->getShared('transactionManager');
         $transaction = $tm->get();
 
         $select = new Select();
@@ -182,22 +165,38 @@ class ManagerCest
         $I->assertCount(0, $I->getProtectedProperty($tm, '_transactions'));
     }
 
-    private function testTransactionRemovedOnCommit(IntegrationTester $I)
+    /**
+     * Tests Manager::get
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2012-08-07
+     */
+    public function checkTransactionPostgresql(IntegrationTester $I)
     {
-        $tm = $this->container->getShared('transactionManager');
-        $transaction = $tm->get();
+        $this->setDiPostgresql();
 
-        $select = new Select();
-        $select->setTransaction($transaction);
-        $select->assign(['name' => 'Crack of Dawn']);
-        $select->create();
+        $this->testGetNewExistingTransactionOnce($I);
+        $this->testRollbackNewInserts($I);
+        $this->testCommitNewInserts($I);
+        $this->testTransactionRemovedOnCommit($I);
+        $this->testTransactionRemovedOnRollback($I);
+    }
 
-        $I->assertEquals(1, $I->getProtectedProperty($tm, '_number'));
-        $I->assertCount(1, $I->getProtectedProperty($tm, '_transactions'));
+    /**
+     * Tests Manager::get
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2012-08-07
+     */
+    public function checkTransactionSqlite(IntegrationTester $I)
+    {
+        $I->skipTest('TODO - Check Sqlite locking');
+        $this->setDiSqlite();
 
-        $transaction->commit();
-
-        $I->assertEquals(0, $I->getProtectedProperty($tm, '_number'));
-        $I->assertCount(0, $I->getProtectedProperty($tm, '_transactions'));
+        $this->testGetNewExistingTransactionOnce($I);
+        $this->testRollbackNewInserts($I);
+        $this->testCommitNewInserts($I);
+        $this->testTransactionRemovedOnCommit($I);
+        $this->testTransactionRemovedOnRollback($I);
     }
 }

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
-use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use IntegrationTester;
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
 /**
  * Class SetOptionCest

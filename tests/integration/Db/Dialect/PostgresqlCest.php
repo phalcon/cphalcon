@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Db\Dialect;
 
 use Phalcon\Db\Column;
-use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Integration\Db\Dialect\Helper\DialectBase;

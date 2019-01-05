@@ -32,8 +32,8 @@ class GetActiveOperationCest
     public function aclAdapterMemoryGetActiveOperationDefault(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveOperation() - default');
-        $acl = new Memory();
-        $actual   = $acl->getActiveOperation();
+        $acl    = new Memory();
+        $actual = $acl->getActiveOperation();
         $I->assertNull($actual);
     }
 

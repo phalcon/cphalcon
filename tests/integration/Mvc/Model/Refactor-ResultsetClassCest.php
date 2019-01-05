@@ -14,12 +14,12 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Resultsets\Stats;
-use Phalcon\Test\Models\Statistics\GenderStats;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Statistics\AgeStats;
 use Phalcon\Test\Models\Statistics\CityStats;
 use Phalcon\Test\Models\Statistics\CountryStats;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Statistics\GenderStats;
+use Phalcon\Test\Resultsets\Stats;
 
 class ResultsetClassCest
 {
@@ -32,7 +32,8 @@ class ResultsetClassCest
     }
 
     /**
-     * Checks if resultset class Simple is returned when getResultsetClass() method is not defined
+     * Checks if resultset class Simple is returned when getResultsetClass()
+     * method is not defined
      *
      * @author Eugene Smirnov <ashpumpkin@gmail.com>
      */
@@ -42,7 +43,8 @@ class ResultsetClassCest
     }
 
     /**
-     * Checks if custom resultset object is returned when getResultsetClass() method is presented in model
+     * Checks if custom resultset object is returned when getResultsetClass()
+     * method is presented in model
      *
      * @author Eugene Smirnov <ashpumpkin@gmail.com>
      */
@@ -52,7 +54,8 @@ class ResultsetClassCest
     }
 
     /**
-     * Checks if exception is thrown when custom resultset doesn't implement ResultsetInterface
+     * Checks if exception is thrown when custom resultset doesn't implement
+     * ResultsetInterface
      *
      * @author Eugene Smirnov <ashpumpkin@gmail.com>
      */

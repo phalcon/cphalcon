@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
-use Phalcon\Assets\Exception;
 use Phalcon\Assets\Manager;
 use UnitTester;
 

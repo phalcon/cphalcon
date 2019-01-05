@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\PresenceOf;
 
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\PresenceOf;
-use IntegrationTester;
 
 /**
  * Class HasOptionCest

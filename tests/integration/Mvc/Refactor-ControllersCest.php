@@ -4,7 +4,6 @@ namespace Phalcon\Test\Integration\Mvc;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Test\Controllers\ViewRequestController;

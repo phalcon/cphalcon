@@ -29,8 +29,8 @@ class IsAutoIncrementCest
      *
      * @dataProvider connectionProvider
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function dbColumnIsAutoIncrement(IntegrationTester $I, Example $data)
     {
@@ -96,7 +96,7 @@ class IsAutoIncrementCest
                 'expected' => [
                     0 => true,
                     1 => false,
-                ]
+                ],
             ],
             [
                 'name'     => 'Postgresql',
@@ -141,7 +141,7 @@ class IsAutoIncrementCest
                 'expected' => [
                     0 => true,
                     1 => false,
-                ]
+                ],
             ],
         ];
     }

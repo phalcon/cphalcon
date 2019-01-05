@@ -86,7 +86,8 @@ class GetTitleCest
 
         $tag->prependTitle(['Hello'])
             ->setTitle('World')
-            ->appendTitle(['from Phalcon']);
+            ->appendTitle(['from Phalcon'])
+        ;
 
         $expected = 'Hello World from Phalcon';
         $actual   = $tag->getTitle();
@@ -99,7 +100,7 @@ class GetTitleCest
         $expected = 'Hello World';
         $actual   = $tag->getTitle(true, false);
         $I->assertEquals($expected, $actual);
-        
+
         $expected = 'World';
         $actual   = $tag->getTitle(false, false);
         $I->assertEquals($expected, $actual);

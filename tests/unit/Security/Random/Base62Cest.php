@@ -38,13 +38,13 @@ class Base62Cest
 
         //Default length is 16 bytes
         $I->assertEquals(16, strlen($base62));
-        
+
         $differentString = $random->base62();
         //Buy lottery ticket if this fails (or fix the bug)
         $I->assertNotEquals($base62, $differentString);
 
-        $expectedLength=30;
-        $base62 = $random->base62($expectedLength);
+        $expectedLength = 30;
+        $base62         = $random->base62($expectedLength);
         $I->assertEquals($expectedLength, strlen($base62));
     }
 }

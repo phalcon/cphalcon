@@ -21,7 +21,7 @@ use UnitTester;
 class DecrementCest
 {
     use LibmemcachedTrait;
-    
+
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: decrement()
      *

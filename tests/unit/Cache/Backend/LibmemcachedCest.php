@@ -3,12 +3,6 @@
 namespace Phalcon\Test\Unit\Cache\Backend;
 
 use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
-use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Cache\Exception;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Cache\Frontend\Output;
-use Phalcon\Cache\Frontend\None;
-use Phalcon\Cache\Frontend;
 use UnitTester;
 
 /**

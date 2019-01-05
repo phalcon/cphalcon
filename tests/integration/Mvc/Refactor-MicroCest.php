@@ -16,7 +16,6 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Http\Response;
 use Phalcon\Test\Controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
@@ -612,20 +611,20 @@ class MicroCest
     public function testMicroResponseHandler(IntegrationTester $I)
     {
         $trace = [];
-        $app = new Micro();
+        $app   = new Micro();
         $app->setResponseHandler(
             function () use (&$trace) {
                 $trace[] = 1;
             }
         );
-        
+
         $app->map(
             "/blog",
             function () use (&$trace) {
                 $trace[] = 1;
             }
         );
-        
+
         $app->handle("/blog");
 
         $I->assertCount(2, $trace);

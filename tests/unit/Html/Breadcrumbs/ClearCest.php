@@ -43,12 +43,12 @@ class ClearCest
             '/users' => 'Users',
             ''       => 'Phalcon Team',
         ];
-        $actual = $breadcrumbs->toArray();
+        $actual   = $breadcrumbs->toArray();
         $I->assertEquals($expected, $actual);
 
         $breadcrumbs->clear();
         $expected = [];
-        $actual = $breadcrumbs->toArray();
+        $actual   = $breadcrumbs->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use UnitTester;
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
+use UnitTester;
 
 /**
  * Class DecryptCest

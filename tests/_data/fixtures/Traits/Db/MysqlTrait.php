@@ -50,19 +50,6 @@ trait MysqlTrait
     abstract protected function setDiMysql();
 
     /**
-     * Returns the database name
-     *
-     * @return string
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-10-26
-     */
-    protected function getDatabaseName(): string
-    {
-        return env('DATA_MYSQL_NAME');
-    }
-
-    /**
      * Returns the database schema; MySql does not have a schema
      *
      * @return string
@@ -73,6 +60,25 @@ trait MysqlTrait
     protected function getSchemaName(): string
     {
         return env('DATA_MYSQL_NAME');
+    }
+
+    /**
+     * Return the array of expected columns
+     *
+     * @return array
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-10-26
+     */
+    protected function getExpectedColumns(): array
+    {
+        $result  = [];
+        $columns = $this->getColumns();
+        foreach ($columns as $index => $array) {
+            $result[$index] = Column::__set_state($array);
+        }
+
+        return $result;
     }
 
     /**
@@ -698,25 +704,6 @@ trait MysqlTrait
     }
 
     /**
-     * Return the array of expected columns
-     *
-     * @return array
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-10-26
-     */
-    protected function getExpectedColumns(): array
-    {
-        $result  = [];
-        $columns = $this->getColumns();
-        foreach ($columns as $index => $array) {
-            $result[$index] = Column::__set_state($array);
-        }
-
-        return $result;
-    }
-
-    /**
      * Return the array of expected indexes
      *
      * @return array
@@ -792,5 +779,18 @@ trait MysqlTrait
                 ]
             ),
         ];
+    }
+
+    /**
+     * Returns the database name
+     *
+     * @return string
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-10-26
+     */
+    protected function getDatabaseName(): string
+    {
+        return env('DATA_MYSQL_NAME');
     }
 }

@@ -11,8 +11,6 @@
 
 namespace Phalcon\Test\Unit\Flash;
 
-use Phalcon\Di;
-use Phalcon\Escaper;
 use Phalcon\Flash\Session;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;

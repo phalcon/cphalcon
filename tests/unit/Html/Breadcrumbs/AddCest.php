@@ -33,13 +33,12 @@ class AddCest
         $I->wantToTest('Html\Breadcrumbs - add()');
         $breadcrumbs = new Breadcrumbs();
         $breadcrumbs
-            ->add('Home', '/')
-        ;
+            ->add('Home', '/');
 
         $expected = [
             '/' => 'Home',
         ];
-        $actual = $breadcrumbs->toArray();
+        $actual   = $breadcrumbs->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

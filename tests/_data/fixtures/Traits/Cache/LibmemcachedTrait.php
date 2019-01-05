@@ -13,7 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits\Cache;
 
 use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\FrontendInterface;
+use UnitTester;
+
 /**
  * Trait FileTrait
  *
@@ -21,11 +25,36 @@ use Phalcon\Cache\FrontendInterface;
  */
 trait LibmemcachedTrait
 {
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
     }
 
+    /**
+     * @param null $statsKey
+     * @param int  $ttl
+     *
+     * @return Libmemcached
+     */
+    protected function getDataCache($statsKey = null, $ttl = 20)
+    {
+        $config = [];
+        if ($statsKey !== null) {
+            $config['statsKey'] = $statsKey;
+        }
+
+        return $this->getCache(new Data(['lifetime' => $ttl]), $config);
+    }
+
+    /**
+     * @param FrontendInterface $frontend
+     * @param array             $config
+     *
+     * @return Libmemcached
+     */
     protected function getCache(FrontendInterface $frontend, $config = [])
     {
         $config = array_merge($config, [
@@ -42,16 +71,11 @@ trait LibmemcachedTrait
         return new Libmemcached($frontend, $config);
     }
 
-    protected function getDataCache($statsKey = null, $ttl = 20)
-    {
-        $config = [];
-        if ($statsKey !== null) {
-            $config['statsKey'] = $statsKey;
-        }
-
-        return $this->getCache(new Data(['lifetime' => $ttl]), $config);
-    }
-
+    /**
+     * @param int $ttl
+     *
+     * @return Libmemcached
+     */
     protected function getOutputCache($ttl = 0)
     {
         return $this->getCache(new Output(['lifetime' => $ttl]));

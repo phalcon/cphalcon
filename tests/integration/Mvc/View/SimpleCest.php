@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
+use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -10,7 +11,6 @@ use Phalcon\Mvc\View\Simple;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use IntegrationTester;
 use function dataFolder;
 
 class SimpleCest
@@ -72,8 +72,8 @@ class SimpleCest
      */
     public function testGetRegisteredEngines(IntegrationTester $I)
     {
-        $view = $this->container->get('viewSimple');
-        $expected  = [
+        $view     = $this->container->get('viewSimple');
+        $expected = [
             '.mhtml' => Mustache::class,
             '.phtml' => Php::class,
             '.twig'  => Twig::class,

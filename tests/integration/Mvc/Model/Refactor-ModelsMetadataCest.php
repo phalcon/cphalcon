@@ -3,9 +3,6 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\Metadata\Memory;
-use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
-use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Robots;
@@ -188,7 +185,7 @@ class ModelsMetadataCest
 //        $btAttributes = $metaData->getBindTypes($personas);
 //        $I->assertEquals($bindTypes, $btAttributes);
 
-        $defValues = [
+        $defValues      = [
             'nombres'          => '',
             'telefono'         => null,
             'direccion'        => null,

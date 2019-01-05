@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\StringLength;
-use Phalcon\Validation\ValidatorInterface;
-use IntegrationTester;
 
 /**
  * Class ConstructCest

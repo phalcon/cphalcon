@@ -22,7 +22,6 @@ use const ENT_XML1;
 /**
  * Class EscapeHtmlAttrCest
  */
-
 class EscapeHtmlAttrCest
 {
     /**

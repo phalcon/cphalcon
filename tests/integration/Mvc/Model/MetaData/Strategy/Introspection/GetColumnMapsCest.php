@@ -20,7 +20,8 @@ use IntegrationTester;
 class GetColumnMapsCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Strategy\Introspection :: getColumnMaps()
+     * Tests Phalcon\Mvc\Model\MetaData\Strategy\Introspection ::
+     * getColumnMaps()
      *
      * @param IntegrationTester $I
      *

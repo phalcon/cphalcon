@@ -20,7 +20,8 @@ use IntegrationTester;
 class IsNestedTransactionsWithSavepointsCest
 {
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: isNestedTransactionsWithSavepoints()
+     * Tests Phalcon\Db\Adapter\Pdo\Postgresql ::
+     * isNestedTransactionsWithSavepoints()
      *
      * @param IntegrationTester $I
      *

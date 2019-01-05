@@ -46,19 +46,6 @@ trait PostgresqlTrait
     abstract protected function setDiPostgresql();
 
     /**
-     * Returns the database name
-     *
-     * @return string
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-10-26
-     */
-    protected function getDatabaseName(): string
-    {
-        return env('DATA_POSTGRES_NAME');
-    }
-
-    /**
      * Returns the database schema;
      *
      * @return string
@@ -69,6 +56,25 @@ trait PostgresqlTrait
     protected function getSchemaName(): string
     {
         return env('DATA_POSTGRES_SCHEMA');
+    }
+
+    /**
+     * Return the array of expected columns
+     *
+     * @return array
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-10-26
+     */
+    protected function getExpectedColumns(): array
+    {
+        $result  = [];
+        $columns = $this->getColumns();
+        foreach ($columns as $index => $array) {
+            $result[$index] = Column::__set_state($array);
+        }
+
+        return $result;
     }
 
     /**
@@ -694,25 +700,6 @@ trait PostgresqlTrait
     }
 
     /**
-     * Return the array of expected columns
-     *
-     * @return array
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-10-26
-     */
-    protected function getExpectedColumns(): array
-    {
-        $result  = [];
-        $columns = $this->getColumns();
-        foreach ($columns as $index => $array) {
-            $result[$index] = Column::__set_state($array);
-        }
-
-        return $result;
-    }
-
-    /**
      * Return the array of expected indexes
      *
      * @return array
@@ -788,5 +775,18 @@ trait PostgresqlTrait
                 ]
             ),
         ];
+    }
+
+    /**
+     * Returns the database name
+     *
+     * @return string
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-10-26
+     */
+    protected function getDatabaseName(): string
+    {
+        return env('DATA_POSTGRES_NAME');
     }
 }

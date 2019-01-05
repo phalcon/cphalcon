@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\Csv;
-use Phalcon\Translate\Exception;
 use UnitTester;
 use function dataFolder;
 

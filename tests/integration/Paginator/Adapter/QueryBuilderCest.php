@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Integration\Paginator\Adapter;
 
 use IntegrationTester;
-use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Paginator\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robos;
 use Phalcon\Test\Models\Robots;
@@ -44,13 +44,14 @@ class QueryBuilderCest
             ->columns("name, COUNT(*) as stock_count")
             ->from(['Stock' => Stock::class])
             ->groupBy('name')
-            ->having('SUM(Stock.stock) > 0');
+            ->having('SUM(Stock.stock) > 0')
+        ;
 
         $paginate = (new QueryBuilder(
             [
                 "builder" => $builder,
                 "limit"   => 1,
-                "page"    => 2
+                "page"    => 2,
             ]
         ))->paginate();
 
@@ -59,7 +60,8 @@ class QueryBuilderCest
     }
 
     /**
-     * Tests query builder pagination with having not throwing exception when should
+     * Tests query builder pagination with having not throwing exception when
+     * should
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-15
@@ -75,13 +77,14 @@ class QueryBuilderCest
                     ->createBuilder()
                     ->columns("COUNT(*) as stock_count")
                     ->from(['Stock' => Stock::class])
-                    ->having('SUM(Stock.stock) > 0');
+                    ->having('SUM(Stock.stock) > 0')
+                ;
 
                 $paginate = (new QueryBuilder(
                     [
                         "builder" => $builder,
                         "limit"   => 1,
-                        "page"    => 2
+                        "page"    => 2,
                     ]
                 ))->paginate();
             }
@@ -115,14 +118,15 @@ class QueryBuilderCest
             ->createBuilder()
             ->columns("*, COUNT(*) as stock_count")
             ->from(['Stock' => Stock::class])
-            ->having('stock > 0');
+            ->having('stock > 0')
+        ;
 
         $paginate = (new QueryBuilder(
             [
                 "builder" => $builder,
                 "limit"   => 1,
                 "page"    => 2,
-                "columns" => "id,stock"
+                "columns" => "id,stock",
             ]
         ))->paginate();
 
@@ -131,7 +135,8 @@ class QueryBuilderCest
     }
 
     /**
-     * Tests query builder pagination with having and group with a different db service than 'db'
+     * Tests query builder pagination with having and group with a different db
+     * service than 'db'
      *
      * @author David Napierata
      * @since  2017-07-18
@@ -147,16 +152,17 @@ class QueryBuilderCest
         );
 
         $builder = $modelsManager->createBuilder()
-            ->columns("COUNT(*) as robos_count")
-            ->from(['Robos' => Robos::class])
-            ->groupBy('type')
-            ->having('MAX(Robos.year) > 1970');
+                                 ->columns("COUNT(*) as robos_count")
+                                 ->from(['Robos' => Robos::class])
+                                 ->groupBy('type')
+                                 ->having('MAX(Robos.year) > 1970')
+        ;
 
         $paginate = (new QueryBuilder(
             [
                 "builder" => $builder,
                 "limit"   => 1,
-                "page"    => 2
+                "page"    => 2,
             ]
         ))->paginate();
 
@@ -177,17 +183,18 @@ class QueryBuilderCest
         $modelsManager = $this->getService('modelsManager');
 
         $builder = $modelsManager->createBuilder()
-            ->columns("Robots.*")
-            ->from(['Robots' => Robots::class])
-            ->join(RobotsParts::class, "RobotsParts.robots_id = Robots.id", "RobotsParts", "LEFT")
-            ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id')
-            ->having('Robots.id > 2');
+                                 ->columns("Robots.*")
+                                 ->from(['Robots' => Robots::class])
+                                 ->join(RobotsParts::class, "RobotsParts.robots_id = Robots.id", "RobotsParts", "LEFT")
+                                 ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id')
+                                 ->having('Robots.id > 2')
+        ;
 
         $paginate = (new QueryBuilder(
             [
                 "builder" => $builder,
                 "limit"   => 10,
-                "page"    => 1
+                "page"    => 1,
             ]
         ))->paginate();
 

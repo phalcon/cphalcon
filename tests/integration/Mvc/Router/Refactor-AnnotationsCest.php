@@ -12,9 +12,6 @@
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
-use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Di;
-use Phalcon\Http\Request;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Controllers\NamespacedAnnotationController;

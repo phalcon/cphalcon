@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
 /**
@@ -44,6 +43,7 @@ class ResetInputCest
         $actual   = $_POST;
         $I->assertEquals($expected, $actual);
     }
+
     /**
      * Tests Phalcon\Tag :: resetInput() - setDefault
      *
@@ -78,6 +78,7 @@ class ResetInputCest
         $actual   = Tag::textField($options);
         $I->assertEquals($expected, $actual);
     }
+
     /**
      * Tests Phalcon\Tag :: resetInput() - displayTo
      *

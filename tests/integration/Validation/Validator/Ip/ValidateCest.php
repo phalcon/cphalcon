@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation\Validator\Ip;
 
 use IntegrationTester;
-use Phalcon\Messages\Message;
-use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Ip;
 

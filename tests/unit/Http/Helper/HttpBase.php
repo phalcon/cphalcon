@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Helper;
 
 use Phalcon\Di;
-use Phalcon\Filter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
-use Phalcon\Mvc\Url;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 

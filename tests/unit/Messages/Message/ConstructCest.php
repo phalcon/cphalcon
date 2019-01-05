@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Messages\Message;
 
 use Phalcon\Messages\Message;
-use function strpos;
-use function substr;
 use TypeError;
 use UnitTester;
+use function substr;
 
 /**
  * Class ConstructCest
@@ -112,7 +111,7 @@ class ConstructCest
         }
 
         $expected = 'Argument 1 passed to Phalcon\Messages\Message::__construct() '
-                  . 'must be of the type string, bool';
+            . 'must be of the type string, bool';
         $actual   = substr($actual, 0, 93);
         $I->assertEquals($expected, $actual);
     }

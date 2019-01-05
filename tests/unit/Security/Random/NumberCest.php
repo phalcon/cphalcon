@@ -39,13 +39,13 @@ class NumberCest
             $randNumber = $random->number(-1);
         });
 
-        $maxRand = 1;
+        $maxRand    = 1;
         $randNumber = $random->number($maxRand);
 
         $I->assertGreaterOrEquals(0, $randNumber);
         $I->assertLessOrEquals($maxRand, $randNumber);
-        
-        $maxRand = 1000000000000000000;
+
+        $maxRand    = 1000000000000000000;
         $randNumber = $random->number($maxRand);
 
         $I->assertGreaterOrEquals(0, $randNumber);

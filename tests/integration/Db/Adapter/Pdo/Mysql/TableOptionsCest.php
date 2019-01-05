@@ -40,7 +40,7 @@ class TableOptionsCest
             'auto_increment'  => '1',
             'engine'          => 'InnoDB',
             'table_collation' => 'utf8_general_ci',
-            'table_type'      => 'BASE TABLE'
+            'table_type'      => 'BASE TABLE',
         ];
 
         $actual = $this->connection->tableOptions($table, $this->getDatabaseName());

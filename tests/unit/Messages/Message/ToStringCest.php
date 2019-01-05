@@ -37,7 +37,7 @@ class ToStringCest
         $actual   = $message->__toString();
         $I->assertEquals($expected, $actual);
     }
-    
+
     /**
      * Tests Phalcon\Messages\Message :: __toString() - cast
      *

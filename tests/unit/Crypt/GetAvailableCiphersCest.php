@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use UnitTester;
 use Phalcon\Crypt;
+use UnitTester;
 
 /**
  * Class GetAvailableCiphersCest

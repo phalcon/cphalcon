@@ -77,7 +77,7 @@ class LinkCest
         ];
 
         $expected = '<a href="/signup/register?from=github&amp;token=123456" '
-                  . 'class="btn-primary">Register Here!</a>';
+            . 'class="btn-primary">Register Here!</a>';
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
     }
@@ -118,9 +118,9 @@ class LinkCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $url     = '';
-        $name    = '';
-        $params  = [
+        $url    = '';
+        $name   = '';
+        $params = [
             'url'   => 'x_url',
             'text'  => 'x_name',
             'class' => 'x_class',
@@ -148,9 +148,9 @@ class LinkCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $url    = "x_action/x_param";
-        $name   = 'x_name';
-        $params = [
+        $url      = "x_action/x_param";
+        $name     = 'x_name';
+        $params   = [
             'class' => 'x_class',
         ];
         $expected = '<a href="/x_action/x_param" class="x_class">x_name</a>';
@@ -175,9 +175,9 @@ class LinkCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $url    = "http://phalconphp.com/en/";
-        $name   = 'x_name';
-        $params = [
+        $url      = "http://phalconphp.com/en/";
+        $name     = 'x_name';
+        $params   = [
             'local' => false,
             'class' => 'x_class',
         ];
@@ -185,12 +185,12 @@ class LinkCest
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
 
-        $url    = "http://phalconphp.com/en/";
-        $name   = 'x_name';
-        $params = [
+        $url      = "http://phalconphp.com/en/";
+        $name     = 'x_name';
+        $params   = [
             'local' => false,
             'class' => 'x_class',
-            'text'  => 'Website'
+            'text'  => 'Website',
         ];
         $expected = '<a href="http://phalconphp.com/en/" class="x_class">Website</a>';
         $actual   = $tag->link($url, $name, $params);
@@ -198,7 +198,7 @@ class LinkCest
 
         $url      = "mailto:someone@phalconphp.com";
         $name     = 'someone@phalconphp.com';
-        $params = [
+        $params   = [
             'local' => false,
         ];
         $expected = '<a href="mailto:someone@phalconphp.com">someone@phalconphp.com</a>';

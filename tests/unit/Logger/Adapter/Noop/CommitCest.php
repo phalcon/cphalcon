@@ -34,7 +34,7 @@ class CommitCest
     public function loggerAdapterNoopCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - commit()');
-        $adapter    = new Noop();
+        $adapter = new Noop();
 
         $adapter->begin();
 

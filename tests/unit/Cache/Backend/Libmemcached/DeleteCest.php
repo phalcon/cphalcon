@@ -21,7 +21,7 @@ use UnitTester;
 class DeleteCest
 {
     use LibmemcachedTrait;
-    
+
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: delete()
      *

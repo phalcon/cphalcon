@@ -12,8 +12,6 @@
 namespace Phalcon\Test\Integration\Forms;
 
 use IntegrationTester;
-use Phalcon\Forms\Element\Radio;
-use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
@@ -175,7 +173,7 @@ class FormCest
                     'telephone',
                     'Regex',
                     0
-                )
+                ),
             ]
         );
         $actual   = $form->getMessagesFor('telephone');
@@ -318,7 +316,7 @@ class FormCest
                     'address',
                     'PresenceOf',
                     0
-                )
+                ),
             ]
         );
         $actual   = $form->getMessages();
@@ -339,7 +337,7 @@ class FormCest
                     'telephone',
                     'Regex',
                     0
-                )
+                ),
             ]
         );
         $actual   = $form->getMessages();
@@ -449,7 +447,7 @@ class FormCest
                     'telephone',
                     'Regex',
                     0
-                )
+                ),
             ]
         );
         $actual   = $form->get('telephone')->getMessages();
@@ -510,7 +508,7 @@ class FormCest
                     'telephone',
                     'Regex',
                     0
-                )
+                ),
             ]
         );
         $actual   = $form->get('telephone')->getMessages();
@@ -582,7 +580,7 @@ class FormCest
                     'telephone',
                     'PresenceOf',
                     0
-                )
+                ),
             ]
         );
         $actual   = $form->get('telephone')->getMessages();
@@ -661,7 +659,7 @@ class FormCest
                         ),
                     ]
                 ),
-            ]
+            ],
         ];
         $actual   = $form->getMessages(true);
         $I->assertEquals($expected, $actual);
