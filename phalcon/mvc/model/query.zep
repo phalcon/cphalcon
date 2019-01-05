@@ -3314,7 +3314,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 
 			let result = cache->get(key, lifetime);
-			if result !== null {
+			if !empty result {
 
 				if typeof result != "object" {
 					throw new Exception("Cache didn't return a valid resultset");
