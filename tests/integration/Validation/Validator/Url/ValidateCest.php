@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Url;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Url;
-use IntegrationTester;
 
 /**
  * Class ValidateCest
@@ -45,10 +45,10 @@ class ValidateCest
                     'url',
                     'Url',
                     0
-                )
+                ),
             ]
         );
-        $actual = $messages;
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
 
         $messages = $validation->validate(['url' => 'x=1']);
@@ -161,10 +161,10 @@ class ValidateCest
                     'url',
                     'Url',
                     0
-                )
+                ),
             ]
         );
-        $actual = $messages;
+        $actual   = $messages;
         $I->assertEquals($expected, $actual);
 
         $messages = $validation->validate(['url' => 'x=1']);

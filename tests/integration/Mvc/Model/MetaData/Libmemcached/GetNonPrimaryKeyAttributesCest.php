@@ -20,7 +20,8 @@ use IntegrationTester;
 class GetNonPrimaryKeyAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getNonPrimaryKeyAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
+     * getNonPrimaryKeyAttributes()
      *
      * @param IntegrationTester $I
      *

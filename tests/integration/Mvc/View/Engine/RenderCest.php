@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine;
 
+use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use stdClass;
-use IntegrationTester;
 
 /**
  * Class RenderCest
@@ -64,7 +64,7 @@ class RenderCest
                 '.volt' => new Volt($view, $this->container),
             ]
         );
-        $object = new stdClass();
+        $object               = new stdClass();
         $object->notNullValue = 'Text';
         $object->nullValue    = null;
 

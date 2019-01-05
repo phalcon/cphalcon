@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Alpha;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
-use IntegrationTester;
 
 /**
  * Class ValidateCest

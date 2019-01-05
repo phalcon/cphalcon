@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Url;
 
+use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\Url;
-use IntegrationTester;
 
 /**
  * Class GetSetDICest

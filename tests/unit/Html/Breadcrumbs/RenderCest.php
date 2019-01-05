@@ -38,11 +38,11 @@ class RenderCest
         ;
 
         $expected = '<dl>'
-                  . '<dt><a href="/">Home</a></dt>'
-                  . '<dt> / </dt>'
-                  . '<dt>Phalcon Team</dt>'
-                  . '</dl>';
-        $actual = $breadcrumbs->render();
+            . '<dt><a href="/">Home</a></dt>'
+            . '<dt> / </dt>'
+            . '<dt>Phalcon Team</dt>'
+            . '</dl>';
+        $actual   = $breadcrumbs->render();
         $I->assertEquals($expected, $actual);
     }
 }

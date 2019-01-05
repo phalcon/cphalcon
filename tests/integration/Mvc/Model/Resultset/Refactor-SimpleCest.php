@@ -11,12 +11,12 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
-use function cacheFolder;
 use IntegrationTester;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\People;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\People;
+use Phalcon\Test\Models\Robots;
+use function cacheFolder;
 
 class SimpleCest
 {
@@ -30,7 +30,8 @@ class SimpleCest
     }
 
     /**
-     * Work with Simple Resultset by load data from the file cache (complete PHQL option).
+     * Work with Simple Resultset by load data from the file cache (complete
+     * PHQL option).
      *
      * @test
      * @author Phalcon Team <team@phalconphp.com>
@@ -39,7 +40,7 @@ class SimpleCest
     public function shouldLoadResultsetFromCacheByUsingCompletePhql(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check the counts');
-        $cache = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheFile();
         $manager = $this->getService('modelsManager');
 
         $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
@@ -65,7 +66,8 @@ class SimpleCest
     }
 
     /**
-     * Work with Simple Resultset by load data from the file cache (incomplete PHQL option).
+     * Work with Simple Resultset by load data from the file cache (incomplete
+     * PHQL option).
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-12-28
@@ -73,7 +75,7 @@ class SimpleCest
     public function shouldLoadResultsetFromCacheByUsingIncompletePhql(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check the numbers');
-        $cache = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheFile();
         $manager = $this->getService('modelsManager');
 
         $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
@@ -141,16 +143,16 @@ class SimpleCest
      */
     public function shouldLoadResultsetWithBindingFromCache(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheFile();
         $manager = $this->getService('modelsManager');
 
         $initialId = 0;
-        $finalId = 4;
+        $finalId   = 4;
 
         $robots = Robots::find([
             'conditions' => 'id > :id1: and id < :id2:',
             'bind'       => ['id1' => $initialId, 'id2' => $finalId],
-            'order'      => 'id'
+            'order'      => 'id',
         ]);
 
         $I->assertInstanceOf(Simple::class, $robots);
@@ -174,7 +176,8 @@ class SimpleCest
     }
 
     /**
-     * Work with Simple Resultset by load data from cache (Libmemcached adapter).
+     * Work with Simple Resultset by load data from cache (Libmemcached
+     * adapter).
      *
      * @author kjdev
      * @since  2013-07-25
@@ -183,12 +186,12 @@ class SimpleCest
     {
         $cache = $this->getAndSetModelsCacheFileLibmemcached();
 
-        $key = 'test-resultset-'.mt_rand(0, 9999);
+        $key = 'test-resultset-' . mt_rand(0, 9999);
         // Single
         $people = People::findFirst([
             'cache' => [
-                'key' => $key
-            ]
+                'key' => $key,
+            ],
         ]);
 
         $I->assertInstanceOf(People::class, $people);
@@ -202,20 +205,20 @@ class SimpleCest
         // Re-get from the cache
         $people = People::findFirst([
             'cache' => [
-                'key' => $key
-            ]
+                'key' => $key,
+            ],
         ]);
 
         $I->assertInstanceOf(People::class, $people);
 
-        $key = 'test-resultset-'.mt_rand(0, 9999);
+        $key = 'test-resultset-' . mt_rand(0, 9999);
 
         // Multiple
         $people = People::find([
             'limit' => 35,
             'cache' => [
-                'key' => $key
-            ]
+                'key' => $key,
+            ],
         ]);
 
         $number = 0;
@@ -244,8 +247,8 @@ class SimpleCest
         $people = People::find([
             'limit' => 35,
             'cache' => [
-                'key' => $key
-            ]
+                'key' => $key,
+            ],
         ]);
 
         $number = 0;

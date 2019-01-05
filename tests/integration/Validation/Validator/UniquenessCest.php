@@ -11,13 +11,13 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
-use function date;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Some\Robotters;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
+use function date;
 
 class UniquenessCest
 {
@@ -47,34 +47,34 @@ class UniquenessCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $this->robot = new Robots(
+        $this->robot        = new Robots(
             [
-                'name' => 'Robotina',
-                'type' => 'mechanical',
-                'year' => 1972,
+                'name'     => 'Robotina',
+                'type'     => 'mechanical',
+                'year'     => 1972,
                 'datetime' => date('Y-m-d H:i:s'),
-                'deleted' => null,
-                'text' => 'text',
+                'deleted'  => null,
+                'text'     => 'text',
             ]
         );
         $this->anotherRobot = new Robots(
             [
-                'name' => 'Robotina',
-                'type' => 'hydraulic',
-                'year' => 1952,
+                'name'     => 'Robotina',
+                'type'     => 'hydraulic',
+                'year'     => 1952,
                 'datetime' => date('Y-m-d H:i:s'),
-                'deleted' => null,
-                'text' => 'text',
+                'deleted'  => null,
+                'text'     => 'text',
             ]
         );
         $this->deletedRobot = new Robots(
             [
-                'name' => 'Robotina',
-                'type' => 'mechanical',
-                'year' => 1972,
+                'name'     => 'Robotina',
+                'type'     => 'mechanical',
+                'year'     => 1972,
                 'datetime' => date('Y-m-d H:i:s'),
-                'deleted' => date('Y-m-d H:i:s'),
-                'text' => 'text',
+                'deleted'  => date('Y-m-d H:i:s'),
+                'text'     => 'text',
             ]
         );
     }
@@ -114,7 +114,7 @@ class UniquenessCest
             'convert' => function (array $values) {
                 $values['type'] = 'hydraulic'; // mechanical -> hydraulic
                 return $values;
-            }
+            },
         ]));
         $messages = $validation->validate(null, $this->robot);
         $expected = 0;
@@ -182,7 +182,7 @@ class UniquenessCest
             'convert' => function (array $values) {
                 $values['type'] = 'hydraulic'; // mechanical -> hydraulic
                 return $values;
-            }
+            },
         ]));
         $messages = $validation->validate(null, $this->robot);
         $expected = 0;
@@ -328,7 +328,7 @@ class UniquenessCest
             'convert' => function (array $values) {
                 ($values);
                 return null;
-            }
+            },
         ]));
         try {
             $validation->validate(null, $this->robot);
@@ -350,7 +350,7 @@ class UniquenessCest
         $validation->add('text', new Uniqueness([
             'except' => [
                 'type' => ['mechanical', 'cyborg'],
-            ]
+            ],
         ]));
         $messages = $validation->validate(null, $this->robot);
         $expected = 0;
@@ -382,17 +382,17 @@ class UniquenessCest
     {
         $validation = new Validation();
         $validation->add('theName', new Uniqueness());
-        $robot = Robotters::findFirst(1);
+        $robot          = Robotters::findFirst(1);
         $robot->theName = 'Astro Boy';
-        $messages = $validation->validate(null, $robot);
-        $expected = 1;
-        $actual   = $messages->count();
+        $messages       = $validation->validate(null, $robot);
+        $expected       = 1;
+        $actual         = $messages->count();
         $I->assertEquals($expected, $actual);
 
         $robot->theName = 'Astro Boyy';
-        $messages = $validation->validate(null, $robot);
-        $expected = 0;
-        $actual   = $messages->count();
+        $messages       = $validation->validate(null, $robot);
+        $expected       = 0;
+        $actual         = $messages->count();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -3,7 +3,6 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Db\RawValue;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Robots;

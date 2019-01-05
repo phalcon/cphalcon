@@ -13,14 +13,9 @@ namespace Phalcon\Test\Unit\Acl\Adapter;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Subject;
 use Phalcon\Acl\Operation;
-use Phalcon\Test\Fixtures\Acl\TestSubjectAware;
-use Phalcon\Test\Fixtures\Acl\TestOperationAware;
-use Phalcon\Test\Fixtures\Acl\TestOperationSubjectAware;
-use PHPUnit\Framework\Exception;
+use Phalcon\Acl\Subject;
 use UnitTester;
-use Closure;
 
 class MemoryCest
 {
@@ -75,9 +70,9 @@ class MemoryCest
      */
     public function testAclObjects(UnitTester $I)
     {
-        $acl         = new Memory();
-        $aclOperation     = new Operation('Administrators', 'Super User access');
-        $aclSubject = new Subject('Customers', 'Customer management');
+        $acl          = new Memory();
+        $aclOperation = new Operation('Administrators', 'Super User access');
+        $aclSubject   = new Subject('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
@@ -91,9 +86,9 @@ class MemoryCest
         $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
         $I->assertEquals($expected, $actual);
 
-        $acl         = new Memory();
-        $aclOperation     = new Operation('Administrators', 'Super User access');
-        $aclSubject = new Subject('Customers', 'Customer management');
+        $acl          = new Memory();
+        $aclOperation = new Operation('Administrators', 'Super User access');
+        $aclSubject   = new Subject('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
@@ -118,9 +113,9 @@ class MemoryCest
     {
         $filename = $I->getNewFileName('acl', 'log');
 
-        $acl         = new Memory();
-        $aclOperation     = new Operation('Administrators', 'Super User access');
-        $aclSubject = new Subject('Customers', 'Customer management');
+        $acl          = new Memory();
+        $aclOperation = new Operation('Administrators', 'Super User access');
+        $aclSubject   = new Subject('Customers', 'Customer management');
 
         $acl->addOperation($aclOperation);
         $acl->addSubject($aclSubject, ['search', 'destroy']);

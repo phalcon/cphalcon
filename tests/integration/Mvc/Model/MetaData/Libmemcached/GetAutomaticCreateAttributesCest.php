@@ -20,7 +20,8 @@ use IntegrationTester;
 class GetAutomaticCreateAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getAutomaticCreateAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
+     * getAutomaticCreateAttributes()
      *
      * @param IntegrationTester $I
      *

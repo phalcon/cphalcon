@@ -17,15 +17,13 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Di;
+use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Mvc\View\IteratorObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use IntegrationTester;
 use function dataFolder;
 
 class ViewEnginesCest
@@ -150,9 +148,9 @@ class ViewEnginesCest
      * Set params and check expected data after render view
      *
      * @param IntegrationTester $I
-     * @param string     $errorMessage
-     * @param array      $params
-     * @param View       $view
+     * @param string            $errorMessage
+     * @param array             $params
+     * @param View              $view
      */
     private function setParamAndCheckData(IntegrationTester $I, string $errorMessage, array $params, View $view)
     {

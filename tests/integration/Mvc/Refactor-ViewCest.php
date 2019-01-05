@@ -20,8 +20,6 @@ namespace Phalcon\Test\Integration\Mvc;
 use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Mvc\View\AfterRenderListener;
 
 /**

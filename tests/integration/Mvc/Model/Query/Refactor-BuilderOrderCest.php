@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
 class BuilderOrderCest

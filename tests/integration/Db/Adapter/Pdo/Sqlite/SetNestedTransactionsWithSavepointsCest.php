@@ -20,7 +20,8 @@ use IntegrationTester;
 class SetNestedTransactionsWithSavepointsCest
 {
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: setNestedTransactionsWithSavepoints()
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite ::
+     * setNestedTransactionsWithSavepoints()
      *
      * @param IntegrationTester $I
      *

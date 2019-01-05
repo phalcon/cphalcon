@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Tag;
 
 use BadMethodCallException;
-use Phalcon\Html\Exception;
 use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;

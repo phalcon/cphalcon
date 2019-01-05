@@ -11,12 +11,10 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Phalcon\Di;
+use IntegrationTester;
 use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Url;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
-use IntegrationTester;
 
 class UrlCest
 {

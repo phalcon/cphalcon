@@ -29,8 +29,8 @@ class HasDefaultCest
      *
      * @dataProvider connectionProvider
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function dbColumnHasDefault(IntegrationTester $I, Example $data)
     {
@@ -96,7 +96,7 @@ class HasDefaultCest
                 'expected' => [
                     0 => false,
                     1 => true,
-                ]
+                ],
             ],
             [
                 'name'     => 'Postgresql',
@@ -141,7 +141,7 @@ class HasDefaultCest
                 'expected' => [
                     0 => false,
                     1 => true,
-                ]
+                ],
             ],
         ];
     }

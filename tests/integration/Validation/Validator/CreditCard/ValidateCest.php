@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\CreditCard;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\CreditCard;
-use IntegrationTester;
 
 /**
  * Class ValidateCest
@@ -185,7 +185,7 @@ class ValidateCest
                     ),
                 ]
             );
-            $actual = $validation->validate(['creditCard' => $number]);
+            $actual   = $validation->validate(['creditCard' => $number]);
             $I->assertEquals($expected, $actual);
         }
     }

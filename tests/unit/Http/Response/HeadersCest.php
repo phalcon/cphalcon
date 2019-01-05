@@ -11,10 +11,9 @@
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Http\Response\Headers;
 use Phalcon\Events\Event;
+use Phalcon\Http\Response\Headers;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 class HeadersCest extends HttpBase
@@ -199,7 +198,7 @@ class HeadersCest extends HttpBase
         $I->assertEquals($expected, $actual);
     }
 
-     /**
+    /**
      * Test the event response:beforeSendHeaders
      *
      * @author Cameron Hall <me@chall.id.au>
@@ -216,10 +215,11 @@ class HeadersCest extends HttpBase
 
         $response = $this->getResponseObject();
         $response->setEventsManager($eventsManager);
-        
+
         $I->assertFalse($response->sendHeaders());
     }
-     /**
+
+    /**
      * Test the event response:beforeSendHeaders
      *
      * @author Cameron Hall <me@chall.id.au>

@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
-use IntegrationTester;
 
 class PresenceOfCest
 {
@@ -84,7 +84,7 @@ class PresenceOfCest
                     'name',
                     'PresenceOf',
                     0
-                )
+                ),
             ]
         );
         $actual   = $messages;

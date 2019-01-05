@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Logger;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Exception;
 use UnitTester;
 use function outputFolder;
 

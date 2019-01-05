@@ -23,6 +23,7 @@ class DescribeIndexesCest
 {
     use DiTrait;
     use MysqlTrait;
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeIndexes()
      *
@@ -34,7 +35,7 @@ class DescribeIndexesCest
     public function dbAdapterPdoMysqlDescribeIndexes(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeIndexes()");
-        $table = 'dialect_table';
+        $table    = 'dialect_table';
         $expected = $this->getExpectedIndexes();
         $I->assertEquals($expected, $this->connection->describeIndexes($table));
         $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->getSchemaName()));

@@ -753,13 +753,13 @@ class BuilderCest
             /**
              * @todo Check these examples
              */
-//            ["-7234", null, "[" . Robots::class . "] LIMIT :APL0:"],
-//            ["18", null, "[" . Robots::class . "] LIMIT :APL0:"],
-//            ["18", 2, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-//            ["-1000", -200, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-//            ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-//            ["0", "-200", "[" . Robots::class . "]"],
-//            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[" . Robots::class . "]"],
+            //            ["-7234", null, "[" . Robots::class . "] LIMIT :APL0:"],
+            //            ["18", null, "[" . Robots::class . "] LIMIT :APL0:"],
+            //            ["18", 2, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            //            ["-1000", -200, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            //            ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            //            ["0", "-200", "[" . Robots::class . "]"],
+            //            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[" . Robots::class . "]"],
         ];
     }
 }

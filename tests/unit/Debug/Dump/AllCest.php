@@ -35,7 +35,7 @@ class AllCest
         $test1 = 'string';
         $test2 = ['key' => 'value'];
         $test3 = new stdClass();
-        $dump = new Dump();
+        $dump  = new Dump();
 
         $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variables_output.txt')));
         $actual   = $dump->all($test1, $test2, $test3);

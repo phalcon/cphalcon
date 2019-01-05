@@ -12,15 +12,14 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
-use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Relations\RobotsParts;
-use Phalcon\Mvc\Model\MetaData\Memory;
-use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\Robots;
 
 class ManagerCest
 {
@@ -98,7 +97,7 @@ class ManagerCest
         $I->assertInstanceOf(Row::class, $robot);
         $I->assertEquals(['id' => 1, 'name' => 'Robotina'], $robot->toArray());
 
-        $robot = $parts->getRobots(['columns'=>'id,type,name']);
+        $robot = $parts->getRobots(['columns' => 'id,type,name']);
 
         $I->assertInstanceOf(Row::class, $robot);
         $I->assertEquals(['id' => 1, 'type' => 'mechanical', 'name' => 'Robotina'], $robot->toArray());
@@ -112,7 +111,7 @@ class ManagerCest
      */
     public function testModelPublicProperties(IntegrationTester $I)
     {
-        $manager = $this->getService('modelsManager');
+        $manager  = $this->getService('modelsManager');
         $examples = [
             ['id', true],
             ['document_id', true],
@@ -126,7 +125,7 @@ class ManagerCest
         foreach ($examples as $item) {
             $property = $item[0];
             $expected = $item[1];
-            $actual = $manager->isVisibleModelProperty(new Customers, $property);
+            $actual   = $manager->isVisibleModelProperty(new Customers, $property);
             $I->assertEquals($expected, $actual);
         }
     }

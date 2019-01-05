@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Column;
 
-use Phalcon\Db\Column;
 use IntegrationTester;
+use Phalcon\Db\Column;
 
 class ConstantsCest
 {

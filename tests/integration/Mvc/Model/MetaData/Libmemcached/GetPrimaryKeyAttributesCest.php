@@ -20,7 +20,8 @@ use IntegrationTester;
 class GetPrimaryKeyAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getPrimaryKeyAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
+     * getPrimaryKeyAttributes()
      *
      * @param IntegrationTester $I
      *

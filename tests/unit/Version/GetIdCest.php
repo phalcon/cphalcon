@@ -59,7 +59,7 @@ class GetIdCest
                 $special = $this->specialToNumber($chunks[1]);
             } else { // 4.0.0-alpha.2
                 $specialNo = substr($chunks[1], strpos($chunks[1], '.') + 1);
-                $special = $this->specialToNumber(substr($chunks[1], 0, strpos($chunks[1], '.')));
+                $special   = $this->specialToNumber(substr($chunks[1], 0, strpos($chunks[1], '.')));
             }
         }
 

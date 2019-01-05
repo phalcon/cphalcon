@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
-use IntegrationTester;
 
 /**
  * Class ValidateCest
@@ -83,7 +83,7 @@ class ValidateCest
                     'name',
                     'TooShort',
                     0
-                )
+                ),
             ]
         );
         $messages = $validation->validate(['name' => 'So']);
@@ -121,7 +121,7 @@ class ValidateCest
                     'message',
                     'TooShort',
                     0
-                )
+                ),
             ]
         );
         $messages = $validation->validate(['message' => 'So']);
@@ -155,7 +155,7 @@ class ValidateCest
                     'name',
                     'TooLong',
                     0
-                )
+                ),
             ]
         );
         $messages = $validation->validate(['name' => 'Johannes']);
@@ -193,7 +193,7 @@ class ValidateCest
                     'message',
                     'TooLong',
                     0
-                )
+                ),
             ]
         );
         $messages = $validation->validate(['message' => 'Validation']);

@@ -11,13 +11,11 @@
 
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
 
-use function env;
 use IntegrationTester;
-use Phalcon\Db\Adapter\Pdo\Postgresql;
-use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function env;
 
 class PostgresqlCest
 {
@@ -42,6 +40,23 @@ class PostgresqlCest
         $actual     = $connection->describeReferences('foreign_key_child', 'public');
 
         $I->assertEquals($expected, $actual);
+    }
+
+    private function getReferenceObject()
+    {
+        return [
+            'test_describereferences' => new Reference(
+                'test_describereferences',
+                [
+                    'referencedTable'   => 'foreign_key_parent',
+                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+                    'columns'           => ['child_int'],
+                    'referencedColumns' => ['refer_int'],
+                    'onUpdate'          => 'CASCADE',
+                    'onDelete'          => 'RESTRICT',
+                ]
+            ),
+        ];
     }
 
     /**
@@ -70,6 +85,24 @@ class PostgresqlCest
         }
     }
 
+    protected function getReferenceAddForeignKey()
+    {
+        return [
+            'fk1' => new Reference('fk1', [
+                'referencedTable'   => 'foreign_key_parent',
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+                'onDelete'          => 'CASCADE',
+                'onUpdate'          => 'RESTRICT',
+            ]),
+            'fk2' => new Reference('', [
+                'referencedTable'   => 'foreign_key_parent',
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+            ]),
+        ];
+    }
+
     /**
      * Tests Postgresql::is created
      *
@@ -91,6 +124,14 @@ class PostgresqlCest
             $actual     = $connection->execute($sql);
             $I->assertEquals($expected, $actual);
         }
+    }
+
+    private function getForeignKey($foreignKeyName)
+    {
+        $sql = rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example9.sql')));
+        str_replace('%_FK_%', $foreignKeyName, $sql);
+
+        return $sql;
     }
 
     /**
@@ -117,49 +158,5 @@ class PostgresqlCest
             $actual     = $connection->execute($sql);
             $I->assertEquals($expected, $actual);
         }
-    }
-
-
-    private function getForeignKey($foreignKeyName)
-    {
-        $sql = rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example9.sql')));
-        str_replace('%_FK_%', $foreignKeyName, $sql);
-
-        return $sql;
-    }
-
-    protected function getReferenceAddForeignKey()
-    {
-        return [
-            'fk1' => new Reference('fk1', [
-                'referencedTable'   => 'foreign_key_parent',
-                'columns'           => ['child_int'],
-                'referencedColumns' => ['refer_int'],
-                'onDelete'          => 'CASCADE',
-                'onUpdate'          => 'RESTRICT',
-            ]),
-            'fk2' => new Reference('', [
-                'referencedTable'   => 'foreign_key_parent',
-                'columns'           => ['child_int'],
-                'referencedColumns' => ['refer_int']
-            ])
-        ];
-    }
-
-    private function getReferenceObject()
-    {
-        return [
-            'test_describereferences' => new Reference(
-                'test_describereferences',
-                [
-                    'referencedTable'   => 'foreign_key_parent',
-                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
-                    'columns'           => ['child_int'],
-                    'referencedColumns' => ['refer_int'],
-                    'onUpdate'          => 'CASCADE',
-                    'onDelete'          => 'RESTRICT',
-                ]
-            )
-        ];
     }
 }

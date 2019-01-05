@@ -11,10 +11,6 @@
 
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Phalcon\Di;
-use Phalcon\Events\Manager;
-use Phalcon\Filter;
-use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Listener\CustomAuthorizationListener;
 use Phalcon\Test\Fixtures\Listener\NegotiateAuthorizationListener;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;

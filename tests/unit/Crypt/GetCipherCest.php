@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use UnitTester;
 use Phalcon\Crypt;
+use UnitTester;
 
 /**
  * Class GetCipherCest
@@ -33,7 +33,7 @@ class GetCipherCest
         $I->wantToTest('Crypt - getCipher()');
 
         $cipher = "aes-256-cfb";
-        $crypt = new Crypt($cipher);
+        $crypt  = new Crypt($cipher);
         $I->assertEquals($cipher, $crypt->getCipher());
     }
 }

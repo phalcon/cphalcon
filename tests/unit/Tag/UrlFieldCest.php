@@ -12,10 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
-
-use UnitTester;
 
 /**
  * Class UrlFieldCest

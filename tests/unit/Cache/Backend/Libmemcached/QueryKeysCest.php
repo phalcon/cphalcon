@@ -68,7 +68,7 @@ class QueryKeysCest
 
         $I->assertEquals([], $cache->queryKeys());
     }
-    
+
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/11024
      * @param UnitTester $I
@@ -102,7 +102,8 @@ class QueryKeysCest
     }
 
     /**
-     * Tests Phalcon\Cache\Backend\Libmemcached :: queryKeys() - without stats key exception
+     * Tests Phalcon\Cache\Backend\Libmemcached :: queryKeys() - without stats
+     * key exception
      *
      * @param UnitTester $I
      *

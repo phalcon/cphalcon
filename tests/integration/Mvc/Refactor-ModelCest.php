@@ -13,10 +13,6 @@ namespace Phalcon\Test\Integration\Mvc;
 
 use IntegrationTester;
 use Phalcon\Cache\Backend\Apc;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Messages\Message;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 

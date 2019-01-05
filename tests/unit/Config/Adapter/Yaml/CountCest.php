@@ -23,8 +23,8 @@ class CountCest
     use ConfigTrait;
 
     /**
- * Class CountCest
- */
+     * Class CountCest
+     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('yaml');

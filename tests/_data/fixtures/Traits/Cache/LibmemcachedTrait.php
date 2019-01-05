@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits\Cache;
 
 use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Cache\FrontendInterface;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
+use Phalcon\Cache\FrontendInterface;
 use UnitTester;
 
 /**
@@ -31,6 +31,22 @@ trait LibmemcachedTrait
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
+    }
+
+    /**
+     * @param null $statsKey
+     * @param int  $ttl
+     *
+     * @return Libmemcached
+     */
+    protected function getDataCache($statsKey = null, $ttl = 20)
+    {
+        $config = [];
+        if ($statsKey !== null) {
+            $config['statsKey'] = $statsKey;
+        }
+
+        return $this->getCache(new Data(['lifetime' => $ttl]), $config);
     }
 
     /**
@@ -53,22 +69,6 @@ trait LibmemcachedTrait
         ]);
 
         return new Libmemcached($frontend, $config);
-    }
-
-    /**
-     * @param null $statsKey
-     * @param int  $ttl
-     *
-     * @return Libmemcached
-     */
-    protected function getDataCache($statsKey = null, $ttl = 20)
-    {
-        $config = [];
-        if ($statsKey !== null) {
-            $config['statsKey'] = $statsKey;
-        }
-
-        return $this->getCache(new Data(['lifetime' => $ttl]), $config);
     }
 
     /**

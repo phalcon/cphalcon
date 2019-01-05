@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Error;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Test\Fixtures\Translate\Adapter\NativeAdapter;
 use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
-use Phalcon\Test\Fixtures\Translate\Adapter\NativeAdapter;
 
 /**
  * Class NotFoundCest

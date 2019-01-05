@@ -11,12 +11,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Router;
 
-use Phalcon\Http\Request;
+use IntegrationTester;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use IntegrationTester;
 
 class GroupCest
 {

@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData;
 
+use IntegrationTester;
 use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Robotto;
-use IntegrationTester;
 
 class MemoryCest
 {
@@ -66,28 +66,28 @@ class MemoryCest
         $robotto = new Robotto();
 
         //Robots
-        $pAttributes = array(
+        $pAttributes = [
             0 => 'id',
             1 => 'name',
             2 => 'type',
-            3 => 'year'
-        );
+            3 => 'year',
+        ];
 
         $attributes = $metaData->getAttributes($robotto);
         $I->assertEquals($attributes, $pAttributes);
 
-        $ppkAttributes = array(
-            0 => 'id'
-        );
+        $ppkAttributes = [
+            0 => 'id',
+        ];
 
         $pkAttributes = $metaData->getPrimaryKeyAttributes($robotto);
         $I->assertEquals($ppkAttributes, $pkAttributes);
 
-        $pnpkAttributes = array(
+        $pnpkAttributes = [
             0 => 'name',
             1 => 'type',
-            2 => 'year'
-        );
+            2 => 'year',
+        ];
 
         $npkAttributes = $metaData->getNonPrimaryKeyAttributes($robotto);
         $I->assertEquals($pnpkAttributes, $npkAttributes);

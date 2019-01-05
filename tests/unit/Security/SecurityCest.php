@@ -11,8 +11,6 @@
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Di;
-use Phalcon\Http\Request;
 use Phalcon\Security;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
@@ -261,9 +259,9 @@ class SecurityCest
         $security->setDI($container);
         $requestToken = $security->getRequestToken();
         $sessionToken = $security->getSessionToken();
-        $tokenKey = $security->getTokenKey();
-        $token = $security->getToken();
-        
+        $tokenKey     = $security->getTokenKey();
+        $token        = $security->getToken();
+
         $I->assertEquals($sessionToken, $requestToken);
         $I->assertNotEquals($token, $sessionToken);
         $I->assertEquals($security->getRequestToken(), $requestToken);
@@ -271,12 +269,12 @@ class SecurityCest
 
         $_POST = [$tokenKey => $requestToken];
         $I->assertTrue($security->checkToken(null, null, false));
-        
+
         $_POST = [$tokenKey => $token];
         $I->assertFalse($security->checkToken(null, null, false));
-        
+
         $I->assertFalse($security->checkToken());
-        
+
         $security->destroyToken();
         $I->assertNotEquals($security->getRequestToken(), $requestToken);
     }

@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData;
 
-use function apcu_fetch;
+use IntegrationTester;
 use Phalcon\Mvc\Model\Metadata\Apcu;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use IntegrationTester;
+use function apcu_fetch;
 
 class ApcuCest
 {
