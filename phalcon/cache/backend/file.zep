@@ -58,13 +58,28 @@ class File extends Backend
 	 * @var bool
 	 */
 	private _useSafeKey = false;
+	
+	/**
+	 * Default to false for backwards compatibility
+	 *
+	 * @var boolean
+	 */
+	private _useSubDir = false;
+
+	/**
+	 * The default is a level 2 folder
+	 *
+	 * @var boolean
+	 */
+	private _useSubDirLevel = 2;
+
 
 	/**
 	 * Phalcon\Cache\Backend\File constructor
 	 */
 	public function __construct(<FrontendInterface> frontend, array options)
 	{
-		var prefix, safekey;
+		var prefix, safekey,subdir;
 
 		if !isset options["cacheDir"] {
 			throw new Exception("Cache directory must be specified with the option cacheDir");
@@ -76,6 +91,14 @@ class File extends Backend
 			}
 
 			let this->_useSafeKey = safekey;
+		}
+
+		if fetch subdir, options["subdir"] {
+			if typeof subdir !== "boolean" {
+				throw new Exception("subdir option should be a boolean.");
+			}
+
+			let this->_useSubDir = subdir;
 		}
 
 		// added to avoid having unsafe filesystem characters in the prefix
@@ -629,10 +652,45 @@ class File extends Backend
 	public function getKey(key) -> string
 	{
 		if this->_useSafeKey === true {
+			if this->_useSubDir === true {
+				return  this->getSubDir(md5(key)). md5(key);
+			}
 			return md5(key);
 		}
 
 		return key;
+	}
+
+	/**
+	 * Returns the formatted subfolder for the given key
+	 */
+	private function getSubDir(key) -> string
+	{
+		var counter,subdir;
+		let counter = this->_useSubDirLevel,subdir = "/";
+		while counter {
+			let subdir = subdir.substr(key,-counter,1)."/";
+			let counter -= 1;
+		}
+		return subdir;
+	}
+
+	/**
+	 * Set SubDirLevel
+	 */
+	public function useSubDirLevel(bool useSubDirLevel) -> <File>
+	{
+	    let this->_useSubDirLevel = useSubDirLevel;
+		return this;
+	}
+ 
+	/**
+	 * Set useSubDir
+	 */
+	public function useSubDir(bool useSubDir) -> <File>
+	{
+	    let this->_useSubDir = useSubDir;
+		return this;
 	}
 
 	/**
@@ -645,4 +703,3 @@ class File extends Backend
 		return this;
 	}
 }
-

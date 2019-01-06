@@ -69,7 +69,7 @@ class FileCest
         $I->wantTo("Use File cache with Output frontend");
         $I->skipTest('TODO - Check me');
 
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $time = date('H:i:s');
 
             $frontCache = new Output(['lifetime' => 2]);
@@ -79,10 +79,19 @@ class FileCest
             ]);
 
             // on the second run set useSafeKey to true to test the compatibility toggle
-            if ($i == 1) {
+            if ($i >= 1) {
                 $cache->useSafeKey(true);
             }
 
+            // On the third run, set up the subfolders 
+            if ($i >= 2) {
+                $cache->useSubDir(true);
+            }
+            // On the four run, Set the SubDirLevel to 5
+            if ($i > 2) {
+                $cache->useSubDirLevel(5);
+            }
+            
             $I->assertFalse($cache->isStarted());
 
             ob_start();
