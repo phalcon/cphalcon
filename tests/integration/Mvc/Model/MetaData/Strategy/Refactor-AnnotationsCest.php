@@ -11,12 +11,12 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Strategy;
 
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use IntegrationTester;
+use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Annotations\Robot;
-use Phalcon\Db\Column;
-use IntegrationTester;
 
 class AnnotationsCest
 {
@@ -39,7 +39,7 @@ class AnnotationsCest
      */
     public function testModelMetaDataAnnotations(IntegrationTester $I)
     {
-        $model = new Robot();
+        $model    = new Robot();
         $metaData = $this->container->getShared('modelsMetadata');
 
         $expected = [
@@ -60,7 +60,7 @@ class AnnotationsCest
             'tinyblob'   => 'tinyblob',
             'blob'       => 'blob',
             'mediumblob' => 'mediumblob',
-            'longblob'   => 'longblob'
+            'longblob'   => 'longblob',
         ];
         $actual   = $metaData->getColumnMap($model);
         $I->assertEquals($expected, $actual);
@@ -83,7 +83,7 @@ class AnnotationsCest
             'tinyblob'    => 'tinyblob',
             'blob'        => 'blob',
             'mediumblob'  => 'mediumblob',
-            'longblob'    => 'longblob'
+            'longblob'    => 'longblob',
         ];
         $actual   = $metaData->getReverseColumnMap($model);
         $I->assertEquals($expected, $actual);
@@ -99,14 +99,14 @@ class AnnotationsCest
         $expected = [
             'name', 'type', 'year', 'deleted', 'text', 'float', 'double',
             'decimal', 'activated', 'birthday', 'timestamp', 'code',
-            'json', 'tinyblob', 'blob', 'mediumblob', 'longblob'
+            'json', 'tinyblob', 'blob', 'mediumblob', 'longblob',
         ];
         $actual   = $metaData->getNonPrimaryKeyAttributes($model);
         $I->assertEquals($expected, $actual);
 
         $expected = [
             'id', 'name', 'type', 'year', 'text', 'float', 'double',
-            'decimal', 'activated', 'birthday', 'timestamp', 'code'
+            'decimal', 'activated', 'birthday', 'timestamp', 'code',
         ];
         $actual   = $metaData->getNotNullAttributes($model);
         $I->assertEquals($expected, $actual);
@@ -129,7 +129,7 @@ class AnnotationsCest
             'tinyblob'   => Column::TYPE_TINYBLOB,
             'blob'       => Column::TYPE_BLOB,
             'mediumblob' => Column::TYPE_MEDIUMBLOB,
-            'longblob'   => Column::TYPE_LONGBLOB
+            'longblob'   => Column::TYPE_LONGBLOB,
         ];
         $actual   = $metaData->getDataTypes($model);
         $I->assertEquals($expected, $actual);
@@ -139,7 +139,7 @@ class AnnotationsCest
             'year'    => true,
             'float'   => true,
             'double'  => true,
-            'decimal' => true
+            'decimal' => true,
         ];
         $actual   = $metaData->getDataTypesNumeric($model);
         $I->assertEquals($expected, $actual);
@@ -162,25 +162,25 @@ class AnnotationsCest
             'tinyblob'   => Column::BIND_PARAM_BLOB,
             'blob'       => Column::BIND_PARAM_BLOB,
             'mediumblob' => Column::BIND_PARAM_BLOB,
-            'longblob'   => Column::BIND_PARAM_BLOB
+            'longblob'   => Column::BIND_PARAM_BLOB,
         ];
         $actual   = $metaData->getBindTypes($model);
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'deleted'
+            'deleted',
         ];
         $actual   = $metaData->getAutomaticCreateAttributes($model);
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'float', 'longblob'
+            'float', 'longblob',
         ];
         $actual   = $metaData->getAutomaticUpdateAttributes($model);
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'name', 'text'
+            'name', 'text',
         ];
         $actual   = $metaData->getEmptyStringAttributes($model);
         $I->assertEquals($expected, $actual);
@@ -193,7 +193,7 @@ class AnnotationsCest
             'tinyblob'   => null,
             'blob'       => null,
             'mediumblob' => null,
-            'longblob'   => null
+            'longblob'   => null,
         ];
         $actual   = $metaData->getDefaultValues($model);
         $I->assertEquals($expected, $actual);

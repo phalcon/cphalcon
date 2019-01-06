@@ -21,7 +21,6 @@ use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Tag;
 use function cacheFolder;
 use function dataFolder;
 

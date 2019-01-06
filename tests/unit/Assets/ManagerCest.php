@@ -12,17 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets;
 
-use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
-use Phalcon\Assets\Asset\Css;
-use Phalcon\Assets\Asset\Js;
-use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function uniqid;
 use UnitTester;
 use function dataFolder;
+use function uniqid;
 
 class ManagerCest
 {

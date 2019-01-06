@@ -13,14 +13,12 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Personas;
+use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
 
@@ -73,6 +71,20 @@ class CriteriaCest
         }
     }
 
+    private function getLimitOffset(): array
+    {
+        return [
+            [-7, null, 7],
+            ["-7234", null, 7234],
+            ["18", null, 18],
+            ["18", 2, ['number' => 18, 'offset' => 2]],
+            ["-1000", -200, ['number' => 1000, 'offset' => 200]],
+            ["1000", "-200", ['number' => 1000, 'offset' => 200]],
+            ["0", "-200", null],
+            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, null],
+        ];
+    }
+
     /**
      * Tests creating builder from criteria
      *
@@ -97,7 +109,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -106,7 +118,7 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->where("estado='I'")->execute();
-        $people = People::find("estado='I'");
+        $people   = People::find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
         $I->assertInstanceOf(Simple::class, $personas);
@@ -114,7 +126,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -127,7 +139,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -136,14 +148,14 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->conditions("estado='I'")->execute();
-        $people = People::find("estado='I'");
+        $people   = People::find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
     }
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -156,7 +168,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -167,7 +179,8 @@ class CriteriaCest
         $personas = Personas::query()
                             ->where("estado='A'")
                             ->orderBy("nombres")
-                            ->execute();
+                            ->execute()
+        ;
 
         $people = People::find(["estado='A'", "order" => "nombres"]);
 
@@ -177,7 +190,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -188,7 +201,8 @@ class CriteriaCest
         $personers = Personers::query()
                               ->where("status='A'")
                               ->orderBy("navnes")
-                              ->execute();
+                              ->execute()
+        ;
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -196,7 +210,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -208,7 +222,8 @@ class CriteriaCest
                             ->where("estado='A'")
                             ->orderBy("nombres")
                             ->limit(100)
-                            ->execute();
+                            ->execute()
+        ;
 
         $people = People::find([
             "estado='A'",
@@ -222,7 +237,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -234,7 +249,8 @@ class CriteriaCest
                               ->where("status='A'")
                               ->orderBy("navnes")
                               ->limit(100)
-                              ->execute();
+                              ->execute()
+        ;
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -242,7 +258,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -255,7 +271,8 @@ class CriteriaCest
                             ->bind([1 => "A"])
                             ->orderBy("nombres")
                             ->limit(100)
-                            ->execute();
+                            ->execute()
+        ;
 
         $people = People::find([
             "estado=?1",
@@ -270,7 +287,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -283,7 +300,8 @@ class CriteriaCest
                               ->bind([1 => "A"])
                               ->orderBy("navnes")
                               ->limit(100)
-                              ->execute();
+                              ->execute()
+        ;
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -291,7 +309,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -304,7 +322,8 @@ class CriteriaCest
                               ->bind(["status" => "A"])
                               ->orderBy("navnes")
                               ->limit(100)
-                              ->execute();
+                              ->execute()
+        ;
 
         $I->assertInstanceOf(Simple::class, $personers);
         $I->assertInstanceOf(Personers::class, $personers->getFirst());
@@ -312,7 +331,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -325,7 +344,8 @@ class CriteriaCest
                             ->bind([1 => "A"])
                             ->orderBy("nombres")
                             ->limit(100, 10)
-                            ->execute();
+                            ->execute()
+        ;
 
         $people = People::find([
             "estado=?1",
@@ -340,7 +360,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -353,7 +373,8 @@ class CriteriaCest
                             ->bind(["estado" => "A"])
                             ->orderBy("nombres")
                             ->limit(100)
-                            ->execute();
+                            ->execute()
+        ;
 
         $people = People::find([
             "estado=:estado:",
@@ -368,7 +389,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @dataprovider adapterProvider
      */
@@ -383,7 +404,7 @@ class CriteriaCest
 
     /**
      * @param IntegrationTester $I
-     * @param Example $example
+     * @param Example           $example
      *
      * @issue        https://github.com/phalcon/cphalcon/issues/2131
      * @dataprovider adapterProvider
@@ -396,14 +417,16 @@ class CriteriaCest
         $personas = Personas::query()
                             ->where("estado='I'")
                             ->cache(['key' => 'cache-for-issue-2131'])
-                            ->execute();
+                            ->execute()
+        ;
 
         $I->assertTrue($personas->isFresh());
 
         $personas = Personas::query()
                             ->where("estado='I'")
                             ->cache(['key' => 'cache-for-issue-2131'])
-                            ->execute();
+                            ->execute()
+        ;
 
         $I->assertFalse($personas->isFresh());
 
@@ -411,6 +434,7 @@ class CriteriaCest
         $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
+
     /**
      * The data providers
      *
@@ -428,20 +452,6 @@ class CriteriaCest
             [
                 'adapter' => $this->newDiPostgresql(),
             ],
-        ];
-    }
-
-    private function getLimitOffset(): array
-    {
-        return [
-            [-7, null, 7],
-            ["-7234", null, 7234],
-            ["18", null, 18],
-            ["18", 2, ['number' => 18, 'offset' => 2]],
-            ["-1000", -200, ['number' => 1000, 'offset' => 200]],
-            ["1000", "-200", ['number' => 1000, 'offset' => 200]],
-            ["0", "-200", null],
-            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, null],
         ];
     }
 }

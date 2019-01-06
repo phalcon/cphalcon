@@ -43,7 +43,7 @@ class ToArrayCest
             '/users' => 'Users',
             ''       => 'Phalcon Team',
         ];
-        $actual = $breadcrumbs->toArray();
+        $actual   = $breadcrumbs->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

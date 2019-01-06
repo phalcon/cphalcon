@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
 
-use Phalcon\Paginator\Adapter\NativeArray;
 use IntegrationTester;
+use Phalcon\Paginator\Adapter\NativeArray;
 
 /**
  * Class GetLimitCest

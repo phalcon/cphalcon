@@ -60,66 +60,6 @@ class QueryOldCest
         }
     }
 
-    /**
-     * Tests Query::parse insert
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     */
-    public function shouldInsertParsing(IntegrationTester $I)
-    {
-        $examples = $this->getExamplesInsert();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $query    = new Query($params['query']);
-            $query->setDI($this->container);
-
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    /**
-     * Tests Query::parse update
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     */
-    public function shouldUpdateParsing(IntegrationTester $I)
-    {
-        $examples = $this->getExamplesUpdate();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $query    = new Query($params['query']);
-            $query->setDI($this->container);
-
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    /**
-     * Tests Query::parse delete
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     */
-    public function shouldDeleteParsing(IntegrationTester $I)
-    {
-        $examples = $this->getExamplesDelete();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $query    = new Query($params['query']);
-            $query->setDI($this->container);
-
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
     private function getExamples(): array
     {
         return [
@@ -3450,7 +3390,7 @@ class QueryOldCest
                         'robots',
                     ],
                     'columns' => [
-                        Robots::class . '_name'      => [
+                        Robots::class . '_name' => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -3461,7 +3401,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        'summatory' => [
+                        'summatory'             => [
                             'type'     => 'scalar',
                             'column'   => [
                                 'type'      => 'functionCall',
@@ -3503,7 +3443,7 @@ class QueryOldCest
                         ],
                     ],
                     'columns' => [
-                        'r_id'        => [
+                        'r_id'      => [
                             'type'     => 'scalar',
                             'balias'   => 'id',
                             'sqlAlias' => 'id',
@@ -3514,7 +3454,7 @@ class QueryOldCest
                                 'balias' => 'id',
                             ],
                         ],
-                        'r_name'      => [
+                        'r_name'    => [
                             'type'     => 'scalar',
                             'balias'   => 'name',
                             'sqlAlias' => 'name',
@@ -3829,7 +3769,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -3879,7 +3819,7 @@ class QueryOldCest
                         'le_products',
                     ],
                     'columns' => [
-                        SomeProducts::class . '_type'  => [
+                        SomeProducts::class . '_type' => [
                             'type'     => 'scalar',
                             'balias'   => 'type',
                             'sqlAlias' => 'type',
@@ -3890,7 +3830,7 @@ class QueryOldCest
                                 'balias' => 'type',
                             ],
                         ],
-                        'price' => [
+                        'price'                       => [
                             'type'     => 'scalar',
                             'column'   => [
                                 'type'      => 'functionCall',
@@ -4086,7 +4026,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -4161,7 +4101,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -4244,7 +4184,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -4333,7 +4273,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -4489,7 +4429,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -4570,7 +4510,7 @@ class QueryOldCest
                                 'balias' => 'name',
                             ],
                         ],
-                        '_1'   => [
+                        '_1'                    => [
                             'type'   => 'scalar',
                             'column' => [
                                 'type'      => 'functionCall',
@@ -7025,6 +6965,26 @@ class QueryOldCest
         ];
     }
 
+    /**
+     * Tests Query::parse insert
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-24
+     */
+    public function shouldInsertParsing(IntegrationTester $I)
+    {
+        $examples = $this->getExamplesInsert();
+        foreach ($examples as $item) {
+            $params   = $item[0];
+            $expected = $item[1];
+            $query    = new Query($params['query']);
+            $query->setDI($this->container);
+
+            $actual = $query->parse();
+            $I->assertEquals($expected, $actual);
+        }
+    }
+
     private function getExamplesInsert(): array
     {
         return [
@@ -7289,6 +7249,26 @@ class QueryOldCest
                 ],
             ],
         ];
+    }
+
+    /**
+     * Tests Query::parse update
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-24
+     */
+    public function shouldUpdateParsing(IntegrationTester $I)
+    {
+        $examples = $this->getExamplesUpdate();
+        foreach ($examples as $item) {
+            $params   = $item[0];
+            $expected = $item[1];
+            $query    = new Query($params['query']);
+            $query->setDI($this->container);
+
+            $actual = $query->parse();
+            $I->assertEquals($expected, $actual);
+        }
     }
 
     private function getExamplesUpdate(): array
@@ -7793,6 +7773,26 @@ class QueryOldCest
                 ],
             ],
         ];
+    }
+
+    /**
+     * Tests Query::parse delete
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-01-24
+     */
+    public function shouldDeleteParsing(IntegrationTester $I)
+    {
+        $examples = $this->getExamplesDelete();
+        foreach ($examples as $item) {
+            $params   = $item[0];
+            $expected = $item[1];
+            $query    = new Query($params['query']);
+            $query->setDI($this->container);
+
+            $actual = $query->parse();
+            $I->assertEquals($expected, $actual);
+        }
     }
 
     private function getExamplesDelete(): array

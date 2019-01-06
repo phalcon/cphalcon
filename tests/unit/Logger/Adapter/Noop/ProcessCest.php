@@ -35,7 +35,7 @@ class ProcessCest
     public function loggerAdapterNoopProcess(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - process()');
-        $adapter    = new Noop();
+        $adapter = new Noop();
 
         $item = new Item('Message 1', 'debug', Logger::DEBUG);
         $adapter->process($item);

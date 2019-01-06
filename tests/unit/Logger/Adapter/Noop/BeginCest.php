@@ -33,7 +33,7 @@ class BeginCest
     public function loggerAdapterNoopBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - begin()');
-        $adapter    = new Noop();
+        $adapter = new Noop();
 
         $adapter->begin();
 

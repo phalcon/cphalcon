@@ -20,7 +20,6 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Tag;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerFilesCest

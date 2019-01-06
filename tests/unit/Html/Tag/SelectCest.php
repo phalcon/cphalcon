@@ -40,8 +40,8 @@ class SelectCest
         $I->wantToTest('Html\Tag - select()');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name  = 'x_name';
-        $data  = [
+        $name     = 'x_name';
+        $data     = [
             'A' => 'Active',
             'I' => 'Inactive',
         ];
@@ -69,12 +69,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - id');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'id'    => 'x_id',
             'class' => 'x_class',
         ];
-        $data   = [
+        $data     = [
             'A' => 'Active',
             'I' => 'Inactive',
         ];
@@ -100,12 +100,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - name');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'name'  => 'x_other',
             'class' => 'x_class',
         ];
-        $data   = [
+        $data     = [
             'A' => 'Active',
             'I' => 'Inactive',
         ];
@@ -131,12 +131,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - value');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'value' => 'I',
             'class' => 'x_class',
         ];
-        $data   = [
+        $data     = [
             'A' => 'Active',
             'I' => 'Inactive',
         ];
@@ -162,12 +162,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - setAttribute()');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $data   = [
+        $data     = [
             'A' => 'Active',
             'I' => 'Inactive',
         ];
@@ -178,7 +178,8 @@ class SelectCest
 
         $actual = $tag
             ->setAttribute('x_name', 'I')
-            ->select($name, $params, $data);
+            ->select($name, $params, $data)
+        ;
         $I->assertEquals($expected, $actual);
     }
 
@@ -195,13 +196,13 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - setAttribute() element not present');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $data   = [
+        $data     = [
             'A' => 'Active',
             'I' => 'Inactive',
         ];
@@ -212,7 +213,8 @@ class SelectCest
 
         $actual = $tag
             ->setAttribute('x_name', 'Z')
-            ->select($name, $params, $data);
+            ->select($name, $params, $data)
+        ;
         $I->assertEquals($expected, $actual);
     }
 
@@ -231,12 +233,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - optgroup array with id');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'id'    => 'x_id',
             'class' => 'x_class',
         ];
-        $data   = [
+        $data     = [
             "Active" => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
@@ -270,11 +272,11 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - optgroup array without id');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'class' => 'x_class',
         ];
-        $data   = [
+        $data     = [
             "Active" => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
@@ -306,12 +308,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - optgroup array with value');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'value' => 'A1',
             'class' => 'x_class',
         ];
-        $data   = [
+        $data     = [
             "Active" => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
@@ -343,12 +345,12 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - optgroup setAttribute()');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $data   = [
+        $data     = [
             "Active" => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
@@ -365,12 +367,14 @@ class SelectCest
 
         $actual = $tag
             ->setAttribute('x_name', 'A2')
-            ->select($name, $params, $data);
+            ->select($name, $params, $data)
+        ;
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute() element not present
+     * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute() element not
+     * present
      *
      * @param UnitTester $I
      *
@@ -382,13 +386,13 @@ class SelectCest
         $I->wantToTest('Html\Tag - select() - optgroup setAttribute() element not present');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $name   = 'x_name';
-        $params = [
+        $name     = 'x_name';
+        $params   = [
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $data   = [
+        $data     = [
             "Active" => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
@@ -405,7 +409,8 @@ class SelectCest
 
         $actual = $tag
             ->setAttribute('x_name', 'Z')
-            ->select($name, $params, $data);
+            ->select($name, $params, $data)
+        ;
         $I->assertEquals($expected, $actual);
     }
 }

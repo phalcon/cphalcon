@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData;
 
+use IntegrationTester;
 use Phalcon\Mvc\Model\Metadata\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use IntegrationTester;
 
 class LibmemcachedCest
 {
@@ -37,7 +37,7 @@ class LibmemcachedCest
                                 'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
                                 'port'   => env('DATA_MEMCACHED_PORT', 11211),
                                 'weight' => 1,
-                            ]
+                            ],
                         ],
                     ]
                 );

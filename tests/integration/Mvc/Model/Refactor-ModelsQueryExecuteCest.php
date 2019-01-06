@@ -3,9 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Db\RawValue;
 use Phalcon\Messages\Message;
-use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class ModelsQueryExecuteCest

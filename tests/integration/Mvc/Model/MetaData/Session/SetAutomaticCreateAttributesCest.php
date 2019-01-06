@@ -20,7 +20,8 @@ use IntegrationTester;
 class SetAutomaticCreateAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Session :: setAutomaticCreateAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Session ::
+     * setAutomaticCreateAttributes()
      *
      * @param IntegrationTester $I
      *

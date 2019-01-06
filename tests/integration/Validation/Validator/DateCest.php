@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Date;
-use IntegrationTester;
 
 class DateCest
 {
@@ -159,7 +159,7 @@ class DateCest
                     ),
                 ]
             );
-            $actual = $validation->validate(['date' => $date]);
+            $actual   = $validation->validate(['date' => $date]);
             $I->assertEquals($expected, $actual);
         }
     }

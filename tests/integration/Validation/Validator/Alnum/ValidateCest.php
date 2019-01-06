@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Alnum;
 
+use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alnum;
-use IntegrationTester;
 
 /**
  * Class ValidateCest

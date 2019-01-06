@@ -24,12 +24,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_message___construct, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, field)
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, type)
 #endif
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, code, IS_LONG, 1)
+	ZEND_ARG_TYPE_INFO(0, code, IS_LONG, 0)
 #else
 	ZEND_ARG_INFO(0, code)
 #endif

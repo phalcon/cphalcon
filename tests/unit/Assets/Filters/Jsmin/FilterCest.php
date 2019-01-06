@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Filters\Jsmin;
 
-use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
 use UnitTester;
 

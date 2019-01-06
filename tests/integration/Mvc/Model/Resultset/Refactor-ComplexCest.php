@@ -12,10 +12,10 @@
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsParts;
 
 class ComplexCest
 {
@@ -28,14 +28,15 @@ class ComplexCest
     }
 
     /**
-     * Work with Complex Resultset by load data from the file cache (PHQL option).
+     * Work with Complex Resultset by load data from the file cache (PHQL
+     * option).
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-12-28
      */
     public function shouldLoadResultsetFromCacheByUsingPhqlFile(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheFile();
         $manager = $this->container->get('modelsManager');
 
         $robots = $manager->executeQuery(
@@ -64,7 +65,7 @@ class ComplexCest
 
     public function shouldLoadResultsetFromCacheByUsingPhqlLibmemcached(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheFileLibmemcached();
+        $cache   = $this->getAndSetModelsCacheFileLibmemcached();
         $manager = $this->container->get('modelsManager');
 
         $robots = $manager->executeQuery(

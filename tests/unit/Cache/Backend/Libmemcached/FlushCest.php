@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
 /**
@@ -19,6 +20,8 @@ use UnitTester;
  */
 class FlushCest
 {
+    use LibmemcachedTrait;
+
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: flush()
      *
@@ -30,6 +33,26 @@ class FlushCest
     public function cacheBackendLibmemcachedFlush(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - flush()');
-        $I->skipTest('Need implementation');
+
+        $lifetime = 20;
+        $statsKey = '_PHCM';
+        $cache    = $this->getDataCache($statsKey);
+
+        $I->haveInLibmemcached('data-flush-1', 1);
+        $I->haveInLibmemcached('data-flush-2', 2);
+        $I->haveInLibmemcached('data-flush-3', 3);
+
+        $I->haveInLibmemcached(
+            $statsKey,
+            ['data-flush-1' => $lifetime, 'data-flush-2' => $lifetime, 'data-flush-3' => $lifetime]
+        );
+
+        $I->assertTrue($cache->flush());
+
+        $I->dontSeeInLibmemcached('data-flush-1');
+        $I->dontSeeInLibmemcached('data-flush-2');
+        $I->dontSeeInLibmemcached('data-flush-3');
+
+        $I->dontSeeInLibmemcached($statsKey);
     }
 }

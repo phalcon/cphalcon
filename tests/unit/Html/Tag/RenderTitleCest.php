@@ -65,7 +65,8 @@ class RenderTitleCest
 
         $tag->prependTitle(['Hello'])
             ->setTitle('World')
-            ->appendTitle(['from Phalcon']);
+            ->appendTitle(['from Phalcon'])
+        ;
 
         $expected = '<title>Hello World from Phalcon</title>' . PHP_EOL;
         $actual   = $tag->renderTitle();

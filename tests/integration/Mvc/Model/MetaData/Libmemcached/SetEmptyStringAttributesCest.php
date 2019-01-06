@@ -20,7 +20,8 @@ use IntegrationTester;
 class SetEmptyStringAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: setEmptyStringAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
+     * setEmptyStringAttributes()
      *
      * @param IntegrationTester $I
      *

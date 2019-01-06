@@ -35,11 +35,11 @@ use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Session\Adapter\Files as SessionFiles;
 use Phalcon\Session\Adapter\Libmemcached as SessionLibmemcached;
 use Phalcon\Session\Adapter\Noop as SessionNoop;
 use Phalcon\Session\Adapter\Redis as SessionRedis;
+use Phalcon\Session\Manager as SessionManager;
 use function cacheFolder;
 use function dataFolder;
 
@@ -112,24 +112,6 @@ trait DiTrait
         Di::reset();
         $this->container = new Di();
         Di::setDefault($this->container);
-    }
-
-    /**
-     * Set up a new FactoryDefault
-     */
-    protected function setNewFactoryDefault()
-    {
-        Di::reset();
-        $this->container = $this->newFactoryDefault();
-        Di::setDefault($this->container);
-    }
-
-    /**
-     * @return FactoryDefault
-     */
-    protected function newFactoryDefault()
-    {
-        return new FactoryDefault();
     }
 
     /**
@@ -276,30 +258,6 @@ trait DiTrait
         ];
 
         return new Mysql($options);
-    }
-
-    /**
-     * Set up db service (Postgresql)
-     */
-    protected function setDiPostgresql()
-    {
-        $this->container->set('db', $this->newDiPostgresql());
-    }
-
-    /**
-     * Set up db service (Postgresql)
-     */
-    protected function newDiPostgresql()
-    {
-        $options = [
-            'host'     => env('DATA_POSTGRES_HOST'),
-            'username' => env('DATA_POSTGRES_USER'),
-            'password' => env('DATA_POSTGRES_PASS'),
-            'dbname'   => env('DATA_POSTGRES_NAME'),
-            'schema'   => env('DATA_POSTGRES_SCHEMA'),
-        ];
-
-        return new Postgresql($options);
     }
 
     /**
@@ -477,6 +435,48 @@ trait DiTrait
         $this->setDiPostgresql();
 
         $this->connection = $this->getService('db');
+    }
+
+    /**
+     * Set up a new FactoryDefault
+     */
+    protected function setNewFactoryDefault()
+    {
+        Di::reset();
+        $this->container = $this->newFactoryDefault();
+        Di::setDefault($this->container);
+    }
+
+    /**
+     * @return FactoryDefault
+     */
+    protected function newFactoryDefault()
+    {
+        return new FactoryDefault();
+    }
+
+    /**
+     * Set up db service (Postgresql)
+     */
+    protected function setDiPostgresql()
+    {
+        $this->container->set('db', $this->newDiPostgresql());
+    }
+
+    /**
+     * Set up db service (Postgresql)
+     */
+    protected function newDiPostgresql()
+    {
+        $options = [
+            'host'     => env('DATA_POSTGRES_HOST'),
+            'username' => env('DATA_POSTGRES_USER'),
+            'password' => env('DATA_POSTGRES_PASS'),
+            'dbname'   => env('DATA_POSTGRES_NAME'),
+            'schema'   => env('DATA_POSTGRES_SCHEMA'),
+        ];
+
+        return new Postgresql($options);
     }
 
     /**

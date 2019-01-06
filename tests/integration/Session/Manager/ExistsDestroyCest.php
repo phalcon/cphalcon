@@ -16,7 +16,6 @@ use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function print_r;
 
 /**
  * Class ExistsDestroyCest

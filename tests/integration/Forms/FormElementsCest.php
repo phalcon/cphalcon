@@ -212,7 +212,7 @@ class FormElementsCest
                     'lastName',
                     'PresenceOf',
                     0
-                )
+                ),
             ]
         );
         $I->assertEquals($actual, $expected);
@@ -263,7 +263,7 @@ class FormElementsCest
                     'password',
                     'TooShort',
                     0
-                )
+                ),
             ]
         );
         $I->assertEquals($actual, $expected);

@@ -34,22 +34,6 @@ class RelationsCest
         $this->runHasMany($I);
     }
 
-    public function relationsPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $this->runBelongsTo($I);
-        $this->runHasMany($I);
-    }
-
-    public function relationsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $this->runBelongsTo($I);
-        $this->runHasMany($I);
-    }
-
     private function runBelongsTo(IntegrationTester $I)
     {
         $manager = $this->container->getShared('modelsManager');
@@ -70,6 +54,22 @@ class RelationsCest
 
         $I->assertTrue($manager->existsHasMany(RelationsRobots::class, RelationsRobotsParts::class));
         $I->assertTrue($manager->existsHasMany(RelationsParts::class, RelationsRobotsParts::class));
+    }
+
+    public function relationsPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $this->runBelongsTo($I);
+        $this->runHasMany($I);
+    }
+
+    public function relationsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $this->runBelongsTo($I);
+        $this->runHasMany($I);
     }
 
     private function runHasManyToMany(IntegrationTester $I)
