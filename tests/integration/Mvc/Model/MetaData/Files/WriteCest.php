@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Files;
 
 use IntegrationTester;
 
+/**
+ * Class WriteCest
+ */
 class WriteCest
 {
     /**
@@ -25,7 +29,7 @@ class WriteCest
      */
     public function mvcModelMetadataFilesWrite(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Files - write()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Files - write()');
+        $I->skipTest('Need implementation');
     }
 }

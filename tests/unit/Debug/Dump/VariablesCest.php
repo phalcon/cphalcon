@@ -12,7 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug\Dump;
 
+use Phalcon\Debug\Dump;
+use stdClass;
 use UnitTester;
+use function dataFolder;
+use function file_get_contents;
 
 /**
  * Class VariablesCest
@@ -30,6 +34,13 @@ class VariablesCest
     public function debugDumpVariables(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variables()');
-        $I->skipTest('Need implementation');
+        $test1 = 'string';
+        $test2 = ['key' => 'value'];
+        $test3 = new stdClass();
+        $dump  = new Dump();
+
+        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variables_output.txt')));
+        $actual   = $dump->variables($test1, $test2, $test3);
+        $I->assertEquals($expected, $actual);
     }
 }

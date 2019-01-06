@@ -28,9 +28,10 @@ in our documents to find what you are looking for. If your question is still not
 * Another way is to ask a question on [Stack Overflow](https://stackoverflow.com/) and tag it with
   [`phalcon`](https://stackoverflow.com/questions/tagged/phalcon)
 * Come join the Phalcon [Discord](https://phalcon.link/discord)
-* There is a less active but still functioning community on [Slack](https://phalcon.link/slack)
-* Our social network accounts are: [Gab.ai](https://phalcon.link/gab), [Twitter](https://phalcon.link/t),
-  [Facebook](https://phalcon.link/fb) and [Google+](https://phalcon.link/gplus)
+* Our social network accounts are:
+  * [Gab.ai](https://phalcon.link/gab)
+  * [Twitter](https://phalcon.link/t)
+  * [Facebook](https://phalcon.link/fb)
 * If you still believe that what you found is a bug, please
   [open an issue](https://github.com/phalcon/cphalcon/issues/new)
 

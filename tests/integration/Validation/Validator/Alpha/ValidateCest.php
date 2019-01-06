@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Alpha;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
-use IntegrationTester;
 
 /**
  * Class ValidateCest
@@ -128,18 +128,14 @@ class ValidateCest
                 )
             );
 
-            $expected = Messages::__set_state(
+            $expected = new Messages(
                 [
-                    '_messages' => [
-                        Message::__set_state(
-                            [
-                                '_type'    => 'Alpha',
-                                '_message' => 'name must contain only letters',
-                                '_field'   => 'name',
-                                '_code'    => '0',
-                            ]
-                        ),
-                    ],
+                    new Message(
+                        'name must contain only letters',
+                        'name',
+                        'Alpha',
+                        0
+                    ),
                 ]
             );
             $actual   = $validation->validate(['name' => $input]);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 
 use IntegrationTester;
 
+/**
+ * Class CountCest
+ */
 class CountCest
 {
     /**
@@ -25,7 +29,7 @@ class CountCest
      */
     public function mvcModelResultsetSimpleCount(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Resultset\Simple - count()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Resultset\Simple - count()');
+        $I->skipTest('Need implementation');
     }
 }

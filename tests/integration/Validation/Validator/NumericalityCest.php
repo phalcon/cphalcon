@@ -11,11 +11,9 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
-use Phalcon\Messages\Message;
-use Phalcon\Messages\Messages;
+use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Numericality;
-use IntegrationTester;
 
 class NumericalityCest
 {

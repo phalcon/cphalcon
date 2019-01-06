@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter;
 
-use Phalcon\Filter;
 use Phalcon\Test\Unit\Filter\Helper\FilterBase;
 use UnitTester;
 

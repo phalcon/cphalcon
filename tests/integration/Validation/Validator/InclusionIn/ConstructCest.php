@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\InclusionIn;
 
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\InclusionIn;
-use Phalcon\Validation\ValidatorInterface;
-use IntegrationTester;
 
 /**
  * Class ConstructCest

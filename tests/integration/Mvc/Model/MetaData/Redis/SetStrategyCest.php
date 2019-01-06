@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Redis;
 
 use IntegrationTester;
 
+/**
+ * Class SetStrategyCest
+ */
 class SetStrategyCest
 {
     /**
@@ -25,7 +29,7 @@ class SetStrategyCest
      */
     public function mvcModelMetadataRedisSetStrategy(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Redis - setStrategy()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Redis - setStrategy()');
+        $I->skipTest('Need implementation');
     }
 }

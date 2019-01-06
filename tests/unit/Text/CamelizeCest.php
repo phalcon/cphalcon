@@ -29,8 +29,8 @@ class CamelizeCest
      * @param UnitTester $I
      * @param Example    $item
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function textCamelize(UnitTester $I, Example $item)
     {

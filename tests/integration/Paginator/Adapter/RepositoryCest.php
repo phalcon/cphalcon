@@ -30,14 +30,14 @@ class RepositoryCest
             'myFirstPage'   => $paginatorRepository::PROPERTY_FIRST_PAGE,
             'myLastPage'    => $paginatorRepository::PROPERTY_LAST_PAGE,
             'myCurrentPage' => $paginatorRepository::PROPERTY_CURRENT_PAGE,
-            'myLimit'       => $paginatorRepository::PROPERTY_LIMIT
+            'myLimit'       => $paginatorRepository::PROPERTY_LIMIT,
         ]);
 
         $paginator = new \Phalcon\Paginator\Adapter\NativeArray([
-            'data' => array_fill(0, 30, 'banana'),
-            'limit'=> 25,
-            'page' => 1,
-            'repository' => $paginatorRepository
+            'data'       => array_fill(0, 30, 'banana'),
+            'limit'      => 25,
+            'page'       => 1,
+            'repository' => $paginatorRepository,
         ]);
 
         $page = $paginator->paginate();

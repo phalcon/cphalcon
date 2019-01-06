@@ -21,7 +21,8 @@ use UnitTester;
 class ReplacePlaceholdersCest
 {
     /**
-     * Tests Phalcon\Translate\Interpolator\IndexedArray :: replacePlaceholders()
+     * Tests Phalcon\Translate\Interpolator\IndexedArray ::
+     * replacePlaceholders()
      *
      * @param UnitTester $I
      *

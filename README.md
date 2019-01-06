@@ -64,7 +64,7 @@ On a Unix-based platform you can easily compile and install the extension from s
 
 Prerequisite packages are:
 
-* PHP 7.0.x/7.1.x/7.2.x development resources (PHP 5 is no longer supported)
+* PHP 7.2.x/7.3.x development resources
 * `g++` >= 4.4 | `clang++` >= 3.x | `vc++` >= 11
 * GNU `make` >= 3.81
 * [`re2c`](http://re2c.org) >= 0.13

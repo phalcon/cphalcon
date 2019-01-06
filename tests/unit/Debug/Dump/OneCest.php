@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug\Dump;
 
+use Phalcon\Debug\Dump;
 use UnitTester;
 
 /**
@@ -30,6 +31,38 @@ class OneCest
     public function debugDumpOne(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - one()');
-        $I->skipTest('Need implementation');
+        $test = 'value';
+        $dump = new Dump();
+
+        $expected = "<pre style='background-color:#f3f3f3; font-size:11px; "
+            . "padding:10px; border:1px solid #ccc; text-align:left; "
+            . "color:#333'><b style='color:teal'>String</b> "
+            . "(<span style='color:teal'>5</span>) \""
+            . "<span style='color:teal'>value</span>\"</pre>";
+        $actual   = $dump->one($test);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Debug\Dump :: one() - name
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function debugDumpOneName(UnitTester $I)
+    {
+        $I->wantToTest('Debug\Dump - one() - name');
+        $test = 'value';
+        $dump = new Dump();
+
+        $expected = "<pre style='background-color:#f3f3f3; font-size:11px; "
+            . "padding:10px; border:1px solid #ccc; text-align:left; "
+            . "color:#333'>super <b style='color:teal'>String</b> "
+            . "(<span style='color:teal'>5</span>) \""
+            . "<span style='color:teal'>value</span>\"</pre>";
+        $actual   = $dump->one($test, 'super');
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -31,7 +31,7 @@ class OffsetUnsetCest
      */
     public function messagesMessagesOffsetUnset(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - offsetUnset()");
+        $I->wantToTest('Messages\Messages - offsetUnset()');
         $messages = new Messages(
             [
                 0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Transaction\Failed;
 
 use IntegrationTester;
 
+/**
+ * Class GetRecordMessagesCest
+ */
 class GetRecordMessagesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetRecordMessagesCest
      */
     public function mvcModelTransactionFailedGetRecordMessages(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Transaction\Failed - getRecordMessages()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Transaction\Failed - getRecordMessages()');
+        $I->skipTest('Need implementation');
     }
 }

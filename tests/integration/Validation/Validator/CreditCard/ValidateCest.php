@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\CreditCard;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\CreditCard;
-use IntegrationTester;
 
 /**
  * Class ValidateCest
@@ -175,22 +175,17 @@ class ValidateCest
             $validation = new Validation();
             $validation->add('creditCard', new CreditCard());
 
-            $expected = Messages::__set_state(
+            $expected = new Messages(
                 [
-                    '_messages' => [
-                        Message::__set_state(
-                            [
-                                '_type'    => 'CreditCard',
-                                '_message' => 'Field creditCard is not valid for a credit card number',
-                                '_field'   => 'creditCard',
-                                '_code'    => '0',
-                            ]
-                        ),
-                    ],
+                    new Message(
+                        'Field creditCard is not valid for a credit card number',
+                        'creditCard',
+                        'CreditCard',
+                        0
+                    ),
                 ]
             );
-
-            $actual = $validation->validate(['creditCard' => $number]);
+            $actual   = $validation->validate(['creditCard' => $number]);
             $I->assertEquals($expected, $actual);
         }
     }

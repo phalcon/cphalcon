@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 		if (zephir_is_true(&_0$$5)) {
 			ZEPHIR_INIT_VAR(&lazyHandler);
 			object_init_ex(&lazyHandler, phalcon_mvc_micro_lazyloader_ce);
-			ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 291, &mainHandler);
+			ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 299, &mainHandler);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(&lazyHandler, &mainHandler);
@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&dependencyInjector);
 		object_init_ex(&dependencyInjector, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 292);
+		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 300);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_dependencyInjector"), &dependencyInjector);
 	}
@@ -744,7 +744,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "set", NULL, 293, &serviceName, definition, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "set", NULL, 301, &serviceName, definition, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -783,11 +783,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 	if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&dependencyInjector);
 		object_init_ex(&dependencyInjector, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 292);
+		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 300);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_dependencyInjector"), &dependencyInjector);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "has", NULL, 294, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "has", NULL, 302, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -828,11 +828,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 	if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&dependencyInjector);
 		object_init_ex(&dependencyInjector, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 292);
+		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 300);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_dependencyInjector"), &dependencyInjector);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "get", NULL, 295, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "get", NULL, 303, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -873,11 +873,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 	if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&dependencyInjector);
 		object_init_ex(&dependencyInjector, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 292);
+		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 300);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_dependencyInjector"), &dependencyInjector);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "getshared", NULL, 296, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&dependencyInjector, "getshared", NULL, 304, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1451,7 +1451,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		}
 		if (Z_TYPE_P(&returnedValue) == IS_OBJECT) {
 			if (zephir_instance_of_ev(&returnedValue, phalcon_http_responseinterface_ce TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(&_58$$74, &response, "issent", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_58$$74, &returnedValue, "issent", NULL, 0);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_58$$74))) {
 					ZEPHIR_CALL_METHOD(NULL, &returnedValue, "send", NULL, 0);
@@ -1633,11 +1633,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset) {
 	if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&dependencyInjector);
 		object_init_ex(&dependencyInjector, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 292);
+		ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "__construct", NULL, 300);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_dependencyInjector"), &dependencyInjector);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "remove", NULL, 297, alias);
+	ZEPHIR_CALL_METHOD(NULL, &dependencyInjector, "remove", NULL, 305, alias);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

@@ -31,8 +31,6 @@ use Phalcon\Test\Fixtures\Forms\ContactFormPublicProperties;
 use Phalcon\Test\Fixtures\Forms\ContactFormSettersGetters;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\Regex;
-use Phalcon\Validation\Validator\StringLength;
 
 class FormsCest
 {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Complex;
 
 use IntegrationTester;
 
+/**
+ * Class GetFirstCest
+ */
 class GetFirstCest
 {
     /**
@@ -25,7 +29,7 @@ class GetFirstCest
      */
     public function mvcModelResultsetComplexGetFirst(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Resultset\Complex - getFirst()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Resultset\Complex - getFirst()');
+        $I->skipTest('Need implementation');
     }
 }

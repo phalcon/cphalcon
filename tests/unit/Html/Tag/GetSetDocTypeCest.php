@@ -66,13 +66,13 @@ class GetSetDocTypeCest
                 'name'   => 'HTML401_TRANSITIONAL',
                 'value'  => 3,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'HTML401_FRAMESET',
                 'value'  => 4,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'HTML5',
@@ -83,31 +83,31 @@ class GetSetDocTypeCest
                 'name'   => 'XHTML10_STRICT',
                 'value'  => 6,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'XHTML10_TRANSITIONAL',
                 'value'  => 7,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'XHTML10_FRAMESET',
                 'value'  => 8,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'XHTML11',
                 'value'  => 9,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'XHTML20',
                 'value'  => 10,
                 'string' => "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL .
-                            "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL,
+                    "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL,
             ],
             [
                 'name'   => 'XHTML5',

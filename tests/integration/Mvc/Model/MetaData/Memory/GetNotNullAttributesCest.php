@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Memory;
 
 use IntegrationTester;
 
+/**
+ * Class GetNotNullAttributesCest
+ */
 class GetNotNullAttributesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetNotNullAttributesCest
      */
     public function mvcModelMetadataMemoryGetNotNullAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Memory - getNotNullAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Memory - getNotNullAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
 
+/**
+ * Class GetModelPrefixCest
+ */
 class GetModelPrefixCest
 {
     /**
@@ -25,7 +29,7 @@ class GetModelPrefixCest
      */
     public function mvcModelManagerGetModelPrefix(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Manager - getModelPrefix()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Manager - getModelPrefix()');
+        $I->skipTest('Need implementation');
     }
 }

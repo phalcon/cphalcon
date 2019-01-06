@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
 /**
@@ -19,6 +20,8 @@ use UnitTester;
  */
 class DeleteCest
 {
+    use LibmemcachedTrait;
+
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: delete()
      *
@@ -30,6 +33,14 @@ class DeleteCest
     public function cacheBackendLibmemcachedDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - delete()');
-        $I->skipTest('Need implementation');
+
+        $cache = $this->getDataCache();
+
+        $I->assertFalse($cache->delete('non-existent-keys'));
+
+        $I->haveInLibmemcached('some-key-to-delete', 1);
+
+        $I->assertTrue($cache->delete('some-key-to-delete'));
+        $I->dontSeeInLibmemcached('some-key-to-delete');
     }
 }

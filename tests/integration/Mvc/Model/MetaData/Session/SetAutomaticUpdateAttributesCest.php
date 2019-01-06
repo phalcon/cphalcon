@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Session;
 
 use IntegrationTester;
 
+/**
+ * Class SetAutomaticUpdateAttributesCest
+ */
 class SetAutomaticUpdateAttributesCest
 {
     /**
@@ -26,7 +30,7 @@ class SetAutomaticUpdateAttributesCest
      */
     public function mvcModelMetadataSessionSetAutomaticUpdateAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Session - setAutomaticUpdateAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Session - setAutomaticUpdateAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

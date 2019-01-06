@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
 
 use IntegrationTester;
 
+/**
+ * Class HeadCest
+ */
 class HeadCest
 {
     /**
@@ -25,7 +29,7 @@ class HeadCest
      */
     public function mvcMicroCollectionHead(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro\Collection - head()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro\Collection - head()');
+        $I->skipTest('Need implementation');
     }
 }

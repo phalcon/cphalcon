@@ -31,7 +31,7 @@ class NextCest
      */
     public function messagesMessagesNext(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - next()");
+        $I->wantToTest('Messages\Messages - next()');
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

@@ -44,6 +44,31 @@ trait TagHelperTrait
     }
 
     /**
+     * Runs the test for a Tag::$function with $options
+     *
+     * @param UnitTester $I
+     * @param Tag        $tag
+     * @param string     $name
+     * @param string     $function
+     * @param            $options
+     * @param string     $expected
+     * @param bool       $xhtml
+     * @param string     $set
+     *
+     * @return mixed
+     */
+    abstract protected function testFieldParameter(
+        UnitTester $I,
+        Tag $tag,
+        string $name,
+        string $function,
+        $options,
+        string $expected,
+        bool $xhtml = false,
+        string $set = ''
+    );
+
+    /**
      * Tests Phalcon\Tag :: input*() - parameters and id in it
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -124,29 +149,4 @@ trait TagHelperTrait
         $this->testFieldParameter($I, $tag, 'x_name', $this->function, $options, $expected, false, 'setAttribute');
         $this->testFieldParameter($I, $tag, 'x_name', $this->function, $options, $expected, true, 'setAttribute');
     }
-
-    /**
-     * Runs the test for a Tag::$function with $options
-     *
-     * @param UnitTester $I
-     * @param Tag        $tag
-     * @param string     $name
-     * @param string     $function
-     * @param            $options
-     * @param string     $expected
-     * @param bool       $xhtml
-     * @param string     $set
-     *
-     * @return mixed
-     */
-    abstract protected function testFieldParameter(
-        UnitTester $I,
-        Tag $tag,
-        string $name,
-        string $function,
-        $options,
-        string $expected,
-        bool $xhtml = false,
-        string $set = ''
-    );
 }

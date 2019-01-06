@@ -33,7 +33,7 @@ class InTransactionCest
     public function loggerAdapterNoopInTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - inTransaction()');
-        $adapter    = new Noop();
+        $adapter = new Noop();
 
         $adapter->begin();
 

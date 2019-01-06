@@ -31,7 +31,7 @@ class CurrentCest
      */
     public function messagesMessagesCurrent(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - current()");
+        $I->wantToTest('Messages\Messages - current()');
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

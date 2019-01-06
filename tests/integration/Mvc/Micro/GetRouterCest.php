@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
 
+/**
+ * Class GetRouterCest
+ */
 class GetRouterCest
 {
     /**
@@ -25,7 +29,7 @@ class GetRouterCest
      */
     public function mvcMicroGetRouter(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro - getRouter()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro - getRouter()');
+        $I->skipTest('Need implementation');
     }
 }

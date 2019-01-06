@@ -31,7 +31,7 @@ class ValidCest
      */
     public function messagesMessagesValid(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - valid()");
+        $I->wantToTest('Messages\Messages - valid()');
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

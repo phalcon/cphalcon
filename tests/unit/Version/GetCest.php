@@ -54,7 +54,7 @@ class GetCest
         $special   = $this->numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
 
-        $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
+        $expected = trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}");
         $actual   = Version::get();
         $I->assertEquals($expected, $actual);
     }

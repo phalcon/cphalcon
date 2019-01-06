@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,7 +13,11 @@
 namespace Phalcon\Test\Controllers;
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Http\Response;
 
+/**
+ * Class MicroController
+ */
 class MicroController extends Controller
 {
     public function indexAction()
@@ -53,5 +58,12 @@ class MicroController extends Controller
     public function anotherFiveAction()
     {
         return $this->dispatcher->getParam('param1') + $this->dispatcher->getParam('param2');
+    }
+    
+    public function returnResponseAction()
+    {
+        $response = new Response();
+        $response->setContent("test");
+        return $response;
     }
 }

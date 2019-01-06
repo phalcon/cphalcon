@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug;
 
+use Phalcon\Debug;
 use UnitTester;
+use function sprintf;
 
 /**
  * Class GetJsSourcesCest
@@ -30,6 +32,19 @@ class GetJsSourcesCest
     public function debugGetJsSources(UnitTester $I)
     {
         $I->wantToTest('Debug - getJsSources()');
-        $I->skipTest('Need implementation');
+        $debug = new Debug();
+        $uri   = 'https://assets.phalconphp.com/debug/4.0.x/';
+
+        $expected = sprintf(
+            '<script type="text/javascript" src="%1$sbower_components/jquery/dist/jquery.min.js"></script>' .
+            '<script type="text/javascript" src="%1$sbower_components/jquery-ui/jquery-ui.min.js"></script>' .
+            '<script type="text/javascript" src="%1$sbower_components/jquery.scrollTo/jquery.scrollTo.min.js"></script>' .
+            '<script type="text/javascript" src="%1$sprettify/prettify.js"></script>' .
+            '<script type="text/javascript" src="%1$spretty.js"></script>',
+            $uri
+        );
+
+        $actual = $debug->getJsSources();
+        $I->assertEquals($expected, $actual);
     }
 }

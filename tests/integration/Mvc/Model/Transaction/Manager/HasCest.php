@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Transaction\Manager;
 
 use IntegrationTester;
 
+/**
+ * Class HasCest
+ */
 class HasCest
 {
     /**
@@ -25,7 +29,7 @@ class HasCest
      */
     public function mvcModelTransactionManagerHas(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Transaction\Manager - has()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Transaction\Manager - has()');
+        $I->skipTest('Need implementation');
     }
 }

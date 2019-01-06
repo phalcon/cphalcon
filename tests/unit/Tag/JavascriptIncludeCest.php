@@ -32,7 +32,7 @@ class JavascriptIncludeCest extends TagSetup
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js"></script>' . PHP_EOL;
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::javascriptInclude($options);
+        $actual = Tag::javascriptInclude($options);
 
         $I->assertEquals($expected, $actual);
     }
@@ -51,7 +51,7 @@ class JavascriptIncludeCest extends TagSetup
         $options  = ['js/phalcon.js'];
         $expected = '<script src="/js/phalcon.js"></script>' . PHP_EOL;
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::javascriptInclude($options);
+        $actual = Tag::javascriptInclude($options);
 
         $I->assertEquals($expected, $actual);
     }
@@ -70,7 +70,7 @@ class JavascriptIncludeCest extends TagSetup
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::javascriptInclude($options, false);
+        $actual = Tag::javascriptInclude($options, false);
 
         $I->assertEquals($expected, $actual);
     }
@@ -90,7 +90,7 @@ class JavascriptIncludeCest extends TagSetup
         $options  = ['http://my.local.com/js/phalcon.js'];
         $expected = '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
         Tag::setDocType(Tag::HTML5);
-        $actual   = Tag::javascriptInclude($options, false);
+        $actual = Tag::javascriptInclude($options, false);
 
         $I->assertEquals($expected, $actual);
     }
@@ -112,7 +112,7 @@ class JavascriptIncludeCest extends TagSetup
         $url      = 'js/phalcon.js';
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
         Tag::setDocType(Tag::HTML32);
-        $actual   = Tag::javascriptInclude($url);
+        $actual = Tag::javascriptInclude($url);
         $I->assertEquals($expected, $actual);
     }
 }

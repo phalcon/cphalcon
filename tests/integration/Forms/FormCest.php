@@ -12,8 +12,6 @@
 namespace Phalcon\Test\Integration\Forms;
 
 use IntegrationTester;
-use Phalcon\Forms\Element\Radio;
-use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
@@ -168,24 +166,20 @@ class FormCest
         $actual = $form->isValid(['telephone' => '12345', 'address' => 'hello']);
         $I->assertFalse($actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The telephone has an invalid format',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
+                ),
             ]
         );
         $actual   = $form->getMessagesFor('telephone');
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(['_messages' => []]);
+        $expected = new Messages();
         $actual   = $form->getMessagesFor('address');
         $I->assertEquals($expected, $actual);
 
@@ -297,42 +291,32 @@ class FormCest
         $actual = $form->isValid([]);
         $I->assertFalse($actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The telephone is required',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                    1 => Message::__set_state(
-                        [
-                            '_type'    => 'TooShort',
-                            '_message' => 'The telephone is too short',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                    2 => Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The telephone has an invalid format',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                    3 => Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The address is required',
-                            '_field'   => 'address',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The telephone is required',
+                    'telephone',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'The telephone is too short',
+                    'telephone',
+                    'TooShort',
+                    0
+                ),
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
+                ),
+                new Message(
+                    'The address is required',
+                    'address',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
         $actual   = $form->getMessages();
@@ -346,18 +330,14 @@ class FormCest
         );
         $I->assertFalse($actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The telephone has an invalid format',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
+                ),
             ]
         );
         $actual   = $form->getMessages();
@@ -460,18 +440,14 @@ class FormCest
         $actual = $form->get('address')->hasMessages();
         $I->assertFalse($actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The telephone has an invalid format',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
+                ),
             ]
         );
         $actual   = $form->get('telephone')->getMessages();
@@ -481,11 +457,11 @@ class FormCest
         $actual   = $form->get('telephone')->getMessages();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(['_messages' => []]);
+        $expected = new Messages();
         $actual   = $form->get('address')->getMessages();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(['_messages' => []]);
+        $expected = new Messages();
         $actual   = $form->getMessagesFor('notelement');
         $I->assertEquals($expected, $actual);
     }
@@ -525,18 +501,14 @@ class FormCest
         $actual = $form->get('address')->hasMessages();
         $I->assertFalse($actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The telephone has an invalid format',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
+                ),
             ]
         );
         $actual   = $form->get('telephone')->getMessages();
@@ -546,7 +518,7 @@ class FormCest
         $actual   = $form->get('telephone')->getMessages();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(['_messages' => []]);
+        $expected = new Messages();
         $actual   = $form->get('address')->getMessages();
         $I->assertEquals($expected, $actual);
     }
@@ -595,26 +567,20 @@ class FormCest
         $actual = $form->get('address')->hasMessages();
         $I->assertFalse($actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The telephone has an invalid format',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The telephone is required',
-                            '_field'   => 'telephone',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
+                ),
+                new Message(
+                    'The telephone is required',
+                    'telephone',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
         $actual   = $form->get('telephone')->getMessages();
@@ -624,7 +590,7 @@ class FormCest
         $actual   = $form->get('telephone')->getMessages();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(['_messages' => []]);
+        $expected = new Messages();
         $actual   = $form->get('address')->getMessages();
         $I->assertEquals($expected, $actual);
     }
@@ -673,32 +639,24 @@ class FormCest
 
         $expected = [
             'telephone' => [
-                Messages::__set_state(
+                new Messages(
                     [
-                        '_messages' => [
-                            Message::__set_state(
-                                [
-                                    '_type'    => 'Regex',
-                                    '_message' => 'The telephone has an invalid format',
-                                    '_field'   => 'telephone',
-                                    '_code'    => 0,
-                                ]
-                            ),
-                        ],
+                        new Message(
+                            'The telephone has an invalid format',
+                            'telephone',
+                            'Regex',
+                            0
+                        ),
                     ]
                 ),
-                Messages::__set_state(
+                new Messages(
                     [
-                        '_messages' => [
-                            Message::__set_state(
-                                [
-                                    '_type'    => 'PresenceOf',
-                                    '_message' => 'The telephone is required',
-                                    '_field'   => 'telephone',
-                                    '_code'    => 0,
-                                ]
-                            ),
-                        ],
+                        new Message(
+                            'The telephone is required',
+                            'telephone',
+                            'PresenceOf',
+                            0
+                        ),
                     ]
                 ),
             ],

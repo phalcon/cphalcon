@@ -31,7 +31,7 @@ class AppendMessageCest
      */
     public function messagesMessagesAppendMessage(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - appendMessage()");
+        $I->wantToTest('Messages\Messages - appendMessage()');
         $messages = new Messages();
         $I->assertCount(0, $messages);
 

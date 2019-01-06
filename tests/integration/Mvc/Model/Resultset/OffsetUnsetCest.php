@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
 
+/**
+ * Class OffsetUnsetCest
+ */
 class OffsetUnsetCest
 {
     /**
@@ -25,7 +29,7 @@ class OffsetUnsetCest
      */
     public function mvcModelResultsetOffsetUnset(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Resultset - offsetUnset()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Resultset - offsetUnset()');
+        $I->skipTest('Need implementation');
     }
 }

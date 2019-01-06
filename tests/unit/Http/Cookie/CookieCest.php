@@ -11,9 +11,6 @@
 
 namespace Phalcon\Test\Unit\Http;
 
-use Phalcon\Crypt;
-use Phalcon\Crypt\Mismatch;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Cookies;

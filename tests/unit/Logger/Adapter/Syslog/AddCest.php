@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @todo Until I figure this approach, this stays here and can be used for other
  *       tests in this namespace
  */
+
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
     function syslog($level, $message)
     {
