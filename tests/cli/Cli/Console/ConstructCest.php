@@ -31,7 +31,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      *
-     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @author Nathan Edwards <https://github.com/npfedwards>
      * @since 2018-12-23
      */
     public function cliConsoleConstruct(CliTester $I)

@@ -126,7 +126,7 @@ class HandleCest
      *
      * @param CliTester $I
      *
-     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @author Nathan Edwards <https://github.com/npfedwards>
      * @since 2018-12-26
      */
     public function cliConsoleHandleModule(CliTester $I)
@@ -173,7 +173,7 @@ class HandleCest
      *
      * @param CliTester $I
      *
-     * @author Nathan Edwards <npfedwards@gmail.com>
+     * @author Nathan Edwards <https://github.com/npfedwards>
      * @since 2018-12-26
      */
     public function cliConsoleHandleEvents(CliTester $I)
