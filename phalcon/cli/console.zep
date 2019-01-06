@@ -87,15 +87,18 @@ class Console extends BaseApplication
 				throw new Exception("Invalid module definition path");
 			}
 
-			if fetch path, module["path"] {
-				if !file_exists(path) {
-					throw new Exception("Module definition path '" . path . "' doesn't exist");
-				}
-				require path;
-			}
-
 			if !fetch className, module["className"] {
 				let className = "Module";
+			}
+
+			if fetch path, module["path"] {
+				if !class_exists(className, false) {
+					if !file_exists(path) {
+						throw new Exception("Module definition path '" . path . "' doesn't exist");
+					}
+
+					require path;
+				}
 			}
 
 			let moduleObject = dependencyInjector->get(className);

@@ -15,6 +15,7 @@ namespace Phalcon\Test\Cli\Cli\Console;
 use CliTester;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function dataFolder;
 
 /**
  * Class HandleCest
@@ -260,5 +261,51 @@ class HandleCest
                 "action" => "noop"
             ]);
         });
+    }
+
+    /**
+     * Tests Phalcon\Cli\Console :: handle() - Issue #13724
+     * Handling a module twice causes class already exists error #13724
+     * <https://github.com/phalcon/cphalcon/issues/13724>
+     *
+     * @param CliTester $I
+     *
+     * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since 2019-01-06
+     */
+    public function cliConsoleHandle13724(CliTester $I)
+    {
+        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
+        $I->wantToTest("Cli\Console - handle() - Issue #13724");
+        $console = $this->newCliConsole();
+        $this->setNewCliFactoryDefault();
+        $console->setDI($this->container);
+        $console->registerModules(
+            [
+                "backend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
+                    "path" => __DIR__ . "/../../../_data/fixtures/modules/backend/Module.php",
+                ]
+            ]
+        );
+        $console->handle([
+            "module"=>"backend",
+            "action" => "noop"
+        ]);
+        $console = $this->newCliConsole();
+        $this->setNewCliFactoryDefault();
+        $console->setDI($this->container);
+        $console->registerModules(
+            [
+                "backend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
+                    "path" => __DIR__ . "/../../../_data/fixtures/modules/backend/Module.php",
+                ]
+            ]
+        );
+        $console->handle([
+            "module"=>"backend",
+            "action" => "noop"
+        ]);
     }
 }
