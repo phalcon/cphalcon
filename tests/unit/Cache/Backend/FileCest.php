@@ -91,7 +91,7 @@ class FileCest
             if ($i > 2) {
                 $cache->useSubDirLevel(5);
             }
-            
+
             $I->assertFalse($cache->isStarted());
 
             ob_start();
