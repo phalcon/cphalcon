@@ -105,10 +105,10 @@ class Libmemcached extends Noop
 		return data;
 	}
 
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
 		var name = this->getPrefixedName(id);
 
-		this->connection->save(name, data, this->ttl);
+		return this->connection->save(name, data, this->ttl);
 	}
 }
