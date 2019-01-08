@@ -84,7 +84,8 @@ before_script:
   - phpenv config-add tests/_ci/999-default.ini
 
 script:
-  - vendor/bin/phpcs
+  # PHP_CodeSniffer does not work on PHP 7.3 (yet?)
+  - if [ "$TRAVIS_PHP_VERSION" = "7.2" ]; then vendor/bin/phpcs; fi
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
 #  - vendor/bin/codecept run -v
