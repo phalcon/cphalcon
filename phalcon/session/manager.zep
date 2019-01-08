@@ -343,7 +343,9 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 		    throw new Exception("The session handler is not valid");
 		}
 
-		let oldSession = _SESSION;
+		if (true === this->exists()) {
+			let oldSession = _SESSION;
+		}
 
 		/**
 		 * Start the session

@@ -80,13 +80,13 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
 		var name = this->getPrefixedName(id),
 		    data = this->connection->get(name, this->ttl);
 
-		return data;
+		return (string) data;
 	}
 
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
 		var name = this->getPrefixedName(id);
 
-		this->connection->save(name, data, this->ttl);
+		return this->connection->save(name, data, this->ttl);
 	}
 }

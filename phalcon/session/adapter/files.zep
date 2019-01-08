@@ -121,12 +121,16 @@ class Files extends Noop
 		return data;
 	}
 
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
 		var name;
 
 		let name = this->path . this->getPrefixedName(id);
 
-		file_put_contents(name, data);
+		if (false === file_put_contents(name, data)) {
+			return false;
+		}
+
+		return true;
 	}
 }
