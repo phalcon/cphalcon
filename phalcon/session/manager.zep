@@ -121,7 +121,12 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function get(string key, var defaultValue = null, bool remove = false) -> var
 	{
-	    var uniqueKey, value;
+	    var uniqueKey, value = null;
+
+		if (false === this->exists()) {
+			// To use $_SESSION variable we need to start session first
+			return value;
+		}
 
 		let uniqueKey = this->getUniqueKey(key),
 			value     = this->arrayGetDefault(_SESSION, uniqueKey, defaultValue);
@@ -176,6 +181,11 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	{
 		var uniqueKey;
 
+		if (false === this->exists()) {
+			// To use $_SESSION variable we need to start session first
+			return false;
+		}
+
 		let uniqueKey = this->getUniqueKey(key);
 
 		return isset(_SESSION[uniqueKey]);
@@ -218,6 +228,11 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function remove(string key)
 	{
+		if (false === this->exists()) {
+			// To use $_SESSION variable we need to start session first
+			return;
+		}
+
 		var uniqueKey;
 
 		let uniqueKey = this->getUniqueKey(key);
@@ -231,6 +246,11 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	public function set(string key, value) -> void
 	{
 		var uniqueKey;
+
+		if (false === this->exists()) {
+			// To use $_SESSION variable we need to start session first
+			return;
+		}
 
 		 let uniqueKey          = this->getUniqueKey(key),
 		    _SESSION[uniqueKey] = value;
@@ -318,8 +338,6 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function start() -> bool
 	{
-	    var oldSession;
-
 		/**
 		 * Check if the session exists
 		 */
@@ -343,16 +361,10 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 		    throw new Exception("The session handler is not valid");
 		}
 
-		let oldSession = _SESSION;
-
 		/**
 		 * Start the session
 		 */
 		session_start();
-
-		if (true !== empty(oldSession) && true === is_array(oldSession)) {
-			let _SESSION = array_merge(oldSession, _SESSION);
-		}
 
 		return true;
 	}
