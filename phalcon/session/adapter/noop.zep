@@ -115,8 +115,9 @@ class Noop extends Utility implements SessionHandlerInterface
 	/**
 	 * Write
 	 */
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
+		return true;
 	}
 
 	/**
