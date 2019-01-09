@@ -13,6 +13,7 @@ export NO_INTERACTION=1
 export REPORT_EXIT_STATUS=1
 export TEST_PHP_EXECUTABLE=$(phpenv which php)
 
+phpenv config-rm xdebug.ini || true
 php ${PROJECT_ROOT}/ext/run-tests.php \
 	-d "extension=$(php-config --extension-dir)/psr.so" \
 	-d "extension=${PROJECT_ROOT}/ext/modules/phalcon.so" \

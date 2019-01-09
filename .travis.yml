@@ -89,8 +89,7 @@ script:
   - vendor/bin/codecept run --ext DotReporter tests/integration/
   - vendor/bin/codecept run --ext DotReporter tests/unit/
 
-  - phpenv config-rm xdebug.ini || true
-  - tests/_ci/volt-tests.sh
+  - .ci/run-volt-tests.sh
 
 after_failure:
   - tests/_ci/after-failure.sh
