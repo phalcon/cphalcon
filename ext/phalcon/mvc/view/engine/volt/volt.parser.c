@@ -2845,7 +2845,7 @@ static void yy_syntax_error(
 			{
 				char stmp[MAX_LENGTH_OF_LONG + 1];
 				int str_len;
-				str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->active_line);
+				str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->active_line);
 				smart_str_appendl(&error_str, stmp, str_len);
 			}
 
@@ -2863,7 +2863,7 @@ static void yy_syntax_error(
 					{
 						char stmp[MAX_LENGTH_OF_LONG + 1];
 						int str_len;
-						str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->if_level + status->scanner_state->old_if_level);
+						str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->if_level + status->scanner_state->old_if_level);
 						smart_str_appendl(&error_str, stmp, str_len);
 					}
 					smart_str_appendl(&error_str, " 'if' blocks without close", sizeof(" 'if' blocks without close") - 1);
@@ -2879,7 +2879,7 @@ static void yy_syntax_error(
 					{
 						char stmp[MAX_LENGTH_OF_LONG + 1];
 						int str_len;
-						str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->if_level);
+						str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->if_level);
 						smart_str_appendl(&error_str, stmp, str_len);
 					}
 					smart_str_appendl(&error_str, " 'for' blocks without close", sizeof(" 'for' blocks without close") - 1);

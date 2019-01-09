@@ -49,7 +49,8 @@ static void phvolt_ret_literal_zval(zval *ret, int type, phvolt_parser_token *T,
 /* }}} */
 
 /* {{{ phvolt_ret_if_statement */
-static void phvolt_ret_if_statement(zval *ret, zval *expr, zval *true_statements, zval *false_statements, phvolt_scanner_state *state)
+static void phvolt_ret_if_statement(zval *ret, zval *expr, zval *true_statements, zval *false_statements,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_IF);
@@ -160,7 +161,8 @@ static void phvolt_ret_for_statement(zval *ret, phvolt_parser_token *variable, p
 /* }}} */
 
 /* {{{ phvolt_ret_cache_statement */
-static void phvolt_ret_cache_statement(zval *ret, zval *expr, zval *lifetime, zval *block_statements, phvolt_scanner_state *state)
+static void phvolt_ret_cache_statement(zval *ret, zval *expr, zval *lifetime, zval *block_statements,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 
@@ -203,7 +205,8 @@ static void phvolt_ret_set_statement(zval *ret, zval *assignments)
 /* }}} */
 
 /* {{{ phvolt_ret_set_assignment */
-static void phvolt_ret_set_assignment(zval *ret, zval *assignable_expr, int operator, zval *expr, phvolt_scanner_state *state)
+static void phvolt_ret_set_assignment(zval *ret, zval *assignable_expr, int operator, zval *expr,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 
@@ -231,7 +234,8 @@ static void phvolt_ret_echo_statement(zval *ret, zval *expr, phvolt_scanner_stat
 /* }}} */
 
 /* {{{ phvolt_ret_block_statement */
-static void phvolt_ret_block_statement(zval *ret, phvolt_parser_token *name, zval *block_statements, phvolt_scanner_state *state)
+static void phvolt_ret_block_statement(zval *ret, phvolt_parser_token *name, zval *block_statements,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 
@@ -252,7 +256,8 @@ static void phvolt_ret_block_statement(zval *ret, phvolt_parser_token *name, zva
 /* }}} */
 
 /* {{{ phvolt_ret_macro_statement */
-static void phvolt_ret_macro_statement(zval *ret, phvolt_parser_token *macro_name, zval *parameters, zval *block_statements, phvolt_scanner_state *state)
+static void phvolt_ret_macro_statement(zval *ret, phvolt_parser_token *macro_name, zval *parameters,
+	zval *block_statements, phvolt_scanner_state *state)
 {
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_MACRO);
@@ -276,7 +281,8 @@ static void phvolt_ret_macro_statement(zval *ret, phvolt_parser_token *macro_nam
 /* }}} */
 
 /* {{{ phvolt_ret_macro_parameter */
-static void phvolt_ret_macro_parameter(zval *ret, phvolt_parser_token *variable, zval *default_value, phvolt_scanner_state *state)
+static void phvolt_ret_macro_parameter(zval *ret, phvolt_parser_token *variable, zval *default_value,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 
@@ -355,7 +361,8 @@ static void phvolt_ret_return_statement(zval *ret, zval *expr, phvolt_scanner_st
 /* }}} */
 
 /* {{{ phvolt_ret_autoescape_statement */
-static void phvolt_ret_autoescape_statement(zval *ret, int enable, zval *block_statements, phvolt_scanner_state *state)
+static void phvolt_ret_autoescape_statement(zval *ret, int enable, zval *block_statements,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 
@@ -436,7 +443,8 @@ static void phvolt_ret_zval_list(zval *ret, zval *list_left, zval *right_list)
 /* }}} */
 
 /* {{{ phvolt_ret_named_item */
-static void phvolt_ret_named_item(zval *ret, phvolt_parser_token *name, zval *expr, phvolt_scanner_state *state)
+static void phvolt_ret_named_item(zval *ret, phvolt_parser_token *name, zval *expr,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 	add_assoc_zval(ret, "expr", expr);
@@ -453,7 +461,8 @@ static void phvolt_ret_named_item(zval *ret, phvolt_parser_token *name, zval *ex
 /* }}} */
 
 /* {{{ phvolt_ret_expr */
-static void phvolt_ret_expr(zval *ret, int type, zval *left, zval *right, zval *ternary, phvolt_scanner_state *state)
+static void phvolt_ret_expr(zval *ret, int type, zval *left, zval *right, zval *ternary,
+	phvolt_scanner_state *state)
 {
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
@@ -516,7 +525,8 @@ static void phvolt_ret_func_call(zval *ret, zval *expr, zval *arguments, phvolt_
 /* }}} */
 
 /* {{{ phvolt_ret_macro_call_statement */
-static void phvolt_ret_macro_call_statement(zval *ret, zval *expr, zval *arguments, zval *caller, phvolt_scanner_state *state)
+static void phvolt_ret_macro_call_statement(zval *ret, zval *expr, zval *arguments, zval *caller,
+	phvolt_scanner_state *state)
 {
 
 	array_init(ret);
