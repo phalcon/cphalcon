@@ -40,12 +40,11 @@
         "ext-mbstring": "*",
         "ext-psr": "*",
         "ext-xml": "*",
-        "codeception/codeception": "^2.4",
-        "mustache/mustache": "^2.11",
-        "phpunit/phpunit": "^6.4",
+        "codeception/codeception": "^2.5",
+        "mustache/mustache": "^2.12",
         "predis/predis": "^1.1",
-        "squizlabs/php_codesniffer": "^3.2",
-        "twig/twig": "~1.35",
+        "squizlabs/php_codesniffer": "^3.4",
+        "twig/twig": "~1.36",
         "vlucas/phpdotenv": "^2.5"
     },
     "config": {
