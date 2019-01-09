@@ -20,6 +20,7 @@ ext/config.nice
 ext/config.status
 ext/config.sub
 ext/configure
+ext/configure.ac
 ext/configure.in
 ext/install-sh
 ext/libtool
@@ -48,10 +49,10 @@ autom4te.cache/
 /ide/
 
 .zephir/
+
 boxfile.yml
 composer.lock
 php_test_results_*.txt
 docker-compose.yml
 build/gccarch
 tests/_cache
-.zephir/
