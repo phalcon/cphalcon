@@ -9,11 +9,10 @@ php:
 git:
   depth: 1
 
-# TODO - Remove this when we go deploy this
-#branches:
-#  only:
-#    - master
-#    - /^(4|5)\.\d+\.(\d+|x)$/
+branches:
+  only:
+    - master
+    - /^(4|5)\.\d+\.(\d+|x)$/
 
 addons:
   apt:
@@ -86,12 +85,12 @@ before_script:
 script:
   # PHP_CodeSniffer does not work on PHP 7.3 (yet?)
   - if [ "$TRAVIS_PHP_VERSION" = "7.2" ]; then vendor/bin/phpcs; fi
-  - vendor/bin/codecept build
-  # TODO: Add `cli' suite and refactor current cli-tests
-#  - vendor/bin/codecept run -v
-  - vendor/bin/codecept run -v -n tests/cli/
-  - vendor/bin/codecept run -v -n tests/integration/
-  - vendor/bin/codecept run -v -n tests/unit/
+
+  - vendor/bin/codecept build --quiet
+  - vendor/bin/codecept run --ext DotReporter tests/cli/
+  - vendor/bin/codecept run --ext DotReporter tests/integration/
+  - vendor/bin/codecept run --ext DotReporter tests/unit/
+
   - phpenv config-rm xdebug.ini || true
   - tests/_ci/volt-tests.sh
 
