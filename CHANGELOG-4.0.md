@@ -2,13 +2,17 @@
 ## Added
 - Added `notFound()` method in `Phalcon\Translate\Adapter\NativeArray` which returns the key requested if not found. The method can be overriden when extending the class, returning what the developer needs [#13007](https://github.com/phalcon/cphalcon/pull/13007)
 
+## Fixed
+- Fixed `Phalcon\Mvc\Micro::handle` to properly return a response object [#13712](https://github.com/phalcon/cphalcon/issues/13712)
+- Fixed `Phalcon\Cache\Backend\Libmemcached` returning "empty" values being as `null` when they could be `0`, `false` or empty `string`. [#13497](https://github.com/phalcon/cphalcon/issues/13497)
+- Fixed session adapters to properly implement [`SessionHandlerInterface::write`](http://php.net/manual/en/sessionhandlerinterface.write.php)
+- Fixed `Phalcon\Session\Manager` to not interact with `$_SESSION` variable if the session has not been started [#13718](https://github.com/phalcon/cphalcon/issues/13718), [#13520](https://github.com/phalcon/cphalcon/issues/13520)
+
 ## Changed
 - Changed the `Phalcon\Tag::renderTitle()` parameters such as `Phalcon\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
 - Changed the `Phalcon\Html\Tag::renderTitle()` parameters such as `Phalcon\Html\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
-- Fixed `trying to call issent on a non object` when Micro application returns a response object [#13712](https://github.com/phalcon/cphalcon/issues/13712)
 - Changed the `Phalcon\Version::get()` to follow [semantic versioning](https://semver.org/) [#13720](https://github.com/phalcon/cphalcon/pull/13720)
 - Changed the `Phalcon\Translate\Adapter\NativeArray` to accept a new parameter in the constructor `triggerError`. This will trigger an error if the key is not found [#13007](https://github.com/phalcon/cphalcon/pull/13007)
-- Fixed `\Phalcon\Cache\Backend\Libmemcached` returning "empty" values being as `null` when they could be `0`, `false` or empty `string`. [#13497](https://github.com/phalcon/cphalcon/issues/13497)
 
 # [4.0.0-alpha1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha1) (2018-12-25)
 ## Added
