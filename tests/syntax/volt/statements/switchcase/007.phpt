@@ -9,6 +9,7 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 $compiler = new Compiler();
 $compiler->parse('{% default %}');
 ?>
+--EXPECTF--
 Fatal error: Uncaught Phalcon\Mvc\View\Exception: Syntax error, unexpected token DEFAULT(default) in eval code on line 1 in %007.php:5
 Stack trace:
 #0 %007.php(5): Phalcon\Mvc\View\Engine\Volt\Compiler->parse('{% default %}')
