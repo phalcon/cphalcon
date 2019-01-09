@@ -52,9 +52,7 @@ env:
     - CC="gcc"
     - ZEPHIR_VERSION="0.11.8"
     - RE2C_VERSION="1.1.1"
-    - REPORT_EXIT_STATUS=1
     - REPORT_COVERAGE=1
-    - NO_INTERACTION=1
     - TEST_PHP_ARGS="--show-diff"
     - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
