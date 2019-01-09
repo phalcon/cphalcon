@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 rm -f parser.o
 rm -f parser.lo
@@ -12,20 +12,16 @@ fi
 
 re2c --no-generation-date -o scanner.c scanner.re
 
-./lemon -s parser.php5.lemon
-./lemon -s parser.php7.lemon
+./lemon -s volt.lemon
 
-echo "#include \"php_phalcon.h\"" > parser.c
-echo "#if PHP_VERSION_ID < 70000" >> parser.c
-cat parser.php5.c >> parser.c
-echo "#else" >> parser.c
-cat parser.php7.c >> parser.c
-echo "#endif" >> parser.c
+echo '#include "php_phalcon.h"' > parser.c
+cat volt.c >> parser.c
 cat base.c >> parser.c
 
 sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
 sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c
 sed s/"define TOKEN"/"define VTOKEN"/g parser.c > xx && mv -f xx parser.c
+
 sed s/YY/VV/g scanner.c > xx && mv -f xx scanner.c
 sed s/yy/vv/g scanner.c > xx && mv -f xx scanner.c
 sed s/YY/VV/g parser.c > xx && mv -f xx parser.c
