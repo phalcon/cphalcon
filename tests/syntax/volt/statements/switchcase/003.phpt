@@ -1,3 +1,15 @@
+--TEST--
+switch-case - Tests recognize empty default clause
+--SKIPIF--
+<?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
+--FILE--
+<?php
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
+
+$compiler = new Compiler();
+var_dump($compiler->parse('{% switch foo%} {% default %} {% endswitch%}'));
+?>
+--EXPECT--
 array(1) {
   [0]=>
   array(5) {
@@ -28,20 +40,9 @@ array(1) {
         int(1)
       }
       [1]=>
-      array(4) {
+      array(3) {
         ["type"]=>
-        int(412)
-        ["expr"]=>
-        array(4) {
-          ["type"]=>
-          int(265)
-          ["value"]=>
-          string(3) "foo"
-          ["file"]=>
-          string(9) "eval code"
-          ["line"]=>
-          int(1)
-        }
+        int(413)
         ["file"]=>
         string(9) "eval code"
         ["line"]=>

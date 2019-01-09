@@ -3,9 +3,10 @@ switch-case - Tests recognize empty case clause with empty default clause
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
 --FILE--
-<?php require(dirname(dirname(dirname(__DIR__))) . "/../bootstrap.inc");
+<?php
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-$template =<<<EOF
+$template =<<<'EOF'
 {% switch username %}
     {% case "Jim" %}
         Hello username
@@ -16,8 +17,10 @@ $template =<<<EOF
         Who are you?
 {% endswitch %}
 EOF;
-$intermediate = parse_string($template);
-var_dump($intermediate);
+
+$compiler = new Compiler();
+var_dump($compiler->parse($template));
+?>
 --EXPECT--
 array(1) {
   [0]=>
