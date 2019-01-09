@@ -68,7 +68,7 @@ class NativeArray extends Adapter implements \ArrayAccess
 	public function notFound(string! index) -> string
 	{
 		if (true === this->triggerError) {
-			trigger_error("Cannot find translation key: " . index, E_USER_NOTICE);
+			throw new Exception("Cannot find translation key: " . index);
 		}
 
 		return index;
