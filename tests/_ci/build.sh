@@ -34,7 +34,6 @@ else
 	# If a `*.gch' (or a `*.pch') file is not found then the normal header files
 	# will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
 	for file in `find ./ext/kernel -name "*.h"`; do
-		printf "\t>>> ${file}\n\t<<< ${file}.ghc\n"
 		${CC} ${_arg} "${file}" -I. -I./ext $(php-config --includes) ${_option} -o "${file}.${_ext}"
 	done
 fi

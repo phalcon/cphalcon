@@ -12,18 +12,6 @@ shopt -s nullglob
 
 export LC_ALL=C
 
-ls -al `$(phpenv which php-config) --extension-dir`
-echo
-
-$(phpenv which php) -v
-echo
-
-$(phpenv which php-config) --vernum
-echo
-
-$(phpenv which php) -m
-echo
-
 PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
 
 for i in `find ${PROJECT_ROOT}/tests/syntax -name "*.out" 2>/dev/null`; do
