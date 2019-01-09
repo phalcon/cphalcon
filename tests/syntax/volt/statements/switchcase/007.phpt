@@ -7,7 +7,7 @@ switch-case - Tests false detecting recognizion default as switch-case part
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
 $compiler = new Compiler();
-var_dump($compiler->parse('{% default %}'));
+$compiler->parse('{% default %}');
 ?>
 Fatal error: Uncaught Phalcon\Mvc\View\Exception: Syntax error, unexpected token DEFAULT(default) in eval code on line 1 in %007.php:5
 Stack trace:

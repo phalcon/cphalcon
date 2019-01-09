@@ -7,7 +7,7 @@ switch-case - Tests exception for lack of endswitch
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
 $compiler = new Compiler();
-var_dump($compiler->parse('{% switch foo %}'));
+$compiler->parse('{% switch foo %}');
 ?>
 --EXPECTF--
 Fatal error: Uncaught Phalcon\Mvc\View\Exception: Syntax error, unexpected EOF in eval code, there is a 'switch' block without 'endswitch' in %s005.php:5

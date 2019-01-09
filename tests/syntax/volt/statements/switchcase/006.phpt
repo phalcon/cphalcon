@@ -7,7 +7,7 @@ switch-case - Tests exception for lack of switch
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
 $compiler = new Compiler();
-var_dump($compiler->parse('{% case foo %}'));
+$compiler->parse('{% case foo %}');
 ?>
 --EXPECTF--
 Fatal error: Uncaught Phalcon\Mvc\View\Exception: Unexpected CASE in eval code on line 1 in %s006.php:5
