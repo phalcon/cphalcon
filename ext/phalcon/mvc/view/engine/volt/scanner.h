@@ -1,21 +1,12 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
-*/
+/* scanner.h
+ *
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 #ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
 #define PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
@@ -173,14 +164,15 @@
 #define PHVOLT_T_ENDSWITCH 414
 
 /* List of tokens and their names */
-typedef struct _phvolt_token_names {
+typedef struct _phvolt_token_names { /* {{{ */
 	char *name;
 	int len;
 	unsigned int code;
 } phvolt_token_names;
+/* }}} */
 
 /* Active token state */
-typedef struct _phvolt_scanner_state {
+typedef struct _phvolt_scanner_state { /* {{{ */
 	int active_token;
 	int mode;
 	char* start;
@@ -202,16 +194,27 @@ typedef struct _phvolt_scanner_state {
 	int whitespace_control;
 	int forced_raw_state;
 } phvolt_scanner_state;
+/* }}} */
 
 /* Extra information tokens */
-typedef struct _phvolt_scanner_token {
+typedef struct _phvolt_scanner_token { /* {{{ */
 	int opcode;
 	int len;
 	char *value;
 } phvolt_scanner_token;
+/* }}} */
 
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
 
 #endif  /* PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H */
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * End:
+ * vim600: noet sw=4 ts=4 fdm=marker
+ * vim<600: noet sw=4 ts=4
+ */
