@@ -72,8 +72,7 @@ before_install:
 install:
   - tests/_ci/install-prereqs.sh
   - tests/_ci/install-re2c.sh
-  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
-  - travis_retry composer global require ${DEFAULT_COMPOSER_FLAGS} "phalcon/zephir:${ZEPHIR_VERSION}"
+  - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
   - tests/_ci/build.sh
 
 before_script:
@@ -81,8 +80,7 @@ before_script:
   - phpenv config-add tests/_ci/999-default.ini
 
 script:
-  # PHP_CodeSniffer does not work on PHP 7.3 (yet?)
-  - if [ "$TRAVIS_PHP_VERSION" = "7.2" ]; then vendor/bin/phpcs; fi
+  - if [ "$PHP_VERNUM" -lt "70300" ]; then vendor/bin/phpcs; fi
 
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
