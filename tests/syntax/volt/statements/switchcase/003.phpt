@@ -1,3 +1,15 @@
+--TEST--
+switch-case - Tests recognize empty case clause with empty default clause
+--SKIPIF--
+<?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
+--FILE--
+<?php
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
+
+$compiler = new Compiler();
+var_dump($compiler->parse('{% switch foo%} {% case foo %} {% default %} {% endswitch%}'));
+?>
+--EXPECT--
 array(1) {
   [0]=>
   array(5) {
@@ -15,7 +27,7 @@ array(1) {
       int(1)
     }
     ["case_clauses"]=>
-    array(3) {
+    array(5) {
       [0]=>
       array(4) {
         ["type"]=>
@@ -48,6 +60,26 @@ array(1) {
         int(1)
       }
       [2]=>
+      array(4) {
+        ["type"]=>
+        int(357)
+        ["value"]=>
+        string(1) " "
+        ["file"]=>
+        string(9) "eval code"
+        ["line"]=>
+        int(1)
+      }
+      [3]=>
+      array(3) {
+        ["type"]=>
+        int(413)
+        ["file"]=>
+        string(9) "eval code"
+        ["line"]=>
+        int(1)
+      }
+      [4]=>
       array(4) {
         ["type"]=>
         int(357)
