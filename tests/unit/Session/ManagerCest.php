@@ -34,8 +34,8 @@ class ManagerCest
         $session = new Manager();
         $session->setHandler(new Noop());
 
-		if (PHP_SESSION_ACTIVE === \session_status()) {
-		    // Please note: further tests may need $_SESSION variable
+        if (PHP_SESSION_ACTIVE === \session_status()) {
+            // Please note: further tests may need $_SESSION variable
             @\session_destroy();
             unset($_SESSION);
         }
