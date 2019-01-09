@@ -44,7 +44,7 @@ class NativeArray extends Adapter implements \ArrayAccess
 		}
 
 		if fetch error, options["triggerError"] {
-			let this->triggerError = true;
+			let this->triggerError = (bool) error;
 		}
 
 		if typeof data !== "array" {

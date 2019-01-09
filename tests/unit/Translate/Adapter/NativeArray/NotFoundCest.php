@@ -70,6 +70,32 @@ class NotFoundCest
     }
 
     /**
+     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError random value
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function translateAdapterNativearrayNotFoundTriggerErrorRandomVaue(UnitTester $I)
+    {
+        $I->wantToTest('Translate\Adapter\NativeArray - notFound() - triggerError random value');
+        $I->expectThrowable(
+            new \Exception('Cannot find translation key: unknown', 1024),
+            function () {
+                $language   = $this->getArrayConfig()['en'];
+                $translator = new NativeArray(
+                    [
+                        'content'      => $language,
+                        'triggerError' => 'blahblah',
+                    ]
+                );
+                $translator->query('unknown');
+            }
+        );
+    }
+
+    /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - custom
      *
      * @param UnitTester $I
