@@ -80,7 +80,7 @@ class GetCest
         $cache->save('empty.bool', false);
         $I->assertFalse($cache->get('empty.bool'));
 
-        $I->assertNull(null, $cache->get('valuethatdoesnotexist'));
+        $I->assertNull($cache->get('valuethatdoesnotexist'));
 
         $cache->save('empty.null', null);
         $I->assertNull($cache->get('null'));
