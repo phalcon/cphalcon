@@ -1,9 +1,15 @@
-#! /bin/sh
+#!/bin/sh
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalconphp.com>
+#
+# For the full copyright and license information, please view the
+# LICENSE.txt file that was distributed with this source code.
 
-rm -f parser.o
-rm -f parser.lo
-rm -f scanner.o
-rm -f scanner.lo
+find . -name \*.o -o -name \*.lo -o -name \*.loT | xargs rm -f
+find . -name lemon -o -name parser.c | xargs rm -f
+find . -name .libs | xargs rm -rf
 
 if [ ! -f $(pwd)/lemon ]; then
 	gcc -g lemon.c -o ./lemon
@@ -12,15 +18,11 @@ fi
 
 re2c --no-generation-date -o scanner.c scanner.re
 
-./lemon -s parser.php5.lemon
 ./lemon -s parser.php7.lemon
 
 echo "#include \"php_phalcon.h\"" > parser.c
-echo "#if PHP_VERSION_ID < 70000" >> parser.c
-cat parser.php5.c >> parser.c
-echo "#else" >> parser.c
+
 cat parser.php7.c >> parser.c
-echo "#endif" >> parser.c
 cat base.c >> parser.c
 
 sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
