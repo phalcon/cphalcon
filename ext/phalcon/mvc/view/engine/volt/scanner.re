@@ -178,7 +178,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		DOUBLE = ([0-9]+[\.][0-9]+);
+		DOUBLE = ([0-9]+[.][0-9]+);
 		DOUBLE {
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -523,7 +523,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [\\]?[a-zA-Z\_][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z_][a-zA-Z0-9_\\]*;
 		IDENTIFIER {
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -723,7 +723,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			break;
 		}
 
-		[^] {
+		* {
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}

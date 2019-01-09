@@ -19,7 +19,7 @@ fi
 re2c -W --no-debug-info --no-generation-date -o scanner.c scanner.re
 
 ./lemon -s parser.lemon
-sed -i '1s/^/#include "php_phalcon.h"\n/' todo.txt
+sed -i '1s/^/#include "php_phalcon.h"\n/' parser.c
 
 cat base.c >> parser.c
 
