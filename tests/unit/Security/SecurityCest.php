@@ -19,6 +19,8 @@ class SecurityCest
 {
     use DiTrait;
 
+    private $shouldStopSession = false;
+
     /**
      * executed before each test
      */
@@ -33,6 +35,13 @@ class SecurityCest
 
         $_SESSION = [];
         global $_SESSION;
+    }
+
+    public function _after(UnitTester $I)
+    {
+        if (true === $this->shouldStopSession) {
+            @\session_destroy();
+        }
     }
 
     /**
@@ -120,6 +129,8 @@ class SecurityCest
      */
     public function testOneTokenPerRequest(UnitTester $I)
     {
+        $this->startSession();
+
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -156,11 +167,26 @@ class SecurityCest
         $security->destroyToken();
     }
 
+    private function startSession(): void
+    {
+        if (PHP_SESSION_ACTIVE !== \session_status()) {
+            @\session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        $this->shouldStopSession = true;
+    }
+
     /**
      * Tests Security::checkToken
      */
     public function testCheckToken(UnitTester $I)
     {
+        $this->startSession();
+
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -245,6 +271,7 @@ class SecurityCest
 
     public function testRequestToken(UnitTester $I)
     {
+        $this->startSession();
         $container = $this->getDI();
 
         // Initialize session.
