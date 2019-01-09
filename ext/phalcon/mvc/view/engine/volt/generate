@@ -16,16 +16,13 @@ if [ ! -f $(pwd)/lemon ]; then
     chmod +x ./lemon
 fi
 
-re2c --no-generation-date -o scanner.c scanner.re
+re2c -W --no-debug-info --no-generation-date -o scanner.c scanner.re
 
-./lemon -s parser.php7.lemon
+./lemon -s parser.lemon
+sed -i '1s/^/#include "php_phalcon.h"\n/' todo.txt
 
-echo "#include \"php_phalcon.h\"" > parser.c
-
-cat parser.php7.c >> parser.c
 cat base.c >> parser.c
 
-sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
 sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c
 sed s/"define TOKEN"/"define VTOKEN"/g parser.c > xx && mv -f xx parser.c
 sed s/YY/VV/g scanner.c > xx && mv -f xx scanner.c
