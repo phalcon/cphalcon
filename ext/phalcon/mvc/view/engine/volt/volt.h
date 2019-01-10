@@ -1,44 +1,41 @@
+/* volt.h
+ *
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
-/*
-	+------------------------------------------------------------------------+
-	| Phalcon Framework                                                      |
-	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
-	+------------------------------------------------------------------------+
-	| This source file is subject to the New BSD License that is bundled     |
-	| with this package in the file docs/LICENSE.txt.                        |
-	|                                                                        |
-	| If you did not receive a copy of the license and are unable to         |
-	| obtain it through the world-wide-web, please send an email             |
-	| to license@phalconphp.com so we can send you a copy immediately.       |
-	+------------------------------------------------------------------------+
-	| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-	|          Eduar Carvajal <eduar@phalconphp.com>                         |
-	+------------------------------------------------------------------------+
-*/
-
-typedef struct _phvolt_parser_token {
+typedef struct _phvolt_parser_token { /* {{{ */
 	char *token;
 	int opcode;
 	int token_len;
 	int free_flag;
 } phvolt_parser_token;
+/* }}} */
 
-typedef struct _phvolt_parser_status {
-#if PHP_VERSION_ID < 70000
-	zval *ret;
-#else
+typedef struct _phvolt_parser_status { /* {{{ */
 	zval ret;
-#endif
 	phvolt_scanner_state *scanner_state;
 	int status;
 	unsigned int syntax_error_len;
 	char *syntax_error;
 	phvolt_scanner_token *token;
 } phvolt_parser_status;
+/* }}} */
 
 #define PHVOLT_PARSING_OK 1
 #define PHVOLT_PARSING_FAILED 0
 
 extern int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC);
 int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC);
+
+/* Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * End:
+ * vim600: noet sw=4 ts=4 fdm=marker
+ * vim<600: noet sw=4 ts=4
+ */

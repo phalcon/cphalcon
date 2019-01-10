@@ -1,6 +1,0 @@
-Fatal error: Uncaught Phalcon\Mvc\View\Exception: A nested switch detected. There is no nested switch-case statements support in eval code on line 2 in %sbootstrap.inc:45
-Stack trace:
-#0 %sbootstrap.inc(45): Phalcon\Mvc\View\Engine\Volt\Compiler->parse('{% switch foo %...')
-#1 %s009.php(9): parse_string('{% switch foo %...')
-#2 {main}
-  thrown in %sbootstrap.inc on line 45
