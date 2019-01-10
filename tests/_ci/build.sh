@@ -66,7 +66,7 @@ if [[ ! -z ${REPORT_COVERAGE+x} ]] && [[ "$REPORT_COVERAGE" = "1" ]]; then
 	CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
 fi
 
-./configure --with-php-config=$(phpenv which php-config) --enable-phalcon CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
+./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
 
 make -j"$(getconf _NPROCESSORS_ONLN)" > /dev/null 2> ${PROJECT_ROOT}/compile-errors.log
 make install
