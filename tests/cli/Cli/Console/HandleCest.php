@@ -123,7 +123,7 @@ class HandleCest
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
+     * Tests Phalcon\Cli\Console :: handle() - Modules
      *
      * @param CliTester $I
      *
@@ -141,11 +141,11 @@ class HandleCest
             [
                 "frontend" => [
                     "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => __DIR__ . "/../../../_data/fixtures/modules/frontend/Module.php",
+                    "path" => dataFolder("/fixtures/modules/frontend/Module.php"),
                 ],
                 "backend" => [
                     "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => __DIR__ . "/../../../_data/fixtures/modules/backend/Module.php",
+                    "path" => dataFolder("fixtures/modules/backend/Module.php"),
                 ]
             ]
         );
@@ -177,10 +177,9 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since 2018-12-26
      */
-    public function cliConsoleHandleEvents(CliTester $I)
+    public function cliConsoleHandleEventBoot(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
-        $I->wantToTest("Cli\Console - handle() - Events");
+        $I->wantToTest("Cli\Console - handle() - Events - console:boot");
         $this->setNewCliFactoryDefault();
         $this->setDiEventsManager();
         $eventsManager = $this->container->getShared('eventsManager');
@@ -196,8 +195,26 @@ class HandleCest
         $I->expectThrowable(new \Exception("Console Boot Event Fired"), function () use ($console) {
             $console->handle([]);
         });
-        $eventsManager->detachAll();
+    }
 
+    /**
+     * Tests Phalcon\Cli\Console :: handle()
+     *
+     * @param CliTester $I
+     *
+     * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since 2018-12-26
+     */
+    public function cliConsoleHandleEventBeforeStartModule(CliTester $I)
+    {
+        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
+        $I->wantToTest("Cli\Console - handle() - Events - console:beforeStartModule");
+        $this->setNewCliFactoryDefault();
+        $this->setDiEventsManager();
+        $eventsManager = $this->container->getShared('eventsManager');
+        $console = $this->newCliConsole();
+        $console->setDI($this->container);
+        $console->setEventsManager($eventsManager);
         $eventsManager->attach(
             'console:beforeStartModule',
             function (Event $event, $console, $moduleName) {
@@ -208,7 +225,7 @@ class HandleCest
             [
                 "frontend" => [
                     "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => __DIR__ . "/../../../_data/fixtures/modules/frontend/Module.php",
+                    "path" => dataFolder("fixtures/modules/frontend/Module.php"),
                 ],
                 "backend" => [
                     "className" => "Phalcon\\Test\\Modules\\Backend\\Module"
@@ -222,8 +239,37 @@ class HandleCest
                 "action" => "noop"
             ]);
         });
+    }
 
-        $eventsManager->detachAll();
+    /**
+     * Tests Phalcon\Cli\Console :: handle()
+     *
+     * @param CliTester $I
+     *
+     * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since 2018-12-26
+     */
+    public function cliConsoleHandleEventAfterStartModule(CliTester $I)
+    {
+        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
+        $I->wantToTest("Cli\Console - handle() - Events - console:afterStartModule");
+        $this->setNewCliFactoryDefault();
+        $this->setDiEventsManager();
+        $eventsManager = $this->container->getShared('eventsManager');
+        $console = $this->newCliConsole();
+        $console->setDI($this->container);
+        $console->setEventsManager($eventsManager);
+        $console->registerModules(
+            [
+                "frontend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
+                    "path" => dataFolder("fixtures/modules/frontend/Module.php"),
+                ],
+                "backend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module"
+                ]
+            ]
+        );
         $eventsManager->attach(
             'console:afterStartModule',
             function (Event $event, $console, $moduleObject) {
@@ -236,7 +282,26 @@ class HandleCest
                 "action" => "noop"
             ]);
         });
-        $eventsManager->detachAll();
+    }
+
+    /**
+     * Tests Phalcon\Cli\Console :: handle()
+     *
+     * @param CliTester $I
+     *
+     * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since 2018-12-26
+     */
+    public function cliConsoleHandleEventBeforeHandleTask(CliTester $I)
+    {
+        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
+        $I->wantToTest("Cli\Console - handle() - Events - console:beforeHandleTask");
+        $this->setNewCliFactoryDefault();
+        $this->setDiEventsManager();
+        $eventsManager = $this->container->getShared('eventsManager');
+        $console = $this->newCliConsole();
+        $console->setDI($this->container);
+        $console->setEventsManager($eventsManager);
 
         $eventsManager->attach(
             'console:beforeHandleTask',
@@ -247,13 +312,41 @@ class HandleCest
         $I->expectThrowable(new \Exception("Console Before Handle Task Event Fired"), function () use ($console) {
             $console->handle([]);
         });
-
-        $eventsManager->detachAll();
+    }
+    /**
+     * Tests Phalcon\Cli\Console :: handle()
+     *
+     * @param CliTester $I
+     *
+     * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since 2018-12-26
+     */
+    public function cliConsoleHandleEventAfterHandleTask(CliTester $I)
+    {
+        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
+        $I->wantToTest("Cli\Console - handle() - Events - console:afterHandleTask");
+        $this->setNewCliFactoryDefault();
+        $this->setDiEventsManager();
+        $eventsManager = $this->container->getShared('eventsManager');
+        $console = $this->newCliConsole();
+        $console->setDI($this->container);
+        $console->setEventsManager($eventsManager);
         $eventsManager->attach(
             'console:afterHandleTask',
             function (Event $event, $console, $moduleObject) {
                 throw new \Exception("Console After Handle Task Event Fired");
             }
+        );
+        $console->registerModules(
+            [
+                "frontend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
+                    "path" => dataFolder("fixtures/modules/frontend/Module.php"),
+                ],
+                "backend" => [
+                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module"
+                ]
+            ]
         );
         $I->expectThrowable(new \Exception("Console After Handle Task Event Fired"), function () use ($console) {
             $console->handle([
@@ -284,7 +377,7 @@ class HandleCest
             [
                 "backend" => [
                     "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => __DIR__ . "/../../../_data/fixtures/modules/backend/Module.php",
+                    "path" => dataFolder("fixtures/modules/backend/Module.php"),
                 ]
             ]
         );
@@ -299,7 +392,7 @@ class HandleCest
             [
                 "backend" => [
                     "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => __DIR__ . "/../../../_data/fixtures/modules/backend/Module.php",
+                    "path" => dataFolder("fixtures/modules/backend/Module.php"),
                 ]
             ]
         );
