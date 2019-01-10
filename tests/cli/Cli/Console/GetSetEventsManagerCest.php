@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,19 +12,16 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Cli\Dispatcher;
+use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class UnderscoreGetCest
- */
-class UnderscoreGetCest
+class GetSetEventsManagerCest
 {
-
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Console :: __get()
+     * Tests Phalcon\Cli\Console :: getEventsManager()
+     * Tests Phalcon\Cli\Console :: setEventsManager()
      *
      * @param CliTester $I
      *
@@ -33,21 +29,20 @@ class UnderscoreGetCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-28
+     * @since 2018-12-26
      */
-    public function cliConsoleUnderscoreGet(CliTester $I)
+    public function cliConsoleGetSetEventsManager(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - __get()");
-        $this->setNewCliFactoryDefault();
+        $I->wantToTest("Cli\Console - getEventsManager()");
+        $I->wantToTest("Cli\Console - setEventsManager()");
+
         $console = $this->newCliConsole();
-        $console->setDI($this->container);
+        $eventsManager = $this->newEventsManager();
 
-        $expected = Dispatcher::class;
-        $actual = $console->dispatcher;
+        $console->setEventsManager($eventsManager);
+        $expected = Manager::class;
+        $actual = $console->getEventsManager();
+
         $I->assertInstanceOf($expected, $actual);
-
-        $expected = $this->container;
-        $actual = $console->di;
-        $I->assertSame($expected, $actual);
     }
 }
