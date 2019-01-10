@@ -53,10 +53,6 @@ class Apcu extends Backend
 	{
 		var prefixedKey, cachedContent;
 
-		if lifetime < 1 {
-			throw new Exception("The lifetime must be at least 1 second");
-		}
-
 		let prefixedKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = prefixedKey;
 
@@ -212,7 +208,7 @@ class Apcu extends Backend
 		if typeof apc != "object" {
 			return [];
 		}
-		
+
 		for key, _ in iterator(apc) {
 			let keys[] = substr(key, 5);
 		}
@@ -269,7 +265,7 @@ class Apcu extends Backend
 		} elseif class_exists("APCIterator") {
 			let apc = new \APCIterator("user", prefixPattern);
 		}
-		
+
 		if typeof apc != "object" {
 			return false;
 		}
