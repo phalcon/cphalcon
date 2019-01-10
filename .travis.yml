@@ -2,7 +2,8 @@ sudo: false
 
 language: php
 php:
-  - 'master'
+  # PHP 7.4 does not ready yet
+  # - 'master'
   - '7.3'
   - '7.2'
 
@@ -28,8 +29,9 @@ addons:
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: 'master'
+  # PHP 7.4 does not ready yet
+  # allow_failures:
+  #  - php: 'master'
 
 cache:
   apt: true
