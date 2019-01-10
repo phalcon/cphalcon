@@ -40,4 +40,22 @@ class GetSetDefaultActionCest
         $actual   = $acl->getDefaultAction();
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: getDefaultAction()/setDefaultAction()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryGetSetDefaultActionDefault(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - getDefaultAction()/setDefaultAction() - default');
+        $acl = new Memory();
+
+        $expected = Acl::DENY;
+        $actual   = $acl->getDefaultAction();
+        $I->assertEquals($expected, $actual);
+    }
 }
