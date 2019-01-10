@@ -29,11 +29,12 @@ modules/
 run-tests.php
 coverage/
 
-php*/64bits/acinclude.m4
-php*/64bits/aclocal.m4
-php*/64bits/build/
-php*/64bits/config.guess
-php*/64bits/config.h
-php*/64bits/config.nice
-php*/64bits/config.status
-php*/64bits/config.sub
+php*/*/acinclude.m4
+php*/*/aclocal.m4
+php*/*/build/
+php*/*/config.guess
+php*/*/config.h
+php*/*/config.nice
+php*/*/config.nice.bat
+php*/*/config.status
+php*/*/config.sub
