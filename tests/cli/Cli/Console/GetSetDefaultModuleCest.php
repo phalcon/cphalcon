@@ -13,17 +13,19 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class GetModulesCest
+ * Class GetSetDefaultModuleCest
  */
-class GetModulesCest
+class GetSetDefaultModuleCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Console :: getModules()
+     * Tests Phalcon\Cli\Console :: getDefaultModule()
+     * Tests Phalcon\Cli\Console :: setDefaultModule()
      *
      * @param CliTester $I
      *
@@ -33,12 +35,14 @@ class GetModulesCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since 2018-12-26
      */
-    public function cliConsoleGetModules(CliTester $I)
+    public function cliConsoleSetGetDefaultModule(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - getModules()");
+        $I->wantToTest("Cli\Console - getDefaultModule()");
+        $I->wantToTest("Cli\Console - setDefaultModule()");
+
         $console = $this->newCliConsole();
-        $expected = [];
-        $actual = $console->getModules();
-        $I->assertEquals($expected, $actual);
+        $console->setDefaultModule("moduleName");
+
+        $I->assertEquals("moduleName", $console->getDefaultModule());
     }
 }
