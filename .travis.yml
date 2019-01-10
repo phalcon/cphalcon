@@ -94,11 +94,9 @@ install:
 before_script:
   - |
     # Setting up Tavis' PHP
-    cat <<EOT >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    variables_order    = EGPCS
-    session.save_path  = "/tmp"
-    opcache.enable_cli = 1
-    EOT
+    echo 'variables_order = EGPCS'    >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    echo 'session.save_path = "/tmp"' >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
   - tests/_ci/build.sh
 
