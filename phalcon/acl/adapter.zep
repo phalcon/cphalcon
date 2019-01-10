@@ -30,7 +30,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * Default access
 	 * @var bool
 	 */
-	protected _defaultAccess = true;
+	protected _defaultAccess = false;
 
 	/**
 	 * Access Granted
