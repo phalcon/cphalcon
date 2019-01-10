@@ -1,21 +1,12 @@
-
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/* parser.php7.lemon
+ *
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 %token_prefix PHVOLT_
 %token_type {phvolt_parser_token*}
@@ -88,7 +79,7 @@
 			{
 				char stmp[MAX_LENGTH_OF_LONG + 1];
 				int str_len;
-				str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->active_line);
+				str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->active_line);
 				smart_str_appendl(&error_str, stmp, str_len);
 			}
 
@@ -106,7 +97,7 @@
 					{
 						char stmp[MAX_LENGTH_OF_LONG + 1];
 						int str_len;
-						str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->if_level + status->scanner_state->old_if_level);
+						str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->if_level + status->scanner_state->old_if_level);
 						smart_str_appendl(&error_str, stmp, str_len);
 					}
 					smart_str_appendl(&error_str, " 'if' blocks without close", sizeof(" 'if' blocks without close") - 1);
@@ -122,7 +113,7 @@
 					{
 						char stmp[MAX_LENGTH_OF_LONG + 1];
 						int str_len;
-						str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->if_level);
+						str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->if_level);
 						smart_str_appendl(&error_str, stmp, str_len);
 					}
 					smart_str_appendl(&error_str, " 'for' blocks without close", sizeof(" 'for' blocks without close") - 1);

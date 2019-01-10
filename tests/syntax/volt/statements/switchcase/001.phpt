@@ -3,10 +3,12 @@ switch-case - Tests recognize empty switch statements
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
 --FILE--
-<?php require(dirname(dirname(dirname(__DIR__))) . "/../bootstrap.inc");
+<?php
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-$intermediate = parse_string('{% switch foo %}{% endswitch %}');
-var_dump($intermediate);
+$compiler = new Compiler();
+var_dump($compiler->parse('{% switch foo %}{% endswitch %}'));
+?>
 --EXPECT--
 array(1) {
   [0]=>

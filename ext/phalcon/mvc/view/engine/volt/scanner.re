@@ -1,21 +1,12 @@
-
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework													   |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled	   |
-  | with this package in the file docs/LICENSE.txt.					       |
-  |																		   |
-  | If you did not receive a copy of the license and are unable to		   |
-  | obtain it through the world-wide-web, please send an email			   |
-  | to license@phalconphp.com so we can send you a copy immediately.	   |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>					   |
-  |		  Eduar Carvajal <eduar@phalconphp.com>						       |
-  +------------------------------------------------------------------------+
-*/
+/* scanner.re
+ *
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 #include "php_phalcon.h"
 #include "scanner.h"
@@ -187,7 +178,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		DOUBLE = ([0-9]+[\.][0-9]+);
+		DOUBLE = ([0-9]+[.][0-9]+);
 		DOUBLE {
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -532,7 +523,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [\\]?[a-zA-Z\_][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z_][a-zA-Z0-9_\\]*;
 		IDENTIFIER {
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -732,7 +723,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			break;
 		}
 
-		[^] {
+		* {
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}

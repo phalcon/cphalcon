@@ -52,10 +52,7 @@ env:
     - CC="gcc"
     - ZEPHIR_VERSION="0.11.8"
     - RE2C_VERSION="1.1.1"
-    - REPORT_EXIT_STATUS=1
     - REPORT_COVERAGE=1
-    - NO_INTERACTION=1
-    - TEST_PHP_ARGS="--show-diff"
     - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
@@ -74,8 +71,7 @@ before_install:
 install:
   - tests/_ci/install-prereqs.sh
   - tests/_ci/install-re2c.sh
-  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
-  - travis_retry composer global require ${DEFAULT_COMPOSER_FLAGS} "phalcon/zephir:${ZEPHIR_VERSION}"
+  - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
   - tests/_ci/build.sh
 
 before_script:
@@ -83,16 +79,15 @@ before_script:
   - phpenv config-add tests/_ci/999-default.ini
 
 script:
-  # PHP_CodeSniffer does not work on PHP 7.3 (yet?)
-  - if [ "$TRAVIS_PHP_VERSION" = "7.2" ]; then vendor/bin/phpcs; fi
+  - if [ "$PHP_VERNUM" -lt "70300" ]; then vendor/bin/phpcs; fi
+  - if [ "$PHP_VERNUM" -ge "70300" ]; then phpenv config-rm xdebug.ini || true; fi
 
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
   - vendor/bin/codecept run --ext DotReporter tests/integration/
   - vendor/bin/codecept run --ext DotReporter tests/unit/
 
-  - phpenv config-rm xdebug.ini || true
-  - tests/_ci/volt-tests.sh
+  - .ci/run-volt-tests.sh
 
 after_failure:
   - tests/_ci/after-failure.sh

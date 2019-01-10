@@ -24,7 +24,7 @@ use Phalcon\Session\Exception;
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Libmemcached
+ * use Phalcon\Session\Adapter\Libmemcached;
  *
  * $session = new Manager();
  * $adapter = new Libmemcached(
@@ -45,7 +45,7 @@ use Phalcon\Session\Exception;
  *     ]
  * );
  *
- * $session->setAdapter($adapter);
+ * $session->setHandler($adapter);
  * </code>
  */
 class Libmemcached extends Noop
