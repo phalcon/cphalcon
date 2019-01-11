@@ -54,7 +54,7 @@ class ConstructCest
             ],
         ];
 
-        foreach ([[], [null]] as $parameters) {
+        foreach ([[], ['']] as $parameters) {
             $this->compareConfig($I, $this->config, new Grouped($config, ...$parameters));
         }
     }

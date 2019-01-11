@@ -15,7 +15,7 @@
 - Changed the `Phalcon\Version::get()` to follow [semantic versioning](https://semver.org/) [#13720](https://github.com/phalcon/cphalcon/pull/13720)
 - Changed the `Phalcon\Translate\Adapter\NativeArray` to accept a new parameter in the constructor `triggerError`. This will trigger an error if the key is not found [#13007](https://github.com/phalcon/cphalcon/pull/13007)
 - Changed the default action of `Phalcon\Acl\Memory`to be `Acl::DENY` instead of `Acl::ALLOW` [#13758](https://github.com/phalcon/cphalcon/pull/13758) 
-- Changed handling of `Phalcon\Config\Adapter\Grouped::_construct()` when receiving an configuration file as a string from the arrayConfig parameter to automatically attempt and the parameter defaultAdapter is set to null, to determine the adapter from the file extension, producing the same behaviour as `Phalcon\Config\Factory::load()`.
+- Changed handling of `Phalcon\Config\Adapter\Grouped::_construct()` when receiving an configuration file as a string from the arrayConfig parameter to automatically attempt and the parameter defaultAdapter is set to an empty string, to determine the adapter from the file extension, producing the same behaviour as `Phalcon\Config\Factory::load()`.
 
 # [4.0.0-alpha1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha1) (2018-12-25)
 ## Added
