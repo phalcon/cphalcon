@@ -38,24 +38,25 @@ class ConstructCest
         $I->wantToTest("Config\Adapter\Grouped - construct - complex");
         $this->config["test"]["property2"] = "something-else";
 
-        $config = new Grouped(
+        $config = [
+            dataFolder('assets/config/config.php'),
             [
-                dataFolder('assets/config/config.php'),
-                [
-                    'filePath' => dataFolder('assets/config/config.json'),
-                    'adapter'  => 'json',
-                ],
-                [
-                    'adapter' => 'array',
-                    'config'  => [
-                        "test" => [
-                            "property2" => "something-else",
-                        ],
+                'filePath' => dataFolder('assets/config/config.json'),
+                'adapter'  => 'json',
+            ],
+            [
+                'adapter' => 'array',
+                'config'  => [
+                    "test" => [
+                        "property2" => "something-else",
                     ],
                 ],
-            ]
-        );
-        $this->compareConfig($I, $this->config, $config);
+            ],
+        ];
+
+        foreach ([[], [null]] as $parameters) {
+            $this->compareConfig($I, $this->config, new Config(array_merge($config, ...$parameters)));
+	}
     }
 
     /**
