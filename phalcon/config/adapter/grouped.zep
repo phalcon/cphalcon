@@ -83,6 +83,11 @@ class Grouped extends Config
 
 			// Set to default adapter if passed as string
 			if typeof configName === "string" {
+				if defaultAdapter === null {
+					this->_merge(Factory::load(configName));
+					continue;
+				}
+
 				let configInstance = ["filePath" : configName, "adapter" : defaultAdapter];
 			} elseif !isset configInstance["adapter"] {
 				let configInstance["adapter"] = defaultAdapter;
