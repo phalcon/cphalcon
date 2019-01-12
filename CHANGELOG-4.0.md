@@ -138,6 +138,7 @@
 - Fixed `Phalcon\Mvc\Models` magic method (setter) is fixed for arrays  [#13661](https://github.com/phalcon/cphalcon/issues/13661)
 - Fixed `Phalcon\Mvc\Model::skipAttributes` and `Phalcon\Mvc\Model::allowEmptyColumns` allowEmptyStrings & skipAttributes repsect the column mapping. [#12975](https://github.com/phalcon/cphalcon/issues/12975), [#13477](https://github.com/phalcon/cphalcon/issues/13477) 
 - Fixed `\Phalcon\Cache\Backend\Libmemcached` returning "empty" values being as `null` when they could be `0`, `false` or empty `string`. [#13497](https://github.com/phalcon/cphalcon/issues/13497)
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` building the incorrect code for the following tags; `select`, and `select_static` [#13459](https://github.com/phalcon/cphalcon/issues/13459)
 
 ## Removed
 - PHP < 7.2 no longer supported
@@ -186,4 +187,3 @@
 - Removed `Phalcon\Validation\Message` and `Phalcon\Mvc\Model\Message` in favor of `Phalcon\Messages\Message`
 - Removed `Phalcon\Validation\Message\Group` in favor of `Phalcon\Messages\Messages`
 - Removed calling `Phalcon\Mvc\Collection::validate` with object of type `Phalcon\Mvc\Model\ValidatorInterface`
-
