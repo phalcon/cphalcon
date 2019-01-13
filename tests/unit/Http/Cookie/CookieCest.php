@@ -153,6 +153,7 @@ class CookieCest extends HttpBase
     public function testIssue13464(UnitTester $I)
     {
         $I->wantToTest("Issue #13464");
+        $I->checkExtensionIsLoaded('xdebug');
         
         $this->setDiCrypt();
         $container = $this->getDi();
