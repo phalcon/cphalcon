@@ -79,7 +79,7 @@ class File extends Backend
 	 */
 	public function __construct(<FrontendInterface> frontend, array options)
 	{
-		var prefix, safekey,subdir;
+		var prefix, safekey, subdir;
 
 		if !isset options["cacheDir"] {
 			throw new Exception("Cache directory must be specified with the option cacheDir");
@@ -651,13 +651,12 @@ class File extends Backend
 	 */
 	public function getKey(key) -> string
 	{
-		if this->_useSafeKey === true {
-			if this->_useSubDir === true {
-				return  this->getSubDir(md5(key)). md5(key);
-			}
-			return md5(key);
+		if this->_useSafeKey === true {	
+			let key = md5(key);
 		}
-
+		if this->_useSubDir === true {
+			return  this->getSubDir(key). md5(key);
+		}
 		return key;
 	}
 

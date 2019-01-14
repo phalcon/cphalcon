@@ -69,99 +69,101 @@ class FileCest
         $I->wantTo("Use File cache with Output frontend");
         $I->skipTest('TODO - Check me');
 
-        for ($i = 0; $i < 3; $i++) {
-            $time = date('H:i:s');
+        for ($i = 0; $i < 2; $i++) {
+            for ($s = 0; $s < 3; $s++) {
+                $time = date('H:i:s');
 
-            $frontCache = new Output(['lifetime' => 2]);
-            $cache      = new File($frontCache, [
-                'cacheDir' => cacheFolder(),
-                'prefix'   => 'unit_',
-            ]);
+                $frontCache = new Output(['lifetime' => 2]);
+                $cache      = new File($frontCache, [
+                    'cacheDir' => cacheFolder(),
+                    'prefix'   => 'unit_',
+                ]);
 
-            // on the second run set useSafeKey to true to test the compatibility toggle
-            if ($i >= 1) {
-                $cache->useSafeKey(true);
+                // on the second run set useSafeKey to true to test the compatibility toggle
+                if ($i == 1) {
+                    $cache->useSafeKey(true);
+                }
+
+                // On the third run, set up the subfolders
+                if ($s >= 1) {
+                    $cache->useSubDir(true);
+                }
+                // On the four run, Set the SubDirLevel to 5
+                if ($s == 2) {
+                    $cache->useSubDirLevel(5);
+                }
+
+                $I->assertFalse($cache->isStarted());
+
+                ob_start();
+
+                // First time cache
+                $content = $cache->start('test_output');
+                $I->assertTrue($cache->isStarted());
+
+                if ($content !== null) {
+                    $I->assertTrue(false);
+                }
+
+                echo $time;
+                $cache->save(null, null, null, true);
+
+                $obContent = ob_get_contents();
+                ob_end_clean();
+
+                $I->assertEquals($time, $obContent);
+                $I->amInPath(cacheFolder());
+                $I->seeFileFound('unit_' . $cache->getKey('test_output'));
+
+                // Same cache
+                $content = $cache->start('test_output');
+                $I->assertTrue($cache->isStarted());
+
+                if ($content === null) {
+                    $I->assertTrue(false);
+                }
+
+                $I->assertEquals($time, $obContent);
+
+                // Refresh cache
+                sleep(3);
+
+                $time2 = date('H:i:s');
+
+                ob_start();
+
+                $content = $cache->start('test_output');
+                $I->assertTrue($cache->isStarted());
+
+                if ($content !== null) {
+                    $I->assertTrue(false);
+                }
+
+                echo $time2;
+                $cache->save(null, null, null, true);
+
+                $obContent2 = ob_get_contents();
+                ob_end_clean();
+
+                $I->assertNotEquals($time, $obContent2);
+                $I->assertEquals($time2, $obContent2);
+
+                // Check keys
+                $actual = $cache->queryKeys();
+
+                $I->assertTrue(
+                    2 === count($actual),
+                    sprintf('%s', json_encode($actual, JSON_PRETTY_PRINT))
+                );
+                $I->assertArrayHasKey('.gitignore', array_flip($actual));
+                $I->assertArrayHasKey('unit_' . $cache->getKey('test_output'), array_flip($actual));
+
+                $I->assertTrue($cache->exists('test_output'));
+                $I->assertTrue($cache->delete('test_output'));
+
+                // Delete cache
+                $I->dontSeeFileFound('unit_' . $cache->getKey('test_output'));
             }
-
-            // On the third run, set up the subfolders
-            if ($i >= 2) {
-                $cache->useSubDir(true);
-            }
-            // On the four run, Set the SubDirLevel to 5
-            if ($i > 2) {
-                $cache->useSubDirLevel(5);
-            }
-
-            $I->assertFalse($cache->isStarted());
-
-            ob_start();
-
-            // First time cache
-            $content = $cache->start('test_output');
-            $I->assertTrue($cache->isStarted());
-
-            if ($content !== null) {
-                $I->assertTrue(false);
-            }
-
-            echo $time;
-            $cache->save(null, null, null, true);
-
-            $obContent = ob_get_contents();
-            ob_end_clean();
-
-            $I->assertEquals($time, $obContent);
-            $I->amInPath(cacheFolder());
-            $I->seeFileFound('unit_' . $cache->getKey('test_output'));
-
-            // Same cache
-            $content = $cache->start('test_output');
-            $I->assertTrue($cache->isStarted());
-
-            if ($content === null) {
-                $I->assertTrue(false);
-            }
-
-            $I->assertEquals($time, $obContent);
-
-            // Refresh cache
-            sleep(3);
-
-            $time2 = date('H:i:s');
-
-            ob_start();
-
-            $content = $cache->start('test_output');
-            $I->assertTrue($cache->isStarted());
-
-            if ($content !== null) {
-                $I->assertTrue(false);
-            }
-
-            echo $time2;
-            $cache->save(null, null, null, true);
-
-            $obContent2 = ob_get_contents();
-            ob_end_clean();
-
-            $I->assertNotEquals($time, $obContent2);
-            $I->assertEquals($time2, $obContent2);
-
-            // Check keys
-            $actual = $cache->queryKeys();
-
-            $I->assertTrue(
-                2 === count($actual),
-                sprintf('%s', json_encode($actual, JSON_PRETTY_PRINT))
-            );
-            $I->assertArrayHasKey('.gitignore', array_flip($actual));
-            $I->assertArrayHasKey('unit_' . $cache->getKey('test_output'), array_flip($actual));
-
-            $I->assertTrue($cache->exists('test_output'));
-            $I->assertTrue($cache->delete('test_output'));
-
-            // Delete cache
-            $I->dontSeeFileFound('unit_' . $cache->getKey('test_output'));
         }
     }
 
