@@ -21,7 +21,7 @@ use Phalcon\Session\Exception;
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Files
+ * use Phalcon\Session\Adapter\Files;
  *
  * $session = new Manager();
  * $files = new Files(
@@ -29,7 +29,7 @@ use Phalcon\Session\Exception;
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setAdapter(new Files());
+ * $session->setHandler(new Files());
  * </code>
  */
 class Files extends Noop
@@ -121,12 +121,12 @@ class Files extends Noop
 		return data;
 	}
 
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
 		var name;
 
 		let name = this->path . this->getPrefixedName(id);
 
-		file_put_contents(name, data);
+		return false !== file_put_contents(name, data);
 	}
 }

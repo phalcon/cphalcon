@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Test\Fixtures\Translate\Adapter\NativeAdapter;
 use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Translate\Exception;
 use UnitTester;
 
 /**
@@ -55,13 +56,39 @@ class NotFoundCest
     {
         $I->wantToTest('Translate\Adapter\NativeArray - notFound() - triggerError');
         $I->expectThrowable(
-            new \Exception('Cannot find translation key: unknown', 1024),
+            new Exception('Cannot find translation key: unknown'),
             function () {
                 $language   = $this->getArrayConfig()['en'];
                 $translator = new NativeArray(
                     [
                         'content'      => $language,
                         'triggerError' => true,
+                    ]
+                );
+                $translator->query('unknown');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError random value
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function translateAdapterNativearrayNotFoundTriggerErrorRandomVaue(UnitTester $I)
+    {
+        $I->wantToTest('Translate\Adapter\NativeArray - notFound() - triggerError random value');
+        $I->expectThrowable(
+            new Exception('Cannot find translation key: unknown'),
+            function () {
+                $language   = $this->getArrayConfig()['en'];
+                $translator = new NativeArray(
+                    [
+                        'content'      => $language,
+                        'triggerError' => 'blahblah',
                     ]
                 );
                 $translator->query('unknown');

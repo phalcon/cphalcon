@@ -19,6 +19,7 @@ modules:
       frontend: Phalcon\Cache\Frontend\Data
       cache_dir: '%PATH_CACHE%'
   enabled:
+    - Apc
     - Asserts
     - Filesystem
     - Redis

@@ -473,8 +473,6 @@ class Compiler implements InjectionAwareInterface
 						"link_to": true,
 						"image": true,
 						"form": true,
-						"select": true,
-						"select_static": true,
 						"submit_button": true,
 						"radio_field": true,
 						"check_field": true,

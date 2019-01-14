@@ -16,4 +16,9 @@ class MainTask extends \Phalcon\CLI\Task
     {
         return "Hello " . $world . $symbol;
     }
+
+    public function noopAction()
+    {
+        return;
+    }
 }

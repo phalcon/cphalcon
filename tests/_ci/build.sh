@@ -34,7 +34,6 @@ else
 	# If a `*.gch' (or a `*.pch') file is not found then the normal header files
 	# will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
 	for file in `find ./ext/kernel -name "*.h"`; do
-		printf "\t>>> ${file}\n\t<<< ${file}.ghc\n"
 		${CC} ${_arg} "${file}" -I. -I./ext $(php-config --includes) ${_option} -o "${file}.${_ext}"
 	done
 fi
@@ -67,7 +66,7 @@ if [[ ! -z ${REPORT_COVERAGE+x} ]] && [[ "$REPORT_COVERAGE" = "1" ]]; then
 	CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
 fi
 
-./configure --with-php-config=$(phpenv which php-config) --enable-phalcon CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
+./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
 
 make -j"$(getconf _NPROCESSORS_ONLN)" > /dev/null 2> ${PROJECT_ROOT}/compile-errors.log
 make install

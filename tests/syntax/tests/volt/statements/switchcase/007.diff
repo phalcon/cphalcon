@@ -1,7 +1,0 @@
-001+ sh: 1: tests/syntax: Permission denied
-001- Fatal error: Uncaught Phalcon\Mvc\View\Exception: Syntax error, unexpected token DEFAULT(default) in eval code on line 1 in %sbootstrap.inc:45
-002- Stack trace:
-003- #0 %sbootstrap.inc(45): Phalcon\Mvc\View\Engine\Volt\Compiler->parse('{% default %}')
-004- #1 %s007.php(3): parse_string('{% default %}')
-005- #2 {main}
-006-   thrown in %sbootstrap.inc on line 45
