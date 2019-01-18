@@ -53,7 +53,7 @@ env:
   global:
     - CC="gcc"
     - ZEPHIR_VERSION="0.11.9"
-    - ZEPHIR_PARSER_VERSION="v1.1.4"
+    - ZEPHIR_PARSER_VERSION="v1.2.0"
     - RE2C_VERSION="1.1.1"
     - REPORT_COVERAGE=1
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
