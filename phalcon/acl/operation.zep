@@ -23,13 +23,13 @@ class Operation implements OperationInterface
 	 * Operation name
 	 * @var string
 	 */
-	protected name { get, __toString };
+	private name { get, __toString };
 
 	/**
 	 * Operation description
 	 * @var string
 	 */
-	protected description { get };
+	private description { get };
 
 	/**
 	 * Phalcon\Acl\Operation constructor
