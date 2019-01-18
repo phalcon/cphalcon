@@ -25,39 +25,39 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 *
 	 * @var string
 	 */
-	private activeAccess { get };
+	protected activeAccess { get };
 
 	/**
 	 * Access Granted
 	 * @var bool
 	 */
-	private accessGranted = false;
+	protected accessGranted = false;
 
 	/**
 	 * Operation which the list is checking if it's allowed to certain subject/access
 	 *
 	 * @var string
 	 */
-	private activeOperation { get };
+	protected activeOperation { get };
 
 	/**
 	 * Subject which the list is checking if some operation can access it
 	 *
 	 * @var string
 	 */
-	private activeSubject { get };
+	protected activeSubject { get };
 
 	/**
 	 * Default access
 	 * @var bool
 	 */
-	private defaultAccess = false;
+	protected defaultAccess = false;
 
 	/**
 	 * Events manager
 	 * @var mixed
 	 */
-	private eventsManager;
+	protected eventsManager;
 
 	/**
 	 * Returns the default ACL access level
