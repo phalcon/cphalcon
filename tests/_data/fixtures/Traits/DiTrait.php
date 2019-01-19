@@ -149,6 +149,14 @@ trait DiTrait
     }
 
     /**
+     * @return Escaper
+     */
+    protected function newEscaper()
+    {
+        return new Escaper();
+    }
+
+    /**
      * @return ModelsManager
      */
     protected function newModelsManager()
