@@ -35,9 +35,6 @@ abstract class AbstractHelper
 
 	/**
 	 * Keeps all the attributes sorted - same order all the tome
-	 *
-	 * @var array  attributes Any attribute overrides
-	 * @var array  attributes Any additional attributes
 	 */
 	protected function orderAttributes(array overrides, array attributes) -> array
 	{
@@ -70,8 +67,6 @@ abstract class AbstractHelper
 
 	/**
 	 * Renders all the attributes
-	 *
-	 * @var array  attributes Attributes to render
 	 */
 	protected function renderAttributes(array attributes) -> string
 	{
@@ -80,7 +75,7 @@ abstract class AbstractHelper
 		let result = "";
 		for key, value in attributes {
 			if typeof key == "string" && value !== null {
-				if typeof value == "array" || typeof value == "resource" {
+				if typeof value == "array" || typeof value == "resource" || typeof value == "object" {
 					throw new Exception(
 						"Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
 					);
@@ -95,9 +90,7 @@ abstract class AbstractHelper
 	}
 
 	/**
-	 * @var string tag        The tag name
-	 * @var string text       The text for the anchor
-	 * @var array  attributes Any additional attributes
+	 * Renders an element
 	 */
 	protected function renderElement(string tag, string text, array attributes = [])
 	{
@@ -115,8 +108,7 @@ abstract class AbstractHelper
 	}
 
 	/**
-	 * @var string tag        The tag name
-	 * @var array  attributes Any additional attributes
+	 * Produces a self close tag i.e. <img />
 	 */
 	protected function selfClose(string tag, array attributes = [])
 	{

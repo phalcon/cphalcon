@@ -59,7 +59,7 @@ class Locator implements LocatorInterface
 		var factory;
 
 		if (true !== this->has(name)) {
-			throw new Exception(Exception::notFound(name));
+			throw new Exception("The service " . name . " has not been found in the locator");
 		}
 
 		if (true !== isset(this->services[name])) {

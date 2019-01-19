@@ -17,8 +17,4 @@ namespace Phalcon\Service;
  */
 class Exception extends \Phalcon\Exception
 {
-	public static function notFound(string message) -> string
-	{
-		return "The service " . message . " has not been found in the locator";
-	}
 }
