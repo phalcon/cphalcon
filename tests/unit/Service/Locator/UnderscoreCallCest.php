@@ -35,11 +35,11 @@ class UnderscoreCallCest
         $services = [
             'helloService' => function () {
                 return new HelloService();
-            }
+            },
         ];
 
         $locator = new Locator($services);
-        $actual = $locator->has('helloService');
+        $actual  = $locator->has('helloService');
         $I->assertTrue($actual);
 
         /** @var object $service */
@@ -50,6 +50,5 @@ class UnderscoreCallCest
         $expected = 'Hello Phalcon [count: 2]';
         $actual   = $locator->helloService('Phalcon');
         $I->assertEquals($expected, $actual);
-
     }
 }

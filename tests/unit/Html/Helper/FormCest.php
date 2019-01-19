@@ -13,19 +13,19 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper;
 
 use Codeception\Example;
-use Phalcon\Html\Helper\Anchor;
+use Phalcon\Html\Helper\Form;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
- * Class AnchorCest
+ * Class FormCest
  */
-class AnchorCest
+class FormCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Html\Helper\Anchor :: __construct()
+     * Tests Phalcon\Html\Helper\Form :: __construct()
      *
      * @dataProvider getExamples
      *
@@ -35,14 +35,14 @@ class AnchorCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-01-19
      */
-    public function htmlHelperAnchorConstruct(UnitTester $I, Example $example)
+    public function htmlHelperFormConstruct(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Anchor - __construct()');
+        $I->wantToTest('Html\Helper\Form - __construct()');
         $escaper = $this->newEscaper();
-        $anchor  = new Anchor($escaper);
+        $helper  = new Form($escaper);
 
         $expected = $example[0];
-        $actual   = $anchor('/myurl', 'click me', $example[1]);
+        $actual   = $helper($example[1]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -53,24 +53,18 @@ class AnchorCest
     {
         return [
             [
-                '<a href="/myurl">click me</a>',
+                '<form method="post" enctype="multipart/form-data">',
                 [],
             ],
             [
-                '<a href="/myurl">click me</a>',
-                [
-                    'href' => '/somethingelse',
-                ],
-            ],
-            [
-                '<a href="/myurl" id="my-id" name="my-name">click me</a>',
+                '<form method="post" enctype="multipart/form-data" id="my-id" name="my-name">',
                 [
                     'id'   => 'my-id',
                     'name' => 'my-name',
                 ],
             ],
             [
-                '<a href="/myurl" id="my-id" name="my-name" class="my-class">click me</a>',
+                '<form method="post" enctype="multipart/form-data" id="my-id" name="my-name" class="my-class">',
                 [
                     'class' => 'my-class',
                     'name'  => 'my-name',

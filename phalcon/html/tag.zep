@@ -1430,7 +1430,7 @@ class Tag implements InjectionAwareInterface
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
-	 *
+	 *public
 	 * echo $tag->submit('Save')
 	 * </code>
 	 *

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Service\Locator;
 
-use function assertEquals;
 use Phalcon\Service\Locator;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
@@ -36,7 +35,7 @@ class GetSetHasCest
         $services = [
             'helloService' => function () {
                 return new HelloService();
-            }
+            },
         ];
 
         $locator = new Locator($services);
@@ -59,11 +58,11 @@ class GetSetHasCest
         $services = [
             'helloService' => function () {
                 return new HelloService();
-            }
+            },
         ];
 
         $locator = new Locator($services);
-        $actual = $locator->has('helloService');
+        $actual  = $locator->has('helloService');
         $I->assertTrue($actual);
 
         $class  = HelloService::class;
@@ -85,11 +84,11 @@ class GetSetHasCest
         $services = [
             'helloService' => function () {
                 return new HelloService();
-            }
+            },
         ];
 
         $locator = new Locator($services);
-        $actual = $locator->has('helloService');
+        $actual  = $locator->has('helloService');
         $I->assertTrue($actual);
 
         /** @var object $service */

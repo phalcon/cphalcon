@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Html\Helper;
+namespace Phalcon\Test\Unit\Html\Helper\Element;
 
 use Codeception\Example;
-use Phalcon\Html\Helper\Anchor;
+use Phalcon\Html\Helper\Element;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
- * Class AnchorCest
+ * Class ElementCest
  */
-class AnchorCest
+class ElementCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Html\Helper\Anchor :: __construct()
+     * Tests Phalcon\Html\Helper\Element :: __construct()
      *
      * @dataProvider getExamples
      *
@@ -35,14 +35,14 @@ class AnchorCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-01-19
      */
-    public function htmlHelperAnchorConstruct(UnitTester $I, Example $example)
+    public function htmlHelperElementConstruct(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Anchor - __construct()');
+        $I->wantToTest('Html\Helper\Element - __construct()');
         $escaper = $this->newEscaper();
-        $anchor  = new Anchor($escaper);
+        $helper  = new Element($escaper);
 
         $expected = $example[0];
-        $actual   = $anchor('/myurl', 'click me', $example[1]);
+        $actual   = $helper($example[1], $example[2], $example[3]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -53,24 +53,36 @@ class AnchorCest
     {
         return [
             [
-                '<a href="/myurl">click me</a>',
+                '<canvas>test tag</canvas>',
+                'canvas',
+                'test tag',
                 [],
             ],
             [
-                '<a href="/myurl">click me</a>',
-                [
-                    'href' => '/somethingelse',
-                ],
+                '<canvas>Jack &amp; Jill</canvas>',
+                'canvas',
+                'Jack & Jill',
+                [],
             ],
             [
-                '<a href="/myurl" id="my-id" name="my-name">click me</a>',
+                '<canvas>&lt;script&gt;alert(&quot;hello&quot;);&lt;/script&gt;test tag</canvas>',
+                'canvas',
+                '<script>alert("hello");</script>test tag',
+                [],
+            ],
+            [
+                '<section id="my-id" name="my-name">test tag</section>',
+                'section',
+                'test tag',
                 [
                     'id'   => 'my-id',
                     'name' => 'my-name',
                 ],
             ],
             [
-                '<a href="/myurl" id="my-id" name="my-name" class="my-class">click me</a>',
+                '<address id="my-id" name="my-name" class="my-class">test tag</address>',
+                'address',
+                'test tag',
                 [
                     'class' => 'my-class',
                     'name'  => 'my-name',

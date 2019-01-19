@@ -35,8 +35,11 @@ abstract class AbstractHelper
 
 	/**
 	 * Keeps all the attributes sorted - same order all the tome
+	 *
+	 * @var array  attributes Any attribute overrides
+	 * @var array  attributes Any additional attributes
 	 */
-	protected function orderAttributes(array attributes) -> array
+	protected function orderAttributes(array overrides, array attributes) -> array
 	{
 		var order, intersect, results;
 
@@ -54,7 +57,9 @@ abstract class AbstractHelper
 		];
 
 		let intersect = array_intersect_key(order, attributes),
-			results   = array_merge(intersect, attributes);
+			results   = array_merge(intersect, attributes),
+			results   = array_merge(overrides, results);
+
 		/**
 		 * Just in case remove the "escape" attribute
 		 */
@@ -65,6 +70,8 @@ abstract class AbstractHelper
 
 	/**
 	 * Renders all the attributes
+	 *
+	 * @var array  attributes Attributes to render
 	 */
 	protected function renderAttributes(array attributes) -> string
 	{
@@ -85,5 +92,43 @@ abstract class AbstractHelper
 		}
 
 		return result;
+	}
+
+	/**
+	 * @var string tag        The tag name
+	 * @var string text       The text for the anchor
+	 * @var array  attributes Any additional attributes
+	 */
+	protected function renderElement(string tag, string text, array attributes = [])
+	{
+		var attrs, escapedAttrs, escapedText;
+
+		let escapedAttrs = "",
+			escapedText  = this->escaper->escapeHtml(text);
+
+		if (count(attributes) > 0) {
+			let attrs        = this->orderAttributes([], attributes),
+				escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
+		}
+
+		return "<" . tag . escapedAttrs . ">" . escapedText . "</" . tag. ">";
+	}
+
+	/**
+	 * @var string tag        The tag name
+	 * @var array  attributes Any additional attributes
+	 */
+	protected function selfClose(string tag, array attributes = [])
+	{
+		var attrs, escapedAttrs;
+
+		let escapedAttrs = "";
+
+		if (count(attributes) > 0) {
+			let attrs        = this->orderAttributes([], attributes),
+				escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
+		}
+
+		return "<" . tag . escapedAttrs . "/>";
 	}
 }

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\TagLocator;
 
+use Phalcon\Html\TagLocator;
+use Phalcon\Service\LocatorInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,9 @@ class ConstructCest
     public function htmlTaglocatorConstruct(UnitTester $I)
     {
         $I->wantToTest('Html\TagLocator - __construct()');
-        $I->skipTest('Need implementation');
+        $locator = new TagLocator();
+
+        $class = LocatorInterface::class;
+        $I->assertInstanceOf($class, $locator);
     }
 }

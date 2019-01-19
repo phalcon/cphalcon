@@ -26,9 +26,9 @@ class Anchor extends AbstractHelper
 	 */
 	public function __invoke(string href, string text, array attributes = [])
 	{
-		var attrs, tagText, ordered;
+		var overrides, escapedText;
 
-		let attrs = [
+		let overrides = [
 			"href" : href
 		];
 
@@ -37,10 +37,9 @@ class Anchor extends AbstractHelper
 		 */
 		unset(attributes["href"]);
 
-		let ordered = this->orderAttributes(attributes),
-			attrs   = array_merge(attrs, ordered),
-			tagText = this->escaper->escapeHtml(text);
+		let overrides   = this->orderAttributes(overrides, attributes),
+			escapedText = this->escaper->escapeHtml(text);
 
-		return "<a " . rtrim(this->renderAttributes(attrs)) . ">" . tagText . "</a>";
+		return "<a " . rtrim(this->renderAttributes(overrides)) . ">" . escapedText . "</a>";
 	}
 }
