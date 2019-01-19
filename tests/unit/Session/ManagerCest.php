@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Session\Adapter;
 
-use UnitTester;
-use Phalcon\Session\Manager;
 use Phalcon\Session\Adapter\Noop;
+use Phalcon\Session\Manager;
+use UnitTester;
 
 class ManagerCest
 {

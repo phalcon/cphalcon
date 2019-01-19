@@ -23,13 +23,13 @@ class Operation implements OperationInterface
 	 * Operation name
 	 * @var string
 	 */
-	protected _name { get, __toString };
+	private name { get, __toString };
 
 	/**
 	 * Operation description
 	 * @var string
 	 */
-	protected _description { get };
+	private description { get };
 
 	/**
 	 * Phalcon\Acl\Operation constructor
@@ -39,10 +39,10 @@ class Operation implements OperationInterface
 		if name == "*" {
 			throw new Exception("Operation name cannot be '*'");
 		}
-		let this->_name = name;
+		let this->name = name;
 
 		if description {
-			let this->_description = description;
+			let this->description = description;
 		}
 	}
 }
