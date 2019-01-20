@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter;
 
 use Phalcon\Filter\FilterLocator;
-use Phalcon\Test\Fixtures\Filter\HelloFilter;
+use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
 /**
@@ -34,7 +34,7 @@ class UnderscoreCallCest
         $I->wantToTest('Filter\FilterLocator - __call()');
         $services = [
             'helloFilter' => function () {
-                return new HelloFilter();
+                return new HelloService();
             },
         ];
 

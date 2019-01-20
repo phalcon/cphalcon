@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter;
 
 use Phalcon\Filter\FilterLocator;
-use Phalcon\Test\Fixtures\Filter\HelloFilter;
+use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
 /**
@@ -34,7 +34,7 @@ class GetSetHasCest
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - has()');
         $services = [
             'helloFilter' => function () {
-                return new HelloFilter();
+                return new HelloService();
             },
         ];
 
@@ -57,7 +57,7 @@ class GetSetHasCest
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get()');
         $services = [
             'helloFilter' => function () {
-                return new HelloFilter();
+                return new HelloService();
             },
         ];
 
@@ -65,7 +65,7 @@ class GetSetHasCest
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
-        $class  = HelloFilter::class;
+        $class  = HelloService::class;
         $actual = $locator->get('helloFilter');
         $I->assertInstanceOf($class, $actual);
     }
@@ -83,7 +83,7 @@ class GetSetHasCest
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get() - same');
         $services = [
             'helloFilter' => function () {
-                return new HelloFilter();
+                return new HelloService();
             },
         ];
 
@@ -120,7 +120,7 @@ class GetSetHasCest
         $locator->set(
             'helloFilter',
             function () {
-                return new HelloFilter();
+                return new HelloService();
             }
         );
         $actual = $locator->has('helloFilter');

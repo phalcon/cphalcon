@@ -225,7 +225,14 @@ trait DiTrait
      */
     protected function setDiFilter()
     {
-        $this->container->set('filter', Filter::class);
+        $this->container->set(
+            'filter',
+            function () {
+                $filter = new Filter\FilterLocatorFactory();
+
+                return $filter->newInstance();
+            }
+        );
     }
 
     /**
