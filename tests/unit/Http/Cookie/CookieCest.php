@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http;
+namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;
@@ -148,24 +148,5 @@ class CookieCest extends HttpBase
         $cookies = new Cookies();
         $actual  = $cookies->send();
         $I->assertTrue($actual);
-    }
-
-    public function testIssue13464(UnitTester $I)
-    {
-        $I->wantToTest("Issue #13464");
-        $I->checkExtensionIsLoaded('xdebug');
-        
-        $this->setDiCrypt();
-        $container = $this->getDi();
-        
-        $cookie = new Cookies();
-        $cookie->setDI($container);
-        $cookie->useEncryption(false);
-        $cookie->set(__METHOD__, 'potato', time() + 86400, '/', false, 'localhost', false);
-        $cookie->send();
-
-        $cookie = $this->getCookie(__METHOD__);
-
-        $I->assertNotRegexp('/HttpOnly$/', $cookie);
     }
 }
