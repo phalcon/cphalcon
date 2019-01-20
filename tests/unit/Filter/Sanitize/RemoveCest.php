@@ -29,8 +29,8 @@ class RemoveCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeRemoveInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class RemoveCest
 
         $sanitizer = new Remove();
 
-        $actual   = $sanitizer($example[0], $example[1]);
+        $actual = $sanitizer($example[0], $example[1]);
         $I->assertEquals($example[2], $actual);
     }
 

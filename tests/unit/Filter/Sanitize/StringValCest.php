@@ -29,8 +29,8 @@ class StringValCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeStringValInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class StringValCest
 
         $sanitizer = new StringVal();
 
-        $actual   = $sanitizer($example[0]);
+        $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
     }
 
@@ -50,20 +50,20 @@ class StringValCest
         return [
             [
                 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+<>',
-                'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+'
+                'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+',
             ],
             [
                 "{[<within french quotes>]}",
-                '{[]}'
+                '{[]}',
             ],
             [
                 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+<>',
-                'buenos días123καλημέρα!@#$%^&*早安()_ `~=+'
+                'buenos días123καλημέρα!@#$%^&*早安()_ `~=+',
             ],
             [
                 '{[<buenos días 123 καλημέρα! 早安>]}',
-                '{[]}'
-            ]
+                '{[]}',
+            ],
         ];
     }
 }

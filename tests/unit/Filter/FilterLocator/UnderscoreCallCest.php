@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Filter\Locator;
+namespace Phalcon\Test\Unit\Filter;
 
-use Phalcon\Filter\Locator;
+use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Filter\HelloFilter;
 use UnitTester;
 
@@ -22,23 +22,23 @@ use UnitTester;
 class UnderscoreCallCest
 {
     /**
-     * Tests Phalcon\Filter\Locator :: __call()
+     * Tests Phalcon\Filter\FilterLocator :: __call()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
-    public function serviceLocatorUnderscoreCall(UnitTester $I)
+    public function serviceFilterLocatorUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest('Filter\Locator - __call()');
+        $I->wantToTest('Filter\FilterLocator - __call()');
         $services = [
             'helloFilter' => function () {
                 return new HelloFilter();
             },
         ];
 
-        $locator = new Locator($services);
+        $locator = new FilterLocator($services);
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 

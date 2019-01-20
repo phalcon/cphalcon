@@ -14,8 +14,6 @@ namespace Phalcon\Test\Unit\Filter\FilterLocatorFactory;
 
 use Codeception\Example;
 use Phalcon\Filter\FilterLocatorFactory;
-use Phalcon\Service\LocatorInterface;
-use UnitTester;
 use Phalcon\Filter\Sanitize\AbsInt;
 use Phalcon\Filter\Sanitize\Alnum;
 use Phalcon\Filter\Sanitize\Alpha;
@@ -38,6 +36,8 @@ use Phalcon\Filter\Sanitize\Upper;
 use Phalcon\Filter\Sanitize\UpperFirst;
 use Phalcon\Filter\Sanitize\UpperWords;
 use Phalcon\Filter\Sanitize\Url;
+use Phalcon\Service\LocatorInterface;
+use UnitTester;
 
 /**
  * Class NewInstanceCest
@@ -55,7 +55,7 @@ class NewInstanceCest
     public function filterFilterLocatorFactoryNewInstance(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocatorFactory - newInstance()');
-        $factory = new FilterLocatorFactory();
+        $factory  = new FilterLocatorFactory();
         $instance = $factory->newInstance();
 
         $class = LocatorInterface::class;
@@ -70,13 +70,13 @@ class NewInstanceCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterFilterLocatorFactoryNewInstanceServices(UnitTester $I, Example $example)
     {
         $I->wantToTest('Filter\FilterLocatorFactory - newInstance() - services ' . $example[0]);
-        $factory = new FilterLocatorFactory();
+        $factory  = new FilterLocatorFactory();
         $instance = $factory->newInstance();
 
         $class = LocatorInterface::class;

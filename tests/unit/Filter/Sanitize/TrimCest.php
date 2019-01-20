@@ -29,8 +29,8 @@ class TrimCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeTrimInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class TrimCest
 
         $sanitizer = new Trim();
 
-        $actual   = $sanitizer($example[0]);
+        $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
     }
 

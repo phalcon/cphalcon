@@ -29,8 +29,8 @@ class EmailCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeEmailInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class EmailCest
 
         $sanitizer = new Email();
 
-        $actual   = $sanitizer($example[0]);
+        $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
     }
 
@@ -49,8 +49,10 @@ class EmailCest
     {
         return [
             ['some(one)@exa\\mple.com', 'someone@example.com'],
-            ['!(first.guy)
-                    @*my-domain**##.com.rx//', '!first.guy@*my-domain**##.com.rx'],
+            [
+                '!(first.guy)
+                    @*my-domain**##.com.rx//', '!first.guy@*my-domain**##.com.rx',
+            ],
         ];
     }
 }

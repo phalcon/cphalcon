@@ -29,8 +29,8 @@ class AlnumCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeAlnumInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class AlnumCest
 
         $sanitizer = new Alnum();
 
-        $actual   = $sanitizer($example[0]);
+        $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
     }
 

@@ -29,8 +29,8 @@ class UpperFirstCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeUpperFirstInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class UpperFirstCest
 
         $sanitizer = new UpperFirst();
 
-        $actual   = $sanitizer($example[0]);
+        $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
     }
 

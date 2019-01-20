@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Filter\Locator;
+namespace Phalcon\Test\Unit\Filter;
 
-use Phalcon\Filter\Locator;
+use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Filter\HelloFilter;
 use UnitTester;
 
@@ -22,46 +22,46 @@ use UnitTester;
 class GetSetHasCest
 {
     /**
-     * Tests Phalcon\Filter\Locator :: get()/set()/has() - has()
+     * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - has()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
-    public function serviceLocatorGetSetHasHas(UnitTester $I)
+    public function serviceFilterLocatorGetSetHasHas(UnitTester $I)
     {
-        $I->wantToTest('Filter\Locator - get()/set()/has() - has()');
+        $I->wantToTest('Filter\FilterLocator - get()/set()/has() - has()');
         $services = [
             'helloFilter' => function () {
                 return new HelloFilter();
             },
         ];
 
-        $locator = new Locator($services);
+        $locator = new FilterLocator($services);
 
         $actual = $locator->has('helloFilter');
         $I->assertTrue($actual);
     }
 
     /**
-     * Tests Phalcon\Filter\Locator :: get()/set()/has() - get()
+     * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - get()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function serviceLocatorGetSetHasGet(UnitTester $I)
+    public function serviceFilterLocatorGetSetHasGet(UnitTester $I)
     {
-        $I->wantToTest('Filter\Locator - get()/set()/has() - get()');
+        $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get()');
         $services = [
             'helloFilter' => function () {
                 return new HelloFilter();
             },
         ];
 
-        $locator = new Locator($services);
+        $locator = new FilterLocator($services);
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
@@ -71,23 +71,23 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Locator :: get()/set()/has() - get() same
+     * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - get() same
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function serviceLocatorGetSetHasGetSame(UnitTester $I)
+    public function serviceFilterLocatorGetSetHasGetSame(UnitTester $I)
     {
-        $I->wantToTest('Filter\Locator - get()/set()/has() - get() - same');
+        $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get() - same');
         $services = [
             'helloFilter' => function () {
                 return new HelloFilter();
             },
         ];
 
-        $locator = new Locator($services);
+        $locator = new FilterLocator($services);
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
@@ -102,17 +102,17 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Locator :: get()/set()/has() - set()
+     * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - set()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function serviceLocatorGetSetHasSet(UnitTester $I)
+    public function serviceFilterLocatorGetSetHasSet(UnitTester $I)
     {
-        $I->wantToTest('Filter\Locator - get()/set()/has() - set()');
-        $locator = new Locator();
+        $I->wantToTest('Filter\FilterLocator - get()/set()/has() - set()');
+        $locator = new FilterLocator();
 
         $actual = $locator->has('helloFilter');
         $I->assertFalse($actual);

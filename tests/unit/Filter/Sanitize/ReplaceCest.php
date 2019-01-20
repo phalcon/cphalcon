@@ -29,8 +29,8 @@ class ReplaceCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeReplaceInvoke(UnitTester $I, Example $example)
     {
@@ -38,7 +38,7 @@ class ReplaceCest
 
         $sanitizer = new Replace();
 
-        $actual   = $sanitizer($example[0], $example[1], $example[2]);
+        $actual = $sanitizer($example[0], $example[1], $example[2]);
         $I->assertEquals($example[3], $actual);
     }
 

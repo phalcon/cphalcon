@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
 use Phalcon\Filter\Sanitize\FloatValCast;
-use Phalcon\Filter\Sanitize\Email;
 use UnitTester;
 
 /**
@@ -30,8 +29,8 @@ class FloatValCastCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeFloatValCastInvoke(UnitTester $I, Example $example)
     {
@@ -39,7 +38,7 @@ class FloatValCastCest
 
         $sanitizer = new FloatValCast();
 
-        $actual   = $sanitizer($example[0]);
+        $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
     }
 

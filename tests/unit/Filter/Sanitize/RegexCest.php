@@ -29,8 +29,8 @@ class RegexCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function filterSanitizeRegexInvoke(UnitTester $I, Example $example)
     {
@@ -39,7 +39,7 @@ class RegexCest
 
         $sanitizer = new Regex();
 
-        $actual   = $sanitizer($example[0], $example[1], $example[2]);
+        $actual = $sanitizer($example[0], $example[1], $example[2]);
         $I->assertEquals($example[3], $actual);
     }
 
