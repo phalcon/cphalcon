@@ -12,37 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter\Sanitize;
 
-use Phalcon\Filter\Sanitize\Email;
+use Codeception\Example;
+use Phalcon\Filter\Sanitize\Striptags;
 use UnitTester;
 
 /**
- * Class EmailCest
+ * Class StriptagsCest
  */
-class EmailCest
+class StriptagsCest
 {
     /**
      * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
      *
+     * @dataProvider getData
+     *
      * @param UnitTester $I
+     * @param Example    $example
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function filterSanitizeEmailInvoke(UnitTester $I)
+    public function filterSanitizeStriptagsInvoke(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Filter\Sanitize\Email - __invoke()');
+        $I->wantToTest('Filter\Sanitize\Striptags - __invoke()');
 
-        $sanitizer = new Email();
+        $sanitizer = new Striptags();
 
-        $value    = 'some(one)@exa\\mple.com';
-        $expected = 'someone@example.com';
-        $actual   = $sanitizer($value);
-        $I->assertEquals($expected, $actual);
+        $actual   = $sanitizer($example[0]);
+        $I->assertEquals($example[1], $actual);
+    }
 
-        $value    = '!(first.guy)
-                    @*my-domain**##.com.rx//';
-        $expected = '!first.guy@*my-domain**##.com.rx';
-        $actual   = $sanitizer($value);
-        $I->assertEquals($expected, $actual);
+    /**
+     * @return array
+     */
+    private function getData(): array
+    {
+        return [
+            ['<h1>Hello</h1>', 'Hello'],
+            ['<h1><p>Hello</h1>', 'Hello'],
+            ['<', ''],
+        ];
     }
 }

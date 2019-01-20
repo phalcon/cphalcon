@@ -33,7 +33,7 @@ class FloatValCastCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function filterSanitizeEmailInvoke(UnitTester $I, Example $example)
+    public function filterSanitizeFloatValCastInvoke(UnitTester $I, Example $example)
     {
         $I->wantToTest('Filter\Sanitize\FloatValCast - __invoke()');
 

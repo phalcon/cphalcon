@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
 use Phalcon\Filter\Sanitize\IntVal;
-use Phalcon\Filter\Sanitize\Email;
 use UnitTester;
 
 /**
@@ -33,7 +32,7 @@ class IntValCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function filterSanitizeEmailInvoke(UnitTester $I, Example $example)
+    public function filterSanitizeIntValInvoke(UnitTester $I, Example $example)
     {
         $I->wantToTest('Filter\Sanitize\IntVal - __invoke()');
 

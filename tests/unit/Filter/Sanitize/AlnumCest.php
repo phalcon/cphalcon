@@ -50,7 +50,7 @@ class AlnumCest
         return [
             ['0', 0],
             ['', null],
-            ['a5xkat1sXan', '?a&5xka\tŧ?1-s.Xa[\n'],
+            ['?a&5xka\tŧ?1-s.Xa[\n', 'a5xkat1sXan'],
         ];
     }
 }
