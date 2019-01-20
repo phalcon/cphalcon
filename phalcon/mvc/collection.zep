@@ -676,6 +676,37 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	}
 
 	/**
+	 * Check whether validation process has generated any messages
+	 *
+	 *<code>
+	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *
+	 * class Subscriptors extends \Phalcon\Mvc\Collection
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $this->validate(
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "field"  => "status",
+	 *                     "domain" => ["A", "I"],
+	 *                 ]
+	 *             )
+	 *         );
+	 *
+	 *         if ($this->validationHasFailed() == true) {
+	 *             return false;
+	 *         }
+	 *     }
+	 * }
+	 *</code>
+	 */
+	public function validationHasFailed() -> boolean
+	{
+		return (count(this->_errorMessages) > 0);
+	}
+
+	/**
 	 * Fires an internal event
 	 */
 	public function fireEvent(string! eventName) -> bool
