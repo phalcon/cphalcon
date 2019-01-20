@@ -18,11 +18,6 @@ use Phalcon\Service\LocatorFactoryInterface;
 class FilterLocatorFactory implements LocatorFactoryInterface
 {
 	/**
-	 * @var EscaperInterface
-	 */
-	private escaper;
-
-	/**
 	 * Returns a Locator object with all the helpers defined in anonynous
 	 * functions
 	 */

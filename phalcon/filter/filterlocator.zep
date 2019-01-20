@@ -73,7 +73,7 @@ class FilterLocator extends Locator
 		if (true === this->has(filter)) {
 			let filterObject = this->get(filter);
 
-			return {filterObject}();
+			return {filterObject}(value);
 		}
 
 		return value;

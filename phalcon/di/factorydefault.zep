@@ -10,6 +10,7 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\Filter\FilterLocatorFactory;
 /**
  * Phalcon\Di\FactoryDefault
  *
@@ -19,13 +20,16 @@ namespace Phalcon\Di;
  */
 class FactoryDefault extends \Phalcon\Di
 {
-
 	/**
 	 * Phalcon\Di\FactoryDefault constructor
 	 */
 	public function __construct()
 	{
+		var filter;
+
 		parent::__construct();
+
+		let filter = new FilterLocatorFactory();
 
 		let this->_services = [
 			"annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
@@ -37,7 +41,8 @@ class FactoryDefault extends \Phalcon\Di
 			"eventsManager":      new Service("Phalcon\\Events\\Manager", true),
 			"flash":              new Service("Phalcon\\Flash\\Direct", true),
 			"flashSession":       new Service("Phalcon\\Flash\\Session", true),
-			"filter":             new Service("Phalcon\\Filter", true),
+			"filter":             new Service(filter->newInstance(), true),
+//			"filter":             new Service("Phalcon\\Filter", true),
 			"modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
 			"modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
 			"request":            new Service("Phalcon\\Http\\Request", true),

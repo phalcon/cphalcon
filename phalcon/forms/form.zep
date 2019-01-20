@@ -19,6 +19,7 @@ use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
 use Phalcon\ValidationInterface;
+use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Forms\Form
@@ -199,7 +200,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 				if typeof filter != "object" {
 					let dependencyInjector = this->getDI(),
-						filter = <FilterInterface> dependencyInjector->getShared("filter");
+						filter = <LocatorInterface> dependencyInjector->getShared("filter");
+//						filter = <FilterInterface> dependencyInjector->getShared("filter");
 				}
 
 				/**
