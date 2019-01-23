@@ -16,6 +16,7 @@
 - Changed the `Phalcon\Translate\Adapter\NativeArray` to accept a new parameter in the constructor `triggerError`. This will trigger an error if the key is not found [#13007](https://github.com/phalcon/cphalcon/pull/13007)
 - Changed the default action of `Phalcon\Acl\Memory`to be `Acl::DENY` instead of `Acl::ALLOW` [#13758](https://github.com/phalcon/cphalcon/pull/13758)
 - Changed `Phalcon\Mvc\User\Plugin` to `Phalcon\Plugin` [#13749](https://github.com/phalcon/cphalcon/pull/13749)
+- Changed `Phalcon\Exception` to implement `\Throwable` interface.[#13750](https://github.com/phalcon/cphalcon/pull/13758)
 
 ## Removed
 - Removed `Phalcon\Mvc\User\Component`, `Phalcon\Mvc\User\Module` and `Phalcon\Mvc\User\Plugin` [#13749](https://github.com/phalcon/cphalcon/pull/13749)
