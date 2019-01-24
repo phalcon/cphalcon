@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\User;
+namespace Phalcon;
 
 /**
- * Phalcon\Mvc\User\Module
+ * Phalcon\Plugin
  *
- * This class can be used to provide user modules easy access to services
+ * This class can be used to provide user plugins an easy access to services
  * in the application
  */
-class Module extends \Phalcon\Di\Injectable
+class Plugin extends \Phalcon\Di\Injectable
 {
 
 }
