@@ -48,7 +48,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 	protected _secure;
 
-	protected _httpOnly;
+	protected _httpOnly = false;
 
 	/**
 	 * The cookie's sign key.
