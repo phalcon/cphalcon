@@ -57,19 +57,7 @@ class Redis extends MetaData
 		if typeof options != "array" {
 			let options = [];
 		}
-
-		if !isset options["host"] {
-			let options["host"] = "127.0.0.1";
-		}
-
-		if !isset options["port"] {
-			let options["port"] = 6379;
-		}
-
-		if !isset options["persistent"] {
-			let options["persistent"] = 0;
-		}
-
+		
 		if !isset options["statsKey"] {
 			let options["statsKey"] = "_PHCM_MM";
 		}
