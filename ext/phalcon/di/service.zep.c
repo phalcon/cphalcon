@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, &builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 166, dependencyInjector, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 169, dependencyInjector, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	if (found == 0) {
 		ZEPHIR_INIT_VAR(&_2$$22);
 		object_init_ex(&_2$$22, phalcon_di_exception_serviceresolutionexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$22, "__construct", NULL, 3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$22, "__construct", NULL, 4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$22, "phalcon/di/service.zep", 186 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 53, &definition, &shared);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 54, &definition, &shared);
 	zephir_check_call_status();
 	RETURN_MM();
 

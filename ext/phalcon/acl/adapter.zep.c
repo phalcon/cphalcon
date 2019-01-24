@@ -35,71 +35,47 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Adapter, phalcon, acl_adapter, phalcon_acl_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * Events manager
-	 * @var mixed
+	 * Active access which the list is checking if some operation can access it
+	 *
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	/**
-	 * Default access
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Access Granted
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Operation which the list is checking if it's allowed to certain subject/access
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeOperation"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("activeOperation"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Subject which the list is checking if some operation can access it
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeSubject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("activeSubject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Active access which the list is checking if some operation can access it
-	 *
-	 * @var string
+	 * Default access
+	 * @var bool
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * Events manager
+	 * @var mixed
+	 */
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_acl_adapterinterface_ce);
 	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
-
-}
-
-/**
- * Operation which the list is checking if it's allowed to certain subject/access
- */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveOperation) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_activeOperation");
-
-}
-
-/**
- * Subject which the list is checking if some operation can access it
- */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveSubject) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_activeSubject");
 
 }
 
@@ -111,25 +87,43 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_activeAccess");
+	RETURN_MEMBER(getThis(), "activeAccess");
 
 }
 
 /**
- * Sets the events manager
+ * Operation which the list is checking if it's allowed to certain subject/access
  */
-PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveOperation) {
 
-	zval *eventsManager, eventsManager_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	RETURN_MEMBER(getThis(), "activeOperation");
+
+}
+
+/**
+ * Subject which the list is checking if some operation can access it
+ */
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveSubject) {
+
+	zval *this_ptr = getThis();
 
 
+	RETURN_MEMBER(getThis(), "activeSubject");
 
-	zephir_update_property_zval(this_ptr, SL("_eventsManager"), eventsManager);
+}
+
+/**
+ * Returns the default ACL access level
+ */
+PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "defaultAccess");
 
 }
 
@@ -141,7 +135,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_eventsManager");
+	RETURN_MEMBER(getThis(), "eventsManager");
 
 }
 
@@ -163,19 +157,25 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, defaultAccess);
-	zephir_update_property_zval(this_ptr, SL("_defaultAccess"), &_0);
+	zephir_update_property_zval(this_ptr, SL("defaultAccess"), &_0);
 
 }
 
 /**
- * Returns the default ACL access level
+ * Sets the events manager
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
+PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
+	zval *eventsManager, eventsManager_sub;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&eventsManager_sub);
 
-	RETURN_MEMBER(getThis(), "_defaultAccess");
+	zephir_fetch_params(0, 1, 0, &eventsManager);
+
+
+
+	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
 
 }
 

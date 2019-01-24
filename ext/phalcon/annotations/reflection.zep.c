@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 		if (zephir_array_isset_string_fetch(&reflectionClass, &_0$$3, SL("class"), 1)) {
 			ZEPHIR_INIT_VAR(&collection);
 			object_init_ex(&collection, phalcon_annotations_collection_ce);
-			ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 19, &reflectionClass);
+			ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 20, &reflectionClass);
 			zephir_check_call_status();
 			zephir_update_property_zval(this_ptr, SL("_classAnnotations"), &collection);
 			RETURN_CCTOR(&collection);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 					ZVAL_COPY(&reflectionMethod, _1$$5);
 					ZEPHIR_INIT_NVAR(&_4$$6);
 					object_init_ex(&_4$$6, phalcon_annotations_collection_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", &_5, 19, &reflectionMethod);
+					ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", &_5, 20, &reflectionMethod);
 					zephir_check_call_status();
 					zephir_array_update_zval(&collections, &methodName, &_4$$6, PH_COPY | PH_SEPARATE);
 				} ZEND_HASH_FOREACH_END();
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 					ZVAL_COPY(&reflectionProperty, _1$$5);
 					ZEPHIR_INIT_NVAR(&_4$$6);
 					object_init_ex(&_4$$6, phalcon_annotations_collection_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", &_5, 19, &reflectionProperty);
+					ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", &_5, 20, &reflectionProperty);
 					zephir_check_call_status();
 					zephir_array_update_zval(&collections, &property, &_4$$6, PH_COPY | PH_SEPARATE);
 				} ZEND_HASH_FOREACH_END();
@@ -299,12 +299,12 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state) {
 
 	if (zephir_array_isset_string_fetch(&reflectionData, &data, SL("_reflectionData"), 1)) {
 		object_init_ex(return_value, phalcon_annotations_reflection_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, &reflectionData);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 18, &reflectionData);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	object_init_ex(return_value, phalcon_annotations_reflection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 18);
 	zephir_check_call_status();
 	RETURN_MM();
 

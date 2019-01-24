@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$15);
 		ZEPHIR_CONCAT_SV(&_3$$15, "Failed storing data in memcached, error code: ", &_2$$15);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$15, "__construct", NULL, 3, &_3$$15);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$15, "__construct", NULL, 4, &_3$$15);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$15, "phalcon/cache/backend/libmemcached.zep", 230 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
