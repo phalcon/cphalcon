@@ -11,19 +11,24 @@
 namespace Phalcon\Filter\Sanitize;
 
 use Phalcon\Filter\SanitizerInterface;
+use Phalcon\Filter\Sanitize\AbstractSanitizer;
 
 /**
  * Phalcon\Filter\Sanitize\Striptags
  *
  * Sanitizes a value striptags
  */
-class Striptags
+class Striptags extends AbstractSanitizer implements SanitizerInterface
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke(var input)
+	public function __invoke()
 	{
+		var input;
+
+		let input = this->checkArguments(func_get_args(), 1);
+
 		return strip_tags(input);
 	}
 }

@@ -15,65 +15,125 @@ use Phalcon\Service\Locator;
 /**
  * Phalcon\Html\TagLocator
  *
- * Lazy loads, stores and exposes tag helper objects
+ * Lazy loads, stores and exposes sanitizer objects
  */
 class FilterLocator extends Locator
 {
 	/**
-	 * Sanitizes a value with a specified single or set of filters
+	 * Sanitizes a value with a specified single or set of sanitizers
 	 */
-	public function sanitize(var value, var filters, bool noRecursive = false) -> var
+	public function sanitize(var value, var sanitizers, bool noRecursive = false) -> var
 	{
-		var filter, arrayValue, itemKey, itemValue, sanitizedValue;
+		var sanitizer, sanitizerKey, sanitizerName, sanitizerParams;
 
 		/**
-		 * Apply an array of filters
+		 * First we need to figure out whether this is one sanitizer (string) or
+		 * an array with different sanitizers in it.
+		 *
+		 * All is well if the sanitizer accepts only one parameter, but certain
+		 * sanitizers require more than one parameter. To figure this out we
+		 * need to of course call call_user_func_array() but with the correct
+		 * parameters.
+		 *
+		 * If the array is passed with just values then those are just the
+		 * sanitizer names i.e.
+		 *
+		 * $locator->sanitize( 'abcde', ['trim', 'upper'])
+		 *
+		 * If the sanitizer requires more than one parameter then we need to
+		 * inject those parameters in the sanitize also:
+		 *
+		 * $locator->sanitize(
+		 * 	    '  mary had a little lamb ',
+		 * 	    [
+		 *     	    'trim',
+		 *     	    'replace' => [' ', '-'],
+		 *     	    'remove'  => ['mary'],
+		 *     	]
+		 * );
+		 *
+		 * The above should produce "-had-a-little-lamb"
 		 */
-		if typeof filters == "array" {
-			if value !== null {
-				for filter in filters {
-					/**
-					 * If the value to filter is an array we apply the filters recursively
-					 */
-					if typeof value == "array" && !noRecursive {
-						let arrayValue = [];
-						for itemKey, itemValue in value {
-							let arrayValue[itemKey] = this->sanitizer(itemValue, filter);
-						}
-						let value = arrayValue;
-					} else {
-						let value = this->sanitizer(value, filter);
-					}
+
+		 /**
+		  * Filter is an array
+		  */
+		if typeof sanitizers == "array" {
+			/**
+			 * Null value - return immediately
+			 */
+			if null === value {
+				return value;
+			}
+
+			/**
+			 * `value` is something. Loop through the sanitizers
+			 */
+			for sanitizerKey, sanitizer in sanitizers {
+				/**
+				 *  If `sanitizer` is an array, that means that the sanitizerKey is
+				 *  the name of the sanitizer.
+				 */
+				 if typeof sanitizer === "array" {
+				 	let sanitizerName   = sanitizerKey,
+				 		sanitizerParams = sanitizer;
+				 } else {
+				 	let sanitizerName   = sanitizer,
+				 		sanitizerParams = [];
+				 }
+
+				/**
+				 * Check if the value is an array of elements. If the noRecursive
+				 * has been defined it is a straight up; otherwise recursion is
+				 * required
+				 */
+				if typeof value === "array" && !noRecursive {
+					let value = this->processArrayValues(value, sanitizerName, sanitizerParams);
+				} else {
+					let value = this->sanitizer(value, sanitizerName, sanitizerParams);
 				}
 			}
+
 			return value;
 		}
 
 		/**
-		 * Apply a single filter value
+		 * Apply a single sanitizer to the values. Check if the values are an array
 		 */
 		if typeof value == "array" && !noRecursive {
-			let sanitizedValue = [];
-			for itemKey, itemValue in value {
-				let sanitizedValue[itemKey] = this->sanitizer(itemValue, filters);
-			}
-			return sanitizedValue;
+			return this->processArrayValues(value, sanitizers);
 		}
 
-		return this->sanitizer(value, filters);
+		/**
+		 * One value one sanitizer
+		 */
+		return this->sanitizer(value, sanitizers);
+	}
+
+	private function processArrayValues(array values, string sanitizerName, array sanitizerParams = []) -> array
+	{
+		var arrayValue, itemKey, itemValue;
+
+		let arrayValue = [];
+		for itemKey, itemValue in values {
+			let arrayValue[itemKey] = this->sanitizer(itemValue, sanitizerName, sanitizerParams);
+		}
+
+		return arrayValue;
 	}
 
 	/**
-	 * Internal sanitize wrapper to filter_var
+	 * Internal sanitize wrapper for recursion
 	 */
-	private function sanitizer(var value, string! filter) -> var
+	private function sanitizer(var value, string! sanitizerName, array sanitizerParams = []) -> var
 	{
-		var filterObject;
+		var sanitizerObject, params;
 
-		if (true === this->has(filter)) {
-			let filterObject = this->get(filter);
+		if (true === this->has(sanitizerName)) {
+			let sanitizerObject = this->get(sanitizerName),
+				params          = array_merge([value], sanitizerParams);
 
-			return {filterObject}(value);
+			return call_user_func_array(sanitizerObject, params);
 		}
 
 		return value;

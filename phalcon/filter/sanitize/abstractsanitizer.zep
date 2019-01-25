@@ -11,24 +11,27 @@
 namespace Phalcon\Filter\Sanitize;
 
 use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
 
 /**
  * Phalcon\Filter\Sanitize\AbsInt
  *
  * Sanitizes a value to absolute integer
  */
-class AbsInt extends AbstractSanitizer implements SanitizerInterface
+abstract class AbstractSanitizer
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	protected function checkArguments(array arguments, int parameterCount) -> var
 	{
-		var input;
+		if parameterCount !== count(arguments) {
+			throw new \InvalidArgumentException("Invalid passed arguments");
+		}
 
-		let input = this->checkArguments(func_get_args(), 1);
-
-		return abs(intval(input));
+		if 1 === parameterCount {
+			return arguments[0];
+		} else {
+			return arguments;
+		}
 	}
 }

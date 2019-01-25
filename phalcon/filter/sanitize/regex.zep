@@ -17,13 +17,17 @@ use Phalcon\Filter\SanitizerInterface;
  *
  * Sanitizes a value performing preg_replace
  */
-class Regex
+class Regex extends AbstractSanitizer implements SanitizerInterface
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke(var input, string find, string replace)
+	public function __invoke()
 	{
-		return preg_replace(find, replace, input);
+		var input;
+
+		let input = this->checkArguments(func_get_args(), 3);
+
+		return preg_replace(input[1], input[2], input[0]);
 	}
 }

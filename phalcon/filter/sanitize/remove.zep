@@ -17,13 +17,17 @@ use Phalcon\Filter\SanitizerInterface;
  *
  * Sanitizes a value removing parts of a string
  */
-class Remove
+class Remove extends AbstractSanitizer implements SanitizerInterface
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke(var input, string find)
+	public function __invoke()
 	{
-		return str_replace(find, "", input);
+		var input;
+
+		let input = this->checkArguments(func_get_args(), 2);
+
+		return str_replace(input[1], "", input[0]);
 	}
 }

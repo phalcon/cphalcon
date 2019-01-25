@@ -37,7 +37,6 @@ class ReplaceCest
         $I->wantToTest('Filter\Sanitize\Replace - __invoke()');
 
         $sanitizer = new Replace();
-
         $actual = $sanitizer($example[0], $example[1], $example[2]);
         $I->assertEquals($example[3], $actual);
     }

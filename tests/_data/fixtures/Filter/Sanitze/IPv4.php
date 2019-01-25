@@ -10,18 +10,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Filter\Helper;
+namespace Phalcon\Test\Fixtures\Filter\Sanitize;
 
+/**
+ * Class IPv4
+ */
 class IPv4
 {
     /**
-     * Filters data
+     * Sanitizes IP addresses
      *
-     * @param $value
+     * @param string $value
      *
      * @return mixed
      */
-    public function filter($value)
+    public function __invoke(string $value)
     {
         return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }

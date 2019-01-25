@@ -35,7 +35,6 @@ class RegexCest
     public function filterSanitizeRegexInvoke(UnitTester $I, Example $example)
     {
         $I->wantToTest('Filter\Sanitize\Regex - __invoke()');
-        $I->skipTest('NEEDS Implementation');
 
         $sanitizer = new Regex();
 
@@ -49,7 +48,7 @@ class RegexCest
     private function getData(): array
     {
         return [
-            ['source', 'find', 'replace', 'expected'],
+            ['mary abc a little lamb', '/abc/', 'had', 'mary had a little lamb'],
         ];
     }
 }
