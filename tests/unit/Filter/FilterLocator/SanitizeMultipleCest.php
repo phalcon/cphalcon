@@ -10,12 +10,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Filter;
+namespace Phalcon\Test\Unit\Filter\FilterLocator;
 
-use Phalcon\Test\Unit\Filter\Helper\FilterBase;
+use Phalcon\Filter\FilterLocatorFactory;
 use UnitTester;
 
-class FilterMultipleCest extends FilterBase
+/**
+ * Class SanitizeMultipleCest
+ */
+class SanitizeMultipleCest
 {
     /**
      * Tests sanitizing string with filters
@@ -23,11 +26,15 @@ class FilterMultipleCest extends FilterBase
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
-    public function testSanitizeStringWithMultipleFilters(UnitTester $I)
+    public function filterFilterLocatorSanitizeStringWithMultipleFilters(UnitTester $I)
     {
-        $expected = 'lol';
+        $locator = new FilterLocatorFactory();
+        $filter  = $locator->newInstance();
+
         $value    = '    lol<<<   ';
-        $this->sanitizer($I, ['string', 'trim'], $expected, $value);
+        $expected = 'lol';
+        $actual   = $filter->sanitize($value, ['string', 'trim']);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -36,11 +43,15 @@ class FilterMultipleCest extends FilterBase
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
-    public function testSanitizeArray(UnitTester $I)
+    public function filterFilterLocatorSanitizeArray(UnitTester $I)
     {
-        $expected = ['1', '2', '3'];
+        $locator = new FilterLocatorFactory();
+        $filter  = $locator->newInstance();
+
         $value    = [' 1 ', '  2', '3  '];
-        $this->sanitizer($I, 'trim', $expected, $value);
+        $expected = ['1', '2', '3'];
+        $actual   = $filter->sanitize($value, 'trim');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -49,10 +60,36 @@ class FilterMultipleCest extends FilterBase
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-30
      */
-    public function testSanitizeArrayWithMultipleFilters(UnitTester $I)
+    public function filterFilterLocatorSanitizeArrayWithMultipleFilters(UnitTester $I)
     {
-        $expected = ['1', '2', '3'];
+        $locator = new FilterLocatorFactory();
+        $filter  = $locator->newInstance();
+
         $value    = [' <a href="a">1</a> ', '  <h1>2</h1>', '<p>3</p>'];
-        $this->sanitizer($I, ['trim', 'striptags'], $expected, $value);
+        $expected = ['1', '2', '3'];
+        $actual   = $filter->sanitize($value, ['trim', 'striptags']);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests sanitizing array with multiple filters and more parameters
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-09-30
+     */
+    public function filterFilterLocatorSanitizeWithMultipleFiltersMoreParameters(UnitTester $I)
+    {
+        $locator = new FilterLocatorFactory();
+        $filter  = $locator->newInstance();
+
+        $value   = '  mary had a little lamb ';
+        $filters = [
+            'trim',
+            'replace' => [' ', '-'],
+            'remove'  => ['mary'],
+        ];
+        $expected = '-had-a-little-lamb';
+        $actual   = $filter->sanitize($value, $filters);
+        $I->assertEquals($expected, $actual);
     }
 }

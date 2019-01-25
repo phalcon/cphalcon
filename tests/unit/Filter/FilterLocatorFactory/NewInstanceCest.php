@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\FilterLocatorFactory;
 
 use Codeception\Example;
+use Phalcon\Filter\FilterLocator;
 use Phalcon\Filter\FilterLocatorFactory;
 use Phalcon\Filter\Sanitize\AbsInt;
 use Phalcon\Filter\Sanitize\Alnum;
@@ -86,32 +87,34 @@ class NewInstanceCest
         $I->assertInstanceOf($example[1], $helper);
     }
 
+    /**
+     * Returns the example data
+     */
     private function getData(): array
     {
         return [
-            ['absint', AbsInt::class],
-            ['alnum', Alnum::class],
-            ['alpha', Alpha::class],
-            ['alphanum', Alnum::class],
-            ['bool', BoolVal::class],
-            ['email', Email::class],
-            ['float', FloatVal::class],
-            ['float!', FloatValCast::class],
-            ['int', IntVal::class],
-            ['int!', IntValCast::class],
-            ['lower', Lower::class],
-            ['lowerFirst', LowerFirst::class],
-            ['regex', Regex::class],
-            ['remove', Remove::class],
-            ['replace', Replace::class],
-            ['special_chars', Special::class],
-            ['string', StringVal::class],
-            ['striptags', Striptags::class],
-            ['trim', Trim::class],
-            ['upper', Upper::class],
-            ['upperFirst', UpperFirst::class],
-            ['upperWords', UpperWords::class],
-            ['url', Url::class],
+            [FilterLocator::FILTER_ABSINT, AbsInt::class],
+            [FilterLocator::FILTER_ALNUM, Alnum::class],
+            [FilterLocator::FILTER_ALPHA, Alpha::class],
+            [FilterLocator::FILTER_BOOL, BoolVal::class],
+            [FilterLocator::FILTER_EMAIL, Email::class],
+            [FilterLocator::FILTER_FLOAT, FloatVal::class],
+            [FilterLocator::FILTER_FLOATCAST, FloatValCast::class],
+            [FilterLocator::FILTER_INT,  IntVal::class],
+            [FilterLocator::FILTER_INTCAST, IntValCast::class],
+            [FilterLocator::FILTER_LOWER,  Lower::class],
+            [FilterLocator::FILTER_LOWERFIRST, LowerFirst::class],
+            [FilterLocator::FILTER_REGEX, Regex::class],
+            [FilterLocator::FILTER_REMOVE, Remove::class],
+            [FilterLocator::FILTER_REPLACE, Replace::class],
+            [FilterLocator::FILTER_SPECIALCHARS, Special::class],
+            [FilterLocator::FILTER_STRING, StringVal::class],
+            [FilterLocator::FILTER_STRIPTAGS, Striptags::class],
+            [FilterLocator::FILTER_TRIM, Trim::class],
+            [FilterLocator::FILTER_UPPER, Upper::class],
+            [FilterLocator::FILTER_UPPERFIRST, UpperFirst::class],
+            [FilterLocator::FILTER_UPPERWORDS, UpperWords::class],
+            [FilterLocator::FILTER_URL, Url::class],
         ];
     }
 }

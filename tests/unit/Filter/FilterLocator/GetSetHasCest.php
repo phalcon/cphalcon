@@ -29,7 +29,7 @@ class GetSetHasCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
-    public function serviceFilterLocatorGetSetHasHas(UnitTester $I)
+    public function filterFilterLocatorGetSetHasHas(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - has()');
         $services = [
@@ -52,7 +52,7 @@ class GetSetHasCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function serviceFilterLocatorGetSetHasGet(UnitTester $I)
+    public function filterFilterLocatorLocatorGetSetHasGet(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get()');
         $services = [
@@ -78,7 +78,7 @@ class GetSetHasCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function serviceFilterLocatorGetSetHasGetSame(UnitTester $I)
+    public function filterFilterLocatorGetSetHasGetSame(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get() - same');
         $services = [
@@ -109,7 +109,7 @@ class GetSetHasCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function serviceFilterLocatorGetSetHasSet(UnitTester $I)
+    public function filterFilterLocatorGetSetHasSet(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - set()');
         $locator = new FilterLocator();

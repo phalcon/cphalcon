@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Di;
-use Phalcon\Filter;
+use Phalcon\Escaper;
 use UnitTester;
 
 class ServiceCest
@@ -27,10 +27,10 @@ class ServiceCest
     {
         $di = new Di();
         $di->set('resolved', function () {
-            return new Filter();
+            return new Escaper();
         });
         $di->set('notResolved', function () {
-            return new Filter();
+            return new Escaper();
         });
 
         $actual = $di->getService('resolved')->isResolved();

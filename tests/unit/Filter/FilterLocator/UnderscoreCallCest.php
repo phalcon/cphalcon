@@ -29,7 +29,7 @@ class UnderscoreCallCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
-    public function serviceFilterLocatorUnderscoreCall(UnitTester $I)
+    public function filterFilterLocatorUnderscoreCall(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - __call()');
         $services = [

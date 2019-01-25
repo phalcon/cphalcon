@@ -29,9 +29,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
-    public function serviceLocatorConstruct(UnitTester $I)
+    public function filterFilterLocatorConstruct(UnitTester $I)
     {
-        $I->wantToTest('Filter\Locator - __construct() - empty');
+        $I->wantToTest('Filter\FilterLocator - __construct() - empty');
         $I->expectThrowable(
             new Exception('The service unknown has not been found in the locator'),
             function () {
