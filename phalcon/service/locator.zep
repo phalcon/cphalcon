@@ -63,7 +63,7 @@ class Locator implements LocatorInterface
 
 		if (true !== isset(this->services[name])) {
 			let factory              = this->mapper[name],
-				this->services[name] = factory;
+				this->services[name] = {factory}();
 		}
 
 		return this->services[name];

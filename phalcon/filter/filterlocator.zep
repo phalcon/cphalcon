@@ -19,6 +19,29 @@ use Phalcon\Service\Locator;
  */
 class FilterLocator extends Locator
 {
+	const FILTER_ABSINT       = "absint";
+	const FILTER_ALNUM        = "alnum";
+	const FILTER_ALPHA        = "alpha";
+	const FILTER_BOOL         = "bool";
+	const FILTER_EMAIL        = "email";
+	const FILTER_FLOAT        = "float";
+	const FILTER_FLOATCAST    = "floatCast";
+	const FILTER_INT          = "int";
+	const FILTER_INTCAST      = "intCast";
+	const FILTER_LOWER        = "lower";
+	const FILTER_LOWERFIRST   = "lowerFirst";
+	const FILTER_REGEX        = "regex";
+	const FILTER_REMOVE       = "remove";
+	const FILTER_REPLACE      = "replace";
+	const FILTER_SPECIALCHARS = "specialChars";
+	const FILTER_STRING       = "string";
+	const FILTER_STRIPTAGS    = "striptags";
+	const FILTER_TRIM         = "trim";
+	const FILTER_UPPER        = "upper";
+	const FILTER_UPPERFIRST   = "upperFirst";
+	const FILTER_UPPERWORDS   = "upperWords";
+	const FILTER_URL          = "url";
+
 	/**
 	 * Sanitizes a value with a specified single or set of sanitizers
 	 */
