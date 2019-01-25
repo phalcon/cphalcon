@@ -24,22 +24,41 @@ class Anchor extends AbstractHelper
 	 * @var string text       The text for the anchor
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke(string href, string text, array attributes = [])
+	public function __invoke()
 	{
-		var overrides, escapedText;
+		var arguments, attributes, escapedText, href, overrides, text;
 
-		let overrides = [
-			"href" : href
-		];
+		let arguments = func_get_args();
 
 		/**
-		 * Avoid duplicate "href" and ignore it if it is passed in the attributes
+		 * Check parameters passed
 		 */
-		unset(attributes["href"]);
+		if (count(arguments) >= 2 &&
+			typeof arguments[0] === "string" &&
+			typeof arguments[1] === "string") {
 
-		let overrides   = this->orderAttributes(overrides, attributes),
-			escapedText = this->escaper->escapeHtml(text);
 
-		return "<a " . rtrim(this->renderAttributes(overrides)) . ">" . escapedText . "</a>";
+			if (true === isset(arguments[2]) && typeof arguments[2] === "array") {
+				let attributes = arguments[2];
+			} else {
+				let attributes = [];
+			}
+
+			let href      = arguments[0],
+				overrides = ["href" : href],
+				text      = arguments[1];
+
+			/**
+			 * Avoid duplicate "href" and ignore it if it is passed in the attributes
+			 */
+			unset(attributes["href"]);
+
+			let overrides   = this->orderAttributes(overrides, attributes),
+				escapedText = this->escaper->escapeHtml(text);
+
+			return "<a " . rtrim(this->renderAttributes(overrides)) . ">" . escapedText . "</a>";
+		} else {
+			throw new \InvalidArgumentException("Incorrect passed arguments");
+		}
 	}
 }

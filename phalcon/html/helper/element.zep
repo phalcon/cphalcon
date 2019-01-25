@@ -24,8 +24,30 @@ class Element extends AbstractHelper
 	 * @var string text       The text for the anchor
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke(string tag, string text, array attributes = [])
+	public function __invoke()
 	{
-		return this->renderElement(tag, text, attributes);
+		var arguments, attributes, tag, text;
+
+		let arguments = func_get_args();
+
+		/**
+		 * Check parameters passed
+		 */
+		if (count(arguments) >= 2 &&
+			typeof arguments[0] === "string" &&
+			typeof arguments[1] === "string") {
+
+			if (true === isset(arguments[2]) && typeof arguments[2] === "array") {
+				let attributes = arguments[2];
+			} else {
+				let attributes = [];
+			}
+			let tag  = arguments[0],
+				text = arguments[1];
+
+			return this->renderElement(tag, text, attributes);
+		} else {
+			throw new \InvalidArgumentException("Incorrect passed arguments");
+		}
 	}
 }
