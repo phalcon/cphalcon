@@ -39,10 +39,10 @@
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Noop
+ * use Phalcon\Session\Adapter\Noop;
  *
  * $session = new Manager();
- * $session->setAdapter(new Noop());
+ * $session->setHandler(new Noop());
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {
@@ -216,6 +216,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, write) {
 
 
 
+	RETURN_BOOL(1);
 
 }
 

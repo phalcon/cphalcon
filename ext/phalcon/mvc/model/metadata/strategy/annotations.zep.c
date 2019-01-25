@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		object_init_ex(&_1$$4, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "No annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 3, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 4, &_2$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/mvc/model/metadata/strategy/annotations.zep", 43 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		object_init_ex(&_3$$5, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$5);
 		ZEPHIR_CONCAT_SV(&_4$$5, "No properties with annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 3, &_4$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 4, &_4$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$5, "phalcon/mvc/model/metadata/strategy/annotations.zep", 52 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		object_init_ex(&_1$$4, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "No annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 3, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 4, &_2$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/mvc/model/metadata/strategy/annotations.zep", 339 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		object_init_ex(&_3$$5, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$5);
 		ZEPHIR_CONCAT_SV(&_4$$5, "No properties with annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 3, &_4$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 4, &_4$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$5, "phalcon/mvc/model/metadata/strategy/annotations.zep", 347 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

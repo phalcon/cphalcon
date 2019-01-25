@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "A dependency injection container is required to access the 'response' service");
 		ZVAL_LONG(&_2$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 3, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 4, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/mvc/dispatcher.zep", 118 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_mvc_dispatcher_exception_ce);
 	ZVAL_LONG(&_5, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 3, &message, &_5);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 4, &message, &_5);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_handleexception", NULL, 0, &exception);
 	zephir_check_call_status();

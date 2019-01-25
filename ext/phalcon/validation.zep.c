@@ -120,14 +120,14 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	if (zephir_fast_count_int(&validators TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_INIT_NVAR(&_0$$3);
-		zephir_create_closure_ex(&_0$$3, NULL, phalcon_1__closure_ce, SL("__invoke"));
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", NULL, 448, &validators, &_0$$3);
+		zephir_create_closure_ex(&_0$$3, NULL, phalcon_26__closure_ce, SL("__invoke"));
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", NULL, 450, &validators, &_0$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_validators"), &_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_NVAR(&_2$$3);
-		zephir_create_closure_ex(&_2$$3, NULL, phalcon_2__closure_ce, SL("__invoke"));
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_filter", NULL, 448, &validators, &_2$$3);
+		zephir_create_closure_ex(&_2$$3, NULL, phalcon_27__closure_ce, SL("__invoke"));
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_filter", NULL, 450, &validators, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_combinedFieldsValidators"), &_3$$3);
 	}
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 		ZEPHIR_CALL_METHOD(NULL, &messages, "__construct", NULL, 2);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &messages, "appendmessage", NULL, 449, message);
+	ZEPHIR_CALL_METHOD(NULL, &messages, "appendmessage", NULL, 451, message);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("_messages"), &messages);
 	RETURN_THIS();
@@ -910,7 +910,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 						ZEPHIR_CALL_METHOD(NULL, &entity, "writeattribute", NULL, 0, &field, &value);
 						zephir_check_call_status();
 					} else {
-						ZEPHIR_CALL_FUNCTION(&_4$$28, "property_exists", NULL, 308, &entity, &field);
+						ZEPHIR_CALL_FUNCTION(&_4$$28, "property_exists", NULL, 310, &entity, &field);
 						zephir_check_call_status();
 						if (zephir_is_true(&_4$$28)) {
 							zephir_update_property_zval_zval(&entity, &field, &value TSRMLS_CC);
@@ -959,7 +959,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 		{
 			ZEPHIR_INIT_NVAR(&singleField);
 			ZVAL_COPY(&singleField, _0$$3);
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "prechecking", &_1, 450, &singleField, validator);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "prechecking", &_1, 452, &singleField, validator);
 			zephir_check_call_status();
 			if (zephir_is_true(&result)) {
 				RETURN_CCTOR(&result);

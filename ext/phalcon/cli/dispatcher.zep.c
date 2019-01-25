@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_cli_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 3, &message, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 4, &message, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 114, &params);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 117, &params);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);

@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 285);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 287);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -209,16 +209,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 	ZEPHIR_CPY_WRT(&facility, &_0);
 	zephir_read_property(&_0, this_ptr, SL("option"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&option, &_0);
-	ZEPHIR_CALL_FUNCTION(&result, "openlog", NULL, 286, &name, &option, &facility);
+	ZEPHIR_CALL_FUNCTION(&result, "openlog", NULL, 288, &name, &option, &facility);
 	zephir_check_call_status();
 	if (!zephir_is_true(&result)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, spl_ce_LogicException);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZVAL_STRING(&_2$$4, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "sprintf", NULL, 135, &_2$$4, &name, &facility);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "sprintf", NULL, 138, &_2$$4, &name, &facility);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 287, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 289, &_3$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/logger/adapter/syslog.zep", 130 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -231,10 +231,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 		zephir_update_property_zval(this_ptr, SL("opened"), &__$false);
 	}
 	zephir_array_fetch_long(&_4, &message, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 135 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 288, &_4);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 290, &_4);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_5, &message, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 137 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 289, &level, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 291, &level, &_5);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
