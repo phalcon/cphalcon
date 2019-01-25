@@ -46,7 +46,6 @@ class Locator implements LocatorInterface
 		var service;
 
 		let service = this->get(name);
-
 		return call_user_func_array(service, parameters);
 	}
 
@@ -63,9 +62,8 @@ class Locator implements LocatorInterface
 		}
 
 		if (true !== isset(this->services[name])) {
-			let factory = this->mapper[name];
-
-			let this->services[name] = {factory}();
+			let factory              = this->mapper[name],
+				this->services[name] = factory;
 		}
 
 		return this->services[name];
