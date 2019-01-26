@@ -56,9 +56,7 @@ class GetSetHasCest
     {
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get()');
         $services = [
-            'helloFilter' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
         $locator = new FilterLocator($services);
@@ -82,9 +80,7 @@ class GetSetHasCest
     {
         $I->wantToTest('Filter\FilterLocator - get()/set()/has() - get() - same');
         $services = [
-            'helloFilter' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
         $locator = new FilterLocator($services);

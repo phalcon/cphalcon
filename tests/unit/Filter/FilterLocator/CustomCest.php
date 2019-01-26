@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\FilterLocator;
 
 use Codeception\Example;
+use function func_get_args;
 use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Filter\Sanitize\IPv4;
 use UnitTester;
@@ -34,14 +35,14 @@ class CustomCest
     {
         $I->wantToTest('Filter\FilterLocator - custom has()');
         $services = [
-            'ipv4' => function () {
-                return new \Phalcon\Test\Fixtures\Filter\Sanitize\IPv4();
+            'md5' => function ($input) {
+                return md5($input);
             },
         ];
 
         $locator = new FilterLocator($services);
 
-        $actual = $locator->has('ipv4');
+        $actual = $locator->has('md5');
         $I->assertTrue($actual);
     }
 
@@ -59,19 +60,21 @@ class CustomCest
     public function filterFilterLocatorCustomSanitizer(UnitTester $I, Example $example)
     {
         $I->wantToTest('Filter\FilterLocator - custom sanitizer');
-        $I->skipTest('TODO: Check why this cannot be auto loaded');
         $services = [
-            'ipv4' => function () {
-                return new \Phalcon\Test\Fixtures\Filter\Sanitize\IPv4();
+            'md5' => function () {
+                $args  = func_get_args();
+                $param = $args[0] ?? '';
+
+                return md5($param);
             },
         ];
 
         $locator = new FilterLocator($services);
 
         /** @var IPv4 $sanitizer */
-        $sanitizer = $locator->get('ipv4');
+        $sanitizer = $locator->get('md5');
         $expected  = $example[1];
-        $actual    = $sanitizer();
+        $actual    = $sanitizer($example[0]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -81,8 +84,8 @@ class CustomCest
     private function getExamples(): array
     {
         return [
-            ['00:1c:42:bf:71:22', ''],
-            ['127.0.0.1', '127.0.0.1'],
+            ['Phalcon', '0c72dd6ed577ad56621483e7a752b09f'],
+            ['Framework', '07782c22a88d1e82a09910124a9225a2'],
         ];
     }
 }

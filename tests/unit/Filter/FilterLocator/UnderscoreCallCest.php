@@ -33,9 +33,7 @@ class UnderscoreCallCest
     {
         $I->wantToTest('Filter\FilterLocator - __call()');
         $services = [
-            'helloFilter' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
         $locator = new FilterLocator($services);
