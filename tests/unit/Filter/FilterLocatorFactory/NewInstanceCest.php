@@ -21,15 +21,14 @@ use Phalcon\Filter\Sanitize\Alpha;
 use Phalcon\Filter\Sanitize\BoolVal;
 use Phalcon\Filter\Sanitize\Email;
 use Phalcon\Filter\Sanitize\FloatVal;
-use Phalcon\Filter\Sanitize\FloatValCast;
 use Phalcon\Filter\Sanitize\IntVal;
-use Phalcon\Filter\Sanitize\IntValCast;
 use Phalcon\Filter\Sanitize\Lower;
 use Phalcon\Filter\Sanitize\LowerFirst;
 use Phalcon\Filter\Sanitize\Regex;
 use Phalcon\Filter\Sanitize\Remove;
 use Phalcon\Filter\Sanitize\Replace;
 use Phalcon\Filter\Sanitize\Special;
+use Phalcon\Filter\Sanitize\SpecialFull;
 use Phalcon\Filter\Sanitize\StringVal;
 use Phalcon\Filter\Sanitize\Striptags;
 use Phalcon\Filter\Sanitize\Trim;
@@ -99,15 +98,14 @@ class NewInstanceCest
             [FilterLocator::FILTER_BOOL, BoolVal::class],
             [FilterLocator::FILTER_EMAIL, Email::class],
             [FilterLocator::FILTER_FLOAT, FloatVal::class],
-            [FilterLocator::FILTER_FLOATCAST, FloatValCast::class],
-            [FilterLocator::FILTER_INT,  IntVal::class],
-            [FilterLocator::FILTER_INTCAST, IntValCast::class],
-            [FilterLocator::FILTER_LOWER,  Lower::class],
+            [FilterLocator::FILTER_INT, IntVal::class],
+            [FilterLocator::FILTER_LOWER, Lower::class],
             [FilterLocator::FILTER_LOWERFIRST, LowerFirst::class],
             [FilterLocator::FILTER_REGEX, Regex::class],
             [FilterLocator::FILTER_REMOVE, Remove::class],
             [FilterLocator::FILTER_REPLACE, Replace::class],
-            [FilterLocator::FILTER_SPECIALCHARS, Special::class],
+            [FilterLocator::FILTER_SPECIAL, Special::class],
+            [FilterLocator::FILTER_SPECIALFULL, SpecialFull::class],
             [FilterLocator::FILTER_STRING, StringVal::class],
             [FilterLocator::FILTER_STRIPTAGS, Striptags::class],
             [FilterLocator::FILTER_TRIM, Trim::class],

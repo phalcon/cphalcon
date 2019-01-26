@@ -10,25 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
-
 /**
  * Phalcon\Filter\Sanitize\Url
  *
  * Sanitizes a value url
  */
-class Url extends AbstractSanitizer implements SanitizerInterface
+class Url
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(var input)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 1);
-
 		return filter_var(input, FILTER_SANITIZE_URL);
 	}
 }

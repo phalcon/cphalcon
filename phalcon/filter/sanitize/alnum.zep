@@ -10,25 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
-
 /**
  * Phalcon\Filter\Sanitize\Alnum
  *
  * Sanitizes a value to an alphanumeric value
  */
-class Alnum extends AbstractSanitizer implements SanitizerInterface
+class Alnum
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(var input)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 1);
-
 		return preg_replace("/[^A-Za-z0-9]/", "", input);
 	}
 }

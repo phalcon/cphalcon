@@ -10,25 +10,21 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
-
 /**
  * Phalcon\Filter\Sanitize\BoolVal
  *
  * Sanitizes a value to boolean
  */
-class BoolVal extends AbstractSanitizer implements SanitizerInterface
+class BoolVal
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(var input)
 	{
-		var falseArray, input, trueArray;
+		var falseArray, trueArray;
 
-		let input = this->checkArguments(func_get_args(), 1),
-			trueArray  = ["true", "on", "yes", "y", "1"],
+		let trueArray  = ["true", "on", "yes", "y", "1"],
 			falseArray = ["false", "off", "no", "n", "0"];
 
 		if true === in_array(input, trueArray) {

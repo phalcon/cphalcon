@@ -11,17 +11,17 @@
 namespace Phalcon\Filter\Sanitize;
 
 /**
- * Phalcon\Filter\Sanitize\Alpha
+ * Phalcon\Filter\Sanitize\SpecialFull
  *
- * Sanitizes a value to an alpha value
+ * Sanitizes a value special characters (htmlspecialchars() and ENT_QUOTES)
  */
-class Alpha
+class SpecialFull
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
 	public function __invoke(var input)
 	{
-		return preg_replace("/[^A-Za-z]/", "", input);
+		return filter_var(input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	}
 }

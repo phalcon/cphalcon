@@ -10,25 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
-
 /**
  * Phalcon\Filter\Sanitize\IntVal
  *
  * Sanitizes a value to integer
  */
-class IntVal extends AbstractSanitizer implements SanitizerInterface
+class IntVal
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(var input)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 1);
-
-		return filter_var(input, FILTER_SANITIZE_NUMBER_INT);
+		return (int) filter_var(input, FILTER_SANITIZE_NUMBER_INT);
 	}
 }

@@ -82,8 +82,8 @@ class SanitizeMultipleCest
         $locator = new FilterLocatorFactory();
         $filter  = $locator->newInstance();
 
-        $value   = '  mary had a little lamb ';
-        $filters = [
+        $value    = '  mary had a little lamb ';
+        $filters  = [
             'trim',
             'replace' => [' ', '-'],
             'remove'  => ['mary'],

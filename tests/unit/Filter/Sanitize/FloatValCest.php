@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
+use function number_format;
 use Phalcon\Filter\Sanitize\FloatVal;
 use UnitTester;
 
@@ -43,6 +44,26 @@ class FloatValCest
     }
 
     /**
+     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * This is on its own to align the float values (fraction)
+     *
+     * @param UnitTester $I
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     */
+    public function filterSanitizeFloatValInvokeFloat(UnitTester $I)
+    {
+        $I->wantToTest('Filter\Sanitize\FloatVal - __invoke() - float');
+
+        $sanitizer = new FloatVal();
+
+        $actual   = number_format($sanitizer('!10001901.01a'), 3);
+        $expected = '10,001,901.010';
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
      * @return array
      */
     private function getData(): array
@@ -50,9 +71,7 @@ class FloatValCest
         return [
             ['1000.01', 1000.01],
             [0xFFA, 0xFFA],
-            ['1000.01', '1000.01'],
-            ['lol', ''],
-            ['!10001901.01a', '10001901.01'],
+            ['lol', 0.0],
         ];
     }
 }

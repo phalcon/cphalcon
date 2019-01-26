@@ -10,24 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-
 /**
  * Phalcon\Filter\Sanitize\Regex
  *
  * Sanitizes a value performing preg_replace
  */
-class Regex extends AbstractSanitizer implements SanitizerInterface
+class Regex
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(string! input, string! pattern, string! replace)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 3);
-
-		return preg_replace(input[1], input[2], input[0]);
+		return preg_replace(pattern, replace, input);
 	}
 }

@@ -53,8 +53,8 @@ class CustomCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-01-19
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-01-19
      */
     public function filterFilterLocatorCustomSanitizer(UnitTester $I, Example $example)
     {

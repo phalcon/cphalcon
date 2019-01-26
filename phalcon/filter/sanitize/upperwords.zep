@@ -10,25 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
-
 /**
  * Phalcon\Filter\Sanitize\UpperWords
  *
  * Sanitizes a value to uppercase teh first character of each word
  */
-class UpperWords extends AbstractSanitizer implements SanitizerInterface
+class UpperWords
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(string! input)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 1);
-
 		if (true === function_exists("mb_convert_case")) {
 			return mb_convert_case(input, MB_CASE_TITLE, "UTF-8");
 		}

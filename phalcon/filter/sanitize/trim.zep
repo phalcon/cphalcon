@@ -10,25 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-use Phalcon\Filter\Sanitize\AbstractSanitizer;
-
 /**
  * Phalcon\Filter\Sanitize\Trim
  *
  * Sanitizes a value removing leading and trailing spaces
  */
-class Trim extends AbstractSanitizer implements SanitizerInterface
+class Trim
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(string! input)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 1);
-
 		return trim(input);
 	}
 }

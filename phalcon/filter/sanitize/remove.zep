@@ -10,24 +10,18 @@
 
 namespace Phalcon\Filter\Sanitize;
 
-use Phalcon\Filter\SanitizerInterface;
-
 /**
  * Phalcon\Filter\Sanitize\Remove
  *
  * Sanitizes a value removing parts of a string
  */
-class Remove extends AbstractSanitizer implements SanitizerInterface
+class Remove
 {
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke()
+	public function __invoke(string! input, string! replace)
 	{
-		var input;
-
-		let input = this->checkArguments(func_get_args(), 2);
-
-		return str_replace(input[1], "", input[0]);
+		return str_replace(replace, "", input);
 	}
 }
