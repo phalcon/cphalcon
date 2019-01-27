@@ -20,7 +20,7 @@ class Remove
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke(string! input, string! replace)
+	public function __invoke(var input, var replace)
 	{
 		return str_replace(replace, "", input);
 	}

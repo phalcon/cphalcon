@@ -20,7 +20,7 @@ class Replace
 	/**
 	 * @var mixed input The text to sanitize
 	 */
-	public function __invoke(string! input, var from, var to)
+	public function __invoke(var input, var from, var to)
 	{
 		return str_replace(from, to, input);
 	}
