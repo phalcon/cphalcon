@@ -22,22 +22,14 @@ class Form extends AbstractHelper
 	/**
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke()
+	public function __invoke(array attributes = []) -> string
 	{
-		var arguments, attributes, overrides;
+		var overrides;
 
-		let arguments = func_get_args(),
-			overrides = [
+		let overrides = [
 			"method"  : "post",
 			"enctype" : "multipart/form-data"
 		];
-
-		if (1 === count(arguments) && typeof arguments[0] === "array") {
-			let attributes = arguments[0];
-		} else {
-			let attributes = [];
-		}
-
 
 		let overrides = this->orderAttributes(overrides, attributes);
 

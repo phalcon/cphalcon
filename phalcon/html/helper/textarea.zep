@@ -23,26 +23,8 @@ class TextArea extends AbstractHelper
 	 * @var string text       The text for the anchor
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke()
+	public function __invoke(string! text, array attributes = []) -> string
 	{
-		var arguments, attributes, text;
-
-		let arguments = func_get_args();
-
-		/**
-		 * Check parameters passed
-		 */
-		if (count(arguments) >= 1 && typeof arguments[0] === "string") {
-			if (true === isset(arguments[1]) && typeof arguments[1] === "array") {
-				let attributes = arguments[1];
-			} else {
-				let attributes = [];
-			}
-			let text = arguments[0];
-
-			return this->renderElement("textarea", text, attributes);
-		} else {
-			throw new \InvalidArgumentException("Incorrect passed arguments");
-		}
+		return this->renderElement("textarea", text, attributes);
 	}
 }

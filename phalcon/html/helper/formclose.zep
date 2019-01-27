@@ -22,7 +22,7 @@ class FormClose extends AbstractHelper
 	/**
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke()
+	public function __invoke() -> string
 	{
 		return "</form>";
 	}

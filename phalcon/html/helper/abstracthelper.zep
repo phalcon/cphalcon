@@ -12,14 +12,13 @@ namespace Phalcon\Html\Helper;
 
 use Phalcon\Html\Exception;
 use Phalcon\EscaperInterface;
-use Phalcon\Service\ServiceInterface;
 
 /**
  * Phalcon\Html\Helper\AbstractHelper
  *
  * Abstract class for all html helpers
  */
-abstract class AbstractHelper implements ServiceInterface
+abstract class AbstractHelper
 {
 	/**
 	 * @var <EscaperInterface>

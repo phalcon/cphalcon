@@ -24,41 +24,20 @@ class Anchor extends AbstractHelper
 	 * @var string text       The text for the anchor
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke()
+	public function __invoke(string! href, string! text, array attributes = []) -> string
 	{
-		var arguments, attributes, escapedText, href, overrides, text;
+		var escapedText, overrides;
 
-		let arguments = func_get_args();
+		let overrides = ["href" : href];
 
 		/**
-		 * Check parameters passed
+		 * Avoid duplicate "href" and ignore it if it is passed in the attributes
 		 */
-		if (count(arguments) >= 2 &&
-			typeof arguments[0] === "string" &&
-			typeof arguments[1] === "string") {
+		unset(attributes["href"]);
 
+		let overrides   = this->orderAttributes(overrides, attributes),
+			escapedText = this->escaper->escapeHtml(text);
 
-			if (true === isset(arguments[2]) && typeof arguments[2] === "array") {
-				let attributes = arguments[2];
-			} else {
-				let attributes = [];
-			}
-
-			let href      = arguments[0],
-				overrides = ["href" : href],
-				text      = arguments[1];
-
-			/**
-			 * Avoid duplicate "href" and ignore it if it is passed in the attributes
-			 */
-			unset(attributes["href"]);
-
-			let overrides   = this->orderAttributes(overrides, attributes),
-				escapedText = this->escaper->escapeHtml(text);
-
-			return "<a " . rtrim(this->renderAttributes(overrides)) . ">" . escapedText . "</a>";
-		} else {
-			throw new \InvalidArgumentException("Incorrect passed arguments");
-		}
+		return "<a " . rtrim(this->renderAttributes(overrides)) . ">" . escapedText . "</a>";
 	}
 }
