@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Html\TagLocator;
 
 use Phalcon\Html\TagLocator;
 use Phalcon\Test\Fixtures\Service\HelloService;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
@@ -21,6 +22,8 @@ use UnitTester;
  */
 class UnderscoreCallCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Service\Locator :: __call()
      *
@@ -47,6 +50,33 @@ class UnderscoreCallCest
 
         $expected = 'Hello Phalcon [count: 2]';
         $actual   = $locator->helloFilter('Phalcon');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Service\Locator :: __call()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-01-19
+     */
+    public function htmlTagLocatorUnderscoreCallAnonymous(UnitTester $I)
+    {
+        $I->wantToTest('Html\TagLocator - __call()');
+        $services = [
+            'custom' => function ($escaper, $value) {
+                return $escaper->escapeHtml($value);
+            }
+        ];
+
+        $escaper = $this->newEscaper();
+        $locator = new TagLocator($services);
+        $actual  = $locator->has('custom');
+        $I->assertTrue($actual);
+
+        $expected = 'Jack &amp; Jill';
+        $actual   = $locator->custom($escaper, 'Jack & Jill');
         $I->assertEquals($expected, $actual);
     }
 }

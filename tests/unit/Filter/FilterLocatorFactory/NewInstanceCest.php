@@ -38,7 +38,6 @@ use Phalcon\Filter\Sanitize\UpperWords;
 use Phalcon\Filter\Sanitize\Url;
 use Phalcon\Service\LocatorInterface;
 use UnitTester;
-use function var_dump;
 
 /**
  * Class NewInstanceCest

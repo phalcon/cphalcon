@@ -33,14 +33,14 @@ class GetSetHasCest
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - has()');
         $services = [
-            'helloService' => function () {
+            'helloFilter' => function () {
                 return new HelloService();
             },
         ];
 
         $locator = new Locator($services);
 
-        $actual = $locator->has('helloService');
+        $actual = $locator->has('helloFilter');
         $I->assertTrue($actual);
     }
 
@@ -56,17 +56,15 @@ class GetSetHasCest
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - get()');
         $services = [
-            'helloService' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
         $locator = new Locator($services);
-        $actual  = $locator->has('helloService');
+        $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
         $class  = HelloService::class;
-        $actual = $locator->get('helloService');
+        $actual = $locator->get('helloFilter');
         $I->assertInstanceOf($class, $actual);
     }
 
@@ -82,22 +80,20 @@ class GetSetHasCest
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - get() - same');
         $services = [
-            'helloService' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
         $locator = new Locator($services);
-        $actual  = $locator->has('helloService');
+        $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
         /** @var object $service */
         $expected = 'Hello Phalcon [count: 1]';
-        $actual   = $locator->get('helloService')('Phalcon');
+        $actual   = $locator->get('helloFilter')('Phalcon');
         $I->assertEquals($expected, $actual);
 
         $expected = 'Hello Phalcon [count: 2]';
-        $actual   = $locator->get('helloService')('Phalcon');
+        $actual   = $locator->get('helloFilter')('Phalcon');
         $I->assertEquals($expected, $actual);
     }
 
@@ -114,16 +110,16 @@ class GetSetHasCest
         $I->wantToTest('Service\Locator - get()/set()/has() - set()');
         $locator = new Locator();
 
-        $actual = $locator->has('helloService');
+        $actual = $locator->has('helloFilter');
         $I->assertFalse($actual);
 
         $locator->set(
-            'helloService',
+            'helloFilter',
             function () {
                 return new HelloService();
             }
         );
-        $actual = $locator->has('helloService');
+        $actual = $locator->has('helloFilter');
         $I->assertTrue($actual);
     }
 }
