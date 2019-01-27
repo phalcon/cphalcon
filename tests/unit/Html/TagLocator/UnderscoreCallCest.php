@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\TagLocator;
 
-use Phalcon\Service\Locator;
+use Phalcon\Html\TagLocator;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
@@ -33,22 +33,20 @@ class UnderscoreCallCest
     {
         $I->wantToTest('Html\TagLocator - __call()');
         $services = [
-            'helloService' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
-        $locator = new Locator($services);
-        $actual  = $locator->has('helloService');
+        $locator = new TagLocator($services);
+        $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
         /** @var object $service */
         $expected = 'Hello Phalcon [count: 1]';
-        $actual   = $locator->helloService('Phalcon');
+        $actual   = $locator->helloFilter('Phalcon');
         $I->assertEquals($expected, $actual);
 
         $expected = 'Hello Phalcon [count: 2]';
-        $actual   = $locator->helloService('Phalcon');
+        $actual   = $locator->helloFilter('Phalcon');
         $I->assertEquals($expected, $actual);
     }
 }
