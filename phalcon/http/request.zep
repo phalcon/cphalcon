@@ -17,6 +17,7 @@ use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Http\Request
@@ -1073,7 +1074,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		if !fetch value, source[name] {
 			return defaultValue;
 		}
-
 		if filters !== null {
 			let filter = this->_filter;
 			if typeof filter != "object" {
@@ -1081,7 +1081,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 				if typeof dependencyInjector != "object" {
 					throw new Exception("A dependency injection object is required to access the 'filter' service");
 				}
-				let filter = <FilterInterface> dependencyInjector->getShared("filter");
+				let filter = <LocatorInterface> dependencyInjector->getShared("filter");
+//				let filter = <FilterInterface> dependencyInjector->getShared("filter");
 				let this->_filter = filter;
 			}
 

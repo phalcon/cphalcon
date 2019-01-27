@@ -24,13 +24,11 @@ class Anchor extends AbstractHelper
 	 * @var string text       The text for the anchor
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke(string href, string text, array attributes = [])
+	public function __invoke(string! href, string! text, array attributes = []) -> string
 	{
-		var overrides, escapedText;
+		var escapedText, overrides;
 
-		let overrides = [
-			"href" : href
-		];
+		let overrides = ["href" : href];
 
 		/**
 		 * Avoid duplicate "href" and ignore it if it is passed in the attributes

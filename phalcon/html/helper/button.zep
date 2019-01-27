@@ -23,7 +23,7 @@ class Button extends AbstractHelper
 	 * @var string text       The text for the anchor
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke(string text, array attributes = [])
+	public function __invoke(string! text, array attributes = []) -> string
 	{
 		return this->renderElement("button", text, attributes);
 	}

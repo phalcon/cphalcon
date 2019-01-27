@@ -22,7 +22,7 @@ class Form extends AbstractHelper
 	/**
 	 * @var array  attributes Any additional attributes
 	 */
-	public function __invoke(array attributes = [])
+	public function __invoke(array attributes = []) -> string
 	{
 		var overrides;
 

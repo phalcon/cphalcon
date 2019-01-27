@@ -17,6 +17,7 @@ use Phalcon\ValidationInterface;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\CombinedFieldsValidator;
+use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Validation
@@ -520,7 +521,8 @@ class Validation extends Injectable implements ValidationInterface
 					}
 				}
 
-				let filterService = dependencyInjector->getShared("filter");
+				let filterService = <LocatorInterface> dependencyInjector->getShared("filter");
+//				let filterService = dependencyInjector->getShared("filter");
 				if typeof filterService != "object" {
 					throw new Exception("Returned 'filter' service is invalid");
 				}
