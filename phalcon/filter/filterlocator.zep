@@ -25,9 +25,7 @@ class FilterLocator extends Locator
 	const FILTER_BOOL        = "bool";
 	const FILTER_EMAIL       = "email";
 	const FILTER_FLOAT       = "float";
-	const FILTER_FLOATCAST   = "floatCast";
 	const FILTER_INT         = "int";
-	const FILTER_INTCAST     = "intCast";
 	const FILTER_LOWER       = "lower";
 	const FILTER_LOWERFIRST  = "lowerFirst";
 	const FILTER_REGEX       = "regex";
