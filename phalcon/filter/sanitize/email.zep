@@ -22,6 +22,6 @@ class Email
 	 */
 	public function __invoke(var input)
 	{
-		return filter_var(input, constant("FILTER_SANITIZE_EMAIL"));
+		return filter_var(input, FILTER_SANITIZE_EMAIL, FILTER_FLAG_EMAIL_UNICODE);
 	}
 }
