@@ -20,6 +20,7 @@ use Phalcon\Exception as PhalconException;
 use Phalcon\FilterInterface;
 use Phalcon\Mvc\Model\Binder;
 use Phalcon\Mvc\Model\BinderInterface;
+use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Dispatcher
@@ -266,7 +267,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		if typeof dependencyInjector != "object" {
 			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 		}
-		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+		let filter = <LocatorInterface> dependencyInjector->getShared("filter");
+//		let filter = <FilterInterface> dependencyInjector->getShared("filter");
 		return filter->sanitize(paramValue, filters);
 	}
 

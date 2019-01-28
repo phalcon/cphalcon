@@ -40,13 +40,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Operation) {
 	 * Operation name
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_operation_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_operation_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * Operation description
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_operation_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_operation_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	zend_class_implements(phalcon_acl_operation_ce TSRMLS_CC, 1, phalcon_acl_operationinterface_ce);
 	return SUCCESS;
@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Acl_Operation, getName) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_name");
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Acl_Operation, __toString) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_name");
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Acl_Operation, getDescription) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_description");
+	RETURN_MEMBER(getThis(), "description");
 
 }
 
@@ -126,9 +126,9 @@ PHP_METHOD(Phalcon_Acl_Operation, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Operation name cannot be '*'", "phalcon/acl/operation.zep", 40);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("_name"), &name);
+	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	if (!(Z_TYPE_P(&description) == IS_UNDEF) && Z_STRLEN_P(&description)) {
-		zephir_update_property_zval(this_ptr, SL("_description"), &description);
+		zephir_update_property_zval(this_ptr, SL("description"), &description);
 	}
 	ZEPHIR_MM_RESTORE();
 

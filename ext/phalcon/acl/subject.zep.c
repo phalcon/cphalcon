@@ -40,13 +40,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Subject) {
 	 * Subject description
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_subject_ce, SL("description"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_subject_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * Subject name
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_subject_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_subject_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	zend_class_implements(phalcon_acl_subject_ce TSRMLS_CC, 1, phalcon_acl_subjectinterface_ce);
 	return SUCCESS;

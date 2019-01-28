@@ -74,22 +74,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 
-	zval _6;
+	zval _3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *options = NULL, options_sub, __$null, ttl, _4, _5, _7, _0$$4, _1$$5, _2$$6, _3$$7;
+	zval *options = NULL, options_sub, __$null, ttl, _1, _2, _4, _0$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&ttl);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&_1$$5);
-	ZVAL_UNDEF(&_2$$6);
-	ZVAL_UNDEF(&_3$$7);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
@@ -106,43 +103,28 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 		ZEPHIR_INIT_NVAR(options);
 		array_init(options);
 	}
-	if (!(zephir_array_isset_string(options, SL("host")))) {
-		ZEPHIR_INIT_VAR(&_0$$4);
-		ZVAL_STRING(&_0$$4, "127.0.0.1");
-		zephir_array_update_string(options, SL("host"), &_0$$4, PH_COPY | PH_SEPARATE);
-	}
-	if (!(zephir_array_isset_string(options, SL("port")))) {
-		ZEPHIR_INIT_VAR(&_1$$5);
-		ZVAL_LONG(&_1$$5, 6379);
-		zephir_array_update_string(options, SL("port"), &_1$$5, PH_COPY | PH_SEPARATE);
-	}
-	if (!(zephir_array_isset_string(options, SL("persistent")))) {
-		ZEPHIR_INIT_VAR(&_2$$6);
-		ZVAL_LONG(&_2$$6, 0);
-		zephir_array_update_string(options, SL("persistent"), &_2$$6, PH_COPY | PH_SEPARATE);
-	}
 	if (!(zephir_array_isset_string(options, SL("statsKey")))) {
-		ZEPHIR_INIT_VAR(&_3$$7);
-		ZVAL_STRING(&_3$$7, "_PHCM_MM");
-		zephir_array_update_string(options, SL("statsKey"), &_3$$7, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(&_0$$4);
+		ZVAL_STRING(&_0$$4, "_PHCM_MM");
+		zephir_array_update_string(options, SL("statsKey"), &_0$$4, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&ttl, options, SL("lifetime"), 1)) {
 		zephir_update_property_zval(this_ptr, SL("_ttl"), &ttl);
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	object_init_ex(&_4, phalcon_cache_backend_redis_ce);
-	ZEPHIR_INIT_VAR(&_5);
-	object_init_ex(&_5, phalcon_cache_frontend_data_ce);
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_create_array(&_6, 1, 0 TSRMLS_CC);
-	ZEPHIR_OBS_VAR(&_7);
-	zephir_read_property(&_7, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	zephir_array_update_string(&_6, SL("lifetime"), &_7, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 326, &_6);
+	ZEPHIR_INIT_VAR(&_1);
+	object_init_ex(&_1, phalcon_cache_backend_redis_ce);
+	ZEPHIR_INIT_VAR(&_2);
+	object_init_ex(&_2, phalcon_cache_frontend_data_ce);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 1, 0 TSRMLS_CC);
+	ZEPHIR_OBS_VAR(&_4);
+	zephir_read_property(&_4, this_ptr, SL("_ttl"), PH_NOISY_CC);
+	zephir_array_update_string(&_3, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 328, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 328, &_5, options);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 330, &_2, options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("_redis"), &_4);
+	zephir_update_property_zval(this_ptr, SL("_redis"), &_1);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -248,7 +230,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 	zephir_read_property(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(&meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_is_iterable(&meta, 0, "phalcon/mvc/model/metadata/redis.zep", 125);
+		zephir_is_iterable(&meta, 0, "phalcon/mvc/model/metadata/redis.zep", 113);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&meta), _2$$3, _3$$3, _1$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);

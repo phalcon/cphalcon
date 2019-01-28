@@ -71,7 +71,8 @@ class NotFoundCest
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError random value
+     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
+     * random value
      *
      * @param UnitTester $I
      *

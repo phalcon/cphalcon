@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http;
+namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;

@@ -149,6 +149,14 @@ trait DiTrait
     }
 
     /**
+     * @return Escaper
+     */
+    protected function newEscaper()
+    {
+        return new Escaper();
+    }
+
+    /**
      * @return ModelsManager
      */
     protected function newModelsManager()
@@ -217,7 +225,14 @@ trait DiTrait
      */
     protected function setDiFilter()
     {
-        $this->container->set('filter', Filter::class);
+        $this->container->set(
+            'filter',
+            function () {
+                $filter = new Filter\FilterLocatorFactory();
+
+                return $filter->newInstance();
+            }
+        );
     }
 
     /**

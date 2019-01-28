@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	ZVAL_STRING(&_3, ";");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "\"");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_load", NULL, 440, &_1, &_2, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_load", NULL, 442, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -129,14 +129,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rb");
-	ZEPHIR_CALL_FUNCTION(&fileHandler, "fopen", NULL, 277, &file, &_0);
+	ZEPHIR_CALL_FUNCTION(&fileHandler, "fopen", NULL, 279, &file, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fileHandler) != IS_RESOURCE) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Error opening translation file '", &file, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/translate/adapter/csv.zep", 50 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load) {
 	}
 	while (1) {
 		ZVAL_LONG(&_3$$4, length);
-		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_4, 441, &fileHandler, &_3$$4, &delimiter, &enclosure);
+		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_4, 443, &fileHandler, &_3$$4, &delimiter, &enclosure);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;

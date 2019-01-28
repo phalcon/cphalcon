@@ -14,6 +14,7 @@ use Phalcon\FilterInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
 use Phalcon\Dispatcher as CliDispatcher;
+use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Cli\Dispatcher
@@ -177,7 +178,8 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 				CliDispatcher::EXCEPTION_NO_DI
 			);
 		}
-		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+		let filter = <LocatorInterface> dependencyInjector->getShared("filter");
+//		let filter = <FilterInterface> dependencyInjector->getShared("filter");
 
 		return filter->sanitize(optionValue, filters);
 	}

@@ -31,6 +31,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_exception_get_default(TSRMLS_C), NULL, 0);
 
+	zend_class_implements(phalcon_exception_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("throwable")));
 	return SUCCESS;
 
 }
