@@ -43,18 +43,86 @@ use Phalcon\Service\LocatorInterface;
  */
 class Request implements RequestInterface, InjectionAwareInterface
 {
+	
+	/**
+	 * @var array 
+	 */
+	private queryFilters = [];
+	
+	private container;
 
-	protected _dependencyInjector;
+	private rawBody;
 
-	protected _rawBody;
+	private filterLocator;
 
-	protected _filter;
+	private putCache;
 
-	protected _putCache;
+	private httpMethodParameterOverride = false { get, set };
 
-	protected _httpMethodParameterOverride = false { get, set };
+	private strictHostCheck = false;
 
-	protected _strictHostCheck = false;
+	/**
+	 * Sets automatic sanitizers/filters for a particular field and for particular methods
+	 */
+	public function setParameterFilters(string! name, array filters = [], array scope = [])
+	{
+		var filterLocator, filterKey, localScope, scopeMethod;
+		
+		if count(filters) < 1 {
+			throw new Exception("Filters have not been defined for '" . name . "'");
+		}
+		
+		let filterLocator = this->getFilterLocatorService();
+		
+		for filterKey, _ in filters {
+			if true !== filterLocator->has(filterKey) {
+				throw new Exception("Sanitizer '" . filterKey . "' does not exist in the filter locator");
+			}
+		}
+
+		if count(scope) < 1 {
+			let localScope = ["get", "post", "put"];
+		} else {
+			let localScope = scope;
+		}
+
+		for scopeMethod in localScope {
+			let this->queryFilters[scopeMethod][name] = filters;
+		}
+	}
+
+	public function getFilteredQuery(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["get"][name] {
+			let filters = [];
+		}
+
+		return this->getQuery(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
+
+	public function getFilteredPost(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["post"][name] {
+			let filters = [];
+		}
+
+		return this->getPost(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
+
+	public function getFilteredPut(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["put"][name] {
+			let filters = [];
+		}
+
+		return this->getPut(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
 
 	/**
 	 * Gets a variable from the $_REQUEST superglobal applying filters if needed.
@@ -193,7 +261,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
-		return this->_dependencyInjector;
+		return this->container;
 	}
 
 	/**
@@ -300,7 +368,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * - `$_SERVER["SERVER_ADDR"]`
 	 *
 	 * Optionally `Request::getHttpHost` validates and clean host name.
-	 * The `Request::$_strictHostCheck` can be used to validate host name.
+	 * The `Request::$strictHostCheck` can be used to validate host name.
 	 *
 	 * Note: validation and cleaning have a negative performance impact because
 	 * they use regular expressions.
@@ -328,7 +396,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var host, strict;
 
-		let strict = this->_strictHostCheck;
+		let strict = this->strictHostCheck;
 
 		/**
 		 * Get the server name from $_SERVER["HTTP_HOST"]
@@ -430,7 +498,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
 			if !empty overridedMethod {
 				let returnMethod = strtoupper(overridedMethod);
-			} elseif this->_httpMethodParameterOverride {
+			} elseif this->httpMethodParameterOverride {
 				if fetch spoofedMethod, _REQUEST["_method"] {
 					let returnMethod = strtoupper(spoofedMethod);
 				}
@@ -529,7 +597,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var put, contentType;
 
-		let put = this->_putCache;
+		let put = this->putCache;
 
 		if typeof put != "array" {
 			let contentType = this->getContentType();
@@ -543,7 +611,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 				parse_str(this->getRawBody(), put);
 			}
 
-			let this->_putCache = put;
+			let this->putCache = put;
 		}
 
 		return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
@@ -576,7 +644,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var rawBody, contents;
 
-		let rawBody = this->_rawBody;
+		let rawBody = this->rawBody;
 		if empty rawBody {
 
 			let contents = file_get_contents("php://input");
@@ -584,7 +652,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			/**
 			 * We need store the read raw body because it can't be read again
 			 */
-			let this->_rawBody = contents;
+			let this->rawBody = contents;
 			return contents;
 		}
 		return rawBody;
@@ -930,7 +998,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function isStrictHostCheck() -> bool
 	{
-		return this->_strictHostCheck;
+		return this->strictHostCheck;
 	}
 
 	/**
@@ -984,9 +1052,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Sets the dependency injector
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> container)
 	{
-		let this->_dependencyInjector = dependencyInjector;
+		let this->container = container;
 	}
 
 	/**
@@ -994,7 +1062,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
 	{
-		let this->_strictHostCheck = flag;
+		let this->strictHostCheck = flag;
 
 		return this;
 	}
@@ -1065,7 +1133,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
-		var value, filter, dependencyInjector;
+		var value, filter, container;
 
 		if name === null {
 			return source;
@@ -1075,15 +1143,15 @@ class Request implements RequestInterface, InjectionAwareInterface
 			return defaultValue;
 		}
 		if filters !== null {
-			let filter = this->_filter;
+			let filter = this->filterLocator;
 			if typeof filter != "object" {
-				let dependencyInjector = <DiInterface> this->_dependencyInjector;
-				if typeof dependencyInjector != "object" {
+				let container = <DiInterface> this->container;
+				if typeof container != "object" {
 					throw new Exception("A dependency injection object is required to access the 'filter' service");
 				}
-				let filter = <LocatorInterface> dependencyInjector->getShared("filter");
-//				let filter = <FilterInterface> dependencyInjector->getShared("filter");
-				let this->_filter = filter;
+				let filter = <LocatorInterface> container->getShared("filter");
+//				let filter = <FilterInterface> container->getShared("filter");
+				let this->filterLocator = filter;
 			}
 
 			let value = filter->sanitize(value, filters, noRecursive);
@@ -1171,16 +1239,16 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	protected function resolveAuthorizationHeaders() -> array
 	{
-		var resolved, eventsManager, hasEventsManager, dependencyInjector, exploded, digest, authHeader = null;
+		var resolved, eventsManager, hasEventsManager, container, exploded, digest, authHeader = null;
 		array headers = [];
 
-		let dependencyInjector = <DiInterface> this->getDI();
+		let container = <DiInterface> this->getDI();
 
 		// TODO: Make Request implements EventsAwareInterface for v4.0.0
-		if typeof dependencyInjector === "object" {
-			let hasEventsManager = (bool) dependencyInjector->has("eventsManager");
+		if typeof container === "object" {
+			let hasEventsManager = (bool) container->has("eventsManager");
 			if hasEventsManager {
-				let eventsManager = <ManagerInterface> dependencyInjector->getShared("eventsManager");
+				let eventsManager = <ManagerInterface> container->getShared("eventsManager");
 			}
 		}
 
@@ -1243,5 +1311,25 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return headers;
+	}
+	
+	/**
+	 * Checks the filter service and assigns it to the class parameter
+	 */
+	private function getFilterLocatorService() -> <LocatorInterface>
+	{
+		var container, locator;
+		
+		let filter = this->filterLocator;
+		if typeof locator != "object" {
+			let container = <DiInterface> this->container;
+			if typeof container != "object" {
+				throw new Exception("A dependency injection object is required to access the 'filter' service");
+			}
+			let locator             = <LocatorInterface> container->getShared("filter"),
+				this->filterLocator = locator;
+		}
+		
+		return this->filterLocator;
 	}
 }
