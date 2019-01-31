@@ -105,7 +105,7 @@ class Debug
 		var link;
 
 		let link = [
-			"action": "https://docs.phalconphp.com/en/" . Version::getPart(Version::VERSION_MAJOR) . ".0.0/",
+			"action": "https://docs.phalconphp.com/" . Version::getPart(Version::VERSION_MAJOR) . "/" . Version::getPart(Version::VERSION_MEDIUM) .".0/en/",
 			"text"  : Version::get(),
 			"local" : false,
 			"target": "_new"
