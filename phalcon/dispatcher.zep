@@ -285,7 +285,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getActiveMethod() -> string
 	{
-		return this->_actionName . this->_actionSuffix;
+		return lcfirst(camelize(this->_actionName)) . this->_actionSuffix;
 	}
 
 	/**
