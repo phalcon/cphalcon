@@ -54,6 +54,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engineinterface.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/paginator/adapter.zep.c
+	phalcon/service/locatorinterface.zep.c
 	phalcon/session/adapter/noop.zep.c
 	phalcon/translate/adapter.zep.c
 	phalcon/acl/adapterinterface.zep.c
@@ -73,7 +74,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/resultset.zep.c
 	phalcon/mvc/routerinterface.zep.c
 	phalcon/mvc/view/engine.zep.c
-	phalcon/service/locatorinterface.zep.c
+	phalcon/service/locator.zep.c
+	phalcon/service/locatorfactoryinterface.zep.c
 	phalcon/translate/interpolatorinterface.zep.c
 	phalcon/acl/adapter.zep.c
 	phalcon/acl/operationinterface.zep.c
@@ -93,7 +95,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/escaperinterface.zep.c
 	phalcon/events/eventinterface.zep.c
 	phalcon/events/managerinterface.zep.c
-	phalcon/filterinterface.zep.c
 	phalcon/http/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
@@ -123,8 +124,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/paginator/repositoryinterface.zep.c
-	phalcon/service/locator.zep.c
-	phalcon/service/locatorfactoryinterface.zep.c
 	phalcon/session/baginterface.zep.c
 	phalcon/session/managerinterface.zep.c
 	phalcon/validation/combinedfieldsvalidator.zep.c
@@ -221,9 +220,30 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/exception.zep.c
 	phalcon/events/manager.zep.c
 	phalcon/factory/exception.zep.c
-	phalcon/filter.zep.c
 	phalcon/filter/exception.zep.c
-	phalcon/filter/userfilterinterface.zep.c
+	phalcon/filter/filterlocator.zep.c
+	phalcon/filter/filterlocatorfactory.zep.c
+	phalcon/filter/sanitize/absint.zep.c
+	phalcon/filter/sanitize/alnum.zep.c
+	phalcon/filter/sanitize/alpha.zep.c
+	phalcon/filter/sanitize/boolval.zep.c
+	phalcon/filter/sanitize/email.zep.c
+	phalcon/filter/sanitize/floatval.zep.c
+	phalcon/filter/sanitize/intval.zep.c
+	phalcon/filter/sanitize/lower.zep.c
+	phalcon/filter/sanitize/lowerfirst.zep.c
+	phalcon/filter/sanitize/regex.zep.c
+	phalcon/filter/sanitize/remove.zep.c
+	phalcon/filter/sanitize/replace.zep.c
+	phalcon/filter/sanitize/special.zep.c
+	phalcon/filter/sanitize/specialfull.zep.c
+	phalcon/filter/sanitize/stringval.zep.c
+	phalcon/filter/sanitize/striptags.zep.c
+	phalcon/filter/sanitize/trim.zep.c
+	phalcon/filter/sanitize/upper.zep.c
+	phalcon/filter/sanitize/upperfirst.zep.c
+	phalcon/filter/sanitize/upperwords.zep.c
+	phalcon/filter/sanitize/url.zep.c
 	phalcon/flash/direct.zep.c
 	phalcon/flash/exception.zep.c
 	phalcon/flash/session.zep.c

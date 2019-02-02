@@ -18,6 +18,8 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -51,14 +53,14 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zval *href_param = NULL, *text_param = NULL, *attributes_param = NULL, overrides, escapedText, _0, _1, _2;
+	zval *href_param = NULL, *text_param = NULL, *attributes_param = NULL, escapedText, overrides, _0, _1, _2;
 	zval href, text;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&href);
 	ZVAL_UNDEF(&text);
-	ZVAL_UNDEF(&overrides);
 	ZVAL_UNDEF(&escapedText);
+	ZVAL_UNDEF(&overrides);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
@@ -67,8 +69,26 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &href_param, &text_param, &attributes_param);
 
-	zephir_get_strval(&href, href_param);
-	zephir_get_strval(&text, text_param);
+	if (UNEXPECTED(Z_TYPE_P(href_param) != IS_STRING && Z_TYPE_P(href_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'href' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(href_param) == IS_STRING)) {
+		zephir_get_strval(&href, href_param);
+	} else {
+		ZEPHIR_INIT_VAR(&href);
+		ZVAL_EMPTY_STRING(&href);
+	}
+	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(&text, text_param);
+	} else {
+		ZEPHIR_INIT_VAR(&text);
+		ZVAL_EMPTY_STRING(&text);
+	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
