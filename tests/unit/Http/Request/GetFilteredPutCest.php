@@ -15,21 +15,21 @@ namespace Phalcon\Test\Unit\Http\Request;
 use UnitTester;
 
 /**
- * Class GetDICest
+ * Class GetFilteredPutCest
  */
-class GetDICest
+class GetFilteredPutCest
 {
     /**
-     * Tests Phalcon\Http\Request :: getDI()
+     * Tests Phalcon\Http\Request :: getFilteredPut()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpRequestGetDI(UnitTester $I)
+    public function httpRequestGetFilteredPut(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getDI()');
+        $I->wantToTest('Http\Request - getFilteredPut()');
         $I->skipTest('Need implementation');
     }
 }

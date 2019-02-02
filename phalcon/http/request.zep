@@ -43,86 +43,28 @@ use Phalcon\Service\LocatorInterface;
  */
 class Request implements RequestInterface, InjectionAwareInterface
 {
-	
-	/**
-	 * @var array 
-	 */
-	private queryFilters = [];
-	
 	private container;
-
-	private rawBody;
 
 	private filterLocator;
 
-	private putCache;
-
+	/**
+	 * @var bool
+	 */
 	private httpMethodParameterOverride = false { get, set };
 
-	private strictHostCheck = false;
+	/**
+	 * @var array
+	 */
+	private queryFilters = [];
+
+	private putCache;
+
+	private rawBody;
 
 	/**
-	 * Sets automatic sanitizers/filters for a particular field and for particular methods
+	 * @var bool
 	 */
-	public function setParameterFilters(string! name, array filters = [], array scope = [])
-	{
-		var filterLocator, filterKey, localScope, scopeMethod;
-		
-		if count(filters) < 1 {
-			throw new Exception("Filters have not been defined for '" . name . "'");
-		}
-		
-		let filterLocator = this->getFilterLocatorService();
-		
-		for filterKey, _ in filters {
-			if true !== filterLocator->has(filterKey) {
-				throw new Exception("Sanitizer '" . filterKey . "' does not exist in the filter locator");
-			}
-		}
-
-		if count(scope) < 1 {
-			let localScope = ["get", "post", "put"];
-		} else {
-			let localScope = scope;
-		}
-
-		for scopeMethod in localScope {
-			let this->queryFilters[scopeMethod][name] = filters;
-		}
-	}
-
-	public function getFilteredQuery(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
-	{
-		var filters;
-
-		if !fetch filters, this->queryFilters["get"][name] {
-			let filters = [];
-		}
-
-		return this->getQuery(name, filters, defaultValue, notAllowEmpty, noRecursive);
-	}
-
-	public function getFilteredPost(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
-	{
-		var filters;
-
-		if !fetch filters, this->queryFilters["post"][name] {
-			let filters = [];
-		}
-
-		return this->getPost(name, filters, defaultValue, notAllowEmpty, noRecursive);
-	}
-
-	public function getFilteredPut(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
-	{
-		var filters;
-
-		if !fetch filters, this->queryFilters["put"][name] {
-			let filters = [];
-		}
-
-		return this->getPut(name, filters, defaultValue, notAllowEmpty, noRecursive);
-	}
+	private strictHostCheck = false;
 
 	/**
 	 * Gets a variable from the $_REQUEST superglobal applying filters if needed.
@@ -147,7 +89,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getAcceptableContent() -> array
 	{
-		return this->_getQualityHeader("HTTP_ACCEPT", "accept");
+		return this->getQualityHeader("HTTP_ACCEPT", "accept");
 	}
 
 	/**
@@ -172,7 +114,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestAccept() -> string
 	{
-		return this->_getBestQuality(this->getAcceptableContent(), "accept");
+		return this->getBestQuality(this->getAcceptableContent(), "accept");
 	}
 
 	/**
@@ -180,7 +122,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestCharset() -> string
 	{
-		return this->_getBestQuality(this->getClientCharsets(), "charset");
+		return this->getBestQuality(this->getClientCharsets(), "charset");
 	}
 
 	/**
@@ -188,7 +130,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestLanguage() -> string
 	{
-		return this->_getBestQuality(this->getLanguages(), "language");
+		return this->getBestQuality(this->getLanguages(), "language");
 	}
 
 	/**
@@ -231,7 +173,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getClientCharsets() -> array
 	{
-		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
+		return this->getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}
 
 	/**
@@ -286,6 +228,48 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return auth;
+	}
+
+	/**
+	 * Retrieves a query/get value always sanitized with the preset filters
+	 */
+	public function getFilteredQuery(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["get"][name] {
+			let filters = [];
+		}
+
+		return this->getQuery(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
+
+	/**
+	 * Retrieves a post value always sanitized with the preset filters
+	 */
+	public function getFilteredPost(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["post"][name] {
+			let filters = [];
+		}
+
+		return this->getPost(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
+
+	/**
+	 * Retrieves a put value always sanitized with the preset filters
+	 */
+	public function getFilteredPut(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["put"][name] {
+			let filters = [];
+		}
+
+		return this->getPut(name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
 
 	/**
@@ -469,7 +453,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getLanguages() -> array
 	{
-		return this->_getQualityHeader("HTTP_ACCEPT_LANGUAGE", "language");
+		return this->getQualityHeader("HTTP_ACCEPT_LANGUAGE", "language");
 	}
 
 	/**
@@ -513,19 +497,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Gets HTTP user agent used to made the request
-	 */
-	public function getUserAgent() -> string
-	{
-		var userAgent;
-
-		if fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
-			return userAgent;
-		}
-		return "";
-	}
-
-	/**
 	 * Gets information about the port on which the request is made.
 	 */
 	public function getPort() -> int
@@ -549,20 +520,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return (int) this->getServer("SERVER_PORT");
-	}
-
-	/**
-	 * Gets HTTP URI which request has been made
-	 */
-	public final function getURI() -> string
-	{
-		var requestURI;
-
-		if fetch requestURI, _SERVER["REQUEST_URI"] {
-			return requestURI;
-		}
-
-		return "";
 	}
 
 	/**
@@ -679,6 +636,19 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Gets variable from $_SERVER superglobal
+	 */
+	public function getServer(string! name) -> string | null
+	{
+		var serverValue;
+
+		if fetch serverValue, _SERVER[name] {
+			return serverValue;
+		}
+		return null;
+	}
+
+	/**
 	 * Gets active server address IP
 	 */
 	public function getServerAddress() -> string
@@ -703,19 +673,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return "localhost";
-	}
-
-	/**
-	 * Gets variable from $_SERVER superglobal
-	 */
-	public function getServer(string! name) -> string | null
-	{
-		var serverValue;
-
-		if fetch serverValue, _SERVER[name] {
-			return serverValue;
-		}
-		return null;
 	}
 
 	/**
@@ -771,6 +728,33 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return files;
+	}
+
+	/**
+	 * Gets HTTP URI which request has been made
+	 */
+	public final function getURI() -> string
+	{
+		var requestURI;
+
+		if fetch requestURI, _SERVER["REQUEST_URI"] {
+			return requestURI;
+		}
+
+		return "";
+	}
+
+	/**
+	 * Gets HTTP user agent used to made the request
+	 */
+	public function getUserAgent() -> string
+	{
+		var userAgent;
+
+		if fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
+			return userAgent;
+		}
+		return "";
 	}
 
 	/**
@@ -1058,6 +1042,38 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Sets automatic sanitizers/filters for a particular field and for particular methods
+	 */
+	public function setParameterFilters(string! name, array filters = [], array scope = []) -> <RequestInterface>
+	{
+		var filterLocator, sanitizer, localScope, scopeMethod;
+
+		if count(filters) < 1 {
+			throw new Exception("Filters have not been defined for '" . name . "'");
+		}
+
+		let filterLocator = this->getFilterLocatorService();
+
+		for sanitizer in filters {
+			if true !== filterLocator->has(sanitizer) {
+				throw new Exception("Sanitizer '" . sanitizer . "' does not exist in the filter locator");
+			}
+		}
+
+		if count(scope) < 1 {
+			let localScope = ["get", "post", "put"];
+		} else {
+			let localScope = scope;
+		}
+
+		for scopeMethod in localScope {
+			let this->queryFilters[scopeMethod][name] = filters;
+		}
+
+		return this;
+	}
+
+	/**
 	 * Sets if the `Request::getHttpHost` method must be use strict validation of host name or not
 	 */
 	public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
@@ -1070,7 +1086,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Process a request header and return the one with best quality
 	 */
-	protected final function _getBestQuality(array qualityParts, string! name) -> string
+	protected final function getBestQuality(array qualityParts, string! name) -> string
 	{
 		int i;
 		double quality, acceptQuality;
@@ -1094,37 +1110,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 			let i++;
 		}
 		return selectedName;
-	}
-
-	/**
-	 * Process a request header and return an array of values with their qualities
-	 */
-	protected final function _getQualityHeader(string! serverIndex, string! name) -> array
-	{
-		var returnedParts, part, headerParts, headerPart, split;
-
-		let returnedParts = [];
-		for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
-
-			let headerParts = [];
-			for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
-				if strpos(headerPart, "=") !== false {
-					let split = explode("=", headerPart, 2);
-					if split[0] === "q" {
-						let headerParts["quality"] = (double) split[1];
-					} else {
-						let headerParts[split[0]] = split[1];
-					}
-				} else {
-					let headerParts[name] = headerPart;
-					let headerParts["quality"] = 1.0;
-				}
-			}
-
-			let returnedParts[] = headerParts;
-		}
-
-		return returnedParts;
 	}
 
 	/**
@@ -1192,46 +1177,34 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Smooth out $_FILES to have plain array with all files uploaded
+	 * Process a request header and return an array of values with their qualities
 	 */
-	protected final function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+	protected final function getQualityHeader(string! serverIndex, string! name) -> array
 	{
-		var idx, name, file, files, parentFiles, p;
+		var returnedParts, part, headerParts, headerPart, split;
 
-		let files = [];
+		let returnedParts = [];
+		for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
 
-		for idx, name in names {
-			let p = prefix . "." . idx;
-
-			if typeof name == "string" {
-
-				let files[] = [
-					"name": name,
-					"type": types[idx],
-					"tmp_name": tmp_names[idx],
-					"size": sizes[idx],
-					"error": errors[idx],
-					"key": p
-				];
-			}
-
-			if typeof name == "array" {
-				let parentFiles = this->smoothFiles(
-					names[idx],
-					types[idx],
-					tmp_names[idx],
-					sizes[idx],
-					errors[idx],
-					p
-				);
-
-				for file in parentFiles {
-					let files[] = file;
+			let headerParts = [];
+			for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
+				if strpos(headerPart, "=") !== false {
+					let split = explode("=", headerPart, 2);
+					if split[0] === "q" {
+						let headerParts["quality"] = (double) split[1];
+					} else {
+						let headerParts[split[0]] = split[1];
+					}
+				} else {
+					let headerParts[name] = headerPart;
+					let headerParts["quality"] = 1.0;
 				}
 			}
+
+			let returnedParts[] = headerParts;
 		}
 
-		return files;
+		return returnedParts;
 	}
 
 	/**
@@ -1312,15 +1285,58 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		return headers;
 	}
-	
+
+	/**
+	 * Smooth out $_FILES to have plain array with all files uploaded
+	 */
+	protected final function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+	{
+		var idx, name, file, files, parentFiles, p;
+
+		let files = [];
+
+		for idx, name in names {
+			let p = prefix . "." . idx;
+
+			if typeof name == "string" {
+
+				let files[] = [
+					"name": name,
+					"type": types[idx],
+					"tmp_name": tmp_names[idx],
+					"size": sizes[idx],
+					"error": errors[idx],
+					"key": p
+				];
+			}
+
+			if typeof name == "array" {
+				let parentFiles = this->smoothFiles(
+					names[idx],
+					types[idx],
+					tmp_names[idx],
+					sizes[idx],
+					errors[idx],
+					p
+				);
+
+				for file in parentFiles {
+					let files[] = file;
+				}
+			}
+		}
+
+		return files;
+	}
+
 	/**
 	 * Checks the filter service and assigns it to the class parameter
 	 */
 	private function getFilterLocatorService() -> <LocatorInterface>
 	{
 		var container, locator;
-		
-		let filter = this->filterLocator;
+
+		let locator = this->filterLocator;
 		if typeof locator != "object" {
 			let container = <DiInterface> this->container;
 			if typeof container != "object" {
@@ -1329,7 +1345,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			let locator             = <LocatorInterface> container->getShared("filter"),
 				this->filterLocator = locator;
 		}
-		
+
 		return this->filterLocator;
 	}
 }

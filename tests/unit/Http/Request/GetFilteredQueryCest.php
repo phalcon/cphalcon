@@ -15,21 +15,21 @@ namespace Phalcon\Test\Unit\Http\Request;
 use UnitTester;
 
 /**
- * Class SetDICest
+ * Class GetFilteredQueryCest
  */
-class SetDICest
+class GetFilteredQueryCest
 {
     /**
-     * Tests Phalcon\Http\Request :: setDI()
+     * Tests Phalcon\Http\Request :: getFilteredQuery()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpRequestSetDI(UnitTester $I)
+    public function httpRequestGetFilteredQuery(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - setDI()');
+        $I->wantToTest('Http\Request - getFilteredQuery()');
         $I->skipTest('Need implementation');
     }
 }
