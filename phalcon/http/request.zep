@@ -43,18 +43,28 @@ use Phalcon\Service\LocatorInterface;
  */
 class Request implements RequestInterface, InjectionAwareInterface
 {
+	private container;
 
-	protected _dependencyInjector;
+	private filterLocator;
 
-	protected _rawBody;
+	/**
+	 * @var bool
+	 */
+	private httpMethodParameterOverride = false { get, set };
 
-	protected _filter;
+	/**
+	 * @var array
+	 */
+	private queryFilters = [];
 
-	protected _putCache;
+	private putCache;
 
-	protected _httpMethodParameterOverride = false { get, set };
+	private rawBody;
 
-	protected _strictHostCheck = false;
+	/**
+	 * @var bool
+	 */
+	private strictHostCheck = false;
 
 	/**
 	 * Gets a variable from the $_REQUEST superglobal applying filters if needed.
@@ -79,7 +89,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getAcceptableContent() -> array
 	{
-		return this->_getQualityHeader("HTTP_ACCEPT", "accept");
+		return this->getQualityHeader("HTTP_ACCEPT", "accept");
 	}
 
 	/**
@@ -104,7 +114,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestAccept() -> string
 	{
-		return this->_getBestQuality(this->getAcceptableContent(), "accept");
+		return this->getBestQuality(this->getAcceptableContent(), "accept");
 	}
 
 	/**
@@ -112,7 +122,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestCharset() -> string
 	{
-		return this->_getBestQuality(this->getClientCharsets(), "charset");
+		return this->getBestQuality(this->getClientCharsets(), "charset");
 	}
 
 	/**
@@ -120,7 +130,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestLanguage() -> string
 	{
-		return this->_getBestQuality(this->getLanguages(), "language");
+		return this->getBestQuality(this->getLanguages(), "language");
 	}
 
 	/**
@@ -163,7 +173,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getClientCharsets() -> array
 	{
-		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
+		return this->getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}
 
 	/**
@@ -193,7 +203,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
-		return this->_dependencyInjector;
+		return this->container;
 	}
 
 	/**
@@ -218,6 +228,48 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return auth;
+	}
+
+	/**
+	 * Retrieves a query/get value always sanitized with the preset filters
+	 */
+	public function getFilteredQuery(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["get"][name] {
+			let filters = [];
+		}
+
+		return this->getQuery(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
+
+	/**
+	 * Retrieves a post value always sanitized with the preset filters
+	 */
+	public function getFilteredPost(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["post"][name] {
+			let filters = [];
+		}
+
+		return this->getPost(name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
+
+	/**
+	 * Retrieves a put value always sanitized with the preset filters
+	 */
+	public function getFilteredPut(string! name = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+	{
+		var filters;
+
+		if !fetch filters, this->queryFilters["put"][name] {
+			let filters = [];
+		}
+
+		return this->getPut(name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
 
 	/**
@@ -300,7 +352,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * - `$_SERVER["SERVER_ADDR"]`
 	 *
 	 * Optionally `Request::getHttpHost` validates and clean host name.
-	 * The `Request::$_strictHostCheck` can be used to validate host name.
+	 * The `Request::$strictHostCheck` can be used to validate host name.
 	 *
 	 * Note: validation and cleaning have a negative performance impact because
 	 * they use regular expressions.
@@ -328,7 +380,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var host, strict;
 
-		let strict = this->_strictHostCheck;
+		let strict = this->strictHostCheck;
 
 		/**
 		 * Get the server name from $_SERVER["HTTP_HOST"]
@@ -401,7 +453,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getLanguages() -> array
 	{
-		return this->_getQualityHeader("HTTP_ACCEPT_LANGUAGE", "language");
+		return this->getQualityHeader("HTTP_ACCEPT_LANGUAGE", "language");
 	}
 
 	/**
@@ -430,7 +482,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
 			if !empty overridedMethod {
 				let returnMethod = strtoupper(overridedMethod);
-			} elseif this->_httpMethodParameterOverride {
+			} elseif this->httpMethodParameterOverride {
 				if fetch spoofedMethod, _REQUEST["_method"] {
 					let returnMethod = strtoupper(spoofedMethod);
 				}
@@ -442,19 +494,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return returnMethod;
-	}
-
-	/**
-	 * Gets HTTP user agent used to made the request
-	 */
-	public function getUserAgent() -> string
-	{
-		var userAgent;
-
-		if fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
-			return userAgent;
-		}
-		return "";
 	}
 
 	/**
@@ -481,20 +520,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return (int) this->getServer("SERVER_PORT");
-	}
-
-	/**
-	 * Gets HTTP URI which request has been made
-	 */
-	public final function getURI() -> string
-	{
-		var requestURI;
-
-		if fetch requestURI, _SERVER["REQUEST_URI"] {
-			return requestURI;
-		}
-
-		return "";
 	}
 
 	/**
@@ -529,7 +554,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var put, contentType;
 
-		let put = this->_putCache;
+		let put = this->putCache;
 
 		if typeof put != "array" {
 			let contentType = this->getContentType();
@@ -543,7 +568,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 				parse_str(this->getRawBody(), put);
 			}
 
-			let this->_putCache = put;
+			let this->putCache = put;
 		}
 
 		return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
@@ -576,7 +601,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var rawBody, contents;
 
-		let rawBody = this->_rawBody;
+		let rawBody = this->rawBody;
 		if empty rawBody {
 
 			let contents = file_get_contents("php://input");
@@ -584,7 +609,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			/**
 			 * We need store the read raw body because it can't be read again
 			 */
-			let this->_rawBody = contents;
+			let this->rawBody = contents;
 			return contents;
 		}
 		return rawBody;
@@ -608,6 +633,19 @@ class Request implements RequestInterface, InjectionAwareInterface
 			let scheme = "http";
 		}
 		return scheme;
+	}
+
+	/**
+	 * Gets variable from $_SERVER superglobal
+	 */
+	public function getServer(string! name) -> string | null
+	{
+		var serverValue;
+
+		if fetch serverValue, _SERVER[name] {
+			return serverValue;
+		}
+		return null;
 	}
 
 	/**
@@ -635,19 +673,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return "localhost";
-	}
-
-	/**
-	 * Gets variable from $_SERVER superglobal
-	 */
-	public function getServer(string! name) -> string | null
-	{
-		var serverValue;
-
-		if fetch serverValue, _SERVER[name] {
-			return serverValue;
-		}
-		return null;
 	}
 
 	/**
@@ -703,6 +728,33 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return files;
+	}
+
+	/**
+	 * Gets HTTP URI which request has been made
+	 */
+	public final function getURI() -> string
+	{
+		var requestURI;
+
+		if fetch requestURI, _SERVER["REQUEST_URI"] {
+			return requestURI;
+		}
+
+		return "";
+	}
+
+	/**
+	 * Gets HTTP user agent used to made the request
+	 */
+	public function getUserAgent() -> string
+	{
+		var userAgent;
+
+		if fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
+			return userAgent;
+		}
+		return "";
 	}
 
 	/**
@@ -930,7 +982,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function isStrictHostCheck() -> bool
 	{
-		return this->_strictHostCheck;
+		return this->strictHostCheck;
 	}
 
 	/**
@@ -984,9 +1036,41 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Sets the dependency injector
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> container)
 	{
-		let this->_dependencyInjector = dependencyInjector;
+		let this->container = container;
+	}
+
+	/**
+	 * Sets automatic sanitizers/filters for a particular field and for particular methods
+	 */
+	public function setParameterFilters(string! name, array filters = [], array scope = []) -> <RequestInterface>
+	{
+		var filterLocator, sanitizer, localScope, scopeMethod;
+
+		if count(filters) < 1 {
+			throw new Exception("Filters have not been defined for '" . name . "'");
+		}
+
+		let filterLocator = this->getFilterLocatorService();
+
+		for sanitizer in filters {
+			if true !== filterLocator->has(sanitizer) {
+				throw new Exception("Sanitizer '" . sanitizer . "' does not exist in the filter locator");
+			}
+		}
+
+		if count(scope) < 1 {
+			let localScope = ["get", "post", "put"];
+		} else {
+			let localScope = scope;
+		}
+
+		for scopeMethod in localScope {
+			let this->queryFilters[scopeMethod][name] = filters;
+		}
+
+		return this;
 	}
 
 	/**
@@ -994,7 +1078,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
 	{
-		let this->_strictHostCheck = flag;
+		let this->strictHostCheck = flag;
 
 		return this;
 	}
@@ -1002,7 +1086,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Process a request header and return the one with best quality
 	 */
-	protected final function _getBestQuality(array qualityParts, string! name) -> string
+	protected final function getBestQuality(array qualityParts, string! name) -> string
 	{
 		int i;
 		double quality, acceptQuality;
@@ -1029,43 +1113,12 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Process a request header and return an array of values with their qualities
-	 */
-	protected final function _getQualityHeader(string! serverIndex, string! name) -> array
-	{
-		var returnedParts, part, headerParts, headerPart, split;
-
-		let returnedParts = [];
-		for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
-
-			let headerParts = [];
-			for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
-				if strpos(headerPart, "=") !== false {
-					let split = explode("=", headerPart, 2);
-					if split[0] === "q" {
-						let headerParts["quality"] = (double) split[1];
-					} else {
-						let headerParts[split[0]] = split[1];
-					}
-				} else {
-					let headerParts[name] = headerPart;
-					let headerParts["quality"] = 1.0;
-				}
-			}
-
-			let returnedParts[] = headerParts;
-		}
-
-		return returnedParts;
-	}
-
-	/**
 	 * Helper to get data from superglobals, applying filters if needed.
 	 * If no parameters are given the superglobal is returned.
 	 */
 	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
 	{
-		var value, filter, dependencyInjector;
+		var value, filter, container;
 
 		if name === null {
 			return source;
@@ -1075,15 +1128,15 @@ class Request implements RequestInterface, InjectionAwareInterface
 			return defaultValue;
 		}
 		if filters !== null {
-			let filter = this->_filter;
+			let filter = this->filterLocator;
 			if typeof filter != "object" {
-				let dependencyInjector = <DiInterface> this->_dependencyInjector;
-				if typeof dependencyInjector != "object" {
+				let container = <DiInterface> this->container;
+				if typeof container != "object" {
 					throw new Exception("A dependency injection object is required to access the 'filter' service");
 				}
-				let filter = <LocatorInterface> dependencyInjector->getShared("filter");
-//				let filter = <FilterInterface> dependencyInjector->getShared("filter");
-				let this->_filter = filter;
+				let filter = <LocatorInterface> container->getShared("filter");
+//				let filter = <FilterInterface> container->getShared("filter");
+				let this->filterLocator = filter;
 			}
 
 			let value = filter->sanitize(value, filters, noRecursive);
@@ -1124,46 +1177,34 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Smooth out $_FILES to have plain array with all files uploaded
+	 * Process a request header and return an array of values with their qualities
 	 */
-	protected final function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+	protected final function getQualityHeader(string! serverIndex, string! name) -> array
 	{
-		var idx, name, file, files, parentFiles, p;
+		var returnedParts, part, headerParts, headerPart, split;
 
-		let files = [];
+		let returnedParts = [];
+		for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
 
-		for idx, name in names {
-			let p = prefix . "." . idx;
-
-			if typeof name == "string" {
-
-				let files[] = [
-					"name": name,
-					"type": types[idx],
-					"tmp_name": tmp_names[idx],
-					"size": sizes[idx],
-					"error": errors[idx],
-					"key": p
-				];
-			}
-
-			if typeof name == "array" {
-				let parentFiles = this->smoothFiles(
-					names[idx],
-					types[idx],
-					tmp_names[idx],
-					sizes[idx],
-					errors[idx],
-					p
-				);
-
-				for file in parentFiles {
-					let files[] = file;
+			let headerParts = [];
+			for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
+				if strpos(headerPart, "=") !== false {
+					let split = explode("=", headerPart, 2);
+					if split[0] === "q" {
+						let headerParts["quality"] = (double) split[1];
+					} else {
+						let headerParts[split[0]] = split[1];
+					}
+				} else {
+					let headerParts[name] = headerPart;
+					let headerParts["quality"] = 1.0;
 				}
 			}
+
+			let returnedParts[] = headerParts;
 		}
 
-		return files;
+		return returnedParts;
 	}
 
 	/**
@@ -1171,16 +1212,16 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	protected function resolveAuthorizationHeaders() -> array
 	{
-		var resolved, eventsManager, hasEventsManager, dependencyInjector, exploded, digest, authHeader = null;
+		var resolved, eventsManager, hasEventsManager, container, exploded, digest, authHeader = null;
 		array headers = [];
 
-		let dependencyInjector = <DiInterface> this->getDI();
+		let container = <DiInterface> this->getDI();
 
 		// TODO: Make Request implements EventsAwareInterface for v4.0.0
-		if typeof dependencyInjector === "object" {
-			let hasEventsManager = (bool) dependencyInjector->has("eventsManager");
+		if typeof container === "object" {
+			let hasEventsManager = (bool) container->has("eventsManager");
 			if hasEventsManager {
-				let eventsManager = <ManagerInterface> dependencyInjector->getShared("eventsManager");
+				let eventsManager = <ManagerInterface> container->getShared("eventsManager");
 			}
 		}
 
@@ -1243,5 +1284,68 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return headers;
+	}
+
+	/**
+	 * Smooth out $_FILES to have plain array with all files uploaded
+	 */
+	protected final function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+	{
+		var idx, name, file, files, parentFiles, p;
+
+		let files = [];
+
+		for idx, name in names {
+			let p = prefix . "." . idx;
+
+			if typeof name == "string" {
+
+				let files[] = [
+					"name": name,
+					"type": types[idx],
+					"tmp_name": tmp_names[idx],
+					"size": sizes[idx],
+					"error": errors[idx],
+					"key": p
+				];
+			}
+
+			if typeof name == "array" {
+				let parentFiles = this->smoothFiles(
+					names[idx],
+					types[idx],
+					tmp_names[idx],
+					sizes[idx],
+					errors[idx],
+					p
+				);
+
+				for file in parentFiles {
+					let files[] = file;
+				}
+			}
+		}
+
+		return files;
+	}
+
+	/**
+	 * Checks the filter service and assigns it to the class parameter
+	 */
+	private function getFilterLocatorService() -> <LocatorInterface>
+	{
+		var container, locator;
+
+		let locator = this->filterLocator;
+		if typeof locator != "object" {
+			let container = <DiInterface> this->container;
+			if typeof container != "object" {
+				throw new Exception("A dependency injection object is required to access the 'filter' service");
+			}
+			let locator             = <LocatorInterface> container->getShared("filter"),
+				this->filterLocator = locator;
+		}
+
+		return this->filterLocator;
 	}
 }

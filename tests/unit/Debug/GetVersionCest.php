@@ -45,7 +45,9 @@ class GetVersionCest
         $I->wantToTest('Debug - getVersion()');
         $debug   = new Debug();
         $target  = '"_new"';
-        $uri     = '"https://docs.phalconphp.com/en/' . Version::getPart(Version::VERSION_MAJOR) . '.0.0/"';
+        $uri     = '"https://docs.phalconphp.com/'
+                 . Version::getPart(Version::VERSION_MAJOR) . '.'
+                 . Version::getPart(Version::VERSION_MEDIUM) . '/en/"';
         $version = Version::get();
 
         $expected = "<div class='version'>Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>";
