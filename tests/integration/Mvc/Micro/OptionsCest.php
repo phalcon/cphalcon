@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
 
+/**
+ * Class OptionsCest
+ */
 class OptionsCest
 {
     /**
@@ -25,7 +29,7 @@ class OptionsCest
      */
     public function mvcMicroOptions(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro - options()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro - options()');
+        $I->skipTest('Need implementation');
     }
 }

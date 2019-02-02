@@ -80,18 +80,16 @@ class Version
 	 * A - Major version
 	 * B - Med version (two digits)
 	 * C - Min version (two digits)
-	 * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
+	 * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
 	 * E - Special release version i.e. RC1, Beta2 etc.
 	 */
 	protected static function _getVersion() -> array
 	{
-		return [4, 0, 0, 1, 0];
+		return [4, 0, 0, 1, 2];
 	}
 
 	/**
-	 * Translates a number to a special release
-	 *
-	 * If Special release = 1 this function will return ALPHA
+	 * Translates a number to a special release.
 	 */
 	protected final static function _getSpecial(int special) -> string
 	{
@@ -99,10 +97,10 @@ class Version
 
 		switch special {
 			case 1:
-				let suffix = "ALPHA";
+				let suffix = "alpha";
 				break;
 			case 2:
-				let suffix = "BETA";
+				let suffix = "beta";
 				break;
 			case 3:
 				let suffix = "RC";
@@ -132,14 +130,21 @@ class Version
 			special       = version[self::VERSION_SPECIAL],
 			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
-		let result  = major . "." . medium . "." . minor . " ";
+		let result  = major . "." . medium . "." . minor;
 		let suffix  = static::_getSpecial(special);
 
 		if suffix != "" {
-			let result .= suffix . " " . specialNumber;
+			/**
+			 * A pre-release version should be denoted by appending a hyphen and a series
+			 * of dot separated identifiers immediately following the patch version.
+			 */
+			let result .= "-". suffix;
+			if specialNumber != 0 {
+				let result .= "." . specialNumber;
+			}
 		}
 
-		return trim(result);
+		return result;
 	}
 
 	/**
@@ -182,7 +187,6 @@ class Version
 		let version = static::_getVersion();
 
 		switch part {
-
 			case self::VERSION_MAJOR:
 			case self::VERSION_MEDIUM:
 			case self::VERSION_MINOR:

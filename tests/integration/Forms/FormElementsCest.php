@@ -205,18 +205,16 @@ class FormElementsCest
         $I->assertFalse($form->isValid($_POST));
 
         $actual   = $form->getMessages();
-        $expected = Messages::__set_state([
-            '_position' => 0,
-            '_messages' => [
-                Message::__set_state([
-                    '_type'    => 'PresenceOf',
-                    '_message' => 'user.lastName.presenceOf',
-                    '_field'   => 'lastName',
-                    '_code'    => '0',
-                ]),
-            ],
-        ]);
-
+        $expected = new Messages(
+            [
+                new Message(
+                    'user.lastName.presenceOf',
+                    'lastName',
+                    'PresenceOf',
+                    0
+                ),
+            ]
+        );
         $I->assertEquals($actual, $expected);
     }
 
@@ -258,18 +256,16 @@ class FormElementsCest
         $I->assertFalse($form->isValid($_POST));
 
         $actual   = $form->getMessages();
-        $expected = Messages::__set_state([
-            '_position' => 0,
-            '_messages' => [
-                Message::__set_state([
-                    '_type'    => 'TooShort',
-                    '_message' => 'The text is too short',
-                    '_field'   => 'password',
-                    '_code'    => '0',
-                ]),
-            ],
-        ]);
-
+        $expected = new Messages(
+            [
+                new Message(
+                    'The text is too short',
+                    'password',
+                    'TooShort',
+                    0
+                ),
+            ]
+        );
         $I->assertEquals($actual, $expected);
 
         $form->clear(['password']);

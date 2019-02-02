@@ -32,8 +32,8 @@ class GetActiveSubjectCest
     public function aclAdapterMemoryGetActiveSubjectDefault(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveSubject() - default');
-        $acl = new Memory();
-        $actual   = $acl->getActiveSubject();
+        $acl    = new Memory();
+        $actual = $acl->getActiveSubject();
         $I->assertNull($actual);
     }
 

@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email;
-use IntegrationTester;
 
 class EmailCest
 {
@@ -41,18 +41,14 @@ class EmailCest
         $actual   = $messages->count();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Email',
-                            '_message' => 'Field email must be an email address',
-                            '_field'   => 'email',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field email must be an email address',
+                    'email',
+                    'Email',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -125,18 +121,14 @@ class EmailCest
         );
 
         $actual   = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Email',
-                            '_message' => 'The email is not valid',
-                            '_field'   => 'email',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The email is not valid',
+                    'email',
+                    'Email',
+                    0
+                ),
             ]
         );
         $I->assertEquals($expected, $actual);

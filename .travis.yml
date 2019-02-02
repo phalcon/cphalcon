@@ -2,18 +2,19 @@ sudo: false
 
 language: php
 php:
-  - 'master'
+  # PHP 7.4 does not ready yet
+  # - 'master'
   - '7.3'
   - '7.2'
 
 git:
   depth: 1
 
-# TODO - Remove this when we go deploy this
-#branches:
-#  only:
-#    - master
-#    - /^(4|5)\.\d+\.(\d+|x)$/
+branches:
+  only:
+    - master
+    - /^(4|5)\.\d+\.(\d+|x)$/
+    - /^T\d+-[a-zA-Z-]+/
 
 addons:
   apt:
@@ -29,14 +30,14 @@ addons:
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: 'master'
+  # PHP 7.4 does not ready yet
+  # allow_failures:
+  #  - php: 'master'
 
 cache:
   apt: true
   timeout: 604800
   directories:
-    - ${HOME}/beanstalk
     - ${HOME}/.composer/cache
     - ${HOME}/pear
     - ${HOME}/.local/opt
@@ -50,55 +51,89 @@ services:
 
 env:
   global:
-    - secure: "eL8spffzdRIDAjdxG+OPJPeUCdpc/jVz6PEVYcs3z4nOnjsKDURm8cmBmGeyHMxvkdHZ6g0PO/srIKAYufZkjDCeK0vl7OBv6kNlGEuO3M7SUCAVX+J2OSg+hNlK467woxsPeMB19/vkC1HmytgpdAefFGtFp4+zsMT41YVupuA="
     - CC="gcc"
-    - ZEPHIR_VERSION="0.11.8"
+    - ZEPHIR_VERSION="0.11.9"
+    - ZEPHIR_PARSER_VERSION="v1.2.0"
     - RE2C_VERSION="1.1.1"
-    - REPORT_EXIT_STATUS=1
     - REPORT_COVERAGE=1
-    - NO_INTERACTION=1
-    - TEST_PHP_ARGS="--show-diff"
-    - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
+    - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
-  - if [ ! -z "${GITHUB_TOKEN}" ]; then composer config github-oauth.github.com ${GITHUB_TOKEN}; echo "Add Github token"; fi
-  - export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
-  - export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
-  - export PHP_VERNUM="$(php-config --vernum)"
-  - tests/_ci/pear-setup.sh
+  - |
+    # General settings
+    set -e
+    stty cols 120
+    ulimit -c unlimited -S || true
+
+    if [ ! -z "${GITHUB_TOKEN}" ]; then
+      composer config github-oauth.github.com ${GITHUB_TOKEN}
+      printf "Add GitHub token\n"
+    fi
+
+    [ -d ~/bin ] || mkdir ~/bin
+
+    git config --global advice.detachedHead false
+
+    # Export tests environment variables
+    source tests/_ci/environment
+    export $(cut -d= -f1 tests/_ci/environment)
+
+    # Export build environment variables
+    export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
+    export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
+    export PHP_VERNUM="$(php-config --vernum)"
+    export PHP_PEAR_PHP_BIN=$(phpenv which php)
+
+install:
   - tests/_ci/setup-dbs.sh
-  - source tests/_ci/environment
-  - export $(cut -d= -f1 tests/_ci/environment)
+  - tests/_ci/pear-setup.sh
+  - .ci/install-prereqs.sh
+  - tests/_ci/install-re2c.sh
+  - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
   - wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar
   - chmod +x $HOME/bin/zephir
 
-install:
-  - tests/_ci/install-prereqs.sh
-  - tests/_ci/install-re2c.sh
-  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
-  - travis_retry composer global require ${DEFAULT_COMPOSER_FLAGS} "phalcon/zephir:${ZEPHIR_VERSION}"
+before_script:
+  - |
+    # Setting up Tavis' PHP
+    echo 'variables_order = EGPCS'    >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    echo 'session.save_path = "/tmp"' >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
   - tests/_ci/build.sh
 
-before_script:
-  - ulimit -c unlimited -S || true
-  - phpenv config-add tests/_ci/999-default.ini
-
 script:
-  - vendor/bin/phpcs
-  - vendor/bin/codecept build
-  # TODO: Add `cli' suite and refactor current cli-tests
-#  - vendor/bin/codecept run -v
-  - vendor/bin/codecept run -v -n tests/cli/
-  - vendor/bin/codecept run -v -n tests/integration/
-  - vendor/bin/codecept run -v -n tests/unit/
-  - phpenv config-rm xdebug.ini || true
-  - tests/_ci/volt-tests.sh
+  # Does not ready to work PHP 7.3
+  - if [ "$PHP_VERNUM" -ge "70300" ]; then phpenv config-rm xdebug.ini || true; fi
+
+  - vendor/bin/codecept build --quiet
+  - vendor/bin/codecept run --ext DotReporter tests/cli/
+  - vendor/bin/codecept run --ext DotReporter tests/integration/
+  - vendor/bin/codecept run --ext DotReporter tests/unit/
+
+  - .ci/run-volt-tests.sh
+
+jobs:
+  include:
+    - stage: Static Code Analysis
+      php: 7.2
+      env:
+        - REPORT_COVERAGE=0
+      install:
+        - travis_retry composer install $DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs
+      before_script:
+        - phpenv config-rm xdebug.ini || true
+      script:
+        - vendor/bin/phpcs
 
 after_failure:
   - tests/_ci/after-failure.sh
 
 after_success:
+  # Does not ready to work PHP 7.3
+  - if [ "$PHP_VERNUM" -ge "70300" ]; then export REPORT_COVERAGE=0; fi
+
   - tests/_ci/after-success.sh
 
 notifications:

@@ -17,6 +17,7 @@ use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
 use Phalcon\Crypt\Mismatch;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
+use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Http\Cookie
@@ -48,7 +49,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 	protected _secure;
 
-	protected _httpOnly = true;
+	protected _httpOnly = false;
 
 	/**
 	 * The cookie's sign key.
@@ -214,7 +215,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 							}
 						}
 
-						let filter = dependencyInjector->getShared("filter"),
+//						let filter = dependencyInjector->getShared("filter"),
+						let filter = <LocatorInterface> dependencyInjector->getShared("filter"),
 							this->_filter = filter;
 					}
 

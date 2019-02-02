@@ -127,8 +127,6 @@ abstract class Select
 				 * Create the SELECT's option from an array
 				 */
 				let code .= self::_optionsFromArray(options, value, "</option>" . PHP_EOL);
-			} else {
-				throw new Exception("Invalid data provided to SELECT helper");
 			}
 		}
 

@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
-use IntegrationTester;
 
 class PresenceOfCest
 {
@@ -77,18 +77,14 @@ class PresenceOfCest
         $actual   = $messages->offsetGet(0)->getMessage();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'Name cant be empty.',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Name cant be empty.',
+                    'name',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -107,26 +103,20 @@ class PresenceOfCest
         $actual   = $messages->offsetGet(1)->getMessage();
         $I->assertEquals($expected, $actual);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'Name cant be empty.',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'Type cant be empty.',
-                            '_field'   => 'type',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Name cant be empty.',
+                    'name',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'Type cant be empty.',
+                    'type',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -151,37 +141,28 @@ class PresenceOfCest
 
         $actual = $validation->validate([]);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The name is required',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The email is required',
-                            '_field'   => 'email',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The login is required',
-                            '_field'   => 'login',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The name is required',
+                    'name',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'The email is required',
+                    'email',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'The login is required',
+                    'login',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
-
         $I->assertEquals($expected, $actual);
     }
 
@@ -206,26 +187,20 @@ class PresenceOfCest
 
         $actual = $validation->validate([]);
 
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The name is required',
-                            '_field'   => 'name',
-                            '_code'    => '0',
-                        ]
-                    ),
-                    Message::__set_state(
-                        [
-                            '_type'    => 'PresenceOf',
-                            '_message' => 'The email is required',
-                            '_field'   => 'email',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The name is required',
+                    'name',
+                    'PresenceOf',
+                    0
+                ),
+                new Message(
+                    'The email is required',
+                    'email',
+                    'PresenceOf',
+                    0
+                ),
             ]
         );
         $I->assertEquals($expected, $actual);

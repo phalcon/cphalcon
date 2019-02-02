@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\InclusionIn;
-use IntegrationTester;
 
 class InclusionInCest
 {
@@ -39,18 +39,14 @@ class InclusionInCest
         );
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'InclusionIn',
-                            '_message' => 'Field status must be a part of list: A, I',
-                            '_field'   => 'status',
-                            '_code'    => 0,
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field status must be a part of list: A, I',
+                    'status',
+                    'InclusionIn',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -200,18 +196,14 @@ class InclusionInCest
         );
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'InclusionIn',
-                            '_message' => 'The status must be A=Active or I=Inactive',
-                            '_field'   => 'status',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The status must be A=Active or I=Inactive',
+                    'status',
+                    'InclusionIn',
+                    0
+                ),
             ]
         );
         $actual   = $messages;

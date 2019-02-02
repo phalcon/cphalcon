@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 
+/**
+ * Class GetNonPrimaryKeyAttributesCest
+ */
 class GetNonPrimaryKeyAttributesCest
 {
     /**
@@ -26,7 +30,7 @@ class GetNonPrimaryKeyAttributesCest
      */
     public function mvcModelMetadataLibmemcachedGetNonPrimaryKeyAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Libmemcached - getNonPrimaryKeyAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Libmemcached - getNonPrimaryKeyAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

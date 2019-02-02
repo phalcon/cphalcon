@@ -34,46 +34,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_AdapterInterface) {
 }
 
 /**
- * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setDefaultAction);
-
-/**
- * Returns the default ACL access level
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
-
-/**
- * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
- * for no arguments provided in isAllowed action if there exists func for accessKey
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setNoArgumentsDefaultAction);
-
-/**
- * Returns the default ACL access level for no arguments provided in
- *isAllowed action if there exists func for accessKey
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getNoArgumentsDefaultAction);
-
-/**
- * Adds a operation to the ACL list. Second parameter lets to inherit access data from other existing operation
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addOperation);
-
-/**
  * Do a operation inherit from another existing operation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addInherit);
 
 /**
- * Check whether operation exist in the operations list
+ * Adds a operation to the ACL list. Second parameter lets to inherit access data from other existing operation
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isOperation);
-
-/**
- * Check whether subject exist in the subjects list
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isSubject);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addOperation);
 
 /**
  * Adds a subject to the ACL list
@@ -89,11 +57,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addSubject);
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addSubjectAccess);
 
 /**
- * Removes an access from a subject
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropSubjectAccess);
-
-/**
  * Allow access to a operation on a subject
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, allow);
@@ -104,9 +67,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, allow);
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, deny);
 
 /**
- * Check whether a operation is allowed to access an action from a subject
+ * Removes an access from a subject
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isAllowed);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropSubjectAccess);
+
+/**
+ * Returns the access which the list is checking if some operation can access it
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
 
 /**
  * Returns the operation which the list is checking if it's allowed to certain subject/access
@@ -119,9 +87,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveOperation);
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveSubject);
 
 /**
- * Returns the access which the list is checking if some operation can access it
+ * Returns the default ACL access level
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
+
+/**
+ * Returns the default ACL access level for no arguments provided in
+ *isAllowed action if there exists func for accessKey
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getNoArgumentsDefaultAction);
 
 /**
  * Return an array with every operation registered in the list
@@ -132,4 +106,30 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getOperations);
  * Return an array with every subject registered in the list
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getSubjects);
+
+/**
+ * Check whether a operation is allowed to access an action from a subject
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isAllowed);
+
+/**
+ * Check whether subject exist in the subjects list
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isSubject);
+
+/**
+ * Check whether operation exist in the operations list
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isOperation);
+
+/**
+ * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setDefaultAction);
+
+/**
+ * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+ * for no arguments provided in isAllowed action if there exists func for accessKey
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setNoArgumentsDefaultAction);
 

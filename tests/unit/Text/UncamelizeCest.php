@@ -29,8 +29,8 @@ class UncamelizeCest
      * @param UnitTester $I
      * @param Example    $item
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function textUncamelize(UnitTester $I, Example $item)
     {

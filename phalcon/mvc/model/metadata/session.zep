@@ -53,7 +53,13 @@ class Session extends MetaData
 	 */
 	public function read(string! key) -> array | null
 	{
-		var metaData;
+		var metaData, status;
+
+		let status = session_status();
+		if status !== PHP_SESSION_ACTIVE {
+			// To use $_SESSION variable we need to start session first
+			return null;
+		}
 
 		if fetch metaData, _SESSION["$PMM$" . this->_prefix][key] {
 			return metaData;
@@ -67,6 +73,14 @@ class Session extends MetaData
 	 */
 	public function write(string! key, array data) -> void
 	{
+		var status;
+
+		let status = session_status();
+		if status !== PHP_SESSION_ACTIVE {
+			// To use $_SESSION variable we need to start session first
+			return;
+		}
+
 		let _SESSION["$PMM$" . this->_prefix][key] = data;
 	}
 }

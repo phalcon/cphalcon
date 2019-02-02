@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 		ZVAL_COPY(&indexColumns, _6);
 		ZEPHIR_INIT_NVAR(&_9$$6);
 		object_init_ex(&_9$$6, phalcon_db_index_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_10, 14, &name, &indexColumns);
+		ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_10, 15, &name, &indexColumns);
 		zephir_check_call_status();
 		zephir_array_update_zval(&indexObjects, &name, &_9$$6, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
@@ -905,7 +905,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		ZEPHIR_OBS_NVAR(&_17$$6);
 		zephir_array_fetch_string(&_17$$6, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/db/adapter.zep", 336 TSRMLS_CC);
 		zephir_array_update_string(&_16$$6, SL("referencedColumns"), &_17$$6, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &_15$$6, "__construct", &_18, 15, &name, &_16$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_15$$6, "__construct", &_18, 16, &name, &_16$$6);
 		zephir_check_call_status();
 		zephir_array_update_zval(&referenceObjects, &name, &_15$$6, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
@@ -1659,7 +1659,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue) {
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "null");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 16, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1696,7 +1696,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDefaultValue) {
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "DEFAULT");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 16, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1865,7 +1865,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		object_init_ex(&_0$$3, phalcon_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, "Unable to insert into ", &table, " without data");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 3, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 4, &_1$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/db/adapter.zep", 687 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

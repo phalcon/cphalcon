@@ -91,96 +91,190 @@ class Memory extends Adapter
 {
 
 	/**
-	 * Operations Names
-	 *
-	 * @var mixed
-	 */
-	protected _operationsNames;
-
-	/**
-	 * Operations
-	 *
-	 * @var mixed
-	 */
-	protected _operations;
-
-	/**
-	 * Subject Names
-	 *
-	 * @var mixed
-	 */
-	protected _subjectsNames;
-
-	/**
-	 * Subjects
-	 *
-	 * @var mixed
-	 */
-	protected _subjects;
-
-	/**
 	 * Access
 	 *
 	 * @var mixed
 	 */
-	protected _access;
-
-	/**
-	 * Operation Inherits
-	 *
-	 * @var mixed
-	 */
-	protected _operationInherits;
+	protected access;
 
 	/**
 	 * Access List
 	 *
 	 * @var mixed
 	 */
-	protected _accessList;
-
-	/**
-	 * Function List
-	 *
-	 * @var mixed
-	 */
-	protected _func;
-
-	/**
-	 * Default action for no arguments is allow
-	 *
-	 * @var mixed
-	 */
-	protected _noArgumentsDefaultAction = Acl::ALLOW;
-
-	/**
-	 * Returns latest key used to acquire access
-	 *
-	 * @var string|null
-	 */
-	protected _activeKey { get };
+	protected accessList;
 
 	/**
 	 * Returns latest function used to acquire access
 	 *
 	 * @var mixed
 	 */
-	protected _activeFunction { get };
+	protected activeFunction { get };
 
 	/**
 	 * Returns number of additional arguments(excluding role and resource) for active function
 	 *
 	 * @var int
 	 */
-	protected _activeFunctionCustomArgumentsCount = 0 { get };
+	protected activeFunctionCustomArgumentsCount = 0 { get };
+
+	/**
+	 * Returns latest key used to acquire access
+	 *
+	 * @var string|null
+	 */
+	protected activeKey { get };
+
+	/**
+	 * Function List
+	 *
+	 * @var mixed
+	 */
+	protected func;
+
+	/**
+	 * Default action for no arguments is allow
+	 *
+	 * @var mixed
+	 */
+	protected noArgumentsDefaultAction = Acl::DENY;
+
+	/**
+	 * Operations
+	 *
+	 * @var mixed
+	 */
+	protected operations;
+
+	/**
+	 * Operation Inherits
+	 *
+	 * @var mixed
+	 */
+	protected operationInherits;
+
+	/**
+	 * Operations Names
+	 *
+	 * @var mixed
+	 */
+	protected operationsNames;
+
+	/**
+	 * Subjects
+	 *
+	 * @var mixed
+	 */
+	protected subjects;
+
+	/**
+	 * Subject Names
+	 *
+	 * @var mixed
+	 */
+	protected subjectsNames;
 
 	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
 	 */
 	public function __construct()
 	{
-		let this->_subjectsNames = ["*": true];
-		let this->_accessList = ["*!*": true];
+		let this->subjectsNames = ["*": true];
+		let this->accessList = ["*!*": true];
+	}
+
+	/**
+     * Do a operation inherit from another existing operation
+     *
+     * Example:
+     * <code>
+     *
+     * $acl->addOperation("administrator", "consultant");
+     * $acl->addOperation("administrator", ["consultant", "consultant2"]);
+     * </code>
+     *
+     * @param  array|string         accessInherits
+     * @param  OperationInterface|string|array operation
+     */
+	public function addInherit(string operationName, var operationToInherits) -> bool
+	{
+		var operationInheritName, operationsNames, operationToInherit, checkOperationToInherit,
+		 checkOperationToInherits, usedOperationToInherits, operationToInheritList, usedOperationToInherit;
+
+		let operationsNames = this->operationsNames;
+		if !isset operationsNames[operationName] {
+			throw new Exception("Operation '" . operationName . "' does not exist in the operation list");
+		}
+
+		if !isset this->operationInherits[operationName] {
+            let this->operationInherits[operationName] = [];
+        }
+		/**
+		 * Type conversion
+         */
+        if typeof operationToInherits != "array" {
+            let operationToInheritList = [operationToInherits];
+        }else{
+            let operationToInheritList = operationToInherits;
+        }
+        /**
+         * inherits
+         */
+        for operationToInherit in operationToInheritList {
+            if typeof operationToInherit == "object" && operationToInherit instanceof OperationInterface {
+                let operationInheritName = operationToInherit->getName();
+            } else {
+                let operationInheritName = operationToInherit;
+            }
+            /**
+             * Check if the operation to inherit is repeat
+             */
+            if in_array(operationInheritName, this->operationInherits[operationName]) {
+                continue;
+            }
+            /**
+             * Check if the operation to inherit is valid
+             */
+            if !isset operationsNames[operationInheritName] {
+                throw new Exception("Operation '" . operationInheritName . "' (to inherit) does not exist in the operation list");
+            }
+
+            if operationName == operationInheritName {
+                return false;
+            }
+            /**
+             * Deep check if the operation to inherit is valid
+             */
+            if isset this->operationInherits[operationInheritName] {
+                let checkOperationToInherits = [];
+                for usedOperationToInherit in this->operationInherits[operationInheritName] {
+                    array_push(checkOperationToInherits,usedOperationToInherit);
+                }
+                let usedOperationToInherits = [];
+                while !empty checkOperationToInherits {
+                    let checkOperationToInherit = array_shift(checkOperationToInherits);
+                    
+                    if isset usedOperationToInherits[checkOperationToInherit] {
+                        continue;
+                    }
+                    let usedOperationToInherits[checkOperationToInherit]=true;
+                    if operationName == checkOperationToInherit {
+                        throw new Exception("Operation '" . operationInheritName . "' (to inherit) is infinite loop ");
+                    }
+                    /**
+                     * Push inherited operations
+                     */
+                    if isset this->operationInherits[checkOperationToInherit] {
+                        for usedOperationToInherit in this->operationInherits[checkOperationToInherit] {
+                            array_push(checkOperationToInherits,usedOperationToInherit);
+                        }
+                    }
+                }
+            }
+
+            let this->operationInherits[operationName][] = operationInheritName;
+        }
+		return true;
 	}
 
 	/**
@@ -214,128 +308,18 @@ class Memory extends Adapter
 			throw new Exception("Operation must be either an string or implement OperationInterface");
 		}
 
-		if isset this->_operationsNames[operationName] {
+		if isset this->operationsNames[operationName] {
 			return false;
 		}
 
-		let this->_operations[] = operationObject;
-		let this->_operationsNames[operationName] = true;
+		let this->operations[] = operationObject;
+		let this->operationsNames[operationName] = true;
 
 		if accessInherits != null {
 			return this->addInherit(operationName, accessInherits);
 		}
 
 		return true;
-	}
-
-	/**
-     * Do a operation inherit from another existing operation
-     *
-     * Example:
-     * <code>
-     *
-     * $acl->addOperation("administrator", "consultant");
-     * $acl->addOperation("administrator", ["consultant", "consultant2"]);
-     * </code>
-     *
-     * @param  array|string         accessInherits
-     * @param  OperationInterface|string|array operation
-     */
-	public function addInherit(string operationName, var operationToInherits) -> bool
-	{
-		var operationInheritName, operationsNames, operationToInherit, checkOperationToInherit,
-		 checkOperationToInherits, usedOperationToInherits, operationToInheritList, usedOperationToInherit;
-
-		let operationsNames = this->_operationsNames;
-		if !isset operationsNames[operationName] {
-			throw new Exception("Operation '" . operationName . "' does not exist in the operation list");
-		}
-
-		if !isset this->_operationInherits[operationName] {
-            let this->_operationInherits[operationName] = [];
-        }
-		/**
-		 * Type conversion
-         */
-        if typeof operationToInherits != "array" {
-            let operationToInheritList = [operationToInherits];
-        }else{
-            let operationToInheritList = operationToInherits;
-        }
-        /**
-         * inherits
-         */
-        for operationToInherit in operationToInheritList {
-            if typeof operationToInherit == "object" && operationToInherit instanceof OperationInterface {
-                let operationInheritName = operationToInherit->getName();
-            } else {
-                let operationInheritName = operationToInherit;
-            }
-            /**
-             * Check if the operation to inherit is repeat
-             */
-            if in_array(operationInheritName, this->_operationInherits[operationName]) {
-                continue;
-            }
-            /**
-             * Check if the operation to inherit is valid
-             */
-            if !isset operationsNames[operationInheritName] {
-                throw new Exception("Operation '" . operationInheritName . "' (to inherit) does not exist in the operation list");
-            }
-
-            if operationName == operationInheritName {
-                return false;
-            }
-            /**
-             * Deep check if the operation to inherit is valid
-             */
-            if isset this->_operationInherits[operationInheritName] {
-                let checkOperationToInherits = [];
-                for usedOperationToInherit in this->_operationInherits[operationInheritName] {
-                    array_push(checkOperationToInherits,usedOperationToInherit);
-                }
-                let usedOperationToInherits = [];
-                while !empty checkOperationToInherits {
-                    let checkOperationToInherit = array_shift(checkOperationToInherits);
-                    
-                    if isset usedOperationToInherits[checkOperationToInherit] {
-                        continue;
-                    }
-                    let usedOperationToInherits[checkOperationToInherit]=true;
-                    if operationName == checkOperationToInherit {
-                        throw new Exception("Operation '" . operationInheritName . "' (to inherit) is infinite loop ");
-                    }
-                    /**
-                     * Push inherited operations
-                     */
-                    if isset this->_operationInherits[checkOperationToInherit] {
-                        for usedOperationToInherit in this->_operationInherits[checkOperationToInherit] {
-                            array_push(checkOperationToInherits,usedOperationToInherit);
-                        }
-                    }
-                }
-            }
-
-            let this->_operationInherits[operationName][] = operationInheritName;
-        }
-		return true;
-	}
-
-	/**
-	 * Check whether operation exist in the operations list
-	 */
-	public function isOperation(string operationName) -> bool
-	{
-		return isset this->_operationsNames[operationName];
-	}
-
-	/**
-	 * Check whether subject exist in the subjects list
-	 */
-	public function isSubject(string subjectName) -> bool
-	{
-		return isset this->_subjectsNames[subjectName];
 	}
 
 	/**
@@ -384,12 +368,12 @@ class Memory extends Adapter
 			let subjectObject = subjectValue;
 		 } else {
 			let subjectName   = subjectValue;
-			let subjectObject = new $Subject(subjectName);
+			let subjectObject = new Subject(subjectName);
 		 }
 
-		 if !isset this->_subjectsNames[subjectName] {
-			let this->_subjects[] = subjectObject;
-			let this->_subjectsNames[subjectName] = true;
+		 if !isset this->subjectsNames[subjectName] {
+			let this->subjects[] = subjectObject;
+			let this->subjectsNames[subjectName] = true;
 		 }
 
 		 return this->addSubjectAccess(subjectName, accessList);
@@ -404,7 +388,7 @@ class Memory extends Adapter
 	{
 		var accessName, accessKey, exists;
 
-		if !isset this->_subjectsNames[subjectName] {
+		if !isset this->subjectsNames[subjectName] {
 			throw new Exception("Subject '" . subjectName . "' does not exist in ACL");
 		}
 
@@ -416,101 +400,18 @@ class Memory extends Adapter
 		if typeof accessList == "array" {
 			for accessName in accessList {
 				let accessKey = subjectName . "!" . accessName;
-				if !isset this->_accessList[accessKey] {
-					let this->_accessList[accessKey] = exists;
+				if !isset this->accessList[accessKey] {
+					let this->accessList[accessKey] = exists;
 				}
 			}
 		} else {
 			let accessKey = subjectName . "!" . accessList;
-			if !isset this->_accessList[accessKey] {
-				let this->_accessList[accessKey] = exists;
+			if !isset this->accessList[accessKey] {
+				let this->accessList[accessKey] = exists;
 			}
 		}
 
 		return true;
-	}
-
-	/**
-	 * Removes an access from a subject
-	 *
-	 * @param array|string accessList
-	 */
-	public function dropSubjectAccess(string subjectName, var accessList)
-	{
-		var accessName, accessKey;
-
-		if typeof accessList == "array" {
-			for accessName in accessList {
-				let accessKey = subjectName . "!" . accessName;
-				if isset this->_accessList[accessKey] {
-					unset this->_accessList[accessKey];
-				}
-			}
-		} else {
-			if typeof accessList == "string" {
-				let accessKey = subjectName . "!" . accessName;
-				if isset this->_accessList[accessKey] {
-					unset this->_accessList[accessKey];
-				}
-			}
-		}
-	 }
-
-	/**
-	 * Checks if a operation has access to a subject
-	 */
-	protected function _allowOrDeny(string operationName, string subjectName, var access, var action, var func = null)
-	{
-		var accessList, accessName, accessKey;
-
-		if !isset this->_operationsNames[operationName] {
-			throw new Exception("Operation '" . operationName . "' does not exist in ACL");
-		}
-
-		if !isset this->_subjectsNames[subjectName] {
-			throw new Exception("Subject '" . subjectName . "' does not exist in ACL");
-		}
-
-		let accessList = this->_accessList;
-
-		if typeof access == "array" {
-
-			for accessName in access {
-				let accessKey = subjectName . "!" . accessName;
-				if !isset accessList[accessKey] {
-					throw new Exception("Access '" . accessName . "' does not exist in subject '" . subjectName . "'");
-				}
-			}
-
-			for accessName in access {
-
-				let accessKey = operationName . "!" .subjectName . "!" . accessName;
-				let this->_access[accessKey] = action;
-				if func != null {
-				    let this->_func[accessKey] = func;
-				}
-			}
-
-		} else {
-
-			if access != "*" {
-				let accessKey = subjectName . "!" . access;
-				if !isset accessList[accessKey] {
-					throw new Exception("Access '" . access . "' does not exist in subject '" . subjectName . "'");
-				}
-			}
-
-			let accessKey = operationName . "!" . subjectName . "!" . access;
-
-			/**
-			 * Define the access action for the specified accessKey
-			 */
-			let this->_access[accessKey] = action;
-			if func != null {
-				let this->_func[accessKey] = func;
-			}
-
-		}
 	}
 
 	/**
@@ -533,15 +434,15 @@ class Memory extends Adapter
 	 * $acl->allow("*", "*", "browse");
 	 * </code>
 	 */
-	public function allow(string operationName, string subjectName, var access, var func = null)
+	public function allow(string operationName, string subjectName, var access, var func = null) -> void
 	{
 		var innerOperationName;
 
 		if operationName != "*" {
-			return this->_allowOrDeny(operationName, subjectName, access, Acl::ALLOW, func);
+			this->allowOrDeny(operationName, subjectName, access, Acl::ALLOW, func);
 		} else {
-			for innerOperationName, _ in this->_operationsNames {
-				this->_allowOrDeny(innerOperationName, subjectName, access, Acl::ALLOW, func);
+			for innerOperationName, _ in this->operationsNames {
+				this->allowOrDeny(innerOperationName, subjectName, access, Acl::ALLOW, func);
 			}
 		}
 	}
@@ -566,19 +467,70 @@ class Memory extends Adapter
 	 * $acl->deny("*", "*", "browse");
 	 * </code>
 	 */
-	public function deny(string operationName, string subjectName, var access, var func = null)
+	public function deny(string operationName, string subjectName, var access, var func = null) -> void
 	{
 		var innerOperationName;
 
 		if operationName != "*" {
-			return this->_allowordeny(operationName, subjectName, access, Acl::DENY, func);
+			this->allowOrDeny(operationName, subjectName, access, Acl::DENY, func);
 		} else {
-			for innerOperationName, _ in this->_operationsNames {
-				this->_allowordeny(innerOperationName, subjectName, access, Acl::DENY, func);
+			for innerOperationName, _ in this->operationsNames {
+				this->allowOrDeny(innerOperationName, subjectName, access, Acl::DENY, func);
 			}
 		}
 	}
 
+	/**
+	 * Removes an access from a subject
+	 *
+	 * @param array|string accessList
+	 */
+	public function dropSubjectAccess(string subjectName, var accessList) -> void
+	{
+		var accessName, accessKey;
+
+		if typeof accessList == "array" {
+			for accessName in accessList {
+				let accessKey = subjectName . "!" . accessName;
+				if isset this->accessList[accessKey] {
+					unset this->accessList[accessKey];
+				}
+			}
+		} else {
+			if typeof accessList == "string" {
+				let accessKey = subjectName . "!" . accessName;
+				if isset this->accessList[accessKey] {
+					unset this->accessList[accessKey];
+				}
+			}
+		}
+	 }
+
+	/**
+	 * Returns the default ACL access level for no arguments provided in
+	 * isAllowed action if there exists func for accessKey
+	 */
+	public function getNoArgumentsDefaultAction() -> int
+	{
+		return this->noArgumentsDefaultAction;
+	}
+
+	/**
+	 * Return an array with every operation registered in the list
+	 */
+	public function getOperations() -> <OperationInterface[]>
+	{
+		return this->operations;
+	}
+
+	/**
+	 * Return an array with every subject registered in the list
+	 */
+	public function getSubjects() -> <SubjectInterface[]>
+	{
+		return this->subjects;
+	}
+	
 	/**
 	 * Check whether a operation is allowed to access an action from a subject
 	 *
@@ -624,16 +576,16 @@ class Memory extends Adapter
 			}
 		}
 
-		let this->_activeOperation = operationName;
-		let this->_activeSubject = subjectName;
-		let this->_activeAccess = access;
-		let this->_activeKey = null;
-        let this->_activeFunction = null;
-        let this->_activeFunctionCustomArgumentsCount = 0;
+		let this->activeOperation = operationName;
+		let this->activeSubject = subjectName;
+		let this->activeAccess = access;
+		let this->activeKey = null;
+        let this->activeFunction = null;
+        let this->activeFunctionCustomArgumentsCount = 0;
 
-		let accessList = this->_access;
-		let eventsManager = <EventsManager> this->_eventsManager;
-		let funcList = this->_func;
+		let accessList = this->access;
+		let eventsManager = <EventsManager> this->eventsManager;
+		let funcList = this->func;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {
@@ -644,15 +596,15 @@ class Memory extends Adapter
 		/**
 		 * Check if the operation exists
 		 */
-		let operationsNames = this->_operationsNames;
+		let operationsNames = this->operationsNames;
 		if !isset operationsNames[operationName] {
-			return (this->_defaultAccess == Acl::ALLOW);
+			return (this->defaultAccess == Acl::ALLOW);
 		}
 
 		/**
 		 * Check if there is a direct combination for operation-subject-access
 		 */
-		let accessKey = this->_isAllowed(operationName, subjectName, access);
+		let accessKey = this->canAccess(operationName, subjectName, access);
 
 		if accessKey != false && isset accessList[accessKey] {
 			let haveAccess = accessList[accessKey];
@@ -662,21 +614,21 @@ class Memory extends Adapter
 		/**
 		 * Check in the inherits operations
 		 */
-		let this->_accessGranted = haveAccess;
+		let this->accessGranted = haveAccess;
 		if typeof eventsManager == "object" {
 			eventsManager->fire("acl:afterCheckAccess", this);
 		}
 
-		let this->_activeKey = accessKey;
-		let this->_activeFunction = funcAccess;
+		let this->activeKey = accessKey;
+		let this->activeFunction = funcAccess;
 
 		if haveAccess == null {
 			/**
 			 * Change activeKey to most narrow if there was no access for any patterns found
 			 */
-			let this->_activeKey = operationName . "!" . subjectName . "!" . access;
+			let this->activeKey = operationName . "!" . subjectName . "!" . access;
 
-			return this->_defaultAccess == Acl::ALLOW;
+			return this->defaultAccess == Acl::ALLOW;
 		}
 
 		/**
@@ -733,7 +685,7 @@ class Memory extends Adapter
 				}
 			}
 
-			let this->_activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
+			let this->activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
 
 			if count(parameters) > userParametersSizeShouldBe {
 				trigger_error(
@@ -751,7 +703,7 @@ class Memory extends Adapter
 						"'. We will use default action when no arguments."
 					);
 
-					return haveAccess == Acl::ALLOW && this->_noArgumentsDefaultAction == Acl::ALLOW;
+					return haveAccess == Acl::ALLOW && this->noArgumentsDefaultAction == Acl::ALLOW;
 				}
 
 				// Number of required parameters == 0 so call funcAccess without any arguments
@@ -774,15 +726,97 @@ class Memory extends Adapter
 	}
 
 	/**
+	 * Check whether operation exist in the operations list
+	 */
+	public function isOperation(string operationName) -> bool
+	{
+		return isset this->operationsNames[operationName];
+	}
+
+	/**
+	 * Check whether subject exist in the subjects list
+	 */
+	public function isSubject(string subjectName) -> bool
+	{
+		return isset this->subjectsNames[subjectName];
+	}
+
+	/**
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+	 * for no arguments provided in isAllowed action if there exists func for
+	 * accessKey
+	 */
+	public function setNoArgumentsDefaultAction(int defaultAccess) -> void
+	{
+		let this->noArgumentsDefaultAction = defaultAccess;
+	}
+
+	/**
+	 * Checks if a operation has access to a subject
+	 */
+	private function allowOrDeny(string operationName, string subjectName, var access, var action, var func = null) -> void
+	{
+		var accessList, accessName, accessKey;
+
+		if !isset this->operationsNames[operationName] {
+			throw new Exception("Operation '" . operationName . "' does not exist in ACL");
+		}
+
+		if !isset this->subjectsNames[subjectName] {
+			throw new Exception("Subject '" . subjectName . "' does not exist in ACL");
+		}
+
+		let accessList = this->accessList;
+
+		if typeof access == "array" {
+
+			for accessName in access {
+				let accessKey = subjectName . "!" . accessName;
+				if !isset accessList[accessKey] {
+					throw new Exception("Access '" . accessName . "' does not exist in subject '" . subjectName . "'");
+				}
+			}
+
+			for accessName in access {
+
+				let accessKey = operationName . "!" .subjectName . "!" . accessName;
+				let this->access[accessKey] = action;
+				if func != null {
+				    let this->func[accessKey] = func;
+				}
+			}
+
+		} else {
+
+			if access != "*" {
+				let accessKey = subjectName . "!" . access;
+				if !isset accessList[accessKey] {
+					throw new Exception("Access '" . access . "' does not exist in subject '" . subjectName . "'");
+				}
+			}
+
+			let accessKey = operationName . "!" . subjectName . "!" . access;
+
+			/**
+			 * Define the access action for the specified accessKey
+			 */
+			let this->access[accessKey] = action;
+			if func != null {
+				let this->func[accessKey] = func;
+			}
+		}
+	}
+
+	/**
 	 * Check whether a operation is allowed to access an action from a subject
 	 */
-	protected function _isAllowed(string operationName, string subjectName, string access) -> string | bool
+	private function canAccess(string operationName, string subjectName, string access) -> string | bool
     {
         var accessList, accessKey,checkOperationToInherit,
         	checkOperationToInherits, usedOperationToInherits,
         	usedOperationToInherit;
 
-		let accessList = this->_access;
+		let accessList = this->access;
 
         let accessKey = operationName . "!" . subjectName . "!" . access;
 
@@ -809,9 +843,9 @@ class Memory extends Adapter
         /**
          * Deep check if the operation to inherit is valid
          */
-        if isset this->_operationInherits[operationName] {
+        if isset this->operationInherits[operationName] {
             let checkOperationToInherits = [];
-            for usedOperationToInherit in this->_operationInherits[operationName] {
+            for usedOperationToInherit in this->operationInherits[operationName] {
                 array_push(checkOperationToInherits,usedOperationToInherit);
             }
             let usedOperationToInherits = [];
@@ -847,8 +881,8 @@ class Memory extends Adapter
                 /**
                  * Push inherited operations
                  */
-                if isset this->_operationInherits[checkOperationToInherit] {
-                    for usedOperationToInherit in this->_operationInherits[checkOperationToInherit] {
+                if isset this->operationInherits[checkOperationToInherit] {
+                    for usedOperationToInherit in this->operationInherits[checkOperationToInherit] {
                         array_push(checkOperationToInherits,usedOperationToInherit);
                     }
                 }
@@ -856,39 +890,4 @@ class Memory extends Adapter
         }
         return false;
     }
-
-	/**
-	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
-	 * for no arguments provided in isAllowed action if there exists func for
-	 * accessKey
-	 */
-	public function setNoArgumentsDefaultAction(int defaultAccess)
-	{
-		let this->_noArgumentsDefaultAction = defaultAccess;
-	}
-
-	/**
-	 * Returns the default ACL access level for no arguments provided in
-	 * isAllowed action if there exists func for accessKey
-	 */
-	public function getNoArgumentsDefaultAction() -> int
-	{
-		return this->_noArgumentsDefaultAction;
-	}
-
-	/**
-	 * Return an array with every operation registered in the list
-	 */
-	public function getOperations() -> <OperationInterface[]>
-	{
-		return this->_operations;
-	}
-
-	/**
-	 * Return an array with every subject registered in the list
-	 */
-	public function getSubjects() -> <SubjectInterface[]>
-	{
-		return this->_subjects;
-	}
 }

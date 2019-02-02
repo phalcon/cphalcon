@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "phalcon/security.zep", 215);
 				return;
 			}
-			ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 399, &password, &saltBytes);
+			ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 413, &password, &saltBytes);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 			}
 			ZEPHIR_INIT_VAR(&_6$$15);
 			ZEPHIR_CONCAT_SVSVS(&_6$$15, "$", &variant, "$", &saltBytes, "$");
-			ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 399, &password, &_6$$15);
+			ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 413, &password, &_6$$15);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -414,11 +414,11 @@ PHP_METHOD(Phalcon_Security, hash) {
 		ZEPHIR_INIT_VAR(&_8$$17);
 		ZVAL_STRING(&_8$$17, "%02s");
 		ZVAL_LONG(&_7$$17, workFactor);
-		ZEPHIR_CALL_FUNCTION(&_9$$17, "sprintf", NULL, 129, &_8$$17, &_7$$17);
+		ZEPHIR_CALL_FUNCTION(&_9$$17, "sprintf", NULL, 139, &_8$$17, &_7$$17);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$17);
 		ZEPHIR_CONCAT_SVSVSVS(&_10$$17, "$2", &variant, "$", &_9$$17, "$", &saltBytes, "$");
-		ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 399, &password, &_10$$17);
+		ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 413, &password, &_10$$17);
 		zephir_check_call_status();
 		RETURN_MM();
 	} while(0);
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "crypt", NULL, 399, &password, &passwordHash);
+	ZEPHIR_CALL_FUNCTION(&_1, "crypt", NULL, 413, &password, &passwordHash);
 	zephir_check_call_status();
 	zephir_get_strval(&_2, &_1);
 	ZEPHIR_CPY_WRT(&cryptedHash, &_2);
@@ -836,14 +836,14 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 
 
 	ZVAL_BOOL(&_0, (raw ? 1 : 0));
-	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 123, &algo, &data, &key, &_0);
+	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 133, &algo, &data, &key, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&hmac))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_security_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Unknown hashing algorithm: %s", &algo);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/security.zep", 471 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

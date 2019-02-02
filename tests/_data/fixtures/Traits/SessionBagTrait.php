@@ -12,11 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Exception;
 use UnitTester;
-use function outputFolder;
 
 /**
  * Trait SessionBagTrait

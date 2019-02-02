@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_7$$10);
 			ZEPHIR_CONCAT_SV(&_7$$10, "\\PDO::", &_6$$10);
-			ZEPHIR_CALL_FUNCTION(&_8$$10, "defined", &_9, 20, &_7$$10);
+			ZEPHIR_CALL_FUNCTION(&_8$$10, "defined", &_9, 21, &_7$$10);
 			zephir_check_call_status();
 			_5$$10 = zephir_is_true(&_8$$10);
 		}
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_11$$11);
 			ZEPHIR_CONCAT_SV(&_11$$11, "\\PDO::", &_10$$11);
-			ZEPHIR_CALL_FUNCTION(&_12$$11, "constant", &_13, 21, &_11$$11);
+			ZEPHIR_CALL_FUNCTION(&_12$$11, "constant", &_13, 22, &_11$$11);
 			zephir_check_call_status();
 			zephir_array_update_zval(&options, &_12$$11, &value, PH_COPY | PH_SEPARATE);
 			zephir_array_unset(&options, &key, PH_SEPARATE);
@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 		ZEPHIR_INIT_NVAR(&placeMatch);
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "?");
-		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 22, &bindPattern, &_6$$3, &sql);
+		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 23, &bindPattern, &_6$$3, &sql);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&boundSql, &sql);
@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 						do {
 							if (ZEPHIR_IS_LONG(&type, 1)) {
 								ZVAL_LONG(&_5$$12, 10);
-								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_6, 23, &value, &_5$$12);
+								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_6, 24, &value, &_5$$12);
 								zephir_check_call_status();
 								break;
 							}
@@ -1220,7 +1220,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_db_result_pdo_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 24, this_ptr, &statement, &sqlStatement, bindParams, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 25, this_ptr, &statement, &sqlStatement, bindParams, bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

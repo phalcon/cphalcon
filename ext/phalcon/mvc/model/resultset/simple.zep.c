@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 						object_init_ex(&_5$$10, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_6$$10);
 						ZEPHIR_CONCAT_SVS(&_6$$10, "Column '", &key, "' is not part of the column map");
-						ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", &_7, 3, &_6$$10);
+						ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", &_7, 4, &_6$$10);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_5$$10, "phalcon/mvc/model/resultset/simple.zep", 191 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 							object_init_ex(&_8$$12, phalcon_mvc_model_exception_ce);
 							ZEPHIR_INIT_LNVAR(_9$$12);
 							ZEPHIR_CONCAT_SVS(&_9$$12, "Column '", &key, "' is not part of the column map");
-							ZEPHIR_CALL_METHOD(NULL, &_8$$12, "__construct", &_7, 3, &_9$$12);
+							ZEPHIR_CALL_METHOD(NULL, &_8$$12, "__construct", &_7, 4, &_9$$12);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_8$$12, "phalcon/mvc/model/resultset/simple.zep", 197 TSRMLS_CC);
 							ZEPHIR_MM_RESTORE();
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 	ZEPHIR_OBS_NVAR(&_9);
 	zephir_read_property(&_9, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 	zephir_array_update_string(&_8, SL("keepSnapshots"), &_9, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 51, &_8);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 52, &_8);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "afterretrieve", NULL, 0, data);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 52, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 53, data);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&resultset) != IS_ARRAY) {

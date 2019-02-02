@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Exception;
+use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Test\Fixtures\Acl\TestOperationAware;
 use Phalcon\Test\Fixtures\Acl\TestSubjectAware;

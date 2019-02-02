@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
 use IntegrationTester;
 
+/**
+ * Class GetPrimaryKeyAttributesCest
+ */
 class GetPrimaryKeyAttributesCest
 {
     /**
@@ -25,7 +29,7 @@ class GetPrimaryKeyAttributesCest
      */
     public function mvcModelMetadataApcuGetPrimaryKeyAttributes(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Apcu - getPrimaryKeyAttributes()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Apcu - getPrimaryKeyAttributes()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -14,7 +14,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Exception;
 use UnitTester;
 use function outputFolder;
 
@@ -37,7 +36,7 @@ trait LoggerTrait
 
         $logString = "Hello";
 
-        $logger = new Logger('my-logger', ['one' => $adapter]);
+        $logger  = new Logger('my-logger', ['one' => $adapter]);
         $logTime = date('D, d M y H:i:s O');
         $logger->{$level}($logString);
 
@@ -46,7 +45,7 @@ trait LoggerTrait
         $I->amInPath($logPath);
         $I->openFile($fileName);
         $expected = sprintf(
-            "[%s][%s] ".$logString,
+            "[%s][%s] " . $logString,
             $logTime,
             $level
         );

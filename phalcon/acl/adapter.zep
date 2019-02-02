@@ -21,50 +21,50 @@ use Phalcon\Events\EventsAwareInterface;
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
 	/**
-	 * Events manager
-	 * @var mixed
+	 * Active access which the list is checking if some operation can access it
+	 *
+	 * @var string
 	 */
-	protected _eventsManager;
-
-	/**
-	 * Default access
-	 * @var bool
-	 */
-	protected _defaultAccess = true;
+	protected activeAccess { get };
 
 	/**
 	 * Access Granted
 	 * @var bool
 	 */
-	protected _accessGranted = false;
+	protected accessGranted = false;
 
 	/**
 	 * Operation which the list is checking if it's allowed to certain subject/access
 	 *
 	 * @var string
 	 */
-	protected _activeOperation { get };
+	protected activeOperation { get };
 
 	/**
 	 * Subject which the list is checking if some operation can access it
 	 *
 	 * @var string
 	 */
-	protected _activeSubject { get };
+	protected activeSubject { get };
 
 	/**
-	 * Active access which the list is checking if some operation can access it
-	 *
-	 * @var string
+	 * Default access
+	 * @var bool
 	 */
-	protected _activeAccess { get };
+	protected defaultAccess = false;
 
 	/**
-	 * Sets the events manager
+	 * Events manager
+	 * @var mixed
 	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
+	protected eventsManager;
+
+	/**
+	 * Returns the default ACL access level
+	 */
+	public function getDefaultAction() -> int
 	{
-		let this->_eventsManager = eventsManager;
+		return this->defaultAccess;
 	}
 
 	/**
@@ -72,7 +72,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 */
 	public function getEventsManager() -> <ManagerInterface>
 	{
-		return this->_eventsManager;
+		return this->eventsManager;
 	}
 
 	/**
@@ -80,14 +80,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 */
 	public function setDefaultAction(int defaultAccess)
 	{
-		let this->_defaultAccess = defaultAccess;
+		let this->defaultAccess = defaultAccess;
 	}
 
 	/**
-	 * Returns the default ACL access level
+	 * Sets the events manager
 	 */
-	public function getDefaultAction() -> int
+	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
-		return this->_defaultAccess;
+		let this->eventsManager = eventsManager;
 	}
 }

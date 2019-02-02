@@ -20,15 +20,22 @@ use Phalcon\Translate\Adapter;
  */
 class NativeArray extends Adapter implements \ArrayAccess
 {
+	/**
+	 * @var array
+	 */
+	private translate;
 
-	protected _translate;
+	/**
+	 * @var bool
+	 */
+	private triggerError = false;
 
 	/**
 	 * Phalcon\Translate\Adapter\NativeArray constructor
 	 */
 	public function __construct(array! options)
 	{
-		var data;
+		var data, error;
 
 		parent::__construct(options);
 
@@ -36,11 +43,35 @@ class NativeArray extends Adapter implements \ArrayAccess
 			throw new Exception("Translation content was not provided");
 		}
 
+		if fetch error, options["triggerError"] {
+			let this->triggerError = (bool) error;
+		}
+
 		if typeof data !== "array" {
 			throw new Exception("Translation data must be an array");
 		}
 
-		let this->_translate = data;
+		let this->translate = data;
+	}
+
+	/**
+	 * Check whether is defined a translation key in the internal array
+	 */
+	public function exists(string! index) -> bool
+	{
+		return isset this->translate[index];
+	}
+
+	/**
+	 * Whenever a key is not found this medhod will be called
+	 */
+	public function notFound(string! index) -> string
+	{
+		if (true === this->triggerError) {
+			throw new Exception("Cannot find translation key: " . index);
+		}
+
+		return index;
 	}
 
 	/**
@@ -50,18 +81,10 @@ class NativeArray extends Adapter implements \ArrayAccess
 	{
 		var translation;
 
-		if !fetch translation, this->_translate[index] {
-			let translation = index;
+		if !fetch translation, this->translate[index] {
+			return this->notFound(index);
 		}
 
 		return this->replacePlaceholders(translation, placeholders);
-	}
-
-	/**
-	 * Check whether is defined a translation key in the internal array
-	 */
-	public function exists(string! index) -> bool
-	{
-		return isset this->_translate[index];
 	}
 }

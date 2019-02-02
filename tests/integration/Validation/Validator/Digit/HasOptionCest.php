@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Digit;
 
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Digit;
-use IntegrationTester;
 
 /**
  * Class HasOptionCest

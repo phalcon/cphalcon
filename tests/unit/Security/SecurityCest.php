@@ -11,8 +11,6 @@
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Di;
-use Phalcon\Http\Request;
 use Phalcon\Security;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
@@ -20,6 +18,8 @@ use UnitTester;
 class SecurityCest
 {
     use DiTrait;
+
+    private $shouldStopSession = false;
 
     /**
      * executed before each test
@@ -35,6 +35,13 @@ class SecurityCest
 
         $_SESSION = [];
         global $_SESSION;
+    }
+
+    public function _after(UnitTester $I)
+    {
+        if (true === $this->shouldStopSession) {
+            @\session_destroy();
+        }
     }
 
     /**
@@ -122,6 +129,8 @@ class SecurityCest
      */
     public function testOneTokenPerRequest(UnitTester $I)
     {
+        $this->startSession();
+
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -158,11 +167,26 @@ class SecurityCest
         $security->destroyToken();
     }
 
+    private function startSession(): void
+    {
+        if (PHP_SESSION_ACTIVE !== \session_status()) {
+            @\session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        $this->shouldStopSession = true;
+    }
+
     /**
      * Tests Security::checkToken
      */
     public function testCheckToken(UnitTester $I)
     {
+        $this->startSession();
+
         $container = $this->getDi();
         $security  = new Security();
         $security->setDI($container);
@@ -247,6 +271,7 @@ class SecurityCest
 
     public function testRequestToken(UnitTester $I)
     {
+        $this->startSession();
         $container = $this->getDI();
 
         // Initialize session.
@@ -261,9 +286,9 @@ class SecurityCest
         $security->setDI($container);
         $requestToken = $security->getRequestToken();
         $sessionToken = $security->getSessionToken();
-        $tokenKey = $security->getTokenKey();
-        $token = $security->getToken();
-        
+        $tokenKey     = $security->getTokenKey();
+        $token        = $security->getToken();
+
         $I->assertEquals($sessionToken, $requestToken);
         $I->assertNotEquals($token, $sessionToken);
         $I->assertEquals($security->getRequestToken(), $requestToken);
@@ -271,12 +296,12 @@ class SecurityCest
 
         $_POST = [$tokenKey => $requestToken];
         $I->assertTrue($security->checkToken(null, null, false));
-        
+
         $_POST = [$tokenKey => $token];
         $I->assertFalse($security->checkToken(null, null, false));
-        
+
         $I->assertFalse($security->checkToken());
-        
+
         $security->destroyToken();
         $I->assertNotEquals($security->getRequestToken(), $requestToken);
     }

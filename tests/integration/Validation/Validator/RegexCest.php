@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Regex;
-use IntegrationTester;
 
 class RegexCest
 {
@@ -39,18 +39,14 @@ class RegexCest
         );
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'Field car_plate does not match the required format',
-                            '_field'   => 'car_plate',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'Field car_plate does not match the required format',
+                    'car_plate',
+                    'Regex',
+                    0
+                ),
             ]
         );
         $actual   = $messages;
@@ -195,18 +191,14 @@ class RegexCest
         );
 
         $messages = $validation->validate([]);
-        $expected = Messages::__set_state(
+        $expected = new Messages(
             [
-                '_messages' => [
-                    0 => Message::__set_state(
-                        [
-                            '_type'    => 'Regex',
-                            '_message' => 'The car plate is not valid',
-                            '_field'   => 'car_plate',
-                            '_code'    => '0',
-                        ]
-                    ),
-                ],
+                new Message(
+                    'The car plate is not valid',
+                    'car_plate',
+                    'Regex',
+                    0
+                ),
             ]
         );
         $actual   = $messages;

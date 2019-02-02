@@ -17,57 +17,109 @@ namespace Phalcon;
  */
 class Debug
 {
-	public _uri = "//static.phalconphp.com/www/debug/3.0.x/";
-
-	public _theme = "default";
-
-	protected _hideDocumentRoot = false;
-
-	protected _showBackTrace = true;
-
-	protected _showFiles = true;
-
-	protected _showFileFragment = false;
-
-	protected _data;
-
-	protected static _isActive;
+	protected data;
 
 	/**
-	 * Change the base URI for static resources
+	 * @var bool
 	 */
-	public function setUri(string! uri) -> <Debug>
+	protected hideDocumentRoot = false;
+
+	/**
+	 * @var bool
+	 */
+	protected static isActive;
+
+	/**
+	 * @var bool
+	 */
+	protected showBackTrace = true;
+
+	/**
+	 * @var bool
+	 */
+	protected showFileFragment = false;
+
+	/**
+	 * @var bool
+	 */
+	protected showFiles = true;
+
+	/**
+	 * @var string
+	*/
+	protected uri = "https://assets.phalconphp.com/debug/4.0.x/";
+
+	/**
+	 * Clears are variables added previously
+	 */
+	public function clearVars() -> <Debug>
 	{
-		let this->_uri = uri;
+		let this->data = null;
+		return this;
+	}
+	
+	/**
+	 * Adds a variable to the debug output
+	 */
+	public function debugVar(varz, string key = null) -> <Debug>
+	{
+		let this->data[] = [varz, debug_backtrace(), time()];
 		return this;
 	}
 
 	/**
-	 * Sets if files the exception's backtrace must be showed
+	 * Returns the css sources
 	 */
-	public function setShowBackTrace(bool showBackTrace) -> <Debug>
+	public function getCssSources() -> string
 	{
-		let this->_showBackTrace = showBackTrace;
-		return this;
+		var uri, sources;
+
+		let uri = this->uri;
+		let sources  = "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\" />";
+		let sources .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css\" />";
+		let sources .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . uri . "themes/default/style.css\" />";
+		return sources;
 	}
 
 	/**
-	 * Set if files part of the backtrace must be shown in the output
+	 * Returns the javascript sources
 	 */
-	public function setShowFiles(bool showFiles) -> <Debug>
+	public function getJsSources() -> string
 	{
-		let this->_showFiles = showFiles;
-		return this;
+		var uri, sources;
+
+		let uri = this->uri;
+		let sources  = "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery/dist/jquery.min.js\"></script>";
+		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery-ui/jquery-ui.min.js\"></script>";
+		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js\"></script>";
+		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "prettify/prettify.js\"></script>";
+		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "pretty.js\"></script>";
+		return sources;
 	}
 
 	/**
-	 * Sets if files must be completely opened and showed in the output
-	 * or just the fragment related to the exception
+	 * Generates a link to the current version documentation
 	 */
-	public function setShowFileFragment(bool showFileFragment) -> <Debug>
+	public function getVersion() -> string
 	{
-		let this->_showFileFragment = showFileFragment;
-		return this;
+		var link;
+
+		let link = [
+			"action": "https://docs.phalconphp.com/" . Version::getPart(Version::VERSION_MAJOR) . "." . Version::getPart(Version::VERSION_MEDIUM) . "/en/",
+			"text"  : Version::get(),
+			"local" : false,
+			"target": "_new"
+		];
+
+		return "<div class='version'>Phalcon Framework " . Tag::linkTo(link) . "</div>";
+	}
+
+	/**
+	 * Halts the request showing a backtrace
+	 */
+	public function halt()
+	{
+		throw new Exception("Halted request");
 	}
 
 	/**
@@ -104,35 +156,231 @@ class Debug
 	}
 
 	/**
-	 * Halts the request showing a backtrace
+	 * Handles uncaught exceptions
 	 */
-	public function halt()
+	public function onUncaughtException(<\Exception> exception) -> bool
 	{
-		throw new Exception("Halted request");
+		var obLevel, className, escapedMessage, html, showBackTrace,
+		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;
+
+		let obLevel = ob_get_level();
+
+		/**
+		 * Cancel the output buffer if active
+		 */
+		if obLevel > 0 {
+			ob_end_clean();
+		}
+
+		/**
+		 * Avoid that multiple exceptions being showed
+		 */
+		if self::isActive {
+			echo exception->getMessage();
+			return;
+		}
+
+		/**
+		 * Globally block the debug component to avoid other exceptions to be shown
+		 */
+		let self::isActive = true;
+
+		let className = get_class(exception);
+
+		/**
+		 * Escape the exception's message avoiding possible XSS injections?
+		 */
+		let escapedMessage = this->escapeString(exception->getMessage());
+
+		/**
+		 * CSS static sources to style the error presentation
+		 * Use the exception info as document's title
+		 */
+		let html = "<html><head><title>" . className . ": " . escapedMessage . "</title>";
+		let html .= this->getCssSources() . "</head><body>";
+
+		/**
+		 * Get the version link
+		 */
+		let html .= this->getVersion();
+
+		/**
+		 * Main exception info
+		 */
+		let html .= "<div align=\"center\"><div class=\"error-main\">";
+		let html .= "<h1>" . className . ": " . escapedMessage . "</h1>";
+		let html .= "<span class=\"error-file\">" . exception->getFile() . " (" . exception->getLine() . ")</span>";
+		let html .= "</div>";
+
+		let showBackTrace = this->showBackTrace;
+
+		/**
+		 * Check if the developer wants to show the backtrace or not
+		 */
+		if showBackTrace {
+
+			let dataVars = this->data;
+
+			/**
+			 * Create the tabs in the page
+			 */
+			let html .= "<div class=\"error-info\"><div id=\"tabs\"><ul>";
+			let html .= "<li><a href=\"#error-tabs-1\">Backtrace</a></li>";
+			let html .= "<li><a href=\"#error-tabs-2\">Request</a></li>";
+			let html .= "<li><a href=\"#error-tabs-3\">Server</a></li>";
+			let html .= "<li><a href=\"#error-tabs-4\">Included Files</a></li>";
+			let html .= "<li><a href=\"#error-tabs-5\">Memory</a></li>";
+			if typeof dataVars == "array" {
+				let html .= "<li><a href=\"#error-tabs-6\">Variables</a></li>";
+			}
+			let html .= "</ul>";
+
+			/**
+			 * Print backtrace
+			 */
+			let html .= "<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\" width=\"100%\">";
+			for n, traceItem in exception->getTrace()  {
+				/**
+				 * Every line in the trace is rendered using "showTraceItem"
+				 */
+				let html .= this->showTraceItem(n, traceItem);
+			}
+			let html .= "</table></div>";
+
+			/**
+			 * Print _REQUEST superglobal
+			 */
+			let html .= "<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<tr><th>Key</th><th>Value</th></tr>";
+			for keyRequest, value in _REQUEST {
+				if typeof value != "array" {
+					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
+				} else {
+					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
+				}
+			}
+			let html .= "</table></div>";
+
+			/**
+			 * Print _SERVER superglobal
+			 */
+			let html .= "<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<tr><th>Key</th><th>Value</th></tr>";
+			for keyServer, value in _SERVER {
+				let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
+			}
+			let html .= "</table></div>";
+
+			/**
+			 * Show included files
+			 */
+			let html .= "<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<tr><th>#</th><th>Path</th></tr>";
+			for keyFile, value in get_included_files() {
+				let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
+			}
+			let html .= "</table></div>";
+
+			/**
+			 * Memory usage
+			 */
+			let html .= "<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>";
+			let html .= "</table></div>";
+
+			/**
+			 * Print extra variables passed to the component
+			 */
+			if typeof dataVars == "array" {
+				let html .= "<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+				let html .= "<tr><th>Key</th><th>Value</th></tr>";
+				for keyVar, dataVar in dataVars {
+					let html .= "<tr><td class=\"key\">" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
+				}
+				let html .= "</table></div>";
+			}
+
+			let html .= "</div>";
+		}
+
+		/**
+		 * Get Javascript sources
+		 */
+		let html .= this->getJsSources() . "</div></body></html>";
+
+		/**
+		 * Print the HTML, @TODO, add an option to store the html
+		 */
+		echo html;
+
+		/**
+		 * Unlock the exception renderer
+		 */
+		let self::isActive = false;
+
+		return true;
 	}
 
 	/**
-	 * Adds a variable to the debug output
+	 * Throws an exception when a notice or warning is raised
 	 */
-	public function debugVar(varz, string key = null) -> <Debug>
+	public function onUncaughtLowSeverity(severity, message, file, line, context)
 	{
-		let this->_data[] = [varz, debug_backtrace(), time()];
+		if error_reporting() & severity {
+			throw new \ErrorException(message, 0, severity, file, line);
+		}
+	}
+
+	/**
+	 * Sets if files the exception's backtrace must be showed
+	 */
+	public function setShowBackTrace(bool showBackTrace) -> <Debug>
+	{
+		let this->showBackTrace = showBackTrace;
 		return this;
 	}
 
 	/**
-	 * Clears are variables added previously
+	 * Sets if files must be completely opened and showed in the output
+	 * or just the fragment related to the exception
 	 */
-	public function clearVars() -> <Debug>
+	public function setShowFileFragment(bool showFileFragment) -> <Debug>
 	{
-		let this->_data = null;
+		let this->showFileFragment = showFileFragment;
 		return this;
 	}
+
+	/**
+	 * Set if files part of the backtrace must be shown in the output
+	 */
+	public function setShowFiles(bool showFiles) -> <Debug>
+	{
+		let this->showFiles = showFiles;
+		return this;
+	}
+
+	/**
+	 * Change the base URI for static resources
+	 */
+	public function setUri(string! uri) -> <Debug>
+	{
+		let this->uri = uri;
+		return this;
+	}
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Escapes a string with htmlentities
 	 */
-	protected function _escapeString(var value) -> string
+	protected function escapeString(var value) -> string
 	{
 		if typeof value == "string" {
 			return htmlentities(str_replace("\n", "\\n", value), ENT_COMPAT, "utf-8");
@@ -143,7 +391,7 @@ class Debug
 	/**
 	 * Produces a recursive representation of an array
 	 */
-	protected function _getArrayDump(array! argument, n = 0) -> string | null
+	protected function getArrayDump(array! argument, n = 0) -> string | null
 	{
 		var numberArguments, dump, varDump, k, v;
 
@@ -163,9 +411,9 @@ class Debug
 			if v == "" {
 				let varDump = "(empty string)";
 			} elseif is_scalar(v) {
-				let varDump = this->_escapeString(v);
+				let varDump = this->escapeString(v);
 			} elseif typeof v == "array" {
-				let varDump = "Array(" . this->_getArrayDump(v, n + 1) . ")";
+				let varDump = "Array(" . this->getArrayDump(v, n + 1) . ")";
 			} elseif typeof v == "object" {
 				let varDump = "Object(" . get_class(v) . ")";
 			} elseif typeof v == "null" {
@@ -183,7 +431,7 @@ class Debug
 	/**
 	 * Produces an string representation of a variable
 	 */
-	protected function _getVarDump(var variable) -> string
+	protected function getVarDump(var variable) -> string
 	{
 		var className, dumpedObject;
 
@@ -204,7 +452,7 @@ class Debug
 			 * String variables are escaped to avoid XSS injections
 			 */
 			if typeof variable == "string" {
-				return this->_escapeString(variable);
+				return this->escapeString(variable);
 			}
 
 			/**
@@ -228,7 +476,7 @@ class Debug
 				/**
 				 * dump() must return an array, generate a recursive representation using getArrayDump
 				 */
-				return "Object(" . className  . ": " . this->_getArrayDump(dumpedObject) . ")";
+				return "Object(" . className  . ": " . this->getArrayDump(dumpedObject) . ")";
 			} else {
 
 				/**
@@ -242,7 +490,7 @@ class Debug
 		 * Recursively process the array and enclose it in []
 		 */
 		if typeof variable == "array" {
-			return "Array(" . this->_getArrayDump(variable) . ")";
+			return "Array(" . this->getArrayDump(variable) . ")";
 		}
 
 		/**
@@ -258,52 +506,6 @@ class Debug
 		return gettype(variable);
 	}
 
-	/**
-	 * Generates a link to the current version documentation
-	 */
-	public function getVersion() -> string
-	{
-		var link;
-
-		let link = [
-			"action": "https://docs.phalconphp.com/en/" . Version::getPart(Version::VERSION_MAJOR) . ".0.0/",
-			"text"  : Version::get(),
-			"local" : false,
-			"target": "_new"
-		];
-
-		return "<div class='version'>Phalcon Framework " . Tag::linkTo(link) . "</div>";
-	}
-
-	/**
-	 * Returns the css sources
-	 */
-	public function getCssSources() -> string
-	{
-		var uri, sources;
-
-		let uri = this->_uri;
-		let sources  = "<link href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\" type=\"text/css\" rel=\"stylesheet\" />";
-		let sources .= "<link href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css\" type=\"text/css\" rel=\"stylesheet\" />";
-		let sources .= "<link href=\"" . uri . "themes/default/style.css\" type=\"text/css\" rel=\"stylesheet\" />";
-		return sources;
-	}
-
-	/**
-	 * Returns the javascript sources
-	 */
-	public function getJsSources() -> string
-	{
-		var uri, sources;
-
-		let uri = this->_uri;
-		let sources  = "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery/dist/jquery.min.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery-ui/jquery-ui.min.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "prettify/prettify.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "pretty.js\"></script>";
-		return sources;
-	}
 
 	/**
 	 * Shows a backtrace item
@@ -408,10 +610,10 @@ class Debug
 			for argument in traceArgs {
 
 				/**
-				 * Every argument is generated using _getVarDump
+				 * Every argument is generated using getVarDump
 				 * Append the HTML generated to the argument's list
 				 */
-				let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
+				let arguments[] = "<span class=\"error-parameter\">" . this->getVarDump(argument) . "</span>";
 			}
 
 			/**
@@ -432,7 +634,7 @@ class Debug
 			 */
 			let html .= "<br/><div class=\"error-file\">" . filez . " (" . line . ")</div>";
 
-			let showFiles = this->_showFiles;
+			let showFiles = this->showFiles;
 
 			/**
 			 * The developer can change if the files must be opened or not
@@ -445,7 +647,7 @@ class Debug
 				let lines = file(filez);
 
 				let numberLines = count(lines);
-				let showFileFragment = this->_showFileFragment;
+				let showFileFragment = this->showFileFragment;
 
 				/**
 				 * File fragments just show a piece of the file where the exception is located
@@ -532,181 +734,5 @@ class Debug
 		let html .= "</td></tr>";
 
 		return html;
-	}
-
-	/**
-	 * Throws an exception when a notice or warning is raised
-	 */
-	public function onUncaughtLowSeverity(severity, message, file, line, context)
-	{
-		if error_reporting() & severity {
-			throw new \ErrorException(message, 0, severity, file, line);
-		}
-	}
-
-	/**
-	 * Handles uncaught exceptions
-	 */
-	public function onUncaughtException(<\Exception> exception) -> bool
-	{
-		var obLevel, className, escapedMessage, html, showBackTrace,
-		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;
-
-		let obLevel = ob_get_level();
-
-		/**
-		 * Cancel the output buffer if active
-		 */
-		if obLevel > 0 {
-			ob_end_clean();
-		}
-
-		/**
-		 * Avoid that multiple exceptions being showed
-		 */
-		if self::_isActive {
-			echo exception->getMessage();
-			return;
-		}
-
-		/**
-		 * Globally block the debug component to avoid other exceptions to be shown
-		 */
-		let self::_isActive = true;
-
-		let className = get_class(exception);
-
-		/**
-		 * Escape the exception's message avoiding possible XSS injections?
-		 */
-		let escapedMessage = this->_escapeString(exception->getMessage());
-
-		/**
-		 * CSS static sources to style the error presentation
-		 * Use the exception info as document's title
-		 */
-		let html = "<html><head><title>" . className . ": " . escapedMessage . "</title>";
-		let html .= this->getCssSources() . "</head><body>";
-
-		/**
-		 * Get the version link
-		 */
-		let html .= this->getVersion();
-
-		/**
-		 * Main exception info
-		 */
-		let html .= "<div align=\"center\"><div class=\"error-main\">";
-		let html .= "<h1>" . className . ": " . escapedMessage . "</h1>";
-		let html .= "<span class=\"error-file\">" . exception->getFile() . " (" . exception->getLine() . ")</span>";
-		let html .= "</div>";
-
-		let showBackTrace = this->_showBackTrace;
-
-		/**
-		 * Check if the developer wants to show the backtrace or not
-		 */
-		if showBackTrace {
-
-			let dataVars = this->_data;
-
-			/**
-			 * Create the tabs in the page
-			 */
-			let html .= "<div class=\"error-info\"><div id=\"tabs\"><ul>";
-			let html .= "<li><a href=\"#error-tabs-1\">Backtrace</a></li>";
-			let html .= "<li><a href=\"#error-tabs-2\">Request</a></li>";
-			let html .= "<li><a href=\"#error-tabs-3\">Server</a></li>";
-			let html .= "<li><a href=\"#error-tabs-4\">Included Files</a></li>";
-			let html .= "<li><a href=\"#error-tabs-5\">Memory</a></li>";
-			if typeof dataVars == "array" {
-				let html .= "<li><a href=\"#error-tabs-6\">Variables</a></li>";
-			}
-			let html .= "</ul>";
-
-			/**
-			 * Print backtrace
-			 */
-			let html .= "<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\" width=\"100%\">";
-			for n, traceItem in exception->getTrace()  {
-				/**
-				 * Every line in the trace is rendered using "showTraceItem"
-				 */
-				let html .= this->showTraceItem(n, traceItem);
-			}
-			let html .= "</table></div>";
-
-			/**
-			 * Print _REQUEST superglobal
-			 */
-			let html .= "<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-			let html .= "<tr><th>Key</th><th>Value</th></tr>";
-			for keyRequest, value in _REQUEST {
-				if typeof value != "array" {
-					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
-				} else {
-					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
-				}
-			}
-			let html .= "</table></div>";
-
-			/**
-			 * Print _SERVER superglobal
-			 */
-			let html .= "<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-			let html .= "<tr><th>Key</th><th>Value</th></tr>";
-			for keyServer, value in _SERVER {
-				let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . this->_getVarDump(value) . "</td></tr>";
-			}
-			let html .= "</table></div>";
-
-			/**
-			 * Show included files
-			 */
-			let html .= "<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-			let html .= "<tr><th>#</th><th>Path</th></tr>";
-			for keyFile, value in get_included_files() {
-				let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
-			}
-			let html .= "</table></div>";
-
-			/**
-			 * Memory usage
-			 */
-			let html .= "<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-			let html .= "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>";
-			let html .= "</table></div>";
-
-			/**
-			 * Print extra variables passed to the component
-			 */
-			if typeof dataVars == "array" {
-				let html .= "<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-				let html .= "<tr><th>Key</th><th>Value</th></tr>";
-				for keyVar, dataVar in dataVars {
-					let html .= "<tr><td class=\"key\">" . keyVar . "</td><td>" . this->_getVarDump(dataVar[0]) . "</td></tr>";
-				}
-				let html .= "</table></div>";
-			}
-
-			let html .= "</div>";
-		}
-
-		/**
-		 * Get Javascript sources
-		 */
-		let html .= this->getJsSources() . "</div></body></html>";
-
-		/**
-		 * Print the HTML, @TODO, add an option to store the html
-		 */
-		echo html;
-
-		/**
-		 * Unlock the exception renderer
-		 */
-		let self::_isActive = false;
-
-		return true;
 	}
 }

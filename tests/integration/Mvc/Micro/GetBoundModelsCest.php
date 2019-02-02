@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
 
+/**
+ * Class GetBoundModelsCest
+ */
 class GetBoundModelsCest
 {
     /**
@@ -25,7 +29,7 @@ class GetBoundModelsCest
      */
     public function mvcMicroGetBoundModels(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Micro - getBoundModels()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Micro - getBoundModels()');
+        $I->skipTest('Need implementation');
     }
 }

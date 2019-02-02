@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
 
+/**
+ * Class RightJoinCest
+ */
 class RightJoinCest
 {
     /**
@@ -25,7 +29,7 @@ class RightJoinCest
      */
     public function mvcModelQueryBuilderRightJoin(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Query\Builder - rightJoin()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Query\Builder - rightJoin()');
+        $I->skipTest('Need implementation');
     }
 }

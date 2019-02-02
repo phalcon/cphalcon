@@ -31,7 +31,7 @@ class OffsetExistsCest
      */
     public function messagesMessagesOffsetExists(UnitTester $I)
     {
-        $I->wantToTest("Messages\Messages - offsetExists()");
+        $I->wantToTest('Messages\Messages - offsetExists()');
         $messages = new Messages(
             [
                 1 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),

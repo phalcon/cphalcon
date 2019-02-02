@@ -425,9 +425,10 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * $tag
-	 * 		->prependTitle('Hello')
+	 *		->setTitleSeparator(' ')
+	 * 		->prependTitle(['Hello'])
 	 * 		->setTitle('World')
-	 * 		->appendTitle('from Phalcon');
+	 * 		->appendTitle(['from Phalcon']);
 	 *
 	 * echo $tag->getTitle();             // Hello World from Phalcon
 	 * echo $tag->getTitle(false);        // World from Phalcon
@@ -1084,20 +1085,24 @@ class Tag implements InjectionAwareInterface
 	 * $tag = new Tag();
 	 *
 	 * $tag
-	 * 		->prependTitle('Hello')
+	 *		->setTitleSeparator(' ')
+	 * 		->prependTitle(['Hello'])
 	 * 		->setTitle('World')
-	 * 		->appendTitle('from Phalcon');
+	 * 		->appendTitle(['from Phalcon']);
 	 *
-	 * echo $tag->renderTitle(); // <title>Hello World From Phalcon</title>
+	 * echo $tag->renderTitle();             // <title>Hello World from Phalcon</title>
+	 * echo $tag->renderTitle(false);        // <title>World from Phalcon</title>
+	 * echo $tag->renderTitle(true, false);  // <title>Hello World</title>
+	 * echo $tag->renderTitle(false, false); // <title>World</title>
 	 * </code>
 	 *
 	 * <code>
 	 * {{ render_title() }}
 	 * </code>
 	 */
-	public function renderTitle() -> string
+	public function renderTitle(bool prepend = true, bool append = true) -> string
 	{
-		return "<title>" . this->getTitle() . "</title>" . PHP_EOL;
+		return "<title>" . this->getTitle(prepend, append) . "</title>" . PHP_EOL;
 	}
 
 	/**
@@ -1425,7 +1430,7 @@ class Tag implements InjectionAwareInterface
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
-	 *
+	 *public
 	 * echo $tag->submit('Save')
 	 * </code>
 	 *

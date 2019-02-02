@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Strategy\Introspection;
 
 use IntegrationTester;
 
+/**
+ * Class GetMetaDataCest
+ */
 class GetMetaDataCest
 {
     /**
@@ -25,7 +29,7 @@ class GetMetaDataCest
      */
     public function mvcModelMetadataStrategyIntrospectionGetMetaData(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\MetaData\Strategy\Introspection - getMetaData()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\MetaData\Strategy\Introspection - getMetaData()');
+        $I->skipTest('Need implementation');
     }
 }

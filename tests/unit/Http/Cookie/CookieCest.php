@@ -9,11 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http;
+namespace Phalcon\Test\Unit\Http\Cookie;
 
-use Phalcon\Crypt;
-use Phalcon\Crypt\Mismatch;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Cookies;

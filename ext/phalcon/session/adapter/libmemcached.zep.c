@@ -39,7 +39,7 @@
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Libmemcached
+ * use Phalcon\Session\Adapter\Libmemcached;
  *
  * $session = new Manager();
  * $adapter = new Libmemcached(
@@ -60,7 +60,7 @@
  *     ]
  * );
  *
- * $session->setAdapter($adapter);
+ * $session->setHandler($adapter);
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached) {
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	ZEPHIR_CALL_METHOD(&persistentId, this_ptr, "arraygetdefault", NULL, 0, &options, &_3, &_4);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 2592000);
-	ZEPHIR_CALL_FUNCTION(&_6, "min", NULL, 412, &ttl, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "min", NULL, 426, &ttl, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("ttl"), &_6);
 	ZEPHIR_INIT_NVAR(&_3);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	ZEPHIR_OBS_VAR(&_8);
 	zephir_read_property(&_8, this_ptr, SL("ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_7, SL("lifetime"), &_8, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 318, &_7);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 332, &_7);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_9);
 	zephir_create_array(&_9, 5, 0 TSRMLS_CC);
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	zephir_array_update_string(&_9, SL("prefix"), &prefix, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_9, SL("statsKey"), &statsKey, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_9, SL("persistent_id"), &persistentId, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 319, &_4, &_9);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 333, &_4, &_9);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("connection"), &_3);
 	ZEPHIR_MM_RESTORE();
@@ -254,9 +254,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, write) {
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, SL("connection"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, SL("ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "save", NULL, 0, &name, data, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "save", NULL, 0, &name, data, &_1);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 
 }
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use IntegrationTester;
 
+/**
+ * Class SetIntermediateCest
+ */
 class SetIntermediateCest
 {
     /**
@@ -25,7 +29,7 @@ class SetIntermediateCest
      */
     public function mvcModelQuerySetIntermediate(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Query - setIntermediate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Query - setIntermediate()');
+        $I->skipTest('Need implementation');
     }
 }

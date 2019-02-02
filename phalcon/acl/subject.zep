@@ -24,13 +24,13 @@ class Subject implements SubjectInterface
 	 * Subject description
 	 * @var string
 	 */
-	protected description { get };
+	private description { get };
 
 	/**
 	 * Subject name
 	 * @var string
 	 */
-	protected name { get, __toString };
+	private name { get, __toString };
 
 	/**
 	 * Phalcon\Acl\Subject constructor

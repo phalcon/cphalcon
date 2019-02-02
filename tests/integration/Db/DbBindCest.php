@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
-use Phalcon\Db;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Test\Fixtures\Traits\DiTrait;

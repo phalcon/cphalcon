@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
+use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
 /**
@@ -19,6 +20,8 @@ use UnitTester;
  */
 class SaveCest
 {
+    use LibmemcachedTrait;
+
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: save()
      *
@@ -30,6 +33,22 @@ class SaveCest
     public function cacheBackendLibmemcachedSave(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - save()');
-        $I->skipTest('Need implementation');
+
+        $key  = 'data-save';
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+
+        $cache = $this->getDataCache();
+
+        $I->dontSeeInLibmemcached($key);
+        $cache->save('data-save', $data);
+
+        $I->seeInLibmemcached($key, serialize($data));
+
+        $data = 'sure, nothing interesting';
+
+        $I->dontSeeInLibmemcached('non-existent-key');
+
+        $cache->save('data-save', $data);
+        $I->seeInLibmemcached($key, serialize($data));
     }
 }

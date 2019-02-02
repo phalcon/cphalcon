@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Container;
 
 use Phalcon\Container;
 use Phalcon\Di\Service;
-use Phalcon\Filter;
+use Phalcon\Escaper;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -37,13 +37,13 @@ class GetCest
     {
         $I->wantToTest('Container - get()');
         $this->newDi();
-        $this->setDiFilter();
+        $this->setDiEscaper();
 
         $container = new Container($this->container);
 
         /** @var Service $service */
-        $service  = $container->get('filter');
-        $expected = Filter::class;
+        $service  = $container->get('escaper');
+        $expected = Escaper::class;
         $actual   = $service->getDefinition();
         $I->assertEquals($expected, $actual);
     }

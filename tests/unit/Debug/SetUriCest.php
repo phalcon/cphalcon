@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug;
 
+use Phalcon\Debug;
 use UnitTester;
 
 /**
@@ -30,6 +31,21 @@ class SetUriCest
     public function debugSetUri(UnitTester $I)
     {
         $I->wantToTest('Debug - setUri()');
-        $I->skipTest('Need implementation');
+        $debug = new Debug();
+        $uri   = 'https://something.com/test/';
+
+        $expected = sprintf(
+            '<link rel="stylesheet" type="text/css" ' .
+            'href="%1$sbower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" />' .
+            '<link rel="stylesheet" type="text/css" ' .
+            'href="%1$sbower_components/jquery-ui/themes/ui-lightness/theme.css" />' .
+            '<link rel="stylesheet" type="text/css" ' .
+            'href="%1$sthemes/default/style.css" />',
+            $uri
+        );
+
+        $debug->setUri($uri);
+        $actual = $debug->getCssSources();
+        $I->assertEquals($expected, $actual);
     }
 }

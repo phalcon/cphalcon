@@ -23,7 +23,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Redis
+ * use Phalcon\Session\Adapter\Redis;
  *
  * $session = new Manager();
  * $adapter = new Redis(
@@ -36,9 +36,10 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  *     ]
  * );
  *
- * $session->setAdapter($adapter);
+ * $session->setHandler($adapter);
  * </code>
- */class Redis extends Noop
+ */
+ class Redis extends Noop
 {
 	public function __construct(array! options = [])
 	{
@@ -83,10 +84,10 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
 		return data;
 	}
 
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
 		var name = this->getPrefixedName(id);
 
-		this->connection->save(name, data, this->ttl);
+		return this->connection->save(name, data, this->ttl);
 	}
 }

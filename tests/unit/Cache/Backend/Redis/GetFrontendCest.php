@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
-use Phalcon\Cache\Backend\Redis;
-use Phalcon\Cache\BackendInterface;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 

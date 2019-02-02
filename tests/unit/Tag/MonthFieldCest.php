@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
 class MonthFieldCest extends TagHelper

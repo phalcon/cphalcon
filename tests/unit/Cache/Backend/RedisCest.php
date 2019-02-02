@@ -5,7 +5,6 @@ namespace Phalcon\Test\Unit\Cache\Backend;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Cache\Frontend\Output;
 use UnitTester;
 use function array_merge;
 

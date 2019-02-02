@@ -23,10 +23,10 @@ use Phalcon\Utility;
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Noop
+ * use Phalcon\Session\Adapter\Noop;
  *
  * $session = new Manager();
- * $session->setAdapter(new Noop());
+ * $session->setHandler(new Noop());
  * </code>
  */
 class Noop extends Utility implements SessionHandlerInterface
@@ -115,8 +115,9 @@ class Noop extends Utility implements SessionHandlerInterface
 	/**
 	 * Write
 	 */
-	public function write(var id, var data) -> void
+	public function write(var id, var data) -> bool
 	{
+		return true;
 	}
 
 	/**

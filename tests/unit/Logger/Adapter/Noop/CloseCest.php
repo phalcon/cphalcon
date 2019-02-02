@@ -33,7 +33,7 @@ class CloseCest
     public function loggerAdapterNoopClose(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - close()');
-        $adapter    = new Noop();
+        $adapter = new Noop();
 
         $actual = $adapter->close();
         $I->assertTrue($actual);

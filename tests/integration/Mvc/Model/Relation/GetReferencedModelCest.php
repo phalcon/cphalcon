@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
 
+/**
+ * Class GetReferencedModelCest
+ */
 class GetReferencedModelCest
 {
     /**
@@ -25,7 +29,7 @@ class GetReferencedModelCest
      */
     public function mvcModelRelationGetReferencedModel(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Relation - getReferencedModel()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Relation - getReferencedModel()');
+        $I->skipTest('Need implementation');
     }
 }

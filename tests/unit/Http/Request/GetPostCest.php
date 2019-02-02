@@ -12,12 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Di;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 /**
  * Class GetPostCest
  */
-class GetPostCest
+class GetPostCest //extends HttpBase
 {
     /**
      * Tests Phalcon\Http\Request :: getPost()
@@ -30,6 +33,23 @@ class GetPostCest
     public function httpRequestGetPost(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getPost()');
-        $I->skipTest('Need implementation');
+
+        $oldPost = $_POST;
+        $_POST['test'] = -1234;
+
+        $container = new FactoryDefault();
+        Di::reset();
+        Di::setDefault($container);
+
+        $request = $container['request'];
+
+//        var_dump($container['filter']); die();
+
+//        $request = $this->getRequestObject();
+        $expected = 1234;
+        $actual = $request->getPost('test', 'absint');
+        $I->assertEquals($expected, $actual);
+
+        $_POST = $oldPost;
     }
 }

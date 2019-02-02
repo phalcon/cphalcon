@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -13,6 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Row;
 
 use IntegrationTester;
 
+/**
+ * Class WriteAttributeCest
+ */
 class WriteAttributeCest
 {
     /**
@@ -25,7 +29,7 @@ class WriteAttributeCest
      */
     public function mvcModelRowWriteAttribute(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Model\Row - writeAttribute()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Mvc\Model\Row - writeAttribute()');
+        $I->skipTest('Need implementation');
     }
 }

@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Regex;
 
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Regex;
-use Phalcon\Validation\ValidatorInterface;
-use IntegrationTester;
 
 /**
  * Class ConstructCest

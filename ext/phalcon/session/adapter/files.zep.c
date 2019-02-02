@@ -42,7 +42,7 @@
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Files
+ * use Phalcon\Session\Adapter\Files;
  *
  * $session = new Manager();
  * $files = new Files(
@@ -50,7 +50,7 @@
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setAdapter(new Files());
+ * $session->setHandler(new Files());
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Files) {
@@ -100,17 +100,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("save_path"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 409, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 423, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 410, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 424, &path);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_3)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		object_init_ex(&_4$$4, phalcon_session_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZEPHIR_CONCAT_SVS(&_5$$4, "The save_path [", &path, "]is not writeable");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 3, &_5$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 4, &_5$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$4, "phalcon/session/adapter/files.zep", 59 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, destroy) {
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
 	if (1 == (zephir_file_exists(&name TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 92, &name);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 102, &name);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, gc) {
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZEPHIR_CONCAT_VVS(&pattern, &_0, &_1, "*");
-	ZEPHIR_CALL_FUNCTION(&_2, "glob", NULL, 411, &pattern);
+	ZEPHIR_CALL_FUNCTION(&_2, "glob", NULL, 425, &pattern);
 	zephir_check_call_status();
 	zephir_is_iterable(&_2, 0, "phalcon/session/adapter/files.zep", 90);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_2), _3)
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, gc) {
 			_4$$3 = ZEPHIR_LT(&_6$$3, &_5$$3);
 		}
 		if (_4$$3) {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_7, 92, &file);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_7, 102, &file);
 			zephir_check_call_status();
 		}
 	} ZEND_HASH_FOREACH_END();
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, read) {
 PHP_METHOD(Phalcon_Session_Adapter_Files, write) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, *data, data_sub, name, _0, _1;
+	zval *id, id_sub, *data, data_sub, name, _0, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id_sub);
@@ -272,6 +272,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, write) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id, &data);
@@ -283,8 +284,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, write) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
-	zephir_file_put_contents(NULL, &name, data TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_INIT_VAR(&_2);
+	zephir_file_put_contents(&_2, &name, data TSRMLS_CC);
+	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_2));
 
 }
 

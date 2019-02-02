@@ -39,7 +39,7 @@
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Redis
+ * use Phalcon\Session\Adapter\Redis;
  *
  * $session = new Manager();
  * $adapter = new Redis(
@@ -52,7 +52,7 @@
  *     ]
  * );
  *
- * $session->setAdapter($adapter);
+ * $session->setHandler($adapter);
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Redis) {
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 0, &_9);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 320, &_4, &params);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 334, &_4, &params);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("connection"), &_3);
 	ZEPHIR_MM_RESTORE();
@@ -238,9 +238,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, write) {
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, SL("connection"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, SL("ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "save", NULL, 0, &name, data, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "save", NULL, 0, &name, data, &_1);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 
 }
 

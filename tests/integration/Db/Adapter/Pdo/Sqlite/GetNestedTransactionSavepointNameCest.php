@@ -20,7 +20,8 @@ use IntegrationTester;
 class GetNestedTransactionSavepointNameCest
 {
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: getNestedTransactionSavepointName()
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite ::
+     * getNestedTransactionSavepointName()
      *
      * @param IntegrationTester $I
      *

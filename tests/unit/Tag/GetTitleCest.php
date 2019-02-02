@@ -26,7 +26,6 @@ class GetTitleCest
      * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11185
-
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-13
      */
@@ -38,7 +37,7 @@ class GetTitleCest
 
         Tag::setTitle($value);
         $expected = 'Hello &lt;/title&gt;&lt;script&gt;alert(&#039;'
-                  . 'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;';
+            . 'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;';
         $actual   = Tag::getTitle();
         $I->assertEquals($expected, $actual);
     }
