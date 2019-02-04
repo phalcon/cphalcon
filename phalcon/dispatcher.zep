@@ -285,7 +285,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getActiveMethod() -> string
 	{
-		return lcfirst(camelize(this->_actionName)) . this->_actionSuffix;
+		var camelCaseAction;
+		let camelCaseAction = join("", array_map("ucfirst", preg_split("/[_-]+/", this->_actionName)));
+		return lcfirst(camelCaseAction) . this->_actionSuffix;
 	}
 
 	/**
