@@ -198,7 +198,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function setActionName(string actionName) -> void
 	{
-		let this->_actionName = actionName;
+		let this->_actionName = lcfirst(join("", array_map("ucfirst", preg_split("/[_-]+/", actionName))));
 	}
 
 	/**
@@ -285,9 +285,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getActiveMethod() -> string
 	{
-		var camelCaseAction;
-		let camelCaseAction = join("", array_map("ucfirst", preg_split("/[_-]+/", this->_actionName)));
-		return lcfirst(camelCaseAction) . this->_actionSuffix;
+		return this->_actionName . this->_actionSuffix;
 	}
 
 	/**
