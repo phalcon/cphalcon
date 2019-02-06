@@ -1,6 +1,6 @@
 # Contributor Covenant Code of Conduct
 
-## TDLR
+## TL;DR
 
 Common sense rules. Treat people the same way you want to be treated. 
 
