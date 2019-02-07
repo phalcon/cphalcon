@@ -16,6 +16,7 @@ use Phalcon\Escaper;
 use Phalcon\EscaperInterface;
 use Phalcon\Html\Exception;
 use Phalcon\UrlInterface;
+use Phalcon\Utility;
 
 /**
  * Phalcon\Html\Tag
@@ -143,9 +144,9 @@ class Tag implements InjectionAwareInterface
 	{
 		var onlyStart, output, selfClose, useEol;
 
-		let useEol    = this->arrayGetDefault("useEol", parameters, false),
-			onlyStart = this->arrayGetDefault("onlyStart", parameters, false),
-			selfClose = this->arrayGetDefault("selfClose", parameters, false);
+		let useEol    = Utility::arrayGetDefault("useEol", parameters, false),
+			onlyStart = Utility::arrayGetDefault("onlyStart", parameters, false),
+			selfClose = Utility::arrayGetDefault("selfClose", parameters, false);
 
 		/**
 		 * Unset options for this control
@@ -207,7 +208,7 @@ class Tag implements InjectionAwareInterface
 	{
 		var useEol = false;
 
-		let useEol = this->arrayGetDefault("useEol", parameters, false);
+		let useEol = Utility::arrayGetDefault("useEol", parameters, false);
 
 		if useEol {
 			return "</" . tag . ">" . PHP_EOL;
@@ -258,7 +259,7 @@ class Tag implements InjectionAwareInterface
 
 		let service = this->getService("url");
 
-		let parameters["method"] = this->arrayGetDefault("method", parameters, "post"),
+		let parameters["method"] = Utility::arrayGetDefault("method", parameters, "post"),
 			parameters["action"] = service->get(action);
 
 		/**
@@ -314,9 +315,9 @@ class Tag implements InjectionAwareInterface
 				text   = iconv("UTF-8", "ASCII//TRANSLIT", text);
 		}
 
-		let lowercase = this->arrayGetDefault("lowercase", parameters, true),
-			replace   = this->arrayGetDefault("replace", parameters, []),
-			separator = this->arrayGetDefault("separator", parameters, "-");
+		let lowercase = Utility::arrayGetDefault("lowercase", parameters, true),
+			replace   = Utility::arrayGetDefault("replace", parameters, []),
+			separator = Utility::arrayGetDefault("separator", parameters, "-");
 
 		if !empty replace {
 			if typeof replace !== "array" && typeof replace !== "string"{
@@ -580,8 +581,8 @@ class Tag implements InjectionAwareInterface
 	{
 		var local, service, src, output;
 
-		let local = this->arrayGetDefault("local", parameters, true),
-			src   = this->arrayGetDefault("src", parameters, url);
+		let local = Utility::arrayGetDefault("local", parameters, true),
+			src   = Utility::arrayGetDefault("src", parameters, url);
 
 		/**
 		 * Use the "url" service if the URI is local
@@ -978,7 +979,7 @@ class Tag implements InjectionAwareInterface
 	{
 		var local, service, output;
 
-		let local = (bool) this->arrayGetDefault("local", parameters, true);
+		let local = (bool) Utility::arrayGetDefault("local", parameters, true);
 
 		/**
 		 * URLs are generated through the "url" service
@@ -992,7 +993,7 @@ class Tag implements InjectionAwareInterface
 
 		unset parameters["local"];
 
-		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/javascript");
+		let parameters["type"] = Utility::arrayGetDefault("type", parameters, "text/javascript");
 
 		if this->docType >= self::HTML5 && "text/javascript" == parameters["type"] {
 			unset(parameters["type"]);
@@ -1049,10 +1050,10 @@ class Tag implements InjectionAwareInterface
 		var local, query, output, service, text;
 
 		let service = this->getService("url"),
-			url     = this->arrayGetDefault("url", parameters, url),
-			text    = this->arrayGetDefault("text", parameters, text),
-			local   = this->arrayGetDefault("local", parameters, true),
-			query   = this->arrayGetDefault("query", parameters, null);
+			url     = Utility::arrayGetDefault("url", parameters, url),
+			text    = Utility::arrayGetDefault("text", parameters, text),
+			local   = Utility::arrayGetDefault("local", parameters, true),
+			query   = Utility::arrayGetDefault("query", parameters, null);
 
 		unset parameters["url"];
 		unset parameters["local"];
@@ -1180,9 +1181,9 @@ class Tag implements InjectionAwareInterface
 	{
 		var emptyText, emptyValue, id, output, outputEmpty, useEmpty, using, value;
 
-		let id                 = this->arrayGetDefault("id", parameters, name),
-			name               = this->arrayGetDefault("name", parameters, name),
-			useEmpty           = this->arrayGetDefault("useEmpty", parameters, false),
+		let id                 = Utility::arrayGetDefault("id", parameters, name),
+			name               = Utility::arrayGetDefault("name", parameters, name),
+			useEmpty           = Utility::arrayGetDefault("useEmpty", parameters, false),
 			using              = [],
 			parameters["name"] = name,
 			parameters["id"]   = id,
@@ -1199,7 +1200,7 @@ class Tag implements InjectionAwareInterface
 		 * For the ResultsetInterface we need the 'using' parameter
 		 */
 		if typeof data === "object" {
-			let using = this->arrayGetDefault("using", parameters, []);
+			let using = Utility::arrayGetDefault("using", parameters, []);
 			if typeof using === "array" && count(using) === 2 {
 				unset parameters["using"];
 			} else {
@@ -1211,8 +1212,8 @@ class Tag implements InjectionAwareInterface
 		 * Check if `useEmpty` has been passed
 		 */
 		if useEmpty {
-			let emptyText   = this->arrayGetDefault("emptyText", parameters, "Choose..."),
-				emptyValue  = this->arrayGetDefault("emptyValue", parameters, ""),
+			let emptyText   = Utility::arrayGetDefault("emptyText", parameters, "Choose..."),
+				emptyValue  = Utility::arrayGetDefault("emptyValue", parameters, ""),
 				outputEmpty = sprintf(
 					"\t<option value=\"%s\">%s</option>" . PHP_EOL,
 					emptyValue,
@@ -1399,7 +1400,7 @@ class Tag implements InjectionAwareInterface
 	{
 		var local, service, output;
 
-		let local = (bool) this->arrayGetDefault("local", parameters, true);
+		let local = (bool) Utility::arrayGetDefault("local", parameters, true);
 
 		unset parameters["local"];
 
@@ -1417,7 +1418,7 @@ class Tag implements InjectionAwareInterface
 			let parameters["rel"] = "stylesheet";
 		}
 
-		let parameters["type"] = this->arrayGetDefault("type", parameters, "text/css"),
+		let parameters["type"] = Utility::arrayGetDefault("type", parameters, "text/css"),
 			output             = this->renderAttributes("<link", parameters) . this->renderCloseTag(true);
 
 		return output;
@@ -1470,8 +1471,8 @@ class Tag implements InjectionAwareInterface
 	{
 		var content, output;
 
-		let parameters["id"]   = this->arrayGetDefault("id", parameters, name),
-			parameters["name"] = this->arrayGetDefault("name", parameters, name);
+		let parameters["id"]   = Utility::arrayGetDefault("id", parameters, name),
+			parameters["name"] = Utility::arrayGetDefault("name", parameters, name);
 
 		if isset parameters["value"] {
 			let content = parameters["value"];
@@ -1485,21 +1486,6 @@ class Tag implements InjectionAwareInterface
 					 htmlspecialchars(content) . "</textarea>";
 
 		return output;
-	}
-
-	/**
-	 * Helper method to check an array for an element. If it exists it returns it,
-	 * if not, it returns the supplied default value
-	 */
-	private function arrayGetDefault(string name, array parameters, var defaultValue = null) -> var
-	{
-		var value;
-
-		if likely fetch value, parameters[name] {
-			return value;
-		}
-
-		return defaultValue;
 	}
 
 	/**
@@ -1608,7 +1594,7 @@ class Tag implements InjectionAwareInterface
 	{
 		var name, id, output;
 
-		let id = this->arrayGetDefault("id", parameters, name);
+		let id = Utility::arrayGetDefault("id", parameters, name);
 
 		let parameters["id"]    = id,
 			parameters["name"]  = name,
@@ -1626,7 +1612,7 @@ class Tag implements InjectionAwareInterface
 	{
 		var currentValue, id, name, output, value;
 
-		let id = this->arrayGetDefault("id", parameters, name);
+		let id = Utility::arrayGetDefault("id", parameters, name);
 
 		/**
 		 * Automatically check inputs

@@ -23,7 +23,7 @@ use Phalcon\Utility;
  *
  * Session manager class
  */
-class Manager extends Utility implements ManagerInterface, InjectionAwareInterface
+class Manager implements ManagerInterface, InjectionAwareInterface
 {
     /**
      * @var <DiInterface>
@@ -129,7 +129,7 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 		}
 
 		let uniqueKey = this->getUniqueKey(key),
-			value     = this->arrayGetDefault(_SESSION, uniqueKey, defaultValue);
+			value     = Utility::arrayGetDefault(uniqueKey, _SESSION, defaultValue);
 
 		if (remove === true) {
 			unset(_SESSION[uniqueKey]);
@@ -328,7 +328,7 @@ class Manager extends Utility implements ManagerInterface, InjectionAwareInterfa
 	 */
 	public function setOptions(array options) -> void
 	{
-		let this->uniqueId = this->arrayGetDefault(options, "uniqueId", ""),
+		let this->uniqueId = Utility::arrayGetDefault("uniqueId", options, ""),
 		    this->options  = options;
 	}
 
