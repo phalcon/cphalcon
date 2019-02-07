@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -25,11 +26,72 @@ class GetUserInfoCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-07
      */
     public function httpUriGetUserInfo(UnitTester $I)
     {
         $I->wantToTest('Http\Uri - getUserInfo()');
-        $I->skipTest('Need implementation');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $expected = 'phalcon:secret';
+        $actual   = $uri->getUserInfo();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getUserInfo() - only user
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetUserInfoOnlyUser(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getUserInfo() - only user');
+        $query = 'https://phalcon@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $expected = 'phalcon';
+        $actual   = $uri->getUserInfo();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getUserInfo() - only pass
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetUserInfoOnlyPass(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getUserInfo() - only pass');
+        $query = 'https://:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $expected = ':secret';
+        $actual   = $uri->getUserInfo();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getUserInfo() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetUserInfoEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getUserInfo() - empty');
+        $query = 'https://dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $actual = $uri->getUserInfo();
+        $I->assertEmpty($actual);
     }
 }

@@ -27,7 +27,7 @@ class ConstructCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-07
      */
     public function httpUriConstruct(UnitTester $I)
     {

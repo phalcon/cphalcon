@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -25,11 +26,34 @@ class GetPortCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-07
      */
     public function httpUriGetPort(UnitTester $I)
     {
         $I->wantToTest('Http\Uri - getPort()');
-        $I->skipTest('Need implementation');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $expected = 8080;
+        $actual   = $uri->getPort();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getPort() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetPortEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getPort() - empty');
+        $query = 'https://phalcon:secret@dev.phalcon.ld/action?param=value';
+        $uri   = new Uri($query);
+
+        $actual = $uri->getPort();
+        $I->assertNull($actual);
     }
 }

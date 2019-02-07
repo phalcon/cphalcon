@@ -98,6 +98,27 @@ class Uri implements UriInterface
      */
     public function getAuthority() -> string
     {
+    	var authority, userInfo;
+
+    	/**
+    	 * Early exit if we have no host
+		 */
+    	if "" === this->host {
+    		return "";
+    	}
+
+    	let authority = this->host,
+    		userInfo  = this->getUserInfo();
+
+    	if "" !== userInfo {
+    		let authority = userInfo . "@" . authority;
+    	}
+
+    	if null !== this->port {
+    		let authority .= ":" . this->port;
+    	}
+
+    	return authority;
     }
 
     /**

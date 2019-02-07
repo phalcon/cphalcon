@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -25,11 +26,34 @@ class GetQueryCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-07
      */
     public function httpUriGetQuery(UnitTester $I)
     {
         $I->wantToTest('Http\Uri - getQuery()');
-        $I->skipTest('Need implementation');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $expected = 'param=value';
+        $actual   = $uri->getQuery();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getQuery() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetQueryEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getQuery() - empty');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action';
+        $uri   = new Uri($query);
+
+        $actual = $uri->getQuery();
+        $I->assertEmpty($actual);
     }
 }

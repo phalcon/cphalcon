@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -25,11 +26,73 @@ class GetAuthorityCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-07
      */
     public function httpUriGetAuthority(UnitTester $I)
     {
         $I->wantToTest('Http\Uri - getAuthority()');
-        $I->skipTest('Need implementation');
+        $query = 'https://dev.phalcon.ld';
+        $uri   = new Uri($query);
+
+        $expected = 'dev.phalcon.ld';
+        $actual   = $uri->getAuthority();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getAuthority() - with user info
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetAuthorityWithUserInfo(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getAuthority() - with user info');
+        $query = 'https://phalcon:secret@dev.phalcon.ld';
+        $uri   = new Uri($query);
+
+        $expected = 'phalcon:secret@dev.phalcon.ld';
+        $actual   = $uri->getAuthority();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getAuthority() - with port
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetAuthorityWithPort(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getAuthority() - with port');
+        $query = 'https://dev.phalcon.ld:8080';
+        $uri   = new Uri($query);
+
+        $expected = 'dev.phalcon.ld:8080';
+        $actual   = $uri->getAuthority();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getAuthority() - full
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetAuthorityFull(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getAuthority() - with user info');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080';
+        $uri   = new Uri($query);
+
+        $expected = 'phalcon:secret@dev.phalcon.ld:8080';
+        $actual   = $uri->getAuthority();
+        $I->assertEquals($expected, $actual);
     }
 }

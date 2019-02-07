@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -25,11 +26,34 @@ class GetFragmentCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-07
      */
     public function httpUriGetFragment(UnitTester $I)
     {
         $I->wantToTest('Http\Uri - getFragment()');
-        $I->skipTest('Need implementation');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $expected = 'frag';
+        $actual   = $uri->getFragment();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: getFragment() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriGetFragmentEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - getFragment() - empty');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value';
+        $uri   = new Uri($query);
+
+        $actual = $uri->getFragment();
+        $I->assertEmpty($actual);
     }
 }
