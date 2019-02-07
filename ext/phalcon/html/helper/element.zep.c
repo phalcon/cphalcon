@@ -13,6 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
@@ -58,8 +60,26 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __invoke) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &tag_param, &text_param, &attributes_param);
 
-	zephir_get_strval(&tag, tag_param);
-	zephir_get_strval(&text, text_param);
+	if (UNEXPECTED(Z_TYPE_P(tag_param) != IS_STRING && Z_TYPE_P(tag_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tag' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(tag_param) == IS_STRING)) {
+		zephir_get_strval(&tag, tag_param);
+	} else {
+		ZEPHIR_INIT_VAR(&tag);
+		ZVAL_EMPTY_STRING(&tag);
+	}
+	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(&text, text_param);
+	} else {
+		ZEPHIR_INIT_VAR(&text);
+		ZVAL_EMPTY_STRING(&text);
+	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);

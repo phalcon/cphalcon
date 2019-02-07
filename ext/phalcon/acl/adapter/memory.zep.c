@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 				ZEPHIR_INIT_NVAR(&usedOperationToInherit);
 				ZVAL_COPY(&usedOperationToInherit, _13$$13);
 				ZEPHIR_MAKE_REF(&checkOperationToInherits);
-				ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 68, &checkOperationToInherits, &usedOperationToInherit);
+				ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 69, &checkOperationToInherits, &usedOperationToInherit);
 				ZEPHIR_UNREF(&checkOperationToInherits);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 						ZEPHIR_INIT_NVAR(&usedOperationToInherit);
 						ZVAL_COPY(&usedOperationToInherit, _21$$18);
 						ZEPHIR_MAKE_REF(&checkOperationToInherits);
-						ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 68, &checkOperationToInherits, &usedOperationToInherit);
+						ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 69, &checkOperationToInherits, &usedOperationToInherit);
 						ZEPHIR_UNREF(&checkOperationToInherits);
 						zephir_check_call_status();
 					} ZEND_HASH_FOREACH_END();
@@ -485,7 +485,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addOperation) {
 		ZEPHIR_CPY_WRT(&operationName, operation);
 		ZEPHIR_INIT_NVAR(&operationObject);
 		object_init_ex(&operationObject, phalcon_acl_operation_ce);
-		ZEPHIR_CALL_METHOD(NULL, &operationObject, "__construct", NULL, 69, operation);
+		ZEPHIR_CALL_METHOD(NULL, &operationObject, "__construct", NULL, 70, operation);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Operation must be either an string or implement OperationInterface", "phalcon/acl/adapter/memory.zep", 308);
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addSubject) {
 		ZEPHIR_CPY_WRT(&subjectName, subjectValue);
 		ZEPHIR_INIT_NVAR(&subjectObject);
 		object_init_ex(&subjectObject, phalcon_acl_subject_ce);
-		ZEPHIR_CALL_METHOD(NULL, &subjectObject, "__construct", NULL, 70, &subjectName);
+		ZEPHIR_CALL_METHOD(NULL, &subjectObject, "__construct", NULL, 71, &subjectName);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_1, this_ptr, SL("subjectsNames"), PH_NOISY_CC | PH_READONLY);
@@ -723,7 +723,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 
 	if (!ZEPHIR_IS_STRING(&operationName, "*")) {
 		ZVAL_LONG(&_0$$3, 1);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 71, &operationName, &subjectName, access, &_0$$3, func);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 72, &operationName, &subjectName, access, &_0$$3, func);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property(&_1$$4, this_ptr, SL("operationsNames"), PH_NOISY_CC | PH_READONLY);
@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 			ZEPHIR_INIT_NVAR(&_2$$4);
 			ZVAL_COPY(&_2$$4, _3$$4);
 			ZVAL_LONG(&_6$$5, 1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 71, &innerOperationName, &subjectName, access, &_6$$5, func);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 72, &innerOperationName, &subjectName, access, &_6$$5, func);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&_2$$4);
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 
 	if (!ZEPHIR_IS_STRING(&operationName, "*")) {
 		ZVAL_LONG(&_0$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 71, &operationName, &subjectName, access, &_0$$3, func);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 72, &operationName, &subjectName, access, &_0$$3, func);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property(&_1$$4, this_ptr, SL("operationsNames"), PH_NOISY_CC | PH_READONLY);
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 			ZEPHIR_INIT_NVAR(&_2$$4);
 			ZVAL_COPY(&_2$$4, _3$$4);
 			ZVAL_LONG(&_6$$5, 0);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 71, &innerOperationName, &subjectName, access, &_6$$5, func);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 72, &innerOperationName, &subjectName, access, &_6$$5, func);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&_2$$4);
@@ -1081,7 +1081,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		zephir_read_property(&_5$$13, this_ptr, SL("defaultAccess"), PH_NOISY_CC | PH_READONLY);
 		RETURN_MM_BOOL((ZEPHIR_IS_LONG(&_5$$13, 1)));
 	}
-	ZEPHIR_CALL_METHOD(&accessKey, this_ptr, "canaccess", NULL, 72, operationName, subjectName, &access);
+	ZEPHIR_CALL_METHOD(&accessKey, this_ptr, "canaccess", NULL, 73, operationName, subjectName, &access);
 	zephir_check_call_status();
 	_6 = !ZEPHIR_IS_FALSE(&accessKey);
 	if (_6) {
@@ -1112,9 +1112,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	if (zephir_is_callable(&funcAccess TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(&reflectionFunction);
 		object_init_ex(&reflectionFunction, zephir_get_internal_ce(SL("reflectionfunction")));
-		ZEPHIR_CALL_METHOD(NULL, &reflectionFunction, "__construct", NULL, 73, &funcAccess);
+		ZEPHIR_CALL_METHOD(NULL, &reflectionFunction, "__construct", NULL, 74, &funcAccess);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&reflectionParameters, &reflectionFunction, "getparameters", NULL, 74);
+		ZEPHIR_CALL_METHOD(&reflectionParameters, &reflectionFunction, "getparameters", NULL, 75);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&parameterNumber);
 		ZVAL_LONG(&parameterNumber, zephir_fast_count_int(&reflectionParameters TSRMLS_CC));
@@ -1130,7 +1130,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		}
 		ZEPHIR_INIT_VAR(&parametersForFunction);
 		array_init(&parametersForFunction);
-		ZEPHIR_CALL_METHOD(&numberOfRequiredParameters, &reflectionFunction, "getnumberofrequiredparameters", NULL, 75);
+		ZEPHIR_CALL_METHOD(&numberOfRequiredParameters, &reflectionFunction, "getnumberofrequiredparameters", NULL, 76);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&userParametersSizeShouldBe, &parameterNumber);
 		zephir_is_iterable(&reflectionParameters, 0, "phalcon/acl/adapter/memory.zep", 688);
@@ -1535,7 +1535,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess) {
 			ZEPHIR_INIT_NVAR(&usedOperationToInherit);
 			ZVAL_COPY(&usedOperationToInherit, _4$$6);
 			ZEPHIR_MAKE_REF(&checkOperationToInherits);
-			ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 68, &checkOperationToInherits, &usedOperationToInherit);
+			ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 69, &checkOperationToInherits, &usedOperationToInherit);
 			ZEPHIR_UNREF(&checkOperationToInherits);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
@@ -1579,7 +1579,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess) {
 					ZEPHIR_INIT_NVAR(&usedOperationToInherit);
 					ZVAL_COPY(&usedOperationToInherit, _10$$13);
 					ZEPHIR_MAKE_REF(&checkOperationToInherits);
-					ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 68, &checkOperationToInherits, &usedOperationToInherit);
+					ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 69, &checkOperationToInherits, &usedOperationToInherit);
 					ZEPHIR_UNREF(&checkOperationToInherits);
 					zephir_check_call_status();
 				} ZEND_HASH_FOREACH_END();

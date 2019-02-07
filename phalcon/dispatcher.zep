@@ -65,6 +65,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _actionSuffix = "Action";
 
+	protected _activeMethodMap = [];
+
 	protected _previousNamespaceName = null;
 
 	protected _previousHandlerName = null;
@@ -285,7 +287,12 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getActiveMethod() -> string
 	{
-		return this->_actionName . this->_actionSuffix;
+		var activeMethodName;
+		if !fetch activeMethodName, this->_activeMethodMap[this->_actionName] {
+			let activeMethodName = lcfirst(join("", array_map("ucfirst", preg_split("/[_-]+/", this->_actionName))));
+			let this->_activeMethodMap[this->_actionName] = activeMethodName;
+		}
+		return activeMethodName . this->_actionSuffix;
 	}
 
 	/**

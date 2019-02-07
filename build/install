@@ -23,8 +23,19 @@
 #  ./install --phpize /usr/bin/phpize7.3 --php-config /usr/bin/php-config7.3 --arch 32bits
 
 # Check best compilation flags for GCC
+# By default we compile to be as compatible as possible with all processors. 
+# If you would like instruct the compiler to generate optimized machine code that matches the processor where it is currently running on you can set your own compile flags by exporting CFLAGS before the build.
+#
+# Example:
+# export CFLAGS="-march=native -O2 -fomit-frame-pointer"
+#
+# This will generate the best possible code for that chipset but will likely break the compiled object on older chipsets.
+
 export CC="gcc"
-export CFLAGS="-march=native -mtune=native -O2 -fomit-frame-pointer"
+if [ -z "$CFLAGS" ] 
+then
+  export CFLAGS="-mtune=native -O2 -fomit-frame-pointer"
+fi
 export CPPFLAGS="-DPHALCON_RELEASE"
 
 # Set defaults
