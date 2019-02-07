@@ -6627,6 +6627,50 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_service_locatorinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Service_LocatorInterface);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_service_locatorinterface_get, 0, 1, NULL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface_get, 0, 1, IS_OBJECT, "NULL", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface_has, 0, 1, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface_has, 0, 1, _IS_BOOL, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locatorinterface_set, 0, 0, 2)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+	ZEND_ARG_INFO(0, helper)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_service_locatorinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Service_LocatorInterface, get, arginfo_phalcon_service_locatorinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Service_LocatorInterface, has, arginfo_phalcon_service_locatorinterface_has)
+	PHP_ABSTRACT_ME(Phalcon_Service_LocatorInterface, set, arginfo_phalcon_service_locatorinterface_set)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_session_adapter_noop_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop);
@@ -9456,14 +9500,34 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_service_locatorinterface_ce;
+zend_class_entry *phalcon_service_locator_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Service_LocatorInterface);
+ZEPHIR_INIT_CLASS(Phalcon_Service_Locator);
+
+static PHP_METHOD(Phalcon_Service_Locator, __construct);
+static PHP_METHOD(Phalcon_Service_Locator, __call);
+static PHP_METHOD(Phalcon_Service_Locator, get);
+static PHP_METHOD(Phalcon_Service_Locator, has);
+static PHP_METHOD(Phalcon_Service_Locator, set);
+zend_object *zephir_init_properties_Phalcon_Service_Locator(zend_class_entry *class_type TSRMLS_DC);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locator___construct, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, mapper, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locator___call, 0, 0, 2)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, parameters, 0)
+ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_service_locatorinterface_get, 0, 1, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_service_locator_get, 0, 1, NULL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface_get, 0, 1, IS_OBJECT, "NULL", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locator_get, 0, 1, IS_OBJECT, "NULL", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -9473,9 +9537,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface_has, 0, 1, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locator_has, 0, 1, _IS_BOOL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface_has, 0, 1, _IS_BOOL, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locator_has, 0, 1, _IS_BOOL, NULL, 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -9484,19 +9548,37 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorinterface
 #endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locatorinterface_set, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locator_set, 0, 0, 2)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, name)
 #endif
-	ZEND_ARG_INFO(0, helper)
+	ZEND_ARG_INFO(0, service)
 ZEND_END_ARG_INFO()
 
-ZEPHIR_INIT_FUNCS(phalcon_service_locatorinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Service_LocatorInterface, get, arginfo_phalcon_service_locatorinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Service_LocatorInterface, has, arginfo_phalcon_service_locatorinterface_has)
-	PHP_ABSTRACT_ME(Phalcon_Service_LocatorInterface, set, arginfo_phalcon_service_locatorinterface_set)
+ZEPHIR_INIT_FUNCS(phalcon_service_locator_method_entry) {
+	PHP_ME(Phalcon_Service_Locator, __construct, arginfo_phalcon_service_locator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Service_Locator, __call, arginfo_phalcon_service_locator___call, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Service_Locator, get, arginfo_phalcon_service_locator_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Service_Locator, has, arginfo_phalcon_service_locator_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Service_Locator, set, arginfo_phalcon_service_locator_set, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_service_locatorfactoryinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Service_LocatorFactoryInterface);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_service_locatorfactoryinterface_newinstance, 0, 0, Phalcon\\Service\\LocatorInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorfactoryinterface_newinstance, 0, 0, IS_OBJECT, "Phalcon\\Service\\LocatorInterface", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_service_locatorfactoryinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Service_LocatorFactoryInterface, newInstance, arginfo_phalcon_service_locatorfactoryinterface_newinstance)
 	PHP_FE_END
 };
 
@@ -10554,42 +10636,6 @@ ZEPHIR_INIT_FUNCS(phalcon_events_managerinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, fire, arginfo_phalcon_events_managerinterface_fire)
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, hasListeners, arginfo_phalcon_events_managerinterface_haslisteners)
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, getListeners, arginfo_phalcon_events_managerinterface_getlisteners)
-	PHP_FE_END
-};
-
-zend_class_entry *phalcon_filterinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_FilterInterface);
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filterinterface_add, 0, 2, Phalcon\\FilterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filterinterface_add, 0, 2, IS_OBJECT, "Phalcon\\FilterInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-	ZEND_ARG_INFO(0, handler)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filterinterface_sanitize, 0, 0, 2)
-	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_INFO(0, filters)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filterinterface_getfilters, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filterinterface_getfilters, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_filterinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_FilterInterface, add, arginfo_phalcon_filterinterface_add)
-	PHP_ABSTRACT_ME(Phalcon_FilterInterface, sanitize, arginfo_phalcon_filterinterface_sanitize)
-	PHP_ABSTRACT_ME(Phalcon_FilterInterface, getFilters, arginfo_phalcon_filterinterface_getfilters)
 	PHP_FE_END
 };
 
@@ -15681,88 +15727,6 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_repositoryinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getCurrent, arginfo_phalcon_paginator_repositoryinterface_getcurrent)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getNext, arginfo_phalcon_paginator_repositoryinterface_getnext)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getLast, arginfo_phalcon_paginator_repositoryinterface_getlast)
-	PHP_FE_END
-};
-
-zend_class_entry *phalcon_service_locator_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Service_Locator);
-
-static PHP_METHOD(Phalcon_Service_Locator, __construct);
-static PHP_METHOD(Phalcon_Service_Locator, __call);
-static PHP_METHOD(Phalcon_Service_Locator, get);
-static PHP_METHOD(Phalcon_Service_Locator, has);
-static PHP_METHOD(Phalcon_Service_Locator, set);
-zend_object *zephir_init_properties_Phalcon_Service_Locator(zend_class_entry *class_type TSRMLS_DC);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locator___construct, 0, 0, 0)
-	ZEND_ARG_ARRAY_INFO(0, mapper, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locator___call, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-	ZEND_ARG_ARRAY_INFO(0, parameters, 0)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_service_locator_get, 0, 1, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locator_get, 0, 1, IS_OBJECT, "NULL", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locator_has, 0, 1, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locator_has, 0, 1, _IS_BOOL, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_service_locator_set, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-	ZEND_ARG_INFO(0, service)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_service_locator_method_entry) {
-	PHP_ME(Phalcon_Service_Locator, __construct, arginfo_phalcon_service_locator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Service_Locator, __call, arginfo_phalcon_service_locator___call, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Service_Locator, get, arginfo_phalcon_service_locator_get, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Service_Locator, has, arginfo_phalcon_service_locator_has, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Service_Locator, set, arginfo_phalcon_service_locator_set, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
-zend_class_entry *phalcon_service_locatorfactoryinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Service_LocatorFactoryInterface);
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_service_locatorfactoryinterface_newinstance, 0, 0, Phalcon\\Service\\LocatorInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_service_locatorfactoryinterface_newinstance, 0, 0, IS_OBJECT, "Phalcon\\Service\\LocatorInterface", 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_service_locatorfactoryinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Service_LocatorFactoryInterface, newInstance, arginfo_phalcon_service_locatorfactoryinterface_newinstance)
 	PHP_FE_END
 };
 
@@ -23948,31 +23912,22 @@ zend_class_entry *phalcon_factory_exception_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Factory_Exception);
 
 
-zend_class_entry *phalcon_filter_ce;
+zend_class_entry *phalcon_filter_exception_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Filter);
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Exception);
 
-static PHP_METHOD(Phalcon_Filter, add);
-static PHP_METHOD(Phalcon_Filter, sanitize);
-static PHP_METHOD(Phalcon_Filter, _sanitize);
-static PHP_METHOD(Phalcon_Filter, getFilters);
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_add, 0, 2, Phalcon\\FilterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_add, 0, 2, IS_OBJECT, "Phalcon\\FilterInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-	ZEND_ARG_INFO(0, handler)
-ZEND_END_ARG_INFO()
+zend_class_entry *phalcon_filter_filterlocator_ce;
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize, 0, 0, 2)
+ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterLocator);
+
+static PHP_METHOD(Phalcon_Filter_FilterLocator, sanitize);
+static PHP_METHOD(Phalcon_Filter_FilterLocator, processArrayValues);
+static PHP_METHOD(Phalcon_Filter_FilterLocator, sanitizer);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filterlocator_sanitize, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_INFO(0, filters)
+	ZEND_ARG_INFO(0, sanitizers)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, noRecursive, _IS_BOOL, 0)
 #else
@@ -23980,45 +23935,400 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize, 0, 0, 2)
 #endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter__sanitize, 0, 0, 2)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filterlocator_processarrayvalues, 0, 2, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filterlocator_processarrayvalues, 0, 2, IS_ARRAY, NULL, 0)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, sanitizerName, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, sanitizerName)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, sanitizerParams, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filterlocator_sanitizer, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, filter, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sanitizerName, IS_STRING, 0)
 #else
-	ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO(0, sanitizerName)
 #endif
+	ZEND_ARG_ARRAY_INFO(0, sanitizerParams, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_getfilters, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_getfilters, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_filter_method_entry) {
-	PHP_ME(Phalcon_Filter, add, arginfo_phalcon_filter_add, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter, sanitize, arginfo_phalcon_filter_sanitize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter, _sanitize, arginfo_phalcon_filter__sanitize, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Filter, getFilters, arginfo_phalcon_filter_getfilters, ZEND_ACC_PUBLIC)
+ZEPHIR_INIT_FUNCS(phalcon_filter_filterlocator_method_entry) {
+	PHP_ME(Phalcon_Filter_FilterLocator, sanitize, arginfo_phalcon_filter_filterlocator_sanitize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_FilterLocator, processArrayValues, arginfo_phalcon_filter_filterlocator_processarrayvalues, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Filter_FilterLocator, sanitizer, arginfo_phalcon_filter_filterlocator_sanitizer, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_filter_exception_ce;
+zend_class_entry *phalcon_filter_filterlocatorfactory_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Filter_Exception);
+ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterLocatorFactory);
 
+static PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance);
 
-zend_class_entry *phalcon_filter_userfilterinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Filter_UserFilterInterface);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_userfilterinterface_filter, 0, 0, 1)
-	ZEND_ARG_INFO(0, value)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_filterlocatorfactory_newinstance, 0, 0, Phalcon\\Service\\LocatorInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filterlocatorfactory_newinstance, 0, 0, IS_OBJECT, "Phalcon\\Service\\LocatorInterface", 0)
+#endif
 ZEND_END_ARG_INFO()
 
-ZEPHIR_INIT_FUNCS(phalcon_filter_userfilterinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Filter_UserFilterInterface, filter, arginfo_phalcon_filter_userfilterinterface_filter)
+ZEPHIR_INIT_FUNCS(phalcon_filter_filterlocatorfactory_method_entry) {
+	PHP_ME(Phalcon_Filter_FilterLocatorFactory, newInstance, arginfo_phalcon_filter_filterlocatorfactory_newinstance, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_absint_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_AbsInt);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_AbsInt, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_absint___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_absint_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_AbsInt, __invoke, arginfo_phalcon_filter_sanitize_absint___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_alnum_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Alnum);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Alnum, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_alnum___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_alnum_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Alnum, __invoke, arginfo_phalcon_filter_sanitize_alnum___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_alpha_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Alpha);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Alpha, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_alpha___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_alpha_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Alpha, __invoke, arginfo_phalcon_filter_sanitize_alpha___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_boolval_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_boolval___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_boolval_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_BoolVal, __invoke, arginfo_phalcon_filter_sanitize_boolval___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_email_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Email);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Email, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_email___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_email_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Email, __invoke, arginfo_phalcon_filter_sanitize_email___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_floatval_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_FloatVal);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_FloatVal, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_floatval___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_floatval_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_FloatVal, __invoke, arginfo_phalcon_filter_sanitize_floatval___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_intval_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_IntVal);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_IntVal, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_intval___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_intval_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_IntVal, __invoke, arginfo_phalcon_filter_sanitize_intval___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_lower_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Lower);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Lower, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_lower___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_lower_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Lower, __invoke, arginfo_phalcon_filter_sanitize_lower___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_lowerfirst_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_LowerFirst);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_lowerfirst___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_lowerfirst_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_LowerFirst, __invoke, arginfo_phalcon_filter_sanitize_lowerfirst___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_regex_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Regex);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_regex___invoke, 0, 0, 3)
+	ZEND_ARG_INFO(0, input)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, replace)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_regex_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Regex, __invoke, arginfo_phalcon_filter_sanitize_regex___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_remove_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Remove);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Remove, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_remove___invoke, 0, 0, 2)
+	ZEND_ARG_INFO(0, input)
+	ZEND_ARG_INFO(0, replace)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_remove_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Remove, __invoke, arginfo_phalcon_filter_sanitize_remove___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_replace_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Replace);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Replace, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_replace___invoke, 0, 0, 3)
+	ZEND_ARG_INFO(0, input)
+	ZEND_ARG_INFO(0, from)
+	ZEND_ARG_INFO(0, to)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_replace_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Replace, __invoke, arginfo_phalcon_filter_sanitize_replace___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_special_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Special);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Special, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_special___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_special_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Special, __invoke, arginfo_phalcon_filter_sanitize_special___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_specialfull_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_SpecialFull);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_SpecialFull, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_specialfull___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_specialfull_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_SpecialFull, __invoke, arginfo_phalcon_filter_sanitize_specialfull___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_stringval_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_stringval___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_stringval_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_StringVal, __invoke, arginfo_phalcon_filter_sanitize_stringval___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_striptags_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Striptags);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_striptags___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_striptags_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Striptags, __invoke, arginfo_phalcon_filter_sanitize_striptags___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_trim_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Trim);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Trim, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_trim___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_trim_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Trim, __invoke, arginfo_phalcon_filter_sanitize_trim___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_upper_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Upper);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_upper___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_upper_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Upper, __invoke, arginfo_phalcon_filter_sanitize_upper___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_upperfirst_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperFirst);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_UpperFirst, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_upperfirst___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_upperfirst_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_UpperFirst, __invoke, arginfo_phalcon_filter_sanitize_upperfirst___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_upperwords_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperWords);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_upperwords___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_upperwords_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_UpperWords, __invoke, arginfo_phalcon_filter_sanitize_upperwords___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_url_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Url);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_url___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_url_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_Url, __invoke, arginfo_phalcon_filter_sanitize_url___invoke, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -24904,7 +25214,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Anchor);
 
 static PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_anchor___invoke, 0, 0, 2)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_anchor___invoke, 0, 2, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_anchor___invoke, 0, 2, IS_STRING, NULL, 0)
+#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, href, IS_STRING, 0)
 #else
@@ -24929,7 +25243,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Button);
 
 static PHP_METHOD(Phalcon_Html_Helper_Button, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_button___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_button___invoke, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_button___invoke, 0, 1, IS_STRING, NULL, 0)
+#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
 #else
@@ -24949,7 +25267,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Element);
 
 static PHP_METHOD(Phalcon_Html_Helper_Element, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_element___invoke, 0, 0, 2)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_element___invoke, 0, 2, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_element___invoke, 0, 2, IS_STRING, NULL, 0)
+#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
 #else
@@ -24974,7 +25296,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form);
 
 static PHP_METHOD(Phalcon_Html_Helper_Form, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_form___invoke, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_form___invoke, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_form___invoke, 0, 0, IS_STRING, NULL, 0)
+#endif
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
@@ -24989,8 +25315,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_FormClose);
 
 static PHP_METHOD(Phalcon_Html_Helper_FormClose, __invoke);
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_formclose___invoke, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_formclose___invoke, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_formclose_method_entry) {
-	PHP_ME(Phalcon_Html_Helper_FormClose, __invoke, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_FormClose, __invoke, arginfo_phalcon_html_helper_formclose___invoke, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -25000,7 +25333,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_TextArea);
 
 static PHP_METHOD(Phalcon_Html_Helper_TextArea, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_textarea___invoke, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_textarea___invoke, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_textarea___invoke, 0, 1, IS_STRING, NULL, 0)
+#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
 #else
@@ -26184,6 +26521,9 @@ static PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
 static PHP_METHOD(Phalcon_Http_Request, getContentType);
 static PHP_METHOD(Phalcon_Http_Request, getDI);
 static PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
+static PHP_METHOD(Phalcon_Http_Request, getFilteredQuery);
+static PHP_METHOD(Phalcon_Http_Request, getFilteredPost);
+static PHP_METHOD(Phalcon_Http_Request, getFilteredPut);
 static PHP_METHOD(Phalcon_Http_Request, getHeader);
 static PHP_METHOD(Phalcon_Http_Request, getHeaders);
 static PHP_METHOD(Phalcon_Http_Request, getHttpHost);
@@ -26191,18 +26531,18 @@ static PHP_METHOD(Phalcon_Http_Request, getHTTPReferer);
 static PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
 static PHP_METHOD(Phalcon_Http_Request, getLanguages);
 static PHP_METHOD(Phalcon_Http_Request, getMethod);
-static PHP_METHOD(Phalcon_Http_Request, getUserAgent);
 static PHP_METHOD(Phalcon_Http_Request, getPort);
-static PHP_METHOD(Phalcon_Http_Request, getURI);
 static PHP_METHOD(Phalcon_Http_Request, getPost);
 static PHP_METHOD(Phalcon_Http_Request, getPut);
 static PHP_METHOD(Phalcon_Http_Request, getQuery);
 static PHP_METHOD(Phalcon_Http_Request, getRawBody);
 static PHP_METHOD(Phalcon_Http_Request, getScheme);
+static PHP_METHOD(Phalcon_Http_Request, getServer);
 static PHP_METHOD(Phalcon_Http_Request, getServerAddress);
 static PHP_METHOD(Phalcon_Http_Request, getServerName);
-static PHP_METHOD(Phalcon_Http_Request, getServer);
 static PHP_METHOD(Phalcon_Http_Request, getUploadedFiles);
+static PHP_METHOD(Phalcon_Http_Request, getURI);
+static PHP_METHOD(Phalcon_Http_Request, getUserAgent);
 static PHP_METHOD(Phalcon_Http_Request, has);
 static PHP_METHOD(Phalcon_Http_Request, hasFiles);
 static PHP_METHOD(Phalcon_Http_Request, hasHeader);
@@ -26227,16 +26567,30 @@ static PHP_METHOD(Phalcon_Http_Request, isSoap);
 static PHP_METHOD(Phalcon_Http_Request, isTrace);
 static PHP_METHOD(Phalcon_Http_Request, isValidHttpMethod);
 static PHP_METHOD(Phalcon_Http_Request, setDI);
+static PHP_METHOD(Phalcon_Http_Request, setParameterFilters);
 static PHP_METHOD(Phalcon_Http_Request, setStrictHostCheck);
-static PHP_METHOD(Phalcon_Http_Request, _getBestQuality);
-static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader);
+static PHP_METHOD(Phalcon_Http_Request, getBestQuality);
 static PHP_METHOD(Phalcon_Http_Request, getHelper);
 static PHP_METHOD(Phalcon_Http_Request, hasFileHelper);
-static PHP_METHOD(Phalcon_Http_Request, smoothFiles);
+static PHP_METHOD(Phalcon_Http_Request, getQualityHeader);
 static PHP_METHOD(Phalcon_Http_Request, resolveAuthorizationHeaders);
+static PHP_METHOD(Phalcon_Http_Request, smoothFiles);
+static PHP_METHOD(Phalcon_Http_Request, getFilterLocatorService);
+zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type TSRMLS_DC);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_gethttpmethodparameteroverride, 0, 0, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_gethttpmethodparameteroverride, 0, 0, _IS_BOOL, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_sethttpmethodparameteroverride, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, httpMethodParameterOverride, _IS_BOOL, 0)
+#else
 	ZEND_ARG_INFO(0, httpMethodParameterOverride)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_get, 0, 0, 0)
@@ -26330,6 +26684,63 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getdigestau
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getfilteredquery, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, notAllowEmpty, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, notAllowEmpty)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, noRecursive, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, noRecursive)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getfilteredpost, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, notAllowEmpty, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, notAllowEmpty)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, noRecursive, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, noRecursive)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getfilteredput, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, notAllowEmpty, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, notAllowEmpty)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, noRecursive, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, noRecursive)
+#endif
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getheader, 0, 1, IS_STRING, 0)
 #else
@@ -26386,23 +26797,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getmethod, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getuseragent, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getuseragent, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getport, 0, 0, IS_LONG, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getport, 0, 0, IS_LONG, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_geturi, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_geturi, 0, 0, IS_STRING, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -26481,6 +26878,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getscheme, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserver, 0, 1, IS_STRING, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserver, 0, 1, IS_STRING, NULL, 1)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserveraddress, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserveraddress, 0, 0, IS_STRING, NULL, 0)
@@ -26491,18 +26900,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getservername, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getservername, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserver, 0, 1, IS_STRING, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserver, 0, 1, IS_STRING, NULL, 1)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -26520,6 +26917,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getuploaded
 	ZEND_ARG_TYPE_INFO(0, namedKeys, _IS_BOOL, 0)
 #else
 	ZEND_ARG_INFO(0, namedKeys)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_geturi, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_geturi, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getuseragent, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getuseragent, 0, 0, IS_STRING, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -26731,7 +27142,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_isvalidhttp
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_setparameterfilters, 0, 1, Phalcon\\Http\\RequestInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_setparameterfilters, 0, 1, IS_OBJECT, "Phalcon\\Http\\RequestInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, filters, 0)
+	ZEND_ARG_ARRAY_INFO(0, scope, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -26747,28 +27172,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_setstrictho
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request__getbestquality, 0, 2, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getbestquality, 0, 2, IS_STRING, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request__getbestquality, 0, 2, IS_STRING, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getbestquality, 0, 2, IS_STRING, NULL, 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, qualityParts, 0)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request__getqualityheader, 0, 2, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request__getqualityheader, 0, 2, IS_ARRAY, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, serverIndex, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, serverIndex)
-#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 #else
@@ -26811,6 +27219,30 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_hasfilehelp
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getqualityheader, 0, 2, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getqualityheader, 0, 2, IS_ARRAY, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, serverIndex, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, serverIndex)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_resolveauthorizationheaders, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_resolveauthorizationheaders, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_smoothfiles, 0, 6, IS_ARRAY, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_smoothfiles, 0, 6, IS_ARRAY, NULL, 0)
@@ -26828,14 +27260,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_smoothfiles
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_resolveauthorizationheaders, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_getfilterlocatorservice, 0, 0, Phalcon\\Service\\LocatorInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_resolveauthorizationheaders, 0, 0, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getfilterlocatorservice, 0, 0, IS_OBJECT, "Phalcon\\Service\\LocatorInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
-	PHP_ME(Phalcon_Http_Request, getHttpMethodParameterOverride, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getHttpMethodParameterOverride, arginfo_phalcon_http_request_gethttpmethodparameteroverride, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setHttpMethodParameterOverride, arginfo_phalcon_http_request_sethttpmethodparameteroverride, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, get, arginfo_phalcon_http_request_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getAcceptableContent, arginfo_phalcon_http_request_getacceptablecontent, ZEND_ACC_PUBLIC)
@@ -26848,6 +27280,9 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getContentType, arginfo_phalcon_http_request_getcontenttype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getDI, arginfo_phalcon_http_request_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getDigestAuth, arginfo_phalcon_http_request_getdigestauth, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getFilteredQuery, arginfo_phalcon_http_request_getfilteredquery, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getFilteredPost, arginfo_phalcon_http_request_getfilteredpost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getFilteredPut, arginfo_phalcon_http_request_getfilteredput, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHeader, arginfo_phalcon_http_request_getheader, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getHeaders, arginfo_phalcon_http_request_getheaders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHttpHost, arginfo_phalcon_http_request_gethttphost, ZEND_ACC_PUBLIC)
@@ -26855,18 +27290,18 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, arginfo_phalcon_http_request_getjsonrawbody, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getLanguages, arginfo_phalcon_http_request_getlanguages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getMethod, arginfo_phalcon_http_request_getmethod, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, getUserAgent, arginfo_phalcon_http_request_getuseragent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getPort, arginfo_phalcon_http_request_getport, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, getURI, arginfo_phalcon_http_request_geturi, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getPost, arginfo_phalcon_http_request_getpost, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getPut, arginfo_phalcon_http_request_getput, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getQuery, arginfo_phalcon_http_request_getquery, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getRawBody, arginfo_phalcon_http_request_getrawbody, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getScheme, arginfo_phalcon_http_request_getscheme, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getServer, arginfo_phalcon_http_request_getserver, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getServerAddress, arginfo_phalcon_http_request_getserveraddress, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getServerName, arginfo_phalcon_http_request_getservername, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, getServer, arginfo_phalcon_http_request_getserver, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getUploadedFiles, arginfo_phalcon_http_request_getuploadedfiles, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getURI, arginfo_phalcon_http_request_geturi, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getUserAgent, arginfo_phalcon_http_request_getuseragent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, has, arginfo_phalcon_http_request_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasFiles, arginfo_phalcon_http_request_hasfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasHeader, arginfo_phalcon_http_request_hasheader, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
@@ -26891,13 +27326,15 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, isTrace, arginfo_phalcon_http_request_istrace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isValidHttpMethod, arginfo_phalcon_http_request_isvalidhttpmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setDI, arginfo_phalcon_http_request_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, setParameterFilters, arginfo_phalcon_http_request_setparameterfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setStrictHostCheck, arginfo_phalcon_http_request_setstricthostcheck, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, _getBestQuality, arginfo_phalcon_http_request__getbestquality, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, _getQualityHeader, arginfo_phalcon_http_request__getqualityheader, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getBestQuality, arginfo_phalcon_http_request_getbestquality, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getHelper, arginfo_phalcon_http_request_gethelper, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, hasFileHelper, arginfo_phalcon_http_request_hasfilehelper, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, smoothFiles, arginfo_phalcon_http_request_smoothfiles, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getQualityHeader, arginfo_phalcon_http_request_getqualityheader, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, resolveAuthorizationHeaders, arginfo_phalcon_http_request_resolveauthorizationheaders, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, smoothFiles, arginfo_phalcon_http_request_smoothfiles, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getFilterLocatorService, arginfo_phalcon_http_request_getfilterlocatorservice, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 
