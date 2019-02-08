@@ -27,7 +27,7 @@ class GetServerParamsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetServerParams(UnitTester $I)
+    public function httpMessageServerRequestGetServerParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getServerParams()');
         $I->skipTest('Need implementation');

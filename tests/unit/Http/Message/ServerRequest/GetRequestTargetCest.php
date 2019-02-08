@@ -27,7 +27,7 @@ class GetRequestTargetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetRequestTarget(UnitTester $I)
+    public function httpMessageServerRequestGetRequestTarget(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getRequestTarget()');
         $I->skipTest('Need implementation');

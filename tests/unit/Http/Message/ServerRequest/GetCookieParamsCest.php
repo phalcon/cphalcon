@@ -27,7 +27,7 @@ class GetCookieParamsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetCookieParams(UnitTester $I)
+    public function httpMessageServerRequestGetCookieParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getCookieParams()');
         $I->skipTest('Need implementation');

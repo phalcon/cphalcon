@@ -27,7 +27,7 @@ class GetParsedBodyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetParsedBody(UnitTester $I)
+    public function httpMessageServerRequestGetParsedBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getParsedBody()');
         $I->skipTest('Need implementation');

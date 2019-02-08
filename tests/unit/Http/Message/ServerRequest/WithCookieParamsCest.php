@@ -27,7 +27,7 @@ class WithCookieParamsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithCookieParams(UnitTester $I)
+    public function httpMessageServerRequestWithCookieParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withCookieParams()');
         $I->skipTest('Need implementation');

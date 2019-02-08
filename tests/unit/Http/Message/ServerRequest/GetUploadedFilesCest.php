@@ -27,7 +27,7 @@ class GetUploadedFilesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetUploadedFiles(UnitTester $I)
+    public function httpMessageServerRequestGetUploadedFiles(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getUploadedFiles()');
         $I->skipTest('Need implementation');

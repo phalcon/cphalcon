@@ -27,7 +27,7 @@ class WithAttributeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithAttribute(UnitTester $I)
+    public function httpMessageServerRequestWithAttribute(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withAttribute()');
         $I->skipTest('Need implementation');

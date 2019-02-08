@@ -27,7 +27,7 @@ class GetUriCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetUri(UnitTester $I)
+    public function httpMessageServerRequestGetUri(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getUri()');
         $I->skipTest('Need implementation');

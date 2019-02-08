@@ -27,7 +27,7 @@ class GetHeaderLineCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetHeaderLine(UnitTester $I)
+    public function httpMessageServerRequestGetHeaderLine(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getHeaderLine()');
         $I->skipTest('Need implementation');

@@ -27,7 +27,7 @@ class GetMethodCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetMethod(UnitTester $I)
+    public function httpMessageServerRequestGetMethod(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getMethod()');
         $I->skipTest('Need implementation');

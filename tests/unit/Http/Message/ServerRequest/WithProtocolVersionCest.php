@@ -27,7 +27,7 @@ class WithProtocolVersionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithProtocolVersion(UnitTester $I)
+    public function httpMessageServerRequestWithProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withProtocolVersion()');
         $I->skipTest('Need implementation');

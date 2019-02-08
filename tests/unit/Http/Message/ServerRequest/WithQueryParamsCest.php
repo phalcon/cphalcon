@@ -27,7 +27,7 @@ class WithQueryParamsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithQueryParams(UnitTester $I)
+    public function httpMessageServerRequestWithQueryParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withQueryParams()');
         $I->skipTest('Need implementation');

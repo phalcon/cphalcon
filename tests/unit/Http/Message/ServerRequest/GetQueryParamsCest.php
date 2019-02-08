@@ -27,7 +27,7 @@ class GetQueryParamsCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetQueryParams(UnitTester $I)
+    public function httpMessageServerRequestGetQueryParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getQueryParams()');
         $I->skipTest('Need implementation');

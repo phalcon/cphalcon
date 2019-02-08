@@ -27,7 +27,7 @@ class GetAttributesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetAttributes(UnitTester $I)
+    public function httpMessageServerRequestGetAttributes(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getAttributes()');
         $I->skipTest('Need implementation');

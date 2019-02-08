@@ -27,7 +27,7 @@ class WithUploadedFilesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithUploadedFiles(UnitTester $I)
+    public function httpMessageServerRequestWithUploadedFiles(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withUploadedFiles()');
         $I->skipTest('Need implementation');

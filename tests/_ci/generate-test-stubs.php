@@ -74,7 +74,7 @@ foreach ($phalconClasses as $class) {
     foreach ($methods as $method) {
         $placeholders['%ns%'] = $class;
         $placeholders['%n%']  = $newClass;
-        $placeholders['%nn%'] = lcfirst(Text::camelize($newClass, '\\'));
+        $placeholders['%nn%'] = lcfirst(str_replace('\\', '', $newClass));
         $placeholders['%sm%'] = $method;
 
         switch ($method) {

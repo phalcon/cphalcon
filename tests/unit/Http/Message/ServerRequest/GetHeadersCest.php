@@ -27,7 +27,7 @@ class GetHeadersCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestGetHeaders(UnitTester $I)
+    public function httpMessageServerRequestGetHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getHeaders()');
         $I->skipTest('Need implementation');

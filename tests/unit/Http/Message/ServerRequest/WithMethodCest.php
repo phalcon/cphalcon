@@ -27,7 +27,7 @@ class WithMethodCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithMethod(UnitTester $I)
+    public function httpMessageServerRequestWithMethod(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withMethod()');
         $I->skipTest('Need implementation');

@@ -27,7 +27,7 @@ class WithParsedBodyCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithParsedBody(UnitTester $I)
+    public function httpMessageServerRequestWithParsedBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withParsedBody()');
         $I->skipTest('Need implementation');

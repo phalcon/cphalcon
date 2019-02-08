@@ -121,7 +121,7 @@ class ServerRequest implements ServerRequestInterface
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
      */
-    public function getHeader(string name) -> array
+    public function getHeader(var name) -> array
     {
 
     }
@@ -145,7 +145,7 @@ class ServerRequest implements ServerRequestInterface
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
      */
-    public function getHeaderLine(string name) -> string
+    public function getHeaderLine(var name) -> string
     {
 
     }
@@ -307,7 +307,7 @@ class ServerRequest implements ServerRequestInterface
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
      */
-    public function hasHeader(string name) -> bool
+    public function hasHeader(var name) -> bool
     {
 
     }
@@ -329,7 +329,7 @@ class ServerRequest implements ServerRequestInterface
      * @throws \InvalidArgumentException for invalid header names.
      * @throws \InvalidArgumentException for invalid header values.
      */
-    public function withAddedHeader(string name, var value) -> <ServerRequestInterface>
+    public function withAddedHeader(var name, var value) -> <ServerRequestInterface>
     {
 
     }
@@ -349,7 +349,7 @@ class ServerRequest implements ServerRequestInterface
 	 * @param mixed $value The value of the attribute.
 	 * @return static
 	 */
-	public function withAttribute(string name, var value) -> <ServerRequestInterface>
+	public function withAttribute(var name, var value) -> <ServerRequestInterface>
 	{
 
 	}
@@ -406,7 +406,7 @@ class ServerRequest implements ServerRequestInterface
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader(string name, var value) -> <ServerRequestInterface>
+    public function withHeader(var name, var value) -> <ServerRequestInterface>
     {
 
     }
@@ -423,7 +423,7 @@ class ServerRequest implements ServerRequestInterface
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader(string name) -> <ServerRequestInterface>
+    public function withoutHeader(var name) -> <ServerRequestInterface>
     {
 
     }
@@ -441,7 +441,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @throws \InvalidArgumentException for invalid HTTP methods.
 	 */
-	public function withMethod(string method) -> <ServerRequestInterface>
+	public function withMethod(var method) -> <ServerRequestInterface>
 	{
 
 	}
@@ -492,7 +492,7 @@ class ServerRequest implements ServerRequestInterface
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function withProtocolVersion(string version) -> <ServerRequestInterface>
+    public function withProtocolVersion(var version) -> <ServerRequestInterface>
     {
 
     }
@@ -589,7 +589,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
 	 */
-	public function withUri(<UriInterface> uri, bool preserveHost = false) -> <ServerRequestInterface>
+	public function withUri(var uri, var preserveHost = false) -> <ServerRequestInterface>
 	{
 
 	}
@@ -608,7 +608,7 @@ class ServerRequest implements ServerRequestInterface
 	 * @param string $name The attribute name.
 	 * @return static
 	 */
-	public function withoutAttribute(string name) -> <ServerRequestInterface>
+	public function withoutAttribute(var name) -> <ServerRequestInterface>
 	{
 
 	}

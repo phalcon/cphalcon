@@ -27,7 +27,7 @@ class WithHeaderCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithHeader(UnitTester $I)
+    public function httpMessageServerRequestWithHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withHeader()');
         $I->skipTest('Need implementation');

@@ -27,7 +27,7 @@ class WithRequestTargetCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestWithRequestTarget(UnitTester $I)
+    public function httpMessageServerRequestWithRequestTarget(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withRequestTarget()');
         $I->skipTest('Need implementation');

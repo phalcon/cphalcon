@@ -29,7 +29,7 @@ class CreateServerRequestCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpMessageServerrequestfactoryCreateServerRequest(UnitTester $I)
+    public function httpMessageServerRequestFactoryCreateServerRequest(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequestFactory - createServerRequest()');
 
