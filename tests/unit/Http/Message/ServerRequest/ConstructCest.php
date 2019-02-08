@@ -12,24 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use UnitTester;
 
 /**
- * Class GetRequestTargetCest
+ * Class ConstructCest
  */
-class GetRequestTargetCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Http\Message\ServerRequest :: getRequestTarget()
+     * Tests Phalcon\Http\Message\ServerRequest :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08
      */
-    public function httpMessageServerRequestGetRequestTarget(UnitTester $I)
+    public function httpMessageServerRequestConstructCest(UnitTester $I)
     {
-        $I->wantToTest('Http\Message\ServerRequest - getRequestTarget()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Http\Message\ServerRequest - __construct()');
+        $request = new ServerRequest();
+        $class   = ServerRequestInterface::class;
+        $I->assertInstanceOf($class, $request);
     }
 }

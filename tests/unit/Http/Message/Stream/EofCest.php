@@ -10,26 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
+namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use UnitTester;
 
 /**
- * Class GetRequestTargetCest
+ * Class EofCest
  */
-class GetRequestTargetCest
+class EofCest
 {
     /**
-     * Tests Phalcon\Http\Message\ServerRequest :: getRequestTarget()
+     * Tests Phalcon\Http\Message\Stream :: eof()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08
      */
-    public function httpMessageServerRequestGetRequestTarget(UnitTester $I)
+    public function httpMessageStreamEof(UnitTester $I)
     {
-        $I->wantToTest('Http\Message\ServerRequest - getRequestTarget()');
+        $I->wantToTest('Http\Message\Stream - eof()');
         $I->skipTest('Need implementation');
     }
 }

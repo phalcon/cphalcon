@@ -39,7 +39,7 @@ class %m%Cest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  %d%
      */
     public function %nn%%m%(UnitTester $I)
     {
@@ -63,6 +63,7 @@ $placeholders = [
     '%n%'  => '',
     '%m%'  => '',
     '%sm%' => '',
+    '%d%'  => date('Y-m-d'),
 ];
 
 $outputFolder = dirname(dirname(__FILE__)) . '/nikos/';
