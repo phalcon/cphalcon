@@ -67,7 +67,7 @@ class ServerRequest implements ServerRequestInterface
 	 * This method obviates the need for a hasAttribute() method, as it allows
 	 * specifying a default value to return if the attribute is not found.
 	 */
-	public function getAttribute(string name, var defaultValue = null) -> var
+	public function getAttribute(var name, var defaultValue = null) -> var
 	{
 
 	}
