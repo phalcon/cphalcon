@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 118, &params);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 119, &params);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -434,28 +434,36 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 
 zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval _0, _2, _1$$3, _3$$4;
+		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$5);
 
 		ZEPHIR_MM_GROW();
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("_params"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("_activeMethodMap"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("_params"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("_activeMethodMap"), &_1$$3);
 		}
-		zephir_read_property(&_2, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2, this_ptr, SL("_params"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("_options"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("_params"), &_3$$4);
+		}
+		zephir_read_property(&_4, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_4) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_5$$5);
+			array_init(&_5$$5);
+			zephir_update_property_zval(this_ptr, SL("_options"), &_5$$5);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

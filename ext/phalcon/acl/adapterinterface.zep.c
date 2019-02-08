@@ -34,57 +34,57 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_AdapterInterface) {
 }
 
 /**
- * Do a operation inherit from another existing operation
+ * Do a role inherit from another existing role
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addInherit);
 
 /**
- * Adds a operation to the ACL list. Second parameter lets to inherit access data from other existing operation
+ * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addOperation);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addRole);
 
 /**
- * Adds a subject to the ACL list
+ * Adds a component to the ACL list
  *
  * Access names can be a particular action, by example
  * search, update, delete, etc or a list of them
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addSubject);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addComponent);
 
 /**
- * Adds access to subjects
+ * Adds access to components
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addSubjectAccess);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addComponentAccess);
 
 /**
- * Allow access to a operation on a subject
+ * Allow access to a role on a component
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, allow);
 
 /**
- * Deny access to a operation on a subject
+ * Deny access to a role on a component
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, deny);
 
 /**
- * Removes an access from a subject
+ * Removes an access from a component
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropSubjectAccess);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropComponentAccess);
 
 /**
- * Returns the access which the list is checking if some operation can access it
+ * Returns the access which the list is checking if some role can access it
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
 
 /**
- * Returns the operation which the list is checking if it's allowed to certain subject/access
+ * Returns the role which the list is checking if it's allowed to certain component/access
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveOperation);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveRole);
 
 /**
- * Returns the subject which the list is checking if some operation can access it
+ * Returns the component which the list is checking if some role can access it
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveSubject);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveComponent);
 
 /**
  * Returns the default ACL access level
@@ -98,29 +98,29 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getNoArgumentsDefaultAction);
 
 /**
- * Return an array with every operation registered in the list
+ * Return an array with every role registered in the list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getOperations);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getRoles);
 
 /**
- * Return an array with every subject registered in the list
+ * Return an array with every component registered in the list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getSubjects);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getComponents);
 
 /**
- * Check whether a operation is allowed to access an action from a subject
+ * Check whether a role is allowed to access an action from a component
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isAllowed);
 
 /**
- * Check whether subject exist in the subjects list
+ * Check whether component exist in the components list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isSubject);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isComponent);
 
 /**
- * Check whether operation exist in the operations list
+ * Check whether role exist in the roles list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isOperation);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, isRole);
 
 /**
  * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)

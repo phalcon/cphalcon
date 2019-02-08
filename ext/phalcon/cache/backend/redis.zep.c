@@ -200,10 +200,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, connect) {
 	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&redis);
 	object_init_ex(&redis, zephir_get_internal_ce(SL("redis")));
-	if (zephir_has_constructor(&redis TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, &redis, "__construct", NULL, 0);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(NULL, &redis, "__construct", NULL, 0);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&host);
 	_0 = !(zephir_array_isset_string_fetch(&host, &options, SL("host"), 0));
 	if (!(_0)) {
@@ -314,7 +312,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
 	}
 	ZEPHIR_OBS_VAR(&frontend);
 	zephir_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getstorekey", NULL, 106, &keyName);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getstorekey", NULL, 107, &keyName);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &_2);
 	zephir_read_property(&_0, this_ptr, SL("_lastKey"), PH_NOISY_CC | PH_READONLY);
@@ -409,9 +407,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		ZEPHIR_INIT_VAR(&prefixedKey);
 		zephir_substr(&prefixedKey, &_0$$3, zephir_get_intval(&_2$$3), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	} else {
-		ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 107, keyName);
+		ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 108, keyName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "getstorekey", NULL, 106, keyName);
+		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "getstorekey", NULL, 107, keyName);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_lastKey"), &_3$$4);
 	}
@@ -524,9 +522,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, delete) {
 		zephir_read_property(&_1$$3, this_ptr, SL("redis"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&redis, &_1$$3);
 	}
-	ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 107, keyName);
+	ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 108, keyName);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getstorekey", NULL, 106, keyName);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getstorekey", NULL, 107, keyName);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &_2);
 	zephir_read_property(&_0, this_ptr, SL("statsKey"), PH_NOISY_CC | PH_READONLY);
@@ -663,7 +661,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 
 
 	if (zephir_is_true(keyName)) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getstorekey", NULL, 106, keyName);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getstorekey", NULL, 107, keyName);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_lastKey"), &_0$$3);
 	}
@@ -728,7 +726,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, increment) {
 		ZEPHIR_CPY_WRT(&redis, &_1$$3);
 	}
 	if (zephir_is_true(keyName)) {
-		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getstorekey", NULL, 106, keyName);
+		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getstorekey", NULL, 107, keyName);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_lastKey"), &_2$$4);
 	}
@@ -782,7 +780,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, decrement) {
 		ZEPHIR_CPY_WRT(&redis, &_1$$3);
 	}
 	if (zephir_is_true(keyName)) {
-		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getstorekey", NULL, 106, keyName);
+		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getstorekey", NULL, 107, keyName);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_lastKey"), &_2$$4);
 	}
@@ -898,7 +896,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, getStoreKey) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("statsKey"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedkey", NULL, 107, &keyName);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedkey", NULL, 108, &keyName);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VV(return_value, &_0, &_1);
 	RETURN_MM();

@@ -78,8 +78,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/service/locatorfactoryinterface.zep.c
 	phalcon/translate/interpolatorinterface.zep.c
 	phalcon/acl/adapter.zep.c
-	phalcon/acl/operationinterface.zep.c
-	phalcon/acl/subjectinterface.zep.c
+	phalcon/acl/componentinterface.zep.c
+	phalcon/acl/roleinterface.zep.c
 	phalcon/annotations/readerinterface.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
 	phalcon/cli/taskinterface.zep.c
@@ -130,11 +130,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validationinterface.zep.c
 	phalcon/acl.zep.c
 	phalcon/acl/adapter/memory.zep.c
+	phalcon/acl/component.zep.c
+	phalcon/acl/componentaware.zep.c
 	phalcon/acl/exception.zep.c
-	phalcon/acl/operation.zep.c
-	phalcon/acl/operationaware.zep.c
-	phalcon/acl/subject.zep.c
-	phalcon/acl/subjectaware.zep.c
+	phalcon/acl/role.zep.c
+	phalcon/acl/roleaware.zep.c
 	phalcon/annotations/adapter/apcu.zep.c
 	phalcon/annotations/adapter/files.zep.c
 	phalcon/annotations/adapter/memory.zep.c

@@ -58,8 +58,8 @@ zend_class_entry *phalcon_mvc_model_resultinterface_ce;
 zend_class_entry *phalcon_mvc_routerinterface_ce;
 zend_class_entry *phalcon_service_locatorfactoryinterface_ce;
 zend_class_entry *phalcon_translate_interpolatorinterface_ce;
-zend_class_entry *phalcon_acl_operationinterface_ce;
-zend_class_entry *phalcon_acl_subjectinterface_ce;
+zend_class_entry *phalcon_acl_componentinterface_ce;
+zend_class_entry *phalcon_acl_roleinterface_ce;
 zend_class_entry *phalcon_annotations_readerinterface_ce;
 zend_class_entry *phalcon_cli_dispatcherinterface_ce;
 zend_class_entry *phalcon_cli_taskinterface_ce;
@@ -101,8 +101,8 @@ zend_class_entry *phalcon_paginator_repositoryinterface_ce;
 zend_class_entry *phalcon_session_baginterface_ce;
 zend_class_entry *phalcon_session_managerinterface_ce;
 zend_class_entry *phalcon_validationinterface_ce;
-zend_class_entry *phalcon_acl_operationaware_ce;
-zend_class_entry *phalcon_acl_subjectaware_ce;
+zend_class_entry *phalcon_acl_componentaware_ce;
+zend_class_entry *phalcon_acl_roleaware_ce;
 zend_class_entry *phalcon_cli_router_routeinterface_ce;
 zend_class_entry *phalcon_cli_routerinterface_ce;
 zend_class_entry *phalcon_di_serviceproviderinterface_ce;
@@ -183,9 +183,9 @@ zend_class_entry *phalcon_8__closure_ce;
 zend_class_entry *phalcon_9__closure_ce;
 zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_ce;
+zend_class_entry *phalcon_acl_component_ce;
 zend_class_entry *phalcon_acl_exception_ce;
-zend_class_entry *phalcon_acl_operation_ce;
-zend_class_entry *phalcon_acl_subject_ce;
+zend_class_entry *phalcon_acl_role_ce;
 zend_class_entry *phalcon_annotations_adapter_apcu_ce;
 zend_class_entry *phalcon_annotations_adapter_files_ce;
 zend_class_entry *phalcon_annotations_adapter_memory_ce;
@@ -468,10 +468,10 @@ ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers", "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.db.force_casting", "0", PHP_INI_ALL, OnUpdateBool, db.force_casting, zend_phalcon_globals, phalcon_globals)
-
-
-
-
+	
+	
+	
+	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.events", "1", PHP_INI_ALL, OnUpdateBool, orm.events, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming", "1", PHP_INI_ALL, OnUpdateBool, orm.column_renaming, zend_phalcon_globals, phalcon_globals)
@@ -525,8 +525,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_RouterInterface);
 	ZEPHIR_INIT(Phalcon_Service_LocatorFactoryInterface);
 	ZEPHIR_INIT(Phalcon_Translate_InterpolatorInterface);
-	ZEPHIR_INIT(Phalcon_Acl_OperationInterface);
-	ZEPHIR_INIT(Phalcon_Acl_SubjectInterface);
+	ZEPHIR_INIT(Phalcon_Acl_ComponentInterface);
+	ZEPHIR_INIT(Phalcon_Acl_RoleInterface);
 	ZEPHIR_INIT(Phalcon_Annotations_ReaderInterface);
 	ZEPHIR_INIT(Phalcon_Cli_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Cli_TaskInterface);
@@ -568,8 +568,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Session_BagInterface);
 	ZEPHIR_INIT(Phalcon_Session_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_ValidationInterface);
-	ZEPHIR_INIT(Phalcon_Acl_OperationAware);
-	ZEPHIR_INIT(Phalcon_Acl_SubjectAware);
+	ZEPHIR_INIT(Phalcon_Acl_ComponentAware);
+	ZEPHIR_INIT(Phalcon_Acl_RoleAware);
 	ZEPHIR_INIT(Phalcon_Cli_RouterInterface);
 	ZEPHIR_INIT(Phalcon_Cli_Router_RouteInterface);
 	ZEPHIR_INIT(Phalcon_Di_ServiceProviderInterface);
@@ -622,9 +622,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Validation_CombinedFieldsValidator);
 	ZEPHIR_INIT(Phalcon_Acl);
 	ZEPHIR_INIT(Phalcon_Acl_Adapter_Memory);
+	ZEPHIR_INIT(Phalcon_Acl_Component);
 	ZEPHIR_INIT(Phalcon_Acl_Exception);
-	ZEPHIR_INIT(Phalcon_Acl_Operation);
-	ZEPHIR_INIT(Phalcon_Acl_Subject);
+	ZEPHIR_INIT(Phalcon_Acl_Role);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Apcu);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Files);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Memory);
@@ -929,14 +929,14 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_7__closure);
 	ZEPHIR_INIT(phalcon_8__closure);
 	ZEPHIR_INIT(phalcon_9__closure);
-
+	
 	return SUCCESS;
 }
 
 #ifndef ZEPHIR_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
-
+	
 	zephir_deinitialize_memory(TSRMLS_C);
 	UNREGISTER_INI_ENTRIES();
 	return SUCCESS;
@@ -965,7 +965,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 	/* Static cache */
 	memset(phalcon_globals->scache, '\0', sizeof(zephir_fcall_cache_entry*) * ZEPHIR_MAX_CACHE_SLOTS);
 
-
+	
 
 	phalcon_globals->orm.parser_cache = NULL;
 	phalcon_globals->orm.ast_cache = NULL;
@@ -985,7 +985,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 
 
 
-
+	
 }
 
 /**
@@ -993,7 +993,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
  */
 static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC)
 {
-
+	
 }
 
 static PHP_RINIT_FUNCTION(phalcon)
@@ -1007,7 +1007,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	php_zephir_init_globals(phalcon_globals_ptr TSRMLS_CC);
 	zephir_initialize_memory(phalcon_globals_ptr TSRMLS_CC);
 
-
+	
 	return SUCCESS;
 }
 
@@ -1033,7 +1033,7 @@ static PHP_MINFO_FUNCTION(phalcon)
 	php_info_print_table_row(2, "Build Date", __DATE__ " " __TIME__ );
 	php_info_print_table_row(2, "Powered by Zephir", "Version " PHP_PHALCON_ZEPVERSION);
 	php_info_print_table_end();
-
+	
 	DISPLAY_INI_ENTRIES();
 }
 
@@ -1045,7 +1045,7 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)
 {
-
+	
 }
 
 
@@ -1054,18 +1054,10 @@ zend_function_entry php_phalcon_functions[] = {
 
 };
 
-static const zend_module_dep php_phalcon_deps[] = { /* {{{ */
-	ZEND_MOD_REQUIRED("json")
-	ZEND_MOD_REQUIRED("pcre")
-	ZEND_MOD_REQUIRED("psr")
-	ZEND_MOD_END
-};
-/* }}} */
-
 zend_module_entry phalcon_module_entry = {
 	STANDARD_MODULE_HEADER_EX,
 	NULL,
-	php_phalcon_deps,
+	NULL,
 	PHP_PHALCON_EXTNAME,
 	php_phalcon_functions,
 	PHP_MINIT(phalcon),
