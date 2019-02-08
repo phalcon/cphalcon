@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Operation;
+namespace Phalcon\Test\Unit\Acl\Role;
 
-use Phalcon\Acl\Operation;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 /**
@@ -21,24 +21,24 @@ use UnitTester;
 class ToStringCest
 {
     /**
-     * Tests Phalcon\Acl\Operation :: __toString()
+     * Tests Phalcon\Acl\Role :: __toString()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclOperationToString(UnitTester $I)
+    public function aclRoleToString(UnitTester $I)
     {
-        $I->wantToTest('Acl\Operation - __toString()');
-        $operation = new Operation('Administrator');
+        $I->wantToTest('Acl\Role - __toString()');
+        $role = new Role('Administrator');
 
         $expected = 'Administrator';
-        $actual   = $operation->__toString();
+        $actual   = $role->__toString();
         $I->assertEquals($expected, $actual);
 
         $expected = 'Administrator';
-        $actual   = (string) $operation;
+        $actual   = (string) $role;
         $I->assertEquals($expected, $actual);
     }
 }

@@ -10,26 +10,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Test\Unit\Acl\Role;
 
+use Phalcon\Acl\Role;
 use UnitTester;
 
 /**
- * Class DropSubjectAccessCest
+ * Class GetNameCest
  */
-class DropSubjectAccessCest
+class GetNameCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: dropSubjectAccess()
+     * Tests Phalcon\Acl\Role :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryDropSubjectAccess(UnitTester $I)
+    public function aclRoleGetName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - dropSubjectAccess()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Acl\Role - getName()');
+        $role = new Role('Administrators');
+
+        $expected = 'Administrators';
+        $actual   = $role->getName();
+        $I->assertEquals($expected, $actual);
     }
 }

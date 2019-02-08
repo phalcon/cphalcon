@@ -13,35 +13,35 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Subject;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 /**
- * Class GetSubjectsCest
+ * Class GetComponentsCest
  */
-class GetSubjectsCest
+class GetComponentsCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getSubjects()
+     * Tests Phalcon\Acl\Adapter\Memory :: getComponents()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetSubjects(UnitTester $I)
+    public function aclAdapterMemoryGetComponents(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getSubjects()');
+        $I->wantToTest('Acl\Adapter\Memory - getComponents()');
         $acl = new Memory();
 
-        $subject1 = new Subject('Posts');
-        $subject2 = new Subject('Tags');
+        $component1 = new Component('Posts');
+        $component2 = new Component('Tags');
 
-        $acl->addSubject($subject1, ['index']);
-        $acl->addSubject($subject2, ['index']);
+        $acl->addComponent($component1, ['index']);
+        $acl->addComponent($component2, ['index']);
 
-        $expected = [$subject1, $subject2];
-        $actual   = $acl->getSubjects();
+        $expected = [$component1, $component2];
+        $actual   = $acl->getComponents();
         $I->assertEquals($expected, $actual);
     }
 }

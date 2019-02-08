@@ -10,11 +10,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Operation;
+namespace Phalcon\Test\Unit\Acl\Role;
 
 use BadMethodCallException;
 use Phalcon\Acl\Exception;
-use Phalcon\Acl\Operation;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 /**
@@ -23,56 +23,56 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Acl\Operation :: __construct()
+     * Tests Phalcon\Acl\Role :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclOperationConstruct(UnitTester $I)
+    public function aclRoleConstruct(UnitTester $I)
     {
-        $I->wantToTest('Acl\Operation - __construct()');
-        $actual = new Operation('Administrator');
+        $I->wantToTest('Acl\Role - __construct()');
+        $actual = new Role('Administrator');
 
-        $class = Operation::class;
+        $class = Role::class;
         $I->assertInstanceOf($class, $actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Operation :: __construct() - wildcard
+     * Tests Phalcon\Acl\Role :: __construct() - wildcard
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclOperationConstructWithWildcardThrowsException(UnitTester $I)
+    public function aclRoleConstructWithWildcardThrowsException(UnitTester $I)
     {
-        $I->wantToTest('Acl\Operation - __construct() - exception with "*"');
+        $I->wantToTest('Acl\Role - __construct() - exception with "*"');
         $I->expectThrowable(
-            new Exception("Operation name cannot be '*'"),
+            new Exception("Role name cannot be '*'"),
             function () {
-                $operation = new Operation('*');
+                $role = new Role('*');
             }
         );
     }
 
     /**
-     * Tests Phalcon\Acl\Operation :: __construct() - without name
+     * Tests Phalcon\Acl\Role :: __construct() - without name
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclOperationConstructWithoutName(UnitTester $I)
+    public function aclRoleConstructWithoutName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Operation - __construct() - exception params');
+        $I->wantToTest('Acl\Role - __construct() - exception params');
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {
-                $operation = new Operation();
+                $role = new Role();
             }
         );
     }

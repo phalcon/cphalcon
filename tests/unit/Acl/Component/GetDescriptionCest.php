@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Subject;
+namespace Phalcon\Test\Unit\Acl\Component;
 
-use Phalcon\Acl\Subject;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 /**
@@ -21,37 +21,37 @@ use UnitTester;
 class GetDescriptionCest
 {
     /**
-     * Tests Phalcon\Acl\Subject :: getDescription()
+     * Tests Phalcon\Acl\Component :: getDescription()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectGetDescription(UnitTester $I)
+    public function aclComponentGetDescription(UnitTester $I)
     {
-        $I->wantToTest('Acl\Subject - getDescription()');
-        $subject = new Subject('Customers', 'Customer management');
+        $I->wantToTest('Acl\Component - getDescription()');
+        $component = new Component('Customers', 'Customer management');
 
         $expected = 'Customer management';
-        $actual   = $subject->getDescription();
+        $actual   = $component->getDescription();
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Subject :: getDescription() - empty
+     * Tests Phalcon\Acl\Component :: getDescription() - empty
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectGetDescriptionEmpty(UnitTester $I)
+    public function aclComponentGetDescriptionEmpty(UnitTester $I)
     {
-        $I->wantToTest("Acl\Subject - getDescription() - empty");
-        $subject = new Subject('Customers');
+        $I->wantToTest("Acl\Component - getDescription() - empty");
+        $component = new Component('Customers');
 
-        $actual = $subject->getDescription();
+        $actual = $component->getDescription();
         $I->assertEmpty($actual);
     }
 }

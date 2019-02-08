@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Acl;
 
-use Phalcon\Acl\OperationAware;
+use Phalcon\Acl\RoleAware;
 
 /**
- * Class TestOperationAware
+ * Class TestRoleAware
  */
-class TestOperationAware implements OperationAware
+class TestRoleAware implements RoleAware
 {
     /**
      * @var int
@@ -50,7 +50,7 @@ class TestOperationAware implements OperationAware
     /**
      * @return string
      */
-    public function getOperationName(): string
+    public function getRoleName(): string
     {
         return $this->roleName;
     }

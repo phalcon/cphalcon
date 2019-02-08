@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Acl;
 
 use Phalcon\Acl\ComponentAware;
-use Phalcon\Acl\OperationAware;
+use Phalcon\Acl\RoleAware;
 
 /**
- * Class TestOperationComponentAware
+ * Class TestRoleComponentAware
  */
-class TestOperationComponentAware implements OperationAware, ComponentAware
+class TestRoleComponentAware implements RoleAware, ComponentAware
 {
     /**
      * @var int
@@ -58,7 +58,7 @@ class TestOperationComponentAware implements OperationAware, ComponentAware
     /**
      * @return string
      */
-    public function getOperationName(): string
+    public function getRoleName(): string
     {
         return $this->roleName;
     }
