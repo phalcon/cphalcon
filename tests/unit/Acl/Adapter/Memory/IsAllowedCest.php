@@ -14,9 +14,9 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Operation;
-use Phalcon\Acl\Subject;
-use Phalcon\Test\Fixtures\Acl\TestOperationSubjectAware;
+use Phalcon\Acl\Role;
+use Phalcon\Acl\Component;
+use Phalcon\Test\Fixtures\Acl\TestRoleComponentAware;
 use UnitTester;
 
 /**
@@ -39,8 +39,8 @@ class IsAllowedCest
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - default');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
-        $acl->addOperation(new Operation('Guests'));
+        $acl->addComponent(new Component('Post'), ['index', 'update', 'create']);
+        $acl->addRole(new Role('Guests'));
 
         $acl->allow('Guests', 'Post', 'index');
         $actual = $acl->isAllowed('Guests', 'Post', 'index');
@@ -63,16 +63,16 @@ class IsAllowedCest
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - objects');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $operation = new Operation('Guests');
-        $subject   = new Subject('Post');
-        $acl->addOperation($operation);
-        $acl->addSubject($subject, ['index', 'update', 'create']);
+        $Role = new Role('Guests');
+        $component   = new Component('Post');
+        $acl->addRole($Role);
+        $acl->addComponent($component, ['index', 'update', 'create']);
 
         $acl->allow('Guests', 'Post', 'index');
 
-        $actual = $acl->isAllowed($operation, $subject, 'index');
+        $actual = $acl->isAllowed($Role, $component, 'index');
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($operation, $subject, 'update');
+        $actual = $acl->isAllowed($Role, $component, 'update');
         $I->assertFalse($actual);
     }
 
@@ -89,24 +89,24 @@ class IsAllowedCest
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - same class');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $operation = new TestOperationSubjectAware(1, 'User', 'Admin');
-        $subject   = new TestOperationSubjectAware(2, 'User', 'Admin');
-        $acl->addOperation('Admin');
-        $acl->addSubject('User', ['update']);
+        $role = new TestRoleComponentAware(1, 'User', 'Admin');
+        $component   = new TestRoleComponentAware(2, 'User', 'Admin');
+        $acl->addRole('Admin');
+        $acl->addComponent('User', ['update']);
         $acl->allow(
             'Admin',
             'User',
             ['update'],
-            function (TestOperationSubjectAware $admin, TestOperationSubjectAware $user) {
+            function (TestRoleComponentAware $admin, TestRoleComponentAware $user) {
                 return $admin->getUser() == $user->getUser();
             }
         );
 
-        $actual = $acl->isAllowed($operation, $subject, 'update');
+        $actual = $acl->isAllowed($role, $component, 'update');
         $I->assertFalse($actual);
-        $actual = $acl->isAllowed($operation, $operation, 'update');
+        $actual = $acl->isAllowed($role, $role, 'update');
         $I->assertTrue($actual);
-        $actual = $acl->isAllowed($subject, $subject, 'update');
+        $actual = $acl->isAllowed($component, $component, 'update');
         $I->assertTrue($actual);
     }
 }

@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Operation;
-use Phalcon\Acl\Subject;
+use Phalcon\Acl\Role;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 /**
@@ -34,8 +34,8 @@ class GetActiveKeyCest
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveKey()');
         $acl = new Memory();
-        $acl->addOperation(new Operation('Guests'));
-        $acl->addSubject(new Subject('Post'), ['index', 'update', 'create']);
+        $acl->addRole(new Role('Guests'));
+        $acl->addComponent(new Component('Post'), ['index', 'update', 'create']);
 
         $acl->allow('Guests', 'Post', 'create');
         $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create'));
