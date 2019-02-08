@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class GetSchemeCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: getScheme()
+     * Tests Phalcon\Http\Message\Uri :: getScheme()
      *
      * @param UnitTester $I
      *
@@ -40,7 +40,7 @@ class GetSchemeCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: getScheme() - empty
+     * Tests Phalcon\Http\Message\Uri :: getScheme() - empty
      *
      * @param UnitTester $I
      *

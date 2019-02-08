@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class GetUserInfoCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: getUserInfo()
+     * Tests Phalcon\Http\Message\Uri :: getUserInfo()
      *
      * @param UnitTester $I
      *
@@ -40,7 +40,7 @@ class GetUserInfoCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: getUserInfo() - only user
+     * Tests Phalcon\Http\Message\Uri :: getUserInfo() - only user
      *
      * @param UnitTester $I
      *
@@ -59,7 +59,7 @@ class GetUserInfoCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: getUserInfo() - only pass
+     * Tests Phalcon\Http\Message\Uri :: getUserInfo() - only pass
      *
      * @param UnitTester $I
      *
@@ -78,7 +78,7 @@ class GetUserInfoCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: getUserInfo() - empty
+     * Tests Phalcon\Http\Message\Uri :: getUserInfo() - empty
      *
      * @param UnitTester $I
      *

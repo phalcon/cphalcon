@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\UriFactory;
 
+use Phalcon\Http\Message\UriFactory;
+use Psr\Http\Message\UriInterface;
 use UnitTester;
 
 /**
@@ -20,16 +22,20 @@ use UnitTester;
 class CreateUriCest
 {
     /**
-     * Tests Phalcon\Http\UriFactory :: createUri()
+     * Tests Phalcon\Http\Message\UriFactory :: createUri()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function httpUrifactoryCreateUri(UnitTester $I)
+    public function httpUriFactoryCreateUri(UnitTester $I)
     {
         $I->wantToTest('Http\UriFactory - createUri()');
-        $I->skipTest('Need implementation');
+
+        $factory = new UriFactory();
+        $uri     = $factory->createUri();
+        $class   = UriInterface::class;
+        $I->assertInstanceOf($class, $uri);
     }
 }

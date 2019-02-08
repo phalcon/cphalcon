@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class ToStringCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: __toString()
+     * Tests Phalcon\Http\Message\Uri :: __toString()
      *
      * @param UnitTester $I
      *

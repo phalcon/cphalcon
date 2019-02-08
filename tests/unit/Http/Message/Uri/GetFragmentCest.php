@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class GetFragmentCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: getFragment()
+     * Tests Phalcon\Http\Message\Uri :: getFragment()
      *
      * @param UnitTester $I
      *
@@ -40,7 +40,7 @@ class GetFragmentCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: getFragment() - empty
+     * Tests Phalcon\Http\Message\Uri :: getFragment() - empty
      *
      * @param UnitTester $I
      *

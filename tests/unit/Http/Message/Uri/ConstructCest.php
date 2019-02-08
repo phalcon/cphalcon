@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\UriInterface;
 use UnitTester;
 
@@ -22,7 +22,7 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: __construct()
+     * Tests Phalcon\Http\Message\Uri :: __construct()
      *
      * @param UnitTester $I
      *

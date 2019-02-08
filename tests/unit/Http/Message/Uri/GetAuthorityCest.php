@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Uri;
 
 use Codeception\Example;
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -22,20 +22,20 @@ use UnitTester;
 class GetAuthorityCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: getAuthority()
+     * Tests Phalcon\Http\Message\Uri :: getAuthority()
      *
      * @dataProvider getExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-07
      */
     public function httpUriGetAuthority(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - getAuthority() - ' . $example[0]);
-        $uri   = new Uri($example[1]);
+        $uri = new Uri($example[1]);
 
         $expected = $example[2];
         $actual   = $uri->getAuthority();

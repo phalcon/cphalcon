@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Uri;
 
 use Codeception\Example;
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -22,7 +22,7 @@ use UnitTester;
 class WithSchemeCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: withScheme() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withScheme() - returns new instance
      *
      * @param UnitTester $I
      *
@@ -42,7 +42,7 @@ class WithSchemeCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: withScheme() - exception no string
+     * Tests Phalcon\Http\Message\Uri :: withScheme() - exception no string
      *
      * @dataProvider getExamples
      *

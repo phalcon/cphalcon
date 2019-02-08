@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Uri;
 
 use Codeception\Example;
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -22,7 +22,7 @@ use UnitTester;
 class WithFragmentCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: withFragment() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withFragment() - returns new instance
      *
      * @param UnitTester $I
      *
@@ -42,7 +42,7 @@ class WithFragmentCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: withFragment() - exception no string
+     * Tests Phalcon\Http\Message\Uri :: withFragment() - exception no string
      *
      * @dataProvider getExamples
      *

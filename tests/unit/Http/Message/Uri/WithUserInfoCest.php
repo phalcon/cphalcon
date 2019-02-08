@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Uri;
 
 use Codeception\Example;
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -22,15 +22,15 @@ use UnitTester;
 class WithUserInfoCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: withUserInfo() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withUserInfo() - returns new instance
      *
      * @dataProvider getExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-07
      */
     public function httpUriWithUserInfoReturnsNewInstance(UnitTester $I, Example $example)
     {
@@ -45,7 +45,7 @@ class WithUserInfoCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: withUserInfo() - exception no string
+     * Tests Phalcon\Http\Message\Uri :: withUserInfo() - exception no string
      *
      * @dataProvider getExceptions
      *
@@ -76,11 +76,11 @@ class WithUserInfoCest
     private function getExamples(): array
     {
         return [
-            ['valid',     'phalcon',          'secret',           'phalcon:secret'],
-            ['user only', 'phalcon',          '',                 'phalcon'],
-            ['email',     'phalcon@secret',   'secret@phalcon',   'phalcon%40secret:secret%40phalcon'],
-            ['email',     'phalcon:secret',   'secret:phalcon',   'phalcon%3Asecret:secret%3Aphalcon'],
-            ['percent',   'phalcon%secret',   'secret%phalcon',   'phalcon%25secret:secret%25phalcon'],
+            ['valid', 'phalcon', 'secret', 'phalcon:secret'],
+            ['user only', 'phalcon', '', 'phalcon'],
+            ['email', 'phalcon@secret', 'secret@phalcon', 'phalcon%40secret:secret%40phalcon'],
+            ['email', 'phalcon:secret', 'secret:phalcon', 'phalcon%3Asecret:secret%3Aphalcon'],
+            ['percent', 'phalcon%secret', 'secret%phalcon', 'phalcon%25secret:secret%25phalcon'],
         ];
     }
 

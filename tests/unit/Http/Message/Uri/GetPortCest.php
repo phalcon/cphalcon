@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class GetPortCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: getPort()
+     * Tests Phalcon\Http\Message\Uri :: getPort()
      *
      * @param UnitTester $I
      *
@@ -40,7 +40,7 @@ class GetPortCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: getPort() - empty
+     * Tests Phalcon\Http\Message\Uri :: getPort() - empty
      *
      * @param UnitTester $I
      *

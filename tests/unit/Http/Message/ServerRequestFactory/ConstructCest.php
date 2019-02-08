@@ -10,31 +10,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\UriFactory;
+namespace Phalcon\Test\Unit\Http\ServerRequestFactory;
 
-use Phalcon\Http\Message\UriFactory;
-use Psr\Http\Message\UriFactoryInterface;
+use Phalcon\Http\Message\ServerRequestFactory;
+use Psr\Http\Message\ServerRequestFactoryInterface;
 use UnitTester;
 
 /**
- * Class CreateUriCest
+ * Class CreateServerRequestCest
  */
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Http\Message\UriFactory :: __construct()
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07
      */
-    public function httpUriFactoryConstruct(UnitTester $I)
+    public function httpServerRequestFactoryConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\UriFactory - __construct()');
+        $I->wantToTest('Http\ServerRequestFactory - __construct()');
 
-        $factory = new UriFactory();
-        $class   = UriFactoryInterface::class;
+        $factory = new ServerRequestFactory();
+        $class   = ServerRequestFactoryInterface::class;
         $I->assertInstanceOf($class, $factory);
     }
 }

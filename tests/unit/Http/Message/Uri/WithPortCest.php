@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Uri;
 
 use Codeception\Example;
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -22,7 +22,7 @@ use UnitTester;
 class WithPortCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: withPort() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withPort() - returns new instance
      *
      * @param UnitTester $I
      *
@@ -42,7 +42,7 @@ class WithPortCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: withPort() - exception no string
+     * Tests Phalcon\Http\Message\Uri :: withPort() - exception no string
      *
      * @dataProvider getExamples
      *
@@ -56,8 +56,8 @@ class WithPortCest
     {
         $I->wantToTest('Http\Uri - withPort() - ' . $example[0]);
 
-        $query    = 'https://phalcon:secret@dev.phalcon.ld%s/action?param=value#frag';
-        $uri      = new Uri(sprintf($query, ':4300'));
+        $query = 'https://phalcon:secret@dev.phalcon.ld%s/action?param=value#frag';
+        $uri   = new Uri(sprintf($query, ':4300'));
 
         $newInstance = $uri->withPort($example[1]);
         $I->assertNotEquals($uri, $newInstance);
@@ -71,11 +71,11 @@ class WithPortCest
     private function getExamples(): array
     {
         return [
-            ['null',       null,   null, ''],
-            ['int',        8080,   8080, ':8080'],
+            ['null', null, null, ''],
+            ['int', 8080, 8080, ':8080'],
             ['string-int', '8080', 8080, ':8080'],
-            ['http',       80,     null, ''],
-            ['https',      443,    null, ''],
+            ['http', 80, null, ''],
+            ['https', 443, null, ''],
         ];
     }
 }

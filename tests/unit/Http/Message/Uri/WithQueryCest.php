@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Uri;
 
 use Codeception\Example;
-use Phalcon\Http\Uri;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -22,15 +22,15 @@ use UnitTester;
 class WithQueryCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: withQuery() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withQuery() - returns new instance
      *
      * @dataProvider getExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-07
      */
     public function httpUriWithQueryReturnsNewInstance(UnitTester $I, Example $example)
     {
@@ -45,7 +45,7 @@ class WithQueryCest
     }
 
     /**
-     * Tests Phalcon\Http\Uri :: withQuery() - exception no string
+     * Tests Phalcon\Http\Message\Uri :: withQuery() - exception no string
      *
      * @dataProvider getExceptions
      *
@@ -76,11 +76,11 @@ class WithQueryCest
     private function getExamples(): array
     {
         return [
-            ['key only',               'p^aram',                       'p%5Earam'],
-            ['key and value',          'p^aram=valu`',                 'p%5Earam=valu%60'],
-            ['key as array',           'param[]',                      'param%5B%5D'],
-            ['key as array and value', 'param[]=valu`',                'param%5B%5D=valu%60'],
-            ['complex',                'p^aram&all[]=va lu`&f<>=`bar', 'p%5Earam&all%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
+            ['key only', 'p^aram', 'p%5Earam'],
+            ['key and value', 'p^aram=valu`', 'p%5Earam=valu%60'],
+            ['key as array', 'param[]', 'param%5B%5D'],
+            ['key as array and value', 'param[]=valu`', 'param%5B%5D=valu%60'],
+            ['complex', 'p^aram&all[]=va lu`&f<>=`bar', 'p%5Earam&all%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
         ];
     }
 
