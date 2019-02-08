@@ -21,7 +21,7 @@ use Phalcon\Events\EventsAwareInterface;
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
 	/**
-	 * Active access which the list is checking if some operation can access it
+	 * Active access which the list is checking if some role can access it
 	 *
 	 * @var string
 	 */
@@ -34,18 +34,18 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	protected accessGranted = false;
 
 	/**
-	 * Operation which the list is checking if it's allowed to certain subject/access
+	 * Role which the list is checking if it's allowed to certain component/access
 	 *
 	 * @var string
 	 */
-	protected activeOperation { get };
+	protected activeRole { get };
 
 	/**
-	 * Subject which the list is checking if some operation can access it
+	 * Component which the list is checking if some role can access it
 	 *
 	 * @var string
 	 */
-	protected activeSubject { get };
+	protected activeComponent { get };
 
 	/**
 	 * Default access

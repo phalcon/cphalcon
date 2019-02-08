@@ -17,41 +17,41 @@ use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
- * Class GetActiveOperationCest
+ * Class GetActiveRoleCest
  */
-class GetActiveOperationCest
+class GetActiveRoleCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveOperation() - default
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetActiveOperationDefault(UnitTester $I)
+    public function aclAdapterMemoryGetActiveRoleDefault(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getActiveOperation() - default');
+        $I->wantToTest('Acl\Adapter\Memory - getActiveRole() - default');
         $acl    = new Memory();
-        $actual = $acl->getActiveOperation();
+        $actual = $acl->getActiveRole();
         $I->assertNull($actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveOperation() - default
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetActiveOperation(UnitTester $I)
+    public function aclAdapterMemoryGetActiveRole(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getActiveOperation()');
+        $I->wantToTest('Acl\Adapter\Memory - getActiveRole()');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addOperation('Guests');
+        $acl->addRole('Guests');
         $acl->addSubject('Login', ['help', 'index']);
 
         $acl->allow('Guests', 'Login', '*');
@@ -59,7 +59,7 @@ class GetActiveOperationCest
         $I->assertTrue($actual);
 
         $expected = 'Guests';
-        $actual   = $acl->getActiveOperation();
+        $actual   = $acl->getActiveRole();
         $I->assertEquals($expected, $actual);
     }
 }

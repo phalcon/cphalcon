@@ -13,35 +13,35 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Operation;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 /**
- * Class GetOperationsCest
+ * Class GetRolesCest
  */
-class GetOperationsCest
+class GetRolesCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getOperations()
+     * Tests Phalcon\Acl\Adapter\Memory :: getRoles()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetOperations(UnitTester $I)
+    public function aclAdapterMemoryGetRoles(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getOperations()');
+        $I->wantToTest('Acl\Adapter\Memory - getRoles()');
         $acl = new Memory();
 
-        $operation1 = new Operation('Admin');
-        $operation2 = new Operation('Guest');
+        $role1 = new Role('Admin');
+        $role2 = new Role('Guest');
 
-        $acl->addOperation($operation1);
-        $acl->addOperation($operation2);
+        $acl->addRole($role1);
+        $acl->addRole($role2);
 
-        $expected = [$operation1, $operation2];
-        $actual   = $acl->getOperations();
+        $expected = [$role1, $role2];
+        $actual   = $acl->getRoles();
         $I->assertEquals($expected, $actual);
     }
 }

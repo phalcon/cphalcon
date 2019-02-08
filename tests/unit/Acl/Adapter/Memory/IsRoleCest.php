@@ -13,51 +13,51 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Operation;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 /**
- * Class IsOperationCest
+ * Class IsRoleCest
  */
-class IsOperationCest
+class IsRoleCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isOperation()
+     * Tests Phalcon\Acl\Adapter\Memory :: isRole()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryIsOperation(UnitTester $I)
+    public function aclAdapterMemoryIsRole(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - isOperation()');
+        $I->wantToTest('Acl\Adapter\Memory - isRole()');
         $acl          = new Memory();
-        $aclOperation = new Operation('Administrators', 'Super User access');
+        $aclRole = new Role('Administrators', 'Super User access');
 
-        $acl->addOperation($aclOperation);
+        $acl->addRole($aclRole);
 
-        $actual = $acl->isOperation('Administrators');
+        $actual = $acl->isRole('Administrators');
         $I->assertTrue($actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isOperation() - unknown
+     * Tests Phalcon\Acl\Adapter\Memory :: isRole() - unknown
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryIsOperationUnknown(UnitTester $I)
+    public function aclAdapterMemoryIsRoleUnknown(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - isOperation() - unknown');
+        $I->wantToTest('Acl\Adapter\Memory - isRole() - unknown');
         $acl          = new Memory();
-        $aclOperation = new Operation('Administrators', 'Super User access');
+        $aclRole = new Role('Administrators', 'Super User access');
 
-        $acl->addOperation($aclOperation);
+        $acl->addRole($aclRole);
 
-        $actual = $acl->isOperation('unknown');
+        $actual = $acl->isRole('unknown');
         $I->assertFalse($actual);
     }
 }

@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Acl;
 
-use Phalcon\Acl\SubjectAware;
+use Phalcon\Acl\ComponentAware;
 
 /**
- * Class TestSubjectAware
+ * Class TestComponentAware
  */
-class TestSubjectAware implements SubjectAware
+class TestComponentAware implements ComponentAware
 {
     /**
      * @var int
@@ -50,7 +50,7 @@ class TestSubjectAware implements SubjectAware
     /**
      * @return string
      */
-    public function getSubjectName(): string
+    public function getComponentName(): string
     {
         return $this->resourceName;
     }

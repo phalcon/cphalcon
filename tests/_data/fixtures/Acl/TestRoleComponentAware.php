@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Acl;
 
-use Phalcon\Acl\SubjectAware;
+use Phalcon\Acl\ComponentAware;
 use Phalcon\Acl\OperationAware;
 
 /**
- * Class TestOperationSubjectAware
+ * Class TestOperationComponentAware
  */
-class TestOperationSubjectAware implements OperationAware, SubjectAware
+class TestOperationComponentAware implements OperationAware, ComponentAware
 {
     /**
      * @var int
@@ -28,31 +28,31 @@ class TestOperationSubjectAware implements OperationAware, SubjectAware
     /**
      * @var string
      */
-    protected $subjectName;
+    protected $componentName;
 
     /**
      * @var string
      */
-    protected $operationName;
+    protected $roleName;
 
     /**
      * @param $user
-     * @param $subjectName
-     * @param $operationName
+     * @param $componentName
+     * @param $roleName
      */
-    public function __construct($user, $subjectName, $operationName)
+    public function __construct($user, $componentName, $roleName)
     {
         $this->user         = $user;
-        $this->subjectName = $subjectName;
-        $this->operationName     = $operationName;
+        $this->componentName = $componentName;
+        $this->roleName     = $roleName;
     }
 
     /**
      * @return string
      */
-    public function getSubjectName(): string
+    public function getComponentName(): string
     {
-        return $this->subjectName;
+        return $this->componentName;
     }
 
     /**
@@ -60,7 +60,7 @@ class TestOperationSubjectAware implements OperationAware, SubjectAware
      */
     public function getOperationName(): string
     {
-        return $this->operationName;
+        return $this->roleName;
     }
 
     /**

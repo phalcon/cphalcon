@@ -11,14 +11,14 @@
 namespace Phalcon\Acl;
 
 /**
- * Phalcon\Acl\OperationAware
+ * Phalcon\Acl\ComponentAware
  *
- * Interface for classes which could be used in allow method as ROLE
+ * Interface for classes which could be used in allow method as RESOURCE
  */
-interface OperationAware
+interface ComponentAware
 {
     /**
-     * Returns operation name
+     * Returns component name
     */
-    public function getOperationName() -> string;
+    public function getComponentName() -> string;
 }
