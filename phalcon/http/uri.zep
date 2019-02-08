@@ -561,18 +561,6 @@ class Uri implements UriInterface
 	}
 
 	/**
-	 * Filters a query, part of a query or a fragment
-	 */
-	private function filterElement(string element) -> string
-	{
-		return preg_replace_callback(
-			"/(?:[^a-zA-Z0-9_\-\.~\pL!\$&'\(\)\*\+,;=%:@\/\?]+|%(?![A-Fa-f0-9]{2}))/u",
-			[this, "rawUrlEncode"],
-			element
-		);
-	}
-
-	/**
      * If no fragment is present, this method MUST return an empty string.
      *
      * The leading "#" character is not part of the fragment and MUST NOT be
@@ -591,7 +579,7 @@ class Uri implements UriInterface
 			let fragment = "%23" . substr(fragment, 1);
 		}
 
-		return this->filterElement(fragment);
+		return rawurlencode(fragment);
 	}
 
 	/**
@@ -620,12 +608,6 @@ class Uri implements UriInterface
      */
 	private function filterPath(string path) -> string
 	{
-		let path = preg_replace_callback(
-			"/(?:[^a-zA-Z0-9_\-\.~\pL)(:@&=\+\$,\/;%]+|%(?![A-Fa-f0-9]{2}))/u",
-			[this, "rawUrlEncode"],
-            path
-		);
-
         if "" === path {
             // No path
             return path;
@@ -700,10 +682,10 @@ class Uri implements UriInterface
 			}
 
 			if null === split[1] {
- 				let parts[key] = this->filterElement(split[0]);
+ 				let parts[key] = rawurlencode(split[0]);
 				continue;
 			} else {
-				let parts[key] = this->filterElement(split[0]) . "=" . this->filterElement(split[1]);
+				let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);
 			}
 		}
 
@@ -749,13 +731,5 @@ class Uri implements UriInterface
 		this->checkStringParameter(element, property, method);
 
 		return this->cloneInstance(element, property);
-	}
-
-	/**
-	 * Callback function for encoding
-	 */
-	private function rawUrlEncode(array matches) -> string
-	{
-		return rawurlencode(matches[0]);
 	}
 }

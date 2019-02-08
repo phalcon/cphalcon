@@ -80,7 +80,7 @@ class WithQueryCest
             ['key and value',          'p^aram=valu`',                 'p%5Earam=valu%60'],
             ['key as array',           'param[]',                      'param%5B%5D'],
             ['key as array and value', 'param[]=valu`',                'param%5B%5D=valu%60'],
-            ['complex',                'p^aram&key[]=va lu`&f<>=`bar', 'k%5Eey&key%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
+            ['complex',                'p^aram&all[]=va lu`&f<>=`bar', 'p%5Earam&all%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
         ];
     }
 
