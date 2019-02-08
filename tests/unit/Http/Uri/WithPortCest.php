@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Codeception\Example;
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -20,16 +22,60 @@ use UnitTester;
 class WithPortCest
 {
     /**
-     * Tests Phalcon\Http\Uri :: withPort()
+     * Tests Phalcon\Http\Uri :: withPort() - returns new instance
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07
      */
-    public function httpUriWithPort(UnitTester $I)
+    public function httpUriWithPortReturnsNewInstance(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - withPort()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Http\Uri - withPort() - returns new instance');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:%s/action?param=value#frag';
+        $uri   = new Uri(sprintf($query, 3306));
+
+        $newInstance = $uri->withPort(11211);
+        $I->assertNotEquals($uri, $newInstance);
+        $I->assertEquals(11211, $newInstance->getPort());
+        $I->assertEquals(sprintf($query, 11211), (string) $newInstance);
+    }
+
+    /**
+     * Tests Phalcon\Http\Uri :: withPort() - exception no string
+     *
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-07
+     */
+    public function httpUriWithPortException(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Uri - withPort() - ' . $example[0]);
+
+        $query    = 'https://phalcon:secret@dev.phalcon.ld%s/action?param=value#frag';
+        $uri      = new Uri(sprintf($query, ':4300'));
+
+        $newInstance = $uri->withPort($example[1]);
+        $I->assertNotEquals($uri, $newInstance);
+        $I->assertEquals($example[2], $newInstance->getPort());
+        $I->assertEquals(sprintf($query, $example[3]), (string) $newInstance);
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            ['null',       null,   null, ''],
+            ['int',        8080,   8080, ':8080'],
+            ['string-int', '8080', 8080, ':8080'],
+            ['http',       80,     null, ''],
+            ['https',      443,    null, ''],
+        ];
     }
 }

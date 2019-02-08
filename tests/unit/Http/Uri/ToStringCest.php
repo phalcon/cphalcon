@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Uri;
 
+use Phalcon\Http\Uri;
 use UnitTester;
 
 /**
@@ -30,6 +31,9 @@ class ToStringCest
     public function httpUriToString(UnitTester $I)
     {
         $I->wantToTest('Http\Uri - __toString()');
-        $I->skipTest('Need implementation');
+        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri   = new Uri($query);
+
+        $I->assertEquals($query, (string) $uri);
     }
 }
