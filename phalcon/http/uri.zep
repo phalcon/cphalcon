@@ -368,7 +368,23 @@ class Uri implements UriInterface
      */
     public function withPath(var path) -> <UriInterface>
     {
-    	return this->processWith(path, "path", __METHOD__);
+    	this->checkStringParameter(path, "path", __METHOD__);
+
+    	if false !== strpos(path, "?") {
+    		throw new \InvalidArgumentException(
+    			"Uri:withPath() - path cannot contain a query string"
+    		);
+    	}
+
+    	if false !== strpos(path, "#") {
+    		throw new \InvalidArgumentException(
+    			"Uri:withPath() - path cannot contain a query fragment"
+    		);
+    	}
+
+		let path = this->filterPath(path);
+
+    	return this->cloneInstance(path, "path");
     }
 
     /**
@@ -402,7 +418,7 @@ class Uri implements UriInterface
 
 				if typeof port !== "string" {
 					throw new \InvalidArgumentException(
-						"Url:withPort expects an integer, integer string or null argument instead of " . type
+						"Url:withPort() expects an integer, integer string or null argument instead of " . type
 					);
 				}
             }
@@ -411,7 +427,7 @@ class Uri implements UriInterface
         }
 
         if (null !== port && (port < 1 || port > 65535)) {
-            throw new \InvalidArgumentException("Url:withPort expects valid port (1-65535)");
+            throw new \InvalidArgumentException("Url:withPort() expects valid port (1-65535)");
         }
 
 		return this->cloneInstance(port, "port");
@@ -434,7 +450,17 @@ class Uri implements UriInterface
      */
     public function withQuery(var query) -> <UriInterface>
     {
-    	return this->processWith(query, "query", __METHOD__);
+    	this->checkStringParameter(query, "query", __METHOD__);
+
+		if false !== strpos(query, "#") {
+			throw new \InvalidArgumentException(
+				"Uri:withQuery() - query cannot contain a query fragment"
+			);
+		}
+
+    	let query = this->filterQuery(query);
+
+    	return this->cloneInstance(query, "query");
     }
 
     /**
@@ -535,6 +561,18 @@ class Uri implements UriInterface
 	}
 
 	/**
+	 * Filters a query, part of a query or a fragment
+	 */
+	private function filterElement(string element) -> string
+	{
+		return preg_replace_callback(
+			"/(?:[^a-zA-Z0-9_\-\.~\pL!\$&'\(\)\*\+,;=%:@\/\?]+|%(?![A-Fa-f0-9]{2}))/u",
+			[this, "rawUrlEncode"],
+			element
+		);
+	}
+
+	/**
      * If no fragment is present, this method MUST return an empty string.
      *
      * The leading "#" character is not part of the fragment and MUST NOT be
@@ -553,7 +591,7 @@ class Uri implements UriInterface
 			let fragment = "%23" . substr(fragment, 1);
 		}
 
-		return rawurlencode(fragment);
+		return this->filterElement(fragment);
 	}
 
 	/**
@@ -657,12 +695,16 @@ class Uri implements UriInterface
 
         for key, value in parts {
 			let split = explode("=", value);
-			if null === split[1] {
-				let parts[key] = rawurlencode(split[0]);
-				continue;
+			if true !== isset(split[1]) {
+				let split[] = null;
 			}
 
-			let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);
+			if null === split[1] {
+ 				let parts[key] = this->filterElement(split[0]);
+				continue;
+			} else {
+				let parts[key] = this->filterElement(split[0]) . "=" . this->filterElement(split[1]);
+			}
 		}
 
 		return implode("&", parts);

@@ -24,27 +24,30 @@ class WithQueryCest
     /**
      * Tests Phalcon\Http\Uri :: withQuery() - returns new instance
      *
+     * @dataProvider getExamples
+     *
      * @param UnitTester $I
+     * @param Example    $example
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07
      */
-    public function httpUriWithQueryReturnsNewInstance(UnitTester $I)
+    public function httpUriWithQueryReturnsNewInstance(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Http\Uri - withQuery() - returns new instance');
+        $I->wantToTest('Http\Uri - withQuery() - ' . $example[0]);
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?%s#frag';
         $uri   = new Uri(sprintf($query, 'param=value'));
 
-        $newInstance = $uri->withQuery('one=two');
+        $newInstance = $uri->withQuery($example[1]);
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals('one=two', $newInstance->getQuery());
-        $I->assertEquals(sprintf($query, 'one=two'), (string) $newInstance);
+        $I->assertEquals($example[2], $newInstance->getQuery());
+        $I->assertEquals(sprintf($query, $example[2]), (string) $newInstance);
     }
 
     /**
      * Tests Phalcon\Http\Uri :: withQuery() - exception no string
      *
-     * @dataProvider getExamples
+     * @dataProvider getExceptions
      *
      * @param UnitTester $I
      * @param Example    $example
@@ -71,6 +74,20 @@ class WithQueryCest
      * @return array
      */
     private function getExamples(): array
+    {
+        return [
+            ['key only',               'p^aram',                       'p%5Earam'],
+            ['key and value',          'p^aram=valu`',                 'p%5Earam=valu%60'],
+            ['key as array',           'param[]',                      'param%5B%5D'],
+            ['key as array and value', 'param[]=valu`',                'param%5B%5D=valu%60'],
+            ['complex',                'p^aram&key[]=va lu`&f<>=`bar', 'k%5Eey&key%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getExceptions(): array
     {
         return [
             ['NULL', 'null', null],
