@@ -21,20 +21,20 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\SubjectAware
+ * Phalcon\Acl\ComponentAware
  *
  * Interface for classes which could be used in allow method as RESOURCE
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_SubjectAware) {
+ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, SubjectAware, phalcon, acl_subjectaware, phalcon_acl_subjectaware_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentAware, phalcon, acl_componentaware, phalcon_acl_componentaware_method_entry);
 
 	return SUCCESS;
 
 }
 
 /**
- * Returns subject name
+ * Returns component name
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_SubjectAware, getSubjectName);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentAware, getComponentName);
 

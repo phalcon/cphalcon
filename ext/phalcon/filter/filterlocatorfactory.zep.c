@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance) {
 	add_assoc_stringl_ex(&helpers, SL("upperWords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
 	add_assoc_stringl_ex(&helpers, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
 	object_init_ex(return_value, phalcon_filter_filterlocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 186, &helpers);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 187, &helpers);
 	zephir_check_call_status();
 	RETURN_MM();
 

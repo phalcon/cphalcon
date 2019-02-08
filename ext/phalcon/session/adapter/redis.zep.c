@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 0, &_9);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 334, &_4, &params);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 336, &_4, &params);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("connection"), &_3);
 	ZEPHIR_MM_RESTORE();
