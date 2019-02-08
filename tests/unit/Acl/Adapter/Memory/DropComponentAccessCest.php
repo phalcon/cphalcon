@@ -10,31 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Subject;
+namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl\Subject;
 use UnitTester;
 
 /**
- * Class GetNameCest
+ * Class DropComponentAccessCest
  */
-class GetNameCest
+class DropComponentAccessCest
 {
     /**
-     * Tests Phalcon\Acl\Subject :: getName()
+     * Tests Phalcon\Acl\Adapter\Memory :: dropComponentAccess()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectGetName(UnitTester $I)
+    public function aclAdapterMemoryDropComponentAccess(UnitTester $I)
     {
-        $I->wantToTest('Acl\Subject - getName()');
-        $subject = new Subject('Customers');
-
-        $expected = 'Customers';
-        $actual   = $subject->getName();
-        $I->assertEquals($expected, $actual);
+        $I->wantToTest('Acl\Adapter\Memory - dropComponentAccess()');
+        $I->skipTest('Need implementation');
     }
 }

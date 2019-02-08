@@ -10,35 +10,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Subject;
+namespace Phalcon\Test\Unit\Acl\Component;
 
-use Phalcon\Acl\Subject;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 /**
- * Class ToStringCest
+ * Class GetNameCest
  */
-class ToStringCest
+class GetNameCest
 {
     /**
-     * Tests Phalcon\Acl\Subject :: __toString()
+     * Tests Phalcon\Acl\Component :: getName()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectToString(UnitTester $I)
+    public function aclComponentGetName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Subject - __toString()');
-        $subject = new Subject('Customers');
+        $I->wantToTest('Acl\Component - getName()');
+        $component = new Component('Customers');
 
         $expected = 'Customers';
-        $actual   = $subject->__toString();
-        $I->assertEquals($expected, $actual);
-
-        $expected = 'Customers';
-        $actual   = (string) $subject;
+        $actual   = $component->getName();
         $I->assertEquals($expected, $actual);
     }
 }

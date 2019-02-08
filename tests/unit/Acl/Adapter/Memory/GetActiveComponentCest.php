@@ -17,49 +17,49 @@ use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 /**
- * Class GetActiveSubjectCest
+ * Class GetActiveComponentCest
  */
-class GetActiveSubjectCest
+class GetActiveComponentCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveSubject() - default
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveComponent() - default
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetActiveSubjectDefault(UnitTester $I)
+    public function aclAdapterMemoryGetActiveComponentDefault(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getActiveSubject() - default');
+        $I->wantToTest('Acl\Adapter\Memory - getActiveComponent() - default');
         $acl    = new Memory();
-        $actual = $acl->getActiveSubject();
+        $actual = $acl->getActiveComponent();
         $I->assertNull($actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveSubject()
+     * Tests Phalcon\Acl\Adapter\Memory :: getActiveComponent()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryGetActiveSubject(UnitTester $I)
+    public function aclAdapterMemoryGetActiveComponent(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getActiveSubject()');
+        $I->wantToTest('Acl\Adapter\Memory - getActiveComponent()');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addOperation('Guests');
-        $acl->addSubject('Login', ['help', 'index']);
+        $acl->addRole('Guests');
+        $acl->addComponent('Login', ['help', 'index']);
 
         $acl->allow('Guests', 'Login', '*');
         $actual = $acl->isAllowed('Guests', 'Login', 'index');
         $I->assertTrue($actual);
 
         $expected = 'Login';
-        $actual   = $acl->getActiveSubject();
+        $actual   = $acl->getActiveComponent();
         $I->assertEquals($expected, $actual);
     }
 }

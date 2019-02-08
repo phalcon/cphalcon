@@ -52,7 +52,7 @@ class GetActiveRoleCest
         $acl->setDefaultAction(Acl::DENY);
 
         $acl->addRole('Guests');
-        $acl->addSubject('Login', ['help', 'index']);
+        $acl->addComponent('Login', ['help', 'index']);
 
         $acl->allow('Guests', 'Login', '*');
         $actual = $acl->isAllowed('Guests', 'Login', 'index');

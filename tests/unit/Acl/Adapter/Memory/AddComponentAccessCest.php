@@ -14,50 +14,50 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Exception;
-use Phalcon\Acl\Subject;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 /**
- * Class AddSubjectAccessCest
+ * Class AddComponentAccessCest
  */
-class AddSubjectAccessCest
+class AddComponentAccessCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addSubjectAccess()
+     * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryAddSubjectAccess(UnitTester $I)
+    public function aclAdapterMemoryAddComponentAccess(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - addSubjectAccess()');
+        $I->wantToTest('Acl\Adapter\Memory - addComponentAccess()');
         $I->skipTest('Need implementation');
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addSubjectAccess() - unknown
+     * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - unknown
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryAddSubjectAccessUnknown(UnitTester $I)
+    public function aclAdapterMemoryAddComponentAccessUnknown(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - addSubjectAccess() - unknown');
+        $I->wantToTest('Acl\Adapter\Memory - addComponentAccess() - unknown');
         $I->expectThrowable(
-            new Exception("Subject 'Post' does not exist in ACL"),
+            new Exception("Component 'Post' does not exist in ACL"),
             function () {
                 $acl = new Memory();
-                $acl->addSubjectAccess('Post', ['update']);
+                $acl->addComponentAccess('Post', ['update']);
             }
         );
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addSubjectAccess() - wrong access
+     * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - wrong access
      * list
      *
      * @param UnitTester $I
@@ -65,16 +65,16 @@ class AddSubjectAccessCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclAdapterMemoryAddSubjectAccessWrongAccessList(UnitTester $I)
+    public function aclAdapterMemoryAddComponentAccessWrongAccessList(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - addSubjectAccess() - wrong access list');
+        $I->wantToTest('Acl\Adapter\Memory - addComponentAccess() - wrong access list');
         $I->expectThrowable(
             new Exception('Invalid value for accessList'),
             function () {
                 $acl  = new Memory();
-                $post = new Subject('Post');
-                $acl->addSubject($post, ['update']);
-                $acl->addSubjectAccess('Post', 123);
+                $post = new Component('Post');
+                $acl->addComponent($post, ['update']);
+                $acl->addComponentAccess('Post', 123);
             }
         );
     }

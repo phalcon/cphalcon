@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use Exception;
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Test\Fixtures\Acl\TestOperationAware;
-use Phalcon\Test\Fixtures\Acl\TestSubjectAware;
+use Phalcon\Test\Fixtures\Acl\TestRoleAware;
+use Phalcon\Test\Fixtures\Acl\TestComponentAware;
 use UnitTester;
 
 /**
@@ -37,9 +37,9 @@ class AllowCest
         $I->wantToTest('Acl\Adapter\Memory - allow()');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $acl->addOperation('Guests');
-        $acl->addOperation('Member');
-        $acl->addSubject('Post', ['update']);
+        $acl->addRole('Guests');
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
 
         $acl->allow('Member', 'Post', 'update');
 
@@ -64,23 +64,23 @@ class AllowCest
         $I->wantToTest('Acl\Adapter\Memory - allow() - function');
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
-        $acl->addOperation('Guests');
-        $acl->addOperation('Members', 'Guests');
-        $acl->addOperation('Admins', 'Members');
-        $acl->addSubject('Post', ['update']);
+        $acl->addRole('Guests');
+        $acl->addRole('Members', 'Guests');
+        $acl->addRole('Admins', 'Members');
+        $acl->addComponent('Post', ['update']);
 
-        $guest         = new TestOperationAware(1, 'Guests');
-        $member        = new TestOperationAware(2, 'Members');
-        $anotherMember = new TestOperationAware(3, 'Members');
-        $admin         = new TestOperationAware(4, 'Admins');
-        $model         = new TestSubjectAware(2, 'Post');
+        $guest         = new TestRoleAware(1, 'Guests');
+        $member        = new TestRoleAware(2, 'Members');
+        $anotherMember = new TestRoleAware(3, 'Members');
+        $admin         = new TestRoleAware(4, 'Admins');
+        $model         = new TestComponentAware(2, 'Post');
 
         $acl->deny('Guests', 'Post', 'update');
         $acl->allow(
             'Members',
             'Post',
             'update',
-            function (TestOperationAware $user, TestSubjectAware $model) {
+            function (TestRoleAware $user, TestComponentAware $model) {
                 return $user->getId() == $model->getUser();
             }
         );
@@ -119,16 +119,16 @@ class AllowCest
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::ALLOW);
                 $acl->setNoArgumentsDefaultAction(Acl::DENY);
-                $acl->addOperation('Guests');
-                $acl->addOperation('Members', 'Guests');
-                $acl->addOperation('Admins', 'Members');
-                $acl->addSubject('Post', ['update']);
+                $acl->addRole('Guests');
+                $acl->addRole('Members', 'Guests');
+                $acl->addRole('Admins', 'Members');
+                $acl->addComponent('Post', ['update']);
 
-                $guest         = new TestOperationAware(1, 'Guests');
-                $member        = new TestOperationAware(2, 'Members');
-                $anotherMember = new TestOperationAware(3, 'Members');
-                $admin         = new TestOperationAware(4, 'Admins');
-                $model         = new TestSubjectAware(2, 'Post');
+                $guest         = new TestRoleAware(1, 'Guests');
+                $member        = new TestRoleAware(2, 'Members');
+                $anotherMember = new TestRoleAware(3, 'Members');
+                $admin         = new TestRoleAware(4, 'Admins');
+                $model         = new TestComponentAware(2, 'Post');
 
                 $acl->allow('Guests', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;

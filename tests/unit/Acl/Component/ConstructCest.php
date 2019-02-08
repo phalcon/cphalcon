@@ -10,11 +10,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Acl\Subject;
+namespace Phalcon\Test\Unit\Acl\Component;
 
 use BadMethodCallException;
 use Phalcon\Acl\Exception;
-use Phalcon\Acl\Subject;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 /**
@@ -23,56 +23,56 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Acl\Subject :: __construct()
+     * Tests Phalcon\Acl\Component :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectConstruct(UnitTester $I)
+    public function aclComponentConstruct(UnitTester $I)
     {
-        $I->wantToTest('Acl\Subject - __construct()');
-        $actual = new Subject('Customers');
+        $I->wantToTest('Acl\Component - __construct()');
+        $actual = new Component('Customers');
 
-        $class = Subject::class;
+        $class = Component::class;
         $I->assertInstanceOf($class, $actual);
     }
 
     /**
-     * Tests Phalcon\Acl\Subject :: __construct() - wildcard
+     * Tests Phalcon\Acl\Component :: __construct() - wildcard
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectConstructWithWildcardThrowsException(UnitTester $I)
+    public function aclComponentConstructWithWildcardThrowsException(UnitTester $I)
     {
-        $I->wantToTest('Acl\Subject - __construct() - exception with "*"');
+        $I->wantToTest('Acl\Component - __construct() - exception with "*"');
         $I->expectThrowable(
-            new Exception("Subject name cannot be '*'"),
+            new Exception("Component name cannot be '*'"),
             function () {
-                $subject = new Subject('*');
+                $component = new Component('*');
             }
         );
     }
 
     /**
-     * Tests Phalcon\Acl\Subject :: __construct() - without name
+     * Tests Phalcon\Acl\Component :: __construct() - without name
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function aclSubjectConstructWithoutName(UnitTester $I)
+    public function aclComponentConstructWithoutName(UnitTester $I)
     {
-        $I->wantToTest('Acl\Subject - __construct() - exception parameters');
+        $I->wantToTest('Acl\Component - __construct() - exception parameters');
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {
-                $subject = new Subject();
+                $component = new Component();
             }
         );
     }
