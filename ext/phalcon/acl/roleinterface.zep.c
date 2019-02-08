@@ -21,31 +21,30 @@
  * file that was distributed with this source code.
  */
 /**
+ * Phalcon\Acl\RoleInterface
  *
- * Phalcon\Acl\SubjectInterface
- *
- * Interface for Phalcon\Acl\Subject
+ * Interface for Phalcon\Acl\Role
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_SubjectInterface) {
+ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, SubjectInterface, phalcon, acl_subjectinterface, phalcon_acl_subjectinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleInterface, phalcon, acl_roleinterface, phalcon_acl_roleinterface_method_entry);
 
 	return SUCCESS;
 
 }
 
 /**
- * Returns subject description
+ * Returns the role name
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_SubjectInterface, getDescription);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getName);
 
 /**
- * Returns the subject name
+ * Returns role description
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_SubjectInterface, getName);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getDescription);
 
 /**
  * Magic method __toString
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_SubjectInterface, __toString);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, __toString);
 

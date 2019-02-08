@@ -28,35 +28,35 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\Subject
+ * Phalcon\Acl\Component
  *
- * This class defines subject entity and its description
+ * This class defines component entity and its description
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_Subject) {
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Component) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Subject, phalcon, acl_subject, phalcon_acl_subject_method_entry, 0);
-
-	/**
-	 * Subject description
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_acl_subject_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Component, phalcon, acl_component, phalcon_acl_component_method_entry, 0);
 
 	/**
-	 * Subject name
+	 * Component description
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_subject_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_component_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	zend_class_implements(phalcon_acl_subject_ce TSRMLS_CC, 1, phalcon_acl_subjectinterface_ce);
+	/**
+	 * Component name
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_acl_component_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	zend_class_implements(phalcon_acl_component_ce TSRMLS_CC, 1, phalcon_acl_componentinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
- * Subject description
+ * Component description
  */
-PHP_METHOD(Phalcon_Acl_Subject, getDescription) {
+PHP_METHOD(Phalcon_Acl_Component, getDescription) {
 
 	zval *this_ptr = getThis();
 
@@ -66,9 +66,9 @@ PHP_METHOD(Phalcon_Acl_Subject, getDescription) {
 }
 
 /**
- * Subject name
+ * Component name
  */
-PHP_METHOD(Phalcon_Acl_Subject, getName) {
+PHP_METHOD(Phalcon_Acl_Component, getName) {
 
 	zval *this_ptr = getThis();
 
@@ -78,9 +78,9 @@ PHP_METHOD(Phalcon_Acl_Subject, getName) {
 }
 
 /**
- * Subject name
+ * Component name
  */
-PHP_METHOD(Phalcon_Acl_Subject, __toString) {
+PHP_METHOD(Phalcon_Acl_Component, __toString) {
 
 	zval *this_ptr = getThis();
 
@@ -90,9 +90,9 @@ PHP_METHOD(Phalcon_Acl_Subject, __toString) {
 }
 
 /**
- * Phalcon\Acl\Subject constructor
+ * Phalcon\Acl\Component constructor
  */
-PHP_METHOD(Phalcon_Acl_Subject, __construct) {
+PHP_METHOD(Phalcon_Acl_Component, __construct) {
 
 	zval *name_param = NULL, *description_param = NULL;
 	zval name, description;
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Acl_Subject, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(&name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Subject name cannot be '*'", "phalcon/acl/subject.zep", 41);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/acl/component.zep", 41);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);

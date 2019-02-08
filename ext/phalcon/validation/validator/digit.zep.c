@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&value) == IS_LONG;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "ctype_digit", NULL, 463, &value);
+		ZEPHIR_CALL_FUNCTION(&_1, "ctype_digit", NULL, 465, &value);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_1);
 	}
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "Digit");
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 299, &_3, field, &_4, &code);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 301, &_3, field, &_4, &code);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_2);
 	zephir_check_call_status();

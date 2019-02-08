@@ -28,35 +28,35 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\Operation
+ * Phalcon\Acl\Role
  *
- * This class defines operation entity and its description
+ * This class defines role entity and its description
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_Operation) {
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Operation, phalcon, acl_operation, phalcon_acl_operation_method_entry, 0);
-
-	/**
-	 * Operation name
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_acl_operation_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_role_method_entry, 0);
 
 	/**
-	 * Operation description
+	 * Role name
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_operation_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_role_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	zend_class_implements(phalcon_acl_operation_ce TSRMLS_CC, 1, phalcon_acl_operationinterface_ce);
+	/**
+	 * Role description
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_acl_role_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	zend_class_implements(phalcon_acl_role_ce TSRMLS_CC, 1, phalcon_acl_roleinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
- * Operation name
+ * Role name
  */
-PHP_METHOD(Phalcon_Acl_Operation, getName) {
+PHP_METHOD(Phalcon_Acl_Role, getName) {
 
 	zval *this_ptr = getThis();
 
@@ -66,9 +66,9 @@ PHP_METHOD(Phalcon_Acl_Operation, getName) {
 }
 
 /**
- * Operation name
+ * Role name
  */
-PHP_METHOD(Phalcon_Acl_Operation, __toString) {
+PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
 	zval *this_ptr = getThis();
 
@@ -78,9 +78,9 @@ PHP_METHOD(Phalcon_Acl_Operation, __toString) {
 }
 
 /**
- * Operation description
+ * Role description
  */
-PHP_METHOD(Phalcon_Acl_Operation, getDescription) {
+PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
 	zval *this_ptr = getThis();
 
@@ -90,9 +90,9 @@ PHP_METHOD(Phalcon_Acl_Operation, getDescription) {
 }
 
 /**
- * Phalcon\Acl\Operation constructor
+ * Phalcon\Acl\Role constructor
  */
-PHP_METHOD(Phalcon_Acl_Operation, __construct) {
+PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
 	zval *name_param = NULL, *description_param = NULL;
 	zval name, description;
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Acl_Operation, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(&name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Operation name cannot be '*'", "phalcon/acl/operation.zep", 40);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/acl/role.zep", 40);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);

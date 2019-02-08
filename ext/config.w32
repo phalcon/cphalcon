@@ -37,7 +37,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view", "engineinterface.zep.c engine.zep.c exception.zep.c simple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/service", "locatorinterface.zep.c locator.zep.c locatorfactoryinterface.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session/adapter", "noop.zep.c files.zep.c libmemcached.zep.c redis.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "adapterinterface.zep.c adapter.zep.c operationinterface.zep.c subjectinterface.zep.c exception.zep.c operation.zep.c operationaware.zep.c subject.zep.c subjectaware.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "adapterinterface.zep.c adapter.zep.c componentinterface.zep.c roleinterface.zep.c component.zep.c componentaware.zep.c exception.zep.c role.zep.c roleaware.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache/frontend", "data.zep.c base64.zep.c factory.zep.c igbinary.zep.c json.zep.c msgpack.zep.c none.zep.c output.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata", "strategyinterface.zep.c apcu.zep.c files.zep.c libmemcached.zep.c memory.zep.c redis.zep.c session.zep.c", "phalcon");

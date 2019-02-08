@@ -21,20 +21,20 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\OperationAware
+ * Phalcon\Acl\RoleAware
  *
  * Interface for classes which could be used in allow method as ROLE
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_OperationAware) {
+ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleAware) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, OperationAware, phalcon, acl_operationaware, phalcon_acl_operationaware_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleAware, phalcon, acl_roleaware, phalcon_acl_roleaware_method_entry);
 
 	return SUCCESS;
 
 }
 
 /**
- * Returns operation name
+ * Returns role name
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_OperationAware, getOperationName);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleAware, getRoleName);
 
