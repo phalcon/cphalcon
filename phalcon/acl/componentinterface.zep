@@ -12,19 +12,19 @@ namespace Phalcon\Acl;
 
 /**
  *
- * Phalcon\Acl\SubjectInterface
+ * Phalcon\Acl\ComponentInterface
  *
- * Interface for Phalcon\Acl\Subject
+ * Interface for Phalcon\Acl\Component
  */
-interface SubjectInterface
+interface ComponentInterface
 {
 	/**
-	 * Returns subject description
+	 * Returns component description
 	 */
 	public function getDescription() -> string;
 
 	/**
-	 * Returns the subject name
+	 * Returns the component name
 	 */
 	public function getName() -> string;
 

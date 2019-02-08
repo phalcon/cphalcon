@@ -13,35 +13,34 @@ namespace Phalcon\Acl;
 use Phalcon\Acl\Exception;
 
 /**
- * Phalcon\Acl\Subject
+ * Phalcon\Acl\Role
  *
- * This class defines subject entity and its description
+ * This class defines role entity and its description
  */
-class Subject implements SubjectInterface
+class Role implements RoleInterface
 {
-
 	/**
-	 * Subject description
-	 * @var string
-	 */
-	private description { get };
-
-	/**
-	 * Subject name
+	 * Role name
 	 * @var string
 	 */
 	private name { get, __toString };
 
 	/**
-	 * Phalcon\Acl\Subject constructor
+	 * Role description
+	 * @var string
+	 */
+	private description { get };
+
+	/**
+	 * Phalcon\Acl\Role constructor
 	 */
 	public function __construct(string! name, string description = null)
 	{
 		if name == "*" {
-			throw new Exception("Subject name cannot be '*'");
+			throw new Exception("Role name cannot be '*'");
 		}
-
 		let this->name = name;
+
 		if description {
 			let this->description = description;
 		}

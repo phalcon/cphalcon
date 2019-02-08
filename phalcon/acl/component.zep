@@ -13,34 +13,35 @@ namespace Phalcon\Acl;
 use Phalcon\Acl\Exception;
 
 /**
- * Phalcon\Acl\Operation
+ * Phalcon\Acl\Component
  *
- * This class defines operation entity and its description
+ * This class defines component entity and its description
  */
-class Operation implements OperationInterface
+class Component implements ComponentInterface
 {
-	/**
-	 * Operation name
-	 * @var string
-	 */
-	private name { get, __toString };
 
 	/**
-	 * Operation description
+	 * Component description
 	 * @var string
 	 */
 	private description { get };
 
 	/**
-	 * Phalcon\Acl\Operation constructor
+	 * Component name
+	 * @var string
+	 */
+	private name { get, __toString };
+
+	/**
+	 * Phalcon\Acl\Component constructor
 	 */
 	public function __construct(string! name, string description = null)
 	{
 		if name == "*" {
-			throw new Exception("Operation name cannot be '*'");
+			throw new Exception("Component name cannot be '*'");
 		}
-		let this->name = name;
 
+		let this->name = name;
 		if description {
 			let this->description = description;
 		}

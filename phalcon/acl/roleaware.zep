@@ -11,14 +11,14 @@
 namespace Phalcon\Acl;
 
 /**
- * Phalcon\Acl\SubjectAware
+ * Phalcon\Acl\RoleAware
  *
- * Interface for classes which could be used in allow method as RESOURCE
+ * Interface for classes which could be used in allow method as ROLE
  */
-interface SubjectAware
+interface RoleAware
 {
     /**
-     * Returns subject name
+     * Returns role name
     */
-    public function getSubjectName() -> string;
+    public function getRoleName() -> string;
 }

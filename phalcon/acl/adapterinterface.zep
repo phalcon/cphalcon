@@ -18,57 +18,57 @@ namespace Phalcon\Acl;
 interface AdapterInterface
 {
 	/**
-	 * Do a operation inherit from another existing operation
+	 * Do a role inherit from another existing role
 	 */
-	public function addInherit(string operationName, operationToInherit) -> bool;
+	public function addInherit(string roleName, roleToInherit) -> bool;
 
 	/**
-	 * Adds a operation to the ACL list. Second parameter lets to inherit access data from other existing operation
+	 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
 	 */
-	public function addOperation(operation, accessInherits = null) -> bool;
+	public function addRole(role, accessInherits = null) -> bool;
 
 	/**
-	 * Adds a subject to the ACL list
+	 * Adds a component to the ACL list
 	 *
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
 	 */
-	public function addSubject(subjectObject, accessList) -> bool;
+	public function addComponent(componentObject, accessList) -> bool;
 
 	/**
-	 * Adds access to subjects
+	 * Adds access to components
 	 */
-	public function addSubjectAccess(string subjectName, accessList) -> void;
+	public function addComponentAccess(string componentName, accessList) -> void;
 
 	/**
-	 * Allow access to a operation on a subject
+	 * Allow access to a role on a component
 	 */
-	public function allow(string operationName, string subjectName, access, func = null) -> void;
+	public function allow(string roleName, string componentName, access, func = null) -> void;
 
 	/**
-	 * Deny access to a operation on a subject
+	 * Deny access to a role on a component
 	 */
-	public function deny(string operationName, string subjectName, access, func = null) -> void;
+	public function deny(string roleName, string componentName, access, func = null) -> void;
 
 	/**
-	 * Removes an access from a subject
+	 * Removes an access from a component
 	 */
-	public function dropSubjectAccess(string subjectName, accessList) -> void;
+	public function dropComponentAccess(string componentName, accessList) -> void;
 
 	/**
-	 * Returns the access which the list is checking if some operation can access it
+	 * Returns the access which the list is checking if some role can access it
 	 */
 	public function getActiveAccess() -> string;
 
 	/**
-	 * Returns the operation which the list is checking if it's allowed to certain subject/access
+	 * Returns the role which the list is checking if it's allowed to certain component/access
 	 */
-	public function getActiveOperation() -> string;
+	public function getActiveRole() -> string;
 
 	/**
-	 * Returns the subject which the list is checking if some operation can access it
+	 * Returns the component which the list is checking if some role can access it
 	 */
-	public function getActiveSubject() -> string;
+	public function getActiveComponent() -> string;
 
 	/**
 	 * Returns the default ACL access level
@@ -82,29 +82,29 @@ interface AdapterInterface
 	public function getNoArgumentsDefaultAction() -> int;
 
 	/**
-	 * Return an array with every operation registered in the list
+	 * Return an array with every role registered in the list
 	 */
-	public function getOperations() -> <OperationInterface[]>;
+	public function getRoles() -> <RoleInterface[]>;
 
 	/**
-	 * Return an array with every subject registered in the list
+	 * Return an array with every component registered in the list
 	 */
-	public function getSubjects() -> <SubjectInterface[]>;
+	public function getComponents() -> <ComponentInterface[]>;
 
 	/**
-	 * Check whether a operation is allowed to access an action from a subject
+	 * Check whether a role is allowed to access an action from a component
 	 */
-	public function isAllowed(operationName, subjectName, string access, array parameters = null) -> bool;
+	public function isAllowed(roleName, componentName, string access, array parameters = null) -> bool;
 
 	/**
-	 * Check whether subject exist in the subjects list
+	 * Check whether component exist in the components list
 	 */
-	public function isSubject(string subjectName) -> bool;
+	public function isComponent(string componentName) -> bool;
 
 	/**
-	 * Check whether operation exist in the operations list
+	 * Check whether role exist in the roles list
 	 */
-	public function isOperation(string operationName) -> bool;
+	public function isRole(string roleName) -> bool;
 
 
 	/**
