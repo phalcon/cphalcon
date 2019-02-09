@@ -6,9 +6,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory);
 PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest);
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_requestfactory_createrequest, 0, 2, Phalcon\\Http\\Message\\RequestInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_requestfactory_createrequest, 0, 2, Psr\\Http\\Message\\RequestInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_requestfactory_createrequest, 0, 2, IS_OBJECT, "Phalcon\\Http\\Message\\RequestInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_requestfactory_createrequest, 0, 2, IS_OBJECT, "Psr\\Http\\Message\\RequestInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
