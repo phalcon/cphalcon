@@ -50,12 +50,16 @@ class CreateUriCest
     public function httpUriFactoryCreateUriException(UnitTester $I)
     {
         $I->wantToTest('Http\UriFactory - createUri() - exception');
+        $message = 'Argument 1 passed to Phalcon\Http\Message\UriFactory::createUri() ' .
+                   'must be of the type string, ';
+        if (PHP_VERSION_ID >= 70300) {
+            $message .= 'int given';
+        } else {
+            $message .= 'integer given';
+        }
 
         $I->expectThrowable(
-            new \TypeError(
-                'Argument 1 passed to Phalcon\Http\Message\UriFactory::createUri() ' .
-                'must be of the type string, integer given'
-            ),
+            new \TypeError($message),
             function () {
                 $factory = new UriFactory();
                 $factory->createUri(123);
