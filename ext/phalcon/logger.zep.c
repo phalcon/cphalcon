@@ -587,7 +587,7 @@ PHP_METHOD(Phalcon_Logger, log) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 289, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 302, level);
 	zephir_check_call_status();
 	zephir_get_strval(&_0, message);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, level, &_0, &context);
@@ -807,11 +807,11 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_time(&_1);
 	ZVAL_LONG(&_0, level);
-	ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 290, &message, &levelName, &_0, &_1, &context);
+	ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 303, &message, &levelName, &_0, &_1, &context);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_array_keys(&_2, &registered TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&keys, "array_diff", NULL, 291, &_2, &excluded);
+	ZEPHIR_CALL_FUNCTION(&keys, "array_diff", NULL, 304, &_2, &excluded);
 	zephir_check_call_status();
 	zephir_is_iterable(&keys, 0, "phalcon/logger.zep", 395);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _3)
@@ -884,7 +884,7 @@ PHP_METHOD(Phalcon_Logger, getLevelNumber) {
 		zephir_fast_strtolower(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 292, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 305, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset_fetch(&numberLevel, &levels, &levelName, 1 TSRMLS_CC)) {
 			RETURN_CTOR(&numberLevel);

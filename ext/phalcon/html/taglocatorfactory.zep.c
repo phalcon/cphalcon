@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 212);
+	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 211);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&helpers);
 	zephir_create_array(&helpers, 25, 0 TSRMLS_CC);

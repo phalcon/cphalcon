@@ -29,7 +29,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/config.zep.c
 	phalcon/db/adapterinterface.zep.c
-	phalcon/utility.zep.c
 	phalcon/annotations/adapterinterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
@@ -96,6 +95,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/eventinterface.zep.c
 	phalcon/events/managerinterface.zep.c
 	phalcon/http/cookieinterface.zep.c
+	phalcon/http/message/stream.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c
@@ -275,6 +275,12 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/taglocatorfactory.zep.c
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
+	phalcon/http/message/inputstream.zep.c
+	phalcon/http/message/serverrequest.zep.c
+	phalcon/http/message/serverrequestfactory.zep.c
+	phalcon/http/message/streamfactory.zep.c
+	phalcon/http/message/uri.zep.c
+	phalcon/http/message/urifactory.zep.c
 	phalcon/http/request.zep.c
 	phalcon/http/request/exception.zep.c
 	phalcon/http/request/file.zep.c
@@ -395,6 +401,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/factory.zep.c
 	phalcon/translate/interpolator/associativearray.zep.c
 	phalcon/translate/interpolator/indexedarray.zep.c
+	phalcon/utility.zep.c
 	phalcon/validation.zep.c
 	phalcon/validation/exception.zep.c
 	phalcon/validation/validator/alnum.zep.c

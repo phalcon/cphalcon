@@ -39,25 +39,34 @@ ZEPHIR_INIT_CLASS(Phalcon_Utility) {
 }
 
 /**
- * Helper method to get an array element or a default
+ * Helper method to check an array for an element. If it exists it returns it,
+ * if not, it returns the supplied default value
+ *
+ * This is really necessary evil here since we do not have traits with Zephir.
+ * Once we do, this will definitely be removed from being a static.
  */
 PHP_METHOD(Phalcon_Utility, arrayGetDefault) {
 
-	zval name;
-	zval *parameters_param = NULL, *name_param = NULL, *defaultValue, defaultValue_sub, value;
 	zval parameters;
+	zval *name_param = NULL, *parameters_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value;
+	zval name;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&parameters);
-	ZVAL_UNDEF(&defaultValue_sub);
-	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&parameters);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &parameters_param, &name_param, &defaultValue);
+	zephir_fetch_params(1, 2, 1, &name_param, &parameters_param, &defaultValue);
 
-	zephir_get_arrval(&parameters, parameters_param);
 	zephir_get_strval(&name, name_param);
+	zephir_get_arrval(&parameters, parameters_param);
+	if (!defaultValue) {
+		defaultValue = &defaultValue_sub;
+		defaultValue = &__$null;
+	}
 
 
 	if (EXPECTED(zephir_array_isset_fetch(&value, &parameters, &name, 1 TSRMLS_CC))) {
