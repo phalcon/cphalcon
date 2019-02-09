@@ -40,14 +40,20 @@ class Message implements MessageInterface, \JsonSerializable
 	protected type;
 
 	/**
+	 * @var array
+	 */
+	protected metaData = [];
+
+	/**
 	 * Phalcon\Messages\Message constructor
 	 */
-	public function __construct(string! message, var field = "", string type = "", int code = 0)
+	public function __construct(string! message, var field = "", string type = "", int code = 0, array metaData = [])
 	{
-		let this->message = message,
-			this->field   = field,
-			this->type    = type,
-			this->code    = code;
+		let this->message  = message,
+			this->field    = field,
+			this->type     = type,
+			this->code     = code,
+			this->metaData = metaData;
 	}
 
 	/**
@@ -84,16 +90,25 @@ class Message implements MessageInterface, \JsonSerializable
 		return this->type;
 	}
 
+	/**
+	 * Returns message metadata
+	 */
+	public function getMetaData() -> array
+	{
+		return this->metaData;
+	}
+
     /**
     * Serializes the object for json_encode
     */
 	public function jsonSerialize() -> array
 	{
 		return [
-			"field"   : this->field,
-			"message" : this->message,
-			"type"    : this->type,
-			"code"    : this->code
+		   	"field"    : this->field,
+			"message"  : this->message,
+			"type"     : this->type,
+			"code"     : this->code,
+			"metaData" : this->metaData
 		];
 	}
 
@@ -134,6 +149,15 @@ class Message implements MessageInterface, \JsonSerializable
 	}
 
 	/**
+	 * Sets message metadata
+	 */
+	public function setMetaData(array! metaData) -> <MessageInterface>
+	{
+		let this->metaData = metaData;
+		return this;
+	}
+
+	/**
 	 * Magic __toString method returns verbose message
 	 */
 	public function __toString() -> string
@@ -146,6 +170,6 @@ class Message implements MessageInterface, \JsonSerializable
 	 */
 	public static function __set_state(array! message) -> <MessageInterface>
 	{
-		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
+		return new self(message["_message"], message["_field"], message["_type"], message["_code"], message["_metaData"]);
 	}
 }
