@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Uri;
@@ -22,16 +22,16 @@ use UnitTester;
 class WithHostCest
 {
     /**
-     * Tests Phalcon\Http\Message\Uri :: withHost() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withHost()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @since  2019-02-09
      */
-    public function httpUriWithHostReturnsNewInstance(UnitTester $I)
+    public function httpMessageUriWithHost(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - withHost() - returns new instance');
+        $I->wantToTest('Http\Message\Uri - withHost()');
         $query = 'https://phalcon:secret@%s:8080/action?param=value#frag';
         $uri   = new Uri(sprintf($query, 'dev.phalcon.ld'));
 

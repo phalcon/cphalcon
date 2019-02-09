@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\UriFactory;
+namespace Phalcon\Test\Unit\Http\Message\UriFactory;
 
 use Phalcon\Http\Message\UriFactory;
 use Psr\Http\Message\UriInterface;
@@ -27,15 +27,39 @@ class CreateUriCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-02-09
      */
-    public function httpUriFactoryCreateUri(UnitTester $I)
+    public function httpMessageUriFactoryCreateUri(UnitTester $I)
     {
-        $I->wantToTest('Http\UriFactory - createUri()');
+        $I->wantToTest('Http\Message\UriFactory - createUri()');
 
         $factory = new UriFactory();
         $uri     = $factory->createUri();
         $class   = UriInterface::class;
         $I->assertInstanceOf($class, $uri);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\UriFactory :: createUri() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function httpUriFactoryCreateUriException(UnitTester $I)
+    {
+        $I->wantToTest('Http\UriFactory - createUri() - exception');
+
+        $I->expectThrowable(
+            new \TypeError(
+                'Argument 1 passed to Phalcon\Http\Message\UriFactory::createUri() ' .
+                'must be of the type string, integer given'
+            ),
+            function () {
+                $factory = new UriFactory();
+                $factory->createUri(123);
+            }
+        );
     }
 }

@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Uri;
@@ -22,16 +22,16 @@ use UnitTester;
 class WithFragmentCest
 {
     /**
-     * Tests Phalcon\Http\Message\Uri :: withFragment() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withFragment()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @since  2019-02-09
      */
-    public function httpUriWithFragmentReturnsNewInstance(UnitTester $I)
+    public function httpMessageUriWithFragment(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - withFragment() - returns new instance');
+        $I->wantToTest('Http\Message\Uri - withFragment()');
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#%s';
         $uri   = new Uri(sprintf($query, 'frag'));
 

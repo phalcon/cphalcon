@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\ServerRequestFactory;
+namespace Phalcon\Test\Unit\Http\Message\ServerRequestFactory;
 
 use Phalcon\Http\Message\ServerRequestFactory;
 use Psr\Http\Message\ServerRequestFactoryInterface;

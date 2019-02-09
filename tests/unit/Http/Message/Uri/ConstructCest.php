@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\UriInterface;
@@ -27,11 +27,11 @@ class ConstructCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @since  2019-02-09
      */
-    public function httpUriConstruct(UnitTester $I)
+    public function httpMessageUriConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - __construct()');
+        $I->wantToTest('Http\Message\Uri - __construct()');
 
         $uri   = new Uri();
         $class = UriInterface::class;

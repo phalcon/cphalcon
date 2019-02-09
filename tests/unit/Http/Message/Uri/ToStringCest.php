@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Phalcon\Http\Message\Uri;
 use UnitTester;
@@ -26,14 +26,33 @@ class ToStringCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @since  2019-02-09
      */
-    public function httpUriToString(UnitTester $I)
+    public function httpMessageUriToString(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - __toString()');
+        $I->wantToTest('Http\Message\Uri - __toString()');
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
         $uri   = new Uri($query);
 
         $I->assertEquals($query, (string) $uri);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Uri :: __toString() - path no lead slash
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-07
+     */
+    public function httpUriToStringPathNoLeadSlash(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - __toString() - path no lead slash');
+        $uri = new Uri('https://dev.phalcon.ld');
+
+        $newInstance = $uri->withPath('action/reaction');
+        $expected    = 'https://dev.phalcon.ld/action/reaction';
+        $actual      = $newInstance->__toString();
+        $I->assertEquals($expected, $actual);
     }
 }

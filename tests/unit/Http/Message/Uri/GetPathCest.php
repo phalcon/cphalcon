@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Phalcon\Http\Message\Uri;
 use UnitTester;
@@ -26,11 +26,11 @@ class GetPathCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @since  2019-02-09
      */
-    public function httpUriGetPath(UnitTester $I)
+    public function httpMessageUriGetPath(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - getPath()');
+        $I->wantToTest('Http\Message\Uri - getPath()');
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
         $uri   = new Uri($query);
 

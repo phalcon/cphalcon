@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Uri;
@@ -22,16 +22,16 @@ use UnitTester;
 class WithSchemeCest
 {
     /**
-     * Tests Phalcon\Http\Message\Uri :: withScheme() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withScheme()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-07
+     * @since  2019-02-09
      */
-    public function httpUriWithSchemeReturnsNewInstance(UnitTester $I)
+    public function httpMessageUriWithScheme(UnitTester $I)
     {
-        $I->wantToTest('Http\Uri - withScheme() - returns new instance');
+        $I->wantToTest('Http\Message\Uri - withScheme()');
         $query = '%s://phalcon:secret@dev.phalcon.ld:8000/action?param=value#frag';
         $uri   = new Uri(sprintf($query, 'https'));
 

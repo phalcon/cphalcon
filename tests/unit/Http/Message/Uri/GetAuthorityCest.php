@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Uri;
@@ -29,12 +29,12 @@ class GetAuthorityCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-02-07
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-09
      */
-    public function httpUriGetAuthority(UnitTester $I, Example $example)
+    public function httpMessageUriGetAuthority(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Http\Uri - getAuthority() - ' . $example[0]);
+        $I->wantToTest('Http\Message\Uri - getAuthority()');
         $uri = new Uri($example[1]);
 
         $expected = $example[2];

@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Uri;
+namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Uri;
@@ -22,19 +22,19 @@ use UnitTester;
 class WithQueryCest
 {
     /**
-     * Tests Phalcon\Http\Message\Uri :: withQuery() - returns new instance
+     * Tests Phalcon\Http\Message\Uri :: withQuery()
      *
      * @dataProvider getExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-02-07
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-09
      */
-    public function httpUriWithQueryReturnsNewInstance(UnitTester $I, Example $example)
+    public function httpMessageUriWithQuery(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Http\Uri - withQuery() - ' . $example[0]);
+        $I->wantToTest('Http\Message\Uri - withQuery()');
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?%s#frag';
         $uri   = new Uri(sprintf($query, 'param=value'));
 
