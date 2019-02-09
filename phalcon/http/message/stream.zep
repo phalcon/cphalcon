@@ -21,6 +21,16 @@ use Psr\Http\Message\StreamInterface;
  */
 class Stream implements StreamInterface
 {
+	/**
+	 * @var resource
+	 */
+	protected handle = null;
+
+	/**
+	 * @var resource | string
+	 */
+	protected data;
+
     /**
      * Reads all data from the stream into a string, from the beginning to end.
      *
