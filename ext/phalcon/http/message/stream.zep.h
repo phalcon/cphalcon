@@ -18,6 +18,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, rewind);
 PHP_METHOD(Phalcon_Http_Message_Stream, seek);
 PHP_METHOD(Phalcon_Http_Message_Stream, tell);
 PHP_METHOD(Phalcon_Http_Message_Stream, write);
+zend_object *zephir_init_properties_Phalcon_Http_Message_Stream(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream___tostring, 0, 0, IS_STRING, 0)

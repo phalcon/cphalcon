@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	if (_4) {
 		ZEPHIR_INIT_NVAR(&validation);
 		object_init_ex(&validation, phalcon_validation_ce);
-		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 194);
+		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 196);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_5, this_ptr, SL("_elements"), PH_NOISY_CC | PH_READONLY);
@@ -541,19 +541,19 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		{
 			ZEPHIR_INIT_NVAR(&validator);
 			ZVAL_COPY(&validator, _8$$11);
-			ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_9, 195, &name, &validator);
+			ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_9, 197, &name, &validator);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&validator);
 		ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&filters) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_10, 196, &name, &filters);
+			ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_10, 198, &name, &filters);
 			zephir_check_call_status();
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&element);
-	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 197, data, entity);
+	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 199, data, entity);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_11, &messages, "count", NULL, 0);
 	zephir_check_call_status();
@@ -1411,7 +1411,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	zephir_read_property(&_1, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
 		zephir_read_property(&_2$$3, this_ptr, SL("_elements"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_values", NULL, 119, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_values", NULL, 121, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_elementsIndexed"), &_3$$3);
 	} else {

@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 				ZEPHIR_INIT_NVAR(&usedRoleToInherit);
 				ZVAL_COPY(&usedRoleToInherit, _13$$13);
 				ZEPHIR_MAKE_REF(&checkRoleToInherits);
-				ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 70, &checkRoleToInherits, &usedRoleToInherit);
+				ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 72, &checkRoleToInherits, &usedRoleToInherit);
 				ZEPHIR_UNREF(&checkRoleToInherits);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 						ZEPHIR_INIT_NVAR(&usedRoleToInherit);
 						ZVAL_COPY(&usedRoleToInherit, _21$$18);
 						ZEPHIR_MAKE_REF(&checkRoleToInherits);
-						ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 70, &checkRoleToInherits, &usedRoleToInherit);
+						ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_14, 72, &checkRoleToInherits, &usedRoleToInherit);
 						ZEPHIR_UNREF(&checkRoleToInherits);
 						zephir_check_call_status();
 					} ZEND_HASH_FOREACH_END();
@@ -485,7 +485,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole) {
 		ZEPHIR_CPY_WRT(&roleName, role);
 		ZEPHIR_INIT_NVAR(&roleObject);
 		object_init_ex(&roleObject, phalcon_acl_role_ce);
-		ZEPHIR_CALL_METHOD(NULL, &roleObject, "__construct", NULL, 71, role);
+		ZEPHIR_CALL_METHOD(NULL, &roleObject, "__construct", NULL, 73, role);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role must be either an string or implement RoleInterface", "phalcon/acl/adapter/memory.zep", 308);
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addComponent) {
 		ZEPHIR_CPY_WRT(&componentName, componentValue);
 		ZEPHIR_INIT_NVAR(&componentObject);
 		object_init_ex(&componentObject, phalcon_acl_component_ce);
-		ZEPHIR_CALL_METHOD(NULL, &componentObject, "__construct", NULL, 72, &componentName);
+		ZEPHIR_CALL_METHOD(NULL, &componentObject, "__construct", NULL, 74, &componentName);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_1, this_ptr, SL("componentsNames"), PH_NOISY_CC | PH_READONLY);
@@ -723,7 +723,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 
 	if (!ZEPHIR_IS_STRING(&roleName, "*")) {
 		ZVAL_LONG(&_0$$3, 1);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 73, &roleName, &componentName, access, &_0$$3, func);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 75, &roleName, &componentName, access, &_0$$3, func);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property(&_1$$4, this_ptr, SL("rolesNames"), PH_NOISY_CC | PH_READONLY);
@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 			ZEPHIR_INIT_NVAR(&_2$$4);
 			ZVAL_COPY(&_2$$4, _3$$4);
 			ZVAL_LONG(&_6$$5, 1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 73, &innerRoleName, &componentName, access, &_6$$5, func);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 75, &innerRoleName, &componentName, access, &_6$$5, func);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&_2$$4);
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 
 	if (!ZEPHIR_IS_STRING(&roleName, "*")) {
 		ZVAL_LONG(&_0$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 73, &roleName, &componentName, access, &_0$$3, func);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 75, &roleName, &componentName, access, &_0$$3, func);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property(&_1$$4, this_ptr, SL("rolesNames"), PH_NOISY_CC | PH_READONLY);
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 			ZEPHIR_INIT_NVAR(&_2$$4);
 			ZVAL_COPY(&_2$$4, _3$$4);
 			ZVAL_LONG(&_6$$5, 0);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 73, &innerRoleName, &componentName, access, &_6$$5, func);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "allowordeny", NULL, 75, &innerRoleName, &componentName, access, &_6$$5, func);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&_2$$4);
@@ -1081,7 +1081,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		zephir_read_property(&_5$$13, this_ptr, SL("defaultAccess"), PH_NOISY_CC | PH_READONLY);
 		RETURN_MM_BOOL((ZEPHIR_IS_LONG(&_5$$13, 1)));
 	}
-	ZEPHIR_CALL_METHOD(&accessKey, this_ptr, "canaccess", NULL, 74, roleName, componentName, &access);
+	ZEPHIR_CALL_METHOD(&accessKey, this_ptr, "canaccess", NULL, 76, roleName, componentName, &access);
 	zephir_check_call_status();
 	_6 = !ZEPHIR_IS_FALSE(&accessKey);
 	if (_6) {
@@ -1112,9 +1112,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	if (zephir_is_callable(&funcAccess TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(&reflectionFunction);
 		object_init_ex(&reflectionFunction, zephir_get_internal_ce(SL("reflectionfunction")));
-		ZEPHIR_CALL_METHOD(NULL, &reflectionFunction, "__construct", NULL, 75, &funcAccess);
+		ZEPHIR_CALL_METHOD(NULL, &reflectionFunction, "__construct", NULL, 77, &funcAccess);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&reflectionParameters, &reflectionFunction, "getparameters", NULL, 76);
+		ZEPHIR_CALL_METHOD(&reflectionParameters, &reflectionFunction, "getparameters", NULL, 78);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&parameterNumber);
 		ZVAL_LONG(&parameterNumber, zephir_fast_count_int(&reflectionParameters TSRMLS_CC));
@@ -1130,7 +1130,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		}
 		ZEPHIR_INIT_VAR(&parametersForFunction);
 		array_init(&parametersForFunction);
-		ZEPHIR_CALL_METHOD(&numberOfRequiredParameters, &reflectionFunction, "getnumberofrequiredparameters", NULL, 77);
+		ZEPHIR_CALL_METHOD(&numberOfRequiredParameters, &reflectionFunction, "getnumberofrequiredparameters", NULL, 79);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&userParametersSizeShouldBe, &parameterNumber);
 		zephir_is_iterable(&reflectionParameters, 0, "phalcon/acl/adapter/memory.zep", 688);
@@ -1535,7 +1535,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess) {
 			ZEPHIR_INIT_NVAR(&usedRoleToInherit);
 			ZVAL_COPY(&usedRoleToInherit, _4$$6);
 			ZEPHIR_MAKE_REF(&checkRoleToInherits);
-			ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 70, &checkRoleToInherits, &usedRoleToInherit);
+			ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 72, &checkRoleToInherits, &usedRoleToInherit);
 			ZEPHIR_UNREF(&checkRoleToInherits);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
@@ -1579,7 +1579,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess) {
 					ZEPHIR_INIT_NVAR(&usedRoleToInherit);
 					ZVAL_COPY(&usedRoleToInherit, _10$$13);
 					ZEPHIR_MAKE_REF(&checkRoleToInherits);
-					ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 70, &checkRoleToInherits, &usedRoleToInherit);
+					ZEPHIR_CALL_FUNCTION(NULL, "array_push", &_5, 72, &checkRoleToInherits, &usedRoleToInherit);
 					ZEPHIR_UNREF(&checkRoleToInherits);
 					zephir_check_call_status();
 				} ZEND_HASH_FOREACH_END();

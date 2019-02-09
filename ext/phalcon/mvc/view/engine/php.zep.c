@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean == 1) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 394);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 396);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	}
 	if (mustClean == 1) {
 		zephir_read_property(&_4$$6, this_ptr, SL("_view"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 116);
+		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 118);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "setcontent", NULL, 0, &_5$$6);
 		zephir_check_call_status();

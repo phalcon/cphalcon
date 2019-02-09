@@ -12,6 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/operators.h"
+#include "kernel/fcall.h"
+#include "kernel/file.h"
 #include "kernel/memory.h"
 
 
@@ -42,7 +46,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream) {
 	/**
 	 * @var resource | string
 	 */
-	zend_declare_property_null(phalcon_http_message_stream_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_stream_ce, SL("stream"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_stream_ce, SL("metadata"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_http_message_stream_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Stream;
 
 	zend_class_implements(phalcon_http_message_stream_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")));
 	return SUCCESS;
@@ -61,7 +72,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream) {
  * string casting operations.
  *
  * @see http://php.net/manual/en/language.oop5.magic.php#object.tostring
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, __toString) {
 
@@ -73,14 +83,25 @@ PHP_METHOD(Phalcon_Http_Message_Stream, __toString) {
 
 /**
  * Closes the stream and any underlying resources.
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, close) {
 
+	zval handle, _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&handle);
+	ZVAL_UNDEF(&_0);
 
+	ZEPHIR_MM_GROW();
+
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_0)) {
+		ZEPHIR_CALL_METHOD(&handle, this_ptr, "detach", NULL, 0);
+		zephir_check_call_status();
+		zephir_fclose(&handle TSRMLS_CC);
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -88,36 +109,48 @@ PHP_METHOD(Phalcon_Http_Message_Stream, close) {
  * Separates any underlying resources from the stream.
  *
  * After the stream has been detached, the stream is in an unusable state.
- *
- * @return resource|null Underlying PHP stream, if any
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, detach) {
 
+	zval __$null, handle, _0;
 	zval *this_ptr = getThis();
 
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&handle);
+	ZVAL_UNDEF(&_0);
 
+	ZEPHIR_MM_GROW();
+
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&handle, &_0);
+	zephir_update_property_zval(this_ptr, SL("handle"), &__$null);
+	RETURN_CCTOR(&handle);
 
 }
 
 /**
  * Returns true if the stream is at the end of the stream.
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, eof) {
 
+	zval _0, _1$$3;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 
+
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_0)) {
+		zephir_read_property(&_1$$3, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+		RETURN_BOOL(zephir_feof(&_1$$3 TSRMLS_CC));
+	}
+	RETURN_BOOL(1);
 
 }
 
 /**
  * Returns the remaining contents in a string
- *
- * @return string
- * @throws \RuntimeException if unable to read.
- * @throws \RuntimeException if error occurs while reading.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, getContents) {
 
@@ -132,12 +165,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getContents) {
  *
  * The keys returned are identical to the keys returned from PHP's
  * stream_get_meta_data() function.
- *
- * @see http://php.net/manual/en/function.stream-get-meta-data.php
- * @param string $key Specific metadata to retrieve.
- * @return array|mixed|null Returns an associative array if no key is
- *     provided. Returns a specific key value if a key is provided and the
- *     value is found, or null if the key is not found.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, getMetadata) {
 
@@ -160,21 +187,42 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getMetadata) {
 
 /**
  * Get the size of the stream if known.
- *
- * @return int|null Returns the size in bytes if known, or null if unknown.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, getSize) {
 
+	zval stats, _0, _1$$3, _3$$4, _4$$4;
+	zephir_fcall_cache_entry *_2 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&stats);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$4);
 
+	ZEPHIR_MM_GROW();
+
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_0)) {
+		zephir_read_property(&_1$$3, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_FUNCTION(&stats, "fstat", NULL, 69, &_1$$3);
+		zephir_check_call_status();
+		if (!ZEPHIR_IS_FALSE_IDENTICAL(&stats)) {
+			ZEPHIR_INIT_VAR(&_3$$4);
+			ZVAL_STRING(&_3$$4, "size");
+			ZVAL_NULL(&_4$$4);
+			ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_utility_ce, "arraygetdefault", &_2, 0, &_3$$4, &stats, &_4$$4);
+			zephir_check_call_status();
+			RETURN_MM();
+		}
+	}
+	RETURN_MM_NULL();
 
 }
 
 /**
  * Returns whether or not the stream is readable.
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, isReadable) {
 
@@ -186,21 +234,30 @@ PHP_METHOD(Phalcon_Http_Message_Stream, isReadable) {
 
 /**
  * Returns whether or not the stream is seekable.
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, isSeekable) {
 
+	zval _0, _1;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "seekable");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmetadata", NULL, 0, &_1);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("boolval", NULL, 70, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
 /**
  * Returns whether or not the stream is writable.
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, isWritable) {
 
@@ -212,13 +269,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream, isWritable) {
 
 /**
  * Read data from the stream.
- *
- * @param int $length Read up to $length bytes from the object and return
- *     them. Fewer than $length bytes may be returned if underlying stream
- *     call returns fewer bytes.
- * @return string Returns the data read from the stream, or an empty string
- *     if no bytes are available.
- * @throws \RuntimeException if an error occurs.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, read) {
 
@@ -239,30 +289,26 @@ PHP_METHOD(Phalcon_Http_Message_Stream, read) {
  *
  * If the stream is not seekable, this method will raise an exception;
  * otherwise, it will perform a seek(0).
- *
- * @see seek()
- * @see http://www.php.net/manual/en/function.fseek.php
- * @throws \RuntimeException on failure.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, rewind) {
 
+	zval _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 
+	ZEPHIR_MM_GROW();
+
+	ZVAL_LONG(&_0, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 0, &_0);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * Seek to a position in the stream.
- *
- * @see http://www.php.net/manual/en/function.fseek.php
- * @param int $offset Stream offset
- * @param int $whence Specifies how the cursor position will be calculated
- *     based on the seek offset. Valid values are identical to the built-in
- *     PHP $whence values for `fseek()`.  SEEK_SET: Set position equal to
- *     offset bytes SEEK_CUR: Set position to current location plus offset
- *     SEEK_END: Set position to end-of-stream plus offset.
- * @throws \RuntimeException on failure.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, seek) {
 
@@ -287,9 +333,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream, seek) {
 
 /**
  * Returns the current position of the file read/write pointer
- *
- * @return int Position of the file pointer
- * @throws \RuntimeException on error.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 
@@ -301,10 +344,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 
 /**
  * Write data to the stream.
- *
- * @param string $string The string that is to be written.
- * @return int Returns the number of bytes written to the stream.
- * @throws \RuntimeException on failure.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, write) {
 
@@ -317,6 +356,29 @@ PHP_METHOD(Phalcon_Http_Message_Stream, write) {
 
 
 
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Http_Message_Stream(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("metadata"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("metadata"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 

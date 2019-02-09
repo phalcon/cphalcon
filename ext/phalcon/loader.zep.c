@@ -518,7 +518,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZVAL_STRING(&_2$$3, "autoLoad");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
 		ZVAL_BOOL(&_3$$3, (prepend ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 299, &_1$$3, &__$true, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 301, &_1$$3, &__$true, &_3$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_zval(this_ptr, SL("_registered"), &__$true);
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "autoLoad");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 300, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 302, &_1$$3);
 		zephir_check_call_status();
 		if (0) {
 			zephir_update_property_zval(this_ptr, SL("_registered"), &__$true);
@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Loader, loadFiles) {
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "fire", NULL, 0, &_4$$4, this_ptr, &filePath);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "call_user_func", &_6, 301, &fileCheckingCallback, &filePath);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "call_user_func", &_6, 303, &fileCheckingCallback, &filePath);
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$3)) {
 			ZEPHIR_OBS_NVAR(&_7$$5);
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_13, 0, &_12$$11, this_ptr);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_FUNCTION(&_14$$10, "call_user_func", &_15, 301, &fileCheckingCallback, &filePath);
+				ZEPHIR_CALL_FUNCTION(&_14$$10, "call_user_func", &_15, 303, &fileCheckingCallback, &filePath);
 				zephir_check_call_status();
 				if (zephir_is_true(&_14$$10)) {
 					if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
@@ -823,7 +823,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_22, 0, &_21$$16, this_ptr, &filePath);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_FUNCTION(&_23$$15, "call_user_func", &_15, 301, &fileCheckingCallback, &filePath);
+			ZEPHIR_CALL_FUNCTION(&_23$$15, "call_user_func", &_15, 303, &fileCheckingCallback, &filePath);
 			zephir_check_call_status();
 			if (zephir_is_true(&_23$$15)) {
 				if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {

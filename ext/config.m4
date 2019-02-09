@@ -276,9 +276,15 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
 	phalcon/http/message/inputstream.zep.c
+	phalcon/http/message/request.zep.c
+	phalcon/http/message/requestfactory.zep.c
+	phalcon/http/message/response.zep.c
+	phalcon/http/message/responsefactory.zep.c
 	phalcon/http/message/serverrequest.zep.c
 	phalcon/http/message/serverrequestfactory.zep.c
 	phalcon/http/message/streamfactory.zep.c
+	phalcon/http/message/uploadedfile.zep.c
+	phalcon/http/message/uploadedfilefactory.zep.c
 	phalcon/http/message/uri.zep.c
 	phalcon/http/message/urifactory.zep.c
 	phalcon/http/request.zep.c
