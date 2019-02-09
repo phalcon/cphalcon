@@ -11,7 +11,7 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Http\Message\Response;
-use Phalcon\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
 class ResponseFactory implements ResponseFactoryInterface

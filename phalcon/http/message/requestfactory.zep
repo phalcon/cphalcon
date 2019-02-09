@@ -11,7 +11,7 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Http\Message\Request;
-use Phalcon\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 
 class RequestFactory implements RequestFactoryInterface
