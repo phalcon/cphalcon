@@ -24,27 +24,30 @@ class WithPathCest
     /**
      * Tests Phalcon\Http\Message\Uri :: withPath()
      *
+     * @dataProvider getExamples
+     *
      * @param UnitTester $I
+     * @param Example    $example
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
-    public function httpMessageUriWithPath(UnitTester $I)
+    public function httpMessageUriWithPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Http\Message\Uri - withPath()');
-        $query = 'https://phalcon:secret@dev.phalcon.ld:8080/%s?param=value#frag';
-        $uri   = new Uri(sprintf($query, 'action'));
+        $I->wantToTest('Http\Message\Uri - withPath() - ' . $example[0]);
+        $query = 'https://dev.phalcon.ld%s';
+        $uri   = new Uri(sprintf($query, '/action'));
 
-        $newInstance = $uri->withPath('/login');
+        $newInstance = $uri->withPath($example[1]);
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals('/login', $newInstance->getPath());
-        $I->assertEquals(sprintf($query, 'login'), (string) $newInstance);
+        $I->assertEquals($example[2], $newInstance->getPath());
+        $I->assertEquals(sprintf($query, $example[3]), (string) $newInstance);
     }
 
     /**
      * Tests Phalcon\Http\Message\Uri :: withPath() - exception no string
      *
-     * @dataProvider getExamples
+     * @dataProvider getExceptions
      *
      * @param UnitTester $I
      * @param Example    $example
@@ -71,6 +74,20 @@ class WithPathCest
      * @return array
      */
     private function getExamples(): array
+    {
+        return [
+            ['empty',            '',              '',                  ''],
+            ['normal',           '/login',        '/login',            '/login'],
+            ['double slash',     '//login',       '/login',            '/login'],
+            ['no leading slash', 'login',         'login',             '/login'],
+            ['garbled',          '/l^ogin/si gh', '/l%5Eogin/si%20gh', '/l%5Eogin/si%20gh'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getExceptions(): array
     {
         return [
             ['NULL', 'null', null],

@@ -372,13 +372,13 @@ class Uri implements UriInterface
 
     	if false !== strpos(path, "?") {
     		throw new \InvalidArgumentException(
-    			"Uri:withPath() - path cannot contain a query string"
+    			__METHOD__ . "- path cannot contain a query string"
     		);
     	}
 
     	if false !== strpos(path, "#") {
     		throw new \InvalidArgumentException(
-    			"Uri:withPath() - path cannot contain a query fragment"
+    			__METHOD__ . " - path cannot contain a query fragment"
     		);
     	}
 
@@ -418,7 +418,7 @@ class Uri implements UriInterface
 
 				if typeof port !== "string" {
 					throw new \InvalidArgumentException(
-						"Url:withPort() expects an integer, integer string or null argument instead of " . type
+						__METHOD__ . " expects an integer, integer string or null argument instead of " . type
 					);
 				}
             }
@@ -427,7 +427,7 @@ class Uri implements UriInterface
         }
 
         if (null !== port && (port < 1 || port > 65535)) {
-            throw new \InvalidArgumentException("Url:withPort() expects valid port (1-65535)");
+            throw new \InvalidArgumentException(__METHOD__ . " expects valid port (1-65535)");
         }
 
 		return this->cloneInstance(port, "port");
@@ -454,7 +454,7 @@ class Uri implements UriInterface
 
 		if false !== strpos(query, "#") {
 			throw new \InvalidArgumentException(
-				"Uri:withQuery() - query cannot contain a query fragment"
+				__METHOD__ . " - query cannot contain a query fragment"
 			);
 		}
 
@@ -608,15 +608,20 @@ class Uri implements UriInterface
      */
 	private function filterPath(string path) -> string
 	{
-        if "" === path {
-            // No path
+		var element, index, parts;
+
+        if "" === path || !starts_with(path, "/") {
+            // Relative or empty path
             return path;
         }
 
-        if starts_with(path, "/") {
-            // Relative path
-            return path;
-        }
+		let parts  = explode("/", path);
+
+		for index, element in parts {
+			let parts[index] = rawurlencode(element);
+		}
+
+		let path = implode("/", parts);
 
         return "/" . ltrim(path, "/");
 	}
