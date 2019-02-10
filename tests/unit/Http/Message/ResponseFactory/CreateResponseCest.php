@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ResponseFactory;
 
+use Phalcon\Http\Message\ResponseFactory;
+use Psr\Http\Message\ResponseInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,9 @@ class CreateResponseCest
     public function httpMessageResponseFactoryCreateResponse(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ResponseFactory - createResponse()');
-        $I->skipTest('Need implementation');
+        $factory = new ResponseFactory();
+        $response = $factory->createResponse();
+        $class   = ResponseInterface::class;
+        $I->assertInstanceOf($class, $response);
     }
 }

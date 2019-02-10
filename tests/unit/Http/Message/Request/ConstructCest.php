@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Request;
+use Psr\Http\Message\RequestInterface;
 use UnitTester;
 
 /**
@@ -25,11 +27,13 @@ class ConstructCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-02-08
      */
     public function httpMessageRequestConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - __construct()');
-        $I->skipTest('Need implementation');
+        $request = new Request();
+        $class   = RequestInterface::class;
+        $I->assertInstanceOf($class, $request);
     }
 }

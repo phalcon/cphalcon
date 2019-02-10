@@ -32,6 +32,16 @@ use Phalcon\Utility;
 class Response implements ResponseInterface
 {
 	/**
+	 * @var int
+	 */
+	private code = 0;
+
+	/**
+	 * @var string
+	 */
+	private reason = "";
+
+	/**
 	 * Gets the body of the message.
 	 *
 	 * @return StreamInterface Returns the body as a stream.
@@ -270,7 +280,13 @@ class Response implements ResponseInterface
 	 */
 	public function withStatus(var code, var reasonPhrase = "") -> <ResponseInterface>
 	{
+		var newInstance;
 
+		let newInstance         = clone this,
+			newInstance->code   = code,
+			newInstance->reason = reasonPhrase;
+
+		return newInstance;
 	}
 
 	/**

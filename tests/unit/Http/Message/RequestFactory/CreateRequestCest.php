@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\RequestFactory;
 
+use Phalcon\Http\Message\RequestFactory;
+use Psr\Http\Message\RequestInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,9 @@ class CreateRequestCest
     public function httpMessageRequestFactoryCreateRequest(UnitTester $I)
     {
         $I->wantToTest('Http\Message\RequestFactory - createRequest()');
-        $I->skipTest('Need implementation');
+        $factory = new RequestFactory();
+        $request = $factory->createRequest('https://dev.phalcon.ld', 'GET');
+        $class   = RequestInterface::class;
+        $I->assertInstanceOf($class, $request);
     }
 }
