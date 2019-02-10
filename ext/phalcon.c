@@ -342,6 +342,8 @@ zend_class_entry *phalcon_http_response_ce;
 zend_class_entry *phalcon_http_response_cookies_ce;
 zend_class_entry *phalcon_http_response_exception_ce;
 zend_class_entry *phalcon_http_response_headers_ce;
+zend_class_entry *phalcon_http_server_middleware_ce;
+zend_class_entry *phalcon_http_server_requesthandler_ce;
 zend_class_entry *phalcon_image_adapter_gd_ce;
 zend_class_entry *phalcon_image_adapter_imagick_ce;
 zend_class_entry *phalcon_image_ce;
@@ -794,6 +796,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Http_Response_Cookies);
 	ZEPHIR_INIT(Phalcon_Http_Response_Exception);
 	ZEPHIR_INIT(Phalcon_Http_Response_Headers);
+	ZEPHIR_INIT(Phalcon_Http_Server_Middleware);
+	ZEPHIR_INIT(Phalcon_Http_Server_RequestHandler);
 	ZEPHIR_INIT(Phalcon_Image);
 	ZEPHIR_INIT(Phalcon_Image_Adapter_Gd);
 	ZEPHIR_INIT(Phalcon_Image_Adapter_Imagick);

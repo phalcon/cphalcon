@@ -289,6 +289,8 @@
 #include "phalcon/http/response/cookies.zep.h"
 #include "phalcon/http/response/exception.zep.h"
 #include "phalcon/http/response/headers.zep.h"
+#include "phalcon/http/server/middleware.zep.h"
+#include "phalcon/http/server/requesthandler.zep.h"
 #include "phalcon/image.zep.h"
 #include "phalcon/image/adapter/gd.zep.h"
 #include "phalcon/image/adapter/imagick.zep.h"

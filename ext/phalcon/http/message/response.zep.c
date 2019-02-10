@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -41,6 +42,16 @@
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, Response, phalcon, http_message_response, phalcon_http_message_response_method_entry, 0);
+
+	/**
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_http_message_response_ce, SL("code"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_http_message_response_ce, SL("reason"), "", ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_message_response_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responseinterface")));
 	return SUCCESS;
@@ -366,11 +377,12 @@ PHP_METHOD(Phalcon_Http_Message_Response, withProtocolVersion) {
  */
 PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
 
-	zval *code, code_sub, *reasonPhrase = NULL, reasonPhrase_sub;
+	zval *code, code_sub, *reasonPhrase = NULL, reasonPhrase_sub, newInstance;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&code_sub);
 	ZVAL_UNDEF(&reasonPhrase_sub);
+	ZVAL_UNDEF(&newInstance);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &code, &reasonPhrase);
@@ -382,6 +394,13 @@ PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
 	}
 
 
+	ZEPHIR_INIT_VAR(&newInstance);
+	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
+	zephir_update_property_zval(&newInstance, SL("code"), code);
+	zephir_update_property_zval(&newInstance, SL("reason"), reasonPhrase);
+	RETURN_CCTOR(&newInstance);
 
 }
 

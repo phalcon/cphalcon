@@ -80,6 +80,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms/element", "check.zep.c date.zep.c email.zep.c file.zep.c hidden.zep.c numeric.zep.c password.zep.c radio.zep.c select.zep.c submit.zep.c text.zep.c textarea.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html", "breadcrumbs.zep.c exception.zep.c tag.zep.c taglocator.zep.c taglocatorfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie", "exception.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http/server", "middleware.zep.c requesthandler.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image/adapter", "gd.zep.c imagick.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/loader", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "exception.zep.c factory.zep.c item.zep.c", "phalcon");
