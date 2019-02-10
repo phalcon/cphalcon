@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -44,10 +45,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
 PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	zval reasonPhrase;
-	zval *code_param = NULL, *reasonPhrase_param = NULL;
-	zend_long code;
+	zval *code_param = NULL, *reasonPhrase_param = NULL, _0, _1;
+	zend_long code, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&reasonPhrase);
 
 	ZEPHIR_MM_GROW();
@@ -66,6 +69,16 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 	}
 
 
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_http_message_response_ce);
+	if (zephir_has_constructor(&_0 TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+	ZVAL_LONG(&_1, code);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 218, &_1, &reasonPhrase);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

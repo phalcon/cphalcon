@@ -13,6 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/string.h"
 
 
 /**
@@ -46,8 +50,60 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, Request, phalcon, http_message_request, phalcon_http_message_request_method_entry, 0);
 
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_request_ce, SL("headers"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	phalcon_http_message_request_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Request;
+
 	zend_class_implements(phalcon_http_message_request_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Constructor
+ */
+PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
+
+	zval headers;
+	zval method;
+	zval *uri = NULL, uri_sub, *method_param = NULL, *body = NULL, body_sub, *headers_param = NULL, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&uri_sub);
+	ZVAL_UNDEF(&body_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&headers);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 4, &uri, &method_param, &body, &headers_param);
+
+	if (!uri) {
+		uri = &uri_sub;
+		uri = &__$null;
+	}
+	if (!method_param) {
+		ZEPHIR_INIT_VAR(&method);
+		ZVAL_STRING(&method, "");
+	} else {
+		zephir_get_strval(&method, method_param);
+	}
+	if (!body) {
+		body = &body_sub;
+		ZEPHIR_INIT_VAR(body);
+		ZVAL_STRING(body, "php://temp");
+	}
+	if (!headers_param) {
+		ZEPHIR_INIT_VAR(&headers);
+		array_init(&headers);
+	} else {
+		zephir_get_arrval(&headers, headers_param);
+	}
+
+
 
 }
 
@@ -168,15 +224,22 @@ PHP_METHOD(Phalcon_Http_Message_Request, getHeaders) {
  */
 PHP_METHOD(Phalcon_Http_Message_Request, hasHeader) {
 
-	zval *name, name_sub;
+	zval *name, name_sub, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
-	zephir_fetch_params(0, 1, 0, &name);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
 
 
 
+	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_fast_strtolower(&_1, name);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &_1));
 
 }
 
@@ -498,6 +561,29 @@ PHP_METHOD(Phalcon_Http_Message_Request, withProtocolVersion) {
 
 
 
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Http_Message_Request(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("headers"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 

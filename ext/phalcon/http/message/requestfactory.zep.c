@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
@@ -41,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory) {
  */
 PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *uri, uri_sub;
 	zval method;
 	zval *this_ptr = getThis();
@@ -54,6 +56,10 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 	zephir_get_strval(&method, method_param);
 
 
+	object_init_ex(return_value, phalcon_http_message_request_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 217, uri, &method);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

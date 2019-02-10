@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -37,6 +38,50 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFile) {
 
 	zend_class_implements(phalcon_http_message_uploadedfile_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfileinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Constructor
+ */
+PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
+
+	zval clientFilename, clientMediaType;
+	zend_long size, error;
+	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&stream_sub);
+	ZVAL_UNDEF(&clientFilename);
+	ZVAL_UNDEF(&clientMediaType);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 4, &stream, &size_param, &error_param, &clientFilename_param, &clientMediaType_param);
+
+	if (!size_param) {
+		size = 0;
+	} else {
+		size = zephir_get_intval(size_param);
+	}
+	if (!error_param) {
+		error = 0;
+	} else {
+		error = zephir_get_intval(error_param);
+	}
+	if (!clientFilename_param) {
+		ZEPHIR_INIT_VAR(&clientFilename);
+		ZVAL_STRING(&clientFilename, "");
+	} else {
+		zephir_get_strval(&clientFilename, clientFilename_param);
+	}
+	if (!clientMediaType_param) {
+		ZEPHIR_INIT_VAR(&clientMediaType);
+		ZVAL_STRING(&clientMediaType, "");
+	} else {
+		zephir_get_strval(&clientMediaType, clientMediaType_param);
+	}
+
+
 
 }
 

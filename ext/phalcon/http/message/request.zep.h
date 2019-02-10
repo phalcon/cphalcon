@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_http_message_request_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request);
 
+PHP_METHOD(Phalcon_Http_Message_Request, __construct);
 PHP_METHOD(Phalcon_Http_Message_Request, getBody);
 PHP_METHOD(Phalcon_Http_Message_Request, getHeader);
 PHP_METHOD(Phalcon_Http_Message_Request, getHeaderLine);
@@ -20,6 +21,18 @@ PHP_METHOD(Phalcon_Http_Message_Request, withRequestTarget);
 PHP_METHOD(Phalcon_Http_Message_Request, withUri);
 PHP_METHOD(Phalcon_Http_Message_Request, withoutHeader);
 PHP_METHOD(Phalcon_Http_Message_Request, withProtocolVersion);
+zend_object *zephir_init_properties_Phalcon_Http_Message_Request(zend_class_entry *class_type TSRMLS_DC);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_request___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, method)
+#endif
+	ZEND_ARG_INFO(0, body)
+	ZEND_ARG_ARRAY_INFO(0, headers, 0)
+ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_request_getbody, 0, 0, Psr\\Http\\Message\\StreamInterface, 0)
@@ -155,6 +168,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_request_wit
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_request_method_entry) {
+	PHP_ME(Phalcon_Http_Message_Request, __construct, arginfo_phalcon_http_message_request___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Message_Request, getBody, arginfo_phalcon_http_message_request_getbody, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Request, getHeader, arginfo_phalcon_http_message_request_getheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Request, getHeaderLine, arginfo_phalcon_http_message_request_getheaderline, ZEND_ACC_PUBLIC)

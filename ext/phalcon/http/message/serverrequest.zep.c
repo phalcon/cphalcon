@@ -72,6 +72,45 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 }
 
 /**
+ * Constructor
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
+
+	zval serverParams;
+	zval *method_param = NULL, *uri = NULL, uri_sub, *serverParams_param = NULL, __$null;
+	zval method;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&uri_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&serverParams);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 3, &method_param, &uri, &serverParams_param);
+
+	if (!method_param) {
+		ZEPHIR_INIT_VAR(&method);
+		ZVAL_STRING(&method, "");
+	} else {
+		zephir_get_strval(&method, method_param);
+	}
+	if (!uri) {
+		uri = &uri_sub;
+		uri = &__$null;
+	}
+	if (!serverParams_param) {
+		ZEPHIR_INIT_VAR(&serverParams);
+		array_init(&serverParams);
+	} else {
+		zephir_get_arrval(&serverParams, serverParams_param);
+	}
+
+
+
+}
+
+/**
  * Retrieve a single derived request attribute.
  *
  * Retrieves a single derived request attribute as described in

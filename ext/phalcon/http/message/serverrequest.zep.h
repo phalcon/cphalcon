@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_http_message_serverrequest_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest);
 
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getBody);
@@ -33,6 +34,16 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withRequestTarget);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUri);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest___construct, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, method)
+#endif
+	ZEND_ARG_INFO(0, uri)
+	ZEND_ARG_ARRAY_INFO(0, serverParams, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattribute, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -257,6 +268,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequest_method_entry) {
+	PHP_ME(Phalcon_Http_Message_ServerRequest, __construct, arginfo_phalcon_http_message_serverrequest___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getAttribute, arginfo_phalcon_http_message_serverrequest_getattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getAttributes, arginfo_phalcon_http_message_serverrequest_getattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getBody, arginfo_phalcon_http_message_serverrequest_getbody, ZEND_ACC_PUBLIC)
