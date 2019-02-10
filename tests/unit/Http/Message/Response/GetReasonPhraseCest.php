@@ -25,7 +25,7 @@ class GetReasonPhraseCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-09
+     * @since  2019-02-10
      */
     public function httpMessageResponseGetReasonPhrase(UnitTester $I)
     {
