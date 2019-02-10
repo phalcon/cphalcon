@@ -668,10 +668,11 @@ class ModelsQueryExecuteCest
         $I->assertFalse($status->success());
         $I->assertEquals($status->getMessages(), [
             0 => Message::__set_state([
-                '_type'    => null,
-                '_message' => 'Sorry Marina, but you are not allowed here',
-                '_field'   => null,
-                '_code'    => 0,
+                '_type'     => null,
+                '_message'  => 'Sorry Marina, but you are not allowed here',
+                '_field'    => null,
+                '_code'     => 0,
+                '_metaData' => []
             ]),
         ]);
 
@@ -681,10 +682,11 @@ class ModelsQueryExecuteCest
         $I->assertFalse($status->success());
         $I->assertEquals($status->getMessages(), [
             0 => Message::__set_state([
-                '_type'    => 'Email',
-                '_message' => "Field email must be an email address",
-                '_field'   => 'email',
-                '_code'    => 0,
+                '_type'     => 'Email',
+                '_message'  => "Field email must be an email address",
+                '_field'    => 'email',
+                '_code'     => 0,
+                '_metaData' => []
             ]),
         ]);
 
@@ -731,10 +733,11 @@ class ModelsQueryExecuteCest
         $I->assertFalse($status->success());
         $I->assertEquals($status->getMessages(), [
             0 => Message::__set_state([
-                '_type'    => null,
-                '_message' => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
-                '_field'   => null,
-                '_code'    => 0,
+                '_type'     => null,
+                '_message'  => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
+                '_field'    => null,
+                '_code'     => 0,
+                '_metaData' => []
             ]),
         ]);
 
@@ -747,10 +750,11 @@ class ModelsQueryExecuteCest
         $I->assertFalse($status->success());
         $I->assertEquals($status->getMessages(), [
             0 => Message::__set_state([
-                '_type'    => 'Email',
-                '_message' => "Le courrier électronique est invalide",
-                '_field'   => 'courrierElectronique',
-                '_code'    => 0,
+                '_type'     => 'Email',
+                '_message'  => "Le courrier électronique est invalide",
+                '_field'    => 'courrierElectronique',
+                '_code'     => 0,
+                '_metaData' => []
             ]),
         ]);
 

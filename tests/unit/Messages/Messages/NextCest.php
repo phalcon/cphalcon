@@ -34,8 +34,8 @@ class NextCest
         $I->wantToTest('Messages\Messages - next()');
         $messages = new Messages(
             [
-                new Message('This is a message #1', 'MyField1', 'MyType1', 111),
-                new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+                new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
+                new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
             ]
         );
 
@@ -47,10 +47,11 @@ class NextCest
 
         $expected = Message::__set_state(
             [
-                '_message' => 'This is a message #2',
-                '_field'   => 'MyField2',
-                '_type'    => 'MyType2',
-                '_code'    => 222,
+                '_message'  => 'This is a message #2',
+                '_field'    => 'MyField2',
+                '_type'     => 'MyType2',
+                '_code'     => 222,
+                '_metaData' => ['My2' => 'Metadata2']
             ]
         );
         $I->assertEquals($expected, $actual);

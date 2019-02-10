@@ -44,6 +44,11 @@ interface MessageInterface
 	public function getType() -> string;
 
 	/**
+	 * Returns message metadata
+	 */
+	public function getMetaData() -> array;
+
+	/**
 	 * Sets code for the message
 	 */
 	public function setCode(int code) -> <MessageInterface>;
@@ -62,6 +67,11 @@ interface MessageInterface
 	 * Sets message type
 	 */
 	public function setType(string! type) -> <MessageInterface>;
+
+	/**
+	 * Sets message metadata
+	 */
+	public function setMetaData(array! metaData) -> <MessageInterface>;
 
 	/**
 	 * Magic __toString method returns verbose message
