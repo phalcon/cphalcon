@@ -4157,7 +4157,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 							 * Set the related model
 							 */
 							if typeof message == "object" {
-								message->setModel(record);
+                                message->setMetaData([
+                                    "model" : record
+                                ]);
 							}
 
 							/**
@@ -4303,7 +4305,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 							 * Set the related model
 							 */
 							if typeof message == "object" {
-								message->setModel(record);
+								message->setMetaData([
+                                    "model" : record
+                                ]);
 							}
 
 							/**
@@ -4355,7 +4359,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 								 * Set the related model
 								 */
 								if typeof message == "object" {
-									message->setModel(record);
+                                    message->setMetaData([
+                                        "model" : record
+                                    ]);
 								}
 
 								/**

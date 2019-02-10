@@ -31,17 +31,18 @@ class JsonSerializeCest
     public function messagesMessageJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - jsonSerialize()');
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
+        $message = new Message('This is a message #1', 'MyField', 'MyType', 111, ['My1' => 'Metadata1']);
 
         $expected = '\JsonSerializable';
         $actual   = $message;
         $I->assertInstanceOf($expected, $actual);
 
         $expected = [
-            'field'   => 'MyField',
-            'message' => 'This is a message #1',
-            'type'    => 'MyType',
-            'code'    => 111,
+            'field'    => 'MyField',
+            'message'  => 'This is a message #1',
+            'type'     => 'MyType',
+            'code'     => 111,
+            'metaData' => ['My1' => 'Metadata1']
         ];
         $actual   = $message->jsonSerialize();
         $I->assertEquals($expected, $actual);
