@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Server\Middleware;
 
+use Phalcon\Http\Server\Middleware;
+use Psr\Http\Server\MiddlewareInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,8 @@ class ConstructCest
     public function httpServerMiddlewareProcess(UnitTester $I)
     {
         $I->wantToTest('Http\Server\Middleware - __construct()');
-        $I->skipTest('Need implementation');
+        $handler = new Middleware();
+        $class = MiddlewareInterface::class;
+        $I->assertInstanceOf($class, $handler);
     }
 }
