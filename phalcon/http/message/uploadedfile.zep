@@ -23,6 +23,19 @@ use Psr\Http\Message\UploadedFileInterface;
 class UploadedFile implements UploadedFileInterface
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct(
+        var stream,
+        int size = null,
+        int error = 0,
+        string clientFilename = null,
+        string clientMediaType = null
+	) {
+
+	}
+
+	/**
 	 * Retrieve the filename sent by the client.
 	 *
 	 * Do not trust the value returned by this method. A client could send

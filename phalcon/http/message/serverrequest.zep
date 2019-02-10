@@ -58,6 +58,14 @@ use Psr\Http\Message\UriInterface;
 class ServerRequest implements ServerRequestInterface
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct(string method = null, var uri = null, array serverParams = [])
+	{
+
+	}
+
+	/**
 	 * Retrieve a single derived request attribute.
 	 *
 	 * Retrieves a single derived request attribute as described in

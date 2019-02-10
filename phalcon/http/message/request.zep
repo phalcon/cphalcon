@@ -37,6 +37,19 @@ use Phalcon\Utility;
 class Request implements RequestInterface
 {
 	/**
+	 * @var array
+	 */
+	private headers = [];
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(var uri = null, string method = null, var body = "php://temp", array headers = [])
+	{
+
+	}
+
+	/**
 	 * Gets the body of the message.
 	 *
 	 * @return StreamInterface Returns the body as a stream.
@@ -129,7 +142,7 @@ class Request implements RequestInterface
 	 */
 	public function hasHeader(var name) -> bool
 	{
-
+		return isset(this->headers[strtolower(name)]);
 	}
 
 	/**
