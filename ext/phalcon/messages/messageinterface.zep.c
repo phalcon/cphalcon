@@ -58,6 +58,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMessage);
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getType);
 
 /**
+ * Returns message metadata
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMetaData);
+
+/**
  * Sets code for the message
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setCode);
@@ -76,6 +81,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMessage);
  * Sets message type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setType);
+
+/**
+ * Sets message metadata
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMetaData);
 
 /**
  * Magic __toString method returns verbose message
