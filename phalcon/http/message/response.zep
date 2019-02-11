@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been heavily influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 
 namespace Phalcon\Http\Message;
@@ -28,7 +32,7 @@ use Phalcon\Utility;
  *
  * Responses are considered immutable; all methods that might change state MUST
  * be implemented such that they retain the internal state of the current
- * message and return an instance that contains the changed state.
+ * message and return an instance that contains the changed state
  */
 class Response implements ResponseInterface
 {
