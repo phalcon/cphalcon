@@ -63,12 +63,12 @@ class Response implements ResponseInterface
 	public function __construct(var body = "php://memory", int code = 200, array headers = [])
 	{
 		this->processCode(code);
+		this->processStream(body, "w+");
+		this->processHeaders(headers);
 	}
 
 	/**
 	 * Gets the body of the message.
-	 *
-	 * @return StreamInterface Returns the body as a stream.
 	 */
 	public function getBody() -> <StreamInterface>
 	{
@@ -89,9 +89,17 @@ class Response implements ResponseInterface
 	 *    header. If the header does not appear in the message, this method MUST
 	 *    return an empty array.
 	 */
-	public function getHeader(var name) -> string
+	public function getHeader(var name) -> array
 	{
+		var header, key;
 
+		let key = strtolower(name);
+
+		if fetch header, this->headers[key] {
+			return header["value"];
+		}
+
+		return [];
 	}
 
 	/**
@@ -107,15 +115,18 @@ class Response implements ResponseInterface
 	 *
 	 * If the header does not appear in the message, this method MUST return
 	 * an empty string.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @return string A string of values as provided for the given header
-	 *    concatenated together using a comma. If the header does not appear in
-	 *    the message, this method MUST return an empty string.
 	 */
 	public function getHeaderLine(var name) -> string
 	{
+		var header;
 
+		let header = this->getHeader(name);
+
+		if true !== empty(header) {
+			return implode(",", header);
+		}
+
+		return "";
 	}
 
 	/**
@@ -138,22 +149,23 @@ class Response implements ResponseInterface
 	 *
 	 * While header names are not case-sensitive, getHeaders() will preserve the
 	 * exact case in which headers were originally specified.
-	 *
-	 * @return string[][] Returns an associative array of the message's headers.
-	 *     Each key MUST be a header name, and each value MUST be an array of
-	 *     strings for that header.
 	 */
 	public function getHeaders() -> array
 	{
-		return this->headers;
+		var element;
+		array headers;
+
+		for element in this->headers {
+			let headers[element["name"]] = element["value"];
+		}
+
+		return headers;
 	}
 
 	/**
 	 * Retrieves the HTTP protocol version as a string.
 	 *
 	 * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
-	 *
-	 * @return string HTTP protocol version.
 	 */
 	public function getProtocolVersion() -> string
 	{
@@ -171,7 +183,6 @@ class Response implements ResponseInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7231#section-6
 	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-	 * @return string Reason phrase; must return an empty string if none present.
 	 */
 	public function getReasonPhrase() -> string
 	{
@@ -183,8 +194,6 @@ class Response implements ResponseInterface
 	 *
 	 * The status code is a 3-digit integer result code of the server's attempt
 	 * to understand and satisfy the request.
-	 *
-	 * @return int Status code.
 	 */
 	public function getStatusCode() -> int
 	{
@@ -193,15 +202,10 @@ class Response implements ResponseInterface
 
 	/**
 	 * Checks if a header exists by the given case-insensitive name.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @return bool Returns true if any header names match the given header
-	 *     name using a case-insensitive string comparison. Returns false if
-	 *     no matching header name is found in the message.
 	 */
 	public function hasHeader(var name) -> bool
 	{
-
+		return isset(this->headers[strtolower(name)]);
 	}
 
 	/**
@@ -214,16 +218,27 @@ class Response implements ResponseInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * new header and/or value.
-	 *
-	 * @param string $name Case-insensitive header field name to add.
-	 * @param string|string[] $value Header value(s).
-	 * @return static
-	 * @throws \InvalidArgumentException for invalid header names.
-	 * @throws \InvalidArgumentException for invalid header values.
 	 */
 	public function withAddedHeader(var name, var value) -> <ResponseInterface>
 	{
+		var key, headers, newInstance, values;
 
+		if true !== this->hasHeader(name) {
+			return this->withHeader(name, value);
+		}
+
+		let key         = strtolower(name),
+			newInstance = clone this,
+			headers     = newInstance->headers;
+
+		let values = headers[key]["value"],
+			values = array_merge(values, value);
+
+		let headers[key]["value"] = values;
+
+		let newInstance->headers = headers;
+
+		return newInstance;
 	}
 
 	/**
@@ -261,15 +276,17 @@ class Response implements ResponseInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * new and/or updated header and value.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @param string|string[] $value Header value(s).
-	 * @return static
-	 * @throws \InvalidArgumentException for invalid header names or values.
 	 */
 	public function withHeader(var name, var value) -> <ResponseInterface>
 	{
+		var key, newInstance;
 
+		let key = strtolower(name);
+
+		let newInstance               = clone this;
+		let newInstance->headers[key] = value;
+
+		return newInstance;
 	}
 
 	/**
@@ -281,13 +298,12 @@ class Response implements ResponseInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * new protocol version.
-	 *
-	 * @param string $version HTTP protocol version
-	 * @return static
 	 */
 	public function withProtocolVersion(var version) -> <ResponseInterface>
 	{
     	var newInstance;
+
+		this->processProtocol(version);
 
 		if (version === this->protocol) {
             return this;
@@ -316,12 +332,6 @@ class Response implements ResponseInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7231#section-6
 	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-	 * @param int $code The 3-digit integer result code to set.
-	 * @param string $reasonPhrase The reason phrase to use with the
-	 *     provided status code; if none is provided, implementations MAY
-	 *     use the defaults as suggested in the HTTP specification.
-	 * @return static
-	 * @throws \InvalidArgumentException For invalid status code arguments.
 	 */
 	public function withStatus(var code, var reasonPhrase = "") -> <ResponseInterface>
 	{
@@ -349,13 +359,17 @@ class Response implements ResponseInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that removes
 	 * the named header.
-	 *
-	 * @param string $name Case-insensitive header field name to remove.
-	 * @return static
 	 */
 	public function withoutHeader(var name) -> <ResponseInterface>
 	{
+		var key, newInstance;
 
+		let key         = strtolower(name),
+			newInstance = clone this;
+
+		unset(newInstance->headers[key]);
+
+		return newInstance;
 	}
 
 	/**
@@ -480,7 +494,7 @@ class Response implements ResponseInterface
 			);
 		}
 
-		if true !== is_string(phrase) {
+		if (true !== is_string(phrase)) {
 			throw new \InvalidArgumentException("Invalid response reason");
 		}
 
@@ -492,13 +506,60 @@ class Response implements ResponseInterface
 			this->reason = phrase;
 	}
 
+	/**
+	 * Sets the headers
+	 */
+	private function processHeaders(array headers) -> void
+	{
+		var key, name, value;
+		array headerData;
+
+		let headerData = [];
+		for name, value in headers {
+			let key = strtolower(name);
+
+			let headerData[key] = [
+				"name"  : name,
+				"value" : value
+			];
+		}
+
+		let this->headers = headerData;
+	}
+
+	/**
+	 * Checks the protocol
+	 */
+	private function processProtocol(var protocol = "") -> void
+	{
+    	array protocols;
+
+    	let protocols = [
+    		"1.0" : 1,
+    		"1.1" : 1,
+    		"2.0" : 1,
+    		"3.0" : 1
+    	];
+
+    	if (true === empty(protocol) || (true !== is_string(protocol))) {
+    		throw new \InvalidArgumentException("Invalid protocol value");
+    	}
+
+    	if true !== isset(protocols[protocol]) {
+			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+		}
+	}
+
+	/**
+	 * Set a valid stream
+	 */
 	private function processStream(var body = "php://memody", string mode) -> <StreamInterface>
 	{
 		if body instanceof StreamInterface {
 			return body;
 		}
 
-		if (typeof body !== "string" && true !== is_resource(body)) {
+		if (typeof body !== "string" && (true !== is_resource(body))) {
 			throw new \InvalidArgumentException("Invalid stream passed as a parameter");
 		}
 
