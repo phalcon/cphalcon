@@ -26,6 +26,6 @@ class Jsmin implements FilterInterface
 	 */
 	public function filter(string! content) -> string
 	{
-		return phalcon_jsmin(content);
+		return content;
 	}
 }
