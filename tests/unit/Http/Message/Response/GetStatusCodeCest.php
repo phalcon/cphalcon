@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use Phalcon\Http\Message\Response;
 use UnitTester;
 
 /**
@@ -30,6 +31,31 @@ class GetStatusCodeCest
     public function httpMessageResponseGetStatusCode(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - getStatusCode()');
-        $I->skipTest('Need implementation');
+        $response = new Response();
+
+        $expected = 200;
+        $actual   = $response->getStatusCode();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Response :: getStatusCode() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageResponseGetStatusCodeException(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Response - getStatusCode() - exception');
+        $I->expectThrowable(
+            new \InvalidArgumentException(
+                "Invalid status code '847', (allowed values 100-599)"
+            ),
+            function () {
+                $response = new Response("php://memory", 847);
+            }
+        );
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use Phalcon\Http\Message\Response;
 use UnitTester;
 
 /**
@@ -30,6 +31,28 @@ class GetReasonPhraseCest
     public function httpMessageResponseGetReasonPhrase(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - getReasonPhrase()');
-        $I->skipTest('Need implementation');
+        $response = new Response();
+
+        $expected = "OK";
+        $actual   = $response->getReasonPhrase();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Response :: getReasonPhrase() - other port
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageResponseGetReasonPhraseOtherPort(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Response - getReasonPhrase() - other port');
+        $response = new Response("php://memory", 420);
+
+        $expected = "Enhance Your Calm";
+        $actual   = $response->getReasonPhrase();
+        $I->assertEquals($expected, $actual);
     }
 }

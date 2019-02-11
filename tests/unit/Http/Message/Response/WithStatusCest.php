@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use Phalcon\Http\Message\Response;
 use UnitTester;
 
 /**
@@ -30,6 +31,32 @@ class WithStatusCest
     public function httpMessageResponseWithStatus(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - withStatus()');
-        $I->skipTest('Need implementation');
+
+        $code        = 420;
+        $response    = new Response();
+        $newInstance = $response->withStatus($code);
+        $I->assertNotEquals($response, $newInstance);
+        $I->assertEquals($code, $newInstance->getStatusCode());
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Response :: withStatus() - other reason
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageResponseWithStatusOtherReason(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Response - withStatus() - other reason');
+
+        $code        = 420;
+        $reason      = 'Phalcon Response';
+        $response    = new Response();
+        $newInstance = $response->withStatus($code, $reason);
+        $I->assertNotEquals($response, $newInstance);
+        $I->assertEquals($code, $newInstance->getStatusCode());
+        $I->assertEquals($reason, $newInstance->getReasonPhrase());
     }
 }

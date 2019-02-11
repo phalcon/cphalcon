@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Server\RequestHandler;
 
-use Phalcon\http\Server\RequestHandler;
+use Phalcon\Test\Fixtures\Http\Server\RequestHandlerFixture;
 use Psr\Http\Server\RequestHandlerInterface;
 use UnitTester;
 
@@ -32,7 +32,7 @@ class ConstructCest
     public function httpServerRequestHandlerHandle(UnitTester $I)
     {
         $I->wantToTest('Http\Server\RequestHandler - __construct()');
-        $handler = new RequestHandler();
+        $handler = new RequestHandlerFixture();
         $class = RequestHandlerInterface::class;
         $I->assertInstanceOf($class, $handler);
     }
