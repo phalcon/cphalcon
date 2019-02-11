@@ -20,6 +20,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, withStatus);
 PHP_METHOD(Phalcon_Http_Message_Response, withoutHeader);
 PHP_METHOD(Phalcon_Http_Message_Response, getPhrases);
 PHP_METHOD(Phalcon_Http_Message_Response, processCode);
+PHP_METHOD(Phalcon_Http_Message_Response, processHeaders);
+PHP_METHOD(Phalcon_Http_Message_Response, processProtocol);
 PHP_METHOD(Phalcon_Http_Message_Response, processStream);
 zend_object *zephir_init_properties_Phalcon_Http_Message_Response(zend_class_entry *class_type TSRMLS_DC);
 
@@ -41,9 +43,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_response_ge
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_response_getheader, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_response_getheader, 0, 1, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_response_getheader, 0, 1, IS_STRING, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_response_getheader, 0, 1, IS_ARRAY, NULL, 0)
 #endif
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
@@ -155,6 +157,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_response_processcode, 0, 0, 
 	ZEND_ARG_INFO(0, phrase)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_response_processheaders, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, headers, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_response_processprotocol, 0, 0, 0)
+	ZEND_ARG_INFO(0, protocol)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_response_processstream, 0, 1, Psr\\Http\\Message\\StreamInterface, 0)
 #else
@@ -186,6 +196,8 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_response_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Response, withoutHeader, arginfo_phalcon_http_message_response_withoutheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Response, getPhrases, arginfo_phalcon_http_message_response_getphrases, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Response, processCode, arginfo_phalcon_http_message_response_processcode, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Message_Response, processHeaders, arginfo_phalcon_http_message_response_processheaders, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Message_Response, processProtocol, arginfo_phalcon_http_message_response_processprotocol, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Response, processStream, arginfo_phalcon_http_message_response_processstream, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
