@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_18$$12);
 		ZVAL_STRING(&_18$$12, "Ip");
-		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 320, &_17$$12, field, &_18$$12);
+		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 324, &_17$$12, field, &_18$$12);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_16$$12);
 		zephir_check_call_status();

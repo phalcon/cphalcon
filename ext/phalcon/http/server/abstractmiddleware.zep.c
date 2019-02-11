@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 
 /**
@@ -30,11 +29,11 @@
  * by acting on the request, generating the response, or forwarding the
  * request to a subsequent middleware and possibly acting on its response.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Server_Middleware) {
+ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractMiddleware) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, Middleware, phalcon, http_server_middleware, phalcon_http_server_middleware_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, AbstractMiddleware, phalcon, http_server_abstractmiddleware, phalcon_http_server_abstractmiddleware_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_class_implements(phalcon_http_server_middleware_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\server\\middlewareinterface")));
+	zend_class_implements(phalcon_http_server_abstractmiddleware_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\server\\middlewareinterface")));
 	return SUCCESS;
 
 }
@@ -46,18 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Server_Middleware) {
  * If unable to produce the response itself, it may delegate to the provided
  * request handler to do so.
  */
-PHP_METHOD(Phalcon_Http_Server_Middleware, process) {
-
-	zval *request, request_sub, *handler, handler_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&request_sub);
-	ZVAL_UNDEF(&handler_sub);
-
-	zephir_fetch_params(0, 2, 0, &request, &handler);
-
-
-
+PHP_METHOD(Phalcon_Http_Server_AbstractMiddleware, process) {
 
 }
 

@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 
 /**
@@ -29,11 +28,11 @@
  * An HTTP request handler process an HTTP request in order to produce an
  * HTTP response.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Server_RequestHandler) {
+ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractRequestHandler) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, RequestHandler, phalcon, http_server_requesthandler, phalcon_http_server_requesthandler_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, AbstractRequestHandler, phalcon, http_server_abstractrequesthandler, phalcon_http_server_abstractrequesthandler_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_class_implements(phalcon_http_server_requesthandler_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\server\\requesthandlerinterface")));
+	zend_class_implements(phalcon_http_server_abstractrequesthandler_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\server\\requesthandlerinterface")));
 	return SUCCESS;
 
 }
@@ -43,17 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Server_RequestHandler) {
  *
  * May call other collaborating code to generate the response.
  */
-PHP_METHOD(Phalcon_Http_Server_RequestHandler, handle) {
-
-	zval *request, request_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&request_sub);
-
-	zephir_fetch_params(0, 1, 0, &request);
-
-
-
+PHP_METHOD(Phalcon_Http_Server_AbstractRequestHandler, handle) {
 
 }
 

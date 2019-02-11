@@ -294,8 +294,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/cookies.zep.c
 	phalcon/http/response/exception.zep.c
 	phalcon/http/response/headers.zep.c
-	phalcon/http/server/middleware.zep.c
-	phalcon/http/server/requesthandler.zep.c
+	phalcon/http/server/abstractmiddleware.zep.c
+	phalcon/http/server/abstractrequesthandler.zep.c
 	phalcon/image.zep.c
 	phalcon/image/adapter/gd.zep.c
 	phalcon/image/adapter/imagick.zep.c
