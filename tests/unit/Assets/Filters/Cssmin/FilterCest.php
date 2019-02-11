@@ -31,6 +31,7 @@ class FilterCest
     public function assetsFiltersCssminFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter()');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $expected = '{}}';
@@ -49,6 +50,7 @@ class FilterCest
     public function assetsFiltersCssminFilterSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - spaces');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $expected = '.s{d : b;}';
@@ -67,6 +69,7 @@ class FilterCest
     public function assetsFiltersCssminFilterAttributesSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - attributes spaces');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $source   = ".social-link {display: inline-block; width: 44px; "
@@ -92,6 +95,7 @@ class FilterCest
     public function assetsFiltersCssminFilterClassSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - class spaces');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $expected = "h2:after{border-width: 1px;}";
@@ -111,6 +115,7 @@ class FilterCest
     public function assetsFiltersCssminFilterClassInheritanceSpaces(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - class inheritance spaces');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $source   = "h1 > p { font-family: 'Helvetica Neue'; }";
@@ -130,6 +135,7 @@ class FilterCest
     public function assetsFiltersCssminFilterComples(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - complex');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $source   = ".navbar .nav>li>a { color: #111; "
@@ -151,6 +157,7 @@ class FilterCest
     public function assetsFiltersCssminFilterLoadFiles(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - load files');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
         $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
@@ -176,6 +183,7 @@ class FilterCest
     public function assetsFiltersCssminFilterEmpty(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - empty');
+        $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
         $actual = $cssmin->filter('');
         $I->assertEmpty($actual);

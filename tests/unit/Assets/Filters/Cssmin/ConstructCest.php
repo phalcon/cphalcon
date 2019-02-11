@@ -34,6 +34,7 @@ class ConstructCest
     public function assetsFiltersCssminConstructNonString(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - no string exception');
+        $I->skipTest('Need Phalcon implementation');
         $I->expectThrowable(
             new \TypeError(
                 'Argument 1 passed to Phalcon\Assets\Filters\Cssmin::filter() ' .
