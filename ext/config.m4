@@ -453,8 +453,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/parser.c
 	phalcon/mvc/view/engine/volt/parser.c
 	phalcon/mvc/view/engine/volt/scanner.c
-	phalcon/assets/filters/jsminifier.c
-	phalcon/assets/filters/cssminifier.c
 	phalcon/mvc/url/utils.c"
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared,, )
 	PHP_SUBST(PHALCON_SHARED_LIBADD)
