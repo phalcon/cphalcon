@@ -25,10 +25,10 @@ class RequestFactory implements RequestFactoryInterface
      */
     public function createRequest(string method, var uri) -> <RequestInterface>
     {
-    	var request;
+    	var factory;
 
-		let request = new Request(uri, method);
+		let factory = new Request(uri, method);
 
-		return request;
+		return factory;
     }
 }

@@ -47,6 +47,10 @@ class UploadedFileFactory implements UploadedFileFactoryInterface
         string clientMediaType = null
     ) -> <UploadedFileInterface>
     {
-		return new UploadedFile(stream, size, error, clientFilename, clientMediaType);
+    	var factory;
+
+		let factory = new UploadedFile(stream, size, error, clientFilename, clientMediaType);
+
+		return factory;
     }
 }

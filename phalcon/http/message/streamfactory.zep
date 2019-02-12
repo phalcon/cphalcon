@@ -56,7 +56,11 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromFile(string filename, string mode = "r") -> <StreamInterface>
     {
-		return new Stream(filename, mode);
+    	var stream;
+
+    	let stream = new Stream(filename, mode);
+
+    	return stream;
     }
 
     /**
@@ -68,12 +72,16 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromResource(var phpResource) -> <StreamInterface>
     {
+    	var stream;
+
     	if (true !== is_resource(phpResource) || "stream" !== get_resource_type(phpResource)) {
             throw new \InvalidArgumentException(
                 "StreamFactory:createStreamFromResource() - invalid stream provbided"
             );
         }
 
-        return new Stream(phpResource);
+        let stream = new Stream(phpResource);
+
+		return stream;
     }
 }
