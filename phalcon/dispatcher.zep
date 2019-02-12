@@ -67,6 +67,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _activeMethodMap = [];
 
+	protected _camelCaseMap = [];
+
 	protected _previousNamespaceName = null;
 
 	protected _previousHandlerName = null;
@@ -289,7 +291,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	{
 		var activeMethodName;
 		if !fetch activeMethodName, this->_activeMethodMap[this->_actionName] {
-			let activeMethodName = lcfirst(join("", array_map("ucfirst", preg_split("/[_-]+/", this->_actionName))));
+			let activeMethodName = lcfirst(this->toCamelCase(this->_actionName));
 			let this->_activeMethodMap[this->_actionName] = activeMethodName;
 		}
 		return activeMethodName . this->_actionSuffix;
@@ -835,7 +837,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 		// We don't camelize the classes if they are in namespaces
 		if !memstr(handlerName, "\\") {
-			let camelizedClass = camelize(handlerName);
+			let camelizedClass = this->toCamelCase(handlerName);
 		} else {
 			let camelizedClass = handlerName;
 		}
@@ -904,5 +906,15 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		if !this->_actionName {
 			let this->_actionName = this->_defaultAction;
 		}
+	}
+
+	protected function toCamelCase(string input) -> string
+	{
+		var camelCaseInput;
+		if !fetch camelCaseInput, this->_camelCaseMap[input] {
+			let camelCaseInput = join("", array_map("ucfirst", preg_split("/[_-]+/", input)));
+			let this->_camelCaseMap[input] = camelCaseInput;
+		}
+		return camelCaseInput;
 	}
 }
