@@ -24,7 +24,6 @@ use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
-use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Model\BinderInterface;
 use Phalcon\Mvc\Router\RouteInterface;
@@ -1000,7 +999,7 @@ class Micro extends Injectable implements \ArrayAccess
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 			if !response->isSent() {
 				response->setContent(returnedValue);
-				response->send();
+				this->sendIfUnsent(response);
 			}
 		}
 
@@ -1008,17 +1007,27 @@ class Micro extends Injectable implements \ArrayAccess
 		 * Check if the returned object is already a response
 		 */
 		if typeof returnedValue == "object" {
-			if returnedValue instanceof Response {
-				/**
-				 * Automatically send the response
-				 */
-				 if !returnedValue->isSent() {
-				 	returnedValue->send();
-				 }
+			if returnedValue instanceof ResponseInterface {
+				this->sendIfUnsent(returnedValue);
 			}
 		}
 
 		return returnedValue;
+	}
+	
+	/**
+	 * Prevents isSent from being called on implementations that don't have it
+	 **/
+	private function sendIfUnsent(<ResponseInterface> response)
+	{
+		if method_exists(response, "isSent) {
+			/**
+			 * Automatically send the response
+			 */
+			 if !returnedValue->isSent() {
+				returnedValue->send();
+			 }
+		}
 	}
 
 	/**
