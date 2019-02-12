@@ -23,7 +23,7 @@ class RequestFactory implements RequestFactoryInterface
     /**
      * Create a new request.
      */
-    public function createRequest(string method, var $uri) -> <RequestInterface>
+    public function createRequest(string method, var uri) -> <RequestInterface>
     {
 		return new Request(uri, method);
     }
