@@ -91,6 +91,5 @@ class GetHandlerClassCest
         $dispatcher->setControllerName('phalcon');
         $actualHandler = $dispatcher->getHandlerClass();
         $I->assertEquals('Ola\\PhalconCtrl', $actualHandler);
-
     }
 }
