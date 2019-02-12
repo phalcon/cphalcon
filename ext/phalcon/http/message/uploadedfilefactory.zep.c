@@ -24,6 +24,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been heavily influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory) {
 
@@ -95,7 +99,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	object_init_ex(return_value, phalcon_http_message_uploadedfile_ce);
 	ZVAL_LONG(&_0, size);
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 231, stream, &_0, &_1, &clientFilename, &clientMediaType);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 232, stream, &_0, &_1, &clientFilename, &clientMediaType);
 	zephir_check_call_status();
 	RETURN_MM();
 

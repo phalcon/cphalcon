@@ -27,6 +27,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been heavily influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory) {
 
@@ -71,10 +75,10 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZVAL_STRING(&_0, "php://temp");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "r+");
-	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 228, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 229, &_0, &_1);
 	zephir_check_call_status();
 	zephir_fwrite(NULL, &tempResource, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 229, &tempResource);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 230, &tempResource);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 0, &tempResource);
 	zephir_check_call_status();
@@ -152,14 +156,14 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	_0 = 1 != Z_TYPE_P(phpResource) == IS_RESOURCE;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 230, phpResource);
+		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 231, phpResource);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "stream");
 		_0 = !ZEPHIR_IS_IDENTICAL(&_2, &_1);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 70);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 74);
 		return;
 	}
 	object_init_ex(return_value, phalcon_http_message_stream_ce);

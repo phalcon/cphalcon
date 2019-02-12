@@ -24,6 +24,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been heavily influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequestFactory) {
 
@@ -66,7 +70,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, createServerRequest) {
 
 
 	object_init_ex(return_value, phalcon_http_message_serverrequest_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 227, &method, uri, &serverParams);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 228, &method, uri, &serverParams);
 	zephir_check_call_status();
 	RETURN_MM();
 

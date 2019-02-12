@@ -14,6 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 
 
 /**
@@ -23,6 +26,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been heavily influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 /**
  * Representation of an incoming, server-side HTTP request.
@@ -65,6 +72,33 @@
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ServerRequest, phalcon, http_message_serverrequest, phalcon_http_message_serverrequest_method_entry, 0);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("attributes"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("cookies"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("files"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var null | array | object
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("parsedBody"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("query"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	phalcon_http_message_serverrequest_ce->create_object = zephir_init_properties_Phalcon_Http_Message_ServerRequest;
 
 	zend_class_implements(phalcon_http_message_serverrequest_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\serverrequestinterface")));
 	return SUCCESS;
@@ -122,12 +156,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 
-	zval *name, name_sub, *defaultValue = NULL, defaultValue_sub, __$null;
+	zval *name, name_sub, *defaultValue = NULL, defaultValue_sub, __$null, attribute, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&attribute);
+	ZVAL_UNDEF(&_0);
 
 	zephir_fetch_params(0, 1, 1, &name, &defaultValue);
 
@@ -137,6 +173,12 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 	}
 
 
+	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	if (EXPECTED(zephir_array_isset_fetch(&attribute, &_0, name, 1 TSRMLS_CC))) {
+		RETURN_CTORW(&attribute);
+	}
+	RETVAL_ZVAL(defaultValue, 1, 0);
+	return;
 
 }
 
@@ -154,6 +196,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes) {
 	zval *this_ptr = getThis();
 
 
+	RETURN_MEMBER(getThis(), "attributes");
 
 }
 
@@ -181,6 +224,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getCookieParams) {
 	zval *this_ptr = getThis();
 
 
+	RETURN_MEMBER(getThis(), "cookies");
 
 }
 
@@ -344,6 +388,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
 	zval *this_ptr = getThis();
 
 
+	RETURN_MEMBER(getThis(), "query");
 
 }
 
@@ -403,6 +448,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUploadedFiles) {
 	zval *this_ptr = getThis();
 
 
+	RETURN_MEMBER(getThis(), "files");
 
 }
 
@@ -492,16 +538,24 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAddedHeader) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
 
-	zval *name, name_sub, *value, value_sub;
+	zval *name, name_sub, *value, value_sub, newInstance;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&newInstance);
 
-	zephir_fetch_params(0, 2, 0, &name, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name, &value);
 
 
 
+	ZEPHIR_INIT_VAR(&newInstance);
+	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
+	zephir_update_property_array(&newInstance, SL("attributes"), name, value TSRMLS_CC);
+	RETURN_CCTOR(&newInstance);
 
 }
 
@@ -548,11 +602,13 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withBody) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
-	zval *cookies_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *cookies_param = NULL, _0;
 	zval cookies;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&cookies);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cookies_param);
@@ -560,6 +616,11 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 	zephir_get_arrval(&cookies, cookies_param);
 
 
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "cookies");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, &cookies, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -676,15 +737,23 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withMethod) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
-	zval *data, data_sub;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *data, data_sub, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &data);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data);
 
 
 
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "parsedBody");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, data, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -739,11 +808,13 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withProtocolVersion) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
-	zval *query_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *query_param = NULL, _0;
 	zval query;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&query);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &query_param);
@@ -751,6 +822,11 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 	zephir_get_arrval(&query, query_param);
 
 
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "query");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, &query, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -798,11 +874,13 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withRequestTarget) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 
-	zval *uploadedFiles_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *uploadedFiles_param = NULL, _0;
 	zval uploadedFiles;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uploadedFiles);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &uploadedFiles_param);
@@ -810,6 +888,11 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 	zephir_get_arrval(&uploadedFiles, uploadedFiles_param);
 
 
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "files");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, &uploadedFiles, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -869,22 +952,112 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUri) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that removes
  * the attribute.
- *
- * @see getAttributes()
- * @param string $name The attribute name.
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute) {
 
-	zval *name, name_sub;
+	zval *name, name_sub, attributes, newInstance, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
+	ZVAL_UNDEF(&attributes);
+	ZVAL_UNDEF(&newInstance);
+	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &name);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
 
 
 
+	ZEPHIR_INIT_VAR(&newInstance);
+	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
+	zephir_read_property(&_0, &newInstance, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&attributes, &_0);
+	zephir_array_unset(&attributes, name, PH_SEPARATE);
+	zephir_update_property_zval(&newInstance, SL("attributes"), &attributes);
+	RETURN_CCTOR(&newInstance);
+
+}
+
+/**
+ * Returns a new instance having set the parameter
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, cloneInstance) {
+
+	zval property;
+	zval *element, element_sub, *property_param = NULL, newInstance, _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&newInstance);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&property);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &element, &property_param);
+
+	zephir_get_strval(&property, property_param);
+
+
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_read_property_zval(&_0, this_ptr, &property, PH_NOISY_CC);
+	if (ZEPHIR_IS_IDENTICAL(element, &_0)) {
+		RETURN_THIS();
+	}
+	ZEPHIR_INIT_VAR(&newInstance);
+	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
+	zephir_update_property_zval_zval(&newInstance, &property, element TSRMLS_CC);
+	RETURN_CCTOR(&newInstance);
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_7$$6);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("query"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("query"), &_1$$3);
+		}
+		zephir_read_property(&_2, this_ptr, SL("files"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_2) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_3$$4);
+			array_init(&_3$$4);
+			zephir_update_property_zval(this_ptr, SL("files"), &_3$$4);
+		}
+		zephir_read_property(&_4, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_4) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_5$$5);
+			array_init(&_5$$5);
+			zephir_update_property_zval(this_ptr, SL("cookies"), &_5$$5);
+		}
+		zephir_read_property(&_6, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_6) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_7$$6);
+			array_init(&_7$$6);
+			zephir_update_property_zval(this_ptr, SL("attributes"), &_7$$6);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 
