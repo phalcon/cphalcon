@@ -1024,8 +1024,8 @@ class Micro extends Injectable implements \ArrayAccess
 			/**
 			 * Automatically send the response
 			 */
-			 if !returnedValue->isSent() {
-				returnedValue->send();
+			 if !response->isSent() {
+				response->send();
 			 }
 		}
 	}
