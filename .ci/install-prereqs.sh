@@ -39,13 +39,13 @@ echo 'extension="memcached.so"' > $(phpenv root)/versions/$(phpenv version-name)
 # }}}
 
 # {{{ Install latest xdebug
-phpenv config-rm xdebug.ini 2>&1 >/dev/null || true
-if [[ "$PHP_VERNUM" -lt "70300" ]];
-then
-	printf "\n" | pecl install --force xdebug 1> /dev/null
-	awk '/zend_extension.*xdebug.so"?/{$0=""}1' "${PHP_INI}" > php.ini.patch && mv php.ini.patch "${PHP_INI}"
-	echo 'zend_extension="xdebug.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
-fi
+# phpenv config-rm xdebug.ini 2>&1 >/dev/null || true
+# if [[ "$PHP_VERNUM" -lt "70300" ]];
+# then
+# 	printf "\n" | pecl install --force xdebug 1> /dev/null
+# 	awk '/zend_extension.*xdebug.so"?/{$0=""}1' "${PHP_INI}" > php.ini.patch && mv php.ini.patch "${PHP_INI}"
+# 	echo 'zend_extension="xdebug.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+# fi
 # }}}
 
 # {{{ Install latest igbinary, imagick, psr and yaml

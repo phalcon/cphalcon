@@ -25,10 +25,6 @@ class RequestFactory implements RequestFactoryInterface
      */
     public function createRequest(string method, var $uri) -> <RequestInterface>
     {
-    	var request;
-
-    	let request = new Request(uri, method);
-
-    	return request;
+		return new Request(uri, method);
     }
 }
