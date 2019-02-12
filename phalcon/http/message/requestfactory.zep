@@ -22,12 +22,13 @@ class RequestFactory implements RequestFactoryInterface
 {
     /**
      * Create a new request.
-     *
-     * @param string $method The HTTP method associated with the request.
-     * @param UriInterface|string $uri The URI associated with the request.
      */
     public function createRequest(string method, var $uri) -> <RequestInterface>
     {
-		return new Request(uri, method);
+    	var request;
+
+    	let request = new Request(uri, method);
+
+    	return request;
     }
 }
