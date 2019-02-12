@@ -1020,7 +1020,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 **/
 	private function sendIfUnsent(<ResponseInterface> response)
 	{
-		if method_exists(response, "isSent) {
+		if method_exists(response, "isSent") {
 			/**
 			 * Automatically send the response
 			 */
