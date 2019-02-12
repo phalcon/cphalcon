@@ -33,7 +33,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Server\Middleware - __construct()');
         $handler = new MiddlewareFixture();
-        $class = MiddlewareInterface::class;
+        $class   = MiddlewareInterface::class;
         $I->assertInstanceOf($class, $handler);
     }
 }

@@ -31,7 +31,7 @@ class WithAttributeCest
     public function httpMessageServerRequestWithAttribute(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withAttribute()');
-        $request    = new ServerRequest();
+        $request     = new ServerRequest();
         $newInstance = $request->withAttribute('one', 'two');
 
         $I->assertNotEquals($request, $newInstance);

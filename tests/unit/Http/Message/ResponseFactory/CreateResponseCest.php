@@ -32,9 +32,9 @@ class CreateResponseCest
     public function httpMessageResponseFactoryCreateResponse(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ResponseFactory - createResponse()');
-        $factory = new ResponseFactory();
+        $factory  = new ResponseFactory();
         $response = $factory->createResponse();
-        $class   = ResponseInterface::class;
+        $class    = ResponseInterface::class;
         $I->assertInstanceOf($class, $response);
     }
 }

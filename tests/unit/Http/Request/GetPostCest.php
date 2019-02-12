@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 /**
@@ -34,7 +33,7 @@ class GetPostCest //extends HttpBase
     {
         $I->wantToTest('Http\Request - getPost()');
 
-        $oldPost = $_POST;
+        $oldPost       = $_POST;
         $_POST['test'] = -1234;
 
         $container = new FactoryDefault();
@@ -47,7 +46,7 @@ class GetPostCest //extends HttpBase
 
 //        $request = $this->getRequestObject();
         $expected = 1234;
-        $actual = $request->getPost('test', 'absint');
+        $actual   = $request->getPost('test', 'absint');
         $I->assertEquals($expected, $actual);
 
         $_POST = $oldPost;

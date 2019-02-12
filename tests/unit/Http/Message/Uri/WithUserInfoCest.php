@@ -29,8 +29,8 @@ class WithUserInfoCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-09
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-09
      */
     public function httpMessageUriWithUserInfo(UnitTester $I, Example $example)
     {

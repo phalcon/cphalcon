@@ -29,8 +29,8 @@ class WithPathCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-09
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-09
      */
     public function httpMessageUriWithPath(UnitTester $I, Example $example)
     {
@@ -76,11 +76,11 @@ class WithPathCest
     private function getExamples(): array
     {
         return [
-            ['empty',            '',              '',                  ''],
-            ['normal',           '/login',        '/login',            '/login'],
-            ['double slash',     '//login',       '/login',            '/login'],
-            ['no leading slash', 'login',         'login',             '/login'],
-            ['garbled',          '/l^ogin/si gh', '/l%5Eogin/si%20gh', '/l%5Eogin/si%20gh'],
+            ['empty', '', '', ''],
+            ['normal', '/login', '/login', '/login'],
+            ['double slash', '//login', '/login', '/login'],
+            ['no leading slash', 'login', 'login', '/login'],
+            ['garbled', '/l^ogin/si gh', '/l%5Eogin/si%20gh', '/l%5Eogin/si%20gh'],
         ];
     }
 

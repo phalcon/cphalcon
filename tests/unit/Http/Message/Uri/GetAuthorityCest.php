@@ -29,8 +29,8 @@ class GetAuthorityCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-09
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-09
      */
     public function httpMessageUriGetAuthority(UnitTester $I, Example $example)
     {

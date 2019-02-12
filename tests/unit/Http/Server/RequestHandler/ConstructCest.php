@@ -33,7 +33,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Server\RequestHandler - __construct()');
         $handler = new RequestHandlerFixture();
-        $class = RequestHandlerInterface::class;
+        $class   = RequestHandlerInterface::class;
         $I->assertInstanceOf($class, $handler);
     }
 }

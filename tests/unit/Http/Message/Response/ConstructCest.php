@@ -33,7 +33,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Message\Response - __construct()');
         $Response = new Response();
-        $class   = ResponseInterface::class;
+        $class    = ResponseInterface::class;
         $I->assertInstanceOf($class, $Response);
     }
 }

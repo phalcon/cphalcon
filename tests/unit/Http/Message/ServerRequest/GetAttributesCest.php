@@ -40,7 +40,7 @@ class GetAttributesCest
             'one'   => 'two',
             'three' => 'four',
         ];
-        $actual = $request->getAttributes();
+        $actual   = $request->getAttributes();
         $I->assertEquals($expected, $actual);
     }
 
@@ -56,7 +56,7 @@ class GetAttributesCest
     {
         $I->wantToTest('Http\Message\ServerRequest - getAttributes() - empty');
         $request = new ServerRequest();
-        $actual = $request->getAttributes();
+        $actual  = $request->getAttributes();
         $I->assertEmpty($actual);
     }
 }

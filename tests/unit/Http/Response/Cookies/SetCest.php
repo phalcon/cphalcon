@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
+use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Http\Response\Cookies;
 use UnitTester;
 
 /**
@@ -63,7 +63,7 @@ class SetCest extends HttpBase
 
         $this->setDiCrypt();
         $container = $this->getDi();
-        
+
         $cookie = new Cookies();
         $cookie->setDI($container);
         $cookie->useEncryption(false);
@@ -72,8 +72,8 @@ class SetCest extends HttpBase
         $cookie->set('cookie-3', 'potato', time() + 86400, '/', false, 'localhost');
         $cookie->send();
 
-        $cookieOne = $this->getCookie('cookie-1');
-        $cookieTwo = $this->getCookie('cookie-2');
+        $cookieOne   = $this->getCookie('cookie-1');
+        $cookieTwo   = $this->getCookie('cookie-2');
         $cookieThree = $this->getCookie('cookie-3');
 
         $I->assertRegexp('/HttpOnly$/', $cookieOne);
