@@ -62,6 +62,31 @@ use Psr\Http\Message\UriInterface;
 class ServerRequest implements ServerRequestInterface
 {
 	/**
+	 * @var array
+	 */
+	private attributes = [];
+
+	/**
+	 * @var array
+	 */
+	private cookies = [];
+
+	/**
+	 * @var array
+	 */
+	private files = [];
+
+	/**
+	 * @var null | array | object
+	 */
+	private parsedBody;
+
+	/**
+	 * @var array
+	 */
+	private query = [];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(string method = null, var uri = null, array serverParams = [])
@@ -81,7 +106,13 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getAttribute(var name, var defaultValue = null) -> var
 	{
+		var attribute;
 
+		if likely fetch attribute, this->attributes[name] {
+			return attribute;
+		}
+
+		return defaultValue;
 	}
 
 	/**
@@ -95,7 +126,7 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getAttributes() -> array
 	{
-
+		return this->attributes;
 	}
 
     /**
@@ -116,7 +147,7 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getCookieParams() -> array
 	{
-
+		return this->cookies;
 	}
 
     /**
@@ -246,7 +277,7 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getQueryParams() -> array
 	{
-
+		return this->query;
 	}
 
 	/**
@@ -296,7 +327,7 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getUploadedFiles() -> array
 	{
-
+		return this->files;
 	}
 
 	/**
@@ -341,7 +372,7 @@ class ServerRequest implements ServerRequestInterface
      * @throws \InvalidArgumentException for invalid header names.
      * @throws \InvalidArgumentException for invalid header values.
      */
-    public function withAddedHeader(var name, var value) -> <ServerRequestInterface>
+    public function withAddedHeader(var name, var value) -> <ServerRequest>
     {
 
     }
@@ -361,9 +392,14 @@ class ServerRequest implements ServerRequestInterface
 	 * @param mixed $value The value of the attribute.
 	 * @return static
 	 */
-	public function withAttribute(var name, var value) -> <ServerRequestInterface>
+	public function withAttribute(var name, var value) -> <ServerRequest>
 	{
+		var newInstance;
 
+		let newInstance                   = clone this,
+			newInstance->attributes[name] = value;
+
+		return newInstance;
 	}
 
     /**
@@ -379,7 +415,7 @@ class ServerRequest implements ServerRequestInterface
      * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
-    public function withBody(<StreamInterface> body) -> <ServerRequestInterface>
+    public function withBody(<StreamInterface> body) -> <ServerRequest>
     {
 
     }
@@ -398,9 +434,9 @@ class ServerRequest implements ServerRequestInterface
 	 * immutability of the message, and MUST return an instance that has the
 	 * updated cookie values.
 	 */
-	public function withCookieParams(array cookies) -> <ServerRequestInterface>
+	public function withCookieParams(array cookies) -> <ServerRequest>
 	{
-
+		return this->cloneInstance(cookies, "cookies");
 	}
 
     /**
@@ -418,7 +454,7 @@ class ServerRequest implements ServerRequestInterface
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader(var name, var value) -> <ServerRequestInterface>
+    public function withHeader(var name, var value) -> <ServerRequest>
     {
 
     }
@@ -435,7 +471,7 @@ class ServerRequest implements ServerRequestInterface
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader(var name) -> <ServerRequestInterface>
+    public function withoutHeader(var name) -> <ServerRequest>
     {
 
     }
@@ -453,7 +489,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @throws \InvalidArgumentException for invalid HTTP methods.
 	 */
-	public function withMethod(var method) -> <ServerRequestInterface>
+	public function withMethod(var method) -> <ServerRequest>
 	{
 
 	}
@@ -486,9 +522,9 @@ class ServerRequest implements ServerRequestInterface
 	 * @throws \InvalidArgumentException if an unsupported argument type is
 	 *     provided.
 	 */
-	public function withParsedBody(var data) -> <ServerRequestInterface>
+	public function withParsedBody(var data) -> <ServerRequest>
 	{
-
+		return this->cloneInstance(data, "parsedBody");
 	}
 
     /**
@@ -504,7 +540,7 @@ class ServerRequest implements ServerRequestInterface
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function withProtocolVersion(var version) -> <ServerRequestInterface>
+    public function withProtocolVersion(var version) -> <ServerRequest>
     {
 
     }
@@ -531,9 +567,9 @@ class ServerRequest implements ServerRequestInterface
 	 *     $_GET.
 	 * @return static
 	 */
-	public function withQueryParams(array query) -> <ServerRequestInterface>
+	public function withQueryParams(array query) -> <ServerRequest>
 	{
-
+		return this->cloneInstance(query, "query");
 	}
 
 	/**
@@ -553,7 +589,7 @@ class ServerRequest implements ServerRequestInterface
 	 * @param mixed $requestTarget
 	 * @return static
 	 */
-	public function withRequestTarget(var requestTarget) -> <ServerRequestInterface>
+	public function withRequestTarget(var requestTarget) -> <ServerRequest>
 	{
 
 	}
@@ -569,9 +605,9 @@ class ServerRequest implements ServerRequestInterface
 	 * @return static
 	 * @throws \InvalidArgumentException if an invalid structure is provided.
 	 */
-	public function withUploadedFiles(array uploadedFiles) -> <ServerRequestInterface>
+	public function withUploadedFiles(array uploadedFiles) -> <ServerRequest>
 	{
-
+		return this->cloneInstance(uploadedFiles, "files");
 	}
 
 	/**
@@ -601,7 +637,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
 	 */
-	public function withUri(var uri, var preserveHost = false) -> <ServerRequestInterface>
+	public function withUri(var uri, var preserveHost = false) -> <ServerRequest>
 	{
 
 	}
@@ -615,13 +651,38 @@ class ServerRequest implements ServerRequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that removes
 	 * the attribute.
-	 *
-	 * @see getAttributes()
-	 * @param string $name The attribute name.
-	 * @return static
 	 */
-	public function withoutAttribute(var name) -> <ServerRequestInterface>
+	public function withoutAttribute(var name) -> <ServerRequest>
 	{
+		var attributes, newInstance;
 
+		let newInstance = clone this,
+			attributes  = newInstance->attributes;
+
+		unset(attributes[name]);
+
+		let newInstance->attributes = attributes;
+
+		return newInstance;
+	}
+
+	/**
+	 * Returns a new instance having set the parameter
+	 */
+	private function cloneInstance(var element, string property) -> <ServerRequest>
+	{
+    	var newInstance;
+
+		if (element === this->{property}) {
+            return this;
+        }
+
+		/**
+		 * Immutable - need to send a new object back
+		 */
+        let newInstance             = clone this;
+        let newInstance->{property} = element;
+
+        return newInstance;
 	}
 }

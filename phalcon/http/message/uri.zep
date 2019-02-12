@@ -326,7 +326,7 @@ class Uri implements UriInterface
      * @param string $fragment The fragment to use with the new instance.
      * @return static          A new instance with the specified fragment.
      */
-    public function withFragment(var fragment) -> <UriInterface>
+    public function withFragment(var fragment) -> <Uri>
     {
     	return this->processWith(fragment, "fragment", __METHOD__);
     }
@@ -343,7 +343,7 @@ class Uri implements UriInterface
      * @return static      A new instance with the specified host.
      * @throws \InvalidArgumentException for invalid hostnames.
      */
-    public function withHost(var host) -> <UriInterface>
+    public function withHost(var host) -> <Uri>
     {
     	return this->processWith(host, "host", __METHOD__);
     }
@@ -370,7 +370,7 @@ class Uri implements UriInterface
      * @return static      A new instance with the specified path.
      * @throws \InvalidArgumentException for invalid paths.
      */
-    public function withPath(var path) -> <UriInterface>
+    public function withPath(var path) -> <Uri>
     {
     	this->checkStringParameter(path, "path", __METHOD__);
 
@@ -408,7 +408,7 @@ class Uri implements UriInterface
      * @return static        A new instance with the specified port.
      * @throws \InvalidArgumentException for invalid ports.
      */
-    public function withPort(var port) -> <UriInterface>
+    public function withPort(var port) -> <Uri>
     {
     	var type;
 
@@ -452,7 +452,7 @@ class Uri implements UriInterface
      * @return static       A new instance with the specified query string.
      * @throws \InvalidArgumentException for invalid query strings.
      */
-    public function withQuery(var query) -> <UriInterface>
+    public function withQuery(var query) -> <Uri>
     {
     	this->checkStringParameter(query, "query", __METHOD__);
 
@@ -483,7 +483,7 @@ class Uri implements UriInterface
      * @throws \InvalidArgumentException for invalid schemes.
      * @throws \InvalidArgumentException for unsupported schemes.
      */
-    public function withScheme(var scheme) -> <UriInterface>
+    public function withScheme(var scheme) -> <Uri>
     {
     	this->checkStringParameter(scheme, "scheme", __METHOD__);
 
@@ -495,7 +495,7 @@ class Uri implements UriInterface
     /**
      * Return an instance with the specified user information.
      */
-    public function withUserInfo(var user, var password = null) -> <UriInterface>
+    public function withUserInfo(var user, var password = null) -> <Uri>
     {
     	var newInstance;
 
@@ -547,7 +547,7 @@ class Uri implements UriInterface
 	/**
 	 * Returns a new instance having set the parameter
 	 */
-	private function cloneInstance(var element, string property) -> <UriInterface>
+	private function cloneInstance(var element, string property) -> <Uri>
 	{
     	var newInstance;
 
@@ -735,7 +735,7 @@ class Uri implements UriInterface
 	 * Checks the element passed; assigns it to the property and returns a
 	 * clone of the object back
 	 */
-	private function processWith(var element, string property, string method) -> <UriInterface>
+	private function processWith(var element, string property, string method) -> <Uri>
 	{
 		this->checkStringParameter(element, property, method);
 

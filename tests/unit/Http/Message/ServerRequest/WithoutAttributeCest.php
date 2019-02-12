@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,13 @@ class WithoutAttributeCest
     public function httpMessageServerRequestWithoutAttribute(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withoutAttribute()');
-        $I->skipTest('Need implementation');
+        $request = (new ServerRequest())
+            ->withAttribute('one', 'two')
+            ->withAttribute('three', 'four')
+        ;
+
+        $newInstance = $request->withoutAttribute('one');
+        $I->assertNotEquals($request, $newInstance);
+        $I->assertEquals(['three' => 'four'], $newInstance->getAttributes());
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,10 @@ class WithAttributeCest
     public function httpMessageServerRequestWithAttribute(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withAttribute()');
-        $I->skipTest('Need implementation');
+        $request    = new ServerRequest();
+        $newInstance = $request->withAttribute('one', 'two');
+
+        $I->assertNotEquals($request, $newInstance);
+        $I->assertEquals('two', $newInstance->getAttribute('one'));
     }
 }

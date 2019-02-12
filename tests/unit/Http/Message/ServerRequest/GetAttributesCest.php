@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -25,11 +26,37 @@ class GetAttributesCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-02-11
      */
     public function httpMessageServerRequestGetAttributes(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getAttributes()');
-        $I->skipTest('Need implementation');
+        $request = (new ServerRequest())
+            ->withAttribute('one', 'two')
+            ->withAttribute('three', 'four')
+        ;
+
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual = $request->getAttributes();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: getAttributes() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-11
+     */
+    public function httpMessageServerRequestGetAttributesEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequest - getAttributes() - empty');
+        $request = new ServerRequest();
+        $actual = $request->getAttributes();
+        $I->assertEmpty($actual);
     }
 }

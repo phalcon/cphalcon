@@ -223,7 +223,7 @@ class Request implements RequestInterface
 	 * @throws \InvalidArgumentException for invalid header names.
 	 * @throws \InvalidArgumentException for invalid header values.
 	 */
-	public function withAddedHeader(var name, var value) -> <RequestInterface>
+	public function withAddedHeader(var name, var value) -> <Request>
 	{
 
 	}
@@ -241,7 +241,7 @@ class Request implements RequestInterface
 	 * @return static
 	 * @throws \InvalidArgumentException When the body is not valid.
 	 */
-	public function withBody(<StreamInterface> body) -> <RequestInterface>
+	public function withBody(<StreamInterface> body) -> <Request>
 	{
 
 	}
@@ -261,7 +261,7 @@ class Request implements RequestInterface
 	 * @return static
 	 * @throws \InvalidArgumentException for invalid header names or values.
 	 */
-	public function withHeader(var name, var value) -> <RequestInterface>
+	public function withHeader(var name, var value) -> <Request>
 	{
 
 	}
@@ -281,7 +281,7 @@ class Request implements RequestInterface
 	 * @return static
 	 * @throws \InvalidArgumentException for invalid HTTP methods.
 	 */
-	public function withMethod(var method) -> <RequestInterface>
+	public function withMethod(var method) -> <Request>
 	{
 
 	}
@@ -303,7 +303,7 @@ class Request implements RequestInterface
 	 * @param mixed $requestTarget
 	 * @return static
 	 */
-	public function withRequestTarget(var requestTarget) -> <RequestInterface>
+	public function withRequestTarget(var requestTarget) -> <Request>
 	{
 
 	}
@@ -338,7 +338,7 @@ class Request implements RequestInterface
 	 * @param bool $preserveHost Preserve the original state of the Host header.
 	 * @return static
 	 */
-	public function withUri(<UriInterface> uri, var preserveHost = false) -> <RequestInterface>
+	public function withUri(<UriInterface> uri, var preserveHost = false) -> <Request>
 	{
 
 	}
@@ -355,7 +355,7 @@ class Request implements RequestInterface
 	 * @param string $name Case-insensitive header field name to remove.
 	 * @return static
 	 */
-	public function withoutHeader(var name) -> <RequestInterface>
+	public function withoutHeader(var name) -> <Request>
 	{
 
 	}
@@ -373,7 +373,7 @@ class Request implements RequestInterface
 	 * @param string $version HTTP protocol version
 	 * @return static
 	 */
-	public function withProtocolVersion(var version) -> <RequestInterface>
+	public function withProtocolVersion(var version) -> <Request>
 	{
 
 	}

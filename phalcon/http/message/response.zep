@@ -52,6 +52,11 @@ class Response implements ResponseInterface
 	private headers = [];
 
 	/**
+	 * @var array
+	 */
+	private names = [];
+
+	/**
 	 * @var string
 	 */
 	private protocol = "1.1";
@@ -223,7 +228,7 @@ class Response implements ResponseInterface
 	 * immutability of the message, and MUST return an instance that has the
 	 * new header and/or value.
 	 */
-	public function withAddedHeader(var name, var value) -> <ResponseInterface>
+	public function withAddedHeader(var name, var value) -> <Response>
 	{
 		var key, headers, newInstance, values;
 
@@ -254,7 +259,7 @@ class Response implements ResponseInterface
 	 * immutability of the message, and MUST return a new instance that has the
 	 * new body stream.
 	 */
-	public function withBody(<StreamInterface> body) -> <ResponseInterface>
+	public function withBody(<StreamInterface> body) -> <Response>
 	{
     	var newInstance;
 
@@ -281,7 +286,7 @@ class Response implements ResponseInterface
 	 * immutability of the message, and MUST return an instance that has the
 	 * new and/or updated header and value.
 	 */
-	public function withHeader(var name, var value) -> <ResponseInterface>
+	public function withHeader(var name, var value) -> <Response>
 	{
 		var key, newInstance;
 
@@ -303,7 +308,7 @@ class Response implements ResponseInterface
 	 * immutability of the message, and MUST return an instance that has the
 	 * new protocol version.
 	 */
-	public function withProtocolVersion(var version) -> <ResponseInterface>
+	public function withProtocolVersion(var version) -> <Response>
 	{
     	var newInstance;
 
@@ -337,7 +342,7 @@ class Response implements ResponseInterface
 	 * @see http://tools.ietf.org/html/rfc7231#section-6
 	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
 	 */
-	public function withStatus(var code, var reasonPhrase = "") -> <ResponseInterface>
+	public function withStatus(var code, var reasonPhrase = "") -> <Response>
 	{
     	var newInstance;
 
@@ -364,7 +369,7 @@ class Response implements ResponseInterface
 	 * immutability of the message, and MUST return an instance that removes
 	 * the named header.
 	 */
-	public function withoutHeader(var name) -> <ResponseInterface>
+	public function withoutHeader(var name) -> <Response>
 	{
 		var key, newInstance;
 
@@ -476,6 +481,22 @@ class Response implements ResponseInterface
 		];
 	}
 
+	/**
+	 * Checks if the value of a header is valid. As per RFC 7230, ASCII characters,
+	 * spaces and horizontal tabs are allowed. Need to also check for visible
+	 * characters
+	 */
+	private function isValidHeaderValue(var value) -> bool
+	{
+		let value = (string) value;
+
+        if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
+        	preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
+            return false;
+        }
+
+        return true;
+	}
 	/**
 	 * Set a valid status code and phrase
 	 */
