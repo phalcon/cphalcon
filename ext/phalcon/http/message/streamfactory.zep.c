@@ -28,7 +28,7 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  *
- * Implementation of this file has been heavily influenced by Zend Diactoros
+ * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
@@ -103,12 +103,13 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filename_param = NULL, *mode_param = NULL;
+	zval *filename_param = NULL, *mode_param = NULL, stream;
 	zval filename, mode;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filename);
 	ZVAL_UNDEF(&mode);
+	ZVAL_UNDEF(&stream);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &filename_param, &mode_param);
@@ -122,12 +123,13 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 	}
 
 
-	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	if (zephir_has_constructor(return_value TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &filename, &mode);
+	ZEPHIR_INIT_VAR(&stream);
+	object_init_ex(&stream, phalcon_http_message_stream_ce);
+	if (zephir_has_constructor(&stream TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 0, &filename, &mode);
 		zephir_check_call_status();
 	}
-	RETURN_MM();
+	RETURN_CCTOR(&stream);
 
 }
 
@@ -142,10 +144,11 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *phpResource, phpResource_sub, _1, _2;
+	zval *phpResource, phpResource_sub, stream, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&phpResource_sub);
+	ZVAL_UNDEF(&stream);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
@@ -163,15 +166,16 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 		_0 = !ZEPHIR_IS_IDENTICAL(&_2, &_1);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 80);
 		return;
 	}
-	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	if (zephir_has_constructor(return_value TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, phpResource);
+	ZEPHIR_INIT_VAR(&stream);
+	object_init_ex(&stream, phalcon_http_message_stream_ce);
+	if (zephir_has_constructor(&stream TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 0, phpResource);
 		zephir_check_call_status();
 	}
-	RETURN_MM();
+	RETURN_CCTOR(&stream);
 
 }
 

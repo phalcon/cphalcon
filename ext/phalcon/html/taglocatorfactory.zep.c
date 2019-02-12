@@ -52,11 +52,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagLocatorFactory) {
  */
 PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 
-	zval escaper, helpers, _0;
+	zval escaper, factory, helpers, _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper);
+	ZVAL_UNDEF(&factory);
 	ZVAL_UNDEF(&helpers);
 	ZVAL_UNDEF(&_0);
 
@@ -166,10 +167,11 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_create_closure_ex(&_0, NULL, phalcon_24__closure_ce, SL("__invoke"));
 	zephir_array_update_string(&helpers, SL("title"), &_0, PH_COPY | PH_SEPARATE);
-	object_init_ex(return_value, phalcon_service_locator_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 189, &helpers);
+	ZEPHIR_INIT_VAR(&factory);
+	object_init_ex(&factory, phalcon_service_locator_ce);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 189, &helpers);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&factory);
 
 }
 

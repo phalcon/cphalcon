@@ -40,10 +40,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterLocatorFactory) {
  */
 PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance) {
 
-	zval helpers;
+	zval factory, helpers;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&factory);
 	ZVAL_UNDEF(&helpers);
 
 	ZEPHIR_MM_GROW();
@@ -71,10 +72,11 @@ PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance) {
 	add_assoc_stringl_ex(&helpers, SL("upperFirst"), SL("Phalcon\\Filter\\Sanitize\\UpperFirst"));
 	add_assoc_stringl_ex(&helpers, SL("upperWords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
 	add_assoc_stringl_ex(&helpers, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
-	object_init_ex(return_value, phalcon_filter_filterlocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 189, &helpers);
+	ZEPHIR_INIT_VAR(&factory);
+	object_init_ex(&factory, phalcon_filter_filterlocator_ce);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 189, &helpers);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&factory);
 
 }
 

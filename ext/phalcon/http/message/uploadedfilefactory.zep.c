@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 
 
 /**
@@ -25,7 +25,7 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  *
- * Implementation of this file has been heavily influenced by Zend Diactoros
+ * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
@@ -60,10 +60,11 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 
 	zval clientFilename, clientMediaType;
 	zend_long size, error, ZEPHIR_LAST_CALL_STATUS;
-	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL, _0, _1;
+	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL, factory, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&stream_sub);
+	ZVAL_UNDEF(&factory);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&clientFilename);
@@ -96,12 +97,13 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	}
 
 
-	object_init_ex(return_value, phalcon_http_message_uploadedfile_ce);
+	ZEPHIR_INIT_VAR(&factory);
+	object_init_ex(&factory, phalcon_http_message_uploadedfile_ce);
 	ZVAL_LONG(&_0, size);
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 232, stream, &_0, &_1, &clientFilename, &clientMediaType);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 232, stream, &_0, &_1, &clientFilename, &clientMediaType);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&factory);
 
 }
 

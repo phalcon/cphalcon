@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 
 
 /**
@@ -25,7 +25,7 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  *
- * Implementation of this file has been heavily influenced by Zend Diactoros
+ * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
@@ -40,19 +40,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory) {
 
 /**
  * Create a new request.
- *
- * @param string $method The HTTP method associated with the request.
- * @param UriInterface|string $uri The URI associated with the request.
  */
 PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, *uri, uri_sub;
+	zval *method_param = NULL, *uri, uri_sub, factory;
 	zval method;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&uri_sub);
+	ZVAL_UNDEF(&factory);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &method_param, &uri);
@@ -60,10 +58,11 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 	zephir_get_strval(&method, method_param);
 
 
-	object_init_ex(return_value, phalcon_http_message_request_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 217, uri, &method);
+	ZEPHIR_INIT_VAR(&factory);
+	object_init_ex(&factory, phalcon_http_message_request_ce);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 217, uri, &method);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&factory);
 
 }
 
