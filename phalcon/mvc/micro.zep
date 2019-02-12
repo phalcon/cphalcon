@@ -997,9 +997,9 @@ class Micro extends Injectable implements \ArrayAccess
 		 */
 		if typeof returnedValue == "string" {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
-			if !response->isSent() {
+			if this->isSendable(response) {
 				response->setContent(returnedValue);
-				this->sendIfUnsent(response);
+				response->send();
 			}
 		}
 
@@ -1007,27 +1007,24 @@ class Micro extends Injectable implements \ArrayAccess
 		 * Check if the returned object is already a response
 		 */
 		if typeof returnedValue == "object" {
-			if returnedValue instanceof ResponseInterface {
-				this->sendIfUnsent(returnedValue);
+			/**
+			 * Automatically send the response
+			 */
+			if this->isSendable(returnedValue) {
+				returnedValue->send();
 			}
 		}
 
 		return returnedValue;
 	}
-	
+
 	/**
-	 * Prevents isSent from being called on implementations that don't have it
+	 * @param object response
+	 * @return bool
 	 **/
-	private function sendIfUnsent(<ResponseInterface> response)
+	private function isSendable(response) -> boolean
 	{
-		if method_exists(response, "isSent") {
-			/**
-			 * Automatically send the response
-			 */
-			 if !response->isSent() {
-				response->send();
-			 }
-		}
+		return response instanceof ResponseInterface && method_exists(response, "isSent") && !response->isSent();
 	}
 
 	/**
