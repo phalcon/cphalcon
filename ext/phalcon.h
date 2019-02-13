@@ -270,6 +270,7 @@
 #include "phalcon/html/taglocatorfactory.zep.h"
 #include "phalcon/http/cookie.zep.h"
 #include "phalcon/http/cookie/exception.zep.h"
+#include "phalcon/http/message/exception.zep.h"
 #include "phalcon/http/message/inputstream.zep.h"
 #include "phalcon/http/message/request.zep.h"
 #include "phalcon/http/message/requestfactory.zep.h"

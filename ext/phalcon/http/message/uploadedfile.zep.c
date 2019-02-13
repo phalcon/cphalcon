@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
@@ -40,8 +41,146 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFile) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UploadedFile, phalcon, http_message_uploadedfile, phalcon_http_message_uploadedfile_method_entry, 0);
 
+	/**
+	 * Retrieve the filename sent by the client.
+	 *
+	 * Do not trust the value returned by this method. A client could send
+	 * a malicious filename with the intention to corrupt or hack your
+	 * application.
+	 *
+	 * Implementations SHOULD return the value stored in the "name" key of
+	 * the file in the $_FILES array.
+	 *
+	 * @var string | null
+	 */
+	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("clientFilename"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve the media type sent by the client.
+	 *
+	 * Do not trust the value returned by this method. A client could send
+	 * a malicious media type with the intention to corrupt or hack your
+	 * application.
+	 *
+	 * Implementations SHOULD return the value stored in the "type" key of
+	 * the file in the $_FILES array.
+	 *
+	 * @var string | null
+	 */
+	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("clientMediaType"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve the error associated with the uploaded file.
+	 *
+	 * The return value MUST be one of PHP's UPLOAD_ERR_XXX constants.
+	 *
+	 * If the file was uploaded successfully, this method MUST return
+	 * UPLOAD_ERR_OK.
+	 *
+	 * Implementations SHOULD return the value stored in the "error" key of
+	 * the file in the $_FILES array.
+	 *
+	 * @see http://php.net/manual/en/features.file-upload.errors.php
+	 *
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_http_message_uploadedfile_ce, SL("error"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve the file size.
+	 *
+	 * Implementations SHOULD return the value stored in the "size" key of
+	 * the file in the $_FILES array if available, as PHP calculates this based
+	 * on the actual size transmitted.
+	 *
+	 * @var int | null
+	 */
+	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("size"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
 	zend_class_implements(phalcon_http_message_uploadedfile_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfileinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Retrieve the filename sent by the client.
+ *
+ *
+ * Do not trust the value returned by this method. A client could send
+ * a malicious filename with the intention to corrupt or hack your
+ * application.
+ * 
+ * Implementations SHOULD return the value stored in the "name" key of
+ * the file in the $_FILES array.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_UploadedFile, getClientFilename) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "clientFilename");
+
+}
+
+/**
+ * Retrieve the media type sent by the client.
+ *
+ *
+ * Do not trust the value returned by this method. A client could send
+ * a malicious media type with the intention to corrupt or hack your
+ * application.
+ * 
+ * Implementations SHOULD return the value stored in the "type" key of
+ * the file in the $_FILES array.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_UploadedFile, getClientMediaType) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "clientMediaType");
+
+}
+
+/**
+ * Retrieve the error associated with the uploaded file.
+ *
+ *
+ * The return value MUST be one of PHP's UPLOAD_ERR_XXX constants.
+ * 
+ * If the file was uploaded successfully, this method MUST return
+ * UPLOAD_ERR_OK.
+ * 
+ * Implementations SHOULD return the value stored in the "error" key of
+ * the file in the $_FILES array.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_UploadedFile, getError) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "error");
+
+}
+
+/**
+ * Retrieve the file size.
+ *
+ *
+ * Implementations SHOULD return the value stored in the "size" key of
+ * the file in the $_FILES array if available, as PHP calculates this based
+ * on the actual size transmitted.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_UploadedFile, getSize) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "size");
 
 }
 
@@ -84,87 +223,6 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 	} else {
 		zephir_get_strval(&clientMediaType, clientMediaType_param);
 	}
-
-
-
-}
-
-/**
- * Retrieve the filename sent by the client.
- *
- * Do not trust the value returned by this method. A client could send
- * a malicious filename with the intention to corrupt or hack your
- * application.
- *
- * Implementations SHOULD return the value stored in the "name" key of
- * the file in the $_FILES array.
- *
- * @return string|null The filename sent by the client or null if none
- *     was provided.
- */
-PHP_METHOD(Phalcon_Http_Message_UploadedFile, getClientFilename) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve the media type sent by the client.
- *
- * Do not trust the value returned by this method. A client could send
- * a malicious media type with the intention to corrupt or hack your
- * application.
- *
- * Implementations SHOULD return the value stored in the "type" key of
- * the file in the $_FILES array.
- *
- * @return string|null The media type sent by the client or null if none
- *     was provided.
- */
-PHP_METHOD(Phalcon_Http_Message_UploadedFile, getClientMediaType) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve the error associated with the uploaded file.
- *
- * The return value MUST be one of PHP's UPLOAD_ERR_XXX constants.
- *
- * If the file was uploaded successfully, this method MUST return
- * UPLOAD_ERR_OK.
- *
- * Implementations SHOULD return the value stored in the "error" key of
- * the file in the $_FILES array.
- *
- * @see http://php.net/manual/en/features.file-upload.errors.php
- * @return int One of PHP's UPLOAD_ERR_XXX constants.
- */
-PHP_METHOD(Phalcon_Http_Message_UploadedFile, getError) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve the file size.
- *
- * Implementations SHOULD return the value stored in the "size" key of
- * the file in the $_FILES array if available, as PHP calculates this based
- * on the actual size transmitted.
- *
- * @return int|null The file size in bytes or null if unknown.
- */
-PHP_METHOD(Phalcon_Http_Message_UploadedFile, getSize) {
-
-	zval *this_ptr = getThis();
 
 
 

@@ -76,10 +76,10 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	ZEPHIR_INIT_VAR(&factory);
 	object_init_ex(&factory, phalcon_http_message_response_ce);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 225);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 233);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(&newInstance, &factory, "withstatus", NULL, 226, &_0, &reasonPhrase);
+	ZEPHIR_CALL_METHOD(&newInstance, &factory, "withstatus", NULL, 234, &_0, &reasonPhrase);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
 

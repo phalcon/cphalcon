@@ -323,6 +323,7 @@ zend_class_entry *phalcon_html_taglocator_ce;
 zend_class_entry *phalcon_html_taglocatorfactory_ce;
 zend_class_entry *phalcon_http_cookie_ce;
 zend_class_entry *phalcon_http_cookie_exception_ce;
+zend_class_entry *phalcon_http_message_exception_ce;
 zend_class_entry *phalcon_http_message_inputstream_ce;
 zend_class_entry *phalcon_http_message_request_ce;
 zend_class_entry *phalcon_http_message_requestfactory_ce;
@@ -777,6 +778,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Html_TagLocatorFactory);
 	ZEPHIR_INIT(Phalcon_Http_Cookie);
 	ZEPHIR_INIT(Phalcon_Http_Cookie_Exception);
+	ZEPHIR_INIT(Phalcon_Http_Message_Exception);
 	ZEPHIR_INIT(Phalcon_Http_Message_InputStream);
 	ZEPHIR_INIT(Phalcon_Http_Message_Request);
 	ZEPHIR_INIT(Phalcon_Http_Message_RequestFactory);

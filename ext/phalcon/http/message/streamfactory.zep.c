@@ -75,10 +75,10 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZVAL_STRING(&_0, "php://temp");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "r+");
-	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 229, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 237, &_0, &_1);
 	zephir_check_call_status();
 	zephir_fwrite(NULL, &tempResource, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 230, &tempResource);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 238, &tempResource);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 0, &tempResource);
 	zephir_check_call_status();
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	_0 = 1 != Z_TYPE_P(phpResource) == IS_RESOURCE;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 231, phpResource);
+		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 239, phpResource);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "stream");

@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 
 
@@ -74,34 +74,301 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ServerRequest, phalcon, http_message_serverrequest, phalcon_http_message_serverrequest_method_entry, 0);
 
 	/**
-	 * @var array
+	 * Retrieve attributes derived from the request.
+	 *
+	 * The request "attributes" may be used to allow injection of any
+	 * parameters derived from the request: e.g., the results of path
+	 * match operations; the results of decrypting cookies; the results of
+	 * deserializing non-form-encoded message bodies; etc. Attributes
+	 * will be application and request specific, and CAN be mutable.
+	 *
+	 * @var arrau
 	 */
 	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("attributes"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
-	 * @var array
+	 * Gets the body of the message.
+	 *
+	 * @var <StreamInterface>
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("cookies"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("body"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
+	 * Retrieve cookies.
+	 *
+	 * Retrieves cookies sent by the client to the server.
+	 *
+	 * The data MUST be compatible with the structure of the $_COOKIE
+	 * superglobal.
+	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("files"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("cookieParams"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
-	 * @var null | array | object
+	 * Retrieve query string arguments.
+	 *
+	 * Retrieves the deserialized query string arguments, if any.
+	 *
+	 * Note: the query params might not be in sync with the URI or server
+	 * params. If you need to ensure you are only getting the original
+	 * values, you may need to parse the query string from `getUri()->getQuery()`
+	 * or from the `QUERY_STRING` server param.
+	 *
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("queryParams"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieves the HTTP method of the request.
+	 *
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_http_message_serverrequest_ce, SL("method"), "GET", ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve any parameters provided in the request body.
+	 *
+	 * If the request Content-Type is either application/x-www-form-urlencoded
+	 * or multipart/form-data, and the request method is POST, this method MUST
+	 * return the contents of $_POST.
+	 *
+	 * Otherwise, this method may return any results of deserializing
+	 * the request body content; as parsing returns structured content, the
+	 * potential types MUST be arrays or objects only. A null value indicates
+	 * the absence of body content.
+	 *
+	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("parsedBody"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
+	 * Retrieves the HTTP protocol version as a string.
+	 *
+	 * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+	 *
+	 * @return string HTTP protocol version.
+	 *
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_http_message_serverrequest_ce, SL("protocolVersion"), "1.1", ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve server parameters.
+	 *
+	 * Retrieves data related to the incoming request environment,
+	 * typically derived from PHP's $_SERVER superglobal. The data IS NOT
+	 * REQUIRED to originate from $_SERVER.
+	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("query"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("serverParams"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve normalized file upload data.
+	 *
+	 * This method returns upload metadata in a normalized tree, with each leaf
+	 * an instance of Psr\Http\Message\UploadedFileInterface.
+	 *
+	 * These values MAY be prepared from $_FILES or the message body during
+	 * instantiation, or MAY be injected via withUploadedFiles().
+	 *
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("uploadedFiles"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieves the URI instance.
+	 *
+	 * This method MUST return a UriInterface instance.
+	 *
+	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
+	 *
+	 * @var <UriInterface>
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("uri"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	phalcon_http_message_serverrequest_ce->create_object = zephir_init_properties_Phalcon_Http_Message_ServerRequest;
 
 	zend_class_implements(phalcon_http_message_serverrequest_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\serverrequestinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Retrieve attributes derived from the request.
+ *
+ *
+ * The request "attributes" may be used to allow injection of any
+ * parameters derived from the request: e.g., the results of path
+ * match operations; the results of decrypting cookies; the results of
+ * deserializing non-form-encoded message bodies; etc. Attributes
+ * will be application and request specific, and CAN be mutable.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "attributes");
+
+}
+
+/**
+ * Gets the body of the message.
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getBody) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "body");
+
+}
+
+/**
+ * Retrieve cookies.
+ *
+ *
+ * Retrieves cookies sent by the client to the server.
+ * 
+ * The data MUST be compatible with the structure of the $_COOKIE
+ * superglobal.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getCookieParams) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "cookieParams");
+
+}
+
+/**
+ * Retrieve query string arguments.
+ *
+ *
+ * Retrieves the deserialized query string arguments, if any.
+ * 
+ * Note: the query params might not be in sync with the URI or server
+ * params. If you need to ensure you are only getting the original
+ * values, you may need to parse the query string from `getUri()->getQuery()`
+ * or from the `QUERY_STRING` server param.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "queryParams");
+
+}
+
+/**
+ * Retrieves the HTTP method of the request.
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getMethod) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "method");
+
+}
+
+/**
+ * Retrieve any parameters provided in the request body.
+ *
+ *
+ * If the request Content-Type is either application/x-www-form-urlencoded
+ * or multipart/form-data, and the request method is POST, this method MUST
+ * return the contents of $_POST.
+ * 
+ * Otherwise, this method may return any results of deserializing
+ * the request body content; as parsing returns structured content, the
+ * potential types MUST be arrays or objects only. A null value indicates
+ * the absence of body content.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getParsedBody) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "parsedBody");
+
+}
+
+/**
+ * Retrieves the HTTP protocol version as a string.
+ *
+ *
+ * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getProtocolVersion) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "protocolVersion");
+
+}
+
+/**
+ * Retrieve server parameters.
+ *
+ *
+ * Retrieves data related to the incoming request environment,
+ * typically derived from PHP's $_SERVER superglobal. The data IS NOT
+ * REQUIRED to originate from $_SERVER.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getServerParams) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "serverParams");
+
+}
+
+/**
+ * Retrieve normalized file upload data.
+ *
+ *
+ * This method returns upload metadata in a normalized tree, with each leaf
+ * an instance of Psr\Http\Message\UploadedFileInterface.
+ * 
+ * These values MAY be prepared from $_FILES or the message body during
+ * instantiation, or MAY be injected via withUploadedFiles().
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUploadedFiles) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "uploadedFiles");
+
+}
+
+/**
+ * Retrieves the URI instance.
+ *
+ *
+ * This method MUST return a UriInterface instance.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUri) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "uri");
 
 }
 
@@ -179,52 +446,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
 	return;
-
-}
-
-/**
- * Retrieve attributes derived from the request.
- *
- * The request "attributes" may be used to allow injection of any
- * parameters derived from the request: e.g., the results of path
- * match operations; the results of decrypting cookies; the results of
- * deserializing non-form-encoded message bodies; etc. Attributes
- * will be application and request specific, and CAN be mutable.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "attributes");
-
-}
-
-/**
- * Gets the body of the message.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getBody) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve cookies.
- *
- * Retrieves cookies sent by the client to the server.
- *
- * The data MUST be compatible with the structure of the $_COOKIE
- * superglobal.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getCookieParams) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "cookies");
 
 }
 
@@ -323,76 +544,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders) {
 }
 
 /**
- * Retrieves the HTTP method of the request.
- *
- * @return string Returns the request method.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getMethod) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve any parameters provided in the request body.
- *
- * If the request Content-Type is either application/x-www-form-urlencoded
- * or multipart/form-data, and the request method is POST, this method MUST
- * return the contents of $_POST.
- *
- * Otherwise, this method may return any results of deserializing
- * the request body content; as parsing returns structured content, the
- * potential types MUST be arrays or objects only. A null value indicates
- * the absence of body content.
- *
- * @return null|array|object The deserialized body parameters, if any.
- *     These will typically be an array or object.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getParsedBody) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieves the HTTP protocol version as a string.
- *
- * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
- *
- * @return string HTTP protocol version.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getProtocolVersion) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve query string arguments.
- *
- * Retrieves the deserialized query string arguments, if any.
- *
- * Note: the query params might not be in sync with the URI or server
- * params. If you need to ensure you are only getting the original
- * values, you may need to parse the query string from `getUri()->getQuery()`
- * or from the `QUERY_STRING` server param.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "query");
-
-}
-
-/**
  * Retrieves the message's request target.
  *
  * Retrieves the message's request-target either as it will appear (for
@@ -409,57 +560,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
  * @return string
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getRequestTarget) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve server parameters.
- *
- * Retrieves data related to the incoming request environment,
- * typically derived from PHP's $_SERVER superglobal. The data IS NOT
- * REQUIRED to originate from $_SERVER.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getServerParams) {
-
-	zval *this_ptr = getThis();
-
-
-
-}
-
-/**
- * Retrieve normalized file upload data.
- *
- * This method returns upload metadata in a normalized tree, with each leaf
- * an instance of Psr\Http\Message\UploadedFileInterface.
- *
- * These values MAY be prepared from $_FILES or the message body during
- * instantiation, or MAY be injected via withUploadedFiles().
- *
- * @return array An array tree of UploadedFileInterface instances; an empty
- *     array MUST be returned if no data is present.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUploadedFiles) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "files");
-
-}
-
-/**
- * Retrieves the URI instance.
- *
- * This method MUST return a UriInterface instance.
- *
- * @see http://tools.ietf.org/html/rfc3986#section-4.3
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUri) {
 
 	zval *this_ptr = getThis();
 
@@ -618,7 +718,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cookies");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, &cookies, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 235, &cookies, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -751,7 +851,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parsedBody");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, data, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 235, data, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -824,7 +924,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "query");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, &query, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 235, &query, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -890,7 +990,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "files");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 227, &uploadedFiles, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 235, &uploadedFiles, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1016,44 +1116,52 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, cloneInstance) {
 
 zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
+	ZVAL_UNDEF(&_9$$7);
 
 		ZEPHIR_MM_GROW();
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("query"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("uploadedFiles"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("query"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("uploadedFiles"), &_1$$3);
 		}
-		zephir_read_property(&_2, this_ptr, SL("files"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2, this_ptr, SL("serverParams"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("files"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("serverParams"), &_3$$4);
 		}
-		zephir_read_property(&_4, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_4, this_ptr, SL("queryParams"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_4) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			array_init(&_5$$5);
-			zephir_update_property_zval(this_ptr, SL("cookies"), &_5$$5);
+			zephir_update_property_zval(this_ptr, SL("queryParams"), &_5$$5);
 		}
-		zephir_read_property(&_6, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_6, this_ptr, SL("cookieParams"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_6) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_7$$6);
 			array_init(&_7$$6);
-			zephir_update_property_zval(this_ptr, SL("attributes"), &_7$$6);
+			zephir_update_property_zval(this_ptr, SL("cookieParams"), &_7$$6);
+		}
+		zephir_read_property(&_8, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_8) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_9$$7);
+			array_init(&_9$$7);
+			zephir_update_property_zval(this_ptr, SL("attributes"), &_9$$7);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

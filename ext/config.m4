@@ -275,6 +275,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/taglocatorfactory.zep.c
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
+	phalcon/http/message/exception.zep.c
 	phalcon/http/message/inputstream.zep.c
 	phalcon/http/message/request.zep.c
 	phalcon/http/message/requestfactory.zep.c

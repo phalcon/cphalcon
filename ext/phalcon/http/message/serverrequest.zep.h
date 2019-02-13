@@ -3,22 +3,22 @@ extern zend_class_entry *phalcon_http_message_serverrequest_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest);
 
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct);
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getBody);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getCookieParams);
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeader);
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaderLine);
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getMethod);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getParsedBody);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getProtocolVersion);
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams);
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getRequestTarget);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getServerParams);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUploadedFiles);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUri);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeader);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaderLine);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders);
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getRequestTarget);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, hasHeader);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAddedHeader);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute);
@@ -37,6 +37,48 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, cloneInstance);
 zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC);
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getcookieparams, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getcookieparams, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getqueryparams, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getqueryparams, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getmethod, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getmethod, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getprotocolversion, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getprotocolversion, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getserverparams, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getserverparams, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getuploadedfiles, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getuploadedfiles, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
@@ -50,27 +92,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattribute, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, defaultValue)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattributes, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattributes, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_getbody, 0, 0, Psr\\Http\\Message\\StreamInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getbody, 0, 0, IS_OBJECT, "Psr\\Http\\Message\\StreamInterface", 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getcookieparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getcookieparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -97,51 +118,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getmethod, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getmethod, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getprotocolversion, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getprotocolversion, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getqueryparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getqueryparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getrequesttarget, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getrequesttarget, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getserverparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getserverparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getuploadedfiles, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getuploadedfiles, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_geturi, 0, 0, Psr\\Http\\Message\\UriInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_geturi, 0, 0, IS_OBJECT, "Psr\\Http\\Message\\UriInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -283,22 +262,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequest_method_entry) {
-	PHP_ME(Phalcon_Http_Message_ServerRequest, __construct, arginfo_phalcon_http_message_serverrequest___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getAttribute, arginfo_phalcon_http_message_serverrequest_getattribute, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getAttributes, arginfo_phalcon_http_message_serverrequest_getattributes, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getBody, arginfo_phalcon_http_message_serverrequest_getbody, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getAttributes, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getBody, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getCookieParams, arginfo_phalcon_http_message_serverrequest_getcookieparams, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getHeader, arginfo_phalcon_http_message_serverrequest_getheader, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getHeaderLine, arginfo_phalcon_http_message_serverrequest_getheaderline, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getHeaders, arginfo_phalcon_http_message_serverrequest_getheaders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getQueryParams, arginfo_phalcon_http_message_serverrequest_getqueryparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getMethod, arginfo_phalcon_http_message_serverrequest_getmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getParsedBody, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getProtocolVersion, arginfo_phalcon_http_message_serverrequest_getprotocolversion, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getQueryParams, arginfo_phalcon_http_message_serverrequest_getqueryparams, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getRequestTarget, arginfo_phalcon_http_message_serverrequest_getrequesttarget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getServerParams, arginfo_phalcon_http_message_serverrequest_getserverparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getUploadedFiles, arginfo_phalcon_http_message_serverrequest_getuploadedfiles, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequest, getUri, arginfo_phalcon_http_message_serverrequest_geturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, __construct, arginfo_phalcon_http_message_serverrequest___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getAttribute, arginfo_phalcon_http_message_serverrequest_getattribute, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getHeader, arginfo_phalcon_http_message_serverrequest_getheader, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getHeaderLine, arginfo_phalcon_http_message_serverrequest_getheaderline, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getHeaders, arginfo_phalcon_http_message_serverrequest_getheaders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getRequestTarget, arginfo_phalcon_http_message_serverrequest_getrequesttarget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, hasHeader, arginfo_phalcon_http_message_serverrequest_hasheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, withAddedHeader, arginfo_phalcon_http_message_serverrequest_withaddedheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, withAttribute, arginfo_phalcon_http_message_serverrequest_withattribute, ZEND_ACC_PUBLIC)

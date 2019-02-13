@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 111, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 120, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 112, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 121, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -55,14 +55,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, Response, phalcon, http_message_response, phalcon_http_message_response_method_entry, 0);
 
 	/**
+	 * Gets the body of the message.
+	 *
 	 * @var <StreamInterface>
 	 */
 	zend_declare_property_null(phalcon_http_message_response_ce, SL("body"), ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_http_message_response_ce, SL("code"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * @var array
@@ -70,24 +67,109 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
 	zend_declare_property_null(phalcon_http_message_response_ce, SL("headers"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_http_message_response_ce, SL("names"), ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	/**
+	 * Retrieves the HTTP protocol version as a string.
+	 *
+	 * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_http_message_response_ce, SL("protocol"), "1.1", ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_string(phalcon_http_message_response_ce, SL("protocolVersion"), "1.1", ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
+	 * Gets the response reason phrase associated with the status code.
+	 *
+	 * Because a reason phrase is not a required element in a response
+	 * status line, the reason phrase value MAY be empty. Implementations MAY
+	 * choose to return the default RFC 7231 recommended reason phrase (or those
+	 * listed in the IANA HTTP Status Code Registry) for the response's
+	 * status code.
+	 *
+	 * @see http://tools.ietf.org/html/rfc7231#section-6
+	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_http_message_response_ce, SL("reason"), "", ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_string(phalcon_http_message_response_ce, SL("reasonPhrase"), "", ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Gets the response status code.
+	 *
+	 * The status code is a 3-digit integer result code of the server's attempt
+	 * to understand and satisfy the request.
+	 *
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_http_message_response_ce, SL("statusCode"), 200, ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	phalcon_http_message_response_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Response;
 
 	zend_class_implements(phalcon_http_message_response_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responseinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Gets the body of the message.
+ */
+PHP_METHOD(Phalcon_Http_Message_Response, getBody) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "body");
+
+}
+
+/**
+ * Retrieves the HTTP protocol version as a string.
+ *
+ *
+ * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_Response, getProtocolVersion) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "protocolVersion");
+
+}
+
+/**
+ * Gets the response reason phrase associated with the status code.
+ *
+ *
+ * Because a reason phrase is not a required element in a response
+ * status line, the reason phrase value MAY be empty. Implementations MAY
+ * choose to return the default RFC 7231 recommended reason phrase (or those
+ * listed in the IANA HTTP Status Code Registry) for the response's
+ * status code.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_Response, getReasonPhrase) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "reasonPhrase");
+
+}
+
+/**
+ * Gets the response status code.
+ *
+ *
+ * The status code is a 3-digit integer result code of the server's attempt
+ * to understand and satisfy the request.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_Response, getStatusCode) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "statusCode");
 
 }
 
@@ -128,27 +210,15 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 218, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 226, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "w+");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processstream", NULL, 219, body, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processstream", NULL, 227, body, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processheaders", NULL, 220, &headers);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processheaders", NULL, 228, &headers);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Gets the body of the message.
- */
-PHP_METHOD(Phalcon_Http_Message_Response, getBody) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "body");
 
 }
 
@@ -186,7 +256,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, getHeader) {
 	zephir_fast_strtolower(&key, name);
 	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&header, &_0, &key, 1 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_1$$3, &header, SL("value"), PH_NOISY | PH_READONLY, "phalcon/http/message/response.zep", 108 TSRMLS_CC);
+		zephir_array_fetch_string(&_1$$3, &header, SL("value"), PH_NOISY | PH_READONLY, "phalcon/http/message/response.zep", 117 TSRMLS_CC);
 		RETURN_CTOR(&_1$$3);
 	}
 	array_init(return_value);
@@ -268,68 +338,18 @@ PHP_METHOD(Phalcon_Http_Message_Response, getHeaders) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/http/message/response.zep", 171);
+	zephir_is_iterable(&_0, 0, "phalcon/http/message/response.zep", 180);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&element);
 		ZVAL_COPY(&element, _1);
-		zephir_array_fetch_string(&_2$$3, &element, SL("value"), PH_NOISY | PH_READONLY, "phalcon/http/message/response.zep", 168 TSRMLS_CC);
+		zephir_array_fetch_string(&_2$$3, &element, SL("value"), PH_NOISY | PH_READONLY, "phalcon/http/message/response.zep", 177 TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(&_3$$3);
-		zephir_array_fetch_string(&_3$$3, &element, SL("name"), PH_NOISY, "phalcon/http/message/response.zep", 168 TSRMLS_CC);
+		zephir_array_fetch_string(&_3$$3, &element, SL("name"), PH_NOISY, "phalcon/http/message/response.zep", 177 TSRMLS_CC);
 		zephir_array_update_zval(&headers, &_3$$3, &_2$$3, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&element);
 	RETURN_CTOR(&headers);
-
-}
-
-/**
- * Retrieves the HTTP protocol version as a string.
- *
- * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
- */
-PHP_METHOD(Phalcon_Http_Message_Response, getProtocolVersion) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "protocol");
-
-}
-
-/**
- * Gets the response reason phrase associated with the status code.
- *
- * Because a reason phrase is not a required element in a response
- * status line, the reason phrase value MAY be empty. Implementations MAY
- * choose to return the default RFC 7231 recommended reason phrase (or those
- * listed in the IANA HTTP Status Code Registry) for the response's
- * status code.
- *
- * @see http://tools.ietf.org/html/rfc7231#section-6
- * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
- */
-PHP_METHOD(Phalcon_Http_Message_Response, getReasonPhrase) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "reason");
-
-}
-
-/**
- * Gets the response status code.
- *
- * The status code is a 3-digit integer result code of the server's attempt
- * to understand and satisfy the request.
- */
-PHP_METHOD(Phalcon_Http_Message_Response, getStatusCode) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "code");
 
 }
 
@@ -405,9 +425,9 @@ PHP_METHOD(Phalcon_Http_Message_Response, withAddedHeader) {
 	}
 	zephir_read_property(&_1, &newInstance, SL("headers"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&headers, &_1);
-	zephir_array_fetch(&_2, &headers, &key, PH_NOISY | PH_READONLY, "phalcon/http/message/response.zep", 243 TSRMLS_CC);
+	zephir_array_fetch(&_2, &headers, &key, PH_NOISY | PH_READONLY, "phalcon/http/message/response.zep", 214 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&values);
-	zephir_array_fetch_string(&values, &_2, SL("value"), PH_NOISY, "phalcon/http/message/response.zep", 243 TSRMLS_CC);
+	zephir_array_fetch_string(&values, &_2, SL("value"), PH_NOISY, "phalcon/http/message/response.zep", 214 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_fast_array_merge(&_3, &values, value TSRMLS_CC);
 	ZEPHIR_CPY_WRT(&values, &_3);
@@ -514,9 +534,9 @@ PHP_METHOD(Phalcon_Http_Message_Response, withProtocolVersion) {
 
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processprotocol", NULL, 221, version);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processprotocol", NULL, 229, version);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("protocol"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("protocolVersion"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_IDENTICAL(version, &_0)) {
 		RETURN_THIS();
 	}
@@ -524,7 +544,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, withProtocolVersion) {
 	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_update_property_zval(&newInstance, SL("protocol"), version);
+	zephir_update_property_zval(&newInstance, SL("protocolVersion"), version);
 	RETURN_CCTOR(&newInstance);
 
 }
@@ -564,7 +584,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("code"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("statusCode"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_IDENTICAL(code, &_0)) {
 		RETURN_THIS();
 	}
@@ -807,17 +827,17 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 222);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 230);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&keys);
 	zephir_array_keys(&keys, &phrases TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&min, "min", NULL, 223, &keys);
+	ZEPHIR_CALL_FUNCTION(&min, "min", NULL, 231, &keys);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&max, "max", NULL, 63, &keys);
 	zephir_check_call_status();
 	_0 = 1 != zephir_is_numeric(code);
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "is_float", NULL, 171, code);
+		ZEPHIR_CALL_FUNCTION(&_1, "is_float", NULL, 180, code);
 		zephir_check_call_status();
 		_0 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	}
@@ -834,14 +854,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SVSVSVS(&_5$$3, "Invalid status code '", code, "', (allowed values ", &min, "-", &max, ")");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 224, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 232, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/http/message/response.zep", 519 TSRMLS_CC);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/http/message/response.zep", 490 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (1 != Z_TYPE_P(phrase) == IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid response reason", "phalcon/http/message/response.zep", 523);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid response reason", "phalcon/http/message/response.zep", 494);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_6);
@@ -852,10 +872,10 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 	if (_7) {
 		ZEPHIR_OBS_NVAR(phrase);
-		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/http/message/response.zep", 527 TSRMLS_CC);
+		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/http/message/response.zep", 498 TSRMLS_CC);
 	}
-	zephir_update_property_zval(this_ptr, SL("code"), code);
-	zephir_update_property_zval(this_ptr, SL("reason"), phrase);
+	zephir_update_property_zval(this_ptr, SL("statusCode"), code);
+	zephir_update_property_zval(this_ptr, SL("reasonPhrase"), phrase);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -886,7 +906,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processHeaders) {
 
 	ZEPHIR_INIT_VAR(&headerData);
 	array_init(&headerData);
-	zephir_is_iterable(&headers, 0, "phalcon/http/message/response.zep", 552);
+	zephir_is_iterable(&headers, 0, "phalcon/http/message/response.zep", 523);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&headers), _1, _2, _0)
 	{
 		ZEPHIR_INIT_NVAR(&name);
@@ -949,7 +969,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processProtocol) {
 		_0 = (1 != Z_TYPE_P(protocol) == IS_STRING);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid protocol value", "phalcon/http/message/response.zep", 570);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid protocol value", "phalcon/http/message/response.zep", 541);
 		return;
 	}
 	if (1 != zephir_array_isset(&protocols, protocol)) {
@@ -957,9 +977,9 @@ PHP_METHOD(Phalcon_Http_Message_Response, processProtocol) {
 		object_init_ex(&_1$$4, spl_ce_InvalidArgumentException);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "Unsupported protocol ", protocol);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 224, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 232, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$4, "phalcon/http/message/response.zep", 574 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/http/message/response.zep", 545 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1001,7 +1021,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processStream) {
 		_0 = (1 != Z_TYPE_P(body) == IS_RESOURCE);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid stream passed as a parameter", "phalcon/http/message/response.zep", 588);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid stream passed as a parameter", "phalcon/http/message/response.zep", 559);
 		return;
 	}
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
@@ -1015,28 +1035,20 @@ PHP_METHOD(Phalcon_Http_Message_Response, processStream) {
 
 zend_object *zephir_init_properties_Phalcon_Http_Message_Response(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval _0, _2, _1$$3, _3$$4;
+		zval _0, _1$$3;
 		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
 
 		ZEPHIR_MM_GROW();
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("names"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("names"), &_1$$3);
-		}
-		zephir_read_property(&_2, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("headers"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("headers"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
