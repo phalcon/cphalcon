@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "phalcon/assets/filters/cssminifier.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
@@ -69,8 +68,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter) {
 	}
 
 
-	phalcon_cssmin(return_value, &content TSRMLS_CC);
-	RETURN_MM();
+	RETURN_CTOR(&content);
 
 }
 

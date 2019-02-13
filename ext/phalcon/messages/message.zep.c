@@ -58,6 +58,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message) {
 	 */
 	zend_declare_property_null(phalcon_messages_message_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_messages_message_ce, SL("metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_messages_message_ce->create_object = zephir_init_properties_Phalcon_Messages_Message;
+
 	zend_class_implements(phalcon_messages_message_ce TSRMLS_CC, 1, phalcon_messages_messageinterface_ce);
 	zend_class_implements(phalcon_messages_message_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("jsonserializable")));
 	return SUCCESS;
@@ -69,8 +76,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message) {
  */
 PHP_METHOD(Phalcon_Messages_Message, __construct) {
 
+	zval metaData;
 	zend_long code;
-	zval *message_param = NULL, *field = NULL, field_sub, *type_param = NULL, *code_param = NULL, _0;
+	zval *message_param = NULL, *field = NULL, field_sub, *type_param = NULL, *code_param = NULL, *metaData_param = NULL, _0;
 	zval message, type;
 	zval *this_ptr = getThis();
 
@@ -78,9 +86,10 @@ PHP_METHOD(Phalcon_Messages_Message, __construct) {
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&metaData);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &message_param, &field, &type_param, &code_param);
+	zephir_fetch_params(1, 1, 4, &message_param, &field, &type_param, &code_param, &metaData_param);
 
 	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string") TSRMLS_CC);
@@ -108,6 +117,12 @@ PHP_METHOD(Phalcon_Messages_Message, __construct) {
 	} else {
 		code = zephir_get_intval(code_param);
 	}
+	if (!metaData_param) {
+		ZEPHIR_INIT_VAR(&metaData);
+		array_init(&metaData);
+	} else {
+		zephir_get_arrval(&metaData, metaData_param);
+	}
 
 
 	zephir_update_property_zval(this_ptr, SL("message"), &message);
@@ -116,6 +131,7 @@ PHP_METHOD(Phalcon_Messages_Message, __construct) {
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, code);
 	zephir_update_property_zval(this_ptr, SL("code"), &_0);
+	zephir_update_property_zval(this_ptr, SL("metaData"), &metaData);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -171,6 +187,18 @@ PHP_METHOD(Phalcon_Messages_Message, getType) {
 }
 
 /**
+ * Returns message metadata
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMetaData) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "metaData");
+
+}
+
+/**
  * Serializes the object for json_encode
  */
 PHP_METHOD(Phalcon_Messages_Message, jsonSerialize) {
@@ -182,7 +210,7 @@ PHP_METHOD(Phalcon_Messages_Message, jsonSerialize) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_create_array(return_value, 4, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 5, 0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&_0);
 	zephir_read_property(&_0, this_ptr, SL("field"), PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("field"), &_0, PH_COPY | PH_SEPARATE);
@@ -195,6 +223,9 @@ PHP_METHOD(Phalcon_Messages_Message, jsonSerialize) {
 	ZEPHIR_OBS_NVAR(&_0);
 	zephir_read_property(&_0, this_ptr, SL("code"), PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("code"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_OBS_NVAR(&_0);
+	zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC);
+	zephir_array_update_string(return_value, SL("metaData"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
 
 }
@@ -304,6 +335,28 @@ PHP_METHOD(Phalcon_Messages_Message, setType) {
 }
 
 /**
+ * Sets message metadata
+ */
+PHP_METHOD(Phalcon_Messages_Message, setMetaData) {
+
+	zval *metaData_param = NULL;
+	zval metaData;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&metaData);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &metaData_param);
+
+	ZEPHIR_OBS_COPY_OR_DUP(&metaData, metaData_param);
+
+
+	zephir_update_property_zval(this_ptr, SL("metaData"), &metaData);
+	RETURN_THIS();
+
+}
+
+/**
  * Magic __toString method returns verbose message
  */
 PHP_METHOD(Phalcon_Messages_Message, __toString) {
@@ -321,7 +374,7 @@ PHP_METHOD(Phalcon_Messages_Message, __toString) {
 PHP_METHOD(Phalcon_Messages_Message, __set_state) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, _0, _1, _2, _3;
+	zval *message_param = NULL, _0, _1, _2, _3, _4;
 	zval message;
 	zval *this_ptr = getThis();
 
@@ -330,6 +383,7 @@ PHP_METHOD(Phalcon_Messages_Message, __set_state) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
@@ -338,13 +392,37 @@ PHP_METHOD(Phalcon_Messages_Message, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_messages_message_ce);
-	zephir_array_fetch_string(&_0, &message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 149 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, &message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 149 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 149 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 149 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 301, &_0, &_1, &_2, &_3);
+	zephir_array_fetch_string(&_0, &message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, &message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, &message, SL("_metaData"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 301, &_0, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("metaData"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 
