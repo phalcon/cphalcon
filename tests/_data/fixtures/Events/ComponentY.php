@@ -1,21 +1,19 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
 use Phalcon\Events\Manager;
 
 /**
- * ComponentY
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Phalcon Team <team@phalconphp.com>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * Class ComponentY
  */
 class ComponentY
 {
