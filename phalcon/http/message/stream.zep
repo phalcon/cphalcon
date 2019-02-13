@@ -282,7 +282,7 @@ class Stream implements StreamInterface
 
 		} catch \Exception {
 			throw new Exception(
-				method . " - The stream provided is not valid (string/resource) or could not be opened."
+				__METHOD__ . " - The stream provided is not valid (string/resource) or could not be opened."
 			);
 		}
 	}

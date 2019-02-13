@@ -210,13 +210,13 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 226, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 228, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "w+");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processstream", NULL, 227, body, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processstream", NULL, 229, body, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processheaders", NULL, 228, &headers);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processheaders", NULL, 230, &headers);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, withProtocolVersion) {
 
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processprotocol", NULL, 229, version);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processprotocol", NULL, 231, version);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, SL("protocolVersion"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_IDENTICAL(version, &_0)) {
@@ -827,17 +827,17 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 230);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 232);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&keys);
 	zephir_array_keys(&keys, &phrases TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&min, "min", NULL, 231, &keys);
+	ZEPHIR_CALL_FUNCTION(&min, "min", NULL, 233, &keys);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&max, "max", NULL, 63, &keys);
 	zephir_check_call_status();
 	_0 = 1 != zephir_is_numeric(code);
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "is_float", NULL, 180, code);
+		ZEPHIR_CALL_FUNCTION(&_1, "is_float", NULL, 182, code);
 		zephir_check_call_status();
 		_0 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	}
@@ -854,7 +854,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SVSVSVS(&_5$$3, "Invalid status code '", code, "', (allowed values ", &min, "-", &max, ")");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 232, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 234, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/http/message/response.zep", 490 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -977,7 +977,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processProtocol) {
 		object_init_ex(&_1$$4, spl_ce_InvalidArgumentException);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "Unsupported protocol ", protocol);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 232, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 234, &_2$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/http/message/response.zep", 545 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -1025,10 +1025,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, processStream) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	if (zephir_has_constructor(return_value TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, body, &mode);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 235, body, &mode);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

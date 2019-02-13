@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_http_message_stream_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream);
 
+PHP_METHOD(Phalcon_Http_Message_Stream, __construct);
 PHP_METHOD(Phalcon_Http_Message_Stream, __toString);
 PHP_METHOD(Phalcon_Http_Message_Stream, close);
 PHP_METHOD(Phalcon_Http_Message_Stream, detach);
@@ -16,6 +17,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, isWritable);
 PHP_METHOD(Phalcon_Http_Message_Stream, read);
 PHP_METHOD(Phalcon_Http_Message_Stream, rewind);
 PHP_METHOD(Phalcon_Http_Message_Stream, seek);
+PHP_METHOD(Phalcon_Http_Message_Stream, setStream);
 PHP_METHOD(Phalcon_Http_Message_Stream, tell);
 PHP_METHOD(Phalcon_Http_Message_Stream, write);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkHandle);
@@ -23,6 +25,11 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkReadable);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkSeekable);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable);
 zend_object *zephir_init_properties_Phalcon_Http_Message_Stream(zend_class_entry *class_type TSRMLS_DC);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, stream)
+	ZEND_ARG_INFO(0, mode)
+ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream___tostring, 0, 0, IS_STRING, 0)
@@ -90,6 +97,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_seek, 0, 0, 1)
 	ZEND_ARG_INFO(0, whence)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_setstream, 0, 0, 1)
+	ZEND_ARG_INFO(0, stream)
+	ZEND_ARG_INFO(0, mode)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_tell, 0, 0, IS_LONG, 0)
 #else
@@ -138,6 +150,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_checkwritable, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_method_entry) {
+	PHP_ME(Phalcon_Http_Message_Stream, __construct, arginfo_phalcon_http_message_stream___construct, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Message_Stream, __toString, arginfo_phalcon_http_message_stream___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, close, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, detach, NULL, ZEND_ACC_PUBLIC)
@@ -151,6 +164,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Stream, read, arginfo_phalcon_http_message_stream_read, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, rewind, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, seek, arginfo_phalcon_http_message_stream_seek, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Stream, setStream, arginfo_phalcon_http_message_stream_setstream, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, tell, arginfo_phalcon_http_message_stream_tell, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, write, arginfo_phalcon_http_message_stream_write, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, checkHandle, arginfo_phalcon_http_message_stream_checkhandle, ZEND_ACC_PRIVATE)
