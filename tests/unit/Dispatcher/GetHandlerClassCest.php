@@ -24,72 +24,47 @@ class GetHandlerClassCest
      * Tests Phalcon\Dispatcher :: getHandlerClass()
      *
      * @param UnitTester $I
+     * @param array $entry
+     * @dataProvider getTestCases
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function dispatcherGetHandlerClass(UnitTester $I)
+    public function dispatcherGetHandlerClass(UnitTester $I, array $entry)
     {
         $I->wantToTest('Dispatcher - getHandlerClass()');
 
         $dispatcher = new Dispatcher();
 
         // test the handler name
-        $dispatcher->setNamespaceName('');
-        $dispatcher->setHandlerSuffix('');
-
-        $dispatcher->setControllerName('hello');
+        $dispatcher->setNamespaceName($entry[0]);
+        $dispatcher->setControllerName($entry[1]);
+        $dispatcher->setHandlerSuffix($entry[2]);
         $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('Hello', $actualHandler);
+        $I->assertEquals($entry[3], $actualHandler);
+    }
 
-        $dispatcher->setControllerName('hello-phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('HelloPhalcon', $actualHandler);
-
-        $dispatcher->setControllerName('hello_phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('HelloPhalcon', $actualHandler);
-
-        $dispatcher->setControllerName('HelloPhalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('HelloPhalcon', $actualHandler);
-
-        $dispatcher->setControllerName('Hello\\Phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('Hello\\Phalcon', $actualHandler);
-
-        // test the suffix
-        $dispatcher->setHandlerSuffix('Ctrl');
-
-        $dispatcher->setControllerName('hello');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('HelloCtrl', $actualHandler);
-
-        $dispatcher->setControllerName('hello-phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('HelloPhalconCtrl', $actualHandler);
-
-        $dispatcher->setControllerName('hello_phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('HelloPhalconCtrl', $actualHandler);
-
-        $dispatcher->setControllerName('Hello\\Phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('Hello\\PhalconCtrl', $actualHandler);
-
-        $dispatcher->setControllerName('hello_ns\\Phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('hello_ns\\PhalconCtrl', $actualHandler);
-
-        // test the namespace
-        $dispatcher->setNamespaceName('App');
-        $dispatcher->setControllerName('hello');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('App\\HelloCtrl', $actualHandler);
-
-        $dispatcher->setNamespaceName('Ola\\');
-        $dispatcher->setControllerName('phalcon');
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals('Ola\\PhalconCtrl', $actualHandler);
+    private function getTestCases()
+    {
+        return [
+            ['', 'hello', '', 'Hello'],
+            ['', 'hello-phalcon', '', 'HelloPhalcon'],
+            ['', 'hello_phalcon', '', 'HelloPhalcon'],
+            ['', 'HelloPhalcon', '', 'HelloPhalcon'],
+            ['', 'Hello\\Phalcon', '', 'Hello\\Phalcon'],
+            ['', 'non_std\\Phalcon', '', 'non_std\\Phalcon'],
+            // include the suffix
+            ['', 'hello', 'Ctrl', 'HelloCtrl'],
+            ['', 'hello-phalcon', 'Ctrl', 'HelloPhalconCtrl'],
+            ['', 'hello_phalcon', 'Ctrl', 'HelloPhalconCtrl'],
+            ['', 'HelloPhalcon', 'Ctrl', 'HelloPhalconCtrl'],
+            ['', 'Hello\\Phalcon', 'Ctrl', 'Hello\\PhalconCtrl'],
+            // include the namespace
+            ['Ola', 'hello', 'Ctrl', 'Ola\\HelloCtrl'],
+            ['Ola', 'hello-phalcon', 'Ctrl', 'Ola\\HelloPhalconCtrl'],
+            ['ola\\', 'hello_phalcon', 'Ctrl', 'ola\\HelloPhalconCtrl'],
+            ['ola_phalcon\\', 'HelloPhalcon', 'Ctrl', 'ola_phalcon\\HelloPhalconCtrl'],
+            ['Ola\\', 'Hello\\Phalcon', 'Ctrl', 'Ola\\Hello\\PhalconCtrl'],
+        ];
     }
 }
