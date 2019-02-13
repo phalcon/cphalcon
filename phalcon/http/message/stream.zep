@@ -42,6 +42,14 @@ class Stream implements StreamInterface
 	 */
 	protected metadata = [];
 
+	/**
+	 * Constructor
+	 */
+	private function __construct(var stream, var mode = "r") -> void
+	{
+		this->setStream(stream, mode);
+	}
+
     /**
      * Reads all data from the stream into a string, from the beginning to end.
      *
@@ -254,6 +262,30 @@ class Stream implements StreamInterface
 			throw new Exception(__METHOD__ . " - Cound not seek on the file pointer");
 		}
     }
+
+	/**
+	 * Sets the stream - existing instance
+	 */
+	public function setStream(var stream, var mode = "r") -> void
+	{
+		var handler;
+
+		try {
+			let handler = fopen(stream, mode);
+
+			if true !== is_resource(handler) || "stream" !== get_resource_type(handler) {
+				throw new Exception();
+			}
+
+			let this->handler = handler,
+				this->stream  = stream;
+
+		} catch \Exception {
+			throw new Exception(
+				method . " - The stream provided is not valid (string/resource) or could not be opened."
+			);
+		}
+	}
 
     /**
      * Returns the current position of the file read/write pointer
