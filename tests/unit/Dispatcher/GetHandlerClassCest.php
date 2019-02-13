@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Dispatcher;
 
+use Codeception\Example;
 use UnitTester;
 use Phalcon\Mvc\Dispatcher;
 
@@ -30,7 +31,7 @@ class GetHandlerClassCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function dispatcherGetHandlerClass(UnitTester $I, array $entry)
+    public function dispatcherGetHandlerClass(UnitTester $I, Example $entry)
     {
         $I->wantToTest('Dispatcher - getHandlerClass()');
 
