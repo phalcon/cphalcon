@@ -14,8 +14,9 @@
 
 namespace Phalcon\Http\Message;
 
-use Psr\Http\Message\StreamInterface;
+use Phalcon\Http\Message\Exception;
 use Phalcon\Utility;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Describes a data stream.
@@ -56,7 +57,17 @@ class Stream implements StreamInterface
      */
     public function __toString() -> string
     {
+    	try {
+			if true === this->isReadable() {
+				if true === this->isSeekable() {
+					this->rewind();
+				}
 
+				return this->getContents();
+			}
+		}
+
+		return "";
     }
 
     /**
@@ -66,7 +77,7 @@ class Stream implements StreamInterface
     {
     	var handle;
 
-		if this->handle {
+		if null !== this->handle {
 			let handle = this->detach();
 			fclose(handle);
 		}
@@ -104,6 +115,18 @@ class Stream implements StreamInterface
      */
     public function getContents() -> string
     {
+		var data;
+
+		this->checkHandle(__METHOD__);
+		this->checkReadable(__METHOD__);
+
+		let data = stream_get_contents(this->handle);
+
+		if false === data {
+			throw new Exception(__METHOD__ . " - Could not read from the file/stream");
+		}
+
+		return data;
 
     }
 
@@ -113,9 +136,21 @@ class Stream implements StreamInterface
      * The keys returned are identical to the keys returned from PHP's
      * stream_get_meta_data() function.
      */
-    public function getMetadata(var key = null) -> var
+    public function getMetadata(var key = null) -> null | var
     {
+    	var metadata;
 
+		if null === this->handle {
+			return null;
+		}
+
+		let metadata = stream_get_meta_data(this->handle);
+
+		if null === key {
+			return metadata;
+		}
+
+		return Utility::arrayGetDefault(key, metadata, null);
     }
 
     /**
@@ -125,7 +160,7 @@ class Stream implements StreamInterface
     {
 		var stats;
 
-		if this->handle {
+		if null !== this->handle {
 			let stats = fstat(this->handle);
 			if false !== stats {
 				return Utility::arrayGetDefault("size", stats, null);
@@ -140,7 +175,11 @@ class Stream implements StreamInterface
      */
     public function isReadable() -> bool
     {
+		var mode;
 
+		let mode = this->getMetadata("mode");
+
+		return (false !== strpos(mode, "r") || false !== strpos(mode, "+"));
     }
 
     /**
@@ -156,7 +195,17 @@ class Stream implements StreamInterface
      */
     public function isWritable() -> bool
     {
+		var mode;
 
+		let mode = this->getMetadata("mode");
+
+		return (
+			false !== strpos(mode, "x") ||
+			false !== strpos(mode, "w") ||
+			false !== strpos(mode, "c") ||
+			false !== strpos(mode, "a") ||
+			false !== strpos(mode, "+")
+		);
     }
 
     /**
@@ -164,7 +213,18 @@ class Stream implements StreamInterface
      */
     public function read(var length)-> string
     {
+		var data;
 
+		this->checkHandle(__METHOD__);
+		this->checkReadable(__METHOD__);
+
+		let data = fread(this->handle, length);
+
+		if false === data {
+			throw new Exception(__METHOD__ . " - Could not read from the file/stream");
+		}
+
+		return data;
     }
 
     /**
@@ -183,7 +243,16 @@ class Stream implements StreamInterface
      */
     public function seek(var offset, var whence = 0) -> void
     {
+    	var seeker;
 
+		this->checkHandle(__METHOD__);
+		this->checkSeekable(__METHOD__);
+
+		let seeker = fseek(this->handle, offset, whence);
+
+		if 0 !== seeker {
+			throw new Exception(__METHOD__ . " - Cound not seek on the file pointer");
+		}
     }
 
     /**
@@ -191,7 +260,16 @@ class Stream implements StreamInterface
      */
     public function tell() -> int
     {
+    	var position;
 
+		this->checkHandle(__METHOD__);
+		let position = ftell(this->handle);
+
+		if true !== is_int(position) {
+			throw new Exception(__METHOD__ . " - Could not retrieve the pointer position");
+		}
+
+		return position;
     }
 
     /**
@@ -199,6 +277,57 @@ class Stream implements StreamInterface
      */
     public function write(var data) -> int
     {
+		var bytes;
 
+		this->checkHandle(__METHOD__);
+		this->checkWritable(__METHOD__);
+
+		let bytes = fwrite(this->handle, data);
+
+		if false === bytes {
+			throw new Exception(__METHOD__ . " - Could not write to the file/stream");
+		}
+
+		return bytes;
+    }
+
+	/**
+	 * Checks if a handle is available and throws an exception otherwise
+	 */
+    private function checkHandle(string method) -> void
+    {
+    	if null === this->handle {
+    		throw new Exception(method . " - A valid resource is required.");
+    	}
+    }
+
+	/**
+	 * Checks if a handle is readable and throws an exception otherwise
+	 */
+    private function checkReadable(string method) -> void
+    {
+    	if true !== this->isReadable() {
+    		throw new Exception(method . " - The resource is not readable.");
+    	}
+    }
+
+	/**
+	 * Checks if a handle is seekable and throws an exception otherwise
+	 */
+    private function checkSeekable(string method) -> void
+    {
+    	if true !== this->isSeekable() {
+    		throw new Exception(method . " - The resource is not seekable.");
+    	}
+    }
+
+	/**
+	 * Checks if a handle is writeable and throws an exception otherwise
+	 */
+    private function checkWritable(string method) -> void
+    {
+    	if true !== this->isWritable() {
+    		throw new Exception(method . " - The resource is not writable.");
+    	}
     }
 }

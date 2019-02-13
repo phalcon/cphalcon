@@ -37,14 +37,11 @@ use Phalcon\Utility;
 class Response implements ResponseInterface
 {
 	/**
+	 * Gets the body of the message.
+	 *
 	 * @var <StreamInterface>
 	 */
-	private body;
-
-	/**
-	 * @var int
-	 */
-	private code = 0;
+	private body { get };
 
 	/**
 	 * @var array
@@ -52,19 +49,39 @@ class Response implements ResponseInterface
 	private headers = [];
 
 	/**
-	 * @var array
-	 */
-	private names = [];
-
-	/**
+	 * Retrieves the HTTP protocol version as a string.
+	 *
+	 * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+	 *
 	 * @var string
 	 */
-	private protocol = "1.1";
+	private protocolVersion = "1.1" { get };
 
 	/**
+	 * Gets the response reason phrase associated with the status code.
+	 *
+	 * Because a reason phrase is not a required element in a response
+	 * status line, the reason phrase value MAY be empty. Implementations MAY
+	 * choose to return the default RFC 7231 recommended reason phrase (or those
+	 * listed in the IANA HTTP Status Code Registry) for the response's
+	 * status code.
+	 *
+	 * @see http://tools.ietf.org/html/rfc7231#section-6
+	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 *
 	 * @var string
 	 */
-	private reason = "";
+	private reasonPhrase = "" { get };
+
+	/**
+	 * Gets the response status code.
+	 *
+	 * The status code is a 3-digit integer result code of the server's attempt
+	 * to understand and satisfy the request.
+	 *
+	 * @var int
+	 */
+	private statusCode = 200 { get };
 
 	/**
 	 * Constructor
@@ -74,14 +91,6 @@ class Response implements ResponseInterface
 		this->processCode(code);
 		this->processStream(body, "w+");
 		this->processHeaders(headers);
-	}
-
-	/**
-	 * Gets the body of the message.
-	 */
-	public function getBody() -> <StreamInterface>
-	{
-		return this->body;
 	}
 
 	/**
@@ -169,44 +178,6 @@ class Response implements ResponseInterface
 		}
 
 		return headers;
-	}
-
-	/**
-	 * Retrieves the HTTP protocol version as a string.
-	 *
-	 * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
-	 */
-	public function getProtocolVersion() -> string
-	{
-		return this->protocol;
-	}
-
-	/**
-	 * Gets the response reason phrase associated with the status code.
-	 *
-	 * Because a reason phrase is not a required element in a response
-	 * status line, the reason phrase value MAY be empty. Implementations MAY
-	 * choose to return the default RFC 7231 recommended reason phrase (or those
-	 * listed in the IANA HTTP Status Code Registry) for the response's
-	 * status code.
-	 *
-	 * @see http://tools.ietf.org/html/rfc7231#section-6
-	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-	 */
-	public function getReasonPhrase() -> string
-	{
-		return this->reason;
-	}
-
-	/**
-	 * Gets the response status code.
-	 *
-	 * The status code is a 3-digit integer result code of the server's attempt
-	 * to understand and satisfy the request.
-	 */
-	public function getStatusCode() -> int
-	{
-		return this->code;
 	}
 
 	/**
@@ -314,15 +285,15 @@ class Response implements ResponseInterface
 
 		this->processProtocol(version);
 
-		if (version === this->protocol) {
+		if (version === this->protocolVersion) {
             return this;
         }
 
 		/**
 		 * Immutable - need to send a new object back
 		 */
-        let newInstance           = clone this;
-        let newInstance->protocol = version;
+        let newInstance                  = clone this;
+        let newInstance->protocolVersion = version;
 
         return newInstance;
 
@@ -346,7 +317,7 @@ class Response implements ResponseInterface
 	{
     	var newInstance;
 
-		if (code === this->code) {
+		if (code === this->statusCode) {
             return this;
         }
 
@@ -527,8 +498,8 @@ class Response implements ResponseInterface
 			let phrase = phrases[code];
 		}
 
-		let this->code   = code,
-			this->reason = phrase;
+		let this->statusCode   = code,
+			this->reasonPhrase = phrase;
 	}
 
 	/**

@@ -27,19 +27,6 @@ use Psr\Http\Message\UploadedFileInterface;
 class UploadedFile implements UploadedFileInterface
 {
 	/**
-	 * Constructor
-	 */
-	public function __construct(
-        var stream,
-        int size = null,
-        int error = 0,
-        string clientFilename = null,
-        string clientMediaType = null
-	) {
-
-	}
-
-	/**
 	 * Retrieve the filename sent by the client.
 	 *
 	 * Do not trust the value returned by this method. A client could send
@@ -49,13 +36,9 @@ class UploadedFile implements UploadedFileInterface
 	 * Implementations SHOULD return the value stored in the "name" key of
 	 * the file in the $_FILES array.
 	 *
-	 * @return string|null The filename sent by the client or null if none
-	 *     was provided.
+	 * @var string | null
 	 */
-	public function getClientFilename() -> null | string
-	{
-
-	}
+	private clientFilename = null { get };
 
 	/**
 	 * Retrieve the media type sent by the client.
@@ -67,13 +50,9 @@ class UploadedFile implements UploadedFileInterface
 	 * Implementations SHOULD return the value stored in the "type" key of
 	 * the file in the $_FILES array.
 	 *
-	 * @return string|null The media type sent by the client or null if none
-	 *     was provided.
+	 * @var string | null
 	 */
-	public function getClientMediaType() -> null | string
-	{
-
-	}
+	private clientMediaType = null { get };
 
 	/**
 	 * Retrieve the error associated with the uploaded file.
@@ -87,12 +66,10 @@ class UploadedFile implements UploadedFileInterface
 	 * the file in the $_FILES array.
 	 *
 	 * @see http://php.net/manual/en/features.file-upload.errors.php
-	 * @return int One of PHP's UPLOAD_ERR_XXX constants.
+	 *
+	 * @var int
 	 */
-	public function getError() -> int
-	{
-
-	}
+	private error = 0 { get };
 
 	/**
 	 * Retrieve the file size.
@@ -101,10 +78,20 @@ class UploadedFile implements UploadedFileInterface
 	 * the file in the $_FILES array if available, as PHP calculates this based
 	 * on the actual size transmitted.
 	 *
-	 * @return int|null The file size in bytes or null if unknown.
+	 * @var int | null
 	 */
-	public function getSize() -> null | int
-	{
+	private size = null { get };
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+        var stream,
+        int size = null,
+        int error = 0,
+        string clientFilename = null,
+        string clientMediaType = null
+	) {
 
 	}
 

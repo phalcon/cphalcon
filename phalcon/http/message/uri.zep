@@ -24,35 +24,74 @@ class Uri implements UriInterface
 	 */
 	private authority = "";
 
-	/**
-	 * @var string
-	 */
-	private fragment = "";
+    /**
+     * Retrieve the fragment component of the URI.
+     *
+     * @var string
+     */
+    private fragment = "" { get };
 
-	/**
-	 * @var string
-	 */
-	private host = "";
+    /**
+     * Retrieve the host component of the URI.
+     *
+     * If no host is present, this method MUST return an empty string.
+     *
+     * The value returned MUST be normalized to lowercase, per RFC 3986
+     * Section 3.2.2.
+     *
+     * @see http://tools.ietf.org/html/rfc3986#section-3.2.2
+     *
+     * @var string
+     */
+    private host = "" { get };
 
-	/**
-	 * @var string
-	 */
-	private path = "";
+    /**
+     * Retrieve the path component of the URI.
+     *
+     * @var string
+     */
+    private path = "" { get };
 
-	/**
-	 * @var int
-	 */
-	private port;
+    /**
+     * Retrieve the port component of the URI.
+     *
+     * If a port is present, and it is non-standard for the current scheme,
+     * this method MUST return it as an integer. If the port is the standard port
+     * used with the current scheme, this method SHOULD return null.
+     *
+     * If no port is present, and no scheme is present, this method MUST return
+     * a null value.
+     *
+     * If no port is present, but a scheme is present, this method MAY return
+     * the standard port for that scheme, but SHOULD return null.
+     *
+     * @var null | int
+     */
+    private port = null { get };
 
-	/**
-	 * @var string
-	 */
-	private query = "";
+    /**
+     * Retrieve the query string of the URI.
+     *
+     * @var string
+     */
+    private query = "" { get };
 
-	/**
-	 * @var string
-	 */
-	private scheme = "https";
+    /**
+     * Retrieve the scheme component of the URI.
+     *
+     * If no scheme is present, this method MUST return an empty string.
+     *
+     * The value returned MUST be normalized to lowercase, per RFC 3986
+     * Section 3.1.
+     *
+     * The trailing ":" character is not part of the scheme and MUST NOT be
+     * added.
+     *
+     * @see https://tools.ietf.org/html/rfc3986#section-3.1
+     *
+     * @var string
+     */
+    private scheme = "https" { get };
 
 	/**
 	 * @var string
@@ -207,85 +246,6 @@ class Uri implements UriInterface
     	}
 
     	return authority;
-    }
-
-    /**
-     * Retrieve the fragment component of the URI.
-     */
-    public function getFragment() -> string
-    {
-    	return this->fragment;
-    }
-
-    /**
-     * Retrieve the host component of the URI.
-     *
-     * If no host is present, this method MUST return an empty string.
-     *
-     * The value returned MUST be normalized to lowercase, per RFC 3986
-     * Section 3.2.2.
-     *
-     * @see http://tools.ietf.org/html/rfc3986#section-3.2.2
-     * @return string The URI host.
-     */
-    public function getHost() -> string
-    {
-    	return this->host;
-    }
-
-    /**
-     * Retrieve the path component of the URI.
-     */
-    public function getPath() -> string
-    {
-		return this->path;
-    }
-
-    /**
-     * Retrieve the port component of the URI.
-     *
-     * If a port is present, and it is non-standard for the current scheme,
-     * this method MUST return it as an integer. If the port is the standard port
-     * used with the current scheme, this method SHOULD return null.
-     *
-     * If no port is present, and no scheme is present, this method MUST return
-     * a null value.
-     *
-     * If no port is present, but a scheme is present, this method MAY return
-     * the standard port for that scheme, but SHOULD return null.
-     *
-     * @return null|int The URI port.
-     */
-    public function getPort() -> null | int
-    {
-		return this->port;
-    }
-
-    /**
-     * Retrieve the query string of the URI.
-     */
-    public function getQuery() -> string
-    {
-    	return this->query;
-    }
-
-    /**
-     * Retrieve the scheme component of the URI.
-     *
-     * If no scheme is present, this method MUST return an empty string.
-     *
-     * The value returned MUST be normalized to lowercase, per RFC 3986
-     * Section 3.1.
-     *
-     * The trailing ":" character is not part of the scheme and MUST NOT be
-     * added.
-     *
-     * @see https://tools.ietf.org/html/rfc3986#section-3.1
-     * @return string The URI scheme.
-     */
-    public function getScheme() -> string
-    {
-    	return this->scheme;
     }
 
     /**

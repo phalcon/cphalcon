@@ -205,7 +205,7 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null, e;
+		var service, eventsManager, instance = null;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -224,7 +224,7 @@ class Di implements DiInterface
 				 */
 				try {
 					let instance = service->resolve(parameters, this);
-				} catch ServiceResolutionException, e {
+				} catch ServiceResolutionException {
 					throw new Exception("Service '" . name . "' cannot be resolved");
 				}
 			} else {

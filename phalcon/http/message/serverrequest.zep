@@ -62,29 +62,120 @@ use Psr\Http\Message\UriInterface;
 class ServerRequest implements ServerRequestInterface
 {
 	/**
-	 * @var array
+	 * Retrieve attributes derived from the request.
+	 *
+	 * The request "attributes" may be used to allow injection of any
+	 * parameters derived from the request: e.g., the results of path
+	 * match operations; the results of decrypting cookies; the results of
+	 * deserializing non-form-encoded message bodies; etc. Attributes
+	 * will be application and request specific, and CAN be mutable.
+	 *
+	 * @var arrau
 	 */
-	private attributes = [];
+	private attributes = [] { get };
 
 	/**
-	 * @var array
+	 * Gets the body of the message.
+	 *
+	 * @var <StreamInterface>
 	 */
-	private cookies = [];
+	private body { get };
 
 	/**
+	 * Retrieve cookies.
+	 *
+	 * Retrieves cookies sent by the client to the server.
+	 *
+	 * The data MUST be compatible with the structure of the $_COOKIE
+	 * superglobal.
+	 *
 	 * @var array
 	 */
-	private files = [];
+	private cookieParams = [] { get };
 
 	/**
-	 * @var null | array | object
-	 */
-	private parsedBody;
-
-	/**
+	 * Retrieve query string arguments.
+	 *
+	 * Retrieves the deserialized query string arguments, if any.
+	 *
+	 * Note: the query params might not be in sync with the URI or server
+	 * params. If you need to ensure you are only getting the original
+	 * values, you may need to parse the query string from `getUri()->getQuery()`
+	 * or from the `QUERY_STRING` server param.
+	 *
 	 * @var array
 	 */
-	private query = [];
+	private queryParams = [] { get };
+
+
+	/**
+	 * Retrieves the HTTP method of the request.
+	 *
+	 * @var string
+	 */
+	private method = "GET" { get };
+
+	/**
+	 * Retrieve any parameters provided in the request body.
+	 *
+	 * If the request Content-Type is either application/x-www-form-urlencoded
+	 * or multipart/form-data, and the request method is POST, this method MUST
+	 * return the contents of $_POST.
+	 *
+	 * Otherwise, this method may return any results of deserializing
+	 * the request body content; as parsing returns structured content, the
+	 * potential types MUST be arrays or objects only. A null value indicates
+	 * the absence of body content.
+	 *
+	 * @var mixed
+	 */
+	private parsedBody { get };
+
+    /**
+     * Retrieves the HTTP protocol version as a string.
+     *
+     * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+     *
+     * @return string HTTP protocol version.
+     *
+     * @var string
+     */
+    private protocolVersion = "1.1" { get };
+
+	/**
+	 * Retrieve server parameters.
+	 *
+	 * Retrieves data related to the incoming request environment,
+	 * typically derived from PHP's $_SERVER superglobal. The data IS NOT
+	 * REQUIRED to originate from $_SERVER.
+	 *
+	 * @var array
+	 */
+	private serverParams = [] { get };
+
+	/**
+	 * Retrieve normalized file upload data.
+	 *
+	 * This method returns upload metadata in a normalized tree, with each leaf
+	 * an instance of Psr\Http\Message\UploadedFileInterface.
+	 *
+	 * These values MAY be prepared from $_FILES or the message body during
+	 * instantiation, or MAY be injected via withUploadedFiles().
+	 *
+	 * @var array
+	 */
+	private uploadedFiles = [] { get };
+
+	/**
+	 * Retrieves the URI instance.
+	 *
+	 * This method MUST return a UriInterface instance.
+	 *
+	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
+	 *
+	 * @var <UriInterface>
+	 */
+	private uri { get };
 
 	/**
 	 * Constructor
@@ -113,41 +204,6 @@ class ServerRequest implements ServerRequestInterface
 		}
 
 		return defaultValue;
-	}
-
-	/**
-	 * Retrieve attributes derived from the request.
-	 *
-	 * The request "attributes" may be used to allow injection of any
-	 * parameters derived from the request: e.g., the results of path
-	 * match operations; the results of decrypting cookies; the results of
-	 * deserializing non-form-encoded message bodies; etc. Attributes
-	 * will be application and request specific, and CAN be mutable.
-	 */
-	public function getAttributes() -> array
-	{
-		return this->attributes;
-	}
-
-    /**
-     * Gets the body of the message.
-     */
-    public function getBody() -> <StreamInterface>
-    {
-
-    }
-
-	/**
-	 * Retrieve cookies.
-	 *
-	 * Retrieves cookies sent by the client to the server.
-	 *
-	 * The data MUST be compatible with the structure of the $_COOKIE
-	 * superglobal.
-	 */
-	public function getCookieParams() -> array
-	{
-		return this->cookies;
 	}
 
     /**
@@ -224,63 +280,6 @@ class ServerRequest implements ServerRequestInterface
     }
 
 	/**
-	 * Retrieves the HTTP method of the request.
-	 *
-	 * @return string Returns the request method.
-	 */
-	public function getMethod() -> string
-	{
-
-	}
-
-	/**
-	 * Retrieve any parameters provided in the request body.
-	 *
-	 * If the request Content-Type is either application/x-www-form-urlencoded
-	 * or multipart/form-data, and the request method is POST, this method MUST
-	 * return the contents of $_POST.
-	 *
-	 * Otherwise, this method may return any results of deserializing
-	 * the request body content; as parsing returns structured content, the
-	 * potential types MUST be arrays or objects only. A null value indicates
-	 * the absence of body content.
-	 *
-	 * @return null|array|object The deserialized body parameters, if any.
-	 *     These will typically be an array or object.
-	 */
-	public function getParsedBody() -> var
-	{
-
-	}
-
-    /**
-     * Retrieves the HTTP protocol version as a string.
-     *
-     * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
-     *
-     * @return string HTTP protocol version.
-     */
-    public function getProtocolVersion() -> string
-    {
-
-    }
-
-	/**
-	 * Retrieve query string arguments.
-	 *
-	 * Retrieves the deserialized query string arguments, if any.
-	 *
-	 * Note: the query params might not be in sync with the URI or server
-	 * params. If you need to ensure you are only getting the original
-	 * values, you may need to parse the query string from `getUri()->getQuery()`
-	 * or from the `QUERY_STRING` server param.
-	 */
-	public function getQueryParams() -> array
-	{
-		return this->query;
-	}
-
-	/**
 	 * Retrieves the message's request target.
 	 *
 	 * Retrieves the message's request-target either as it will appear (for
@@ -297,47 +296,6 @@ class ServerRequest implements ServerRequestInterface
 	 * @return string
 	 */
 	public function getRequestTarget() -> string
-	{
-
-	}
-
-	/**
-	 * Retrieve server parameters.
-	 *
-	 * Retrieves data related to the incoming request environment,
-	 * typically derived from PHP's $_SERVER superglobal. The data IS NOT
-	 * REQUIRED to originate from $_SERVER.
-	 */
-	public function getServerParams() -> array
-	{
-
-	}
-
-	/**
-	 * Retrieve normalized file upload data.
-	 *
-	 * This method returns upload metadata in a normalized tree, with each leaf
-	 * an instance of Psr\Http\Message\UploadedFileInterface.
-	 *
-	 * These values MAY be prepared from $_FILES or the message body during
-	 * instantiation, or MAY be injected via withUploadedFiles().
-	 *
-	 * @return array An array tree of UploadedFileInterface instances; an empty
-	 *     array MUST be returned if no data is present.
-	 */
-	public function getUploadedFiles() -> array
-	{
-		return this->files;
-	}
-
-	/**
-	 * Retrieves the URI instance.
-	 *
-	 * This method MUST return a UriInterface instance.
-	 *
-	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
-	 */
-	public function getUri() -> <UriInterface>
 	{
 
 	}
