@@ -213,7 +213,7 @@ class Config implements \ArrayAccess, \Countable
 				let config = configParam;
 				break;
 			default:
-				throw new \Exception("Invalid data type for merge.");
+				throw new Exception("Invalid data type for merge.");
 		}
 
 		return this->_merge(config);
