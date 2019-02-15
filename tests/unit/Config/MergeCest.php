@@ -20,6 +20,8 @@ use UnitTester;
  */
 class MergeCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config :: merge()
      *
