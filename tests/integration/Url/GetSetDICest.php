@@ -10,30 +10,30 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Url;
+namespace Phalcon\Test\Integration\Url;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 
 /**
  * Class GetSetDICest
  *
- * @package Phalcon\Test\Integration\Mvc\Url
+ * @package Phalcon\Test\Integration\Url
  */
 class GetSetDICest
 {
     /**
-     * Tests Phalcon\Mvc\Url :: getDI()/setDI()
+     * Tests Phalcon\Url :: getDI()/setDI()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUrlGetSetDI(IntegrationTester $I)
+    public function urlGetSetDI(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Url - getDI()/setDI()");
+        $I->wantToTest("Url - getDI()/setDI()");
         $url       = new Url();
         $container = new Di();
 

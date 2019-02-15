@@ -10,10 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Url;
+namespace Phalcon\Test\Integration\Url;
 
 use IntegrationTester;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 
 /**
  * Class GetCest
@@ -21,16 +21,16 @@ use Phalcon\Mvc\Url;
 class GetCest
 {
     /**
-     * Tests Phalcon\Mvc\Url :: get()
+     * Tests Phalcon\Url :: get()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUrlGet(IntegrationTester $I)
+    public function urlGet(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Url - get()");
+        $I->wantToTest("Url - get()");
         $url = new Url();
 
         $url->setBaseUri('https://phalconphp.com');
