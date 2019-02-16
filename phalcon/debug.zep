@@ -10,6 +10,8 @@
 
 namespace Phalcon;
 
+use Phalcon\Utility;
+
 /**
  * Phalcon\Debug
  *
@@ -50,6 +52,11 @@ class Debug
 	protected uri = "https://assets.phalconphp.com/debug/4.0.x/";
 
 	/**
+	 * @var array
+	*/
+	protected blacklist = ["request" : [], "server" : []];
+
+	/**
 	 * Clears are variables added previously
 	 */
 	public function clearVars() -> <Debug>
@@ -75,9 +82,9 @@ class Debug
 		var uri, sources;
 
 		let uri = this->uri;
-		let sources  = "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\" />";
-		let sources .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css\" />";
-		let sources .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . uri . "themes/default/style.css\" />";
+		let sources  = "<link rel='stylesheet' type='text/css' href='" . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css' />";
+		let sources .= "<link rel='stylesheet' type='text/css' href='" . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css' />";
+		let sources .= "<link rel='stylesheet' type='text/css' href='" . uri . "themes/default/style.css' />";
 		return sources;
 	}
 
@@ -89,11 +96,11 @@ class Debug
 		var uri, sources;
 
 		let uri = this->uri;
-		let sources  = "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery/dist/jquery.min.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery-ui/jquery-ui.min.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "prettify/prettify.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "pretty.js\"></script>";
+		let sources  = "<script type='text/javascript' src='" . uri . "bower_components/jquery/dist/jquery.min.js'></script>";
+		let sources .= "<script type='text/javascript' src='" . uri . "bower_components/jquery-ui/jquery-ui.min.js'></script>";
+		let sources .= "<script type='text/javascript' src='" . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js'></script>";
+		let sources .= "<script type='text/javascript' src='" . uri . "prettify/prettify.js'></script>";
+		let sources .= "<script type='text/javascript' src='" . uri . "pretty.js'></script>";
 		return sources;
 	}
 
@@ -160,8 +167,9 @@ class Debug
 	 */
 	public function onUncaughtException(<\Exception> exception) -> bool
 	{
-		var obLevel, className, escapedMessage, html, showBackTrace,
-		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;
+		var blacklist, className, dataVar, dataVars, escapedMessage, html,
+			keyFile, keyRequest, keyServer, keyVar, n, showBackTrace, traceItem,
+			obLevel, value;
 
 		let obLevel = ob_get_level();
 
@@ -207,9 +215,9 @@ class Debug
 		/**
 		 * Main exception info
 		 */
-		let html .= "<div align=\"center\"><div class=\"error-main\">";
+		let html .= "<div align='center'><div class='error-main'>";
 		let html .= "<h1>" . className . ": " . escapedMessage . "</h1>";
-		let html .= "<span class=\"error-file\">" . exception->getFile() . " (" . exception->getLine() . ")</span>";
+		let html .= "<span class='error-file'>" . exception->getFile() . " (" . exception->getLine() . ")</span>";
 		let html .= "</div>";
 
 		let showBackTrace = this->showBackTrace;
@@ -224,21 +232,21 @@ class Debug
 			/**
 			 * Create the tabs in the page
 			 */
-			let html .= "<div class=\"error-info\"><div id=\"tabs\"><ul>";
-			let html .= "<li><a href=\"#error-tabs-1\">Backtrace</a></li>";
-			let html .= "<li><a href=\"#error-tabs-2\">Request</a></li>";
-			let html .= "<li><a href=\"#error-tabs-3\">Server</a></li>";
-			let html .= "<li><a href=\"#error-tabs-4\">Included Files</a></li>";
-			let html .= "<li><a href=\"#error-tabs-5\">Memory</a></li>";
+			let html .= "<div class='error-info'><div id='tabs'><ul>";
+			let html .= "<li><a href='#error-tabs-1'>Backtrace</a></li>";
+			let html .= "<li><a href='#error-tabs-2'>Request</a></li>";
+			let html .= "<li><a href='#error-tabs-3'>Server</a></li>";
+			let html .= "<li><a href='#error-tabs-4'>Included Files</a></li>";
+			let html .= "<li><a href='#error-tabs-5'>Memory</a></li>";
 			if typeof dataVars == "array" {
-				let html .= "<li><a href=\"#error-tabs-6\">Variables</a></li>";
+				let html .= "<li><a href='#error-tabs-6'>Variables</a></li>";
 			}
 			let html .= "</ul>";
 
 			/**
 			 * Print backtrace
 			 */
-			let html .= "<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\" width=\"100%\">";
+			let html .= "<div id='error-tabs-1'><table cellspacing='0' align='center' width='100%'>";
 			for n, traceItem in exception->getTrace()  {
 				/**
 				 * Every line in the trace is rendered using "showTraceItem"
@@ -250,13 +258,16 @@ class Debug
 			/**
 			 * Print _REQUEST superglobal
 			 */
-			let html .= "<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<div id='error-tabs-2'><table cellspacing='0' align='center' class='superglobal-detail'>";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
+			let blacklist = Utility::arrayGetDefault(this->blacklist, "request", []);
 			for keyRequest, value in _REQUEST {
-				if typeof value != "array" {
-					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
-				} else {
-					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
+				if true !== isset(blacklist[strtolower(keyRequest)]) {
+					if typeof value != "array" {
+						let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . value . "</td></tr>";
+					} else {
+						let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
+					}
 				}
 			}
 			let html .= "</table></div>";
@@ -264,17 +275,20 @@ class Debug
 			/**
 			 * Print _SERVER superglobal
 			 */
-			let html .= "<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<div id='error-tabs-3'><table cellspacing='0' align='center' class='superglobal-detail'>";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
+			let blacklist = Utility::arrayGetDefault(this->blacklist, "server", []);
 			for keyServer, value in _SERVER {
-				let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
+				if true !== isset(blacklist[strtolower(keyServer)]) {
+					let html .= "<tr><td class='key'>" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
+				}
 			}
 			let html .= "</table></div>";
 
 			/**
 			 * Show included files
 			 */
-			let html .= "<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+			let html .= "<div id='error-tabs-4'><table cellspacing='0' align='center' class='superglobal-detail'>";
 			let html .= "<tr><th>#</th><th>Path</th></tr>";
 			for keyFile, value in get_included_files() {
 				let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
@@ -284,18 +298,18 @@ class Debug
 			/**
 			 * Memory usage
 			 */
-			let html .= "<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-			let html .= "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>";
+			let html .= "<div id='error-tabs-5'><table cellspacing='0' align='center' class='superglobal-detail'>";
+			let html .= "<tr><th colspan='2'>Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>";
 			let html .= "</table></div>";
 
 			/**
 			 * Print extra variables passed to the component
 			 */
 			if typeof dataVars == "array" {
-				let html .= "<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
+				let html .= "<div id='error-tabs-6'><table cellspacing='0' align='center' class='superglobal-detail'>";
 				let html .= "<tr><th>Key</th><th>Value</th></tr>";
 				for keyVar, dataVar in dataVars {
-					let html .= "<tr><td class=\"key\">" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
+					let html .= "<tr><td class='key'>" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
 				}
 				let html .= "</table></div>";
 			}
@@ -334,6 +348,37 @@ class Debug
 	/**
 	 * Sets if files the exception's backtrace must be showed
 	 */
+	public function setBlacklist(array blacklist) -> <Debug>
+	{
+		var area, result, subArray, value;
+
+		let area     = Utility::arrayGetDefault(blacklist, "request", []),
+			subArray = [],
+			result   = [];
+
+		for value in area {
+			let value           = strtolower(value),
+				subArray[value] = 1;
+		}
+
+		let result["request"] = subArray,
+			area              = Utility::arrayGetDefault(blacklist, "server", []),
+			subArray          = [];
+
+		for value in area {
+			let value           = strtolower(value),
+				subArray[value] = 1;
+		}
+
+		let result["server"] = subArray,
+			this->blacklist = result;
+
+		return this;
+	}
+
+	/**
+	 * Sets if files the exception's backtrace must be showed
+	 */
 	public function setShowBackTrace(bool showBackTrace) -> <Debug>
 	{
 		let this->showBackTrace = showBackTrace;
@@ -367,15 +412,6 @@ class Debug
 		let this->uri = uri;
 		return this;
 	}
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * Escapes a string with htmlentities
@@ -521,7 +557,7 @@ class Debug
 		/**
 		 * Every trace in the backtrace have a unique number
 		 */
-		let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#" . n . "</td><td>";
+		let html = "<tr><td align='right' valign='top' class='error-number'>#" . n . "</td><td>";
 
 		if fetch className, trace["class"] {
 
@@ -533,12 +569,12 @@ class Debug
 				/**
 				 * Prepare the class name according to the Phalcon's conventions
 				 */
-				let prepareUriClass = str_replace("\\", "/", className);
+				let prepareUriClass = str_replace("\\", "_", className);
 
 				/**
 				 * Generate a link to the official docs
 				 */
-				let classNameWithLink = "<a target=\"_new\" href=\"//api.phalconphp.com/class/" . prepareUriClass . ".html\">" . className . "</a>";
+				let classNameWithLink = "<a target='_new' href='https://docs.phalconphp.com/4.0/en/api/" . prepareUriClass . "'>" . className . "</a>";
 			} else {
 
 				let classReflection = new \ReflectionClass(className);
@@ -553,13 +589,13 @@ class Debug
 					/**
 					 * Generate a link to the official docs
 					 */
-					let classNameWithLink = "<a target=\"_new\" href=\"http://php.net/manual/en/class." . prepareInternalClass . ".php\">" . className . "</a>";
+					let classNameWithLink = "<a target='_new' href='https://secure.php.net/manual/en/class." . prepareInternalClass . ".php'>" . className . "</a>";
 				} else {
 					let classNameWithLink = className;
 				}
 			}
 
-			let html .= "<span class=\"error-class\">" . classNameWithLink . "</span>";
+			let html .= "<span class='error-class'>" . classNameWithLink . "</span>";
 
 			/**
 			 * Object access operator: static/instance
@@ -590,7 +626,7 @@ class Debug
 					 * Prepare function's name according to the conventions in the docs
 					 */
 					let preparedFunctionName = str_replace("_", "-", functionName);
-					let functionNameWithLink = "<a target=\"_new\" href=\"http://php.net/manual/en/function." . preparedFunctionName . ".php\">" . functionName . "</a>";
+					let functionNameWithLink = "<a target='_new' href='https://secure.php.net/manual/en/function." . preparedFunctionName . ".php'>" . functionName . "</a>";
 				} else {
 					let functionNameWithLink = functionName;
 				}
@@ -599,7 +635,7 @@ class Debug
 			}
 		}
 
-		let html .= "<span class=\"error-function\">" . functionNameWithLink . "</span>";
+		let html .= "<span class='error-function'>" . functionNameWithLink . "</span>";
 
 		/**
 		 * Check for arguments in the function
@@ -613,7 +649,7 @@ class Debug
 				 * Every argument is generated using getVarDump
 				 * Append the HTML generated to the argument's list
 				 */
-				let arguments[] = "<span class=\"error-parameter\">" . this->getVarDump(argument) . "</span>";
+				let arguments[] = "<span class='error-parameter'>" . this->getVarDump(argument) . "</span>";
 			}
 
 			/**
@@ -632,7 +668,7 @@ class Debug
 			/**
 			 * Realpath to the file and its line using a special header
 			 */
-			let html .= "<br/><div class=\"error-file\">" . filez . " (" . line . ")</div>";
+			let html .= "<br/><div class='error-file'>" . filez . " (" . line . ")</div>";
 
 			let showFiles = this->showFiles;
 
@@ -681,11 +717,11 @@ class Debug
 						let lastLine = afterLine;
 					}
 
-					let html .= "<pre class=\"prettyprint highlight:" . firstLine . ":" . line . " linenums:" . firstLine . "\">";
+					let html .= "<pre class='prettyprint highlight:" . firstLine . ":" . line . " linenums:" . firstLine . "'>";
 				} else {
 					let firstLine = 1;
 					let lastLine = numberLines;
-					let html .= "<pre class=\"prettyprint highlight:" . firstLine . ":" . line . " linenums error-scroll\">";
+					let html .= "<pre class='prettyprint highlight:" . firstLine . ":" . line . " linenums error-scroll'>";
 				}
 
 				let i = firstLine;

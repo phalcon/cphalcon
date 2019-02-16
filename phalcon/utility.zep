@@ -20,7 +20,7 @@ class Utility
     /**
      * Helper method to get an array element or a default
      */
-    protected function arrayGetDefault(array parameters, string name, var defaultValue) -> var
+    public static function arrayGetDefault(array parameters, string name, var defaultValue) -> var
     {
         var value;
 
