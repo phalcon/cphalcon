@@ -32,7 +32,7 @@ use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Models\Manager as ModelsManager;
 use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Files as SessionFiles;

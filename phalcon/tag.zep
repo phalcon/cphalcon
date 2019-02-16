@@ -12,7 +12,7 @@ namespace Phalcon;
 
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
-use Phalcon\Mvc\UrlInterface;
+use Phalcon\UrlInterface;
 
 /**
  * Phalcon\Tag
