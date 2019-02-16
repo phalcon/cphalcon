@@ -45,7 +45,7 @@ class Stream implements StreamInterface
 	/**
 	 * Constructor
 	 */
-	private function __construct(var stream, var mode = "r") -> void
+	public function __construct(var stream, var mode = "r") -> void
 	{
 		this->setStream(stream, mode);
 	}
