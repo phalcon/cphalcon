@@ -201,8 +201,21 @@ class Config implements \ArrayAccess, \Countable
 	 * $globalConfig->merge($appConfig);
 	 *</code>
 	 */
-	public function merge(<Config> config) -> <Config>
+	public function merge(var configParam) -> <Config>
 	{
+		var config;
+
+		switch typeof configParam {
+			case "array":
+				let config = new Config(configParam);
+				break;
+			case "object":
+				let config = configParam;
+				break;
+			default:
+				throw new Exception("Invalid data type for merge.");
+		}
+
 		return this->_merge(config);
 	}
 
