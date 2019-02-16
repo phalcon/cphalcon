@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Config;
 
 use Phalcon\Config;
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 /**
