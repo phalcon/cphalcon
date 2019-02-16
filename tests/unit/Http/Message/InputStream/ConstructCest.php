@@ -32,7 +32,7 @@ class ConstructCest
     public function httpMessageInputStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\InputStream - __construct()');
-        $request = new InputStream();
+        $request = new InputStream("php://temp");
         $class   = StreamInterface::class;
         $I->assertInstanceOf($class, $request);
     }

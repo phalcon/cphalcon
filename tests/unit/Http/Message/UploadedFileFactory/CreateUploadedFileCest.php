@@ -34,7 +34,7 @@ class CreateUploadedFileCest
     {
         $I->wantToTest('Http\Message\UploadedFileFactory - createUploadedFile()');
         $factory = new UploadedFileFactory();
-        $stream  = new Stream();
+        $stream  = new Stream("php://temp");
         $file    = $factory->createUploadedFile($stream);
         $class   = UploadedFileInterface::class;
         $I->assertInstanceOf($class, $file);
