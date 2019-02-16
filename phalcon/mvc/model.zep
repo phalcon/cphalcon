@@ -1268,13 +1268,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var params, query;
 
-		if typeof parameters != "array" {
+		if null === parameters {
 			let params = [];
-			if parameters !== null {
-				let params[] = parameters;
-			}
-		} else {
+		} elseif typeof parameters === "array" {
 			let params = parameters;
+		} elseif (typeof parameters === "string" || true === is_numeric(parameters)) {
+			let params   = [];
+			let params[] = parameters;
+		} else {
+			throw new Exception("Parameters passed must be of type array, string, numeric or null");
 		}
 
 		let query = static::getPreparedQuery(params, 1);
