@@ -282,9 +282,6 @@ class Uri implements UriInterface
      * Implementations ensure the correct encoding as outlined in getFragment().
      *
      * An empty fragment value is equivalent to removing the fragment.
-     *
-     * @param string $fragment The fragment to use with the new instance.
-     * @return static          A new instance with the specified fragment.
      */
     public function withFragment(var fragment) -> <Uri>
     {
@@ -299,8 +296,6 @@ class Uri implements UriInterface
      *
      * An empty host value is equivalent to removing the host.
      *
-     * @param string $host The hostname to use with the new instance.
-     * @return static      A new instance with the specified host.
      * @throws \InvalidArgumentException for invalid hostnames.
      */
     public function withHost(var host) -> <Uri>
@@ -326,8 +321,6 @@ class Uri implements UriInterface
      * Users can provide both encoded and decoded path characters.
      * Implementations ensure the correct encoding as outlined in getPath().
      *
-     * @param string $path The path to use with the new instance.
-     * @return static      A new instance with the specified path.
      * @throws \InvalidArgumentException for invalid paths.
      */
     public function withPath(var path) -> <Uri>
@@ -363,9 +356,6 @@ class Uri implements UriInterface
      * A null value provided for the port is equivalent to removing the port
      * information.
      *
-     * @param null|int $port The port to use with the new instance; a null value
-     *                       removes the port information.
-     * @return static        A new instance with the specified port.
      * @throws \InvalidArgumentException for invalid ports.
      */
     public function withPort(var port) -> <Uri>
@@ -408,8 +398,6 @@ class Uri implements UriInterface
      *
      * An empty query string value is equivalent to removing the query string.
      *
-     * @param string $query The query string to use with the new instance.
-     * @return static       A new instance with the specified query string.
      * @throws \InvalidArgumentException for invalid query strings.
      */
     public function withQuery(var query) -> <Uri>
@@ -438,8 +426,6 @@ class Uri implements UriInterface
      *
      * An empty scheme is equivalent to removing the scheme.
      *
-     * @param string $scheme The scheme to use with the new instance.
-     * @return static        A new instance with the specified scheme.
      * @throws \InvalidArgumentException for invalid schemes.
      * @throws \InvalidArgumentException for unsupported schemes.
      */

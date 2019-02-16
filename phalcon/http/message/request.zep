@@ -55,8 +55,6 @@ class Request implements RequestInterface
 
 	/**
 	 * Gets the body of the message.
-	 *
-	 * @return StreamInterface Returns the body as a stream.
 	 */
 	public function getBody() -> <StreamInterface>
 	{
@@ -71,11 +69,6 @@ class Request implements RequestInterface
 	 *
 	 * If the header does not appear in the message, this method MUST return an
 	 * empty array.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @return string[] An array of string values as provided for the given
-	 *    header. If the header does not appear in the message, this method MUST
-	 *    return an empty array.
 	 */
 	public function getHeader(var name) -> array
 	{
@@ -95,11 +88,6 @@ class Request implements RequestInterface
 	 *
 	 * If the header does not appear in the message, this method MUST return
 	 * an empty string.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @return string A string of values as provided for the given header
-	 *    concatenated together using a comma. If the header does not appear in
-	 *    the message, this method MUST return an empty string.
 	 */
 	public function getHeaderLine(var name) -> string
 	{
@@ -126,10 +114,6 @@ class Request implements RequestInterface
 	 *
 	 * While header names are not case-sensitive, getHeaders() will preserve the
 	 * exact case in which headers were originally specified.
-	 *
-	 * @return string[][] Returns an associative array of the message's headers.
-	 *     Each key MUST be a header name, and each value MUST be an array of
-	 *     strings for that header.
 	 */
 	public function getHeaders() -> array
 	{
@@ -138,11 +122,6 @@ class Request implements RequestInterface
 
 	/**
 	 * Checks if a header exists by the given case-insensitive name.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @return bool Returns true if any header names match the given header
-	 *     name using a case-insensitive string comparison. Returns false if
-	 *     no matching header name is found in the message.
 	 */
 	public function hasHeader(var name) -> bool
 	{
@@ -198,8 +177,6 @@ class Request implements RequestInterface
 	 * This method MUST return a UriInterface instance.
 	 *
 	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
-	 * @return UriInterface Returns a UriInterface instance
-	 *     representing the URI of the request.
 	 */
 	public function getUri() -> <UriInterface>
 	{
@@ -216,12 +193,6 @@ class Request implements RequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * new header and/or value.
-	 *
-	 * @param string $name Case-insensitive header field name to add.
-	 * @param string|string[] $value Header value(s).
-	 * @return static
-	 * @throws \InvalidArgumentException for invalid header names.
-	 * @throws \InvalidArgumentException for invalid header values.
 	 */
 	public function withAddedHeader(var name, var value) -> <Request>
 	{
@@ -236,10 +207,6 @@ class Request implements RequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return a new instance that has the
 	 * new body stream.
-	 *
-	 * @param StreamInterface $body Body.
-	 * @return static
-	 * @throws \InvalidArgumentException When the body is not valid.
 	 */
 	public function withBody(<StreamInterface> body) -> <Request>
 	{
@@ -255,11 +222,6 @@ class Request implements RequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * new and/or updated header and value.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @param string|string[] $value Header value(s).
-	 * @return static
-	 * @throws \InvalidArgumentException for invalid header names or values.
 	 */
 	public function withHeader(var name, var value) -> <Request>
 	{
@@ -276,10 +238,6 @@ class Request implements RequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * changed request method.
-	 *
-	 * @param string $method Case-sensitive method.
-	 * @return static
-	 * @throws \InvalidArgumentException for invalid HTTP methods.
 	 */
 	public function withMethod(var method) -> <Request>
 	{
@@ -300,8 +258,6 @@ class Request implements RequestInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
 	 *     request-target forms allowed in request messages)
-	 * @param mixed $requestTarget
-	 * @return static
 	 */
 	public function withRequestTarget(var requestTarget) -> <Request>
 	{
@@ -334,9 +290,6 @@ class Request implements RequestInterface
 	 * new UriInterface instance.
 	 *
 	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
-	 * @param UriInterface $uri New request URI to use.
-	 * @param bool $preserveHost Preserve the original state of the Host header.
-	 * @return static
 	 */
 	public function withUri(<UriInterface> uri, var preserveHost = false) -> <Request>
 	{
@@ -351,9 +304,6 @@ class Request implements RequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that removes
 	 * the named header.
-	 *
-	 * @param string $name Case-insensitive header field name to remove.
-	 * @return static
 	 */
 	public function withoutHeader(var name) -> <Request>
 	{
@@ -369,9 +319,6 @@ class Request implements RequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * new protocol version.
-	 *
-	 * @param string $version HTTP protocol version
-	 * @return static
 	 */
 	public function withProtocolVersion(var version) -> <Request>
 	{

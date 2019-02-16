@@ -70,7 +70,7 @@ class ServerRequest implements ServerRequestInterface
 	 * deserializing non-form-encoded message bodies; etc. Attributes
 	 * will be application and request specific, and CAN be mutable.
 	 *
-	 * @var arrau
+	 * @var array
 	 */
 	private attributes = [] { get };
 
@@ -214,11 +214,6 @@ class ServerRequest implements ServerRequestInterface
      *
      * If the header does not appear in the message, this method MUST return an
      * empty array.
-     *
-     * @param string $name Case-insensitive header field name.
-     * @return string[] An array of string values as provided for the given
-     *    header. If the header does not appear in the message, this method MUST
-     *    return an empty array.
      */
     public function getHeader(var name) -> array
     {
@@ -238,11 +233,6 @@ class ServerRequest implements ServerRequestInterface
      *
      * If the header does not appear in the message, this method MUST return
      * an empty string.
-     *
-     * @param string $name Case-insensitive header field name.
-     * @return string A string of values as provided for the given header
-     *    concatenated together using a comma. If the header does not appear in
-     *    the message, this method MUST return an empty string.
      */
     public function getHeaderLine(var name) -> string
     {
@@ -269,10 +259,6 @@ class ServerRequest implements ServerRequestInterface
      *
      * While header names are not case-sensitive, getHeaders() will preserve the
      * exact case in which headers were originally specified.
-     *
-     * @return string[][] Returns an associative array of the message's headers.
-     *     Each key MUST be a header name, and each value MUST be an array of
-     *     strings for that header.
      */
     public function getHeaders() -> array
     {
@@ -289,11 +275,6 @@ class ServerRequest implements ServerRequestInterface
 	 * In most cases, this will be the origin-form of the composed URI,
 	 * unless a value was provided to the concrete implementation (see
 	 * withRequestTarget() below).
-	 *
-	 * If no URI is available, and no request-target has been specifically
-	 * provided, this method MUST return the string "/".
-	 *
-	 * @return string
 	 */
 	public function getRequestTarget() -> string
 	{
@@ -302,11 +283,6 @@ class ServerRequest implements ServerRequestInterface
 
     /**
      * Checks if a header exists by the given case-insensitive name.
-     *
-     * @param string $name Case-insensitive header field name.
-     * @return bool Returns true if any header names match the given header
-     *     name using a case-insensitive string comparison. Returns false if
-     *     no matching header name is found in the message.
      */
     public function hasHeader(var name) -> bool
     {
@@ -323,12 +299,6 @@ class ServerRequest implements ServerRequestInterface
      * This method MUST be implemented in such a way as to retain the
      * immutability of the message, and MUST return an instance that has the
      * new header and/or value.
-     *
-     * @param string $name Case-insensitive header field name to add.
-     * @param string|string[] $value Header value(s).
-     * @return static
-     * @throws \InvalidArgumentException for invalid header names.
-     * @throws \InvalidArgumentException for invalid header values.
      */
     public function withAddedHeader(var name, var value) -> <ServerRequest>
     {
@@ -344,11 +314,6 @@ class ServerRequest implements ServerRequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * updated attribute.
-	 *
-	 * @see getAttributes()
-	 * @param string $name The attribute name.
-	 * @param mixed $value The value of the attribute.
-	 * @return static
 	 */
 	public function withAttribute(var name, var value) -> <ServerRequest>
 	{
@@ -369,8 +334,6 @@ class ServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return a new instance that has the
      * new body stream.
      *
-     * @param StreamInterface $body Body.
-     * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
     public function withBody(<StreamInterface> body) -> <ServerRequest>
@@ -407,9 +370,6 @@ class ServerRequest implements ServerRequestInterface
      * immutability of the message, and MUST return an instance that has the
      * new and/or updated header and value.
      *
-     * @param string $name Case-insensitive header field name.
-     * @param string|string[] $value Header value(s).
-     * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
     public function withHeader(var name, var value) -> <ServerRequest>
@@ -425,9 +385,6 @@ class ServerRequest implements ServerRequestInterface
      * This method MUST be implemented in such a way as to retain the
      * immutability of the message, and MUST return an instance that removes
      * the named header.
-     *
-     * @param string $name Case-insensitive header field name to remove.
-     * @return static
      */
     public function withoutHeader(var name) -> <ServerRequest>
     {
@@ -474,9 +431,6 @@ class ServerRequest implements ServerRequestInterface
 	 * immutability of the message, and MUST return an instance that has the
 	 * updated body parameters.
 	 *
-	 * @param null|array|object $data The deserialized body data. This will
-	 *     typically be in an array or object.
-	 * @return static
 	 * @throws \InvalidArgumentException if an unsupported argument type is
 	 *     provided.
 	 */
@@ -494,9 +448,6 @@ class ServerRequest implements ServerRequestInterface
      * This method MUST be implemented in such a way as to retain the
      * immutability of the message, and MUST return an instance that has the
      * new protocol version.
-     *
-     * @param string $version HTTP protocol version
-     * @return static
      */
     public function withProtocolVersion(var version) -> <ServerRequest>
     {
@@ -520,10 +471,6 @@ class ServerRequest implements ServerRequestInterface
 	 * This method MUST be implemented in such a way as to retain the
 	 * immutability of the message, and MUST return an instance that has the
 	 * updated query string arguments.
-	 *
-	 * @param array $query Array of query string arguments, typically from
-	 *     $_GET.
-	 * @return static
 	 */
 	public function withQueryParams(array query) -> <ServerRequest>
 	{
@@ -544,8 +491,6 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
 	 *     request-target forms allowed in request messages)
-	 * @param mixed $requestTarget
-	 * @return static
 	 */
 	public function withRequestTarget(var requestTarget) -> <ServerRequest>
 	{
@@ -559,8 +504,6 @@ class ServerRequest implements ServerRequestInterface
 	 * immutability of the message, and MUST return an instance that has the
 	 * updated body parameters.
 	 *
-	 * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
-	 * @return static
 	 * @throws \InvalidArgumentException if an invalid structure is provided.
 	 */
 	public function withUploadedFiles(array uploadedFiles) -> <ServerRequest>

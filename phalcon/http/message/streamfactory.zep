@@ -67,8 +67,6 @@ class StreamFactory implements StreamFactoryInterface
      * Create a new stream from an existing resource.
      *
      * The stream MUST be readable and may be writable.
-     *
-     * @param resource $resource The PHP resource to use as the basis for the stream.
      */
     public function createStreamFromResource(var phpResource) -> <StreamInterface>
     {

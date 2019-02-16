@@ -101,11 +101,6 @@ class Response implements ResponseInterface
 	 *
 	 * If the header does not appear in the message, this method MUST return an
 	 * empty array.
-	 *
-	 * @param string $name Case-insensitive header field name.
-	 * @return string[] An array of string values as provided for the given
-	 *    header. If the header does not appear in the message, this method MUST
-	 *    return an empty array.
 	 */
 	public function getHeader(var name) -> array
 	{
@@ -468,6 +463,7 @@ class Response implements ResponseInterface
 
         return true;
 	}
+
 	/**
 	 * Set a valid status code and phrase
 	 */
