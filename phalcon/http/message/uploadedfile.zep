@@ -82,6 +82,8 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	private size = null { get };
 
+	private stream;
+
 	/**
 	 * Constructor
 	 */
@@ -92,7 +94,11 @@ class UploadedFile implements UploadedFileInterface
         string clientFilename = null,
         string clientMediaType = null
 	) {
-
+		let this->stream          = stream,
+			this->size            = size,
+			this->error           = error,
+			this->clientFilename  = clientFilename,
+			this->clientMediaType = clientMediaType;
 	}
 
 	/**
