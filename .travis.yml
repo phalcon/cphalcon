@@ -1,5 +1,5 @@
 sudo: false
-dist: xenial
+
 language: php
 php:
   # PHP 7.4 does not ready yet
