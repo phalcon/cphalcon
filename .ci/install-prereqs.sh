@@ -34,8 +34,8 @@ EOT
 # }}}
 
 # {{{ Install latest memcached
-printf "\n" | pecl install --force memcached 1> /dev/null
-echo 'extension="memcached.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/memcached.ini
+# printf "\n" | pecl install --force memcached 1> /dev/null
+# echo 'extension="memcached.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/memcached.ini
 # }}}
 
 # {{{ Install latest xdebug
