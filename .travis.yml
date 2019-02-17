@@ -1,6 +1,7 @@
-# sudo: false
+sudo: false
 
 language: php
+dist: xenial
 php:
   # PHP 7.4 is not ready yet
   # - 'master'
@@ -84,10 +85,6 @@ before_install:
     export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
     export PHP_VERNUM="$(php-config --vernum)"
     export PHP_PEAR_PHP_BIN=$(phpenv which php)
-  # Adding this because Travis decided that the mysql-5.7 is not authenticated
-  - curl -sSL "https://build.travis-ci.org/files/gpg/mysql-5.7-trusty.asc" | sudo -E apt-key add -
-  - echo "deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7" | sudo tee -a ${TRAVIS_ROOT}/etc/apt/sources.list >/dev/null
-  - sudo apt-get -yq --allow-unauthenticated --no-install-suggests --no-install-recommends $(travis_apt_get_options) install mysql-server mysql-client
 
 install:
   - tests/_ci/setup-dbs.sh
