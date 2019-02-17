@@ -47,7 +47,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Noop, phalcon, session_adapter_noop, phalcon_utility_ce, phalcon_session_adapter_noop_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Session\\Adapter, Noop, phalcon, session_adapter_noop, phalcon_session_adapter_noop_method_entry, 0);
 
 	/**
 	 * The connection of some adapters
