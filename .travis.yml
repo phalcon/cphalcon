@@ -43,7 +43,7 @@ cache:
     - ${HOME}/.local/opt
 
 services:
-  - mysql
+#  - mysql
   - beanstalkd
   - mongodb
   - redis-server
