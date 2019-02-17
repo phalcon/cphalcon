@@ -1,4 +1,4 @@
-sudo: false
+# sudo: false
 
 language: php
 php:
@@ -87,7 +87,7 @@ before_install:
   # Adding this because Travis decided that the mysql-5.7 is not authenticated
   - curl -sSL "https://build.travis-ci.org/files/gpg/mysql-5.7-trusty.asc" | sudo -E apt-key add -
   - echo "deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7" | sudo tee -a ${TRAVIS_ROOT}/etc/apt/sources.list >/dev/null
-  - apt-get -yq --allow-unauthenticated --no-install-suggests --no-install-recommends $(travis_apt_get_options) install mysql-server mysql-client
+  - sudo apt-get -yq --allow-unauthenticated --no-install-suggests --no-install-recommends $(travis_apt_get_options) install mysql-server mysql-client
 
 install:
   - tests/_ci/setup-dbs.sh
