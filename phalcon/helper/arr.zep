@@ -26,8 +26,6 @@ class Arr
     {
         var value;
 
-		Arr::checkIndex(index);
-
         if likely fetch value, collection[index] {
             return value;
         }
@@ -40,8 +38,6 @@ class Arr
      */
     final public static function has(array! collection, var index) -> bool
     {
-		Arr::checkIndex(index);
-
         return isset(collection[index]);
     }
 
@@ -53,23 +49,9 @@ class Arr
 		if null === index {
 			let collection[] = value;
 		} else {
-			Arr::checkIndex(index);
-
 			let collection[index] = value;
 		}
 
 		return collection;
-    }
-
-    /**
-     * Helper method to set an array element
-     *
-     * @throws Exception
-     */
-    final private static function checkIndex(var index) -> void
-    {
-		if typeof index !== "string" || true !== is_numeric(index) {
-			throw new Exception("The index must be of type string or numeric");
-		}
     }
 }
