@@ -41,16 +41,32 @@ use Phalcon\Utility;
 class Request implements RequestInterface
 {
 	/**
+	 * @var mixed
+	 */
+	private body;
+
+	/**
 	 * @var array
 	 */
 	private headers = [];
+
+	/**
+	 * @var string
+	 */
+	private method = "GET";
+
+
+	private uri;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct(var uri = null, string method = null, var body = "php://temp", array headers = [])
 	{
-
+		let this->uri     = uri,
+			this->method  = method,
+			this->body    = body,
+			this->headers = headers;
 	}
 
 	/**
