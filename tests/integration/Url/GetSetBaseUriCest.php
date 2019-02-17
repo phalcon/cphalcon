@@ -10,34 +10,36 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Url;
+namespace Phalcon\Test\Integration\Url;
 
 use IntegrationTester;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 
 /**
- * Class PathCest
+ * Class GetSetBaseUriCest
+ *
+ * @package Phalcon\Test\Integration\Url
  */
-class PathCest
+class GetSetBaseUriCest
 {
     /**
-     * Tests Phalcon\Mvc\Url :: path()
+     * Tests Phalcon\Url :: getBaseUri()/setBaseUri()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUrlPath(IntegrationTester $I)
+    public function urlGetSetBaseUri(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Url - path()");
+        $I->wantToTest("Url - getBaseUri()/setBaseUri()");
         $url = new Url();
 
-        $url->setBasePath('/en');
-        $path = '/en';
+        $path = 'https://phalconphp.com';
+        $url->setBaseUri($path);
 
-        $expected = '/en/team';
-        $actual   = $url->path('/team');
+        $expected = $path;
+        $actual   = $url->getBaseUri();
         $I->assertEquals($expected, $actual);
     }
 }

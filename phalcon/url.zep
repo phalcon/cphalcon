@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc;
+namespace Phalcon;
 
 use Phalcon\DiInterface;
-use Phalcon\Mvc\UrlInterface;
-use Phalcon\Mvc\Url\Exception;
+use Phalcon\UrlInterface;
+use Phalcon\Url\Exception;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
- * Phalcon\Mvc\Url
+ * Phalcon\Url
  *
  * This components helps in the generation of: URIs, URLs and Paths
  *
@@ -292,7 +292,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	{
 		let this->container = dependencyInjector;
 	}
-	
+
 	/**
 	 * Sets a prefix for all static URLs generated
 	 *

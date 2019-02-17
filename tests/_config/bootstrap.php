@@ -7,7 +7,7 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Test\Fixtures\MemorySession as PhalconMemorySession;
 

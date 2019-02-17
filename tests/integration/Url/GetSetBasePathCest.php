@@ -10,29 +10,29 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Url;
+namespace Phalcon\Test\Integration\Url;
 
 use IntegrationTester;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 
 /**
  * Class GetSetBasePathCest
  *
- * @package Phalcon\Test\Integration\Mvc\Url
+ * @package Phalcon\Test\Integration\Url
  */
 class GetSetBasePathCest
 {
     /**
-     * Tests Phalcon\Mvc\Url :: getBasePath()/setBasePath()
+     * Tests Phalcon\Url :: getBasePath()/setBasePath()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUrlGetSetBasePath(IntegrationTester $I)
+    public function urlGetSetBasePath(IntegrationTester $I)
     {
-        $I->wantToTest("Mvc\Url - getBasePath()/setBasePath()");
+        $I->wantToTest("Url - getBasePath()/setBasePath()");
         $url = new Url();
 
         $path = '/en/team';
