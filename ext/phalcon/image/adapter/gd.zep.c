@@ -805,7 +805,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_LONG(&_1, (-18 + ((amount * 0.08))));
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 190, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 189, &_1);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, 2);
 	zephir_round(&_0, &_2, &_1, NULL TSRMLS_CC);
@@ -916,7 +916,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _reflection) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_DOUBLE(&_1, ((zephir_safe_div_long_long((opacity * 127), 100 TSRMLS_CC)) - (double) (127)));
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 190, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 189, &_1);
 	zephir_check_call_status();
 	zephir_round(&_0, &_2, NULL, NULL TSRMLS_CC);
 	opacity = zephir_get_intval(&_0);
@@ -1055,7 +1055,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 	if (opacity < 100) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_DOUBLE(&_4$$3, ((zephir_safe_div_long_long((opacity * 127), 100 TSRMLS_CC)) - (double) (127)));
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "abs", NULL, 190, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "abs", NULL, 189, &_4$$3);
 		zephir_check_call_status();
 		zephir_round(&_3$$3, &_5$$3, NULL, NULL TSRMLS_CC);
 		opacity = zephir_get_intval(&_3$$3);
@@ -1154,7 +1154,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _text) {
 	s5 = 0;
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_DOUBLE(&_1, ((zephir_safe_div_long_long((opacity * 127), 100 TSRMLS_CC)) - (double) (127)));
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 190, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 189, &_1);
 	zephir_check_call_status();
 	zephir_round(&_0, &_2, NULL, NULL TSRMLS_CC);
 	opacity = zephir_get_intval(&_0);
@@ -1194,11 +1194,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _text) {
 			return;
 		}
 		ZVAL_LONG(&_3$$3, (s4 - s0));
-		ZEPHIR_CALL_FUNCTION(&_12$$3, "abs", NULL, 190, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_12$$3, "abs", NULL, 189, &_3$$3);
 		zephir_check_call_status();
 		width = (zephir_get_numberval(&_12$$3) + 10);
 		ZVAL_LONG(&_3$$3, (s5 - s1));
-		ZEPHIR_CALL_FUNCTION(&_13$$3, "abs", NULL, 190, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_13$$3, "abs", NULL, 189, &_3$$3);
 		zephir_check_call_status();
 		height = (zephir_get_numberval(&_13$$3) + 10);
 		if (offsetX < 0) {

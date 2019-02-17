@@ -94,9 +94,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_getdi, 0, 0, IS_OBJE
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_geturlservice, 0, 0, Phalcon\\UrlInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_geturlservice, 0, 0, Phalcon\\Mvc\\UrlInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_geturlservice, 0, 0, IS_OBJECT, "Phalcon\\UrlInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_geturlservice, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\UrlInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
