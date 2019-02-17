@@ -18,14 +18,14 @@ branches:
 
 addons:
   apt:
-    sources:
-      - mysql-5.7-trusty
+#    sources:
+#      - mysql-5.7-trusty
     packages:
       - beanstalkd
       - gdb
       - lcov
-      - mysql-server
-      - mysql-client
+#      - mysql-server
+#      - mysql-client
   postgresql: "9.4"
 
 matrix:
