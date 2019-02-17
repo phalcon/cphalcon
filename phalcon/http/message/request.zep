@@ -17,7 +17,6 @@ namespace Phalcon\Http\Message;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use Phalcon\Utility;
 
 /**
  * Representation of an outgoing, client-side request.

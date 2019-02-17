@@ -14,8 +14,8 @@
 
 namespace Phalcon\Http\Message;
 
+use Phalcon\Helper\Arr;
 use Psr\Http\Message\UriInterface;
-use Phalcon\Utility;
 
 class Uri implements UriInterface
 {
@@ -120,14 +120,14 @@ class Uri implements UriInterface
 			/**
 			 * Assign the parsed uri to the properties
 			 */
-			let scheme   = Utility::arrayGetDefault("scheme", urlParts, ""),
-				host     = Utility::arrayGetDefault("host", urlParts, ""),
-				port     = Utility::arrayGetDefault("port", urlParts, null),
-				user     = Utility::arrayGetDefault("user", urlParts, ""),
-				pass     = Utility::arrayGetDefault("pass", urlParts, ""),
-				path     = Utility::arrayGetDefault("path", urlParts, ""),
-				query    = Utility::arrayGetDefault("query", urlParts, ""),
-				fragment = Utility::arrayGetDefault("fragment", urlParts, "");
+			let scheme   = Arr::get(urlParts, "scheme", ""),
+				host     = Arr::get(urlParts, "host", ""),
+				port     = Arr::get(urlParts, "port", null),
+				user     = Arr::get(urlParts, "user", ""),
+				pass     = Arr::get(urlParts, "pass", ""),
+				path     = Arr::get(urlParts, "path", ""),
+				query    = Arr::get(urlParts, "query", ""),
+				fragment = Arr::get(urlParts, "fragment", "");
 
 			let this->scheme   = this->filterScheme(scheme),
 				this->host     = strtolower(host),

@@ -14,8 +14,8 @@
 
 namespace Phalcon\Http\Message;
 
+use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Exception;
-use Phalcon\Utility;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -158,7 +158,7 @@ class Stream implements StreamInterface
 			return metadata;
 		}
 
-		return Utility::arrayGetDefault(key, metadata, null);
+		return Arr::get(metadata, key, null);
     }
 
     /**
@@ -171,7 +171,7 @@ class Stream implements StreamInterface
 		if null !== this->handle {
 			let stats = fstat(this->handle);
 			if false !== stats {
-				return Utility::arrayGetDefault("size", stats, null);
+				return Arr::get(stats, "size", null);
 			}
 		}
 

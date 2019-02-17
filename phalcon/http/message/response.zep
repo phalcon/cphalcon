@@ -17,7 +17,6 @@ namespace Phalcon\Http\Message;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use Phalcon\Utility;
 
 /**
  * Representation of an outgoing, server-side response.

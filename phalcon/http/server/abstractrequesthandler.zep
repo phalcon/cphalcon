@@ -13,7 +13,6 @@ namespace Phalcon\Http\Server;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Phalcon\Utility;
 
 /**
  * Handles a server request and produces a response.
