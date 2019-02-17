@@ -453,6 +453,7 @@ zend_class_entry *phalcon_translate_exception_ce;
 zend_class_entry *phalcon_translate_factory_ce;
 zend_class_entry *phalcon_translate_interpolator_associativearray_ce;
 zend_class_entry *phalcon_translate_interpolator_indexedarray_ce;
+zend_class_entry *phalcon_url_ce;
 zend_class_entry *phalcon_url_exception_ce;
 zend_class_entry *phalcon_validation_ce;
 zend_class_entry *phalcon_validation_exception_ce;
@@ -908,6 +909,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Translate_Factory);
 	ZEPHIR_INIT(Phalcon_Translate_Interpolator_AssociativeArray);
 	ZEPHIR_INIT(Phalcon_Translate_Interpolator_IndexedArray);
+	ZEPHIR_INIT(Phalcon_Url);
 	ZEPHIR_INIT(Phalcon_Url_Exception);
 	ZEPHIR_INIT(Phalcon_Validation);
 	ZEPHIR_INIT(Phalcon_Validation_Exception);

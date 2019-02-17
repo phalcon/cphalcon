@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/string.h"
 
 
@@ -55,9 +55,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, Request, phalcon, http_message_request, phalcon_http_message_request_method_entry, 0);
 
 	/**
+	 * @var mixed
+	 */
+	zend_declare_property_null(phalcon_http_message_request_ce, SL("body"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_http_message_request_ce, SL("headers"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_http_message_request_ce, SL("method"), "GET", ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	zend_declare_property_null(phalcon_http_message_request_ce, SL("uri"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	phalcon_http_message_request_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Request;
 
@@ -108,13 +120,16 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	}
 
 
+	zephir_update_property_zval(this_ptr, SL("uri"), uri);
+	zephir_update_property_zval(this_ptr, SL("method"), &method);
+	zephir_update_property_zval(this_ptr, SL("body"), body);
+	zephir_update_property_zval(this_ptr, SL("headers"), &headers);
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * Gets the body of the message.
- *
- * @return StreamInterface Returns the body as a stream.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, getBody) {
 
@@ -132,11 +147,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getBody) {
  *
  * If the header does not appear in the message, this method MUST return an
  * empty array.
- *
- * @param string $name Case-insensitive header field name.
- * @return string[] An array of string values as provided for the given
- *    header. If the header does not appear in the message, this method MUST
- *    return an empty array.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, getHeader) {
 
@@ -165,11 +175,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getHeader) {
  *
  * If the header does not appear in the message, this method MUST return
  * an empty string.
- *
- * @param string $name Case-insensitive header field name.
- * @return string A string of values as provided for the given header
- *    concatenated together using a comma. If the header does not appear in
- *    the message, this method MUST return an empty string.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, getHeaderLine) {
 
@@ -205,10 +210,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getHeaderLine) {
  *
  * While header names are not case-sensitive, getHeaders() will preserve the
  * exact case in which headers were originally specified.
- *
- * @return string[][] Returns an associative array of the message's headers.
- *     Each key MUST be a header name, and each value MUST be an array of
- *     strings for that header.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, getHeaders) {
 
@@ -220,11 +221,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getHeaders) {
 
 /**
  * Checks if a header exists by the given case-insensitive name.
- *
- * @param string $name Case-insensitive header field name.
- * @return bool Returns true if any header names match the given header
- *     name using a case-insensitive string comparison. Returns false if
- *     no matching header name is found in the message.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, hasHeader) {
 
@@ -305,8 +301,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getRequestTarget) {
  * This method MUST return a UriInterface instance.
  *
  * @see http://tools.ietf.org/html/rfc3986#section-4.3
- * @return UriInterface Returns a UriInterface instance
- *     representing the URI of the request.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, getUri) {
 
@@ -326,12 +320,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getUri) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * new header and/or value.
- *
- * @param string $name Case-insensitive header field name to add.
- * @param string|string[] $value Header value(s).
- * @return static
- * @throws \InvalidArgumentException for invalid header names.
- * @throws \InvalidArgumentException for invalid header values.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withAddedHeader) {
 
@@ -356,10 +344,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withAddedHeader) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return a new instance that has the
  * new body stream.
- *
- * @param StreamInterface $body Body.
- * @return static
- * @throws \InvalidArgumentException When the body is not valid.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withBody) {
 
@@ -384,11 +368,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withBody) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * new and/or updated header and value.
- *
- * @param string $name Case-insensitive header field name.
- * @param string|string[] $value Header value(s).
- * @return static
- * @throws \InvalidArgumentException for invalid header names or values.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withHeader) {
 
@@ -415,10 +394,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withHeader) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * changed request method.
- *
- * @param string $method Case-sensitive method.
- * @return static
- * @throws \InvalidArgumentException for invalid HTTP methods.
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withMethod) {
 
@@ -448,8 +423,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withMethod) {
  *
  * @see http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
  *     request-target forms allowed in request messages)
- * @param mixed $requestTarget
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withRequestTarget) {
 
@@ -491,9 +464,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withRequestTarget) {
  * new UriInterface instance.
  *
  * @see http://tools.ietf.org/html/rfc3986#section-4.3
- * @param UriInterface $uri New request URI to use.
- * @param bool $preserveHost Preserve the original state of the Host header.
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withUri) {
 
@@ -523,9 +493,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withUri) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that removes
  * the named header.
- *
- * @param string $name Case-insensitive header field name to remove.
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withoutHeader) {
 
@@ -550,9 +517,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, withoutHeader) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * new protocol version.
- *
- * @param string $version HTTP protocol version
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_Request, withProtocolVersion) {
 

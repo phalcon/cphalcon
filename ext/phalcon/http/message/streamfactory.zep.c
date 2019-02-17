@@ -75,10 +75,10 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZVAL_STRING(&_0, "php://temp");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "r+");
-	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 78, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 79, &_0, &_1);
 	zephir_check_call_status();
 	zephir_fwrite(NULL, &tempResource, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 240, &tempResource);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 241, &tempResource);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 0, &tempResource);
 	zephir_check_call_status();
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 
 	ZEPHIR_INIT_VAR(&stream);
 	object_init_ex(&stream, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 235, &filename, &mode);
+	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 236, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_CCTOR(&stream);
 
@@ -135,8 +135,6 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
  * Create a new stream from an existing resource.
  *
  * The stream MUST be readable and may be writable.
- *
- * @param resource $resource The PHP resource to use as the basis for the stream.
  */
 PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
@@ -157,19 +155,19 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	_0 = 1 != Z_TYPE_P(phpResource) == IS_RESOURCE;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 79, phpResource);
+		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 80, phpResource);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "stream");
 		_0 = !ZEPHIR_IS_IDENTICAL(&_2, &_1);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 80);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 78);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&stream);
 	object_init_ex(&stream, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 235, phpResource);
+	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 236, phpResource);
 	zephir_check_call_status();
 	RETURN_CCTOR(&stream);
 

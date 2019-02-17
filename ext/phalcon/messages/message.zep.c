@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Messages_Message, __set_state) {
 	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
 	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
 	zephir_array_fetch_string(&_4, &message, SL("_metaData"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 301, &_0, &_1, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 338, &_0, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 

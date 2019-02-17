@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Logger_Factory, loadClass) {
 	ZEPHIR_INIT_NVAR(&adapter);
 	ZEPHIR_INIT_VAR(&logger);
 	object_init_ex(&logger, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, &logger, "__construct", NULL, 334, &loggerName);
+	ZEPHIR_CALL_METHOD(NULL, &logger, "__construct", NULL, 335, &loggerName);
 	zephir_check_call_status();
 	zephir_is_iterable(&adapters, 0, "phalcon/logger/factory.zep", 92);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _4, _5, _3)
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Logger_Factory, loadClass) {
 			ZEPHIR_CALL_METHOD(NULL, &adapter, "__construct", NULL, 0, &name);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(NULL, &logger, "addadapter", &_9, 335, &adapterName, &adapter);
+		ZEPHIR_CALL_METHOD(NULL, &logger, "addadapter", &_9, 336, &adapterName, &adapter);
 		zephir_check_call_status();
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&element);

@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -96,6 +96,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFile) {
 	 * @var int | null
 	 */
 	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("size"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("stream"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_message_uploadedfile_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfileinterface")));
 	return SUCCESS;
@@ -191,10 +193,11 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 
 	zval clientFilename, clientMediaType;
 	zend_long size, error;
-	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL;
+	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&stream_sub);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&clientFilename);
 	ZVAL_UNDEF(&clientMediaType);
 
@@ -225,6 +228,16 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 	}
 
 
+	zephir_update_property_zval(this_ptr, SL("stream"), stream);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(&_0, size);
+	zephir_update_property_zval(this_ptr, SL("size"), &_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(&_0, error);
+	zephir_update_property_zval(this_ptr, SL("error"), &_0);
+	zephir_update_property_zval(this_ptr, SL("clientFilename"), &clientFilename);
+	zephir_update_property_zval(this_ptr, SL("clientMediaType"), &clientMediaType);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -279,7 +292,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
  *
  * @see http://php.net/is_uploaded_file
  * @see http://php.net/move_uploaded_file
- * @param string $targetPath Path to which to move the uploaded file.
+ *
  * @throws \InvalidArgumentException if the $targetPath specified is invalid.
  * @throws \RuntimeException on any error during the move operation.
  * @throws \RuntimeException on the second or subsequent call to the method.

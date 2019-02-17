@@ -405,6 +405,7 @@
 #include "phalcon/translate/factory.zep.h"
 #include "phalcon/translate/interpolator/associativearray.zep.h"
 #include "phalcon/translate/interpolator/indexedarray.zep.h"
+#include "phalcon/url.zep.h"
 #include "phalcon/url/exception.zep.h"
 #include "phalcon/validation.zep.h"
 #include "phalcon/validation/exception.zep.h"

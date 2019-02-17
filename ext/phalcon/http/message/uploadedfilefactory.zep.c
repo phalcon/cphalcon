@@ -47,12 +47,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory) {
  * @link http://php.net/manual/features.file-upload.post-method.php
  * @link http://php.net/manual/features.file-upload.errors.php
  *
- * @param StreamInterface $stream The underlying stream representing the
- *     uploaded file content.
- * @param int $size The size of the file in bytes.
- * @param int $error The PHP file upload error.
- * @param string $clientFilename The filename as provided by the client, if any.
- * @param string $clientMediaType The media type as provided by the client, if any.
+ * @param StreamInterface $stream          The underlying stream representing the
+ *                                         uploaded file content.
+ * @param int             $size            The size of the file in bytes.
+ * @param int             $error           The PHP file upload error.
+ * @param string          $clientFilename  The filename as provided by the client, if any.
+ * @param string          $clientMediaType The media type as provided by the client, if any.
  *
  * @throws \InvalidArgumentException If the file resource is not readable.
  */
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	object_init_ex(&factory, phalcon_http_message_uploadedfile_ce);
 	ZVAL_LONG(&_0, size);
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 241, stream, &_0, &_1, &clientFilename, &clientMediaType);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 242, stream, &_0, &_1, &clientFilename, &clientMediaType);
 	zephir_check_call_status();
 	RETURN_CCTOR(&factory);
 

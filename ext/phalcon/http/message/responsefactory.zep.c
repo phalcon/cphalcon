@@ -41,10 +41,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
 /**
  * Create a new response.
  *
- * @param int $code The HTTP status code. Defaults to 200.
- * @param string $reasonPhrase The reason phrase to associate with the status code
- *     in the generated response. If none is provided, implementations MAY use
- *     the defaults as suggested in the HTTP specification.
+ * @param int    $code         The HTTP status code. Defaults to 200.
+ * @param string $reasonPhrase The reason phrase to associate with the status
+ *                             code in the generated response. If none is
+ *                             provided, implementations MAY use the defaults
+ *                             as suggested in the HTTP specification.
  */
 PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
@@ -76,10 +77,10 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	ZEPHIR_INIT_VAR(&factory);
 	object_init_ex(&factory, phalcon_http_message_response_ce);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 236);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 237);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(&newInstance, &factory, "withstatus", NULL, 237, &_0, &reasonPhrase);
+	ZEPHIR_CALL_METHOD(&newInstance, &factory, "withstatus", NULL, 238, &_0, &reasonPhrase);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
 

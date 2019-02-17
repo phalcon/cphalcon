@@ -82,7 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 * deserializing non-form-encoded message bodies; etc. Attributes
 	 * will be application and request specific, and CAN be mutable.
 	 *
-	 * @var arrau
+	 * @var array
 	 */
 	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("attributes"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
@@ -457,11 +457,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
  *
  * If the header does not appear in the message, this method MUST return an
  * empty array.
- *
- * @param string $name Case-insensitive header field name.
- * @return string[] An array of string values as provided for the given
- *    header. If the header does not appear in the message, this method MUST
- *    return an empty array.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeader) {
 
@@ -490,11 +485,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeader) {
  *
  * If the header does not appear in the message, this method MUST return
  * an empty string.
- *
- * @param string $name Case-insensitive header field name.
- * @return string A string of values as provided for the given header
- *    concatenated together using a comma. If the header does not appear in
- *    the message, this method MUST return an empty string.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaderLine) {
 
@@ -530,10 +520,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaderLine) {
  *
  * While header names are not case-sensitive, getHeaders() will preserve the
  * exact case in which headers were originally specified.
- *
- * @return string[][] Returns an associative array of the message's headers.
- *     Each key MUST be a header name, and each value MUST be an array of
- *     strings for that header.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders) {
 
@@ -553,11 +539,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders) {
  * In most cases, this will be the origin-form of the composed URI,
  * unless a value was provided to the concrete implementation (see
  * withRequestTarget() below).
- *
- * If no URI is available, and no request-target has been specifically
- * provided, this method MUST return the string "/".
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getRequestTarget) {
 
@@ -569,11 +550,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getRequestTarget) {
 
 /**
  * Checks if a header exists by the given case-insensitive name.
- *
- * @param string $name Case-insensitive header field name.
- * @return bool Returns true if any header names match the given header
- *     name using a case-insensitive string comparison. Returns false if
- *     no matching header name is found in the message.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, hasHeader) {
 
@@ -599,12 +575,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, hasHeader) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * new header and/or value.
- *
- * @param string $name Case-insensitive header field name to add.
- * @param string|string[] $value Header value(s).
- * @return static
- * @throws \InvalidArgumentException for invalid header names.
- * @throws \InvalidArgumentException for invalid header values.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAddedHeader) {
 
@@ -630,11 +600,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAddedHeader) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * updated attribute.
- *
- * @see getAttributes()
- * @param string $name The attribute name.
- * @param mixed $value The value of the attribute.
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
 
@@ -668,8 +633,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
  * immutability of the message, and MUST return a new instance that has the
  * new body stream.
  *
- * @param StreamInterface $body Body.
- * @return static
  * @throws \InvalidArgumentException When the body is not valid.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withBody) {
@@ -718,7 +681,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cookies");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 238, &cookies, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 239, &cookies, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -734,9 +697,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
  * immutability of the message, and MUST return an instance that has the
  * new and/or updated header and value.
  *
- * @param string $name Case-insensitive header field name.
- * @param string|string[] $value Header value(s).
- * @return static
  * @throws \InvalidArgumentException for invalid header names or values.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withHeader) {
@@ -762,9 +722,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withHeader) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that removes
  * the named header.
- *
- * @param string $name Case-insensitive header field name to remove.
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutHeader) {
 
@@ -829,9 +786,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withMethod) {
  * immutability of the message, and MUST return an instance that has the
  * updated body parameters.
  *
- * @param null|array|object $data The deserialized body data. This will
- *     typically be in an array or object.
- * @return static
  * @throws \InvalidArgumentException if an unsupported argument type is
  *     provided.
  */
@@ -851,7 +805,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parsedBody");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 238, data, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 239, data, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -866,9 +820,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * new protocol version.
- *
- * @param string $version HTTP protocol version
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withProtocolVersion) {
 
@@ -901,10 +852,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withProtocolVersion) {
  * This method MUST be implemented in such a way as to retain the
  * immutability of the message, and MUST return an instance that has the
  * updated query string arguments.
- *
- * @param array $query Array of query string arguments, typically from
- *     $_GET.
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
@@ -924,7 +871,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "query");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 238, &query, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 239, &query, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -944,8 +891,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
  *
  * @see http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
  *     request-target forms allowed in request messages)
- * @param mixed $requestTarget
- * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withRequestTarget) {
 
@@ -968,8 +913,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withRequestTarget) {
  * immutability of the message, and MUST return an instance that has the
  * updated body parameters.
  *
- * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
- * @return static
  * @throws \InvalidArgumentException if an invalid structure is provided.
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
@@ -990,7 +933,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "files");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 238, &uploadedFiles, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 239, &uploadedFiles, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
