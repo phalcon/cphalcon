@@ -2538,7 +2538,7 @@ class Compiler implements InjectionAwareInterface
 					let optionKey = "always";
 				} else {
 					let optionKey = "compileAlways";
-					trigger_error("The 'compileAlways' option is deprecated. Use 'always' instead.", E_DEPRECATED);
+					trigger_error("The 'compileAlways' option is deprecated. Use 'always' instead.", E_USER_DEPRECATED);
 				}
 				let compileAlways = options[optionKey];
 				if typeof compileAlways != "boolean" {
@@ -2564,7 +2564,7 @@ class Compiler implements InjectionAwareInterface
 					let optionKey = "path";
 				} else {
 					let optionKey = "compiledPath";
-					trigger_error("The 'compiledPath' option is deprecated. Use 'path' instead.", E_DEPRECATED);
+					trigger_error("The 'compiledPath' option is deprecated. Use 'path' instead.", E_USER_DEPRECATED);
 				}
 				let compiledPath = options[optionKey];
 				if typeof compiledPath != "string" {
@@ -2582,7 +2582,7 @@ class Compiler implements InjectionAwareInterface
 					let optionKey = "separator";
 				} else {
 					let optionKey = "compiledSeparator";
-					trigger_error("The 'compiledSeparator' option is deprecated. Use 'separator' instead.", E_DEPRECATED);
+					trigger_error("The 'compiledSeparator' option is deprecated. Use 'separator' instead.", E_USER_DEPRECATED);
 				}
 				let compiledPath = options[optionKey];
 				if typeof compiledSeparator != "string" {
@@ -2598,7 +2598,7 @@ class Compiler implements InjectionAwareInterface
 					let optionKey = "extension";
 				} else {
 					let optionKey = "compiledExtension";
-					trigger_error("The 'compiledExtension' option is deprecated. Use 'extension' instead.", E_DEPRECATED);
+					trigger_error("The 'compiledExtension' option is deprecated. Use 'extension' instead.", E_USER_DEPRECATED);
 				}
 				let compiledPath = options[optionKey];
 				if typeof compiledExtension != "string" {
