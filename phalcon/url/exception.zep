@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Url;
+namespace Phalcon\Url;
 
 /**
- * Phalcon\Mvc\Url\Exception
+ * Phalcon\Url\Exception
  *
- * Exceptions thrown in Phalcon\Mvc\Url will use this class
+ * Exceptions thrown in Phalcon\Url will use this class
  */
 class Exception extends \Phalcon\Exception
 {

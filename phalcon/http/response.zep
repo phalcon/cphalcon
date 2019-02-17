@@ -14,7 +14,7 @@ use Phalcon\DiInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
-use Phalcon\Mvc\UrlInterface;
+use Phalcon\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Di\InjectionAwareInterface;

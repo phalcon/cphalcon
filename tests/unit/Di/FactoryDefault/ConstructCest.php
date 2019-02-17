@@ -61,7 +61,7 @@ class ConstructCest
             'security'           => 'Phalcon\Security',
             'tag'                => 'Phalcon\Tag',
             'transactionManager' => 'Phalcon\Mvc\Model\Transaction\Manager',
-            'url'                => 'Phalcon\Mvc\Url',
+            'url'                => 'Phalcon\Url',
         ];
     }
 
