@@ -12,8 +12,8 @@ namespace Phalcon\Session\Adapter;
 
 use Phalcon\Cache\Backend\Libmemcached as CacheLibmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
+use Phalcon\Helper\Arr;
 use Phalcon\Session\Exception;
-use Phalcon\Utility;
 
 /**
  * Phalcon\Session\Adapter\Noop
@@ -63,10 +63,10 @@ class Libmemcached extends Noop
 			throw new Exception("No 'servers' specified in the options");
 		}
 
-		let client       = Utility::arrayGetDefault("client", options, []),
-			ttl          = Utility::arrayGetDefault("ttl", options, this->ttl),
-			statsKey     = Utility::arrayGetDefault("statsKey", options, ""),
-			persistentId = Utility::arrayGetDefault("persistent_id", options, "phalcon-session");
+		let client       = Arr::get(options, "client", []),
+			ttl          = Arr::get(options, "ttl", this->ttl),
+			statsKey     = Arr::get(options, "statsKey", ""),
+			persistentId = Arr::get(options, "persistent_id", "phalcon-session");
 
 
 		// Memcached has an internal max lifetime of 30 days

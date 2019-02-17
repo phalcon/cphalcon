@@ -409,17 +409,37 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
 PHP_METHOD(Phalcon_Config, merge) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, config_sub;
+	zval *configParam, configParam_sub, config, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&configParam_sub);
+	ZVAL_UNDEF(&config);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &config);
+	zephir_fetch_params(1, 1, 0, &configParam);
 
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 13, config);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_gettype(&_0, configParam TSRMLS_CC);
+	do {
+		if (ZEPHIR_IS_STRING(&_0, "array")) {
+			ZEPHIR_INIT_VAR(&config);
+			object_init_ex(&config, phalcon_config_ce);
+			ZEPHIR_CALL_METHOD(NULL, &config, "__construct", NULL, 12, configParam);
+			zephir_check_call_status();
+			break;
+		}
+		if (ZEPHIR_IS_STRING(&_0, "object")) {
+			ZEPHIR_CPY_WRT(&config, configParam);
+			break;
+		}
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Invalid data type for merge.", "phalcon/config.zep", 216);
+		return;
+	} while(0);
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 13, &config);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -454,7 +474,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(&arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 14, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 234);
+	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 247);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -637,7 +657,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 14, config);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 322);
+	zephir_is_iterable(&_0, 0, "phalcon/config.zep", 335);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 	{
 		ZEPHIR_INIT_NVAR(&key);

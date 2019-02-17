@@ -63,7 +63,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_config_merge, 0, 1, Phalc
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_merge, 0, 1, IS_OBJECT, "Phalcon\\Config", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, config, Phalcon\\Config, 0)
+	ZEND_ARG_INFO(0, configParam)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -953,7 +953,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 		if (ZEPHIR_IS_EMPTY(&registeredEngines)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 415, this_ptr, &dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 379, this_ptr, &dependencyInjector);
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_1$$4, PH_COPY | PH_SEPARATE);
 		} else {
@@ -1089,7 +1089,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	{
 		ZEPHIR_INIT_NVAR(&viewsDir);
 		ZVAL_COPY(&viewsDir, _2);
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "_isabsolutepath", &_4, 416, &viewPath);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "_isabsolutepath", &_4, 380, &viewPath);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_3$$3))) {
 			ZEPHIR_INIT_NVAR(&viewsDirPath);

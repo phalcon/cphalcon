@@ -120,12 +120,12 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/router.zep.c
 	phalcon/mvc/router/groupinterface.zep.c
 	phalcon/mvc/router/routeinterface.zep.c
-	phalcon/mvc/urlinterface.zep.c
 	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/paginator/repositoryinterface.zep.c
 	phalcon/session/baginterface.zep.c
 	phalcon/session/managerinterface.zep.c
+	phalcon/urlinterface.zep.c
 	phalcon/validation/combinedfieldsvalidator.zep.c
 	phalcon/validationinterface.zep.c
 	phalcon/acl.zep.c
@@ -262,6 +262,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/exception.zep.c
 	phalcon/forms/form.zep.c
 	phalcon/forms/manager.zep.c
+	phalcon/helper/arr.zep.c
+	phalcon/helper/exception.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c
@@ -368,8 +370,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/router/exception.zep.c
 	phalcon/mvc/router/group.zep.c
 	phalcon/mvc/router/route.zep.c
-	phalcon/mvc/url.zep.c
-	phalcon/mvc/url/exception.zep.c
 	phalcon/mvc/view.zep.c
 	phalcon/mvc/view/engine/php.zep.c
 	phalcon/mvc/view/engine/volt.zep.c
@@ -410,7 +410,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/factory.zep.c
 	phalcon/translate/interpolator/associativearray.zep.c
 	phalcon/translate/interpolator/indexedarray.zep.c
-	phalcon/utility.zep.c
+	phalcon/url/exception.zep.c
 	phalcon/validation.zep.c
 	phalcon/validation/exception.zep.c
 	phalcon/validation/validator/alnum.zep.c
@@ -469,7 +469,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/parser.c
 	phalcon/mvc/view/engine/volt/parser.c
 	phalcon/mvc/view/engine/volt/scanner.c
-	phalcon/mvc/url/utils.c"
+	phalcon/url/utils.c"
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared,, )
 	PHP_SUBST(PHALCON_SHARED_LIBADD)
 

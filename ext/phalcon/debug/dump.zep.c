@@ -656,7 +656,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZEPHIR_INIT_NVAR(&_18$$7);
 				ZVAL_STRING(&_18$$7, "");
 				ZVAL_LONG(&_19$$7, (tab + 1));
+<<<<<<< HEAD
 				ZEPHIR_CALL_METHOD(&_17$$7, this_ptr, "output", &_20, 179, &value, &_18$$7, &_19$$7);
+=======
+				ZEPHIR_CALL_METHOD(&_17$$7, this_ptr, "output", &_20, 167, &value, &_18$$7, &_19$$7);
+>>>>>>> T13687-debug-hide-vars
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_21$$7);
 				ZEPHIR_CONCAT_VS(&_21$$7, &_17$$7, "\n");
@@ -687,7 +691,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CALL_FUNCTION(&_25$$8, "strtr", NULL, 50, &_26$$8, &_24$$8);
 		zephir_check_call_status();
 		zephir_concat_self(&output, &_25$$8 TSRMLS_CC);
+<<<<<<< HEAD
 		ZEPHIR_CALL_FUNCTION(&_27$$8, "get_parent_class", NULL, 180, variable);
+=======
+		ZEPHIR_CALL_FUNCTION(&_27$$8, "get_parent_class", NULL, 168, variable);
+>>>>>>> T13687-debug-hide-vars
 		zephir_check_call_status();
 		if (zephir_is_true(&_27$$8)) {
 			ZEPHIR_INIT_VAR(&_28$$9);
@@ -697,7 +705,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_CALL_METHOD(&_29$$9, this_ptr, "getstyle", NULL, 0, &_30$$9);
 			zephir_check_call_status();
 			zephir_array_update_string(&_28$$9, SL(":style"), &_29$$9, PH_COPY | PH_SEPARATE);
+<<<<<<< HEAD
 			ZEPHIR_CALL_FUNCTION(&_29$$9, "get_parent_class", NULL, 180, variable);
+=======
+			ZEPHIR_CALL_FUNCTION(&_29$$9, "get_parent_class", NULL, 168, variable);
+>>>>>>> T13687-debug-hide-vars
 			zephir_check_call_status();
 			zephir_array_update_string(&_28$$9, SL(":parent"), &_29$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(&_30$$9);
@@ -755,7 +767,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZEPHIR_INIT_NVAR(&_44$$12);
 				ZVAL_STRING(&_44$$12, "");
 				ZVAL_LONG(&_40$$12, (tab + 1));
+<<<<<<< HEAD
 				ZEPHIR_CALL_METHOD(&_46$$12, this_ptr, "output", &_20, 179, &value, &_44$$12, &_40$$12);
+=======
+				ZEPHIR_CALL_METHOD(&_46$$12, this_ptr, "output", &_20, 167, &value, &_44$$12, &_40$$12);
+>>>>>>> T13687-debug-hide-vars
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_47$$12);
 				ZEPHIR_CONCAT_VS(&_47$$12, &_46$$12, "\n");
@@ -814,7 +830,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZEPHIR_INIT_NVAR(&_62$$14);
 				ZVAL_STRING(&_62$$14, "");
 				ZVAL_LONG(&_50$$14, (tab + 1));
+<<<<<<< HEAD
 				ZEPHIR_CALL_METHOD(&_64$$14, this_ptr, "output", &_20, 179, &_65$$14, &_62$$14, &_50$$14);
+=======
+				ZEPHIR_CALL_METHOD(&_64$$14, this_ptr, "output", &_20, 167, &_65$$14, &_62$$14, &_50$$14);
+>>>>>>> T13687-debug-hide-vars
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_67$$14);
 				ZEPHIR_CONCAT_VS(&_67$$14, &_64$$14, "\n");
@@ -822,7 +842,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			} ZEND_HASH_FOREACH_END();
 			ZEPHIR_INIT_NVAR(&property$$13);
 		}
+<<<<<<< HEAD
 		ZEPHIR_CALL_FUNCTION(&attr, "get_class_methods", NULL, 181, variable);
+=======
+		ZEPHIR_CALL_FUNCTION(&attr, "get_class_methods", NULL, 169, variable);
+>>>>>>> T13687-debug-hide-vars
 		zephir_check_call_status();
 		ZVAL_LONG(&_68$$8, tab);
 		ZEPHIR_CALL_FUNCTION(&_69$$8, "str_repeat", &_9, 141, &space, &_68$$8);
@@ -934,7 +958,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CONCAT_VV(return_value, &output, &_96$$20);
 		RETURN_MM();
 	}
+<<<<<<< HEAD
 	ZEPHIR_CALL_FUNCTION(&_98, "is_float", NULL, 182, variable);
+=======
+	ZEPHIR_CALL_FUNCTION(&_98, "is_float", NULL, 170, variable);
+>>>>>>> T13687-debug-hide-vars
 	zephir_check_call_status();
 	if (zephir_is_true(&_98)) {
 		ZEPHIR_INIT_VAR(&_99$$21);
@@ -981,9 +1009,15 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZVAL_LONG(&_108$$23, 4);
 		ZEPHIR_INIT_NVAR(&_107$$23);
 		ZVAL_STRING(&_107$$23, "utf-8");
+<<<<<<< HEAD
 		ZEPHIR_CALL_FUNCTION(&_106$$23, "htmlentities", NULL, 174, variable, &_108$$23, &_107$$23);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_109$$23, "nl2br", NULL, 183, &_106$$23);
+=======
+		ZEPHIR_CALL_FUNCTION(&_106$$23, "htmlentities", NULL, 162, variable, &_108$$23, &_107$$23);
+		zephir_check_call_status();
+		ZEPHIR_CALL_FUNCTION(&_109$$23, "nl2br", NULL, 171, &_106$$23);
+>>>>>>> T13687-debug-hide-vars
 		zephir_check_call_status();
 		zephir_array_update_string(&_105$$23, SL(":var"), &_109$$23, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_107$$23);

@@ -40,7 +40,14 @@ class Arr
 
 	/**
 	 * Helper method to add an element to an array with an optional key. Returns
+     */
+    final public static function has(array! collection, var index) -> bool
+    {
+        return isset(collection[index]);
+    }
 	 * the final array
+    /**
+     * Helper method to set an array element
 	 */
 	public static function set(var value, array collection = [], var key = null) -> array
 	{
