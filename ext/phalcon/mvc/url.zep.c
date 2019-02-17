@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -33,7 +33,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Url
+ * Phalcon\Mvc\Url
  *
  * This components helps in the generation of: URIs, URLs and Paths
  *
@@ -51,34 +51,34 @@
  * );
  *</code>
  */
-ZEPHIR_INIT_CLASS(Phalcon_Url) {
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Url, phalcon, url, phalcon_url_method_entry, 0);
-
-	/**
-	 * @var null | string
-	 */
-	zend_declare_property_null(phalcon_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc, Url, phalcon, mvc_url, phalcon_mvc_url_method_entry, 0);
 
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("basePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * @var null | string
+	 */
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("basePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * @var <DiInterface>
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_url_ce, SL("router"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("router"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("staticBaseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("staticBaseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_url_ce TSRMLS_CC, 1, phalcon_urlinterface_ce);
-	zend_class_implements(phalcon_url_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_url_ce TSRMLS_CC, 1, phalcon_mvc_urlinterface_ce);
+	zend_class_implements(phalcon_mvc_url_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -116,7 +116,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Url) {
  * );
  *</code>
  */
-PHP_METHOD(Phalcon_Url, get) {
+PHP_METHOD(Phalcon_Mvc_Url, get) {
 
 	unsigned char _20$$14, _22$$14, _27$$16;
 	zval strUri, _15$$14;
@@ -187,9 +187,9 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (local == 0) {
 		_0$$3 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0$$3) {
-			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/url.zep", 103);
+			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/mvc/url.zep", 103);
 			if (!(_1$$3)) {
-				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/url.zep", 103);
+				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/mvc/url.zep", 103);
 			}
 			_0$$3 = _1$$3;
 		}
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (Z_TYPE_P(uri) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&routeName);
 		if (!(zephir_array_isset_string_fetch(&routeName, uri, SL("for"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/url.zep", 121);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/mvc/url.zep", 121);
 			return;
 		}
 		zephir_read_property(&_6$$9, this_ptr, SL("router"), PH_NOISY_CC | PH_READONLY);
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Url, get) {
 			zephir_read_property(&_7$$11, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CPY_WRT(&dependencyInjector, &_7$$11);
 			if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "A dependency injector container is required to obtain the 'router' service", "phalcon/url.zep", 133);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the 'router' service", "phalcon/mvc/url.zep", 133);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_9$$11);
@@ -241,12 +241,12 @@ PHP_METHOD(Phalcon_Url, get) {
 		ZEPHIR_CPY_WRT(&route, &_10$$9);
 		if (Z_TYPE_P(&route) != IS_OBJECT) {
 			ZEPHIR_INIT_VAR(&_11$$13);
-			object_init_ex(&_11$$13, phalcon_url_exception_ce);
+			object_init_ex(&_11$$13, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(&_12$$13);
 			ZEPHIR_CONCAT_SVS(&_12$$13, "Cannot obtain a route using the name '", &routeName, "'");
 			ZEPHIR_CALL_METHOD(NULL, &_11$$13, "__construct", NULL, 4, &_12$$13);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_11$$13, "phalcon/url.zep", 145 TSRMLS_CC);
+			zephir_throw_exception_debug(&_11$$13, "phalcon/mvc/url.zep", 145 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Url, get) {
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 456, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 378, args);
 		zephir_check_call_status();
 		_28$$19 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_28$$19) {
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Url, get) {
 /**
  * Returns the base path
  */
-PHP_METHOD(Phalcon_Url, getBasePath) {
+PHP_METHOD(Phalcon_Mvc_Url, getBasePath) {
 
 	zval *this_ptr = getThis();
 
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Url, getBasePath) {
 /**
  * Returns the prefix for all the generated urls. By default /
  */
-PHP_METHOD(Phalcon_Url, getBaseUri) {
+PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 
 	zval *_SERVER, baseUri, phpSelf, uri, _0;
 	zval *this_ptr = getThis();
@@ -384,7 +384,7 @@ PHP_METHOD(Phalcon_Url, getBaseUri) {
 /**
  * Returns the DependencyInjector container
  */
-PHP_METHOD(Phalcon_Url, getDI) {
+PHP_METHOD(Phalcon_Mvc_Url, getDI) {
 
 	zval *this_ptr = getThis();
 
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Url, getDI) {
  * );
  *</code>
  */
-PHP_METHOD(Phalcon_Url, getStatic) {
+PHP_METHOD(Phalcon_Mvc_Url, getStatic) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri = NULL, uri_sub, __$null, _0, _1, _2;
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Url, getStatic) {
 /**
  * Returns the prefix for all the generated static urls. By default /
  */
-PHP_METHOD(Phalcon_Url, getStaticBaseUri) {
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri) {
 
 	zval staticBaseUri, _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -471,7 +471,7 @@ PHP_METHOD(Phalcon_Url, getStaticBaseUri) {
  * $url->setBasePath("/var/www/htdocs/");
  *</code>
  */
-PHP_METHOD(Phalcon_Url, setBasePath) {
+PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 
 	zval *basePath_param = NULL;
 	zval basePath;
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Url, setBasePath) {
  * $url->setBaseUri("/invo/index.php/");
  *</code>
  */
-PHP_METHOD(Phalcon_Url, setBaseUri) {
+PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 
 	zval *baseUri_param = NULL, _0;
 	zval baseUri;
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Url, setBaseUri) {
 /**
  * Sets the DependencyInjector container
  */
-PHP_METHOD(Phalcon_Url, setDI) {
+PHP_METHOD(Phalcon_Mvc_Url, setDI) {
 
 	zval *dependencyInjector, dependencyInjector_sub;
 	zval *this_ptr = getThis();
@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Url, setDI) {
  * $url->setStaticBaseUri("/invo/");
  *</code>
  */
-PHP_METHOD(Phalcon_Url, setStaticBaseUri) {
+PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 
 	zval *staticBaseUri_param = NULL;
 	zval staticBaseUri;
@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Url, setStaticBaseUri) {
 /**
  * Generates a local path
  */
-PHP_METHOD(Phalcon_Url, path) {
+PHP_METHOD(Phalcon_Mvc_Url, path) {
 
 	zval *path_param = NULL, _0;
 	zval path;
