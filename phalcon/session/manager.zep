@@ -15,8 +15,8 @@ use RuntimeException;
 use SessionHandlerInterface;
 use Phalcon\DiInterface;
 use Phalcon\DI\InjectionAwareInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;
-use Phalcon\Utility;
 
 /**
  * Phalcon\Session\Manager
@@ -129,7 +129,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 		}
 
 		let uniqueKey = this->getUniqueKey(key),
-			value     = Utility::arrayGetDefault(_SESSION, uniqueKey, defaultValue);
+			value     = Arr::get(_SESSION, uniqueKey, defaultValue);
 
 		if (remove === true) {
 			unset(_SESSION[uniqueKey]);
@@ -328,7 +328,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	 */
 	public function setOptions(array options) -> void
 	{
-		let this->uniqueId = Utility::arrayGetDefault(options, "uniqueId", ""),
+		let this->uniqueId = Arr::get(options, "uniqueId", ""),
 		    this->options  = options;
 	}
 

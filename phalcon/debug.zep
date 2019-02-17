@@ -10,7 +10,7 @@
 
 namespace Phalcon;
 
-use Phalcon\Utility;
+use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\Debug
@@ -260,7 +260,7 @@ class Debug
 			 */
 			let html .= "<div id='error-tabs-2'><table cellspacing='0' align='center' class='superglobal-detail'>";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
-			let blacklist = Utility::arrayGetDefault(this->blacklist, "request", []);
+			let blacklist = Arr::get(this->blacklist, "request", []);
 			for keyRequest, value in _REQUEST {
 				if true !== isset(blacklist[strtolower(keyRequest)]) {
 					if typeof value != "array" {
@@ -277,7 +277,7 @@ class Debug
 			 */
 			let html .= "<div id='error-tabs-3'><table cellspacing='0' align='center' class='superglobal-detail'>";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
-			let blacklist = Utility::arrayGetDefault(this->blacklist, "server", []);
+			let blacklist = Arr::get(this->blacklist, "server", []);
 			for keyServer, value in _SERVER {
 				if true !== isset(blacklist[strtolower(keyServer)]) {
 					let html .= "<tr><td class='key'>" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
@@ -352,7 +352,7 @@ class Debug
 	{
 		var area, result, subArray, value;
 
-		let area     = Utility::arrayGetDefault(blacklist, "request", []),
+		let area     = Arr::get(blacklist, "request", []),
 			subArray = [],
 			result   = [];
 
@@ -362,7 +362,7 @@ class Debug
 		}
 
 		let result["request"] = subArray,
-			area              = Utility::arrayGetDefault(blacklist, "server", []),
+			area              = Arr::get(blacklist, "server", []),
 			subArray          = [];
 
 		for value in area {

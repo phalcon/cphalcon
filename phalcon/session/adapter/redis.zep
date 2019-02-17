@@ -12,7 +12,7 @@ namespace Phalcon\Session\Adapter;
 
 use Phalcon\Cache\Backend\Redis as CacheRedis;
 use Phalcon\Cache\Frontend\None as FrontendNone;
-use Phalcon\Utility;
+use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\Session\Adapter\Noop
@@ -50,11 +50,11 @@ use Phalcon\Utility;
 
 	    let options              = this->options,
 	        params               = [],
-	        params["host"]       = Utility::arrayGetDefault(options, "host", "127.0.0.1"),
-		    params["port"]       = Utility::arrayGetDefault(options, "port", 6379),
-		    params["index"]      = Utility::arrayGetDefault(options, "index", 0),
-		    params["persistent"] = Utility::arrayGetDefault(options, "persistent", false),
-		    this->ttl            = Utility::arrayGetDefault(options, "ttl", this->ttl);
+	        params["host"]       = Arr::get(options, "host", "127.0.0.1"),
+		    params["port"]       = Arr::get(options, "port", 6379),
+		    params["index"]      = Arr::get(options, "index", 0),
+		    params["persistent"] = Arr::get(options, "persistent", false),
+		    this->ttl            = Arr::get(options, "ttl", this->ttl);
 
 		let this->connection = new CacheRedis(
 			new FrontendNone(
