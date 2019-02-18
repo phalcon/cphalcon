@@ -14,6 +14,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions);
 PHP_METHOD(Phalcon_Debug, listenLowSeverity);
 PHP_METHOD(Phalcon_Debug, onUncaughtException);
 PHP_METHOD(Phalcon_Debug, onUncaughtLowSeverity);
+PHP_METHOD(Phalcon_Debug, setBlacklist);
 PHP_METHOD(Phalcon_Debug, setShowBackTrace);
 PHP_METHOD(Phalcon_Debug, setShowFileFragment);
 PHP_METHOD(Phalcon_Debug, setShowFiles);
@@ -22,6 +23,7 @@ PHP_METHOD(Phalcon_Debug, escapeString);
 PHP_METHOD(Phalcon_Debug, getArrayDump);
 PHP_METHOD(Phalcon_Debug, getVarDump);
 PHP_METHOD(Phalcon_Debug, showTraceItem);
+zend_object *zephir_init_properties_Phalcon_Debug(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_debug_clearvars, 0, 0, Phalcon\\Debug, 0)
@@ -109,6 +111,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_onuncaughtlowseverity, 0, 0, 5)
 	ZEND_ARG_INFO(0, file)
 	ZEND_ARG_INFO(0, line)
 	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_debug_setblacklist, 0, 1, Phalcon\\Debug, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_setblacklist, 0, 1, IS_OBJECT, "Phalcon\\Debug", 0)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, blacklist, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -205,6 +215,7 @@ ZEPHIR_INIT_FUNCS(phalcon_debug_method_entry) {
 	PHP_ME(Phalcon_Debug, listenLowSeverity, arginfo_phalcon_debug_listenlowseverity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, onUncaughtException, arginfo_phalcon_debug_onuncaughtexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, onUncaughtLowSeverity, arginfo_phalcon_debug_onuncaughtlowseverity, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, setBlacklist, arginfo_phalcon_debug_setblacklist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, setShowBackTrace, arginfo_phalcon_debug_setshowbacktrace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, setShowFileFragment, arginfo_phalcon_debug_setshowfilefragment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, setShowFiles, arginfo_phalcon_debug_setshowfiles, ZEND_ACC_PUBLIC)

@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../ext_config.h"
+#include "../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../php_ext.h"
-#include "../../ext.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include <Zend/zend_exceptions.h>
 
@@ -21,13 +21,13 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\UrlInterface
+ * Phalcon\UrlInterface
  *
- * Interface for Phalcon\Mvc\UrlInterface
+ * Interface for Phalcon\UrlInterface
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_UrlInterface) {
+ZEPHIR_INIT_CLASS(Phalcon_UrlInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, UrlInterface, phalcon, mvc_urlinterface, phalcon_mvc_urlinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon, UrlInterface, phalcon, urlinterface, phalcon_urlinterface_method_entry);
 
 	return SUCCESS;
 
@@ -39,30 +39,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_UrlInterface) {
  * @param string|array uri
  * @param array|object args Optional arguments to be appended to the query string
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
+ZEPHIR_DOC_METHOD(Phalcon_UrlInterface, get);
 
 /**
  * Returns a base path
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
+ZEPHIR_DOC_METHOD(Phalcon_UrlInterface, getBasePath);
 
 /**
  * Returns the prefix for all the generated urls. By default /
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBaseUri);
+ZEPHIR_DOC_METHOD(Phalcon_UrlInterface, getBaseUri);
 
 /**
  * Sets a base paths for all the generated paths
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBasePath);
+ZEPHIR_DOC_METHOD(Phalcon_UrlInterface, setBasePath);
 
 /**
  * Sets a prefix to all the urls generated
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBaseUri);
+ZEPHIR_DOC_METHOD(Phalcon_UrlInterface, setBaseUri);
 
 /**
  * Generates a local path
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, path);
+ZEPHIR_DOC_METHOD(Phalcon_UrlInterface, path);
 

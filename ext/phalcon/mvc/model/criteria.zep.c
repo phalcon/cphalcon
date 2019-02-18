@@ -1167,7 +1167,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit) {
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 189, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 190, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -1175,7 +1175,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit) {
 	}
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_2$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(offset, "abs", NULL, 189, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(offset, "abs", NULL, 190, &_2$$4);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$4);
 		zephir_create_array(&_3$$4, 2, 0 TSRMLS_CC);
