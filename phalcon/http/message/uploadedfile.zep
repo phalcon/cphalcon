@@ -14,6 +14,9 @@
 
 namespace Phalcon\Http\Message;
 
+use Phalcon\Helper\Number;
+use Phalcon\Http\Message\Exception;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
 /**
@@ -82,6 +85,11 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	private size = null { get };
 
+	/**
+	 * Holds the stream/string for the uploaded file
+	 *
+	 * @var <StreamInterface> | string | null
+	 */
 	private stream;
 
 	/**
@@ -89,11 +97,18 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	public function __construct(
         var stream,
-        int size = null,
+        int size,
         int error = 0,
         string clientFilename = null,
         string clientMediaType = null
 	) {
+
+		/**
+		 * Check the error
+		 */
+		this->checkError(error);
+
+
 		let this->stream          = stream,
 			this->size            = size,
 			this->error           = error,
@@ -157,5 +172,12 @@ class UploadedFile implements UploadedFileInterface
 	public function moveTo(var targetPath) -> void
 	{
 
+	}
+
+	private function checkError(int error) -> void
+	{
+		if true !== Number::between(error, UPLOAD_ERR_OK, UPLOAD_ERR_EXTENSION) {
+			throw new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants");
+		}
 	}
 }
