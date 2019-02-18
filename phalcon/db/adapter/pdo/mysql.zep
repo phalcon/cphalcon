@@ -47,6 +47,16 @@ class Mysql extends PdoAdapter
 	protected _type = "mysql";
 
 	/**
+	 *
+	 */
+	protected function getDsnDefaults() -> array
+	{
+		return [
+			"charset" : "utf8mb4"
+		];
+	}
+
+	/**
 	 * Adds a foreign key to a table
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
