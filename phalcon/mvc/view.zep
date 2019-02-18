@@ -494,8 +494,7 @@ class View extends Injectable implements ViewInterface
 	 */
 	protected function _loadTemplateEngines() -> array
 	{
-		var engines, dependencyInjector, registeredEngines, arguments,
-			engineService, extension;
+		var engines, dependencyInjector, registeredEngines, engineService, extension;
 
 		let engines = this->_engines;
 
@@ -520,7 +519,6 @@ class View extends Injectable implements ViewInterface
 					throw new Exception("A dependency injector container is required to obtain the application services");
 				}
 
-				let arguments = [this, dependencyInjector];
 				for extension, engineService in registeredEngines {
 
 					if typeof engineService == "object" {
@@ -529,7 +527,7 @@ class View extends Injectable implements ViewInterface
 						 * Engine can be a closure
 						 */
 						if engineService instanceof \Closure {
-							let engines[extension] = call_user_func_array(engineService, arguments);
+							let engines[extension] = call_user_func(engineService, this);
 						} else {
 							let engines[extension] = engineService;
 						}
@@ -543,7 +541,7 @@ class View extends Injectable implements ViewInterface
 							throw new Exception("Invalid template engine registration for extension: " . extension);
 						}
 
-						let engines[extension] = dependencyInjector->getShared(engineService, arguments);
+						let engines[extension] = dependencyInjector->getShared(engineService, [this]);
 					}
 				}
 			}
