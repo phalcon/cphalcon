@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "Alpha");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 338, &_5$$3, field, &_6$$3, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 342, &_5$$3, field, &_6$$3, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$3);
 		zephir_check_call_status();

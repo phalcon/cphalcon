@@ -103,13 +103,12 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filename_param = NULL, *mode_param = NULL, stream;
+	zval *filename_param = NULL, *mode_param = NULL;
 	zval filename, mode;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filename);
 	ZVAL_UNDEF(&mode);
-	ZVAL_UNDEF(&stream);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &filename_param, &mode_param);
@@ -123,11 +122,10 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 	}
 
 
-	ZEPHIR_INIT_VAR(&stream);
-	object_init_ex(&stream, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 236, &filename, &mode);
+	object_init_ex(return_value, phalcon_http_message_stream_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 236, &filename, &mode);
 	zephir_check_call_status();
-	RETURN_CCTOR(&stream);
+	RETURN_MM();
 
 }
 
@@ -162,7 +160,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 		_0 = !ZEPHIR_IS_IDENTICAL(&_2, &_1);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 78);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 74);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&stream);

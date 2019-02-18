@@ -408,6 +408,10 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	}
 
 
+	zephir_update_property_zval(this_ptr, SL("method"), &method);
+	zephir_update_property_zval(this_ptr, SL("uri"), uri);
+	zephir_update_property_zval(this_ptr, SL("serverParams"), &serverParams);
+	ZEPHIR_MM_RESTORE();
 
 }
 

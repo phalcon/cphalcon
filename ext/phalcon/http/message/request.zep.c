@@ -69,6 +69,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
 	 */
 	zend_declare_property_string(phalcon_http_message_request_ce, SL("method"), "GET", ZEND_ACC_PRIVATE TSRMLS_CC);
 
+	/**
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_http_message_request_ce, SL("uri"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	phalcon_http_message_request_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Request;

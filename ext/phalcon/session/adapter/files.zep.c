@@ -100,10 +100,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("save_path"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 459, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 463, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 460, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 464, &path);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_3)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, gc) {
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZEPHIR_CONCAT_VVS(&pattern, &_0, &_1, "*");
-	ZEPHIR_CALL_FUNCTION(&_2, "glob", NULL, 461, &pattern);
+	ZEPHIR_CALL_FUNCTION(&_2, "glob", NULL, 465, &pattern);
 	zephir_check_call_status();
 	zephir_is_iterable(&_2, 0, "phalcon/session/adapter/files.zep", 90);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_2), _3)
