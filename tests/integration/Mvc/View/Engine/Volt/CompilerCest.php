@@ -62,7 +62,7 @@ class CompilerCest
         $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $view->registerEngines([
-            '.volt' => 'Phalcon\Mvc\View\Engine\Volt',
+            '.volt' => Volt::class,
         ]);
 
         $view->setParamToView('song', 'Rock n roll');
@@ -166,8 +166,8 @@ class CompilerCest
         $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $view->registerEngines([
-            '.volt' => function ($view, $di) {
-                $volt     = new Volt($view, $di);
+            '.volt' => function ($view) {
+                $volt     = new Volt($view, $this);
                 $compiler = $volt->getCompiler();
                 $compiler->addFunction('strtotime', 'strtotime');
                 return $volt;
