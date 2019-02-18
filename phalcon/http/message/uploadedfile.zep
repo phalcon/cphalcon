@@ -30,6 +30,13 @@ use Psr\Http\Message\UploadedFileInterface;
 class UploadedFile implements UploadedFileInterface
 {
 	/**
+	 * If the file has already been moved, we hold that status here
+	 *
+	 * @var bool
+	 */
+	private alreadyMoved = false;
+
+	/**
 	 * Retrieve the filename sent by the client.
 	 *
 	 * Do not trust the value returned by this method. A client could send
@@ -75,6 +82,13 @@ class UploadedFile implements UploadedFileInterface
 	private error = 0 { get };
 
 	/**
+	 * If the stream is a string (file name) we store it here
+	 *
+	 * @var string
+	 */
+	private fileName = "";
+
+	/**
 	 * Retrieve the file size.
 	 *
 	 * Implementations SHOULD return the value stored in the "size" key of
@@ -104,14 +118,17 @@ class UploadedFile implements UploadedFileInterface
 	) {
 
 		/**
+		 * Check the stream passed. It can be a string representing a file or
+		 * a StreamInterface
+		 */
+		this->checkStream(stream, error);
+
+		/**
 		 * Check the error
 		 */
 		this->checkError(error);
 
-
-		let this->stream          = stream,
-			this->size            = size,
-			this->error           = error,
+		let this->size            = size,
 			this->clientFilename  = clientFilename,
 			this->clientMediaType = clientMediaType;
 	}
@@ -134,7 +151,21 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	public function getStream() -> <StreamInterface>
 	{
+		if this->error !== UPLOAD_ERR_OK {
+			throw new Exception(
+				this->getErrorDescription(this->error)
+			);
+		}
 
+		if true === this->alreadyMoved {
+			throw new Exception("The file has already been moved to the target location");
+		}
+
+		if !(this->stream instanceof StreamInterface) {
+			let this->stream = new Stream(this->fileName);
+		}
+
+		return this->stream;
 	}
 
 	/**
@@ -174,10 +205,60 @@ class UploadedFile implements UploadedFileInterface
 
 	}
 
+	/**
+	 * Checks the passed error code and if not in the range throws an exception
+	 */
 	private function checkError(int error) -> void
 	{
 		if true !== Number::between(error, UPLOAD_ERR_OK, UPLOAD_ERR_EXTENSION) {
 			throw new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants");
 		}
+
+		let this->error = error;
+	}
+
+	/**
+	 * Checks the passed error code and if not in the range throws an exception
+	 */
+	private function checkStream(var stream, int error) -> void
+	{
+		if error === UPLOAD_ERR_OK {
+			if true === is_string(stream) {
+				let this->fileName = stream;
+			} elseif (true === is_resource(stream)) {
+				let this->stream = new Stream(stream);
+			} elseif (stream instanceof StreamInterface) {
+				let this->stream = stream;
+			} else {
+				throw new Exception("Invalid stream or file passed");
+			}
+		}
+	}
+
+	/**
+	 * Returns a description string depending on the upload error code passed
+	 */
+	private function getErrorDescription(int error) -> string
+	{
+		switch error {
+			case UPLOAD_ERR_OK:
+				return  "There is no error, the file uploaded with success.";
+			case UPLOAD_ERR_INI_SIZE:
+				return  "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
+			case UPLOAD_ERR_FORM_SIZE:
+				return  "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
+			case UPLOAD_ERR_PARTIAL:
+				return  "The uploaded file was only partially uploaded.";
+			case UPLOAD_ERR_NO_FILE:
+				return  "No file was uploaded.";
+			case UPLOAD_ERR_NO_TMP_DIR:
+				return  "Missing a temporary folder.";
+			case UPLOAD_ERR_CANT_WRITE:
+				return  "Failed to write file to disk.";
+			case UPLOAD_ERR_EXTENSION:
+				return  "A PHP extension stopped the file upload.";
+		}
+
+		return "Unknown upload error";
 	}
 }
