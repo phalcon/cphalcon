@@ -31,11 +31,6 @@ class ResponseFactory implements ResponseFactoryInterface
      */
     public function createResponse(int code = 200, string reasonPhrase = "") -> <ResponseInterface>
     {
-    	var factory, newInstance;
-
-    	let factory     = new Response(),
-    		newInstance = factory->withStatus(code, reasonPhrase);
-
-		return newInstance;
+    	return (new Response())->withStatus(code, reasonPhrase);
     }
 }

@@ -49,8 +49,14 @@ class Request implements RequestInterface
 	 */
 	private headers = [];
 
-	protected method;
+	/**
+	 * @var string
+	 */
+	private method = "GET";
 
+	/**
+	 * @var mixed
+	 */
 	private uri;
 
 	/**

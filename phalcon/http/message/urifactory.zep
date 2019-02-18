@@ -26,11 +26,7 @@ class UriFactory implements UriFactoryInterface
 	 */
 	public function createUri(string! uri = "") -> <UriInterface>
 	{
-		var factory;
-
-		let factory = new Uri(uri);
-
-		return factory;
+		return new Uri(uri);
 	}
 }
 

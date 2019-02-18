@@ -56,11 +56,7 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromFile(string filename, string mode = "r") -> <StreamInterface>
     {
-    	var stream;
-
-    	let stream = new Stream(filename, mode);
-
-    	return stream;
+    	return new Stream(filename, mode);
     }
 
     /**

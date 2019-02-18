@@ -30,10 +30,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 	 */
 	public function createServerRequest(string method, var uri, array serverParams = []) -> <ServerRequestInterface>
 	{
-		var factory;
-
-		let factory = new ServerRequest(method, uri, serverParams);
-
-		return factory;
+		return new ServerRequest(method, uri, serverParams);
 	}
 }
