@@ -116,7 +116,6 @@ class UploadedFile implements UploadedFileInterface
         string clientFilename = null,
         string clientMediaType = null
 	) {
-
 		/**
 		 * Check the stream passed. It can be a string representing a file or
 		 * a StreamInterface
@@ -202,7 +201,15 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	public function moveTo(var targetPath) -> void
 	{
+		if true === this->alreadyMoved {
+			throw new Exception("File has already been moved");
+		}
 
+		if UPLOAD_ERR_OK !== this->error {
+			throw new Exception(this->getErrorDescription(this->error));
+		}
+
+		let this->alreadyMoved = true;
 	}
 
 	/**
@@ -223,14 +230,18 @@ class UploadedFile implements UploadedFileInterface
 	private function checkStream(var stream, int error) -> void
 	{
 		if error === UPLOAD_ERR_OK {
-			if true === is_string(stream) {
-				let this->fileName = stream;
-			} elseif (true === is_resource(stream)) {
-				let this->stream = new Stream(stream);
-			} elseif (stream instanceof StreamInterface) {
-				let this->stream = stream;
-			} else {
-				throw new Exception("Invalid stream or file passed");
+			switch (true) {
+				case (is_string(stream)):
+					let this->fileName = stream;
+					break;
+				case (true === is_resource(stream)):
+					let this->stream = new Stream(stream);
+					break;
+				case (stream instanceof StreamInterface):
+					let this->stream = stream;
+					break;
+				default:
+					throw new Exception("Invalid stream or file passed");
 			}
 		}
 	}

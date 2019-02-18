@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
+use Codeception\Example;
 use Phalcon\Http\Message\UploadedFile;
 use Phalcon\Http\Message\Exception;
 use Psr\Http\Message\UploadedFileInterface;
@@ -41,6 +42,29 @@ class ConstructCest
     }
 
     /**
+     * Tests Phalcon\Http\Message\UploadedFile :: __construct() - stream exception
+     *
+     * @dataProvider getStreamExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-18
+     */
+    public function httpMessageUploadedFileConstructStreamException(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\UploadedFile - __construct() - stream ' . $example[0]);
+
+        $I->expectThrowable(
+            new Exception("Invalid stream or file passed"),
+            function () use ($example) {
+                $file = new UploadedFile($example[1], 100);
+            }
+        );
+    }
+
+    /**
      * Tests Phalcon\Http\Message\UploadedFile :: __construct() - error exception
      *
      * @param UnitTester $I
@@ -59,5 +83,20 @@ class ConstructCest
                 $file = new UploadedFile($stream, 100, 100);
             }
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getStreamExamples(): array
+    {
+        return [
+            ['array',   ['array']],
+            ['boolean', true],
+            ['float',   123.45],
+            ['integer', 123],
+            ['null',    null],
+            ['object',  new \stdClass()],
+        ];
     }
 }
