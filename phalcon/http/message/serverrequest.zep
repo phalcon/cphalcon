@@ -182,7 +182,9 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function __construct(string method = null, var uri = null, array serverParams = [])
 	{
-
+		let this->method       = method,
+			this->uri          = uri,
+			this->serverParams = serverParams;
 	}
 
 	/**
