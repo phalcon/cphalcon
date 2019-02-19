@@ -16,6 +16,7 @@ use Codeception\Example;
 use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\StreamInterface;
+use stdClass;
 use UnitTester;
 
 /**
@@ -47,8 +48,8 @@ class ConstructCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-08
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-08
      */
     public function httpMessageStreamConstructException(UnitTester $I, Example $example)
     {
@@ -67,12 +68,12 @@ class ConstructCest
     private function getExceptionExamples(): array
     {
         return [
-            ['array',   ['array']],
+            ['array', ['array']],
             ['boolean', true],
-            ['float',   123.45],
+            ['float', 123.45],
             ['integer', 123],
-            ['null',    null],
-            ['object',  new \stdClass()],
+            ['null', null],
+            ['object', new stdClass()],
         ];
     }
 }

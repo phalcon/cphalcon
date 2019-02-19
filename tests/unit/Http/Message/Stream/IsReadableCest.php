@@ -29,17 +29,46 @@ class IsReadableCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-10
      */
     public function httpMessageStreamIsReadable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isReadable() - ' . $example[0]);
-        $fileName = $I->getNewFileName();
-        $fileName = outputFolder('/tests/logs/' . $fileName);
-
-        $stream = new Stream($fileName, $example[0]);
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isReadable());
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: isReadable() - with "x"
+     *
+     * @dataProvider getExamplesX
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-10
+     */
+    public function httpMessageStreamIsReadableWithX(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\Stream - isReadable() with "x" - ' . $example[0]);
+        $fileName = $I->getNewFileName();
+        $fileName = outputFolder('tests/stream/' . $fileName);
+        $stream   = new Stream($fileName, $example[0]);
+        $I->assertEquals($example[1], $stream->isReadable());
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamplesX(): array
+    {
+        return [
+            ['x', false],
+            ['x+', true],
+        ];
     }
 
     /**
@@ -48,16 +77,14 @@ class IsReadableCest
     private function getExamples(): array
     {
         return [
-//            ['r',  true],
-//            ['r+', true],
-            ['c+', true],
-            ['c',  false],
-            ['w',  false],
-            ['w+', true],
-            ['a',  false],
+            ['a', false],
             ['a+', true],
-            ['x',  false],
-            ['x+', true],
+            ['c', false],
+            ['c+', true],
+            ['r', true],
+            ['r+', true],
+            ['w', false],
+            ['w+', true],
         ];
     }
 }
