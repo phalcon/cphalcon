@@ -163,7 +163,7 @@ class Stream implements StreamInterface
 			return metadata;
 		}
 
-		return Arr::get(metadata, key, null);
+		return Arr::get(metadata, key, []);
     }
 
     /**
