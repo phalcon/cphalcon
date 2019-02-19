@@ -203,9 +203,9 @@ class Di implements DiInterface
 	/**
 	 * Resolves the service based on its configuration
 	 */
-	public function get(string! name, parameters = null) -> var
+	 public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null;
+		var service, eventsManager, isShared, instance = null;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -219,18 +219,28 @@ class Di implements DiInterface
 
 		if typeof instance != "object" {
 			if fetch service, this->_services[name] {
-				/**
-				 * The service is registered in the DI
-				 */
+
+				let isShared = service->isShared();
+
+				// If the service is shared then immediately return the cache instance.
+				if isShared && isset this->_sharedInstances[name] {
+					return this->_sharedInstances[name];
+				}
+
+				// The service is registered in the DI
 				try {
 					let instance = service->resolve(parameters, this);
 				} catch ServiceResolutionException {
 					throw new Exception("Service '" . name . "' cannot be resolved");
 				}
+
+				// Record the shared instance.
+				if isShared {
+					let this->_sharedInstances[name] = instance;
+				}
 			} else {
-				/**
-				 * The DI also acts as builder for any class even if it isn't defined in the DI
-				 */
+
+				// The DI also acts as builder for any class even if it isn't defined in the DI
 				if !class_exists(name) {
 					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 				}
@@ -243,9 +253,7 @@ class Di implements DiInterface
 			}
 		}
 
-		/**
-		 * Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
-		 */
+		// Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
 		if typeof instance == "object" {
 			if instance instanceof InjectionAwareInterface {
 				instance->setDI(this);
