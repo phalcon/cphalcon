@@ -1816,7 +1816,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 189, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 204, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -1827,7 +1827,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	zephir_update_property_zval(this_ptr, SL("_limit"), &_0);
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_2$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 189, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 204, &_2$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("_offset"), &_3$$4);
 	}

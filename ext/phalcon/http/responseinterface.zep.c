@@ -59,6 +59,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, hasHeader);
 
 /**
+ * Checks if the response was already sent
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, isSent);
+
+/**
  * Redirect by HTTP to another action or URL
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);

@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, &builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 171, dependencyInjector, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 186, dependencyInjector, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;

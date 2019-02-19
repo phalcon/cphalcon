@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 393, placeholders, &translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 434, placeholders, &translation);
 		ZEPHIR_UNREF(placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);

@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 				zephir_array_keys(&_9$$6, &except TSRMLS_CC);
 				ZVAL_LONG(&_10$$6, 0);
 				ZVAL_LONG(&_11$$6, (zephir_fast_count_int(&except TSRMLS_CC) - 1));
-				ZEPHIR_CALL_FUNCTION(&_12$$6, "range", &_13, 442, &_10$$6, &_11$$6);
+				ZEPHIR_CALL_FUNCTION(&_12$$6, "range", &_13, 480, &_10$$6, &_11$$6);
 				zephir_check_call_status();
 				_8$$6 = !ZEPHIR_IS_IDENTICAL(&_9$$6, &_12$$6);
 			}
