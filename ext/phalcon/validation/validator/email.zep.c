@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Email");

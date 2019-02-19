@@ -31,6 +31,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator", "adapterinterface.zep.c adapter.zep.c repositoryinterface.zep.c exception.zep.c factory.zep.c repository.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate", "adapterinterface.zep.c adapter.zep.c interpolatorinterface.zep.c exception.zep.c factory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter", "pdo.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message", "stream.zep.c exception.zep.c request.zep.c requestfactory.zep.c response.zep.c responsefactory.zep.c serverrequest.zep.c serverrequestfactory.zep.c streamfactory.zep.c uploadedfile.zep.c uploadedfilefactory.zep.c uri.zep.c urifactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image", "adapterinterface.zep.c adapter.zep.c exception.zep.c factory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/collection", "behaviorinterface.zep.c behavior.zep.c document.zep.c exception.zep.c manager.zep.c managerinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view", "engineinterface.zep.c engine.zep.c exception.zep.c simple.zep.c", "phalcon");
@@ -43,7 +44,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cli", "dispatcherinterface.zep.c taskinterface.zep.c console.zep.c dispatcher.zep.c router.zep.c routerinterface.zep.c task.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/crypt", "exception.zep.c mismatch.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "cookieinterface.zep.c requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message", "stream.zep.c exception.zep.c inputstream.zep.c request.zep.c requestfactory.zep.c response.zep.c responsefactory.zep.c serverrequest.zep.c serverrequestfactory.zep.c streamfactory.zep.c uploadedfile.zep.c uploadedfilefactory.zep.c uri.zep.c urifactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request", "fileinterface.zep.c exception.zep.c file.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/response", "cookiesinterface.zep.c headersinterface.zep.c cookies.zep.c exception.zep.c headers.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/messages", "messageinterface.zep.c exception.zep.c message.zep.c messages.zep.c", "phalcon");
@@ -80,6 +80,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/helper", "arr.zep.c exception.zep.c number.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html", "breadcrumbs.zep.c exception.zep.c tag.zep.c taglocator.zep.c taglocatorfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie", "exception.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message/stream", "input.zep.c memory.zep.c temp.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/server", "abstractmiddleware.zep.c abstractrequesthandler.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image/adapter", "gd.zep.c imagick.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/loader", "exception.zep.c", "phalcon");

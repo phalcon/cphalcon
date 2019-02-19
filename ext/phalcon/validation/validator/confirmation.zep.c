@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		zephir_array_update_string(&replacePairs, SL(":with"), &labelWith, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_3$$4);
 		object_init_ex(&_3$$4, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5$$4, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_5$$4, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$4);
 		ZVAL_STRING(&_6$$4, "Confirmation");

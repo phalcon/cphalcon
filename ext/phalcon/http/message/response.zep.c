@@ -828,7 +828,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	zephir_array_keys(&keys, &phrases TSRMLS_CC);
 	ZEPHIR_CALL_FUNCTION(&min, "min", NULL, 235, &keys);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&max, "max", NULL, 63, &keys);
+	ZEPHIR_CALL_FUNCTION(&max, "max", NULL, 79, &keys);
 	zephir_check_call_status();
 	_0 = 1 != zephir_is_numeric(code);
 	if (!(_0)) {

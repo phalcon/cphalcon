@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		zephir_array_update_string(&replacePairs, SL(":domain"), &_5$$9, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_5$$9);
 		object_init_ex(&_5$$9, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6$$9, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6$$9, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_7$$9);
 		ZVAL_STRING(&_7$$9, "InclusionIn");

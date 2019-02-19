@@ -184,14 +184,14 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
 		ZVAL_STRING(&_4$$7, "/dev/urandom");
 		ZEPHIR_INIT_VAR(&_5$$7);
 		ZVAL_STRING(&_5$$7, "rb");
-		ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 80, &_4$$7, &_5$$7);
+		ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 61, &_4$$7, &_5$$7);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&handle)) {
 			ZVAL_LONG(&_6$$8, 0);
 			ZEPHIR_CALL_FUNCTION(NULL, "stream_set_read_buffer", NULL, 457, &handle, &_6$$8);
 			zephir_check_call_status();
 			ZVAL_LONG(&_6$$8, len);
-			ZEPHIR_CALL_FUNCTION(&ret, "fread", NULL, 76, &handle, &_6$$8);
+			ZEPHIR_CALL_FUNCTION(&ret, "fread", NULL, 57, &handle, &_6$$8);
 			zephir_check_call_status();
 			zephir_fclose(&handle TSRMLS_CC);
 			if (zephir_fast_strlen_ev(&ret) != len) {
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe) {
 	ZVAL_STRING(&_3, "+/");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "-_");
-	ZEPHIR_CALL_FUNCTION(&s, "strtr", NULL, 50, &_2, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&s, "strtr", NULL, 66, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "#[^a-z0-9_=-]+#i");

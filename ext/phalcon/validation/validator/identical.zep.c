@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_8$$8);
 		object_init_ex(&_8$$8, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_9$$8, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_9$$8, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$8);
 		ZVAL_STRING(&_10$$8, "Identical");

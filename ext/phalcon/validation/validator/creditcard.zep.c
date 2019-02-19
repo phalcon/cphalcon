@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "CreditCard");
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	zephir_get_strval(&number, number_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 64, &number);
+	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 80, &number);
 	zephir_check_call_status();
 	zephir_get_arrval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&digits, &_1);
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_8, "str_split", NULL, 64, &hash);
+	ZEPHIR_CALL_FUNCTION(&_8, "str_split", NULL, 80, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 502, &_8);
 	zephir_check_call_status();

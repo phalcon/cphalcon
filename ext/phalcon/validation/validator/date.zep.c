@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4$$5, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_4$$5, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$5);
 		ZVAL_STRING(&_5$$5, "Date");

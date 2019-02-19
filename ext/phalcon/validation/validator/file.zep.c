@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_8$$3);
 		object_init_ex(&_8$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_10$$3, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_10$$3, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "FileIniSize");
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_17$$4);
 		object_init_ex(&_17$$4, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_19$$4, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_19$$4, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_18$$4);
 		ZVAL_STRING(&_18$$4, "FileEmpty");
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_22$$5);
 		object_init_ex(&_22$$5, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_24$$5, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_24$$5, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_23$$5);
 		ZVAL_STRING(&_23$$5, "FileValid");
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_array_update_string(&replacePairs, SL(":max"), &maxSize, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(&_39$$9);
 			object_init_ex(&_39$$9, phalcon_messages_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_41$$9, "strtr", NULL, 50, &message, &replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_41$$9, "strtr", NULL, 66, &message, &replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_40$$9);
 			ZVAL_STRING(&_40$$9, "FileSize");
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_array_update_string(&replacePairs, SL(":types"), &_46$$15, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(&_46$$15);
 			object_init_ex(&_46$$15, phalcon_messages_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_48$$15, "strtr", NULL, 50, &message, &replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_48$$15, "strtr", NULL, 66, &message, &replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_47$$15);
 			ZVAL_STRING(&_47$$15, "FileType");
@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_array_update_string(&replacePairs, SL(":min"), &minResolution, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(&_58$$20);
 			object_init_ex(&_58$$20, phalcon_messages_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_60$$20, "strtr", NULL, 50, &message, &replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_60$$20, "strtr", NULL, 66, &message, &replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_59$$20);
 			ZVAL_STRING(&_59$$20, "FileMinResolution");
@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 				zephir_array_update_string(&replacePairs, SL(":max"), &maxResolution, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(&_65$$23);
 				object_init_ex(&_65$$23, phalcon_messages_message_ce);
-				ZEPHIR_CALL_FUNCTION(&_67$$23, "strtr", NULL, 50, &message, &replacePairs);
+				ZEPHIR_CALL_FUNCTION(&_67$$23, "strtr", NULL, 66, &message, &replacePairs);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_66$$23);
 				ZVAL_STRING(&_66$$23, "FileMaxResolution");

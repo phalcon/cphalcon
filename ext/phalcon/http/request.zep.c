@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeader) {
 	ZVAL_STRING(&_0, "-");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "_");
-	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 50, &header, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 66, &header, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	zephir_fast_strtoupper(&name, &_2);
@@ -2010,7 +2010,7 @@ PHP_METHOD(Phalcon_Http_Request, hasHeader) {
 	ZVAL_STRING(&_0, "-");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "_");
-	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 50, &header, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 66, &header, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	zephir_fast_strtoupper(&name, &_2);
@@ -2999,7 +2999,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader) {
 	ZVAL_STRING(&_1, "/,\\s*/");
 	ZVAL_LONG(&_2, -1);
 	ZVAL_LONG(&_3, 1);
-	ZEPHIR_CALL_FUNCTION(&_4, "preg_split", NULL, 58, &_1, &_0, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "preg_split", NULL, 74, &_1, &_0, &_2, &_3);
 	zephir_check_call_status();
 	zephir_is_iterable(&_4, 0, "phalcon/http/request.zep", 1207);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_4), _5)
@@ -3014,7 +3014,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader) {
 		ZVAL_STRING(&_7$$3, "/\\s*;\\s*/");
 		ZVAL_LONG(&_8$$3, -1);
 		ZVAL_LONG(&_9$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_10$$3, "preg_split", NULL, 58, &_7$$3, &_6$$3, &_8$$3, &_9$$3);
+		ZEPHIR_CALL_FUNCTION(&_10$$3, "preg_split", NULL, 74, &_7$$3, &_6$$3, &_8$$3, &_9$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&_10$$3, 0, "phalcon/http/request.zep", 1204);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_10$$3), _11$$3)

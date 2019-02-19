@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		ZEPHIR_INIT_VAR(&_7$$8);
 		zephir_fast_strpos(&_7$$8, &filePath, &_6$$8, 0 );
 		if (!(zephir_is_true(&_7$$8))) {
-			ZEPHIR_CALL_FUNCTION(&_8$$9, "lcfirst", NULL, 55, &adapter);
+			ZEPHIR_CALL_FUNCTION(&_8$$9, "lcfirst", NULL, 71, &adapter);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_9$$9);
 			ZEPHIR_CONCAT_VSV(&_9$$9, &filePath, ".", &_8$$9);

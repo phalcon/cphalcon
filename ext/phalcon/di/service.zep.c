@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 54, &definition, &shared);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 70, &definition, &shared);
 	zephir_check_call_status();
 	RETURN_MM();
 

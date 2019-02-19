@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		object_init_ex(&_4$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "Alpha");

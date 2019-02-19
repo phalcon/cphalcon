@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 	ZEPHIR_OBS_NVAR(&_9);
 	zephir_read_property(&_9, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 	zephir_array_update_string(&_8, SL("keepSnapshots"), &_9, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 52, &_8);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 68, &_8);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "afterretrieve", NULL, 0, data);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 53, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 69, data);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&resultset) != IS_ARRAY) {

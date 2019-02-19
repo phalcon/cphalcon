@@ -44,6 +44,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/dialect.zep.c
 	phalcon/diinterface.zep.c
 	phalcon/flashinterface.zep.c
+	phalcon/http/message/stream.zep.c
 	phalcon/image/adapterinterface.zep.c
 	phalcon/logger/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
@@ -95,7 +96,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/eventinterface.zep.c
 	phalcon/events/managerinterface.zep.c
 	phalcon/http/cookieinterface.zep.c
-	phalcon/http/message/stream.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c
@@ -279,13 +279,15 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
 	phalcon/http/message/exception.zep.c
-	phalcon/http/message/inputstream.zep.c
 	phalcon/http/message/request.zep.c
 	phalcon/http/message/requestfactory.zep.c
 	phalcon/http/message/response.zep.c
 	phalcon/http/message/responsefactory.zep.c
 	phalcon/http/message/serverrequest.zep.c
 	phalcon/http/message/serverrequestfactory.zep.c
+	phalcon/http/message/stream/input.zep.c
+	phalcon/http/message/stream/memory.zep.c
+	phalcon/http/message/stream/temp.zep.c
 	phalcon/http/message/streamfactory.zep.c
 	phalcon/http/message/uploadedfile.zep.c
 	phalcon/http/message/uploadedfilefactory.zep.c

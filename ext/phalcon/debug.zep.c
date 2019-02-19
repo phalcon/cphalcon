@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtLowSeverity");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 79, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 60, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0 TSRMLS_CC);
@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		array_init(&_19$$5);
 		ZEPHIR_INIT_VAR(&_20$$5);
 		ZVAL_STRING(&_20$$5, "request");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 73, &_18$$5, &_20$$5, &_19$$5);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 54, &_18$$5, &_20$$5, &_19$$5);
 		zephir_check_call_status();
 		zephir_is_iterable(_REQUEST, 0, "phalcon/debug.zep", 273);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_REQUEST), _22$$5, _23$$5, _21$$5)
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		array_init(&_20$$5);
 		ZEPHIR_INIT_VAR(&_30$$5);
 		ZVAL_STRING(&_30$$5, "server");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 73, &_29$$5, &_30$$5, &_20$$5);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 54, &_29$$5, &_30$$5, &_20$$5);
 		zephir_check_call_status();
 		zephir_is_iterable(_SERVER, 0, "phalcon/debug.zep", 286);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_SERVER), _32$$5, _33$$5, _31$$5)
@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_Debug, setBlacklist) {
 	array_init(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "request");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 73, &blacklist, &_2, &_1);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 54, &blacklist, &_2, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&subArray);
 	array_init(&subArray);
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Debug, setBlacklist) {
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "server");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 73, &blacklist, &_5, &_2);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 54, &blacklist, &_5, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);

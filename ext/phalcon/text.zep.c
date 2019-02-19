@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Text, random) {
 		if (type == 5) {
 			ZEPHIR_INIT_VAR(&_14$$7);
 			ZVAL_STRING(&_14$$7, "2345679ACDEFHJKLMNPRSTUVWXYZ");
-			ZEPHIR_CALL_FUNCTION(&pool, "str_split", NULL, 64, &_14$$7);
+			ZEPHIR_CALL_FUNCTION(&pool, "str_split", NULL, 80, &_14$$7);
 			zephir_check_call_status();
 			break;
 		}
