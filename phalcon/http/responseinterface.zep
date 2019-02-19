@@ -45,6 +45,11 @@ interface ResponseInterface
 	public function hasHeader(string name) -> bool;
 
 	/**
+	 * Checks if the response was already sent
+	 */
+	public function isSent() -> bool;
+
+	/**
 	 * Redirect by HTTP to another action or URL
 	 */
 	public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;

@@ -874,7 +874,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 			ZVAL_STRING(&_8$$4, " ");
 			zephir_fast_str_replace(&_4$$4, &_7$$4, &_8$$4, &_6$$4 TSRMLS_CC);
 			zephir_fast_strtolower(&_3$$4, &_4$$4);
-			ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_9, 208, &_3$$4);
+			ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_9, 193, &_3$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_10$$4);
 			ZEPHIR_INIT_NVAR(&_11$$4);
@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 			ZVAL_STRING(&_17$$5, " ");
 			zephir_fast_str_replace(&_15$$5, &_16$$5, &_17$$5, &name TSRMLS_CC);
 			zephir_fast_strtolower(&_14$$5, &_15$$5);
-			ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_9, 208, &_14$$5);
+			ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_9, 193, &_14$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_18$$5);
 			ZEPHIR_INIT_NVAR(&_19$$5);

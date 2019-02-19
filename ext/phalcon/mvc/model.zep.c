@@ -1876,7 +1876,11 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 		return;
 	}
 	ZVAL_LONG(&_2, 1);
+<<<<<<< HEAD
 	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_1, 362, &params, &_2);
+=======
+	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_1, 320, &params, &_2);
+>>>>>>> upstream/4.0.x
 	zephir_check_call_status();
 	ZVAL_BOOL(&_2, 1);
 	ZEPHIR_CALL_METHOD(NULL, &query, "setuniquerow", NULL, 0, &_2);
