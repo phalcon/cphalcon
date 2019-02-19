@@ -67,7 +67,9 @@ class IsReadableCest
     {
         return [
             ['x', false],
+            ['xb', false],
             ['x+', true],
+            ['x+b', true],
         ];
     }
 
@@ -78,13 +80,21 @@ class IsReadableCest
     {
         return [
             ['a', false],
+            ['ab', false],
             ['a+', true],
+            ['a+b', true],
             ['c', false],
+            ['cb', false],
             ['c+', true],
+            ['c+b', true],
             ['r', true],
+            ['rb', true],
             ['r+', true],
+            ['r+b', true],
             ['w', false],
+            ['wb', false],
             ['w+', true],
+            ['w+b', true],
         ];
     }
 }

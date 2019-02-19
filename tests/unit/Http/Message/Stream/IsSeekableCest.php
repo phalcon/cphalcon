@@ -67,7 +67,9 @@ class IsSeekableCest
     {
         return [
             ['x', true],
+            ['xb', true],
             ['x+', true],
+            ['x+b', true],
         ];
     }
 
@@ -78,13 +80,21 @@ class IsSeekableCest
     {
         return [
             ['a', true],
+            ['ab', true],
             ['a+', true],
+            ['a+b', true],
             ['c', true],
+            ['cb', true],
             ['c+', true],
+            ['c+b', true],
             ['r', true],
+            ['rb', true],
             ['r+', true],
+            ['r+b', true],
             ['w', true],
+            ['wb', true],
             ['w+', true],
+            ['w+b', true],
         ];
     }
 }
