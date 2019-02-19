@@ -57,7 +57,7 @@ class ConstructCest
         $I->wantToTest('Http\Message\UploadedFile - __construct() - stream ' . $example[0]);
 
         $I->expectThrowable(
-            new Exception("Invalid stream or file passed"),
+            new Exception("UploadedFile:__construct - Invalid stream or file passed"),
             function () use ($example) {
                 $file = new UploadedFile($example[1], 100);
             }
@@ -77,7 +77,7 @@ class ConstructCest
         $I->wantToTest('Http\Message\UploadedFile - __construct() - error exception');
 
         $I->expectThrowable(
-            new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"),
+            new Exception("UploadedFile:__construct - Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"),
             function () {
                 $stream = outputFolder(uniqid('test'));
                 $file = new UploadedFile($stream, 100, 100);

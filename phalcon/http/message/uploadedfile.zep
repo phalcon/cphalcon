@@ -120,12 +120,12 @@ class UploadedFile implements UploadedFileInterface
 		 * Check the stream passed. It can be a string representing a file or
 		 * a StreamInterface
 		 */
-		this->checkStream(stream, error);
+		this->checkStream(__METHOD__, stream, error);
 
 		/**
 		 * Check the error
 		 */
-		this->checkError(error);
+		this->checkError(__METHOD__, error);
 
 		let this->size            = size,
 			this->clientFilename  = clientFilename,
@@ -157,7 +157,9 @@ class UploadedFile implements UploadedFileInterface
 		}
 
 		if true === this->alreadyMoved {
-			throw new Exception("The file has already been moved to the target location");
+			throw new Exception(
+				__METHOD__ . " - The file has already been moved to the target location"
+			);
 		}
 
 		if !(this->stream instanceof StreamInterface) {
@@ -202,7 +204,7 @@ class UploadedFile implements UploadedFileInterface
 	public function moveTo(var targetPath) -> void
 	{
 		if true === this->alreadyMoved {
-			throw new Exception("File has already been moved");
+			throw new Exception(__METHOD__ . " - File has already been moved");
 		}
 
 		if UPLOAD_ERR_OK !== this->error {
@@ -215,10 +217,10 @@ class UploadedFile implements UploadedFileInterface
 	/**
 	 * Checks the passed error code and if not in the range throws an exception
 	 */
-	private function checkError(int error) -> void
+	private function checkError(string method, int error) -> void
 	{
 		if true !== Number::between(error, UPLOAD_ERR_OK, UPLOAD_ERR_EXTENSION) {
-			throw new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants");
+			throw new Exception(method . " - Invalid 'error'. Must be one of the UPLOAD_ERR_* constants");
 		}
 
 		let this->error = error;
@@ -227,11 +229,11 @@ class UploadedFile implements UploadedFileInterface
 	/**
 	 * Checks the passed error code and if not in the range throws an exception
 	 */
-	private function checkStream(var stream, int error) -> void
+	private function checkStream(string method, var stream, int error) -> void
 	{
 		if error === UPLOAD_ERR_OK {
 			switch (true) {
-				case (is_string(stream)):
+				case (typeof stream === "string"):
 					let this->fileName = stream;
 					break;
 				case (true === is_resource(stream)):
@@ -241,7 +243,7 @@ class UploadedFile implements UploadedFileInterface
 					let this->stream = stream;
 					break;
 				default:
-					throw new Exception("Invalid stream or file passed");
+					throw new Exception(method . " - Invalid stream or file passed");
 			}
 		}
 	}

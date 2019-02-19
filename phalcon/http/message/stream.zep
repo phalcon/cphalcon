@@ -28,7 +28,7 @@ use Psr\Http\Message\StreamInterface;
 class Stream implements StreamInterface
 {
 	/**
-	 * @var resource
+	 * @var resource | null
 	 */
 	protected handle = null;
 
@@ -40,12 +40,17 @@ class Stream implements StreamInterface
 	/**
 	 * @var array
 	 */
-	protected metadata = [];
+	private metadata = [];
+
+	/**
+	 * @var bool
+	 */
+	private warning = false;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct(var stream, var mode = "r") -> void
+	public function __construct(var stream, var mode = "rb") -> void
 	{
 		this->setStream(stream, mode);
 	}
@@ -268,23 +273,28 @@ class Stream implements StreamInterface
 	 */
 	public function setStream(var stream, var mode = "r") -> void
 	{
-		var handler;
+		var handle;
 
-		try {
-			let handler = fopen(stream, mode);
+		let handle = stream;
 
-			if true !== is_resource(handler) || "stream" !== get_resource_type(handler) {
-				throw new Exception();
-			}
+		if typeof stream === "string" {
+			set_error_handler(
+				function (error) {
+					let this->warning = true;
+				}
+			);
+			let handle = fopen(stream, mode);
+			restore_error_handler();
+		}
 
-			let this->handler = handler,
-				this->stream  = stream;
-
-		} catch \Exception {
+		if true === this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle) {
 			throw new Exception(
 				__METHOD__ . " - The stream provided is not valid (string/resource) or could not be opened."
 			);
 		}
+
+		let this->handle = handle,
+			this->stream = stream;
 	}
 
     /**

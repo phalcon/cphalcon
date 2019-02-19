@@ -485,7 +485,7 @@ class Response implements ResponseInterface
 			);
 		}
 
-		if (true !== is_string(phrase)) {
+		if typeof phrase !== "string" {
 			throw new \InvalidArgumentException("Invalid response reason");
 		}
 
@@ -532,7 +532,7 @@ class Response implements ResponseInterface
     		"3.0" : 1
     	];
 
-    	if (true === empty(protocol) || (true !== is_string(protocol))) {
+    	if (true === empty(protocol) || typeof protocol !== "string") {
     		throw new \InvalidArgumentException("Invalid protocol value");
     	}
 
