@@ -12,18 +12,18 @@
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 
-namespace Phalcon\Http\Message;
+namespace Phalcon\Http\Message\Stream;
 
 use Phalcon\Http\Message\Stream;
 
 /**
- * Describes a data stream.
+ * Describes a data stream from "php://input"
  *
  * Typically, an instance will wrap a PHP stream; this interface provides
  * a wrapper around the most common operations, including serialization of
  * the entire stream to a string.
  */
-class InputStream extends Stream
+class Input extends Stream
 {
 	/**
 	 * @var string
@@ -35,7 +35,15 @@ class InputStream extends Stream
 	 */
 	private eof = false;
 
-    /**
+	/**
+	 * Constructor
+	 */
+	public function __construct() -> void
+	{
+		parent::__construct("php://input", "rb");
+	}
+
+	/**
      * Reads all data from the stream into a string, from the beginning to end.
      *
      * This method MUST attempt to seek to the beginning of the stream before
