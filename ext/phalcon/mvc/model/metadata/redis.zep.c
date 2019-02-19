@@ -120,9 +120,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 	ZEPHIR_OBS_VAR(&_4);
 	zephir_read_property(&_4, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_3, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 375, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 376, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 377, &_2, options);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 378, &_2, options);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("_redis"), &_1);
 	ZEPHIR_MM_RESTORE();

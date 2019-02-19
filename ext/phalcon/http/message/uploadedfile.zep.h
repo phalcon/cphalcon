@@ -77,7 +77,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uploadedfile_moveto, 0, 0, 1
 	ZEND_ARG_INFO(0, targetPath)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uploadedfile_checkerror, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uploadedfile_checkerror, 0, 0, 2)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, method)
+#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, error, IS_LONG, 0)
 #else
@@ -85,7 +90,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uploadedfile_checkerror, 0, 
 #endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uploadedfile_checkstream, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uploadedfile_checkstream, 0, 0, 3)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, method)
+#endif
 	ZEND_ARG_INFO(0, stream)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, error, IS_LONG, 0)

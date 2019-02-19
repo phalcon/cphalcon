@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 504, &value, &domain, &strict);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 505, &value, &domain, &strict);
 	zephir_check_call_status();
 	if (zephir_is_true(&_4)) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_7$$9);
 		ZVAL_STRING(&_7$$9, "ExclusionIn");
-		ZEPHIR_CALL_METHOD(NULL, &_5$$9, "__construct", NULL, 342, &_6$$9, field, &_7$$9, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$9, "__construct", NULL, 343, &_6$$9, field, &_7$$9, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$9);
 		zephir_check_call_status();

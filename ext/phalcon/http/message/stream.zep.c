@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, Stream, phalcon, http_message_stream, phalcon_http_message_stream_method_entry, 0);
 
 	/**
-	 * @var resource
+	 * @var resource | null
 	 */
 	zend_declare_property_null(phalcon_http_message_stream_ce, SL("handle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -58,7 +58,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_stream_ce, SL("metadata"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_stream_ce, SL("metadata"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_http_message_stream_ce, SL("warning"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	phalcon_http_message_stream_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Stream;
 
@@ -85,7 +90,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, __construct) {
 	if (!mode) {
 		mode = &mode_sub;
 		ZEPHIR_INIT_VAR(mode);
-		ZVAL_STRING(mode, "r");
+		ZVAL_STRING(mode, "rb");
 	}
 
 
@@ -247,7 +252,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getContents) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:getContents", " - Could not read from the file/stream");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 134 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 139 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -507,7 +512,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, read) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:read", " - Could not read from the file/stream");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 232 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 237 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -584,7 +589,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, seek) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:seek", " - Cound not seek on the file pointer");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 262 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 267 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -597,22 +602,21 @@ PHP_METHOD(Phalcon_Http_Message_Stream, seek) {
  */
 PHP_METHOD(Phalcon_Http_Message_Stream, setStream) {
 
-	zval _7$$5;
-	zend_bool _0$$3;
+	zval _7$$4;
+	zend_bool _2, _3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *stream, stream_sub, *mode = NULL, mode_sub, handler, _4, _5, _1$$3, _2$$3, _3$$4, _6$$5;
+	zval *stream, stream_sub, *mode = NULL, mode_sub, handle, _1, _4, _5, _0$$3, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&stream_sub);
 	ZVAL_UNDEF(&mode_sub);
-	ZVAL_UNDEF(&handler);
+	ZVAL_UNDEF(&handle);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_6$$5);
-	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &stream, &mode);
@@ -624,52 +628,44 @@ PHP_METHOD(Phalcon_Http_Message_Stream, setStream) {
 	}
 
 
-
-	/* try_start_1: */
-
-		ZEPHIR_CALL_FUNCTION(&handler, "fopen", NULL, 79, stream, mode);
-		zephir_check_call_status_or_jump(try_end_1);
-		_0$$3 = 1 != Z_TYPE_P(&handler) == IS_RESOURCE;
-		if (!(_0$$3)) {
-			ZEPHIR_CALL_FUNCTION(&_1$$3, "get_resource_type", NULL, 80, &handler);
-			zephir_check_call_status_or_jump(try_end_1);
-			ZEPHIR_SINIT_VAR(_2$$3);
-			ZVAL_STRING(&_2$$3, "stream");
-			_0$$3 = !ZEPHIR_IS_IDENTICAL(&_2$$3, &_1$$3);
-		}
-		if (_0$$3) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			object_init_ex(&_3$$4, phalcon_http_message_exception_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 4);
-			zephir_check_call_status_or_jump(try_end_1);
-			zephir_throw_exception_debug(&_3$$4, "phalcon/http/message/stream.zep", 277 TSRMLS_CC);
-			goto try_end_1;
-
-		}
-		zephir_update_property_zval(this_ptr, SL("handler"), &handler);
-		zephir_update_property_zval(this_ptr, SL("stream"), stream);
-
-	try_end_1:
-
-	if (EG(exception)) {
-		ZEPHIR_INIT_VAR(&_4);
-		ZVAL_OBJ(&_4, EG(exception));
-		Z_ADDREF_P(&_4);
-		ZEPHIR_INIT_VAR(&_5);
-		if (zephir_instance_of_ev(&_4, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
-			zend_clear_exception(TSRMLS_C);
-			ZEPHIR_CPY_WRT(&_5, &_4);
-			ZEPHIR_INIT_VAR(&_6$$5);
-			object_init_ex(&_6$$5, phalcon_http_message_exception_ce);
-			ZEPHIR_INIT_VAR(&_7$$5);
-			ZEPHIR_CONCAT_SS(&_7$$5, "Stream:setStream", " - The stream provided is not valid (string/resource) or could not be opened.");
-			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 4, &_7$$5);
-			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$5, "phalcon/http/message/stream.zep", 286 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
-			return;
-		}
+	ZEPHIR_CPY_WRT(&handle, stream);
+	if (Z_TYPE_P(stream) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		ZEPHIR_INIT_NVAR(&_0$$3);
+		zephir_create_closure_ex(&_0$$3, NULL, phalcon_0__closure_ce, SL("__invoke"));
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 79, &_0$$3);
+		zephir_check_call_status();
+		ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 80, stream, mode);
+		zephir_check_call_status();
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 81);
+		zephir_check_call_status();
 	}
+	zephir_read_property(&_1, this_ptr, SL("warning"), PH_NOISY_CC | PH_READONLY);
+	_2 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
+	if (!(_2)) {
+		_2 = Z_TYPE_P(&handle) != IS_RESOURCE;
+	}
+	_3 = _2;
+	if (!(_3)) {
+		ZEPHIR_CALL_FUNCTION(&_4, "get_resource_type", NULL, 82, &handle);
+		zephir_check_call_status();
+		ZEPHIR_SINIT_VAR(_5);
+		ZVAL_STRING(&_5, "stream");
+		_3 = !ZEPHIR_IS_IDENTICAL(&_5, &_4);
+	}
+	if (_3) {
+		ZEPHIR_INIT_VAR(&_6$$4);
+		object_init_ex(&_6$$4, phalcon_http_message_exception_ce);
+		ZEPHIR_INIT_VAR(&_7$$4);
+		ZEPHIR_CONCAT_SS(&_7$$4, "Stream:setStream", " - The stream provided is not valid (string/resource) or could not be opened.");
+		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 4, &_7$$4);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_6$$4, "phalcon/http/message/stream.zep", 293 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval(this_ptr, SL("handle"), &handle);
+	zephir_update_property_zval(this_ptr, SL("stream"), stream);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -697,7 +693,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkhandle", NULL, 69, &_0);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&position, "ftell", NULL, 81, &_1);
+	ZEPHIR_CALL_FUNCTION(&position, "ftell", NULL, 83, &_1);
 	zephir_check_call_status();
 	if (1 != Z_TYPE_P(&position) == IS_LONG) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -706,7 +702,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:tell", " - Could not retrieve the pointer position");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 301 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 311 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -742,7 +738,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, write) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Stream:write");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkwritable", NULL, 82, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkwritable", NULL, 84, &_0);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&bytes);
@@ -754,7 +750,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, write) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:write", " - Could not write to the file/stream");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 320 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 330 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -791,7 +787,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkHandle) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - A valid resource is required.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 332 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 342 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -829,7 +825,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkReadable) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - The resource is not readable.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 342 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 352 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -867,7 +863,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkSeekable) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - The resource is not seekable.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 352 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 362 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -905,7 +901,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - The resource is not writable.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 362 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 372 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
