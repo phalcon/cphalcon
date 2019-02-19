@@ -278,8 +278,8 @@ class CompilerCest
         $view->setDI($di);
         $view->setViewsDir(dataFolder('fixtures/views/'));
         $view->registerEngines([
-            '.volt' => function ($view, $di) {
-                return new Volt($view, $di);
+            '.volt' => function ($view) {
+                return new Volt($view, $this);
             },
         ]);
         $object      = new \stdClass();

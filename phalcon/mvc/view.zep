@@ -494,7 +494,7 @@ class View extends Injectable implements ViewInterface
 	 */
 	protected function _loadTemplateEngines() -> array
 	{
-		var engines, dependencyInjector, registeredEngines, engineService, extension;
+		var engines, di, registeredEngines, engineService, extension;
 
 		let engines = this->_engines;
 
@@ -503,7 +503,7 @@ class View extends Injectable implements ViewInterface
 		 */
 		if engines === false {
 
-			let dependencyInjector = <DiInterface> this->_dependencyInjector;
+			let di = <DiInterface> this->_dependencyInjector;
 
 			let engines = [];
 			let registeredEngines = this->_registeredEngines;
@@ -512,10 +512,10 @@ class View extends Injectable implements ViewInterface
 				/**
 				 * We use Phalcon\Mvc\View\Engine\Php as default
 				 */
-				let engines[".phtml"] = new PhpEngine(this, dependencyInjector);
+				let engines[".phtml"] = new PhpEngine(this, di);
 			} else {
 
-				if typeof dependencyInjector != "object" {
+				if typeof di != "object" {
 					throw new Exception("A dependency injector container is required to obtain the application services");
 				}
 
@@ -527,6 +527,7 @@ class View extends Injectable implements ViewInterface
 						 * Engine can be a closure
 						 */
 						if engineService instanceof \Closure {
+							let engineService = \Closure::bind(engineService, di);
 							let engines[extension] = call_user_func(engineService, this);
 						} else {
 							let engines[extension] = engineService;
@@ -541,7 +542,7 @@ class View extends Injectable implements ViewInterface
 							throw new Exception("Invalid template engine registration for extension: " . extension);
 						}
 
-						let engines[extension] = dependencyInjector->getShared(engineService, [this]);
+						let engines[extension] = di->getShared(engineService, [this]);
 					}
 				}
 			}
