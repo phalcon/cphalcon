@@ -35,7 +35,7 @@ class IsSeekableCest
     public function httpMessageStreamIsSeekable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isSeekable() - ' . $example[0]);
-        $fileName = dataFolder('assets/stream/bill-of-rights.txt');
+        $fileName = dataFolder('assets/stream/bill-of-rights-empty.txt');
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isSeekable());
     }
