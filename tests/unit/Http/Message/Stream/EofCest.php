@@ -32,12 +32,51 @@ class EofCest
     {
         $I->wantToTest('Http\Message\Stream - eof()');
         $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
-        $offset   = filesize($fileName);
         $handle   = fopen($fileName, 'rb');
-        fseek($handle, $offset);
         $stream   = new Stream($handle);
+        while (true !== feof($handle)) {
+            fread($handle, 1024);
+        }
 
         $actual = $stream->eof();
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: eof() - detached stream
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamEofDetached(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Stream - eof() - detached stream');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, "rb");
+        $stream->detach();
+
+        $actual = $stream->eof();
+        $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: eof() - not at eof
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamEofNotAtEof(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Stream - eof() - not at eof');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, "rb");
+        $stream->seek(10);
+
+        $actual = $stream->eof();
+        $I->assertFalse($actual);
     }
 }

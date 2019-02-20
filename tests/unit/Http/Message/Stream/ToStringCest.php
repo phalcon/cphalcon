@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +31,14 @@ class ToStringCest
     public function httpMessageStreamToString(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - __toString()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $expected = file_get_contents($fileName);
+        $stream   = new Stream($fileName, 'rb');
+
+        $actual = (string) $stream;
+        $I->assertEquals($expected, $actual);
+
+        $actual = $stream->__toString();
+        $I->assertEquals($expected, $actual);
     }
 }

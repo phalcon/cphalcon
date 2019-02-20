@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +31,33 @@ class SeekCest
     public function httpMessageStreamSeek(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - seek()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, 'rb');
+
+        $stream->seek(274);
+        $expected = 'A well regulated Militia, being necessary to the security of a free State, '
+            . 'the right of the people to keep and bear Arms, shall not be infringed.';
+        $actual   = $stream->read(145);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: seek() - after file size
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamSeekAfterFileSize(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Stream - seek() - after file size');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, 'rb');
+
+        $stream->seek(10240);
+        $expected = '';
+        $actual   = $stream->read(1);
+        $I->assertEquals($expected, $actual);
     }
 }
