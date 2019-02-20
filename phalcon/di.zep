@@ -254,7 +254,7 @@ class Di implements DiInterface
 
 				// The DI also acts as builder for any class even if it isn't defined in the DI
 				if !class_exists(name) {
-					throw new Exception("Service '" . name . "' was unable to resolved in the dependency injection container.");
+					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 				}
 
 				if typeof parameters == "array" && count(parameters) {
