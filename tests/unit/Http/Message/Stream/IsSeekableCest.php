@@ -66,6 +66,9 @@ class IsSeekableCest
     private function getExamplesX(): array
     {
         return [
+            ['wb', true],
+            ['w+', true],
+            ['w+b', true],
             ['x', true],
             ['xb', true],
             ['x+', true],
@@ -92,9 +95,6 @@ class IsSeekableCest
             ['r+', true],
             ['r+b', true],
             ['w', true],
-            ['wb', true],
-            ['w+', true],
-            ['w+b', true],
         ];
     }
 }

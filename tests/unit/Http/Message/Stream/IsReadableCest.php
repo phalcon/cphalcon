@@ -66,6 +66,10 @@ class IsReadableCest
     private function getExamplesX(): array
     {
         return [
+            ['w', false],
+            ['wb', false],
+            ['w+', true],
+            ['w+b', true],
             ['x', false],
             ['xb', false],
             ['x+', true],
@@ -91,10 +95,6 @@ class IsReadableCest
             ['rb', true],
             ['r+', true],
             ['r+b', true],
-            ['w', false],
-            ['wb', false],
-            ['w+', true],
-            ['w+b', true],
         ];
     }
 }

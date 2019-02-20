@@ -66,8 +66,14 @@ class IsWritableCest
     private function getExamplesX(): array
     {
         return [
+            ['w', true],
+            ['wb', true],
+            ['w+', true],
+            ['w+b', true],
             ['x', true],
+            ['xb', true],
             ['x+', true],
+            ['x+b', true],
         ];
     }
 
@@ -78,13 +84,17 @@ class IsWritableCest
     {
         return [
             ['a', true],
+            ['ab', true],
             ['a+', true],
+            ['a+b', true],
             ['c', true],
+            ['cb', true],
             ['c+', true],
+            ['c+b', true],
             ['r', false],
+            ['rb', false],
             ['r+', true],
-            ['w', true],
-            ['w+', true],
+            ['r+b', true],
         ];
     }
 }
