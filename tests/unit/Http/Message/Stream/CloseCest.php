@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +31,32 @@ class CloseCest
     public function httpMessageStreamClose(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - close()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $handle   = fopen($fileName, 'rb');
+        $stream   = new Stream($handle);
+        $stream->close();
+
+        $actual = is_resource($handle);
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: close() - detach
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamCloseDetach(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Stream - close()');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $handle   = fopen($fileName, 'rb');
+        $stream   = new Stream($handle);
+        $stream->close();
+
+        $actual = $stream->detach();
+        $I->assertNull($actual);
     }
 }

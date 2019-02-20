@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +31,11 @@ class DetachCest
     public function httpMessageStreamDetach(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - detach()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $handle   = fopen($fileName, 'rb');
+        $stream   = new Stream($handle);
+
+        $actual = $stream->detach();
+        $I->assertEquals($handle, $actual);
     }
 }

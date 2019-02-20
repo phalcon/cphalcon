@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +31,13 @@ class EofCest
     public function httpMessageStreamEof(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - eof()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $offset   = filesize($fileName);
+        $handle   = fopen($fileName, 'rb');
+        fseek($handle, $offset);
+        $stream   = new Stream($handle);
+
+        $actual = $stream->eof();
+        $I->assertTrue($actual);
     }
 }
