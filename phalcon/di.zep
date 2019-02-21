@@ -225,7 +225,7 @@ class Di implements DiInterface
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		// Allows for custom creation of instances through the "di:beforeServiceResolve" event.
-		if eventsManager !== null {
+		if typeof eventsManager == "object" {
 			let instance = eventsManager->fire(
 				"di:beforeServiceResolve",
 				this,
@@ -273,7 +273,7 @@ class Di implements DiInterface
 		}
 
 		// Allows for post creation instance configuration through the "di:beforeServiceResolve" event.
-		if eventsManager !== null {
+		if typeof eventsManager == "object" {
 			eventsManager->fire(
 				"di:afterServiceResolve",
 				this,
