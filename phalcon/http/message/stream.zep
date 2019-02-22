@@ -38,11 +38,6 @@ class Stream implements StreamInterface
 	protected stream;
 
 	/**
-	 * @var array
-	 */
-	private metadata = [];
-
-	/**
 	 * @var bool
 	 */
 	private warning = false;

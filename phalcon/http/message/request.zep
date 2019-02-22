@@ -44,10 +44,30 @@ class Request implements RequestInterface
 	 */
 	private body;
 
-	/**
+    /**
+     * Retrieves all message header values.
+     *
+     * The keys represent the header name as it will be sent over the wire, and
+     * each value is an array of strings associated with the header.
+     *
+     *     // Represent the headers as a string
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         echo $name . ': ' . implode(', ', $values);
+     *     }
+     *
+     *     // Emit headers iteratively:
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         foreach ($values as $value) {
+     *             header(sprintf('%s: %s', $name, $value), false);
+     *         }
+     *     }
+     *
+     * While header names are not case-sensitive, getHeaders() will preserve the
+     * exact case in which headers were originally specified.
+	 *
 	 * @var array
-	 */
-	private headers = [];
+     */
+	private headers = [] { get };
 
 	/**
 	 * @var string
@@ -107,32 +127,6 @@ class Request implements RequestInterface
 	 * an empty string.
 	 */
 	public function getHeaderLine(var name) -> string
-	{
-
-	}
-
-	/**
-	 * Retrieves all message header values.
-	 *
-	 * The keys represent the header name as it will be sent over the wire, and
-	 * each value is an array of strings associated with the header.
-	 *
-	 *     // Represent the headers as a string
-	 *     foreach ($message->getHeaders() as $name => $values) {
-	 *         echo $name . ': ' . implode(', ', $values);
-	 *     }
-	 *
-	 *     // Emit headers iteratively:
-	 *     foreach ($message->getHeaders() as $name => $values) {
-	 *         foreach ($values as $value) {
-	 *             header(sprintf('%s: %s', $name, $value), false);
-	 *         }
-	 *     }
-	 *
-	 * While header names are not case-sensitive, getHeaders() will preserve the
-	 * exact case in which headers were originally specified.
-	 */
-	public function getHeaders() -> array
 	{
 
 	}

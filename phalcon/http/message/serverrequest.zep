@@ -94,20 +94,30 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	private cookieParams = [] { get };
 
-	/**
-	 * Retrieve query string arguments.
-	 *
-	 * Retrieves the deserialized query string arguments, if any.
-	 *
-	 * Note: the query params might not be in sync with the URI or server
-	 * params. If you need to ensure you are only getting the original
-	 * values, you may need to parse the query string from `getUri()->getQuery()`
-	 * or from the `QUERY_STRING` server param.
+    /**
+     * Retrieves all message header values.
+     *
+     * The keys represent the header name as it will be sent over the wire, and
+     * each value is an array of strings associated with the header.
+     *
+     *     // Represent the headers as a string
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         echo $name . ': ' . implode(', ', $values);
+     *     }
+     *
+     *     // Emit headers iteratively:
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         foreach ($values as $value) {
+     *             header(sprintf('%s: %s', $name, $value), false);
+     *         }
+     *     }
+     *
+     * While header names are not case-sensitive, getHeaders() will preserve the
+     * exact case in which headers were originally specified.
 	 *
 	 * @var array
-	 */
-	private queryParams = [] { get };
-
+     */
+	private headers = [] { get };
 
 	/**
 	 * Retrieves the HTTP method of the request.
@@ -142,6 +152,20 @@ class ServerRequest implements ServerRequestInterface
      * @var string
      */
     private protocolVersion = "1.1" { get };
+
+	/**
+	 * Retrieve query string arguments.
+	 *
+	 * Retrieves the deserialized query string arguments, if any.
+	 *
+	 * Note: the query params might not be in sync with the URI or server
+	 * params. If you need to ensure you are only getting the original
+	 * values, you may need to parse the query string from `getUri()->getQuery()`
+	 * or from the `QUERY_STRING` server param.
+	 *
+	 * @var array
+	 */
+	private queryParams = [] { get };
 
 	/**
 	 * Retrieve server parameters.
@@ -200,7 +224,7 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getAttribute(var name, var defaultValue = null) -> var
 	{
-		return Arr::get(this->attributes, attribute, defaultValue);
+		return Arr::get(this->attributes, name, defaultValue);
 	}
 
     /**
@@ -232,32 +256,6 @@ class ServerRequest implements ServerRequestInterface
      * an empty string.
      */
     public function getHeaderLine(var name) -> string
-    {
-
-    }
-
-    /**
-     * Retrieves all message header values.
-     *
-     * The keys represent the header name as it will be sent over the wire, and
-     * each value is an array of strings associated with the header.
-     *
-     *     // Represent the headers as a string
-     *     foreach ($message->getHeaders() as $name => $values) {
-     *         echo $name . ': ' . implode(', ', $values);
-     *     }
-     *
-     *     // Emit headers iteratively:
-     *     foreach ($message->getHeaders() as $name => $values) {
-     *         foreach ($values as $value) {
-     *             header(sprintf('%s: %s', $name, $value), false);
-     *         }
-     *     }
-     *
-     * While header names are not case-sensitive, getHeaders() will preserve the
-     * exact case in which headers were originally specified.
-     */
-    public function getHeaders() -> array
     {
 
     }
@@ -537,7 +535,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
 	 */
-	public function withUri(var uri, var preserveHost = false) -> <ServerRequest>
+	public function withUri(<UriInterface> uri, var preserveHost = false) -> <ServerRequest>
 	{
 
 	}
