@@ -250,12 +250,12 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "UploadedFile:__construct");
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstream", NULL, 243, &_0, stream, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstream", NULL, 244, &_0, stream, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "UploadedFile:__construct");
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkerror", NULL, 244, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkerror", NULL, 245, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_1);
 	ZVAL_LONG(&_1, size);
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_http_message_exception_ce);
 		zephir_read_property(&_5$$3, this_ptr, SL("error"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "geterrordescription", NULL, 245, &_5$$3);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "geterrordescription", NULL, 246, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 4, &_4$$3);
 		zephir_check_call_status();
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 		ZEPHIR_INIT_VAR(&_6$$4);
 		object_init_ex(&_6$$4, phalcon_http_message_exception_ce);
 		zephir_read_property(&_8$$4, this_ptr, SL("error"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "geterrordescription", NULL, 245, &_8$$4);
+		ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "geterrordescription", NULL, 246, &_8$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 4, &_7$$4);
 		zephir_check_call_status();
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkError) {
 	ZEPHIR_CALL_FUNCTION(&_4, "constant", NULL, 22, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, error);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 246, &_5, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 247, &_5, &_3, &_4);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		ZEPHIR_INIT_VAR(&_6$$3);

@@ -434,18 +434,27 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUri) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 
-	zval serverParams;
-	zval *method_param = NULL, *uri = NULL, uri_sub, *serverParams_param = NULL, __$null;
-	zval method;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval serverParams, headers, cookies, queryParams, uploadFiles;
+	zval *method_param = NULL, *uri = NULL, uri_sub, *serverParams_param = NULL, *body = NULL, body_sub, *headers_param = NULL, *cookies_param = NULL, *queryParams_param = NULL, *uploadFiles_param = NULL, *parsedBody = NULL, parsedBody_sub, *protocol_param = NULL, __$null, _0;
+	zval method, protocol;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&protocol);
 	ZVAL_UNDEF(&uri_sub);
+	ZVAL_UNDEF(&body_sub);
+	ZVAL_UNDEF(&parsedBody_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&serverParams);
+	ZVAL_UNDEF(&headers);
+	ZVAL_UNDEF(&cookies);
+	ZVAL_UNDEF(&queryParams);
+	ZVAL_UNDEF(&uploadFiles);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &method_param, &uri, &serverParams_param);
+	zephir_fetch_params(1, 0, 10, &method_param, &uri, &serverParams_param, &body, &headers_param, &cookies_param, &queryParams_param, &uploadFiles_param, &parsedBody, &protocol_param);
 
 	if (!method_param) {
 		ZEPHIR_INIT_VAR(&method);
@@ -463,11 +472,67 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	} else {
 		zephir_get_arrval(&serverParams, serverParams_param);
 	}
+	if (!body) {
+		body = &body_sub;
+		ZEPHIR_INIT_VAR(body);
+		ZVAL_STRING(body, "php://input");
+	} else {
+		ZEPHIR_SEPARATE_PARAM(body);
+	}
+	if (!headers_param) {
+		ZEPHIR_INIT_VAR(&headers);
+		array_init(&headers);
+	} else {
+		zephir_get_arrval(&headers, headers_param);
+	}
+	if (!cookies_param) {
+		ZEPHIR_INIT_VAR(&cookies);
+		array_init(&cookies);
+	} else {
+		zephir_get_arrval(&cookies, cookies_param);
+	}
+	if (!queryParams_param) {
+		ZEPHIR_INIT_VAR(&queryParams);
+		array_init(&queryParams);
+	} else {
+		zephir_get_arrval(&queryParams, queryParams_param);
+	}
+	if (!uploadFiles_param) {
+		ZEPHIR_INIT_VAR(&uploadFiles);
+		array_init(&uploadFiles);
+	} else {
+		zephir_get_arrval(&uploadFiles, uploadFiles_param);
+	}
+	if (!parsedBody) {
+		parsedBody = &parsedBody_sub;
+		parsedBody = &__$null;
+	}
+	if (!protocol_param) {
+		ZEPHIR_INIT_VAR(&protocol);
+		ZVAL_STRING(&protocol, "1.1");
+	} else {
+		zephir_get_strval(&protocol, protocol_param);
+	}
 
 
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_STRING(&_0, "php://input");
+	if (ZEPHIR_IS_IDENTICAL(&_0, body)) {
+		ZEPHIR_INIT_NVAR(body);
+		object_init_ex(body, phalcon_http_message_stream_input_ce);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 240);
+		zephir_check_call_status();
+	}
 	zephir_update_property_zval(this_ptr, SL("method"), &method);
 	zephir_update_property_zval(this_ptr, SL("uri"), uri);
+	zephir_update_property_zval(this_ptr, SL("body"), body);
+	zephir_update_property_zval(this_ptr, SL("parsedBody"), parsedBody);
+	zephir_update_property_zval(this_ptr, SL("protocol"), &protocol);
 	zephir_update_property_zval(this_ptr, SL("serverParams"), &serverParams);
+	zephir_update_property_zval(this_ptr, SL("headers"), &headers);
+	zephir_update_property_zval(this_ptr, SL("cookies"), &cookies);
+	zephir_update_property_zval(this_ptr, SL("queryParams"), &queryParams);
+	zephir_update_property_zval(this_ptr, SL("uploadFiles"), &uploadFiles);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -718,7 +783,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cookies");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 240, &cookies, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 241, &cookies, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -842,7 +907,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parsedBody");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 240, data, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 241, data, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -908,7 +973,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "query");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 240, &query, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 241, &query, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -970,7 +1035,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "files");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 240, &uploadedFiles, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 241, &uploadedFiles, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

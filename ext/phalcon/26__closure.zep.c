@@ -12,6 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 
 
@@ -25,16 +27,22 @@ ZEPHIR_INIT_CLASS(phalcon_26__closure) {
 
 PHP_METHOD(phalcon_26__closure, __invoke) {
 
-	zval *file, file_sub;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *matches, matches_sub, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&file_sub);
+	ZVAL_UNDEF(&matches_sub);
+	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &file);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &matches);
 
 
 
-	RETURN_BOOL(1);
+	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY | PH_READONLY, "phalcon/http/message/uri.zep", 689 TSRMLS_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("urlencode", NULL, 511, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

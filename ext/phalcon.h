@@ -463,5 +463,6 @@
 #include "phalcon/26__closure.zep.h"
 #include "phalcon/27__closure.zep.h"
 #include "phalcon/28__closure.zep.h"
+#include "phalcon/29__closure.zep.h"
 
 #endif

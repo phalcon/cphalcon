@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterPath);
 PHP_METHOD(Phalcon_Http_Message_Uri, filterPort);
 PHP_METHOD(Phalcon_Http_Message_Uri, filterQuery);
 PHP_METHOD(Phalcon_Http_Message_Uri, filterScheme);
+PHP_METHOD(Phalcon_Http_Message_Uri, parseUrl);
 PHP_METHOD(Phalcon_Http_Message_Uri, processWith);
 
 #if PHP_VERSION_ID >= 70200
@@ -241,6 +242,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_uri_filters
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_uri_parseurl, 0, 1, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_uri_parseurl, 0, 1, IS_ARRAY, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, url)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_uri_processwith, 0, 3, Phalcon\\Http\\Message\\Uri, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_uri_processwith, 0, 3, IS_OBJECT, "Phalcon\\Http\\Message\\Uri", 0)
@@ -283,6 +296,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_uri_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Uri, filterPort, arginfo_phalcon_http_message_uri_filterport, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Uri, filterQuery, arginfo_phalcon_http_message_uri_filterquery, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Uri, filterScheme, arginfo_phalcon_http_message_uri_filterscheme, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Message_Uri, parseUrl, arginfo_phalcon_http_message_uri_parseurl, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Uri, processWith, arginfo_phalcon_http_message_uri_processwith, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

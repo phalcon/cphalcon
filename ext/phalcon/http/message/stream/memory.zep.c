@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/variables.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 
@@ -66,6 +67,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Memory, __construct) {
 	}
 
 
+	zephir_var_dump(mode TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "php://memory");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_http_message_stream_memory_ce, getThis(), "__construct", &_0, 0, &_1, mode);

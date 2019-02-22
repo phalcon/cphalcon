@@ -58,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream) {
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_http_message_stream_ce, SL("warning"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_bool(phalcon_http_message_stream_ce, SL("warning"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_message_stream_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")));
 	return SUCCESS;

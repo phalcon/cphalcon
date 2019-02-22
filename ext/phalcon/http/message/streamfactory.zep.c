@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 61, &_0, &_1);
 	zephir_check_call_status();
 	zephir_fwrite(NULL, &tempResource, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 242, &tempResource);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 243, &tempResource);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 0, &tempResource);
 	zephir_check_call_status();

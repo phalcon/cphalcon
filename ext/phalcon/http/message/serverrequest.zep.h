@@ -101,6 +101,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest___construct, 0
 #endif
 	ZEND_ARG_INFO(0, uri)
 	ZEND_ARG_ARRAY_INFO(0, serverParams, 0)
+	ZEND_ARG_INFO(0, body)
+	ZEND_ARG_ARRAY_INFO(0, headers, 0)
+	ZEND_ARG_ARRAY_INFO(0, cookies, 0)
+	ZEND_ARG_ARRAY_INFO(0, queryParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, uploadFiles, 0)
+	ZEND_ARG_INFO(0, parsedBody)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, protocol, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, protocol)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattribute, 0, 0, 1)
