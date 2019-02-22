@@ -29,7 +29,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/config.zep.c
 	phalcon/db/adapterinterface.zep.c
-	phalcon/utility.zep.c
 	phalcon/annotations/adapterinterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
@@ -262,6 +261,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/exception.zep.c
 	phalcon/forms/form.zep.c
 	phalcon/forms/manager.zep.c
+	phalcon/helper/arr.zep.c
+	phalcon/helper/exception.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c
@@ -453,7 +454,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/parser.c
 	phalcon/mvc/view/engine/volt/parser.c
 	phalcon/mvc/view/engine/volt/scanner.c
-	phalcon/mvc/url/utils.c"
+	phalcon/url/utils.c"
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared,, )
 	PHP_SUBST(PHALCON_SHARED_LIBADD)
 

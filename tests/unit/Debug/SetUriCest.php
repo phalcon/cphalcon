@@ -35,12 +35,12 @@ class SetUriCest
         $uri   = 'https://something.com/test/';
 
         $expected = sprintf(
-            '<link rel="stylesheet" type="text/css" ' .
-            'href="%1$sbower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" />' .
-            '<link rel="stylesheet" type="text/css" ' .
-            'href="%1$sbower_components/jquery-ui/themes/ui-lightness/theme.css" />' .
-            '<link rel="stylesheet" type="text/css" ' .
-            'href="%1$sthemes/default/style.css" />',
+            "<link rel='stylesheet' type='text/css' " .
+            'href=\'%1$sbower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\' />' .
+            "<link rel='stylesheet' type='text/css' " .
+            'href=\'%1$sbower_components/jquery-ui/themes/ui-lightness/theme.css\' />' .
+            "<link rel='stylesheet' type='text/css' " .
+            'href=\'%1$sthemes/default/style.css\' />',
             $uri
         );
 

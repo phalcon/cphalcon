@@ -21,7 +21,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
-#include "phalcon/mvc/url/utils.h"
+#include "phalcon/url/utils.h"
 
 
 /**

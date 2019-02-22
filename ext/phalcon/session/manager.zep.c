@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Manager) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Manager, phalcon, session_manager, phalcon_utility_ce, phalcon_session_manager_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Session, Manager, phalcon, session_manager, phalcon_session_manager_method_entry, 0);
 
 	/**
 	 * @var <DiInterface>
@@ -254,6 +254,7 @@ PHP_METHOD(Phalcon_Session_Manager, exists) {
  */
 PHP_METHOD(Phalcon_Session_Manager, get) {
 
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool remove;
 	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, *remove_param = NULL, *_SESSION, __$null, uniqueKey, value, _0;
@@ -292,7 +293,7 @@ PHP_METHOD(Phalcon_Session_Manager, get) {
 	}
 	ZEPHIR_CALL_METHOD(&uniqueKey, this_ptr, "getuniquekey", NULL, 430, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "arraygetdefault", NULL, 0, _SESSION, &uniqueKey, defaultValue);
+	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 156, _SESSION, &uniqueKey, defaultValue);
 	zephir_check_call_status();
 	if (remove == 1) {
 		zephir_array_unset(_SESSION, &uniqueKey, PH_SEPARATE);
@@ -677,14 +678,15 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
 PHP_METHOD(Phalcon_Session_Manager, setOptions) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *options_param = NULL, _0, _1, _2;
+	zephir_fcall_cache_entry *_1 = NULL;
+	zval *options_param = NULL, _0, _2, _3;
 	zval options;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
@@ -692,11 +694,11 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions) {
 	zephir_get_arrval(&options, options_param);
 
 
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "uniqueId");
 	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "arraygetdefault", NULL, 0, &options, &_1, &_2);
+	ZVAL_STRING(&_2, "uniqueId");
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "");
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 156, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("uniqueId"), &_0);
 	zephir_update_property_zval(this_ptr, SL("options"), &options);

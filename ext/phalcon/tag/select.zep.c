@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray) {
 		}
 		ZEPHIR_INIT_NVAR(&optionText);
 		ZVAL_COPY(&optionText, _0);
-		ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_3, 177, &optionValue);
+		ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_3, 178, &optionValue);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(&_4$$4);
