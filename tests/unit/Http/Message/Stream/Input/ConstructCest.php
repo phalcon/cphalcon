@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Input;
 
+use Phalcon\Http\Message\Stream\Input;
+use Psr\Http\Message\StreamInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,8 @@ class ConstructCest
     public function httpMessageStreamInputConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Input - __construct()');
-        $I->skipTest('Need implementation');
+        $request = new Input();
+        $class   = StreamInterface::class;
+        $I->assertInstanceOf($class, $request);
     }
 }

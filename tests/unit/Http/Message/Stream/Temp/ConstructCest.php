@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Temp;
 
+use Phalcon\Http\Message\Stream\Temp;
+use Psr\Http\Message\StreamInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,9 @@ class ConstructCest
     public function httpMessageStreamTempConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Temp - __construct()');
-        $I->skipTest('Need implementation');
+        $request = new Temp();
+        $class   = StreamInterface::class;
+        $I->assertInstanceOf($class, $request);
+
     }
 }

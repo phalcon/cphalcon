@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Temp;
 
+use Phalcon\Http\Message\Stream\Temp;
 use UnitTester;
 
 /**
@@ -30,6 +31,10 @@ class CloseCest
     public function httpMessageStreamTempClose(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Temp - close()');
-        $I->skipTest('Need implementation');
+        $stream   = new Temp();
+        $stream->close();
+
+        $actual = $stream->detach();
+        $I->assertNull($actual);
     }
 }

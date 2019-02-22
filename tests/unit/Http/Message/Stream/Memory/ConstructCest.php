@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Memory;
 
+use Phalcon\Http\Message\Stream\Memory;
+use Psr\Http\Message\StreamInterface;
 use UnitTester;
 
 /**
@@ -30,6 +32,8 @@ class ConstructCest
     public function httpMessageStreamMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Memory - __construct()');
-        $I->skipTest('Need implementation');
+        $request = new Memory();
+        $class   = StreamInterface::class;
+        $I->assertInstanceOf($class, $request);
     }
 }

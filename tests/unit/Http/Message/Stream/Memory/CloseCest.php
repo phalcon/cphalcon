@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Memory;
 
+use Phalcon\Http\Message\Stream\Memory;
 use UnitTester;
 
 /**
@@ -20,16 +21,20 @@ use UnitTester;
 class CloseCest
 {
     /**
-     * Tests Phalcon\Http\Message\Stream\Memory :: close()
+     * Tests Phalcon\Http\Message\Stream\Memory :: close() - detach
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-19
+     * @since  2019-02-10
      */
-    public function httpMessageStreamMemoryClose(UnitTester $I)
+    public function httpMessageStreamCloseDetach(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Memory - close()');
-        $I->skipTest('Need implementation');
+        $stream   = new Memory();
+        $stream->close();
+
+        $actual = $stream->detach();
+        $I->assertNull($actual);
     }
 }
