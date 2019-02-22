@@ -113,10 +113,6 @@ class Uri implements UriInterface
 		if ("" !== uri) {
 			let urlParts = parse_url(uri);
 
-			if (false === urlParts) {
-				throw new \InvalidArgumentException("The source URI string appears to be malformed");
-			}
-
 			/**
 			 * Assign the parsed uri to the properties
 			 */
@@ -675,6 +671,37 @@ class Uri implements UriInterface
         }
 
         return scheme;
+	}
+
+	/**
+	 * UTF-8 aware parse_url
+	 *
+	 * @link http://php.net/manual/en/function.parse-url.php#114817
+	 */
+	private function parseUrl(string url) -> array
+	{
+		var encoded, key, urlParts, value;
+
+		let encoded = preg_replace_callback(
+			"%[^:/@?&=#]+%usD",
+            function (matches)
+            {
+                return urlencode(matches[0]);
+            },
+            url
+        );
+
+        let urlParts = parse_url(encoded);
+
+		if (false === urlParts) {
+			throw new \InvalidArgumentException("The source URI string appears to be malformed");
+		}
+
+		for key, value in urlParts {
+			let urlParts[key] = urldecode(value);
+		}
+
+        return urlParts;
 	}
 
 	/**

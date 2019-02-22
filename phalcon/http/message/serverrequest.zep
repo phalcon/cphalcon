@@ -15,6 +15,7 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Helper\Arr;
+use Phalcon\Http\Message\Stream\Input;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -205,11 +206,33 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Constructor
 	 */
-	public function __construct(string method = null, var uri = null, array serverParams = [])
-	{
-		let this->method       = method,
+	public function __construct(
+		string method = null,
+		var uri = null,
+		array serverParams = [],
+		var body = "php://input",
+		array headers = [],
+		array cookies = [],
+		array queryParams = [],
+		array uploadFiles = [],
+		var parsedBody = null,
+		string protocol = "1.1"
+	) {
+
+		if "php://input" === body {
+			let body = new Input();
+		}
+
+		let	this->method       = method,
 			this->uri          = uri,
-			this->serverParams = serverParams;
+			this->body         = body,
+			this->parsedBody   = parsedBody,
+			this->protocol     = protocol,
+			this->serverParams = serverParams,
+			this->headers      = headers,
+			this->cookies      = cookies,
+			this->queryParams  = queryParams,
+			this->uploadFiles  = uploadFiles;
 	}
 
 	/**

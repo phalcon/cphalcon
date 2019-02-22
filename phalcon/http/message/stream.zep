@@ -40,7 +40,7 @@ class Stream implements StreamInterface
 	/**
 	 * @var bool
 	 */
-	private warning = false;
+	protected warning = false;
 
 	/**
 	 * Constructor
