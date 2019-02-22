@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 466, &value, &domain, &strict);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 456, &value, &domain, &strict);
 	zephir_check_call_status();
 	if (zephir_is_true(&_4)) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);

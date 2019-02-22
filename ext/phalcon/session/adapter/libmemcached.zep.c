@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	ZEPHIR_CALL_CE_STATIC(&persistentId, phalcon_helper_arr_ce, "get", &_2, 156, &options, &_4, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_6, 2592000);
-	ZEPHIR_CALL_FUNCTION(&_7, "min", NULL, 427, &ttl, &_6);
+	ZEPHIR_CALL_FUNCTION(&_7, "min", NULL, 417, &ttl, &_6);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("ttl"), &_7);
 	ZEPHIR_INIT_NVAR(&_4);

@@ -45,6 +45,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_responseinterface_h
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_responseinterface_issent, 0, 0, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_responseinterface_issent, 0, 0, _IS_BOOL, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_responseinterface_redirect, 0, 0, Phalcon\\Http\\ResponseInterface, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_responseinterface_redirect, 0, 0, IS_OBJECT, "Phalcon\\Http\\ResponseInterface", 0)
@@ -204,6 +211,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_responseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, getStatusCode, arginfo_phalcon_http_responseinterface_getstatuscode)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, getHeaders, arginfo_phalcon_http_responseinterface_getheaders)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, hasHeader, arginfo_phalcon_http_responseinterface_hasheader)
+	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, isSent, arginfo_phalcon_http_responseinterface_issent)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, redirect, arginfo_phalcon_http_responseinterface_redirect)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, resetHeaders, arginfo_phalcon_http_responseinterface_resetheaders)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setContent, arginfo_phalcon_http_responseinterface_setcontent)
