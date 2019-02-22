@@ -14,6 +14,7 @@
 
 namespace Phalcon\Http\Message;
 
+use Phalcon\Helper\Arr;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -199,13 +200,7 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function getAttribute(var name, var defaultValue = null) -> var
 	{
-		var attribute;
-
-		if likely fetch attribute, this->attributes[name] {
-			return attribute;
-		}
-
-		return defaultValue;
+		return Arr::get(this->attributes, attribute, defaultValue);
 	}
 
     /**
@@ -319,10 +314,12 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function withAttribute(var name, var value) -> <ServerRequest>
 	{
-		var newInstance;
+		var attributes, newInstance;
 
-		let newInstance                   = clone this,
-			newInstance->attributes[name] = value;
+		let attributes              = this->attributes,
+			attributes[name]        = value,
+			newInstance             = clone this,
+			newInstance->attributes = attributes;
 
 		return newInstance;
 	}
@@ -559,8 +556,8 @@ class ServerRequest implements ServerRequestInterface
 	{
 		var attributes, newInstance;
 
-		let newInstance = clone this,
-			attributes  = newInstance->attributes;
+		let attributes  = this->attributes,
+			newInstance = clone this;
 
 		unset(attributes[name]);
 
