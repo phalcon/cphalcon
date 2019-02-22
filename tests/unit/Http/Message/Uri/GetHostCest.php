@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
+use InvalidArgumentException;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
@@ -53,7 +54,7 @@ class GetHostCest
         $I->wantToTest('Http\Uri - getHost() - empty');
 
         $I->expectThrowable(
-            new \InvalidArgumentException('The source URI string appears to be malformed'),
+            new InvalidArgumentException('The source URI string appears to be malformed'),
             function () {
                 $query  = 'https://';
                 $uri    = new Uri($query);

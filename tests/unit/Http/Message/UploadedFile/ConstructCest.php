@@ -13,9 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
 use Codeception\Example;
-use Phalcon\Http\Message\UploadedFile;
 use Phalcon\Http\Message\Exception;
+use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
+use stdClass;
 use UnitTester;
 
 /**
@@ -36,21 +37,22 @@ class ConstructCest
         $I->wantToTest('Http\Message\UploadedFile - __construct()');
 
         $stream = outputFolder(uniqid('test'));
-        $file  = new UploadedFile($stream, 100);
-        $class = UploadedFileInterface::class;
+        $file   = new UploadedFile($stream, 100);
+        $class  = UploadedFileInterface::class;
         $I->assertInstanceOf($class, $file);
     }
 
     /**
-     * Tests Phalcon\Http\Message\UploadedFile :: __construct() - stream exception
+     * Tests Phalcon\Http\Message\UploadedFile :: __construct() - stream
+     * exception
      *
      * @dataProvider getStreamExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-18
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-18
      */
     public function httpMessageUploadedFileConstructStreamException(UnitTester $I, Example $example)
     {
@@ -65,7 +67,8 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\UploadedFile :: __construct() - error exception
+     * Tests Phalcon\Http\Message\UploadedFile :: __construct() - error
+     * exception
      *
      * @param UnitTester $I
      *
@@ -80,7 +83,7 @@ class ConstructCest
             new Exception("UploadedFile:__construct - Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"),
             function () {
                 $stream = outputFolder(uniqid('test'));
-                $file = new UploadedFile($stream, 100, 100);
+                $file   = new UploadedFile($stream, 100, 100);
             }
         );
     }
@@ -91,12 +94,12 @@ class ConstructCest
     private function getStreamExamples(): array
     {
         return [
-            ['array',   ['array']],
+            ['array', ['array']],
             ['boolean', true],
-            ['float',   123.45],
+            ['float', 123.45],
             ['integer', 123],
-            ['null',    null],
-            ['object',  new \stdClass()],
+            ['null', null],
+            ['object', new stdClass()],
         ];
     }
 }

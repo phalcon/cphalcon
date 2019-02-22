@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use InvalidArgumentException;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
@@ -50,7 +51,7 @@ class GetStatusCodeCest
     {
         $I->wantToTest('Http\Message\Response - getStatusCode() - exception');
         $I->expectThrowable(
-            new \InvalidArgumentException(
+            new InvalidArgumentException(
                 "Invalid status code '847', (allowed values 100-599)"
             ),
             function () {

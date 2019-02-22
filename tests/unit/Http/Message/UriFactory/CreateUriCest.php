@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Http\Message\UriFactory;
 
 use Phalcon\Http\Message\UriFactory;
 use Psr\Http\Message\UriInterface;
+use TypeError;
 use UnitTester;
 
 /**
@@ -59,7 +60,7 @@ class CreateUriCest
         }
 
         $I->expectThrowable(
-            new \TypeError($message),
+            new TypeError($message),
             function () {
                 $factory = new UriFactory();
                 $factory->createUri(123);

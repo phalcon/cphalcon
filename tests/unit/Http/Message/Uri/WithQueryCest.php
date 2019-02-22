@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
 use Codeception\Example;
+use InvalidArgumentException;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
@@ -59,7 +60,7 @@ class WithQueryCest
     {
         $I->wantToTest('Http\Uri - withQuery() - exception - ' . $example[1]);
         $I->expectThrowable(
-            new \InvalidArgumentException(
+            new InvalidArgumentException(
                 'Uri:withQuery() requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
