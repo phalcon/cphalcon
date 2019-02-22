@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 
 /**
@@ -106,18 +106,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("cookieParams"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
-	 * Retrieve query string arguments.
+	 * Retrieves all message header values.
 	 *
-	 * Retrieves the deserialized query string arguments, if any.
+	 * The keys represent the header name as it will be sent over the wire, and
+	 * each value is an array of strings associated with the header.
 	 *
-	 * Note: the query params might not be in sync with the URI or server
-	 * params. If you need to ensure you are only getting the original
-	 * values, you may need to parse the query string from `getUri()->getQuery()`
-	 * or from the `QUERY_STRING` server param.
+	 *     // Represent the headers as a string
+	 *     foreach ($message->getHeaders() as $name => $values) {
+	 *         echo $name . ': ' . implode(', ', $values);
+	 *     }
+	 *
+	 *     // Emit headers iteratively:
+	 *     foreach ($message->getHeaders() as $name => $values) {
+	 *         foreach ($values as $value) {
+	 *             header(sprintf('%s: %s', $name, $value), false);
+	 *         }
+	 *     }
+	 *
+	 * While header names are not case-sensitive, getHeaders() will preserve the
+	 * exact case in which headers were originally specified.
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("queryParams"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("headers"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * Retrieves the HTTP method of the request.
@@ -152,6 +163,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_serverrequest_ce, SL("protocolVersion"), "1.1", ZEND_ACC_PRIVATE TSRMLS_CC);
+
+	/**
+	 * Retrieve query string arguments.
+	 *
+	 * Retrieves the deserialized query string arguments, if any.
+	 *
+	 * Note: the query params might not be in sync with the URI or server
+	 * params. If you need to ensure you are only getting the original
+	 * values, you may need to parse the query string from `getUri()->getQuery()`
+	 * or from the `QUERY_STRING` server param.
+	 *
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("queryParams"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * Retrieve server parameters.
@@ -247,23 +272,34 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getCookieParams) {
 }
 
 /**
- * Retrieve query string arguments.
+ * Retrieves all message header values.
  *
  *
- * Retrieves the deserialized query string arguments, if any.
+ * The keys represent the header name as it will be sent over the wire, and
+ * each value is an array of strings associated with the header.
  * 
- * Note: the query params might not be in sync with the URI or server
- * params. If you need to ensure you are only getting the original
- * values, you may need to parse the query string from `getUri()->getQuery()`
- * or from the `QUERY_STRING` server param.
+ * // Represent the headers as a string
+ * foreach ($message->getHeaders() as $name => $values) {
+ * echo $name . ': ' . implode(', ', $values);
+ * }
+ * 
+ * // Emit headers iteratively:
+ * foreach ($message->getHeaders() as $name => $values) {
+ * foreach ($values as $value) {
+ * header(sprintf('%s: %s', $name, $value), false);
+ * }
+ * }
+ * 
+ * While header names are not case-sensitive, getHeaders() will preserve the
+ * exact case in which headers were originally specified.
  *
  */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "queryParams");
+	RETURN_MEMBER(getThis(), "headers");
 
 }
 
@@ -315,6 +351,27 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getProtocolVersion) {
 
 
 	RETURN_MEMBER(getThis(), "protocolVersion");
+
+}
+
+/**
+ * Retrieve query string arguments.
+ *
+ *
+ * Retrieves the deserialized query string arguments, if any.
+ * 
+ * Note: the query params might not be in sync with the URI or server
+ * params. If you need to ensure you are only getting the original
+ * values, you may need to parse the query string from `getUri()->getQuery()`
+ * or from the `QUERY_STRING` server param.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "queryParams");
 
 }
 
@@ -427,16 +484,18 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 
-	zval *name, name_sub, *defaultValue = NULL, defaultValue_sub, __$null, attribute, _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *name, name_sub, *defaultValue = NULL, defaultValue_sub, __$null, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&attribute);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
-	zephir_fetch_params(0, 1, 1, &name, &defaultValue);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &name, &defaultValue);
 
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
@@ -444,12 +503,10 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
-	if (EXPECTED(zephir_array_isset_fetch(&attribute, &_0, name, 1 TSRMLS_CC))) {
-		RETURN_CTORW(&attribute);
-	}
-	RETVAL_ZVAL(defaultValue, 1, 0);
-	return;
+	zephir_read_property(&_1, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 54, &_1, name, defaultValue);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -499,35 +556,6 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaderLine) {
 
 	zephir_fetch_params(0, 1, 0, &name);
 
-
-
-
-}
-
-/**
- * Retrieves all message header values.
- *
- * The keys represent the header name as it will be sent over the wire, and
- * each value is an array of strings associated with the header.
- *
- *     // Represent the headers as a string
- *     foreach ($message->getHeaders() as $name => $values) {
- *         echo $name . ': ' . implode(', ', $values);
- *     }
- *
- *     // Emit headers iteratively:
- *     foreach ($message->getHeaders() as $name => $values) {
- *         foreach ($values as $value) {
- *             header(sprintf('%s: %s', $name, $value), false);
- *         }
- *     }
- *
- * While header names are not case-sensitive, getHeaders() will preserve the
- * exact case in which headers were originally specified.
- */
-PHP_METHOD(Phalcon_Http_Message_ServerRequest, getHeaders) {
-
-	zval *this_ptr = getThis();
 
 
 
@@ -607,23 +635,28 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAddedHeader) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
 
-	zval *name, name_sub, *value, value_sub, newInstance;
+	zval *name, name_sub, *value, value_sub, attributes, newInstance, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&newInstance);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name, &value);
 
 
 
+	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&attributes, &_0);
+	zephir_array_update_zval(&attributes, name, value, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_update_property_array(&newInstance, SL("attributes"), name, value TSRMLS_CC);
+	zephir_update_property_zval(&newInstance, SL("attributes"), &attributes);
 	RETURN_CCTOR(&newInstance);
 
 }
@@ -1015,12 +1048,12 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute) {
 
 
 
+	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, &newInstance, SL("attributes"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&attributes, &_0);
 	zephir_array_unset(&attributes, name, PH_SEPARATE);
 	zephir_update_property_zval(&newInstance, SL("attributes"), &attributes);
 	RETURN_CCTOR(&newInstance);
@@ -1063,17 +1096,19 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, cloneInstance) {
 
 zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
+		zval _0, _2, _4, _6, _8, _10, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7, _11$$8;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_9$$7);
+	ZVAL_UNDEF(&_11$$8);
 
 		ZEPHIR_MM_GROW();
 	
@@ -1098,17 +1133,23 @@ zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_clas
 			array_init(&_5$$5);
 			zephir_update_property_zval(this_ptr, SL("queryParams"), &_5$$5);
 		}
-		zephir_read_property(&_6, this_ptr, SL("cookieParams"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_6, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_6) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_7$$6);
 			array_init(&_7$$6);
-			zephir_update_property_zval(this_ptr, SL("cookieParams"), &_7$$6);
+			zephir_update_property_zval(this_ptr, SL("headers"), &_7$$6);
 		}
-		zephir_read_property(&_8, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_8, this_ptr, SL("cookieParams"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_8) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_9$$7);
 			array_init(&_9$$7);
-			zephir_update_property_zval(this_ptr, SL("attributes"), &_9$$7);
+			zephir_update_property_zval(this_ptr, SL("cookieParams"), &_9$$7);
+		}
+		zephir_read_property(&_10, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_10) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_11$$8);
+			array_init(&_11$$8);
+			zephir_update_property_zval(this_ptr, SL("attributes"), &_11$$8);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

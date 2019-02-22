@@ -60,6 +60,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
 	zend_declare_property_null(phalcon_http_message_request_ce, SL("body"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
+	 * Retrieves all message header values.
+	 *
+	 * The keys represent the header name as it will be sent over the wire, and
+	 * each value is an array of strings associated with the header.
+	 *
+	 *     // Represent the headers as a string
+	 *     foreach ($message->getHeaders() as $name => $values) {
+	 *         echo $name . ': ' . implode(', ', $values);
+	 *     }
+	 *
+	 *     // Emit headers iteratively:
+	 *     foreach ($message->getHeaders() as $name => $values) {
+	 *         foreach ($values as $value) {
+	 *             header(sprintf('%s: %s', $name, $value), false);
+	 *         }
+	 *     }
+	 *
+	 * While header names are not case-sensitive, getHeaders() will preserve the
+	 * exact case in which headers were originally specified.
+	 *
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_http_message_request_ce, SL("headers"), ZEND_ACC_PRIVATE TSRMLS_CC);
@@ -78,6 +98,38 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
 
 	zend_class_implements(phalcon_http_message_request_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Retrieves all message header values.
+ *
+ *
+ * The keys represent the header name as it will be sent over the wire, and
+ * each value is an array of strings associated with the header.
+ * 
+ * // Represent the headers as a string
+ * foreach ($message->getHeaders() as $name => $values) {
+ * echo $name . ': ' . implode(', ', $values);
+ * }
+ * 
+ * // Emit headers iteratively:
+ * foreach ($message->getHeaders() as $name => $values) {
+ * foreach ($values as $value) {
+ * header(sprintf('%s: %s', $name, $value), false);
+ * }
+ * }
+ * 
+ * While header names are not case-sensitive, getHeaders() will preserve the
+ * exact case in which headers were originally specified.
+ *
+ */
+PHP_METHOD(Phalcon_Http_Message_Request, getHeaders) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "headers");
 
 }
 
@@ -188,35 +240,6 @@ PHP_METHOD(Phalcon_Http_Message_Request, getHeaderLine) {
 
 	zephir_fetch_params(0, 1, 0, &name);
 
-
-
-
-}
-
-/**
- * Retrieves all message header values.
- *
- * The keys represent the header name as it will be sent over the wire, and
- * each value is an array of strings associated with the header.
- *
- *     // Represent the headers as a string
- *     foreach ($message->getHeaders() as $name => $values) {
- *         echo $name . ': ' . implode(', ', $values);
- *     }
- *
- *     // Emit headers iteratively:
- *     foreach ($message->getHeaders() as $name => $values) {
- *         foreach ($values as $value) {
- *             header(sprintf('%s: %s', $name, $value), false);
- *         }
- *     }
- *
- * While header names are not case-sensitive, getHeaders() will preserve the
- * exact case in which headers were originally specified.
- */
-PHP_METHOD(Phalcon_Http_Message_Request, getHeaders) {
-
-	zval *this_ptr = getThis();
 
 
 

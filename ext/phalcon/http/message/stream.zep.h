@@ -24,7 +24,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkHandle);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkReadable);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkSeekable);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable);
-zend_object *zephir_init_properties_Phalcon_Http_Message_Stream(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, stream)

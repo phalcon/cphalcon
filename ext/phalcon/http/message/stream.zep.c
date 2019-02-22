@@ -56,16 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream) {
 	zend_declare_property_null(phalcon_http_message_stream_ce, SL("stream"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_http_message_stream_ce, SL("metadata"), ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	/**
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_http_message_stream_ce, SL("warning"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	phalcon_http_message_stream_ce->create_object = zephir_init_properties_Phalcon_Http_Message_Stream;
 
 	zend_class_implements(phalcon_http_message_stream_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")));
 	return SUCCESS;
@@ -252,7 +245,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getContents) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:getContents", " - Could not read from the file/stream");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 139 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 134 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -513,7 +506,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, read) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:read", " - Could not read from the file/stream");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 237 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 232 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -590,7 +583,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, seek) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:seek", " - Cound not seek on the file pointer");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 267 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 262 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -661,7 +654,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, setStream) {
 		ZEPHIR_CONCAT_SS(&_7$$4, "Stream:setStream", " - The stream provided is not valid (string/resource) or could not be opened.");
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 4, &_7$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/http/message/stream.zep", 293 TSRMLS_CC);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/http/message/stream.zep", 288 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -703,7 +696,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:tell", " - Could not retrieve the pointer position");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 311 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 306 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -751,7 +744,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, write) {
 		ZEPHIR_CONCAT_SS(&_3$$3, "Stream:write", " - Could not write to the file/stream");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 4, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 330 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/http/message/stream.zep", 325 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -788,7 +781,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkHandle) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - A valid resource is required.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 342 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 337 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -826,7 +819,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkReadable) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - The resource is not readable.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 352 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 347 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -864,7 +857,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkSeekable) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - The resource is not seekable.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 362 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 357 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -902,34 +895,11 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable) {
 		ZEPHIR_CONCAT_VS(&_2$$3, &method, " - The resource is not writable.");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 4, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 372 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/http/message/stream.zep", 367 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
-
-}
-
-zend_object *zephir_init_properties_Phalcon_Http_Message_Stream(zend_class_entry *class_type TSRMLS_DC) {
-
-		zval _0, _1$$3;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-
-		ZEPHIR_MM_GROW();
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("metadata"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("metadata"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 
 }
 
