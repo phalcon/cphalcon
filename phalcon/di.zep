@@ -272,7 +272,7 @@ class Di implements DiInterface
 			}
 		}
 
-		// Allows for post creation instance configuration through the "di:beforeServiceResolve" event.
+		// Allows for post creation instance configuration through the "di:afterServiceResolve" event.
 		if typeof eventsManager == "object" {
 			eventsManager->fire(
 				"di:afterServiceResolve",
