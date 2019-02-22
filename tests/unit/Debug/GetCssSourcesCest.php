@@ -36,12 +36,12 @@ class GetCssSourcesCest
         $uri   = 'https://assets.phalconphp.com/debug/4.0.x/';
 
         $expected = sprintf(
-            '<link rel="stylesheet" type="text/css" ' .
-            'href="%1$sbower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" />' .
-            '<link rel="stylesheet" type="text/css" ' .
-            'href="%1$sbower_components/jquery-ui/themes/ui-lightness/theme.css" />' .
-            '<link rel="stylesheet" type="text/css" ' .
-            'href="%1$sthemes/default/style.css" />',
+            "<link rel='stylesheet' type='text/css' " .
+            'href=\'%1$sbower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\' />' .
+            "<link rel='stylesheet' type='text/css' " .
+            'href=\'%1$sbower_components/jquery-ui/themes/ui-lightness/theme.css\' />' .
+            "<link rel='stylesheet' type='text/css' " .
+            'href=\'%1$sthemes/default/style.css\' />',
             $uri
         );
 

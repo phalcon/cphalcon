@@ -30,7 +30,7 @@
         "phalcon/mvc/model/query/parser.c",
         "phalcon/mvc/view/engine/volt/parser.c",
         "phalcon/mvc/view/engine/volt/scanner.c",
-        "phalcon/mvc/url/utils.c"
+        "phalcon/url/utils.c"
     ],
     "globals": {
         "db.escape_identifiers": {

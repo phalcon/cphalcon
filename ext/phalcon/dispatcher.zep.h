@@ -38,6 +38,7 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
 PHP_METHOD(Phalcon_Dispatcher, callActionMethod);
 PHP_METHOD(Phalcon_Dispatcher, getBoundModels);
 PHP_METHOD(Phalcon_Dispatcher, _resolveEmptyProperties);
+PHP_METHOD(Phalcon_Dispatcher, toCamelCase);
 zend_object *zephir_init_properties_Phalcon_Dispatcher(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdi, 0, 0, 1)
@@ -259,6 +260,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_getboundmodel
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_tocamelcase, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_tocamelcase, 0, 1, IS_STRING, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, input)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher, setDI, arginfo_phalcon_dispatcher_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getDI, arginfo_phalcon_dispatcher_getdi, ZEND_ACC_PUBLIC)
@@ -295,5 +308,6 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher, callActionMethod, arginfo_phalcon_dispatcher_callactionmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getBoundModels, arginfo_phalcon_dispatcher_getboundmodels, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, _resolveEmptyProperties, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Dispatcher, toCamelCase, arginfo_phalcon_dispatcher_tocamelcase, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
