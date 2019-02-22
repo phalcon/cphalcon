@@ -150,7 +150,7 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	public function getStream() -> <StreamInterface>
 	{
-		if this->error !== UPLOAD_ERR_OK {
+		if this->error !== constant("UPLOAD_ERR_OK") {
 			throw new Exception(
 				this->getErrorDescription(this->error)
 			);
@@ -207,7 +207,7 @@ class UploadedFile implements UploadedFileInterface
 			throw new Exception(__METHOD__ . " - File has already been moved");
 		}
 
-		if UPLOAD_ERR_OK !== this->error {
+		if constant("UPLOAD_ERR_OK") !== this->error {
 			throw new Exception(this->getErrorDescription(this->error));
 		}
 
@@ -219,7 +219,7 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	private function checkError(string method, int error) -> void
 	{
-		if true !== Number::between(error, UPLOAD_ERR_OK, UPLOAD_ERR_EXTENSION) {
+		if true !== Number::between(error, constant("UPLOAD_ERR_OK"), constant("UPLOAD_ERR_EXTENSION")) {
 			throw new Exception(method . " - Invalid 'error'. Must be one of the UPLOAD_ERR_* constants");
 		}
 
@@ -231,7 +231,7 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	private function checkStream(string method, var stream, int error) -> void
 	{
-		if error === UPLOAD_ERR_OK {
+		if error === constant("UPLOAD_ERR_OK") {
 			switch (true) {
 				case (typeof stream === "string"):
 					let this->fileName = stream;
@@ -254,21 +254,21 @@ class UploadedFile implements UploadedFileInterface
 	private function getErrorDescription(int error) -> string
 	{
 		switch error {
-			case UPLOAD_ERR_OK:
+			case constant("UPLOAD_ERR_OK"):
 				return  "There is no error, the file uploaded with success.";
-			case UPLOAD_ERR_INI_SIZE:
+			case constant("UPLOAD_ERR_INI_SIZE"):
 				return  "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
-			case UPLOAD_ERR_FORM_SIZE:
+			case constant("UPLOAD_ERR_FORM_SIZE"):
 				return  "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
-			case UPLOAD_ERR_PARTIAL:
+			case constant("UPLOAD_ERR_PARTIAL"):
 				return  "The uploaded file was only partially uploaded.";
-			case UPLOAD_ERR_NO_FILE:
+			case constant("UPLOAD_ERR_NO_FILE"):
 				return  "No file was uploaded.";
-			case UPLOAD_ERR_NO_TMP_DIR:
+			case constant("UPLOAD_ERR_NO_TMP_DIR"):
 				return  "Missing a temporary folder.";
-			case UPLOAD_ERR_CANT_WRITE:
+			case constant("UPLOAD_ERR_CANT_WRITE"):
 				return  "Failed to write file to disk.";
-			case UPLOAD_ERR_EXTENSION:
+			case constant("UPLOAD_ERR_EXTENSION"):
 				return  "A PHP extension stopped the file upload.";
 		}
 

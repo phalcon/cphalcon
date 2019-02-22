@@ -29,9 +29,11 @@ class Syslog extends AbstractFormatter
 	 */
 	public function format(<Item> item) -> array
 	{
-		var message = item->getMessage(),
-			type    = item->getType(),
-			context = item->getContext();
+		var context, message, type;
+
+		let context = item->getContext(),
+			message = item->getMessage(),
+			type    = item->getType();
 
 		if typeof context === "array" {
 			let message = this->interpolate(message, context);
