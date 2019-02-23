@@ -203,12 +203,42 @@ class UploadedFile implements UploadedFileInterface
 	 */
 	public function moveTo(var targetPath) -> void
 	{
+		var sapi, dirname;
+
 		if true === this->alreadyMoved {
 			throw new Exception(__METHOD__ . " - File has already been moved");
 		}
 
 		if constant("UPLOAD_ERR_OK") !== this->error {
 			throw new Exception(this->getErrorDescription(this->error));
+		}
+
+		let dirname = dirname(targetPath);
+
+		/**
+		 * All together for early failure
+		 */
+		if (true !== (
+				typeof targetPath === "string" &&
+				true !== empty(targetPath)     &&
+				true === is_dir(dirname)       &&
+				true === is_writable(dirname)
+			)
+		) {
+			throw new Exception(__METHOD__ . " - Target folder is empty string, not a folder or not writable");
+		}
+
+		/**
+		 * Figure out the SAPI path
+		 */
+		let sapi = constant("PHP_SAPI");
+
+		if true === empty(sapi) || true === empty(this->fileName) || true === starts_with(sapi, "cli") {
+			this->storeFile(targetPath);
+		} else {
+			if (false === move_uploaded_file(this->fileName, targetPath)) {
+				throw new Exception(__METHOD__ . " - The file cannot be moved to the target folder");
+			}
 		}
 
 		let this->alreadyMoved = true;
@@ -273,5 +303,24 @@ class UploadedFile implements UploadedFileInterface
 		}
 
 		return "Unknown upload error";
+	}
+
+	/**
+	 * Store a file in the new location (stream)
+	 */
+	private function storeFile(string targetPath) -> void
+	{
+		var data, handle, stream;
+
+		let handle = fopen(targetPath, "w+b"),
+			stream = this->getStream();
+
+		stream->rewind();
+		while (true !== stream->eof()) {
+			let data = stream->read(2048);
+			fwrite(handle, data);
+		}
+
+		fclose(handle);
 	}
 }
