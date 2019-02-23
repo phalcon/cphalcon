@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_alnum", NULL, 460, &value);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_alnum", NULL, 450, &value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
