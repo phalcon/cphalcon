@@ -500,7 +500,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			// Ensure that the handler is new.
 			let wasFresh = isset this->_handlerHashes[handlerHash] ? false : true;
 			if wasFresh {
-				this->_handlerHashes[handlerHash] = true;
+				let this->_handlerHashes[handlerHash] = true;
 			}
 
 			// Handlers must be only objects
