@@ -30,7 +30,6 @@ class Memory extends Stream
 	 */
 	public function __construct(var mode = "rb") -> void
 	{
-	var_dump(mode);
 		parent::__construct("php://memory", mode);
 	}
 }
