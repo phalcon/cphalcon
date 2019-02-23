@@ -45,6 +45,7 @@
 
 ## Removed
 - Removed the CSS/JS minifiers. This affects the Assets\Filter classes. For now the classes return the original content. [#13819](https://github.com/phalcon/cphalcon/issues/13819), [#10118](https://github.com/phalcon/cphalcon/issues/10118)
+- Removed `Phalcon\Queue` namespace and tests. Beanstalkd is near being abandoned. A new Queue component/adapter will be implemented for queueing needs of the community. [#13364](https://github.com/phalcon/cphalcon/issues/13364)
 
 
 # [4.0.0-alpha.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.2) (2019-02-02)
