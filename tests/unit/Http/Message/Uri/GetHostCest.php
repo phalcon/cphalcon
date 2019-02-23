@@ -53,13 +53,10 @@ class GetHostCest
     {
         $I->wantToTest('Http\Uri - getHost() - empty');
 
-        $I->expectThrowable(
-            new InvalidArgumentException('The source URI string appears to be malformed'),
-            function () {
-                $query  = 'https://';
-                $uri    = new Uri($query);
-                $actual = $uri->getHost();
-            }
-        );
+        $query = 'https://';
+        $uri   = new Uri($query);
+
+        $actual   = $uri->getHost();
+        $I->assertEmpty($actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Temp;
 
+use Phalcon\Http\Message\Stream\Temp;
 use UnitTester;
 
 /**
@@ -30,6 +31,8 @@ class IsSeekableCest
     public function httpMessageStreamTempIsSeekable(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Temp - isSeekable()');
-        $I->skipTest('Need implementation');
+
+        $stream = new Temp();
+        $I->assertTrue($stream->isSeekable());
     }
 }

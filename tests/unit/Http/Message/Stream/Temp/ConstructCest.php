@@ -35,6 +35,5 @@ class ConstructCest
         $request = new Temp();
         $class   = StreamInterface::class;
         $I->assertInstanceOf($class, $request);
-
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Temp;
 
+use Phalcon\Http\Message\Stream\Temp;
 use UnitTester;
 
 /**
@@ -30,6 +31,8 @@ class IsWritableCest
     public function httpMessageStreamTempIsWritable(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Temp - isWritable()');
-        $I->skipTest('Need implementation');
+
+        $stream = new Temp('r+b');
+        $I->assertTrue($stream->isWritable());
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream\Memory;
 
+use Phalcon\Http\Message\Stream\Memory;
 use UnitTester;
 
 /**
@@ -30,6 +31,8 @@ class IsWritableCest
     public function httpMessageStreamMemoryIsWritable(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream\Memory - isWritable()');
-        $I->skipTest('Need implementation');
+
+        $stream = new Memory('r+b');
+        $I->assertTrue($stream->isWritable());
     }
 }
