@@ -386,9 +386,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/factory.zep.c
 	phalcon/paginator/repository.zep.c
 	phalcon/plugin.zep.c
-	phalcon/queue/beanstalk.zep.c
-	phalcon/queue/beanstalk/exception.zep.c
-	phalcon/queue/beanstalk/job.zep.c
 	phalcon/registry.zep.c
 	phalcon/security.zep.c
 	phalcon/security/exception.zep.c
