@@ -495,14 +495,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let handler = dependencyInjector->getShared(handlerClass);
 
-			let handlerHash = spl_object_hash(handler);
-
-			// Ensure that the handler is new.
-			let wasFresh = isset this->_handlerHashes[handlerHash] ? false : true;
-			if wasFresh {
-				let this->_handlerHashes[handlerHash] = true;
-			}
-
 			// Handlers must be only objects
 			if typeof handler !== "object" {
 				let status = this->{"_throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
@@ -510,6 +502,13 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 				break;
+			}
+
+			// Check if the handler is new (hasn't been initialized).
+			let handlerHash = spl_object_hash(handler);
+			let wasFresh = isset this->_handlerHashes[handlerHash] ? false : true;
+			if wasFresh {
+				let this->_handlerHashes[handlerHash] = true;
 			}
 
 			let this->_activeHandler = handler;
