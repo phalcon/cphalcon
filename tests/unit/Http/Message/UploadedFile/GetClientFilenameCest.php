@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
+use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
 /**
@@ -30,6 +31,15 @@ class GetClientFilenameCest
     public function httpMessageUploadedFileGetClientFilename(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - getClientFilename()');
-        $I->skipTest('Need implementation');
+        $file = new UploadedFile(
+            'php://memory',
+            0,
+            UPLOAD_ERR_OK,
+            'phalcon.txt'
+        );
+
+        $expected = 'phalcon.txt';
+        $actual   = $file->getClientFilename();
+        $I->assertEquals($expected, $actual);
     }
 }

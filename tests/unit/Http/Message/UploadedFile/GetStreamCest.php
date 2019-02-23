@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
+use Phalcon\Http\Message\Stream;
+use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
 /**
@@ -30,6 +32,16 @@ class GetStreamCest
     public function httpMessageUploadedFileGetStream(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - getStream()');
-        $I->skipTest('Need implementation');
+        $stream = new Stream('php://memory');
+        $file   = new UploadedFile(
+            $stream,
+            0,
+            UPLOAD_ERR_OK,
+            'phalcon.txt'
+        );
+
+        $expected = $stream;
+        $actual   = $file->getStream();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
+use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
 /**
@@ -30,6 +31,16 @@ class GetClientMediaTypeCest
     public function httpMessageUploadedFileGetClientMediaType(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - getClientMediaType()');
-        $I->skipTest('Need implementation');
+        $file = new UploadedFile(
+            'php://memory',
+            0,
+            UPLOAD_ERR_OK,
+            'phalcon.txt',
+            'some-media-type'
+        );
+
+        $expected = 'some-media-type';
+        $actual   = $file->getClientMediaType();
+        $I->assertEquals($expected, $actual);
     }
 }

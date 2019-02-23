@@ -31,9 +31,7 @@ class GetSizeCest
     public function httpMessageUploadedFileGetSize(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - getSize()');
-        $I->skipTest('TODO');
-        $stream = fopen('php://temp', 'w+');
-        $file   = new UploadedFile($stream, 100);
+        $file   = new UploadedFile('php://memory', 100);
 
         $expected = 100;
         $actual   = $file->getSize();

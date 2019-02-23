@@ -31,9 +31,7 @@ class GetErrorCest
     public function httpMessageUploadedFileGetError(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - getError()');
-        $I->skipTest('TODO');
-        $stream = fopen('php://temp', 'w+');
-        $file   = new UploadedFile($stream, 100);
+        $file   = new UploadedFile('php://memory', 100);
 
         $expected = UPLOAD_ERR_OK;
         $actual   = $file->getError();

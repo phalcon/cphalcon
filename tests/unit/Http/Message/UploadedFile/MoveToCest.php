@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
+use Phalcon\Http\Message\Stream;
+use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
 /**
@@ -30,6 +32,22 @@ class MoveToCest
     public function httpMessageUploadedFileMoveTo(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo()');
-        $I->skipTest('Need implementation');
+        $source = $I->getNewFileName();
+        $source = outputFolder('tests/stream/' . $source);
+        $stream = new Stream($source, 'w+b');
+        $stream->write('Phalcon Framework');
+
+        $file   = new UploadedFile($stream, 0);
+        $target = $I->getNewFileName();
+        $target = outputFolder('tests/stream/' . $target);
+
+        $file->moveTo($target);
+
+        $actual = file_exists($target);
+        $I->assertTrue($actual);
+
+        $expected = (string) $stream;
+        $actual   = file_get_contents($target);
+        $I->assertEquals($expected, $actual);
     }
 }
