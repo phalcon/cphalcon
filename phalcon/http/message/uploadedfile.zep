@@ -210,7 +210,7 @@ class UploadedFile implements UploadedFileInterface
 		}
 
 		if constant("UPLOAD_ERR_OK") !== this->error {
-			throw new Exception(this->getErrorDescription(this->error));
+			throw new Exception(__METHOD__ . " - " . this->getErrorDescription(this->error));
 		}
 
 		let dirname = dirname(targetPath);
