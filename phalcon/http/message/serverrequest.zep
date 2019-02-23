@@ -261,7 +261,7 @@ class ServerRequest implements ServerRequestInterface
      */
     public function getHeader(var name) -> array
     {
-
+		return [];
     }
 
     /**

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -20,16 +21,20 @@ use UnitTester;
 class GetHeaderCest
 {
     /**
-     * Tests Phalcon\Http\Message\ServerRequest :: getHeader()
+     * Tests Phalcon\Http\Message\ServerRequest :: getHeader() - empty headers
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
-    public function httpMessageServerRequestGetHeader(UnitTester $I)
+    public function httpMessageServerRequestGetHeaderEmptyHeaders(UnitTester $I)
     {
-        $I->wantToTest('Http\Message\ServerRequest - getHeader()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Http\Message\ServerRequest - getHeader() - empty headers');
+        $request = new ServerRequest();
+
+        $exptected = [];
+        $actual    = $request->getHeaders();
+        $I->assertEquals($exptected, $actual);
     }
 }
