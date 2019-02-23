@@ -81,6 +81,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _isControllerInitialize = false;
 
+	protected _handlerHashes = [];
+
 	const EXCEPTION_NO_DI = 0;
 
 	const EXCEPTION_CYCLIC_ROUTING = 1;
@@ -394,7 +396,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod,
 			modelBinder, bindCacheKey,
-			wasFresh, e;
+			wasFresh, handlerHash, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -492,7 +494,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			let handler = dependencyInjector->getShared(handlerClass);
-			let wasFresh = dependencyInjector->wasFreshInstance();
+
+			let handlerHash = spl_object_hash(handler);
+
+			// Ensure that the handler is new.
+			let wasFresh = isset this->_handlerHashes[handlerHash] ? false : true;
+			if wasFresh {
+				this->_handlerHashes[handlerHash] = true;
+			}
 
 			// Handlers must be only objects
 			if typeof handler !== "object" {
