@@ -44,7 +44,7 @@ class Sqlite extends PdoAdapter
 	protected _type = "sqlite";
 
 	/**
-	 *
+	 * Returns PDO adapter DSN defaults as a key-value map.
 	 */
 	protected function getDsnDefaults() -> array
 	{
@@ -57,7 +57,7 @@ class Sqlite extends PdoAdapter
 	public function __construct(array! descriptor)
 	{
 		if isset descriptor["charset"] {
-			trigger_error("Postgres does not allow the charset to be changed in the DSN.");
+			trigger_error("Sqlite does not allow the charset to be changed in the DSN.");
 		}
 
 		parent::__construct(descriptor);

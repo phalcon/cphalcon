@@ -52,7 +52,7 @@ abstract class Pdo extends Adapter
 	protected _pdo;
 
 	/**
-	 *
+	 * Returns PDO adapter DSN defaults as a key-value map.
 	 */
 	abstract protected function getDsnDefaults() -> array;
 

@@ -45,6 +45,9 @@ class Postgresql extends PdoAdapter
 
 	protected _type = "pgsql";
 
+	/**
+	 * Returns PDO adapter DSN defaults as a key-value map.
+	 */
 	protected function getDsnDefaults() -> array
 	{
 		return [];
