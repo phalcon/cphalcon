@@ -48,13 +48,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, message, type, context, _0$$3;
+	zval *item, item_sub, context, message, type, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
+	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&type);
-	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&_0$$3);
 
 	ZEPHIR_MM_GROW();
