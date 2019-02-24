@@ -205,32 +205,54 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null;
+		var service, eventsManager, isShared, instance = null;
+
+		// If the service is shared and it already has a cached instance then
+		// immediately return it without triggering events.
+		if fetch service, this->_services[name] {
+			let isShared = service->isShared();
+			if isShared && isset this->_sharedInstances[name] {
+
+				// FIXME: This must be used due to wasFreshInstance()
+				// @see https://github.com/phalcon/cphalcon/pull/13112
+				return this->getShared(name, parameters);
+
+				// This is the desired simple way of returning the shared instance.
+				// return this->_sharedInstances[name];
+			}
+		}
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
+		// Allows for custom creation of instances through the "di:beforeServiceResolve" event.
 		if typeof eventsManager == "object" {
 			let instance = eventsManager->fire(
 				"di:beforeServiceResolve",
 				this,
-				["name": name, "parameters": parameters]
+				[
+					"name": name,
+					"parameters": parameters
+				]
 			);
 		}
 
 		if typeof instance != "object" {
-			if fetch service, this->_services[name] {
-				/**
-				 * The service is registered in the DI
-				 */
+			if service !== null {
+
+				// The service is registered in the DI.
 				try {
 					let instance = service->resolve(parameters, this);
 				} catch ServiceResolutionException {
 					throw new Exception("Service '" . name . "' cannot be resolved");
 				}
+
+				// If the service is shared then we'll cache the instance.
+				if isShared {
+					let this->_sharedInstances[name] = instance;
+				}
 			} else {
-				/**
-				 * The DI also acts as builder for any class even if it isn't defined in the DI
-				 */
+
+				// The DI also acts as builder for any class even if it isn't defined in the DI
 				if !class_exists(name) {
 					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 				}
@@ -243,15 +265,14 @@ class Di implements DiInterface
 			}
 		}
 
-		/**
-		 * Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
-		 */
+		// Pass the DI to the instance if it implements \Phalcon\Di\InjectionAwareInterface
 		if typeof instance == "object" {
 			if instance instanceof InjectionAwareInterface {
 				instance->setDI(this);
 			}
 		}
 
+		// Allows for post creation instance configuration through the "di:afterServiceResolve" event.
 		if typeof eventsManager == "object" {
 			eventsManager->fire(
 				"di:afterServiceResolve",

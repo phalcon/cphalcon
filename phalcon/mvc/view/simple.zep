@@ -120,7 +120,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 */
 	protected function _loadTemplateEngines() -> array
 	{
-		var engines, dependencyInjector, registeredEngines, arguments, extension,
+		var engines, di, registeredEngines, extension,
 			engineService, engineObject;
 
 		/**
@@ -129,7 +129,7 @@ class Simple extends Injectable implements ViewBaseInterface
 		let engines = this->_engines;
 		if engines === false {
 
-			let dependencyInjector = this->_dependencyInjector;
+			let di = this->_dependencyInjector;
 
 			let engines = [];
 
@@ -140,18 +140,13 @@ class Simple extends Injectable implements ViewBaseInterface
 				 * We use Phalcon\Mvc\View\Engine\Php as default
 				 * Use .phtml as extension for the PHP engine
 				 */
-				let engines[".phtml"] = new PhpEngine(this, dependencyInjector);
+				let engines[".phtml"] = new PhpEngine(this, di);
 
 			} else {
 
-				if typeof dependencyInjector != "object" {
+				if typeof di != "object" {
 					throw new Exception("A dependency injector container is required to obtain the application services");
 				}
-
-				/**
-				 * Arguments for instantiated engines
-				 */
-				let arguments = [this, dependencyInjector];
 
 				for extension, engineService in registeredEngines {
 
@@ -160,7 +155,8 @@ class Simple extends Injectable implements ViewBaseInterface
 						 * Engine can be a closure
 						 */
 						if engineService instanceof \Closure {
-							let engineObject = call_user_func_array(engineService, arguments);
+							let engineService = \Closure::bind(engineService, di);
+							let engineObject = call_user_func(engineService, this);
 						} else {
 							let engineObject = engineService;
 						}
@@ -169,7 +165,7 @@ class Simple extends Injectable implements ViewBaseInterface
 						 * Engine can be a string representing a service in the DI
 						 */
 						if typeof engineService == "string" {
-							let engineObject = dependencyInjector->getShared(engineService, arguments);
+							let engineObject = di->getShared(engineService, [this]);
 						} else {
 							throw new Exception("Invalid template engine registration for extension: " . extension);
 						}
