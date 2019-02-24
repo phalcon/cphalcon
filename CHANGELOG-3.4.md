@@ -1,3 +1,6 @@
+# [3.4.3](https://github.com/phalcon/cphalcon/releases/tag/v3.4.3) (2018-02-24)
+- Provided PHP 7.3 support [#13847](https://github.com/phalcon/cphalcon/issues/13847)
+
 # [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-12-02)
 - Added missing Volt tags to array helper in `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` [#13447](https://github.com/phalcon/cphalcon/issues/13447)
 - Added the ability to explicitly define nullable columns (especially timestamp ones) [#13099](https://github.com/phalcon/cphalcon/issues/13099)
