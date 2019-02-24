@@ -52,6 +52,11 @@ abstract class Pdo extends Adapter
 	protected _pdo;
 
 	/**
+	 * Returns PDO adapter DSN defaults as a key-value map.
+	 */
+	abstract protected function getDsnDefaults() -> array;
+
+	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo
 	 */
 	public function __construct(array! descriptor)
@@ -75,7 +80,6 @@ abstract class Pdo extends Adapter
 	{
 		return this->_affectedRows;
 	}
-
 
 	/**
 	 * Starts a transaction in the connection
@@ -246,8 +250,8 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(array descriptor = null) -> bool
 	{
-		var username, password, dsnParts, dsnAttributes,
-			persistent, options, key, value;
+		var username, password, dsnDefaults, dsnDefaultValue, dsnParts,
+			dsnAttributes, persistent, options, key, value, pdoKey;
 
 		if empty descriptor {
 			let descriptor = (array) this->_descriptor;
@@ -283,12 +287,15 @@ abstract class Pdo extends Adapter
 		/**
 		 * Check for \PDO::XXX class constant aliases
 		 */
-        for key, value in options {
-            if typeof key == "string" && defined("\PDO::" . key->upper()) {
-                let options[constant("\PDO::" . key->upper())] = value;
-                unset options[key];
-            }
-        }
+		for key, value in options {
+			if typeof key == "string" {
+				let pdoKey = "\PDO::" . key->upper();
+				if defined(pdoKey) {
+					let options[constant(pdoKey)] = value;
+					unset options[key];
+				}
+			}
+		}
 
 		/**
 		 * Check if the connection must be persistent
@@ -310,9 +317,13 @@ abstract class Pdo extends Adapter
 		/**
 		 * Check if the user has defined a custom dsn
 		 */
-		 if !fetch dsnAttributes, descriptor["dsn"] {
+		if !fetch dsnAttributes, descriptor["dsn"] {
+			let dsnDefaults = this->getDsnDefaults();
 			let dsnParts = [];
 			for key, value in descriptor {
+				if fetch dsnDefaultValue, dsnDefaults[key] {
+					let value = dsnDefaultValue;
+				}
 				let dsnParts[] = key . "=" . value;
 			}
 			let dsnAttributes = join(";", dsnParts);
