@@ -258,24 +258,13 @@ abstract class Pdo extends Adapter
 		}
 
 		// Check for a username or use null as default
-		if fetch username, descriptor["username"] {
-			unset descriptor["username"];
-		}
+		fetch username, descriptor["username"];
 
 		// Check for a password or use null as default
-		if fetch password, descriptor["password"] {
-			unset descriptor["password"];
-		}
-
-		// Remove the dialectClass from the descriptor if any
-		if isset descriptor["dialectClass"] {
-			unset descriptor["dialectClass"];
-		}
+		fetch password, descriptor["password"];
 
 		// Check if the developer has defined custom options or create one from scratch
-		if fetch options, descriptor["options"] {
-			unset descriptor["options"];
-		} else {
+		if !fetch options, descriptor["options"] {
 			let options = [];
 		}
 
@@ -294,9 +283,7 @@ abstract class Pdo extends Adapter
 		}
 
 		// Check if the user has defined a custom dsn
-		if fetch dsnAttributes, descriptor["dsn"] {
-			unset descriptor["dsn"];
-		} else {
+		if !fetch dsnAttributes, descriptor["dsn"] {
 			let dsnAttributes = [];
 		}
 
