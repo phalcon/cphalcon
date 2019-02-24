@@ -250,7 +250,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(array descriptor = null) -> bool
 	{
-		var username, password, dsnParts, dsnAttributes, dsnMap, dsnSection, options,
+		var username, password, dsnParts, dsnAttributes, options,
 			key, value, pdoKey;
 
 		if empty descriptor {
@@ -296,6 +296,8 @@ abstract class Pdo extends Adapter
 		// Check if the user has defined a custom dsn
 		if fetch dsnAttributes, descriptor["dsn"] {
 			unset descriptor["dsn"];
+		} else {
+			let dsnAttributes = [];
 		}
 
 		// If an array was used for dsn attributes then first use the dsn defaults and then
