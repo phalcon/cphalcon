@@ -29,9 +29,9 @@ class Cli extends Di implements PresetInterface
 	/**
 	 *
 	 */
-	public static function configure(<DiInterface> di, bool clobber = true)
+	public static function configure(<DiInterface> di, bool force = true)
 	{
-		var className, filter, serviceName, services;
+		var filter, serviceDefinition, serviceName, services;
 
 		let services = [
 			"annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
@@ -53,11 +53,11 @@ class Cli extends Di implements PresetInterface
 			"url":                new Service("Phalcon\\Url", true)
 		];
 
-		for serviceName, className in services {
-			if clobber {
-				di->set(serviceName, className, true);
+		for serviceName, serviceDefinition in services {
+			if force {
+				di->set(serviceName, serviceDefinition, true);
 			} else {
-				di->attempt(serviceName, className, true);
+				di->attempt(serviceName, serviceDefinition, true);
 			}
 		}
 	}

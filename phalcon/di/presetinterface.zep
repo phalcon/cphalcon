@@ -4,5 +4,5 @@ use Phalcon\DiInterface;
 
 interface PresetInterface
 {
-	public static function configure(<DiInterface> di, bool clobber = true);
+	public static function configure(<DiInterface> di, bool force = true);
 }
