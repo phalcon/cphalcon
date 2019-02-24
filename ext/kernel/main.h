@@ -206,7 +206,7 @@ extern zend_string* i_self;
 #define RETURN_MM_NULL()            { RETVAL_NULL(); ZEPHIR_MM_RESTORE(); return; }
 
 /* Globals functions */
-int zephir_get_global(zval **arr, const char *global, unsigned int global_length);
+int zephir_get_global(zval *arr, const char *global, unsigned int global_length);
 
 /* Count */
 void zephir_fast_count(zval *result, zval *array);

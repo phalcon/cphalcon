@@ -82,9 +82,10 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 /**
  * Gets the global zval into PG macro
  */
-int zephir_get_global(zval **arr, const char *global, unsigned int global_length)
+int zephir_get_global(zval *arr, const char *global, unsigned int global_length)
 {
 	zval *gv;
+	zend_array *symbol_table;
 	zend_bool jit_initialization = PG(auto_globals_jit);
 	zend_string *str = zend_string_init(global, global_length, 0);
 
@@ -96,14 +97,27 @@ int zephir_get_global(zval **arr, const char *global, unsigned int global_length
 		if ((gv = zend_hash_find_ind(&EG(symbol_table), str)) != NULL) {
 			ZVAL_DEREF(gv);
 			if (Z_TYPE_P(gv) == IS_ARRAY) {
-				*arr = gv;
+				if (Z_REFCOUNTED_P(gv)) {
+					ZVAL_COPY_VALUE(arr, gv);
+					Z_SET_REFCOUNT_P(arr, 1);
+				} else {
+					ZVAL_DUP(arr, gv);
+					zend_hash_update(&EG(symbol_table), str, arr);
+				}
 				zend_string_release(str);
 				return SUCCESS;
 			}
 		}
 	}
 
-	*arr = NULL;
+	array_init(arr);
+	if (!(&EG(symbol_table))) {
+		symbol_table = zend_rebuild_symbol_table();
+	} else {
+		symbol_table = &EG(symbol_table);
+	}
+	zend_hash_update(symbol_table, str, arr);
+
 	zend_string_release(str);
 	return FAILURE;
 }

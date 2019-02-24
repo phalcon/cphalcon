@@ -46,7 +46,7 @@ PHP_METHOD(phalcon_27__closure, __invoke) {
 	if (_1) {
 		ZEPHIR_OBS_VAR(&_2);
 		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/validation.zep", 57 TSRMLS_CC);
-		_1 = zephir_is_instance_of(&_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC);
+		_1 = zephir_instance_of_ev(&_2, phalcon_validation_combinedfieldsvalidator_ce TSRMLS_CC);
 	}
 	RETURN_MM_BOOL(_1);
 

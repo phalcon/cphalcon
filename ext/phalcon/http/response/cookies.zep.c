@@ -528,11 +528,12 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, getCookies) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 
-	zval *name_param = NULL, *_COOKIE, _0;
+	zval *name_param = NULL, _COOKIE, _0;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&_COOKIE);
 	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
@@ -555,7 +556,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 	if (zephir_array_isset(&_0, &name)) {
 		RETURN_MM_BOOL(1);
 	}
-	if (zephir_array_isset(_COOKIE, &name)) {
+	if (zephir_array_isset(&_COOKIE, &name)) {
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);
@@ -619,7 +620,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 236);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 237);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("_cookies"), PH_NOISY_CC | PH_READONLY);
