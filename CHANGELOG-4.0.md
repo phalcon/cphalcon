@@ -75,7 +75,9 @@
 - Changed `Phalcon\Exception` to implement `\Throwable` interface.[#13750](https://github.com/phalcon/cphalcon/issues/13758)
 - Changed `Phalcon\Http\Cookie`. The `httpOnly` property is no longer initialised with a value [#13464](https://github.com/phalcon/cphalcon/issues/13464)
 - Changed the default action for no arguments of `Phalcon\Acl\Memory`to be `Acl::DENY` instead of `Acl::ALLOW` [#13769](https://github.com/phalcon/cphalcon/issues/13769)
-- Changed the implementation of `Phalcon\Filter`. It uses a service locator and a service locator factory now. It has more sanitizers now. [#13060](https://github.com/phalcon/cphalcon/issues/13060)
+- Changed handling of `Phalcon\Config\Adapter\Grouped::_construct()` when receiving an configuration file as a string from the `arrayConfig` parameter
+  to automatically attempt and the parameter `defaultAdapter` is set to an empty string, to determine the adapter from the file extension,
+  producing the same behaviour as `Phalcon\Config\Factory::load()` [#13762](https://github.com/phalcon/cphalcon/pull/13762)
 
 ## Removed
 - Removed `Phalcon\Mvc\User\Component`, `Phalcon\Mvc\User\Module` and `Phalcon\Mvc\User\Plugin` [#13749](https://github.com/phalcon/cphalcon/pull/13749)
