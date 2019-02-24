@@ -250,43 +250,39 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(array descriptor = null) -> bool
 	{
-		var username, password, dsnDefaults, dsnDefaultValue, dsnParts,
-			dsnAttributes, persistent, options, key, value, pdoKey;
+		var username, password, dsnParts, dsnAttributes, dsnMap, dsnSection, options,
+			key, value, pdoKey;
 
 		if empty descriptor {
 			let descriptor = (array) this->_descriptor;
 		}
 
-		/**
-		 * Check for a username or use null as default
-		 */
+		// Check for a username or use null as default
 		if fetch username, descriptor["username"] {
 			unset descriptor["username"];
-		} else {
-			let username = null;
 		}
 
-		/**
-		 * Check for a password or use null as default
-		 */
+		// Check for a password or use null as default
 		if fetch password, descriptor["password"] {
 			unset descriptor["password"];
-		} else {
-			let password = null;
 		}
 
-		/**
-		 * Check if the developer has defined custom options or create one from scratch
-		 */
+		// Remove the dialectClass from the descriptor if any
+		if isset descriptor["dialectClass"] {
+			unset descriptor["dialectClass"];
+		}
+
+		// Check if the developer has defined custom options or create one from scratch
 		if fetch options, descriptor["options"] {
 			unset descriptor["options"];
 		} else {
 			let options = [];
 		}
 
-		/**
-		 * Check for \PDO::XXX class constant aliases
-		 */
+		// Set PDO to throw exceptions when an error is encountered.
+		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
+
+		// Check for \PDO::XXX class constant aliases
 		for key, value in options {
 			if typeof key == "string" {
 				let pdoKey = "\PDO::" . key->upper();
@@ -297,43 +293,23 @@ abstract class Pdo extends Adapter
 			}
 		}
 
-		/**
-		 * Check if the connection must be persistent
-		 */
-		if fetch persistent, descriptor["persistent"] {
-			if persistent {
-				let options[\Pdo::ATTR_PERSISTENT] = true;
-			}
-			unset descriptor["persistent"];
+		// Check if the user has defined a custom dsn
+		if fetch dsnAttributes, descriptor["dsn"] {
+			unset descriptor["dsn"];
 		}
 
-		/**
-		 * Remove the dialectClass from the descriptor if any
-		 */
-		if isset descriptor["dialectClass"] {
-			unset descriptor["dialectClass"];
-		}
-
-		/**
-		 * Check if the user has defined a custom dsn
-		 */
-		if !fetch dsnAttributes, descriptor["dsn"] {
-			let dsnDefaults = this->getDsnDefaults();
+		// If an array was used for dsn attributes then first use the dsn defaults and then
+		// overwrite the defaults with the custom values. Finally end with a dsn attributes string.
+		if typeof dsnAttributes === "array" {
+			let dsnAttributes = array_merge(this->getDsnDefaults(), dsnAttributes);
 			let dsnParts = [];
-			for key, value in descriptor {
-				if fetch dsnDefaultValue, dsnDefaults[key] {
-					let value = dsnDefaultValue;
-				}
+			for key, value in dsnAttributes {
 				let dsnParts[] = key . "=" . value;
 			}
 			let dsnAttributes = join(";", dsnParts);
 		}
 
-		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
-
-		/**
-		 * Create the connection using PDO
-		 */
+		// Create the connection using PDO
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
 
 		return true;
