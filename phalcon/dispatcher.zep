@@ -396,7 +396,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod,
 			modelBinder, bindCacheKey,
-			wasFresh, handlerHash, e;
+			isNewHandler, handlerHash, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -506,8 +506,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			// Check if the handler is new (hasn't been initialized).
 			let handlerHash = spl_object_hash(handler);
-			let wasFresh = isset this->_handlerHashes[handlerHash] ? false : true;
-			if wasFresh {
+			let isNewHandler = isset this->_handlerHashes[handlerHash] ? false : true;
+			if isNewHandler {
 				let this->_handlerHashes[handlerHash] = true;
 			}
 
@@ -604,7 +604,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			// and blog posts for 4.0, this change will happen.
 			//
 			// @see https://github.com/phalcon/cphalcon/pull/13112
-			if wasFresh === true {
+			if isNewHandler === true {
 				if method_exists(handler, "initialize") {
 					try {
 						let this->_isControllerInitialize = true;
