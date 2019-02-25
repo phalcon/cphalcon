@@ -267,6 +267,11 @@ abstract class Pdo extends Adapter
 			unset descriptor["password"];
 		}
 
+		// Remove the dialect class so that it does become a dsn setting.
+		if isset descriptor["dialectClass"] {
+			unset descriptor["dialectClass"];
+		}
+
 		// Check if the developer has defined custom options or create one from scratch
 		if fetch options, descriptor["options"] {
 			unset descriptor["options"];
@@ -291,7 +296,7 @@ abstract class Pdo extends Adapter
 		let dsnParts = [];
 
 		// Check if the user has defined a custom dsn string. It should be in
-		// the form of key=value with semicolons between sections.
+		// the form of key=value with semicolons delineating sections.
 		if fetch dsnAttributesCustomRaw, descriptor["dsn"] {
 			let dsnParts[] = dsnAttributesCustomRaw;
 			unset descriptor["dsn"];
