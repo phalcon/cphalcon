@@ -282,17 +282,6 @@ abstract class Pdo extends Adapter
 		// Set PDO to throw exceptions when an error is encountered.
 		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
 
-		// Check for \PDO::XXX class constant aliases
-		for key, value in options {
-			if typeof key == "string" {
-				let pdoKey = "\PDO::" . key->upper();
-				if defined(pdoKey) {
-					let options[constant(pdoKey)] = value;
-					unset options[key];
-				}
-			}
-		}
-
 		let dsnParts = [];
 
 		// Check if the user has defined a custom dsn string. It should be in
