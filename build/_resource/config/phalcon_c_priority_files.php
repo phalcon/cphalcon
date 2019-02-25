@@ -60,8 +60,6 @@ $files = [
     'kernel/iterator.c',
     'kernel/time.c',
     'kernel/exit.c',
-    'phalcon/assets/filters/jsminifier.h',
-    'phalcon/assets/filters/cssminifier.h',
 ];
 
 return $files;

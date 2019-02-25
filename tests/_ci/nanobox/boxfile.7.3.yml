@@ -36,8 +36,9 @@ run.config:
     zend_extensions:
       - opcache
     dev_zend_extensions:
-      add:
-        - xdebug
+# Removed xdebug (will be back when Xdebug 2.7.0 is stable)
+#      add:
+#        - xdebug
       rm:
         - opcache
   extra_packages:
@@ -78,9 +79,11 @@ run.config:
     - echo -e 'opcache.enable_cli=1' >> "/data/etc/php/dev_php.ini"
     - echo -e 'apcu.enabled=1' >> "/data/etc/php/dev_php.ini"
     - echo -e 'apcu.enable_cli=1' >> "/data/etc/php/dev_php.ini"
+    - echo -e 'apc.enabled=1' >> "/data/etc/php/dev_php.ini"
+    - echo -e 'apc.enable_cli=1' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Get the Zephir phar
-    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.8/zephir.phar
+    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.10/zephir.phar
     - chmod +x /data/bin/zephir
 
 data.beanstalkd:

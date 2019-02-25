@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 207, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 194, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 

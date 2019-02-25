@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	zephir_time(&_2);
 	zephir_array_update_string(&_1, SL("$gt"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&conditions, SL("time"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&document, &_3, "findone", NULL, 0, &conditions);
 	zephir_check_call_status();
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	} else {
 		ZEPHIR_CPY_WRT(&ttl, lifetime);
 	}
-	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_time(&_1);
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 1, 0 TSRMLS_CC);
@@ -460,7 +460,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_array_update_string(&_1, SL("key"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "rand", NULL, 122);
+	ZEPHIR_CALL_FUNCTION(&_4, "rand", NULL, 107);
 	zephir_check_call_status();
 	if (zephir_safe_mod_long_long(zephir_get_intval(&_4), 100 TSRMLS_CC) == 0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL, 0);
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	zephir_time(&_3);
 	zephir_array_update_string(&_2, SL("$gt"), &_3, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&conditions, SL("time"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_create_array(&_4, 1, 0 TSRMLS_CC);
@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 		ZEPHIR_CONCAT_VV(&lastKey, &_0$$4, keyName);
 	}
 	if (zephir_is_true(&lastKey)) {
-		ZEPHIR_CALL_METHOD(&_1$$5, this_ptr, "_getcollection", NULL, 121);
+		ZEPHIR_CALL_METHOD(&_1$$5, this_ptr, "_getcollection", NULL, 106);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$5);
 		zephir_create_array(&_3$$5, 2, 0 TSRMLS_CC);
@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, gc) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 1, 0 TSRMLS_CC);
@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_INIT_VAR(&prefixedKey);
 	ZEPHIR_CONCAT_VV(&prefixedKey, &_0, keyName);
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &prefixedKey);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 1, 0 TSRMLS_CC);
@@ -778,7 +778,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_INIT_VAR(&prefixedKey);
 	ZEPHIR_CONCAT_VV(&prefixedKey, &_0, keyName);
 	zephir_update_property_zval(this_ptr, SL("_lastKey"), &prefixedKey);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 1, 0 TSRMLS_CC);
@@ -823,7 +823,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 121);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 106);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0);
 	zephir_check_call_status();
