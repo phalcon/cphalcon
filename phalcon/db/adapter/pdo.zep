@@ -250,21 +250,27 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(array descriptor = null) -> bool
 	{
-		var username, password, dsnParts, dsnAttributes, options,
-			key, value, pdoKey;
+		var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap,
+			options, key, value, pdoKey;
 
 		if empty descriptor {
 			let descriptor = (array) this->_descriptor;
 		}
 
 		// Check for a username or use null as default
-		fetch username, descriptor["username"];
+		if fetch username, descriptor["username"] {
+			unset descriptor["username"];
+		}
 
 		// Check for a password or use null as default
-		fetch password, descriptor["password"];
+		if fetch password, descriptor["password"] {
+			unset descriptor["password"];
+		}
 
 		// Check if the developer has defined custom options or create one from scratch
-		if !fetch options, descriptor["options"] {
+		if fetch options, descriptor["options"] {
+			unset descriptor["options"];
+		} else {
 			let options = [];
 		}
 
@@ -282,21 +288,25 @@ abstract class Pdo extends Adapter
 			}
 		}
 
-		// Check if the user has defined a custom dsn
-		if !fetch dsnAttributes, descriptor["dsn"] {
-			let dsnAttributes = [];
+		let dsnParts = [];
+
+		// Check if the user has defined a custom dsn string. It should be in
+		// the form of key=value with semicolons between sections.
+		if fetch dsnAttributesCustomRaw, descriptor["dsn"] {
+			let dsnParts[] = dsnAttributesCustomRaw;
+			unset descriptor["dsn"];
 		}
 
-		// If an array was used for dsn attributes then first use the dsn defaults and then
-		// overwrite the defaults with the custom values. Finally end with a dsn attributes string.
-		if typeof dsnAttributes === "array" {
-			let dsnAttributes = array_merge(this->getDsnDefaults(), dsnAttributes);
-			let dsnParts = [];
-			for key, value in dsnAttributes {
-				let dsnParts[] = key . "=" . value;
-			}
-			let dsnAttributes = join(";", dsnParts);
+		// Start with the dsn defaults and then write over it with the descriptor.
+		// At this point the descriptor should be a valid DSN key-value map due to
+		// all other values having been removed.
+		let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
+		for key, value in dsnAttributesMap {
+			let dsnParts[] = key . "=" . value;
 		}
+
+		// Create the dsn attributes string.
+		let dsnAttributes = join(";", dsnParts);
 
 		// Create the connection using PDO
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
