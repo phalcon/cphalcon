@@ -17,9 +17,9 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Security;
 
 /**
- * Class GetRequestTokenCest
+ * Class GetTokenCest
  */
-class GetRequestTokenCest
+class GetTokenAndKeyCest
 {
     use DiTrait;
 
@@ -60,49 +60,53 @@ class GetRequestTokenCest
     }
 
     /**
-     * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
+     * Tests Security::getToken and Security::getTokenKey for generating only
+     * one token per request
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function securityGetRequestTokenAndGetSessionToken(UnitTester $I)
+    public function securityGetToken(UnitTester $I)
     {
-        $I->wantToTest('Security - getRequestToken() and getSessionToken()');
+        $I->wantToTest('Security - getToken()');
 
         $this->startSession();
-        $container = $this->getDI();
 
-        // Initialize session.
-        $security = new Security();
+        $container = $this->getDi();
+        $security  = new Security();
         $security->setDI($container);
 
-        $security->getTokenKey();
-        $security->getToken();
+        $tokenKey = $security->getTokenKey();
+        $token    = $security->getToken();
 
-        // Reinitialize object like if it's a new request.
-        $security = new Security();
-        $security->setDI($container);
-        $requestToken = $security->getRequestToken();
-        $sessionToken = $security->getSessionToken();
-        $tokenKey     = $security->getTokenKey();
-        $token        = $security->getToken();
+        $expected = $tokenKey;
+        $actual   = $security->getTokenKey();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals($sessionToken, $requestToken);
-        $I->assertNotEquals($token, $sessionToken);
-        $I->assertEquals($security->getRequestToken(), $requestToken);
-        $I->assertNotEquals($token, $security->getRequestToken());
+        $expected = $token;
+        $actual   = $security->getToken();
+        $I->assertEquals($expected, $actual);
 
-        $_POST = [$tokenKey => $requestToken];
-        $I->assertTrue($security->checkToken(null, null, false));
-
-        $_POST = [$tokenKey => $token];
-        $I->assertFalse($security->checkToken(null, null, false));
-
-        $I->assertFalse($security->checkToken());
+        $expected = $token;
+        $actual   = $security->getSessionToken();
+        $I->assertEquals($expected, $actual);
 
         $security->destroyToken();
-        $I->assertNotEquals($security->getRequestToken(), $requestToken);
+
+        $expected = $tokenKey;
+        $actual   = $security->getTokenKey();
+        $I->assertNotEquals($expected, $actual);
+
+        $expected = $token;
+        $actual   = $security->getToken();
+        $I->assertNotEquals($expected, $actual);
+
+        $expected = $token;
+        $actual   = $security->getSessionToken();
+        $I->assertNotEquals($expected, $actual);
+
+        $security->destroyToken();
     }
 }
