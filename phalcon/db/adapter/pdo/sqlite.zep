@@ -75,12 +75,12 @@ class Sqlite extends PdoAdapter
 			let descriptor = (array) this->_descriptor;
 		}
 
-		if !fetch dbname, descriptor["dbname"] {
-			throw new Exception("dbname must be specified");
+		if fetch dbname, descriptor["dbname"] {
+			let descriptor["dsn"] = dbname;
+			unset descriptor["dbname"];
+		} elseif !isset descriptor["dsn"] {
+			throw new Exception("The database must be specified with either 'dbname' or 'dsn'.");
 		}
-
-		let descriptor["dsn"] = dbname;
-		unset descriptor["dbname"];
 
 		return parent::connect(descriptor);
 	}
