@@ -301,9 +301,12 @@ abstract class Pdo extends Adapter
 		// At this point the descriptor should be a valid DSN key-value map due to
 		// all other values having been removed.
 		let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
+error_log(var_export(dsnAttributesMap, true));
 		for key, value in dsnAttributesMap {
 			let dsnParts[] = key . "=" . value;
 		}
+
+error_log(var_export(dsnParts, true));
 
 		// Create the dsn attributes string.
 		let dsnAttributes = join(";", dsnParts);
