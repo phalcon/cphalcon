@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security;
 
 use UnitTester;
+use Phalcon\Security;
 
 /**
  * Class GetRandomBytesCest
  */
-class GetRandomBytesCest
+class GetSetRandomBytesCest
 {
     /**
      * Tests Phalcon\Security :: getRandomBytes()
@@ -30,6 +31,17 @@ class GetRandomBytesCest
     public function securityGetRandomBytes(UnitTester $I)
     {
         $I->wantToTest('Security - getRandomBytes()');
-        $I->skipTest('Need implementation');
+
+        $security = new Security();
+
+        $expected = 16;
+        $actual   = $security->getRandomBytes();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 22;
+
+        $security->setRandomBytes($expected);
+        $actual   = $security->getRandomBytes();
+        $I->assertEquals($expected, $actual);
     }
 }

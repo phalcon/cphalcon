@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security;
 
 use UnitTester;
+use Phalcon\Security;
 
 /**
  * Class ComputeHmacCest
@@ -20,16 +21,36 @@ use UnitTester;
 class ComputeHmacCest
 {
     /**
-     * Tests Phalcon\Security :: computeHmac()
-     *
-     * @param UnitTester $I
+     * Tests the HMAC computation
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-09-12
      */
     public function securityComputeHmac(UnitTester $I)
     {
         $I->wantToTest('Security - computeHmac()');
-        $I->skipTest('Need implementation');
+        $security = new Security();
+
+        $data = [];
+        for ($i = 1; $i < 256; ++$i) {
+            $data[] = str_repeat('a', $i);
+        }
+        $keys = [
+            substr(md5('test', true), 0, strlen(md5('test', true)) / 2),
+            md5('test', true),
+            md5('test', true) . md5('test', true),
+        ];
+
+        foreach ($data as $index => $text) {
+            $expected = hash_hmac('md5', $text, $keys[0]);
+            $actual   = $security->computeHmac($text, $keys[0], 'md5');
+            $I->assertEquals($expected, $actual);
+            $expected = hash_hmac('md5', $text, $keys[1]);
+            $actual   = $security->computeHmac($text, $keys[1], 'md5');
+            $I->assertEquals($expected, $actual);
+            $expected = hash_hmac('md5', $text, $keys[2]);
+            $actual   = $security->computeHmac($text, $keys[2], 'md5');
+            $I->assertEquals($expected, $actual);
+        }
     }
 }
