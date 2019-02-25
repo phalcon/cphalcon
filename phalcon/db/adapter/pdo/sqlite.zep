@@ -80,6 +80,7 @@ class Sqlite extends PdoAdapter
 		}
 
 		let descriptor["dsn"] = dbname;
+		unset descriptor["dbname"];
 
 		return parent::connect(descriptor);
 	}
