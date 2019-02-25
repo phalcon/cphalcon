@@ -297,23 +297,14 @@ abstract class Pdo extends Adapter
 			unset descriptor["dsn"];
 		}
 
-error_log("dsnParts1: " . var_export(dsnParts, true));
-error_log("dsnAttributesCustomRaw: " . var_export(dsnAttributesCustomRaw, true));
-
-error_log("getDsnDefaults(): " . var_export(this->getDsnDefaults(), true));
-error_log("descriptor: " . var_export(descriptor, true));
-
 		// Start with the dsn defaults and then write over it with the descriptor.
 		// At this point the descriptor should be a valid DSN key-value map due to
 		// all other values having been removed.
 		let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
 
-error_log("dsnAttributesMap: " . var_export(dsnAttributesMap, true));
 		for key, value in dsnAttributesMap {
 			let dsnParts[] = key . "=" . value;
 		}
-
-error_log("dsnParts2: " . var_export(dsnParts, true));
 
 		// Create the dsn attributes string.
 		let dsnAttributes = join(";", dsnParts);
