@@ -116,7 +116,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		 * Dialect class can override the default dialect
 		 */
 		if !fetch dialectClass, descriptor["dialectClass"] {
-			let dialectClass = "phalcon\\db\\dialect\\" . this->_dialectType;
+			let dialectClass = "Phalcon\\Db\\Dialect\\" . ucfirst(this->_dialectType);
 		}
 
 		/**
