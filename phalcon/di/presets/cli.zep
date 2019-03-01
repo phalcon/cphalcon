@@ -33,24 +33,27 @@ class Cli extends Di implements PresetInterface
 	{
 		var filter, serviceDefinition, serviceName, services;
 
+		let filter = new FilterLocatorFactory();
+
 		let services = [
-			"annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
-			"assets":             new Service("Phalcon\\Assets\\Manager", true),
-			"crypt":              new Service("Phalcon\\Crypt", true),
-			"dispatcher":         new Service("Phalcon\\Cli\\Dispatcher", true),
-			"escaper":            new Service("Phalcon\\Escaper", true),
-			"escaper":            new Service("Phalcon\\Escaper", true),
-			"eventsManager":      new Service("Phalcon\\Events\\Manager", true),
-			"filter":             new Service("Phalcon\\Filter", true),
-			"flash":              new Service("Phalcon\\Flash\\Direct", true),
-			"flashSession":       new Service("Phalcon\\Flash\\Session", true),
-			"modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
-			"modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
-			"router":             new Service("Phalcon\\Cli\\Router", true),
-			"security":           new Service("Phalcon\\Security", true),
-			"tag":                new Service("Phalcon\\Tag", true),
-			"transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
-			"url":                new Service("Phalcon\\Url", true)
+			"annotations":        "Phalcon\\Annotations\\Adapter\\Memory",
+			"assets":             "Phalcon\\Assets\\Manager",
+			"crypt":              "Phalcon\\Crypt",
+			"dispatcher":         "Phalcon\\Cli\\Dispatcher",
+			"escaper":            "Phalcon\\Escaper",
+			"escaper":            "Phalcon\\Escaper",
+			"eventsManager":      "Phalcon\\Events\\Manager",
+			"filter":             filter->newInstance(),
+			// "filter":             "Phalcon\\Filter",
+			"flash":              "Phalcon\\Flash\\Direct",
+			"flashSession":       "Phalcon\\Flash\\Session",
+			"modelsManager":      "Phalcon\\Mvc\\Model\\Manager",
+			"modelsMetadata":     "Phalcon\\Mvc\\Model\\MetaData\\Memory",
+			"router":             "Phalcon\\Cli\\Router",
+			"security":           "Phalcon\\Security",
+			"tag":                "Phalcon\\Tag",
+			"transactionManager": "Phalcon\\Mvc\\Model\\Transaction\\Manager",
+			"url":                "Phalcon\\Url"
 		];
 
 		for serviceName, serviceDefinition in services {
