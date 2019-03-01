@@ -64,11 +64,6 @@ interface ServiceInterface
 	public function getParameter(int position);
 
 	/**
-	 * Returns true if the service was resolved
-	 */
-	public function isResolved() -> bool;
-
-	/**
 	 * Restore the internal state of a service
 	 */
 	public static function __set_state(array! attributes) -> <ServiceInterface>;

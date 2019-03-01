@@ -37,8 +37,6 @@ class Service implements ServiceInterface
 
 	protected _shared = false;
 
-	protected _resolved = false;
-
 	protected _sharedInstance;
 
 	/**
@@ -193,8 +191,6 @@ class Service implements ServiceInterface
 			let this->_sharedInstance = instance;
 		}
 
-		let this->_resolved = true;
-
 		return instance;
 	}
 
@@ -256,14 +252,6 @@ class Service implements ServiceInterface
 		}
 
 		return null;
-	}
-
-	/**
-	 * Returns true if the service was resolved
-	 */
-	public function isResolved() -> bool
-	{
-		return this->_resolved;
 	}
 
 	/**

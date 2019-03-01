@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Service;
 
+use Phalcon\Di\Exception\ServiceResolutionException;
+use Phalcon\Di\Service;
 use UnitTester;
 
 /**
@@ -31,5 +33,23 @@ class ResolveCest
     {
         $I->wantToTest('Di\Service - resolve()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests Phalcon\Di\Service :: resolve() - fail
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function diServiceResolveFail(UnitTester $I)
+    {
+        $service1 = new Service(1);
+
+        $I->wantToTest('Di\Service - resolve() - fail');
+        $I->expectException(ServiceResolutionException::class, function() use ($service1) {
+            $service1->resolve();
+        });
     }
 }
