@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security;
 
 use UnitTester;
+use Phalcon\Security;
+use Phalcon\Security\Random;
 
 /**
  * Class GetRandomCest
@@ -24,12 +26,17 @@ class GetRandomCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Ruud Boon
      * @since  2018-11-13
      */
     public function securityGetRandom(UnitTester $I)
     {
         $I->wantToTest('Security - getRandom()');
-        $I->skipTest('Need implementation');
+
+        $security = new Security();
+        $random = $security->getRandom();
+
+        $class = Random::class;
+        $I->assertInstanceOf($class, $random);
     }
 }

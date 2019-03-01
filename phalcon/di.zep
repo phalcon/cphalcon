@@ -72,11 +72,6 @@ class Di implements DiInterface
 	protected _sharedInstances;
 
 	/**
-	 * To know if the latest resolved instance was shared or not
-	 */
-	protected _freshInstance = false;
-
-	/**
 	 * Events Manager
 	 *
 	 * @var \Phalcon\Events\ManagerInterface
@@ -212,13 +207,7 @@ class Di implements DiInterface
 		if fetch service, this->_services[name] {
 			let isShared = service->isShared();
 			if isShared && isset this->_sharedInstances[name] {
-
-				// FIXME: This must be used due to wasFreshInstance()
-				// @see https://github.com/phalcon/cphalcon/pull/13112
-				return this->getShared(name, parameters);
-
-				// This is the desired simple way of returning the shared instance.
-				// return this->_sharedInstances[name];
+				return this->_sharedInstances[name];
 			}
 		}
 
@@ -299,23 +288,13 @@ class Di implements DiInterface
 	{
 		var instance;
 
-		/**
-		 * This method provides a first level to shared instances allowing to use non-shared services as shared
-		 */
-		if fetch instance, this->_sharedInstances[name] {
-			let this->_freshInstance = false;
-		} else {
-
-			/**
-			 * Resolve the instance normally
-			 */
+		// Attempt to use the instance from the shared instances cache.
+		if !fetch instance, this->_sharedInstances[name] {
+			// Resolve the instance normally
 			let instance = this->get(name, parameters);
 
-			/**
-			 * Save the instance in the first level shared
-			 */
-			let this->_sharedInstances[name] = instance,
-				this->_freshInstance = true;
+			// Store the instance in the shared instances cache.
+			let this->_sharedInstances[name] = instance;
 		}
 
 		return instance;
@@ -327,14 +306,6 @@ class Di implements DiInterface
 	public function has(string! name) -> bool
 	{
 		return isset this->_services[name];
-	}
-
-	/**
-	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
-	 */
-	public function wasFreshInstance() -> bool
-	{
-		return this->_freshInstance;
 	}
 
 	/**

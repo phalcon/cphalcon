@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
+use Phalcon\Security;
 use UnitTester;
 
 /**
@@ -24,12 +25,17 @@ class IsLegacyHashCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Ruud Boon
+     * @since  2019-02-24
      */
     public function securityIsLegacyHash(UnitTester $I)
     {
         $I->wantToTest('Security - isLegacyHash()');
-        $I->skipTest('Need implementation');
+        $oldHash = '$2a$10$JnD9Za73U2dIIjd.Uvn1IuNVQhXNQpHIu13WzlL70q.WhfKT9Yuc2';
+
+        $security = new Security();
+        $I->assertTrue($security->isLegacyHash($oldHash));
+
+        $I->assertFalse($security->isLegacyHash("Phalcon"));
     }
 }
