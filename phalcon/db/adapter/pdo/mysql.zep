@@ -47,6 +47,17 @@ class Mysql extends PdoAdapter
 	protected _type = "mysql";
 
 	/**
+	 * Returns PDO adapter DSN defaults as a key-value map.
+	 */
+	protected function getDsnDefaults() -> array
+	{
+		// In modern MySQL the "utf8mb4" charset is more ideal than just "uf8".
+		return [
+			"charset" : "utf8mb4"
+		];
+	}
+
+	/**
 	 * Adds a foreign key to a table
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool

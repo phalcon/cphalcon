@@ -44,6 +44,26 @@ class Sqlite extends PdoAdapter
 	protected _type = "sqlite";
 
 	/**
+	 * Returns PDO adapter DSN defaults as a key-value map.
+	 */
+	protected function getDsnDefaults() -> array
+	{
+		return [];
+	}
+
+	/**
+	 * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
+	 */
+	public function __construct(array! descriptor)
+	{
+		if isset descriptor["charset"] {
+			trigger_error("Sqlite does not allow the charset to be changed in the DSN.");
+		}
+
+		parent::__construct(descriptor);
+	}
+
+	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
 	 */
@@ -55,11 +75,12 @@ class Sqlite extends PdoAdapter
 			let descriptor = (array) this->_descriptor;
 		}
 
-		if !fetch dbname, descriptor["dbname"] {
-			throw new Exception("dbname must be specified");
+		if fetch dbname, descriptor["dbname"] {
+			let descriptor["dsn"] = dbname;
+			unset descriptor["dbname"];
+		} elseif !isset descriptor["dsn"] {
+			throw new Exception("The database must be specified with either 'dbname' or 'dsn'.");
 		}
-
-		let descriptor["dsn"] = dbname;
 
 		return parent::connect(descriptor);
 	}
