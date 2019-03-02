@@ -17,6 +17,7 @@ namespace Phalcon\Http\Message;
 use Phalcon\Http\Message\AbstractMessage;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Abstract class to offer common message methods for PSR-7
