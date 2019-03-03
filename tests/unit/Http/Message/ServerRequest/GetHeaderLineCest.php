@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,37 @@ class GetHeaderLineCest
     public function httpMessageServerRequestGetHeaderLine(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getHeaderLine()');
-        $I->skipTest('Need implementation');
+        $data    = [
+            'Accept' => [
+                'text/html',
+                'text/json',
+            ],
+        ];
+        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+
+        $expected = 'text/html,text/json';
+        $actual   = $request->getHeaderLine('accept');
+        $I->assertEquals($expected, $actual);
+
+        $actual   = $request->getHeaderLine('aCCepT');
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: getHeaderLine() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageServerRequestGetHeaderLineEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequest - getHeaderLine() - empty');
+        $request = new ServerRequest();
+
+        $expected = '';
+        $actual   = $request->getHeaderLine('accept');
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,10 @@ class WithQueryParamsCest
     public function httpMessageServerRequestWithQueryParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withQueryParams()');
-        $I->skipTest('Need implementation');
+        $request     = new ServerRequest();
+        $newInstance = $request->withCookieParams(['one' => 'two']);
+
+        $I->assertNotEquals($request, $newInstance);
+        $I->assertEquals(['one' => 'two'], $newInstance->getCookieParams());
     }
 }

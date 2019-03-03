@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -25,11 +26,15 @@ class WithCookieParamsCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-03
      */
     public function httpMessageServerRequestWithCookieParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withCookieParams()');
-        $I->skipTest('Need implementation');
+        $request     = new ServerRequest();
+        $newInstance = $request->withCookieParams(['one' => 'two']);
+
+        $I->assertNotEquals($request, $newInstance);
+        $I->assertEquals(['one' => 'two'], $newInstance->getCookieParams());
     }
 }
