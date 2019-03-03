@@ -71,9 +71,9 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 	ZEPHIR_INIT_VAR(&form);
 	object_init_ex(&form, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 200, entity);
+	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 198, entity);
 	zephir_check_call_status();
-	zephir_update_property_array(this_ptr, SL("_forms"), &name, &form TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_forms"), &name, &form);
 	RETURN_CCTOR(&form);
 
 }
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 	zephir_get_strval(&name, name_param);
 
 
-	zephir_update_property_array(this_ptr, SL("_forms"), &name, form TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_forms"), &name, form);
 	RETURN_THIS();
 
 }

@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 
@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 213);
+	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 211);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&helpers);
 	zephir_create_array(&helpers, 25, 0 TSRMLS_CC);
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 	zephir_create_closure_ex(&_0, NULL, phalcon_24__closure_ce, SL("__invoke"));
 	zephir_array_update_string(&helpers, SL("title"), &_0, PH_COPY | PH_SEPARATE);
 	object_init_ex(return_value, phalcon_service_locator_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 189, &helpers);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 187, &helpers);
 	zephir_check_call_status();
 	RETURN_MM();
 

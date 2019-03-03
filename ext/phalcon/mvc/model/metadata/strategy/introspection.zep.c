@@ -48,9 +48,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 
-	zend_bool _14$$9;
+	zend_bool _15$$9, _24$$17;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *model, model_sub, *dependencyInjector, dependencyInjector_sub, __$true, schema, table, readConnection, columns, attributes, primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull, fieldTypes, automaticDefault, identityField, fieldBindTypes, defaultValues, column, fieldName, defaultValue, emptyStringValues, _0, *_7, _1$$3, _2$$3, _3$$3, _4$$6, _5$$6, _6$$6, _8$$9, _9$$9, _10$$9, _11$$9, _12$$9, _13$$9, _15$$9, _16$$15;
+	zval *model, model_sub, *dependencyInjector, dependencyInjector_sub, __$true, schema, table, readConnection, columns, attributes, primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull, fieldTypes, automaticDefault, identityField, fieldBindTypes, defaultValues, column, fieldName, defaultValue, emptyStringValues, _0, *_7, _8, _1$$3, _2$$3, _3$$3, _4$$6, _5$$6, _6$$6, _9$$9, _10$$9, _11$$9, _12$$9, _13$$9, _14$$9, _16$$9, _17$$15, _18$$17, _19$$17, _20$$17, _21$$17, _22$$17, _23$$17, _25$$17, _26$$23;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
@@ -76,20 +76,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	ZVAL_UNDEF(&defaultValue);
 	ZVAL_UNDEF(&emptyStringValues);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&_5$$6);
 	ZVAL_UNDEF(&_6$$6);
-	ZVAL_UNDEF(&_8$$9);
 	ZVAL_UNDEF(&_9$$9);
 	ZVAL_UNDEF(&_10$$9);
 	ZVAL_UNDEF(&_11$$9);
 	ZVAL_UNDEF(&_12$$9);
 	ZVAL_UNDEF(&_13$$9);
-	ZVAL_UNDEF(&_15$$9);
-	ZVAL_UNDEF(&_16$$15);
+	ZVAL_UNDEF(&_14$$9);
+	ZVAL_UNDEF(&_16$$9);
+	ZVAL_UNDEF(&_17$$15);
+	ZVAL_UNDEF(&_18$$17);
+	ZVAL_UNDEF(&_19$$17);
+	ZVAL_UNDEF(&_20$$17);
+	ZVAL_UNDEF(&_21$$17);
+	ZVAL_UNDEF(&_22$$17);
+	ZVAL_UNDEF(&_23$$17);
+	ZVAL_UNDEF(&_25$$17);
+	ZVAL_UNDEF(&_26$$23);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &dependencyInjector);
@@ -167,57 +176,119 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	ZEPHIR_INIT_VAR(&emptyStringValues);
 	array_init(&emptyStringValues);
 	zephir_is_iterable(&columns, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 157);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&columns), _7)
-	{
-		ZEPHIR_INIT_NVAR(&column);
-		ZVAL_COPY(&column, _7);
-		ZEPHIR_CALL_METHOD(&fieldName, &column, "getname", NULL, 0);
-		zephir_check_call_status();
-		zephir_array_append(&attributes, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 101);
-		ZEPHIR_CALL_METHOD(&_8$$9, &column, "isprimary", NULL, 0);
-		zephir_check_call_status();
-		if (ZEPHIR_IS_TRUE_IDENTICAL(&_8$$9)) {
-			zephir_array_append(&primaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 107);
-		} else {
-			zephir_array_append(&nonPrimaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 109);
-		}
-		ZEPHIR_CALL_METHOD(&_9$$9, &column, "isnumeric", NULL, 0);
-		zephir_check_call_status();
-		if (ZEPHIR_IS_TRUE_IDENTICAL(&_9$$9)) {
-			zephir_array_update_zval(&numericTyped, &fieldName, &__$true, PH_COPY | PH_SEPARATE);
-		}
-		ZEPHIR_CALL_METHOD(&_10$$9, &column, "isnotnull", NULL, 0);
-		zephir_check_call_status();
-		if (ZEPHIR_IS_TRUE_IDENTICAL(&_10$$9)) {
-			zephir_array_append(&notNull, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 123);
-		}
-		ZEPHIR_CALL_METHOD(&_11$$9, &column, "isautoincrement", NULL, 0);
-		zephir_check_call_status();
-		if (ZEPHIR_IS_TRUE_IDENTICAL(&_11$$9)) {
-			ZEPHIR_CPY_WRT(&identityField, &fieldName);
-		}
-		ZEPHIR_CALL_METHOD(&_12$$9, &column, "gettype", NULL, 0);
-		zephir_check_call_status();
-		zephir_array_update_zval(&fieldTypes, &fieldName, &_12$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_13$$9, &column, "getbindtype", NULL, 0);
-		zephir_check_call_status();
-		zephir_array_update_zval(&fieldBindTypes, &fieldName, &_13$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&defaultValue, &column, "getdefault", NULL, 0);
-		zephir_check_call_status();
-		_14$$9 = Z_TYPE_P(&defaultValue) != IS_NULL;
-		if (!(_14$$9)) {
-			ZEPHIR_CALL_METHOD(&_15$$9, &column, "isnotnull", NULL, 0);
+	if (Z_TYPE_P(&columns) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&columns), _7)
+		{
+			ZEPHIR_INIT_NVAR(&column);
+			ZVAL_COPY(&column, _7);
+			ZEPHIR_CALL_METHOD(&fieldName, &column, "getname", NULL, 0);
 			zephir_check_call_status();
-			_14$$9 = ZEPHIR_IS_FALSE_IDENTICAL(&_15$$9);
-		}
-		if (_14$$9) {
-			ZEPHIR_CALL_METHOD(&_16$$15, &column, "isautoincrement", NULL, 0);
+			zephir_array_append(&attributes, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 101);
+			ZEPHIR_CALL_METHOD(&_9$$9, &column, "isprimary", NULL, 0);
 			zephir_check_call_status();
-			if (!(zephir_is_true(&_16$$15))) {
-				zephir_array_update_zval(&defaultValues, &fieldName, &defaultValue, PH_COPY | PH_SEPARATE);
+			if (ZEPHIR_IS_TRUE_IDENTICAL(&_9$$9)) {
+				zephir_array_append(&primaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 107);
+			} else {
+				zephir_array_append(&nonPrimaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 109);
 			}
+			ZEPHIR_CALL_METHOD(&_10$$9, &column, "isnumeric", NULL, 0);
+			zephir_check_call_status();
+			if (ZEPHIR_IS_TRUE_IDENTICAL(&_10$$9)) {
+				zephir_array_update_zval(&numericTyped, &fieldName, &__$true, PH_COPY | PH_SEPARATE);
+			}
+			ZEPHIR_CALL_METHOD(&_11$$9, &column, "isnotnull", NULL, 0);
+			zephir_check_call_status();
+			if (ZEPHIR_IS_TRUE_IDENTICAL(&_11$$9)) {
+				zephir_array_append(&notNull, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 123);
+			}
+			ZEPHIR_CALL_METHOD(&_12$$9, &column, "isautoincrement", NULL, 0);
+			zephir_check_call_status();
+			if (ZEPHIR_IS_TRUE_IDENTICAL(&_12$$9)) {
+				ZEPHIR_CPY_WRT(&identityField, &fieldName);
+			}
+			ZEPHIR_CALL_METHOD(&_13$$9, &column, "gettype", NULL, 0);
+			zephir_check_call_status();
+			zephir_array_update_zval(&fieldTypes, &fieldName, &_13$$9, PH_COPY | PH_SEPARATE);
+			ZEPHIR_CALL_METHOD(&_14$$9, &column, "getbindtype", NULL, 0);
+			zephir_check_call_status();
+			zephir_array_update_zval(&fieldBindTypes, &fieldName, &_14$$9, PH_COPY | PH_SEPARATE);
+			ZEPHIR_CALL_METHOD(&defaultValue, &column, "getdefault", NULL, 0);
+			zephir_check_call_status();
+			_15$$9 = Z_TYPE_P(&defaultValue) != IS_NULL;
+			if (!(_15$$9)) {
+				ZEPHIR_CALL_METHOD(&_16$$9, &column, "isnotnull", NULL, 0);
+				zephir_check_call_status();
+				_15$$9 = ZEPHIR_IS_FALSE_IDENTICAL(&_16$$9);
+			}
+			if (_15$$9) {
+				ZEPHIR_CALL_METHOD(&_17$$15, &column, "isautoincrement", NULL, 0);
+				zephir_check_call_status();
+				if (!(zephir_is_true(&_17$$15))) {
+					zephir_array_update_zval(&defaultValues, &fieldName, &defaultValue, PH_COPY | PH_SEPARATE);
+				}
+			}
+		} ZEND_HASH_FOREACH_END();
+	} else {
+		ZEPHIR_CALL_METHOD(NULL, &columns, "rewind", NULL, 0);
+		zephir_check_call_status();
+		while (1) {
+			ZEPHIR_CALL_METHOD(&_8, &columns, "valid", NULL, 0);
+			zephir_check_call_status();
+			if (!zend_is_true(&_8)) {
+				break;
+			}
+			ZEPHIR_CALL_METHOD(&column, &columns, "current", NULL, 0);
+			zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&fieldName, &column, "getname", NULL, 0);
+				zephir_check_call_status();
+				zephir_array_append(&attributes, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 101);
+				ZEPHIR_CALL_METHOD(&_18$$17, &column, "isprimary", NULL, 0);
+				zephir_check_call_status();
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_18$$17)) {
+					zephir_array_append(&primaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 107);
+				} else {
+					zephir_array_append(&nonPrimaryKeys, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 109);
+				}
+				ZEPHIR_CALL_METHOD(&_19$$17, &column, "isnumeric", NULL, 0);
+				zephir_check_call_status();
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_19$$17)) {
+					zephir_array_update_zval(&numericTyped, &fieldName, &__$true, PH_COPY | PH_SEPARATE);
+				}
+				ZEPHIR_CALL_METHOD(&_20$$17, &column, "isnotnull", NULL, 0);
+				zephir_check_call_status();
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_20$$17)) {
+					zephir_array_append(&notNull, &fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 123);
+				}
+				ZEPHIR_CALL_METHOD(&_21$$17, &column, "isautoincrement", NULL, 0);
+				zephir_check_call_status();
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_21$$17)) {
+					ZEPHIR_CPY_WRT(&identityField, &fieldName);
+				}
+				ZEPHIR_CALL_METHOD(&_22$$17, &column, "gettype", NULL, 0);
+				zephir_check_call_status();
+				zephir_array_update_zval(&fieldTypes, &fieldName, &_22$$17, PH_COPY | PH_SEPARATE);
+				ZEPHIR_CALL_METHOD(&_23$$17, &column, "getbindtype", NULL, 0);
+				zephir_check_call_status();
+				zephir_array_update_zval(&fieldBindTypes, &fieldName, &_23$$17, PH_COPY | PH_SEPARATE);
+				ZEPHIR_CALL_METHOD(&defaultValue, &column, "getdefault", NULL, 0);
+				zephir_check_call_status();
+				_24$$17 = Z_TYPE_P(&defaultValue) != IS_NULL;
+				if (!(_24$$17)) {
+					ZEPHIR_CALL_METHOD(&_25$$17, &column, "isnotnull", NULL, 0);
+					zephir_check_call_status();
+					_24$$17 = ZEPHIR_IS_FALSE_IDENTICAL(&_25$$17);
+				}
+				if (_24$$17) {
+					ZEPHIR_CALL_METHOD(&_26$$23, &column, "isautoincrement", NULL, 0);
+					zephir_check_call_status();
+					if (!(zephir_is_true(&_26$$23))) {
+						zephir_array_update_zval(&defaultValues, &fieldName, &defaultValue, PH_COPY | PH_SEPARATE);
+					}
+				}
+			ZEPHIR_CALL_METHOD(NULL, &columns, "next", NULL, 0);
+			zephir_check_call_status();
 		}
-	} ZEND_HASH_FOREACH_END();
+	}
 	ZEPHIR_INIT_NVAR(&column);
 	zephir_create_array(return_value, 12, 0 TSRMLS_CC);
 	zephir_array_update_long(return_value, 0, &attributes, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
@@ -241,10 +312,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 
-	zend_string *_2$$3;
-	zend_ulong _1$$3;
+	zend_string *_3$$3;
+	zend_ulong _2$$3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *model, model_sub, *dependencyInjector, dependencyInjector_sub, orderedColumnMap, userColumnMap, reversedColumnMap, name, userName, *_0$$3;
+	zval *model, model_sub, *dependencyInjector, dependencyInjector_sub, orderedColumnMap, userColumnMap, reversedColumnMap, name, userName, *_0$$3, _1$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
@@ -254,6 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 	ZVAL_UNDEF(&reversedColumnMap);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&userName);
+	ZVAL_UNDEF(&_1$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &dependencyInjector);
@@ -275,18 +347,37 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 		array_init(&reversedColumnMap);
 		ZEPHIR_CPY_WRT(&orderedColumnMap, &userColumnMap);
 		zephir_is_iterable(&userColumnMap, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 197);
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&userColumnMap), _1$$3, _2$$3, _0$$3)
-		{
-			ZEPHIR_INIT_NVAR(&name);
-			if (_2$$3 != NULL) { 
-				ZVAL_STR_COPY(&name, _2$$3);
-			} else {
-				ZVAL_LONG(&name, _1$$3);
+		if (Z_TYPE_P(&userColumnMap) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&userColumnMap), _2$$3, _3$$3, _0$$3)
+			{
+				ZEPHIR_INIT_NVAR(&name);
+				if (_3$$3 != NULL) { 
+					ZVAL_STR_COPY(&name, _3$$3);
+				} else {
+					ZVAL_LONG(&name, _2$$3);
+				}
+				ZEPHIR_INIT_NVAR(&userName);
+				ZVAL_COPY(&userName, _0$$3);
+				zephir_array_update_zval(&reversedColumnMap, &userName, &name, PH_COPY | PH_SEPARATE);
+			} ZEND_HASH_FOREACH_END();
+		} else {
+			ZEPHIR_CALL_METHOD(NULL, &userColumnMap, "rewind", NULL, 0);
+			zephir_check_call_status();
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_1$$3, &userColumnMap, "valid", NULL, 0);
+				zephir_check_call_status();
+				if (!zend_is_true(&_1$$3)) {
+					break;
+				}
+				ZEPHIR_CALL_METHOD(&name, &userColumnMap, "key", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&userName, &userColumnMap, "current", NULL, 0);
+				zephir_check_call_status();
+					zephir_array_update_zval(&reversedColumnMap, &userName, &name, PH_COPY | PH_SEPARATE);
+				ZEPHIR_CALL_METHOD(NULL, &userColumnMap, "next", NULL, 0);
+				zephir_check_call_status();
 			}
-			ZEPHIR_INIT_NVAR(&userName);
-			ZVAL_COPY(&userName, _0$$3);
-			zephir_array_update_zval(&reversedColumnMap, &userName, &name, PH_COPY | PH_SEPARATE);
-		} ZEND_HASH_FOREACH_END();
+		}
 		ZEPHIR_INIT_NVAR(&userName);
 		ZEPHIR_INIT_NVAR(&name);
 	}

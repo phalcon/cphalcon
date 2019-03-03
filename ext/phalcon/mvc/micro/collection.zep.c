@@ -106,7 +106,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 	zephir_array_fast_append(&_0, &routePattern);
 	zephir_array_fast_append(&_0, handler);
 	zephir_array_fast_append(&_0, &name);
-	zephir_update_property_array_append(this_ptr, SL("_handlers"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_handlers"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_MM_RESTORE();
 
 }
