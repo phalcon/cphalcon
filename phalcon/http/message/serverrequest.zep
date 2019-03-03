@@ -16,7 +16,7 @@ namespace Phalcon\Http\Message;
 
 use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Stream\Input;
-use Phalcon\Http\Message\AbstractRequest;
+use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -62,7 +62,7 @@ use Psr\Http\Message\UriInterface;
  * be implemented such that they retain the internal state of the current
  * message and return an instance that contains the changed state.
  */
-class ServerRequest extends AbstractRequest implements ServerRequestInterface
+class ServerRequest implements ServerRequestInterface
 {
 	/**
 	 * Retrieve attributes derived from the request.
@@ -78,6 +78,13 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	private attributes = [] { get };
 
 	/**
+	 * Gets the body of the message.
+	 *
+	 * @var <StreamInterface>
+	 */
+	private body { get };
+
+	/**
 	 * Retrieve cookies.
 	 *
 	 * Retrieves cookies sent by the client to the server.
@@ -88,6 +95,38 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 * @var array
 	 */
 	private cookieParams = [] { get };
+
+    /**
+     * Retrieves all message header values.
+     *
+     * The keys represent the header name as it will be sent over the wire, and
+     * each value is an array of strings associated with the header.
+     *
+     *     // Represent the headers as a string
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         echo $name . ': ' . implode(', ', $values);
+     *     }
+     *
+     *     // Emit headers iteratively:
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         foreach ($values as $value) {
+     *             header(sprintf('%s: %s', $name, $value), false);
+     *         }
+     *     }
+     *
+     * While header names are not case-sensitive, getHeaders() will preserve the
+     * exact case in which headers were originally specified.
+	 *
+	 * @var array
+     */
+	private headers = [] { get };
+
+	/**
+	 * Retrieves the HTTP method of the request.
+	 *
+	 * @var string
+	 */
+	private method = "GET" { get };
 
 	/**
 	 * Retrieve any parameters provided in the request body.
@@ -105,6 +144,17 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 */
 	private parsedBody { get };
 
+    /**
+     * Retrieves the HTTP protocol version as a string.
+     *
+     * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+     *
+     * @return string HTTP protocol version.
+     *
+     * @var string
+     */
+    private protocolVersion = "1.1" { get };
+
 	/**
 	 * Retrieve query string arguments.
 	 *
@@ -118,6 +168,13 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 * @var array
 	 */
 	private queryParams = [] { get };
+
+	/**
+	 * The request-target, if it has been provided or calculated.
+	 *
+	 * @var null|string
+	 */
+	private requestTarget;
 
 	/**
 	 * Retrieve server parameters.
@@ -144,10 +201,21 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	private uploadedFiles = [] { get };
 
 	/**
+	 * Retrieves the URI instance.
+	 *
+	 * This method MUST return a UriInterface instance.
+	 *
+	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
+	 *
+	 * @var <UriInterface>
+	 */
+	private uri { get };
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(
-		string method = null,
+		string method = "GET",
 		var uri = null,
 		array serverParams = [],
 		var body = "php://input",
@@ -163,16 +231,23 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 			let body = new Input();
 		}
 
-		let	this->method          = method,
-			this->uri             = uri,
+		this
+			->processHeaders(headers)
+			->processUri(uri);
+
+		this
+			->checkProtocol(protocol)
+			->checkMethod(method);
+
+		let
+			this->protocolVersion = protocol,
+			this->method          = method,
 			this->body            = body,
 			this->parsedBody      = parsedBody,
-			this->protocolVersion = protocol,
 			this->serverParams    = serverParams,
-			this->headers         = headers,
-			this->cookies         = cookies,
+			this->cookieParams    = cookies,
 			this->queryParams     = queryParams,
-			this->uploadedFiles   = uploadFiles;
+			this->uploadFiles     = uploadFiles;
 	}
 
 	/**
@@ -190,6 +265,52 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 		return Arr::get(this->attributes, name, defaultValue);
 	}
 
+    /**
+     * Retrieves a message header value by the given case-insensitive name.
+     *
+     * This method returns an array of all the header values of the given
+     * case-insensitive header name.
+     *
+     * If the header does not appear in the message, this method MUST return an
+     * empty array.
+     */
+    public function getHeader(var name) -> array
+    {
+    	var element, key;
+
+    	let key     = strtolower(name),
+    		element = Arr::get(this->headers, key, []);
+
+    	return Arr::get(element, "value", []);
+    }
+
+    /**
+     * Retrieves a comma-separated string of the values for a single header.
+     *
+     * This method returns all of the header values of the given
+     * case-insensitive header name as a string concatenated together using
+     * a comma.
+     *
+     * NOTE: Not all header values may be appropriately represented using
+     * comma concatenation. For such headers, use getHeader() instead
+     * and supply your own delimiter when concatenating.
+     *
+     * If the header does not appear in the message, this method MUST return
+     * an empty string.
+     */
+    public function getHeaderLine(var name) -> string
+    {
+    	var header;
+
+    	let header = this->getHeader(name);
+
+    	if count(header) > 0 {
+    		return implode(",", header);
+    	}
+
+		return "";
+    }
+
 	/**
 	 * Retrieves the message's request target.
 	 *
@@ -203,8 +324,47 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 */
 	public function getRequestTarget() -> string
 	{
+		var requestTarget;
 
+		let requestTarget = this->requestTarget;
+
+		if null === requestTarget {
+			let requestTarget = this->uri->getPath();
+			if true === this->uri->getQuery() {
+				let requestTarget .= this->uri->getQuery();
+			}
+
+			if true === empty(requestTarget) {
+				let requestTarget = "/";
+			}
+		}
+
+		return requestTarget;
 	}
+
+    /**
+     * Checks if a header exists by the given case-insensitive name.
+     */
+    public function hasHeader(var name) -> bool
+    {
+		return isset(this->headers[strtolower(name)]);
+    }
+
+    /**
+     * Return an instance with the specified header appended with the given value.
+     *
+     * Existing values for the specified header will be maintained. The new
+     * value(s) will be appended to the existing list. If the header did not
+     * exist previously, it will be added.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * new header and/or value.
+     */
+    public function withAddedHeader(var name, var value) -> <ServerRequest>
+    {
+
+    }
 
 	/**
 	 * Return an instance with the specified derived request attribute.
@@ -228,6 +388,22 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 		return newInstance;
 	}
 
+    /**
+     * Return an instance with the specified message body.
+     *
+     * The body MUST be a StreamInterface object.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return a new instance that has the
+     * new body stream.
+     *
+     * @throws \InvalidArgumentException When the body is not valid.
+     */
+    public function withBody(<StreamInterface> body) -> <ServerRequest>
+    {
+		return this->cloneInstance(body, "body");
+    }
+
 	/**
 	 * Return an instance with the specified cookies.
 	 *
@@ -244,7 +420,44 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 */
 	public function withCookieParams(array cookies) -> <ServerRequest>
 	{
-		return this->cloneInstance(cookies, "cookies");
+		return this->cloneInstance(cookies, "cookieParams");
+	}
+
+    /**
+     * Return an instance with the provided value replacing the specified header.
+     *
+     * While header names are case-insensitive, the casing of the header will
+     * be preserved by this function, and returned from getHeaders().
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * new and/or updated header and value.
+     *
+     * @throws \InvalidArgumentException for invalid header names or values.
+     */
+    public function withHeader(var name, var value) -> <ServerRequest>
+    {
+
+    }
+
+	/**
+	 * Return an instance with the provided HTTP method.
+	 *
+	 * While HTTP method names are typically all uppercase characters, HTTP
+	 * method names are case-sensitive and thus implementations SHOULD NOT
+	 * modify the given string.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * changed request method.
+	 *
+	 * @throws \InvalidArgumentException for invalid HTTP methods.
+	 */
+	public function withMethod(var method) -> <ServerRequest>
+	{
+		this->checkMethod(method);
+
+		return this->cloneInstance(method, "method");
 	}
 
 	/**
@@ -277,6 +490,23 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 		return this->cloneInstance(data, "parsedBody");
 	}
 
+    /**
+     * Return an instance with the specified HTTP protocol version.
+     *
+     * The version string MUST contain only the HTTP version number (e.g.,
+     * "1.1", "1.0").
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * new protocol version.
+     */
+    public function withProtocolVersion(var version) -> <ServerRequest>
+    {
+		this->checkProtocol(version);
+
+		return this->cloneInstance(version, "protocolVersion");
+    }
+
 	/**
 	 * Return an instance with the specified query string arguments.
 	 *
@@ -297,7 +527,7 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 */
 	public function withQueryParams(array query) -> <ServerRequest>
 	{
-		return this->cloneInstance(query, "query");
+		return this->cloneInstance(query, "queryParams");
 	}
 
 	/**
@@ -317,7 +547,11 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 */
 	public function withRequestTarget(var requestTarget) -> <ServerRequest>
 	{
+		if preg_match("/\s/", requestTarget) {
+			throw new \InvalidArgumentException("Invalid request target passed as a parameter");
+		}
 
+		return this->cloneInstance(requestTarget, "requestTarget");
 	}
 
 	/**
@@ -331,7 +565,62 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	 */
 	public function withUploadedFiles(array uploadedFiles) -> <ServerRequest>
 	{
-		return this->cloneInstance(uploadedFiles, "files");
+		return this->cloneInstance(uploadedFiles, "uploadedFiles");
+	}
+
+	/**
+	 * Returns an instance with the provided URI.
+	 *
+	 * This method MUST update the Host header of the returned request by
+	 * default if the URI contains a host component. If the URI does not
+	 * contain a host component, any pre-existing Host header MUST be carried
+	 * over to the returned request.
+	 *
+	 * You can opt-in to preserving the original state of the Host header by
+	 * setting `$preserveHost` to `true`. When `$preserveHost` is set to
+	 * `true`, this method interacts with the Host header in the following ways:
+	 *
+	 * - If the Host header is missing or empty, and the new URI contains
+	 *   a host component, this method MUST update the Host header in the returned
+	 *   request.
+	 * - If the Host header is missing or empty, and the new URI does not contain a
+	 *   host component, this method MUST NOT update the Host header in the returned
+	 *   request.
+	 * - If a Host header is present and non-empty, this method MUST NOT update
+	 *   the Host header in the returned request.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * new UriInterface instance.
+	 *
+	 * @see http://tools.ietf.org/html/rfc3986#section-4.3
+	 */
+	public function withUri(<UriInterface> uri, var preserveHost = false) -> <ServerRequest>
+	{
+		var headers, host, newInstance;
+
+		let preserveHost = boolval(preserveHost),
+			headers      = this->headers,
+			newInstance  = clone this;
+
+		if !(true === preserveHost &&
+			true === this->hasHeader("Host") &&
+			"" !== uri->getHost()) {
+
+			let host = uri->getHost();
+			if null !== uri->getPort() {
+				let host .= ":" . uri->getPort();
+			}
+
+			let headers["host"] = [
+				"name"  : "Host",
+				"value" : [host]
+			];
+
+			let newInstance->headers = headers;
+		}
+
+		return newInstance;
 	}
 
 	/**
@@ -358,6 +647,97 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 		return newInstance;
 	}
 
+    /**
+     * Return an instance without the specified header.
+     *
+     * Header resolution MUST be done without case-sensitivity.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that removes
+     * the named header.
+     */
+    public function withoutHeader(var name) -> <ServerRequest>
+    {
+    	var headers, key, newInstance;
+
+    	let key         = strtolower(name),
+    		headers     = this->headers,
+    		newInstance = clone this;
+
+		if (true === this->hasHeader(key)) {
+			unset(headers[key]);
+			let newInstance->headers = headers;
+		}
+
+		return newInstance;
+	}
+
+	/**
+	 * Check the name of the header. Throw exception if not valid
+	 *
+	 * @see http://tools.ietf.org/html/rfc7230#section-3.2
+	 */
+	private function checkHeaderName(var name) -> void
+	{
+		if (typeof name !== "string" ||
+			!preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name)) {
+			throw new \InvalidArgumentException("Invalid header name " . name);
+		}
+	}
+
+	/**
+	 * Check the method
+	 */
+	private function checkMethod(var method = "") ->  <ServerRequest>
+	{
+    	array methods;
+
+    	let methods = [
+			"GET"     : 1,
+			"CONNECT" : 1,
+			"DELETE"  : 1,
+			"HEAD"    : 1,
+			"OPTIONS" : 1,
+			"POST"    : 1,
+			"PUT"     : 1,
+			"TRACE"   : 1
+    	];
+
+    	if !(true !== empty(method) &&
+    		typeof method === "string" &&
+    		true === isset(methods[method])
+		) {
+			throw new \InvalidArgumentException("Invalid or unsupported method " . method);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Checks the protocol
+	 */
+	private function checkProtocol(var protocol = "") -> <ServerRequest>
+	{
+    	array protocols;
+
+    	let protocols = [
+    		"1.0" : 1,
+    		"1.1" : 1,
+    		"2.0" : 1,
+    		"3.0" : 1
+    	];
+
+    	if (true === empty(protocol) || typeof protocol !== "string") {
+    		throw new \InvalidArgumentException("Invalid protocol value");
+    	}
+
+    	if true !== isset(protocols[protocol]) {
+			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+		}
+
+		return this;
+	}
+
 	/**
 	 * Returns a new instance having set the parameter
 	 */
@@ -365,16 +745,69 @@ class ServerRequest extends AbstractRequest implements ServerRequestInterface
 	{
     	var newInstance;
 
-		if (element === this->{property}) {
-            return this;
+        let newInstance = clone this;
+		if (element !== this->{property}) {
+            let newInstance->{property} = element;
         }
 
-		/**
-		 * Immutable - need to send a new object back
-		 */
-        let newInstance             = clone this;
-        let newInstance->{property} = element;
-
         return newInstance;
+	}
+
+	/**
+	 * Sets the headers
+	 */
+	private function processHeaders(array headers) -> <ServerRequest>
+	{
+		var key, name, value;
+		array headerData;
+
+		let headerData = [];
+		for name, value in headers {
+
+			this->checkHeaderName(name);
+
+			let key = strtolower(name);
+
+			let headerData[key] = [
+				"name"  : name,
+				"value" : value
+			];
+		}
+
+		let this->headers = headerData;
+
+		return this;
+	}
+
+	/**
+	 * Set a valid stream
+	 */
+	private function processStream(var body = "php://memory", string mode) -> <StreamInterface>
+	{
+		if body instanceof StreamInterface {
+			return body;
+		}
+
+		if (typeof body !== "string" && (true !== is_resource(body))) {
+			throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+		}
+
+		return new Stream(body, mode);
+	}
+
+	/**
+	 * Sets a valid Uri
+	 */
+	private function processUri(var uri) -> <ServerRequest>
+	{
+		if uri instanceof UriInterface {
+			let this->uri = uri;
+		} elseif (typeof uri === "string" || null === uri) {
+			let this->uri = new Uri(uri);
+		} else {
+			throw new \InvalidArgumentException("Invalid uri passed as a parameter");
+		}
+
+		return this;
 	}
 }
