@@ -251,7 +251,7 @@ abstract class Pdo extends Adapter
 	public function connect(array descriptor = null) -> bool
 	{
 		var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap,
-			options, key, value, pdoKey;
+			options, key, value;
 
 		if empty descriptor {
 			let descriptor = (array) this->_descriptor;
