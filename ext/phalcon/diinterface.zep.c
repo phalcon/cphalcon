@@ -97,11 +97,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getService);
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, has);
 
 /**
- * Check whether the last service obtained via getShared produced a fresh instance or an existing one
- */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, wasFreshInstance);
-
-/**
  * Return the services registered in the DI
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getServices);

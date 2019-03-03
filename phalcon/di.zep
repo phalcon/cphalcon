@@ -72,11 +72,6 @@ class Di implements DiInterface
 	protected _sharedInstances;
 
 	/**
-	 * To know if the latest resolved instance was shared or not
-	 */
-	protected _freshInstance = false;
-
-	/**
 	 * Events Manager
 	 *
 	 * @var \Phalcon\Events\ManagerInterface
@@ -205,32 +200,48 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null;
+		var service, eventsManager, isShared, instance = null;
+
+		// If the service is shared and it already has a cached instance then
+		// immediately return it without triggering events.
+		if fetch service, this->_services[name] {
+			let isShared = service->isShared();
+			if isShared && isset this->_sharedInstances[name] {
+				return this->_sharedInstances[name];
+			}
+		}
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
+		// Allows for custom creation of instances through the "di:beforeServiceResolve" event.
 		if typeof eventsManager == "object" {
 			let instance = eventsManager->fire(
 				"di:beforeServiceResolve",
 				this,
-				["name": name, "parameters": parameters]
+				[
+					"name": name,
+					"parameters": parameters
+				]
 			);
 		}
 
 		if typeof instance != "object" {
-			if fetch service, this->_services[name] {
-				/**
-				 * The service is registered in the DI
-				 */
+			if service !== null {
+
+				// The service is registered in the DI.
 				try {
 					let instance = service->resolve(parameters, this);
 				} catch ServiceResolutionException {
 					throw new Exception("Service '" . name . "' cannot be resolved");
 				}
+
+				// If the service is shared then we'll cache the instance.
+				if isShared {
+					let this->_sharedInstances[name] = instance;
+				}
 			} else {
-				/**
-				 * The DI also acts as builder for any class even if it isn't defined in the DI
-				 */
+
+				// The DI also acts as builder for any class even if it isn't defined in the DI
 				if !class_exists(name) {
 					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 				}
@@ -243,15 +254,14 @@ class Di implements DiInterface
 			}
 		}
 
-		/**
-		 * Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
-		 */
+		// Pass the DI to the instance if it implements \Phalcon\Di\InjectionAwareInterface
 		if typeof instance == "object" {
 			if instance instanceof InjectionAwareInterface {
 				instance->setDI(this);
 			}
 		}
 
+		// Allows for post creation instance configuration through the "di:afterServiceResolve" event.
 		if typeof eventsManager == "object" {
 			eventsManager->fire(
 				"di:afterServiceResolve",
@@ -278,23 +288,13 @@ class Di implements DiInterface
 	{
 		var instance;
 
-		/**
-		 * This method provides a first level to shared instances allowing to use non-shared services as shared
-		 */
-		if fetch instance, this->_sharedInstances[name] {
-			let this->_freshInstance = false;
-		} else {
-
-			/**
-			 * Resolve the instance normally
-			 */
+		// Attempt to use the instance from the shared instances cache.
+		if !fetch instance, this->_sharedInstances[name] {
+			// Resolve the instance normally
 			let instance = this->get(name, parameters);
 
-			/**
-			 * Save the instance in the first level shared
-			 */
-			let this->_sharedInstances[name] = instance,
-				this->_freshInstance = true;
+			// Store the instance in the shared instances cache.
+			let this->_sharedInstances[name] = instance;
 		}
 
 		return instance;
@@ -306,14 +306,6 @@ class Di implements DiInterface
 	public function has(string! name) -> bool
 	{
 		return isset this->_services[name];
-	}
-
-	/**
-	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
-	 */
-	public function wasFreshInstance() -> bool
-	{
-		return this->_freshInstance;
 	}
 
 	/**

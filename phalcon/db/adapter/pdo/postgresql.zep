@@ -46,6 +46,26 @@ class Postgresql extends PdoAdapter
 	protected _type = "pgsql";
 
 	/**
+	 * Returns PDO adapter DSN defaults as a key-value map.
+	 */
+	protected function getDsnDefaults() -> array
+	{
+		return [];
+	}
+
+	/**
+	 * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
+	 */
+	public function __construct(array! descriptor)
+	{
+		if isset descriptor["charset"] {
+			trigger_error("Postgres does not allow the charset to be changed in the DSN.");
+		}
+
+		parent::__construct(descriptor);
+	}
+
+	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
 	 */

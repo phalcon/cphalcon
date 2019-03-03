@@ -120,16 +120,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_diinterface_has, 0, 1, _
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_diinterface_wasfreshinstance, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_diinterface_getservices, 0, 0, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_diinterface_wasfreshinstance, 0, 0, _IS_BOOL, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_diinterface_getservices, 0, 0, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_diinterface_getservices, 0, 0, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_diinterface_getservices, 0, 0, IS_ARRAY, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -155,7 +148,6 @@ ZEPHIR_INIT_FUNCS(phalcon_diinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, getRaw, arginfo_phalcon_diinterface_getraw)
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, getService, arginfo_phalcon_diinterface_getservice)
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, has, arginfo_phalcon_diinterface_has)
-	PHP_ABSTRACT_ME(Phalcon_DiInterface, wasFreshInstance, arginfo_phalcon_diinterface_wasfreshinstance)
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, getServices, arginfo_phalcon_diinterface_getservices)
 	ZEND_FENTRY(setDefault, NULL, arginfo_phalcon_diinterface_setdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(getDefault, NULL, arginfo_phalcon_diinterface_getdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
