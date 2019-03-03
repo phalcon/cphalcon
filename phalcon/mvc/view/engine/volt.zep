@@ -82,7 +82,7 @@ class Volt extends Engine
 	 */
 	public function render(string! templatePath, var params, bool mustClean = false)
 	{
-		var compiler, compiledTemplatePath, key, value;
+		var compiler, compiledTemplatePath, eventsManager, key, value;
 
 		if mustClean {
 			ob_clean();
@@ -91,9 +91,22 @@ class Volt extends Engine
 		/**
 		 * The compilation process is done by Phalcon\Mvc\View\Engine\Volt\Compiler
 		 */
-		let compiler = this->getCompiler();
+		let compiler      = this->getCompiler(),
+			eventsManager = this->_eventsManager;
+
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("view:beforeCompile", this) === false {
+				return null;
+			}
+		}
 
 		compiler->compile(templatePath);
+
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("view:afterCompile", this) === false {
+				return null;
+			}
+		}
 
 		let compiledTemplatePath = compiler->getCompiledTemplatePath();
 

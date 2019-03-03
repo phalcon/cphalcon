@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_add_function(&_2, &_0, &_1);
 	zephir_update_property_zval(this_ptr, SL("_totalSeconds"), &_2);
-	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), &activeProfile TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), &activeProfile);
 	if ((zephir_method_exists_ex(this_ptr, SL("afterendprofile") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();

@@ -51,8 +51,8 @@ class GetActiveAccessCest
         $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
 
-        $acl->addOperation('Guests');
-        $acl->addSubject('Login', ['help', 'index']);
+        $acl->addRole('Guests');
+        $acl->addComponent('Login', ['help', 'index']);
 
         $acl->allow('Guests', 'Login', '*');
         $actual = $acl->isAllowed('Guests', 'Login', 'index');

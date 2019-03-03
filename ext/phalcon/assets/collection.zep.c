@@ -460,7 +460,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 89, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	RETURN_THIS();
 
 }
@@ -591,7 +592,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 91, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	RETURN_THIS();
 
 }
@@ -982,7 +984,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_INIT_VAR(&completePath);
 	ZEPHIR_CONCAT_VV(&completePath, &basePath, &targetPath);
 	if ((zephir_file_exists(&completePath TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 51, &completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 49, &completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -1004,7 +1006,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("filters"), filter TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("filters"), filter);
 	RETURN_THISW();
 
 }
@@ -1031,13 +1033,14 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		if (zephir_instance_of_ev(asset, phalcon_assets_asset_ce TSRMLS_CC)) {
-			zephir_update_property_array_append(this_ptr, SL("assets"), asset TSRMLS_CC);
+			zephir_update_property_array_append(this_ptr, SL("assets"), asset);
 		} else {
-			zephir_update_property_array_append(this_ptr, SL("codes"), asset TSRMLS_CC);
+			zephir_update_property_array_append(this_ptr, SL("codes"), asset);
 		}
 		ZEPHIR_CALL_METHOD(&_1$$3, asset, "getassetkey", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1$$3 TSRMLS_CC);
+		zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);

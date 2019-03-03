@@ -723,8 +723,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	ZEPHIR_CONCAT_VV(&_2, &_1, &pattern);
 	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 68, &_2, &mergedPaths, httpMethods);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("_routes"), &route TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 375, this_ptr);
+	zephir_update_property_array_append(this_ptr, SL("_routes"), &route);
+	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 376, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);
 

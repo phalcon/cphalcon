@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Service_Locator, get) {
 		} else {
 			ZEPHIR_CPY_WRT(&service, &definition);
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &service TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &service);
 	}
 	zephir_read_property(&_7, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_8, &_7, &name, PH_NOISY | PH_READONLY, "phalcon/service/locator.zep", 76 TSRMLS_CC);
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Service_Locator, set) {
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("mapper"), &name, service TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("mapper"), &name, service);
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_unset(&_0, &name, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();

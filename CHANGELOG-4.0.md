@@ -1,3 +1,54 @@
+# [4.0.0-alpha.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.3) (2019-02-31)
+## Added
+- Added `view:afterCompile` and `view:beforeCompile` events for the Volt compiler [#2182](https://github.com/phalcon/cphalcon/pull/2182)
+- Added array merge support to `Phalcon\Config::merge`
+- Added `setBlacklist` in `Phalcon\Debug` to allow the developer to "blacklist" certain variables from the `$_REQUEST` or `$_SERVER` superglobals being displayed on screen [#13687](https://github.com/phalcon/cphalcon/pull/13687)
+- Changed view engine service closures to no longer receive the dependency injector as the second parameter. Instead use `$this` for the DI. [#11926](https://github.com/phalcon/cphalcon/issues/11926)
+
+## Fixed
+- Fixed router and controller parameter inconsistencies (camelize etc.) [#13555](https://github.com/phalcon/cphalcon/issues/13555)
+- Fixed `invalid opcode` in `phalcon.so` when using docker [#13143](https://github.com/phalcon/cphalcon/issues/13143)
+- Fixed storing related model data in `Phalcon\Messages\Message`. The method is now `setMetadata` and can be used to store any metadata from any component that emits messages [#13811](https://github.com/phalcon/cphalcon/issues/13811)
+- Fixed Dispatcher calling camelize twice and producing incorrect results [#12829](https://github.com/phalcon/cphalcon/issues/12829)
+- Fixed `Phalcon\Mvc\Model:findFirst` to throw an exception when the passed parameter for a primary key is not an array, string or numeric [#13336](https://github.com/phalcon/cphalcon/issues/13336)
+- Added `Phalcon\Http\ResponseInterface::isSent`, that was already used. [#13836](https://github.com/phalcon/cphalcon/pull/13836)
+
+## Changed
+- Renamed `Phalcon\Acl\Subject` to `Phalcon\Acl\Component` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\SubjectInterface` to `Phalcon\Acl\ComponentInterface` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\SubjectAware` to `Phalcon\Acl\ComponentAware` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Operation` to `Phalcon\Acl\Role` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\OperationInterface` to `Phalcon\Acl\RoleInterface` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\OperationAware` to `Phalcon\Acl\RoleAware` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::addOperation` to `Phalcon\Acl\AdapterInterface::addRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::isOperation` to `Phalcon\Acl\AdapterInterface::isRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::isSubject` to `Phalcon\Acl\AdapterInterface::isComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::addSubject` to `Phalcon\Acl\AdapterInterface::addComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::addSubjectAccess` to `Phalcon\Acl\AdapterInterface::addComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::dropSubjectAccess` to `Phalcon\Acl\AdapterInterface::dropComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::getActiveOperation` to `Phalcon\Acl\AdapterInterface::getActiveRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::getActiveSubject` to `Phalcon\Acl\AdapterInterface::getActiveComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::getOperationss` to `Phalcon\Acl\AdapterInterface::getRoles` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\AdapterInterface::getSubjects` to `Phalcon\Acl\AdapterInterface::getComponents` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter::getActiveOperation` to `Phalcon\Acl\AdapterInterface::getActiveRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter::getActiveSubject` to `Phalcon\Acl\AdapterInterface::getActiveComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::addOperation` to `Phalcon\Acl\Adapter\Memory::addRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::isOperation` to `Phalcon\Acl\Adapter\Memory::isRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::isSubject` to `Phalcon\Acl\Adapter\Memory::isComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::addSubject` to `Phalcon\Acl\Adapter\Memory::addComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::addSubjectAccess` to `Phalcon\Acl\Adapter\Memory::addComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::dropSubjectAccess` to `Phalcon\Acl\Adapter\Memory::dropComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::getOperationss` to `Phalcon\Acl\Adapter\Memory::getRoles` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::getSubjects` to `Phalcon\Acl\Adapter\Memory::getComponents` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Mvc\Url` to `Phalcon\Url` [#13742](https://github.com/phalcon/cphalcon/issues/13742)
+- Renamed `Phalcon\Mvc\UrlInterface` to `Phalcon\UrlInterface` [#13742](https://github.com/phalcon/cphalcon/issues/13742)
+- Renamed `Phalcon\Mvc\Url\Exception` to `Phalcon\Url\Exception` [#13742](https://github.com/phalcon/cphalcon/issues/13742)
+
+## Removed
+- Removed the CSS/JS minifiers. This affects the Assets\Filter classes. For now the classes return the original content. [#13819](https://github.com/phalcon/cphalcon/issues/13819), [#10118](https://github.com/phalcon/cphalcon/issues/10118)
+- Removed `Phalcon\Queue` namespace and tests. Beanstalkd is near being abandoned. A new Queue component/adapter will be implemented for queueing needs of the community. [#13364](https://github.com/phalcon/cphalcon/issues/13364)
+
+
 # [4.0.0-alpha.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.2) (2019-02-02)
 ## Added
 - Added `notFound()` method in `Phalcon\Translate\Adapter\NativeArray` which returns the key requested if not found. The method can be overriden when extending the class, returning what the developer needs [#13007](https://github.com/phalcon/cphalcon/pull/13007)
@@ -13,7 +64,7 @@
 - Fixed `Phalcon\Cache\Backend\Libmemcached` returning "empty" values being as `null` when they could be `0`, `false` or empty `string`. [#13497](https://github.com/phalcon/cphalcon/issues/13497)
 - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` building the incorrect code for the following tags; `select`, and `select_static` [#13459](https://github.com/phalcon/cphalcon/issues/13459)
 - Fixed `Phalcon\Tag\Select` not rendering without any options.
-- 
+-
 ## Changed
 - Changed the `Phalcon\Tag::renderTitle()` parameters such as `Phalcon\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
 - Changed the `Phalcon\Html\Tag::renderTitle()` parameters such as `Phalcon\Html\Tag::getTitle()` [#13706](https://github.com/phalcon/cphalcon/pull/13706)
@@ -24,7 +75,9 @@
 - Changed `Phalcon\Exception` to implement `\Throwable` interface.[#13750](https://github.com/phalcon/cphalcon/issues/13758)
 - Changed `Phalcon\Http\Cookie`. The `httpOnly` property is no longer initialised with a value [#13464](https://github.com/phalcon/cphalcon/issues/13464)
 - Changed the default action for no arguments of `Phalcon\Acl\Memory`to be `Acl::DENY` instead of `Acl::ALLOW` [#13769](https://github.com/phalcon/cphalcon/issues/13769)
-- Changed the implementation of `Phalcon\Filter`. It uses a service locator and a service locator factory now. It has more sanitizers now. [#13060](https://github.com/phalcon/cphalcon/issues/13060)
+- Changed handling of `Phalcon\Config\Adapter\Grouped::_construct()` when receiving an configuration file as a string from the `arrayConfig` parameter
+  to automatically attempt and the parameter `defaultAdapter` is set to an empty string, to determine the adapter from the file extension,
+  producing the same behaviour as `Phalcon\Config\Factory::load()` [#13762](https://github.com/phalcon/cphalcon/pull/13762)
 
 ## Removed
 - Removed `Phalcon\Mvc\User\Component`, `Phalcon\Mvc\User\Module` and `Phalcon\Mvc\User\Plugin` [#13749](https://github.com/phalcon/cphalcon/pull/13749)
@@ -58,24 +111,24 @@
 - Added `Phalcon\Paginator\RepositoryInterface` for repository the current state of `paginator` and also optional sets the aliases for properties repository [#10985](https://github.com/phalcon/cphalcon/pull/10985), [#10957](https://github.com/phalcon/cphalcon/issues/10957)
 - Added bind support to `Phalcon\Mvc\Model\Query\Builder`. The Query Builder has the same methods as `Phalcon\Mvc\Model\Query`; `getBindParams`, `setBindParams`, `getBindTypes` and `setBindTypes`. [#13368](https://github.com/phalcon/cphalcon/issues/13368)
 - Added `Phalcon\Html\Breadcrumbs`, a component that creates HTML code for breadcrumbs. [#13680](https://github.com/phalcon/cphalcon/issues/13680)
-- Added more methods to interfaces. 
-    - `Phalcon\Cli\Router\RouteInterface` - `delimiter`, `getDelimiter`                        
+- Added more methods to interfaces.
+    - `Phalcon\Cli\Router\RouteInterface` - `delimiter`, `getDelimiter`
     - `Phalcon\Cli\DispatcherInterface` - `setOptions`, `getOptions`
-    - `Phalcon\Db\AdapterInterface` - `fetchColumn`, `insertAsDict`, `updateAsDict`                              
-    - `Phalcon\Db\DialectInterface` - `registerCustomFunction`, `getCustomFunctions`, `getSqlExpression`                              
+    - `Phalcon\Db\AdapterInterface` - `fetchColumn`, `insertAsDict`, `updateAsDict`
+    - `Phalcon\Db\DialectInterface` - `registerCustomFunction`, `getCustomFunctions`, `getSqlExpression`
     - `Phalcon\Di\ServiceInterface` - `getParameter`, `isResolved`
-    - `Phalcon\Events\ManagerInterface` - `hasListeners`                          
-    - `Phalcon\Mvc\Model\Query\BuilderInterface` - `distinct`, `getDistinct`, `forUpdate`, `offset`, `getOffset`                 
-    - `Phalcon\Mvc\Model\Transaction\ManagerInterface` - `setDbService`, `getDbService`, `setRollbackPendent`, `getRollbackPendent`           
-    - `Phalcon\Mvc\Model\CriteriaInterface` - `distinct`, `leftJoin`, `innerJoin`, `rightJoin`, `groupBy`, `having`, `cache`, `getColumns`, `getGroupBy`, `getHaving`, 
-    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`, `registerNamespaceAlias`, `getNamespaceAlias`                       
-    - `Phalcon\Mvc\Model\MessageInterface` - `setModel`, `getModel`, `setCode`, `getCode`                       
-    - `Phalcon\Mvc\Model\QueryInterface` - `getSingleResult`, `setBindParams`, `getBindParams`, `setBindTypes`, `setSharedLock`, `getBindTypes`, `getSql`                         
+    - `Phalcon\Events\ManagerInterface` - `hasListeners`
+    - `Phalcon\Mvc\Model\Query\BuilderInterface` - `distinct`, `getDistinct`, `forUpdate`, `offset`, `getOffset`
+    - `Phalcon\Mvc\Model\Transaction\ManagerInterface` - `setDbService`, `getDbService`, `setRollbackPendent`, `getRollbackPendent`
+    - `Phalcon\Mvc\Model\CriteriaInterface` - `distinct`, `leftJoin`, `innerJoin`, `rightJoin`, `groupBy`, `having`, `cache`, `getColumns`, `getGroupBy`, `getHaving`,
+    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`, `registerNamespaceAlias`, `getNamespaceAlias`
+    - `Phalcon\Mvc\Model\MessageInterface` - `setModel`, `getModel`, `setCode`, `getCode`
+    - `Phalcon\Mvc\Model\QueryInterface` - `getSingleResult`, `setBindParams`, `getBindParams`, `setBindTypes`, `setSharedLock`, `getBindTypes`, `getSql`
     - `Phalcon\Mvc\Model\RelationInterface` - `getParams`
     - `Phalcon\Mvc\Model\ResultsetInterface` - `setHydrateMode`, `getHydrateMode`, `getMessages`, `update`, `delete`, `filter`
     - `Phalcon\Mvc\ModelInterface` - `getModelsMetaData`
     - `Phalcon\Session\AdapterInterface` - `setId`, `status`
-    - `Phalcon\Validation\MessageInteraface` - `getCode`, `setCode`                     
+    - `Phalcon\Validation\MessageInteraface` - `getCode`, `setCode`
     - `Phalcon\CryptInterface` - `setPadding`
     - `Phalcon\Mvc\RouterInterface` - `attach` [#12676](https://github.com/phalcon/cphalcon/issues/12676)
 - Added `Phalcon\Container`, a proxy container class to the `Phalcon\DI` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
@@ -99,7 +152,7 @@
 - Made the `specialKey` (`_PHCR`) optional for the `Phalcon\Cache\Backend\Redis` adapter [#10905](https://github.com/phalcon/cphalcon/issues/10905), [#11608](https://github.com/phalcon/cphalcon/pull/11608)
 - Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll [#13515](https://github.com/phalcon/cphalcon/pull/13515)
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ [#13496](https://github.com/phalcon/cphalcon/pull/13496)
-- Changed `Phalcon\Tag::getTitle`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [#13547](https://github.com/phalcon/cphalcon/issues/13547) 
+- Changed `Phalcon\Tag::getTitle`. It returns only the text. It accepts `prepend`, `append` booleans to prepend or append the relevant text to the title. [#13547](https://github.com/phalcon/cphalcon/issues/13547)
 - Changed `Phalcon\Di\Service` constructor to no longer takes the name of the service. [#13590](https://github.com/phalcon/cphalcon/pull/13590)
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
 - Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime` [11759](https://github.com/phalcon/cphalcon/issues/11759)
@@ -134,22 +187,22 @@
 - Renamed `Phalcon\Acl\AdapterInterface::getResources` to `Phalcon\Acl\AdapterInterface::getSubjects` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Renamed `Phalcon\Acl\Adapter::getActiveRole` to `Phalcon\Acl\AdapterInterface::getActiveOperation` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Renamed `Phalcon\Acl\Adapter::getActiveResource` to `Phalcon\Acl\AdapterInterface::getActiveSubject` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
-- Renamed `Phalcon\Acl\Adapter\Memory::addRole` to `Phalcon\Acl\Adapter\Memory::addOperation` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::isRole` to `Phalcon\Acl\Adapter\Memory::isOperation` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::isResource` to `Phalcon\Acl\Adapter\Memory::isSubject` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::addResource` to `Phalcon\Acl\Adapter\Memory::addSubject` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::addResourceAccess` to `Phalcon\Acl\Adapter\Memory::addSubjectAccess` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::dropResourceAccess` to `Phalcon\Acl\Adapter\Memory::dropSubjectAccess` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::getRoless` to `Phalcon\Acl\Adapter\Memory::getOperations` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
-- Renamed `Phalcon\Acl\Adapter\Memory::getResources` to `Phalcon\Acl\Adapter\Memory::getSubjects` [#13639](https://github.com/phalcon/cphalcon/issues/13639) 
+- Renamed `Phalcon\Acl\Adapter\Memory::addRole` to `Phalcon\Acl\Adapter\Memory::addOperation` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::isRole` to `Phalcon\Acl\Adapter\Memory::isOperation` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::isResource` to `Phalcon\Acl\Adapter\Memory::isSubject` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::addResource` to `Phalcon\Acl\Adapter\Memory::addSubject` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::addResourceAccess` to `Phalcon\Acl\Adapter\Memory::addSubjectAccess` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::dropResourceAccess` to `Phalcon\Acl\Adapter\Memory::dropSubjectAccess` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::getRoless` to `Phalcon\Acl\Adapter\Memory::getOperations` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
+- Renamed `Phalcon\Acl\Adapter\Memory::getResources` to `Phalcon\Acl\Adapter\Memory::getSubjects` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Changed `Phalcon\Http\Response::setHeaders` now merges the headers with any pre-existing ones in the internal collection [#12836](https://github.com/phalcon/cphalcon/issues/12836)
 - Changed `Phalcon\DI\FactoryDefault` to not load by default
-    - the `Phalcon\Session\Adapter\Files` using the name `session` 
+    - the `Phalcon\Session\Adapter\Files` using the name `session`
     - the `Phalcon\Session\Bag` using the name `sessionBag` [#12921](https://github.com/phalcon/cphalcon/issues/12921)
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
 - Changed the `Phalcon\Session` namespace by refactoring the component. `Phalcon\Session\Manager` is now the single component offering session manipulation by using adapters. Each adapter implements PHP's `SessionHandlerInterface`. Available adapters are `Phalcon\Session\Adapter\Files`, `Phalcon\Session\Adapter\Libmemcached`, `Phalcon\Session\Adapter\Noop` and `Phalcon\Session\Adapter\Redis`.  [#12833](https://github.com/phalcon/cphalcon/issues/12833), [#11341](https://github.com/phalcon/cphalcon/issues/11341), [#13535](https://github.com/phalcon/cphalcon/issues/13535)
 - Fixed `Phalcon\Mvc\Models` magic method (setter) is fixed for arrays  [#13661](https://github.com/phalcon/cphalcon/issues/13661)
-- Fixed `Phalcon\Mvc\Model::skipAttributes` and `Phalcon\Mvc\Model::allowEmptyColumns` allowEmptyStrings & skipAttributes repsect the column mapping. [#12975](https://github.com/phalcon/cphalcon/issues/12975), [#13477](https://github.com/phalcon/cphalcon/issues/13477) 
+- Fixed `Phalcon\Mvc\Model::skipAttributes` and `Phalcon\Mvc\Model::allowEmptyColumns` allowEmptyStrings & skipAttributes repsect the column mapping. [#12975](https://github.com/phalcon/cphalcon/issues/12975), [#13477](https://github.com/phalcon/cphalcon/issues/13477)
 ## Removed
 - PHP < 7.2 no longer supported
 - Removed `xcache` support from adapters [#13628](https://github.com/phalcon/cphalcon/pull/13628)

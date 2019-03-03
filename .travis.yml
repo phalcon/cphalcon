@@ -2,7 +2,7 @@ sudo: false
 
 language: php
 php:
-  # PHP 7.4 does not ready yet
+  # PHP 7.4 is not ready yet
   # - 'master'
   - '7.3'
   - '7.2'
@@ -18,19 +18,15 @@ branches:
 
 addons:
   apt:
-    sources:
-      - mysql-5.7-trusty
     packages:
       - beanstalkd
       - gdb
       - lcov
-      - mysql-server
-      - mysql-client
   postgresql: "9.4"
 
 matrix:
   fast_finish: true
-  # PHP 7.4 does not ready yet
+  # PHP 7.4 is not ready yet
   # allow_failures:
   #  - php: 'master'
 
@@ -86,6 +82,7 @@ before_install:
     export PHP_PEAR_PHP_BIN=$(phpenv which php)
 
 install:
+  - .ci/install-mysql-5.7.sh
   - tests/_ci/setup-dbs.sh
   - tests/_ci/pear-setup.sh
   - .ci/install-prereqs.sh

@@ -2504,9 +2504,9 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compile(string! templatePath, bool extendsMode = false)
 	{
-		var stat, compileAlways, prefix, compiledPath, compiledSeparator, blocksCode,
-			compiledExtension, compilation, options, realCompiledPath,
-			compiledTemplatePath, templateSepPath;
+		var blocksCode, compilation, compileAlways, compiledExtension, compiledPath,
+			compiledSeparator, compiledTemplatePath, optionKey, options, prefix,
+			realCompiledPath, stat, templateSepPath;
 
 		/**
 		 * Re-initialize some properties already initialized when the object is cloned
@@ -2533,10 +2533,16 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * This makes that templates will be compiled always
 			 */
-			if isset options["compileAlways"] {
-				let compileAlways = options["compileAlways"];
+			if isset options["always"] || isset options["compileAlways"] {
+				if isset options["always"] {
+					let optionKey = "always";
+				} else {
+					let optionKey = "compileAlways";
+					trigger_error("The 'compileAlways' option is deprecated. Use 'always' instead.", E_USER_DEPRECATED);
+				}
+				let compileAlways = options[optionKey];
 				if typeof compileAlways != "boolean" {
-					throw new Exception("'compileAlways' must be a bool value");
+					throw new Exception("'" . optionKey . "' must be a bool value");
 				}
 			}
 
@@ -2553,11 +2559,17 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * Compiled path is a directory where the compiled templates will be located
 			 */
-			if isset options["compiledPath"] {
-				let compiledPath = options["compiledPath"];
+			if isset options["path"] || isset options["compiledPath"] {
+				if isset options["path"] {
+					let optionKey = "path";
+				} else {
+					let optionKey = "compiledPath";
+					trigger_error("The 'compiledPath' option is deprecated. Use 'path' instead.", E_USER_DEPRECATED);
+				}
+				let compiledPath = options[optionKey];
 				if typeof compiledPath != "string" {
 					if typeof compiledPath != "object" {
-						throw new Exception("'compiledPath' must be a string or a closure");
+						throw new Exception("'" . optionKey . "' must be a string or a closure");
 					}
 				}
 			}
@@ -2565,20 +2577,32 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * There is no compiled separator by default
 			 */
-			if isset options["compiledSeparator"] {
-				let compiledSeparator = options["compiledSeparator"];
+			if isset options["separator"] || isset options["compiledSeparator"] {
+				if isset options["separator"] {
+					let optionKey = "separator";
+				} else {
+					let optionKey = "compiledSeparator";
+					trigger_error("The 'compiledSeparator' option is deprecated. Use 'separator' instead.", E_USER_DEPRECATED);
+				}
+				let compiledPath = options[optionKey];
 				if typeof compiledSeparator != "string" {
-					throw new Exception("'compiledSeparator' must be a string");
+					throw new Exception("'" . optionKey . "' must be a string");
 				}
 			}
 
 			/**
 			 * By default the compile extension is .php
 			 */
-			if isset options["compiledExtension"] {
-				let compiledExtension = options["compiledExtension"];
+			if isset options["extension"] || isset options["compiledExtension"] {
+				if isset options["extension"] {
+					let optionKey = "extension";
+				} else {
+					let optionKey = "compiledExtension";
+					trigger_error("The 'compiledExtension' option is deprecated. Use 'extension' instead.", E_USER_DEPRECATED);
+				}
+				let compiledPath = options[optionKey];
 				if typeof compiledExtension != "string" {
-					throw new Exception("'compiledExtension' must be a string");
+					throw new Exception("'" . optionKey . "' must be a string");
 				}
 			}
 

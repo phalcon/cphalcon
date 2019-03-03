@@ -49,6 +49,7 @@ autom4te.cache/
 /ide/
 
 .zephir/
+zephir.phar
 
 boxfile.yml
 composer.lock

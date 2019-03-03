@@ -65,6 +65,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _actionSuffix = "Action";
 
+	protected _activeMethodMap = [];
+
+	protected _camelCaseMap = [];
+
 	protected _previousNamespaceName = null;
 
 	protected _previousHandlerName = null;
@@ -76,6 +80,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	protected _modelBinder = null;
 
 	protected _isControllerInitialize = false;
+
+	protected _handlerHashes = [];
 
 	const EXCEPTION_NO_DI = 0;
 
@@ -285,7 +291,12 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getActiveMethod() -> string
 	{
-		return this->_actionName . this->_actionSuffix;
+		var activeMethodName;
+		if !fetch activeMethodName, this->_activeMethodMap[this->_actionName] {
+			let activeMethodName = lcfirst(this->toCamelCase(this->_actionName));
+			let this->_activeMethodMap[this->_actionName] = activeMethodName;
+		}
+		return activeMethodName . this->_actionSuffix;
 	}
 
 	/**
@@ -385,7 +396,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod,
 			modelBinder, bindCacheKey,
-			wasFresh, e;
+			isNewHandler, handlerHash, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -483,7 +494,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			let handler = dependencyInjector->getShared(handlerClass);
-			let wasFresh = dependencyInjector->wasFreshInstance();
 
 			// Handlers must be only objects
 			if typeof handler !== "object" {
@@ -492,6 +502,13 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 				break;
+			}
+
+			// Check if the handler is new (hasn't been initialized).
+			let handlerHash = spl_object_hash(handler);
+			let isNewHandler = isset this->_handlerHashes[handlerHash] ? false : true;
+			if isNewHandler {
+				let this->_handlerHashes[handlerHash] = true;
 			}
 
 			let this->_activeHandler = handler;
@@ -587,7 +604,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			// and blog posts for 4.0, this change will happen.
 			//
 			// @see https://github.com/phalcon/cphalcon/pull/13112
-			if wasFresh === true {
+			if isNewHandler === true {
 				if method_exists(handler, "initialize") {
 					try {
 						let this->_isControllerInitialize = true;
@@ -828,7 +845,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 		// We don't camelize the classes if they are in namespaces
 		if !memstr(handlerName, "\\") {
-			let camelizedClass = camelize(handlerName);
+			let camelizedClass = this->toCamelCase(handlerName);
 		} else {
 			let camelizedClass = handlerName;
 		}
@@ -897,5 +914,15 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		if !this->_actionName {
 			let this->_actionName = this->_defaultAction;
 		}
+	}
+
+	protected function toCamelCase(string input) -> string
+	{
+		var camelCaseInput;
+		if !fetch camelCaseInput, this->_camelCaseMap[input] {
+			let camelCaseInput = join("", array_map("ucfirst", preg_split("/[_-]+/", input)));
+			let this->_camelCaseMap[input] = camelCaseInput;
+		}
+		return camelCaseInput;
 	}
 }

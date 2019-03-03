@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 		zephir_update_property_zval(this_ptr, SL("_name"), &name);
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "PATHINFO_EXTENSION");
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 21, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 228, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZVAL_LONG(&_2$$4, 4);

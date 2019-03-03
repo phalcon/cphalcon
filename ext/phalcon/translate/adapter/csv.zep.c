@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	ZVAL_STRING(&_3, ";");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "\"");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_load", NULL, 447, &_1, &_2, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_load", NULL, 437, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rb");
-	ZEPHIR_CALL_FUNCTION(&fileHandler, "fopen", NULL, 283, &file, &_0);
+	ZEPHIR_CALL_FUNCTION(&fileHandler, "fopen", NULL, 284, &file, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fileHandler) != IS_RESOURCE) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load) {
 	}
 	while (1) {
 		ZVAL_LONG(&_3$$4, length);
-		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_4, 448, &fileHandler, &_3$$4, &delimiter, &enclosure);
+		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_4, 438, &fileHandler, &_3$$4, &delimiter, &enclosure);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;
@@ -164,7 +164,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load) {
 		zephir_array_fetch_long(&_9$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 64 TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(&_10$$4);
 		zephir_array_fetch_long(&_10$$4, &data, 0, PH_NOISY, "phalcon/translate/adapter/csv.zep", 64 TSRMLS_CC);
-		zephir_update_property_array(this_ptr, SL("_translate"), &_10$$4, &_9$$4 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_translate"), &_10$$4, &_9$$4);
+		ZEPHIR_INIT_NVAR(&_9$$4);
 	}
 	zephir_fclose(&fileHandler TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

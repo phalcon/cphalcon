@@ -16,7 +16,6 @@ PHP_METHOD(Phalcon_Di, getService);
 PHP_METHOD(Phalcon_Di, get);
 PHP_METHOD(Phalcon_Di, getShared);
 PHP_METHOD(Phalcon_Di, has);
-PHP_METHOD(Phalcon_Di, wasFreshInstance);
 PHP_METHOD(Phalcon_Di, getServices);
 PHP_METHOD(Phalcon_Di, offsetExists);
 PHP_METHOD(Phalcon_Di, offsetSet);
@@ -159,16 +158,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_has, 0, 1, _IS_BOOL, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_wasfreshinstance, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_getservices, 0, 0, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_wasfreshinstance, 0, 0, _IS_BOOL, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_getservices, 0, 0, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_getservices, 0, 0, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_getservices, 0, 0, IS_ARRAY, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -252,7 +244,6 @@ ZEPHIR_INIT_FUNCS(phalcon_di_method_entry) {
 	PHP_ME(Phalcon_Di, get, arginfo_phalcon_di_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, getShared, arginfo_phalcon_di_getshared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, has, arginfo_phalcon_di_has, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di, wasFreshInstance, arginfo_phalcon_di_wasfreshinstance, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, getServices, arginfo_phalcon_di_getservices, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, offsetExists, arginfo_phalcon_di_offsetexists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, offsetSet, arginfo_phalcon_di_offsetset, ZEND_ACC_PUBLIC)

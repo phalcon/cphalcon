@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
+use Phalcon\Mvc\Dispatcher;
 
 /**
  * Class GetActiveMethodCest
@@ -30,6 +31,25 @@ class GetActiveMethodCest
     public function dispatcherGetActiveMethod(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - getActiveMethod()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setActionSuffix('Action');
+
+        $dispatcher->setActionName('hello-phalcon');
+        $actualMethod = $dispatcher->getActiveMethod();
+        $I->assertEquals('helloPhalconAction', $actualMethod);
+
+        $dispatcher->setActionName('home_page');
+        $actualMethod = $dispatcher->getActiveMethod();
+        $I->assertEquals('homePageAction', $actualMethod);
+
+        $dispatcher->setActionName('secondPage');
+        $actualMethod = $dispatcher->getActiveMethod();
+        $I->assertEquals('secondPageAction', $actualMethod);
+
+        $dispatcher->setActionName('ThirdPage');
+        $actualMethod = $dispatcher->getActiveMethod();
+        $I->assertEquals('thirdPageAction', $actualMethod);
     }
 }

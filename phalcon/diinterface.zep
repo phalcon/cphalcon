@@ -84,11 +84,6 @@ interface DiInterface extends \ArrayAccess
 	public function has(string! name) -> bool;
 
 	/**
-	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
-	 */
-	public function wasFreshInstance() -> bool;
-
-	/**
 	 * Return the services registered in the DI
 	 */
 	public function getServices() -> <ServiceInterface[]>;

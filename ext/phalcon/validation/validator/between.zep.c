@@ -150,11 +150,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_4$$5);
 		object_init_ex(&_4$$5, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 50, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 48, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$5);
 		ZVAL_STRING(&_6$$5, "Between");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 299, &_5$$5, field, &_6$$5, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 300, &_5$$5, field, &_6$$5, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$5);
 		zephir_check_call_status();

@@ -34,9 +34,9 @@ class FilterCest
         $I->wantToTest('Messages\Messages - filter()');
         $messages = new Messages(
             [
-                new Message('Password: no number present', 'Password', 'MyType1', 111),
-                new Message('Password: no uppercase letter present', 'Password', 'MyType2', 222),
-                new Message('Email: not valid', 'Email', 'MyType3', 333),
+                new Message('Password: no number present', 'Password', 'MyType1', 111, ['My1' => 'Metadata1']),
+                new Message('Password: no uppercase letter present', 'Password', 'MyType2', 222, ['My2' => 'Metadata2']),
+                new Message('Email: not valid', 'Email', 'MyType3', 333, ['My3' => 'Metadata3']),
             ]
         );
 
@@ -50,18 +50,20 @@ class FilterCest
         $expected = [
             0 => Message::__set_state(
                 [
-                    '_message' => 'Password: no number present',
-                    '_field'   => 'Password',
-                    '_type'    => 'MyType1',
-                    '_code'    => 111,
+                    '_message'  => 'Password: no number present',
+                    '_field'    => 'Password',
+                    '_type'     => 'MyType1',
+                    '_code'     => 111,
+                    '_metaData' => ['My1' => 'Metadata1']
                 ]
             ),
             1 => Message::__set_state(
                 [
-                    '_message' => 'Password: no uppercase letter present',
-                    '_field'   => 'Password',
-                    '_type'    => 'MyType2',
-                    '_code'    => 222,
+                    '_message'  => 'Password: no uppercase letter present',
+                    '_field'    => 'Password',
+                    '_type'     => 'MyType2',
+                    '_code'     => 222,
+                    '_metaData' => ['My2' => 'Metadata2']
                 ]
             ),
         ];

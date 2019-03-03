@@ -26,6 +26,6 @@ class Cssmin implements FilterInterface
 	 */
 	public function filter(string! content) -> string
 	{
-		return phalcon_cssmin(content);
+		return content;
 	}
 }

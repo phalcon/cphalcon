@@ -278,11 +278,12 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue) {
 PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, *_COOKIE, __$null, dependencyInjector, value, crypt, decryptedValue, filter, signKey, name, _0, _1, _2$$5, _3$$6, _4$$6, _5$$6, _6$$14, _7$$13, _8$$13;
+	zval *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, _COOKIE, __$null, dependencyInjector, value, crypt, decryptedValue, filter, signKey, name, _0, _1, _2$$5, _3$$6, _4$$6, _5$$6, _6$$14, _7$$13, _8$$13;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filters_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_UNDEF(&_COOKIE);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&dependencyInjector);
 	ZVAL_UNDEF(&value);
@@ -327,7 +328,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 	zephir_read_property(&_1, this_ptr, SL("_readed"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		ZEPHIR_OBS_VAR(&value);
-		if (zephir_array_isset_fetch(&value, _COOKIE, &name, 0 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&value, &_COOKIE, &name, 0 TSRMLS_CC)) {
 			zephir_read_property(&_2$$5, this_ptr, SL("_useEncryption"), PH_NOISY_CC | PH_READONLY);
 			if (zephir_is_true(&_2$$5)) {
 				zephir_read_property(&_3$$6, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC | PH_READONLY);

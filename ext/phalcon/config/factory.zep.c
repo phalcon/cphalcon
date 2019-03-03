@@ -78,10 +78,10 @@ PHP_METHOD(Phalcon_Config_Factory, load) {
 
 PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 
-	zend_class_entry *_15$$8, *_11$$11, *_13$$13;
-	zend_bool _3;
+	zend_class_entry *_16$$8, *_12$$11, *_14$$13;
+	zend_bool _4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *namespace_param = NULL, *config = NULL, config_sub, adapter, className, mode, callbacks, filePath, extension, oldConfig, _0$$3, _1$$3, _2$$3, _4$$5, _5$$8, _6$$8, _7$$8, _14$$8, _8$$9, _9$$9, _10$$11, _12$$13;
+	zval *namespace_param = NULL, *config = NULL, config_sub, adapter, className, mode, callbacks, filePath, extension, oldConfig, _0$$3, _1$$3, _2$$3, _3$$3, _5$$5, _6$$8, _7$$8, _8$$8, _15$$8, _9$$9, _10$$9, _11$$11, _13$$13;
 	zval namespace;
 	zval *this_ptr = getThis();
 
@@ -97,15 +97,16 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_5$$8);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$8);
 	ZVAL_UNDEF(&_7$$8);
-	ZVAL_UNDEF(&_14$$8);
-	ZVAL_UNDEF(&_8$$9);
+	ZVAL_UNDEF(&_8$$8);
+	ZVAL_UNDEF(&_15$$8);
 	ZVAL_UNDEF(&_9$$9);
-	ZVAL_UNDEF(&_10$$11);
-	ZVAL_UNDEF(&_12$$13);
+	ZVAL_UNDEF(&_10$$9);
+	ZVAL_UNDEF(&_11$$11);
+	ZVAL_UNDEF(&_13$$13);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &namespace_param, &config);
@@ -127,19 +128,20 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You need to provide extension in file path", "phalcon/config/factory.zep", 49);
 			return;
 		}
-		ZEPHIR_INIT_NVAR(config);
-		zephir_create_array(config, 2, 0 TSRMLS_CC);
-		zephir_array_update_string(config, SL("adapter"), &extension, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(config, SL("filePath"), &oldConfig, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		zephir_create_array(&_3$$3, 2, 0 TSRMLS_CC);
+		zephir_array_update_string(&_3$$3, SL("adapter"), &extension, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_3$$3, SL("filePath"), &oldConfig, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CPY_WRT(config, &_3$$3);
 	}
-	_3 = Z_TYPE_P(config) == IS_OBJECT;
-	if (_3) {
-		_3 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
+	_4 = Z_TYPE_P(config) == IS_OBJECT;
+	if (_4) {
+		_4 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
 	}
-	if (_3) {
-		ZEPHIR_CALL_METHOD(&_4$$5, config, "toarray", NULL, 0);
+	if (_4) {
+		ZEPHIR_CALL_METHOD(&_5$$5, config, "toarray", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(config, &_4$$5);
+		ZEPHIR_CPY_WRT(config, &_5$$5);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/config/factory.zep", 63);
@@ -152,27 +154,27 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 	}
 	ZEPHIR_OBS_VAR(&adapter);
 	if (zephir_array_isset_string_fetch(&adapter, config, SL("adapter"), 0)) {
-		ZEPHIR_INIT_VAR(&_5$$8);
-		zephir_camelize(&_5$$8, &adapter, NULL  );
-		ZEPHIR_INIT_VAR(&className);
-		ZEPHIR_CONCAT_VSV(&className, &namespace, "\\", &_5$$8);
 		ZEPHIR_INIT_VAR(&_6$$8);
-		ZVAL_STRING(&_6$$8, ".");
+		zephir_camelize(&_6$$8, &adapter, NULL  );
+		ZEPHIR_INIT_VAR(&className);
+		ZEPHIR_CONCAT_VSV(&className, &namespace, "\\", &_6$$8);
 		ZEPHIR_INIT_VAR(&_7$$8);
-		zephir_fast_strpos(&_7$$8, &filePath, &_6$$8, 0 );
-		if (!(zephir_is_true(&_7$$8))) {
-			ZEPHIR_CALL_FUNCTION(&_8$$9, "lcfirst", NULL, 55, &adapter);
+		ZVAL_STRING(&_7$$8, ".");
+		ZEPHIR_INIT_VAR(&_8$$8);
+		zephir_fast_strpos(&_8$$8, &filePath, &_7$$8, 0 );
+		if (!(zephir_is_true(&_8$$8))) {
+			ZEPHIR_CALL_FUNCTION(&_9$$9, "lcfirst", NULL, 53, &adapter);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&_9$$9);
-			ZEPHIR_CONCAT_VSV(&_9$$9, &filePath, ".", &_8$$9);
-			ZEPHIR_CPY_WRT(&filePath, &_9$$9);
+			ZEPHIR_INIT_VAR(&_10$$9);
+			ZEPHIR_CONCAT_VSV(&_10$$9, &filePath, ".", &_9$$9);
+			ZEPHIR_CPY_WRT(&filePath, &_10$$9);
 		}
 		if (ZEPHIR_IS_STRING(&className, "Phalcon\\Config\\Adapter\\Ini")) {
 			ZEPHIR_OBS_VAR(&mode);
 			if (zephir_array_isset_string_fetch(&mode, config, SL("mode"), 0)) {
-				zephir_fetch_safe_class(&_10$$11, &className);
-				_11$$11 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_10$$11), Z_STRLEN_P(&_10$$11), ZEND_FETCH_CLASS_AUTO);
-				object_init_ex(return_value, _11$$11);
+				zephir_fetch_safe_class(&_11$$11, &className);
+				_12$$11 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_11$$11), Z_STRLEN_P(&_11$$11), ZEND_FETCH_CLASS_AUTO);
+				object_init_ex(return_value, _12$$11);
 				if (zephir_has_constructor(return_value TSRMLS_CC)) {
 					ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &filePath, &mode);
 					zephir_check_call_status();
@@ -182,9 +184,9 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		} else if (ZEPHIR_IS_STRING(&className, "Phalcon\\Config\\Adapter\\Yaml")) {
 			ZEPHIR_OBS_VAR(&callbacks);
 			if (zephir_array_isset_string_fetch(&callbacks, config, SL("callbacks"), 0)) {
-				zephir_fetch_safe_class(&_12$$13, &className);
-				_13$$13 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_12$$13), Z_STRLEN_P(&_12$$13), ZEND_FETCH_CLASS_AUTO);
-				object_init_ex(return_value, _13$$13);
+				zephir_fetch_safe_class(&_13$$13, &className);
+				_14$$13 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_13$$13), Z_STRLEN_P(&_13$$13), ZEND_FETCH_CLASS_AUTO);
+				object_init_ex(return_value, _14$$13);
 				if (zephir_has_constructor(return_value TSRMLS_CC)) {
 					ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &filePath, &callbacks);
 					zephir_check_call_status();
@@ -192,9 +194,9 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 				RETURN_MM();
 			}
 		}
-		zephir_fetch_safe_class(&_14$$8, &className);
-		_15$$8 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_14$$8), Z_STRLEN_P(&_14$$8), ZEND_FETCH_CLASS_AUTO);
-		object_init_ex(return_value, _15$$8);
+		zephir_fetch_safe_class(&_15$$8, &className);
+		_16$$8 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_15$$8), Z_STRLEN_P(&_15$$8), ZEND_FETCH_CLASS_AUTO);
+		object_init_ex(return_value, _16$$8);
 		if (zephir_has_constructor(return_value TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &filePath);
 			zephir_check_call_status();
