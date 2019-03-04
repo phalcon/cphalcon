@@ -74,5 +74,4 @@ class CsvCest
         );
         $I->assertEquals($expect, $actual);
     }
-    
 }
