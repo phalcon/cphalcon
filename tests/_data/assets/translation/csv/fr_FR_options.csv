@@ -1,0 +1,3 @@
+# Commented string
+'Hello!'	'Bonjour!'
+'Hello %fname% %mname% %lname%!'	'Привет, %fname% %mname% %lname%!'
