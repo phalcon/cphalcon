@@ -36,13 +36,13 @@ class Csv extends Adapter implements \ArrayAccess
 			throw new Exception("Parameter 'content' is required");
 		}
 
-		if !isset options["delimiter"] {
+		if isset options["delimiter"] {
 			let delimiter = options["delimiter"];
 		} else {
 			let delimiter = ";";
 		}
 
-		if !isset options["enclosure"] {
+		if isset options["enclosure"] {
 			let enclosure = options["enclosure"];
 		} else {
 			let enclosure = "\"";

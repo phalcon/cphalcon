@@ -27,7 +27,7 @@ class CsvCest
         $this->config = [
             'ru' => ['content' => dataFolder('assets/translation/csv/ru_RU.csv')],
             // the next delimiter is a tab character
-            'options' => ['content' => dataFolder('assets/translation/csv/fr_FR.csv'), 'delimiter' => "	", 'enclosure' => "'"]
+            'options' => ['content' => dataFolder('assets/translation/csv/fr_FR_options.csv'), 'delimiter' => "	", 'enclosure' => "'"]
         ];
     }
 
