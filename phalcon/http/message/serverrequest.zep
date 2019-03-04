@@ -237,17 +237,18 @@ class ServerRequest implements ServerRequestInterface
 
 		this
 			->checkProtocol(protocol)
-			->checkMethod(method);
+			->checkMethod(method)
+			->checkUploadedFiles(uploadFiles);
 
 		let
 			this->protocolVersion = protocol,
 			this->method          = method,
-			this->body            = body,
+			this->uploadedFiles   = uploadFiles, // ---
+			this->body            = this->processBody(body, "w+b"),
 			this->parsedBody      = parsedBody,
 			this->serverParams    = serverParams,
 			this->cookieParams    = cookies,
-			this->queryParams     = queryParams,
-			this->uploadFiles     = uploadFiles;
+			this->queryParams     = queryParams;
 	}
 
 	/**
@@ -401,7 +402,11 @@ class ServerRequest implements ServerRequestInterface
      */
     public function withBody(<StreamInterface> body) -> <ServerRequest>
     {
-		return this->cloneInstance(body, "body");
+    	var newBody;
+
+    	let newBody = this->processBody(body, "w+b");
+
+		return this->cloneInstance(newBody, "body");
     }
 
 	/**
@@ -565,6 +570,8 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function withUploadedFiles(array uploadedFiles) -> <ServerRequest>
 	{
+		this->checkUploadedFiles(uploadedFiles);
+
 		return this->cloneInstance(uploadedFiles, "uploadedFiles");
 	}
 
@@ -607,10 +614,7 @@ class ServerRequest implements ServerRequestInterface
 			true === this->hasHeader("Host") &&
 			"" !== uri->getHost()) {
 
-			let host = uri->getHost();
-			if null !== uri->getPort() {
-				let host .= ":" . uri->getPort();
-			}
+			let host = this->processUriHost(uri);
 
 			let headers["host"] = [
 				"name"  : "Host",
@@ -739,6 +743,27 @@ class ServerRequest implements ServerRequestInterface
 	}
 
 	/**
+	 * Checks the uploaded files
+	 */
+	private function checkUploadedFiles(array files) -> <ServerRequest>
+	{
+    	var file;
+
+    	for file in files {
+    		if typeof file === "array" {
+    			this->checkUploadedFiles(file);
+    		} else {
+    			if !(file instanceof UploadedFileInterface) {
+    				throw new \InvalidArgumentException("Invalid uploaded file");
+    			}
+    		}
+
+    	}
+
+		return this;
+	}
+
+	/**
 	 * Returns a new instance having set the parameter
 	 */
 	private function cloneInstance(var element, string property) -> <ServerRequest>
@@ -754,11 +779,27 @@ class ServerRequest implements ServerRequestInterface
 	}
 
 	/**
+	 * Set a valid stream
+	 */
+	private function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
+	{
+		if body instanceof StreamInterface {
+			return body;
+		}
+
+		if (typeof body !== "string" && typeof body !== "resource") {
+			throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+		}
+
+		return new Stream(body, mode);
+	}
+
+	/**
 	 * Sets the headers
 	 */
 	private function processHeaders(array headers) -> <ServerRequest>
 	{
-		var key, name, value;
+		var host, key, name, value;
 		array headerData;
 
 		let headerData = [];
@@ -774,25 +815,18 @@ class ServerRequest implements ServerRequestInterface
 			];
 		}
 
+		if (true === isset(headerData["host"]) && "" !== this->uri->getHost()) {
+			let host = this->processUriHost(this->uri);
+
+			let headerData["host"] = [
+				"name"  : "Host",
+				"value" : [host]
+			];
+		}
+
 		let this->headers = headerData;
 
 		return this;
-	}
-
-	/**
-	 * Set a valid stream
-	 */
-	private function processStream(var body = "php://memory", string mode) -> <StreamInterface>
-	{
-		if body instanceof StreamInterface {
-			return body;
-		}
-
-		if (typeof body !== "string" && (true !== is_resource(body))) {
-			throw new \InvalidArgumentException("Invalid stream passed as a parameter");
-		}
-
-		return new Stream(body, mode);
 	}
 
 	/**
@@ -809,5 +843,17 @@ class ServerRequest implements ServerRequestInterface
 		}
 
 		return this;
+	}
+
+	private function processUriHost(<UriInterface> uri) -> string
+	{
+		var host;
+
+		let host = uri->getHost();
+		if null !== uri->getPort() {
+			let host .= ":" . uri->getPort();
+		}
+
+		return host;
 	}
 }
