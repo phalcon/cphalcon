@@ -42,7 +42,7 @@ class HasHeaderCest
         $actual = $request->hasHeader('accept');
         $I->assertTrue($actual);
 
-        $actual   = $request->hasHeader('aCCepT');
+        $actual = $request->hasHeader('aCCepT');
         $I->assertTrue($actual);
     }
 

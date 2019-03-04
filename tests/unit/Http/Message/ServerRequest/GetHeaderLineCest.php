@@ -43,7 +43,7 @@ class GetHeaderLineCest
         $actual   = $request->getHeaderLine('accept');
         $I->assertEquals($expected, $actual);
 
-        $actual   = $request->getHeaderLine('aCCepT');
+        $actual = $request->getHeaderLine('aCCepT');
         $I->assertEquals($expected, $actual);
     }
 

@@ -41,7 +41,7 @@ class GetHeaderCest
         $actual   = $request->getHeader('accept');
         $I->assertEquals($expected, $actual);
 
-        $actual   = $request->getHeader('aCCepT');
+        $actual = $request->getHeader('aCCepT');
         $I->assertEquals($expected, $actual);
     }
 

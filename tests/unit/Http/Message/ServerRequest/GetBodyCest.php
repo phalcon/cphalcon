@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +32,30 @@ class GetBodyCest
     public function httpMessageServerRequestGetBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getBody()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, 'rb');
+        $request  = new ServerRequest('GET', null, [], $stream);
+
+        $expected = file_get_contents($fileName);
+        $actual   = $request->getBody();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: getBody() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageServerRequestGetBodyEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequest - getBody() - empty');
+        $request = new ServerRequest();
+
+        $class  = Stream\Input::class;
+        $actual = $request->getBody();
+        $I->assertInstanceOf($class, $actual);
     }
 }

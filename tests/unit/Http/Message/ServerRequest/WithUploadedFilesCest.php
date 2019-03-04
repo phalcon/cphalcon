@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use InvalidArgumentException;
+use Phalcon\Http\Message\ServerRequest;
+use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
 /**
@@ -30,6 +33,40 @@ class WithUploadedFilesCest
     public function httpMessageServerRequestWithUploadedFiles(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withUploadedFiles()');
-        $I->skipTest('Need implementation');
+        $files       = [
+            new UploadedFile('php://memory', 0),
+            new UploadedFile('php://memory', 0),
+        ];
+        $request     = new ServerRequest();
+        $newInstance = $request->withUploadedFiles($files);
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = $files;
+        $actual   = $newInstance->getUploadedFiles();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: withUploadedFiles() -
+     * exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageServerRequestWithUploadedFilesException(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequest - withUploadedFiles() - exception');
+        $I->expectThrowable(
+            new InvalidArgumentException('Invalid uploaded file'),
+            function () use ($I) {
+                $files       = [
+                    'something-else',
+                ];
+                $request     = new ServerRequest();
+                $newInstance = $request->withUploadedFiles($files);
+            }
+        );
     }
 }
