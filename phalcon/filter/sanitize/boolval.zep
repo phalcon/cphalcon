@@ -35,6 +35,6 @@ class BoolVal
 			return false;
 		}
 
-		return (bool) input;
+		return boolval(input);
 	}
 }
