@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -25,11 +26,43 @@ class GetParsedBodyCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-05
      */
     public function httpMessageServerRequestGetParsedBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getParsedBody()');
-        $I->skipTest('Need implementation');
+        $request     = new ServerRequest(
+            'GET',
+            null,
+            [],
+            'php://input',
+            [],
+            [],
+            [],
+            [],
+            'something'
+        );
+
+        $expected = 'something';
+        $actual   = $request->getParsedBody();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: getParsedBody() - empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-03-05
+     */
+    public function httpMessageServerRequestGetParsedBodyEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequest - getParsedBody() - empty');
+        $request     = new ServerRequest();
+
+        $expected = '';
+        $actual   = $request->getParsedBody();
+        $I->assertEquals($expected, $actual);
     }
 }

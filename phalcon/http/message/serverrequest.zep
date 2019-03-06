@@ -606,9 +606,10 @@ class ServerRequest implements ServerRequestInterface
 	{
 		var headers, host, newInstance;
 
-		let preserveHost = boolval(preserveHost),
-			headers      = this->headers,
-			newInstance  = clone this;
+		let preserveHost     = boolval(preserveHost),
+			headers          = this->headers,
+			newInstance      = clone this,
+			newInstance->uri = uri;
 
 		if !(true === preserveHost &&
 			true === this->hasHeader("Host") &&

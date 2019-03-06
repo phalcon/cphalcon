@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 /**
@@ -30,6 +32,12 @@ class GetUriCest
     public function httpMessageServerRequestGetUri(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getUri()');
-        $I->skipTest('Need implementation');
+        $query   = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+        $uri     = new Uri($query);
+        $request = new ServerRequest('GET', $uri);
+
+        $expected = $uri;
+        $actual   = $request->getUri();
+        $I->assertEquals($expected, $actual);
     }
 }

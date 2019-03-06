@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,17 @@ class WithParsedBodyCest
     public function httpMessageServerRequestWithParsedBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withParsedBody()');
-        $I->skipTest('Need implementation');
+        $request     = new ServerRequest();
+        $newInstance = $request->withParsedBody('something');
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = null;
+        $actual   = $request->getParsedBody();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'something';
+        $actual   = $newInstance->getParsedBody();
+        $I->assertEquals($expected, $actual);
     }
 }
