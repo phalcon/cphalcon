@@ -28,13 +28,27 @@ class Csv extends Adapter implements \ArrayAccess
 	 */
 	public function __construct(array! options)
 	{
+		var delimiter, enclosure;
+
 		parent::__construct(options);
 
 		if !isset options["content"] {
 			throw new Exception("Parameter 'content' is required");
 		}
 
-		this->_load(options["content"], 0, ";", "\"");
+		if isset options["delimiter"] {
+			let delimiter = options["delimiter"];
+		} else {
+			let delimiter = ";";
+		}
+
+		if isset options["enclosure"] {
+			let enclosure = options["enclosure"];
+		} else {
+			let enclosure = "\"";
+		}
+
+		this->_load(options["content"], 0, delimiter, enclosure);
 	}
 
 	/**

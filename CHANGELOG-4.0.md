@@ -1,5 +1,6 @@
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-XX-XX)
-
+## Added
+- Added `delimiter` and `enclosure` options to *Phalcon\Translate\Adapter\Csv* constructor
 # [4.0.0-alpha.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.3) (2019-02-31)
 ## Added
 - Added `view:afterCompile` and `view:beforeCompile` events for the Volt compiler [#2182](https://github.com/phalcon/cphalcon/pull/2182)
