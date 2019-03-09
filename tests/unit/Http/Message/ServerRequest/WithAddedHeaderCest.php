@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,71 @@ class WithAddedHeaderCest
     public function httpMessageServerRequestWithAddedHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withAddedHeader()');
-        $I->skipTest('Need implementation');
+        $data    = [
+            'Accept' => ['text/html'],
+        ];
+        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $newInstance = $request->withAddedHeader('Cache-Control', ['max-age=0']);
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = [
+            'accept'        => [
+                'name'  => 'Accept',
+                'value' => ['text/html'],
+            ],
+        ];
+        $actual   = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'accept'        => [
+                'name'  => 'Accept',
+                'value' => ['text/html'],
+            ],
+            'cache-control' => [
+                'name'  => 'Cache-Control',
+                'value' => ['max-age=0'],
+            ],
+        ];
+        $actual = $newInstance->getHeaders();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: withAddedHeader() - merge
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageServerRequestWithAddedHeaderMerge(UnitTester $I)
+    {
+        $data    = [
+            'Accept' => ['text/html'],
+        ];
+        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $newInstance = $request->withAddedHeader('Accept', ['text/json']);
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = [
+            'accept'        => [
+                'name'  => 'Accept',
+                'value' => ['text/html'],
+            ],
+        ];
+        $actual   = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'accept'        => [
+                'name'  => 'Accept',
+                'value' => ['text/html', 'text/json'],
+            ],
+        ];
+        $actual = $newInstance->getHeaders();
+        $I->assertEquals($expected, $actual);
     }
 }

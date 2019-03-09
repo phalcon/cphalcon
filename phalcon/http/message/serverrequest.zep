@@ -370,9 +370,9 @@ class ServerRequest implements ServerRequestInterface
 
 		let key      = strtolower(name),
 			headers  = this->headers,
-			existing = Arr::get(headers, key, []);
-
-		let value    = this->getHeaderValue(value),
+			existing = Arr::get(headers, key, []),
+			existing = Arr::get(existing, "value", []),
+			value    = this->getHeaderValue(value),
 			existing = array_merge(existing, value);
 
 		let headers[key] = [
@@ -696,7 +696,7 @@ class ServerRequest implements ServerRequestInterface
 
 		unset(headers[key]);
 
-		return this->cloneInstance(headers, "header");
+		return this->cloneInstance(headers, "headers");
 	}
 
 	/**

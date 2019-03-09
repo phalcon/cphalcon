@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
 /**
@@ -30,6 +31,34 @@ class WithHeaderCest
     public function httpMessageServerRequestWithHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withHeader()');
-        $I->skipTest('Need implementation');
+        $data    = [
+            'Accept' => ['text/html'],
+        ];
+        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $newInstance = $request->withHeader('Cache-Control', ['max-age=0']);
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = [
+            'accept'        => [
+                'name'  => 'Accept',
+                'value' => ['text/html'],
+            ],
+        ];
+        $actual   = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'accept'        => [
+                'name'  => 'Accept',
+                'value' => ['text/html'],
+            ],
+            'cache-control' => [
+                'name'  => 'Cache-Control',
+                'value' => ['max-age=0'],
+            ],
+        ];
+        $actual = $newInstance->getHeaders();
+        $I->assertEquals($expected, $actual);
     }
 }
