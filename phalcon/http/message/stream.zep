@@ -125,13 +125,13 @@ class Stream implements StreamInterface
     {
 		var data;
 
-		this->checkHandle(__METHOD__);
-		this->checkReadable(__METHOD__);
+		this->checkHandle();
+		this->checkReadable();
 
 		let data = stream_get_contents(this->handle);
 
 		if false === data {
-			throw new Exception(__METHOD__ . " - Could not read from the file/stream");
+			throw new Exception("Could not read from the file/stream");
 		}
 
 		return data;
@@ -223,13 +223,13 @@ class Stream implements StreamInterface
     {
 		var data;
 
-		this->checkHandle(__METHOD__);
-		this->checkReadable(__METHOD__);
+		this->checkHandle();
+		this->checkReadable();
 
 		let data = fread(this->handle, length);
 
 		if false === data {
-			throw new Exception(__METHOD__ . " - Could not read from the file/stream");
+			throw new Exception("Could not read from the file/stream");
 		}
 
 		return data;
@@ -253,13 +253,13 @@ class Stream implements StreamInterface
     {
     	var seeker;
 
-		this->checkHandle(__METHOD__);
-		this->checkSeekable(__METHOD__);
+		this->checkHandle();
+		this->checkSeekable();
 
 		let seeker = fseek(this->handle, offset, whence);
 
 		if 0 !== seeker {
-			throw new Exception(__METHOD__ . " - Cound not seek on the file pointer");
+			throw new Exception("Cound not seek on the file pointer");
 		}
     }
 
@@ -284,7 +284,7 @@ class Stream implements StreamInterface
 
 		if true === this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle) {
 			throw new Exception(
-				__METHOD__ . " - The stream provided is not valid (string/resource) or could not be opened."
+				"The stream provided is not valid (string/resource) or could not be opened."
 			);
 		}
 
@@ -299,11 +299,11 @@ class Stream implements StreamInterface
     {
     	var position;
 
-		this->checkHandle(__METHOD__);
+		this->checkHandle();
 		let position = ftell(this->handle);
 
-		if true !== is_int(position) {
-			throw new Exception(__METHOD__ . " - Could not retrieve the pointer position");
+		if typeof position !== "int" {
+			throw new Exception("Could not retrieve the pointer position");
 		}
 
 		return position;
@@ -316,13 +316,13 @@ class Stream implements StreamInterface
     {
 		var bytes;
 
-		this->checkHandle(__METHOD__);
-		this->checkWritable(__METHOD__);
+		this->checkHandle();
+		this->checkWritable();
 
 		let bytes = fwrite(this->handle, data);
 
 		if false === bytes {
-			throw new Exception(__METHOD__ . " - Could not write to the file/stream");
+			throw new Exception("Could not write to the file/stream");
 		}
 
 		return bytes;
@@ -331,40 +331,40 @@ class Stream implements StreamInterface
 	/**
 	 * Checks if a handle is available and throws an exception otherwise
 	 */
-    private function checkHandle(string method) -> void
+    private function checkHandle() -> void
     {
     	if null === this->handle {
-    		throw new Exception(method . " - A valid resource is required.");
+    		throw new Exception("A valid resource is required.");
     	}
     }
 
 	/**
 	 * Checks if a handle is readable and throws an exception otherwise
 	 */
-    private function checkReadable(string method) -> void
+    private function checkReadable() -> void
     {
     	if true !== this->isReadable() {
-    		throw new Exception(method . " - The resource is not readable.");
+    		throw new Exception("The resource is not readable.");
     	}
     }
 
 	/**
 	 * Checks if a handle is seekable and throws an exception otherwise
 	 */
-    private function checkSeekable(string method) -> void
+    private function checkSeekable() -> void
     {
     	if true !== this->isSeekable() {
-    		throw new Exception(method . " - The resource is not seekable.");
+    		throw new Exception("The resource is not seekable.");
     	}
     }
 
 	/**
 	 * Checks if a handle is writeable and throws an exception otherwise
 	 */
-    private function checkWritable(string method) -> void
+    private function checkWritable() -> void
     {
     	if true !== this->isWritable() {
-    		throw new Exception(method . " - The resource is not writable.");
+    		throw new Exception("The resource is not writable.");
     	}
     }
 }

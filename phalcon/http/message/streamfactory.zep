@@ -32,7 +32,7 @@ class StreamFactory implements StreamFactoryInterface
     {
 		var tempResource;
 
-		let tempResource = fopen("php://temp", "r+");
+		let tempResource = fopen("php://temp", "r+b");
 
 		fwrite(tempResource, content);
 		rewind(tempResource);
@@ -54,7 +54,7 @@ class StreamFactory implements StreamFactoryInterface
      * @throws \RuntimeException If the file cannot be opened.
      * @throws \InvalidArgumentException If the mode is invalid.
      */
-    public function createStreamFromFile(string filename, string mode = "r") -> <StreamInterface>
+    public function createStreamFromFile(string filename, string mode = "r+b") -> <StreamInterface>
     {
     	return new Stream(filename, mode);
     }
@@ -68,9 +68,9 @@ class StreamFactory implements StreamFactoryInterface
     {
     	var stream;
 
-    	if (true !== is_resource(phpResource) || "stream" !== get_resource_type(phpResource)) {
+    	if typeof phpResource !== "resource"  || "stream" !== get_resource_type(phpResource) {
             throw new \InvalidArgumentException(
-                "StreamFactory:createStreamFromResource() - invalid stream provbided"
+                "Invalid stream provided"
             );
         }
 

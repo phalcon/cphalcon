@@ -602,9 +602,8 @@ class Response implements ResponseInterface
 			min     = min(keys),
 			max     = max(keys);
 
-		if (true !== is_numeric(code) ||
-			true === is_float(code)   ||
-			code < min                ||
+		if (typeof code !== "int" ||
+			code < min            ||
 			code > max
 		) {
 			throw new \InvalidArgumentException(

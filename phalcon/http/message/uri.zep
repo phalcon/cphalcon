@@ -281,7 +281,7 @@ class Uri implements UriInterface
      */
     public function withFragment(var fragment) -> <Uri>
     {
-    	return this->processWith(fragment, "fragment", __METHOD__);
+    	return this->processWith(fragment, "fragment");
     }
 
     /**
@@ -296,7 +296,7 @@ class Uri implements UriInterface
      */
     public function withHost(var host) -> <Uri>
     {
-    	return this->processWith(host, "host", __METHOD__);
+    	return this->processWith(host, "host");
     }
 
     /**
@@ -321,17 +321,17 @@ class Uri implements UriInterface
      */
     public function withPath(var path) -> <Uri>
     {
-    	this->checkStringParameter(path, "path", __METHOD__);
+    	this->checkStringParameter(path, "path");
 
     	if false !== strpos(path, "?") {
     		throw new \InvalidArgumentException(
-    			__METHOD__ . "- path cannot contain a query string"
+    			"Path cannot contain a query string"
     		);
     	}
 
     	if false !== strpos(path, "#") {
     		throw new \InvalidArgumentException(
-    			__METHOD__ . " - path cannot contain a query fragment"
+    			"Path cannot contain a query fragment"
     		);
     	}
 
@@ -359,8 +359,8 @@ class Uri implements UriInterface
     	var type;
 
     	if null !== port {
-			if (!is_numeric(port) || is_float(port)) {
-				if is_object(port) {
+			if typeof port !== "int" {
+				if typeof port === "object" {
 					let type = get_class(port);
 				} else {
 					let type = gettype(port);
@@ -368,7 +368,7 @@ class Uri implements UriInterface
 
 				if typeof port !== "string" {
 					throw new \InvalidArgumentException(
-						__METHOD__ . " expects an integer, integer string or null argument instead of " . type
+						"Method expects an integer, integer string or null argument instead of " . type
 					);
 				}
             }
@@ -377,7 +377,7 @@ class Uri implements UriInterface
         }
 
         if (null !== port && (port < 1 || port > 65535)) {
-            throw new \InvalidArgumentException(__METHOD__ . " expects valid port (1-65535)");
+            throw new \InvalidArgumentException( "Method expects valid port (1-65535)");
         }
 
 		return this->cloneInstance(port, "port");
@@ -398,11 +398,11 @@ class Uri implements UriInterface
      */
     public function withQuery(var query) -> <Uri>
     {
-    	this->checkStringParameter(query, "query", __METHOD__);
+    	this->checkStringParameter(query, "query");
 
 		if false !== strpos(query, "#") {
 			throw new \InvalidArgumentException(
-				__METHOD__ . " - query cannot contain a query fragment"
+				"Query cannot contain a query fragment"
 			);
 		}
 
@@ -427,11 +427,11 @@ class Uri implements UriInterface
      */
     public function withScheme(var scheme) -> <Uri>
     {
-    	this->checkStringParameter(scheme, "scheme", __METHOD__);
+    	this->checkStringParameter(scheme, "scheme");
 
 		let scheme = this->filterScheme(scheme);
 
-    	return this->processWith(scheme, "scheme", __METHOD__);
+    	return this->processWith(scheme, "scheme");
     }
 
     /**
@@ -441,9 +441,9 @@ class Uri implements UriInterface
     {
     	var newInstance;
 
-		this->checkStringParameter(user, "user", __METHOD__);
+		this->checkStringParameter(user, "user");
 		if null !== password {
-			this->checkStringParameter(user, "pass", __METHOD__);
+			this->checkStringParameter(user, "pass");
 		}
 
 		let user = rawurlencode(user);
@@ -469,11 +469,11 @@ class Uri implements UriInterface
 	/**
 	 * Checks the element passed if it is a string
 	 */
-	private function checkStringParameter(var element, string property, string method) -> void
+	private function checkStringParameter(var element, string property) -> void
 	{
     	var type;
 
-		if is_object(element) {
+		if typeof element === "object" {
 			let type = get_class(element);
 		} else {
 			let type = gettype(element);
@@ -481,7 +481,7 @@ class Uri implements UriInterface
 
 		if typeof element !== "string" {
 			throw new \InvalidArgumentException(
-				method . "() requires a string argument instead of " . type
+				"Method requires a string argument instead of " . type
 			);
 		}
 	}
@@ -708,9 +708,9 @@ class Uri implements UriInterface
 	 * Checks the element passed; assigns it to the property and returns a
 	 * clone of the object back
 	 */
-	private function processWith(var element, string property, string method) -> <Uri>
+	private function processWith(var element, string property) -> <Uri>
 	{
-		this->checkStringParameter(element, property, method);
+		this->checkStringParameter(element, property);
 
 		return this->cloneInstance(element, property);
 	}

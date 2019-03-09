@@ -120,12 +120,12 @@ class UploadedFile implements UploadedFileInterface
 		 * Check the stream passed. It can be a string representing a file or
 		 * a StreamInterface
 		 */
-		this->checkStream(__METHOD__, stream, error);
+		this->checkStream(stream, error);
 
 		/**
 		 * Check the error
 		 */
-		this->checkError(__METHOD__, error);
+		this->checkError(error);
 
 		let this->size            = size,
 			this->clientFilename  = clientFilename,
@@ -158,7 +158,7 @@ class UploadedFile implements UploadedFileInterface
 
 		if true === this->alreadyMoved {
 			throw new Exception(
-				__METHOD__ . " - The file has already been moved to the target location"
+				"The file has already been moved to the target location"
 			);
 		}
 
@@ -206,11 +206,11 @@ class UploadedFile implements UploadedFileInterface
 		var sapi, dirname;
 
 		if true === this->alreadyMoved {
-			throw new Exception(__METHOD__ . " - File has already been moved");
+			throw new Exception("File has already been moved");
 		}
 
 		if constant("UPLOAD_ERR_OK") !== this->error {
-			throw new Exception(__METHOD__ . " - " . this->getErrorDescription(this->error));
+			throw new Exception(this->getErrorDescription(this->error));
 		}
 
 		let dirname = dirname(targetPath);
@@ -225,7 +225,7 @@ class UploadedFile implements UploadedFileInterface
 				true === is_writable(dirname)
 			)
 		) {
-			throw new Exception(__METHOD__ . " - Target folder is empty string, not a folder or not writable");
+			throw new Exception("Target folder is empty string, not a folder or not writable");
 		}
 
 		/**
@@ -237,7 +237,7 @@ class UploadedFile implements UploadedFileInterface
 			this->storeFile(targetPath);
 		} else {
 			if (false === move_uploaded_file(this->fileName, targetPath)) {
-				throw new Exception(__METHOD__ . " - The file cannot be moved to the target folder");
+				throw new Exception("The file cannot be moved to the target folder");
 			}
 		}
 
@@ -247,10 +247,12 @@ class UploadedFile implements UploadedFileInterface
 	/**
 	 * Checks the passed error code and if not in the range throws an exception
 	 */
-	private function checkError(string method, int error) -> void
+	private function checkError(int error) -> void
 	{
 		if true !== Number::between(error, constant("UPLOAD_ERR_OK"), constant("UPLOAD_ERR_EXTENSION")) {
-			throw new Exception(method . " - Invalid 'error'. Must be one of the UPLOAD_ERR_* constants");
+			throw new Exception(
+				"Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"
+			);
 		}
 
 		let this->error = error;
@@ -259,7 +261,7 @@ class UploadedFile implements UploadedFileInterface
 	/**
 	 * Checks the passed error code and if not in the range throws an exception
 	 */
-	private function checkStream(string method, var stream, int error) -> void
+	private function checkStream(var stream, int error) -> void
 	{
 		if error === constant("UPLOAD_ERR_OK") {
 			switch (true) {
@@ -273,7 +275,7 @@ class UploadedFile implements UploadedFileInterface
 					let this->stream = stream;
 					break;
 				default:
-					throw new Exception(method . " - Invalid stream or file passed");
+					throw new Exception("Invalid stream or file passed");
 			}
 		}
 	}
