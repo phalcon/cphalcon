@@ -32,7 +32,18 @@ class CreateStreamFromResourceCest
     public function httpMessageStreamFactoryCreateStreamFromResource(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $expected = file_get_contents($fileName);
+        $resource = fopen($fileName, 'r+b');
+
+        $factory = new StreamFactory();
+        $stream  = $factory->createStreamFromResource($resource);
+
+        $class = Stream::class;
+        $I->assertInstanceOf($class, $stream);
+
+        $actual = $stream->getContents();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
