@@ -58,7 +58,7 @@ class WithHostCest
         $I->wantToTest('Http\Uri - withHost() - exception - ' . $example[1]);
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Uri:withHost() requires a string argument instead of ' . $example[0]
+                'Method requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
                 $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';

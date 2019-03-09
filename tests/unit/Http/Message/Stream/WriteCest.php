@@ -63,7 +63,7 @@ class WriteCest
         $I->wantToTest('Http\Message\Stream - write() - detached');
         $I->expectThrowable(
             new Exception(
-                'Stream:write - A valid resource is required.'
+                'A valid resource is required.'
             ),
             function () use ($I) {
                 $fileName = $I->getNewFileName();

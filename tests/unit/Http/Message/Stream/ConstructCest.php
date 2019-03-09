@@ -56,7 +56,7 @@ class ConstructCest
         $I->wantToTest('Http\Message\Stream - __construct() ' . $example[0]);
         $I->expectThrowable(
             new Exception(
-                'Stream:setStream - The stream provided is not valid ' .
+                'The stream provided is not valid ' .
                 '(string/resource) or could not be opened.'
             ),
             function () use ($example) {

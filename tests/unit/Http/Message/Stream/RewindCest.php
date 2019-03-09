@@ -59,7 +59,7 @@ class RewindCest
         $I->wantToTest('Http\Message\Stream - rewind() - detached');
         $I->expectThrowable(
             new Exception(
-                'Stream:seek - A valid resource is required.'
+                'A valid resource is required.'
             ),
             function () {
                 $fileName = dataFolder('/assets/stream/bill-of-rights.txt');

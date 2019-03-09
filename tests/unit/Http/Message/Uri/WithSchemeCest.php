@@ -58,7 +58,7 @@ class WithSchemeCest
         $I->wantToTest('Http\Uri - withScheme() - exception - ' . $example[1]);
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Uri:withScheme() requires a string argument instead of ' . $example[0]
+                'Method requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
                 $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';

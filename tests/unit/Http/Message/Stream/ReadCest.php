@@ -57,7 +57,7 @@ class ReadCest
         $I->wantToTest('Http\Message\Stream - read() - detached');
         $I->expectThrowable(
             new Exception(
-                'Stream:read - A valid resource is required.'
+                'A valid resource is required.'
             ),
             function () {
                 $fileName = dataFolder('/assets/stream/bill-of-rights.txt');

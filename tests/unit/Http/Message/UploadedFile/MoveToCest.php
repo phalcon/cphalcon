@@ -62,7 +62,7 @@ class MoveToCest
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo() - upload error');
         $I->expectThrowable(
-            new Exception('UploadedFile:moveTo - Failed to write file to disk.'),
+            new Exception('Failed to write file to disk.'),
             function () use ($I) {
                 $stream = new Stream('php://memory', 'w+b');
                 $stream->write('Phalcon Framework');
@@ -87,7 +87,7 @@ class MoveToCest
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo() - wrong path');
         $I->expectThrowable(
-            new Exception('UploadedFile:moveTo - Target folder is empty string, not a folder or not writable'),
+            new Exception('Target folder is empty string, not a folder or not writable'),
             function () use ($I) {
                 $stream = new Stream('php://memory', 'w+b');
                 $stream->write('Phalcon Framework');
@@ -110,7 +110,7 @@ class MoveToCest
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo() - already moved');
         $I->expectThrowable(
-            new Exception('UploadedFile:moveTo - File has already been moved'),
+            new Exception('File has already been moved'),
             function () use ($I) {
                 $stream = new Stream('php://memory', 'w+b');
                 $stream->write('Phalcon Framework');

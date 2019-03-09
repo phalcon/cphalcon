@@ -76,7 +76,7 @@ class GetContentsCest
         $I->wantToTest('Http\Message\Stream - getContents() - exception');
         $I->expectThrowable(
             new Exception(
-                'Stream:getContents - The resource is not readable.'
+                'The resource is not readable.'
             ),
             function () {
                 $fileName = dataFolder('/assets/stream/bill-of-rights-empty.txt');

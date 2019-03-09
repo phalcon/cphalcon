@@ -55,7 +55,7 @@ class TellCest
         $I->wantToTest('Http\Message\Stream - tell() - detached');
         $I->expectThrowable(
             new Exception(
-                'Stream:tell - A valid resource is required.'
+                'A valid resource is required.'
             ),
             function () {
                 $fileName = dataFolder('/assets/stream/bill-of-rights.txt');

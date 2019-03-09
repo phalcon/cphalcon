@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\StreamFactory;
 
+use Phalcon\Http\Message\Stream;
+use Phalcon\Http\Message\StreamFactory;
 use UnitTester;
 
 /**
@@ -31,5 +33,28 @@ class CreateStreamFromResourceCest
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromResource() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamFactoryCreateStreamFromResourceException(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource() - exception');
+
+        $I->expectThrowable(
+            new \InvalidArgumentException(
+                "Invalid stream provided"
+            ),
+            function () {
+                $factory = new StreamFactory();
+                $stream  = $factory->createStreamFromResource(false);
+            }
+        );
     }
 }

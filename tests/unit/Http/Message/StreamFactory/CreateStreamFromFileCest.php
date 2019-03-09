@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\StreamFactory;
 
+use Phalcon\Http\Message\Stream;
+use Phalcon\Http\Message\StreamFactory;
 use UnitTester;
 
 /**
@@ -30,6 +32,16 @@ class CreateStreamFromFileCest
     public function httpMessageStreamFactoryCreateStreamFromFile(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromFile()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $expected = file_get_contents($fileName);
+
+        $factory = new StreamFactory();
+        $stream  = $factory->createStreamFromFile($fileName);
+
+        $class = Stream::class;
+        $I->assertInstanceOf($class, $stream);
+
+        $actual = $stream->getContents();
+        $I->assertEquals($expected, $actual);
     }
 }
