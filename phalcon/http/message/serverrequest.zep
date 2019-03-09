@@ -364,6 +364,23 @@ class ServerRequest implements ServerRequestInterface
      */
     public function withAddedHeader(var name, var value) -> <ServerRequest>
     {
+    	var existing, headers, key;
+
+		this->checkHeaderName(name);
+
+		let key      = strtolower(name),
+			headers  = this->headers,
+			existing = Arr::get(headers, key, []);
+
+		let value    = this->getHeaderValue(value),
+			existing = array_merge(existing, value);
+
+		let headers[key] = [
+			"name"  : name,
+			"value" : existing
+		];
+
+		return this->cloneInstance(headers, "headers");
 
     }
 
@@ -379,14 +396,12 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function withAttribute(var name, var value) -> <ServerRequest>
 	{
-		var attributes, newInstance;
+		var attributes;
 
-		let attributes              = this->attributes,
-			attributes[name]        = value,
-			newInstance             = clone this,
-			newInstance->attributes = attributes;
+		let attributes       = this->attributes,
+			attributes[name] = value;
 
-		return newInstance;
+		return this->cloneInstance(attributes, "attributes");
 	}
 
     /**
@@ -442,7 +457,21 @@ class ServerRequest implements ServerRequestInterface
      */
     public function withHeader(var name, var value) -> <ServerRequest>
     {
+    	var headers, key;
 
+		this->checkHeaderName(name);
+
+		let key     = strtolower(name),
+			headers = this->headers;
+
+		let value = this->getHeaderValue(value);
+
+		let headers[key] = [
+			"name"  : name,
+			"value" : value
+		];
+
+		return this->cloneInstance(headers, "headers");
     }
 
 	/**
@@ -615,7 +644,7 @@ class ServerRequest implements ServerRequestInterface
 			true === this->hasHeader("Host") &&
 			"" !== uri->getHost()) {
 
-			let host = this->processUriHost(uri);
+			let host = this->getUriHost(uri);
 
 			let headers["host"] = [
 				"name"  : "Host",
@@ -640,16 +669,13 @@ class ServerRequest implements ServerRequestInterface
 	 */
 	public function withoutAttribute(var name) -> <ServerRequest>
 	{
-		var attributes, newInstance;
+		var attributes;
 
-		let attributes  = this->attributes,
-			newInstance = clone this;
+		let attributes = this->attributes;
 
 		unset(attributes[name]);
 
-		let newInstance->attributes = attributes;
-
-		return newInstance;
+		return this->cloneInstance(attributes, "attributes");
 	}
 
     /**
@@ -663,18 +689,14 @@ class ServerRequest implements ServerRequestInterface
      */
     public function withoutHeader(var name) -> <ServerRequest>
     {
-    	var headers, key, newInstance;
+    	var headers, key;
 
     	let key         = strtolower(name),
-    		headers     = this->headers,
-    		newInstance = clone this;
+    		headers     = this->headers;
 
-		if (true === this->hasHeader(key)) {
-			unset(headers[key]);
-			let newInstance->headers = headers;
-		}
+		unset(headers[key]);
 
-		return newInstance;
+		return this->cloneInstance(headers, "header");
 	}
 
 	/**
@@ -687,6 +709,63 @@ class ServerRequest implements ServerRequestInterface
 		if (typeof name !== "string" ||
 			!preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name)) {
 			throw new \InvalidArgumentException("Invalid header name " . name);
+		}
+	}
+
+	/**
+	 * Validates a header value
+	 *
+	 * Most HTTP header field values are defined using common syntax
+	 * components (token, quoted-string, and comment) separated by
+	 * whitespace or specific delimiting characters.  Delimiters are chosen
+	 * from the set of US-ASCII visual characters not allowed in a token
+	 * (DQUOTE and "(),/:;<=>?@[\]{}").
+	 *
+	 *     token          = 1*tchar
+	 *
+	 *     tchar          = "!" / "#" / "$" / "%" / "&" / "'" / "*"
+	 *                    / "+" / "-" / "." / "^" / "_" / "`" / "|" / "~"
+	 *                    / DIGIT / ALPHA
+	 *                    ; any VCHAR, except delimiters
+	 *
+	 * A string of text is parsed as a single value if it is quoted using
+	 * double-quote marks.
+	 *
+	 *     quoted-string  = DQUOTE *( qdtext / quoted-pair ) DQUOTE
+	 *     qdtext         = HTAB / SP /%x21 / %x23-5B / %x5D-7E / obs-text
+	 *     obs-text       = %x80-FF
+	 *
+	 * Comments can be included in some HTTP header fields by surrounding
+	 * the comment text with parentheses.  Comments are only allowed in
+	 * fields containing "comment" as part of their field value definition.
+	 *
+	 *     comment        = "(" *( ctext / quoted-pair / comment ) ")"
+	 *     ctext          = HTAB / SP / %x21-27 / %x2A-5B / %x5D-7E / obs-text
+	 *
+	 * The backslash octet ("\") can be used as a single-octet quoting
+	 * mechanism within quoted-string and comment constructs.  Recipients
+	 * that process the value of a quoted-string MUST handle a quoted-pair
+	 * as if it were replaced by the octet following the backslash.
+	 *
+	 *     quoted-pair    = "\" ( HTAB / SP / VCHAR / obs-text )
+	 *
+	 * A sender SHOULD NOT generate a quoted-pair in a quoted-string except
+	 * where necessary to quote DQUOTE and backslash octets occurring within
+	 * that string.  A sender SHOULD NOT generate a quoted-pair in a comment
+	 * except where necessary to quote parentheses ["(" and ")"] and
+	 * backslash octets occurring within that comment.
+	 */
+	private function checkHeaderValue(var value) -> void
+	{
+		if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
+			throw new \InvalidArgumentException("Invalid header value");
+		}
+
+		let value = (string) value;
+
+		if (1 === preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
+			1 === preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
+			throw new \InvalidArgumentException("Invalid header value");
 		}
 	}
 
@@ -780,6 +859,48 @@ class ServerRequest implements ServerRequestInterface
 	}
 
 	/**
+	 * Returns the header values checked for validity
+	 */
+   private function getHeaderValue(var values) -> array
+	{
+		var value;
+		array valueData;
+
+		if typeof values !== "array" {
+			let values = [values];
+		}
+
+		if true === empty(values) {
+			throw new \InvalidArgumentException(
+				"Invalid header value: must be a string or array of strings; cannot be an empty array"
+			);
+		}
+
+		let valueData = [];
+		for value in values {
+			this->checkHeaderValue(value);
+			let valueData[] = (string) value;
+		}
+
+		return valueData;
+	}
+
+	/**
+	 * Return the host and if applicable the port
+	 */
+	private function getUriHost(<UriInterface> uri) -> string
+	{
+		var host;
+
+		let host = uri->getHost();
+		if null !== uri->getPort() {
+			let host .= ":" . uri->getPort();
+		}
+
+		return host;
+	}
+
+	/**
 	 * Set a valid stream
 	 */
 	private function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
@@ -808,7 +929,8 @@ class ServerRequest implements ServerRequestInterface
 
 			this->checkHeaderName(name);
 
-			let key = strtolower(name);
+			let key   = strtolower(name),
+				value = this->getHeaderValue(value);
 
 			let headerData[key] = [
 				"name"  : name,
@@ -817,7 +939,7 @@ class ServerRequest implements ServerRequestInterface
 		}
 
 		if (true === isset(headerData["host"]) && "" !== this->uri->getHost()) {
-			let host = this->processUriHost(this->uri);
+			let host = this->getUriHost(this->uri);
 
 			let headerData["host"] = [
 				"name"  : "Host",
@@ -844,17 +966,5 @@ class ServerRequest implements ServerRequestInterface
 		}
 
 		return this;
-	}
-
-	private function processUriHost(<UriInterface> uri) -> string
-	{
-		var host;
-
-		let host = uri->getHost();
-		if null !== uri->getPort() {
-			let host .= ":" . uri->getPort();
-		}
-
-		return host;
 	}
 }
