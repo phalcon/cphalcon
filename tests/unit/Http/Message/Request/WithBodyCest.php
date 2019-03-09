@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Request;
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -30,6 +32,16 @@ class WithBodyCest
     public function httpMessageRequestWithBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - withBody()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, 'rb');
+        $request  = new Request();
+
+        $newInstance = $request->withBody($stream);
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = file_get_contents($fileName);
+        $actual   = $newInstance->getBody();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Request;
 use UnitTester;
 
 /**
@@ -30,6 +31,17 @@ class WithRequestTargetCest
     public function httpMessageRequestWithRequestTarget(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - withRequestTarget()');
-        $I->skipTest('Need implementation');
+        $request     = new Request();
+        $newInstance = $request->withRequestTarget('/test');
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = '/';
+        $actual   = $request->getRequestTarget();
+        $I->assertEquals($expected, $actual);
+
+        $expected = '/test';
+        $actual   = $newInstance->getRequestTarget();
+        $I->assertEquals($expected, $actual);
     }
 }

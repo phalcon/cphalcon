@@ -33,7 +33,7 @@ class CreateRequestCest
     {
         $I->wantToTest('Http\Message\RequestFactory - createRequest()');
         $factory = new RequestFactory();
-        $request = $factory->createRequest('https://dev.phalcon.ld', 'GET');
+        $request = $factory->createRequest('GET', 'https://dev.phalcon.ld');
         $class   = RequestInterface::class;
         $I->assertInstanceOf($class, $request);
     }

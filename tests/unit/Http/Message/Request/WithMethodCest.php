@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Request;
 use UnitTester;
 
 /**
@@ -30,6 +31,17 @@ class WithMethodCest
     public function httpMessageRequestWithMethod(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - withMethod()');
-        $I->skipTest('Need implementation');
+        $request     = new Request();
+        $newInstance = $request->withMethod('POST');
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = 'GET';
+        $actual   = $request->getMethod();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'POST';
+        $actual   = $newInstance->getMethod();
+        $I->assertEquals($expected, $actual);
     }
 }
