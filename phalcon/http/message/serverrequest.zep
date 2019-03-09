@@ -97,29 +97,9 @@ class ServerRequest implements ServerRequestInterface
 	private cookieParams = [] { get };
 
     /**
-     * Retrieves all message header values.
-     *
-     * The keys represent the header name as it will be sent over the wire, and
-     * each value is an array of strings associated with the header.
-     *
-     *     // Represent the headers as a string
-     *     foreach ($message->getHeaders() as $name => $values) {
-     *         echo $name . ': ' . implode(', ', $values);
-     *     }
-     *
-     *     // Emit headers iteratively:
-     *     foreach ($message->getHeaders() as $name => $values) {
-     *         foreach ($values as $value) {
-     *             header(sprintf('%s: %s', $name, $value), false);
-     *         }
-     *     }
-     *
-     * While header names are not case-sensitive, getHeaders() will preserve the
-     * exact case in which headers were originally specified.
-	 *
 	 * @var array
      */
-	private headers = [] { get };
+	private headers = [];
 
 	/**
 	 * Retrieves the HTTP method of the request.
@@ -243,7 +223,7 @@ class ServerRequest implements ServerRequestInterface
 		let
 			this->protocolVersion = protocol,
 			this->method          = method,
-			this->uploadedFiles   = uploadFiles, // ---
+			this->uploadedFiles   = uploadFiles,
 			this->body            = this->processBody(body, "w+b"),
 			this->parsedBody      = parsedBody,
 			this->serverParams    = serverParams,
@@ -311,6 +291,41 @@ class ServerRequest implements ServerRequestInterface
 
 		return "";
     }
+
+	/**
+	 * Retrieves all message header values.
+	 *
+	 * The keys represent the header name as it will be sent over the wire, and
+	 * each value is an array of strings associated with the header.
+	 *
+	 *     // Represent the headers as a string
+	 *     foreach ($message->getHeaders() as $name => $values) {
+	 *         echo $name . ': ' . implode(', ', $values);
+	 *     }
+	 *
+	 *     // Emit headers iteratively:
+	 *     foreach ($message->getHeaders() as $name => $values) {
+	 *         foreach ($values as $value) {
+	 *             header(sprintf('%s: %s', $name, $value), false);
+	 *         }
+	 *     }
+	 *
+	 * While header names are not case-sensitive, getHeaders() will preserve the
+	 * exact case in which headers were originally specified.
+	 */
+	public function getHeaders() -> array
+	{
+		var element, headers;
+		array headerData;
+
+		let headers    = this->headers,
+			headerData = [];
+		for element in headers {
+			let headerData[element["name"]] = element["value"];
+		}
+
+		return headerData;
+	}
 
 	/**
 	 * Retrieves the message's request target.
@@ -462,9 +477,8 @@ class ServerRequest implements ServerRequestInterface
 		this->checkHeaderName(name);
 
 		let key     = strtolower(name),
-			headers = this->headers;
-
-		let value = this->getHeaderValue(value);
+			headers = this->headers,
+			value   = this->getHeaderValue(value);
 
 		let headers[key] = [
 			"name"  : name,
