@@ -27,7 +27,7 @@ class GetStatusCodeCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-09
      */
     public function httpMessageResponseGetStatusCode(UnitTester $I)
     {
@@ -45,7 +45,7 @@ class GetStatusCodeCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-09
      */
     public function httpMessageResponseGetStatusCodeException(UnitTester $I)
     {

@@ -26,7 +26,7 @@ class WithStatusCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-09
      */
     public function httpMessageResponseWithStatus(UnitTester $I)
     {
@@ -45,7 +45,7 @@ class WithStatusCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-09
      */
     public function httpMessageResponseWithStatusOtherReason(UnitTester $I)
     {

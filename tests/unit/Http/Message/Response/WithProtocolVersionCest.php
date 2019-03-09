@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use InvalidArgumentException;
+use Phalcon\Http\Message\Response;
 use UnitTester;
 
 /**
@@ -25,11 +27,42 @@ class WithProtocolVersionCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-09
      */
     public function httpMessageResponseWithProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - withProtocolVersion()');
-        $I->skipTest('Need implementation');
+        $request     = new Response();
+        $newInstance = $request->withProtocolVersion('2.0');
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = '1.1';
+        $actual   = $request->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
+
+        $expected = '2.0';
+        $actual   = $newInstance->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Response :: withProtocolVersion() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-03-09
+     */
+    public function httpMessageResponseWithProtocolVersionException(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Response - withProtocolVersion() - exception');
+        $I->expectThrowable(
+            new InvalidArgumentException('Unsupported protocol 1.2'),
+            function () {
+                $request = new Response();
+                $request->withProtocolVersion('1.2');
+            }
+        );
     }
 }

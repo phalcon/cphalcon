@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use InvalidArgumentException;
+use Phalcon\Http\Message\Response;
 use UnitTester;
 
 /**
@@ -25,11 +27,15 @@ class GetProtocolVersionCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-05
      */
     public function httpMessageResponseGetProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - getProtocolVersion()');
-        $I->skipTest('Need implementation');
+        $request = new Response();
+
+        $expected = '1.1';
+        $actual   = $request->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
     }
 }

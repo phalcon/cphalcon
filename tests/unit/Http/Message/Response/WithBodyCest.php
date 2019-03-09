@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Response;
 
+use Phalcon\Http\Message\Response;
+use Phalcon\Http\Message\Stream;
 use UnitTester;
 
 /**
@@ -25,11 +27,21 @@ class WithBodyCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @since  2019-03-09
      */
     public function httpMessageResponseWithBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - withBody()');
-        $I->skipTest('Need implementation');
+        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $stream   = new Stream($fileName, 'rb');
+        $request  = new Response();
+
+        $newInstance = $request->withBody($stream);
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = file_get_contents($fileName);
+        $actual   = $newInstance->getBody();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -14,6 +14,7 @@
 
 namespace Phalcon\Http\Message;
 
+use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -87,59 +88,58 @@ class Response implements ResponseInterface
 	 */
 	public function __construct(var body = "php://memory", int code = 200, array headers = [])
 	{
-		this->processCode(code);
-		this->processStream(body, "w+");
-		this->processHeaders(headers);
+		this
+			->processHeaders(headers)
+			->processCode(code);
+
+		let this->body = this->processBody(body, "w+b");
 	}
 
-	/**
-	 * Retrieves a message header value by the given case-insensitive name.
-	 *
-	 * This method returns an array of all the header values of the given
-	 * case-insensitive header name.
-	 *
-	 * If the header does not appear in the message, this method MUST return an
-	 * empty array.
-	 */
-	public function getHeader(var name) -> array
-	{
-		var header, key;
+    /**
+     * Retrieves a message header value by the given case-insensitive name.
+     *
+     * This method returns an array of all the header values of the given
+     * case-insensitive header name.
+     *
+     * If the header does not appear in the message, this method MUST return an
+     * empty array.
+     */
+    public function getHeader(var name) -> array
+    {
+    	var element, key;
 
-		let key = strtolower(name);
+    	let key     = strtolower(name),
+    		element = Arr::get(this->headers, key, []);
 
-		if fetch header, this->headers[key] {
-			return header["value"];
-		}
+    	return Arr::get(element, "value", []);
+    }
 
-		return [];
-	}
+    /**
+     * Retrieves a comma-separated string of the values for a single header.
+     *
+     * This method returns all of the header values of the given
+     * case-insensitive header name as a string concatenated together using
+     * a comma.
+     *
+     * NOTE: Not all header values may be appropriately represented using
+     * comma concatenation. For such headers, use getHeader() instead
+     * and supply your own delimiter when concatenating.
+     *
+     * If the header does not appear in the message, this method MUST return
+     * an empty string.
+     */
+    public function getHeaderLine(var name) -> string
+    {
+    	var header;
 
-	/**
-	 * Retrieves a comma-separated string of the values for a single header.
-	 *
-	 * This method returns all of the header values of the given
-	 * case-insensitive header name as a string concatenated together using
-	 * a comma.
-	 *
-	 * NOTE: Not all header values may be appropriately represented using
-	 * comma concatenation. For such headers, use getHeader() instead
-	 * and supply your own delimiter when concatenating.
-	 *
-	 * If the header does not appear in the message, this method MUST return
-	 * an empty string.
-	 */
-	public function getHeaderLine(var name) -> string
-	{
-		var header;
+    	let header = this->getHeader(name);
 
-		let header = this->getHeader(name);
-
-		if true !== empty(header) {
-			return implode(",", header);
-		}
+    	if count(header) > 0 {
+    		return implode(",", header);
+    	}
 
 		return "";
-	}
+    }
 
 	/**
 	 * Retrieves all message header values.
@@ -164,104 +164,108 @@ class Response implements ResponseInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var element;
-		array headers;
+		var element, headers;
+		array headerData;
 
-		for element in this->headers {
-			let headers[element["name"]] = element["value"];
+		let headers    = this->headers,
+			headerData = [];
+		for element in headers {
+			let headerData[element["name"]] = element["value"];
 		}
 
-		return headers;
+		return headerData;
 	}
 
-	/**
-	 * Checks if a header exists by the given case-insensitive name.
-	 */
-	public function hasHeader(var name) -> bool
-	{
+    /**
+     * Checks if a header exists by the given case-insensitive name.
+     */
+    public function hasHeader(var name) -> bool
+    {
 		return isset(this->headers[strtolower(name)]);
-	}
+    }
 
-	/**
-	 * Return an instance with the specified header appended with the given value.
-	 *
-	 * Existing values for the specified header will be maintained. The new
-	 * value(s) will be appended to the existing list. If the header did not
-	 * exist previously, it will be added.
-	 *
-	 * This method MUST be implemented in such a way as to retain the
-	 * immutability of the message, and MUST return an instance that has the
-	 * new header and/or value.
-	 */
-	public function withAddedHeader(var name, var value) -> <Response>
-	{
-		var key, headers, newInstance, values;
+    /**
+     * Return an instance with the specified header appended with the given value.
+     *
+     * Existing values for the specified header will be maintained. The new
+     * value(s) will be appended to the existing list. If the header did not
+     * exist previously, it will be added.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * new header and/or value.
+     */
+    public function withAddedHeader(var name, var value) -> <Response>
+    {
+    	var existing, headers, key;
 
-		if true !== this->hasHeader(name) {
-			return this->withHeader(name, value);
-		}
+		this->checkHeaderName(name);
 
-		let key         = strtolower(name),
-			newInstance = clone this,
-			headers     = newInstance->headers;
+		let key      = strtolower(name),
+			headers  = this->headers,
+			existing = Arr::get(headers, key, []),
+			existing = Arr::get(existing, "value", []),
+			value    = this->getHeaderValue(value),
+			existing = array_merge(existing, value);
 
-		let values = headers[key]["value"],
-			values = array_merge(values, value);
+		let headers[key] = [
+			"name"  : name,
+			"value" : existing
+		];
 
-		let headers[key]["value"] = values;
+		return this->cloneInstance(headers, "headers");
 
-		let newInstance->headers = headers;
+    }
 
-		return newInstance;
-	}
+    /**
+     * Return an instance with the specified message body.
+     *
+     * The body MUST be a StreamInterface object.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return a new instance that has the
+     * new body stream.
+     *
+     * @throws \InvalidArgumentException When the body is not valid.
+     */
+    public function withBody(<StreamInterface> body) -> <Response>
+    {
+    	var newBody;
 
-	/**
-	 * Return an instance with the specified message body.
-	 *
-	 * The body MUST be a StreamInterface object.
-	 *
-	 * This method MUST be implemented in such a way as to retain the
-	 * immutability of the message, and MUST return a new instance that has the
-	 * new body stream.
-	 */
-	public function withBody(<StreamInterface> body) -> <Response>
-	{
-    	var newInstance;
+    	let newBody = this->processBody(body, "w+b");
 
-		if (body === this->body) {
-            return this;
-        }
+		return this->cloneInstance(newBody, "body");
+    }
 
-		/**
-		 * Immutable - need to send a new object back
-		 */
-        let newInstance       = clone this;
-        let newInstance->body = body;
+    /**
+     * Return an instance with the provided value replacing the specified header.
+     *
+     * While header names are case-insensitive, the casing of the header will
+     * be preserved by this function, and returned from getHeaders().
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * new and/or updated header and value.
+     *
+     * @throws \InvalidArgumentException for invalid header names or values.
+     */
+    public function withHeader(var name, var value) -> <Response>
+    {
+    	var headers, key;
 
-        return newInstance;
-	}
+		this->checkHeaderName(name);
 
-	/**
-	 * Return an instance with the provided value replacing the specified header.
-	 *
-	 * While header names are case-insensitive, the casing of the header will
-	 * be preserved by this function, and returned from getHeaders().
-	 *
-	 * This method MUST be implemented in such a way as to retain the
-	 * immutability of the message, and MUST return an instance that has the
-	 * new and/or updated header and value.
-	 */
-	public function withHeader(var name, var value) -> <Response>
-	{
-		var key, newInstance;
+		let key     = strtolower(name),
+			headers = this->headers,
+			value   = this->getHeaderValue(value);
 
-		let key = strtolower(name);
+		let headers[key] = [
+			"name"  : name,
+			"value" : value
+		];
 
-		let newInstance               = clone this;
-		let newInstance->headers[key] = value;
-
-		return newInstance;
-	}
+		return this->cloneInstance(headers, "headers");
+    }
 
 	/**
 	 * Return an instance with the specified HTTP protocol version.
@@ -275,17 +279,9 @@ class Response implements ResponseInterface
 	 */
 	public function withProtocolVersion(var version) -> <Response>
 	{
-    	var newInstance;
+		this->checkProtocol(version);
 
-		this->processProtocol(version);
-
-        let newInstance = clone this;
-
-		if (version !== this->protocolVersion) {
-        	let newInstance->protocolVersion = version;
-        }
-
-        return newInstance;
+		return this->cloneInstance(version, "protocolVersion");
 	}
 
 	/**
@@ -320,25 +316,162 @@ class Response implements ResponseInterface
 		return newInstance;
 	}
 
+    /**
+     * Return an instance without the specified header.
+     *
+     * Header resolution MUST be done without case-sensitivity.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that removes
+     * the named header.
+     */
+    public function withoutHeader(var name) -> <Response>
+    {
+    	var headers, key;
+
+    	let key         = strtolower(name),
+    		headers     = this->headers;
+
+		unset(headers[key]);
+
+		return this->cloneInstance(headers, "headers");
+	}
+
 	/**
-	 * Return an instance without the specified header.
+	 * Check the name of the header. Throw exception if not valid
 	 *
-	 * Header resolution MUST be done without case-sensitivity.
-	 *
-	 * This method MUST be implemented in such a way as to retain the
-	 * immutability of the message, and MUST return an instance that removes
-	 * the named header.
+	 * @see http://tools.ietf.org/html/rfc7230#section-3.2
 	 */
-	public function withoutHeader(var name) -> <Response>
+	private function checkHeaderName(var name) -> void
 	{
-		var key, newInstance;
+		if (typeof name !== "string" ||
+			!preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name)) {
+			throw new \InvalidArgumentException("Invalid header name " . name);
+		}
+	}
 
-		let key         = strtolower(name),
-			newInstance = clone this;
+	/**
+	 * Validates a header value
+	 *
+	 * Most HTTP header field values are defined using common syntax
+	 * components (token, quoted-string, and comment) separated by
+	 * whitespace or specific delimiting characters.  Delimiters are chosen
+	 * from the set of US-ASCII visual characters not allowed in a token
+	 * (DQUOTE and "(),/:;<=>?@[\]{}").
+	 *
+	 *     token          = 1*tchar
+	 *
+	 *     tchar          = "!" / "#" / "$" / "%" / "&" / "'" / "*"
+	 *                    / "+" / "-" / "." / "^" / "_" / "`" / "|" / "~"
+	 *                    / DIGIT / ALPHA
+	 *                    ; any VCHAR, except delimiters
+	 *
+	 * A string of text is parsed as a single value if it is quoted using
+	 * double-quote marks.
+	 *
+	 *     quoted-string  = DQUOTE *( qdtext / quoted-pair ) DQUOTE
+	 *     qdtext         = HTAB / SP /%x21 / %x23-5B / %x5D-7E / obs-text
+	 *     obs-text       = %x80-FF
+	 *
+	 * Comments can be included in some HTTP header fields by surrounding
+	 * the comment text with parentheses.  Comments are only allowed in
+	 * fields containing "comment" as part of their field value definition.
+	 *
+	 *     comment        = "(" *( ctext / quoted-pair / comment ) ")"
+	 *     ctext          = HTAB / SP / %x21-27 / %x2A-5B / %x5D-7E / obs-text
+	 *
+	 * The backslash octet ("\") can be used as a single-octet quoting
+	 * mechanism within quoted-string and comment constructs.  Recipients
+	 * that process the value of a quoted-string MUST handle a quoted-pair
+	 * as if it were replaced by the octet following the backslash.
+	 *
+	 *     quoted-pair    = "\" ( HTAB / SP / VCHAR / obs-text )
+	 *
+	 * A sender SHOULD NOT generate a quoted-pair in a quoted-string except
+	 * where necessary to quote DQUOTE and backslash octets occurring within
+	 * that string.  A sender SHOULD NOT generate a quoted-pair in a comment
+	 * except where necessary to quote parentheses ["(" and ")"] and
+	 * backslash octets occurring within that comment.
+	 */
+	private function checkHeaderValue(var value) -> void
+	{
+		if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
+			throw new \InvalidArgumentException("Invalid header value");
+		}
 
-		unset(newInstance->headers[key]);
+		let value = (string) value;
 
-		return newInstance;
+		if (1 === preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
+			1 === preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
+			throw new \InvalidArgumentException("Invalid header value");
+		}
+	}
+
+	/**
+	 * Checks the protocol
+	 */
+	private function checkProtocol(var protocol = "") -> <Response>
+	{
+    	array protocols;
+
+    	let protocols = [
+    		"1.0" : 1,
+    		"1.1" : 1,
+    		"2.0" : 1,
+    		"3.0" : 1
+    	];
+
+    	if (true === empty(protocol) || typeof protocol !== "string") {
+    		throw new \InvalidArgumentException("Invalid protocol value");
+    	}
+
+    	if true !== isset(protocols[protocol]) {
+			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Returns a new instance having set the parameter
+	 */
+	private function cloneInstance(var element, string property) -> <Response>
+	{
+    	var newInstance;
+
+        let newInstance = clone this;
+		if (element !== this->{property}) {
+            let newInstance->{property} = element;
+        }
+
+        return newInstance;
+	}
+
+	/**
+	 * Returns the header values checked for validity
+	 */
+   private function getHeaderValue(var values) -> array
+	{
+		var value;
+		array valueData;
+
+		if typeof values !== "array" {
+			let values = [values];
+		}
+
+		if true === empty(values) {
+			throw new \InvalidArgumentException(
+				"Invalid header value: must be a string or array of strings; cannot be an empty array"
+			);
+		}
+
+		let valueData = [];
+		for value in values {
+			this->checkHeaderValue(value);
+			let valueData[] = (string) value;
+		}
+
+		return valueData;
 	}
 
 	/**
@@ -442,20 +575,19 @@ class Response implements ResponseInterface
 	}
 
 	/**
-	 * Checks if the value of a header is valid. As per RFC 7230, ASCII characters,
-	 * spaces and horizontal tabs are allowed. Need to also check for visible
-	 * characters
+	 * Set a valid stream
 	 */
-	private function isValidHeaderValue(var value) -> bool
+	private function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
 	{
-		let value = (string) value;
+		if body instanceof StreamInterface {
+			return body;
+		}
 
-        if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
-        	preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
-            return false;
-        }
+		if (typeof body !== "string" && typeof body !== "resource") {
+			throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+		}
 
-        return true;
+		return new Stream(body, mode);
 	}
 
 	/**
@@ -495,14 +627,18 @@ class Response implements ResponseInterface
 	/**
 	 * Sets the headers
 	 */
-	private function processHeaders(array headers) -> void
+	private function processHeaders(array headers) -> <Response>
 	{
 		var key, name, value;
 		array headerData;
 
 		let headerData = [];
 		for name, value in headers {
-			let key = strtolower(name);
+
+			this->checkHeaderName(name);
+
+			let key   = strtolower(name),
+				value = this->getHeaderValue(value);
 
 			let headerData[key] = [
 				"name"  : name,
@@ -511,44 +647,7 @@ class Response implements ResponseInterface
 		}
 
 		let this->headers = headerData;
-	}
 
-	/**
-	 * Checks the protocol
-	 */
-	private function processProtocol(var protocol = "") -> void
-	{
-    	array protocols;
-
-    	let protocols = [
-    		"1.0" : 1,
-    		"1.1" : 1,
-    		"2.0" : 1,
-    		"3.0" : 1
-    	];
-
-    	if (true === empty(protocol) || typeof protocol !== "string") {
-    		throw new \InvalidArgumentException("Invalid protocol value");
-    	}
-
-    	if true !== isset(protocols[protocol]) {
-			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
-		}
-	}
-
-	/**
-	 * Set a valid stream
-	 */
-	private function processStream(var body = "php://memory", string mode) -> <StreamInterface>
-	{
-		if body instanceof StreamInterface {
-			return body;
-		}
-
-		if (typeof body !== "string" && (true !== is_resource(body))) {
-			throw new \InvalidArgumentException("Invalid stream passed as a parameter");
-		}
-
-		return new Stream(body, mode);
+		return this;
 	}
 }
