@@ -24,7 +24,11 @@ class CsvCest
      */
     public function _before(UnitTester $I)
     {
-        $this->config = ['ru' => ['content' => dataFolder('assets/translation/csv/ru_RU.csv')]];
+        $this->config = [
+            'ru' => ['content' => dataFolder('assets/translation/csv/ru_RU.csv')],
+            // the next delimiter is a tab character
+            'options' => ['content' => dataFolder('assets/translation/csv/fr_FR_options.csv'), 'delimiter' => "	", 'enclosure' => "'"]
+        ];
     }
 
 
@@ -44,6 +48,26 @@ class CsvCest
         $I->assertEquals($expect, $actual);
 
         $expect = 'Привет, TestFname TestMname TestLname!';
+        $actual = $translator->query(
+            'Hello %fname% %mname% %lname%!',
+            ["fname" => "TestFname", "mname" => "TestMname", "lname" => "TestLname"]
+        );
+        $I->assertEquals($expect, $actual);
+    }
+    
+    /**
+     * Translate into french with a csv using non standard delimiter and enclosure
+     */
+    public function testCsvOptions(UnitTester $I)
+    {
+        $params     = $this->config['options'];
+        $translator = new Csv($params);
+
+        $expect = 'Bonjour!';
+        $actual = $translator->query('Hello!');
+        $I->assertEquals($expect, $actual);
+
+        $expect = 'Bonjour, TestFname TestMname TestLname!';
         $actual = $translator->query(
             'Hello %fname% %mname% %lname%!',
             ["fname" => "TestFname", "mname" => "TestMname", "lname" => "TestLname"]
