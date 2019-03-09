@@ -1,6 +1,24 @@
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-XX-XX)
 ## Added
 - Added `delimiter` and `enclosure` options to *Phalcon\Translate\Adapter\Csv* constructor
+- Added `Phalcon\Http\Message\*` namespace implementing PSR-7 and PSR-17. Introducing:
+    - `Phalcon\Http\Message\Request`
+    - `Phalcon\Http\Message\RequestFactory`
+    - `Phalcon\Http\Message\Response`
+    - `Phalcon\Http\Message\ResponseFactory`
+    - `Phalcon\Http\Message\ServerRequest` 
+    - `Phalcon\Http\Message\ServerRequestFactory`
+    - `Phalcon\Http\Message\Stream`
+    - `Phalcon\Http\Message\StreamFactory`
+    - `Phalcon\Http\Message\UploadefFile`
+    - `Phalcon\Http\Message\UploadedFileFactory`
+    - `Phalcon\Http\Message\Uri`
+    - `Phalcon\Http\Message\UriFactory`
+    - `Phalcon\Http\Message\Stream\Input`
+    - `Phalcon\Http\Message\Stream\Memory`
+    - `Phalcon\Http\Message\Stream\Temp`
+The implementation offers PSR-7/PSR-17 compatible components in a different namespace to allow usage of both `Request` and `Response` implementations for this version. [#11789](https://github.com/phalcon/cphalcon/pull/11789)
+
 # [4.0.0-alpha.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.3) (2019-02-31)
 ## Added
 - Added `view:afterCompile` and `view:beforeCompile` events for the Volt compiler [#2182](https://github.com/phalcon/cphalcon/pull/2182)
