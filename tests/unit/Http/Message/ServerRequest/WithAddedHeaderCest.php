@@ -31,34 +31,25 @@ class WithAddedHeaderCest
     public function httpMessageServerRequestWithAddedHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withAddedHeader()');
-        $data    = [
+        $data        = [
             'Accept' => ['text/html'],
         ];
-        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $request     = new ServerRequest('GET', null, [], 'php://input', $data);
         $newInstance = $request->withAddedHeader('Cache-Control', ['max-age=0']);
 
         $I->assertNotEquals($request, $newInstance);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
+            'Accept' => ['text/html'],
         ];
         $actual   = $request->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
-            'cache-control' => [
-                'name'  => 'Cache-Control',
-                'value' => ['max-age=0'],
-            ],
+            'Accept'        => ['text/html'],
+            'Cache-Control' => ['max-age=0'],
         ];
-        $actual = $newInstance->getHeaders();
+        $actual   = $newInstance->getHeaders();
         $I->assertEquals($expected, $actual);
     }
 
@@ -72,30 +63,24 @@ class WithAddedHeaderCest
      */
     public function httpMessageServerRequestWithAddedHeaderMerge(UnitTester $I)
     {
-        $data    = [
+        $data        = [
             'Accept' => ['text/html'],
         ];
-        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $request     = new ServerRequest('GET', null, [], 'php://input', $data);
         $newInstance = $request->withAddedHeader('Accept', ['text/json']);
 
         $I->assertNotEquals($request, $newInstance);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
+            'Accept' => ['text/html'],
         ];
         $actual   = $request->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html', 'text/json'],
-            ],
+            'Accept' => ['text/html', 'text/json'],
         ];
-        $actual = $newInstance->getHeaders();
+        $actual   = $newInstance->getHeaders();
         $I->assertEquals($expected, $actual);
     }
 }

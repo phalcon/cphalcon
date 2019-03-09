@@ -38,14 +38,8 @@ class GetHeadersCest
         $request = new ServerRequest('GET', null, [], 'php://input', $data);
 
         $expected = [
-            'cache-control' => [
-                'name'  => 'Cache-Control',
-                'value' => ['max-age=0'],
-            ],
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
+            'Accept'        => ['text/html'],
+            'Cache-Control' => ['max-age=0'],
         ];
         $actual   = $request->getHeaders();
         $I->assertEquals($expected, $actual);

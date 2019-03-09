@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use InvalidArgumentException;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
@@ -31,7 +32,7 @@ class GetProtocolVersionCest
     public function httpMessageServerRequestGetProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getProtocolVersion()');
-        $request     = new ServerRequest(
+        $request = new ServerRequest(
             'GET',
             null,
             [],
@@ -60,7 +61,7 @@ class GetProtocolVersionCest
     public function httpMessageServerRequestGetProtocolVersionEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getProtocolVersion() - empty');
-        $request     = new ServerRequest();
+        $request = new ServerRequest();
 
         $expected = '1.1';
         $actual   = $request->getProtocolVersion();
@@ -68,7 +69,8 @@ class GetProtocolVersionCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequest :: getProtocolVersion() - exception
+     * Tests Phalcon\Http\Message\ServerRequest :: getProtocolVersion() -
+     * exception
      *
      * @param UnitTester $I
      *
@@ -79,7 +81,7 @@ class GetProtocolVersionCest
     {
         $I->wantToTest('Http\Message\ServerRequest - getProtocolVersion() - exception');
         $I->expectThrowable(
-            new \InvalidArgumentException('Unsupported protocol 1.2'),
+            new InvalidArgumentException('Unsupported protocol 1.2'),
             function () {
                 $request = new ServerRequest(
                     'GET',

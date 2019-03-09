@@ -69,7 +69,7 @@ class MoveToCest
                 $target = $I->getNewFileName();
                 $target = outputFolder('tests/stream/' . $target);
 
-                $file  = new UploadedFile($stream, 0, UPLOAD_ERR_CANT_WRITE);
+                $file = new UploadedFile($stream, 0, UPLOAD_ERR_CANT_WRITE);
                 $file->moveTo($target);
             }
         );
@@ -92,7 +92,7 @@ class MoveToCest
                 $stream = new Stream('php://memory', 'w+b');
                 $stream->write('Phalcon Framework');
 
-                $file  = new UploadedFile($stream, 0);
+                $file = new UploadedFile($stream, 0);
                 $file->moveTo(123);
             }
         );

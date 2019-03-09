@@ -31,34 +31,25 @@ class WithHeaderCest
     public function httpMessageServerRequestWithHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withHeader()');
-        $data    = [
+        $data        = [
             'Accept' => ['text/html'],
         ];
-        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $request     = new ServerRequest('GET', null, [], 'php://input', $data);
         $newInstance = $request->withHeader('Cache-Control', ['max-age=0']);
 
         $I->assertNotEquals($request, $newInstance);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
+            'Accept' => ['text/html'],
         ];
         $actual   = $request->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
-            'cache-control' => [
-                'name'  => 'Cache-Control',
-                'value' => ['max-age=0'],
-            ],
+            'Accept'        => ['text/html'],
+            'Cache-Control' => ['max-age=0'],
         ];
-        $actual = $newInstance->getHeaders();
+        $actual   = $newInstance->getHeaders();
         $I->assertEquals($expected, $actual);
     }
 }

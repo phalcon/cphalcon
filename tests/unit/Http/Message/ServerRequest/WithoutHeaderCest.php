@@ -31,35 +31,26 @@ class WithoutHeaderCest
     public function httpMessageServerRequestWithoutHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withoutHeader()');
-        $data    = [
+        $data        = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $request = new ServerRequest('GET', null, [], 'php://input', $data);
+        $request     = new ServerRequest('GET', null, [], 'php://input', $data);
         $newInstance = $request->withoutHeader('Accept');
 
         $I->assertNotEquals($request, $newInstance);
 
         $expected = [
-            'accept'        => [
-                'name'  => 'Accept',
-                'value' => ['text/html'],
-            ],
-            'cache-control' => [
-                'name'  => 'Cache-Control',
-                'value' => ['max-age=0'],
-            ],
+            'Accept'        => ['text/html'],
+            'Cache-Control' => ['max-age=0'],
         ];
         $actual   = $request->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'cache-control' => [
-                'name'  => 'Cache-Control',
-                'value' => ['max-age=0'],
-            ],
+            'Cache-Control' => ['max-age=0'],
         ];
-        $actual = $newInstance->getHeaders();
+        $actual   = $newInstance->getHeaders();
         $I->assertEquals($expected, $actual);
     }
 }

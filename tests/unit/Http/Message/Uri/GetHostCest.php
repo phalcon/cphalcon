@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
-use InvalidArgumentException;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
@@ -56,7 +55,7 @@ class GetHostCest
         $query = 'https://';
         $uri   = new Uri($query);
 
-        $actual   = $uri->getHost();
+        $actual = $uri->getHost();
         $I->assertEmpty($actual);
     }
 }

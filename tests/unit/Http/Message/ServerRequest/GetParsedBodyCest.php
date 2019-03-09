@@ -31,7 +31,7 @@ class GetParsedBodyCest
     public function httpMessageServerRequestGetParsedBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getParsedBody()');
-        $request     = new ServerRequest(
+        $request = new ServerRequest(
             'GET',
             null,
             [],
@@ -59,7 +59,7 @@ class GetParsedBodyCest
     public function httpMessageServerRequestGetParsedBodyEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getParsedBody() - empty');
-        $request     = new ServerRequest();
+        $request = new ServerRequest();
 
         $expected = '';
         $actual   = $request->getParsedBody();
