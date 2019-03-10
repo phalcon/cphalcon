@@ -26,6 +26,13 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 	 */
 	private data = [];
 
+	public function __construct(array! data = null) -> void
+	{
+		if typeof data === "array" {
+			this->init(data);
+		}
+	}
+
 	/**
 	 * Clears the internal collection
 	 */
