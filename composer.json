@@ -6,7 +6,9 @@
     "phalcon",
     "framework",
     "high load",
-    "mvc"
+    "mvc",
+    "psr-7",
+    "psr-17"
   ],
   "license": "BSD-3-Clause",
   "authors": [
@@ -43,7 +45,7 @@
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",
-    "ext-psr": "*",
+    "ext-psr": "0.6.1",
     "ext-xml": "*",
     "codeception/codeception": "^2.5",
     "mustache/mustache": "^2.12",
@@ -72,8 +74,6 @@
     "email": "support@phalconphp.com",
     "issues": "https://github.com/phalcon/cphalcon/issues",
     "forum": "https://forum.phalconphp.com/",
-    "wiki": "https://github.com/phalcon/cphalcon/wiki",
-    "irc": "irc://irc.freenode.org/phalconphp",
     "source": "https://github.com/phalcon/cphalcon",
     "docs": "https://docs.phalconphp.com/",
     "rss": "https://blog.phalconphp.com/rss"

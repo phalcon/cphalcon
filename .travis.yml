@@ -112,18 +112,18 @@ script:
 
   - .ci/run-volt-tests.sh
 
-#jobs:
-#  include:
-#    - stage: Static Code Analysis
-#      php: 7.2
-#      env:
-#        - REPORT_COVERAGE=0
-#      install:
-#        - travis_retry composer install $DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs
-#      before_script:
-#        - phpenv config-rm xdebug.ini || true
-#      script:
-#        - vendor/bin/phpcs
+jobs:
+  include:
+    - stage: Static Code Analysis
+      php: 7.2
+      env:
+        - REPORT_COVERAGE=0
+      install:
+        - travis_retry composer install $DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs
+      before_script:
+        - phpenv config-rm xdebug.ini || true
+      script:
+        - vendor/bin/phpcs
 
 after_failure:
   - tests/_ci/after-failure.sh
