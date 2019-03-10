@@ -159,7 +159,7 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
      *
      * @link https://php.net/manual/en/serializable.unserialize.php
      */
-    public function unserialize(string serialized) -> void
+    public function unserialize(var serialized) -> void
     {
 		var data;
 
