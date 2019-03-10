@@ -195,7 +195,7 @@ class Stream implements StreamInterface
      */
     public function isSeekable() -> bool
     {
-    	return boolval(this->getMetadata("seekable"));
+    	return (bool) this->getMetadata("seekable");
     }
 
     /**

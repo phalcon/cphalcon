@@ -79,14 +79,14 @@ class Input extends Stream
     {
     	var data;
 
-		if true === this->eof {
+		if this->eof {
 			return data;
 		}
 
 		let data       = stream_get_contents(this->handle, length),
 			this->data = data;
 
-		if (-1 === length || this->eof()) {
+		if -1 === length || this->eof() {
 			let this->eof = true;
 		}
 

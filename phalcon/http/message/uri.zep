@@ -110,7 +110,7 @@ class Uri implements UriInterface
     {
     	var fragment, host, scheme, pass, path, port, query, urlParts, user;
 
-		if ("" !== uri) {
+		if "" !== uri {
 			let urlParts = parse_url(uri);
 
 			/**
@@ -182,7 +182,7 @@ class Uri implements UriInterface
         if "" !== path {
         	if "//" === substr(path, 0, 2) && "" === authority {
         		let path = ltrim(path, "/");
-        	} elseif (!starts_with(path, "/") && "" !== authority) {
+        	} elseif !starts_with(path, "/") && "" !== authority {
 				let path = "/" . path;
 			}
 
@@ -376,7 +376,7 @@ class Uri implements UriInterface
             let port = this->filterPort(port);
         }
 
-        if (null !== port && (port < 1 || port > 65535)) {
+        if null !== port && (port < 1 || port > 65535) {
             throw new \InvalidArgumentException( "Method expects valid port (1-65535)");
         }
 
@@ -452,7 +452,7 @@ class Uri implements UriInterface
 		}
 
 
-		if (user === this->user && password === this->pass) {
+		if user === this->user && password === this->pass {
             return this;
         }
 
@@ -493,15 +493,10 @@ class Uri implements UriInterface
 	{
     	var newInstance;
 
-		if (element === this->{property}) {
-            return this;
+        let newInstance = clone this;
+		if element !== this->{property} {
+            let newInstance->{property} = element;
         }
-
-		/**
-		 * Immutable - need to send a new object back
-		 */
-        let newInstance             = clone this;
-        let newInstance->{property} = element;
 
         return newInstance;
 	}
@@ -521,7 +516,7 @@ class Uri implements UriInterface
      */
 	private function filterFragment(string fragment) -> string
 	{
-		if ("" !== fragment && starts_with(fragment, "#")) {
+		if "" !== fragment && starts_with(fragment, "#") {
 			let fragment = "%23" . substr(fragment, 1);
 		}
 
@@ -586,7 +581,7 @@ class Uri implements UriInterface
 
 		if null !== port {
 			let port = intval(port);
-			if true === isset(ports[port]) {
+			if isset ports[port] {
 				let port = null;
 			}
 		}
@@ -628,7 +623,7 @@ class Uri implements UriInterface
 
         for key, value in parts {
 			let split = explode("=", value);
-			if true !== isset(split[1]) {
+			if !isset split[1] {
 				let split[] = null;
 			}
 
@@ -663,7 +658,7 @@ class Uri implements UriInterface
             return "";
         }
 
-        if true !== isset(schemes[filtered]) {
+        if !isset schemes[filtered] {
             throw new \InvalidArgumentException(
             	"Unsupported scheme [" . filtered . "]. " .
             	"Scheme must be one of [" . implode(", ", schemes). "]"
@@ -693,7 +688,7 @@ class Uri implements UriInterface
 
         let urlParts = parse_url(encoded);
 
-		if (false === urlParts) {
+		if !urlParts {
 			throw new \InvalidArgumentException("The source URI string appears to be malformed");
 		}
 

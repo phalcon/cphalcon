@@ -218,13 +218,7 @@ class UploadedFile implements UploadedFileInterface
 		/**
 		 * All together for early failure
 		 */
-		if (true !== (
-				typeof targetPath === "string" &&
-				true !== empty(targetPath)     &&
-				true === is_dir(dirname)       &&
-				true === is_writable(dirname)
-			)
-		) {
+		if !(typeof targetPath === "string" && !empty(targetPath) && is_dir(dirname) && is_writable(dirname)) {
 			throw new Exception("Target folder is empty string, not a folder or not writable");
 		}
 
@@ -233,10 +227,10 @@ class UploadedFile implements UploadedFileInterface
 		 */
 		let sapi = constant("PHP_SAPI");
 
-		if true === empty(sapi) || true === empty(this->fileName) || true === starts_with(sapi, "cli") {
+		if empty(sapi) || empty(this->fileName) || starts_with(sapi, "cli") {
 			this->storeFile(targetPath);
 		} else {
-			if (false === move_uploaded_file(this->fileName, targetPath)) {
+			if !move_uploaded_file(this->fileName, targetPath) {
 				throw new Exception("The file cannot be moved to the target folder");
 			}
 		}
