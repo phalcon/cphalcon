@@ -587,7 +587,7 @@ class ServerRequest implements ServerRequestInterface
 	 * request-target, verbatim.
 	 *
 	 * This method MUST be implemented in such a way as to retain the
-	 * immutability of the message, and MUST return an instance that has the
+	 * immutability of the message, and MUST return an instance that has t
 	 * changed request target.
 	 *
 	 * @see http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
@@ -596,7 +596,9 @@ class ServerRequest implements ServerRequestInterface
 	public function withRequestTarget(var requestTarget) -> <ServerRequest>
 	{
 		if preg_match("/\s/", requestTarget) {
-			throw new \InvalidArgumentException("Invalid request target passed as a parameter");
+			throw new \InvalidArgumentException(
+				"Invalid request target: cannot contain whitespace"
+			);
 		}
 
 		return this->cloneInstance(requestTarget, "requestTarget");
@@ -768,6 +770,8 @@ class ServerRequest implements ServerRequestInterface
 	 * that string.  A sender SHOULD NOT generate a quoted-pair in a comment
 	 * except where necessary to quote parentheses ["(" and ")"] and
 	 * backslash octets occurring within that comment.
+	 *
+	 * @see https://tools.ietf.org/html/rfc7230#section-3.2.6
 	 */
 	private function checkHeaderValue(var value) -> void
 	{
@@ -796,6 +800,7 @@ class ServerRequest implements ServerRequestInterface
 			"DELETE"  : 1,
 			"HEAD"    : 1,
 			"OPTIONS" : 1,
+			"PATCH"   : 1,
 			"POST"    : 1,
 			"PUT"     : 1,
 			"TRACE"   : 1

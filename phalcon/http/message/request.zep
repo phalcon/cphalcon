@@ -49,9 +49,9 @@ class Request implements RequestInterface
 	 */
 	private body { get };
 
-    /**
+	/**
 	 * @var array
-     */
+	 */
 	private headers = [];
 
 	/**
@@ -61,16 +61,16 @@ class Request implements RequestInterface
 	 */
 	private method = "GET" { get };
 
-    /**
-     * Retrieves the HTTP protocol version as a string.
-     *
-     * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
-     *
-     * @return string HTTP protocol version.
-     *
-     * @var string
-     */
-    private protocolVersion = "1.1" { get };
+	/**
+	 * Retrieves the HTTP protocol version as a string.
+	 *
+	 * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+	 *
+	 * @return string HTTP protocol version.
+	 *
+	 * @var string
+	 */
+	private protocolVersion = "1.1" { get };
 
 	/**
 	 * The request-target, if it has been provided or calculated.
@@ -121,12 +121,12 @@ class Request implements RequestInterface
 	 */
 	public function getHeader(var name) -> array
 	{
-    	var element, key;
+		var element, key;
 
-    	let key     = strtolower(name),
-    		element = Arr::get(this->headers, key, []);
+		let key     = strtolower(name),
+			element = Arr::get(this->headers, key, []);
 
-    	return Arr::get(element, "value", []);
+		return Arr::get(element, "value", []);
 	}
 
 	/**
@@ -145,13 +145,13 @@ class Request implements RequestInterface
 	 */
 	public function getHeaderLine(var name) -> string
 	{
-    	var header;
+		var header;
 
-    	let header = this->getHeader(name);
+		let header = this->getHeader(name);
 
-    	if count(header) > 0 {
-    		return implode(",", header);
-    	}
+		if count(header) > 0 {
+			return implode(",", header);
+		}
 
 		return "";
 	}
@@ -230,20 +230,20 @@ class Request implements RequestInterface
 		return isset(this->headers[strtolower(name)]);
 	}
 
-    /**
-     * Return an instance with the specified header appended with the given value.
-     *
-     * Existing values for the specified header will be maintained. The new
-     * value(s) will be appended to the existing list. If the header did not
-     * exist previously, it will be added.
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return an instance that has the
-     * new header and/or value.
-     */
-    public function withAddedHeader(var name, var value) -> <Request>
-    {
-    	var existing, headers, key;
+	/**
+	 * Return an instance with the specified header appended with the given value.
+	 *
+	 * Existing values for the specified header will be maintained. The new
+	 * value(s) will be appended to the existing list. If the header did not
+	 * exist previously, it will be added.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * new header and/or value.
+	 */
+	public function withAddedHeader(var name, var value) -> <Request>
+	{
+		var existing, headers, key;
 
 		this->checkHeaderName(name);
 
@@ -260,44 +260,43 @@ class Request implements RequestInterface
 		];
 
 		return this->cloneInstance(headers, "headers");
+	}
 
-    }
+	/**
+	 * Return an instance with the specified message body.
+	 *
+	 * The body MUST be a StreamInterface object.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return a new instance that has the
+	 * new body stream.
+	 *
+	 * @throws \InvalidArgumentException When the body is not valid.
+	 */
+	public function withBody(<StreamInterface> body) -> <Request>
+	{
+		var newBody;
 
-    /**
-     * Return an instance with the specified message body.
-     *
-     * The body MUST be a StreamInterface object.
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return a new instance that has the
-     * new body stream.
-     *
-     * @throws \InvalidArgumentException When the body is not valid.
-     */
-    public function withBody(<StreamInterface> body) -> <Request>
-    {
-    	var newBody;
-
-    	let newBody = this->processBody(body, "w+b");
+		let newBody = this->processBody(body, "w+b");
 
 		return this->cloneInstance(newBody, "body");
-    }
+	}
 
-    /**
-     * Return an instance with the provided value replacing the specified header.
-     *
-     * While header names are case-insensitive, the casing of the header will
-     * be preserved by this function, and returned from getHeaders().
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return an instance that has the
-     * new and/or updated header and value.
-     *
-     * @throws \InvalidArgumentException for invalid header names or values.
-     */
-    public function withHeader(var name, var value) -> <Request>
-    {
-    	var headers, key;
+	/**
+	 * Return an instance with the provided value replacing the specified header.
+	 *
+	 * While header names are case-insensitive, the casing of the header will
+	 * be preserved by this function, and returned from getHeaders().
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * new and/or updated header and value.
+	 *
+	 * @throws \InvalidArgumentException for invalid header names or values.
+	 */
+	public function withHeader(var name, var value) -> <Request>
+	{
+		var headers, key;
 
 		this->checkHeaderName(name);
 
@@ -311,7 +310,7 @@ class Request implements RequestInterface
 		];
 
 		return this->cloneInstance(headers, "headers");
-    }
+	}
 
 	/**
 	 * Return an instance with the provided HTTP method.
@@ -333,22 +332,22 @@ class Request implements RequestInterface
 		return this->cloneInstance(method, "method");
 	}
 
-    /**
-     * Return an instance with the specified HTTP protocol version.
-     *
-     * The version string MUST contain only the HTTP version number (e.g.,
-     * "1.1", "1.0").
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return an instance that has the
-     * new protocol version.
-     */
-    public function withProtocolVersion(var version) -> <Request>
-    {
+	/**
+	 * Return an instance with the specified HTTP protocol version.
+	 *
+	 * The version string MUST contain only the HTTP version number (e.g.,
+	 * "1.1", "1.0").
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * new protocol version.
+	 */
+	public function withProtocolVersion(var version) -> <Request>
+	{
 		this->checkProtocol(version);
 
 		return this->cloneInstance(version, "protocolVersion");
-    }
+	}
 
 	/**
 	 * Return an instance with the specific request-target.
@@ -368,7 +367,9 @@ class Request implements RequestInterface
 	public function withRequestTarget(var requestTarget) -> <Request>
 	{
 		if preg_match("/\s/", requestTarget) {
-			throw new \InvalidArgumentException("Invalid request target passed as a parameter");
+			throw new \InvalidArgumentException(
+				"Invalid request target: cannot contain whitespace"
+			);
 		}
 
 		return this->cloneInstance(requestTarget, "requestTarget");
@@ -438,10 +439,10 @@ class Request implements RequestInterface
 	 */
 	public function withoutHeader(var name) -> <Request>
 	{
-    	var headers, key;
+		var headers, key;
 
-    	let key         = strtolower(name),
-    		headers     = this->headers;
+		let key     = strtolower(name),
+			headers = this->headers;
 
 		unset(headers[key]);
 
@@ -503,6 +504,8 @@ class Request implements RequestInterface
 	 * that string.  A sender SHOULD NOT generate a quoted-pair in a comment
 	 * except where necessary to quote parentheses ["(" and ")"] and
 	 * backslash octets occurring within that comment.
+	 *
+	 * @see https://tools.ietf.org/html/rfc7230#section-3.2.6
 	 */
 	private function checkHeaderValue(var value) -> void
 	{
@@ -523,22 +526,23 @@ class Request implements RequestInterface
 	 */
 	private function checkMethod(var method = "") ->  <Request>
 	{
-    	array methods;
+		array methods;
 
-    	let methods = [
+		let methods = [
 			"GET"     : 1,
 			"CONNECT" : 1,
 			"DELETE"  : 1,
 			"HEAD"    : 1,
 			"OPTIONS" : 1,
+			"PATCH"   : 1,
 			"POST"    : 1,
 			"PUT"     : 1,
 			"TRACE"   : 1
-    	];
+		];
 
-    	if !(true !== empty(method) &&
-    		typeof method === "string" &&
-    		true === isset(methods[method])
+		if !(true !== empty(method) &&
+			typeof method === "string" &&
+			true === isset(methods[method])
 		) {
 			throw new \InvalidArgumentException("Invalid or unsupported method " . method);
 		}
@@ -551,20 +555,20 @@ class Request implements RequestInterface
 	 */
 	private function checkProtocol(var protocol = "") -> <Request>
 	{
-    	array protocols;
+		array protocols;
 
-    	let protocols = [
-    		"1.0" : 1,
-    		"1.1" : 1,
-    		"2.0" : 1,
-    		"3.0" : 1
-    	];
+		let protocols = [
+			"1.0" : 1,
+			"1.1" : 1,
+			"2.0" : 1,
+			"3.0" : 1
+		];
 
-    	if (true === empty(protocol) || typeof protocol !== "string") {
-    		throw new \InvalidArgumentException("Invalid protocol value");
-    	}
+		if (true === empty(protocol) || typeof protocol !== "string") {
+			throw new \InvalidArgumentException("Invalid protocol value");
+		}
 
-    	if true !== isset(protocols[protocol]) {
+		if true !== isset(protocols[protocol]) {
 			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
 		}
 
@@ -576,20 +580,20 @@ class Request implements RequestInterface
 	 */
 	private function cloneInstance(var element, string property) -> <Request>
 	{
-    	var newInstance;
+		var newInstance;
 
-        let newInstance = clone this;
+		let newInstance = clone this;
 		if (element !== this->{property}) {
-            let newInstance->{property} = element;
-        }
+			let newInstance->{property} = element;
+		}
 
-        return newInstance;
+		return newInstance;
 	}
 
 	/**
 	 * Returns the header values checked for validity
 	 */
-   private function getHeaderValue(var values) -> array
+	private function getHeaderValue(var values) -> array
 	{
 		var value;
 		array valueData;

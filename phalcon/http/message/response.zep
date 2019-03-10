@@ -95,51 +95,51 @@ class Response implements ResponseInterface
 		let this->body = this->processBody(body, "w+b");
 	}
 
-    /**
-     * Retrieves a message header value by the given case-insensitive name.
-     *
-     * This method returns an array of all the header values of the given
-     * case-insensitive header name.
-     *
-     * If the header does not appear in the message, this method MUST return an
-     * empty array.
-     */
-    public function getHeader(var name) -> array
-    {
-    	var element, key;
+	/**
+	 * Retrieves a message header value by the given case-insensitive name.
+	 *
+	 * This method returns an array of all the header values of the given
+	 * case-insensitive header name.
+	 *
+	 * If the header does not appear in the message, this method MUST return an
+	 * empty array.
+	 */
+	public function getHeader(var name) -> array
+	{
+		var element, key;
 
-    	let key     = strtolower(name),
-    		element = Arr::get(this->headers, key, []);
+		let key     = strtolower(name),
+			element = Arr::get(this->headers, key, []);
 
-    	return Arr::get(element, "value", []);
-    }
+		return Arr::get(element, "value", []);
+	}
 
-    /**
-     * Retrieves a comma-separated string of the values for a single header.
-     *
-     * This method returns all of the header values of the given
-     * case-insensitive header name as a string concatenated together using
-     * a comma.
-     *
-     * NOTE: Not all header values may be appropriately represented using
-     * comma concatenation. For such headers, use getHeader() instead
-     * and supply your own delimiter when concatenating.
-     *
-     * If the header does not appear in the message, this method MUST return
-     * an empty string.
-     */
-    public function getHeaderLine(var name) -> string
-    {
-    	var header;
+	/**
+	 * Retrieves a comma-separated string of the values for a single header.
+	 *
+	 * This method returns all of the header values of the given
+	 * case-insensitive header name as a string concatenated together using
+	 * a comma.
+	 *
+	 * NOTE: Not all header values may be appropriately represented using
+	 * comma concatenation. For such headers, use getHeader() instead
+	 * and supply your own delimiter when concatenating.
+	 *
+	 * If the header does not appear in the message, this method MUST return
+	 * an empty string.
+	 */
+	public function getHeaderLine(var name) -> string
+	{
+		var header;
 
-    	let header = this->getHeader(name);
+		let header = this->getHeader(name);
 
-    	if count(header) > 0 {
-    		return implode(",", header);
-    	}
+		if count(header) > 0 {
+			return implode(",", header);
+		}
 
 		return "";
-    }
+	}
 
 	/**
 	 * Retrieves all message header values.
@@ -176,28 +176,28 @@ class Response implements ResponseInterface
 		return headerData;
 	}
 
-    /**
-     * Checks if a header exists by the given case-insensitive name.
-     */
-    public function hasHeader(var name) -> bool
-    {
+	/**
+	 * Checks if a header exists by the given case-insensitive name.
+	 */
+	public function hasHeader(var name) -> bool
+	{
 		return isset(this->headers[strtolower(name)]);
-    }
+	}
 
-    /**
-     * Return an instance with the specified header appended with the given value.
-     *
-     * Existing values for the specified header will be maintained. The new
-     * value(s) will be appended to the existing list. If the header did not
-     * exist previously, it will be added.
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return an instance that has the
-     * new header and/or value.
-     */
-    public function withAddedHeader(var name, var value) -> <Response>
-    {
-    	var existing, headers, key;
+	/**
+	 * Return an instance with the specified header appended with the given value.
+	 *
+	 * Existing values for the specified header will be maintained. The new
+	 * value(s) will be appended to the existing list. If the header did not
+	 * exist previously, it will be added.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * new header and/or value.
+	 */
+	public function withAddedHeader(var name, var value) -> <Response>
+	{
+		var existing, headers, key;
 
 		this->checkHeaderName(name);
 
@@ -214,44 +214,43 @@ class Response implements ResponseInterface
 		];
 
 		return this->cloneInstance(headers, "headers");
+	}
 
-    }
+	/**
+	 * Return an instance with the specified message body.
+	 *
+	 * The body MUST be a StreamInterface object.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return a new instance that has the
+	 * new body stream.
+	 *
+	 * @throws \InvalidArgumentException When the body is not valid.
+	 */
+	public function withBody(<StreamInterface> body) -> <Response>
+	{
+		var newBody;
 
-    /**
-     * Return an instance with the specified message body.
-     *
-     * The body MUST be a StreamInterface object.
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return a new instance that has the
-     * new body stream.
-     *
-     * @throws \InvalidArgumentException When the body is not valid.
-     */
-    public function withBody(<StreamInterface> body) -> <Response>
-    {
-    	var newBody;
-
-    	let newBody = this->processBody(body, "w+b");
+		let newBody = this->processBody(body, "w+b");
 
 		return this->cloneInstance(newBody, "body");
-    }
+	}
 
-    /**
-     * Return an instance with the provided value replacing the specified header.
-     *
-     * While header names are case-insensitive, the casing of the header will
-     * be preserved by this function, and returned from getHeaders().
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return an instance that has the
-     * new and/or updated header and value.
-     *
-     * @throws \InvalidArgumentException for invalid header names or values.
-     */
-    public function withHeader(var name, var value) -> <Response>
-    {
-    	var headers, key;
+	/**
+	 * Return an instance with the provided value replacing the specified header.
+	 *
+	 * While header names are case-insensitive, the casing of the header will
+	 * be preserved by this function, and returned from getHeaders().
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that has the
+	 * new and/or updated header and value.
+	 *
+	 * @throws \InvalidArgumentException for invalid header names or values.
+	 */
+	public function withHeader(var name, var value) -> <Response>
+	{
+		var headers, key;
 
 		this->checkHeaderName(name);
 
@@ -265,7 +264,7 @@ class Response implements ResponseInterface
 		];
 
 		return this->cloneInstance(headers, "headers");
-    }
+	}
 
 	/**
 	 * Return an instance with the specified HTTP protocol version.
@@ -300,37 +299,37 @@ class Response implements ResponseInterface
 	 */
 	public function withStatus(var code, var reasonPhrase = "") -> <Response>
 	{
-    	var newInstance;
+		var newInstance;
 
 		if (code === this->statusCode) {
-            return this;
-        }
+			return this;
+		}
 
 		/**
 		 * Immutable - need to send a new object back
 		 */
-        let newInstance = clone this;
+		let newInstance = clone this;
 
 		newInstance->processCode(code, reasonPhrase);
 
 		return newInstance;
 	}
 
-    /**
-     * Return an instance without the specified header.
-     *
-     * Header resolution MUST be done without case-sensitivity.
-     *
-     * This method MUST be implemented in such a way as to retain the
-     * immutability of the message, and MUST return an instance that removes
-     * the named header.
-     */
-    public function withoutHeader(var name) -> <Response>
-    {
-    	var headers, key;
+	/**
+	 * Return an instance without the specified header.
+	 *
+	 * Header resolution MUST be done without case-sensitivity.
+	 *
+	 * This method MUST be implemented in such a way as to retain the
+	 * immutability of the message, and MUST return an instance that removes
+	 * the named header.
+	 */
+	public function withoutHeader(var name) -> <Response>
+	{
+		var headers, key;
 
-    	let key         = strtolower(name),
-    		headers     = this->headers;
+		let key         = strtolower(name),
+			headers     = this->headers;
 
 		unset(headers[key]);
 
@@ -412,20 +411,20 @@ class Response implements ResponseInterface
 	 */
 	private function checkProtocol(var protocol = "") -> <Response>
 	{
-    	array protocols;
+		array protocols;
 
-    	let protocols = [
-    		"1.0" : 1,
-    		"1.1" : 1,
-    		"2.0" : 1,
-    		"3.0" : 1
-    	];
+		let protocols = [
+			"1.0" : 1,
+			"1.1" : 1,
+			"2.0" : 1,
+			"3.0" : 1
+		];
 
-    	if (true === empty(protocol) || typeof protocol !== "string") {
-    		throw new \InvalidArgumentException("Invalid protocol value");
-    	}
+		if (true === empty(protocol) || typeof protocol !== "string") {
+			throw new \InvalidArgumentException("Invalid protocol value");
+		}
 
-    	if true !== isset(protocols[protocol]) {
+		if true !== isset(protocols[protocol]) {
 			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
 		}
 
@@ -437,20 +436,20 @@ class Response implements ResponseInterface
 	 */
 	private function cloneInstance(var element, string property) -> <Response>
 	{
-    	var newInstance;
+		var newInstance;
 
-        let newInstance = clone this;
+		let newInstance = clone this;
 		if (element !== this->{property}) {
-            let newInstance->{property} = element;
-        }
+			let newInstance->{property} = element;
+		}
 
-        return newInstance;
+		return newInstance;
 	}
 
 	/**
 	 * Returns the header values checked for validity
 	 */
-   private function getHeaderValue(var values) -> array
+	private function getHeaderValue(var values) -> array
 	{
 		var value;
 		array valueData;
@@ -557,7 +556,7 @@ class Response implements ResponseInterface
 			506 : "Variant Also Negotiates",                          // Server Error - RFC 2295, 8.1
 			507 : "Insufficient Storage",                             // Server Error - RFC 4918, 11.5
 			508 : "Loop Detected",                                    // Server Error - RFC 5842, 7.2
-            509 : "Bandwidth Limit Exceeded",                         // Unofficial - Apache/cPanel
+			509 : "Bandwidth Limit Exceeded",                         // Unofficial - Apache/cPanel
 			510 : "Not Extended",                                     // Server Error - RFC 2774, 7
 			511 : "Network Authentication Required",                  // Server Error - RFC 6585, 6
 			520 : "Unknown Error",                                    // Unofficial - Cloudflare
