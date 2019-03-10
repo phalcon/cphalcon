@@ -45,7 +45,7 @@
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",
-    "ext-psr": "0.6.1",
+    "ext-psr": "0.6.0",
     "ext-xml": "*",
     "codeception/codeception": "^2.5",
     "mustache/mustache": "^2.12",
