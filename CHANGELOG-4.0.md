@@ -18,6 +18,10 @@
     - `Phalcon\Http\Message\Stream\Memory`
     - `Phalcon\Http\Message\Stream\Temp`
 The implementation offers PSR-7/PSR-17 compatible components in a different namespace to allow usage of both `Request` and `Response` implementations for this version. [#11789](https://github.com/phalcon/cphalcon/pull/11789)
+- Added `Phalcon\Helper\*` namespace, offering easy manipulations for arrays, numbers etc..
+    - `Phalcon\Helper\Arr`
+    - `Phalcon\Helper\Number`
+[#13889](https://github.com/phalcon/cphalcon/pull/13889)
 
 # [4.0.0-alpha.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.3) (2019-02-31)
 ## Added
