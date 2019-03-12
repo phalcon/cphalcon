@@ -75,9 +75,9 @@ final class Registry extends Collection
 	/**
 	 * Magic getter to get an element from the collection
 	 */
-	public final function __get(string! element, var defaultValue = null) -> var
+	public final function __get(string! element) -> var
 	{
-		return parent::get(element, defaultValue);
+		return parent::get(element);
 	}
 
 	/**
@@ -125,9 +125,9 @@ final class Registry extends Collection
 	/**
 	 * Get the element from the collection
 	 */
-	public final function get(string! element) -> var | bool
+	public final function get(string! element, var defaultValue = null) -> var | bool
 	{
-		return parent::get(element);
+		return parent::get(element, defaultValue);
 	}
 
 	/**
