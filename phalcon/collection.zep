@@ -19,7 +19,7 @@ namespace Phalcon;
  * It can be used in any part of the application that needs collection of data
  * Such implementatins are for instance accessing globals `$_GET`, `$_POST` etc.
  */
-class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerializable
+class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, \Serializable
 {
 	/**
 	 * @var array
@@ -31,6 +31,38 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 		if typeof data === "array" {
 			this->init(data);
 		}
+	}
+
+	/**
+	 * Magic getter to get an element from the collection
+	 */
+	public function __get(string! element) -> var
+	{
+		return this->get(element);
+	}
+
+	/**
+	 * Magic isset to check whether an element exists or not
+	 */
+	public function __isset(string! element) -> bool
+	{
+		return this->has(element);
+	}
+
+	/**
+	 * Magic setter to assign values to an element
+	 */
+	public function __set(string! element, var value) -> void
+	{
+		this->set(element, value);
+	}
+
+	/**
+	 * Magic unset to remove an element from the collection
+	 */
+	public function __unset(string! element) -> void
+	{
+		this->remove(element);
 	}
 
 	/**
@@ -54,37 +86,56 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 	/**
 	 * Get the element from the collection
 	 */
-	public function get(var key) -> var | bool
+	public function get(string! element, var defaultValue = null) -> var | bool
 	{
 		var value;
-		array data;
 
-		let data = this->data;
-
-		if fetch value, data[key] {
+		if likely fetch value, this->data[element] {
 			return value;
 		}
 
-		return false;
+		return defaultValue;
 	}
 
-	public function delete(var key) -> void
+	/**
+	 * Returns the iterator of the class
+	 */
+	public function getIterator() -> <Traversable>
+	{
+		return new \ArrayIterator(this);
+	}
+
+	/**
+	 * Get the element from the collection
+	 */
+	public function has(string! element) -> bool
+	{
+		return isset this->data[element];
+	}
+
+	/**
+	 * Delete the element from the collection
+	 */
+	public function remove(string! element) -> void
 	{
 		array data;
 
 		let data = this->data;
 
-		unset(data[key]);
+		unset data[element];
 
 		this->init(data);
 	}
 
-	public function set(var key, var value) -> void
+	/**
+	 * Set an element in the collection
+	 */
+	public function set(string! element, var value) -> void
 	{
 		array data;
 
-		let data      = this->data,
-			data[key] = value;
+		let data          = this->data,
+			data[element] = value;
 
 		this->init(data);
 	}
@@ -112,9 +163,11 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 	 *
 	 * @link https://php.net/manual/en/arrayaccess.offsetexists.php
 	 */
-	public function offsetExists(var offset) -> bool
+	public function offsetExists(var element) -> bool
 	{
-		return isset(this->data[offset]);
+		let element = (string) element;
+
+		return this->has(element);
 	}
 
 	/**
@@ -122,9 +175,11 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 	 *
 	 * @link https://php.net/manual/en/arrayaccess.offsetget.php
 	 */
-	public function offsetGet(var key) -> var
+	public function offsetGet(var element) -> var
 	{
-		return this->get(key);
+		let element = (string) element;
+
+		return this->get(element);
 	}
 
 	/**
@@ -132,9 +187,11 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 	 *
 	 * @link https://php.net/manual/en/arrayaccess.offsetset.php
 	 */
-	public function offsetSet(var key, var value) -> void
+	public function offsetSet(var element, var value) -> void
 	{
-		this->set(key, value);
+		let element = (string) element;
+
+		this->set(element, value);
 	}
 
 	/**
@@ -142,9 +199,11 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 	 *
 	 * @link https://php.net/manual/en/arrayaccess.offsetunset.php
 	 */
-	public function offsetUnset(var key) -> void
+	public function offsetUnset(var element) -> void
 	{
-		this->delete(key);
+		let element = (string) element;
+
+		this->remove(element);
 	}
 
     /**
@@ -161,6 +220,28 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
 		return serialize(data);
     }
 
+	/**
+	 * Returns the object in an array format
+	 */
+	public function toArray() -> array
+	{
+		return this->data;
+	}
+
+	/**
+	 * Returns the object in a JSON format
+	 *
+	 * The default string uses the following options for json_encode
+	 *
+	 * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
+	 *
+	 * @see https://www.ietf.org/rfc/rfc4627.txt
+	 */
+	public function toJson(int options = 74) -> string
+	{
+		return json_encode(this->data, options);
+	}
+
     /**
      * Constructs the object
      *
@@ -170,7 +251,8 @@ class Collection implements \ArrayAccess, \Countable, \Serializable, \JsonSerial
     {
 		var data;
 
-		let data = unserialize(serialized);
+		let serialized = (string) serialized,
+			data       = unserialize(serialized);
 
 		this->init(data);
     }
