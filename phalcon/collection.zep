@@ -14,7 +14,7 @@ namespace Phalcon;
  * Phalcon\Collection
  *
  * Phalcon\Collection is a supercharged object oriented array. It implements
- * Countable, ArrayAccess, Serializable and JsonSerializable.
+ * ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
  *
  * It can be used in any part of the application that needs collection of data
  * Such implementatins are for instance accessing globals `$_GET`, `$_POST` etc.
