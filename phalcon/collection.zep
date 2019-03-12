@@ -26,11 +26,16 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	 */
 	protected data = [];
 
-	public function __construct(array! data = null) -> void
+	/**
+	 * @var array
+	 */
+	protected headers = [];
+
+
+
+	public function __construct(array! data = []) -> void
 	{
-		if typeof data === "array" {
-			this->init(data);
-		}
+		this->init(data);
 	}
 
 	/**
@@ -86,12 +91,16 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Get the element from the collection
 	 */
-	public function get(string! element, var defaultValue = null) -> var | bool
+	public function get(string! element, var defaultValue = null, bool insensitive = true) -> var | bool
 	{
 		var value;
 
-		if likely fetch value, this->data[element] {
-			return value;
+		if insensitive {
+			let element = strtolower(element);
+		}
+
+		if likely fetch value, this->headers[element] {
+			return this->data[value];
 		}
 
 		return defaultValue;
@@ -108,9 +117,13 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Get the element from the collection
 	 */
-	public function has(string! element) -> bool
+	public function has(string! element, bool insensitive = true) -> bool
 	{
-		return isset this->data[element];
+		if insensitive {
+			let element = strtolower(element);
+		}
+
+		return isset this->headers[element];
 	}
 
 	/**
@@ -118,7 +131,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	 */
 	public function init(array! data = [])
 	{
-		let this->data = data;
+		var key, value;
+
+		for key, value in data {
+			this->set(key, value);
+		}
 	}
 
 	/**
@@ -184,13 +201,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	 */
 	public function remove(string! element) -> void
 	{
-		array data;
+		var data, headers, key, value;
 
-		let data = this->data;
+		let data    = this->data,
+			headers = this->headers,
+			key     = strtolower(element);
 
-		unset data[element];
+		if this->has(element) {
+			let value = headers[key];
+			unset headers[key];
+			unset data[value];
+		}
 
-		let this->data = data;
+		let this->data    = data,
+			this->headers = headers;
 	}
 
     /**
@@ -208,7 +232,12 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	 */
 	public function set(string! element, var value) -> void
 	{
-		let this->data[element] = value;
+		var key;
+
+		let key = strtolower(element);
+
+		let this->data[element] = value,
+			this->headers[key]  = element;
 	}
 
 	/**

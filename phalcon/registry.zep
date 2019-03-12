@@ -125,9 +125,9 @@ final class Registry extends Collection
 	/**
 	 * Get the element from the collection
 	 */
-	public final function get(string! element, var defaultValue = null) -> var | bool
+	public final function get(string! element, var defaultValue = null, bool insensitive = true) -> var | bool
 	{
-		return parent::get(element, defaultValue);
+		return parent::get(element, defaultValue, insensitive);
 	}
 
 	/**
@@ -141,9 +141,9 @@ final class Registry extends Collection
 	/**
 	 * Get the element from the collection
 	 */
-	public final function has(string! element) -> bool
+	public final function has(string! element, bool insensitive = true) -> bool
 	{
-		return parent::has(element);
+		return parent::has(element, insensitive);
 	}
 
 	/**
