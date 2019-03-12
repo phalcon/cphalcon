@@ -16,21 +16,21 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class CountCest
+ * Class GetCest
  */
-class CountCest
+class GetCest
 {
     /**
-     * Tests Phalcon\Registry :: count()
+     * Tests Phalcon\Registry :: get()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionGet(UnitTester $I)
     {
-        $I->wantToTest('Registry - count()');
+        $I->wantToTest('Registry - get()');
         $data     = [
             'one'   => 'two',
             'three' => 'four',
@@ -38,9 +38,17 @@ class CountCest
         ];
         $registry = new Registry($data);
 
-        $I->assertCount(3, $registry->toArray());
+        $expected = 'four';
+        $actual   = $registry->get('three');
+        $I->assertEquals($expected, $actual);
 
-        $actual = $registry->count();
-        $I->assertEquals(3, $actual);
+        $actual = $registry['three'];
+        $I->assertEquals($expected, $actual);
+
+        $actual = $registry->three;
+        $I->assertEquals($expected, $actual);
+
+        $actual = $registry->offsetGet('three');
+        $I->assertEquals($expected, $actual);
     }
 }

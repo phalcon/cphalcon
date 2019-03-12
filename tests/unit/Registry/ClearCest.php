@@ -16,35 +16,35 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class KeyCest
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class ClearCest
  */
-class KeyCest
+class ClearCest
 {
     /**
-     * Tests Phalcon\Registry :: key()
+     * Tests Phalcon\Registry :: clear()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryKey(UnitTester $I)
+    public function collectionClear(UnitTester $I)
     {
-        $I->wantToTest('Registry - key()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
+        $I->wantToTest('Registry - clear()');
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $expected = 'one';
-        $actual   = $registry->key();
+        $expected = $data;
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
 
-        $registry->next();
-        $expected = 'two';
-        $actual   = $registry->key();
+        $registry->clear();
+        $expected = 0;
+        $actual   = $registry->count();
         $I->assertEquals($expected, $actual);
     }
 }

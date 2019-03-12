@@ -16,30 +16,30 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class OffsetExistsCest
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class ToArrayCest
  */
-class OffsetExistsCest
+class ToArrayCest
 {
     /**
-     * Tests Phalcon\Registry :: offsetExists()
+     * Tests Phalcon\Registry :: toArray()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryOffsetExists(UnitTester $I)
+    public function collectionToArray(UnitTester $I)
     {
-        $I->wantToTest('Registry - offsetExists()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
+        $I->wantToTest('Registry - toArray()');
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $actual = $registry->offsetExists('one');
-        $I->assertTrue($actual);
-
-        $actual = $registry->offsetExists('unknown');
-        $I->assertFalse($actual);
+        $expected = $data;
+        $actual   = $registry->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

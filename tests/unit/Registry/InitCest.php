@@ -16,35 +16,36 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class CurrentCest
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class InitCest
  */
-class CurrentCest
+class InitCest
 {
     /**
-     * Tests Phalcon\Registry :: current()
+     * Tests Phalcon\Registry :: init()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryCurrent(UnitTester $I)
+    public function collectionInit(UnitTester $I)
     {
-        $I->wantToTest('Registry - current()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
+        $I->wantToTest('Registry - init()');
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
 
-        $expected = 1;
-        $actual   = $registry->current();
+        $registry = new Registry();
+
+        $expected = 0;
+        $actual   = $registry->count();
         $I->assertEquals($expected, $actual);
 
-        $registry->next();
-        $expected = 2;
-        $actual   = $registry->current();
+        $registry->init($data);
+        $expected = $data;
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

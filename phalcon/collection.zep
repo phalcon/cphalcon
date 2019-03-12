@@ -24,7 +24,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * @var array
 	 */
-	private data = [];
+	protected data = [];
 
 	public function __construct(array! data = null) -> void
 	{
@@ -36,9 +36,9 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Magic getter to get an element from the collection
 	 */
-	public function __get(string! element) -> var
+	public function __get(string! element, var defaultValue = null) -> var
 	{
-		return this->get(element);
+		return this->get(element, defaultValue);
 	}
 
 	/**
@@ -114,33 +114,6 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	}
 
 	/**
-	 * Delete the element from the collection
-	 */
-	public function remove(string! element) -> void
-	{
-		array data;
-
-		let data = this->data;
-
-		unset data[element];
-
-		this->init(data);
-	}
-
-	/**
-	 * Set an element in the collection
-	 */
-	public function set(string! element, var value) -> void
-	{
-		array data;
-
-		let data          = this->data,
-			data[element] = value;
-
-		this->init(data);
-	}
-
-	/**
 	 * Initialize internal array
 	 */
 	public function init(array! data = [])
@@ -206,6 +179,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 		this->remove(element);
 	}
 
+	/**
+	 * Delete the element from the collection
+	 */
+	public function remove(string! element) -> void
+	{
+		array data;
+
+		let data = this->data;
+
+		unset data[element];
+
+		let this->data = data;
+	}
+
     /**
      * String representation of object
      *
@@ -213,12 +200,16 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     public function serialize() -> string
     {
-		array data;
-
-		let data = this->data;
-
-		return serialize(data);
+		return serialize(this->data);
     }
+
+	/**
+	 * Set an element in the collection
+	 */
+	public function set(string! element, var value) -> void
+	{
+		let this->data[element] = value;
+	}
 
 	/**
 	 * Returns the object in an array format

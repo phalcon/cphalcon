@@ -16,28 +16,30 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class OffsetSetCest
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class GetIteratorCest
  */
-class OffsetSetCest
+class GetIteratorCest
 {
     /**
-     * Tests Phalcon\Registry :: offsetSet()
+     * Tests Phalcon\Registry :: getIterator()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryOffsetSet(UnitTester $I)
+    public function collectionGetIterator(UnitTester $I)
     {
-        $I->wantToTest('Registry - offsetSet()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
+        $I->wantToTest('Registry - getIterator()');
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $I->assertCount(3, $registry);
+        foreach ($registry as $key => $value) {
+            $I->assertEquals($data[$key], $registry[$key]);
+        }
     }
 }

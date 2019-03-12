@@ -16,34 +16,34 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class UnderscoreGetCest
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class ToJsonCest
  */
-class UnderscoreGetCest
+class ToJsonCest
 {
     /**
-     * Tests Phalcon\Registry :: __get()
+     * Tests Phalcon\Registry :: toJson()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryUnderscoreGet(UnitTester $I)
+    public function collectionToJson(UnitTester $I)
     {
-        $I->wantToTest('Registry - __get()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
+        $I->wantToTest('Registry - toJson()');
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $expected = 3;
-        $actual   = $registry->three;
+        $expected = json_encode($data);
+        $actual   = $registry->toJson();
         $I->assertEquals($expected, $actual);
 
-        $expected = 2;
-        $actual   = $registry['two'];
+        $expected = json_encode($data, JSON_PRETTY_PRINT);
+        $actual   = $registry->toJson(JSON_PRETTY_PRINT);
         $I->assertEquals($expected, $actual);
     }
 }
