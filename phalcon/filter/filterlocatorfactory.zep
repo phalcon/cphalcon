@@ -44,7 +44,7 @@ class FilterLocatorFactory implements LocatorFactoryInterface
 	 */
 	public function newInstance() -> <LocatorInterface>
 	{
-		var helpers;
+		var factory, helpers;
 
 		/**
 		 * Available helpers
@@ -73,7 +73,9 @@ class FilterLocatorFactory implements LocatorFactoryInterface
 			FilterLocator::FILTER_URL         : "Phalcon\\Filter\\Sanitize\\Url"
 		];
 
-		return new FilterLocator(helpers);
+		let factory = new FilterLocator(helpers);
+
+		return factory;
 	}
 }
 

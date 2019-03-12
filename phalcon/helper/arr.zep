@@ -38,7 +38,7 @@ class Arr
      */
     final public static function has(array! collection, var index) -> bool
     {
-        return isset(collection[index]);
+        return isset collection[index];
     }
 
     /**

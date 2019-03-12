@@ -25,16 +25,16 @@ ZEPHIR_INIT_CLASS(phalcon_25__closure) {
 
 PHP_METHOD(phalcon_25__closure, __invoke) {
 
-	zval *file, file_sub;
+	zval *escaper, escaper_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&file_sub);
+	ZVAL_UNDEF(&escaper_sub);
 
-	zephir_fetch_params(0, 1, 0, &file);
+	zephir_fetch_params(0, 1, 0, &escaper);
 
 
 
-	RETURN_BOOL(1);
+	RETURN_NULL();
 
 }
 
