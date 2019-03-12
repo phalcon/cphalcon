@@ -41,6 +41,12 @@ class HasCest
         $actual = $collection->has('three');
         $I->assertTrue($actual);
 
+        $actual = $collection->has('THREE');
+        $I->assertTrue($actual);
+
+        $actual = $collection->has('THREE', false);
+        $I->assertFalse($actual);
+
         $actual = $collection->has('unknown');
         $I->assertFalse($actual);
 
