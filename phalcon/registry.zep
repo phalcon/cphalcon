@@ -149,7 +149,7 @@ final class Registry extends Collection
 	/**
 	 * Initialize internal array
 	 */
-	public final function init(array! data = [])
+	public final function init(array! data = []) -> void
 	{
 		parent::init(data);
 	}

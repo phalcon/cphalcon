@@ -129,7 +129,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Initialize internal array
 	 */
-	public function init(array! data = [])
+	public function init(array! data = []) -> void
 	{
 		var key, value;
 
