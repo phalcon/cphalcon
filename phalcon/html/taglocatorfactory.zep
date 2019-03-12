@@ -36,7 +36,7 @@ class TagLocatorFactory implements LocatorFactoryInterface
 	 */
 	public function newInstance() -> <LocatorInterface>
 	{
-		var escaper, helpers;
+		var escaper, factory, helpers;
 
 		/**
 		 * The escaper service
@@ -74,7 +74,9 @@ class TagLocatorFactory implements LocatorFactoryInterface
 			"title"      : function (escaper) { return null; }
 		];
 
-		return new Locator(helpers);
+		let factory = new Locator(helpers);
+
+		return factory;
 	}
 
 	/**

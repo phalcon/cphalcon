@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Http;
 
+use DateTime;
+use DateTimeZone;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
@@ -492,8 +494,8 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
 
-        $expiry = new \DateTime();
-        $expiry->setTimezone(new \DateTimeZone("UTC"));
+        $expiry = new DateTime();
+        $expiry->setTimezone(new DateTimeZone("UTC"));
         $expiry->modify("+60 minutes");
 
         $response->setCache(60);

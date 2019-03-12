@@ -15,6 +15,7 @@ use Phalcon\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Http\PhpStream;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use UnexpectedValueException;
 use UnitTester;
 
 class RequestCest extends HttpBase
@@ -454,7 +455,7 @@ class RequestCest extends HttpBase
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
      *
-     * @expectedException \UnexpectedValueException
+     * @expectedException UnexpectedValueException
      */
     public function testInvalidHttpRequestHttpHost(UnitTester $I)
     {
@@ -469,7 +470,7 @@ class RequestCest extends HttpBase
 
         foreach ($examples as $host) {
             $I->expectThrowable(
-                new \UnexpectedValueException('Invalid host ' . $host),
+                new UnexpectedValueException('Invalid host ' . $host),
                 function () use ($host) {
                     $request = $this->getRequestObject();
                     $request->setStrictHostCheck(true);
