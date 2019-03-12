@@ -36,9 +36,9 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Magic getter to get an element from the collection
 	 */
-	public function __get(string! element, var defaultValue = null) -> var
+	public function __get(string! element) -> var
 	{
-		return this->get(element, defaultValue);
+		return this->get(element);
 	}
 
 	/**
