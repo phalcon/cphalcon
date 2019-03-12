@@ -22,6 +22,8 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
     - `Phalcon\Helper\Arr`
     - `Phalcon\Helper\Number`
 [#13889](https://github.com/phalcon/cphalcon/pull/13889)
+- Added `Phalcon\Collection`, an object implementing `ArrayAccess`, `Countable`, `IteratorAggregate`, `JsonSerializable`, `Serializable`, offering an easy way to handle collections of data such as arrays, superglobals etc. [#13886](https://github.com/phalcon/cphalcon/issues/13886)
+
 
 # [4.0.0-alpha.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.3) (2019-02-31)
 ## Added
