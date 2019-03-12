@@ -18,14 +18,18 @@ use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Assets\Manager
  *
  * Manages collections of CSS/Javascript assets
  */
-class Manager
+class Manager implements InjectionAwareInterface
 {
+
+	protected _dependencyInjector;
 
 	/**
 	 * Options configure
@@ -36,7 +40,7 @@ class Manager
 	protected collections;
 
 	/**
-	 * @var bool 
+	 * @var bool
 	 */
 	protected implicitOutput = true;
 
@@ -46,6 +50,22 @@ class Manager
 	public function __construct(array options = [])
 	{
 		let this->options = options;
+	}
+
+	/**
+	 * Sets the dependency injector
+	 */
+	public function setDI(<DiInterface> dependencyInjector)
+	{
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Returns the internal dependency injector
+	 */
+	public function getDI() -> <DiInterface>
+	{
+		return this->_dependencyInjector;
 	}
 
 	/**
@@ -763,7 +783,7 @@ class Manager
 	 */
 	public function outputCss(string collectionName = null) -> string
 	{
-		var collection;
+		var collection, dependencyInjector, tag, callback;
 
 		if !collectionName {
 			let collection = this->getCss();
@@ -771,7 +791,15 @@ class Manager
 			let collection = this->get(collectionName);
 		}
 
-		return this->output(collection, ["Phalcon\\Tag", "stylesheetLink"], "css");
+		let callback = ["Phalcon\\Tag", "stylesheetLink"];
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
+			let tag = dependencyInjector->getShared("tag");
+			let callback = [tag, "stylesheetLink"];
+		}
+
+		return this->output(collection, callback, "css");
 	}
 
 	/**
@@ -795,7 +823,7 @@ class Manager
 	 */
 	public function outputJs(string collectionName = null) -> string
 	{
-		var collection;
+		var collection, dependencyInjector, tag, callback;
 
 		if !collectionName {
 			let collection = this->getJs();
@@ -803,7 +831,15 @@ class Manager
 			let collection = this->get(collectionName);
 		}
 
-		return this->output(collection, ["Phalcon\\Tag", "javascriptInclude"], "js");
+		let callback = ["Phalcon\\Tag", "javascriptInclude"];
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
+			let tag = dependencyInjector->getShared("tag");
+			let callback = [tag, "javascriptInclude"];
+		}
+
+		return this->output(collection, callback, "js");
 	}
 
 	/**
