@@ -16,31 +16,24 @@ use Phalcon\Collection;
 use UnitTester;
 
 /**
- * Class CountCest
+ * Class ConstructCest
  */
-class CountCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\Collection :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionConstruct(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
-        $data       = [
-            'one'   => 'two',
-            'three' => 'four',
-            'five'  => 'six',
-        ];
-        $collection = new Collection($data);
+        $I->wantToTest('Collection - __construct()');
+        $collection = new Collection();
 
-        $I->assertCount(3, $collection->toArray());
-
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $class = Collection::class;
+        $I->assertInstanceOf($class, $collection);
     }
 }

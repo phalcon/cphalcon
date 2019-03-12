@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection;
 
+use Phalcon\Collection;
 use UnitTester;
 
 /**
@@ -30,6 +31,15 @@ class JsonSerializeCest
     public function collectionJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Collection - jsonSerialize()');
-        $I->skipTest('Need implementation');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $collection = new Collection($data);
+
+        $expected = $data;
+        $actual   = $collection->jsonSerialize();
+        $I->assertEquals($expected, $actual);
     }
 }

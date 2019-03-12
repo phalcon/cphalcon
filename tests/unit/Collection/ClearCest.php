@@ -16,21 +16,21 @@ use Phalcon\Collection;
 use UnitTester;
 
 /**
- * Class CountCest
+ * Class ClearCest
  */
-class CountCest
+class ClearCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\Collection :: clear()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionClear(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('Collection - clear()');
         $data       = [
             'one'   => 'two',
             'three' => 'four',
@@ -38,9 +38,13 @@ class CountCest
         ];
         $collection = new Collection($data);
 
-        $I->assertCount(3, $collection->toArray());
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $collection->clear();
+        $expected = 0;
+        $actual   = $collection->count();
+        $I->assertEquals($expected, $actual);
     }
 }

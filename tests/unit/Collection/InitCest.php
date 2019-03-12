@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection;
 
+use Phalcon\Collection;
 use UnitTester;
 
 /**
@@ -30,6 +31,21 @@ class InitCest
     public function collectionInit(UnitTester $I)
     {
         $I->wantToTest('Collection - init()');
-        $I->skipTest('Need implementation');
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+
+        $collection = new Collection();
+
+        $expected = 0;
+        $actual   = $collection->count();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

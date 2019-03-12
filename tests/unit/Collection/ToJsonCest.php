@@ -16,21 +16,21 @@ use Phalcon\Collection;
 use UnitTester;
 
 /**
- * Class CountCest
+ * Class ToJsonCest
  */
-class CountCest
+class ToJsonCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\Collection :: toJson()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionToJson(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('Collection - toJson()');
         $data       = [
             'one'   => 'two',
             'three' => 'four',
@@ -38,9 +38,12 @@ class CountCest
         ];
         $collection = new Collection($data);
 
-        $I->assertCount(3, $collection->toArray());
+        $expected = json_encode($data);
+        $actual   = $collection->toJson();
+        $I->assertEquals($expected, $actual);
 
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $expected = json_encode($data, JSON_PRETTY_PRINT);
+        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -16,21 +16,21 @@ use Phalcon\Collection;
 use UnitTester;
 
 /**
- * Class CountCest
+ * Class HasCest
  */
-class CountCest
+class HasCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\Collection :: has()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionHas(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('Collection - has()');
         $data       = [
             'one'   => 'two',
             'three' => 'four',
@@ -38,9 +38,22 @@ class CountCest
         ];
         $collection = new Collection($data);
 
-        $I->assertCount(3, $collection->toArray());
+        $actual = $collection->has('three');
+        $I->assertTrue($actual);
 
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $actual = $collection->has('unknown');
+        $I->assertFalse($actual);
+
+        $actual = isset($collection['three']);
+        $I->assertTrue($actual);
+
+        $actual = isset($collection['unknown']);
+        $I->assertFalse($actual);
+
+        $actual = $collection->offsetExists('three');
+        $I->assertTrue($actual);
+
+        $actual = $collection->offsetExists('unknown');
+        $I->assertFalse($actual);
     }
 }

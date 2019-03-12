@@ -16,31 +16,32 @@ use Phalcon\Collection;
 use UnitTester;
 
 /**
- * Class CountCest
+ * Class SerializeCest
  */
-class CountCest
+class UnserializeCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\Collection :: serialize()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionSerialize(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('Collection - serialize()');
         $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Collection($data);
+        $serialized = serialize($data);
+        $collection = new Collection();
 
-        $I->assertCount(3, $collection->toArray());
-
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $collection->unserialize($serialized);
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

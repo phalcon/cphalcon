@@ -18,7 +18,7 @@ use UnitTester;
 /**
  * Class SerializeCest
  */
-class SerializeUnserializeCest
+class SerializeCest
 {
     /**
      * Tests Phalcon\Collection :: serialize()
@@ -38,13 +38,8 @@ class SerializeUnserializeCest
         ];
         $collection = new Collection($data);
 
-        $expected = json_encode($data);
-        $actual   = $collection->toJson();
+        $expected = serialize($data);
+        $actual   = $collection->serialize();
         $I->assertEquals($expected, $actual);
-
-        $expected = json_encode($data, JSON_PRETTY_PRINT);
-        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
-        $I->assertEquals($expected, $actual);
-
     }
 }
