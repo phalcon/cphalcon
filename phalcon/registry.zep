@@ -207,9 +207,9 @@ final class Registry extends Collection
 	/**
 	 * Delete the element from the collection
 	 */
-	public final function remove(string! element) -> void
+	public final function remove(string! element, bool insensitive = true) -> void
 	{
-		parent::remove(element);
+		parent::remove(element, insensitive);
 	}
 
     /**
