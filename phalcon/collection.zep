@@ -199,17 +199,22 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Delete the element from the collection
 	 */
-	public function remove(string! element) -> void
+	public function remove(string! element, bool insensitive = true) -> void
 	{
-		var data, lowerKeys, key, value;
+		var data, lowerKeys, value;
+
 
 		let data      = this->data,
-			lowerKeys = this->lowerKeys,
-			key       = strtolower(element);
+			lowerKeys = this->lowerKeys;
 
 		if this->has(element) {
-			let value = lowerKeys[key];
-			unset lowerKeys[key];
+			if likely insensitive {
+				let element = strtolower(element);
+			}
+
+			let value = lowerKeys[element];
+
+			unset lowerKeys[element];
 			unset data[value];
 		}
 
