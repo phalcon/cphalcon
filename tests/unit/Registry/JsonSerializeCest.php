@@ -16,26 +16,30 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class UnderscoreSetCest
+ * Class JsonSerializeCest
  */
-class UnderscoreSetCest
+class JsonSerializeCest
 {
     /**
-     * Tests Phalcon\Registry :: __set()
+     * Tests Phalcon\Registry :: jsonSerialize()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryUnderscoreSet(UnitTester $I)
+    public function collectionJsonSerialize(UnitTester $I)
     {
-        $I->wantToTest('Registry - __set()');
-        $registry          = new Registry();
-        $registry->one     = 1;
-        $registry->two     = 2;
-        $registry['three'] = 3;
+        $I->wantToTest('Registry - jsonSerialize()');
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $I->assertCount(3, $registry);
+        $expected = $data;
+        $actual   = $registry->jsonSerialize();
+        $I->assertEquals($expected, $actual);
     }
 }

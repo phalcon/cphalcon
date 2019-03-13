@@ -16,30 +16,30 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class UnderscoreIsset
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class SerializeCest
  */
-class UnderscoreIsset
+class SerializeCest
 {
     /**
-     * Tests Phalcon\Registry :: __isset()
+     * Tests Phalcon\Registry :: serialize()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryUnderscoreIsset(UnitTester $I)
+    public function collectionSerialize(UnitTester $I)
     {
-        $I->wantToTest('Registry - __isset()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
+        $I->wantToTest('Registry - serialize()');
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $actual = isset($registry['one']);
-        $I->assertTrue($actual);
-
-        $actual = isset($registry['unknown']);
-        $I->assertFalse($actual);
+        $expected = serialize($data);
+        $actual   = $registry->serialize();
+        $I->assertEquals($expected, $actual);
     }
 }

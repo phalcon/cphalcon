@@ -12,35 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
 use Phalcon\Session\Bag;
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class UnderscoreGetSetCest
+ * Class JsonSerializeCest
  */
-class UnderscoreGetSetCest
+class JsonSerializeCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: __get()/__set()
+     * Tests Phalcon\Session\Bag :: jsonSerialize()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagUnderscoreGetSet(IntegrationTester $I)
+    public function sessionBagJsonSerialize(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - __get()/__set()");
-        $session = new Bag("SetterTest");
+        $I->wantToTest('Session\Bag - jsonSerialize()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $testValue     = "TestValue";
-        $session->test = $testValue;
-
-        $I->assertEquals($testValue, $session->test);
+        $expected = $data;
+        $actual   = $collection->jsonSerialize();
+        $I->assertEquals($expected, $actual);
     }
 }

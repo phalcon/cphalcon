@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Registry
  */
 class ConstructCest
 {
@@ -30,13 +28,12 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryConstruct(UnitTester $I)
+    public function collectionConstruct(UnitTester $I)
     {
-        $I->wantToTest('Registry - construct');
+        $I->wantToTest('Registry - __construct()');
         $registry = new Registry();
 
-        $class  = Registry::class;
-        $actual = $registry;
-        $I->assertInstanceOf($class, $actual);
+        $class = Registry::class;
+        $I->assertInstanceOf($class, $registry);
     }
 }

@@ -18,27 +18,38 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class ConstructCest
+ * Class ToJsonCest
  */
-class ConstructCest
+class ToJsonCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: __construct()
+     * Tests Phalcon\Session\Bag :: toJson()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagConstruct(IntegrationTester $I)
+    public function sessionBagToJson(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Bag - __construct()');
+        $I->wantToTest('Session\Bag - toJson()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
         $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $class = Bag::class;
-        $I->assertInstanceOf($class, $collection);
+        $expected = json_encode($data);
+        $actual   = $collection->toJson();
+        $I->assertEquals($expected, $actual);
+
+        $expected = json_encode($data, JSON_PRETTY_PRINT);
+        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
+        $I->assertEquals($expected, $actual);
     }
 }

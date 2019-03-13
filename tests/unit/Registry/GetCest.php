@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Registry;
 
-use Phalcon\Collection;
+use Phalcon\Registry;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class GetCest
 {
     /**
-     * Tests Phalcon\Collection :: get()
+     * Tests Phalcon\Registry :: get()
      *
      * @param UnitTester $I
      *
@@ -30,28 +30,25 @@ class GetCest
      */
     public function collectionGet(UnitTester $I)
     {
-        $I->wantToTest('Collection - get()');
-        $data       = [
+        $I->wantToTest('Registry - get()');
+        $data     = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Collection($data);
+        $registry = new Registry($data);
 
         $expected = 'four';
-        $actual   = $collection->get('three');
+        $actual   = $registry->get('three');
         $I->assertEquals($expected, $actual);
 
-        $actual   = $collection->get('THREE');
+        $actual = $registry['three'];
         $I->assertEquals($expected, $actual);
 
-        $actual = $collection['three'];
+        $actual = $registry->three;
         $I->assertEquals($expected, $actual);
 
-        $actual = $collection->three;
-        $I->assertEquals($expected, $actual);
-
-        $actual = $collection->offsetGet('three');
+        $actual = $registry->offsetGet('three');
         $I->assertEquals($expected, $actual);
     }
 }

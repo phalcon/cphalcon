@@ -12,36 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
 use Phalcon\Session\Bag;
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class UnderscoreIssetCest
+ * Class ToArrayCest
  */
-class UnderscoreIssetCest
+class ToArrayCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: __isset()
+     * Tests Phalcon\Session\Bag :: toArray()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagUnderscoreIsset(IntegrationTester $I)
+    public function sessionBagToArray(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - __isset()");
-        $session = new Bag("SetterTest");
+        $I->wantToTest('Session\Bag - toArray()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $testValue = "TestValue";
-        $session->set("test", $testValue);
-
-        $I->assertTrue(isset($session->test));
-        $I->assertFalse(isset($session->unknown));
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }
