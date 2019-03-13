@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Registry;
 
-use Phalcon\Collection;
+use Phalcon\Registry;
 use UnitTester;
 
 /**
@@ -21,7 +21,7 @@ use UnitTester;
 class HasCest
 {
     /**
-     * Tests Phalcon\Collection :: has()
+     * Tests Phalcon\Registry :: has()
      *
      * @param UnitTester $I
      *
@@ -30,36 +30,30 @@ class HasCest
      */
     public function collectionHas(UnitTester $I)
     {
-        $I->wantToTest('Collection - has()');
-        $data       = [
+        $I->wantToTest('Registry - has()');
+        $data     = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Collection($data);
+        $registry = new Registry($data);
 
-        $actual = $collection->has('three');
+        $actual = $registry->has('three');
         $I->assertTrue($actual);
 
-        $actual = $collection->has('THREE');
-        $I->assertTrue($actual);
-
-        $actual = $collection->has('THREE', false);
+        $actual = $registry->has('unknown');
         $I->assertFalse($actual);
 
-        $actual = $collection->has('unknown');
-        $I->assertFalse($actual);
-
-        $actual = isset($collection['three']);
+        $actual = isset($registry['three']);
         $I->assertTrue($actual);
 
-        $actual = isset($collection['unknown']);
+        $actual = isset($registry['unknown']);
         $I->assertFalse($actual);
 
-        $actual = $collection->offsetExists('three');
+        $actual = $registry->offsetExists('three');
         $I->assertTrue($actual);
 
-        $actual = $collection->offsetExists('unknown');
+        $actual = $registry->offsetExists('unknown');
         $I->assertFalse($actual);
     }
 }

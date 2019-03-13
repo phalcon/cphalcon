@@ -18,24 +18,24 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class RemoveCest
+ * Class GetCest
  */
-class RemoveCest
+class GetCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: remove()
+     * Tests Phalcon\Session\Bag :: get()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagRemove(IntegrationTester $I)
+    public function sessionBagGet(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Bag - remove()');
+        $I->wantToTest('Session\Bag - get()');
         $data       = [
             'one'   => 'two',
             'three' => 'four',
@@ -44,34 +44,20 @@ class RemoveCest
         $collection = new Bag('BagTest');
         $collection->init($data);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
+        $expected = 'four';
+        $actual   = $collection->get('three');
         $I->assertEquals($expected, $actual);
 
-        $collection->remove('five');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
+        $actual   = $collection->get('THREE');
         $I->assertEquals($expected, $actual);
 
-        $collection->init($data);
-        unset($collection['five']);
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
+        $actual = $collection['three'];
         $I->assertEquals($expected, $actual);
 
-        $collection->init($data);
-        $collection->offsetUnset('five');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
+        $actual = $collection->three;
+        $I->assertEquals($expected, $actual);
+
+        $actual = $collection->offsetGet('three');
         $I->assertEquals($expected, $actual);
     }
 }

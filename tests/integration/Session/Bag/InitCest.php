@@ -12,36 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
 use Phalcon\Session\Bag;
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class OffsetExistsCest
+ * Class InitCest
  */
-class OffsetExistsCest
+class InitCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: offsetExists()
+     * Tests Phalcon\Session\Bag :: init()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagOffsetExists(IntegrationTester $I)
+    public function sessionBagInit(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - offsetExists()");
-        $session = new Bag("SetTest");
+        $I->wantToTest('Session\Bag - init()');
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
 
-        $testValue = "TestValue";
-        $session->set("test", $testValue);
+        $collection = new Bag('BagTest');
 
-        $I->assertTrue($session->offsetExists("test"));
-        $I->assertFalse($session->offsetExists("unknown"));
+        $expected = 0;
+        $actual   = $collection->count();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -18,27 +18,39 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class ConstructCest
+ * Class ClearCest
  */
-class ConstructCest
+class ClearCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: __construct()
+     * Tests Phalcon\Session\Bag :: clear()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagConstruct(IntegrationTester $I)
+    public function sessionBagClear(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Bag - __construct()');
+        $I->wantToTest('Session\Bag - clear()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
         $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $class = Bag::class;
-        $I->assertInstanceOf($class, $collection);
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->clear();
+        $expected = 0;
+        $actual   = $collection->count();
+        $I->assertEquals($expected, $actual);
     }
 }

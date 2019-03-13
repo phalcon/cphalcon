@@ -10,68 +10,62 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Bag;
+namespace Phalcon\Test\Unit\Registry;
 
-use Phalcon\Session\Bag;
-use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Registry;
+use UnitTester;
 
 /**
  * Class RemoveCest
  */
 class RemoveCest
 {
-    use DiTrait;
-    use SessionBagTrait;
-
     /**
-     * Tests Phalcon\Session\Bag :: remove()
+     * Tests Phalcon\Registry :: remove()
      *
-     * @param IntegrationTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagRemove(IntegrationTester $I)
+    public function collectionRemove(UnitTester $I)
     {
-        $I->wantToTest('Session\Bag - remove()');
-        $data       = [
+        $I->wantToTest('Registry - remove()');
+        $data     = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Bag('BagTest');
-        $collection->init($data);
+        $registry = new Registry($data);
 
         $expected = $data;
-        $actual   = $collection->toArray();
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
 
-        $collection->remove('five');
+        $registry->remove('five');
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-        $actual   = $collection->toArray();
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
 
-        $collection->init($data);
-        unset($collection['five']);
+        $registry->init($data);
+        unset($registry['five']);
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-        $actual   = $collection->toArray();
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
 
-        $collection->init($data);
-        $collection->offsetUnset('five');
+        $registry->init($data);
+        $registry->offsetUnset('five');
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-        $actual   = $collection->toArray();
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

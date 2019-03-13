@@ -24,13 +24,18 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * @var array
 	 */
-	private data = [];
+	protected data = [];
 
-	public function __construct(array! data = null) -> void
+	/**
+	 * @var array
+	 */
+	protected lowerKeys = [];
+
+
+
+	public function __construct(array! data = []) -> void
 	{
-		if typeof data === "array" {
-			this->init(data);
-		}
+		this->init(data);
 	}
 
 	/**
@@ -86,12 +91,16 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Get the element from the collection
 	 */
-	public function get(string! element, var defaultValue = null) -> var | bool
+	public function get(string! element, var defaultValue = null, bool insensitive = true) -> var | bool
 	{
 		var value;
 
-		if likely fetch value, this->data[element] {
-			return value;
+		if likely insensitive {
+			let element = strtolower(element);
+		}
+
+		if likely fetch value, this->lowerKeys[element] {
+			return this->data[value];
 		}
 
 		return defaultValue;
@@ -108,44 +117,25 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Get the element from the collection
 	 */
-	public function has(string! element) -> bool
+	public function has(string! element, bool insensitive = true) -> bool
 	{
-		return isset this->data[element];
-	}
+		if likely insensitive {
+			let element = strtolower(element);
+		}
 
-	/**
-	 * Delete the element from the collection
-	 */
-	public function remove(string! element) -> void
-	{
-		array data;
-
-		let data = this->data;
-
-		unset data[element];
-
-		this->init(data);
-	}
-
-	/**
-	 * Set an element in the collection
-	 */
-	public function set(string! element, var value) -> void
-	{
-		array data;
-
-		let data          = this->data,
-			data[element] = value;
-
-		this->init(data);
+		return isset this->lowerKeys[element];
 	}
 
 	/**
 	 * Initialize internal array
 	 */
-	public function init(array! data = [])
+	public function init(array! data = []) -> void
 	{
-		let this->data = data;
+		var key, value;
+
+		for key, value in data {
+			this->set(key, value);
+		}
 	}
 
 	/**
@@ -206,6 +196,27 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 		this->remove(element);
 	}
 
+	/**
+	 * Delete the element from the collection
+	 */
+	public function remove(string! element) -> void
+	{
+		var data, lowerKeys, key, value;
+
+		let data      = this->data,
+			lowerKeys = this->lowerKeys,
+			key       = strtolower(element);
+
+		if this->has(element) {
+			let value = lowerKeys[key];
+			unset lowerKeys[key];
+			unset data[value];
+		}
+
+		let this->data      = data,
+			this->lowerKeys = lowerKeys;
+	}
+
     /**
      * String representation of object
      *
@@ -213,12 +224,21 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     public function serialize() -> string
     {
-		array data;
-
-		let data = this->data;
-
-		return serialize(data);
+		return serialize(this->data);
     }
+
+	/**
+	 * Set an element in the collection
+	 */
+	public function set(string! element, var value) -> void
+	{
+		var key;
+
+		let key = strtolower(element);
+
+		let this->data[element]  = value,
+			this->lowerKeys[key] = element;
+	}
 
 	/**
 	 * Returns the object in an array format

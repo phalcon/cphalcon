@@ -16,31 +16,32 @@ use Phalcon\Registry;
 use UnitTester;
 
 /**
- * Class NextCest
- *
- * @package Phalcon\Test\Unit\Registry
+ * Class SerializeCest
  */
-class NextCest
+class UnserializeCest
 {
     /**
-     * Tests Phalcon\Registry :: next()
+     * Tests Phalcon\Registry :: serialize()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryNext(UnitTester $I)
+    public function collectionSerialize(UnitTester $I)
     {
-        $I->wantToTest('Registry - next()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
+        $I->wantToTest('Registry - serialize()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $serialized = serialize($data);
+        $registry   = new Registry();
 
-        $registry->next();
-        $expected = 'two';
-        $actual   = $registry->key();
+        $registry->unserialize($serialized);
+        $expected = $data;
+        $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

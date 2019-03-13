@@ -12,36 +12,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
 use Phalcon\Session\Bag;
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class OffsetUnsetCest
+ * Class SerializeCest
  */
-class OffsetUnsetCest
+class UnserializeCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: offsetUnset()
+     * Tests Phalcon\Session\Bag :: serialize()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagOffsetUnset(IntegrationTester $I)
+    public function sessionBagSerialize(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - offsetUnset()");
-        $session = new Bag("UnSetterTest");
+        $I->wantToTest('Session\Bag - serialize()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $serialized = serialize($data);
+        $collection = new Bag('BagTest');
 
-        $testValue = "TestValue";
-        $session->set('test', $testValue);
-        $session->offsetUnset('test');
-
-        $I->assertEquals(null, $session->get("test"));
+        $collection->unserialize($serialized);
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,36 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
 use Phalcon\Session\Bag;
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
 /**
- * Class DestroyCest
+ * Class SerializeCest
  */
-class DestroyCest
+class SerializeCest
 {
     use DiTrait;
     use SessionBagTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: destroy()
+     * Tests Phalcon\Session\Bag :: serialize()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionBagDestroy(IntegrationTester $I)
+    public function sessionBagSerialize(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - destroy()");
-        $session = new Bag("DestroyTest");
-        // test using magic setter
-        $session->test = "test";
-        $session->destroy();
+        $I->wantToTest('Session\Bag - serialize()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $session = new Bag("DestroyTest");
-        $I->assertEquals(null, $session->test);
+        $expected = serialize($data);
+        $actual   = $collection->serialize();
+        $I->assertEquals($expected, $actual);
     }
 }
