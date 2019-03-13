@@ -29,7 +29,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * @var array
 	 */
-	protected headers = [];
+	protected lowerKeys = [];
 
 
 
@@ -95,11 +95,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	{
 		var value;
 
-		if insensitive {
+		if likely insensitive {
 			let element = strtolower(element);
 		}
 
-		if likely fetch value, this->headers[element] {
+		if likely fetch value, this->lowerKeys[element] {
 			return this->data[value];
 		}
 
@@ -119,11 +119,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	 */
 	public function has(string! element, bool insensitive = true) -> bool
 	{
-		if insensitive {
+		if likely insensitive {
 			let element = strtolower(element);
 		}
 
-		return isset this->headers[element];
+		return isset this->lowerKeys[element];
 	}
 
 	/**
@@ -201,20 +201,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	 */
 	public function remove(string! element) -> void
 	{
-		var data, headers, key, value;
+		var data, lowerKeys, key, value;
 
-		let data    = this->data,
-			headers = this->headers,
-			key     = strtolower(element);
+		let data      = this->data,
+			lowerKeys = this->lowerKeys,
+			key       = strtolower(element);
 
 		if this->has(element) {
-			let value = headers[key];
-			unset headers[key];
+			let value = lowerKeys[key];
+			unset lowerKeys[key];
 			unset data[value];
 		}
 
-		let this->data    = data,
-			this->headers = headers;
+		let this->data      = data,
+			this->lowerKeys = lowerKeys;
 	}
 
     /**
@@ -236,8 +236,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
 		let key = strtolower(element);
 
-		let this->data[element] = value,
-			this->headers[key]  = element;
+		let this->data[element]  = value,
+			this->lowerKeys[key] = element;
 	}
 
 	/**
