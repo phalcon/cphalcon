@@ -50,6 +50,14 @@ class RemoveCest
         $actual   = $registry->toArray();
         $I->assertEquals($expected, $actual);
 
+        $registry->remove('FIVE');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $registry->toArray();
+        $I->assertEquals($expected, $actual);
+
         $registry->init($data);
         unset($registry['five']);
         $expected = [
