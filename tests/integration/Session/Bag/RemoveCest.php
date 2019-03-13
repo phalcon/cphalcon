@@ -56,6 +56,14 @@ class RemoveCest
         $actual   = $collection->toArray();
         $I->assertEquals($expected, $actual);
 
+        $collection->remove('FIVE');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
         $collection->init($data);
         unset($collection['five']);
         $expected = [
