@@ -57,6 +57,16 @@ abstract class Pdo extends Adapter
 	abstract protected function getDsnDefaults() -> array;
 
 	/**
+	 * Returns PDO options defaults as a key-value map.
+	 */
+	abstract protected function getOptionsDefaults() -> array;
+
+	/**
+	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
+	 */
+	abstract protected function getPostOptionsDefaults() -> array;
+
+	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo
 	 */
 	public function __construct(array! descriptor)
@@ -250,8 +260,9 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(array descriptor = null) -> bool
 	{
-		var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap,
-			options, key, value;
+		var username, password, key, value, pdo,
+			options, optionsDefaults, postOptions, postOptionsDefaults,
+			dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap;
 
 		if empty descriptor {
 			let descriptor = (array) this->_descriptor;
@@ -267,20 +278,36 @@ abstract class Pdo extends Adapter
 			unset descriptor["password"];
 		}
 
-		// Remove the dialect class so that it does become a dsn setting.
+		// Remove the dialect class so that it doesn't become a dsn setting.
 		if isset descriptor["dialectClass"] {
 			unset descriptor["dialectClass"];
 		}
 
-		// Check if the developer has defined custom options or create one from scratch
+		// Get PDO options adapter specific defaults.
+		let optionsDefaults = this->getOptionsDefaults();
+
+		// Check if the developer has defined custom options
 		if fetch options, descriptor["options"] {
 			unset descriptor["options"];
+
+			// Merge the options defaults with the user defined values.
+			let options = array_merge(optionsDefaults, options);
 		} else {
-			let options = [];
+			let options = optionsDefaults;
 		}
 
-		// Set PDO to throw exceptions when an error is encountered.
-		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
+		// Get PDO post options adapter specific defaults.
+		let postOptionsDefaults = this->getPostOptionsDefaults();
+
+		// Check if the developer has defined custom post options
+		if fetch postOptions, descriptor["postOptions"] {
+			unset descriptor["postOptions"];
+
+			// Merge the post options defaults with the user defined values.
+			let postOptions = array_merge(postOptionsDefaults, postOptions);
+		} else {
+			let postOptions = postOptionsDefaults;
+		}
 
 		let dsnParts = [];
 
@@ -305,6 +332,14 @@ abstract class Pdo extends Adapter
 
 		// Create the connection using PDO
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+
+		// Apply the PDO post options.
+		if !empty postOptions {
+			let pdo = this->_pdo;
+			for key, value in postOptions {
+				pdo->setAttribute(key, value);
+			}
+		}
 
 		return true;
 	}

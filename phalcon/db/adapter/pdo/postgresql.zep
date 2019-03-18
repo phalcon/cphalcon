@@ -54,6 +54,25 @@ class Postgresql extends PdoAdapter
 	}
 
 	/**
+	 * Returns PDO options defaults as a key-value map.
+	 */
+	protected function getOptionsDefaults() -> array
+	{
+		// Set PDO to throw exceptions when an error is encountered.
+		return [
+			\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
+		];
+	}
+
+	/**
+	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
+	 */
+	protected function getPostOptionsDefaults() -> array
+	{
+		return [];
+	}
+
+	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
 	 */
 	public function __construct(array! descriptor)

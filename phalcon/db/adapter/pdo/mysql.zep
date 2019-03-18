@@ -51,10 +51,29 @@ class Mysql extends PdoAdapter
 	 */
 	protected function getDsnDefaults() -> array
 	{
-		// In modern MySQL the "utf8mb4" charset is more ideal than just "uf8".
+		// In modern MySQL the "utf8mb4" charset is more ideal than just "utf8".
 		return [
 			"charset" : "utf8mb4"
 		];
+	}
+
+	/**
+	 * Returns PDO options defaults as a key-value map.
+	 */
+	protected function getOptionsDefaults() -> array
+	{
+		// Set PDO to throw exceptions when an error is encountered.
+		return [
+			\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
+		];
+	}
+
+	/**
+	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
+	 */
+	protected function getPostOptionsDefaults() -> array
+	{
+		return [];
 	}
 
 	/**
