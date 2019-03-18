@@ -8,7 +8,9 @@
  * file that was distributed with this source code.
  */
 
- namespace Phalcon;
+namespace Phalcon;
+
+use Phalcon\Collection;
 
 /**
  * Phalcon\Registry
@@ -60,121 +62,203 @@
  * are implemented using object handlers or similar techniques: this allows
  * to bypass relatively slow method calls.
  */
-final class Registry implements \ArrayAccess, \Countable, \Iterator
+final class Registry extends Collection
 {
-	protected _data;
-
 	/**
-	 * Registry constructor
+	 * Constructor 
 	 */
-	public final function __construct()
+	public final function __construct(array! data = null) -> void
 	{
-		let this->_data = [];
+		parent::__construct(data);
 	}
 
 	/**
-	 * Checks if the element is present in the registry
+	 * Magic getter to get an element from the collection
 	 */
-	public final function offsetExists(var offset) -> bool
+	public final function __get(string! element) -> var
 	{
-		return isset this->_data[offset];
+		return parent::get(element);
 	}
 
 	/**
-	 * Returns an index in the registry
+	 * Magic isset to check whether an element exists or not
 	 */
-	public final function offsetGet(var offset) -> var
+	public final function __isset(string! element) -> bool
 	{
-		return this->_data[offset];
+		return parent::has(element);
 	}
 
 	/**
-	 * Sets an element in the registry
+	 * Magic setter to assign values to an element
 	 */
-	public final function offsetSet(var offset, var value) -> void
+	public final function __set(string! element, var value) -> void
 	{
-		let this->_data[offset] = value;
+		parent::set(element, value);
 	}
 
 	/**
-	 * Unsets an element in the registry
+	 * Magic unset to remove an element from the collection
 	 */
-	public final function offsetUnset(var offset) -> void
+	public final function __unset(string! element) -> void
 	{
-		unset this->_data[offset];
+		parent::remove(element);
 	}
 
 	/**
-	 * Checks how many elements are in the register
+	 * Clears the internal collection
+	 */
+	public final function clear() -> void
+	{
+		parent::clear();
+	}
+
+	/**
+	 * Count elements of an object
+	 *
+	 * @link https://php.net/manual/en/countable.count.php
 	 */
 	public final function count() -> int
 	{
-		return count(this->_data);
+		return parent::count();
 	}
 
 	/**
-	 * Moves cursor to next row in the registry
+	 * Get the element from the collection
 	 */
-	public final function next() -> void
+	public final function get(string! element, var defaultValue = null, bool insensitive = true) -> var | bool
 	{
-		next(this->_data);
+		return parent::get(element, defaultValue, insensitive);
 	}
 
 	/**
-	 * Gets pointer number of active row in the registry
+	 * Returns the iterator of the class
 	 */
-	public final function key() -> int
+	public final function getIterator() -> <Traversable>
 	{
-		return key(this->_data);
+		return parent::getIterator();
 	}
 
 	/**
-	 * Rewinds the registry cursor to its beginning
+	 * Get the element from the collection
 	 */
-	public final function rewind() -> void
+	public final function has(string! element, bool insensitive = true) -> bool
 	{
-		reset(this->_data);
+		return parent::has(element, insensitive);
 	}
 
 	/**
-	 * Checks if the iterator is valid
+	 * Initialize internal array
 	 */
-	public function valid() -> bool
+	public final function init(array! data = []) -> void
 	{
-		return key(this->_data) !== null;
+		parent::init(data);
 	}
 
 	/**
-	 * Obtains the current value in the internal iterator
+	 * Specify data which should be serialized to JSON
+	 *
+	 * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
 	 */
-	public function current()
+	public final function jsonSerialize () -> array
 	{
-		return current(this->_data);
+		return parent::jsonSerialize();
 	}
 
 	/**
-	 * Sets an element in the registry
+	 * Whether a offset exists
+	 *
+	 * @link https://php.net/manual/en/arrayaccess.offsetexists.php
 	 */
-	public final function __set(string! key, var value) -> void
+	public final function offsetExists(var element) -> bool
 	{
-		this->offsetSet(key, value);
+		return parent::has(element);
 	}
 
 	/**
-	 * Returns an index in the registry
+	 * Offset to retrieve
+	 *
+	 * @link https://php.net/manual/en/arrayaccess.offsetget.php
 	 */
-	public final function __get(string! key) -> var
+	public final function offsetGet(var element) -> var
 	{
-		return this->offsetGet(key);
+		return parent::get(element);
 	}
 
-	public final function __isset(string! key) -> bool
+	/**
+	 * Offset to set
+	 *
+	 * @link https://php.net/manual/en/arrayaccess.offsetset.php
+	 */
+	public final function offsetSet(var element, var value) -> void
 	{
-		return this->offsetExists(key);
+		parent::set(element, value);
 	}
 
-	public final function __unset(string! key) -> void
+	/**
+	 * Offset to unset
+	 *
+	 * @link https://php.net/manual/en/arrayaccess.offsetunset.php
+	 */
+	public final function offsetUnset(var element) -> void
 	{
-		this->offsetUnset(key);
+		parent::remove(element);
 	}
+
+	/**
+	 * Delete the element from the collection
+	 */
+	public final function remove(string! element, bool insensitive = true) -> void
+	{
+		parent::remove(element, insensitive);
+	}
+
+    /**
+     * String representation of object
+     *
+     * @link https://php.net/manual/en/serializable.serialize.php
+     */
+    public final function serialize() -> string
+    {
+		return parent::serialize();
+    }
+
+	/**
+	 * Set an element in the collection
+	 */
+	public final function set(string! element, var value) -> void
+	{
+		parent::set(element, value);
+	}
+
+	/**
+	 * Returns the object in an array format
+	 */
+	public final function toArray() -> array
+	{
+		return parent::toArray();
+	}
+
+	/**
+	 * Returns the object in a JSON format
+	 *
+	 * The default string uses the following options for json_encode
+	 *
+	 * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
+	 *
+	 * @see https://www.ietf.org/rfc/rfc4627.txt
+	 */
+	public final function toJson(int options = 74) -> string
+	{
+		return parent::toJson(options);
+	}
+
+    /**
+     * Constructs the object
+     *
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     */
+    public final function unserialize(var serialized) -> void
+    {
+		parent::unserialize(serialized);
+    }
 }

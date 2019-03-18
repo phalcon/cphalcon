@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 	}
 	object_init_ex(return_value, zephir_get_internal_ce(SL("arrayiterator")));
 	zephir_read_property(&_1, this_ptr, SL("_data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 419, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 417, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Session_Bag, set) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_array(this_ptr, SL("_data"), &property, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_data"), &property, value);
 	zephir_read_property(&_1, this_ptr, SL("_session"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_2, this_ptr, SL("_name"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_3, this_ptr, SL("_data"), PH_NOISY_CC | PH_READONLY);

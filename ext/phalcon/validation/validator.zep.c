@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("_options"), &key, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_options"), &key, value);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -17,6 +17,7 @@ use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
 use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Assets\CustomTag;
 use UnitTester;
 
 /**
@@ -129,6 +130,34 @@ class OutputCssCest
 
         $I->safeDeleteFile(cacheFolder($fileName));
 
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Manager :: outputCss() - custom tag component
+     *
+     * @param UnitTester $I
+     */
+    public function assetsManagerOutputCssCustomTag(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Manager - outputCss() - custom tag component');
+
+        $di = $this->getDi();
+        $di->setShared('tag', CustomTag::class);
+
+        $assets = new Manager();
+        $assets->setDI($di);
+
+        $assets->addCss('css/style1.css');
+        $assets->addCss('/css/style2.css');
+        $assets->addAsset(new Css('/css/style.css'));
+
+        $expected = '<link href="css/style1.css">' . PHP_EOL
+            . '<link href="/css/style2.css">' . PHP_EOL
+            . '<link href="/css/style.css">' . PHP_EOL;
+
+        $assets->useImplicitOutput(false);
+        $actual = $assets->outputCss();
         $I->assertEquals($expected, $actual);
     }
 }

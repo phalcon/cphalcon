@@ -44,6 +44,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/dialect.zep.c
 	phalcon/diinterface.zep.c
 	phalcon/flashinterface.zep.c
+	phalcon/http/message/stream.zep.c
 	phalcon/image/adapterinterface.zep.c
 	phalcon/logger/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
@@ -263,6 +264,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/manager.zep.c
 	phalcon/helper/arr.zep.c
 	phalcon/helper/exception.zep.c
+	phalcon/helper/number.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c
@@ -276,6 +278,21 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/taglocatorfactory.zep.c
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
+	phalcon/http/message/exception.zep.c
+	phalcon/http/message/request.zep.c
+	phalcon/http/message/requestfactory.zep.c
+	phalcon/http/message/response.zep.c
+	phalcon/http/message/responsefactory.zep.c
+	phalcon/http/message/serverrequest.zep.c
+	phalcon/http/message/serverrequestfactory.zep.c
+	phalcon/http/message/stream/input.zep.c
+	phalcon/http/message/stream/memory.zep.c
+	phalcon/http/message/stream/temp.zep.c
+	phalcon/http/message/streamfactory.zep.c
+	phalcon/http/message/uploadedfile.zep.c
+	phalcon/http/message/uploadedfilefactory.zep.c
+	phalcon/http/message/uri.zep.c
+	phalcon/http/message/urifactory.zep.c
 	phalcon/http/request.zep.c
 	phalcon/http/request/exception.zep.c
 	phalcon/http/request/file.zep.c
@@ -283,6 +300,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/cookies.zep.c
 	phalcon/http/response/exception.zep.c
 	phalcon/http/response/headers.zep.c
+	phalcon/http/server/abstractmiddleware.zep.c
+	phalcon/http/server/abstractrequesthandler.zep.c
 	phalcon/image.zep.c
 	phalcon/image/adapter/gd.zep.c
 	phalcon/image/adapter/imagick.zep.c
@@ -444,7 +463,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/24__closure.zep.c
 	phalcon/25__closure.zep.c
 	phalcon/26__closure.zep.c
-	phalcon/27__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/27__closure.zep.c
+	phalcon/28__closure.zep.c
+	phalcon/29__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

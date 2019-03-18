@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParam) {
 
 
 
-	zephir_update_property_array(this_ptr, SL("_params"), param, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_params"), param, value);
 
 }
 
@@ -536,11 +536,11 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 		zephir_read_property(&_3$$3, this_ptr, SL("_actionName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "tocamelcase", NULL, 0, &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 55, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 53, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("_actionName"), PH_NOISY_CC);
-		zephir_update_property_array(this_ptr, SL("_activeMethodMap"), &_4$$3, &activeMethodName TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_activeMethodMap"), &_4$$3, &activeMethodName);
 	}
 	zephir_read_property(&_5, this_ptr, SL("_actionSuffix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &activeMethodName, &_5);
@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	zval _42$$10;
 	zend_bool hasService = 0, hasEventsManager = 0, _5$$5, _16$$13, _21$$15, _29$$18, _34$$20, _40$$23, _50$$25, _54$$31, _60$$33, _64$$36, _70$$38, _76$$43, _81$$46, _86$$48, _102$$59, _107$$62, _112$$64, _115$$67, _120$$69, _127$$73;
 	zephir_fcall_cache_entry *_11 = NULL, *_12 = NULL, *_15 = NULL, *_20 = NULL, *_23 = NULL, *_25 = NULL, *_28 = NULL, *_30 = NULL, *_33 = NULL, *_35 = NULL, *_39 = NULL, *_41 = NULL, *_45 = NULL, *_49 = NULL, *_53 = NULL, *_56 = NULL, *_59 = NULL, *_62 = NULL, *_66 = NULL, *_69 = NULL, *_72 = NULL, *_75 = NULL, *_80 = NULL, *_85 = NULL, *_92 = NULL, *_97 = NULL, *_101 = NULL, *_106 = NULL, *_111 = NULL, *_119 = NULL, *_123 = NULL, *_126 = NULL;
-	zval __$true, __$false, value, handler, dependencyInjector, namespaceName, handlerName, actionName, params, eventsManager, actionSuffix, handlerClass, status, actionMethod, modelBinder, bindCacheKey, wasFresh, handlerHash, e, _0, _1$$3, _2$$3, _3$$5, _4$$5, _6$$5, _7$$4, _8$$7, _9$$11, _10$$11, _13$$13, _14$$13, _17$$13, _18$$12, _19$$15, _22$$15, _24$$10, _36$$10, _88$$10, _99$$10, _26$$18, _27$$18, _31$$20, _32$$20, _37$$23, _38$$23, _43$$26, _44$$26, _46$$26, _47$$25, _48$$25, _51$$31, _52$$31, _55$$31, _57$$30, _58$$33, _61$$33, _63$$36, _65$$36, _67$$35, _68$$38, _71$$38, _73$$41, _74$$43, _77$$43, _78$$46, _79$$46, _82$$46, _83$$45, _84$$48, _87$$48, _89$$50, _90$$51, _91$$51, _93$$51, _94$$54, _95$$54, _96$$57, _98$$57, _100$$59, _103$$59, _104$$62, _105$$62, _108$$62, _109$$61, _110$$64, _113$$64, _114$$67, _116$$67, _117$$66, _118$$69, _121$$69, _122$$72, _124$$71, _125$$73, _128$$73, _129$$76, _130$$75, _131$$77;
+	zval __$true, __$false, value, handler, dependencyInjector, namespaceName, handlerName, actionName, params, eventsManager, actionSuffix, handlerClass, status, actionMethod, modelBinder, bindCacheKey, isNewHandler, handlerHash, e, _0, _1$$3, _2$$3, _3$$5, _4$$5, _6$$5, _7$$4, _8$$7, _9$$11, _10$$11, _13$$13, _14$$13, _17$$13, _18$$12, _19$$15, _22$$15, _24$$10, _36$$10, _88$$10, _99$$10, _26$$18, _27$$18, _31$$20, _32$$20, _37$$23, _38$$23, _43$$26, _44$$26, _46$$26, _47$$25, _48$$25, _51$$31, _52$$31, _55$$31, _57$$30, _58$$33, _61$$33, _63$$36, _65$$36, _67$$35, _68$$38, _71$$38, _73$$41, _74$$43, _77$$43, _78$$46, _79$$46, _82$$46, _83$$45, _84$$48, _87$$48, _89$$50, _90$$51, _91$$51, _93$$51, _94$$54, _95$$54, _96$$57, _98$$57, _100$$59, _103$$59, _104$$62, _105$$62, _108$$62, _109$$61, _110$$64, _113$$64, _114$$67, _116$$67, _117$$66, _118$$69, _121$$69, _122$$72, _124$$71, _125$$73, _128$$73, _129$$76, _130$$75, _131$$77;
 	zend_long ZEPHIR_LAST_CALL_STATUS, numberDispatches = 0;
 	zval *this_ptr = getThis();
 
@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	ZVAL_UNDEF(&actionMethod);
 	ZVAL_UNDEF(&modelBinder);
 	ZVAL_UNDEF(&bindCacheKey);
-	ZVAL_UNDEF(&wasFresh);
+	ZVAL_UNDEF(&isNewHandler);
 	ZVAL_UNDEF(&handlerHash);
 	ZVAL_UNDEF(&e);
 	ZVAL_UNDEF(&_0);
@@ -990,18 +990,18 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_35, 58, &handler);
+		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_35, 56, &handler);
 		zephir_check_call_status();
 		zephir_read_property(&_36$$10, this_ptr, SL("_handlerHashes"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset(&_36$$10, &handlerHash)) {
-			ZEPHIR_INIT_NVAR(&wasFresh);
-			ZVAL_BOOL(&wasFresh, 0);
+			ZEPHIR_INIT_NVAR(&isNewHandler);
+			ZVAL_BOOL(&isNewHandler, 0);
 		} else {
-			ZEPHIR_INIT_NVAR(&wasFresh);
-			ZVAL_BOOL(&wasFresh, 1);
+			ZEPHIR_INIT_NVAR(&isNewHandler);
+			ZVAL_BOOL(&isNewHandler, 1);
 		}
-		if (zephir_is_true(&wasFresh)) {
-			zephir_update_property_array(this_ptr, SL("_handlerHashes"), &handlerHash, &__$true TSRMLS_CC);
+		if (zephir_is_true(&isNewHandler)) {
+			zephir_update_property_array(this_ptr, SL("_handlerHashes"), &handlerHash, &__$true);
 		}
 		zephir_update_property_zval(this_ptr, SL("_activeHandler"), &handler);
 		ZEPHIR_OBS_NVAR(&namespaceName);
@@ -1153,7 +1153,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				}
 			}
 		}
-		if (ZEPHIR_IS_TRUE_IDENTICAL(&wasFresh)) {
+		if (ZEPHIR_IS_TRUE_IDENTICAL(&isNewHandler)) {
 			if ((zephir_method_exists_ex(&handler, SL("initialize") TSRMLS_CC) == SUCCESS)) {
 
 				/* try_start_5: */
@@ -1734,15 +1734,15 @@ PHP_METHOD(Phalcon_Dispatcher, toCamelCase) {
 	if (!(zephir_array_isset_fetch(&camelCaseInput, &_0, &input, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "/[_-]+/");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 59, &_1$$3, &input);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 57, &_1$$3, &input);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "ucfirst");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 60, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 58, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&camelCaseInput);
 		zephir_fast_join_str(&camelCaseInput, SL(""), &_3$$3 TSRMLS_CC);
-		zephir_update_property_array(this_ptr, SL("_camelCaseMap"), &input, &camelCaseInput TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_camelCaseMap"), &input, &camelCaseInput);
 	}
 	RETURN_CCTOR(&camelCaseInput);
 

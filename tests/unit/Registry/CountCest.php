@@ -17,8 +17,6 @@ use UnitTester;
 
 /**
  * Class CountCest
- *
- * @package Phalcon\Test\Unit\Registry
  */
 class CountCest
 {
@@ -30,17 +28,19 @@ class CountCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function registryCount(UnitTester $I)
+    public function collectionCount(UnitTester $I)
     {
         $I->wantToTest('Registry - count()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
+        $data     = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $registry = new Registry($data);
 
-        $expected = 3;
-        $actual   = $registry->count();
-        $I->assertEquals($expected, $actual);
-        $I->assertCount($expected, $registry);
+        $I->assertCount(3, $registry->toArray());
+
+        $actual = $registry->count();
+        $I->assertEquals(3, $actual);
     }
 }
