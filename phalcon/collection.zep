@@ -91,7 +91,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Get the element from the collection
 	 */
-	public function get(string! element, var defaultValue = null, bool insensitive = true) -> var | bool
+	public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
 	{
 		var value;
 
