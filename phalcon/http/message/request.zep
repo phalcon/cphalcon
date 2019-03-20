@@ -15,7 +15,6 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Collection;
-use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Stream\Input;
 use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\RequestInterface;
@@ -117,6 +116,8 @@ class Request implements RequestInterface
 	 */
 	public function getHeader(var name) -> array
 	{
+		let name = (string) name;
+
 		return this->headers->get(name, []);
 	}
 
@@ -494,14 +495,14 @@ class Request implements RequestInterface
 	 */
 	internal function cloneInstance(var element, string property) -> <Request>
 	{
-    	var newInstance;
+		var newInstance;
 
-        let newInstance = clone this;
+		let newInstance = clone this;
 		if element !== this->{property} {
-            let newInstance->{property} = element;
-        }
+			let newInstance->{property} = element;
+		}
 
-        return newInstance;
+		return newInstance;
 	}
 
 	/**
@@ -623,7 +624,7 @@ class Request implements RequestInterface
 			"3.0" : 1
 		];
 
-    	if (empty(protocol)) || typeof protocol !== "string" {
+		if (empty(protocol)) || typeof protocol !== "string" {
 			throw new \InvalidArgumentException("Invalid protocol value");
 		}
 

@@ -14,7 +14,7 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Arr;
+use Phalcon\Collection;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -44,9 +44,9 @@ class Response implements ResponseInterface
 	private body { get };
 
 	/**
-	 * @var array
+	 * @var <Collection>
 	 */
-	private headers = [];
+	private headers;
 
 	/**
 	 * Retrieves the HTTP protocol version as a string.
@@ -88,11 +88,10 @@ class Response implements ResponseInterface
 	 */
 	public function __construct(var body = "php://memory", int code = 200, array headers = [])
 	{
-		this
-			->processHeaders(headers)
-			->processCode(code);
+		this->processCode(code);
 
-		let this->body = this->processBody(body, "w+b");
+		let this->headers = this->processHeaders(headers),
+			this->body    = this->processBody(body, "w+b");
 	}
 
 	/**
@@ -106,12 +105,9 @@ class Response implements ResponseInterface
 	 */
 	public function getHeader(var name) -> array
 	{
-		var element, key;
+		let name = (string) name;
 
-		let key     = strtolower(name),
-			element = Arr::get(this->headers, key, []);
-
-		return Arr::get(element, "value", []);
+		return this->headers->get(name, []);
 	}
 
 	/**
@@ -164,16 +160,7 @@ class Response implements ResponseInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var element, headers;
-		array headerData;
-
-		let headers    = this->headers,
-			headerData = [];
-		for element in headers {
-			let headerData[element["name"]] = element["value"];
-		}
-
-		return headerData;
+		return this->headers->toArray();
 	}
 
 	/**
@@ -181,7 +168,7 @@ class Response implements ResponseInterface
 	 */
 	public function hasHeader(var name) -> bool
 	{
-		return isset this->headers[strtolower(name)];
+		return this->headers->has(name);
 	}
 
 	/**
@@ -197,21 +184,16 @@ class Response implements ResponseInterface
 	 */
 	public function withAddedHeader(var name, var value) -> <Response>
 	{
-		var existing, headers, key;
+		var existing, headers;
 
 		this->checkHeaderName(name);
 
-		let key      = strtolower(name),
-			headers  = this->headers,
-			existing = Arr::get(headers, key, []),
-			existing = Arr::get(existing, "value", []),
+		let headers  = clone this->headers,
+			existing = headers->get(name, []),
 			value    = this->getHeaderValue(value),
-			existing = array_merge(existing, value);
+			value    = array_merge(existing, value);
 
-		let headers[key] = [
-			"name"  : name,
-			"value" : existing
-		];
+		headers->set(name, value);
 
 		return this->cloneInstance(headers, "headers");
 	}
@@ -250,18 +232,14 @@ class Response implements ResponseInterface
 	 */
 	public function withHeader(var name, var value) -> <Response>
 	{
-		var headers, key;
+		var headers;
 
 		this->checkHeaderName(name);
 
-		let key     = strtolower(name),
-			headers = this->headers,
+		let headers = clone this->headers,
 			value   = this->getHeaderValue(value);
 
-		let headers[key] = [
-			"name"  : name,
-			"value" : value
-		];
+		headers->set(name, value);
 
 		return this->cloneInstance(headers, "headers");
 	}
@@ -278,7 +256,7 @@ class Response implements ResponseInterface
 	 */
 	public function withProtocolVersion(var version) -> <Response>
 	{
-		this->checkProtocol(version);
+		this->processProtocol(version);
 
 		return this->cloneInstance(version, "protocolVersion");
 	}
@@ -301,10 +279,6 @@ class Response implements ResponseInterface
 	{
 		var newInstance;
 
-		if code === this->statusCode {
-			return this;
-		}
-
 		/**
 		 * Immutable - need to send a new object back
 		 */
@@ -326,12 +300,11 @@ class Response implements ResponseInterface
 	 */
 	public function withoutHeader(var name) -> <Response>
 	{
-		var headers, key;
+		var headers;
 
-		let key         = strtolower(name),
-			headers     = this->headers;
+		let headers = clone this->headers;
 
-		unset headers[key];
+		headers->remove(name);
 
 		return this->cloneInstance(headers, "headers");
 	}
@@ -341,7 +314,7 @@ class Response implements ResponseInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7230#section-3.2
 	 */
-	private function checkHeaderName(var name) -> void
+	internal function checkHeaderName(var name) -> void
 	{
 		if typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name) {
 			throw new \InvalidArgumentException("Invalid header name " . name);
@@ -391,7 +364,7 @@ class Response implements ResponseInterface
 	 * except where necessary to quote parentheses ["(" and ")"] and
 	 * backslash octets occurring within that comment.
 	 */
-	private function checkHeaderValue(var value) -> void
+	internal function checkHeaderValue(var value) -> void
 	{
 		if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
 			throw new \InvalidArgumentException("Invalid header value");
@@ -406,34 +379,9 @@ class Response implements ResponseInterface
 	}
 
 	/**
-	 * Checks the protocol
-	 */
-	private function checkProtocol(var protocol = "") -> <Response>
-	{
-		array protocols;
-
-		let protocols = [
-			"1.0" : 1,
-			"1.1" : 1,
-			"2.0" : 1,
-			"3.0" : 1
-		];
-
-    	if (empty(protocol)) || typeof protocol !== "string" {
-			throw new \InvalidArgumentException("Invalid protocol value");
-		}
-
-		if !isset protocols[protocol] {
-			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
-		}
-
-		return this;
-	}
-
-	/**
 	 * Returns a new instance having set the parameter
 	 */
-	private function cloneInstance(var element, string property) -> <Response>
+	internal function cloneInstance(var element, string property) -> <Response>
 	{
     	var newInstance;
 
@@ -448,7 +396,7 @@ class Response implements ResponseInterface
 	/**
 	 * Returns the header values checked for validity
 	 */
-	private function getHeaderValue(var values) -> array
+	internal function getHeaderValue(var values) -> array
 	{
 		var value;
 		array valueData;
@@ -475,7 +423,7 @@ class Response implements ResponseInterface
 	/**
 	 * Returns the list of status codes available
 	 */
-	private function getPhrases() -> array
+	internal function getPhrases() -> array
 	{
 		return [
 			100 : "Continue",                                         // Information - RFC 7231, 6.2.1
@@ -575,7 +523,7 @@ class Response implements ResponseInterface
 	/**
 	 * Set a valid stream
 	 */
-	private function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
+	internal function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
 	{
 		if body instanceof StreamInterface {
 			return body;
@@ -621,27 +569,46 @@ class Response implements ResponseInterface
 	/**
 	 * Sets the headers
 	 */
-	private function processHeaders(array headers) -> <Response>
+	internal function processHeaders(array headers) -> <Collection>
 	{
-		var key, name, value;
-		array headerData;
+		var collection, name, value;
 
-		let headerData = [];
+		let collection = new Collection();
 		for name, value in headers {
 
 			this->checkHeaderName(name);
 
-			let key   = strtolower(name),
+			let name  = (string) name,
 				value = this->getHeaderValue(value);
 
-			let headerData[key] = [
-				"name"  : name,
-				"value" : value
-			];
+			collection->set(name, value);
 		}
 
-		let this->headers = headerData;
+		return collection;
+	}
 
-		return this;
+	/**
+	 * Checks the protocol
+	 */
+	internal function processProtocol(var protocol = "") -> string
+	{
+		array protocols;
+
+		let protocols = [
+			"1.0" : 1,
+			"1.1" : 1,
+			"2.0" : 1,
+			"3.0" : 1
+		];
+
+		if (empty(protocol)) || typeof protocol !== "string" {
+			throw new \InvalidArgumentException("Invalid protocol value");
+		}
+
+		if !isset protocols[protocol] {
+			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+		}
+
+		return protocol;
 	}
 }
