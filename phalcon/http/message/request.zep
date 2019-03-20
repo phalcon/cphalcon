@@ -93,7 +93,7 @@ class Request implements RequestInterface
 	/**
 	 * Constructor
 	 */
-	public function __construct(string method = "GET", var uri = null, var body = "php://temp", array headers = [])
+	public function __construct(string method = "GET", var uri = null, var body = "php://memory", array headers = [])
 	{
 		if "php://input" === body {
 			let body = new Input();
