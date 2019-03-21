@@ -21,8 +21,8 @@ use Phalcon\UrlInterface;
 /**
  * Phalcon\Html\Tag
  *
- * Phalcon\Tag is designed to simplify building of HTML tags. It provides a set
- * of helpers to dynamically generate HTML.
+ * Phalcon\Html\Tag is designed to simplify building of HTML tags. It provides a
+ * set of helpers to dynamically generate HTML.
  */
 class Tag implements InjectionAwareInterface
 {
@@ -104,7 +104,7 @@ class Tag implements InjectionAwareInterface
 	 *
 	 * $tag = new Tag();
 	 *
-	 * echo $tag->button('Click Me')
+	 * echo $tag->button('Click Me');
 	 * </code>
 	 *
 	 * Volt syntax:
@@ -138,7 +138,6 @@ class Tag implements InjectionAwareInterface
 	 * `onlyStart` Only process the start of th element
 	 * `selfClose` It is a self close element
 	 * `useEol`    Append PHP_EOL at the end
-	 *
 	 */
 	public function element(string! tag, array parameters = []) -> string
 	{
@@ -202,7 +201,6 @@ class Tag implements InjectionAwareInterface
 	 *     ]
 	 * ); // '</aside>' . PHP_EOL
 	 * </code>
-	 *
 	 */
 	public function elementClose(string! tag, array parameters = []) -> string
 	{
@@ -604,21 +602,19 @@ class Tag implements InjectionAwareInterface
 	/**
 	 * Builds a HTML input[type="check"] tag
 	 *
-	 *<code>
+	 * <code>
 	 * echo $tag->inputCheckbox(
 	 *     [
 	 *         'name'  => 'terms,
 	 *         'value' => 'Y',
 	 *     ]
 	 * );
-	 *</code>
+	 * </code>
 	 *
 	 * Volt syntax:
-	 *<code>
+	 * <code>
 	 * {{ input_checkbox(['name': 'terms, 'value': 'Y']) }}
-	 *</code>
-	 *
-	 * @param array parameters
+	 * </code>
 	 */
 	public function inputCheckbox(string! name, array parameters = []) -> string
 	{
@@ -962,10 +958,14 @@ class Tag implements InjectionAwareInterface
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
+	 *
 	 * echo $tag->javascript(
 	 *     'http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js',
-	 * 	   ['local' => false]
+	 * 	   [
+	 *         'local' => false,
+	 *     ]
 	 * );
+	 *
 	 * echo $tag->javascript('javascript/jquery.js');
 	 * </code>
 	 *
@@ -1034,16 +1034,15 @@ class Tag implements InjectionAwareInterface
 	 *     ]
 	 * );
 	 *
-	 * echo $tag->linkTo(
+	 * echo $tag->link(
 	 *     'https://phalconphp.com/',
 	 *     'Phalcon!',
 	 *     [
 	 *         'local'  => false,
-	 *         'target' => '_new'
+	 *         'target' => '_new',
 	 *     ]
 	 * );
-	 *
-	 *</code>
+	 * </code>
 	 */
 	public function link(string url, string text = "", array parameters = []) -> string
 	{
@@ -1131,7 +1130,7 @@ class Tag implements InjectionAwareInterface
 	 * Builds a select element. It accepts an array or a resultset from
 	 * a Phalcon\Mvc\Model
 	 *
-	 *<code>
+	 * <code>
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
@@ -1171,10 +1170,8 @@ class Tag implements InjectionAwareInterface
 	 *         ]
 	 *     )
 	 * );
+	 * </code>
 	 *
-	 *</code>
-	 *
-	 * @param array parameters
 	 * @param array data
 	 */
 	public function select(string! name, array parameters = [], data = null) -> string
@@ -1323,8 +1320,6 @@ class Tag implements InjectionAwareInterface
 	 * Set the document type of content
 	 *
 	 * @param int doctype A valid doctype for the content
-	 *
-	 * @return <Tag>
 	 */
 	public function setDocType(int doctype) -> <Tag>
 	{
@@ -1383,10 +1378,14 @@ class Tag implements InjectionAwareInterface
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
+	 *
 	 * echo $tag->stylesheet(
 	 *     'http://fonts.googleapis.com/css?family=Rosario',
-	 * 	   ['local' => false]
+	 *     [
+	 *         'local' => false,
+	 *     ]
 	 * );
+	 *
 	 * echo $tag->stylesheet('css/style.css');
 	 * </code>
 	 *
@@ -1431,8 +1430,8 @@ class Tag implements InjectionAwareInterface
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
-	 *public
-	 * echo $tag->submit('Save')
+	 *
+	 * echo $tag->submit('Save');
 	 * </code>
 	 *
 	 * Volt syntax:
@@ -1448,7 +1447,7 @@ class Tag implements InjectionAwareInterface
 	/**
 	 * Builds a HTML TEXTAREA tag
 	 *
-	 *<code>
+	 * <code>
 	 * use Phalcon\Html\Tag;
 	 *
 	 * $tag = new Tag();
@@ -1460,12 +1459,12 @@ class Tag implements InjectionAwareInterface
 	 *         'rows' => 4,
 	 *     ]
 	 * );
-	 *</code>
+	 * </code>
 	 *
 	 * Volt syntax:
-	 *<code>
+	 * <code>
 	 * {{ text_area('comments', ['cols': 10, 'rows': 4]) }}
-	 *</code>
+	 * </code>
 	 */
 	public function textArea(string! name, array parameters = []) -> string
 	{
