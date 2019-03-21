@@ -10,7 +10,7 @@
     - `Phalcon\Http\Message\ServerRequestFactory`
     - `Phalcon\Http\Message\Stream`
     - `Phalcon\Http\Message\StreamFactory`
-    - `Phalcon\Http\Message\UploadefFile`
+    - `Phalcon\Http\Message\UploadedFile`
     - `Phalcon\Http\Message\UploadedFileFactory`
     - `Phalcon\Http\Message\Uri`
     - `Phalcon\Http\Message\UriFactory`
