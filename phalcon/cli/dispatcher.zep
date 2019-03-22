@@ -41,20 +41,20 @@ use Phalcon\Service\LocatorInterface;
 class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
 
-    protected _handlerSuffix = "Task";
+    protected handlerSuffix = "Task";
 
-    protected _defaultHandler = "main";
+    protected defaultHandler = "main";
 
-    protected _defaultAction = "main";
+    protected defaultAction = "main";
 
-    protected _options = [];
+    protected options = [];
 
     /**
      * Sets the default task suffix
      */
     public function setTaskSuffix(string taskSuffix)
     {
-        let this->_handlerSuffix = taskSuffix;
+        let this->handlerSuffix = taskSuffix;
     }
 
     /**
@@ -62,7 +62,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function setDefaultTask(string taskName)
     {
-        let this->_defaultHandler = taskName;
+        let this->defaultHandler = taskName;
     }
 
     /**
@@ -86,7 +86,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function getTaskSuffix() -> string
     {
-        return this->_handlerSuffix;
+        return this->handlerSuffix;
     }
 
     /**
@@ -140,7 +140,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function setOptions(array options)
     {
-        let this->_options = options;
+        let this->options = options;
     }
 
     /**
@@ -148,7 +148,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function getOptions() -> array
     {
-        return this->_options;
+        return this->options;
     }
 
     /**
@@ -162,7 +162,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
     {
         var options, filter, optionValue, dependencyInjector;
 
-        let options = this->_options;
+        let options = this->options;
         if !fetch optionValue, options[option] {
             return defaultValue;
         }
@@ -189,7 +189,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function hasOption(var option) -> bool
     {
-        return isset this->_options[option];
+        return isset this->options[option];
     }
 
     /**
@@ -202,7 +202,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         // This is to make sure that the paramters are zero-indexed and
         // their order isn't overriden by any options when we merge the array.
         let params = array_values(params);
-        let params = array_merge(params, this->_options);
+        let params = array_merge(params, this->options);
 
         return call_user_func_array([handler, actionMethod], params);
     }

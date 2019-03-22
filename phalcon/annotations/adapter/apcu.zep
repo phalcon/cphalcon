@@ -27,9 +27,9 @@ use Phalcon\Annotations\Reflection;
 class Apcu extends Adapter
 {
 
-    protected _prefix = "";
+    protected prefix = "";
 
-    protected _ttl = 172800;
+    protected ttl = 172800;
 
     /**
      * Phalcon\Annotations\Adapter\Apcu constructor
@@ -42,10 +42,10 @@ class Apcu extends Adapter
 
         if typeof options == "array" {
             if fetch prefix, options["prefix"] {
-                let this->_prefix = prefix;
+                let this->prefix = prefix;
             }
             if fetch ttl, options["lifetime"] {
-                let this->_ttl = ttl;
+                let this->ttl = ttl;
             }
         }
     }
@@ -55,7 +55,7 @@ class Apcu extends Adapter
      */
     public function read(string! key) -> <Reflection> | bool
     {
-        return apcu_fetch(strtolower("_PHAN" . this->_prefix . key));
+        return apcu_fetch(strtolower("_PHAN" . this->prefix . key));
     }
 
     /**
@@ -63,6 +63,6 @@ class Apcu extends Adapter
      */
     public function write(string! key, <Reflection> data)
     {
-        return apcu_store(strtolower("_PHAN" . this->_prefix . key), data, this->_ttl);
+        return apcu_store(strtolower("_PHAN" . this->prefix . key), data, this->ttl);
     }
 }

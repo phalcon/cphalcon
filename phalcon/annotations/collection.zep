@@ -34,9 +34,9 @@ use Phalcon\Annotations\Exception;
 class Collection implements \Iterator, \Countable
 {
 
-    protected _position = 0;
+    protected position = 0;
 
-    protected _annotations;
+    protected annotations;
 
     /**
      * Phalcon\Annotations\Collection constructor
@@ -53,7 +53,7 @@ class Collection implements \Iterator, \Countable
             let annotations[] = new Annotation(annotationData);
         }
 
-        let this->_annotations = annotations;
+        let this->annotations = annotations;
     }
 
     /**
@@ -61,7 +61,7 @@ class Collection implements \Iterator, \Countable
      */
     public function count() -> int
     {
-        return count(this->_annotations);
+        return count(this->annotations);
     }
 
     /**
@@ -69,7 +69,7 @@ class Collection implements \Iterator, \Countable
      */
     public function rewind() -> void
     {
-        let this->_position = 0;
+        let this->position = 0;
     }
 
     /**
@@ -78,7 +78,7 @@ class Collection implements \Iterator, \Countable
     public function current() -> <Annotation> | bool
     {
         var annotation;
-        if fetch annotation, this->_annotations[this->_position] {
+        if fetch annotation, this->annotations[this->position] {
             return annotation;
         }
         return false;
@@ -89,7 +89,7 @@ class Collection implements \Iterator, \Countable
      */
     public function key() -> int
     {
-        return this->_position;
+        return this->position;
     }
 
     /**
@@ -97,7 +97,7 @@ class Collection implements \Iterator, \Countable
      */
     public function next() -> void
     {
-        let this->_position++;
+        let this->position++;
     }
 
     /**
@@ -105,7 +105,7 @@ class Collection implements \Iterator, \Countable
      */
     public function valid() -> bool
     {
-        return isset this->_annotations[this->_position];
+        return isset this->annotations[this->position];
     }
 
     /**
@@ -113,7 +113,7 @@ class Collection implements \Iterator, \Countable
      */
     public function getAnnotations() -> <Annotation[]>
     {
-        return this->_annotations;
+        return this->annotations;
     }
 
     /**
@@ -122,7 +122,7 @@ class Collection implements \Iterator, \Countable
     public function get(string name) -> <Annotation>
     {
         var annotation, annotations;
-        let annotations = this->_annotations;
+        let annotations = this->annotations;
         if typeof annotations == "array" {
             for annotation in annotations {
                 if name == annotation->getName() {
@@ -142,7 +142,7 @@ class Collection implements \Iterator, \Countable
         var annotations, found, annotation;
 
         let found = [],
-            annotations = this->_annotations;
+            annotations = this->annotations;
         if typeof annotations == "array" {
             for annotation in annotations {
                 if name == annotation->getName() {
@@ -161,7 +161,7 @@ class Collection implements \Iterator, \Countable
     {
         var annotations, annotation;
 
-        let annotations = this->_annotations;
+        let annotations = this->annotations;
         if typeof annotations == "array" {
             for annotation in annotations {
                 if name == annotation->getName() {
