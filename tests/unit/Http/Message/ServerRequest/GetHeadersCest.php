@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
+use Phalcon\Collection;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
@@ -36,6 +37,32 @@ class GetHeadersCest
             'Accept'        => ['text/html'],
         ];
         $request = new ServerRequest('GET', null, [], 'php://input', $data);
+
+        $expected = [
+            'Accept'        => ['text/html'],
+            'Cache-Control' => ['max-age=0'],
+        ];
+        $actual   = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequest :: getHeaders() - collection
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageServerRequestGetHeadersCollection(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequest - getHeaders() - collection');
+        $data    = [
+            'Cache-Control' => ['max-age=0'],
+            'Accept'        => ['text/html'],
+        ];
+        $headers = new Collection($data);
+        $request = new ServerRequest('GET', null, [], 'php://input', $headers);
 
         $expected = [
             'Accept'        => ['text/html'],
