@@ -314,7 +314,7 @@ class Response implements ResponseInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7230#section-3.2
 	 */
-	internal function checkHeaderName(var name) -> void
+	private function checkHeaderName(var name) -> void
 	{
 		if typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name) {
 			throw new \InvalidArgumentException("Invalid header name " . name);
@@ -364,7 +364,7 @@ class Response implements ResponseInterface
 	 * except where necessary to quote parentheses ["(" and ")"] and
 	 * backslash octets occurring within that comment.
 	 */
-	internal function checkHeaderValue(var value) -> void
+	private function checkHeaderValue(var value) -> void
 	{
 		if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
 			throw new \InvalidArgumentException("Invalid header value");
@@ -381,7 +381,7 @@ class Response implements ResponseInterface
 	/**
 	 * Returns a new instance having set the parameter
 	 */
-	internal function cloneInstance(var element, string property) -> <Response>
+	private function cloneInstance(var element, string property) -> <Response>
 	{
     	var newInstance;
 
@@ -396,7 +396,7 @@ class Response implements ResponseInterface
 	/**
 	 * Returns the header values checked for validity
 	 */
-	internal function getHeaderValue(var values) -> array
+	private function getHeaderValue(var values) -> array
 	{
 		var value;
 		array valueData;
@@ -423,7 +423,7 @@ class Response implements ResponseInterface
 	/**
 	 * Returns the list of status codes available
 	 */
-	internal function getPhrases() -> array
+	private function getPhrases() -> array
 	{
 		return [
 			100 : "Continue",                                         // Information - RFC 7231, 6.2.1
@@ -523,7 +523,7 @@ class Response implements ResponseInterface
 	/**
 	 * Set a valid stream
 	 */
-	internal function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
+	private function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
 	{
 		if body instanceof StreamInterface {
 			return body;
@@ -569,7 +569,7 @@ class Response implements ResponseInterface
 	/**
 	 * Sets the headers
 	 */
-	internal function processHeaders(array headers) -> <Collection>
+	private function processHeaders(array headers) -> <Collection>
 	{
 		var collection, name, value;
 
@@ -590,7 +590,7 @@ class Response implements ResponseInterface
 	/**
 	 * Checks the protocol
 	 */
-	internal function processProtocol(var protocol = "") -> string
+	private function processProtocol(var protocol = "") -> string
 	{
 		array protocols;
 

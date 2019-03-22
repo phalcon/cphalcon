@@ -697,7 +697,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @see http://tools.ietf.org/html/rfc7230#section-3.2
 	 */
-	internal function checkHeaderName(var name) -> void
+	private function checkHeaderName(var name) -> void
 	{
 		if typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name) {
 			throw new \InvalidArgumentException("Invalid header name " . name);
@@ -749,7 +749,7 @@ class ServerRequest implements ServerRequestInterface
 	 *
 	 * @see https://tools.ietf.org/html/rfc7230#section-3.2.6
 	 */
-	internal function checkHeaderValue(var value) -> void
+	private function checkHeaderValue(var value) -> void
 	{
 		if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
 			throw new \InvalidArgumentException("Invalid header value");
@@ -766,7 +766,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Checks the uploaded files
 	 */
-	internal function checkUploadedFiles(array files) -> void
+	private function checkUploadedFiles(array files) -> void
 	{
     	var file;
 
@@ -785,7 +785,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Returns a new instance having set the parameter
 	 */
-	internal function cloneInstance(var element, string property) -> <ServerRequest>
+	private function cloneInstance(var element, string property) -> <ServerRequest>
 	{
     	var newInstance;
 
@@ -800,7 +800,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Returns the header values checked for validity
 	 */
-   internal function getHeaderValue(var values) -> array
+   private function getHeaderValue(var values) -> array
 	{
 		var value;
 		array valueData;
@@ -827,7 +827,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Return the host and if applicable the port
 	 */
-	internal function getUriHost(<UriInterface> uri) -> string
+	private function getUriHost(<UriInterface> uri) -> string
 	{
 		var host;
 
@@ -842,7 +842,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Set a valid stream
 	 */
-	internal function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
+	private function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
 	{
 		if body instanceof StreamInterface {
 			return body;
@@ -858,7 +858,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Sets the headers
 	 */
-	internal function processHeaders(var headers) -> <Collection>
+	private function processHeaders(var headers) -> <Collection>
 	{
 		var collection, host, name, value;
 
@@ -884,7 +884,7 @@ class ServerRequest implements ServerRequestInterface
 				let collection = headers;
 			} else {
 				throw new \InvalidArgumentException(
-					"Headers needs to be either an array or instance of Phalcon\Collection"
+					"Headers need to be either an array or instance of Phalcon\Collection"
 				);
 			}
 		}
@@ -895,7 +895,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Check the method
 	 */
-	internal function processMethod(var method = "") ->  string
+	private function processMethod(var method = "") ->  string
 	{
 		array methods;
 
@@ -921,7 +921,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Checks the protocol
 	 */
-	internal function processProtocol(var protocol = "") -> string
+	private function processProtocol(var protocol = "") -> string
 	{
 		array protocols;
 
@@ -946,7 +946,7 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Sets a valid Uri
 	 */
-	internal function processUri(var uri) -> <UriInterface>
+	private function processUri(var uri) -> <UriInterface>
 	{
 		var localUri;
 
