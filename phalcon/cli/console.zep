@@ -24,9 +24,9 @@ use Phalcon\Cli\Console\Exception;
 class Console extends BaseApplication
 {
 
-    protected _arguments = [];
+    protected arguments = [];
 
-    protected _options = [];
+    protected options = [];
 
     /**
      * Handle the whole command-line tasks
@@ -55,8 +55,8 @@ class Console extends BaseApplication
 
         let router = <Router> dependencyInjector->getShared("router");
 
-        if !count(arguments) && this->_arguments {
-            router->handle(this->_arguments);
+        if !count(arguments) && this->arguments {
+            router->handle(this->arguments);
         } else {
             router->handle(arguments);
         }
@@ -120,7 +120,7 @@ class Console extends BaseApplication
         dispatcher->setTaskName(router->getTaskName());
         dispatcher->setActionName(router->getActionName());
         dispatcher->setParams(router->getParams());
-        dispatcher->setOptions(this->_options);
+        dispatcher->setOptions(this->options);
 
         if typeof eventsManager == "object" {
             if eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
@@ -174,7 +174,7 @@ class Console extends BaseApplication
         }
 
         if str {
-            let this->_arguments = implode(Route::getDelimiter(), args);
+            let this->arguments = implode(Route::getDelimiter(), args);
         } else {
             if count(args) {
                 let handleArgs["task"] = array_shift(args);
@@ -185,10 +185,10 @@ class Console extends BaseApplication
             if count(args) {
                 let handleArgs = array_merge(handleArgs, args);
             }
-            let this->_arguments = handleArgs;
+            let this->arguments = handleArgs;
         }
 
-        let this->_options = opts;
+        let this->options = opts;
 
         return this;
     }

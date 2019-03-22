@@ -18,25 +18,25 @@ namespace Phalcon\Cli\Router;
 class Route
 {
 
-    protected _pattern;
+    protected pattern;
 
-    protected _compiledPattern;
+    protected compiledPattern;
 
-    protected _paths;
+    protected paths;
 
-    protected _converters;
+    protected converters;
 
-    protected _id;
+    protected id;
 
-    protected _name;
+    protected name;
 
-    protected _beforeMatch;
+    protected beforeMatch;
 
-    protected _delimiter;
+    protected delimiter;
 
-    protected static _uniqueId;
+    protected static uniqueId;
 
-    protected static _delimiterPath;
+    protected static delimiterPath;
 
     const DEFAULT_DELIMITER = " ";
 
@@ -49,26 +49,26 @@ class Route
     {
         var routeId, uniqueId, delimiter;
 
-        // Get the delimiter from the static member _delimiterPath
-        let delimiter = self::_delimiterPath;
+        // Get the delimiter from the static member delimiterPath
+        let delimiter = self::delimiterPath;
         if !delimiter {
             let delimiter = self::DEFAULT_DELIMITER;
         }
-        let this->_delimiter = delimiter;
+        let this->delimiter = delimiter;
 
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
 
-        // Get the unique Id from the static member _uniqueId
-        let uniqueId = self::_uniqueId;
+        // Get the unique Id from the static member uniqueId
+        let uniqueId = self::uniqueId;
         if uniqueId === null {
             let uniqueId = 0;
         }
 
         // TODO: Add a function that increase static members
         let routeId = uniqueId,
-            this->_id = routeId,
-            self::_uniqueId = uniqueId + 1;
+            this->id = routeId,
+            self::uniqueId = uniqueId + 1;
     }
 
     /**
@@ -82,47 +82,47 @@ class Route
         if memstr(pattern, ":") {
 
             // This is a pattern for valid identifiers
-            let idPattern = this->_delimiter . "([a-zA-Z0-9\\_\\-]+)";
+            let idPattern = this->delimiter . "([a-zA-Z0-9\\_\\-]+)";
 
             // Replace the delimiter part
             if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(":delimiter", this->_delimiter, pattern);
+                let pattern = str_replace(":delimiter", this->delimiter, pattern);
             }
 
             // Replace the module part
-            let part = this->_delimiter . ":module";
+            let part = this->delimiter . ":module";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the task placeholder
-            let part = this->_delimiter . ":task";
+            let part = this->delimiter . ":task";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the namespace placeholder
-            let part = this->_delimiter . ":namespace";
+            let part = this->delimiter . ":namespace";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the action placeholder
-            let part = this->_delimiter . ":action";
+            let part = this->delimiter . ":action";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the params placeholder
-            let part = this->_delimiter . ":params";
+            let part = this->delimiter . ":params";
             if memstr(pattern, part) {
-                let pattern = str_replace(part, "(" . this->_delimiter . ".*)*", pattern);
+                let pattern = str_replace(part, "(" . this->delimiter . ".*)*", pattern);
             }
 
             // Replace the int placeholder
-            let part = this->_delimiter . ":int";
+            let part = this->delimiter . ":int";
             if memstr(pattern, part) {
-                let pattern = str_replace(part, this->_delimiter . "([0-9]+)", pattern);
+                let pattern = str_replace(part, this->delimiter . "([0-9]+)", pattern);
             }
         }
 
@@ -237,7 +237,7 @@ class Route
                                         }
                                         let matches[variable] = tmp;
                                     } else {
-                                        let route .= "([^" . this->_delimiter . "]*)",
+                                        let route .= "([^" . this->delimiter . "]*)",
                                             matches[item] = tmp;
                                     }
                                 } else {
@@ -385,7 +385,7 @@ class Route
         } else {
             // Replace the delimiter part
             if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(":delimiter", this->_delimiter, pattern);
+                let pattern = str_replace(":delimiter", this->delimiter, pattern);
             }
             let compiledPattern = pattern;
         }
@@ -393,17 +393,17 @@ class Route
         /**
          * Update the original pattern
          */
-        let this->_pattern = pattern;
+        let this->pattern = pattern;
 
         /**
          * Update the compiled pattern
          */
-        let this->_compiledPattern = compiledPattern;
+        let this->compiledPattern = compiledPattern;
 
         /**
          * Update the route's paths
          */
-        let this->_paths = routePaths;
+        let this->paths = routePaths;
     }
 
     /**
@@ -411,7 +411,7 @@ class Route
      */
     public function getName() -> string
     {
-        return this->_name;
+        return this->name;
     }
 
     /**
@@ -428,7 +428,7 @@ class Route
      */
     public function setName(string! name) -> <Route>
     {
-        let this->_name = name;
+        let this->name = name;
         return this;
     }
 
@@ -441,7 +441,7 @@ class Route
      */
     public function beforeMatch(var callback) -> <Route>
     {
-        let this->_beforeMatch = callback;
+        let this->beforeMatch = callback;
         return this;
     }
 
@@ -452,7 +452,7 @@ class Route
      */
     public function getBeforeMatch()
     {
-        return this->_beforeMatch;
+        return this->beforeMatch;
     }
 
     /**
@@ -460,7 +460,7 @@ class Route
      */
     public function getRouteId() -> string
     {
-        return this->_id;
+        return this->id;
     }
 
     /**
@@ -468,7 +468,7 @@ class Route
      */
     public function getPattern() -> string
     {
-        return this->_pattern;
+        return this->pattern;
     }
 
     /**
@@ -476,7 +476,7 @@ class Route
      */
     public function getCompiledPattern() -> string
     {
-        return this->_compiledPattern;
+        return this->compiledPattern;
     }
 
     /**
@@ -484,7 +484,7 @@ class Route
      */
     public function getPaths() -> array
     {
-        return this->_paths;
+        return this->paths;
     }
 
     /**
@@ -495,7 +495,7 @@ class Route
         var reversed, path, position;
 
         let reversed = [];
-        for path, position in this->_paths {
+        for path, position in this->paths {
             let reversed[position] = path;
         }
         return reversed;
@@ -508,7 +508,7 @@ class Route
      */
     public function convert(string! name, converter) -> <Route>
     {
-        let this->_converters[name] = converter;
+        let this->converters[name] = converter;
         return this;
     }
 
@@ -517,7 +517,7 @@ class Route
      */
     public function getConverters() -> array
     {
-        return this->_converters;
+        return this->converters;
     }
 
     /**
@@ -525,7 +525,7 @@ class Route
      */
     public static function reset()
     {
-        let self::_uniqueId = null;
+        let self::uniqueId = null;
     }
 
     /**
@@ -533,7 +533,7 @@ class Route
      */
     public static function delimiter(string! delimiter = null)
     {
-        let self::_delimiterPath = delimiter;
+        let self::delimiterPath = delimiter;
     }
 
     /**
@@ -543,7 +543,7 @@ class Route
     {
         var delimiter;
 
-        let delimiter = self::_delimiterPath;
+        let delimiter = self::delimiterPath;
         if !delimiter {
             let delimiter = self::DEFAULT_DELIMITER;
         }
