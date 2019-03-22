@@ -93,7 +93,7 @@ class Request implements RequestInterface
 	/**
 	 * Constructor
 	 */
-	public function __construct(string method = "GET", var uri = null, var body = "php://memory", array headers = [])
+	public function __construct(string method = "GET", var uri = null, var body = "php://memory", var headers = [])
 	{
 		if "php://input" === body {
 			let body = new Input();
@@ -566,19 +566,35 @@ class Request implements RequestInterface
 	/**
 	 * Sets the headers
 	 */
-	internal function processHeaders(array headers) -> <Collection>
+	internal function processHeaders(var headers) -> <Collection>
 	{
-		var collection, name, value;
+		var collection, host, name, value;
 
-		let collection = new Collection();
-		for name, value in headers {
+		if typeof headers === "array" {
+			let collection = new Collection();
+			for name, value in headers {
 
-			this->checkHeaderName(name);
+				this->checkHeaderName(name);
 
-			let name  = (string) name,
-				value = this->getHeaderValue(value);
+				let name  = (string) name,
+					value = this->getHeaderValue(value);
 
-			collection->set(name, value);
+				collection->set(name, value);
+			}
+
+			if true === collection->has("host") && "" !== this->uri->getHost() {
+				let host = this->getUriHost(this->uri);
+
+				collection->set("Host", [host]);
+			}
+		} else {
+			if headers instanceof Collection {
+				let collection = headers;
+			} else {
+				throw new \InvalidArgumentException(
+					"Headers needs to be either an array or instance of Phalcon\Collection"
+				);
+			}
 		}
 
 		return collection;

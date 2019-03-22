@@ -191,7 +191,7 @@ class ServerRequest implements ServerRequestInterface
 		var uri = null,
 		array serverParams = [],
 		var body = "php://input",
-		array headers = [],
+		var headers = [],
 		array cookies = [],
 		array queryParams = [],
 		array uploadFiles = [],
@@ -858,25 +858,35 @@ class ServerRequest implements ServerRequestInterface
 	/**
 	 * Sets the headers
 	 */
-	internal function processHeaders(array headers) -> <Collection>
+	internal function processHeaders(var headers) -> <Collection>
 	{
 		var collection, host, name, value;
 
-		let collection = new Collection();
-		for name, value in headers {
+		if typeof headers === "array" {
+			let collection = new Collection();
+			for name, value in headers {
 
-			this->checkHeaderName(name);
+				this->checkHeaderName(name);
 
-			let name  = (string) name,
-				value = this->getHeaderValue(value);
+				let name  = (string) name,
+					value = this->getHeaderValue(value);
 
-			collection->set(name, value);
-		}
+				collection->set(name, value);
+			}
 
-		if true === collection->has("host") && "" !== this->uri->getHost() {
-			let host = this->getUriHost(this->uri);
+			if true === collection->has("host") && "" !== this->uri->getHost() {
+				let host = this->getUriHost(this->uri);
 
-			collection->set("Host", [host]);
+				collection->set("Host", [host]);
+			}
+		} else {
+			if headers instanceof Collection {
+				let collection = headers;
+			} else {
+				throw new \InvalidArgumentException(
+					"Headers needs to be either an array or instance of Phalcon\Collection"
+				);
+			}
 		}
 
 		return collection;
