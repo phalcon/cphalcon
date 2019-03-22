@@ -25,11 +25,11 @@ use Phalcon\Http\Message\Stream;
  */
 class Temp extends Stream
 {
-	/**
-	 * Constructor
-	 */
-	public function __construct(var mode = "rb") -> void
-	{
-		parent::__construct("php://temp", mode);
-	}
+    /**
+     * Constructor
+     */
+    public function __construct(var mode = "rb") -> void
+    {
+        parent::__construct("php://temp", mode);
+    }
 }

@@ -17,8 +17,8 @@ namespace Phalcon\Translate;
  */
 interface InterpolatorInterface
 {
-	/**
-	 * Replaces placeholders by the values passed
-	*/
-	public function replacePlaceholders(string! translation, placeholders = null) -> string;
+    /**
+     * Replaces placeholders by the values passed
+    */
+    public function replacePlaceholders(string! translation, placeholders = null) -> string;
 }

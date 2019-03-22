@@ -59,70 +59,70 @@ use Phalcon\Validation\Validator;
 class Confirmation extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var fieldWith, value, valueWith, message, label, labelWith, replacePairs, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var fieldWith, value, valueWith, message, label, labelWith, replacePairs, code;
 
-		let fieldWith = this->getOption("with");
+        let fieldWith = this->getOption("with");
 
-		if typeof fieldWith == "array" {
-			let fieldWith = fieldWith[field];
-		}
+        if typeof fieldWith == "array" {
+            let fieldWith = fieldWith[field];
+        }
 
-		let value = validation->getValue(field),
-			valueWith = validation->getValue(fieldWith);
+        let value = validation->getValue(field),
+            valueWith = validation->getValue(fieldWith);
 
-		if !this->compare(value, valueWith) {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "Confirmation"),
-				code = this->prepareCode(field);
+        if !this->compare(value, valueWith) {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "Confirmation"),
+                code = this->prepareCode(field);
 
-			let labelWith = this->getOption("labelWith");
-			if typeof labelWith == "array" {
-				let labelWith = labelWith[fieldWith];
-			}
-			if empty labelWith {
-				let labelWith = validation->getLabel(fieldWith);
-			}
+            let labelWith = this->getOption("labelWith");
+            if typeof labelWith == "array" {
+                let labelWith = labelWith[fieldWith];
+            }
+            if empty labelWith {
+                let labelWith = validation->getLabel(fieldWith);
+            }
 
-			let replacePairs = [":field": label, ":with":  labelWith];
+            let replacePairs = [":field": label, ":with":  labelWith];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"Confirmation",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Confirmation",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Compare strings
-	 */
-	protected final function compare(string a, string b) -> bool
-	{
-		if this->getOption("ignoreCase", false) {
+    /**
+     * Compare strings
+     */
+    protected final function compare(string a, string b) -> bool
+    {
+        if this->getOption("ignoreCase", false) {
 
-			/**
-			 * mbstring is required here
-			 */
-			if !function_exists("mb_strtolower") {
-				throw new Exception("Extension 'mbstring' is required");
-			}
+            /**
+             * mbstring is required here
+             */
+            if !function_exists("mb_strtolower") {
+                throw new Exception("Extension 'mbstring' is required");
+            }
 
-			let a = mb_strtolower(a, "utf-8");
-			let b = mb_strtolower(b, "utf-8");
-		}
+            let a = mb_strtolower(a, "utf-8");
+            let b = mb_strtolower(b, "utf-8");
+        }
 
-		return a == b;
-	}
+        return a == b;
+    }
 }

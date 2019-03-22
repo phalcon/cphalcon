@@ -17,38 +17,38 @@ namespace Phalcon\Events;
  */
 interface EventInterface
 {
-	/**
-	 * Gets event data
-	 */
-	public function getData() -> var;
+    /**
+     * Gets event data
+     */
+    public function getData() -> var;
 
-	/**
-	 * Sets event data
-	 */
-	public function setData(var data = null) -> <EventInterface>;
+    /**
+     * Sets event data
+     */
+    public function setData(var data = null) -> <EventInterface>;
 
-	/**
-	 * Gets event type
-	 */
-	public function getType() -> var;
+    /**
+     * Gets event type
+     */
+    public function getType() -> var;
 
-	/**
-	 * Sets event type
-	 */
-	public function setType(string! type) -> <EventInterface>;
+    /**
+     * Sets event type
+     */
+    public function setType(string! type) -> <EventInterface>;
 
-	/**
-	 * Stops the event preventing propagation
-	 */
-	public function stop() -> <EventInterface>;
+    /**
+     * Stops the event preventing propagation
+     */
+    public function stop() -> <EventInterface>;
 
-	/**
-	 * Check whether the event is currently stopped
-	 */
-	public function isStopped() -> bool;
+    /**
+     * Check whether the event is currently stopped
+     */
+    public function isStopped() -> bool;
 
-	/**
-	 * Check whether the event is cancelable
-	 */
-	public function isCancelable() -> bool;
+    /**
+     * Check whether the event is cancelable
+     */
+    public function isCancelable() -> bool;
 }

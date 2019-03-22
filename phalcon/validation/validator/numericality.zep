@@ -53,34 +53,34 @@ use Phalcon\Validation\Validator;
 class Numericality extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var value, message, label, replacePairs, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var value, message, label, replacePairs, code;
 
-		let value = validation->getValue(field);
+        let value = validation->getValue(field);
 
-		if !preg_match("/^-?\d+(?:[\.,]\d+)?$/", value) || !is_numeric(value) {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "Numericality"),
-				code = this->prepareCode(field);
+        if !preg_match("/^-?\d+(?:[\.,]\d+)?$/", value) || !is_numeric(value) {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "Numericality"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label];
+            let replacePairs = [":field": label];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"Numericality",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Numericality",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

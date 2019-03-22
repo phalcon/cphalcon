@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class Email
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(var input)
-	{
-		return filter_var(input, FILTER_SANITIZE_EMAIL, FILTER_FLAG_EMAIL_UNICODE);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(var input)
+    {
+        return filter_var(input, FILTER_SANITIZE_EMAIL, FILTER_FLAG_EMAIL_UNICODE);
+    }
 }

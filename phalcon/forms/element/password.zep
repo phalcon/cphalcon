@@ -21,11 +21,11 @@ use Phalcon\Forms\Element;
 class Password extends Element
 {
 
-	/**
-	 * Renders the element widget returning html
-	 */
-	public function render(array attributes = []) -> string
-	{
-		return Tag::passwordField(this->prepareAttributes(attributes));
-	}
+    /**
+     * Renders the element widget returning html
+     */
+    public function render(array attributes = []) -> string
+    {
+        return Tag::passwordField(this->prepareAttributes(attributes));
+    }
 }

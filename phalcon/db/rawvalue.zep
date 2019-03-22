@@ -29,28 +29,28 @@ namespace Phalcon\Db;
 class RawValue
 {
 
-	/**
-	 * Raw value without quoting or formatting
-	 *
-	 * @var string
-	 */
-	protected _value { get, __toString };
+    /**
+     * Raw value without quoting or formatting
+     *
+     * @var string
+     */
+    protected _value { get, __toString };
 
-	/**
-	 * Phalcon\Db\RawValue constructor
-	 */
-	public function __construct(var value)
-	{
-		if typeof value == "string" && value == "" {
-			let this->_value = "''";
-			return;
-		}
+    /**
+     * Phalcon\Db\RawValue constructor
+     */
+    public function __construct(var value)
+    {
+        if typeof value == "string" && value == "" {
+            let this->_value = "''";
+            return;
+        }
 
-		if value === null {
-			let this->_value = "NULL";
-			return;
-		}
+        if value === null {
+            let this->_value = "NULL";
+            return;
+        }
 
-		let this->_value = (string) value;
-	}
+        let this->_value = (string) value;
+    }
 }

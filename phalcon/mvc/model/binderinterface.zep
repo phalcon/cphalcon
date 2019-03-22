@@ -19,23 +19,23 @@ use Phalcon\Cache\BackendInterface;
  */
 interface BinderInterface
 {
-	/**
-	 * Gets active bound models
-	 */
-	public function getBoundModels() -> array;
+    /**
+     * Gets active bound models
+     */
+    public function getBoundModels() -> array;
 
-	/**
-	 * Gets cache instance
-	 */
-	public function getCache() -> <BackendInterface>;
+    /**
+     * Gets cache instance
+     */
+    public function getCache() -> <BackendInterface>;
 
-	/**
-	 * Sets cache instance
-	 */
-	public function setCache(<BackendInterface> cache) -> <BinderInterface>;
+    /**
+     * Sets cache instance
+     */
+    public function setCache(<BackendInterface> cache) -> <BinderInterface>;
 
-	/**
-	 * Bind models into params in proper handler
-	 */
-	public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array;
+    /**
+     * Bind models into params in proper handler
+     */
+    public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array;
 }

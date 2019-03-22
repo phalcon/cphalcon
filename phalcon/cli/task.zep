@@ -39,13 +39,13 @@ use Phalcon\Di\Injectable;
 class Task extends Injectable implements TaskInterface
 {
 
-	/**
-	 * Phalcon\Cli\Task constructor
-	 */
-	public final function __construct()
-	{
-		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
-		}
-	}
+    /**
+     * Phalcon\Cli\Task constructor
+     */
+    public final function __construct()
+    {
+        if method_exists(this, "onConstruct") {
+            this->{"onConstruct"}();
+        }
+    }
 }

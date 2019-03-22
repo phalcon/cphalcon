@@ -32,11 +32,11 @@ use Phalcon\Db\AdapterInterface;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Db\\Adapter\\Pdo", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Db\\Adapter\\Pdo", config);
+    }
 }

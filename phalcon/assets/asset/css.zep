@@ -19,11 +19,11 @@ use Phalcon\Assets\Asset as AssetBase;
  */
 class Css extends AssetBase
 {
-	/**
-	 * Phalcon\Assets\Asset\Css
-	 */
-	public function __construct(string! path, bool local = true, bool filter = true, array attributes = [])
-	{
-		parent::__construct("css", path, local, filter, attributes);
-	}
+    /**
+     * Phalcon\Assets\Asset\Css
+     */
+    public function __construct(string! path, bool local = true, bool filter = true, array attributes = [])
+    {
+        parent::__construct("css", path, local, filter, attributes);
+    }
 }

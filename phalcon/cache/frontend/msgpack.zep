@@ -68,88 +68,88 @@ use Phalcon\Cache\Exception;
  */
 class Msgpack extends Data implements FrontendInterface
 {
-	/**
-	 * Phalcon\Cache\Frontend\Msgpack constructor
-	 */
-	public function __construct(array frontendOptions = [])
-	{
-		var lifetime;
+    /**
+     * Phalcon\Cache\Frontend\Msgpack constructor
+     */
+    public function __construct(array frontendOptions = [])
+    {
+        var lifetime;
 
-		if fetch lifetime, frontendOptions["lifetime"] {
-			if typeof lifetime !== "integer" {
-				throw new Exception("Option 'lifetime' must be an integer");
-			}
-		}
-		let this->_frontendOptions = frontendOptions;
-	}
+        if fetch lifetime, frontendOptions["lifetime"] {
+            if typeof lifetime !== "integer" {
+                throw new Exception("Option 'lifetime' must be an integer");
+            }
+        }
+        let this->_frontendOptions = frontendOptions;
+    }
 
-	/**
-	 * Returns the cache lifetime
-	 */
-	public function getLifetime() -> int
-	{
-		var options, lifetime;
-		let options = this->_frontendOptions;
-		if typeof options == "array" {
-			if fetch lifetime, options["lifetime"] {
-				return lifetime;
-			}
-		}
-		return 1;
-	}
+    /**
+     * Returns the cache lifetime
+     */
+    public function getLifetime() -> int
+    {
+        var options, lifetime;
+        let options = this->_frontendOptions;
+        if typeof options == "array" {
+            if fetch lifetime, options["lifetime"] {
+                return lifetime;
+            }
+        }
+        return 1;
+    }
 
-	/**
-	 * Check whether if frontend is buffering output
-	 */
-	public function isBuffering() -> bool
-	{
-		return false;
-	}
+    /**
+     * Check whether if frontend is buffering output
+     */
+    public function isBuffering() -> bool
+    {
+        return false;
+    }
 
-	/**
-	 * Starts output frontend. Actually, does nothing
-	 */
-	public function start()
-	{
-	}
+    /**
+     * Starts output frontend. Actually, does nothing
+     */
+    public function start()
+    {
+    }
 
-	/**
-	 * Returns output cached content
-	 */
-	public function getContent() -> null
-	{
-		return null;
-	}
+    /**
+     * Returns output cached content
+     */
+    public function getContent() -> null
+    {
+        return null;
+    }
 
-	/**
-	 * Stops output frontend
-	 */
-	public function stop()
-	{
-	}
+    /**
+     * Stops output frontend
+     */
+    public function stop()
+    {
+    }
 
-	/**
-	 * Serializes data before storing them
-	 */
-	public function beforeStore(var data) -> string
-	{
-		return msgpack_pack(data);
-	}
+    /**
+     * Serializes data before storing them
+     */
+    public function beforeStore(var data) -> string
+    {
+        return msgpack_pack(data);
+    }
 
-	/**
-	 * Unserializes data after retrieval
-	 */
-	public function afterRetrieve(var data) -> var
-	{
-		if is_numeric(data) {
-			return data;
-		}
+    /**
+     * Unserializes data after retrieval
+     */
+    public function afterRetrieve(var data) -> var
+    {
+        if is_numeric(data) {
+            return data;
+        }
 
-		// do not unserialize empty string, null, false, etc
-		if empty data {
-			return data;
-		}
+        // do not unserialize empty string, null, false, etc
+        if empty data {
+            return data;
+        }
 
-		return msgpack_unpack(data);
-	}
+        return msgpack_unpack(data);
+    }
 }

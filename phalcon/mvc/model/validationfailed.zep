@@ -21,52 +21,52 @@ use Phalcon\Mvc\Model;
 class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 {
 
-	protected _model;
+    protected _model;
 
-	protected _messages;
+    protected _messages;
 
-	/**
-	 * Phalcon\Mvc\Model\ValidationFailed constructor
-	 *
-	 * @param Message[] validationMessages
-	 */
-	public function __construct(<Model> model, array! validationMessages)
-	{
-		var messageStr, message;
+    /**
+     * Phalcon\Mvc\Model\ValidationFailed constructor
+     *
+     * @param Message[] validationMessages
+     */
+    public function __construct(<Model> model, array! validationMessages)
+    {
+        var messageStr, message;
 
-		if count(validationMessages) > 0 {
-			/**
-			 * Get the first message in the array
-			 */
-			let message = validationMessages[0];
+        if count(validationMessages) > 0 {
+            /**
+             * Get the first message in the array
+             */
+            let message = validationMessages[0];
 
-			/**
-			 * Get the message to use it in the exception
-			 */
-			let messageStr = message->getMessage();
-		} else {
-			let messageStr = "Validation failed";
-		}
+            /**
+             * Get the message to use it in the exception
+             */
+            let messageStr = message->getMessage();
+        } else {
+            let messageStr = "Validation failed";
+        }
 
-		let this->_model = model;
-		let this->_messages = validationMessages;
+        let this->_model = model;
+        let this->_messages = validationMessages;
 
-		parent::__construct(messageStr);
-	}
+        parent::__construct(messageStr);
+    }
 
-	/**
-	 * Returns the model that generated the messages
-	 */
-	public function getModel() -> <Model>
-	{
-		return this->_model;
-	}
+    /**
+     * Returns the model that generated the messages
+     */
+    public function getModel() -> <Model>
+    {
+        return this->_model;
+    }
 
-	/**
-	 * Returns the complete group of messages produced in the validation
-	 */
-	public function getMessages() -> <Message[]>
-	{
-		return this->_messages;
-	}
+    /**
+     * Returns the complete group of messages produced in the validation
+     */
+    public function getMessages() -> <Message[]>
+    {
+        return this->_messages;
+    }
 }

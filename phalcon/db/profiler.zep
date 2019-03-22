@@ -68,118 +68,118 @@ use Phalcon\Db\Profiler\Item;
 class Profiler
 {
 
-	/**
-	 * All the Phalcon\Db\Profiler\Item in the active profile
-	 *
-	 * @var \Phalcon\Db\Profiler\Item[]
-	 */
-	protected _allProfiles;
+    /**
+     * All the Phalcon\Db\Profiler\Item in the active profile
+     *
+     * @var \Phalcon\Db\Profiler\Item[]
+     */
+    protected _allProfiles;
 
-	/**
-	 * Active Phalcon\Db\Profiler\Item
-	 *
-	 * @var Phalcon\Db\Profiler\Item
-	 */
-	protected _activeProfile;
+    /**
+     * Active Phalcon\Db\Profiler\Item
+     *
+     * @var Phalcon\Db\Profiler\Item
+     */
+    protected _activeProfile;
 
-	/**
-	 * Total time spent by all profiles to complete
-	 *
-	 * @var float
-	 */
-	protected _totalSeconds = 0;
+    /**
+     * Total time spent by all profiles to complete
+     *
+     * @var float
+     */
+    protected _totalSeconds = 0;
 
-	/**
-	 * Starts the profile of a SQL sentence
-	 */
-	public function startProfile(string sqlStatement, var sqlVariables = null, var sqlBindTypes = null) -> <Profiler>
-	{
-		var activeProfile;
+    /**
+     * Starts the profile of a SQL sentence
+     */
+    public function startProfile(string sqlStatement, var sqlVariables = null, var sqlBindTypes = null) -> <Profiler>
+    {
+        var activeProfile;
 
-		let activeProfile = new Item();
+        let activeProfile = new Item();
 
-		activeProfile->setSqlStatement(sqlStatement);
+        activeProfile->setSqlStatement(sqlStatement);
 
-		if typeof sqlVariables == "array" {
-			activeProfile->setSqlVariables(sqlVariables);
-		}
+        if typeof sqlVariables == "array" {
+            activeProfile->setSqlVariables(sqlVariables);
+        }
 
-		if typeof sqlBindTypes == "array" {
-			activeProfile->setSqlBindTypes(sqlBindTypes);
-		}
+        if typeof sqlBindTypes == "array" {
+            activeProfile->setSqlBindTypes(sqlBindTypes);
+        }
 
-		activeProfile->setInitialTime(microtime(true));
+        activeProfile->setInitialTime(microtime(true));
 
-		if method_exists(this, "beforeStartProfile") {
-			this->{"beforeStartProfile"}(activeProfile);
-		}
+        if method_exists(this, "beforeStartProfile") {
+            this->{"beforeStartProfile"}(activeProfile);
+        }
 
-		let this->_activeProfile = activeProfile;
+        let this->_activeProfile = activeProfile;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Stops the active profile
-	 */
-	public function stopProfile() -> <Profiler>
-	{
-		var finalTime, initialTime, activeProfile;
+    /**
+     * Stops the active profile
+     */
+    public function stopProfile() -> <Profiler>
+    {
+        var finalTime, initialTime, activeProfile;
 
-		let finalTime = microtime(true),
-			activeProfile = <Item> this->_activeProfile;
+        let finalTime = microtime(true),
+            activeProfile = <Item> this->_activeProfile;
 
-		activeProfile->setFinalTime(finalTime);
+        activeProfile->setFinalTime(finalTime);
 
-		let initialTime = activeProfile->getInitialTime(),
-			this->_totalSeconds = this->_totalSeconds + (finalTime - initialTime),
-			this->_allProfiles[] = activeProfile;
+        let initialTime = activeProfile->getInitialTime(),
+            this->_totalSeconds = this->_totalSeconds + (finalTime - initialTime),
+            this->_allProfiles[] = activeProfile;
 
-		if method_exists(this, "afterEndProfile") {
-			this->{"afterEndProfile"}(activeProfile);
-		}
+        if method_exists(this, "afterEndProfile") {
+            this->{"afterEndProfile"}(activeProfile);
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Returns the total number of SQL statements processed
-	 */
-	public function getNumberTotalStatements() -> int
-	{
-		return count(this->_allProfiles);
-	}
+    /**
+     * Returns the total number of SQL statements processed
+     */
+    public function getNumberTotalStatements() -> int
+    {
+        return count(this->_allProfiles);
+    }
 
-	/**
-	 * Returns the total time in seconds spent by the profiles
-	 */
-	public function getTotalElapsedSeconds() -> double
-	{
-		return this->_totalSeconds;
-	}
+    /**
+     * Returns the total time in seconds spent by the profiles
+     */
+    public function getTotalElapsedSeconds() -> double
+    {
+        return this->_totalSeconds;
+    }
 
-	/**
-	 * Returns all the processed profiles
-	 */
-	public function getProfiles() -> <Item[]>
-	{
-		return this->_allProfiles;
-	}
+    /**
+     * Returns all the processed profiles
+     */
+    public function getProfiles() -> <Item[]>
+    {
+        return this->_allProfiles;
+    }
 
-	/**
-	 * Resets the profiler, cleaning up all the profiles
-	 */
-	public function reset() -> <Profiler>
-	{
-		let this->_allProfiles = [];
-		return this;
-	}
+    /**
+     * Resets the profiler, cleaning up all the profiles
+     */
+    public function reset() -> <Profiler>
+    {
+        let this->_allProfiles = [];
+        return this;
+    }
 
-	/**
-	 * Returns the last profile executed in the profiler
-	 */
-	public function getLastProfile() -> <Item>
-	{
-		return this->_activeProfile;
-	}
+    /**
+     * Returns the last profile executed in the profiler
+     */
+    public function getLastProfile() -> <Item>
+    {
+        return this->_activeProfile;
+    }
 }

@@ -21,33 +21,33 @@ use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
 interface DispatcherInterface extends DispatcherInterfaceBase
 {
 
-	/**
-	 * Sets the default controller suffix
-	 */
-	public function setControllerSuffix(string! controllerSuffix);
+    /**
+     * Sets the default controller suffix
+     */
+    public function setControllerSuffix(string! controllerSuffix);
 
-	/**
-	 * Sets the default controller name
-	 */
-	public function setDefaultController(string! controllerName);
+    /**
+     * Sets the default controller name
+     */
+    public function setDefaultController(string! controllerName);
 
-	/**
-	 * Sets the controller name to be dispatched
-	 */
-	public function setControllerName(string! controllerName);
+    /**
+     * Sets the controller name to be dispatched
+     */
+    public function setControllerName(string! controllerName);
 
-	/**
-	 * Gets last dispatched controller name
-	 */
-	public function getControllerName() -> string;
+    /**
+     * Gets last dispatched controller name
+     */
+    public function getControllerName() -> string;
 
-	/**
-	 * Returns the latest dispatched controller
-	 */
-	public function getLastController() -> <ControllerInterface>;
+    /**
+     * Returns the latest dispatched controller
+     */
+    public function getLastController() -> <ControllerInterface>;
 
-	/**
-	 * Returns the active controller in the dispatcher
-	 */
-	public function getActiveController() -> <ControllerInterface>;
+    /**
+     * Returns the active controller in the dispatcher
+     */
+    public function getActiveController() -> <ControllerInterface>;
 }

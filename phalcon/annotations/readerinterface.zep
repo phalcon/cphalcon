@@ -18,13 +18,13 @@ namespace Phalcon\Annotations;
 interface ReaderInterface
 {
 
-	/**
-	 * Reads annotations from the class dockblocks, its methods and/or properties
-	 */
-	public function parse(string className) -> array;
+    /**
+     * Reads annotations from the class dockblocks, its methods and/or properties
+     */
+    public function parse(string className) -> array;
 
-	/**
-	 * Parses a raw doc block returning the annotations found
-	 */
-	public static function parseDocBlock(string docBlock, file = null, line = null) -> array;
+    /**
+     * Parses a raw doc block returning the annotations found
+     */
+    public static function parseDocBlock(string docBlock, file = null, line = null) -> array;
 }

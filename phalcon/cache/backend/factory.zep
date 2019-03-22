@@ -33,41 +33,41 @@ use Phalcon\Config;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Cache\\Backend", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Cache\\Backend", config);
+    }
 
-	protected static function loadClass(string $namespace, var config)
-	{
-		var adapter, className, frontend;
+    protected static function loadClass(string $namespace, var config)
+    {
+        var adapter, className, frontend;
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+            throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if !fetch frontend, config["frontend"] {
-			throw new Exception("You must provide 'frontend' option in factory config parameter.");
-		}
+        if !fetch frontend, config["frontend"] {
+            throw new Exception("You must provide 'frontend' option in factory config parameter.");
+        }
 
-		if fetch adapter, config["adapter"] {
-			unset config["adapter"];
-			unset config["frontend"];
-			if typeof frontend == "array" || frontend instanceof Config {
-				let frontend = FrontendFactory::load(frontend);
-			}
-			let className = $namespace."\\".camelize(adapter);
+        if fetch adapter, config["adapter"] {
+            unset config["adapter"];
+            unset config["frontend"];
+            if typeof frontend == "array" || frontend instanceof Config {
+                let frontend = FrontendFactory::load(frontend);
+            }
+            let className = $namespace."\\".camelize(adapter);
 
-			return new {className}(frontend, config);
-		}
+            return new {className}(frontend, config);
+        }
 
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
-	}
+        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+    }
 }

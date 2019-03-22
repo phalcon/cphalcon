@@ -62,49 +62,49 @@ use Phalcon\Validation\Validator;
  */
 class Callback extends Validator
 {
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var message, label, replacePairs, code, callback, returnedValue, data;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var message, label, replacePairs, code, callback, returnedValue, data;
 
-		let callback = this->getOption("callback");
+        let callback = this->getOption("callback");
 
-		if is_callable(callback) {
-			let data = validation->getEntity();
-			if empty data {
-				let data = validation->getData();
-			}
-			let returnedValue = call_user_func(callback, data);
-			if typeof returnedValue == "boolean" {
-				if !returnedValue {
-					let label = this->prepareLabel(validation, field),
-						message = this->prepareMessage(validation, field, "Callback"),
-						code = this->prepareCode(field);
+        if is_callable(callback) {
+            let data = validation->getEntity();
+            if empty data {
+                let data = validation->getData();
+            }
+            let returnedValue = call_user_func(callback, data);
+            if typeof returnedValue == "boolean" {
+                if !returnedValue {
+                    let label = this->prepareLabel(validation, field),
+                        message = this->prepareMessage(validation, field, "Callback"),
+                        code = this->prepareCode(field);
 
-					let replacePairs = [":field": label];
+                    let replacePairs = [":field": label];
 
-					validation->appendMessage(
-						new Message(
-							strtr(message, replacePairs),
-							field,
-							"Callback",
-							code
-						)
-					);
+                    validation->appendMessage(
+                        new Message(
+                            strtr(message, replacePairs),
+                            field,
+                            "Callback",
+                            code
+                        )
+                    );
 
-					return false;
-				}
+                    return false;
+                }
 
-				return true;
-			}
-			elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
-				return returnedValue->validate(validation, field);
-			}
-			throw new Exception("Callback must return bool or Phalcon\\Validation\\Validator object");
-		}
+                return true;
+            }
+            elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
+                return returnedValue->validate(validation, field);
+            }
+            throw new Exception("Callback must return bool or Phalcon\\Validation\\Validator object");
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

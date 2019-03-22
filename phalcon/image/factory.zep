@@ -31,44 +31,44 @@ use Phalcon\Config;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Image\\Adapter", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Image\\Adapter", config);
+    }
 
-	protected static function loadClass(string $namespace, var config)
-	{
-		var adapter, className, file, height, width;
+    protected static function loadClass(string $namespace, var config)
+    {
+        var adapter, className, file, height, width;
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+            throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if !fetch file, config["file"] {
-			throw new Exception("You must provide 'file' option in factory config parameter.");
-		}
+        if !fetch file, config["file"] {
+            throw new Exception("You must provide 'file' option in factory config parameter.");
+        }
 
-		if fetch adapter, config["adapter"] {
-			let className = $namespace."\\".camelize(adapter);
+        if fetch adapter, config["adapter"] {
+            let className = $namespace."\\".camelize(adapter);
 
-			if fetch width, config["width"] {
-				if fetch height, config["height"] {
-					return new {className}(file, width, height);
-				}
+            if fetch width, config["width"] {
+                if fetch height, config["height"] {
+                    return new {className}(file, width, height);
+                }
 
-				return new {className}(file, width);
-			}
+                return new {className}(file, width);
+            }
 
-			return new {className}(file);
-		}
+            return new {className}(file);
+        }
 
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
-	}
+        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+    }
 }

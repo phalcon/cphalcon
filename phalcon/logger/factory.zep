@@ -33,62 +33,62 @@ use Phalcon\Logger;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Logger\\Adapter", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Logger\\Adapter", config);
+    }
 
-	protected static function loadClass(string objectName, var config)
-	{
-		var adapter, adapterName, adapters, className, element, key, logger, loggerName, name, type;
+    protected static function loadClass(string objectName, var config)
+    {
+        var adapter, adapterName, adapters, className, element, key, logger, loggerName, name, type;
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+            throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if !fetch loggerName, config["name"] {
-			throw new Exception("You must provide the 'name' option in factory config parameter.");
-		}
+        if !fetch loggerName, config["name"] {
+            throw new Exception("You must provide the 'name' option in factory config parameter.");
+        }
 
-		if !fetch adapters, config["adapters"] {
-			throw new Exception("You must provide the 'adapters' option in factory config parameter.");
-		}
+        if !fetch adapters, config["adapters"] {
+            throw new Exception("You must provide the 'adapters' option in factory config parameter.");
+        }
 
-		/**
-		 * Loop through the adapters and ensure that they are ok.
-		 */
-		for adapter in adapters {
-			if !fetch name, adapter["name"] {
-				throw new Exception("The adapters section of your configuration is missing the 'name' option");
-			}
+        /**
+         * Loop through the adapters and ensure that they are ok.
+         */
+        for adapter in adapters {
+            if !fetch name, adapter["name"] {
+                throw new Exception("The adapters section of your configuration is missing the 'name' option");
+            }
 
-			if !fetch type, adapter["adapter"] {
-				throw new Exception("The adapters section of your configuration is missing the 'adapter' option");
-			}
-		}
+            if !fetch type, adapter["adapter"] {
+                throw new Exception("The adapters section of your configuration is missing the 'adapter' option");
+            }
+        }
 
-		/**
-		 * If we got to here everything is OK. Lets set the objects
-		 */
-		let logger = new Logger(loggerName);
+        /**
+         * If we got to here everything is OK. Lets set the objects
+         */
+        let logger = new Logger(loggerName);
 
-		for key, element in adapters {
-			let name = element["name"],
-				type = element["adapter"],
-				adapterName = "A" . key,
-				className = objectName . "\\" . camelize(type),
-				adapter = new {className}(name);
+        for key, element in adapters {
+            let name = element["name"],
+                type = element["adapter"],
+                adapterName = "A" . key,
+                className = objectName . "\\" . camelize(type),
+                adapter = new {className}(name);
 
-			logger->addAdapter(adapterName, adapter);
-		}
+            logger->addAdapter(adapterName, adapter);
+        }
 
-		return logger;
-	}
+        return logger;
+    }
 }

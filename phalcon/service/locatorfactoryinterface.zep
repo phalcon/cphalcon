@@ -19,8 +19,8 @@ use Phalcon\Service\LocatorInterface;
  */
 interface LocatorFactoryInterface
 {
-	/**
-	 * New instance of the locator
-	 */
-	public function newInstance() -> <LocatorInterface>;
+    /**
+     * New instance of the locator
+     */
+    public function newInstance() -> <LocatorInterface>;
 }

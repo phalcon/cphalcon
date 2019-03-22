@@ -53,34 +53,34 @@ use Phalcon\Validation\Validator;
 class Digit extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var value, message, label, replacePairs, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var value, message, label, replacePairs, code;
 
-		let value = validation->getValue(field);
+        let value = validation->getValue(field);
 
-		if is_int(value) || ctype_digit(value) {
-			return true;
-		}
+        if is_int(value) || ctype_digit(value) {
+            return true;
+        }
 
-		let label = this->prepareLabel(validation, field),
-			message = this->prepareMessage(validation, field, "Digit"),
-			code = this->prepareCode(field);
+        let label = this->prepareLabel(validation, field),
+            message = this->prepareMessage(validation, field, "Digit"),
+            code = this->prepareCode(field);
 
-		let replacePairs = [":field": label];
+        let replacePairs = [":field": label];
 
-		validation->appendMessage(
-			new Message(
-				strtr(message, replacePairs),
-				field,
-				"Digit",
-				code
-			)
-		);
+        validation->appendMessage(
+            new Message(
+                strtr(message, replacePairs),
+                field,
+                "Digit",
+                code
+            )
+        );
 
-		return false;
-	}
+        return false;
+    }
 }

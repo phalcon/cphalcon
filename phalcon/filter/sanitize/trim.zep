@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class Trim
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(string! input)
-	{
-		return trim(input);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(string! input)
+    {
+        return trim(input);
+    }
 }

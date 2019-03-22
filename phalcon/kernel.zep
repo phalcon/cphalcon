@@ -17,22 +17,22 @@ namespace Phalcon;
  */
 class Kernel
 {
-	/**
-	 * Produces a pre-computed hash key based on a string. This function
-	 * produces different numbers in 32bit/64bit processors
-	 *
-	 * @return string
-	 */
-	public static function preComputeHashKey(string! key)
-	{
-		%{
+    /**
+     * Produces a pre-computed hash key based on a string. This function
+     * produces different numbers in 32bit/64bit processors
+     *
+     * @return string
+     */
+    public static function preComputeHashKey(string! key)
+    {
+        %{
 
-		{
+        {
 
-		RETURN_MM_NULL();
+        RETURN_MM_NULL();
 
-		}
+        }
 
-		}%
-	}
+        }%
+    }
 }

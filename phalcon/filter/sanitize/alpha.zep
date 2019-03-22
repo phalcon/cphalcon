@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class Alpha
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(var input)
-	{
-		return preg_replace("/[^A-Za-z]/", "", input);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(var input)
+    {
+        return preg_replace("/[^A-Za-z]/", "", input);
+    }
 }

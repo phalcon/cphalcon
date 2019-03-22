@@ -20,48 +20,48 @@ use Phalcon\Logger\Item;
  */
 class Json extends AbstractFormatter
 {
-	/**
-	 * Default date format
-	 *
-	 * @var string
-	 */
-	protected dateFormat = "D, d M y H:i:s O" { get, set };
+    /**
+     * Default date format
+     *
+     * @var string
+     */
+    protected dateFormat = "D, d M y H:i:s O" { get, set };
 
-	/**
-	 * Phalcon\Logger\Formatter\Json construct
-	 *
-	 * @param string dateFormat
-	 */
-	public function __construct(string dateFormat = "") -> void
-	{
-		if dateFormat {
-			let this->dateFormat = dateFormat;
-		}
-	}
+    /**
+     * Phalcon\Logger\Formatter\Json construct
+     *
+     * @param string dateFormat
+     */
+    public function __construct(string dateFormat = "") -> void
+    {
+        if dateFormat {
+            let this->dateFormat = dateFormat;
+        }
+    }
 
-	/**
-	 * Applies a format to a message before sent it to the internal log
-	 *
-	 * @param <Item> item
-	 *
-	 * @return string
-	 */
-	public function format(<Item> item) -> string
-	{
-		var message;
+    /**
+     * Applies a format to a message before sent it to the internal log
+     *
+     * @param <Item> item
+     *
+     * @return string
+     */
+    public function format(<Item> item) -> string
+    {
+        var message;
 
-		if typeof item->getContext() === "array" {
-			let message = this->interpolate(item->getMessage(), item->getContext());
-		} else {
-			let message = item->getMessage();
-		}
+        if typeof item->getContext() === "array" {
+            let message = this->interpolate(item->getMessage(), item->getContext());
+        } else {
+            let message = item->getMessage();
+        }
 
-		return json_encode(
-			[
-				"type"      : item->getName(),
-				"message"   : message,
-				"timestamp" : date(this->dateFormat, item->getTime())
-			]
-		) . PHP_EOL;
-	}
+        return json_encode(
+            [
+                "type"      : item->getName(),
+                "message"   : message,
+                "timestamp" : date(this->dateFormat, item->getTime())
+            ]
+        ) . PHP_EOL;
+    }
 }

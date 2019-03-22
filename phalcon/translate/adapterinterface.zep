@@ -18,23 +18,23 @@ namespace Phalcon\Translate;
 interface AdapterInterface
 {
 
-	/**
-	 * Returns the translation string of the given key
-	 *
-	 * @param	array placeholders
-	 */
-	public function t(string! translateKey, placeholders = null) -> string;
+    /**
+     * Returns the translation string of the given key
+     *
+     * @param    array placeholders
+     */
+    public function t(string! translateKey, placeholders = null) -> string;
 
-	/**
-	 * Returns the translation related to the given key
-	 *
-	 * @param	array placeholders
-	 */
-	public function query(string! index, placeholders = null) -> string;
+    /**
+     * Returns the translation related to the given key
+     *
+     * @param    array placeholders
+     */
+    public function query(string! index, placeholders = null) -> string;
 
-	/**
-	 * Check whether is defined a translation key in the internal array
-	 */
-	public function exists(string! index) -> bool;
+    /**
+     * Check whether is defined a translation key in the internal array
+     */
+    public function exists(string! index) -> bool;
 
 }

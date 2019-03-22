@@ -32,34 +32,34 @@ use Phalcon\Logger\Exception;
  * $adapter3 = new Stream('/manager/third-log.log');
  *
  * $logger = new Logger(
- * 		'messages',
- * 		[
- * 			'local'   => $adapter1,
- * 			'remote'  => $adapter2,
- * 			'manager' => $adapter3,
- * 		]
- * 	);
+ *         'messages',
+ *         [
+ *             'local'   => $adapter1,
+ *             'remote'  => $adapter2,
+ *             'manager' => $adapter3,
+ *         ]
+ *     );
  *
  * // Log to all adapters
  * $logger->error('Something went wrong');
  *
  * // Log to specific adapters
  * $logger
- * 		->excludeAdapters(['manager'])
- * 		->info('This does not go to the "manager" logger);
+ *         ->excludeAdapters(['manager'])
+ *         ->info('This does not go to the "manager" logger);
  *</code>
  */
 class Logger implements LoggerInterface
 {
-	const ALERT     = 2;
-	const CRITICAL  = 1;
-	const CUSTOM    = 8;
-	const DEBUG     = 7;
-	const EMERGENCY = 0;
-	const ERROR     = 3;
-	const INFO      = 6;
-	const NOTICE    = 5;
-	const WARNING   = 4;
+    const ALERT     = 2;
+    const CRITICAL  = 1;
+    const CUSTOM    = 8;
+    const DEBUG     = 7;
+    const EMERGENCY = 0;
+    const ERROR     = 3;
+    const INFO      = 6;
+    const NOTICE    = 5;
+    const WARNING   = 4;
 
     /**
      * The adapter stack
@@ -80,12 +80,12 @@ class Logger implements LoggerInterface
      */
     protected excluded = [];
 
-	/**
-	 * Constructor.
-	 *
-	 * @param string name     The name of the logger
-	 * @param array  adapters The collection of adapters to be used for logging (default [])
-	 */
+    /**
+     * Constructor.
+     *
+     * @param string name     The name of the logger
+     * @param array  adapters The collection of adapters to be used for logging (default [])
+     */
     public function __construct(string! name, array! adapters = []) -> void
     {
         let this->name = name;
@@ -188,20 +188,20 @@ class Logger implements LoggerInterface
      */
     public function excludeAdapters(array adapters = []) -> <Logger>
     {
-    	var name, registered;
+        var name, registered;
 
-    	let registered = this->getAdapters();
+        let registered = this->getAdapters();
 
-    	/**
-    	 * Loop through what has been passed. Check these names with
-    	 * the registered adapters. If they match, add them to the
-    	 * this->excluded array
-		 */
-    	for name, _ in adapters {
-			if isset(registered[name]) {
-				let this->excluded[] = name;
-			}
-    	}
+        /**
+         * Loop through what has been passed. Check these names with
+         * the registered adapters. If they match, add them to the
+         * this->excluded array
+         */
+        for name, _ in adapters {
+            if isset(registered[name]) {
+                let this->excluded[] = name;
+            }
+        }
 
         return this;
     }
@@ -216,13 +216,13 @@ class Logger implements LoggerInterface
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
-    	var adapter, adapters;
+        var adapter, adapters;
 
-    	let adapters = this->getAdapters();
+        let adapters = this->getAdapters();
 
-    	if !fetch adapter, adapters[name] {
-    		throw new Exception("Adapter does not exist for this logger");
-    	}
+        if !fetch adapter, adapters[name] {
+            throw new Exception("Adapter does not exist for this logger");
+        }
 
         return adapter;
     }
@@ -273,9 +273,9 @@ class Logger implements LoggerInterface
      */
     public function log(level, message, array context = []) -> void
     {
-    	var intLevel;
+        var intLevel;
 
-    	let intLevel = this->getLevelNumber(level);
+        let intLevel = this->getLevelNumber(level);
 
         this->addMessage(level, (string) message, context);
     }
@@ -303,17 +303,17 @@ class Logger implements LoggerInterface
      */
     public function removeAdapter(string name) -> <Logger>
     {
-    	var adapters;
+        var adapters;
 
-		let adapters = this->adapters;
+        let adapters = this->adapters;
 
-    	if true !== isset(adapters[name]) {
-    		throw new Exception("Adapter does not exist for this logger");
-    	}
+        if true !== isset(adapters[name]) {
+            throw new Exception("Adapter does not exist for this logger");
+        }
 
-    	unset adapters[name];
+        unset adapters[name];
 
-		let this->adapters = adapters;
+        let this->adapters = adapters;
 
         return this;
     }
@@ -360,42 +360,42 @@ class Logger implements LoggerInterface
      */
     protected function addMessage(int level, string message, array context = []) -> bool
     {
-    	var adapter, key, keys, excluded, levelName, levels, item, registered;
+        var adapter, key, keys, excluded, levelName, levels, item, registered;
 
-		let registered = this->adapters,
-			excluded   = this->excluded;
+        let registered = this->adapters,
+            excluded   = this->excluded;
 
-    	if count(registered) === 0 {
-    		throw new Exception("No adapters specified");
-    	}
+        if count(registered) === 0 {
+            throw new Exception("No adapters specified");
+        }
 
-		let levels = this->getLevels();
-		if !fetch levelName, levels[level] {
-			let levelName = levels[self::CUSTOM];
-		}
+        let levels = this->getLevels();
+        if !fetch levelName, levels[level] {
+            let levelName = levels[self::CUSTOM];
+        }
 
-		let item = new Item(message, levelName, level, time(), context);
+        let item = new Item(message, levelName, level, time(), context);
 
-		/**
-		 * Compare the actual adapters array with the excluded one. Whatever
-		 * the difference is, that is the array of adapters that we will log
-		 * this message to. By default `excluded` is empty so the message will
-		 * be loggged to all registered adapters
-		 */
-		 let keys = array_diff(array_keys(registered), excluded);
+        /**
+         * Compare the actual adapters array with the excluded one. Whatever
+         * the difference is, that is the array of adapters that we will log
+         * this message to. By default `excluded` is empty so the message will
+         * be loggged to all registered adapters
+         */
+         let keys = array_diff(array_keys(registered), excluded);
 
-		for key in keys {
-			let adapter = registered[key];
-    		adapter->process(item);
-    	}
+        for key in keys {
+            let adapter = registered[key];
+            adapter->process(item);
+        }
 
-		/**
-		 * Clear the excluded array since we made the call now
-		 */
-		let this->excluded = [];
+        /**
+         * Clear the excluded array since we made the call now
+         */
+        let this->excluded = [];
 
-    	return true;
-	}
+        return true;
+    }
 
     /**
      * Returns an array of log levels with integer to string conversion
@@ -404,17 +404,17 @@ class Logger implements LoggerInterface
      */
     protected function getLevels() -> array
     {
-		return [
-			self::ALERT     : "alert",
-			self::CRITICAL  : "critical",
-			self::DEBUG     : "debug",
-			self::EMERGENCY : "emergency",
-			self::ERROR     : "error",
-			self::INFO      : "info",
-			self::NOTICE    : "notice",
-			self::WARNING   : "warning",
-			self::CUSTOM    : "custom"
-		];
+        return [
+            self::ALERT     : "alert",
+            self::CRITICAL  : "critical",
+            self::DEBUG     : "debug",
+            self::EMERGENCY : "emergency",
+            self::ERROR     : "error",
+            self::INFO      : "info",
+            self::NOTICE    : "notice",
+            self::WARNING   : "warning",
+            self::CUSTOM    : "custom"
+        ];
     }
 
     /**
@@ -424,25 +424,25 @@ class Logger implements LoggerInterface
      *
      * @return int
      */
-	private function getLevelNumber(level) -> int
+    private function getLevelNumber(level) -> int
     {
-    	var levelName, numberLevel, levels;
+        var levelName, numberLevel, levels;
 
-    	if typeof level === "string" {
-    		let levelName = strtolower(level),
-    			levels    = array_flip(this->getLevels());
+        if typeof level === "string" {
+            let levelName = strtolower(level),
+                levels    = array_flip(this->getLevels());
 
-    		if fetch numberLevel, levels[levelName] {
-    			return numberLevel;
-    		}
-    	} elseif is_numeric(level) {
-    		let levels = this->getLevels();
+            if fetch numberLevel, levels[levelName] {
+                return numberLevel;
+            }
+        } elseif is_numeric(level) {
+            let levels = this->getLevels();
 
-    		if fetch numberLevel, levels[level] {
-    			return numberLevel;
-    		}
-    	}
+            if fetch numberLevel, levels[level] {
+                return numberLevel;
+            }
+        }
 
-    	 return self::CUSTOM;
+         return self::CUSTOM;
     }
 }

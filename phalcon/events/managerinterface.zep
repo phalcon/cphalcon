@@ -20,42 +20,42 @@ namespace Phalcon\Events;
 interface ManagerInterface
 {
 
-	/**
-	 * Attach a listener to the events manager
-	 *
-	 * @param object|callable handler
-	 */
-	public function attach(string! eventType, handler);
+    /**
+     * Attach a listener to the events manager
+     *
+     * @param object|callable handler
+     */
+    public function attach(string! eventType, handler);
 
-	/**
-	 * Detach the listener from the events manager
-	 *
-	 * @param object handler
-	 */
-	public function detach(string! eventType, handler);
+    /**
+     * Detach the listener from the events manager
+     *
+     * @param object handler
+     */
+    public function detach(string! eventType, handler);
 
-	/**
-	 * Removes all events from the EventsManager
-	 */
-	public function detachAll(string! type = null);
+    /**
+     * Removes all events from the EventsManager
+     */
+    public function detachAll(string! type = null);
 
-	/**
-	 * Fires an event in the events manager causing the active listeners to be notified about it
-	 *
-	 * @param object source
-	 * @param mixed  data
-	 * @return mixed
-	 */
-	public function fire(string! eventType, source, data = null);
+    /**
+     * Fires an event in the events manager causing the active listeners to be notified about it
+     *
+     * @param object source
+     * @param mixed  data
+     * @return mixed
+     */
+    public function fire(string! eventType, source, data = null);
 
-	/**
-	 * Check whether certain type of event has listeners
-	 */
-	public function hasListeners(string! type) -> bool;
+    /**
+     * Check whether certain type of event has listeners
+     */
+    public function hasListeners(string! type) -> bool;
 
-	/**
-	 * Returns all the attached listeners of a certain type
-	 */
-	public function getListeners(string! type) -> array;
+    /**
+     * Returns all the attached listeners of a certain type
+     */
+    public function getListeners(string! type) -> array;
 
 }

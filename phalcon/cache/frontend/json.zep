@@ -52,78 +52,78 @@ use Phalcon\Cache\FrontendInterface;
 class Json implements FrontendInterface
 {
 
-	protected _frontendOptions;
+    protected _frontendOptions;
 
-	/**
-	 * Phalcon\Cache\Frontend\Base64 constructor
-	 */
-	public function __construct(array frontendOptions = [])
-	{
-		let this->_frontendOptions = frontendOptions;
-	}
+    /**
+     * Phalcon\Cache\Frontend\Base64 constructor
+     */
+    public function __construct(array frontendOptions = [])
+    {
+        let this->_frontendOptions = frontendOptions;
+    }
 
-	/**
-	 * Returns the cache lifetime
-	 */
-	public function getLifetime() -> int
-	{
-		var options, lifetime;
-		let options = this->_frontendOptions;
-		if typeof options == "array" {
-			if fetch lifetime, options["lifetime"] {
-				return lifetime;
-			}
-		}
-		return 1;
-	}
+    /**
+     * Returns the cache lifetime
+     */
+    public function getLifetime() -> int
+    {
+        var options, lifetime;
+        let options = this->_frontendOptions;
+        if typeof options == "array" {
+            if fetch lifetime, options["lifetime"] {
+                return lifetime;
+            }
+        }
+        return 1;
+    }
 
-	/**
-	 * Check whether if frontend is buffering output
-	 */
-	public function isBuffering() -> bool
-	{
-		return false;
-	}
+    /**
+     * Check whether if frontend is buffering output
+     */
+    public function isBuffering() -> bool
+    {
+        return false;
+    }
 
-	/**
-	 * Starts output frontend. Actually, does nothing
-	 */
-	public function start()
-	{
+    /**
+     * Starts output frontend. Actually, does nothing
+     */
+    public function start()
+    {
 
-	}
+    }
 
-	/**
-	 * Returns output cached content
-	 *
-	 * @return string
-	 */
-	public function getContent()
-	{
-		return null;
-	}
+    /**
+     * Returns output cached content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return null;
+    }
 
-	/**
-	 * Stops output frontend
-	 */
-	public function stop() -> void
-	{
+    /**
+     * Stops output frontend
+     */
+    public function stop() -> void
+    {
 
-	}
+    }
 
-	/**
-	 * Serializes data before storing them
-	 */
-	public function beforeStore(var data) -> string
-	{
-		return json_encode(data);
-	}
+    /**
+     * Serializes data before storing them
+     */
+    public function beforeStore(var data) -> string
+    {
+        return json_encode(data);
+    }
 
-	/**
-	 * Unserializes data after retrieval
-	 */
-	public function afterRetrieve(var data) -> var
-	{
-		return json_decode(data);
-	}
+    /**
+     * Unserializes data after retrieval
+     */
+    public function afterRetrieve(var data) -> var
+    {
+        return json_decode(data);
+    }
 }

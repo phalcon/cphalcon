@@ -20,25 +20,25 @@ use Phalcon\Logger\Item;
  */
 class Syslog extends AbstractFormatter
 {
-	/**
-	 * Applies a format to a message before sent it to the internal log
-	 *
-	 * @param <Item> item
-	 *
-	 * @return array
-	 */
-	public function format(<Item> item) -> array
-	{
-		var context, message, type;
+    /**
+     * Applies a format to a message before sent it to the internal log
+     *
+     * @param <Item> item
+     *
+     * @return array
+     */
+    public function format(<Item> item) -> array
+    {
+        var context, message, type;
 
-		let message = item->getMessage(),
-			type    = item->getType(),
-			context = item->getContext();
+        let message = item->getMessage(),
+            type    = item->getType(),
+            context = item->getContext();
 
-		if typeof context === "array" {
-			let message = this->interpolate(message, context);
-		}
+        if typeof context === "array" {
+            let message = this->interpolate(message, context);
+        }
 
-		return [type, message];
-	}
+        return [type, message];
+    }
 }

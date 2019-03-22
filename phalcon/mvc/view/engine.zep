@@ -23,40 +23,40 @@ use Phalcon\Mvc\ViewBaseInterface;
 abstract class Engine extends Injectable implements EngineInterface
 {
 
-	protected _view;
+    protected _view;
 
-	/**
-	 * Phalcon\Mvc\View\Engine constructor
-	 */
-	public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null)
-	{
-		let this->_view = view;
-		let this->_dependencyInjector = dependencyInjector;
-	}
+    /**
+     * Phalcon\Mvc\View\Engine constructor
+     */
+    public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null)
+    {
+        let this->_view = view;
+        let this->_dependencyInjector = dependencyInjector;
+    }
 
-	/**
-	 * Returns cached output on another view stage
-	 */
-	public function getContent() -> string
-	{
-		return this->_view->getContent();
-	}
+    /**
+     * Returns cached output on another view stage
+     */
+    public function getContent() -> string
+    {
+        return this->_view->getContent();
+    }
 
-	/**
-	 * Renders a partial inside another view
-	 *
-	 * @param array params
-	 */
-	public function partial(string! partialPath, var params = null) -> string
-	{
-		return this->_view->partial(partialPath, params);
-	}
+    /**
+     * Renders a partial inside another view
+     *
+     * @param array params
+     */
+    public function partial(string! partialPath, var params = null) -> string
+    {
+        return this->_view->partial(partialPath, params);
+    }
 
-	/**
-	 * Returns the view component related to the adapter
-	 */
-	public function getView() -> <ViewBaseInterface>
-	{
-		return this->_view;
-	}
+    /**
+     * Returns the view component related to the adapter
+     */
+    public function getView() -> <ViewBaseInterface>
+    {
+        return this->_view;
+    }
 }

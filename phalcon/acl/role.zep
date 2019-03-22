@@ -19,30 +19,30 @@ use Phalcon\Acl\Exception;
  */
 class Role implements RoleInterface
 {
-	/**
-	 * Role name
-	 * @var string
-	 */
-	private name { get, __toString };
+    /**
+     * Role name
+     * @var string
+     */
+    private name { get, __toString };
 
-	/**
-	 * Role description
-	 * @var string
-	 */
-	private description { get };
+    /**
+     * Role description
+     * @var string
+     */
+    private description { get };
 
-	/**
-	 * Phalcon\Acl\Role constructor
-	 */
-	public function __construct(string! name, string description = null)
-	{
-		if name == "*" {
-			throw new Exception("Role name cannot be '*'");
-		}
-		let this->name = name;
+    /**
+     * Phalcon\Acl\Role constructor
+     */
+    public function __construct(string! name, string description = null)
+    {
+        if name == "*" {
+            throw new Exception("Role name cannot be '*'");
+        }
+        let this->name = name;
 
-		if description {
-			let this->description = description;
-		}
-	}
+        if description {
+            let this->description = description;
+        }
+    }
 }

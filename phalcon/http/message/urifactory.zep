@@ -20,14 +20,14 @@ use Phalcon\Http\Message\Uri;
 
 class UriFactory implements UriFactoryInterface
 {
-	/**
-	 * Returns a Locator object with all the helpers defined in anonynous
-	 * functions
-	 */
-	public function createUri(string! uri = "") -> <UriInterface>
-	{
-		return new Uri(uri);
-	}
+    /**
+     * Returns a Locator object with all the helpers defined in anonynous
+     * functions
+     */
+    public function createUri(string! uri = "") -> <UriInterface>
+    {
+        return new Uri(uri);
+    }
 }
 
 

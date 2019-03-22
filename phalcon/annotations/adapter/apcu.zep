@@ -27,42 +27,42 @@ use Phalcon\Annotations\Reflection;
 class Apcu extends Adapter
 {
 
-	protected _prefix = "";
+    protected _prefix = "";
 
-	protected _ttl = 172800;
+    protected _ttl = 172800;
 
-	/**
-	 * Phalcon\Annotations\Adapter\Apcu constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options = null)
-	{
-		var prefix, ttl;
+    /**
+     * Phalcon\Annotations\Adapter\Apcu constructor
+     *
+     * @param array options
+     */
+    public function __construct(options = null)
+    {
+        var prefix, ttl;
 
-		if typeof options == "array" {
-			if fetch prefix, options["prefix"] {
-				let this->_prefix = prefix;
-			}
-			if fetch ttl, options["lifetime"] {
-				let this->_ttl = ttl;
-			}
-		}
-	}
+        if typeof options == "array" {
+            if fetch prefix, options["prefix"] {
+                let this->_prefix = prefix;
+            }
+            if fetch ttl, options["lifetime"] {
+                let this->_ttl = ttl;
+            }
+        }
+    }
 
-	/**
-	 * Reads parsed annotations from APCu
-	 */
-	public function read(string! key) -> <Reflection> | bool
-	{
-		return apcu_fetch(strtolower("_PHAN" . this->_prefix . key));
-	}
+    /**
+     * Reads parsed annotations from APCu
+     */
+    public function read(string! key) -> <Reflection> | bool
+    {
+        return apcu_fetch(strtolower("_PHAN" . this->_prefix . key));
+    }
 
-	/**
-	 * Writes parsed annotations to APCu
-	 */
-	public function write(string! key, <Reflection> data)
-	{
-		return apcu_store(strtolower("_PHAN" . this->_prefix . key), data, this->_ttl);
-	}
+    /**
+     * Writes parsed annotations to APCu
+     */
+    public function write(string! key, <Reflection> data)
+    {
+        return apcu_store(strtolower("_PHAN" . this->_prefix . key), data, this->_ttl);
+    }
 }

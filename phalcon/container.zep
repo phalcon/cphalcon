@@ -15,32 +15,32 @@ use Phalcon\DiInterface;
 
 class Container implements ContainerInterface
 {
-	/**
-	 * @var <DiInterface>
-	 */
-	protected container;
+    /**
+     * @var <DiInterface>
+     */
+    protected container;
 
-	/**
-	 * Phalcon\Di constructor
-	 */
-	public function __construct(<DiInterface> container)
-	{
-		let this->container = container;
-	}
+    /**
+     * Phalcon\Di constructor
+     */
+    public function __construct(<DiInterface> container)
+    {
+        let this->container = container;
+    }
 
-	/**
-	 * Return the service
-	 */
-	public function get(var name) -> var
-	{
-		return this->container->getService(name);
-	}
+    /**
+     * Return the service
+     */
+    public function get(var name) -> var
+    {
+        return this->container->getService(name);
+    }
 
-	/**
-	 * Whether a service exists or not in the container
-	 */
-	public function has(var name) -> bool
-	{
-		return this->container->has(name);
-	}
+    /**
+     * Whether a service exists or not in the container
+     */
+    public function has(var name) -> bool
+    {
+        return this->container->has(name);
+    }
 }

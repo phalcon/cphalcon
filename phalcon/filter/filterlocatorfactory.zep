@@ -38,45 +38,45 @@ use Phalcon\Service\LocatorFactoryInterface;
 
 class FilterLocatorFactory implements LocatorFactoryInterface
 {
-	/**
-	 * Returns a Locator object with all the helpers defined in anonynous
-	 * functions
-	 */
-	public function newInstance() -> <LocatorInterface>
-	{
-		var factory, helpers;
+    /**
+     * Returns a Locator object with all the helpers defined in anonynous
+     * functions
+     */
+    public function newInstance() -> <LocatorInterface>
+    {
+        var factory, helpers;
 
-		/**
-		 * Available helpers
-		 */
-		let helpers = [
-			FilterLocator::FILTER_ABSINT      : "Phalcon\\Filter\\Sanitize\\AbsInt",
-			FilterLocator::FILTER_ALNUM       : "Phalcon\\Filter\\Sanitize\\Alnum",
-			FilterLocator::FILTER_ALPHA       : "Phalcon\\Filter\\Sanitize\\Alpha",
-			FilterLocator::FILTER_BOOL        : "Phalcon\\Filter\\Sanitize\\BoolVal",
-			FilterLocator::FILTER_EMAIL       : "Phalcon\\Filter\\Sanitize\\Email",
-			FilterLocator::FILTER_FLOAT       : "Phalcon\\Filter\\Sanitize\\FloatVal",
-			FilterLocator::FILTER_INT         : "Phalcon\\Filter\\Sanitize\\IntVal",
-			FilterLocator::FILTER_LOWER       : "Phalcon\\Filter\\Sanitize\\Lower",
-			FilterLocator::FILTER_LOWERFIRST  : "Phalcon\\Filter\\Sanitize\\LowerFirst",
-			FilterLocator::FILTER_REGEX       : "Phalcon\\Filter\\Sanitize\\Regex",
-			FilterLocator::FILTER_REMOVE      : "Phalcon\\Filter\\Sanitize\\Remove",
-			FilterLocator::FILTER_REPLACE     : "Phalcon\\Filter\\Sanitize\\Replace",
-			FilterLocator::FILTER_SPECIAL     : "Phalcon\\Filter\\Sanitize\\Special",
-			FilterLocator::FILTER_SPECIALFULL : "Phalcon\\Filter\\Sanitize\\SpecialFull",
-			FilterLocator::FILTER_STRING      : "Phalcon\\Filter\\Sanitize\\StringVal",
-			FilterLocator::FILTER_STRIPTAGS   : "Phalcon\\Filter\\Sanitize\\Striptags",
-			FilterLocator::FILTER_TRIM        : "Phalcon\\Filter\\Sanitize\\Trim",
-			FilterLocator::FILTER_UPPER       : "Phalcon\\Filter\\Sanitize\\Upper",
-			FilterLocator::FILTER_UPPERFIRST  : "Phalcon\\Filter\\Sanitize\\UpperFirst",
-			FilterLocator::FILTER_UPPERWORDS  : "Phalcon\\Filter\\Sanitize\\UpperWords",
-			FilterLocator::FILTER_URL         : "Phalcon\\Filter\\Sanitize\\Url"
-		];
+        /**
+         * Available helpers
+         */
+        let helpers = [
+            FilterLocator::FILTER_ABSINT      : "Phalcon\\Filter\\Sanitize\\AbsInt",
+            FilterLocator::FILTER_ALNUM       : "Phalcon\\Filter\\Sanitize\\Alnum",
+            FilterLocator::FILTER_ALPHA       : "Phalcon\\Filter\\Sanitize\\Alpha",
+            FilterLocator::FILTER_BOOL        : "Phalcon\\Filter\\Sanitize\\BoolVal",
+            FilterLocator::FILTER_EMAIL       : "Phalcon\\Filter\\Sanitize\\Email",
+            FilterLocator::FILTER_FLOAT       : "Phalcon\\Filter\\Sanitize\\FloatVal",
+            FilterLocator::FILTER_INT         : "Phalcon\\Filter\\Sanitize\\IntVal",
+            FilterLocator::FILTER_LOWER       : "Phalcon\\Filter\\Sanitize\\Lower",
+            FilterLocator::FILTER_LOWERFIRST  : "Phalcon\\Filter\\Sanitize\\LowerFirst",
+            FilterLocator::FILTER_REGEX       : "Phalcon\\Filter\\Sanitize\\Regex",
+            FilterLocator::FILTER_REMOVE      : "Phalcon\\Filter\\Sanitize\\Remove",
+            FilterLocator::FILTER_REPLACE     : "Phalcon\\Filter\\Sanitize\\Replace",
+            FilterLocator::FILTER_SPECIAL     : "Phalcon\\Filter\\Sanitize\\Special",
+            FilterLocator::FILTER_SPECIALFULL : "Phalcon\\Filter\\Sanitize\\SpecialFull",
+            FilterLocator::FILTER_STRING      : "Phalcon\\Filter\\Sanitize\\StringVal",
+            FilterLocator::FILTER_STRIPTAGS   : "Phalcon\\Filter\\Sanitize\\Striptags",
+            FilterLocator::FILTER_TRIM        : "Phalcon\\Filter\\Sanitize\\Trim",
+            FilterLocator::FILTER_UPPER       : "Phalcon\\Filter\\Sanitize\\Upper",
+            FilterLocator::FILTER_UPPERFIRST  : "Phalcon\\Filter\\Sanitize\\UpperFirst",
+            FilterLocator::FILTER_UPPERWORDS  : "Phalcon\\Filter\\Sanitize\\UpperWords",
+            FilterLocator::FILTER_URL         : "Phalcon\\Filter\\Sanitize\\Url"
+        ];
 
-		let factory = new FilterLocator(helpers);
+        let factory = new FilterLocator(helpers);
 
-		return factory;
-	}
+        return factory;
+    }
 }
 
 

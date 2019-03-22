@@ -20,8 +20,8 @@ use Phalcon\Mvc\ModelInterface;
 interface ResultInterface
 {
 
-	/**
-	 * Sets the object's state
-	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface> | bool;
+    /**
+     * Sets the object's state
+     */
+    public function setDirtyState(int dirtyState) -> <ModelInterface> | bool;
 }

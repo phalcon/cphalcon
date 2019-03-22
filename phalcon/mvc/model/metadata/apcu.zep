@@ -34,50 +34,50 @@ use Phalcon\Mvc\Model\Exception;
 class Apcu extends MetaData
 {
 
-	protected _prefix = "";
+    protected _prefix = "";
 
-	protected _ttl = 172800;
+    protected _ttl = 172800;
 
-	protected _metaData = [];
+    protected _metaData = [];
 
-	/**
-	 * Phalcon\Mvc\Model\MetaData\Apcu constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options = null)
-	{
-		var prefix, ttl;
+    /**
+     * Phalcon\Mvc\Model\MetaData\Apcu constructor
+     *
+     * @param array options
+     */
+    public function __construct(options = null)
+    {
+        var prefix, ttl;
 
-		if typeof options == "array" {
-			if fetch prefix, options["prefix"] {
-				let this->_prefix = prefix;
-			}
-			if fetch ttl, options["lifetime"] {
-				let this->_ttl = ttl;
-			}
-		}
-	}
+        if typeof options == "array" {
+            if fetch prefix, options["prefix"] {
+                let this->_prefix = prefix;
+            }
+            if fetch ttl, options["lifetime"] {
+                let this->_ttl = ttl;
+            }
+        }
+    }
 
-	/**
-	 * Reads meta-data from APCu
-	 */
-	public function read(string! key) -> array | null
-	{
-		var data;
+    /**
+     * Reads meta-data from APCu
+     */
+    public function read(string! key) -> array | null
+    {
+        var data;
 
-		let data = apcu_fetch("$PMM$" . this->_prefix . key);
-		if typeof data == "array" {
-			return data;
-		}
-		return null;
-	}
+        let data = apcu_fetch("$PMM$" . this->_prefix . key);
+        if typeof data == "array" {
+            return data;
+        }
+        return null;
+    }
 
-	/**
-	 * Writes the meta-data to APCu
-	 */
-	public function write(string! key, array data) -> void
-	{
-		apcu_store("$PMM$" . this->_prefix . key, data, this->_ttl);
-	}
+    /**
+     * Writes the meta-data to APCu
+     */
+    public function write(string! key, array data) -> void
+    {
+        apcu_store("$PMM$" . this->_prefix . key, data, this->_ttl);
+    }
 }

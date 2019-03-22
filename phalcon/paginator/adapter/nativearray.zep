@@ -39,67 +39,67 @@ use Phalcon\Paginator\RepositoryInterface;
  */
 class NativeArray extends Adapter
 {
-	/**
-	 * Returns a slice of the resultset to show in the pagination
-	 */
-	public function paginate() -> <RepositoryInterface>
-	{
-		var config, items;
-		int show, pageNumber, totalPages, number, previous, next;
-		double roundedTotal;
+    /**
+     * Returns a slice of the resultset to show in the pagination
+     */
+    public function paginate() -> <RepositoryInterface>
+    {
+        var config, items;
+        int show, pageNumber, totalPages, number, previous, next;
+        double roundedTotal;
 
-		/**
-		 * TODO: Rewrite the whole method!
-		 */
-		let config = this->_config,
-			items  = config["data"];
+        /**
+         * TODO: Rewrite the whole method!
+         */
+        let config = this->_config,
+            items  = config["data"];
 
-		if typeof items != "array" {
-			throw new Exception("Invalid data for paginator");
-		}
+        if typeof items != "array" {
+            throw new Exception("Invalid data for paginator");
+        }
 
-		let show    = (int) this->_limitRows,
-			pageNumber = (int) this->_page;
+        let show    = (int) this->_limitRows,
+            pageNumber = (int) this->_page;
 
-		if pageNumber <= 0 {
-			let pageNumber = 1;
-		}
+        if pageNumber <= 0 {
+            let pageNumber = 1;
+        }
 
-		let number = count(items),
-			roundedTotal = number / floatval(show),
-			totalPages = (int) roundedTotal;
+        let number = count(items),
+            roundedTotal = number / floatval(show),
+            totalPages = (int) roundedTotal;
 
-		/**
-		 * Increase total_pages if wasn't integer
-		 */
-		if totalPages != roundedTotal {
-			let totalPages++;
-		}
+        /**
+         * Increase total_pages if wasn't integer
+         */
+        if totalPages != roundedTotal {
+            let totalPages++;
+        }
 
-		let items = array_slice(items, show * (pageNumber - 1), show);
+        let items = array_slice(items, show * (pageNumber - 1), show);
 
-		//Fix next
-		if pageNumber < totalPages {
-			let next = pageNumber + 1;
-		} else {
-			let next = totalPages;
-		}
+        //Fix next
+        if pageNumber < totalPages {
+            let next = pageNumber + 1;
+        } else {
+            let next = totalPages;
+        }
 
-		if pageNumber > 1 {
-			let previous = pageNumber - 1;
-		} else {
-			let previous = 1;
-		}
+        if pageNumber > 1 {
+            let previous = pageNumber - 1;
+        } else {
+            let previous = 1;
+        }
 
-		return this->getRepository([
-			RepositoryInterface::PROPERTY_ITEMS 		: items,
-			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: number,
-			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
-			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,
-			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
-			RepositoryInterface::PROPERTY_CURRENT_PAGE 	: pageNumber,
-			RepositoryInterface::PROPERTY_NEXT_PAGE 	: next,
-			RepositoryInterface::PROPERTY_LAST_PAGE 	: totalPages
-		]);
-	}
+        return this->getRepository([
+            RepositoryInterface::PROPERTY_ITEMS         : items,
+            RepositoryInterface::PROPERTY_TOTAL_ITEMS     : number,
+            RepositoryInterface::PROPERTY_LIMIT         : this->_limitRows,
+            RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
+            RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
+            RepositoryInterface::PROPERTY_CURRENT_PAGE     : pageNumber,
+            RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
+            RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
+        ]);
+    }
 }

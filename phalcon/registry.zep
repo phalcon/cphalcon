@@ -64,153 +64,153 @@ use Phalcon\Collection;
  */
 final class Registry extends Collection
 {
-	/**
-	 * Constructor 
-	 */
-	public final function __construct(array! data = null) -> void
-	{
-		parent::__construct(data);
-	}
+    /**
+     * Constructor
+     */
+    public final function __construct(array! data = null) -> void
+    {
+        parent::__construct(data);
+    }
 
-	/**
-	 * Magic getter to get an element from the collection
-	 */
-	public final function __get(string! element) -> var
-	{
-		return parent::get(element);
-	}
+    /**
+     * Magic getter to get an element from the collection
+     */
+    public final function __get(string! element) -> var
+    {
+        return parent::get(element);
+    }
 
-	/**
-	 * Magic isset to check whether an element exists or not
-	 */
-	public final function __isset(string! element) -> bool
-	{
-		return parent::has(element);
-	}
+    /**
+     * Magic isset to check whether an element exists or not
+     */
+    public final function __isset(string! element) -> bool
+    {
+        return parent::has(element);
+    }
 
-	/**
-	 * Magic setter to assign values to an element
-	 */
-	public final function __set(string! element, var value) -> void
-	{
-		parent::set(element, value);
-	}
+    /**
+     * Magic setter to assign values to an element
+     */
+    public final function __set(string! element, var value) -> void
+    {
+        parent::set(element, value);
+    }
 
-	/**
-	 * Magic unset to remove an element from the collection
-	 */
-	public final function __unset(string! element) -> void
-	{
-		parent::remove(element);
-	}
+    /**
+     * Magic unset to remove an element from the collection
+     */
+    public final function __unset(string! element) -> void
+    {
+        parent::remove(element);
+    }
 
-	/**
-	 * Clears the internal collection
-	 */
-	public final function clear() -> void
-	{
-		parent::clear();
-	}
+    /**
+     * Clears the internal collection
+     */
+    public final function clear() -> void
+    {
+        parent::clear();
+    }
 
-	/**
-	 * Count elements of an object
-	 *
-	 * @link https://php.net/manual/en/countable.count.php
-	 */
-	public final function count() -> int
-	{
-		return parent::count();
-	}
+    /**
+     * Count elements of an object
+     *
+     * @link https://php.net/manual/en/countable.count.php
+     */
+    public final function count() -> int
+    {
+        return parent::count();
+    }
 
-	/**
-	 * Get the element from the collection
-	 */
-	public final function get(string! element, var defaultValue = null, bool insensitive = true) -> var
-	{
-		return parent::get(element, defaultValue, insensitive);
-	}
+    /**
+     * Get the element from the collection
+     */
+    public final function get(string! element, var defaultValue = null, bool insensitive = true) -> var
+    {
+        return parent::get(element, defaultValue, insensitive);
+    }
 
-	/**
-	 * Returns the iterator of the class
-	 */
-	public final function getIterator() -> <Traversable>
-	{
-		return parent::getIterator();
-	}
+    /**
+     * Returns the iterator of the class
+     */
+    public final function getIterator() -> <Traversable>
+    {
+        return parent::getIterator();
+    }
 
-	/**
-	 * Get the element from the collection
-	 */
-	public final function has(string! element, bool insensitive = true) -> bool
-	{
-		return parent::has(element, insensitive);
-	}
+    /**
+     * Get the element from the collection
+     */
+    public final function has(string! element, bool insensitive = true) -> bool
+    {
+        return parent::has(element, insensitive);
+    }
 
-	/**
-	 * Initialize internal array
-	 */
-	public final function init(array! data = []) -> void
-	{
-		parent::init(data);
-	}
+    /**
+     * Initialize internal array
+     */
+    public final function init(array! data = []) -> void
+    {
+        parent::init(data);
+    }
 
-	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 */
-	public final function jsonSerialize () -> array
-	{
-		return parent::jsonSerialize();
-	}
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     */
+    public final function jsonSerialize () -> array
+    {
+        return parent::jsonSerialize();
+    }
 
-	/**
-	 * Whether a offset exists
-	 *
-	 * @link https://php.net/manual/en/arrayaccess.offsetexists.php
-	 */
-	public final function offsetExists(var element) -> bool
-	{
-		return parent::has(element);
-	}
+    /**
+     * Whether a offset exists
+     *
+     * @link https://php.net/manual/en/arrayaccess.offsetexists.php
+     */
+    public final function offsetExists(var element) -> bool
+    {
+        return parent::has(element);
+    }
 
-	/**
-	 * Offset to retrieve
-	 *
-	 * @link https://php.net/manual/en/arrayaccess.offsetget.php
-	 */
-	public final function offsetGet(var element) -> var
-	{
-		return parent::get(element);
-	}
+    /**
+     * Offset to retrieve
+     *
+     * @link https://php.net/manual/en/arrayaccess.offsetget.php
+     */
+    public final function offsetGet(var element) -> var
+    {
+        return parent::get(element);
+    }
 
-	/**
-	 * Offset to set
-	 *
-	 * @link https://php.net/manual/en/arrayaccess.offsetset.php
-	 */
-	public final function offsetSet(var element, var value) -> void
-	{
-		parent::set(element, value);
-	}
+    /**
+     * Offset to set
+     *
+     * @link https://php.net/manual/en/arrayaccess.offsetset.php
+     */
+    public final function offsetSet(var element, var value) -> void
+    {
+        parent::set(element, value);
+    }
 
-	/**
-	 * Offset to unset
-	 *
-	 * @link https://php.net/manual/en/arrayaccess.offsetunset.php
-	 */
-	public final function offsetUnset(var element) -> void
-	{
-		parent::remove(element);
-	}
+    /**
+     * Offset to unset
+     *
+     * @link https://php.net/manual/en/arrayaccess.offsetunset.php
+     */
+    public final function offsetUnset(var element) -> void
+    {
+        parent::remove(element);
+    }
 
-	/**
-	 * Delete the element from the collection
-	 */
-	public final function remove(string! element, bool insensitive = true) -> void
-	{
-		parent::remove(element, insensitive);
-	}
+    /**
+     * Delete the element from the collection
+     */
+    public final function remove(string! element, bool insensitive = true) -> void
+    {
+        parent::remove(element, insensitive);
+    }
 
     /**
      * String representation of object
@@ -219,38 +219,38 @@ final class Registry extends Collection
      */
     public final function serialize() -> string
     {
-		return parent::serialize();
+        return parent::serialize();
     }
 
-	/**
-	 * Set an element in the collection
-	 */
-	public final function set(string! element, var value) -> void
-	{
-		parent::set(element, value);
-	}
+    /**
+     * Set an element in the collection
+     */
+    public final function set(string! element, var value) -> void
+    {
+        parent::set(element, value);
+    }
 
-	/**
-	 * Returns the object in an array format
-	 */
-	public final function toArray() -> array
-	{
-		return parent::toArray();
-	}
+    /**
+     * Returns the object in an array format
+     */
+    public final function toArray() -> array
+    {
+        return parent::toArray();
+    }
 
-	/**
-	 * Returns the object in a JSON format
-	 *
-	 * The default string uses the following options for json_encode
-	 *
-	 * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
-	 *
-	 * @see https://www.ietf.org/rfc/rfc4627.txt
-	 */
-	public final function toJson(int options = 74) -> string
-	{
-		return parent::toJson(options);
-	}
+    /**
+     * Returns the object in a JSON format
+     *
+     * The default string uses the following options for json_encode
+     *
+     * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
+     *
+     * @see https://www.ietf.org/rfc/rfc4627.txt
+     */
+    public final function toJson(int options = 74) -> string
+    {
+        return parent::toJson(options);
+    }
 
     /**
      * Constructs the object
@@ -259,6 +259,6 @@ final class Registry extends Collection
      */
     public final function unserialize(var serialized) -> void
     {
-		parent::unserialize(serialized);
+        parent::unserialize(serialized);
     }
 }

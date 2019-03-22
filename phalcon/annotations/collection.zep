@@ -34,141 +34,141 @@ use Phalcon\Annotations\Exception;
 class Collection implements \Iterator, \Countable
 {
 
-	protected _position = 0;
+    protected _position = 0;
 
-	protected _annotations;
+    protected _annotations;
 
-	/**
-	 * Phalcon\Annotations\Collection constructor
-	 *
-	 * @param array reflectionData
-	 */
-	public function __construct(array reflectionData = [])
-	{
-		var annotations, annotationData;
+    /**
+     * Phalcon\Annotations\Collection constructor
+     *
+     * @param array reflectionData
+     */
+    public function __construct(array reflectionData = [])
+    {
+        var annotations, annotationData;
 
-		let annotations = [];
+        let annotations = [];
 
-		for annotationData in reflectionData {
-			let annotations[] = new Annotation(annotationData);
-		}
+        for annotationData in reflectionData {
+            let annotations[] = new Annotation(annotationData);
+        }
 
-		let this->_annotations = annotations;
-	}
+        let this->_annotations = annotations;
+    }
 
-	/**
-	 * Returns the number of annotations in the collection
-	 */
-	public function count() -> int
-	{
-		return count(this->_annotations);
-	}
+    /**
+     * Returns the number of annotations in the collection
+     */
+    public function count() -> int
+    {
+        return count(this->_annotations);
+    }
 
-	/**
-	 * Rewinds the internal iterator
-	 */
-	public function rewind() -> void
-	{
-		let this->_position = 0;
-	}
+    /**
+     * Rewinds the internal iterator
+     */
+    public function rewind() -> void
+    {
+        let this->_position = 0;
+    }
 
-	/**
-	 * Returns the current annotation in the iterator
-	 */
-	public function current() -> <Annotation> | bool
-	{
-		var annotation;
-		if fetch annotation, this->_annotations[this->_position] {
-			return annotation;
-		}
-		return false;
-	}
+    /**
+     * Returns the current annotation in the iterator
+     */
+    public function current() -> <Annotation> | bool
+    {
+        var annotation;
+        if fetch annotation, this->_annotations[this->_position] {
+            return annotation;
+        }
+        return false;
+    }
 
-	/**
-	 * Returns the current position/key in the iterator
-	 */
-	public function key() -> int
-	{
-		return this->_position;
-	}
+    /**
+     * Returns the current position/key in the iterator
+     */
+    public function key() -> int
+    {
+        return this->_position;
+    }
 
-	/**
-	 * Moves the internal iteration pointer to the next position
-	 */
-	public function next() -> void
-	{
-		let this->_position++;
-	}
+    /**
+     * Moves the internal iteration pointer to the next position
+     */
+    public function next() -> void
+    {
+        let this->_position++;
+    }
 
-	/**
-	 * Check if the current annotation in the iterator is valid
-	 */
-	public function valid() -> bool
-	{
-		return isset this->_annotations[this->_position];
-	}
+    /**
+     * Check if the current annotation in the iterator is valid
+     */
+    public function valid() -> bool
+    {
+        return isset this->_annotations[this->_position];
+    }
 
-	/**
-	 * Returns the internal annotations as an array
-	 */
-	public function getAnnotations() -> <Annotation[]>
-	{
-		return this->_annotations;
-	}
+    /**
+     * Returns the internal annotations as an array
+     */
+    public function getAnnotations() -> <Annotation[]>
+    {
+        return this->_annotations;
+    }
 
-	/**
-	 * Returns the first annotation that match a name
-	 */
-	public function get(string name) -> <Annotation>
-	{
-		var annotation, annotations;
-		let annotations = this->_annotations;
-		if typeof annotations == "array" {
-			for annotation in annotations {
-				if name == annotation->getName() {
-					return annotation;
-				}
-			}
-		}
+    /**
+     * Returns the first annotation that match a name
+     */
+    public function get(string name) -> <Annotation>
+    {
+        var annotation, annotations;
+        let annotations = this->_annotations;
+        if typeof annotations == "array" {
+            for annotation in annotations {
+                if name == annotation->getName() {
+                    return annotation;
+                }
+            }
+        }
 
-		throw new Exception("Collection doesn't have an annotation called '" . name . "'");
-	}
+        throw new Exception("Collection doesn't have an annotation called '" . name . "'");
+    }
 
-	/**
-	 * Returns all the annotations that match a name
-	 */
-	public function getAll(string name) -> <Annotation[]>
-	{
-		var annotations, found, annotation;
+    /**
+     * Returns all the annotations that match a name
+     */
+    public function getAll(string name) -> <Annotation[]>
+    {
+        var annotations, found, annotation;
 
-		let found = [],
-			annotations = this->_annotations;
-		if typeof annotations == "array" {
-			for annotation in annotations {
-				if name == annotation->getName() {
-					let found[] = annotation;
-				}
-			}
-		}
+        let found = [],
+            annotations = this->_annotations;
+        if typeof annotations == "array" {
+            for annotation in annotations {
+                if name == annotation->getName() {
+                    let found[] = annotation;
+                }
+            }
+        }
 
-		return found;
-	}
+        return found;
+    }
 
-	/**
-	 * Check if an annotation exists in a collection
-	 */
-	public function has(string name) -> bool
-	{
-		var annotations, annotation;
+    /**
+     * Check if an annotation exists in a collection
+     */
+    public function has(string name) -> bool
+    {
+        var annotations, annotation;
 
-		let annotations = this->_annotations;
-		if typeof annotations == "array" {
-			for annotation in annotations {
-				if name == annotation->getName() {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+        let annotations = this->_annotations;
+        if typeof annotations == "array" {
+            for annotation in annotations {
+                if name == annotation->getName() {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

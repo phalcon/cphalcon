@@ -21,184 +21,184 @@ use Phalcon\Annotations\Exception;
 class Annotation
 {
 
-	/**
-	 * Annotation Name
-	 * @var string
-	 */
-	protected _name;
+    /**
+     * Annotation Name
+     * @var string
+     */
+    protected _name;
 
-	/**
-	 * Annotation Arguments
-	 * @var string
-	 */
-	protected _arguments;
+    /**
+     * Annotation Arguments
+     * @var string
+     */
+    protected _arguments;
 
-	/**
-	 * Annotation ExprArguments
-	 * @var string
-	 */
-	protected _exprArguments;
+    /**
+     * Annotation ExprArguments
+     * @var string
+     */
+    protected _exprArguments;
 
-	/**
-	 * Phalcon\Annotations\Annotation constructor
-	 */
-	public function __construct(array! reflectionData)
-	{
-		var name, exprArguments, argument, resolvedArgument, arguments;
+    /**
+     * Phalcon\Annotations\Annotation constructor
+     */
+    public function __construct(array! reflectionData)
+    {
+        var name, exprArguments, argument, resolvedArgument, arguments;
 
-		let this->_name = reflectionData["name"];
+        let this->_name = reflectionData["name"];
 
-		/**
-		 * Process annotation arguments
-		 */
-		if fetch exprArguments, reflectionData["arguments"] {
-			let arguments = [];
-			for argument in exprArguments {
-				let resolvedArgument =  this->getExpression(argument["expr"]);
-				if fetch name, argument["name"] {
-					let arguments[name] = resolvedArgument;
-				} else {
-					let arguments[] = resolvedArgument;
-				}
-			}
-			let this->_arguments = arguments;
-			let this->_exprArguments = exprArguments;
-		}
-	}
+        /**
+         * Process annotation arguments
+         */
+        if fetch exprArguments, reflectionData["arguments"] {
+            let arguments = [];
+            for argument in exprArguments {
+                let resolvedArgument =  this->getExpression(argument["expr"]);
+                if fetch name, argument["name"] {
+                    let arguments[name] = resolvedArgument;
+                } else {
+                    let arguments[] = resolvedArgument;
+                }
+            }
+            let this->_arguments = arguments;
+            let this->_exprArguments = exprArguments;
+        }
+    }
 
-	/**
-	 * Returns the annotation's name
-	 */
-	public function getName() -> string
-	{
-		return this->_name;
-	}
+    /**
+     * Returns the annotation's name
+     */
+    public function getName() -> string
+    {
+        return this->_name;
+    }
 
-	/**
-	 * Resolves an annotation expression
-	 *
-	 * @return mixed
-	 */
-	public function getExpression(array! expr)
-	{
-		var value, item, resolvedItem, arrayValue, name, type;
+    /**
+     * Resolves an annotation expression
+     *
+     * @return mixed
+     */
+    public function getExpression(array! expr)
+    {
+        var value, item, resolvedItem, arrayValue, name, type;
 
-		let type = expr["type"];
-		switch type {
+        let type = expr["type"];
+        switch type {
 
-			case PHANNOT_T_INTEGER:
-			case PHANNOT_T_DOUBLE:
-			case PHANNOT_T_STRING:
-			case PHANNOT_T_IDENTIFIER:
-				let value = expr["value"];
-				break;
+            case PHANNOT_T_INTEGER:
+            case PHANNOT_T_DOUBLE:
+            case PHANNOT_T_STRING:
+            case PHANNOT_T_IDENTIFIER:
+                let value = expr["value"];
+                break;
 
-			case PHANNOT_T_NULL:
-				let value = null;
-				break;
+            case PHANNOT_T_NULL:
+                let value = null;
+                break;
 
-			case PHANNOT_T_FALSE:
-				let value = false;
-				break;
+            case PHANNOT_T_FALSE:
+                let value = false;
+                break;
 
-			case PHANNOT_T_TRUE:
-				let value = true;
-				break;
+            case PHANNOT_T_TRUE:
+                let value = true;
+                break;
 
-			case PHANNOT_T_ARRAY:
-				let arrayValue = [];
-				for item in expr["items"] {
-					let resolvedItem = this->getExpression(item["expr"]);
-					if fetch name, item["name"] {
-						let arrayValue[name] = resolvedItem;
-					} else {
-						let arrayValue[] = resolvedItem;
-					}
-				}
-				return arrayValue;
+            case PHANNOT_T_ARRAY:
+                let arrayValue = [];
+                for item in expr["items"] {
+                    let resolvedItem = this->getExpression(item["expr"]);
+                    if fetch name, item["name"] {
+                        let arrayValue[name] = resolvedItem;
+                    } else {
+                        let arrayValue[] = resolvedItem;
+                    }
+                }
+                return arrayValue;
 
-			case PHANNOT_T_ANNOTATION:
-				return new Annotation(expr);
+            case PHANNOT_T_ANNOTATION:
+                return new Annotation(expr);
 
-			default:
-				throw new Exception("The expression ". type. " is unknown");
-		}
+            default:
+                throw new Exception("The expression ". type. " is unknown");
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	/**
-	 * Returns the expression arguments without resolving
-	 *
-	 * @return array
-	 */
-	public function getExprArguments()
-	{
-		return this->_exprArguments;
-	}
+    /**
+     * Returns the expression arguments without resolving
+     *
+     * @return array
+     */
+    public function getExprArguments()
+    {
+        return this->_exprArguments;
+    }
 
-	/**
-	 * Returns the expression arguments
-	 *
-	 * @return array
-	 */
-	public function getArguments()
-	{
-		return this->_arguments;
-	}
+    /**
+     * Returns the expression arguments
+     *
+     * @return array
+     */
+    public function getArguments()
+    {
+        return this->_arguments;
+    }
 
-	/**
-	 * Returns the number of arguments that the annotation has
-	 */
-	public function numberArguments() -> int
-	{
-		return count(this->_arguments);
-	}
+    /**
+     * Returns the number of arguments that the annotation has
+     */
+    public function numberArguments() -> int
+    {
+        return count(this->_arguments);
+    }
 
-	/**
-	 * Returns an argument in a specific position
-	 *
-	 * @param int|string position
-	 * @return mixed
-	 */
-	public function getArgument(var position)
-	{
-		var argument;
-		if fetch argument, this->_arguments[position] {
-			return argument;
-		}
-	}
+    /**
+     * Returns an argument in a specific position
+     *
+     * @param int|string position
+     * @return mixed
+     */
+    public function getArgument(var position)
+    {
+        var argument;
+        if fetch argument, this->_arguments[position] {
+            return argument;
+        }
+    }
 
-	/**
-	 * Returns an argument in a specific position
-	 *
-	 * @param int|string position
-	 */
-	public function hasArgument(var position) -> bool
-	{
-		return isset this->_arguments[position];
-	}
+    /**
+     * Returns an argument in a specific position
+     *
+     * @param int|string position
+     */
+    public function hasArgument(var position) -> bool
+    {
+        return isset this->_arguments[position];
+    }
 
-	/**
-	 * Returns a named argument
-	 *
-	 * @return mixed
-	 */
-	public function getNamedArgument(string! name)
-	{
-		var argument;
-		if fetch argument, this->_arguments[name] {
-			return argument;
-		}
-	}
+    /**
+     * Returns a named argument
+     *
+     * @return mixed
+     */
+    public function getNamedArgument(string! name)
+    {
+        var argument;
+        if fetch argument, this->_arguments[name] {
+            return argument;
+        }
+    }
 
-	/**
-	 * Returns a named parameter
-	 *
-	 * @return mixed
-	 */
-	public function getNamedParameter(string! name)
-	{
-		return this->getNamedArgument(name);
-	}
+    /**
+     * Returns a named parameter
+     *
+     * @return mixed
+     */
+    public function getNamedParameter(string! name)
+    {
+        return this->getNamedArgument(name);
+    }
 }

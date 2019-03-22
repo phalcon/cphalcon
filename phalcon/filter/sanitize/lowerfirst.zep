@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class LowerFirst
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(string! input)
-	{
-		return lcfirst(input);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(string! input)
+    {
+        return lcfirst(input);
+    }
 }

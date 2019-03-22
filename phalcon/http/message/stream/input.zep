@@ -25,25 +25,25 @@ use Phalcon\Http\Message\Stream;
  */
 class Input extends Stream
 {
-	/**
-	 * @var string
-	 */
-	private data = "";
+    /**
+     * @var string
+     */
+    private data = "";
 
-	/**
-	 * @var bool
-	 */
-	private eof = false;
+    /**
+     * @var bool
+     */
+    private eof = false;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct() -> void
-	{
-		parent::__construct("php://input", "rb");
-	}
+    /**
+     * Constructor
+     */
+    public function __construct() -> void
+    {
+        parent::__construct("php://input", "rb");
+    }
 
-	/**
+    /**
      * Reads all data from the stream into a string, from the beginning to end.
      *
      * This method MUST attempt to seek to the beginning of the stream before
@@ -59,13 +59,13 @@ class Input extends Stream
      */
     public function __toString() -> string
     {
-		if true === this->eof {
-			return this->data;
-		}
+        if true === this->eof {
+            return this->data;
+        }
 
-		this->getContents();
+        this->getContents();
 
-		return this->data;
+        return this->data;
     }
 
     /**
@@ -77,20 +77,20 @@ class Input extends Stream
      */
     public function getContents(int length = -1) -> string
     {
-    	var data;
+        var data;
 
-		if this->eof {
-			return data;
-		}
+        if this->eof {
+            return data;
+        }
 
-		let data       = stream_get_contents(this->handle, length),
-			this->data = data;
+        let data       = stream_get_contents(this->handle, length),
+            this->data = data;
 
-		if -1 === length || this->eof() {
-			let this->eof = true;
-		}
+        if -1 === length || this->eof() {
+            let this->eof = true;
+        }
 
-		return data;
+        return data;
     }
 
     /**
@@ -100,7 +100,7 @@ class Input extends Stream
      */
     public function isWritable() -> bool
     {
-		return false;
+        return false;
     }
 
     /**
@@ -108,18 +108,18 @@ class Input extends Stream
      */
     public function read(var length)-> string
     {
-		var data;
+        var data;
 
-		let data = parent::read(length);
+        let data = parent::read(length);
 
-		if true !== this->eof {
-			let this->data = data;
-		}
+        if true !== this->eof {
+            let this->data = data;
+        }
 
-		if true === this->eof() {
-			let this->eof = true;
-		}
+        if true === this->eof() {
+            let this->eof = true;
+        }
 
-		return data;
+        return data;
     }
 }

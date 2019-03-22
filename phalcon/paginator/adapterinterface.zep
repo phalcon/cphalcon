@@ -17,23 +17,23 @@ namespace Phalcon\Paginator;
  */
 interface AdapterInterface
 {
-	/**
-	 * Set the current page number
-	 */
-	public function setCurrentPage(int page);
+    /**
+     * Set the current page number
+     */
+    public function setCurrentPage(int page);
 
-	/**
-	 * Returns a slice of the resultset to show in the pagination
-	 */
-	public function paginate() -> <RepositoryInterface>;
+    /**
+     * Returns a slice of the resultset to show in the pagination
+     */
+    public function paginate() -> <RepositoryInterface>;
 
-	/**
-	 * Set current rows limit
-	 */
-	public function setLimit(int limit);
+    /**
+     * Set current rows limit
+     */
+    public function setLimit(int limit);
 
-	/**
-	 * Get current rows limit
-	 */
-	public function getLimit() -> int;
+    /**
+     * Get current rows limit
+     */
+    public function getLimit() -> int;
 }

@@ -55,7 +55,7 @@ class Breadcrumbs
      */
     public function add(string label, string link = "") -> <Breadcrumbs>
     {
-		let this->elements[link] = label;
+        let this->elements[link] = label;
 
         return this;
     }
@@ -69,7 +69,7 @@ class Breadcrumbs
      */
     public function clear() -> void
     {
-		let this->elements = [];
+        let this->elements = [];
     }
 
     /**
@@ -84,13 +84,13 @@ class Breadcrumbs
      */
     public function remove(string link) -> void
     {
-    	var elements;
+        var elements;
 
-    	let elements = this->elements;
+        let elements = this->elements;
 
-    	unset(elements[link]);
+        unset(elements[link]);
 
-    	let this->elements = elements;
+        let this->elements = elements;
     }
 
     /**
@@ -103,51 +103,51 @@ class Breadcrumbs
      */
     public function render() -> string
     {
-    	var element, elements, lastLabel, lastUrl, output, template, url, urls;
+        var element, elements, lastLabel, lastUrl, output, template, url, urls;
 
         let output    = [],
-        	elements  = this->elements,
-        	template  = this->template,
-        	urls      = array_keys(elements),
-        	lastUrl   = end(urls),
-        	lastLabel = elements[lastUrl];
+            elements  = this->elements,
+            template  = this->template,
+            urls      = array_keys(elements),
+            lastUrl   = end(urls),
+            lastLabel = elements[lastUrl];
 
         unset(elements[lastUrl]);
 
-		for url, element in elements {
-			let output[] = str_replace(
-				[
-					"%label%",
-					"%link%"
-				],
-				[
-					element,
-					url
-				],
-				template
-			);
-		}
+        for url, element in elements {
+            let output[] = str_replace(
+                [
+                    "%label%",
+                    "%link%"
+                ],
+                [
+                    element,
+                    url
+                ],
+                template
+            );
+        }
 
         /**
          * Check if this is the "Home" element i.e. count() = 0
          */
-		if 0 !== count(elements) {
-			let output[] = "<dt>" . lastLabel . "</dt>";
+        if 0 !== count(elements) {
+            let output[] = "<dt>" . lastLabel . "</dt>";
         } else {
-			let output[] = str_replace(
-				[
-					"%label%",
-					"%link%"
-				],
-				[
-					lastLabel,
-					lastUrl
-				],
-				template
-			);
-		}
+            let output[] = str_replace(
+                [
+                    "%label%",
+                    "%link%"
+                ],
+                [
+                    lastLabel,
+                    lastUrl
+                ],
+                template
+            );
+        }
 
-		return "<dl>" . implode("<dt>" . this->separator . "</dt>", output) . "</dl>";
+        return "<dl>" . implode("<dt>" . this->separator . "</dt>", output) . "</dl>";
     }
 
     /**

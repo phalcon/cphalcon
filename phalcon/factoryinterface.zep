@@ -12,8 +12,8 @@ namespace Phalcon;
 
 interface FactoryInterface
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object;
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object;
 }

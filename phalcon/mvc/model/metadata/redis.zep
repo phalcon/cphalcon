@@ -39,79 +39,79 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
 class Redis extends MetaData
 {
 
-	protected _ttl = 172800;
+    protected _ttl = 172800;
 
-	protected _redis = null;
+    protected _redis = null;
 
-	protected _metaData = [];
+    protected _metaData = [];
 
-	/**
-	 * Phalcon\Mvc\Model\MetaData\Redis constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options = null)
-	{
-		var ttl;
+    /**
+     * Phalcon\Mvc\Model\MetaData\Redis constructor
+     *
+     * @param array options
+     */
+    public function __construct(options = null)
+    {
+        var ttl;
 
-		if typeof options != "array" {
-			let options = [];
-		}
-		
-		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM_MM";
-		}
+        if typeof options != "array" {
+            let options = [];
+        }
 
-		if fetch ttl, options["lifetime"] {
-			let this->_ttl = ttl;
-		}
+        if !isset options["statsKey"] {
+            let options["statsKey"] = "_PHCM_MM";
+        }
 
-		let this->_redis = new Redis(
-			new FrontendData(["lifetime": this->_ttl]),
-			options
-		);
-	}
+        if fetch ttl, options["lifetime"] {
+            let this->_ttl = ttl;
+        }
 
-	/**
-	 * Reads metadata from Redis
-	 */
-	public function read(string! key) -> array | null
-	{
-		var data;
+        let this->_redis = new Redis(
+            new FrontendData(["lifetime": this->_ttl]),
+            options
+        );
+    }
 
-		let data = this->_redis->get(key);
-		if typeof data == "array" {
-			return data;
-		}
-		return null;
-	}
+    /**
+     * Reads metadata from Redis
+     */
+    public function read(string! key) -> array | null
+    {
+        var data;
 
-	/**
-	 * Writes the metadata to Redis
-	 */
-	public function write(string! key, array data) -> void
-	{
-		this->_redis->save(key, data);
-	}
+        let data = this->_redis->get(key);
+        if typeof data == "array" {
+            return data;
+        }
+        return null;
+    }
 
-	/**
-	 * Flush Redis data and resets internal meta-data in order to regenerate it
-	 */
-	public function reset() -> void
-	{
-		var meta, key, realKey;
+    /**
+     * Writes the metadata to Redis
+     */
+    public function write(string! key, array data) -> void
+    {
+        this->_redis->save(key, data);
+    }
 
-		let meta = this->_metaData;
+    /**
+     * Flush Redis data and resets internal meta-data in order to regenerate it
+     */
+    public function reset() -> void
+    {
+        var meta, key, realKey;
 
-		if typeof meta == "array" {
+        let meta = this->_metaData;
 
-			for key, _ in meta {
-				let realKey = "meta-" . key;
+        if typeof meta == "array" {
 
-				this->_redis->delete(realKey);
-			}
-		}
+            for key, _ in meta {
+                let realKey = "meta-" . key;
 
-		parent::reset();
-	}
+                this->_redis->delete(realKey);
+            }
+        }
+
+        parent::reset();
+    }
 }

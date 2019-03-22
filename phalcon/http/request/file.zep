@@ -30,7 +30,7 @@ use Phalcon\Http\Request\FileInterface;
  *             foreach ($this->request->getUploadedFiles() as $file) {
  *                 echo $file->getName(), " ", $file->getSize(), "\n";
  *             }
- *	       }
+ *           }
  *     }
  * }
  *</code>
@@ -38,134 +38,134 @@ use Phalcon\Http\Request\FileInterface;
 class File implements FileInterface
 {
 
-	protected _name;
+    protected _name;
 
-	protected _tmp;
+    protected _tmp;
 
-	protected _size;
+    protected _size;
 
-	protected _type;
+    protected _type;
 
-	protected _realType;
+    protected _realType;
 
-	/**
-	 * @var string|null
-	 */
-	protected _error { get };
+    /**
+     * @var string|null
+     */
+    protected _error { get };
 
-	/**
-	 * @var string|null
-	 */
-	protected _key { get };
+    /**
+     * @var string|null
+     */
+    protected _key { get };
 
-	/**
-	 * @var string
-	 */
-	protected _extension { get };
+    /**
+     * @var string
+     */
+    protected _extension { get };
 
-	/**
-	 * Phalcon\Http\Request\File constructor
-	 */
-	public function __construct(array! file, key = null)
-	{
-		var name, tempName, size, type, error;
+    /**
+     * Phalcon\Http\Request\File constructor
+     */
+    public function __construct(array! file, key = null)
+    {
+        var name, tempName, size, type, error;
 
-		if fetch name, file["name"] {
-			let this->_name = name;
+        if fetch name, file["name"] {
+            let this->_name = name;
 
-			if defined("PATHINFO_EXTENSION") {
-				let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
-			}
-		}
+            if defined("PATHINFO_EXTENSION") {
+                let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
+            }
+        }
 
-		if fetch tempName, file["tmp_name"] {
-			let this->_tmp = tempName;
-		}
+        if fetch tempName, file["tmp_name"] {
+            let this->_tmp = tempName;
+        }
 
-		if fetch size, file["size"] {
-			let this->_size = size;
-		}
+        if fetch size, file["size"] {
+            let this->_size = size;
+        }
 
-		if fetch type, file["type"] {
-			let this->_type = type;
-		}
+        if fetch type, file["type"] {
+            let this->_type = type;
+        }
 
-		if fetch error, file["error"] {
-			let this->_error = error;
-		}
+        if fetch error, file["error"] {
+            let this->_error = error;
+        }
 
-		if key {
-			let this->_key = key;
-		}
-	}
+        if key {
+            let this->_key = key;
+        }
+    }
 
-	/**
-	 * Returns the file size of the uploaded file
-	 */
-	public function getSize() -> int
-	{
-		return this->_size;
-	}
+    /**
+     * Returns the file size of the uploaded file
+     */
+    public function getSize() -> int
+    {
+        return this->_size;
+    }
 
-	/**
-	 * Returns the real name of the uploaded file
-	 */
-	public function getName() -> string
-	{
-		return this->_name;
-	}
+    /**
+     * Returns the real name of the uploaded file
+     */
+    public function getName() -> string
+    {
+        return this->_name;
+    }
 
-	/**
-	 * Returns the temporary name of the uploaded file
-	 */
-	public function getTempName() -> string
-	{
-		return this->_tmp;
-	}
+    /**
+     * Returns the temporary name of the uploaded file
+     */
+    public function getTempName() -> string
+    {
+        return this->_tmp;
+    }
 
-	/**
-	 * Returns the mime type reported by the browser
-	 * This mime type is not completely secure, use getRealType() instead
-	 */
-	public function getType() -> string
-	{
-		return this->_type;
-	}
+    /**
+     * Returns the mime type reported by the browser
+     * This mime type is not completely secure, use getRealType() instead
+     */
+    public function getType() -> string
+    {
+        return this->_type;
+    }
 
-	/**
-	 * Gets the real mime type of the upload file using finfo
-	 */
-	public function getRealType() -> string
-	{
-		var finfo, mime;
+    /**
+     * Gets the real mime type of the upload file using finfo
+     */
+    public function getRealType() -> string
+    {
+        var finfo, mime;
 
-		let finfo = finfo_open(FILEINFO_MIME_TYPE);
-		if typeof finfo != "resource" {
-			return "";
-		}
+        let finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if typeof finfo != "resource" {
+            return "";
+        }
 
-		let mime = finfo_file(finfo, this->_tmp);
-		finfo_close(finfo);
+        let mime = finfo_file(finfo, this->_tmp);
+        finfo_close(finfo);
 
-		return mime;
-	}
+        return mime;
+    }
 
-	/**
-	 * Checks whether the file has been uploaded via Post.
-	 */
-	public function isUploadedFile() -> bool
-	{
-		var tmp;
+    /**
+     * Checks whether the file has been uploaded via Post.
+     */
+    public function isUploadedFile() -> bool
+    {
+        var tmp;
 
-		let tmp = this->getTempName();
-		return typeof tmp == "string" && is_uploaded_file(tmp);
-	}
+        let tmp = this->getTempName();
+        return typeof tmp == "string" && is_uploaded_file(tmp);
+    }
 
-	/**
-	 * Moves the temporary file to a destination within the application
-	 */
-	public function moveTo(string! destination) -> bool
-	{
-		return move_uploaded_file(this->_tmp, destination);
-	}
+    /**
+     * Moves the temporary file to a destination within the application
+     */
+    public function moveTo(string! destination) -> bool
+    {
+        return move_uploaded_file(this->_tmp, destination);
+    }
 }

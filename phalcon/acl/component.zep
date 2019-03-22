@@ -20,30 +20,30 @@ use Phalcon\Acl\Exception;
 class Component implements ComponentInterface
 {
 
-	/**
-	 * Component description
-	 * @var string
-	 */
-	private description { get };
+    /**
+     * Component description
+     * @var string
+     */
+    private description { get };
 
-	/**
-	 * Component name
-	 * @var string
-	 */
-	private name { get, __toString };
+    /**
+     * Component name
+     * @var string
+     */
+    private name { get, __toString };
 
-	/**
-	 * Phalcon\Acl\Component constructor
-	 */
-	public function __construct(string! name, string description = null)
-	{
-		if name == "*" {
-			throw new Exception("Component name cannot be '*'");
-		}
+    /**
+     * Phalcon\Acl\Component constructor
+     */
+    public function __construct(string! name, string description = null)
+    {
+        if name == "*" {
+            throw new Exception("Component name cannot be '*'");
+        }
 
-		let this->name = name;
-		if description {
-			let this->description = description;
-		}
-	}
+        let this->name = name;
+        if description {
+            let this->description = description;
+        }
+    }
 }

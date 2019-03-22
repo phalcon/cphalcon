@@ -53,33 +53,33 @@ use Phalcon\Validation\Validator;
 class PresenceOf extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var value, message, label, replacePairs, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var value, message, label, replacePairs, code;
 
-		let value = validation->getValue(field);
-		if value === null || value === "" {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "PresenceOf"),
-				code = this->prepareCode(field);
+        let value = validation->getValue(field);
+        if value === null || value === "" {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "PresenceOf"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label];
+            let replacePairs = [":field": label];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"PresenceOf",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "PresenceOf",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

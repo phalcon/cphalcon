@@ -67,89 +67,89 @@ use Phalcon\Cache\FrontendInterface;
 class Output implements FrontendInterface
 {
 
-	protected _buffering = false;
+    protected _buffering = false;
 
-	protected _frontendOptions;
+    protected _frontendOptions;
 
-	/**
-	 * Phalcon\Cache\Frontend\Output constructor
-	 */
-	public function __construct(array frontendOptions = [])
-	{
-		let this->_frontendOptions = frontendOptions;
-	}
+    /**
+     * Phalcon\Cache\Frontend\Output constructor
+     */
+    public function __construct(array frontendOptions = [])
+    {
+        let this->_frontendOptions = frontendOptions;
+    }
 
-	/**
-	 * Returns the cache lifetime
-	 */
-	public function getLifetime() -> int
-	{
-		var options, lifetime;
-		let options = this->_frontendOptions;
-		if typeof options == "array" {
-			if fetch lifetime, options["lifetime"] {
-				return lifetime;
-			}
-		}
-		return 1;
-	}
+    /**
+     * Returns the cache lifetime
+     */
+    public function getLifetime() -> int
+    {
+        var options, lifetime;
+        let options = this->_frontendOptions;
+        if typeof options == "array" {
+            if fetch lifetime, options["lifetime"] {
+                return lifetime;
+            }
+        }
+        return 1;
+    }
 
-	/**
-	 * Check whether if frontend is buffering output
-	 */
-	public function isBuffering() -> bool
-	{
-		return this->_buffering;
-	}
+    /**
+     * Check whether if frontend is buffering output
+     */
+    public function isBuffering() -> bool
+    {
+        return this->_buffering;
+    }
 
-	/**
-	 * Starts output frontend. Currently, does nothing
-	 */
-	public function start() -> void
-	{
-		let this->_buffering = true;
-		ob_start();
-	}
+    /**
+     * Starts output frontend. Currently, does nothing
+     */
+    public function start() -> void
+    {
+        let this->_buffering = true;
+        ob_start();
+    }
 
-	/**
-	 * Returns output cached content
-	 *
-	 * @return string
-	 */
-	public function getContent()
-	{
-		if this->_buffering {
-			return ob_get_contents();
-		}
+    /**
+     * Returns output cached content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        if this->_buffering {
+            return ob_get_contents();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Stops output frontend
-	 */
-	public function stop() -> void
-	{
-		if this->_buffering {
-			ob_end_clean();
-		}
+    /**
+     * Stops output frontend
+     */
+    public function stop() -> void
+    {
+        if this->_buffering {
+            ob_end_clean();
+        }
 
-		let this->_buffering = false;
-	}
+        let this->_buffering = false;
+    }
 
-	/**
-	 * Serializes data before storing them
-	 */
-	public function beforeStore(var data) -> string
-	{
-		return data;
-	}
+    /**
+     * Serializes data before storing them
+     */
+    public function beforeStore(var data) -> string
+    {
+        return data;
+    }
 
-	/**
-	 * Unserializes data after retrieval
-	 */
-	public function afterRetrieve(var data) -> var
-	{
-		return data;
-	}
+    /**
+     * Unserializes data after retrieval
+     */
+    public function afterRetrieve(var data) -> var
+    {
+        return data;
+    }
 }

@@ -44,60 +44,60 @@ namespace Phalcon\Db;
 class Index implements IndexInterface
 {
 
-	/**
-	 * Index name
-	 *
-	 * @var string
-	 */
-	protected _name { get };
+    /**
+     * Index name
+     *
+     * @var string
+     */
+    protected _name { get };
 
-	/**
-	 * Index columns
-	 *
-	 * @var array
-	 */
-	protected _columns { get };
+    /**
+     * Index columns
+     *
+     * @var array
+     */
+    protected _columns { get };
 
-	/**
-	 * Index type
-	 *
-	 * @var string
-	 */
-	protected _type { get };
+    /**
+     * Index type
+     *
+     * @var string
+     */
+    protected _type { get };
 
-	/**
-	 * Phalcon\Db\Index constructor
-	 */
-	public function __construct(string! name, array! columns, string type = "")
-	{
-		let this->_name = name;
-		let this->_columns = columns;
-		let this->_type = type;
-	}
+    /**
+     * Phalcon\Db\Index constructor
+     */
+    public function __construct(string! name, array! columns, string type = "")
+    {
+        let this->_name = name;
+        let this->_columns = columns;
+        let this->_type = type;
+    }
 
-	/**
-	 * Restore a Phalcon\Db\Index object from export
-	 */
-	public static function __set_state(array! data) -> <IndexInterface>
-	{
-		var indexName, columns, type;
+    /**
+     * Restore a Phalcon\Db\Index object from export
+     */
+    public static function __set_state(array! data) -> <IndexInterface>
+    {
+        var indexName, columns, type;
 
-		if !fetch indexName, data["_name"] {
-			throw new Exception("_name parameter is required");
-		}
+        if !fetch indexName, data["_name"] {
+            throw new Exception("_name parameter is required");
+        }
 
-		if !fetch columns, data["_columns"] {
-			throw new Exception("_columns parameter is required");
-		}
+        if !fetch columns, data["_columns"] {
+            throw new Exception("_columns parameter is required");
+        }
 
-		if !fetch type, data["_type"] {
-			let type = "";
-		}
+        if !fetch type, data["_type"] {
+            let type = "";
+        }
 
-		/**
-		 * Return a Phalcon\Db\Index as part of the returning state
-		 */
-		return new Index(indexName, columns, type);
-	}
+        /**
+         * Return a Phalcon\Db\Index as part of the returning state
+         */
+        return new Index(indexName, columns, type);
+    }
 
 }
