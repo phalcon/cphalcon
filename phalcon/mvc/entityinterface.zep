@@ -18,12 +18,12 @@ namespace Phalcon\Mvc;
 interface EntityInterface
 {
     /**
-	 * Reads an attribute value by its name
-	 */
-	public function readAttribute(string! attribute) -> var | null;
+     * Reads an attribute value by its name
+     */
+    public function readAttribute(string! attribute) -> var | null;
 
-	/**
-	 * Writes an attribute value by its name
-	 */
-	public function writeAttribute(string! attribute, var value);
+    /**
+     * Writes an attribute value by its name
+     */
+    public function writeAttribute(string! attribute, var value);
 }

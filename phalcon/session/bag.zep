@@ -29,91 +29,91 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 class Bag extends Collection implements InjectionAwareInterface
 {
-	private container;
+    private container;
 
-	private name = null;
+    private name = null;
 
-	private session;
+    private session;
 
-	/**
-	 * Phalcon\Session\Bag constructor
-	 */
-	public function __construct(string! name)
-	{
-		var container, data, session;
-		
-		let this->name = name,
-			session    = this->session;
-			
-		if typeof session != "object" {
-			let container = this->container;
-			if typeof container != "object" {
-				let container = Di::getDefault();
-				if typeof container != "object" {
-					throw new Exception("A dependency injection object is required to access the 'session' service");
-				}
-			}
+    /**
+     * Phalcon\Session\Bag constructor
+     */
+    public function __construct(string! name)
+    {
+        var container, data, session;
 
-			let session       = container->getShared("session"),
-				this->session = session;
-		}
+        let this->name = name,
+            session    = this->session;
 
-		let data = session->get(this->name);
-		if typeof data != "array" {
-			let data = [];
-		}
+        if typeof session != "object" {
+            let container = this->container;
+            if typeof container != "object" {
+                let container = Di::getDefault();
+                if typeof container != "object" {
+                    throw new Exception("A dependency injection object is required to access the 'session' service");
+                }
+            }
 
-		parent::__construct(data);
-	}
+            let session       = container->getShared("session"),
+                this->session = session;
+        }
 
-	/**
-	 * Destroys the session bag
-	 */
-	public function clear() -> void
-	{
-		parent::clear();
-		this->session->remove(this->name);
-	}
+        let data = session->get(this->name);
+        if typeof data != "array" {
+            let data = [];
+        }
 
-	/**
-	 * Returns the DependencyInjector container
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		return this->container;
-	}
+        parent::__construct(data);
+    }
 
-	/**
-	 * Removes a property from the internal bag
-	 */
-	public function init(array! data = []) -> void
-	{
-		parent::init(data);
-	}
+    /**
+     * Destroys the session bag
+     */
+    public function clear() -> void
+    {
+        parent::clear();
+        this->session->remove(this->name);
+    }
 
-	/**
-	 * Removes a property from the internal bag
-	 */
-	public function remove(string! element, bool insensitive = true) -> void
-	{
-		parent::remove(element, insensitive);
-		this->session->set(this->name, this->data);
-	}
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
+    }
 
-	/**
-	 * Sets a value in the session bag
-	 */
-	public function set(string! element, var value)
-	{
-		parent::set(element, value);
-		this->session->set(this->name, this->data);
-	}
+    /**
+     * Removes a property from the internal bag
+     */
+    public function init(array! data = []) -> void
+    {
+        parent::init(data);
+    }
 
-	/**
-	 * Sets the DependencyInjector container
-	 */
-	public function setDI(<DiInterface> container)
-	{
-		let this->container = container;
-	}
+    /**
+     * Removes a property from the internal bag
+     */
+    public function remove(string! element, bool insensitive = true) -> void
+    {
+        parent::remove(element, insensitive);
+        this->session->set(this->name, this->data);
+    }
+
+    /**
+     * Sets a value in the session bag
+     */
+    public function set(string! element, var value)
+    {
+        parent::set(element, value);
+        this->session->set(this->name, this->data);
+    }
+
+    /**
+     * Sets the DependencyInjector container
+     */
+    public function setDI(<DiInterface> container)
+    {
+        let this->container = container;
+    }
 }

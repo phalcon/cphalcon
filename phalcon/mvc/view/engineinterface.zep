@@ -20,18 +20,18 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 interface EngineInterface
 {
-	/**
-	 * Returns cached output on another view stage
-	 */
-	public function getContent() -> string;
+    /**
+     * Returns cached output on another view stage
+     */
+    public function getContent() -> string;
 
-	/**
-	 * Renders a partial inside another view
-	 */
-	public function partial(string! partialPath, var params = null) -> string;
+    /**
+     * Renders a partial inside another view
+     */
+    public function partial(string! partialPath, var params = null) -> string;
 
-	/**
-	 * Renders a view using the template engine
-	 */
-	public function render(string path, var params, bool mustClean = false);
+    /**
+     * Renders a view using the template engine
+     */
+    public function render(string path, var params, bool mustClean = false);
 }

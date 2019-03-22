@@ -19,20 +19,20 @@ use Phalcon\Html\Helper\AbstractHelper;
  */
 class Form extends AbstractHelper
 {
-	/**
-	 * @var array  attributes Any additional attributes
-	 */
-	public function __invoke(array attributes = []) -> string
-	{
-		var overrides;
+    /**
+     * @var array  attributes Any additional attributes
+     */
+    public function __invoke(array attributes = []) -> string
+    {
+        var overrides;
 
-		let overrides = [
-			"method"  : "post",
-			"enctype" : "multipart/form-data"
-		];
+        let overrides = [
+            "method"  : "post",
+            "enctype" : "multipart/form-data"
+        ];
 
-		let overrides = this->orderAttributes(overrides, attributes);
+        let overrides = this->orderAttributes(overrides, attributes);
 
-		return "<form " . rtrim(this->renderAttributes(overrides)) . ">";
-	}
+        return "<form " . rtrim(this->renderAttributes(overrides)) . ">";
+    }
 }

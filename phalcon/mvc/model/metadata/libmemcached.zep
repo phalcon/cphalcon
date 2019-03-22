@@ -45,83 +45,83 @@ use Phalcon\Mvc\Model\Exception;
 class Libmemcached extends MetaData
 {
 
-	protected _ttl = 172800;
+    protected _ttl = 172800;
 
-	protected _memcache = null;
+    protected _memcache = null;
 
-	protected _metaData = [];
+    protected _metaData = [];
 
-	/**
-	 * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options = null)
-	{
-		var ttl;
+    /**
+     * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
+     *
+     * @param array options
+     */
+    public function __construct(options = null)
+    {
+        var ttl;
 
-		if typeof options != "array" {
-			let options = [];
-		}
+        if typeof options != "array" {
+            let options = [];
+        }
 
-		if !isset options["servers"] {
-			throw new Exception("No servers given in options");
-		}
+        if !isset options["servers"] {
+            throw new Exception("No servers given in options");
+        }
 
-		if fetch ttl, options["lifetime"] {
-			let this->_ttl = ttl;
-		}
+        if fetch ttl, options["lifetime"] {
+            let this->_ttl = ttl;
+        }
 
-		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM_MM";
-		}
+        if !isset options["statsKey"] {
+            let options["statsKey"] = "_PHCM_MM";
+        }
 
-		let this->_memcache = new Libmemcached(
-			new FrontendData(["lifetime": this->_ttl]),
-			options
-		);
-	}
+        let this->_memcache = new Libmemcached(
+            new FrontendData(["lifetime": this->_ttl]),
+            options
+        );
+    }
 
-	/**
-	 * Reads metadata from Memcache
-	 */
-	public function read(string! key) -> array | null
-	{
-		var data;
+    /**
+     * Reads metadata from Memcache
+     */
+    public function read(string! key) -> array | null
+    {
+        var data;
 
-		let data = this->_memcache->get(key);
-		if typeof data == "array" {
-			return data;
-		}
-		return null;
-	}
+        let data = this->_memcache->get(key);
+        if typeof data == "array" {
+            return data;
+        }
+        return null;
+    }
 
-	/**
-	 * Writes the metadata to Memcache
-	 */
-	public function write(string! key, array data) -> void
-	{
-		this->_memcache->save(key, data);
-	}
+    /**
+     * Writes the metadata to Memcache
+     */
+    public function write(string! key, array data) -> void
+    {
+        this->_memcache->save(key, data);
+    }
 
-	/**
-	 * Flush Memcache data and resets internal meta-data in order to regenerate it
-	 */
-	public function reset() -> void
-	{
-		var meta, key, realKey;
+    /**
+     * Flush Memcache data and resets internal meta-data in order to regenerate it
+     */
+    public function reset() -> void
+    {
+        var meta, key, realKey;
 
-		let meta = this->_metaData;
+        let meta = this->_metaData;
 
-		if typeof meta == "array" {
+        if typeof meta == "array" {
 
-			for key, _ in meta {
-				let realKey = "meta-" . key;
+            for key, _ in meta {
+                let realKey = "meta-" . key;
 
-				this->_memcache->delete(realKey);
-			}
-		}
+                this->_memcache->delete(realKey);
+            }
+        }
 
-		parent::reset();
-	}
+        parent::reset();
+    }
 }

@@ -21,195 +21,195 @@ use Phalcon\Cache\BackendInterface;
  */
 class Binder implements BinderInterface
 {
-	/**
-	 * Array for storing active bound models
-	 * 
-	 * @var array
-	 */
-	protected boundModels = [] { get };
+    /**
+     * Array for storing active bound models
+     *
+     * @var array
+     */
+    protected boundModels = [] { get };
 
-	/**
-	 * Cache object used for caching parameters for model binding
-	 */
-	protected cache;
+    /**
+     * Cache object used for caching parameters for model binding
+     */
+    protected cache;
 
-	/**
-	 * Internal cache for caching parameters for model binding during request
-	 */
-	protected internalCache = [];
+    /**
+     * Internal cache for caching parameters for model binding during request
+     */
+    protected internalCache = [];
 
-	/**
-	 * Array for original values
-	 */
-	protected originalValues = [] { get };
+    /**
+     * Array for original values
+     */
+    protected originalValues = [] { get };
 
-	/**
-	 * Phalcon\Mvc\Model\Binder constructor
-	 */
-	public function __construct(<BackendInterface> cache = null)
-	{
-		let this->cache = cache;
-	}
+    /**
+     * Phalcon\Mvc\Model\Binder constructor
+     */
+    public function __construct(<BackendInterface> cache = null)
+    {
+        let this->cache = cache;
+    }
 
-	/**
-	 * Gets cache instance
-	 */
-	public function setCache(<BackendInterface> cache) -> <BinderInterface>
-	{
-		let this->cache = cache;
+    /**
+     * Gets cache instance
+     */
+    public function setCache(<BackendInterface> cache) -> <BinderInterface>
+    {
+        let this->cache = cache;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Sets cache instance
-	 */
-	public function getCache() -> <BackendInterface>
-	{
-		return this->cache;
-	}
+    /**
+     * Sets cache instance
+     */
+    public function getCache() -> <BackendInterface>
+    {
+        return this->cache;
+    }
 
-	/**
-	 * Bind models into params in proper handler
-	 */
-	public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array
-	{
-		var paramKey, className, boundModel, paramsCache, paramValue;
+    /**
+     * Bind models into params in proper handler
+     */
+    public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array
+    {
+        var paramKey, className, boundModel, paramsCache, paramValue;
 
-		let this->originalValues = [];
+        let this->originalValues = [];
 
-		if !(handler instanceof \Closure) && methodName === null {
-			throw new Exception("You must specify methodName for handler or pass Closure as handler");
-		}
+        if !(handler instanceof \Closure) && methodName === null {
+            throw new Exception("You must specify methodName for handler or pass Closure as handler");
+        }
 
-		let this->boundModels = [];
-		let paramsCache = this->getParamsFromCache(cacheKey);
+        let this->boundModels = [];
+        let paramsCache = this->getParamsFromCache(cacheKey);
 
-		if typeof paramsCache == "array" {
-			for paramKey, className in paramsCache {
-				let paramValue = params[paramKey];
-				let boundModel = this->findBoundModel(paramValue, className);
-				let this->originalValues[paramKey] = paramValue;
-				let params[paramKey] = boundModel;
-				let this->boundModels[paramKey] = boundModel;
-			}
+        if typeof paramsCache == "array" {
+            for paramKey, className in paramsCache {
+                let paramValue = params[paramKey];
+                let boundModel = this->findBoundModel(paramValue, className);
+                let this->originalValues[paramKey] = paramValue;
+                let params[paramKey] = boundModel;
+                let this->boundModels[paramKey] = boundModel;
+            }
 
-			return params;
-		}
+            return params;
+        }
 
-		return this->getParamsFromReflection(handler, params, cacheKey, methodName);
-	}
+        return this->getParamsFromReflection(handler, params, cacheKey, methodName);
+    }
 
-	/**
-	 * Find the model by param value.
-	 */
-	protected function findBoundModel(var paramValue, string className) -> object | bool
-	{
-		return {className}::findFirst(paramValue);
-	}
+    /**
+     * Find the model by param value.
+     */
+    protected function findBoundModel(var paramValue, string className) -> object | bool
+    {
+        return {className}::findFirst(paramValue);
+    }
 
-	/**
-	 * Get params classes from cache by key
-	 */
-	protected function getParamsFromCache(string cacheKey) -> array | null
-	{
-		var cache, internalParams;
+    /**
+     * Get params classes from cache by key
+     */
+    protected function getParamsFromCache(string cacheKey) -> array | null
+    {
+        var cache, internalParams;
 
-		if fetch internalParams, this->internalCache[cacheKey] {
-			return internalParams;
-		}
+        if fetch internalParams, this->internalCache[cacheKey] {
+            return internalParams;
+        }
 
-		let cache = this->cache;
+        let cache = this->cache;
 
-		if cache === null || !cache->exists(cacheKey) {
-			return null;
-		}
+        if cache === null || !cache->exists(cacheKey) {
+            return null;
+        }
 
-		let internalParams = cache->get(cacheKey);
-		let this->internalCache[cacheKey] = internalParams;
+        let internalParams = cache->get(cacheKey);
+        let this->internalCache[cacheKey] = internalParams;
 
-		return internalParams;
-	}
+        return internalParams;
+    }
 
-	/**
-	 * Get modified params for handler using reflection
-	 */
-	protected function getParamsFromReflection(object handler, array params, string cacheKey, string! methodName) -> array
-	{
-		var methodParams, reflection, paramKey, methodParam, paramsCache, className, realClasses = null,
-			boundModel, cache, handlerClass, reflectionClass, paramsKeys, paramValue;
+    /**
+     * Get modified params for handler using reflection
+     */
+    protected function getParamsFromReflection(object handler, array params, string cacheKey, string! methodName) -> array
+    {
+        var methodParams, reflection, paramKey, methodParam, paramsCache, className, realClasses = null,
+            boundModel, cache, handlerClass, reflectionClass, paramsKeys, paramValue;
 
-		let paramsCache = [];
+        let paramsCache = [];
 
-		if methodName != null {
-			let reflection = new \ReflectionMethod(handler, methodName);
-		} else {
-			let reflection = new \ReflectionFunction(handler);
-		}
+        if methodName != null {
+            let reflection = new \ReflectionMethod(handler, methodName);
+        } else {
+            let reflection = new \ReflectionFunction(handler);
+        }
 
-		let cache = this->cache;
+        let cache = this->cache;
 
-		let methodParams = reflection->getParameters();
-		let paramsKeys = array_keys(params);
+        let methodParams = reflection->getParameters();
+        let paramsKeys = array_keys(params);
 
-		for paramKey, methodParam in methodParams {
-			let reflectionClass = methodParam->getClass();
+        for paramKey, methodParam in methodParams {
+            let reflectionClass = methodParam->getClass();
 
-			if !reflectionClass {
-				continue;
-			}
+            if !reflectionClass {
+                continue;
+            }
 
-			let className = reflectionClass->getName();
+            let className = reflectionClass->getName();
 
-			if !isset params[paramKey] {
-				let paramKey = paramsKeys[paramKey];
-			}
+            if !isset params[paramKey] {
+                let paramKey = paramsKeys[paramKey];
+            }
 
-			let boundModel = null;
-			let paramValue = params[paramKey];
+            let boundModel = null;
+            let paramValue = params[paramKey];
 
-			if className == "Phalcon\\Mvc\\Model" {
-				if realClasses == null {
-					if handler instanceof BindModelInterface {
-						let handlerClass = get_class(handler);
-						let realClasses = {handlerClass}::getModelName();
-					} elseif handler instanceof BindableInterface {
-						let realClasses = handler->getModelName();
-					} else {
-						throw new Exception("Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter");
-					}
-				}
+            if className == "Phalcon\\Mvc\\Model" {
+                if realClasses == null {
+                    if handler instanceof BindModelInterface {
+                        let handlerClass = get_class(handler);
+                        let realClasses = {handlerClass}::getModelName();
+                    } elseif handler instanceof BindableInterface {
+                        let realClasses = handler->getModelName();
+                    } else {
+                        throw new Exception("Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter");
+                    }
+                }
 
-				if typeof realClasses == "array" {
-					if !fetch className, realClasses[paramKey] {
-						throw new Exception("You should provide model class name for " . paramKey . " parameter");
-					}
+                if typeof realClasses == "array" {
+                    if !fetch className, realClasses[paramKey] {
+                        throw new Exception("You should provide model class name for " . paramKey . " parameter");
+                    }
 
-					let boundModel = this->findBoundModel(paramValue, className);
-				} elseif typeof realClasses == "string" {					
-					let className = realClasses;
-					let boundModel = this->findBoundModel(paramValue, className);
-				} else {
-					throw new Exception("getModelName should return array or string");
-				}
-			} elseif is_subclass_of(className, "Phalcon\\Mvc\\Model") {
-				let boundModel = this->findBoundModel(paramValue, className);
-			}
+                    let boundModel = this->findBoundModel(paramValue, className);
+                } elseif typeof realClasses == "string" {
+                    let className = realClasses;
+                    let boundModel = this->findBoundModel(paramValue, className);
+                } else {
+                    throw new Exception("getModelName should return array or string");
+                }
+            } elseif is_subclass_of(className, "Phalcon\\Mvc\\Model") {
+                let boundModel = this->findBoundModel(paramValue, className);
+            }
 
-			if boundModel != null {
-				let this->originalValues[paramKey] = paramValue;
-				let params[paramKey] = boundModel;
-				let this->boundModels[paramKey] = boundModel;
-				let paramsCache[paramKey] = className;
-			}
-		}
+            if boundModel != null {
+                let this->originalValues[paramKey] = paramValue;
+                let params[paramKey] = boundModel;
+                let this->boundModels[paramKey] = boundModel;
+                let paramsCache[paramKey] = className;
+            }
+        }
 
-		if cache != null {
-			cache->save(cacheKey, paramsCache);
-		}
+        if cache != null {
+            cache->save(cacheKey, paramsCache);
+        }
 
-		let this->internalCache[cacheKey] = paramsCache;
+        let this->internalCache[cacheKey] = paramsCache;
 
-		return params;
-	}
+        return params;
+    }
 }

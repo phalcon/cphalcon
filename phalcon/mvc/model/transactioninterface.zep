@@ -20,58 +20,58 @@ use Phalcon\Mvc\Model\Transaction\ManagerInterface;
  */
 interface TransactionInterface
 {
-	/**
-	 * Sets transaction manager related to the transaction
-	 */
-	public function setTransactionManager(<ManagerInterface> manager);
+    /**
+     * Sets transaction manager related to the transaction
+     */
+    public function setTransactionManager(<ManagerInterface> manager);
 
-	/**
-	 * Starts the transaction
-	 */
-	public function begin() -> bool;
+    /**
+     * Starts the transaction
+     */
+    public function begin() -> bool;
 
-	/**
-	 * Commits the transaction
-	 */
-	public function commit() -> bool;
+    /**
+     * Commits the transaction
+     */
+    public function commit() -> bool;
 
-	/**
-	 * Rollbacks the transaction
-	 */
-	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> bool;
+    /**
+     * Rollbacks the transaction
+     */
+    public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> bool;
 
-	/**
-	 * Returns connection related to transaction
-	 */
-	public function getConnection() -> <\Phalcon\Db\AdapterInterface>;
+    /**
+     * Returns connection related to transaction
+     */
+    public function getConnection() -> <\Phalcon\Db\AdapterInterface>;
 
-	/**
-	 * Sets if is a reused transaction or new once
-	 */
-	public function setIsNewTransaction(bool isNew);
+    /**
+     * Sets if is a reused transaction or new once
+     */
+    public function setIsNewTransaction(bool isNew);
 
-	/**
-	 * Sets flag to rollback on abort the HTTP connection
-	 */
-	public function setRollbackOnAbort(bool rollbackOnAbort);
+    /**
+     * Sets flag to rollback on abort the HTTP connection
+     */
+    public function setRollbackOnAbort(bool rollbackOnAbort);
 
-	/**
-	 * Checks whether transaction is managed by a transaction manager
-	 */
-	public function isManaged() -> bool;
+    /**
+     * Checks whether transaction is managed by a transaction manager
+     */
+    public function isManaged() -> bool;
 
-	/**
-	 * Returns validations messages from last save try
-	 */
-	public function getMessages() -> array;
+    /**
+     * Returns validations messages from last save try
+     */
+    public function getMessages() -> array;
 
-	/**
-	 * Checks whether internal connection is under an active transaction
-	 */
-	public function isValid() -> bool;
+    /**
+     * Checks whether internal connection is under an active transaction
+     */
+    public function isValid() -> bool;
 
-	/**
-	 * Sets object which generates rollback action
-	 */
-	public function setRollbackedRecord(<ModelInterface> record);
+    /**
+     * Sets object which generates rollback action
+     */
+    public function setRollbackedRecord(<ModelInterface> record);
 }

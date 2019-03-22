@@ -19,57 +19,57 @@ use Phalcon\Mvc\CollectionInterface;
  */
 abstract class Behavior implements BehaviorInterface
 {
-	protected _options;
+    protected _options;
 
-	/**
-	 * Phalcon\Mvc\Collection\Behavior
-	 */
-	public function __construct(array options = [])
-	{
-		let this->_options = options;
-	}
+    /**
+     * Phalcon\Mvc\Collection\Behavior
+     */
+    public function __construct(array options = [])
+    {
+        let this->_options = options;
+    }
 
-	/**
-	 * Checks whether the behavior must take action on certain event
-	 */
-	protected function mustTakeAction(string! eventName) -> bool
-	{
-		return isset this->_options[eventName];
-	}
+    /**
+     * Checks whether the behavior must take action on certain event
+     */
+    protected function mustTakeAction(string! eventName) -> bool
+    {
+        return isset this->_options[eventName];
+    }
 
-	/**
-	 * Returns the behavior options related to an event
-	 *
-	 * @return array
-	 */
-	protected function getOptions(string! eventName = null)
-	{
-		var options, eventOptions;
+    /**
+     * Returns the behavior options related to an event
+     *
+     * @return array
+     */
+    protected function getOptions(string! eventName = null)
+    {
+        var options, eventOptions;
 
-		let options = this->_options;
-		if eventName !== null {
-			if fetch eventOptions, options[eventName] {
-				return eventOptions;
-			}
-			return null;
-		}
-		return options;
-	}
+        let options = this->_options;
+        if eventName !== null {
+            if fetch eventOptions, options[eventName] {
+                return eventOptions;
+            }
+            return null;
+        }
+        return options;
+    }
 
-	/**
-	 * This method receives the notifications from the EventsManager
-	 */
-	public function notify(string type, <CollectionInterface> model)
-	{
-		return null;
-	}
+    /**
+     * This method receives the notifications from the EventsManager
+     */
+    public function notify(string type, <CollectionInterface> model)
+    {
+        return null;
+    }
 
-	/**
-	 * Acts as fallbacks when a missing method is called on the collection
-	 */
-	public function missingMethod(<CollectionInterface> model, string method, array arguments = [])
-	{
-		return null;
-	}
+    /**
+     * Acts as fallbacks when a missing method is called on the collection
+     */
+    public function missingMethod(<CollectionInterface> model, string method, array arguments = [])
+    {
+        return null;
+    }
 
 }

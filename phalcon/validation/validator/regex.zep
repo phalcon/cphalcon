@@ -58,48 +58,48 @@ use Phalcon\Validation\Validator;
 class Regex extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var matches, failed, message, value, label, replacePairs, code, pattern;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var matches, failed, message, value, label, replacePairs, code, pattern;
 
-		// Regular expression is set in the option 'pattern'
-		// Check if the value match using preg_match in the PHP userland
-		let matches = null;
-		let value = validation->getValue(field);
+        // Regular expression is set in the option 'pattern'
+        // Check if the value match using preg_match in the PHP userland
+        let matches = null;
+        let value = validation->getValue(field);
 
-		let pattern = this->getOption("pattern");
-		if typeof pattern == "array" {
-			let pattern = pattern[field];
-		}
+        let pattern = this->getOption("pattern");
+        if typeof pattern == "array" {
+            let pattern = pattern[field];
+        }
 
-		if preg_match(pattern, value, matches) {
-			let failed = matches[0] != value;
-		} else {
-			let failed = true;
-		}
+        if preg_match(pattern, value, matches) {
+            let failed = matches[0] != value;
+        } else {
+            let failed = true;
+        }
 
-		if failed === true {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "Regex"),
-				code = this->prepareCode(field);
+        if failed === true {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "Regex"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label];
+            let replacePairs = [":field": label];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"Regex",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Regex",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

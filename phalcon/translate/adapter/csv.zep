@@ -21,85 +21,85 @@ use Phalcon\Translate\Adapter;
 class Csv extends Adapter implements \ArrayAccess
 {
 
-	protected _translate = [];
+    protected _translate = [];
 
-	/**
-	 * Phalcon\Translate\Adapter\Csv constructor
-	 */
-	public function __construct(array! options)
-	{
-		var delimiter, enclosure;
+    /**
+     * Phalcon\Translate\Adapter\Csv constructor
+     */
+    public function __construct(array! options)
+    {
+        var delimiter, enclosure;
 
-		parent::__construct(options);
+        parent::__construct(options);
 
-		if !isset options["content"] {
-			throw new Exception("Parameter 'content' is required");
-		}
+        if !isset options["content"] {
+            throw new Exception("Parameter 'content' is required");
+        }
 
-		if isset options["delimiter"] {
-			let delimiter = options["delimiter"];
-		} else {
-			let delimiter = ";";
-		}
+        if isset options["delimiter"] {
+            let delimiter = options["delimiter"];
+        } else {
+            let delimiter = ";";
+        }
 
-		if isset options["enclosure"] {
-			let enclosure = options["enclosure"];
-		} else {
-			let enclosure = "\"";
-		}
+        if isset options["enclosure"] {
+            let enclosure = options["enclosure"];
+        } else {
+            let enclosure = "\"";
+        }
 
-		this->_load(options["content"], 0, delimiter, enclosure);
-	}
+        this->_load(options["content"], 0, delimiter, enclosure);
+    }
 
-	/**
-	* Load translates from file
-	*/
-	private function _load(string file, int length, string delimiter, string enclosure) -> void
-	{
-		var data, fileHandler;
+    /**
+    * Load translates from file
+    */
+    private function _load(string file, int length, string delimiter, string enclosure) -> void
+    {
+        var data, fileHandler;
 
-		let fileHandler = fopen(file, "rb");
+        let fileHandler = fopen(file, "rb");
 
-		if typeof fileHandler !== "resource" {
-			throw new Exception("Error opening translation file '" . file . "'");
-		}
+        if typeof fileHandler !== "resource" {
+            throw new Exception("Error opening translation file '" . file . "'");
+        }
 
-		loop {
+        loop {
 
-			let data = fgetcsv(fileHandler, length, delimiter, enclosure);
-			if data === false {
-				break;
-			}
+            let data = fgetcsv(fileHandler, length, delimiter, enclosure);
+            if data === false {
+                break;
+            }
 
-			if substr(data[0], 0, 1) === "#" || !isset data[1] {
-				continue;
-			}
+            if substr(data[0], 0, 1) === "#" || !isset data[1] {
+                continue;
+            }
 
-			let this->_translate[data[0]] = data[1];
-		}
+            let this->_translate[data[0]] = data[1];
+        }
 
-		fclose(fileHandler);
-	}
+        fclose(fileHandler);
+    }
 
-	/**
-	 * Returns the translation related to the given key
-	 */
-	public function query(string! index, placeholders = null) -> string
-	{
-		var translation;
+    /**
+     * Returns the translation related to the given key
+     */
+    public function query(string! index, placeholders = null) -> string
+    {
+        var translation;
 
-		if !fetch translation, this->_translate[index] {
-			let translation = index;
-		}
+        if !fetch translation, this->_translate[index] {
+            let translation = index;
+        }
 
-		return this->replacePlaceholders(translation, placeholders);
-	}
+        return this->replacePlaceholders(translation, placeholders);
+    }
 
-	/**
-	 * Check whether is defined a translation key in the internal array
-	 */
-	public function exists(string! index) -> bool
-	{
-		return isset this->_translate[index];
-	}
+    /**
+     * Check whether is defined a translation key in the internal array
+     */
+    public function exists(string! index) -> bool
+    {
+        return isset this->_translate[index];
+    }
 }

@@ -20,30 +20,30 @@ use Phalcon\Flash as FlashBase;
 class Direct extends FlashBase
 {
 
-	/**
-	 * Outputs a message
-	 */
-	public function message(string type, var message) -> string
-	{
-		return this->outputMessage(type, message);
-	}
+    /**
+     * Outputs a message
+     */
+    public function message(string type, var message) -> string
+    {
+        return this->outputMessage(type, message);
+    }
 
-	/**
-	 * Prints the messages accumulated in the flasher
-	 */
-	public function output(bool remove = true) -> void
-	{
-		var message, messages;
+    /**
+     * Prints the messages accumulated in the flasher
+     */
+    public function output(bool remove = true) -> void
+    {
+        var message, messages;
 
-		let messages = this->_messages;
-		if typeof messages == "array" {
-			for message in messages {
-				echo message;
-			}
-		}
+        let messages = this->_messages;
+        if typeof messages == "array" {
+            for message in messages {
+                echo message;
+            }
+        }
 
-		if remove {
-			parent::clear();
-		}
-	}
+        if remove {
+            parent::clear();
+        }
+    }
 }

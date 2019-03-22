@@ -20,13 +20,13 @@ use Phalcon\DiInterface;
 interface InjectionAwareInterface
 {
 
-	/**
-	 * Sets the dependency injector
-	 */
-	public function setDI(<DiInterface> dependencyInjector);
+    /**
+     * Sets the dependency injector
+     */
+    public function setDI(<DiInterface> dependencyInjector);
 
-	/**
-	 * Returns the internal dependency injector
-	 */
-	public function getDI() -> <DiInterface>;
+    /**
+     * Returns the internal dependency injector
+     */
+    public function getDI() -> <DiInterface>;
 }

@@ -20,43 +20,43 @@ use Phalcon\Logger\Item;
  */
 interface AdapterInterface
 {
-	/**
- 	 * Adds a message in the queue
- 	 */
-	public function add(<Item> item) -> void;
+    /**
+      * Adds a message in the queue
+      */
+    public function add(<Item> item) -> void;
 
-	/**
- 	 * Starts a transaction
- 	 */
-	public function begin() -> <AdapterInterface>;
+    /**
+      * Starts a transaction
+      */
+    public function begin() -> <AdapterInterface>;
 
-	/**
- 	 * Closes the logger
- 	 */
-	public function close() -> bool;
+    /**
+      * Closes the logger
+      */
+    public function close() -> bool;
 
-	/**
- 	 * Commits the internal transaction
- 	 */
-	public function commit() -> <AdapterInterface>;
+    /**
+      * Commits the internal transaction
+      */
+    public function commit() -> <AdapterInterface>;
 
-	/**
-	 * Returns the internal formatter
-	 */
-	public function getFormatter() -> <FormatterInterface>;
+    /**
+     * Returns the internal formatter
+     */
+    public function getFormatter() -> <FormatterInterface>;
 
-	/**
- 	 * Processes the message in the adapter
- 	 */
-	public function process(<Item> item) -> void;
+    /**
+      * Processes the message in the adapter
+      */
+    public function process(<Item> item) -> void;
 
-	/**
- 	 * Rollbacks the internal transaction
- 	 */
-	public function rollback() -> <AdapterInterface>;
+    /**
+      * Rollbacks the internal transaction
+      */
+    public function rollback() -> <AdapterInterface>;
 
-	/**
-	 * Sets the message formatter
-	 */
-	public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>;
+    /**
+     * Sets the message formatter
+     */
+    public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>;
 }

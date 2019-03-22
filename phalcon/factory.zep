@@ -15,25 +15,25 @@ use Phalcon\Config;
 
 abstract class Factory implements FactoryInterface
 {
-	protected static function loadClass(string $namespace, var config)
-	{
-		var adapter, className;
+    protected static function loadClass(string $namespace, var config)
+    {
+        var adapter, className;
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+            throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if fetch adapter, config["adapter"] {
-			unset config["adapter"];
-			let className = $namespace."\\".adapter;
+        if fetch adapter, config["adapter"] {
+            unset config["adapter"];
+            let className = $namespace."\\".adapter;
 
-			return new {className}(config);
-		}
+            return new {className}(config);
+        }
 
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
-	}
+        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+    }
 }

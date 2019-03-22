@@ -18,54 +18,54 @@ namespace Phalcon\Logger;
  */
 class Item
 {
-	protected context { get };
+    protected context { get };
 
-	/**
-	 * Log message
-	 *
-	 * @var string
-	 */
-	protected message { get };
+    /**
+     * Log message
+     *
+     * @var string
+     */
+    protected message { get };
 
-	/**
-	 * Log message
-	 *
-	 * @var string
-	 */
-	protected name { get };
+    /**
+     * Log message
+     *
+     * @var string
+     */
+    protected name { get };
 
-	/**
-	 * Log timestamp
-	 *
-	 * @var integer
-	 */
-	protected time { get };
+    /**
+     * Log timestamp
+     *
+     * @var integer
+     */
+    protected time { get };
 
-	/**
-	 * Log type
-	 *
-	 * @var integer
-	 */
-	protected type { get };
+    /**
+     * Log type
+     *
+     * @var integer
+     */
+    protected type { get };
 
-	/**
-	 * Phalcon\Logger\Item constructor
-	 *
-	 * @param string message
-	 * @param string name
-	 * @param int    type
-	 * @param int    time
-	 * @param array  context
-	 */
-	public function __construct(string message, string name, int type, int time = 0, var context = [])
-	{
-		let this->message = message,
-			this->name    = name,
-			this->type    = type,
-			this->time    = time;
+    /**
+     * Phalcon\Logger\Item constructor
+     *
+     * @param string message
+     * @param string name
+     * @param int    type
+     * @param int    time
+     * @param array  context
+     */
+    public function __construct(string message, string name, int type, int time = 0, var context = [])
+    {
+        let this->message = message,
+            this->name    = name,
+            this->type    = type,
+            this->time    = time;
 
-		if typeof context == "array" {
-			let this->context = context;
-		}
-	}
+        if typeof context == "array" {
+            let this->context = context;
+        }
+    }
 }

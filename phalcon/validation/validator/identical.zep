@@ -58,50 +58,50 @@ use Phalcon\Validation\Validator;
 class Identical extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var message, label, replacePairs, value, valid, accepted, valueOption, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var message, label, replacePairs, value, valid, accepted, valueOption, code;
 
-		let value = validation->getValue(field);
+        let value = validation->getValue(field);
 
-		if this->hasOption("accepted") {
-			let accepted = this->getOption("accepted");
-			if typeof accepted == "array" {
-				let accepted = accepted[field];
-			}
-			let valid = value == accepted;
-		} else {
-			if this->hasOption("value") {
-				let valueOption = this->getOption("value");
-				if typeof valueOption == "array" {
-					let valueOption = valueOption[field];
-				}
-				let valid = value == valueOption;
-			}
-		}
+        if this->hasOption("accepted") {
+            let accepted = this->getOption("accepted");
+            if typeof accepted == "array" {
+                let accepted = accepted[field];
+            }
+            let valid = value == accepted;
+        } else {
+            if this->hasOption("value") {
+                let valueOption = this->getOption("value");
+                if typeof valueOption == "array" {
+                    let valueOption = valueOption[field];
+                }
+                let valid = value == valueOption;
+            }
+        }
 
-		if !valid {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "Identical"),
-				code = this->prepareCode(field);
+        if !valid {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "Identical"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label];
+            let replacePairs = [":field": label];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"Identical",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Identical",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

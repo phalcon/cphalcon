@@ -15,15 +15,15 @@ use Phalcon\Translate\InterpolatorInterface;
 class IndexedArray implements InterpolatorInterface
 {
 
-	/**
-	 * Replaces placeholders by the values passed
-	*/
-	public function replacePlaceholders(string! translation, placeholders = null) -> string
-	{
-		if typeof placeholders === "array" && count(placeholders) {
-			array_unshift(placeholders, translation);
-			return call_user_func_array("sprintf", placeholders);
-		}
-		return translation;
-	}
+    /**
+     * Replaces placeholders by the values passed
+    */
+    public function replacePlaceholders(string! translation, placeholders = null) -> string
+    {
+        if typeof placeholders === "array" && count(placeholders) {
+            array_unshift(placeholders, translation);
+            return call_user_func_array("sprintf", placeholders);
+        }
+        return translation;
+    }
 }

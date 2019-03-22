@@ -20,33 +20,33 @@ use Phalcon\Mvc\View\Engine;
 class Php extends Engine
 {
 
-	/**
-	 * Renders a view using the template engine
-	 */
-	public function render(string! path, var params, bool mustClean = false)
-	{
-		var key, value;
+    /**
+     * Renders a view using the template engine
+     */
+    public function render(string! path, var params, bool mustClean = false)
+    {
+        var key, value;
 
-		if mustClean === true {
-			ob_clean();
-		}
+        if mustClean === true {
+            ob_clean();
+        }
 
-		/**
-		 * Create the variables in local symbol table
-		 */
-		if typeof params == "array" {
-			for key, value in params {
-				let {key} = value;
-			}
-		}
+        /**
+         * Create the variables in local symbol table
+         */
+        if typeof params == "array" {
+            for key, value in params {
+                let {key} = value;
+            }
+        }
 
-		/**
-		 * Require the file
-		 */
-		require path;
+        /**
+         * Require the file
+         */
+        require path;
 
-		if mustClean === true {
-			this->_view->setContent(ob_get_contents());
-		}
-	}
+        if mustClean === true {
+            this->_view->setContent(ob_get_contents());
+        }
+    }
 }

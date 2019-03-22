@@ -18,43 +18,43 @@ namespace Phalcon;
 interface EscaperInterface
 {
 
-	/**
-	 * Sets the encoding to be used by the escaper
-	 */
-	public function setEncoding(string encoding);
+    /**
+     * Sets the encoding to be used by the escaper
+     */
+    public function setEncoding(string encoding);
 
-	/**
-	 * Returns the internal encoding used by the escaper
-	 */
-	public function getEncoding() -> string;
+    /**
+     * Returns the internal encoding used by the escaper
+     */
+    public function getEncoding() -> string;
 
-	/**
-	 * Sets the HTML quoting type for htmlspecialchars
-	 */
-	public function setHtmlQuoteType(int quoteType);
+    /**
+     * Sets the HTML quoting type for htmlspecialchars
+     */
+    public function setHtmlQuoteType(int quoteType);
 
-	/**
-	 * Escapes a HTML string
-	 */
-	public function escapeHtml(string text) -> string;
+    /**
+     * Escapes a HTML string
+     */
+    public function escapeHtml(string text) -> string;
 
-	/**
-	 * Escapes a HTML attribute string
-	 */
-	public function escapeHtmlAttr(string text) -> string;
+    /**
+     * Escapes a HTML attribute string
+     */
+    public function escapeHtmlAttr(string text) -> string;
 
-	/**
-	 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
-	 */
-	public function escapeCss(string css) -> string;
+    /**
+     * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
+     */
+    public function escapeCss(string css) -> string;
 
-	/**
-	 * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
-	 */
-	public function escapeJs(string js) -> string;
+    /**
+     * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
+     */
+    public function escapeJs(string js) -> string;
 
-	/**
-	 * Escapes a URL. Internally uses rawurlencode
-	 */
-	public function escapeUrl(string url) -> string;
+    /**
+     * Escapes a URL. Internally uses rawurlencode
+     */
+    public function escapeUrl(string url) -> string;
 }

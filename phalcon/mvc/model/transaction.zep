@@ -61,156 +61,156 @@ use Phalcon\Mvc\Model\TransactionInterface;
  */
 class Transaction implements TransactionInterface
 {
-	protected _connection;
+    protected _connection;
 
-	protected _activeTransaction = false;
+    protected _activeTransaction = false;
 
-	protected _isNewTransaction = true;
+    protected _isNewTransaction = true;
 
-	protected _rollbackOnAbort = false;
+    protected _rollbackOnAbort = false;
 
-	protected _manager;
+    protected _manager;
 
-	protected _messages;
+    protected _messages;
 
-	protected _rollbackRecord;
+    protected _rollbackRecord;
 
-	/**
-	 * Phalcon\Mvc\Model\Transaction constructor
-	 */
-	public function __construct(<DiInterface> dependencyInjector, bool autoBegin = false, string service = null)
-	{
-		var connection;
+    /**
+     * Phalcon\Mvc\Model\Transaction constructor
+     */
+    public function __construct(<DiInterface> dependencyInjector, bool autoBegin = false, string service = null)
+    {
+        var connection;
 
-		let this->_messages = [];
+        let this->_messages = [];
 
-		if service {
-			let connection = dependencyInjector->get(service);
-		} else {
-			let connection = dependencyInjector->get("db");
-		}
+        if service {
+            let connection = dependencyInjector->get(service);
+        } else {
+            let connection = dependencyInjector->get("db");
+        }
 
-		let this->_connection = connection;
-		if autoBegin {
-			connection->begin();
-		}
-	}
+        let this->_connection = connection;
+        if autoBegin {
+            connection->begin();
+        }
+    }
 
-	/**
-	 * Sets transaction manager related to the transaction
-	 */
-	public function setTransactionManager(<ManagerInterface> manager)
-	{
-		let this->_manager = manager;
-	}
+    /**
+     * Sets transaction manager related to the transaction
+     */
+    public function setTransactionManager(<ManagerInterface> manager)
+    {
+        let this->_manager = manager;
+    }
 
-	/**
-	 * Starts the transaction
-	 */
-	public function begin() -> bool
-	{
-		return this->_connection->begin();
-	}
+    /**
+     * Starts the transaction
+     */
+    public function begin() -> bool
+    {
+        return this->_connection->begin();
+    }
 
-	/**
-	 * Commits the transaction
-	 */
-	public function commit() -> bool
-	{
-		var manager;
+    /**
+     * Commits the transaction
+     */
+    public function commit() -> bool
+    {
+        var manager;
 
-		let manager = this->_manager;
-		if typeof manager == "object" {
-			manager->notifyCommit(this);
-		}
+        let manager = this->_manager;
+        if typeof manager == "object" {
+            manager->notifyCommit(this);
+        }
 
-		return this->_connection->commit();
-	}
+        return this->_connection->commit();
+    }
 
-	/**
-	 * Rollbacks the transaction
-	 */
-	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> bool
-	{
-		var manager, connection;
+    /**
+     * Rollbacks the transaction
+     */
+    public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> bool
+    {
+        var manager, connection;
 
-		let manager = this->_manager;
-		if typeof manager == "object" {
-			manager->notifyRollback(this);
-		}
+        let manager = this->_manager;
+        if typeof manager == "object" {
+            manager->notifyRollback(this);
+        }
 
-		let connection = this->_connection;
-		if connection->rollback() {
-			if !rollbackMessage {
-				let rollbackMessage = "Transaction aborted";
-			}
-			if typeof rollbackRecord == "object" {
-				let this->_rollbackRecord = rollbackRecord;
-			}
-			throw new TxFailed(rollbackMessage, this->_rollbackRecord);
-		}
+        let connection = this->_connection;
+        if connection->rollback() {
+            if !rollbackMessage {
+                let rollbackMessage = "Transaction aborted";
+            }
+            if typeof rollbackRecord == "object" {
+                let this->_rollbackRecord = rollbackRecord;
+            }
+            throw new TxFailed(rollbackMessage, this->_rollbackRecord);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Returns the connection related to transaction
-	 */
-	public function getConnection() -> <\Phalcon\Db\AdapterInterface>
-	{
-		if this->_rollbackOnAbort {
-			if connection_aborted() {
-				this->rollback("The request was aborted");
-			}
-		}
-		return this->_connection;
-	}
+    /**
+     * Returns the connection related to transaction
+     */
+    public function getConnection() -> <\Phalcon\Db\AdapterInterface>
+    {
+        if this->_rollbackOnAbort {
+            if connection_aborted() {
+                this->rollback("The request was aborted");
+            }
+        }
+        return this->_connection;
+    }
 
-	/**
-	 * Sets if is a reused transaction or new once
-	 */
-	public function setIsNewTransaction(bool isNew)
-	{
-		let this->_isNewTransaction = isNew;
-	}
+    /**
+     * Sets if is a reused transaction or new once
+     */
+    public function setIsNewTransaction(bool isNew)
+    {
+        let this->_isNewTransaction = isNew;
+    }
 
-	/**
-	 * Sets flag to rollback on abort the HTTP connection
-	 */
-	public function setRollbackOnAbort(bool rollbackOnAbort)
-	{
-		let this->_rollbackOnAbort = rollbackOnAbort;
-	}
+    /**
+     * Sets flag to rollback on abort the HTTP connection
+     */
+    public function setRollbackOnAbort(bool rollbackOnAbort)
+    {
+        let this->_rollbackOnAbort = rollbackOnAbort;
+    }
 
-	/**
-	 * Checks whether transaction is managed by a transaction manager
-	 */
-	public function isManaged() -> bool
-	{
-		return typeof this->_manager == "object";
-	}
+    /**
+     * Checks whether transaction is managed by a transaction manager
+     */
+    public function isManaged() -> bool
+    {
+        return typeof this->_manager == "object";
+    }
 
-	/**
-	 * Returns validations messages from last save try
-	 */
-	public function getMessages() -> array
-	{
-		return this->_messages;
-	}
+    /**
+     * Returns validations messages from last save try
+     */
+    public function getMessages() -> array
+    {
+        return this->_messages;
+    }
 
-	/**
-	 * Checks whether internal connection is under an active transaction
-	 */
-	public function isValid() -> bool
-	{
-		return this->_connection->isUnderTransaction();
-	}
+    /**
+     * Checks whether internal connection is under an active transaction
+     */
+    public function isValid() -> bool
+    {
+        return this->_connection->isUnderTransaction();
+    }
 
-	/**
-	 * Sets object which generates rollback action
-	 */
-	public function setRollbackedRecord(<ModelInterface> record)
-	{
-		let this->_rollbackRecord = record;
-	}
+    /**
+     * Sets object which generates rollback action
+     */
+    public function setRollbackedRecord(<ModelInterface> record)
+    {
+        let this->_rollbackRecord = record;
+    }
 }

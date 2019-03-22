@@ -20,48 +20,48 @@ use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
 interface DispatcherInterface extends DispatcherInterfaceBase
 {
 
-	/**
-	 * Sets the default task suffix
-	 */
-	public function setTaskSuffix(string taskSuffix);
+    /**
+     * Sets the default task suffix
+     */
+    public function setTaskSuffix(string taskSuffix);
 
-	/**
-	 * Sets the default task name
-	 */
-	public function setDefaultTask(string taskName);
+    /**
+     * Sets the default task name
+     */
+    public function setDefaultTask(string taskName);
 
-	/**
-	 * Sets the task name to be dispatched
-	 */
-	public function setTaskName(string taskName);
+    /**
+     * Sets the task name to be dispatched
+     */
+    public function setTaskName(string taskName);
 
-	/**
-	 * Gets last dispatched task name
-	 */
-	public function getTaskName() -> string;
+    /**
+     * Gets last dispatched task name
+     */
+    public function getTaskName() -> string;
 
-	/**
-	 * Gets default task suffix
-	 */
-	public function getTaskSuffix() -> string;
+    /**
+     * Gets default task suffix
+     */
+    public function getTaskSuffix() -> string;
 
-	/**
-	 * Returns the latest dispatched controller
-	 */
-	public function getLastTask() -> <TaskInterface>;
+    /**
+     * Returns the latest dispatched controller
+     */
+    public function getLastTask() -> <TaskInterface>;
 
-	/**
-	 * Returns the active task in the dispatcher
-	 */
-	public function getActiveTask() -> <TaskInterface>;
+    /**
+     * Returns the active task in the dispatcher
+     */
+    public function getActiveTask() -> <TaskInterface>;
 
-	/**
-	 * Set the options to be dispatched
-	 */
-	public function setOptions(array options);
+    /**
+     * Set the options to be dispatched
+     */
+    public function setOptions(array options);
 
-	/**
-	 * Get dispatched options
-	 */
-	public function getOptions() -> array;
+    /**
+     * Get dispatched options
+     */
+    public function getOptions() -> array;
 }

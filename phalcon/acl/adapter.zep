@@ -20,74 +20,74 @@ use Phalcon\Events\EventsAwareInterface;
  */
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
-	/**
-	 * Active access which the list is checking if some role can access it
-	 *
-	 * @var string
-	 */
-	protected activeAccess { get };
+    /**
+     * Active access which the list is checking if some role can access it
+     *
+     * @var string
+     */
+    protected activeAccess { get };
 
-	/**
-	 * Access Granted
-	 * @var bool
-	 */
-	protected accessGranted = false;
+    /**
+     * Access Granted
+     * @var bool
+     */
+    protected accessGranted = false;
 
-	/**
-	 * Role which the list is checking if it's allowed to certain component/access
-	 *
-	 * @var string
-	 */
-	protected activeRole { get };
+    /**
+     * Role which the list is checking if it's allowed to certain component/access
+     *
+     * @var string
+     */
+    protected activeRole { get };
 
-	/**
-	 * Component which the list is checking if some role can access it
-	 *
-	 * @var string
-	 */
-	protected activeComponent { get };
+    /**
+     * Component which the list is checking if some role can access it
+     *
+     * @var string
+     */
+    protected activeComponent { get };
 
-	/**
-	 * Default access
-	 * @var bool
-	 */
-	protected defaultAccess = false;
+    /**
+     * Default access
+     * @var bool
+     */
+    protected defaultAccess = false;
 
-	/**
-	 * Events manager
-	 * @var mixed
-	 */
-	protected eventsManager;
+    /**
+     * Events manager
+     * @var mixed
+     */
+    protected eventsManager;
 
-	/**
-	 * Returns the default ACL access level
-	 */
-	public function getDefaultAction() -> int
-	{
-		return this->defaultAccess;
-	}
+    /**
+     * Returns the default ACL access level
+     */
+    public function getDefaultAction() -> int
+    {
+        return this->defaultAccess;
+    }
 
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <ManagerInterface>
-	{
-		return this->eventsManager;
-	}
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface>
+    {
+        return this->eventsManager;
+    }
 
-	/**
-	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
-	 */
-	public function setDefaultAction(int defaultAccess)
-	{
-		let this->defaultAccess = defaultAccess;
-	}
+    /**
+     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     */
+    public function setDefaultAction(int defaultAccess)
+    {
+        let this->defaultAccess = defaultAccess;
+    }
 
-	/**
-	 * Sets the events manager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
-	{
-		let this->eventsManager = eventsManager;
-	}
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager)
+    {
+        let this->eventsManager = eventsManager;
+    }
 }

@@ -21,11 +21,11 @@ use Phalcon\Forms\Element;
 class Radio extends Element
 {
 
-	/**
-	 * Renders the element widget returning html
-	 */
-	public function render(array attributes = []) -> string
-	{
-		return Tag::radioField(this->prepareAttributes(attributes, true));
-	}
+    /**
+     * Renders the element widget returning html
+     */
+    public function render(array attributes = []) -> string
+    {
+        return Tag::radioField(this->prepareAttributes(attributes, true));
+    }
 }

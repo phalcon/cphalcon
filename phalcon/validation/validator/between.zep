@@ -64,44 +64,44 @@ use Phalcon\Validation\Validator;
 class Between extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var value, minimum, maximum, message, label, replacePairs, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var value, minimum, maximum, message, label, replacePairs, code;
 
-		let value = validation->getValue(field),
-				minimum = this->getOption("minimum"),
-				maximum = this->getOption("maximum");
+        let value = validation->getValue(field),
+                minimum = this->getOption("minimum"),
+                maximum = this->getOption("maximum");
 
-		if typeof minimum == "array" {
-			let minimum = minimum[field];
-		}
+        if typeof minimum == "array" {
+            let minimum = minimum[field];
+        }
 
-		if typeof maximum == "array" {
-			let maximum = maximum[field];
-		}
+        if typeof maximum == "array" {
+            let maximum = maximum[field];
+        }
 
-		if value < minimum || value > maximum {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "Between"),
-				code = this->prepareCode(field);
+        if value < minimum || value > maximum {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "Between"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label, ":min": minimum, ":max": maximum];
+            let replacePairs = [":field": label, ":min": minimum, ":max": maximum];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"Between",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Between",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

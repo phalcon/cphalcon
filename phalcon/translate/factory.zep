@@ -30,11 +30,11 @@ use Phalcon\Factory as BaseFactory;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Translate\\Adapter", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Translate\\Adapter", config);
+    }
 }

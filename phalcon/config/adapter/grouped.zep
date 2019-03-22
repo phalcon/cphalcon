@@ -69,44 +69,44 @@ use Phalcon\Config\Factory;
 class Grouped extends Config
 {
 
-	/**
-	 * Phalcon\Config\Adapter\Grouped constructor
-	 */
-	public function __construct(array! arrayConfig, string! defaultAdapter = "php")
-	{
-		var configName, configInstance, configArray;
+    /**
+     * Phalcon\Config\Adapter\Grouped constructor
+     */
+    public function __construct(array! arrayConfig, string! defaultAdapter = "php")
+    {
+        var configName, configInstance, configArray;
 
-		parent::__construct([]);
+        parent::__construct([]);
 
-		for configName in arrayConfig {
-			let configInstance = configName;
+        for configName in arrayConfig {
+            let configInstance = configName;
 
-			// Set to default adapter if passed as string
-			if typeof configName === "string" {
-				if defaultAdapter === "" {
-					this->_merge(Factory::load(configName));
-					continue;
-				}
+            // Set to default adapter if passed as string
+            if typeof configName === "string" {
+                if defaultAdapter === "" {
+                    this->_merge(Factory::load(configName));
+                    continue;
+                }
 
-				let configInstance = ["filePath" : configName, "adapter" : defaultAdapter];
-			} elseif !isset configInstance["adapter"] {
-				let configInstance["adapter"] = defaultAdapter;
-			}
+                let configInstance = ["filePath" : configName, "adapter" : defaultAdapter];
+            } elseif !isset configInstance["adapter"] {
+                let configInstance["adapter"] = defaultAdapter;
+            }
 
-			if configInstance["adapter"] === "array" {
-				if !isset configInstance["config"] {
-					throw new Exception(
-						"To use 'array' adapter you have to specify the 'config' as an array."
-					);
-				} else {
-					let configArray    = configInstance["config"];
-					let configInstance = new Config(configArray);
-				}
-			} else {
-				let configInstance = Factory::load(configInstance);
-			}
+            if configInstance["adapter"] === "array" {
+                if !isset configInstance["config"] {
+                    throw new Exception(
+                        "To use 'array' adapter you have to specify the 'config' as an array."
+                    );
+                } else {
+                    let configArray    = configInstance["config"];
+                    let configInstance = new Config(configArray);
+                }
+            } else {
+                let configInstance = Factory::load(configInstance);
+            }
 
-			this->_merge(configInstance);
-		}
-	}
+            this->_merge(configInstance);
+        }
+    }
 }

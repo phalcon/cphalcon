@@ -17,8 +17,8 @@ namespace Phalcon\Mvc\Controller;
  */
 interface BindModelInterface
 {
-	/**
-	 * Return the model name associated with this controller
-	 */
-	public static function getModelName() -> string;
+    /**
+     * Return the model name associated with this controller
+     */
+    public static function getModelName() -> string;
 }

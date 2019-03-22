@@ -59,63 +59,63 @@ use Phalcon\Validation\Exception;
 class InclusionIn extends Validator
 {
 
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var value, domain, message, label, replacePairs, strict, fieldDomain, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var value, domain, message, label, replacePairs, strict, fieldDomain, code;
 
-		let value = validation->getValue(field);
+        let value = validation->getValue(field);
 
-		/**
-		 * A domain is an array with a list of valid values
-		 */
-		let domain = this->getOption("domain");
-		if fetch fieldDomain, domain[field] {
-			if typeof fieldDomain == "array" {
-				let domain = fieldDomain;
-			}
-		}
-		if typeof domain != "array" {
-			throw new Exception("Option 'domain' must be an array");
-		}
+        /**
+         * A domain is an array with a list of valid values
+         */
+        let domain = this->getOption("domain");
+        if fetch fieldDomain, domain[field] {
+            if typeof fieldDomain == "array" {
+                let domain = fieldDomain;
+            }
+        }
+        if typeof domain != "array" {
+            throw new Exception("Option 'domain' must be an array");
+        }
 
-		let strict = false;
-		if this->hasOption("strict") {
-			let strict = this->getOption("strict");
+        let strict = false;
+        if this->hasOption("strict") {
+            let strict = this->getOption("strict");
 
-			if typeof strict == "array" {
-				let strict = strict[field];
-			}
+            if typeof strict == "array" {
+                let strict = strict[field];
+            }
 
-			if typeof strict != "boolean" {
-			    throw new Exception("Option 'strict' must be a bool");
-			}
-		}
+            if typeof strict != "boolean" {
+                throw new Exception("Option 'strict' must be a bool");
+            }
+        }
 
-		/**
-		 * Check if the value is contained by the array
-		 */
-		if !in_array(value, domain, strict) {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "InclusionIn"),
-				code = this->prepareCode(field);
+        /**
+         * Check if the value is contained by the array
+         */
+        if !in_array(value, domain, strict) {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "InclusionIn"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label, ":domain":  join(", ", domain)];
+            let replacePairs = [":field": label, ":domain":  join(", ", domain)];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"InclusionIn",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "InclusionIn",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

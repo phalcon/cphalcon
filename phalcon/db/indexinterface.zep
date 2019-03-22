@@ -17,24 +17,24 @@ namespace Phalcon\Db;
  */
 interface IndexInterface
 {
-	/**
-	 * Gets the index name
-	 */
-	public function getName() -> string;
+    /**
+     * Gets the index name
+     */
+    public function getName() -> string;
 
-	/**
-	 * Gets the columns that corresponds the index
-	 */
-	public function getColumns() -> array;
+    /**
+     * Gets the columns that corresponds the index
+     */
+    public function getColumns() -> array;
 
-	/**
-	 * Gets the index type
-	 */
-	public function getType() -> string;
+    /**
+     * Gets the index type
+     */
+    public function getType() -> string;
 
-	/**
-	 * Restore a Phalcon\Db\Index object from export
-	 */
-	public static function __set_state(array! data) -> <IndexInterface>;
+    /**
+     * Restore a Phalcon\Db\Index object from export
+     */
+    public static function __set_state(array! data) -> <IndexInterface>;
 
 }

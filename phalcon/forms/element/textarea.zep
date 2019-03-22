@@ -21,11 +21,11 @@ use Phalcon\Forms\Element;
 class TextArea extends Element
 {
 
-	/**
-	 * Renders the element widget
-	 */
-	public function render(array attributes = []) -> string
-	{
-		return Tag::textArea(this->prepareAttributes(attributes));
-	}
+    /**
+     * Renders the element widget
+     */
+    public function render(array attributes = []) -> string
+    {
+        return Tag::textArea(this->prepareAttributes(attributes));
+    }
 }

@@ -20,45 +20,45 @@ use Phalcon\Http\CookieInterface;
 interface CookiesInterface
 {
 
-	/**
-	 * Set if cookies in the bag must be automatically encrypted/decrypted
-	 */
-	public function useEncryption(bool useEncryption) -> <CookiesInterface>;
+    /**
+     * Set if cookies in the bag must be automatically encrypted/decrypted
+     */
+    public function useEncryption(bool useEncryption) -> <CookiesInterface>;
 
-	/**
-	 * Returns if the bag is automatically encrypting/decrypting cookies
-	 */
-	public function isUsingEncryption() -> bool;
+    /**
+     * Returns if the bag is automatically encrypting/decrypting cookies
+     */
+    public function isUsingEncryption() -> bool;
 
-	/**
-	 * Sets a cookie to be sent at the end of the request
-	 */
-	public function set(string! name, value = null, int expire = 0, string path = "/", bool secure = null, string! domain = null, bool httpOnly = null) -> <CookiesInterface>;
+    /**
+     * Sets a cookie to be sent at the end of the request
+     */
+    public function set(string! name, value = null, int expire = 0, string path = "/", bool secure = null, string! domain = null, bool httpOnly = null) -> <CookiesInterface>;
 
-	/**
-	 * Gets a cookie from the bag
-	 */
-	public function get(string! name) -> <CookieInterface>;
+    /**
+     * Gets a cookie from the bag
+     */
+    public function get(string! name) -> <CookieInterface>;
 
-	/**
-	 * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
-	 */
-	public function has(string! name) -> bool;
+    /**
+     * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
+     */
+    public function has(string! name) -> bool;
 
-	/**
-	 * Deletes a cookie by its name
-	 * This method does not removes cookies from the _COOKIE superglobal
-	 */
-	public function delete(string! name) -> bool;
+    /**
+     * Deletes a cookie by its name
+     * This method does not removes cookies from the _COOKIE superglobal
+     */
+    public function delete(string! name) -> bool;
 
-	/**
-	 * Sends the cookies to the client
-	 */
-	public function send() -> bool;
+    /**
+     * Sends the cookies to the client
+     */
+    public function send() -> bool;
 
-	/**
-	 * Reset set cookies
-	 */
-	public function reset() -> <CookiesInterface>;
+    /**
+     * Reset set cookies
+     */
+    public function reset() -> <CookiesInterface>;
 
 }

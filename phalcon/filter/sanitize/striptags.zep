@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class Striptags
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(string! input)
-	{
-		return strip_tags(input);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(string! input)
+    {
+        return strip_tags(input);
+    }
 }

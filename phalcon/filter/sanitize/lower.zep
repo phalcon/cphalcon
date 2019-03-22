@@ -17,15 +17,15 @@ namespace Phalcon\Filter\Sanitize;
  */
 class Lower
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(string! input)
-	{
-		if (true === function_exists("mb_convert_case")) {
-			return mb_convert_case(input, MB_CASE_LOWER, "UTF-8");
-		}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(string! input)
+    {
+        if (true === function_exists("mb_convert_case")) {
+            return mb_convert_case(input, MB_CASE_LOWER, "UTF-8");
+        }
 
-		return strtolower(utf8_decode(input));
-	}
+        return strtolower(utf8_decode(input));
+    }
 }

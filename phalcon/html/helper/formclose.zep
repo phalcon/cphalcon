@@ -19,11 +19,11 @@ use Phalcon\Html\Helper\AbstractHelper;
  */
 class FormClose extends AbstractHelper
 {
-	/**
-	 * @var array  attributes Any additional attributes
-	 */
-	public function __invoke() -> string
-	{
-		return "</form>";
-	}
+    /**
+     * @var array  attributes Any additional attributes
+     */
+    public function __invoke() -> string
+    {
+        return "</form>";
+    }
 }

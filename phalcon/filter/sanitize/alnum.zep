@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class Alnum
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(var input)
-	{
-		return preg_replace("/[^A-Za-z0-9]/", "", input);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(var input)
+    {
+        return preg_replace("/[^A-Za-z0-9]/", "", input);
+    }
 }

@@ -35,119 +35,119 @@ use Phalcon\Annotations\Collection;
 class Reflection
 {
 
-	protected _reflectionData;
+    protected _reflectionData;
 
-	protected _classAnnotations;
+    protected _classAnnotations;
 
-	protected _methodAnnotations;
+    protected _methodAnnotations;
 
-	protected _propertyAnnotations;
+    protected _propertyAnnotations;
 
-	/**
-	 * Phalcon\Annotations\Reflection constructor
-	 */
-	public function __construct(array reflectionData = [])
-	{
-		let this->_reflectionData = reflectionData;
-	}
+    /**
+     * Phalcon\Annotations\Reflection constructor
+     */
+    public function __construct(array reflectionData = [])
+    {
+        let this->_reflectionData = reflectionData;
+    }
 
-	/**
-	 * Returns the annotations found in the class docblock
-	 */
-	public function getClassAnnotations() -> <Collection> | bool
-	{
-		var annotations, reflectionClass, collection;
+    /**
+     * Returns the annotations found in the class docblock
+     */
+    public function getClassAnnotations() -> <Collection> | bool
+    {
+        var annotations, reflectionClass, collection;
 
-		let annotations = this->_classAnnotations;
-		if typeof annotations != "object" {
-			if fetch reflectionClass, this->_reflectionData["class"] {
-				let collection = new Collection(reflectionClass),
-					this->_classAnnotations = collection;
-				return collection;
-			}
-			let this->_classAnnotations = false;
-			return false;
-		}
-		return annotations;
-	}
+        let annotations = this->_classAnnotations;
+        if typeof annotations != "object" {
+            if fetch reflectionClass, this->_reflectionData["class"] {
+                let collection = new Collection(reflectionClass),
+                    this->_classAnnotations = collection;
+                return collection;
+            }
+            let this->_classAnnotations = false;
+            return false;
+        }
+        return annotations;
+    }
 
-	/**
-	 * Returns the annotations found in the methods' docblocks
-	 */
-	public function getMethodsAnnotations() -> <Collection[]> | bool
-	{
-		var annotations, reflectionMethods,
-			collections, methodName, reflectionMethod;
+    /**
+     * Returns the annotations found in the methods' docblocks
+     */
+    public function getMethodsAnnotations() -> <Collection[]> | bool
+    {
+        var annotations, reflectionMethods,
+            collections, methodName, reflectionMethod;
 
-		let annotations = this->_methodAnnotations;
-		if typeof annotations != "object" {
+        let annotations = this->_methodAnnotations;
+        if typeof annotations != "object" {
 
-			if fetch reflectionMethods, this->_reflectionData["methods"] {
-				if count(reflectionMethods) {
-					let collections = [];
-					for methodName, reflectionMethod in reflectionMethods {
-						let collections[methodName] = new Collection(reflectionMethod);
-					}
-					let this->_methodAnnotations = collections;
-					return collections;
-				}
-			}
+            if fetch reflectionMethods, this->_reflectionData["methods"] {
+                if count(reflectionMethods) {
+                    let collections = [];
+                    for methodName, reflectionMethod in reflectionMethods {
+                        let collections[methodName] = new Collection(reflectionMethod);
+                    }
+                    let this->_methodAnnotations = collections;
+                    return collections;
+                }
+            }
 
-			let this->_methodAnnotations = false;
-			return false;
-		}
-		return annotations;
-	}
+            let this->_methodAnnotations = false;
+            return false;
+        }
+        return annotations;
+    }
 
-	/**
-	 * Returns the annotations found in the properties' docblocks
-	 */
-	public function getPropertiesAnnotations() -> <Collection[]> | bool
-	{
-		var annotations, reflectionProperties,
-			collections, property, reflectionProperty;
+    /**
+     * Returns the annotations found in the properties' docblocks
+     */
+    public function getPropertiesAnnotations() -> <Collection[]> | bool
+    {
+        var annotations, reflectionProperties,
+            collections, property, reflectionProperty;
 
-		let annotations = this->_propertyAnnotations;
-		if typeof annotations != "object" {
-			if fetch reflectionProperties, this->_reflectionData["properties"] {
-				if count(reflectionProperties) {
-					let collections = [];
-					for property, reflectionProperty in reflectionProperties {
-						let collections[property] = new Collection(reflectionProperty);
-					}
-					let this->_propertyAnnotations = collections;
-					return collections;
-				}
-			}
-			let this->_propertyAnnotations = false;
-			return false;
-		}
+        let annotations = this->_propertyAnnotations;
+        if typeof annotations != "object" {
+            if fetch reflectionProperties, this->_reflectionData["properties"] {
+                if count(reflectionProperties) {
+                    let collections = [];
+                    for property, reflectionProperty in reflectionProperties {
+                        let collections[property] = new Collection(reflectionProperty);
+                    }
+                    let this->_propertyAnnotations = collections;
+                    return collections;
+                }
+            }
+            let this->_propertyAnnotations = false;
+            return false;
+        }
 
-		return annotations;
-	}
+        return annotations;
+    }
 
-	/**
-	 * Returns the raw parsing intermediate definitions used to construct the reflection
-	 */
-	public function getReflectionData() -> array
-	{
-		return this->_reflectionData;
-	}
+    /**
+     * Returns the raw parsing intermediate definitions used to construct the reflection
+     */
+    public function getReflectionData() -> array
+    {
+        return this->_reflectionData;
+    }
 
-	/**
-	 * Restores the state of a Phalcon\Annotations\Reflection variable export
-	 */
-	public static function __set_state(array! data) -> <Reflection>
-	{
-		var reflectionData;
+    /**
+     * Restores the state of a Phalcon\Annotations\Reflection variable export
+     */
+    public static function __set_state(array! data) -> <Reflection>
+    {
+        var reflectionData;
 
-		/**
-		 * Check for a '_reflectionData' in the array to build the Reflection
-		 */
-		if fetch reflectionData, data["_reflectionData"] {
-			return new self(reflectionData);
-		}
+        /**
+         * Check for a '_reflectionData' in the array to build the Reflection
+         */
+        if fetch reflectionData, data["_reflectionData"] {
+            return new self(reflectionData);
+        }
 
-		return new self();
-	}
+        return new self();
+    }
 }

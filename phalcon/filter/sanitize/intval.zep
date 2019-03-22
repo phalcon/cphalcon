@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class IntVal
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(var input)
-	{
-		return (int) filter_var(input, FILTER_SANITIZE_NUMBER_INT);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(var input)
+    {
+        return (int) filter_var(input, FILTER_SANITIZE_NUMBER_INT);
+    }
 }

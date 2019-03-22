@@ -57,61 +57,61 @@ use Phalcon\Validation\Validator;
  */
 class Date extends Validator
 {
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var value, format, label, message, replacePairs, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var value, format, label, message, replacePairs, code;
 
-		let value = validation->getValue(field);
-		let format = this->getOption("format");
+        let value = validation->getValue(field);
+        let format = this->getOption("format");
 
-		if typeof format == "array" {
-			let format = format[field];
-		}
+        if typeof format == "array" {
+            let format = format[field];
+        }
 
-		if empty format {
-			let format = "Y-m-d";
-		}
+        if empty format {
+            let format = "Y-m-d";
+        }
 
-		if !this->checkDate(value, format) {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "Date"),
-				code = this->prepareCode(field);
+        if !this->checkDate(value, format) {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "Date"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label];
+            let replacePairs = [":field": label];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"Date",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Date",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private function checkDate(value, format) -> bool
-	{
-		var date, errors;
+    private function checkDate(value, format) -> bool
+    {
+        var date, errors;
 
-		if !is_string(value) {
-			return false;
-		}
+        if !is_string(value) {
+            return false;
+        }
 
-		let date = \DateTime::createFromFormat(format, value);
-		let errors = \DateTime::getLastErrors();
+        let date = \DateTime::createFromFormat(format, value);
+        let errors = \DateTime::getLastErrors();
 
-		if errors["warning_count"] > 0 || errors["error_count"] > 0 {
-			return false;
-		}
+        if errors["warning_count"] > 0 || errors["error_count"] > 0 {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

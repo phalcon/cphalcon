@@ -17,144 +17,144 @@ namespace Phalcon\Mvc;
  */
 interface ViewInterface extends ViewBaseInterface
 {
-	/**
-	 * Sets the layouts sub-directory. Must be a directory under the views
-	 * directory. Depending of your platform, always add a trailing slash or backslash
-	 */
-	public function setLayoutsDir(string! layoutsDir);
+    /**
+     * Sets the layouts sub-directory. Must be a directory under the views
+     * directory. Depending of your platform, always add a trailing slash or backslash
+     */
+    public function setLayoutsDir(string! layoutsDir);
 
-	/**
-	 * Gets the current layouts sub-directory
-	 */
-	public function getLayoutsDir() -> string;
+    /**
+     * Gets the current layouts sub-directory
+     */
+    public function getLayoutsDir() -> string;
 
-	/**
-	 * Sets a partials sub-directory. Must be a directory under the views
-	 * directory. Depending of your platform, always add a trailing slash or backslash
-	 */
-	public function setPartialsDir(string! partialsDir);
+    /**
+     * Sets a partials sub-directory. Must be a directory under the views
+     * directory. Depending of your platform, always add a trailing slash or backslash
+     */
+    public function setPartialsDir(string! partialsDir);
 
-	/**
-	 * Gets the current partials sub-directory
-	 */
-	public function getPartialsDir() -> string;
+    /**
+     * Gets the current partials sub-directory
+     */
+    public function getPartialsDir() -> string;
 
-	/**
-	 * Sets base path. Depending of your platform, always add a trailing slash or backslash
-	 */
-	public function setBasePath(string! basePath);
+    /**
+     * Sets base path. Depending of your platform, always add a trailing slash or backslash
+     */
+    public function setBasePath(string! basePath);
 
-	/**
-	 * Gets base path
-	 */
-	public function getBasePath() -> string;
+    /**
+     * Gets base path
+     */
+    public function getBasePath() -> string;
 
-	/**
-	 * Sets the render level for the view
-	 */
-	public function setRenderLevel(int level) -> <ViewInterface>;
+    /**
+     * Sets the render level for the view
+     */
+    public function setRenderLevel(int level) -> <ViewInterface>;
 
-	/**
-	 * Sets default view name. Must be a file without extension in the views directory
-	 */
-	public function setMainView(string! viewPath);
+    /**
+     * Sets default view name. Must be a file without extension in the views directory
+     */
+    public function setMainView(string! viewPath);
 
-	/**
-	 * Returns the name of the main view
-	 */
-	public function getMainView() -> string;
+    /**
+     * Returns the name of the main view
+     */
+    public function getMainView() -> string;
 
-	/**
-	 * Change the layout to be used instead of using the name of the latest controller name
-	 */
-	public function setLayout(string! layout);
+    /**
+     * Change the layout to be used instead of using the name of the latest controller name
+     */
+    public function setLayout(string! layout);
 
-	/**
-	 * Returns the name of the main view
-	 */
-	public function getLayout() -> string;
+    /**
+     * Returns the name of the main view
+     */
+    public function getLayout() -> string;
 
-	/**
-	 * Appends template before controller layout
-	 *
-	 * @param string|array templateBefore
-	 */
-	public function setTemplateBefore(templateBefore);
+    /**
+     * Appends template before controller layout
+     *
+     * @param string|array templateBefore
+     */
+    public function setTemplateBefore(templateBefore);
 
-	/**
-	 * Resets any template before layouts
-	 */
-	public function cleanTemplateBefore();
+    /**
+     * Resets any template before layouts
+     */
+    public function cleanTemplateBefore();
 
-	/**
-	 * Appends template after controller layout
-	 *
-	 * @param string|array templateAfter
-	 */
-	public function setTemplateAfter(templateAfter);
+    /**
+     * Appends template after controller layout
+     *
+     * @param string|array templateAfter
+     */
+    public function setTemplateAfter(templateAfter);
 
-	/**
-	 * Resets any template before layouts
-	 */
-	public function cleanTemplateAfter();
+    /**
+     * Resets any template before layouts
+     */
+    public function cleanTemplateAfter();
 
-	/**
-	 * Gets the name of the controller rendered
-	 */
-	public function getControllerName() -> string;
+    /**
+     * Gets the name of the controller rendered
+     */
+    public function getControllerName() -> string;
 
-	/**
-	 * Gets the name of the action rendered
-	 */
-	public function getActionName() -> string;
+    /**
+     * Gets the name of the action rendered
+     */
+    public function getActionName() -> string;
 
-	/**
-	 * Starts rendering process enabling the output buffering
-	 */
-	public function start();
+    /**
+     * Starts rendering process enabling the output buffering
+     */
+    public function start();
 
-	/**
-	 * Register templating engines
-	 */
-	public function registerEngines(array! engines);
+    /**
+     * Register templating engines
+     */
+    public function registerEngines(array! engines);
 
-	/**
-	 * Executes render process from dispatching data
-	 */
-	public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | bool;
+    /**
+     * Executes render process from dispatching data
+     */
+    public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | bool;
 
-	/**
-	 * Choose a view different to render than last-controller/last-action
-	 */
-	public function pick(string! renderView);
+    /**
+     * Choose a view different to render than last-controller/last-action
+     */
+    public function pick(string! renderView);
 
-	/**
-	 * Finishes the render process by stopping the output buffering
-	 */
-	public function finish();
+    /**
+     * Finishes the render process by stopping the output buffering
+     */
+    public function finish();
 
-	/**
-	 * Returns the path of the view that is currently rendered
-	 */
-	public function getActiveRenderPath() -> string | array;
+    /**
+     * Returns the path of the view that is currently rendered
+     */
+    public function getActiveRenderPath() -> string | array;
 
-	/**
-	 * Disables the auto-rendering process
-	 */
-	public function disable();
+    /**
+     * Disables the auto-rendering process
+     */
+    public function disable();
 
-	/**
-	 * Enables the auto-rendering process
-	 */
-	public function enable();
+    /**
+     * Enables the auto-rendering process
+     */
+    public function enable();
 
-	/**
-	 * Resets the view component to its factory default values
-	 */
-	public function reset();
+    /**
+     * Resets the view component to its factory default values
+     */
+    public function reset();
 
-	/**
-	 * Whether the automatic rendering is disabled
-	 */
-	public function isDisabled() -> bool;
+    /**
+     * Whether the automatic rendering is disabled
+     */
+    public function isDisabled() -> bool;
 }

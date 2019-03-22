@@ -28,19 +28,19 @@ use Phalcon\Logger\Item;
  */
 class Noop extends AbstractAdapter
 {
-	/**
-	 * Closes the stream
-	 */
-	public function close() -> bool
-	{
-		return true;
-	}
+    /**
+     * Closes the stream
+     */
+    public function close() -> bool
+    {
+        return true;
+    }
 
-	/**
-	 * Processes the message i.e. writes it to the file
-	 */
-	public function process(<Item> item) -> void
-	{
-		// noop
-	}
+    /**
+     * Processes the message i.e. writes it to the file
+     */
+    public function process(<Item> item) -> void
+    {
+        // noop
+    }
 }

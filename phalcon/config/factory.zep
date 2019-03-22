@@ -29,63 +29,63 @@ use Phalcon\Config;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Config\\Adapter", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Config\\Adapter", config);
+    }
 
-	protected static function loadClass(string $namespace, var config)
-	{
-		var adapter, className, mode, callbacks, filePath, extension, oldConfig;
+    protected static function loadClass(string $namespace, var config)
+    {
+        var adapter, className, mode, callbacks, filePath, extension, oldConfig;
 
-		if typeof config == "string" {
-			let oldConfig = config;
-			let extension = substr(strrchr(config, "."), 1);
+        if typeof config == "string" {
+            let oldConfig = config;
+            let extension = substr(strrchr(config, "."), 1);
 
-			if empty extension {
-				throw new Exception("You need to provide extension in file path");
-			}
+            if empty extension {
+                throw new Exception("You need to provide extension in file path");
+            }
 
-			let config = [
-				"adapter": extension,
-				"filePath": oldConfig
-			];
-		}
+            let config = [
+                "adapter": extension,
+                "filePath": oldConfig
+            ];
+        }
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+            throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if !fetch filePath, config["filePath"] {
-			throw new Exception("You must provide 'filePath' option in factory config parameter.");
-		}
+        if !fetch filePath, config["filePath"] {
+            throw new Exception("You must provide 'filePath' option in factory config parameter.");
+        }
 
-		if fetch adapter, config["adapter"] {
-			let className = $namespace."\\".camelize(adapter);
-			if !strpos(filePath, ".") {
-				let filePath = filePath.".".lcfirst(adapter);
-			}
+        if fetch adapter, config["adapter"] {
+            let className = $namespace."\\".camelize(adapter);
+            if !strpos(filePath, ".") {
+                let filePath = filePath.".".lcfirst(adapter);
+            }
 
-			if className == "Phalcon\\Config\\Adapter\\Ini" {
-				if fetch mode, config["mode"] {
-					return new {className}(filePath, mode);
-				}
-			} elseif className == "Phalcon\\Config\\Adapter\\Yaml" {
-				if fetch callbacks, config["callbacks"] {
-					return new {className}(filePath, callbacks);
-				}
-			}
+            if className == "Phalcon\\Config\\Adapter\\Ini" {
+                if fetch mode, config["mode"] {
+                    return new {className}(filePath, mode);
+                }
+            } elseif className == "Phalcon\\Config\\Adapter\\Yaml" {
+                if fetch callbacks, config["callbacks"] {
+                    return new {className}(filePath, callbacks);
+                }
+            }
 
-			return new {className}(filePath);
-		}
+            return new {className}(filePath);
+        }
 
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
-	}
+        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+    }
 }

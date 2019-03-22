@@ -29,47 +29,47 @@ use Phalcon\Mvc\Model\Exception;
 class Files extends MetaData
 {
 
-	protected _metaDataDir = "./";
+    protected _metaDataDir = "./";
 
-	protected _metaData = [];
+    protected _metaData = [];
 
-	/**
-	 * Phalcon\Mvc\Model\MetaData\Files constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options = null)
-	{
-		var metaDataDir;
+    /**
+     * Phalcon\Mvc\Model\MetaData\Files constructor
+     *
+     * @param array options
+     */
+    public function __construct(options = null)
+    {
+        var metaDataDir;
 
-		if fetch metaDataDir, options["metaDataDir"] {
-			let this->_metaDataDir = metaDataDir;
-		}
-	}
+        if fetch metaDataDir, options["metaDataDir"] {
+            let this->_metaDataDir = metaDataDir;
+        }
+    }
 
-	/**
-	 * Reads meta-data from files
-	 */
-	public function read(string! key) -> array | null
-	{
-		var path;
-		let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
-		if file_exists(path) {
-			return require path;
-		}
-		return null;
-	}
+    /**
+     * Reads meta-data from files
+     */
+    public function read(string! key) -> array | null
+    {
+        var path;
+        let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        if file_exists(path) {
+            return require path;
+        }
+        return null;
+    }
 
-	/**
-	 * Writes the meta-data to files
-	 */
-	public function write(string! key, array data) -> void
-	{
-		var path;
+    /**
+     * Writes the meta-data to files
+     */
+    public function write(string! key, array data) -> void
+    {
+        var path;
 
-		let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
-		if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
-			throw new Exception("Meta-Data directory cannot be written");
-		}
-	}
+        let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
+            throw new Exception("Meta-Data directory cannot be written");
+        }
+    }
 }

@@ -23,76 +23,76 @@ use Phalcon\Mvc\Model\Exception;
 class SoftDelete extends Behavior
 {
 
-	/**
-	 * Listens for notifications from the models manager
-	 */
-	public function notify(string! type, <ModelInterface> model)
-	{
-		var options, value, field, updateModel, message, modelsManager, metaData;
+    /**
+     * Listens for notifications from the models manager
+     */
+    public function notify(string! type, <ModelInterface> model)
+    {
+        var options, value, field, updateModel, message, modelsManager, metaData;
 
-		if type == "beforeDelete" {
+        if type == "beforeDelete" {
 
-			let options = this->getOptions();
+            let options = this->getOptions();
 
-			/**
-			 * 'value' is the value to be updated instead of delete the record
-			 */
-			if !fetch value, options["value"] {
-				throw new Exception("The option 'value' is required");
-			}
+            /**
+             * 'value' is the value to be updated instead of delete the record
+             */
+            if !fetch value, options["value"] {
+                throw new Exception("The option 'value' is required");
+            }
 
-			/**
-			 * 'field' is the attribute to be updated instead of delete the record
-			 */
-			if !fetch field, options["field"] {
-				throw new Exception("The option 'field' is required");
-			}
+            /**
+             * 'field' is the attribute to be updated instead of delete the record
+             */
+            if !fetch field, options["field"] {
+                throw new Exception("The option 'field' is required");
+            }
 
-			/**
-			 * Skip the current operation
-			 */
-			model->skipOperation(true);
+            /**
+             * Skip the current operation
+             */
+            model->skipOperation(true);
 
-			/**
-			 * If the record is already flagged as 'deleted' we don't delete it again
-			 */
-			if model->readAttribute(field) != value {
+            /**
+             * If the record is already flagged as 'deleted' we don't delete it again
+             */
+            if model->readAttribute(field) != value {
 
-				let modelsManager = model->getModelsManager();
+                let modelsManager = model->getModelsManager();
 
-				/**
-				 * Clone the current model to make a clean new operation
-				 */
-				let updateModel = clone model;
+                /**
+                 * Clone the current model to make a clean new operation
+                 */
+                let updateModel = clone model;
 
-				updateModel->writeAttribute(field, value);
+                updateModel->writeAttribute(field, value);
 
-				/**
-				 * Update the cloned model
-				 */
-				if !updateModel->save() {
+                /**
+                 * Update the cloned model
+                 */
+                if !updateModel->save() {
 
-					/**
-					 * Transfer the messages from the cloned model to the original model
-					 */
-					for message in updateModel->getMessages() {
-						model->appendMessage(message);
-					}
+                    /**
+                     * Transfer the messages from the cloned model to the original model
+                     */
+                    for message in updateModel->getMessages() {
+                        model->appendMessage(message);
+                    }
 
-					return false;
-				}
+                    return false;
+                }
 
-				/**
-	             * Update the original model too
-				 */
-				model->writeAttribute(field, value);
+                /**
+                 * Update the original model too
+                 */
+                model->writeAttribute(field, value);
 
-				if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
-					let metaData = model->getModelsMetaData();
-					model->setSnapshotData(updateModel->getSnapshotData());
-					model->setOldSnapshotData(updateModel->getOldSnapshotData());
-				}
-			}
-		}
-	}
+                if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
+                    let metaData = model->getModelsMetaData();
+                    model->setSnapshotData(updateModel->getSnapshotData());
+                    model->setOldSnapshotData(updateModel->getOldSnapshotData());
+                }
+            }
+        }
+    }
 }

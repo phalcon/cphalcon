@@ -52,100 +52,100 @@ use Phalcon\Session\BagInterface;
 abstract class Injectable implements InjectionAwareInterface, EventsAwareInterface
 {
 
-	/**
-	 * Dependency Injector
-	 *
-	 * @var \Phalcon\DiInterface
-	 */
-	protected _dependencyInjector;
+    /**
+     * Dependency Injector
+     *
+     * @var \Phalcon\DiInterface
+     */
+    protected _dependencyInjector;
 
-	/**
-	 * Events Manager
-	 *
-	 * @var \Phalcon\Events\ManagerInterface
-	 */
-	protected _eventsManager;
+    /**
+     * Events Manager
+     *
+     * @var \Phalcon\Events\ManagerInterface
+     */
+    protected _eventsManager;
 
-	/**
-	 * Sets the dependency injector
-	 */
-	public function setDI(<DiInterface> dependencyInjector)
-	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
+    /**
+     * Sets the dependency injector
+     */
+    public function setDI(<DiInterface> dependencyInjector)
+    {
+        let this->_dependencyInjector = dependencyInjector;
+    }
 
-	/**
-	 * Returns the internal dependency injector
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		var dependencyInjector;
+    /**
+     * Returns the internal dependency injector
+     */
+    public function getDI() -> <DiInterface>
+    {
+        var dependencyInjector;
 
-		let dependencyInjector = this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Di::getDefault();
-		}
-		return dependencyInjector;
-	}
+        let dependencyInjector = this->_dependencyInjector;
+        if typeof dependencyInjector != "object" {
+            let dependencyInjector = Di::getDefault();
+        }
+        return dependencyInjector;
+    }
 
-	/**
-	 * Sets the event manager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
-	{
-		let this->_eventsManager = eventsManager;
-	}
+    /**
+     * Sets the event manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager)
+    {
+        let this->_eventsManager = eventsManager;
+    }
 
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <ManagerInterface>
-	{
-		return this->_eventsManager;
-	}
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface>
+    {
+        return this->_eventsManager;
+    }
 
-	/**
-	 * Magic method __get
-	 */
-	public function __get(string! propertyName)
-	{
-		var dependencyInjector, service, persistent;
+    /**
+     * Magic method __get
+     */
+    public function __get(string! propertyName)
+    {
+        var dependencyInjector, service, persistent;
 
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
-			if typeof dependencyInjector != "object" {
-				throw new Exception("A dependency injection object is required to access the application services");
-			}
-		}
+        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        if typeof dependencyInjector != "object" {
+            let dependencyInjector = \Phalcon\Di::getDefault();
+            if typeof dependencyInjector != "object" {
+                throw new Exception("A dependency injection object is required to access the application services");
+            }
+        }
 
-		/**
-		 * Fallback to the PHP userland if the cache is not available
-		 */
-		if dependencyInjector->has(propertyName) {
-			let service = dependencyInjector->getShared(propertyName);
-			let this->{propertyName} = service;
-			return service;
-		}
+        /**
+         * Fallback to the PHP userland if the cache is not available
+         */
+        if dependencyInjector->has(propertyName) {
+            let service = dependencyInjector->getShared(propertyName);
+            let this->{propertyName} = service;
+            return service;
+        }
 
-		if propertyName == "di" {
-			let this->{"di"} = dependencyInjector;
-			return dependencyInjector;
-		}
+        if propertyName == "di" {
+            let this->{"di"} = dependencyInjector;
+            return dependencyInjector;
+        }
 
-		/**
-		 * Accessing the persistent property will create a session bag on any class
-		 */
-		if propertyName == "persistent" {
-			let persistent = <BagInterface> dependencyInjector->get("sessionBag", [get_class(this)]),
-				this->{"persistent"} = persistent;
-			return persistent;
-		}
+        /**
+         * Accessing the persistent property will create a session bag on any class
+         */
+        if propertyName == "persistent" {
+            let persistent = <BagInterface> dependencyInjector->get("sessionBag", [get_class(this)]),
+                this->{"persistent"} = persistent;
+            return persistent;
+        }
 
-		/**
-		 * A notice is shown if the property is not defined and isn't a valid service
-		 */
-		trigger_error("Access to undefined property " . propertyName);
-		return null;
-	}
+        /**
+         * A notice is shown if the property is not defined and isn't a valid service
+         */
+        trigger_error("Access to undefined property " . propertyName);
+        return null;
+    }
 }

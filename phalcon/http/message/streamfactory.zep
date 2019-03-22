@@ -30,14 +30,14 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStream(string content = "") -> <StreamInterface>
     {
-		var tempResource;
+        var tempResource;
 
-		let tempResource = fopen("php://temp", "r+b");
+        let tempResource = fopen("php://temp", "r+b");
 
-		fwrite(tempResource, content);
-		rewind(tempResource);
+        fwrite(tempResource, content);
+        rewind(tempResource);
 
-		return this->createStreamFromResource(tempResource);
+        return this->createStreamFromResource(tempResource);
     }
 
     /**
@@ -56,7 +56,7 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromFile(string filename, string mode = "r+b") -> <StreamInterface>
     {
-    	return new Stream(filename, mode);
+        return new Stream(filename, mode);
     }
 
     /**
@@ -66,9 +66,9 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromResource(var phpResource) -> <StreamInterface>
     {
-    	var stream;
+        var stream;
 
-    	if typeof phpResource !== "resource"  || "stream" !== get_resource_type(phpResource) {
+        if typeof phpResource !== "resource"  || "stream" !== get_resource_type(phpResource) {
             throw new \InvalidArgumentException(
                 "Invalid stream provided"
             );
@@ -76,6 +76,6 @@ class StreamFactory implements StreamFactoryInterface
 
         let stream = new Stream(phpResource);
 
-		return stream;
+        return stream;
     }
 }

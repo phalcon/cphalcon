@@ -17,11 +17,11 @@ namespace Phalcon\Filter\Sanitize;
  */
 class UpperFirst
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(string! input)
-	{
-		return ucfirst(input);
-	}
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(string! input)
+    {
+        return ucfirst(input);
+    }
 }

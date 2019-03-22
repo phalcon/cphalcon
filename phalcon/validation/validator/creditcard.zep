@@ -52,56 +52,56 @@ use Phalcon\Validation\Validator;
  */
 class CreditCard extends Validator
 {
-	/**
-	 * Executes the validation
-	 */
-	public function validate(<Validation> validation, var field) -> bool
-	{
-		var message, label, replacePairs, value, valid, code;
+    /**
+     * Executes the validation
+     */
+    public function validate(<Validation> validation, var field) -> bool
+    {
+        var message, label, replacePairs, value, valid, code;
 
-		let value = validation->getValue(field);
+        let value = validation->getValue(field);
 
-		let valid = this->verifyByLuhnAlgorithm(value);
+        let valid = this->verifyByLuhnAlgorithm(value);
 
-		if !valid {
-			let label = this->prepareLabel(validation, field),
-				message = this->prepareMessage(validation, field, "CreditCard"),
-				code = this->prepareCode(field);
+        if !valid {
+            let label = this->prepareLabel(validation, field),
+                message = this->prepareMessage(validation, field, "CreditCard"),
+                code = this->prepareCode(field);
 
-			let replacePairs = [":field": label];
+            let replacePairs = [":field": label];
 
-			validation->appendMessage(
-				new Message(
-					strtr(message, replacePairs),
-					field,
-					"CreditCard",
-					code
-				)
-			);
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "CreditCard",
+                    code
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * is a simple checksum formula used to validate a variety of identification numbers
-	 */
-	private function verifyByLuhnAlgorithm(string number) -> bool
-	{
-		array digits;
-		let digits = (array) str_split(number);
+    /**
+     * is a simple checksum formula used to validate a variety of identification numbers
+     */
+    private function verifyByLuhnAlgorithm(string number) -> bool
+    {
+        array digits;
+        let digits = (array) str_split(number);
 
-		var digit, position, hash = "";
+        var digit, position, hash = "";
 
-		for position, digit in digits->reversed() {
-			let hash .= (position % 2 ? digit * 2 : digit);
-		}
+        for position, digit in digits->reversed() {
+            let hash .= (position % 2 ? digit * 2 : digit);
+        }
 
-		var result;
-		let result = array_sum(str_split(hash));
+        var result;
+        let result = array_sum(str_split(hash));
 
-		return (result % 10 == 0);
-	}
+        return (result % 10 == 0);
+    }
 }

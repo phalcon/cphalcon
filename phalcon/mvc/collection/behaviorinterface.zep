@@ -19,14 +19,14 @@ use Phalcon\Mvc\CollectionInterface;
  */
 interface BehaviorInterface
 {
-	/**
-	 * This method receives the notifications from the EventsManager
-	 */
-	public function notify(string! type, <CollectionInterface> collection);
+    /**
+     * This method receives the notifications from the EventsManager
+     */
+    public function notify(string! type, <CollectionInterface> collection);
 
-	/**
-	 * Calls a method when it's missing in the collection
-	 */
-	public function missingMethod(<CollectionInterface> collection, string !method, array arguments = []);
+    /**
+     * Calls a method when it's missing in the collection
+     */
+    public function missingMethod(<CollectionInterface> collection, string !method, array arguments = []);
 
 }

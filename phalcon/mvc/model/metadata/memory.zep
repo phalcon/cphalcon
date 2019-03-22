@@ -22,30 +22,30 @@ use Phalcon\Mvc\Model\Exception;
 class Memory extends MetaData
 {
 
-	protected _metaData = [];
+    protected _metaData = [];
 
-	/**
-	 * Phalcon\Mvc\Model\MetaData\Memory constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(var options = null)
-	{
-	}
+    /**
+     * Phalcon\Mvc\Model\MetaData\Memory constructor
+     *
+     * @param array options
+     */
+    public function __construct(var options = null)
+    {
+    }
 
-	/**
-	 * Reads the meta-data from temporal memory
-	 */
-	public function read(string! key) -> array | null
-	{
-		return null;
-	}
+    /**
+     * Reads the meta-data from temporal memory
+     */
+    public function read(string! key) -> array | null
+    {
+        return null;
+    }
 
-	/**
-	 * Writes the meta-data to temporal memory
-	 */
-	public function write(string! key, array data) -> void
-	{
-		return;
-	}
+    /**
+     * Writes the meta-data to temporal memory
+     */
+    public function write(string! key, array data) -> void
+    {
+        return;
+    }
 }

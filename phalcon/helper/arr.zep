@@ -46,12 +46,12 @@ class Arr
      */
     final public static function set(array! collection, var value, var index = null) -> array
     {
-		if null === index {
-			let collection[] = value;
-		} else {
-			let collection[index] = value;
-		}
+        if null === index {
+            let collection[] = value;
+        } else {
+            let collection[index] = value;
+        }
 
-		return collection;
+        return collection;
     }
 }

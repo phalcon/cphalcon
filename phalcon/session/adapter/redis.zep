@@ -42,53 +42,53 @@ use Phalcon\Helper\Arr;
  */
  class Redis extends Noop
 {
-	public function __construct(array! options = [])
-	{
-		var options, params;
+    public function __construct(array! options = [])
+    {
+        var options, params;
 
-	    parent::__construct(options);
+        parent::__construct(options);
 
-	    let options              = this->options,
-	        params               = [],
-	        params["host"]       = Arr::get(options, "host", "127.0.0.1"),
-		    params["port"]       = Arr::get(options, "port", 6379),
-		    params["index"]      = Arr::get(options, "index", 0),
-		    params["persistent"] = Arr::get(options, "persistent", false),
-		    this->ttl            = Arr::get(options, "ttl", this->ttl);
+        let options              = this->options,
+            params               = [],
+            params["host"]       = Arr::get(options, "host", "127.0.0.1"),
+            params["port"]       = Arr::get(options, "port", 6379),
+            params["index"]      = Arr::get(options, "index", 0),
+            params["persistent"] = Arr::get(options, "persistent", false),
+            this->ttl            = Arr::get(options, "ttl", this->ttl);
 
-		let this->connection = new CacheRedis(
-			new FrontendNone(
-				[
-					"lifetime" : this->ttl
-				]
-			),
-			params
-		);
-	}
+        let this->connection = new CacheRedis(
+            new FrontendNone(
+                [
+                    "lifetime" : this->ttl
+                ]
+            ),
+            params
+        );
+    }
 
-	public function destroy(var id) -> bool
-	{
-		var name = this->getPrefixedName(id);
+    public function destroy(var id) -> bool
+    {
+        var name = this->getPrefixedName(id);
 
-		if (true !== empty(name) && this->connection->exists(name)) {
-			return (bool) this->connection->delete(name);
-		}
+        if (true !== empty(name) && this->connection->exists(name)) {
+            return (bool) this->connection->delete(name);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	public function read(var id) -> string
-	{
-		var name = this->getPrefixedName(id),
-		    data = this->connection->get(name, this->ttl);
+    public function read(var id) -> string
+    {
+        var name = this->getPrefixedName(id),
+            data = this->connection->get(name, this->ttl);
 
-		return data;
-	}
+        return data;
+    }
 
-	public function write(var id, var data) -> bool
-	{
-		var name = this->getPrefixedName(id);
+    public function write(var id, var data) -> bool
+    {
+        var name = this->getPrefixedName(id);
 
-		return this->connection->save(name, data, this->ttl);
-	}
+        return this->connection->save(name, data, this->ttl);
+    }
 }

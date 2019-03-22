@@ -32,95 +32,95 @@ use Phalcon\Logger\Item;
  */
 class Stream extends AbstractAdapter
 {
-	/**
-	 * Stream handler resource
-	 *
-	 * @var resource|null
-	 */
-	protected handler = null;
+    /**
+     * Stream handler resource
+     *
+     * @var resource|null
+     */
+    protected handler = null;
 
-	/**
-	 * The file open mode. Defaults to "ab"
-	 *
-	 * @var string
-	 */
-	protected mode = "ab";
+    /**
+     * The file open mode. Defaults to "ab"
+     *
+     * @var string
+     */
+    protected mode = "ab";
 
-	/**
-	 * Stream name
-	 *
-	 * @var string
-	 */
-	protected name { get };
+    /**
+     * Stream name
+     *
+     * @var string
+     */
+    protected name { get };
 
-	/**
-	 * Path options
-	 *
-	 * @var array
-	 */
-	protected options;
+    /**
+     * Path options
+     *
+     * @var array
+     */
+    protected options;
 
-	/**
-	 * Constructor. Accepts the name and some options
-	 */
-	public function __construct(string! name, array options = [])
-	{
-		var mode;
+    /**
+     * Constructor. Accepts the name and some options
+     */
+    public function __construct(string! name, array options = [])
+    {
+        var mode;
 
-		/**
-		 * Mode
-		 */
-		if fetch mode, options["mode"] {
-			if memstr(mode, "r") {
-				throw new Exception("Adapter cannot be opened in read mode");
-			}
-		}
+        /**
+         * Mode
+         */
+        if fetch mode, options["mode"] {
+            if memstr(mode, "r") {
+                throw new Exception("Adapter cannot be opened in read mode");
+            }
+        }
 
-		if mode === null {
-			let mode = "ab";
-		}
+        if mode === null {
+            let mode = "ab";
+        }
 
-		let this->name = name,
-			this->mode = mode;
-	}
+        let this->name = name,
+            this->mode = mode;
+    }
 
-	/**
-	 * Closes the stream
-	 */
-	public function close() -> bool
-	{
-		bool result = true;
+    /**
+     * Closes the stream
+     */
+    public function close() -> bool
+    {
+        bool result = true;
 
-		if is_resource(this->handler) {
-			let result = fclose(this->handler);
-		}
+        if is_resource(this->handler) {
+            let result = fclose(this->handler);
+        }
 
-		let this->handler = null;
+        let this->handler = null;
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Processes the message i.e. writes it to the file
-	 */
-	public function process(<Item> item) -> void
-	{
-		var formatter, formattedMessage;
+    /**
+     * Processes the message i.e. writes it to the file
+     */
+    public function process(<Item> item) -> void
+    {
+        var formatter, formattedMessage;
 
-		if !is_resource(this->handler) {
-			let this->handler = fopen(this->name, this->mode);
+        if !is_resource(this->handler) {
+            let this->handler = fopen(this->name, this->mode);
 
-			if !is_resource(this->handler) {
-				let $this->handler = null;
-				throw new \UnexpectedValueException(
-					sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
-				);
-			}
-		}
+            if !is_resource(this->handler) {
+                let $this->handler = null;
+                throw new \UnexpectedValueException(
+                    sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
+                );
+            }
+        }
 
-		let formatter		= this->getFormatter(),
-			formattedMessage = formatter->format(item);
+        let formatter        = this->getFormatter(),
+            formattedMessage = formatter->format(item);
 
-		fwrite(this->handler, formattedMessage);
-	}
+        fwrite(this->handler, formattedMessage);
+    }
 }

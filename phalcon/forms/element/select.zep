@@ -21,69 +21,69 @@ use Phalcon\Forms\Element;
 class Select extends Element
 {
 
-	protected _optionsValues;
+    protected _optionsValues;
 
-	/**
-	 * Phalcon\Forms\Element constructor
-	 *
-	 * @param object|array options
-	 * @param array attributes
-	 */
-	public function __construct(string name, options = null, attributes = null)
-	{
-		let this->_optionsValues = options;
-		parent::__construct(name, attributes);
-	}
+    /**
+     * Phalcon\Forms\Element constructor
+     *
+     * @param object|array options
+     * @param array attributes
+     */
+    public function __construct(string name, options = null, attributes = null)
+    {
+        let this->_optionsValues = options;
+        parent::__construct(name, attributes);
+    }
 
-	/**
-	 * Set the choice's options
-	 *
-	 * @param array|object options
-	 */
-	public function setOptions(var options) -> <Element>
-	{
-		let this->_optionsValues = options;
-		return this;
-	}
+    /**
+     * Set the choice's options
+     *
+     * @param array|object options
+     */
+    public function setOptions(var options) -> <Element>
+    {
+        let this->_optionsValues = options;
+        return this;
+    }
 
-	/**
-	 * Returns the choices' options
-	 *
-	 * @return array|object
-	 */
-	public function getOptions()
-	{
-		return this->_optionsValues;
-	}
+    /**
+     * Returns the choices' options
+     *
+     * @return array|object
+     */
+    public function getOptions()
+    {
+        return this->_optionsValues;
+    }
 
-	/**
-	 * Adds an option to the current options
-	 *
-	 * @param array option
-	 */
-	public function addOption(var option) -> <Element>
-	{
-		var key, value;
+    /**
+     * Adds an option to the current options
+     *
+     * @param array option
+     */
+    public function addOption(var option) -> <Element>
+    {
+        var key, value;
 
-		if typeof option == "array" {
-			for key, value in option {
-				let this->_optionsValues[key] = value;
-			}
-		} else {
-			let this->_optionsValues[] = option;
-		}
+        if typeof option == "array" {
+            for key, value in option {
+                let this->_optionsValues[key] = value;
+            }
+        } else {
+            let this->_optionsValues[] = option;
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Renders the element widget returning html
-	 */
-	public function render(array attributes = []) -> string
-	{
-		/**
-		 * Merged passed attributes with previously defined ones
-		 */
-		return Select::selectField(this->prepareAttributes(attributes), this->_optionsValues);
-	}
+    /**
+     * Renders the element widget returning html
+     */
+    public function render(array attributes = []) -> string
+    {
+        /**
+         * Merged passed attributes with previously defined ones
+         */
+        return Select::selectField(this->prepareAttributes(attributes), this->_optionsValues);
+    }
 }

@@ -31,53 +31,53 @@ use Phalcon\Annotations\Exception;
  */
 class Files extends Adapter
 {
-	protected _annotationsDir = "./";
+    protected _annotationsDir = "./";
 
-	/**
-	 * Phalcon\Annotations\Adapter\Files constructor
-	 */
-	public function __construct(array options = [])
-	{
-		var annotationsDir;
+    /**
+     * Phalcon\Annotations\Adapter\Files constructor
+     */
+    public function __construct(array options = [])
+    {
+        var annotationsDir;
 
-		if fetch annotationsDir, options["annotationsDir"] {
-			let this->_annotationsDir = annotationsDir;
-		}
-	}
+        if fetch annotationsDir, options["annotationsDir"] {
+            let this->_annotationsDir = annotationsDir;
+        }
+    }
 
-	/**
-	 * Reads parsed annotations from files
-	 */
-	public function read(string key) -> <Reflection> | bool | int
-	{
-		var path;
+    /**
+     * Reads parsed annotations from files
+     */
+    public function read(string key) -> <Reflection> | bool | int
+    {
+        var path;
 
-		/**
-		 * Paths must be normalized before be used as keys
-		 */
-		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
+        /**
+         * Paths must be normalized before be used as keys
+         */
+        let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
-		if file_exists(path) {
-			return require path;
-		}
+        if file_exists(path) {
+            return require path;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Writes parsed annotations to files
-	 */
-	public function write(string! key, <Reflection> data)
-	{
-		var path;
+    /**
+     * Writes parsed annotations to files
+     */
+    public function write(string! key, <Reflection> data)
+    {
+        var path;
 
-		/**
-		 * Paths must be normalized before be used as keys
-		 */
-		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
+        /**
+         * Paths must be normalized before be used as keys
+         */
+        let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
-		if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
-	  		throw new Exception("Annotations directory cannot be written");
-		}
-	}
+        if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
+              throw new Exception("Annotations directory cannot be written");
+        }
+    }
 }

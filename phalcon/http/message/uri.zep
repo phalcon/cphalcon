@@ -19,10 +19,10 @@ use Psr\Http\Message\UriInterface;
 
 class Uri implements UriInterface
 {
-	/**
-	 * @var string
-	 */
-	private authority = "";
+    /**
+     * @var string
+     */
+    private authority = "";
 
     /**
      * Retrieve the fragment component of the URI.
@@ -93,47 +93,47 @@ class Uri implements UriInterface
      */
     private scheme = "https" { get };
 
-	/**
-	 * @var string
-	 */
-	private pass = "";
+    /**
+     * @var string
+     */
+    private pass = "";
 
-	/**
-	 * @var string
-	 */
-	private user = "";
+    /**
+     * @var string
+     */
+    private user = "";
 
-	/**
-	 * Constructor - parses the URI
-	 */
+    /**
+     * Constructor - parses the URI
+     */
     public function __construct(string uri = "")
     {
-    	var fragment, host, scheme, pass, path, port, query, urlParts, user;
+        var fragment, host, scheme, pass, path, port, query, urlParts, user;
 
-		if "" !== uri {
-			let urlParts = parse_url(uri);
+        if "" !== uri {
+            let urlParts = parse_url(uri);
 
-			/**
-			 * Assign the parsed uri to the properties
-			 */
-			let scheme   = Arr::get(urlParts, "scheme", ""),
-				host     = Arr::get(urlParts, "host", ""),
-				port     = Arr::get(urlParts, "port", null),
-				user     = Arr::get(urlParts, "user", ""),
-				pass     = Arr::get(urlParts, "pass", ""),
-				path     = Arr::get(urlParts, "path", ""),
-				query    = Arr::get(urlParts, "query", ""),
-				fragment = Arr::get(urlParts, "fragment", "");
+            /**
+             * Assign the parsed uri to the properties
+             */
+            let scheme   = Arr::get(urlParts, "scheme", ""),
+                host     = Arr::get(urlParts, "host", ""),
+                port     = Arr::get(urlParts, "port", null),
+                user     = Arr::get(urlParts, "user", ""),
+                pass     = Arr::get(urlParts, "pass", ""),
+                path     = Arr::get(urlParts, "path", ""),
+                query    = Arr::get(urlParts, "query", ""),
+                fragment = Arr::get(urlParts, "fragment", "");
 
-			let this->scheme   = this->filterScheme(scheme),
-				this->host     = strtolower(host),
-				this->port     = this->filterPort(port),
-				this->user     = rawurlencode(user),
-				this->pass     = rawurlencode(pass),
-				this->path     = this->filterPath(path),
-				this->query    = this->filterQuery(query),
-				this->fragment = this->filterFragment(fragment);
-	    }
+            let this->scheme   = this->filterScheme(scheme),
+                this->host     = strtolower(host),
+                this->port     = this->filterPort(port),
+                this->user     = rawurlencode(user),
+                this->pass     = rawurlencode(pass),
+                this->path     = this->filterPath(path),
+                this->query    = this->filterQuery(query),
+                this->fragment = this->filterFragment(fragment);
+        }
     }
 
     /**
@@ -146,59 +146,59 @@ class Uri implements UriInterface
      */
     public function __toString() -> string
     {
-    	var authority, fragment, part, path, query, scheme, uri;
+        var authority, fragment, part, path, query, scheme, uri;
 
-		let authority = this->getAuthority(),
-			fragment  = this->fragment,
-			path      = this->path,
-			query     = this->query,
-			scheme    = this->scheme,
-			part      = substr(path, 0, 1),
-			uri       = "";
+        let authority = this->getAuthority(),
+            fragment  = this->fragment,
+            path      = this->path,
+            query     = this->query,
+            scheme    = this->scheme,
+            part      = substr(path, 0, 1),
+            uri       = "";
 
-		/**
-		 * If a scheme is present, it MUST be suffixed by ":".
-		 */
+        /**
+         * If a scheme is present, it MUST be suffixed by ":".
+         */
         if "" !== scheme {
-        	let uri .= scheme . ":";
+            let uri .= scheme . ":";
         }
 
-		/**
-		 * If an authority is present, it MUST be prefixed by "//".
-		 */
+        /**
+         * If an authority is present, it MUST be prefixed by "//".
+         */
         if "" !== authority {
             let uri .= "//" . authority;
         }
 
-		/**
-		 * The path can be concatenated without delimiters. But there are two
-		 * cases where the path has to be adjusted to make the URI reference
-		 * valid as PHP does not allow to throw an exception in __toString():
-		 *   - If the path is rootless and an authority is present, the path MUST
-		 *     be prefixed by "/".
-		 *   - If the path is starting with more than one "/" and no authority is
-		 *     present, the starting slashes MUST be reduced to one.
-		 */
+        /**
+         * The path can be concatenated without delimiters. But there are two
+         * cases where the path has to be adjusted to make the URI reference
+         * valid as PHP does not allow to throw an exception in __toString():
+         *   - If the path is rootless and an authority is present, the path MUST
+         *     be prefixed by "/".
+         *   - If the path is starting with more than one "/" and no authority is
+         *     present, the starting slashes MUST be reduced to one.
+         */
         if "" !== path {
-        	if "//" === substr(path, 0, 2) && "" === authority {
-        		let path = ltrim(path, "/");
-        	} elseif !starts_with(path, "/") && "" !== authority {
-				let path = "/" . path;
-			}
+            if "//" === substr(path, 0, 2) && "" === authority {
+                let path = ltrim(path, "/");
+            } elseif !starts_with(path, "/") && "" !== authority {
+                let path = "/" . path;
+            }
 
             let uri .= path;
         }
 
-		/**
-		 * If a query is present, it MUST be prefixed by "?".
-		 */
+        /**
+         * If a query is present, it MUST be prefixed by "?".
+         */
         if "" !== query {
             let uri .= "?" . query;
         }
 
-		/**
-		 * If a fragment is present, it MUST be prefixed by "#".
-		 */
+        /**
+         * If a fragment is present, it MUST be prefixed by "#".
+         */
         if "" !== fragment {
             let uri .= "#" . fragment;
         }
@@ -211,37 +211,37 @@ class Uri implements UriInterface
      */
     public function getAuthority() -> string
     {
-    	var authority, userInfo;
+        var authority, userInfo;
 
-    	/**
-		 * If no authority information is present, this method MUST return an empty
-		 * string.
-		 */
-    	if "" === this->host {
-    		return "";
-    	}
+        /**
+         * If no authority information is present, this method MUST return an empty
+         * string.
+         */
+        if "" === this->host {
+            return "";
+        }
 
-    	let authority = this->host,
-    		userInfo  = this->getUserInfo();
+        let authority = this->host,
+            userInfo  = this->getUserInfo();
 
-		/**
-		 * The authority syntax of the URI is:
-		 *
-		 * [user-info@]host[:port]
-		 */
-    	if "" !== userInfo {
-    		let authority = userInfo . "@" . authority;
-    	}
+        /**
+         * The authority syntax of the URI is:
+         *
+         * [user-info@]host[:port]
+         */
+        if "" !== userInfo {
+            let authority = userInfo . "@" . authority;
+        }
 
-		/**
-		 * If the port component is not set or is the standard port for the
-		 * current scheme, it SHOULD NOT be included.
-		 */
-    	if null !== this->port {
-    		let authority .= ":" . this->port;
-    	}
+        /**
+         * If the port component is not set or is the standard port for the
+         * current scheme, it SHOULD NOT be included.
+         */
+        if null !== this->port {
+            let authority .= ":" . this->port;
+        }
 
-    	return authority;
+        return authority;
     }
 
     /**
@@ -261,11 +261,11 @@ class Uri implements UriInterface
      */
     public function getUserInfo() -> string
     {
-    	if !empty(this->pass) {
-    		return this->user . ":" . this->pass;
-    	}
+        if !empty(this->pass) {
+            return this->user . ":" . this->pass;
+        }
 
-		return this->user;
+        return this->user;
     }
 
     /**
@@ -281,7 +281,7 @@ class Uri implements UriInterface
      */
     public function withFragment(var fragment) -> <Uri>
     {
-    	return this->processWith(fragment, "fragment");
+        return this->processWith(fragment, "fragment");
     }
 
     /**
@@ -296,7 +296,7 @@ class Uri implements UriInterface
      */
     public function withHost(var host) -> <Uri>
     {
-    	return this->processWith(host, "host");
+        return this->processWith(host, "host");
     }
 
     /**
@@ -321,23 +321,23 @@ class Uri implements UriInterface
      */
     public function withPath(var path) -> <Uri>
     {
-    	this->checkStringParameter(path, "path");
+        this->checkStringParameter(path, "path");
 
-    	if false !== strpos(path, "?") {
-    		throw new \InvalidArgumentException(
-    			"Path cannot contain a query string"
-    		);
-    	}
+        if false !== strpos(path, "?") {
+            throw new \InvalidArgumentException(
+                "Path cannot contain a query string"
+            );
+        }
 
-    	if false !== strpos(path, "#") {
-    		throw new \InvalidArgumentException(
-    			"Path cannot contain a query fragment"
-    		);
-    	}
+        if false !== strpos(path, "#") {
+            throw new \InvalidArgumentException(
+                "Path cannot contain a query fragment"
+            );
+        }
 
-		let path = this->filterPath(path);
+        let path = this->filterPath(path);
 
-    	return this->cloneInstance(path, "path");
+        return this->cloneInstance(path, "path");
     }
 
     /**
@@ -356,21 +356,21 @@ class Uri implements UriInterface
      */
     public function withPort(var port) -> <Uri>
     {
-    	var type;
+        var type;
 
-    	if null !== port {
-			if typeof port !== "int" {
-				if typeof port === "object" {
-					let type = get_class(port);
-				} else {
-					let type = gettype(port);
-				}
+        if null !== port {
+            if typeof port !== "int" {
+                if typeof port === "object" {
+                    let type = get_class(port);
+                } else {
+                    let type = gettype(port);
+                }
 
-				if typeof port !== "string" {
-					throw new \InvalidArgumentException(
-						"Method expects an integer, integer string or null argument instead of " . type
-					);
-				}
+                if typeof port !== "string" {
+                    throw new \InvalidArgumentException(
+                        "Method expects an integer, integer string or null argument instead of " . type
+                    );
+                }
             }
 
             let port = this->filterPort(port);
@@ -380,7 +380,7 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException( "Method expects valid port (1-65535)");
         }
 
-		return this->cloneInstance(port, "port");
+        return this->cloneInstance(port, "port");
     }
 
     /**
@@ -398,17 +398,17 @@ class Uri implements UriInterface
      */
     public function withQuery(var query) -> <Uri>
     {
-    	this->checkStringParameter(query, "query");
+        this->checkStringParameter(query, "query");
 
-		if false !== strpos(query, "#") {
-			throw new \InvalidArgumentException(
-				"Query cannot contain a query fragment"
-			);
-		}
+        if false !== strpos(query, "#") {
+            throw new \InvalidArgumentException(
+                "Query cannot contain a query fragment"
+            );
+        }
 
-    	let query = this->filterQuery(query);
+        let query = this->filterQuery(query);
 
-    	return this->cloneInstance(query, "query");
+        return this->cloneInstance(query, "query");
     }
 
     /**
@@ -427,11 +427,11 @@ class Uri implements UriInterface
      */
     public function withScheme(var scheme) -> <Uri>
     {
-    	this->checkStringParameter(scheme, "scheme");
+        this->checkStringParameter(scheme, "scheme");
 
-		let scheme = this->filterScheme(scheme);
+        let scheme = this->filterScheme(scheme);
 
-    	return this->processWith(scheme, "scheme");
+        return this->processWith(scheme, "scheme");
     }
 
     /**
@@ -439,26 +439,26 @@ class Uri implements UriInterface
      */
     public function withUserInfo(var user, var password = null) -> <Uri>
     {
-    	var newInstance;
+        var newInstance;
 
-		this->checkStringParameter(user, "user");
-		if null !== password {
-			this->checkStringParameter(user, "pass");
-		}
+        this->checkStringParameter(user, "user");
+        if null !== password {
+            this->checkStringParameter(user, "pass");
+        }
 
-		let user = rawurlencode(user);
-		if null !== password {
-			let password = rawurlencode(password);
-		}
+        let user = rawurlencode(user);
+        if null !== password {
+            let password = rawurlencode(password);
+        }
 
 
-		if user === this->user && password === this->pass {
+        if user === this->user && password === this->pass {
             return this;
         }
 
-		/**
-		 * Immutable - need to send a new object back
-		 */
+        /**
+         * Immutable - need to send a new object back
+         */
         let newInstance       = clone this;
         let newInstance->user = user;
         let newInstance->pass = password;
@@ -466,42 +466,42 @@ class Uri implements UriInterface
         return newInstance;
     }
 
-	/**
-	 * Checks the element passed if it is a string
-	 */
-	private function checkStringParameter(var element, string property) -> void
-	{
-    	var type;
+    /**
+     * Checks the element passed if it is a string
+     */
+    private function checkStringParameter(var element, string property) -> void
+    {
+        var type;
 
-		if typeof element === "object" {
-			let type = get_class(element);
-		} else {
-			let type = gettype(element);
-		}
+        if typeof element === "object" {
+            let type = get_class(element);
+        } else {
+            let type = gettype(element);
+        }
 
-		if typeof element !== "string" {
-			throw new \InvalidArgumentException(
-				"Method requires a string argument instead of " . type
-			);
-		}
-	}
+        if typeof element !== "string" {
+            throw new \InvalidArgumentException(
+                "Method requires a string argument instead of " . type
+            );
+        }
+    }
 
-	/**
-	 * Returns a new instance having set the parameter
-	 */
-	private function cloneInstance(var element, string property) -> <Uri>
-	{
-    	var newInstance;
+    /**
+     * Returns a new instance having set the parameter
+     */
+    private function cloneInstance(var element, string property) -> <Uri>
+    {
+        var newInstance;
 
         let newInstance = clone this;
-		if element !== this->{property} {
+        if element !== this->{property} {
             let newInstance->{property} = element;
         }
 
         return newInstance;
-	}
+    }
 
-	/**
+    /**
      * If no fragment is present, this method MUST return an empty string.
      *
      * The leading "#" character is not part of the fragment and MUST NOT be
@@ -514,16 +514,16 @@ class Uri implements UriInterface
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.5
      */
-	private function filterFragment(string fragment) -> string
-	{
-		if "" !== fragment && starts_with(fragment, "#") {
-			let fragment = "%23" . substr(fragment, 1);
-		}
+    private function filterFragment(string fragment) -> string
+    {
+        if "" !== fragment && starts_with(fragment, "#") {
+            let fragment = "%23" . substr(fragment, 1);
+        }
 
-		return rawurlencode(fragment);
-	}
+        return rawurlencode(fragment);
+    }
 
-	/**
+    /**
      *
      * The path can either be empty or absolute (starting with a slash) or
      * rootless (not starting with a slash). Implementations MUST support all
@@ -547,47 +547,47 @@ class Uri implements UriInterface
      * @see https://tools.ietf.org/html/rfc3986#section-3.3
      * @return string The URI path.
      */
-	private function filterPath(string path) -> string
-	{
-		var element, index, parts;
+    private function filterPath(string path) -> string
+    {
+        var element, index, parts;
 
         if "" === path || !starts_with(path, "/") {
             // Relative or empty path
             return path;
         }
 
-		let parts  = explode("/", path);
+        let parts  = explode("/", path);
 
-		for index, element in parts {
-			let parts[index] = rawurlencode(element);
-		}
+        for index, element in parts {
+            let parts[index] = rawurlencode(element);
+        }
 
-		let path = implode("/", parts);
+        let path = implode("/", parts);
 
         return "/" . ltrim(path, "/");
-	}
+    }
 
-	/**
-	 * Checks the port. If it is a standard one (80,443) then it returns null
- 	 */
-	private function filterPort(var port) -> null | int
-	{
-		array ports;
+    /**
+     * Checks the port. If it is a standard one (80,443) then it returns null
+      */
+    private function filterPort(var port) -> null | int
+    {
+        array ports;
 
-		let ports = [
-			80  : 1,
-			443 : 1
-		];
+        let ports = [
+            80  : 1,
+            443 : 1
+        ];
 
-		if null !== port {
-			let port = intval(port);
-			if isset ports[port] {
-				let port = null;
-			}
-		}
+        if null !== port {
+            let port = intval(port);
+            if isset ports[port] {
+                let port = null;
+            }
+        }
 
-		return port;
-	}
+        return port;
+    }
 
     /**
      * If no query string is present, this method MUST return an empty string.
@@ -607,9 +607,9 @@ class Uri implements UriInterface
      * @see https://tools.ietf.org/html/rfc3986#section-3.4
      * @return string The URI query string.
      */
-	private function filterQuery(string query) -> string
+    private function filterQuery(string query) -> string
     {
-    	var key, parts, split, value;
+        var key, parts, split, value;
 
         if "" === query {
             return "";
@@ -622,37 +622,37 @@ class Uri implements UriInterface
         let parts = explode("&", query);
 
         for key, value in parts {
-			let split = explode("=", value);
-			if !isset split[1] {
-				let split[] = null;
-			}
+            let split = explode("=", value);
+            if !isset split[1] {
+                let split[] = null;
+            }
 
-			if null === split[1] {
- 				let parts[key] = rawurlencode(split[0]);
-				continue;
-			} else {
-				let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);
-			}
-		}
+            if null === split[1] {
+                 let parts[key] = rawurlencode(split[0]);
+                continue;
+            } else {
+                let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);
+            }
+        }
 
-		return implode("&", parts);
+        return implode("&", parts);
     }
 
 
-	/**
-	 * Filters the passed scheme - only allowed schemes
-	 */
-	private function filterScheme(string scheme) -> string
-	{
-		var filtered;
-		array schemes;
+    /**
+     * Filters the passed scheme - only allowed schemes
+     */
+    private function filterScheme(string scheme) -> string
+    {
+        var filtered;
+        array schemes;
 
-		let filtered = strtolower(scheme),
-			filtered = preg_replace("#:(//)?$#", "", filtered),
-			schemes  = [
-			"http"  : 1,
-			"https" : 1
-		];
+        let filtered = strtolower(scheme),
+            filtered = preg_replace("#:(//)?$#", "", filtered),
+            schemes  = [
+            "http"  : 1,
+            "https" : 1
+        ];
 
         if "" === filtered {
             return "";
@@ -660,25 +660,25 @@ class Uri implements UriInterface
 
         if !isset schemes[filtered] {
             throw new \InvalidArgumentException(
-            	"Unsupported scheme [" . filtered . "]. " .
-            	"Scheme must be one of [" . implode(", ", schemes). "]"
-			);
+                "Unsupported scheme [" . filtered . "]. " .
+                "Scheme must be one of [" . implode(", ", schemes). "]"
+            );
         }
 
         return scheme;
-	}
+    }
 
-	/**
-	 * UTF-8 aware parse_url
-	 *
-	 * @link http://php.net/manual/en/function.parse-url.php#114817
-	 */
-	private function parseUrl(string url) -> array
-	{
-		var encoded, key, urlParts, value;
+    /**
+     * UTF-8 aware parse_url
+     *
+     * @link http://php.net/manual/en/function.parse-url.php#114817
+     */
+    private function parseUrl(string url) -> array
+    {
+        var encoded, key, urlParts, value;
 
-		let encoded = preg_replace_callback(
-			"%[^:/@?&=#]+%usD",
+        let encoded = preg_replace_callback(
+            "%[^:/@?&=#]+%usD",
             function (matches)
             {
                 return urlencode(matches[0]);
@@ -688,25 +688,25 @@ class Uri implements UriInterface
 
         let urlParts = parse_url(encoded);
 
-		if !urlParts {
-			throw new \InvalidArgumentException("The source URI string appears to be malformed");
-		}
+        if !urlParts {
+            throw new \InvalidArgumentException("The source URI string appears to be malformed");
+        }
 
-		for key, value in urlParts {
-			let urlParts[key] = urldecode(value);
-		}
+        for key, value in urlParts {
+            let urlParts[key] = urldecode(value);
+        }
 
         return urlParts;
-	}
+    }
 
-	/**
-	 * Checks the element passed; assigns it to the property and returns a
-	 * clone of the object back
-	 */
-	private function processWith(var element, string property) -> <Uri>
-	{
-		this->checkStringParameter(element, property);
+    /**
+     * Checks the element passed; assigns it to the property and returns a
+     * clone of the object back
+     */
+    private function processWith(var element, string property) -> <Uri>
+    {
+        this->checkStringParameter(element, property);
 
-		return this->cloneInstance(element, property);
-	}
+        return this->cloneInstance(element, property);
+    }
 }

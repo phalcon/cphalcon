@@ -18,14 +18,14 @@ namespace Phalcon\Events;
 interface EventsAwareInterface
 {
 
-	/**
-	 * Sets the events manager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager);
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager);
 
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <ManagerInterface>;
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface>;
 
 }

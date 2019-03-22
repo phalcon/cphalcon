@@ -19,11 +19,11 @@ use Phalcon\Assets\FilterInterface;
  */
 class None implements FilterInterface
 {
-	/**
-	 * Returns the content without be touched
-	 */
-	public function filter(string! content) -> string
-	{
-		return content;
-	}
+    /**
+     * Returns the content without be touched
+     */
+    public function filter(string! content) -> string
+    {
+        return content;
+    }
 }

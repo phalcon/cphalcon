@@ -22,70 +22,70 @@ namespace Phalcon\Assets;
 class $Inline implements AssetInterface
 {
 
-	/**
-	 * @var string
-	 */
-	protected type { get };
+    /**
+     * @var string
+     */
+    protected type { get };
 
-	protected content { get };
+    protected content { get };
 
-	/**
-	 * @var bool
-	 */
-	protected filter { get };
+    /**
+     * @var bool
+     */
+    protected filter { get };
 
-	/**
-	 * @var array | null
-	 */
-	protected attributes { get };
+    /**
+     * @var array | null
+     */
+    protected attributes { get };
 
-	/**
-	 * Phalcon\Assets\Inline constructor
-	 */
-	public function __construct(string type, string content, bool filter = true, array attributes = [])
-	{
-		let this->type = type,
-			this->content = content,
-			this->filter = filter,
-			this->attributes = attributes;
-	}
+    /**
+     * Phalcon\Assets\Inline constructor
+     */
+    public function __construct(string type, string content, bool filter = true, array attributes = [])
+    {
+        let this->type = type,
+            this->content = content,
+            this->filter = filter,
+            this->attributes = attributes;
+    }
 
-	/**
-	 * Sets the inline's type
-	 */
-	public function setType(string type) -> <AssetInterface>
-	{
-		let this->type = type;
-		return this;
-	}
+    /**
+     * Sets the inline's type
+     */
+    public function setType(string type) -> <AssetInterface>
+    {
+        let this->type = type;
+        return this;
+    }
 
-	/**
-	 * Sets if the asset must be filtered or not
-	 */
-	public function setFilter(bool filter) -> <AssetInterface>
-	{
-		let this->filter = filter;
-		return this;
-	}
+    /**
+     * Sets if the asset must be filtered or not
+     */
+    public function setFilter(bool filter) -> <AssetInterface>
+    {
+        let this->filter = filter;
+        return this;
+    }
 
-	/**
-	 * Sets extra HTML attributes
-	 */
-	public function setAttributes(array attributes) -> <AssetInterface>
-	{
-		let this->attributes = attributes;
-		return this;
-	}
+    /**
+     * Sets extra HTML attributes
+     */
+    public function setAttributes(array attributes) -> <AssetInterface>
+    {
+        let this->attributes = attributes;
+        return this;
+    }
 
-	/**
-	 * Gets the asset's key.
-	 */
-	public function getAssetKey() -> string
-	{
-		var key;
+    /**
+     * Gets the asset's key.
+     */
+    public function getAssetKey() -> string
+    {
+        var key;
 
-		let key = this->getType() . ":" . this->getContent();
+        let key = this->getType() . ":" . this->getContent();
 
-		return md5(key);
-	}
+        return md5(key);
+    }
 }

@@ -21,11 +21,11 @@ use Phalcon\Assets\FilterInterface;
  */
 class Cssmin implements FilterInterface
 {
-	/**
-	 * Filters the content using CSSMIN
-	 */
-	public function filter(string! content) -> string
-	{
-		return content;
-	}
+    /**
+     * Filters the content using CSSMIN
+     */
+    public function filter(string! content) -> string
+    {
+        return content;
+    }
 }

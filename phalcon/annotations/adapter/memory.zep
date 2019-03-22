@@ -20,34 +20,34 @@ use Phalcon\Annotations\Reflection;
  */
 class Memory extends Adapter
 {
-	/**
-	 * Data
-	 * @var mixed
-	 */
-	protected _data;
+    /**
+     * Data
+     * @var mixed
+     */
+    protected _data;
 
-	/**
-	 * Reads parsed annotations from memory
-	 */
-	public function read(string! key) -> <Reflection> | bool
-	{
-		var data;
+    /**
+     * Reads parsed annotations from memory
+     */
+    public function read(string! key) -> <Reflection> | bool
+    {
+        var data;
 
-		if fetch data, this->_data[strtolower(key)] {
-			return data;
-		}
+        if fetch data, this->_data[strtolower(key)] {
+            return data;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Writes parsed annotations to memory
-	 */
-	public function write(string! key, <Reflection> data)
-	{
-		var lowercasedKey;
+    /**
+     * Writes parsed annotations to memory
+     */
+    public function write(string! key, <Reflection> data)
+    {
+        var lowercasedKey;
 
-		let lowercasedKey = strtolower(key);
-		let this->_data[lowercasedKey] = data;
-	}
+        let lowercasedKey = strtolower(key);
+        let this->_data[lowercasedKey] = data;
+    }
 }

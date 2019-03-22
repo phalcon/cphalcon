@@ -19,17 +19,17 @@ use Phalcon\Assets\Inline as InlineBase;
  */
 class Css extends InlineBase
 {
-	/**
-	 * Phalcon\Assets\Inline\Css
-	 *
-	 * @param array attributes
-	 */
-	public function __construct(string content, bool filter = true, attributes = null)
-	{
-		if attributes == null {
-			let attributes = ["type": "text/css"];
-		}
+    /**
+     * Phalcon\Assets\Inline\Css
+     *
+     * @param array attributes
+     */
+    public function __construct(string content, bool filter = true, attributes = null)
+    {
+        if attributes == null {
+            let attributes = ["type": "text/css"];
+        }
 
-		parent::__construct("css", content, filter, attributes);
-	}
+        parent::__construct("css", content, filter, attributes);
+    }
 }

@@ -33,99 +33,99 @@ class Noop implements SessionHandlerInterface
     /**
      * The connection of some adapters
      */
-	protected connection;
+    protected connection;
 
-	/**
-	 * Session options
-	 *
-	 * @var array
-	 */
-	protected options = [];
+    /**
+     * Session options
+     *
+     * @var array
+     */
+    protected options = [];
 
-	/**
-	 * Session prefix
-	 *
-	 * @var string
-	 */
-	protected prefix = "";
+    /**
+     * Session prefix
+     *
+     * @var string
+     */
+    protected prefix = "";
 
-	/**
-	 * Time To Live
-	 *
-	 * @var int
-	 */
-	protected ttl = 8600;
+    /**
+     * Time To Live
+     *
+     * @var int
+     */
+    protected ttl = 8600;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct(array! options = [])
-	{
-	    var prefix;
+    /**
+     * Constructor
+     */
+    public function __construct(array! options = [])
+    {
+        var prefix;
 
-	    if !fetch prefix, options["prefix"] {
-	        let prefix = "";
-	    }
+        if !fetch prefix, options["prefix"] {
+            let prefix = "";
+        }
 
-		let this->prefix  = prefix,
-		    this->options = options;
-	}
+        let this->prefix  = prefix,
+            this->options = options;
+    }
 
-	/**
-	 * Close
-	 */
-	public function close() -> bool
-	{
-		return true;
-	}
+    /**
+     * Close
+     */
+    public function close() -> bool
+    {
+        return true;
+    }
 
-	/**
-	 * Destroy
-	 */
-	public function destroy(var id) -> bool
-	{
-		return true;
-	}
+    /**
+     * Destroy
+     */
+    public function destroy(var id) -> bool
+    {
+        return true;
+    }
 
-	/**
-	 * Garbage Collector
-	 */
-	public function gc(var maxlifetime) -> bool
-	{
-		return true;
-	}
+    /**
+     * Garbage Collector
+     */
+    public function gc(var maxlifetime) -> bool
+    {
+        return true;
+    }
 
-	/**
-	 * Read
-	 */
-	public function read(var id) -> string
-	{
-		return "";
-	}
+    /**
+     * Read
+     */
+    public function read(var id) -> string
+    {
+        return "";
+    }
 
-	/**
-	 * Open
-	 */
-	public function open(var savePath, var sessionName) -> bool
-	{
-		return true;
-	}
+    /**
+     * Open
+     */
+    public function open(var savePath, var sessionName) -> bool
+    {
+        return true;
+    }
 
-	/**
-	 * Write
-	 */
-	public function write(var id, var data) -> bool
-	{
-		return true;
-	}
+    /**
+     * Write
+     */
+    public function write(var id, var data) -> bool
+    {
+        return true;
+    }
 
-	/**
-	 * Helper method to get the name prefixed
-	 */
-	protected function getPrefixedName(var name) -> string
-	{
-		let name = (string) name;
+    /**
+     * Helper method to get the name prefixed
+     */
+    protected function getPrefixedName(var name) -> string
+    {
+        let name = (string) name;
 
-		return this->prefix . name;
-	}
+        return this->prefix . name;
+    }
 }

@@ -32,7 +32,7 @@ abstract class AbstractMiddleware implements MiddlewareInterface
      * request handler to do so.
      */
     abstract public function process(
-    	<ServerRequestInterface> request,
-    	<RequestHandlerInterface> handler
-	) -> <ResponseInterface>;
+        <ServerRequestInterface> request,
+        <RequestHandlerInterface> handler
+    ) -> <ResponseInterface>;
 }

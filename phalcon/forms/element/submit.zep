@@ -21,14 +21,14 @@ use Phalcon\Forms\Element;
 class Submit extends Element
 {
 
-	/**
-	 * Renders the element widget
-	 */
-	public function render(array attributes = []) -> string
-	{
-		/**
-		 * Merged passed attributes with previously defined ones
-		 */
-		return Tag::submitButton(this->prepareAttributes(attributes));
-	}
+    /**
+     * Renders the element widget
+     */
+    public function render(array attributes = []) -> string
+    {
+        /**
+         * Merged passed attributes with previously defined ones
+         */
+        return Tag::submitButton(this->prepareAttributes(attributes));
+    }
 }

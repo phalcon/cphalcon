@@ -19,17 +19,17 @@ use Phalcon\Assets\Inline as InlineBase;
  */
 class Js extends InlineBase
 {
-	/**
-	 * Phalcon\Assets\Inline\Js
-	 *
-	 * @param array attributes
-	 */
-	public function __construct(string content, bool filter = true, var attributes = null)
-	{
-		if attributes == null {
-			let attributes = ["type": "text/javascript"];
-		}
+    /**
+     * Phalcon\Assets\Inline\Js
+     *
+     * @param array attributes
+     */
+    public function __construct(string content, bool filter = true, var attributes = null)
+    {
+        if attributes == null {
+            let attributes = ["type": "text/javascript"];
+        }
 
-		parent::__construct("js", content, filter, attributes);
-	}
+        parent::__construct("js", content, filter, attributes);
+    }
 }

@@ -17,24 +17,24 @@ namespace Phalcon\Filter\Sanitize;
  */
 class BoolVal
 {
-	/**
-	 * @var mixed input The text to sanitize
-	 */
-	public function __invoke(var input)
-	{
-		var falseArray, trueArray;
+    /**
+     * @var mixed input The text to sanitize
+     */
+    public function __invoke(var input)
+    {
+        var falseArray, trueArray;
 
-		let trueArray  = ["true", "on", "yes", "y", "1"],
-			falseArray = ["false", "off", "no", "n", "0"];
+        let trueArray  = ["true", "on", "yes", "y", "1"],
+            falseArray = ["false", "off", "no", "n", "0"];
 
-		if true === in_array(input, trueArray) {
-			return true;
-		}
+        if true === in_array(input, trueArray) {
+            return true;
+        }
 
-		if true === in_array(input, falseArray) {
-			return false;
-		}
+        if true === in_array(input, falseArray) {
+            return false;
+        }
 
-		return (bool) input;
-	}
+        return (bool) input;
+    }
 }

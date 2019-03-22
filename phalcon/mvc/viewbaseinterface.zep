@@ -20,53 +20,53 @@ use Phalcon\Cache\BackendInterface;
 interface ViewBaseInterface
 {
 
-	/**
-	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
-	 */
-	public function setViewsDir(string! viewsDir);
+    /**
+     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+     */
+    public function setViewsDir(string! viewsDir);
 
-	/**
-	 * Gets views directory
-	 */
-	public function getViewsDir() -> string | array;
+    /**
+     * Gets views directory
+     */
+    public function getViewsDir() -> string | array;
 
-	/**
-	 * Adds parameters to views (alias of setVar)
-	 */
-	public function setParamToView(string! key, var value);
+    /**
+     * Adds parameters to views (alias of setVar)
+     */
+    public function setParamToView(string! key, var value);
 
-	/**
-	 * Adds parameters to views
-	 */
-	public function setVar(string! key, var value);
+    /**
+     * Adds parameters to views
+     */
+    public function setVar(string! key, var value);
 
-	/**
-	 * Returns parameters to views
-	 */
-	public function getParamsToView() -> array;
+    /**
+     * Returns parameters to views
+     */
+    public function getParamsToView() -> array;
 
-	/**
-	 * Returns the cache instance used to cache
-	 */
-	public function getCache() -> <BackendInterface>;
+    /**
+     * Returns the cache instance used to cache
+     */
+    public function getCache() -> <BackendInterface>;
 
-	/**
-	 * Cache the actual view render to certain level
-	 */
-	public function cache(var options = true);
+    /**
+     * Cache the actual view render to certain level
+     */
+    public function cache(var options = true);
 
-	/**
-	 * Externally sets the view content
-	 */
-	public function setContent(string! content);
+    /**
+     * Externally sets the view content
+     */
+    public function setContent(string! content);
 
-	/**
-	 * Returns cached output from another view stage
-	 */
-	public function getContent() -> string;
+    /**
+     * Returns cached output from another view stage
+     */
+    public function getContent() -> string;
 
-	/**
-	 * Renders a partial view
-	 */
-	public function partial(string! partialPath, var params = null);
+    /**
+     * Renders a partial view
+     */
+    public function partial(string! partialPath, var params = null);
 }
