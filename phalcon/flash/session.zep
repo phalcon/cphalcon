@@ -27,11 +27,11 @@ class Session extends FlashBase
      */
     protected function _getSessionMessages(bool remove, type = null) -> array
     {
-        var dependencyInjector, session, messages, returnMessages;
+        var container, session, messages, returnMessages;
 
-        let dependencyInjector = <DiInterface> this->getDI();
+        let container = <DiInterface> this->getDI();
 
-        let session = <SessionInterface> dependencyInjector->getShared("session"),
+        let session = <SessionInterface> container->getShared("session"),
             messages = session->get("_flashMessages");
 
         if typeof type == "string" {
@@ -59,10 +59,10 @@ class Session extends FlashBase
      */
     protected function _setSessionMessages(array! messages) -> array
     {
-        var dependencyInjector, session;
+        var container, session;
 
-        let dependencyInjector = <DiInterface> this->getDI(),
-            session = <SessionInterface> dependencyInjector->getShared("session");
+        let container = <DiInterface> this->getDI(),
+            session = <SessionInterface> container->getShared("session");
 
         session->set("_flashMessages", messages);
         return messages;

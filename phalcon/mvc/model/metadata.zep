@@ -39,7 +39,7 @@ use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _strategy;
 
@@ -85,7 +85,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     protected final function _initialize(<ModelInterface> model, var key, var table, var schema)
     {
         var strategy, className, metaData, data, modelMetadata, modelColumnMap,
-            dependencyInjector, keyName, prefixKey;
+            container, keyName, prefixKey;
 
         let strategy = null,
             className = get_class(model);
@@ -117,9 +117,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                         /**
                          * Get the meta-data extraction strategy
                          */
-                        let dependencyInjector = this->container,
+                        let container = this->container,
                             strategy = this->getStrategy(),
-                            modelMetadata = strategy->getMetaData(model, dependencyInjector);
+                            modelMetadata = strategy->getMetaData(model, container);
                     }
 
                     /**
@@ -163,7 +163,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Get the meta-data extraction strategy
          */
         if typeof strategy != "object" {
-            let dependencyInjector = this->container,
+            let container = this->container,
                 strategy = this->getStrategy();
         }
 
@@ -171,7 +171,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Get the meta-data
          * Update the column map locally
          */
-        let modelColumnMap = strategy->getColumnMaps(model, dependencyInjector),
+        let modelColumnMap = strategy->getColumnMaps(model, container),
             this->_columnMap[keyName] = modelColumnMap;
 
         /**
@@ -183,9 +183,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->container = dependencyInjector;
+        let this->container = container;
     }
 
     /**

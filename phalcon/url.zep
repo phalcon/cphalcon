@@ -97,7 +97,7 @@ class Url implements UrlInterface, InjectionAwareInterface
     public function get(var uri = null, var args = null, bool local = null, var baseUri = null) -> string
     {
         string strUri;
-        var router, dependencyInjector, routeName, route, queryString;
+        var router, container, routeName, route, queryString;
 
         if local == null {
             if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
@@ -128,12 +128,12 @@ class Url implements UrlInterface, InjectionAwareInterface
              */
             if typeof router != "object" {
 
-                let dependencyInjector = <DiInterface> this->container;
-                if typeof dependencyInjector != "object" {
+                let container = <DiInterface> this->container;
+                if typeof container != "object" {
                     throw new Exception("A dependency injector container is required to obtain the 'router' service");
                 }
 
-                let router = <RouterInterface> dependencyInjector->getShared("router"),
+                let router = <RouterInterface> container->getShared("router"),
                     this->router = router;
             }
 
@@ -288,9 +288,9 @@ class Url implements UrlInterface, InjectionAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->container = dependencyInjector;
+        let this->container = container;
     }
 
     /**

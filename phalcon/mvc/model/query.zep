@@ -85,7 +85,7 @@ use Phalcon\Db\DialectInterface;
 class Query implements QueryInterface, InjectionAwareInterface
 {
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _manager;
 
@@ -149,7 +149,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Query constructor
      */
-    public function __construct(string phql = null, <DiInterface> dependencyInjector = null, array options = [])
+    public function __construct(string phql = null, <DiInterface> container = null, array options = [])
     {
         var enableImplicitJoins;
 
@@ -157,8 +157,8 @@ class Query implements QueryInterface, InjectionAwareInterface
             let this->_phql = phql;
         }
 
-        if typeof dependencyInjector == "object" {
-            this->setDI(dependencyInjector);
+        if typeof container == "object" {
+            this->setDI(container);
         }
 
         if fetch enableImplicitJoins, options["enable_implicit_joins"] {
@@ -171,16 +171,16 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
         var manager, metaData;
 
-        let manager = dependencyInjector->getShared("modelsManager");
+        let manager = container->getShared("modelsManager");
         if typeof manager != "object" {
             throw new Exception("Injected service 'modelsManager' is invalid");
         }
 
-        let metaData = dependencyInjector->getShared("modelsMetadata");
+        let metaData = container->getShared("modelsMetadata");
         if typeof metaData != "object" {
             throw new Exception("Injected service 'modelsMetaData' is invalid");
         }
@@ -188,7 +188,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let this->_manager = manager,
             this->_metaData = metaData;
 
-        let this->container = dependencyInjector;
+        let this->container = container;
     }
 
     /**

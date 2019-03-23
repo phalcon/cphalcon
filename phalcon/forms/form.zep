@@ -166,7 +166,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function bind(array! data, var entity, var whitelist = null) -> <Form>
     {
         var filter, key, value, element, filters,
-            dependencyInjector, filteredValue, method;
+            container, filteredValue, method;
 
         if empty this->elements {
             throw new Exception("There are no elements in the form");
@@ -199,9 +199,9 @@ class Form extends Injectable implements \Countable, \Iterator
             if filters {
 
                 if typeof filter != "object" {
-                    let dependencyInjector = this->getDI(),
-                        filter = <LocatorInterface> dependencyInjector->getShared("filter");
-//                        filter = <FilterInterface> dependencyInjector->getShared("filter");
+                    let container = this->getDI(),
+                        filter = <LocatorInterface> container->getShared("filter");
+//                        filter = <FilterInterface> container->getShared("filter");
                 }
 
                 /**

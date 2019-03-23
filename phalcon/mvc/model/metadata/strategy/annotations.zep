@@ -22,7 +22,7 @@ class Annotations implements StrategyInterface
     /**
      * The meta-data is obtained by reading the column descriptions from the database information schema
      */
-    public final function getMetaData(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
+    public final function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {
         var annotations, className, reflection, propertiesAnnotations;
         var property, propAnnotations, columnAnnotation, columnName, feature;
@@ -30,11 +30,11 @@ class Annotations implements StrategyInterface
             notNull, attributes, defaultValues, defaultValue, emptyStringValues, skipOnInsert,
             skipOnUpdate;
 
-        if typeof dependencyInjector != "object" {
+        if typeof container != "object" {
             throw new Exception("The dependency injector is invalid");
         }
 
-        let annotations = dependencyInjector->get("annotations");
+        let annotations = container->get("annotations");
 
         let className = get_class(model),
             reflection = annotations->get(className);
@@ -322,17 +322,17 @@ class Annotations implements StrategyInterface
     /**
      * Read the model's column map, this can't be inferred
      */
-    public final function getColumnMaps(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
+    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
     {
         var annotations, className, reflection, propertiesAnnotations;
         var property, propAnnotations, columnAnnotation, columnName;
         var orderedColumnMap, reversedColumnMap, hasReversedColumn;
 
-        if typeof dependencyInjector != "object" {
+        if typeof container != "object" {
             throw new Exception("The dependency injector is invalid");
         }
 
-        let annotations = dependencyInjector->get("annotations");
+        let annotations = container->get("annotations");
 
         let className = get_class(model), reflection = annotations->get(className);
         if typeof reflection != "object" {

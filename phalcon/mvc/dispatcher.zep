@@ -108,17 +108,17 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      */
     protected function _throwDispatchException(string! message, int exceptionCode = 0)
     {
-        var dependencyInjector, response, exception;
+        var container, response, exception;
 
-        let dependencyInjector = this->container;
-        if typeof dependencyInjector != "object" {
+        let container = this->container;
+        if typeof container != "object" {
             throw new Exception(
                 "A dependency injection container is required to access the 'response' service",
                 BaseDispatcher::EXCEPTION_NO_DI
             );
         }
 
-        let response = <ResponseInterface> dependencyInjector->getShared("response");
+        let response = <ResponseInterface> container->getShared("response");
 
         /**
          * Dispatcher exceptions automatically sends a 404 status
