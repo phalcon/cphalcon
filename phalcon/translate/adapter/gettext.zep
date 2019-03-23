@@ -36,22 +36,22 @@ class Gettext extends Adapter implements \ArrayAccess
     /**
      * @var string|array
      */
-    protected directory { get };
+    protected _directory { get };
 
     /**
      * @var string
      */
-    protected defaultDomain { get };
+    protected _defaultDomain { get };
 
     /**
      * @var string
      */
-    protected locale { get };
+    protected _locale { get };
 
     /**
      * @var int
      */
-    protected category { get };
+    protected _category { get };
 
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
@@ -134,7 +134,7 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function setDefaultDomain(string! domain) -> void
     {
-        let this->defaultDomain = domain;
+        let this->_defaultDomain = domain;
     }
 
     /**
@@ -163,7 +163,7 @@ class Gettext extends Adapter implements \ArrayAccess
             return;
         }
 
-        let this->directory = directory;
+        let this->_directory = directory;
 
         if typeof directory === "array" {
             for key, value in directory {
@@ -187,15 +187,15 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function setLocale(int! category, string! locale) -> string | bool
     {
-        let this->locale   = call_user_func_array("setlocale", func_get_args());
-        let this->category = category;
+        let this->_locale   = call_user_func_array("setlocale", func_get_args());
+        let this->_category = category;
 
-        putenv("LC_ALL=" . this->locale);
-        putenv("LANG=" . this->locale);
-        putenv("LANGUAGE=" . this->locale);
-        setlocale(LC_ALL, this->locale);
+        putenv("LC_ALL=" . this->_locale);
+        putenv("LANG=" . this->_locale);
+        putenv("LANGUAGE=" . this->_locale);
+        setlocale(LC_ALL, this->_locale);
 
-        return this->locale;
+        return this->_locale;
     }
 
     /**

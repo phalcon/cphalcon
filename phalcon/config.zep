@@ -41,7 +41,7 @@ use Phalcon\Config\Exception;
 class Config implements \ArrayAccess, \Countable
 {
 
-    protected static pathDelimiter;
+    protected static _pathDelimiter;
 
     const DEFAULT_PATH_DELIMITER = ".";
 
@@ -278,7 +278,7 @@ class Config implements \ArrayAccess, \Countable
      */
     public static function setPathDelimiter(string! delimiter = null) -> void
     {
-        let self::pathDelimiter = delimiter;
+        let self::_pathDelimiter = delimiter;
     }
 
     /**
@@ -288,7 +288,7 @@ class Config implements \ArrayAccess, \Countable
     {
         var delimiter;
 
-        let delimiter = self::pathDelimiter;
+        let delimiter = self::_pathDelimiter;
         if !delimiter {
             let delimiter = self::DEFAULT_PATH_DELIMITER;
         }

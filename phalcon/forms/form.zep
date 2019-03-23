@@ -28,23 +28,23 @@ use Phalcon\Service\LocatorInterface;
  */
 class Form extends Injectable implements \Countable, \Iterator
 {
-    protected position;
+    protected _position;
 
-    protected entity;
+    protected _entity;
 
-    protected options = [];
+    protected _options = [];
 
-    protected data;
+    protected _data;
 
-    protected elements = [];
+    protected _elements = [];
 
-    protected elementsIndexed;
+    protected _elementsIndexed;
 
-    protected messages;
+    protected _messages;
 
-    protected action;
+    protected _action;
 
-    protected validation { set, get };
+    protected _validation { set, get };
 
     /**
      * Phalcon\Forms\Form constructor
@@ -57,13 +57,13 @@ class Form extends Injectable implements \Countable, \Iterator
             if typeof entity != "object" {
                 throw new Exception("The base entity is not valid");
             }
-            let this->entity = entity;
+            let this->_entity = entity;
         }
 
         /**
          * Update the user options
          */
-        let this->options = userOptions;
+        let this->_options = userOptions;
 
         /**
          * Check for an 'initialize' method and call it
@@ -78,7 +78,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function setAction(string! action) -> <Form>
     {
-        let this->action = action;
+        let this->_action = action;
         return this;
     }
 
@@ -87,7 +87,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getAction() -> string
     {
-        return this->action;
+        return this->_action;
     }
 
     /**
@@ -95,7 +95,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function setUserOption(string option, var value) -> <Form>
     {
-        let this->options[option] = value;
+        let this->_options[option] = value;
         return this;
     }
 
@@ -105,7 +105,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function getUserOption(string option, var defaultValue = null) -> var
     {
         var value;
-        if fetch value, this->options[option] {
+        if fetch value, this->_options[option] {
             return value;
         }
         return defaultValue;
@@ -116,7 +116,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function setUserOptions(array! options) -> <Form>
     {
-        let this->options = options;
+        let this->_options = options;
         return this;
     }
 
@@ -125,7 +125,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getUserOptions() -> array
     {
-        return this->options;
+        return this->_options;
     }
 
     /**
@@ -135,7 +135,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function setEntity(var entity) -> <Form>
     {
-        let this->entity = entity;
+        let this->_entity = entity;
         return this;
     }
 
@@ -146,7 +146,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getEntity()
     {
-        return this->entity;
+        return this->_entity;
     }
 
     /**
@@ -154,7 +154,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getElements() -> <ElementInterface[]>
     {
-        return this->elements;
+        return this->_elements;
     }
 
     /**
@@ -168,7 +168,7 @@ class Form extends Injectable implements \Countable, \Iterator
         var filter, key, value, element, filters,
             dependencyInjector, filteredValue, method;
 
-        if empty this->elements {
+        if empty this->_elements {
             throw new Exception("There are no elements in the form");
         }
 
@@ -178,7 +178,7 @@ class Form extends Injectable implements \Countable, \Iterator
             /**
              * Get the element
              */
-            if !fetch element, this->elements[key] {
+            if !fetch element, this->_elements[key] {
                 continue;
             }
 
@@ -227,7 +227,7 @@ class Form extends Injectable implements \Countable, \Iterator
             let entity->{key} = filteredValue;
         }
 
-        let this->data = data;
+        let this->_data = data;
 
         return this;
     }
@@ -244,7 +244,7 @@ class Form extends Injectable implements \Countable, \Iterator
             validators, name, filters,
             validator, validation, elementMessage;
 
-        if empty this->elements {
+        if empty this->_elements {
             return true;
         }
 
@@ -252,17 +252,17 @@ class Form extends Injectable implements \Countable, \Iterator
          * If the data is not an array use the one passed previously
          */
         if typeof data != "array" {
-            let data = this->data;
+            let data = this->_data;
         }
 
         /**
-         * If the user doesn't pass an entity we use the one in this_ptr->entity
+         * If the user doesn't pass an entity we use the one in this_ptr->_entity
          */
         if typeof entity == "object" {
             this->bind(data, entity);
         } else {
-            if typeof this->entity == "object" {
-                this->bind(data, this->entity);
+            if typeof this->_entity == "object" {
+                this->bind(data, this->_entity);
             }
         }
 
@@ -284,7 +284,7 @@ class Form extends Injectable implements \Countable, \Iterator
             let validation = new Validation();
         }
 
-        for element in this->elements {
+        for element in this->_elements {
 
             let validators = element->getValidators();
             if typeof validators != "array" || count(validators) == 0 {
@@ -333,7 +333,7 @@ class Form extends Injectable implements \Countable, \Iterator
          * If the validation fails update the messages
          */
         if !validationStatus {
-            let this->messages = messages;
+            let this->_messages = messages;
         }
 
         /**
@@ -376,7 +376,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var messages, messagesByItem, elementMessage, fieldName;
 
-        let messages = this->messages;
+        let messages = this->_messages;
 
         if typeof messages == "object" && messages instanceof Messages {
             /**
@@ -441,17 +441,17 @@ class Form extends Injectable implements \Countable, \Iterator
          */
         element->setForm(this);
 
-        if position == null || empty this->elements {
+        if position == null || empty this->_elements {
             /**
              * Append the element by its name
              */
-            let this->elements[name] = element;
+            let this->_elements[name] = element;
         } else {
             let elements = [];
             /**
              * Walk elements and add the element to a particular position
              */
-            for key, value in this->elements {
+            for key, value in this->_elements {
                 if key == position {
                     if type {
                         /**
@@ -471,7 +471,7 @@ class Form extends Injectable implements \Countable, \Iterator
                     let elements[key] = value;
                 }
             }
-            let this->elements = elements;
+            let this->_elements = elements;
         }
         return this;
     }
@@ -483,7 +483,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if !fetch element, this->elements[name] {
+        if !fetch element, this->_elements[name] {
             throw new Exception("Element with ID=" . name . " is not part of the form");
         }
 
@@ -497,7 +497,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if fetch element, this->elements[name] {
+        if fetch element, this->_elements[name] {
             return element;
         }
 
@@ -511,7 +511,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if fetch element, this->elements[name] {
+        if fetch element, this->_elements[name] {
             return element->label(attributes);
         }
 
@@ -525,7 +525,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element, label;
 
-        if !fetch element, this->elements[name] {
+        if !fetch element, this->_elements[name] {
             throw new Exception("Element with ID=" . name . " is not part of the form");
         }
 
@@ -548,8 +548,8 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var entity, method, value, data, $internal, forbidden, element;
 
-        let entity = this->entity;
-        let data = this->data;
+        let entity = this->_entity;
+        let data = this->_data;
 
         /**
          * Check if form has a getter
@@ -627,7 +627,7 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Check if element has default value
          */
-        if fetch element, this->elements[name] {
+        if fetch element, this->_elements[name] {
             return element->getDefault();
         }
 
@@ -642,7 +642,7 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Checks if the element is in the form
          */
-        return isset this->elements[name];
+        return isset this->_elements[name];
     }
 
     /**
@@ -653,15 +653,15 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Checks if the element is in the form
          */
-        if isset this->elements[name] {
-            unset this->elements[name];
+        if isset this->_elements[name] {
+            unset this->_elements[name];
             return true;
         }
 
         /**
          * Clean the iterator index
          */
-        let this->elementsIndexed = null;
+        let this->_elementsIndexed = null;
 
         return false;
     }
@@ -675,7 +675,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var elements, element, data, field;
 
-        let data = this->data;
+        let data = this->_data;
         if fields === null {
             let data = [];
         } else {
@@ -692,8 +692,8 @@ class Form extends Injectable implements \Countable, \Iterator
             }
         }
 
-        let this->data = data,
-            elements = this->elements;
+        let this->_data = data,
+            elements = this->_elements;
 
         /**
         * If fields is string, clear just that field.
@@ -727,7 +727,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function count() -> int
     {
-        return count(this->elements);
+        return count(this->_elements);
     }
 
     /**
@@ -735,11 +735,11 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function rewind() -> void
     {
-        let this->position = 0;
-        if typeof this->elements == "array" {
-            let this->elementsIndexed = array_values(this->elements);
+        let this->_position = 0;
+        if typeof this->_elements == "array" {
+            let this->_elementsIndexed = array_values(this->_elements);
         } else {
-            let this->elementsIndexed = [];
+            let this->_elementsIndexed = [];
         }
     }
 
@@ -750,7 +750,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if fetch element, this->elementsIndexed[this->position] {
+        if fetch element, this->_elementsIndexed[this->_position] {
             return element;
         }
 
@@ -762,7 +762,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function key() -> int
     {
-        return this->position;
+        return this->_position;
     }
 
     /**
@@ -770,7 +770,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function next() -> void
     {
-        let this->position++;
+        let this->_position++;
     }
 
     /**
@@ -778,6 +778,6 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function valid() -> bool
     {
-        return isset this->elementsIndexed[this->position];
+        return isset this->_elementsIndexed[this->_position];
     }
 }
