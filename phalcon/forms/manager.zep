@@ -15,8 +15,7 @@ namespace Phalcon\Forms;
  */
 class Manager
 {
-
-    protected _forms;
+    protected forms;
 
     /**
      * Creates a form registering it in the forms manager
@@ -28,7 +27,7 @@ class Manager
         var form;
 
         let form = new Form(entity),
-            this->_forms[name] = form;
+            this->forms[name] = form;
 
         return form;
     }
@@ -39,7 +38,7 @@ class Manager
     public function get(string name) -> <Form>
     {
         var form;
-        if !fetch form, this->_forms[name] {
+        if !fetch form, this->forms[name] {
             throw new Exception("There is no form with name='" . name . "'");
         }
         return form;
@@ -50,7 +49,7 @@ class Manager
      */
     public function has(string name) -> bool
     {
-        return isset this->_forms[name];
+        return isset this->forms[name];
     }
 
     /**

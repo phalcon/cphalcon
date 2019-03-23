@@ -19,7 +19,6 @@ namespace Phalcon\Events;
  */
 interface ManagerInterface
 {
-
     /**
      * Attach a listener to the events manager
      *
@@ -49,13 +48,12 @@ interface ManagerInterface
     public function fire(string! eventType, source, data = null);
 
     /**
-     * Check whether certain type of event has listeners
-     */
-    public function hasListeners(string! type) -> bool;
-
-    /**
      * Returns all the attached listeners of a certain type
      */
     public function getListeners(string! type) -> array;
 
+    /**
+     * Check whether certain type of event has listeners
+     */
+    public function hasListeners(string! type) -> bool;
 }

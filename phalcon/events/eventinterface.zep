@@ -23,14 +23,24 @@ interface EventInterface
     public function getData() -> var;
 
     /**
-     * Sets event data
-     */
-    public function setData(var data = null) -> <EventInterface>;
-
-    /**
      * Gets event type
      */
     public function getType() -> var;
+
+    /**
+     * Check whether the event is cancelable
+     */
+    public function isCancelable() -> bool;
+
+    /**
+     * Check whether the event is currently stopped
+     */
+    public function isStopped() -> bool;
+
+    /**
+     * Sets event data
+     */
+    public function setData(var data = null) -> <EventInterface>;
 
     /**
      * Sets event type
@@ -41,14 +51,4 @@ interface EventInterface
      * Stops the event preventing propagation
      */
     public function stop() -> <EventInterface>;
-
-    /**
-     * Check whether the event is currently stopped
-     */
-    public function isStopped() -> bool;
-
-    /**
-     * Check whether the event is cancelable
-     */
-    public function isCancelable() -> bool;
 }

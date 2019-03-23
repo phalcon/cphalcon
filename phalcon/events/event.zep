@@ -18,57 +18,79 @@ namespace Phalcon\Events;
 class Event implements EventInterface
 {
     /**
-     * Event type
+     * Is event cancelable?
      *
-     * @var string
+     * @var bool
      */
-    protected _type { get };
-
-    /**
-     * Event source
-     *
-     * @var object
-     */
-    protected _source { get };
+    protected cancelable = true;
 
     /**
      * Event data
      *
      * @var mixed
      */
-    protected _data { get };
+    protected data { get };
+
+    /**
+     * Event source
+     *
+     * @var object
+     */
+    protected source { get };
 
     /**
      * Is event propagation stopped?
      *
      * @var bool
      */
-    protected _stopped = false;
+    protected stopped = false;
 
     /**
-     * Is event cancelable?
+     * Event type
      *
-     * @var bool
+     * @var string
      */
-    protected _cancelable = true;
+    protected type { get };
 
     /**
      * Phalcon\Events\Event constructor
      *
      * @param object source
      */
-    public function __construct(string! type, source, var data = null, bool cancelable = true)
+    public function __construct(string! type, source, var data = null, bool cancelable = true) -> void
     {
-        let this->_type = type,
-            this->_source = source;
+        let this->type = type,
+            this->source = source;
 
         if data !== null {
-            let this->_data = data;
+            let this->data = data;
         }
 
         if cancelable !== true {
-            let this->_cancelable = cancelable;
+            let this->cancelable = cancelable;
         }
+    }
+
+    /**
+     * Check whether the event is cancelable.
+     *
+     * <code>
+     * if ($event->isCancelable()) {
+     *     $event->stop();
+     * }
+     * </code>
+     */
+    public function isCancelable() -> bool
+    {
+        return this->cancelable;
+    }
+    
+    /**
+     * Check whether the event is currently stopped.
+     */
+    public function isStopped() -> bool
+    {
+        return this->stopped;
     }
 
     /**
@@ -76,7 +98,7 @@ class Event implements EventInterface
      */
     public function setData(var data = null) -> <EventInterface>
     {
-        let this->_data = data;
+        let this->data = data;
 
         return this;
     }
@@ -86,7 +108,7 @@ class Event implements EventInterface
      */
     public function setType(string! type) -> <EventInterface>
     {
-        let this->_type = type;
+        let this->type = type;
 
         return this;
     }
@@ -102,34 +124,12 @@ class Event implements EventInterface
      */
     public function stop() -> <EventInterface>
     {
-        if !this->_cancelable {
+        if !this->cancelable {
             throw new Exception("Trying to cancel a non-cancelable event");
         }
 
-        let this->_stopped = true;
+        let this->stopped = true;
 
         return this;
-    }
-
-    /**
-     * Check whether the event is currently stopped.
-     */
-    public function isStopped() -> bool
-    {
-        return this->_stopped;
-    }
-
-    /**
-     * Check whether the event is cancelable.
-     *
-     * <code>
-     * if ($event->isCancelable()) {
-     *     $event->stop();
-     * }
-     * </code>
-     */
-    public function isCancelable() -> bool
-    {
-        return this->_cancelable;
     }
 }

@@ -23,14 +23,13 @@ use SplPriorityQueue;
  */
 class Manager implements ManagerInterface
 {
+    protected collect = false;
 
-    protected _events = null;
+    protected enablePriorities = false;
 
-    protected _collect = false;
+    protected events = null;
 
-    protected _enablePriorities = false;
-
-    protected _responses;
+    protected responses;
 
     /**
      * Attach a listener to the events manager
@@ -45,9 +44,9 @@ class Manager implements ManagerInterface
             throw new Exception("Event handler must be an Object");
         }
 
-        if !fetch priorityQueue, this->_events[eventType] {
+        if !fetch priorityQueue, this->events[eventType] {
 
-            if this->_enablePriorities {
+            if this->enablePriorities {
 
                 // Create a SplPriorityQueue to store the events with priorities
                 let priorityQueue = new SplPriorityQueue();
@@ -56,7 +55,7 @@ class Manager implements ManagerInterface
                 priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
 
                 // Append the events to the queue
-                let this->_events[eventType] = priorityQueue;
+                let this->events[eventType] = priorityQueue;
 
             } else {
                 let priorityQueue = [];
@@ -69,9 +68,26 @@ class Manager implements ManagerInterface
         } else {
             // Append the events to the queue
             let priorityQueue[] = handler,
-                this->_events[eventType] = priorityQueue;
+                this->events[eventType] = priorityQueue;
         }
 
+    }
+
+    /**
+     * Returns if priorities are enabled
+     */
+    public function arePrioritiesEnabled() -> bool
+    {
+        return this->enablePriorities;
+    }
+
+    /**
+     * Tells the event manager if it needs to collect all the responses returned by every
+     * registered listener in a single fire
+     */
+    public function collectResponses(bool collect)
+    {
+        let this->collect = collect;
     }
 
     /**
@@ -87,7 +103,7 @@ class Manager implements ManagerInterface
             throw new Exception("Event handler must be an Object");
         }
 
-        if fetch priorityQueue, this->_events[eventType] {
+        if fetch priorityQueue, this->events[eventType] {
 
             if typeof priorityQueue == "object" {
 
@@ -106,13 +122,27 @@ class Manager implements ManagerInterface
                     }
                 }
 
-                let this->_events[eventType] = newPriorityQueue;
+                let this->events[eventType] = newPriorityQueue;
             } else {
                 let key = array_search(handler, priorityQueue, true);
                 if key !== false {
                     unset priorityQueue[key];
                 }
-                let this->_events[eventType] = priorityQueue;
+                let this->events[eventType] = priorityQueue;
+            }
+        }
+    }
+
+    /**
+     * Removes all events from the EventsManager
+     */
+    public function detachAll(string! type = null)
+    {
+        if type === null {
+            let this->events = null;
+        } else {
+            if isset this->events[type] {
+                unset this->events[type];
             }
         }
     }
@@ -122,55 +152,76 @@ class Manager implements ManagerInterface
      */
     public function enablePriorities(bool enablePriorities)
     {
-        let this->_enablePriorities = enablePriorities;
+        let this->enablePriorities = enablePriorities;
     }
 
     /**
-     * Returns if priorities are enabled
+     * Fires an event in the events manager causing the active listeners to be notified about it
+     *
+     *<code>
+     *    $eventsManager->fire("db", $connection);
+     *</code>
+     *
+     * @param object source
+     * @param mixed  data
+     * @return mixed
      */
-    public function arePrioritiesEnabled() -> bool
+    public function fire(string! eventType, source, data = null, bool cancelable = true)
     {
-        return this->_enablePriorities;
-    }
+        var events, eventParts, type, eventName, event, status, fireEvents;
 
-    /**
-     * Tells the event manager if it needs to collect all the responses returned by every
-     * registered listener in a single fire
-     */
-    public function collectResponses(bool collect)
-    {
-        let this->_collect = collect;
-    }
+        let events = this->events;
+        if typeof events != "array" {
+            return null;
+        }
 
-    /**
-     * Check if the events manager is collecting all all the responses returned by every
-     * registered listener in a single fire
-     */
-    public function isCollecting() -> bool
-    {
-        return this->_collect;
-    }
+        // All valid events must have a colon separator
+        if !memstr(eventType, ":") {
+            throw new Exception("Invalid event type " . eventType);
+        }
 
-    /**
-     * Returns all the responses returned by every handler executed by the last 'fire' executed
-     */
-    public function getResponses() -> array
-    {
-        return this->_responses;
-    }
+        let eventParts = explode(":", eventType),
+            type = eventParts[0],
+            eventName = eventParts[1];
 
-    /**
-     * Removes all events from the EventsManager
-     */
-    public function detachAll(string! type = null)
-    {
-        if type === null {
-            let this->_events = null;
-        } else {
-            if isset this->_events[type] {
-                unset this->_events[type];
+        let status = null;
+
+        // Responses must be traced?
+        if this->collect {
+            let this->responses = null;
+        }
+
+        let event = null;
+
+        // Check if events are grouped by type
+        if fetch fireEvents, events[type] {
+
+            if typeof fireEvents == "object" || typeof fireEvents == "array" {
+
+                // Create the event context
+                let event = new Event(eventName, source, data, cancelable);
+
+                // Call the events queue
+                let status = this->fireQueue(fireEvents, event);
             }
         }
+
+        // Check if there are listeners for the event type itself
+        if fetch fireEvents, events[eventType] {
+
+            if typeof fireEvents == "object" || typeof fireEvents == "array" {
+
+                // Create the event if it wasn't created before
+                if event === null {
+                    let event = new Event(eventName, source, data, cancelable);
+                }
+
+                // Call the events queue
+                let status = this->fireQueue(fireEvents, event);
+            }
+        }
+
+        return status;
     }
 
     /**
@@ -217,7 +268,7 @@ class Manager implements ManagerInterface
         let cancelable = (bool) event->isCancelable();
 
         // Responses need to be traced?
-        let collect = (bool) this->_collect;
+        let collect = (bool) this->collect;
 
         if typeof queue == "object" {
 
@@ -249,7 +300,7 @@ class Manager implements ManagerInterface
 
                         // Trace the response
                         if collect {
-                            let this->_responses[] = status;
+                            let this->responses[] = status;
                         }
 
                         if cancelable {
@@ -270,7 +321,7 @@ class Manager implements ManagerInterface
 
                             // Collect the response
                             if collect {
-                                let this->_responses[] = status;
+                                let this->responses[] = status;
                             }
 
                             if cancelable {
@@ -305,7 +356,7 @@ class Manager implements ManagerInterface
 
                         // Trace the response
                         if collect {
-                            let this->_responses[] = status;
+                            let this->responses[] = status;
                         }
 
                         if cancelable {
@@ -326,7 +377,7 @@ class Manager implements ManagerInterface
 
                             // Collect the response
                             if collect {
-                                let this->_responses[] = status;
+                                let this->responses[] = status;
                             }
 
                             if cancelable {
@@ -346,72 +397,26 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Fires an event in the events manager causing the active listeners to be notified about it
-     *
-     *<code>
-     *    $eventsManager->fire("db", $connection);
-     *</code>
-     *
-     * @param object source
-     * @param mixed  data
-     * @return mixed
+     * Returns all the attached listeners of a certain type
      */
-    public function fire(string! eventType, source, data = null, bool cancelable = true)
+    public function getListeners(string! type) -> array
     {
-        var events, eventParts, type, eventName, event, status, fireEvents;
-
-        let events = this->_events;
-        if typeof events != "array" {
-            return null;
-        }
-
-        // All valid events must have a colon separator
-        if !memstr(eventType, ":") {
-            throw new Exception("Invalid event type " . eventType);
-        }
-
-        let eventParts = explode(":", eventType),
-            type = eventParts[0],
-            eventName = eventParts[1];
-
-        let status = null;
-
-        // Responses must be traced?
-        if this->_collect {
-            let this->_responses = null;
-        }
-
-        let event = null;
-
-        // Check if events are grouped by type
-        if fetch fireEvents, events[type] {
-
-            if typeof fireEvents == "object" || typeof fireEvents == "array" {
-
-                // Create the event context
-                let event = new Event(eventName, source, data, cancelable);
-
-                // Call the events queue
-                let status = this->fireQueue(fireEvents, event);
+        var events, fireEvents;
+        let events = this->events;
+        if typeof events == "array" {
+            if fetch fireEvents, events[type] {
+                return fireEvents;
             }
         }
+        return [];
+    }
 
-        // Check if there are listeners for the event type itself
-        if fetch fireEvents, events[eventType] {
-
-            if typeof fireEvents == "object" || typeof fireEvents == "array" {
-
-                // Create the event if it wasn't created before
-                if event === null {
-                    let event = new Event(eventName, source, data, cancelable);
-                }
-
-                // Call the events queue
-                let status = this->fireQueue(fireEvents, event);
-            }
-        }
-
-        return status;
+    /**
+     * Returns all the responses returned by every handler executed by the last 'fire' executed
+     */
+    public function getResponses() -> array
+    {
+        return this->responses;
     }
 
     /**
@@ -419,21 +424,15 @@ class Manager implements ManagerInterface
      */
     public function hasListeners(string! type) -> bool
     {
-        return isset this->_events[type];
+        return isset this->events[type];
     }
 
     /**
-     * Returns all the attached listeners of a certain type
+     * Check if the events manager is collecting all all the responses returned by every
+     * registered listener in a single fire
      */
-    public function getListeners(string! type) -> array
+    public function isCollecting() -> bool
     {
-        var events, fireEvents;
-        let events = this->_events;
-        if typeof events == "array" {
-            if fetch fireEvents, events[type] {
-                return fireEvents;
-            }
-        }
-        return [];
+        return this->collect;
     }
 }

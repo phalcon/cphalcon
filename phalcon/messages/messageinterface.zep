@@ -20,6 +20,11 @@ use Phalcon\Messages\Message;
 interface MessageInterface
 {
     /**
+     * Magic __toString method returns verbose message
+     */
+    public function __toString() -> string;
+
+    /**
      * Returns the message code related to this message
      *
      * @return int
@@ -39,14 +44,14 @@ interface MessageInterface
     public function getMessage() -> string;
 
     /**
-     * Returns message type
-     */
-    public function getType() -> string;
-
-    /**
      * Returns message metadata
      */
     public function getMetaData() -> array;
+
+    /**
+     * Returns message type
+     */
+    public function getType() -> string;
 
     /**
      * Sets code for the message
@@ -64,17 +69,12 @@ interface MessageInterface
     public function setMessage(string! message) -> <MessageInterface>;
 
     /**
-     * Sets message type
-     */
-    public function setType(string! type) -> <MessageInterface>;
-
-    /**
      * Sets message metadata
      */
     public function setMetaData(array! metaData) -> <MessageInterface>;
 
     /**
-     * Magic __toString method returns verbose message
+     * Sets message type
      */
-    public function __toString() -> string;
+    public function setType(string! type) -> <MessageInterface>;
 }
