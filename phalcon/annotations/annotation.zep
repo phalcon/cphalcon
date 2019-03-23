@@ -71,9 +71,10 @@ class Annotation
      * @param int|string position
      * @return mixed
      */
-    public function getArgument(var position) -> var
+    public function getArgument(var position)
     {
         var argument;
+
         if fetch argument, this->arguments[position] {
             return argument;
         }
@@ -165,7 +166,7 @@ class Annotation
      *
      * @return mixed
      */
-    public function getNamedArgument(string! name) -> var
+    public function getNamedArgument(string! name)
     {
         var argument;
         if fetch argument, this->arguments[name] {
