@@ -54,7 +54,7 @@ class Dump
      *
      * @param bool detailed debug object's private and protected properties
      */
-    public function __construct(array! styles = [], bool detailed = false)
+    public function __construct(array! styles = [], bool detailed = false) -> void
     {
         this->setStyles(styles);
 

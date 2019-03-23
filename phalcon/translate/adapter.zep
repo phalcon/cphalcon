@@ -24,7 +24,7 @@ abstract class Adapter implements AdapterInterface
     /**
     * @var Phalcon\Translate\InterpolatorInterface
     */
-    protected _interpolator;
+    protected interpolator;
 
     public function __construct(array! options)
     {
@@ -36,9 +36,53 @@ abstract class Adapter implements AdapterInterface
         this->setInterpolator(interpolator);
     }
 
+    /**
+     * Returns the translation string of the given key (alias of method 't')
+     *
+     * @param array   placeholders
+     */
+    public function _(string! translateKey, placeholders = null) -> string
+    {
+        return this->{"query"}(translateKey, placeholders);
+    }
+
+    /**
+     * Check whether a translation key exists
+     */
+    public function offsetExists(var translateKey) -> bool
+    {
+        return this->{"exists"}(translateKey);
+    }
+
+    /**
+     * Returns the translation related to the given key
+     */
+    public function offsetGet(var translateKey) -> var
+    {
+        return this->{"query"}(translateKey, null);
+    }
+
+    /**
+     * Sets a translation value
+     *
+     * @param string value
+     */
+    public function offsetSet(var offset, var value) -> void
+    {
+        throw new Exception("Translate is an immutable ArrayAccess object");
+    }
+
+    /**
+     * Unsets a translation from the dictionary
+     */
+    public function offsetUnset(var offset) -> void
+    {
+        throw new Exception("Translate is an immutable ArrayAccess object");
+    }
+
     public function setInterpolator(<InterpolatorInterface> interpolator) -> <Adapter>
     {
-        let this->_interpolator = interpolator;
+        let this->interpolator = interpolator;
         return this;
     }
 
@@ -53,54 +97,10 @@ abstract class Adapter implements AdapterInterface
     }
 
     /**
-     * Returns the translation string of the given key (alias of method 't')
-     *
-     * @param array   placeholders
-     */
-    public function _(string! translateKey, placeholders = null) -> string
-    {
-        return this->{"query"}(translateKey, placeholders);
-    }
-
-    /**
-     * Sets a translation value
-     *
-     * @param string value
-     */
-    public function offsetSet(var offset, var value) -> void
-    {
-        throw new Exception("Translate is an immutable ArrayAccess object");
-    }
-
-    /**
-     * Check whether a translation key exists
-     */
-    public function offsetExists(var translateKey) -> bool
-    {
-        return this->{"exists"}(translateKey);
-    }
-
-    /**
-     * Unsets a translation from the dictionary
-     */
-    public function offsetUnset(var offset) -> void
-    {
-        throw new Exception("Translate is an immutable ArrayAccess object");
-    }
-
-    /**
-     * Returns the translation related to the given key
-     */
-    public function offsetGet(var translateKey) -> var
-    {
-        return this->{"query"}(translateKey, null);
-    }
-
-    /**
      * Replaces placeholders by the values passed
      */
     protected function replacePlaceholders(string! translation, placeholders = null) -> string
     {
-        return this->_interpolator->{"replacePlaceholders"}(translation, placeholders);
+        return this->interpolator->{"replacePlaceholders"}(translation, placeholders);
     }
 }

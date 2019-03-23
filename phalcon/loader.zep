@@ -44,274 +44,25 @@ use Phalcon\Events\EventsAwareInterface;
 class Loader implements EventsAwareInterface
 {
 
-    protected _eventsManager = null;
+    protected checkedPath = null;
 
-    protected _foundPath = null;
+    protected classes = [];
 
-    protected _checkedPath = null;
+    protected directories = [];
 
-    protected _classes = [];
+    protected eventsManager = null;
 
-    protected _extensions = ["php"];
-
-    protected _namespaces = [];
-
-    protected _directories = [];
-
-    protected _files = [];
-
-    protected _registered = false;
+    protected extensions = ["php"];
 
     protected fileCheckingCallback = "is_file";
 
-    /**
-     * Sets the file check callback.
-     *
-     * <code>
-     * // Default behavior.
-     * $loader->setFileCheckingCallback("is_file");
-     *
-     * // Faster than `is_file()`, but implies some issues if
-     * // the file is removed from the filesystem.
-     * $loader->setFileCheckingCallback("stream_resolve_include_path");
-     *
-     * // Do not check file existence.
-     * $loader->setFileCheckingCallback(null);
-     * </code>
-     */
-    public function setFileCheckingCallback(var callback = null) -> <Loader>
-    {
-        if likely is_callable(callback) {
-            let this->fileCheckingCallback = callback;
-        } elseif callback === null {
-            let this->fileCheckingCallback = function (file) {
-                return true;
-            };
-        } else {
-            throw new Exception("The 'callback' parameter must be either a callable or NULL.");
-        }
+    protected files = [];
 
-        return this;
-    }
+    protected foundPath = null;
 
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager)
-    {
-        let this->_eventsManager = eventsManager;
-    }
+    protected namespaces = [];
 
-    /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface>
-    {
-        return this->_eventsManager;
-    }
-
-    /**
-     * Sets an array of file extensions that the loader must try in each attempt to locate the file
-     */
-    public function setExtensions(array! extensions) -> <Loader>
-    {
-        let this->_extensions = extensions;
-        return this;
-    }
-
-    /**
-     * Returns the file extensions registered in the loader
-     */
-    public function getExtensions() -> array
-    {
-        return this->_extensions;
-    }
-
-    /**
-     * Register namespaces and their related directories
-     */
-    public function registerNamespaces(array! namespaces, bool merge = false) -> <Loader>
-    {
-        var preparedNamespaces, name, paths;
-
-        let preparedNamespaces = this->prepareNamespace(namespaces);
-
-        if merge {
-            for name, paths in preparedNamespaces {
-                if !isset this->_namespaces[name] {
-                    let this->_namespaces[name] = [];
-                }
-
-                let this->_namespaces[name] = array_merge(this->_namespaces[name], paths);
-            }
-        } else {
-            let this->_namespaces = preparedNamespaces;
-        }
-
-        return this;
-    }
-
-    protected function prepareNamespace(array! $namespace) -> array
-    {
-        var localPaths, name, paths, prepared;
-
-        let prepared = [];
-        for name, paths in $namespace {
-            if typeof paths != "array" {
-                let localPaths = [paths];
-            } else {
-                let localPaths = paths;
-            }
-
-            let prepared[name] = localPaths;
-        }
-
-        return prepared;
-    }
-
-    /**
-     * Returns the namespaces currently registered in the autoloader
-     */
-    public function getNamespaces() -> array
-    {
-        return this->_namespaces;
-    }
-
-    /**
-     * Register directories in which "not found" classes could be found
-     */
-    public function registerDirs(array! directories, bool merge = false) -> <Loader>
-    {
-        if merge {
-            let this->_directories = array_merge(this->_directories, directories);
-        } else {
-            let this->_directories = directories;
-        }
-
-        return this;
-    }
-
-    /**
-     * Returns the directories currently registered in the autoloader
-     */
-    public function getDirs() -> array
-    {
-        return this->_directories;
-    }
-
-    /**
-     * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
-     * have functions
-     */
-    public function registerFiles(array! files, bool merge = false) -> <Loader>
-    {
-        if merge {
-            let this->_files = array_merge(this->_files, files);
-        } else {
-            let this->_files = files;
-        }
-
-        return this;
-    }
-
-    /**
-     * Returns the files currently registered in the autoloader
-     */
-    public function getFiles() -> array
-    {
-        return this->_files;
-    }
-
-    /**
-     * Register classes and their locations
-     */
-    public function registerClasses(array! classes, bool merge = false) -> <Loader>
-    {
-        if merge {
-            let this->_classes = array_merge(this->_classes, classes);
-        } else {
-            let this->_classes = classes;
-        }
-
-        return this;
-    }
-
-    /**
-     * Returns the class-map currently registered in the autoloader
-     */
-    public function getClasses() -> array
-    {
-        return this->_classes;
-    }
-
-    /**
-     * Register the autoload method
-     */
-    public function register(bool prepend = false) -> <Loader>
-    {
-        if this->_registered === false {
-            /**
-             * Loads individual files added using Loader->registerFiles()
-             */
-            this->loadFiles();
-
-            /**
-             * Registers directories & namespaces to PHP's autoload
-             */
-            spl_autoload_register([this, "autoLoad"], true, prepend);
-
-            let this->_registered = true;
-        }
-        return this;
-    }
-
-    /**
-     * Unregister the autoload method
-     */
-    public function unregister() -> <Loader>
-    {
-        if this->_registered === true {
-            spl_autoload_unregister([this, "autoLoad"]);
-            let this->_registered = false;
-        }
-        return this;
-    }
-
-    /**
-     * Checks if a file exists and then adds the file by doing virtual require
-     */
-    public function loadFiles()
-    {
-        var filePath, fileCheckingCallback;
-
-        let fileCheckingCallback = this->fileCheckingCallback;
-
-        for filePath in this->_files {
-            if typeof this->_eventsManager == "object" {
-                let this->_checkedPath = filePath;
-                    this->_eventsManager->fire("loader:beforeCheckPath", this, filePath);
-            }
-
-            /**
-             * Check if the file specified even exists
-             */
-            if call_user_func(fileCheckingCallback, filePath) {
-
-                /**
-                 * Call 'pathFound' event
-                 */
-                if typeof this->_eventsManager == "object" {
-                    let this->_foundPath = filePath;
-                    this->_eventsManager->fire("loader:pathFound", this, filePath);
-                }
-
-                /**
-                 * Simulate a require
-                 */
-                require filePath;
-            }
-        }
-    }
+    protected registered = false;
 
     /**
      * Autoloads the registered classes
@@ -322,7 +73,7 @@ class Loader implements EventsAwareInterface
             directories, ns, namespaces, nsPrefix,
             directory, fileName, extension, nsClassName, fileCheckingCallback;
 
-        let eventsManager = this->_eventsManager;
+        let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
             eventsManager->fire("loader:beforeCheckClass", this, className);
         }
@@ -330,17 +81,17 @@ class Loader implements EventsAwareInterface
         /**
          * First we check for static paths for classes
          */
-        let classes = this->_classes;
+        let classes = this->classes;
         if fetch filePath, classes[className] {
             if typeof eventsManager == "object" {
-                let this->_foundPath = filePath;
+                let this->foundPath = filePath;
                 eventsManager->fire("loader:pathFound", this, filePath);
             }
             require filePath;
             return true;
         }
 
-        let extensions = this->_extensions;
+        let extensions = this->extensions;
 
         let ds = DIRECTORY_SEPARATOR,
             ns = "\\";
@@ -348,7 +99,7 @@ class Loader implements EventsAwareInterface
         /**
          * Checking in namespaces
          */
-        let namespaces = this->_namespaces;
+        let namespaces = this->namespaces;
 
         let fileCheckingCallback = this->fileCheckingCallback;
 
@@ -386,7 +137,7 @@ class Loader implements EventsAwareInterface
                      * Check if a events manager is available
                      */
                     if typeof eventsManager == "object" {
-                        let this->_checkedPath = filePath;
+                        let this->checkedPath = filePath;
                         eventsManager->fire("loader:beforeCheckPath", this);
                     }
 
@@ -396,7 +147,7 @@ class Loader implements EventsAwareInterface
                     if call_user_func(fileCheckingCallback, filePath) {
 
                         if typeof eventsManager == "object" {
-                            let this->_foundPath = filePath;
+                            let this->foundPath = filePath;
                             eventsManager->fire("loader:pathFound", this, filePath);
                         }
 
@@ -422,7 +173,7 @@ class Loader implements EventsAwareInterface
         /**
          * Checking in directories
          */
-        let directories = this->_directories;
+        let directories = this->directories;
 
         for directory in directories {
 
@@ -439,7 +190,7 @@ class Loader implements EventsAwareInterface
                 let filePath = fixedDirectory . nsClassName . "." . extension;
 
                 if typeof eventsManager == "object" {
-                    let this->_checkedPath = filePath;
+                    let this->checkedPath = filePath;
                     eventsManager->fire("loader:beforeCheckPath", this, filePath);
                 }
 
@@ -452,7 +203,7 @@ class Loader implements EventsAwareInterface
                      * Call 'pathFound' event
                      */
                     if typeof eventsManager == "object" {
-                        let this->_foundPath = filePath;
+                        let this->foundPath = filePath;
                         eventsManager->fire("loader:pathFound", this, filePath);
                     }
 
@@ -483,18 +234,267 @@ class Loader implements EventsAwareInterface
     }
 
     /**
-     * Get the path when a class was found
-     */
-    public function getFoundPath() -> string
-    {
-        return this->_foundPath;
-    }
-
-    /**
      * Get the path the loader is checking for a path
      */
     public function getCheckedPath() -> string
     {
-        return this->_checkedPath;
+        return this->checkedPath;
     }
+    /**
+     * Returns the class-map currently registered in the autoloader
+     */
+    public function getClasses() -> array
+    {
+        return this->classes;
+    }
+
+    /**
+     * Returns the directories currently registered in the autoloader
+     */
+    public function getDirs() -> array
+    {
+        return this->directories;
+    }
+
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface>
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Returns the file extensions registered in the loader
+     */
+    public function getExtensions() -> array
+    {
+        return this->extensions;
+    }
+
+    /**
+     * Returns the files currently registered in the autoloader
+     */
+    public function getFiles() -> array
+    {
+        return this->files;
+    }
+
+    /**
+     * Get the path when a class was found
+     */
+    public function getFoundPath() -> string
+    {
+        return this->foundPath;
+    }
+
+    /**
+     * Returns the namespaces currently registered in the autoloader
+     */
+    public function getNamespaces() -> array
+    {
+        return this->namespaces;
+    }
+
+    /**
+     * Checks if a file exists and then adds the file by doing virtual require
+     */
+    public function loadFiles()
+    {
+        var filePath, fileCheckingCallback;
+
+        let fileCheckingCallback = this->fileCheckingCallback;
+
+        for filePath in this->files {
+            if typeof this->eventsManager == "object" {
+                let this->checkedPath = filePath;
+                    this->eventsManager->fire("loader:beforeCheckPath", this, filePath);
+            }
+
+            /**
+             * Check if the file specified even exists
+             */
+            if call_user_func(fileCheckingCallback, filePath) {
+
+                /**
+                 * Call 'pathFound' event
+                 */
+                if typeof this->eventsManager == "object" {
+                    let this->foundPath = filePath;
+                    this->eventsManager->fire("loader:pathFound", this, filePath);
+                }
+
+                /**
+                 * Simulate a require
+                 */
+                require filePath;
+            }
+        }
+    }
+
+    /**
+     * Register the autoload method
+     */
+    public function register(bool prepend = false) -> <Loader>
+    {
+        if this->registered === false {
+            /**
+             * Loads individual files added using Loader->registerFiles()
+             */
+            this->loadFiles();
+
+            /**
+             * Registers directories & namespaces to PHP's autoload
+             */
+            spl_autoload_register([this, "autoLoad"], true, prepend);
+
+            let this->registered = true;
+        }
+        return this;
+    }
+
+    /**
+     * Register classes and their locations
+     */
+    public function registerClasses(array! classes, bool merge = false) -> <Loader>
+    {
+        if merge {
+            let this->classes = array_merge(this->classes, classes);
+        } else {
+            let this->classes = classes;
+        }
+
+        return this;
+    }
+
+    /**
+     * Register directories in which "not found" classes could be found
+     */
+    public function registerDirs(array! directories, bool merge = false) -> <Loader>
+    {
+        if merge {
+            let this->directories = array_merge(this->directories, directories);
+        } else {
+            let this->directories = directories;
+        }
+
+        return this;
+    }
+
+    /**
+     * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
+     * have functions
+     */
+    public function registerFiles(array! files, bool merge = false) -> <Loader>
+    {
+        if merge {
+            let this->files = array_merge(this->files, files);
+        } else {
+            let this->files = files;
+        }
+
+        return this;
+    }
+
+    /**
+     * Register namespaces and their related directories
+     */
+    public function registerNamespaces(array! namespaces, bool merge = false) -> <Loader>
+    {
+        var preparedNamespaces, name, paths;
+
+        let preparedNamespaces = this->prepareNamespace(namespaces);
+
+        if merge {
+            for name, paths in preparedNamespaces {
+                if !isset this->namespaces[name] {
+                    let this->namespaces[name] = [];
+                }
+
+                let this->namespaces[name] = array_merge(this->namespaces[name], paths);
+            }
+        } else {
+            let this->namespaces = preparedNamespaces;
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager)
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Sets an array of file extensions that the loader must try in each attempt to locate the file
+     */
+    public function setExtensions(array! extensions) -> <Loader>
+    {
+        let this->extensions = extensions;
+        return this;
+    }
+
+    /**
+     * Sets the file check callback.
+     *
+     * <code>
+     * // Default behavior.
+     * $loader->setFileCheckingCallback("is_file");
+     *
+     * // Faster than `is_file()`, but implies some issues if
+     * // the file is removed from the filesystem.
+     * $loader->setFileCheckingCallback("stream_resolve_include_path");
+     *
+     * // Do not check file existence.
+     * $loader->setFileCheckingCallback(null);
+     * </code>
+     */
+    public function setFileCheckingCallback(var callback = null) -> <Loader>
+    {
+        if likely is_callable(callback) {
+            let this->fileCheckingCallback = callback;
+        } elseif callback === null {
+            let this->fileCheckingCallback = function (file) {
+                return true;
+            };
+        } else {
+            throw new Exception("The 'callback' parameter must be either a callable or NULL.");
+        }
+
+        return this;
+    }
+
+    /**
+     * Unregister the autoload method
+     */
+    public function unregister() -> <Loader>
+    {
+        if this->registered === true {
+            spl_autoload_unregister([this, "autoLoad"]);
+            let this->registered = false;
+        }
+        return this;
+    }
+
+    protected function prepareNamespace(array! $namespace) -> array
+    {
+        var localPaths, name, paths, prepared;
+
+        let prepared = [];
+        for name, paths in $namespace {
+            if typeof paths != "array" {
+                let localPaths = [paths];
+            } else {
+                let localPaths = paths;
+            }
+
+            let prepared[name] = localPaths;
+        }
+
+        return prepared;
+    }
+
 }

@@ -343,7 +343,7 @@ class Imagick extends Adapter
      */
     protected function _watermark(<Adapter> image, int offsetX, int offsetY, int opacity)
     {
-        var watermark, ret, version, method;
+        var watermark, ret;
 
         let opacity = opacity / 100,
             watermark = new \Imagick();

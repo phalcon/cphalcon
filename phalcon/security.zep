@@ -36,63 +36,175 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  */
 class Security implements InjectionAwareInterface
 {
+    const CRYPT_DEFAULT    = 0;
+    const CRYPT_BLOWFISH   = 4;
+    const CRYPT_BLOWFISH_A = 5;
+    const CRYPT_BLOWFISH_X = 6;
+    const CRYPT_BLOWFISH_Y = 7;
+    const CRYPT_EXT_DES    = 2;
+    const CRYPT_MD5        = 3;
+    const CRYPT_SHA256     = 8;
+    const CRYPT_SHA512     = 9;
+    const CRYPT_STD_DES    = 1;
 
     protected container;
 
-    protected _workFactor = 8 { set, get };
+    protected defaultHash;
 
-    protected _numberBytes = 16;
+    protected numberBytes = 16;
 
-    protected _tokenKeySessionID = "$PHALCON/CSRF/KEY$";
+    protected random;
 
-    protected _tokenValueSessionID = "$PHALCON/CSRF$";
+    protected requestToken;
 
-    protected _token;
+    protected token;
 
-    protected _tokenKey;
+    protected tokenKey;
 
-    protected _requestToken;
+    protected tokenKeySessionId = "$PHALCON/CSRF/KEY$";
 
-    protected _random;
+    protected tokenValueSessionId = "$PHALCON/CSRF$";
 
-    protected _defaultHash;
-
-    const CRYPT_DEFAULT       =    0;
-
-    const CRYPT_STD_DES       =    1;
-
-    const CRYPT_EXT_DES       =    2;
-
-    const CRYPT_MD5           =    3;
-
-    const CRYPT_BLOWFISH       =    4;
-
-    const CRYPT_BLOWFISH_A     =    5;
-
-    const CRYPT_BLOWFISH_X     =    6;
-
-    const CRYPT_BLOWFISH_Y     =    7;
-
-    const CRYPT_SHA256       =    8;
-
-    const CRYPT_SHA512       =    9;
+    protected workFactor = 8 { set, get };
 
     /**
      * Phalcon\Security constructor
      */
-    public function __construct()
+    public function __construct() -> void
     {
-        let this->_random = new Random();
+        let this->random = new Random();
     }
 
     /**
-     * Sets the dependency injector
+     * Checks a plain text password and its hash version to check if the password matches
      */
-    public function setDI(<DiInterface> container) -> void
+    public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> bool
     {
-        let this->container = container;
+        char ch;
+        string cryptedHash;
+        int i, sum, cryptedLength, passwordLength;
+
+        if maxPassLength {
+            if maxPassLength > 0 && strlen(password) > maxPassLength {
+                return false;
+            }
+        }
+
+        let cryptedHash = (string) crypt(password, passwordHash);
+
+        let cryptedLength = strlen(cryptedHash),
+            passwordLength = strlen(passwordHash);
+
+        let cryptedHash .= passwordHash;
+
+        let sum = cryptedLength - passwordLength;
+        for i, ch in passwordHash {
+            let sum = sum | (cryptedHash[i] ^ ch);
+        }
+
+        return 0 === sum;
     }
 
+    /**
+     * Check if the CSRF token sent in the request is the same that the current in session
+     */
+    public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
+    {
+        var container, session, request, equals, userToken, knownToken;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new Exception("A dependency injection container is required to access the 'session' service");
+        }
+
+        let session = <SessionInterface> container->getShared("session");
+
+        if !tokenKey {
+            let tokenKey = session->get(this->tokenKeySessionId);
+        }
+
+        /**
+         * If tokenKey does not exist in session return false
+         */
+        if !tokenKey {
+            return false;
+        }
+
+        if !tokenValue {
+            let request = container->getShared("request");
+
+            /**
+             * We always check if the value is correct in post
+             */
+            let userToken = request->getPost(tokenKey, "string");
+        } else {
+            let userToken = tokenValue;
+        }
+
+        /**
+         * The value is the same?
+         */
+        let knownToken = this->getRequestToken();
+        let equals = hash_equals(knownToken, userToken);
+
+        /**
+         * Remove the key and value of the CSRF token in session
+         */
+        if equals && destroyIfValid {
+            this->destroyToken();
+        }
+
+        return equals;
+    }
+
+    /**
+     * Computes a HMAC
+     */
+    public function computeHmac(string data, string key, string algo, bool raw = false) -> string
+    {
+        var hmac;
+
+        let hmac = hash_hmac(algo, data, key, raw);
+        if !hmac {
+            throw new Exception("Unknown hashing algorithm: %s" . algo);
+        }
+
+        return hmac;
+    }
+
+    /**
+     * Removes the value of the CSRF token and key from session
+     */
+    public function destroyToken() -> <Security>
+    {
+        var container, session;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new Exception("A dependency injection container is required to access the 'session' service");
+        }
+
+        let session = <SessionInterface> container->getShared("session");
+
+        session->remove(this->tokenKeySessionId);
+        session->remove(this->tokenValueSessionId);
+
+        let this->token = null;
+        let this->tokenKey = null;
+        let this->requestToken = null;
+
+        return this;
+    }
+
+    /**
+      * Returns the default hash
+      */
+    public function getDefaultHash() -> int | null
+    {
+        return this->defaultHash;
+    }
     /**
      * Returns the internal dependency injector
      */
@@ -102,13 +214,11 @@ class Security implements InjectionAwareInterface
     }
 
     /**
-     * Sets a number of bytes to be generated by the openssl pseudo random generator
+     * Returns a secure random number generator instance
      */
-    public function setRandomBytes(long! randomBytes) -> <Security>
+    public function getRandom() -> <Random>
     {
-        let this->_numberBytes = randomBytes;
-
-        return this;
+        return this->random;
     }
 
     /**
@@ -116,15 +226,36 @@ class Security implements InjectionAwareInterface
      */
     public function getRandomBytes() -> string
     {
-        return this->_numberBytes;
+        return this->numberBytes;
     }
 
     /**
-     * Returns a secure random number generator instance
+     * Returns the value of the CSRF token for the current request.
      */
-    public function getRandom() -> <Random>
+    public function getRequestToken() -> string
     {
-        return this->_random;
+        if empty this->requestToken {
+            return this->getSessionToken();
+        }
+        return this->requestToken;
+    }
+
+    /**
+     * Returns the value of the CSRF token in session
+     */
+    public function getSessionToken() -> string
+    {
+        var container, session;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new Exception("A dependency injection container is required to access the 'session' service");
+        }
+
+        let session = <SessionInterface> container->getShared("session");
+
+        return session->get(this->tokenValueSessionId);
     }
 
     /**
@@ -135,11 +266,11 @@ class Security implements InjectionAwareInterface
         var safeBytes;
 
         if !numberBytes {
-            let numberBytes = (int) this->_numberBytes;
+            let numberBytes = (int) this->numberBytes;
         }
 
         loop {
-            let safeBytes = this->_random->base64Safe(numberBytes);
+            let safeBytes = this->random->base64Safe(numberBytes);
 
             if !safeBytes || strlen(safeBytes) < numberBytes {
                 continue;
@@ -152,6 +283,51 @@ class Security implements InjectionAwareInterface
     }
 
     /**
+     * Generates a pseudo random token value to be used as input's value in a CSRF check
+     */
+    public function getToken() -> string
+    {
+        var container, session;
+
+        if null === this->token {
+            let this->requestToken = this->getSessionToken();
+            let this->token = this->random->base64Safe(this->numberBytes);
+
+            let container = <DiInterface> this->container;
+
+            if typeof container != "object" {
+                throw new Exception("A dependency injection container is required to access the 'session' service");
+            }
+
+            let session = <SessionInterface> container->getShared("session");
+            session->set(this->tokenValueSessionId, this->token);
+        }
+
+        return this->token;
+    }
+
+    /**
+     * Generates a pseudo random token key to be used as input's name in a CSRF check
+     */
+    public function getTokenKey() -> string
+    {
+        var container, session;
+
+        if null === this->tokenKey {
+            let container = <DiInterface> this->container;
+            if typeof container != "object" {
+                throw new Exception("A dependency injection container is required to access the 'session' service");
+            }
+
+            let this->tokenKey = this->random->base64Safe(this->numberBytes);
+            let session = <SessionInterface> container->getShared("session");
+            session->set(this->tokenKeySessionId, this->tokenKey);
+        }
+
+        return this->tokenKey;
+    }
+
+    /**
      * Creates a password hash using bcrypt with a pseudo random salt
      */
     public function hash(string password, int workFactor = 0) -> string
@@ -161,10 +337,10 @@ class Security implements InjectionAwareInterface
         var saltBytes;
 
         if !workFactor {
-            let workFactor = (int) this->_workFactor;
+            let workFactor = (int) this->workFactor;
         }
 
-        let hash = (int) this->_defaultHash;
+        let hash = (int) this->defaultHash;
 
         switch hash {
 
@@ -270,36 +446,6 @@ class Security implements InjectionAwareInterface
     }
 
     /**
-     * Checks a plain text password and its hash version to check if the password matches
-     */
-    public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> bool
-    {
-        char ch;
-        string cryptedHash;
-        int i, sum, cryptedLength, passwordLength;
-
-        if maxPassLength {
-            if maxPassLength > 0 && strlen(password) > maxPassLength {
-                return false;
-            }
-        }
-
-        let cryptedHash = (string) crypt(password, passwordHash);
-
-        let cryptedLength = strlen(cryptedHash),
-            passwordLength = strlen(passwordHash);
-
-        let cryptedHash .= passwordHash;
-
-        let sum = cryptedLength - passwordLength;
-        for i, ch in passwordHash {
-            let sum = sum | (cryptedHash[i] ^ ch);
-        }
-
-        return 0 === sum;
-    }
-
-    /**
      * Checks if a password hash is a valid bcrypt's hash
      */
     public function isLegacyHash(string passwordHash) -> bool
@@ -308,187 +454,30 @@ class Security implements InjectionAwareInterface
     }
 
     /**
-     * Generates a pseudo random token key to be used as input's name in a CSRF check
-     */
-    public function getTokenKey() -> string
-    {
-        var container, session;
-
-        if null === this->_tokenKey {
-            let container = <DiInterface> this->container;
-            if typeof container != "object" {
-                throw new Exception("A dependency injection container is required to access the 'session' service");
-            }
-
-            let this->_tokenKey = this->_random->base64Safe(this->_numberBytes);
-            let session = <SessionInterface> container->getShared("session");
-            session->set(this->_tokenKeySessionID, this->_tokenKey);
-        }
-
-        return this->_tokenKey;
-    }
-
-    /**
-     * Generates a pseudo random token value to be used as input's value in a CSRF check
-     */
-    public function getToken() -> string
-    {
-        var container, session;
-
-        if null === this->_token {
-            let this->_requestToken = this->getSessionToken();
-            let this->_token = this->_random->base64Safe(this->_numberBytes);
-
-            let container = <DiInterface> this->container;
-
-            if typeof container != "object" {
-                throw new Exception("A dependency injection container is required to access the 'session' service");
-            }
-
-            let session = <SessionInterface> container->getShared("session");
-            session->set(this->_tokenValueSessionID, this->_token);
-        }
-
-        return this->_token;
-    }
-
-    /**
-     * Check if the CSRF token sent in the request is the same that the current in session
-     */
-    public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
-    {
-        var container, session, request, equals, userToken, knownToken;
-
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'session' service");
-        }
-
-        let session = <SessionInterface> container->getShared("session");
-
-        if !tokenKey {
-            let tokenKey = session->get(this->_tokenKeySessionID);
-        }
-
-        /**
-         * If tokenKey does not exist in session return false
-         */
-        if !tokenKey {
-            return false;
-        }
-
-        if !tokenValue {
-            let request = container->getShared("request");
-
-            /**
-             * We always check if the value is correct in post
-             */
-            let userToken = request->getPost(tokenKey, "string");
-        } else {
-            let userToken = tokenValue;
-        }
-
-        /**
-         * The value is the same?
-         */
-        let knownToken = this->getRequestToken();
-        let equals = hash_equals(knownToken, userToken);
-
-        /**
-         * Remove the key and value of the CSRF token in session
-         */
-        if equals && destroyIfValid {
-            this->destroyToken();
-        }
-
-        return equals;
-    }
-
-    /**
-     * Returns the value of the CSRF token for the current request.
-     */
-    public function getRequestToken() -> string
-    {
-        if empty this->_requestToken {
-            return this->getSessionToken();
-        }
-        return this->_requestToken;
-    }
-
-    /**
-     * Returns the value of the CSRF token in session
-     */
-    public function getSessionToken() -> string
-    {
-        var container, session;
-
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'session' service");
-        }
-
-        let session = <SessionInterface> container->getShared("session");
-
-        return session->get(this->_tokenValueSessionID);
-    }
-
-    /**
-     * Removes the value of the CSRF token and key from session
-     */
-    public function destroyToken() -> <Security>
-    {
-        var container, session;
-
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'session' service");
-        }
-
-        let session = <SessionInterface> container->getShared("session");
-
-        session->remove(this->_tokenKeySessionID);
-        session->remove(this->_tokenValueSessionID);
-
-        let this->_token = null;
-        let this->_tokenKey = null;
-        let this->_requestToken = null;
-
-        return this;
-    }
-
-    /**
-     * Computes a HMAC
-     */
-    public function computeHmac(string data, string key, string algo, bool raw = false) -> string
-    {
-        var hmac;
-
-        let hmac = hash_hmac(algo, data, key, raw);
-        if !hmac {
-            throw new Exception("Unknown hashing algorithm: %s" . algo);
-        }
-
-        return hmac;
-    }
-
-    /**
       * Sets the default hash
       */
     public function setDefaultHash(int defaultHash) -> <Security>
     {
-        let this->_defaultHash = defaultHash;
+        let this->defaultHash = defaultHash;
 
         return this;
     }
 
     /**
-      * Returns the default hash
-      */
-    public function getDefaultHash() -> int | null
+     * Sets the dependency injector
+     */
+    public function setDI(<DiInterface> container) -> void
     {
-        return this->_defaultHash;
+        let this->container = container;
+    }
+
+    /**
+     * Sets a number of bytes to be generated by the openssl pseudo random generator
+     */
+    public function setRandomBytes(long! randomBytes) -> <Security>
+    {
+        let this->numberBytes = randomBytes;
+
+        return this;
     }
 }

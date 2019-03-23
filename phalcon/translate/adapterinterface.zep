@@ -17,13 +17,10 @@ namespace Phalcon\Translate;
  */
 interface AdapterInterface
 {
-
     /**
-     * Returns the translation string of the given key
-     *
-     * @param    array placeholders
+     * Check whether is defined a translation key in the internal array
      */
-    public function t(string! translateKey, placeholders = null) -> string;
+    public function exists(string! index) -> bool;
 
     /**
      * Returns the translation related to the given key
@@ -33,8 +30,9 @@ interface AdapterInterface
     public function query(string! index, placeholders = null) -> string;
 
     /**
-     * Check whether is defined a translation key in the internal array
+     * Returns the translation string of the given key
+     *
+     * @param    array placeholders
      */
-    public function exists(string! index) -> bool;
-
+    public function t(string! translateKey, placeholders = null) -> string;
 }

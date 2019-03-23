@@ -33,7 +33,7 @@ class NativeArray extends Adapter implements \ArrayAccess
     /**
      * Phalcon\Translate\Adapter\NativeArray constructor
      */
-    public function __construct(array! options)
+    public function __construct(array! options) -> void
     {
         var data, error;
 
