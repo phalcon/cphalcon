@@ -18,29 +18,9 @@ namespace Phalcon\Assets;
 interface AssetInterface
 {
     /**
-     * Sets the asset's type.
+     * Gets the asset's key.
      */
-    public function setType(string type) -> <AssetInterface>;
-
-    /**
-     * Gets the asset's type.
-     */
-    public function getType() -> string;
-
-    /**
-     * Sets if the asset must be filtered or not.
-     */
-    public function setFilter(bool filter) -> <AssetInterface>;
-
-    /**
-     * Gets if the asset must be filtered or not.
-     */
-    public function getFilter() -> bool;
-
-    /**
-     * Sets extra HTML attributes.
-     */
-    public function setAttributes(array attributes) -> <AssetInterface>;
+    public function getAssetKey() -> string;
 
     /**
      * Gets extra HTML attributes.
@@ -48,7 +28,27 @@ interface AssetInterface
     public function getAttributes() -> array | null;
 
     /**
-     * Gets the asset's key.
+     * Gets if the asset must be filtered or not.
      */
-    public function getAssetKey() -> string;
+    public function getFilter() -> bool;
+
+    /**
+     * Gets the asset's type.
+     */
+    public function getType() -> string;
+
+    /**
+     * Sets extra HTML attributes.
+     */
+    public function setAttributes(array attributes) -> <AssetInterface>;
+
+    /**
+     * Sets if the asset must be filtered or not.
+     */
+    public function setFilter(bool filter) -> <AssetInterface>;
+
+    /**
+     * Sets the asset's type.
+     */
+    public function setType(string type) -> <AssetInterface>;
 }

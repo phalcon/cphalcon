@@ -24,7 +24,7 @@ class Js extends InlineBase
      *
      * @param array attributes
      */
-    public function __construct(string content, bool filter = true, var attributes = null)
+    public function __construct(string content, bool filter = true, var attributes = null) -> void
     {
         if attributes == null {
             let attributes = ["type": "text/javascript"];
