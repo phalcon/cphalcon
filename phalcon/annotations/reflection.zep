@@ -35,20 +35,20 @@ use Phalcon\Annotations\Collection;
 class Reflection
 {
 
-    protected reflectionData;
+    protected _reflectionData;
 
-    protected classAnnotations;
+    protected _classAnnotations;
 
-    protected methodAnnotations;
+    protected _methodAnnotations;
 
-    protected propertyAnnotations;
+    protected _propertyAnnotations;
 
     /**
      * Phalcon\Annotations\Reflection constructor
      */
     public function __construct(array reflectionData = [])
     {
-        let this->reflectionData = reflectionData;
+        let this->_reflectionData = reflectionData;
     }
 
     /**
@@ -58,14 +58,14 @@ class Reflection
     {
         var annotations, reflectionClass, collection;
 
-        let annotations = this->classAnnotations;
+        let annotations = this->_classAnnotations;
         if typeof annotations != "object" {
-            if fetch reflectionClass, this->reflectionData["class"] {
+            if fetch reflectionClass, this->_reflectionData["class"] {
                 let collection = new Collection(reflectionClass),
-                    this->classAnnotations = collection;
+                    this->_classAnnotations = collection;
                 return collection;
             }
-            let this->classAnnotations = false;
+            let this->_classAnnotations = false;
             return false;
         }
         return annotations;
@@ -79,21 +79,21 @@ class Reflection
         var annotations, reflectionMethods,
             collections, methodName, reflectionMethod;
 
-        let annotations = this->methodAnnotations;
+        let annotations = this->_methodAnnotations;
         if typeof annotations != "object" {
 
-            if fetch reflectionMethods, this->reflectionData["methods"] {
+            if fetch reflectionMethods, this->_reflectionData["methods"] {
                 if count(reflectionMethods) {
                     let collections = [];
                     for methodName, reflectionMethod in reflectionMethods {
                         let collections[methodName] = new Collection(reflectionMethod);
                     }
-                    let this->methodAnnotations = collections;
+                    let this->_methodAnnotations = collections;
                     return collections;
                 }
             }
 
-            let this->methodAnnotations = false;
+            let this->_methodAnnotations = false;
             return false;
         }
         return annotations;
@@ -107,19 +107,19 @@ class Reflection
         var annotations, reflectionProperties,
             collections, property, reflectionProperty;
 
-        let annotations = this->propertyAnnotations;
+        let annotations = this->_propertyAnnotations;
         if typeof annotations != "object" {
-            if fetch reflectionProperties, this->reflectionData["properties"] {
+            if fetch reflectionProperties, this->_reflectionData["properties"] {
                 if count(reflectionProperties) {
                     let collections = [];
                     for property, reflectionProperty in reflectionProperties {
                         let collections[property] = new Collection(reflectionProperty);
                     }
-                    let this->propertyAnnotations = collections;
+                    let this->_propertyAnnotations = collections;
                     return collections;
                 }
             }
-            let this->propertyAnnotations = false;
+            let this->_propertyAnnotations = false;
             return false;
         }
 
@@ -131,7 +131,7 @@ class Reflection
      */
     public function getReflectionData() -> array
     {
-        return this->reflectionData;
+        return this->_reflectionData;
     }
 
     /**
@@ -142,9 +142,9 @@ class Reflection
         var reflectionData;
 
         /**
-         * Check for a 'reflectionData' in the array to build the Reflection
+         * Check for a '_reflectionData' in the array to build the Reflection
          */
-        if fetch reflectionData, data["reflectionData"] {
+        if fetch reflectionData, data["_reflectionData"] {
             return new self(reflectionData);
         }
 

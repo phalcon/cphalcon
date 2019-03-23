@@ -25,16 +25,16 @@ use Phalcon\Annotations\ReaderInterface;
 abstract class Adapter implements AdapterInterface
 {
 
-    protected reader;
+    protected _reader;
 
-    protected annotations;
+    protected _annotations;
 
     /**
      * Sets the annotations parser
      */
     public function setReader(<ReaderInterface> reader)
     {
-        let this->reader = reader;
+        let this->_reader = reader;
     }
 
     /**
@@ -42,10 +42,10 @@ abstract class Adapter implements AdapterInterface
      */
     public function getReader() -> <ReaderInterface>
     {
-        if typeof this->reader != "object" {
-            let this->reader = new Reader();
+        if typeof this->_reader != "object" {
+            let this->_reader = new Reader();
         }
-        return this->reader;
+        return this->_reader;
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class Adapter implements AdapterInterface
             let realClassName = className;
         }
 
-        let annotations = this->annotations;
+        let annotations = this->_annotations;
         if typeof annotations == "array" {
             if isset annotations[realClassName] {
                 return annotations[realClassName];
@@ -90,7 +90,7 @@ abstract class Adapter implements AdapterInterface
              */
             if typeof parsedAnnotations == "array" {
                 let classAnnotations = new Reflection(parsedAnnotations),
-                    this->annotations[realClassName] = classAnnotations;
+                    this->_annotations[realClassName] = classAnnotations;
                     this->{"write"}(realClassName, classAnnotations);
             }
         }

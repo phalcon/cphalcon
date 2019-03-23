@@ -24,7 +24,7 @@ class Memory extends Adapter
      * Data
      * @var mixed
      */
-    protected data;
+    protected _data;
 
     /**
      * Reads parsed annotations from memory
@@ -33,7 +33,7 @@ class Memory extends Adapter
     {
         var data;
 
-        if fetch data, this->data[strtolower(key)] {
+        if fetch data, this->_data[strtolower(key)] {
             return data;
         }
 
@@ -48,6 +48,6 @@ class Memory extends Adapter
         var lowercasedKey;
 
         let lowercasedKey = strtolower(key);
-        let this->data[lowercasedKey] = data;
+        let this->_data[lowercasedKey] = data;
     }
 }
