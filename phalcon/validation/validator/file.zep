@@ -85,6 +85,16 @@ use Phalcon\Validation\Validator;
  */
 class File extends Validator
 {
+    /**
+     * Check on empty
+     */
+    public function isAllowEmpty(<Validation> validation, string! field) -> bool
+    {
+        var value;
+        let value = validation->getValue(field);
+
+        return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
+    }
 
     /**
      * Executes the validation
@@ -286,16 +296,5 @@ class File extends Validator
         }
 
         return true;
-    }
-
-    /**
-     * Check on empty
-     */
-    public function isAllowEmpty(<Validation> validation, string! field) -> bool
-    {
-        var value;
-        let value = validation->getValue(field);
-
-        return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
     }
 }

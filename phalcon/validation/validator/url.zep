@@ -52,7 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class Url extends Validator
 {
-
     /**
      * Executes the validation
      */

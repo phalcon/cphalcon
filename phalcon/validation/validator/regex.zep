@@ -57,7 +57,6 @@ use Phalcon\Validation\Validator;
  */
 class Regex extends Validator
 {
-
     /**
      * Executes the validation
      */

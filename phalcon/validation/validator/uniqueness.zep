@@ -124,6 +124,25 @@ class Uniqueness extends CombinedFieldsValidator
         return true;
     }
 
+    /**
+     * The column map is used in the case to get real column name
+     */
+    protected function getColumnNameReal(var record, string! field) -> string
+    {
+        // Caching columnMap
+        if globals_get("orm.column_renaming") && !this->columnMap {
+            let this->columnMap = record->getDI()
+                ->getShared("modelsMetadata")
+                ->getColumnMap(record);
+        }
+
+        if typeof this->columnMap == "array" && isset this->columnMap[field] {
+            return this->columnMap[field];
+        }
+
+        return field;
+    }
+
     protected function isUniqueness(<Validation> validation, var field) -> bool
     {
         var values, convert, record, params, className, isModel, isDocument, singleField;
@@ -177,22 +196,69 @@ class Uniqueness extends CombinedFieldsValidator
     }
 
     /**
-     * The column map is used in the case to get real column name
+     * Uniqueness method used for collection
      */
-    protected function getColumnNameReal(var record, string! field) -> string
+    protected function isUniquenessCollection(var record, array field, array values)
     {
-        // Caching columnMap
-        if globals_get("orm.column_renaming") && !this->columnMap {
-            let this->columnMap = record->getDI()
-                ->getShared("modelsMetadata")
-                ->getColumnMap(record);
+        var exceptConditions, fieldExcept, notInValues, value, singleField, params, except, singleExcept;
+
+        let exceptConditions = [];
+        let params = ["conditions" : []];
+
+         for singleField in field {
+            let fieldExcept = null;
+            let notInValues = [];
+            let value = values[singleField];
+
+            let except = this->getOption("except");
+
+            if value != null {
+                let params["conditions"][singleField] = value;
+            } else {
+                let params["conditions"][singleField] = null;
+            }
+
+            if except {
+                if typeof except == "array" && count(field) > 1 {
+                    if isset except[singleField] {
+                        let fieldExcept = except[singleField];
+                    }
+                }
+
+                if fieldExcept != null {
+                    if typeof fieldExcept == "array" {
+                        for singleExcept in fieldExcept {
+                            let notInValues[] = singleExcept;
+                        }
+                        array arrayValue = ["$nin": notInValues];
+                        let exceptConditions[singleField] = arrayValue;
+                    } else {
+                        array arrayValue = ["$ne": fieldExcept];
+                        let exceptConditions[singleField] = arrayValue;
+                    }
+                } elseif typeof except == "array" && count(field) == 1 {
+                    for singleExcept in except {
+                        let notInValues[] = singleExcept;
+                    }
+                    array arrayValue = ["$nin": notInValues];
+                    let params["conditions"][singleField] = arrayValue;
+                } elseif count(field) == 1 {
+                    array arrayValue = ["$ne": except];
+                    let params["conditions"][singleField] = arrayValue;
+                }
+            }
         }
 
-        if typeof this->columnMap == "array" && isset this->columnMap[field] {
-            return this->columnMap[field];
+        if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
+            array arrayValue = ["$ne": record->getId()];
+            let params["conditions"]["_id"] = arrayValue;
         }
 
-        return field;
+        if !empty exceptConditions {
+            let params["conditions"]["$or"] = [exceptConditions];
+        }
+
+        return params;
     }
 
     /**
@@ -296,72 +362,6 @@ class Uniqueness extends CombinedFieldsValidator
         }
 
         let params["conditions"] = join(" AND ", params["conditions"]);
-
-        return params;
-    }
-
-    /**
-     * Uniqueness method used for collection
-     */
-    protected function isUniquenessCollection(var record, array field, array values)
-    {
-        var exceptConditions, fieldExcept, notInValues, value, singleField, params, except, singleExcept;
-
-        let exceptConditions = [];
-        let params = ["conditions" : []];
-
-         for singleField in field {
-            let fieldExcept = null;
-            let notInValues = [];
-            let value = values[singleField];
-
-            let except = this->getOption("except");
-
-            if value != null {
-                let params["conditions"][singleField] = value;
-            } else {
-                let params["conditions"][singleField] = null;
-            }
-
-            if except {
-                if typeof except == "array" && count(field) > 1 {
-                    if isset except[singleField] {
-                        let fieldExcept = except[singleField];
-                    }
-                }
-
-                if fieldExcept != null {
-                    if typeof fieldExcept == "array" {
-                        for singleExcept in fieldExcept {
-                            let notInValues[] = singleExcept;
-                        }
-                        array arrayValue = ["$nin": notInValues];
-                        let exceptConditions[singleField] = arrayValue;
-                    } else {
-                        array arrayValue = ["$ne": fieldExcept];
-                        let exceptConditions[singleField] = arrayValue;
-                    }
-                } elseif typeof except == "array" && count(field) == 1 {
-                    for singleExcept in except {
-                        let notInValues[] = singleExcept;
-                    }
-                    array arrayValue = ["$nin": notInValues];
-                    let params["conditions"][singleField] = arrayValue;
-                } elseif count(field) == 1 {
-                    array arrayValue = ["$ne": except];
-                    let params["conditions"][singleField] = arrayValue;
-                }
-            }
-        }
-
-        if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
-            array arrayValue = ["$ne": record->getId()];
-            let params["conditions"]["_id"] = arrayValue;
-        }
-
-        if !empty exceptConditions {
-            let params["conditions"]["$or"] = [exceptConditions];
-        }
 
         return params;
     }

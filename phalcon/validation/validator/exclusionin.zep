@@ -64,7 +64,6 @@ use Phalcon\Validation\Exception;
  */
 class ExclusionIn extends Validator
 {
-
     /**
      * Executes the validation
      */

@@ -63,7 +63,6 @@ use Phalcon\Validation\Validator;
  */
 class Between extends Validator
 {
-
     /**
      * Executes the validation
      */

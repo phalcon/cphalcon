@@ -21,22 +21,14 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Validator implements ValidatorInterface
 {
-    protected _options;
+    protected options;
 
     /**
      * Phalcon\Validation\Validator constructor
      */
-    public function __construct(array! options = null)
+    public function __construct(array! options = null) -> void
     {
-        let this->_options = options;
-    }
-
-    /**
-     * Checks if an option is defined
-     */
-    public function hasOption(string! key) -> bool
-    {
-        return isset this->_options[key];
+        let this->options = options;
     }
 
     /**
@@ -46,7 +38,7 @@ abstract class Validator implements ValidatorInterface
     public function getOption(string! key, var defaultValue = null) -> var
     {
         var options, value, fieldValue;
-        let options = this->_options;
+        let options = this->options;
 
         if typeof options == "array" {
             if fetch value, options[key] {
@@ -67,17 +59,40 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
+     * Checks if an option is defined
+     */
+    public function hasOption(string! key) -> bool
+    {
+        return isset this->options[key];
+    }
+
+    /**
      * Sets an option in the validator
      */
     public function setOption(string! key, value) -> void
     {
-        let this->_options[key] = value;
+        let this->options[key] = value;
     }
 
     /**
      * Executes the validation
      */
     abstract public function validate(<Validation> validation, var field) -> bool;
+
+    /**
+     * Prepares a validation code.
+     */
+    protected function prepareCode(string! field) -> int | null
+    {
+        var code;
+
+        let code = this->getOption("code");
+        if typeof code == "array" {
+            let code = code[field];
+        }
+
+        return code;
+    }
 
     /**
      * Prepares a label for the field.
@@ -115,20 +130,5 @@ abstract class Validator implements ValidatorInterface
         }
 
         return message;
-    }
-
-    /**
-     * Prepares a validation code.
-     */
-    protected function prepareCode(string! field) -> int | null
-    {
-        var code;
-
-        let code = this->getOption("code");
-        if typeof code == "array" {
-            let code = code[field];
-        }
-
-        return code;
     }
 }
