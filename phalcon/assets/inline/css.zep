@@ -24,7 +24,7 @@ class Css extends InlineBase
      *
      * @param array attributes
      */
-    public function __construct(string content, bool filter = true, attributes = null)
+    public function __construct(string content, bool filter = true, attributes = null) -> void
     {
         if attributes == null {
             let attributes = ["type": "text/css"];

@@ -64,7 +64,7 @@ class Asset implements AssetInterface
     /**
      * Phalcon\Assets\Asset constructor
      */
-    public function __construct(string type, string path, bool local = true, bool filter = true, array attributes = [])
+    public function __construct(string type, string path, bool local = true, bool filter = true, array attributes = []) -> void
     {
         let this->type = type,
             this->path = path,

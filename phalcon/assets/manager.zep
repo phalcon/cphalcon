@@ -28,16 +28,15 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 class Manager implements InjectionAwareInterface
 {
+    protected collections;
 
-    protected _dependencyInjector;
+    protected container;
 
     /**
      * Options configure
      * @var array
      */
     protected options;
-
-    protected collections;
 
     /**
      * @var bool
@@ -47,97 +46,26 @@ class Manager implements InjectionAwareInterface
     /**
      * Phalcon\Assets\Manager
      */
-    public function __construct(array options = [])
+    public function __construct(array options = []) -> void
     {
         let this->options = options;
     }
 
     /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> dependencyInjector)
-    {
-        let this->_dependencyInjector = dependencyInjector;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->_dependencyInjector;
-    }
-
-    /**
-     * Sets the manager options
-     */
-    public function setOptions(array! options) -> <Manager>
-    {
-        let this->options = options;
-        return this;
-    }
-
-    /**
-     * Returns the manager options
-     */
-    public function getOptions() -> array
-    {
-        return this->options;
-    }
-
-    /**
-     * Sets if the HTML generated must be directly printed or returned
-     */
-    public function useImplicitOutput(bool implicitOutput) -> <Manager>
-    {
-        let this->implicitOutput = implicitOutput;
-        return this;
-    }
-
-
-    /**
-    * Adds a Css asset to the 'css' collection
-    *
-    *<code>
-    *    assets->addCss("css/bootstrap.css");
-    *    assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
-    *</code>
-    */
-    public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
-    {
-        this->addAssetByType("css", new AssetCss(path, local, filter, attributes));
-        return this;
-    }
-
-    /**
-     * Adds an inline Css to the 'css' collection
-     */
-    public function addInlineCss(string content, filter = true, var attributes = null) -> <Manager>
-    {
-        this->addInlineCodeByType("css", new InlineCss(content, filter, attributes));
-        return this;
-    }
-
-    /**
-     * Adds a javascript asset to the 'js' collection
+     * Adds a raw asset to the manager
      *
      *<code>
-     * assets->addJs("scripts/jquery.js");
-     * assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
+     * assets->addAsset(
+     *     new Phalcon\Assets\Asset("css", "css/style.css")
+     * );
      *</code>
      */
-    public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
+    public function addAsset(<$Asset> asset) -> <Manager>
     {
-        this->addAssetByType("js", new AssetJs(path, local, filter, attributes));
-        return this;
-    }
-
-    /**
-     * Adds an inline javascript to the 'js' collection
-     */
-    public function addInlineJs(string content, filter = true, attributes = null) -> <Manager>
-    {
-        this->addInlineCodeByType("js", new InlineJs(content, filter, attributes));
+        /**
+         * Adds the asset by its type
+         */
+        this->addAssetByType(asset->getType(), asset);
         return this;
     }
 
@@ -168,6 +96,32 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
+    * Adds a Css asset to the 'css' collection
+    *
+    *<code>
+    *    assets->addCss("css/bootstrap.css");
+    *    assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
+    *</code>
+    */
+    public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
+    {
+        this->addAssetByType("css", new AssetCss(path, local, filter, attributes));
+        return this;
+    }
+
+    /**
+     * Adds a raw inline code to the manager
+     */
+    public function addInlineCode(<$Inline> code) -> <Manager>
+    {
+        /**
+         * Adds the inline code by its type
+         */
+        this->addInlineCodeByType(code->getType(), code);
+        return this;
+    }
+
+    /**
      * Adds an inline code by its type
      */
     public function addInlineCodeByType(string! type, <$Inline> code) -> <Manager>
@@ -188,46 +142,80 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
-     * Adds a raw asset to the manager
-     *
-     *<code>
-     * assets->addAsset(
-     *     new Phalcon\Assets\Asset("css", "css/style.css")
-     * );
-     *</code>
+     * Adds an inline Css to the 'css' collection
      */
-    public function addAsset(<$Asset> asset) -> <Manager>
+    public function addInlineCss(string content, filter = true, var attributes = null) -> <Manager>
     {
-        /**
-         * Adds the asset by its type
-         */
-        this->addAssetByType(asset->getType(), asset);
+        this->addInlineCodeByType("css", new InlineCss(content, filter, attributes));
         return this;
     }
 
     /**
-     * Adds a raw inline code to the manager
+     * Adds an inline javascript to the 'js' collection
      */
-    public function addInlineCode(<$Inline> code) -> <Manager>
+    public function addInlineJs(string content, filter = true, attributes = null) -> <Manager>
     {
-        /**
-         * Adds the inline code by its type
-         */
-        this->addInlineCodeByType(code->getType(), code);
+        this->addInlineCodeByType("js", new InlineJs(content, filter, attributes));
         return this;
     }
 
     /**
-     * Sets a collection in the Assets Manager
+     * Adds a javascript asset to the 'js' collection
      *
      *<code>
-     * assets->set("js", $collection);
+     * assets->addJs("scripts/jquery.js");
+     * assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
      *</code>
      */
-    public function set(string! id, <Collection> collection) -> <Manager>
+    public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
     {
-        let this->collections[id] = collection;
+        this->addAssetByType("js", new AssetJs(path, local, filter, attributes));
         return this;
+    }
+
+    /**
+     * Creates/Returns a collection of assets
+     */
+    public function collection(string name) -> <Collection>
+    {
+        var collection;
+
+        if !fetch collection, this->collections[name] {
+            let collection = new Collection();
+            let this->collections[name] = collection;
+        }
+
+        return collection;
+    }
+
+    /**
+     * Creates/Returns a collection of assets by type
+     */
+    public function collectionAssetsByType(array assets, string type) -> array
+    {
+        var $filtered = [], asset;
+        for asset in assets {
+            if asset->getType() == type {
+                let $filtered[] = asset;
+            }
+        }
+
+        return $filtered;
+    }
+
+    /**
+     * Returns true or false if collection exists.
+     *
+     * <code>
+     * if (assets->exists("jsHeader")) {
+     *     // \Phalcon\Assets\Collection
+     *     $collection = assets->get("jsHeader");
+     * }
+     * </code>
+     */
+    public function exists(string! id) -> bool
+    {
+        return isset this->collections[id];
     }
 
     /**
@@ -249,6 +237,14 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
+     * Returns existing collections in the manager
+     */
+    public function getCollections() -> <Collection[]>
+    {
+        return this->collections;
+    }
+
+    /**
      * Returns the CSS collection of assets
      */
     public function getCss() -> <Collection>
@@ -263,6 +259,14 @@ class Manager implements InjectionAwareInterface
         }
 
         return collection;
+    }
+
+    /**
+     * Returns the internal dependency injector
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
     }
 
     /**
@@ -283,30 +287,11 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
-     * Creates/Returns a collection of assets
+     * Returns the manager options
      */
-    public function collection(string name) -> <Collection>
+    public function getOptions() -> array
     {
-        var collection;
-
-        if !fetch collection, this->collections[name] {
-            let collection = new Collection();
-            let this->collections[name] = collection;
-        }
-
-        return collection;
-    }
-
-    public function collectionAssetsByType(array assets, string type) -> array
-    {
-        var $filtered = [], asset;
-        for asset in assets {
-            if asset->getType() == type {
-                let $filtered[] = asset;
-            }
-        }
-
-        return $filtered;
+        return this->options;
     }
 
     /**
@@ -719,6 +704,30 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
+     * Prints the HTML for CSS assets
+     */
+    public function outputCss(string collectionName = null) -> string
+    {
+        var collection, container, tag, callback;
+
+        if !collectionName {
+            let collection = this->getCss();
+        } else {
+            let collection = this->get(collectionName);
+        }
+
+        let callback = ["Phalcon\\Tag", "stylesheetLink"];
+
+        let container = this->container;
+        if typeof container == "object" && container->has("tag") {
+            let tag = container->getShared("tag");
+            let callback = [tag, "stylesheetLink"];
+        }
+
+        return this->output(collection, callback, "css");
+    }
+
+    /**
      * Traverses a collection and generate its HTML
      *
      * @param string type
@@ -779,30 +788,6 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
-     * Prints the HTML for CSS assets
-     */
-    public function outputCss(string collectionName = null) -> string
-    {
-        var collection, dependencyInjector, tag, callback;
-
-        if !collectionName {
-            let collection = this->getCss();
-        } else {
-            let collection = this->get(collectionName);
-        }
-
-        let callback = ["Phalcon\\Tag", "stylesheetLink"];
-
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
-            let tag = dependencyInjector->getShared("tag");
-            let callback = [tag, "stylesheetLink"];
-        }
-
-        return this->output(collection, callback, "css");
-    }
-
-    /**
      * Prints the HTML for inline CSS
      */
     public function outputInlineCss(string collectionName = null) -> string
@@ -816,30 +801,6 @@ class Manager implements InjectionAwareInterface
         }
 
         return this->outputInline(collection, "style");
-    }
-
-    /**
-     * Prints the HTML for JS assets
-     */
-    public function outputJs(string collectionName = null) -> string
-    {
-        var collection, dependencyInjector, tag, callback;
-
-        if !collectionName {
-            let collection = this->getJs();
-        } else {
-            let collection = this->get(collectionName);
-        }
-
-        let callback = ["Phalcon\\Tag", "javascriptInclude"];
-
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
-            let tag = dependencyInjector->getShared("tag");
-            let callback = [tag, "javascriptInclude"];
-        }
-
-        return this->output(collection, callback, "js");
     }
 
     /**
@@ -859,25 +820,65 @@ class Manager implements InjectionAwareInterface
     }
 
     /**
-     * Returns existing collections in the manager
+     * Prints the HTML for JS assets
      */
-    public function getCollections() -> <Collection[]>
+    public function outputJs(string collectionName = null) -> string
     {
-        return this->collections;
+        var collection, container, tag, callback;
+
+        if !collectionName {
+            let collection = this->getJs();
+        } else {
+            let collection = this->get(collectionName);
+        }
+
+        let callback = ["Phalcon\\Tag", "javascriptInclude"];
+
+        let container = this->container;
+        if typeof container == "object" && container->has("tag") {
+            let tag = container->getShared("tag");
+            let callback = [tag, "javascriptInclude"];
+        }
+
+        return this->output(collection, callback, "js");
     }
 
     /**
-     * Returns true or false if collection exists.
+     * Sets a collection in the Assets Manager
      *
-     * <code>
-     * if (assets->exists("jsHeader")) {
-     *     // \Phalcon\Assets\Collection
-     *     $collection = assets->get("jsHeader");
-     * }
-     * </code>
+     *<code>
+     * assets->set("js", $collection);
+     *</code>
      */
-    public function exists(string! id) -> bool
+    public function set(string! id, <Collection> collection) -> <Manager>
     {
-        return isset this->collections[id];
+        let this->collections[id] = collection;
+        return this;
+    }
+
+    /**
+     * Sets the dependency injector
+     */
+    public function setDI(<DiInterface> container) -> void
+    {
+        let this->container = container;
+    }
+
+    /**
+     * Sets the manager options
+     */
+    public function setOptions(array! options) -> <Manager>
+    {
+        let this->options = options;
+        return this;
+    }
+
+    /**
+     * Sets if the HTML generated must be directly printed or returned
+     */
+    public function useImplicitOutput(bool implicitOutput) -> <Manager>
+    {
+        let this->implicitOutput = implicitOutput;
+        return this;
     }
 }

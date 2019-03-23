@@ -21,11 +21,10 @@ namespace Phalcon\Assets;
  */
 class $Inline implements AssetInterface
 {
-
     /**
-     * @var string
+     * @var array | null
      */
-    protected type { get };
+    protected attributes { get };
 
     protected content { get };
 
@@ -35,14 +34,14 @@ class $Inline implements AssetInterface
     protected filter { get };
 
     /**
-     * @var array | null
+     * @var string
      */
-    protected attributes { get };
+    protected type { get };
 
     /**
      * Phalcon\Assets\Inline constructor
      */
-    public function __construct(string type, string content, bool filter = true, array attributes = [])
+    public function __construct(string type, string content, bool filter = true, array attributes = []) -> void
     {
         let this->type = type,
             this->content = content,
@@ -51,11 +50,23 @@ class $Inline implements AssetInterface
     }
 
     /**
-     * Sets the inline's type
+     * Gets the asset's key.
      */
-    public function setType(string type) -> <AssetInterface>
+    public function getAssetKey() -> string
     {
-        let this->type = type;
+        var key;
+
+        let key = this->getType() . ":" . this->getContent();
+
+        return md5(key);
+    }
+
+    /**
+     * Sets extra HTML attributes
+     */
+    public function setAttributes(array attributes) -> <AssetInterface>
+    {
+        let this->attributes = attributes;
         return this;
     }
 
@@ -69,23 +80,11 @@ class $Inline implements AssetInterface
     }
 
     /**
-     * Sets extra HTML attributes
+     * Sets the inline's type
      */
-    public function setAttributes(array attributes) -> <AssetInterface>
+    public function setType(string type) -> <AssetInterface>
     {
-        let this->attributes = attributes;
+        let this->type = type;
         return this;
-    }
-
-    /**
-     * Gets the asset's key.
-     */
-    public function getAssetKey() -> string
-    {
-        var key;
-
-        let key = this->getType() . ":" . this->getContent();
-
-        return md5(key);
     }
 }
