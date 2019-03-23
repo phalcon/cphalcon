@@ -537,11 +537,11 @@ class Micro extends Injectable implements \ArrayAccess
 
         let container = this->container;
         if typeof container != "object" {
-            let container = new FactoryDefault();
-            let this->container = container;
+            let dependencyInjector = new FactoryDefault();
+            let this->container = dependencyInjector;
         }
 
-        return container->getShared(serviceName);
+        return dependencyInjector->getShared(serviceName);
     }
 
     /**
@@ -552,14 +552,14 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function handle(string! uri)
     {
-        var container, eventsManager, status = null, router, matchedRoute,
+        var dependencyInjector, eventsManager, status = null, router, matchedRoute,
             handler, beforeHandlers, params, returnedValue, e, errorHandler,
             afterHandlers, notFoundHandler, finishHandlers, finish, before, after,
             response, modelBinder, bindCacheKey, routeName, realHandler = null, methodName, lazyReturned,
             afterBindingHandlers, afterBinding;
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection container is required to access required micro services");
         }
 
@@ -580,7 +580,7 @@ class Micro extends Injectable implements \ArrayAccess
             /**
              * Handling routing information
              */
-            let router = <RouterInterface> container->getShared("router");
+            let router = <RouterInterface> dependencyInjector->getShared("router");
 
             /**
              * Handle the URI as normal
@@ -981,7 +981,7 @@ class Micro extends Injectable implements \ArrayAccess
              * Check if the returned value is a string and take it as response body
              */
             if typeof returnedValue == "string" {
-                let response = <ResponseInterface> container->getShared("response");
+                let response = <ResponseInterface> dependencyInjector->getShared("response");
                 if !response->isSent() {
                     response->setContent(returnedValue);
                     response->send();
@@ -1082,15 +1082,15 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function offsetUnset(var alias) -> void
     {
-        var container;
+        var dependencyInjector;
 
-        let container = this->container;
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-            let this->container = container;
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector != "object" {
+            let dependencyInjector = new FactoryDefault();
+            let this->container = dependencyInjector;
         }
 
-        container->remove(alias);
+        dependencyInjector->remove(alias);
     }
 
     /**
@@ -1175,11 +1175,11 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Micro>
     {
-        var container;
+        var dependencyInjector;
 
         if typeof cache == "string" {
-            let container = this->container;
-            let cache = container->get(cache);
+            let dependencyInjector = this->container;
+            let cache = dependencyInjector->get(cache);
         }
 
         if cache != null {

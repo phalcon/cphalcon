@@ -264,7 +264,7 @@ class Complex extends Resultset implements ResultsetInterface
      */
     public function serialize() -> string
     {
-        var records, cache, columnTypes, hydrateMode, container, serializer;
+        var records, cache, columnTypes, hydrateMode, dependencyInjector, serializer;
         /**
          * Obtain the records as an array
          */
@@ -273,12 +273,12 @@ class Complex extends Resultset implements ResultsetInterface
         let cache = this->_cache,
             columnTypes = this->_columnTypes,
             hydrateMode = this->_hydrateMode;
-        let container = Di::getDefault();
-        if typeof container != "object" {
+        let dependencyInjector = Di::getDefault();
+        if typeof dependencyInjector != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
+        if dependencyInjector->has("serializer") {
+            let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
             return serializer->beforeStore([
                 "cache"          : cache,
                 "rows"          : records,
@@ -300,17 +300,17 @@ class Complex extends Resultset implements ResultsetInterface
      */
     public function unserialize(var data) -> void
     {
-        var resultset, container, serializer;
+        var resultset, dependencyInjector, serializer;
         /**
         * Rows are already hydrated
         */
         let this->_disableHydration = true;
-        let container = Di::getDefault();
-        if typeof container != "object" {
+        let dependencyInjector = Di::getDefault();
+        if typeof dependencyInjector != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
+        if dependencyInjector->has("serializer") {
+            let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
             let resultset = serializer->afterRetrieve(data);
         } else {
             let resultset = unserialize(data);

@@ -467,10 +467,10 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     protected function _createCache() -> <BackendInterface>
     {
-        var container, cacheService, cacheOptions, viewCache;
+        var dependencyInjector, cacheService, cacheOptions, viewCache;
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the view cache services");
         }
 
@@ -486,7 +486,7 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * The injected service must be an object
          */
-        let viewCache = <BackendInterface> container->getShared(cacheService);
+        let viewCache = <BackendInterface> dependencyInjector->getShared(cacheService);
         if typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }

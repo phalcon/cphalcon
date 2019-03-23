@@ -160,7 +160,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function getOption(option, filters = null, defaultValue = null) -> var
     {
-        var options, filter, optionValue, container;
+        var options, filter, optionValue, dependencyInjector;
 
         let options = this->options;
         if !fetch optionValue, options[option] {
@@ -171,15 +171,15 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
             return optionValue;
         }
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector != "object" {
             this->{"_throwDispatchException"}(
                 "A dependency injection object is required to access the 'filter' service",
                 CliDispatcher::EXCEPTION_NO_DI
             );
         }
-        let filter = <LocatorInterface> container->getShared("filter");
-//        let filter = <FilterInterface> container->getShared("filter");
+        let filter = <LocatorInterface> dependencyInjector->getShared("filter");
+//        let filter = <FilterInterface> dependencyInjector->getShared("filter");
 
         return filter->sanitize(optionValue, filters);
     }

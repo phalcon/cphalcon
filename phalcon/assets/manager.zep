@@ -29,7 +29,7 @@ use Phalcon\Di\InjectionAwareInterface;
 class Manager implements InjectionAwareInterface
 {
 
-    protected container;
+    protected _dependencyInjector;
 
     /**
      * Options configure
@@ -55,9 +55,9 @@ class Manager implements InjectionAwareInterface
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -783,7 +783,7 @@ class Manager implements InjectionAwareInterface
      */
     public function outputCss(string collectionName = null) -> string
     {
-        var collection, container, tag, callback;
+        var collection, dependencyInjector, tag, callback;
 
         if !collectionName {
             let collection = this->getCss();
@@ -793,9 +793,9 @@ class Manager implements InjectionAwareInterface
 
         let callback = ["Phalcon\\Tag", "stylesheetLink"];
 
-        let container = this->container;
-        if typeof container == "object" && container->has("tag") {
-            let tag = container->getShared("tag");
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
+            let tag = dependencyInjector->getShared("tag");
             let callback = [tag, "stylesheetLink"];
         }
 
@@ -823,7 +823,7 @@ class Manager implements InjectionAwareInterface
      */
     public function outputJs(string collectionName = null) -> string
     {
-        var collection, container, tag, callback;
+        var collection, dependencyInjector, tag, callback;
 
         if !collectionName {
             let collection = this->getJs();
@@ -833,9 +833,9 @@ class Manager implements InjectionAwareInterface
 
         let callback = ["Phalcon\\Tag", "javascriptInclude"];
 
-        let container = this->container;
-        if typeof container == "object" && container->has("tag") {
-            let tag = container->getShared("tag");
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
+            let tag = dependencyInjector->getShared("tag");
             let callback = [tag, "javascriptInclude"];
         }
 
