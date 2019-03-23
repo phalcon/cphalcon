@@ -21,14 +21,14 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Validator implements ValidatorInterface
 {
-    protected _options;
+    protected options;
 
     /**
      * Phalcon\Validation\Validator constructor
      */
     public function __construct(array! options = null)
     {
-        let this->_options = options;
+        let this->options = options;
     }
 
     /**
@@ -36,7 +36,7 @@ abstract class Validator implements ValidatorInterface
      */
     public function hasOption(string! key) -> bool
     {
-        return isset this->_options[key];
+        return isset this->options[key];
     }
 
     /**
@@ -46,7 +46,7 @@ abstract class Validator implements ValidatorInterface
     public function getOption(string! key, var defaultValue = null) -> var
     {
         var options, value, fieldValue;
-        let options = this->_options;
+        let options = this->options;
 
         if typeof options == "array" {
             if fetch value, options[key] {
@@ -71,7 +71,7 @@ abstract class Validator implements ValidatorInterface
      */
     public function setOption(string! key, value) -> void
     {
-        let this->_options[key] = value;
+        let this->options[key] = value;
     }
 
     /**

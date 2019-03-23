@@ -19,30 +19,30 @@ abstract class Adapter implements AdapterInterface
     /**
      * Number of rows to show in the paginator. By default is null
      */
-    protected _limitRows = null;
+    protected limitRows = null;
 
     /**
      * Current page in paginate
      */
-    protected _page = null;
+    protected page = null;
 
     /**
      * Repository for pagination
      * @var RepositoryInterface
      */
-    protected _repository;
+    protected repository;
 
     /**
      * Configuration of paginator by model
      */
-    protected _config = null;
+    protected config = null;
 
     /**
      * Phalcon\Paginator\Adapter\Model constructor
      */
     public function __construct(array! config)
     {
-        let this->_config = config;
+        let this->config = config;
 
         if isset config["limit"] {
             this->setLimit(config["limit"]);
@@ -62,7 +62,7 @@ abstract class Adapter implements AdapterInterface
      */
     public function setCurrentPage(int page) -> <Adapter>
     {
-        let this->_page = page;
+        let this->page = page;
         return this;
     }
 
@@ -71,7 +71,7 @@ abstract class Adapter implements AdapterInterface
      */
     public function setLimit(int limitRows) -> <Adapter>
     {
-        let this->_limitRows = limitRows;
+        let this->limitRows = limitRows;
         return this;
     }
 
@@ -80,7 +80,7 @@ abstract class Adapter implements AdapterInterface
      */
     public function getLimit() -> int
     {
-        return this->_limitRows;
+        return this->limitRows;
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class Adapter implements AdapterInterface
      */
     public function setRepository(<RepositoryInterface> repository) -> <Adapter>
     {
-        let this->_repository = repository;
+        let this->repository = repository;
         return this;
     }
 
@@ -97,14 +97,14 @@ abstract class Adapter implements AdapterInterface
      */
     protected function getRepository(array properties = null) -> <RepositoryInterface>
     {
-        if typeof this->_repository != "object" {
-            let this->_repository = new Repository();
+        if typeof this->repository != "object" {
+            let this->repository = new Repository();
         }
 
         if properties !== null {
-            this->_repository->setProperties(properties);
+            this->repository->setProperties(properties);
         }
 
-        return this->_repository;
+        return this->repository;
     }
 }

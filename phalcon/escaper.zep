@@ -32,13 +32,13 @@ use Phalcon\Escaper\Exception;
 class Escaper implements EscaperInterface
 {
 
-    protected _encoding = "utf-8";
+    protected encoding = "utf-8";
 
-    protected _htmlEscapeMap = null;
+    protected htmlEscapeMap = null;
 
-    protected _htmlQuoteType = 3;
+    protected htmlQuoteType = 3;
 
-    protected _doubleEncode = true;
+    protected doubleEncode = true;
 
     /**
      * Sets the encoding to be used by the escaper
@@ -49,7 +49,7 @@ class Escaper implements EscaperInterface
      */
     public function setEncoding(string encoding) -> void
     {
-        let this->_encoding = encoding;
+        let this->encoding = encoding;
     }
 
     /**
@@ -57,7 +57,7 @@ class Escaper implements EscaperInterface
      */
     public function getEncoding() -> string
     {
-        return this->_encoding;
+        return this->encoding;
     }
 
     /**
@@ -69,7 +69,7 @@ class Escaper implements EscaperInterface
      */
     public function setHtmlQuoteType(int quoteType) -> void
     {
-        let this->_htmlQuoteType = quoteType;
+        let this->htmlQuoteType = quoteType;
     }
 
     /**
@@ -81,12 +81,12 @@ class Escaper implements EscaperInterface
      */
     public function setDoubleEncode(bool doubleEncode) -> void
     {
-        let this->_doubleEncode = doubleEncode;
+        let this->doubleEncode = doubleEncode;
     }
 
     /**
      * Detect the character encoding of a string to be handled by an encoder
-     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
+     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detectencoding()
      */
     public final function detectEncoding(string str) -> string | null
     {
@@ -103,7 +103,7 @@ class Escaper implements EscaperInterface
         /**
         * We require mbstring extension here
         */
-        if !function_exists("mb_detect_encoding") {
+        if !function_exists("mb_detectencoding") {
             return null;
         }
 
@@ -112,7 +112,7 @@ class Escaper implements EscaperInterface
          * Check encoding
          */
         for charset in ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"] {
-            if mb_detect_encoding(str, charset, true) {
+            if mb_detectencoding(str, charset, true) {
                 return charset;
             }
         }
@@ -120,7 +120,7 @@ class Escaper implements EscaperInterface
         /**
          * Fallback to global detection
          */
-        return mb_detect_encoding(str);
+        return mb_detectencoding(str);
     }
 
     /**
@@ -131,7 +131,7 @@ class Escaper implements EscaperInterface
         /**
          * mbstring is required here
          */
-        if !function_exists("mb_convert_encoding") {
+        if !function_exists("mb_convertencoding") {
             throw new Exception("Extension 'mbstring' is required");
         }
 
@@ -139,7 +139,7 @@ class Escaper implements EscaperInterface
          * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
          * the character).
          */
-        return mb_convert_encoding(str, "UTF-32", this->detectEncoding(str));
+        return mb_convertencoding(str, "UTF-32", this->detectEncoding(str));
     }
 
     /**
@@ -147,7 +147,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtml(string text) -> string
     {
-        return htmlspecialchars(text, this->_htmlQuoteType, this->_encoding, this->_doubleEncode);
+        return htmlspecialchars(text, this->htmlQuoteType, this->encoding, this->doubleEncode);
     }
 
     /**
@@ -155,7 +155,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtmlAttr(string attribute) -> string
     {
-        return htmlspecialchars(attribute, ENT_QUOTES, this->_encoding, this->_doubleEncode);
+        return htmlspecialchars(attribute, ENT_QUOTES, this->encoding, this->doubleEncode);
     }
 
     /**

@@ -24,13 +24,13 @@ use SplPriorityQueue;
 class Manager implements ManagerInterface
 {
 
-    protected _events = null;
+    protected events = null;
 
-    protected _collect = false;
+    protected collect = false;
 
-    protected _enablePriorities = false;
+    protected enablePriorities = false;
 
-    protected _responses;
+    protected responses;
 
     /**
      * Attach a listener to the events manager
@@ -45,9 +45,9 @@ class Manager implements ManagerInterface
             throw new Exception("Event handler must be an Object");
         }
 
-        if !fetch priorityQueue, this->_events[eventType] {
+        if !fetch priorityQueue, this->events[eventType] {
 
-            if this->_enablePriorities {
+            if this->enablePriorities {
 
                 // Create a SplPriorityQueue to store the events with priorities
                 let priorityQueue = new SplPriorityQueue();
@@ -56,7 +56,7 @@ class Manager implements ManagerInterface
                 priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
 
                 // Append the events to the queue
-                let this->_events[eventType] = priorityQueue;
+                let this->events[eventType] = priorityQueue;
 
             } else {
                 let priorityQueue = [];
@@ -69,7 +69,7 @@ class Manager implements ManagerInterface
         } else {
             // Append the events to the queue
             let priorityQueue[] = handler,
-                this->_events[eventType] = priorityQueue;
+                this->events[eventType] = priorityQueue;
         }
 
     }
@@ -87,7 +87,7 @@ class Manager implements ManagerInterface
             throw new Exception("Event handler must be an Object");
         }
 
-        if fetch priorityQueue, this->_events[eventType] {
+        if fetch priorityQueue, this->events[eventType] {
 
             if typeof priorityQueue == "object" {
 
@@ -106,13 +106,13 @@ class Manager implements ManagerInterface
                     }
                 }
 
-                let this->_events[eventType] = newPriorityQueue;
+                let this->events[eventType] = newPriorityQueue;
             } else {
                 let key = array_search(handler, priorityQueue, true);
                 if key !== false {
                     unset priorityQueue[key];
                 }
-                let this->_events[eventType] = priorityQueue;
+                let this->events[eventType] = priorityQueue;
             }
         }
     }
@@ -122,7 +122,7 @@ class Manager implements ManagerInterface
      */
     public function enablePriorities(bool enablePriorities)
     {
-        let this->_enablePriorities = enablePriorities;
+        let this->enablePriorities = enablePriorities;
     }
 
     /**
@@ -130,7 +130,7 @@ class Manager implements ManagerInterface
      */
     public function arePrioritiesEnabled() -> bool
     {
-        return this->_enablePriorities;
+        return this->enablePriorities;
     }
 
     /**
@@ -139,7 +139,7 @@ class Manager implements ManagerInterface
      */
     public function collectResponses(bool collect)
     {
-        let this->_collect = collect;
+        let this->collect = collect;
     }
 
     /**
@@ -148,7 +148,7 @@ class Manager implements ManagerInterface
      */
     public function isCollecting() -> bool
     {
-        return this->_collect;
+        return this->collect;
     }
 
     /**
@@ -156,7 +156,7 @@ class Manager implements ManagerInterface
      */
     public function getResponses() -> array
     {
-        return this->_responses;
+        return this->responses;
     }
 
     /**
@@ -165,10 +165,10 @@ class Manager implements ManagerInterface
     public function detachAll(string! type = null)
     {
         if type === null {
-            let this->_events = null;
+            let this->events = null;
         } else {
-            if isset this->_events[type] {
-                unset this->_events[type];
+            if isset this->events[type] {
+                unset this->events[type];
             }
         }
     }
@@ -217,7 +217,7 @@ class Manager implements ManagerInterface
         let cancelable = (bool) event->isCancelable();
 
         // Responses need to be traced?
-        let collect = (bool) this->_collect;
+        let collect = (bool) this->collect;
 
         if typeof queue == "object" {
 
@@ -249,7 +249,7 @@ class Manager implements ManagerInterface
 
                         // Trace the response
                         if collect {
-                            let this->_responses[] = status;
+                            let this->responses[] = status;
                         }
 
                         if cancelable {
@@ -270,7 +270,7 @@ class Manager implements ManagerInterface
 
                             // Collect the response
                             if collect {
-                                let this->_responses[] = status;
+                                let this->responses[] = status;
                             }
 
                             if cancelable {
@@ -305,7 +305,7 @@ class Manager implements ManagerInterface
 
                         // Trace the response
                         if collect {
-                            let this->_responses[] = status;
+                            let this->responses[] = status;
                         }
 
                         if cancelable {
@@ -326,7 +326,7 @@ class Manager implements ManagerInterface
 
                             // Collect the response
                             if collect {
-                                let this->_responses[] = status;
+                                let this->responses[] = status;
                             }
 
                             if cancelable {
@@ -360,7 +360,7 @@ class Manager implements ManagerInterface
     {
         var events, eventParts, type, eventName, event, status, fireEvents;
 
-        let events = this->_events;
+        let events = this->events;
         if typeof events != "array" {
             return null;
         }
@@ -377,8 +377,8 @@ class Manager implements ManagerInterface
         let status = null;
 
         // Responses must be traced?
-        if this->_collect {
-            let this->_responses = null;
+        if this->collect {
+            let this->responses = null;
         }
 
         let event = null;
@@ -419,7 +419,7 @@ class Manager implements ManagerInterface
      */
     public function hasListeners(string! type) -> bool
     {
-        return isset this->_events[type];
+        return isset this->events[type];
     }
 
     /**
@@ -428,7 +428,7 @@ class Manager implements ManagerInterface
     public function getListeners(string! type) -> array
     {
         var events, fireEvents;
-        let events = this->_events;
+        let events = this->events;
         if typeof events == "array" {
             if fetch fireEvents, events[type] {
                 return fireEvents;

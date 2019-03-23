@@ -26,21 +26,21 @@ use Phalcon\Di\InjectionAwareInterface;
 abstract class Flash implements FlashInterface, InjectionAwareInterface
 {
 
-    protected _autoescape = true;
+    protected autoescape = true;
 
-    protected _automaticHtml = true;
+    protected automaticHtml = true;
 
-    protected _cssClasses;
+    protected cssClasses;
 
-    protected _customTemplate = "";
+    protected customTemplate = "";
 
-    protected _dependencyInjector = null;
+    protected container = null;
 
-    protected _escaperService = null;
+    protected escaperService = null;
 
-    protected _implicitFlush = true;
+    protected implicitFlush = true;
 
-    protected _messages;
+    protected messages;
 
     /**
      * Phalcon\Flash constructor
@@ -55,7 +55,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
                 "warning": "warningMessage"
             ];
         }
-        let this->_cssClasses = cssClasses;
+        let this->cssClasses = cssClasses;
     }
 
     /**
@@ -63,7 +63,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function clear() -> void
     {
-        let this->_messages = [];
+        let this->messages = [];
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function getAutoescape() -> bool
     {
-        return this->_autoescape;
+        return this->autoescape;
     }
 
     /**
@@ -91,7 +91,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function getCustomTemplate() -> string
     {
-        return this->_customTemplate;
+        return this->customTemplate;
     }
 
     /**
@@ -100,7 +100,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function getDI() -> <DiInterface>
     {
         var di;
-        let di = this->_dependencyInjector;
+        let di = this->container;
 
         if typeof di != "object" {
             let di = Di::getDefault();
@@ -114,14 +114,14 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function getEscaperService() -> <EscaperInterface>
     {
-        var escaper, dependencyInjector;
+        var escaper, container;
 
-        let escaper = this->_escaperService;
+        let escaper = this->escaperService;
         if typeof escaper != "object" {
-            let dependencyInjector = <DiInterface> this->getDI();
+            let container = <DiInterface> this->getDI();
 
-            let escaper = <EscaperInterface> dependencyInjector->getShared("escaper"),
-                this->_escaperService = escaper;
+            let escaper = <EscaperInterface> container->getShared("escaper"),
+                this->escaperService = escaper;
         }
 
         return escaper;
@@ -143,7 +143,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function setAutoescape(bool autoescape) -> <Flash>
     {
-        let this->_autoescape = autoescape;
+        let this->autoescape = autoescape;
         return this;
     }
 
@@ -152,7 +152,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function setAutomaticHtml(bool automaticHtml) -> <FlashInterface>
     {
-        let this->_automaticHtml = automaticHtml;
+        let this->automaticHtml = automaticHtml;
         return this;
     }
 
@@ -161,7 +161,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function setCssClasses(array! cssClasses) -> <FlashInterface>
     {
-        let this->_cssClasses = cssClasses;
+        let this->cssClasses = cssClasses;
         return this;
     }
 
@@ -170,16 +170,16 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function setCustomTemplate(string! customTemplate) -> <FlashInterface>
     {
-        let this->_customTemplate = customTemplate;
+        let this->customTemplate = customTemplate;
         return this;
     }
 
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> dependencyInjector) -> <Flash>
+    public function setDI(<DiInterface> container) -> <Flash>
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
         return this;
     }
 
@@ -188,7 +188,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function setEscaperService(<EscaperInterface> escaperService) -> <Flash>
     {
-        let this->_escaperService = escaperService;
+        let this->escaperService = escaperService;
         return this;
     }
 
@@ -197,7 +197,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     public function setImplicitFlush(bool implicitFlush) -> <FlashInterface>
     {
-        let this->_implicitFlush = implicitFlush;
+        let this->implicitFlush = implicitFlush;
         return this;
     }
 
@@ -229,7 +229,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
         var content, msg,
             htmlMessage, preparedMsg;
 
-        let implicitFlush = (bool) this->_implicitFlush;
+        let implicitFlush = (bool) this->implicitFlush;
         if typeof message == "array" {
 
             /**
@@ -257,7 +257,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
                     echo htmlMessage;
                 } else {
                     let content .= htmlMessage;
-                    let this->_messages[] = htmlMessage;
+                    let this->messages[] = htmlMessage;
                 }
             }
 
@@ -285,7 +285,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             if implicitFlush === true {
                 echo htmlMessage;
             } else {
-                let this->_messages[] = htmlMessage;
+                let this->messages[] = htmlMessage;
                 return htmlMessage;
             }
         }
@@ -306,7 +306,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
     private function getTemplate(string cssClassses) -> string
     {
-        if ("" === this->_customTemplate) {
+        if ("" === this->customTemplate) {
             if ("" === cssClassses) {
                 return "<div>%message%</div>" . PHP_EOL;
             } else {
@@ -314,7 +314,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             }
         }
 
-        return this->_customTemplate;
+        return this->customTemplate;
     }
 
     /**
@@ -325,7 +325,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     {
         var autoEscape, escaper;
 
-        let autoEscape = (bool) this->_autoescape;
+        let autoEscape = (bool) this->autoescape;
 
         if autoEscape === true {
             let escaper = this->getEscaperService();
@@ -343,10 +343,10 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     {
         var classes, cssClasses, typeClasses, automaticHtml;
 
-        let automaticHtml = (bool) this->_automaticHtml;
+        let automaticHtml = (bool) this->automaticHtml;
 
         if automaticHtml === true {
-            let classes = this->_cssClasses;
+            let classes = this->cssClasses;
             if fetch typeClasses, classes[type] {
                 if typeof typeClasses == "array" {
                     let cssClasses = join(" ", typeClasses);

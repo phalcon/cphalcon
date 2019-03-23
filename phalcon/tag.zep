@@ -26,33 +26,33 @@ class Tag
     /**
      * Pre-assigned values for components
      */
-    protected static _displayValues;
+    protected static displayValues;
 
     /**
      * HTML document title
      */
-    protected static _documentTitle = null;
+    protected static documentTitle = null;
 
-    protected static _documentAppendTitle = null;
+    protected static documentAppendTitle = null;
 
-    protected static _documentPrependTitle = null;
+    protected static documentPrependTitle = null;
 
-    protected static _documentTitleSeparator = null;
+    protected static documentTitleSeparator = null;
 
-    protected static _documentType = 11;
+    protected static documentType = 11;
 
     /**
      * Framework Dispatcher
      */
-    protected static _dependencyInjector;
+    protected static container;
 
-    protected static _urlService = null;
+    protected static urlService = null;
 
-    protected static _dispatcherService = null;
+    protected static dispatcherService = null;
 
-    protected static _escaperService = null;
+    protected static escaperService = null;
 
-    protected static _autoEscape = true;
+    protected static autoEscape = true;
 
     const HTML32 = 1;
 
@@ -84,7 +84,7 @@ class Tag
         var autoescape;
 
         if !fetch autoescape, params["escape"] {
-            let autoescape = self::_autoEscape;
+            let autoescape = self::autoEscape;
         }
 
         if !autoescape {
@@ -152,9 +152,9 @@ class Tag
     /**
      * Sets the dependency injector container.
      */
-    public static function setDI(<DiInterface> dependencyInjector)
+    public static function setDI(<DiInterface> container)
     {
-        let self::_dependencyInjector = dependencyInjector;
+        let self::container = container;
     }
 
     /**
@@ -163,7 +163,7 @@ class Tag
     public static function getDI() -> <DiInterface>
     {
         var di;
-        let di = self::_dependencyInjector;
+        let di = self::container;
         if typeof di != "object" {
             let di = Di::getDefault();
         }
@@ -175,19 +175,19 @@ class Tag
      */
     public static function getUrlService() -> <UrlInterface>
     {
-        var url, dependencyInjector;
+        var url, container;
 
-        let url = self::_urlService;
+        let url = self::urlService;
         if typeof url != "object" {
 
-            let dependencyInjector = self::getDI();
+            let container = self::getDI();
 
-            if typeof dependencyInjector != "object" {
+            if typeof container != "object" {
                 throw new Exception("A dependency injector container is required to obtain the 'url' service");
             }
 
-            let url = <UrlInterface> dependencyInjector->getShared("url"),
-                self::_urlService = url;
+            let url = <UrlInterface> container->getShared("url"),
+                self::urlService = url;
         }
         return url;
     }
@@ -197,19 +197,19 @@ class Tag
      */
     public static function getEscaperService() -> <EscaperInterface>
     {
-        var escaper, dependencyInjector;
+        var escaper, container;
 
-        let escaper = self::_escaperService;
+        let escaper = self::escaperService;
         if typeof escaper != "object" {
 
-            let dependencyInjector = self::getDI();
+            let container = self::getDI();
 
-            if typeof dependencyInjector != "object" {
+            if typeof container != "object" {
                 throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
             }
 
-            let escaper = <EscaperInterface> dependencyInjector->getShared("escaper"),
-                self::_escaperService = escaper;
+            let escaper = <EscaperInterface> container->getShared("escaper"),
+                self::escaperService = escaper;
         }
         return escaper;
     }
@@ -219,7 +219,7 @@ class Tag
      */
     public static function setAutoescape(bool autoescape) -> void
     {
-        let self::_autoEscape = autoescape;
+        let self::autoEscape = autoescape;
     }
 
     /**
@@ -242,7 +242,7 @@ class Tag
                 throw new Exception("Only scalar values can be assigned to UI components");
             }
         }
-        let self::_displayValues[id] = value;
+        let self::displayValues[id] = value;
     }
 
     /**
@@ -262,10 +262,10 @@ class Tag
      */
     public static function setDefaults(array! values, bool merge = false) -> void
     {
-        if merge && typeof self::_displayValues == "array" {
-            let self::_displayValues = array_merge(self::_displayValues, values);
+        if merge && typeof self::displayValues == "array" {
+            let self::displayValues = array_merge(self::displayValues, values);
         } else {
-            let self::_displayValues = values;
+            let self::displayValues = values;
         }
     }
 
@@ -289,7 +289,7 @@ class Tag
         /**
          * Check if there is a predefined or a POST value for it
          */
-        return isset self::_displayValues[name] || isset _POST[name];
+        return isset self::displayValues[name] || isset _POST[name];
     }
 
     /**
@@ -307,7 +307,7 @@ class Tag
             /**
              * Check if there is a predefined value for it
              */
-            if !fetch value, self::_displayValues[name] {
+            if !fetch value, self::displayValues[name] {
                 /**
                  * Check if there is a post value for the item
                  */
@@ -326,11 +326,11 @@ class Tag
      */
     deprecated public static function resetInput() -> void
     {
-        let self::_displayValues = [],
-            self::_documentTitle = null,
-            self::_documentAppendTitle = [],
-            self::_documentPrependTitle = [],
-            self::_documentTitleSeparator = null;
+        let self::displayValues = [],
+            self::documentTitle = null,
+            self::documentAppendTitle = [],
+            self::documentPrependTitle = [],
+            self::documentTitleSeparator = null;
     }
 
     /**
@@ -494,7 +494,7 @@ class Tag
         /**
          * Check if Doctype is XHTML
          */
-        if self::_documentType > self::HTML5 {
+        if self::documentType > self::HTML5 {
             let code .= " />";
         } else {
             let code .= ">";
@@ -575,7 +575,7 @@ class Tag
         /**
          * Check if Doctype is XHTML
          */
-        if self::_documentType > self::HTML5 {
+        if self::documentType > self::HTML5 {
             let code .= " />";
         } else {
             let code .= ">";
@@ -1092,7 +1092,7 @@ class Tag
      */
     public static function setTitle(string title) -> void
     {
-        let self::_documentTitle = title;
+        let self::documentTitle = title;
     }
 
     /**
@@ -1104,7 +1104,7 @@ class Tag
      */
     public static function setTitleSeparator(string titleSeparator) -> void
     {
-        let self::_documentTitleSeparator = titleSeparator;
+        let self::documentTitleSeparator = titleSeparator;
     }
 
     /**
@@ -1112,14 +1112,14 @@ class Tag
      */
     public static function appendTitle(var title) -> void
     {
-        if typeof self::_documentAppendTitle == "null" {
-            let self::_documentAppendTitle = [];
+        if typeof self::documentAppendTitle == "null" {
+            let self::documentAppendTitle = [];
         }
 
         if typeof title == "array" {
-            let self::_documentAppendTitle = title ;
+            let self::documentAppendTitle = title ;
         } else {
-            let self::_documentAppendTitle[] = title ;
+            let self::documentAppendTitle[] = title ;
         }
     }
 
@@ -1128,14 +1128,14 @@ class Tag
      */
     public static function prependTitle(var title) -> void
     {
-        if typeof self::_documentPrependTitle == "null" {
-            let self::_documentPrependTitle = [];
+        if typeof self::documentPrependTitle == "null" {
+            let self::documentPrependTitle = [];
         }
 
         if typeof title == "array" {
-            let self::_documentPrependTitle = title ;
+            let self::documentPrependTitle = title ;
         } else {
-            let self::_documentPrependTitle[] = title ;
+            let self::documentPrependTitle[] = title ;
         }
     }
 
@@ -1165,15 +1165,15 @@ class Tag
         let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
         let items = [];
         let output = "";
-        let documentTitle = escaper->escapeHtml(self::_documentTitle);
-        let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
+        let documentTitle = escaper->escapeHtml(self::documentTitle);
+        let documentTitleSeparator = escaper->escapeHtml(self::documentTitleSeparator);
 
         if prepend {
-            if typeof self::_documentPrependTitle == "null" {
-                let self::_documentPrependTitle = [];
+            if typeof self::documentPrependTitle == "null" {
+                let self::documentPrependTitle = [];
             }
 
-            let documentPrependTitle = self::_documentPrependTitle;
+            let documentPrependTitle = self::documentPrependTitle;
 
             if !empty documentPrependTitle {
                 var tmp = array_reverse(documentPrependTitle);
@@ -1188,11 +1188,11 @@ class Tag
         }
 
         if append {
-            if typeof self::_documentAppendTitle == "null" {
-                let self::_documentAppendTitle = [];
+            if typeof self::documentAppendTitle == "null" {
+                let self::documentAppendTitle = [];
             }
 
-            let documentAppendTitle = self::_documentAppendTitle;
+            let documentAppendTitle = self::documentAppendTitle;
 
             if !empty documentAppendTitle {
                 for title in documentAppendTitle {
@@ -1248,7 +1248,7 @@ class Tag
      */
     public static function getTitleSeparator() -> string
     {
-        return self::_documentTitleSeparator;
+        return self::documentTitleSeparator;
     }
 
     /**
@@ -1314,7 +1314,7 @@ class Tag
         /**
          * Check if Doctype is XHTML
          */
-        if self::_documentType > self::HTML5 {
+        if self::documentType > self::HTML5 {
             let code .= " />" . PHP_EOL;
         } else {
             let code .= ">" . PHP_EOL;
@@ -1358,7 +1358,7 @@ class Tag
             }
         }
 
-        if !isset params["type"] && self::_documentType < self::HTML5 {
+        if !isset params["type"] && self::documentType < self::HTML5 {
             let params["type"] = "text/javascript";
         }
 
@@ -1439,7 +1439,7 @@ class Tag
         /**
          * Check if Doctype is XHTML
          */
-        if self::_documentType > self::HTML5 {
+        if self::documentType > self::HTML5 {
             let code .= " />";
         } else {
             let code .= ">";
@@ -1504,9 +1504,9 @@ class Tag
     public static function setDocType(int doctype) -> void
     {
         if (doctype < self::HTML32 || doctype > self::XHTML5) {
-            let self::_documentType = self::HTML5;
+            let self::documentType = self::HTML5;
         } else {
-            let self::_documentType = doctype;
+            let self::documentType = doctype;
         }
     }
 
@@ -1515,7 +1515,7 @@ class Tag
      */
     public static function getDocType() -> string
     {
-        switch self::_documentType
+        switch self::documentType
         {
             case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
             /* no break */
@@ -1571,7 +1571,7 @@ class Tag
         /**
          * Check if Doctype is XHTML
          */
-        if self::_documentType > self::HTML5 {
+        if self::documentType > self::HTML5 {
             if selfClose {
                 let localCode .= " />";
             } else {

@@ -24,27 +24,27 @@ use Phalcon\Events\ManagerInterface;
 abstract class Application extends Injectable implements EventsAwareInterface
 {
 
-    protected _eventsManager;
+    protected eventsManager;
 
-    protected _dependencyInjector;
+    protected container;
 
     /**
      * @var string
      */
-    protected _defaultModule;
+    protected defaultModule;
 
     /**
      * @var array
      */
-    protected _modules = [];
+    protected modules = [];
 
     /**
      * Phalcon\Application
      */
-    public function __construct(<DiInterface> dependencyInjector = null)
+    public function __construct(<DiInterface> container = null)
     {
-        if typeof dependencyInjector == "object" {
-            let this->_dependencyInjector = dependencyInjector;
+        if typeof container == "object" {
+            let this->container = container;
         }
     }
 
@@ -53,7 +53,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> <Application>
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
 
         return this;
     }
@@ -63,7 +63,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
      */
     public function getEventsManager() -> <ManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -87,9 +87,9 @@ abstract class Application extends Injectable implements EventsAwareInterface
     public function registerModules(array modules, bool merge = false) -> <Application>
     {
         if merge {
-            let this->_modules = array_merge(this->_modules, modules);
+            let this->modules = array_merge(this->modules, modules);
         } else {
-            let this->_modules = modules;
+            let this->modules = modules;
         }
 
         return this;
@@ -100,7 +100,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
      */
     public function getModules() -> array
     {
-        return this->_modules;
+        return this->modules;
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
     {
         var module;
 
-        if !fetch module, this->_modules[name] {
+        if !fetch module, this->modules[name] {
             throw new Exception("Module '" . name . "' isn't registered in the application container");
         }
 
@@ -122,7 +122,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
      */
     public function setDefaultModule(string! defaultModule) -> <Application>
     {
-        let this->_defaultModule = defaultModule;
+        let this->defaultModule = defaultModule;
         return this;
     }
 
@@ -131,7 +131,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
      */
     public function getDefaultModule() -> string
     {
-        return this->_defaultModule;
+        return this->defaultModule;
     }
 
     /**

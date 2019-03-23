@@ -17,15 +17,15 @@ namespace Phalcon\Paginator;
  */
 class Repository implements RepositoryInterface
 {
-    protected _properties = [];
-    protected _aliases = [];
+    protected properties = [];
+    protected aliases = [];
 
     /**
      * {@inheritdoc}
      */
     public function setProperties(array properties) -> <RepositoryInterface>
     {
-        let this->_properties = properties;
+        let this->properties = properties;
         return this;
     }
 
@@ -34,7 +34,7 @@ class Repository implements RepositoryInterface
      */
     public function setAliases(array aliases) -> <RepositoryInterface>
     {
-        let this->_aliases = aliases;
+        let this->aliases = aliases;
         return this;
     }
 
@@ -43,7 +43,7 @@ class Repository implements RepositoryInterface
      */
     public function getAliases() -> array
     {
-        return this->_aliases;
+        return this->aliases;
     }
 
     /**
@@ -134,7 +134,7 @@ class Repository implements RepositoryInterface
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {
-        return isset this->_properties[property] ? this->_properties[property] : defaultValue;
+        return isset this->properties[property] ? this->properties[property] : defaultValue;
     }
 
     /**

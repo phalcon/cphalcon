@@ -39,23 +39,23 @@ class Security implements InjectionAwareInterface
 
     protected container;
 
-    protected _workFactor = 8 { set, get };
+    protected workFactor = 8 { set, get };
 
-    protected _numberBytes = 16;
+    protected numberBytes = 16;
 
-    protected _tokenKeySessionID = "$PHALCON/CSRF/KEY$";
+    protected tokenKeySessionID = "$PHALCON/CSRF/KEY$";
 
-    protected _tokenValueSessionID = "$PHALCON/CSRF$";
+    protected tokenValueSessionID = "$PHALCON/CSRF$";
 
-    protected _token;
+    protected token;
 
-    protected _tokenKey;
+    protected tokenKey;
 
-    protected _requestToken;
+    protected requestToken;
 
-    protected _random;
+    protected random;
 
-    protected _defaultHash;
+    protected defaultHash;
 
     const CRYPT_DEFAULT       =    0;
 
@@ -82,7 +82,7 @@ class Security implements InjectionAwareInterface
      */
     public function __construct()
     {
-        let this->_random = new Random();
+        let this->random = new Random();
     }
 
     /**
@@ -106,7 +106,7 @@ class Security implements InjectionAwareInterface
      */
     public function setRandomBytes(long! randomBytes) -> <Security>
     {
-        let this->_numberBytes = randomBytes;
+        let this->numberBytes = randomBytes;
 
         return this;
     }
@@ -116,7 +116,7 @@ class Security implements InjectionAwareInterface
      */
     public function getRandomBytes() -> string
     {
-        return this->_numberBytes;
+        return this->numberBytes;
     }
 
     /**
@@ -124,7 +124,7 @@ class Security implements InjectionAwareInterface
      */
     public function getRandom() -> <Random>
     {
-        return this->_random;
+        return this->random;
     }
 
     /**
@@ -135,11 +135,11 @@ class Security implements InjectionAwareInterface
         var safeBytes;
 
         if !numberBytes {
-            let numberBytes = (int) this->_numberBytes;
+            let numberBytes = (int) this->numberBytes;
         }
 
         loop {
-            let safeBytes = this->_random->base64Safe(numberBytes);
+            let safeBytes = this->random->base64Safe(numberBytes);
 
             if !safeBytes || strlen(safeBytes) < numberBytes {
                 continue;
@@ -161,10 +161,10 @@ class Security implements InjectionAwareInterface
         var saltBytes;
 
         if !workFactor {
-            let workFactor = (int) this->_workFactor;
+            let workFactor = (int) this->workFactor;
         }
 
-        let hash = (int) this->_defaultHash;
+        let hash = (int) this->defaultHash;
 
         switch hash {
 
@@ -314,18 +314,18 @@ class Security implements InjectionAwareInterface
     {
         var container, session;
 
-        if null === this->_tokenKey {
+        if null === this->tokenKey {
             let container = <DiInterface> this->container;
             if typeof container != "object" {
                 throw new Exception("A dependency injection container is required to access the 'session' service");
             }
 
-            let this->_tokenKey = this->_random->base64Safe(this->_numberBytes);
+            let this->tokenKey = this->random->base64Safe(this->numberBytes);
             let session = <SessionInterface> container->getShared("session");
-            session->set(this->_tokenKeySessionID, this->_tokenKey);
+            session->set(this->tokenKeySessionID, this->tokenKey);
         }
 
-        return this->_tokenKey;
+        return this->tokenKey;
     }
 
     /**
@@ -335,9 +335,9 @@ class Security implements InjectionAwareInterface
     {
         var container, session;
 
-        if null === this->_token {
-            let this->_requestToken = this->getSessionToken();
-            let this->_token = this->_random->base64Safe(this->_numberBytes);
+        if null === this->token {
+            let this->requestToken = this->getSessionToken();
+            let this->token = this->random->base64Safe(this->numberBytes);
 
             let container = <DiInterface> this->container;
 
@@ -346,10 +346,10 @@ class Security implements InjectionAwareInterface
             }
 
             let session = <SessionInterface> container->getShared("session");
-            session->set(this->_tokenValueSessionID, this->_token);
+            session->set(this->tokenValueSessionID, this->token);
         }
 
-        return this->_token;
+        return this->token;
     }
 
     /**
@@ -368,7 +368,7 @@ class Security implements InjectionAwareInterface
         let session = <SessionInterface> container->getShared("session");
 
         if !tokenKey {
-            let tokenKey = session->get(this->_tokenKeySessionID);
+            let tokenKey = session->get(this->tokenKeySessionID);
         }
 
         /**
@@ -410,10 +410,10 @@ class Security implements InjectionAwareInterface
      */
     public function getRequestToken() -> string
     {
-        if empty this->_requestToken {
+        if empty this->requestToken {
             return this->getSessionToken();
         }
-        return this->_requestToken;
+        return this->requestToken;
     }
 
     /**
@@ -431,7 +431,7 @@ class Security implements InjectionAwareInterface
 
         let session = <SessionInterface> container->getShared("session");
 
-        return session->get(this->_tokenValueSessionID);
+        return session->get(this->tokenValueSessionID);
     }
 
     /**
@@ -449,12 +449,12 @@ class Security implements InjectionAwareInterface
 
         let session = <SessionInterface> container->getShared("session");
 
-        session->remove(this->_tokenKeySessionID);
-        session->remove(this->_tokenValueSessionID);
+        session->remove(this->tokenKeySessionID);
+        session->remove(this->tokenValueSessionID);
 
-        let this->_token = null;
-        let this->_tokenKey = null;
-        let this->_requestToken = null;
+        let this->token = null;
+        let this->tokenKey = null;
+        let this->requestToken = null;
 
         return this;
     }
@@ -479,7 +479,7 @@ class Security implements InjectionAwareInterface
       */
     public function setDefaultHash(int defaultHash) -> <Security>
     {
-        let this->_defaultHash = defaultHash;
+        let this->defaultHash = defaultHash;
 
         return this;
     }
@@ -489,6 +489,6 @@ class Security implements InjectionAwareInterface
       */
     public function getDefaultHash() -> int | null
     {
-        return this->_defaultHash;
+        return this->defaultHash;
     }
 }

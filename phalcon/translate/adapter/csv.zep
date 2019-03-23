@@ -21,7 +21,7 @@ use Phalcon\Translate\Adapter;
 class Csv extends Adapter implements \ArrayAccess
 {
 
-    protected _translate = [];
+    protected translate = [];
 
     /**
      * Phalcon\Translate\Adapter\Csv constructor
@@ -75,7 +75,7 @@ class Csv extends Adapter implements \ArrayAccess
                 continue;
             }
 
-            let this->_translate[data[0]] = data[1];
+            let this->translate[data[0]] = data[1];
         }
 
         fclose(fileHandler);
@@ -88,7 +88,7 @@ class Csv extends Adapter implements \ArrayAccess
     {
         var translation;
 
-        if !fetch translation, this->_translate[index] {
+        if !fetch translation, this->translate[index] {
             let translation = index;
         }
 
@@ -100,6 +100,6 @@ class Csv extends Adapter implements \ArrayAccess
      */
     public function exists(string! index) -> bool
     {
-        return isset this->_translate[index];
+        return isset this->translate[index];
     }
 }
