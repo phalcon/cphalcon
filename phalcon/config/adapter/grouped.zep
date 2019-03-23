@@ -68,11 +68,10 @@ use Phalcon\Config\Factory;
  */
 class Grouped extends Config
 {
-
     /**
      * Phalcon\Config\Adapter\Grouped constructor
      */
-    public function __construct(array! arrayConfig, string! defaultAdapter = "php")
+    public function __construct(array! arrayConfig, string! defaultAdapter = "php") -> void
     {
         var configName, configInstance, configArray;
 
@@ -84,7 +83,7 @@ class Grouped extends Config
             // Set to default adapter if passed as string
             if typeof configName === "string" {
                 if defaultAdapter === "" {
-                    this->_merge(Factory::load(configName));
+                    this->internalMerge(Factory::load(configName));
                     continue;
                 }
 
@@ -106,7 +105,7 @@ class Grouped extends Config
                 let configInstance = Factory::load(configInstance);
             }
 
-            this->_merge(configInstance);
+            this->internalMerge(configInstance);
         }
     }
 }

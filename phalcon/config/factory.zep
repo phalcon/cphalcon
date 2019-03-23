@@ -37,7 +37,7 @@ class Factory extends BaseFactory
         return self::loadClass("Phalcon\\Config\\Adapter", config);
     }
 
-    protected static function loadClass(string $namespace, var config)
+    protected static function loadClass(string namespaceClass, var config)
     {
         var adapter, className, mode, callbacks, filePath, extension, oldConfig;
 
@@ -68,7 +68,7 @@ class Factory extends BaseFactory
         }
 
         if fetch adapter, config["adapter"] {
-            let className = $namespace."\\".camelize(adapter);
+            let className = namespaceClass."\\".camelize(adapter);
             if !strpos(filePath, ".") {
                 let filePath = filePath.".".lcfirst(adapter);
             }

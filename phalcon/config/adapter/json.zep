@@ -34,11 +34,10 @@ use Phalcon\Config;
  */
 class Json extends Config
 {
-
     /**
      * Phalcon\Config\Adapter\Json constructor
      */
-    public function __construct(string! filePath)
+    public function __construct(string! filePath) -> void
     {
         parent::__construct(json_decode(file_get_contents(filePath), true));
     }
