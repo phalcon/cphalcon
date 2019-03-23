@@ -129,7 +129,7 @@ class Simple extends Injectable implements ViewBaseInterface
         let engines = this->_engines;
         if engines === false {
 
-            let di = this->container;
+            let di = this->_dependencyInjector;
 
             let engines = [];
 
@@ -469,7 +469,7 @@ class Simple extends Injectable implements ViewBaseInterface
     {
         var dependencyInjector, cacheService, cacheOptions, viewCache;
 
-        let dependencyInjector = this->container;
+        let dependencyInjector = this->_dependencyInjector;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the view cache services");
         }

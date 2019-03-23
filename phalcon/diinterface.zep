@@ -91,7 +91,7 @@ interface DiInterface extends \ArrayAccess
     /**
      * Set a default dependency injection container to be obtained into static methods
      */
-    public static function setDefault(<DiInterface> container);
+    public static function setDefault(<DiInterface> dependencyInjector);
 
     /**
      * Return the last DI created

@@ -262,7 +262,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Update the dependency injector if any
          */
         if typeof dependencyInjector == "object" {
-            let this->container = dependencyInjector;
+            let this->_dependencyInjector = dependencyInjector;
         }
     }
 
@@ -271,7 +271,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function setDI(<DiInterface> dependencyInjector) -> <BuilderInterface>
     {
-        let this->container = dependencyInjector;
+        let this->_dependencyInjector = dependencyInjector;
         return this;
     }
 
@@ -280,7 +280,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -977,10 +977,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             limit, number, offset, forUpdate, distinct;
         bool noPrimary;
 
-        let dependencyInjector = this->container;
+        let dependencyInjector = this->_dependencyInjector;
         if typeof dependencyInjector != "object" {
             let dependencyInjector = Di::getDefault(),
-                this->container = dependencyInjector;
+                this->_dependencyInjector = dependencyInjector;
         }
 
         let models = this->_models;
@@ -1318,7 +1318,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let phql = this->getPhql();
 
-        let dependencyInjector = <DiInterface> this->container;
+        let dependencyInjector = <DiInterface> this->_dependencyInjector;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access ORM services");
         }

@@ -34,7 +34,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
     public _id;
 
-    protected _container;
+    protected _dependencyInjector;
 
     protected _modelsManager;
 
@@ -71,26 +71,26 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Phalcon\Mvc\Collection constructor
      */
-    public final function __construct(<DiInterface> container = null, <ManagerInterface> modelsManager = null)
+    public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
     {
         /**
          * We use a default DI if the user doesn't define one
          */
-        if typeof container != "object" {
-            let container = Di::getDefault();
+        if typeof dependencyInjector != "object" {
+            let dependencyInjector = Di::getDefault();
         }
 
-        if typeof container != "object" {
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
         }
 
-        let this->container = container;
+        let this->_dependencyInjector = dependencyInjector;
 
         /**
          * Inject the manager service from the DI
          */
         if typeof modelsManager != "object" {
-            let modelsManager = container->getShared("collectionManager");
+            let modelsManager = dependencyInjector->getShared("collectionManager");
             if typeof modelsManager != "object" {
                 throw new Exception("The injected service 'modelsManager' is not valid");
             }
@@ -153,9 +153,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**
@@ -163,7 +163,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -201,7 +201,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         if typeof reserved != "array" {
             let reserved = [
                 "_connection": true,
-                "_container": true,
+                "_dependencyInjector": true,
                 "_source": true,
                 "_operationMade": true,
                 "_errorMessages": true,
@@ -509,7 +509,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Executes internal hooks before save a document
      */
-    protected final function _preSave(<DiInterface> container, bool disableEvents, bool exists) -> bool
+    protected final function _preSave(<DiInterface> dependencyInjector, bool disableEvents, bool exists) -> bool
     {
         var eventName;
 
@@ -844,10 +844,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     protected function prepareCU()
     {
-        var container, connection, source, collection;
+        var dependencyInjector, connection, source, collection;
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->_dependencyInjector;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
         }
 
@@ -894,7 +894,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Execute the preSave hook
          */
-        if this->_preSave(this->container, self::_disableEvents, exists) === false {
+        if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
             return false;
         }
 
@@ -950,7 +950,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Execute the preSave hook
          */
-        if this->_preSave(this->container, self::_disableEvents, exists) === false {
+        if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
             return false;
         }
 
@@ -1035,7 +1035,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Execute the preSave hook
          */
-        if this->_preSave(this->container, self::_disableEvents, exists) === false {
+        if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
             return false;
         }
 
@@ -1103,7 +1103,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Execute the preSave hook
          */
-        if this->_preSave(this->container, self::_disableEvents, exists) === false {
+        if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
             return false;
         }
 
@@ -1550,18 +1550,18 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function serialize() -> string
     {
-        var container, serializer;
+        var dependencyInjector, serializer;
 
         /**
          * Obtain the default DI
          */
-        let container = Di::getDefault();
-        if typeof container != "object" {
+        let dependencyInjector = Di::getDefault();
+        if typeof dependencyInjector != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
 
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> this->container->getShared("serializer");
+        if dependencyInjector->has("serializer") {
+            let serializer = <FrontendInterface> this->_dependencyInjector->getShared("serializer");
             return serializer->beforeStore(this->toArray());
         }
 
@@ -1576,22 +1576,22 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function unserialize(var data)
     {
-        var attributes, container, manager, key, value, serializer;
+        var attributes, dependencyInjector, manager, key, value, serializer;
 
         /**
          * Obtain the default DI
          */
-        let container = Di::getDefault();
-        if typeof container != "object" {
+        let dependencyInjector = Di::getDefault();
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
         /**
          * Update the dependency injector
          */
-        let this->container = container;
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
+        let this->_dependencyInjector = dependencyInjector;
+        if dependencyInjector->has("serializer") {
+            let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
             let attributes = serializer->afterRetrieve(data);
         } else {
             let attributes = unserialize(data);
@@ -1600,7 +1600,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             /**
              * Gets the default modelsManager service
              */
-            let manager = container->getShared("collectionManager");
+            let manager = dependencyInjector->getShared("collectionManager");
             if typeof manager != "object" {
                 throw new Exception("The injected service 'collectionManager' is not valid");
             }
