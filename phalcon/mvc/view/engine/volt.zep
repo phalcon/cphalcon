@@ -49,7 +49,7 @@ class Volt extends Engine
      */
     public function getCompiler() -> <Compiler>
     {
-        var compiler, dependencyInjector, options;
+        var compiler, container, options;
 
         let compiler = this->_compiler;
         if typeof compiler != "object" {
@@ -59,9 +59,9 @@ class Volt extends Engine
             /**
              * Pass the IoC to the compiler only of it's an object
              */
-            let dependencyInjector = <DiInterface> this->container;
-            if typeof dependencyInjector == "object" {
-                compiler->setDi(dependencyInjector);
+            let container = <DiInterface> this->container;
+            if typeof container == "object" {
+                compiler->setDi(container);
             }
 
             /**

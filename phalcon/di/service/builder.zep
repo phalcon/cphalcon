@@ -26,7 +26,7 @@ class Builder
      *
      * @return mixed
      */
-    private function _buildParameter(<DiInterface> dependencyInjector, int position, array! argument)
+    private function _buildParameter(<DiInterface> container, int position, array! argument)
     {
         var type, name, value, instanceArguments;
 
@@ -46,10 +46,10 @@ class Builder
                 if !fetch name, argument["name"] {
                     throw new Exception("Service 'name' is required in parameter on position " . position);
                 }
-                if typeof dependencyInjector != "object" {
+                if typeof container != "object" {
                     throw new Exception("The dependency injector container is not valid");
                 }
-                return dependencyInjector->get(name);
+                return container->get(name);
 
             /**
              * If the argument type is 'parameter', we assign the value as it is
@@ -69,7 +69,7 @@ class Builder
                     throw new Exception("Service 'className' is required in parameter on position " . position);
                 }
 
-                if typeof dependencyInjector != "object" {
+                if typeof container != "object" {
                     throw new Exception("The dependency injector container is not valid");
                 }
 
@@ -77,13 +77,13 @@ class Builder
                     /**
                      * Build the instance with arguments
                      */
-                    return dependencyInjector->get(name, instanceArguments);
+                    return container->get(name, instanceArguments);
                 }
 
                 /**
                  * The instance parameter does not have arguments for its constructor
                  */
-                return dependencyInjector->get(name);
+                return container->get(name);
 
             default:
                 /**
@@ -96,13 +96,13 @@ class Builder
     /**
      * Resolves an array of parameters
      */
-    private function _buildParameters(<DiInterface> dependencyInjector, array! arguments) -> array
+    private function _buildParameters(<DiInterface> container, array! arguments) -> array
     {
         var position, argument, buildArguments;
 
         let buildArguments = [];
         for position, argument in arguments {
-            let buildArguments[] = this->_buildParameter(dependencyInjector, position, argument);
+            let buildArguments[] = this->_buildParameter(container, position, argument);
         }
         return buildArguments;
     }
@@ -113,7 +113,7 @@ class Builder
      * @param array parameters
      * @return mixed
      */
-    public function build(<DiInterface> dependencyInjector, array! definition, parameters = null)
+    public function build(<DiInterface> container, array! definition, parameters = null)
     {
         var className, arguments, paramCalls, methodPosition, method,
             methodName, methodCall, instance, propertyPosition, property,
@@ -147,7 +147,7 @@ class Builder
                 /**
                  * Create the instance based on the parameters
                  */
-                let instance = create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
+                let instance = create_instance_params(className, this->_buildParameters(container, arguments));
 
             } else {
                 let instance = create_instance(className);
@@ -204,7 +204,7 @@ class Builder
                         /**
                          * Call the method on the instance
                          */
-                        call_user_func_array(methodCall, this->_buildParameters(dependencyInjector, arguments));
+                        call_user_func_array(methodCall, this->_buildParameters(container, arguments));
 
                         /**
                          * Go to next method call
@@ -264,7 +264,7 @@ class Builder
                 /**
                  * Update the public property
                  */
-                let instance->{propertyName} = this->_buildParameter(dependencyInjector, propertyPosition, propertyValue);
+                let instance->{propertyName} = this->_buildParameter(container, propertyPosition, propertyValue);
             }
         }
 

@@ -55,7 +55,7 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
 class Builder implements BuilderInterface, InjectionAwareInterface
 {
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _columns;
 
@@ -90,7 +90,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Query\Builder constructor
      */
-    public function __construct(var params = null, <DiInterface> dependencyInjector = null)
+    public function __construct(var params = null, <DiInterface> container = null)
     {
         var conditions, columns, groupClause, havingClause, limitClause,
             forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
@@ -261,17 +261,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Update the dependency injector if any
          */
-        if typeof dependencyInjector == "object" {
-            let this->container = dependencyInjector;
+        if typeof container == "object" {
+            let this->container = container;
         }
     }
 
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector) -> <BuilderInterface>
+    public function setDI(<DiInterface> container) -> <BuilderInterface>
     {
-        let this->container = dependencyInjector;
+        let this->container = container;
         return this;
     }
 
@@ -968,7 +968,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public final function getPhql() -> string
     {
-        var dependencyInjector, models, conditions, model, metaData,
+        var container, models, conditions, model, metaData,
             modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias,
             attributeField, phql, column, columns, selectedColumns, selectedColumn,
             selectedModel, selectedModels, columnAlias, modelColumnAlias,
@@ -977,10 +977,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             limit, number, offset, forUpdate, distinct;
         bool noPrimary;
 
-        let dependencyInjector = this->container;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = Di::getDefault(),
-                this->container = dependencyInjector;
+        let container = this->container;
+        if typeof container != "object" {
+            let container = Di::getDefault(),
+                this->container = container;
         }
 
         let models = this->_models;
@@ -1013,8 +1013,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             /**
              * Get the models metadata service to obtain the column names, column map and primary key
              */
-            let metaData = dependencyInjector->getShared("modelsMetadata"),
-                modelInstance = new {model}(null, dependencyInjector);
+            let metaData = container->getShared("modelsMetadata"),
+                modelInstance = new {model}(null, container);
 
             let noPrimary = true,
                 primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
@@ -1314,21 +1314,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getQuery() -> <QueryInterface>
     {
-        var query, bindParams, bindTypes, phql, dependencyInjector;
+        var query, bindParams, bindTypes, phql, container;
 
         let phql = this->getPhql();
 
-        let dependencyInjector = <DiInterface> this->container;
-        if typeof dependencyInjector != "object" {
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injection object is required to access ORM services");
         }
 
         /**
          * Gets Query instance from DI container
          */
-        let query = <QueryInterface> dependencyInjector->get(
+        let query = <QueryInterface> container->get(
             "Phalcon\\Mvc\\Model\\Query",
-            [phql, dependencyInjector]
+            [phql, container]
         );
 
         // Set default bind params

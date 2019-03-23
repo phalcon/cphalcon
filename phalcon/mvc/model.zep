@@ -78,7 +78,7 @@ use Phalcon\Cache\FrontendInterface;
  */
 abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
-    protected _dependencyInjector;
+    protected container;
 
     protected _dirtyState = 1;
 
@@ -125,26 +125,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Phalcon\Mvc\Model constructor
      */
-    public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+    public final function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
     {
         /**
          * We use a default DI if the user doesn't define one
          */
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = Di::getDefault();
+        if typeof container != "object" {
+            let container = Di::getDefault();
         }
 
-        if typeof dependencyInjector != "object" {
+        if typeof container != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
-        let this->container = dependencyInjector;
+        let this->container = container;
 
         /**
          * Inject the manager service from the DI
          */
         if typeof modelsManager != "object" {
-            let modelsManager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+            let modelsManager = <ManagerInterface> container->getShared("modelsManager");
             if typeof modelsManager != "object" {
                 throw new Exception("The injected service 'modelsManager' is not valid");
             }
@@ -1488,17 +1488,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getModelsMetaData() -> <MetaDataInterface>
     {
-        var metaData, dependencyInjector;
+        var metaData, container;
 
         let metaData = this->_modelsMetaData;
         if typeof metaData != "object" {
 
-            let dependencyInjector = <DiInterface> this->container;
+            let container = <DiInterface> this->container;
 
             /**
              * Obtain the models-metadata service from the DI
              */
-            let metaData = <MetaDataInterface> dependencyInjector->getShared("modelsMetadata");
+            let metaData = <MetaDataInterface> container->getShared("modelsMetadata");
             if typeof metaData != "object" {
                 throw new Exception("The injected service 'modelsMetadata' is not valid");
             }
@@ -1848,25 +1848,25 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Create a criteria for a specific model
      */
-    public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>
+    public static function query(<DiInterface> container = null) -> <CriteriaInterface>
     {
         var criteria;
 
         /**
          * Use the global dependency injector if there is no one defined
          */
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = Di::getDefault();
+        if typeof container != "object" {
+            let container = Di::getDefault();
         }
 
         /**
          * Gets Criteria instance from DI container
          */
-        if dependencyInjector instanceof DiInterface {
-            let criteria = <CriteriaInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Criteria");
+        if container instanceof DiInterface {
+            let criteria = <CriteriaInterface> container->get("Phalcon\\Mvc\\Model\\Criteria");
         } else {
             let criteria = new Criteria();
-            criteria->setDI(dependencyInjector);
+            criteria->setDI(container);
         }
 
         criteria->setModelName(get_called_class());
@@ -2157,7 +2157,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function unserialize(var data)
     {
-        var attributes, dependencyInjector, manager, key, value, snapshot;
+        var attributes, container, manager, key, value, snapshot;
 
         let attributes = unserialize(data);
         if typeof attributes == "array" {
@@ -2165,20 +2165,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Obtain the default DI
              */
-            let dependencyInjector = Di::getDefault();
-            if typeof dependencyInjector != "object" {
+            let container = Di::getDefault();
+            if typeof container != "object" {
                 throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
             }
 
             /**
              * Update the dependency injector
              */
-            let this->container = dependencyInjector;
+            let this->container = container;
 
             /**
              * Gets the default modelsManager service
              */
-            let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+            let manager = <ManagerInterface> container->getShared("modelsManager");
             if typeof manager != "object" {
                 throw new Exception("The injected service 'modelsManager' is not valid");
             }
@@ -2232,9 +2232,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->container = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -3677,10 +3677,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var params, distinctColumn, groupColumn, columns,
             bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
-            builder, query, dependencyInjector, manager;
+            builder, query, container, manager;
 
-        let dependencyInjector = Di::getDefault();
-        let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+        let container = Di::getDefault();
+        let manager = <ManagerInterface> container->getShared("modelsManager");
 
         if typeof parameters != "array" {
             let params = [];
@@ -4472,10 +4472,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     private static function getPreparedQuery(var params, var limit = null) -> <Query>
     {
-        var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
+        var builder, bindParams, bindTypes, transaction, cache, manager, query, container;
 
-        let dependencyInjector = Di::getDefault();
-        let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+        let container = Di::getDefault();
+        let manager = <ManagerInterface> container->getShared("modelsManager");
 
         /**
          * Builds a query with the passed parameters

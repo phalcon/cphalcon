@@ -1140,11 +1140,11 @@ class View extends Injectable implements ViewInterface
      */
     protected function _createCache() -> <BackendInterface>
     {
-        var dependencyInjector, cacheService, viewCache,
+        var container, cacheService, viewCache,
             viewOptions, cacheOptions;
 
-        let dependencyInjector = <DiInterface> this->container;
-        if typeof dependencyInjector != "object" {
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injector container is required to obtain the view cache services");
         }
 
@@ -1161,7 +1161,7 @@ class View extends Injectable implements ViewInterface
         /**
          * The injected service must be an object
          */
-        let viewCache = <BackendInterface> dependencyInjector->getShared(cacheService);
+        let viewCache = <BackendInterface> container->getShared(cacheService);
         if typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }

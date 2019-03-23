@@ -453,7 +453,7 @@ class Validation extends Injectable implements ValidationInterface
     public function getValue(string field) -> var | null
     {
         var entity, method, value, data, values,
-            filters, fieldFilters, dependencyInjector,
+            filters, fieldFilters, container,
             filterService, camelizedField;
 
         let entity = this->entity;
@@ -513,16 +513,16 @@ class Validation extends Injectable implements ValidationInterface
 
             if fieldFilters {
 
-                let dependencyInjector = this->getDI();
-                if typeof dependencyInjector != "object" {
-                    let dependencyInjector = Di::getDefault();
-                    if typeof dependencyInjector != "object" {
+                let container = this->getDI();
+                if typeof container != "object" {
+                    let container = Di::getDefault();
+                    if typeof container != "object" {
                         throw new Exception("A dependency injector is required to obtain the 'filter' service");
                     }
                 }
 
-                let filterService = <LocatorInterface> dependencyInjector->getShared("filter");
-//                let filterService = dependencyInjector->getShared("filter");
+                let filterService = <LocatorInterface> container->getShared("filter");
+//                let filterService = container->getShared("filter");
                 if typeof filterService != "object" {
                     throw new Exception("Returned 'filter' service is invalid");
                 }

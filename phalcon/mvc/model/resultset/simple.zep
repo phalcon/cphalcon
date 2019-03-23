@@ -259,7 +259,7 @@ class Simple extends Resultset
             throw new Exception("The dependency injector container is not valid");
         }
         if container->has("serializer") {
-            let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
+            let serializer = <FrontendInterface> container->getShared("serializer");
             let resultset = serializer->afterRetrieve(data);
         } else {
             let resultset = unserialize(data);
