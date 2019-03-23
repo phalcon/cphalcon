@@ -25,19 +25,19 @@ class Annotation
      * Annotation Name
      * @var string
      */
-    protected name;
+    protected _name;
 
     /**
      * Annotation Arguments
      * @var string
      */
-    protected arguments;
+    protected _arguments;
 
     /**
      * Annotation ExprArguments
      * @var string
      */
-    protected exprArguments;
+    protected _exprArguments;
 
     /**
      * Phalcon\Annotations\Annotation constructor
@@ -46,7 +46,7 @@ class Annotation
     {
         var name, exprArguments, argument, resolvedArgument, arguments;
 
-        let this->name = reflectionData["name"];
+        let this->_name = reflectionData["name"];
 
         /**
          * Process annotation arguments
@@ -61,8 +61,8 @@ class Annotation
                     let arguments[] = resolvedArgument;
                 }
             }
-            let this->arguments = arguments;
-            let this->exprArguments = exprArguments;
+            let this->_arguments = arguments;
+            let this->_exprArguments = exprArguments;
         }
     }
 
@@ -71,7 +71,7 @@ class Annotation
      */
     public function getName() -> string
     {
-        return this->name;
+        return this->_name;
     }
 
     /**
@@ -134,7 +134,7 @@ class Annotation
      */
     public function getExprArguments()
     {
-        return this->exprArguments;
+        return this->_exprArguments;
     }
 
     /**
@@ -144,7 +144,7 @@ class Annotation
      */
     public function getArguments()
     {
-        return this->arguments;
+        return this->_arguments;
     }
 
     /**
@@ -152,7 +152,7 @@ class Annotation
      */
     public function numberArguments() -> int
     {
-        return count(this->arguments);
+        return count(this->_arguments);
     }
 
     /**
@@ -164,7 +164,7 @@ class Annotation
     public function getArgument(var position)
     {
         var argument;
-        if fetch argument, this->arguments[position] {
+        if fetch argument, this->_arguments[position] {
             return argument;
         }
     }
@@ -176,7 +176,7 @@ class Annotation
      */
     public function hasArgument(var position) -> bool
     {
-        return isset this->arguments[position];
+        return isset this->_arguments[position];
     }
 
     /**
@@ -187,7 +187,7 @@ class Annotation
     public function getNamedArgument(string! name)
     {
         var argument;
-        if fetch argument, this->arguments[name] {
+        if fetch argument, this->_arguments[name] {
             return argument;
         }
     }

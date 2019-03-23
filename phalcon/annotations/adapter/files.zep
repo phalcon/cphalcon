@@ -31,7 +31,7 @@ use Phalcon\Annotations\Exception;
  */
 class Files extends Adapter
 {
-    protected annotationsDir = "./";
+    protected _annotationsDir = "./";
 
     /**
      * Phalcon\Annotations\Adapter\Files constructor
@@ -41,7 +41,7 @@ class Files extends Adapter
         var annotationsDir;
 
         if fetch annotationsDir, options["annotationsDir"] {
-            let this->annotationsDir = annotationsDir;
+            let this->_annotationsDir = annotationsDir;
         }
     }
 
@@ -55,7 +55,7 @@ class Files extends Adapter
         /**
          * Paths must be normalized before be used as keys
          */
-        let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
+        let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
         if file_exists(path) {
             return require path;
@@ -74,7 +74,7 @@ class Files extends Adapter
         /**
          * Paths must be normalized before be used as keys
          */
-        let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
+        let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
         if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
               throw new Exception("Annotations directory cannot be written");
