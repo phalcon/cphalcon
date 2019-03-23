@@ -52,7 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class Digit extends Validator
 {
-
     /**
      * Executes the validation
      */

@@ -58,7 +58,6 @@ use Phalcon\Validation\Validator;
  */
 class Confirmation extends Validator
 {
-
     /**
      * Executes the validation
      */

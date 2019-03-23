@@ -70,7 +70,6 @@ use Phalcon\Validation\Exception;
  */
 class StringLength extends Validator
 {
-
     /**
      * Executes the validation
      */

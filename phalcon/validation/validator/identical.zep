@@ -57,7 +57,6 @@ use Phalcon\Validation\Validator;
  */
 class Identical extends Validator
 {
-
     /**
      * Executes the validation
      */

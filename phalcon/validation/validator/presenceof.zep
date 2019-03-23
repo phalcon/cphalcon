@@ -52,7 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class PresenceOf extends Validator
 {
-
     /**
      * Executes the validation
      */

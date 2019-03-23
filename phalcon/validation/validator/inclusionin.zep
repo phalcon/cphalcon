@@ -58,7 +58,6 @@ use Phalcon\Validation\Exception;
  */
 class InclusionIn extends Validator
 {
-
     /**
      * Executes the validation
      */

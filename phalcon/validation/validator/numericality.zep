@@ -52,7 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class Numericality extends Validator
 {
-
     /**
      * Executes the validation
      */

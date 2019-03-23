@@ -52,7 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class Alnum extends Validator
 {
-
     /**
      * Executes the validation
      */

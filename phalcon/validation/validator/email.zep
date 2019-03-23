@@ -52,7 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class Email extends Validator
 {
-
     /**
      * Executes the validation
      */

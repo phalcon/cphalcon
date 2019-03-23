@@ -17,17 +17,16 @@ namespace Phalcon\Validation;
  */
 interface ValidatorInterface
 {
-
-    /**
-     * Checks if an option is defined
-     */
-    public function hasOption(string! key) -> bool;
-
     /**
      * Returns an option in the validator's options
      * Returns null if the option hasn't set
      */
     public function getOption(string! key, var defaultValue = null) -> var;
+
+    /**
+     * Checks if an option is defined
+     */
+    public function hasOption(string! key) -> bool;
 
     /**
      * Executes the validation
