@@ -66,7 +66,7 @@ class Apcu extends Adapter
     /**
      * Writes parsed annotations to APCu
      */
-    public function write(string! key, <Reflection> data) -> void
+    public function write(string! key, <Reflection> data) -> bool
     {
         return apcu_store(strtolower("_PHAN" . this->prefix . key), data, this->ttl);
     }
