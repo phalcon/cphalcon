@@ -444,7 +444,7 @@ class Crypt implements CryptInterface
      */
     protected function initializeAvailableCiphers() -> void
     {
-        if !function_exists("openssl_getcipher_methods") {
+        if !function_exists("openssl_get_cipher_methods") {
             throw new Exception("openssl extension is required");
         }
 
