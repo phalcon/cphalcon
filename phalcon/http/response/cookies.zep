@@ -64,13 +64,13 @@ use Phalcon\Http\Cookie\Exception;
  */
 class Cookies implements CookiesInterface, InjectionAwareInterface
 {
-    protected container;
+    protected _dependencyInjector;
 
-    protected registered = false;
+    protected _registered = false;
 
-    protected useEncryption = true;
+    protected _useEncryption = true;
 
-    protected cookies = [];
+    protected _cookies = [];
 
     /**
      * The cookie's sign key.
@@ -83,7 +83,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function __construct(bool useEncryption = true, string signKey = null)
     {
-        let this->useEncryption = useEncryption;
+        let this->_useEncryption = useEncryption;
 
         this->setSignKey(signKey);
     }
@@ -108,9 +108,9 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**
@@ -118,7 +118,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -126,7 +126,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function useEncryption(bool useEncryption) -> <CookiesInterface>
     {
-        let this->useEncryption = useEncryption;
+        let this->_useEncryption = useEncryption;
         return this;
     }
 
@@ -135,7 +135,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function isUsingEncryption() -> bool
     {
-        return this->useEncryption;
+        return this->_useEncryption;
     }
 
     /**
@@ -166,16 +166,16 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         string! domain = null,
         bool httpOnly = null
     ) -> <CookiesInterface> {
-        var cookie, encryption, container, response;
+        var cookie, encryption, dependencyInjector, response;
 
-        let encryption = this->useEncryption;
+        let encryption = this->_useEncryption;
 
         /**
          * Check if the cookie needs to be updated or
          */
-        if !fetch cookie, this->cookies[name] {
+        if !fetch cookie, this->_cookies[name] {
             let cookie =
-                <CookieInterface> this->container->get(
+                <CookieInterface> this->_dependencyInjector->get(
                     "Phalcon\\Http\\Cookie",
                     [name, value, expire, path, secure, domain, httpOnly]
                 );
@@ -183,7 +183,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
             /**
              * Pass the DI to created cookies
              */
-            cookie->setDi(this->container);
+            cookie->setDi(this->_dependencyInjector);
 
             /**
              * Enable encryption in the cookie
@@ -193,7 +193,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
                 cookie->setSignKey(this->signKey);
             }
 
-            let this->cookies[name] = cookie;
+            let this->_cookies[name] = cookie;
 
         } else {
             /**
@@ -211,21 +211,21 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         /**
          * Register the cookies bag in the response
          */
-        if this->registered === false {
+        if this->_registered === false {
 
-            let container = this->container;
-            if typeof container != "object" {
+            let dependencyInjector = this->_dependencyInjector;
+            if typeof dependencyInjector != "object" {
                 throw new Exception("A dependency injection object is required to access the 'response' service");
             }
 
-            let response = container->getShared("response");
+            let response = dependencyInjector->getShared("response");
 
             /**
              * Pass the cookies bag to the response so it can send the headers at the of the request
              */
             response->setCookies(this);
 
-            let this->registered = true;
+            let this->_registered = true;
         }
 
         return this;
@@ -236,31 +236,31 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function get(string! name) -> <CookieInterface>
     {
-        var container, encryption, cookie;
+        var dependencyInjector, encryption, cookie;
 
         /**
          * Gets cookie from the cookies service. They will be sent with response.
          */
-        if fetch cookie, this->cookies[name] {
+        if fetch cookie, this->_cookies[name] {
             return cookie;
         }
 
         /**
          * Create the cookie if the it does not exist.
          * It's value come from $_COOKIE with request, so it shouldn't be saved
-         * to cookies property, otherwise it will always be resent after get.
+         * to _cookies property, otherwise it will always be resent after get.
          */
-        let cookie = <CookieInterface> this->container->get("Phalcon\\Http\\Cookie", [name]),
-            container = this->container;
+        let cookie = <CookieInterface> this->_dependencyInjector->get("Phalcon\\Http\\Cookie", [name]),
+            dependencyInjector = this->_dependencyInjector;
 
-        if typeof container == "object" {
+        if typeof dependencyInjector == "object" {
 
             /**
              * Pass the DI to created cookies
              */
-            cookie->setDi(container);
+            cookie->setDi(dependencyInjector);
 
-            let encryption = this->useEncryption;
+            let encryption = this->_useEncryption;
 
             /**
              * Enable encryption in the cookie
@@ -279,7 +279,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function getCookies() -> array
     {
-        return this->cookies;
+        return this->_cookies;
     }
 
     /**
@@ -290,7 +290,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         /**
          * Check the internal bag
          */
-        if isset this->cookies[name] {
+        if isset this->_cookies[name] {
             return true;
         }
 
@@ -315,7 +315,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         /**
          * Check the internal bag
          */
-        if fetch cookie, this->cookies[name] {
+        if fetch cookie, this->_cookies[name] {
             cookie->delete();
             return true;
         }
@@ -332,7 +332,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         var cookie;
 
         if !headers_sent() {
-            for cookie in this->cookies {
+            for cookie in this->_cookies {
                 cookie->send();
             }
 
@@ -347,7 +347,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function reset() -> <CookiesInterface>
     {
-        let this->cookies = [];
+        let this->_cookies = [];
         return this;
     }
 }

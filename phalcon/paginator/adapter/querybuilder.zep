@@ -43,12 +43,12 @@ class QueryBuilder extends Adapter
     /**
      * Paginator's data
      */
-    protected builder;
+    protected _builder;
 
     /**
      * Columns for count query if builder has having
      */
-    protected columns;
+    protected _columns;
 
     /**
      * Phalcon\Paginator\Adapter\QueryBuilder
@@ -66,7 +66,7 @@ class QueryBuilder extends Adapter
         }
 
         if fetch columns, config["columns"] {
-            let this->columns = columns;
+            let this->_columns = columns;
         }
 
         parent::__construct(config);
@@ -86,7 +86,7 @@ class QueryBuilder extends Adapter
      */
     public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
     {
-        let this->builder = builder;
+        let this->_builder = builder;
 
         return this;
     }
@@ -96,7 +96,7 @@ class QueryBuilder extends Adapter
      */
     public function getQueryBuilder() -> <Builder>
     {
-        return this->builder;
+        return this->_builder;
     }
 
     /**
@@ -109,8 +109,8 @@ class QueryBuilder extends Adapter
             result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
             model, modelClass, dbService, groups, groupColumn;
 
-        let originalBuilder = this->builder;
-        let columns = this->columns;
+        let originalBuilder = this->_builder;
+        let columns = this->_columns;
 
         /**
          * We make a copy of the original builder to leave it as it is

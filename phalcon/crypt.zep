@@ -36,11 +36,11 @@ use Phalcon\Crypt\Mismatch;
  */
 class Crypt implements CryptInterface
 {
-    protected key;
+    protected _key;
 
-    protected padding = 0;
+    protected _padding = 0;
 
-    protected cipher = "aes-256-cfb";
+    protected _cipher = "aes-256-cfb";
 
     /**
      * Available cipher methods.
@@ -97,7 +97,7 @@ class Crypt implements CryptInterface
      */
     public function setPadding(int! scheme) -> <CryptInterface>
     {
-        let this->padding = scheme;
+        let this->_padding = scheme;
         return this;
     }
 
@@ -115,7 +115,7 @@ class Crypt implements CryptInterface
         this->assertCipherIsAvailable(cipher);
 
         let this->ivLength = this->getIvLength(cipher),
-            this->cipher  = cipher;
+            this->_cipher  = cipher;
 
         return this;
     }
@@ -125,7 +125,7 @@ class Crypt implements CryptInterface
      */
     public function getCipher() -> string
     {
-        return this->cipher;
+        return this->_cipher;
     }
 
     /**
@@ -146,7 +146,7 @@ class Crypt implements CryptInterface
      */
     public function setKey(string! key) -> <CryptInterface>
     {
-        let this->key = key;
+        let this->_key = key;
         return this;
     }
 
@@ -155,7 +155,7 @@ class Crypt implements CryptInterface
      */
     public function getKey() -> string
     {
-        return this->key;
+        return this->_key;
     }
 
     /**
@@ -369,7 +369,7 @@ class Crypt implements CryptInterface
         var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType, padded, encrypted;
 
         if likely empty key {
-            let encryptKey = this->key;
+            let encryptKey = this->_key;
         } else {
             let encryptKey = key;
         }
@@ -378,7 +378,7 @@ class Crypt implements CryptInterface
             throw new Exception("Encryption key cannot be empty");
         }
 
-        let cipher = this->cipher;
+        let cipher = this->_cipher;
         let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 
         this->assertCipherIsAvailable(cipher);
@@ -391,7 +391,7 @@ class Crypt implements CryptInterface
         }
 
         let iv = openssl_random_pseudo_bytes(ivLength);
-        let paddingType = this->padding;
+        let paddingType = this->_padding;
 
         if paddingType != 0 && (mode == "cbc" || mode == "ecb") {
             let padded = this->_cryptPadText(text, mode, blockSize, paddingType);
@@ -431,7 +431,7 @@ class Crypt implements CryptInterface
             ciphertext, hashAlgo, hashLength, iv, hash;
 
         if likely empty key {
-            let decryptKey = this->key;
+            let decryptKey = this->_key;
         } else {
             let decryptKey = key;
         }
@@ -440,7 +440,7 @@ class Crypt implements CryptInterface
             throw new Exception("Decryption key cannot be empty");
         }
 
-        let cipher = this->cipher;
+        let cipher = this->_cipher;
         let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 
         this->assertCipherIsAvailable(cipher);
@@ -462,7 +462,7 @@ class Crypt implements CryptInterface
             let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
 
             if mode == "cbc" || mode == "ecb" {
-                let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, this->padding);
+                let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, this->_padding);
             }
 
             /**
@@ -479,7 +479,7 @@ class Crypt implements CryptInterface
         let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
 
         if mode == "cbc" || mode == "ecb" {
-            let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, this->padding);
+            let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, this->_padding);
         }
 
         return decrypted;
@@ -590,11 +590,11 @@ class Crypt implements CryptInterface
      */
     protected function getIvLength(string! cipher) -> int
     {
-        if !function_exists("opensslcipher_iv_length") {
+        if !function_exists("openssl_cipher_iv_length") {
             throw new Exception("openssl extension is required");
         }
 
-        return opensslcipher_iv_length(cipher);
+        return openssl_cipher_iv_length(cipher);
     }
 
     /**
@@ -604,10 +604,10 @@ class Crypt implements CryptInterface
      */
     protected function initializeAvailableCiphers() -> void
     {
-        if !function_exists("openssl_getcipher_methods") {
+        if !function_exists("openssl_get_cipher_methods") {
             throw new Exception("openssl extension is required");
         }
 
-        let this->availableCiphers = openssl_getcipher_methods(true);
+        let this->availableCiphers = openssl_get_cipher_methods(true);
     }
 }

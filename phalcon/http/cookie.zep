@@ -27,27 +27,27 @@ use Phalcon\Service\LocatorInterface;
 class Cookie implements CookieInterface, InjectionAwareInterface
 {
 
-    protected readed = false;
+    protected _readed = false;
 
-    protected restored = false;
+    protected _restored = false;
 
-    protected useEncryption = false;
+    protected _useEncryption = false;
 
-    protected container;
+    protected _dependencyInjector;
 
-    protected filter;
+    protected _filter;
 
-    protected name;
+    protected _name;
 
-    protected value;
+    protected _value;
 
-    protected expire;
+    protected _expire;
 
-    protected path = "/";
+    protected _path = "/";
 
-    protected domain;
+    protected _domain;
 
-    protected secure;
+    protected _secure;
 
     protected _httpOnly = false;
 
@@ -69,24 +69,24 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         string domain = null,
         bool httpOnly = null
     ) {
-        let this->name = name;
+        let this->_name = name;
 
         if value !== null {
             this->setValue(value);
         }
 
-        let this->expire = expire;
+        let this->_expire = expire;
 
         if path !== null {
-            let this->path = path;
+            let this->_path = path;
         }
 
         if secure !== null {
-            let this->secure = secure;
+            let this->_secure = secure;
         }
 
         if domain !== null {
-            let this->domain = domain;
+            let this->_domain = domain;
         }
 
         if httpOnly !== null {
@@ -119,9 +119,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**
@@ -129,7 +129,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -139,8 +139,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function setValue(value) -> <CookieInterface>
     {
-        let this->value = value,
-            this->readed = true;
+        let this->_value = value,
+            this->_readed = true;
         return this;
     }
 
@@ -149,29 +149,29 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getValue(var filters = null, var defaultValue = null) -> var
     {
-        var container, value, crypt, decryptedValue, filter, signKey, name;
+        var dependencyInjector, value, crypt, decryptedValue, filter, signKey, name;
 
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
 
-        let container = null,
-            name = this->name;
+        let dependencyInjector = null,
+            name = this->_name;
 
-        if this->readed === false {
+        if this->_readed === false {
 
             if fetch value, _COOKIE[name] {
 
-                if this->useEncryption {
+                if this->_useEncryption {
 
-                    let container = <DiInterface> this->container;
-                    if typeof container != "object" {
+                    let dependencyInjector = <DiInterface> this->_dependencyInjector;
+                    if typeof dependencyInjector != "object" {
                         throw new Exception(
                             "A dependency injection object is required to access the 'filter' and 'crypt' service"
                         );
                     }
 
-                    let crypt = <CryptInterface> container->getShared("crypt");
+                    let crypt = <CryptInterface> dependencyInjector->getShared("crypt");
                     if typeof crypt != "object" {
                         throw new Exception(
                             "A dependency which implements CryptInterface is required to use encryption"
@@ -200,24 +200,24 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                 /**
                  * Update the decrypted value
                  */
-                let this->value = decryptedValue;
+                let this->_value = decryptedValue;
 
                 if filters !== null {
-                    let filter = this->filter;
+                    let filter = this->_filter;
                     if typeof filter != "object" {
 
-                        if container === null {
-                            let container = <DiInterface> this->container;
-                            if typeof container != "object" {
+                        if dependencyInjector === null {
+                            let dependencyInjector = <DiInterface> this->_dependencyInjector;
+                            if typeof dependencyInjector != "object" {
                                 throw new Exception(
                                     "A dependency injection object is required to access the 'filter' service"
                                 );
                             }
                         }
 
-//                        let filter = container->getShared("filter"),
-                        let filter = <LocatorInterface> container->getShared("filter"),
-                            this->filter = filter;
+//                        let filter = dependencyInjector->getShared("filter"),
+                        let filter = <LocatorInterface> dependencyInjector->getShared("filter"),
+                            this->_filter = filter;
                     }
 
                     return filter->sanitize(decryptedValue, filters);
@@ -231,7 +231,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             return defaultValue;
         }
 
-        return this->value;
+        return this->_value;
     }
 
     /**
@@ -242,19 +242,19 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     public function send() -> <CookieInterface>
     {
         var name, value, expire, domain, path, secure, httpOnly,
-            container, definition, session, crypt, encryptValue, signKey;
+            dependencyInjector, definition, session, crypt, encryptValue, signKey;
 
-        let name = this->name,
-            value = this->value,
-            expire = this->expire,
-            domain = this->domain,
-            path = this->path,
-            secure = this->secure,
+        let name = this->_name,
+            value = this->_value,
+            expire = this->_expire,
+            domain = this->_domain,
+            path = this->_path,
+            secure = this->_secure,
             httpOnly = this->_httpOnly;
 
-        let container = this->container;
+        let dependencyInjector = this->_dependencyInjector;
 
-        if typeof container != "object" {
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access the 'session' service");
         }
 
@@ -284,23 +284,23 @@ class Cookie implements CookieInterface, InjectionAwareInterface
          * The definition is stored in session
          */
         if count(definition) {
-            let session = <SessionManagerInterface> container->getShared("session");
+            let session = <SessionManagerInterface> dependencyInjector->getShared("session");
             if session->exists() {
                 session->set("_PHCOOKIE_" . name, definition);
             }
         }
 
-        if this->useEncryption {
+        if this->_useEncryption {
 
             if !empty value {
 
-                if typeof container != "object" {
+                if typeof dependencyInjector != "object" {
                     throw new Exception(
                         "A dependency injection object is required to access the 'filter' service"
                     );
                 }
 
-                let crypt = <CryptInterface> container->getShared("crypt");
+                let crypt = <CryptInterface> dependencyInjector->getShared("crypt");
                 if typeof crypt != "object" {
                     throw new Exception(
                         "A dependency which implements CryptInterface is required to use encryption"
@@ -340,34 +340,34 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var container, expire, domain, path, secure,
+        var dependencyInjector, expire, domain, path, secure,
             httpOnly, session, definition;
 
-        if !this->restored {
+        if !this->_restored {
 
-            let container = this->container;
-            if typeof container == "object" {
+            let dependencyInjector = this->_dependencyInjector;
+            if typeof dependencyInjector == "object" {
 
-                let session = container->getShared("session");
+                let session = dependencyInjector->getShared("session");
 
                 if session->exists() {
-                    let definition = session->get("_PHCOOKIE_" . this->name);
+                    let definition = session->get("_PHCOOKIE_" . this->_name);
                     if typeof definition == "array" {
 
                         if fetch expire, definition["expire"] {
-                            let this->expire = expire;
+                            let this->_expire = expire;
                         }
 
                         if fetch domain, definition["domain"] {
-                            let this->domain = domain;
+                            let this->_domain = domain;
                         }
 
                         if fetch path, definition["path"] {
-                            let this->path = path;
+                            let this->_path = path;
                         }
 
                         if fetch secure, definition["secure"] {
-                            let this->secure = secure;
+                            let this->_secure = secure;
                         }
 
                         if fetch httpOnly, definition["httpOnly"] {
@@ -377,7 +377,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                 }
             }
 
-            let this->restored = true;
+            let this->_restored = true;
         }
 
         return this;
@@ -388,23 +388,23 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function delete()
     {
-        var name, domain, path, secure, httpOnly, container, session;
+        var name, domain, path, secure, httpOnly, dependencyInjector, session;
 
-        let name     = this->name,
-            domain   = this->domain,
-            path     = this->path,
-            secure   = this->secure,
+        let name     = this->_name,
+            domain   = this->_domain,
+            path     = this->_path,
+            secure   = this->_secure,
             httpOnly = this->_httpOnly;
 
-        let container = <DiInterface> this->container;
-        if typeof container == "object" {
-            let session = <SessionManagerInterface> container->getShared("session");
+        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        if typeof dependencyInjector == "object" {
+            let session = <SessionManagerInterface> dependencyInjector->getShared("session");
             if session->exists() {
                 session->remove("_PHCOOKIE_" . name);
             }
         }
 
-        let this->value = null;
+        let this->_value = null;
         setcookie(name, null, time() - 691200, path, domain, secure, httpOnly);
     }
 
@@ -413,7 +413,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function useEncryption(bool useEncryption) -> <CookieInterface>
     {
-        let this->useEncryption = useEncryption;
+        let this->_useEncryption = useEncryption;
         return this;
     }
 
@@ -422,7 +422,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function isUsingEncryption() -> bool
     {
-        return this->useEncryption;
+        return this->_useEncryption;
     }
 
     /**
@@ -430,10 +430,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function setExpiration(int expire) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        let this->expire = expire;
+        let this->_expire = expire;
         return this;
     }
 
@@ -442,10 +442,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getExpiration() -> string
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        return this->expire;
+        return this->_expire;
     }
 
     /**
@@ -453,10 +453,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function setPath(string! path) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        let this->path = path;
+        let this->_path = path;
         return this;
     }
 
@@ -465,7 +465,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getName() -> string
     {
-        return this->name;
+        return this->_name;
     }
 
     /**
@@ -473,10 +473,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getPath() -> string
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        return this->path;
+        return this->_path;
     }
 
     /**
@@ -484,10 +484,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function setDomain(string! domain) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        let this->domain = domain;
+        let this->_domain = domain;
         return this;
     }
 
@@ -496,10 +496,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getDomain() -> string
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        return this->domain;
+        return this->_domain;
     }
 
     /**
@@ -507,10 +507,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function setSecure(bool secure) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        let this->secure = secure;
+        let this->_secure = secure;
         return this;
     }
 
@@ -519,10 +519,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getSecure() -> bool
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
-        return this->secure;
+        return this->_secure;
     }
 
     /**
@@ -530,7 +530,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function setHttpOnly(bool httpOnly) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
         let this->_httpOnly = httpOnly;
@@ -542,7 +542,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getHttpOnly() -> bool
     {
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
         return this->_httpOnly;

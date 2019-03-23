@@ -22,35 +22,35 @@ class Event implements EventInterface
      *
      * @var string
      */
-    protected type { get };
+    protected _type { get };
 
     /**
      * Event source
      *
      * @var object
      */
-    protected source { get };
+    protected _source { get };
 
     /**
      * Event data
      *
      * @var mixed
      */
-    protected data { get };
+    protected _data { get };
 
     /**
      * Is event propagation stopped?
      *
      * @var bool
      */
-    protected stopped = false;
+    protected _stopped = false;
 
     /**
      * Is event cancelable?
      *
      * @var bool
      */
-    protected cancelable = true;
+    protected _cancelable = true;
 
     /**
      * Phalcon\Events\Event constructor
@@ -59,15 +59,15 @@ class Event implements EventInterface
      */
     public function __construct(string! type, source, var data = null, bool cancelable = true)
     {
-        let this->type = type,
-            this->source = source;
+        let this->_type = type,
+            this->_source = source;
 
         if data !== null {
-            let this->data = data;
+            let this->_data = data;
         }
 
         if cancelable !== true {
-            let this->cancelable = cancelable;
+            let this->_cancelable = cancelable;
         }
     }
 
@@ -76,7 +76,7 @@ class Event implements EventInterface
      */
     public function setData(var data = null) -> <EventInterface>
     {
-        let this->data = data;
+        let this->_data = data;
 
         return this;
     }
@@ -86,7 +86,7 @@ class Event implements EventInterface
      */
     public function setType(string! type) -> <EventInterface>
     {
-        let this->type = type;
+        let this->_type = type;
 
         return this;
     }
@@ -102,11 +102,11 @@ class Event implements EventInterface
      */
     public function stop() -> <EventInterface>
     {
-        if !this->cancelable {
+        if !this->_cancelable {
             throw new Exception("Trying to cancel a non-cancelable event");
         }
 
-        let this->stopped = true;
+        let this->_stopped = true;
 
         return this;
     }
@@ -116,7 +116,7 @@ class Event implements EventInterface
      */
     public function isStopped() -> bool
     {
-        return this->stopped;
+        return this->_stopped;
     }
 
     /**
@@ -130,6 +130,6 @@ class Event implements EventInterface
      */
     public function isCancelable() -> bool
     {
-        return this->cancelable;
+        return this->_cancelable;
     }
 }

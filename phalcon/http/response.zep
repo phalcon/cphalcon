@@ -40,21 +40,21 @@ use Phalcon\Events\ManagerInterface;
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
-    protected sent = false;
+    protected _sent = false;
 
-    protected content;
+    protected _content;
 
-    protected headers;
+    protected _headers;
 
-    protected cookies;
+    protected _cookies;
 
-    protected file;
+    protected _file;
 
-    protected container;
+    protected _dependencyInjector;
 
-    protected statusCodes;
+    protected _statusCodes;
 
-    protected eventsManager;
+    protected _eventsManager;
 
     /**
      * Phalcon\Http\Response constructor
@@ -64,10 +64,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
          */
-        let this->headers = new Headers();
+        let this->_headers = new Headers();
 
         if content !== null {
-            let this->content = content;
+            let this->_content = content;
         }
 
         if code !== null {
@@ -80,7 +80,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function appendContent(content) -> <ResponseInterface>
     {
-        let this->content = this->getContent() . content;
+        let this->_content = this->getContent() . content;
         return this;
     }
 
@@ -89,7 +89,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getContent() -> string
     {
-        return this->content;
+        return this->_content;
     }
 
     /**
@@ -97,7 +97,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getCookies() -> <CookiesInterface>
     {
-        return this->cookies;
+        return this->_cookies;
     }
 
     /**
@@ -105,16 +105,16 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getDI() -> <DiInterface>
     {
-        var container;
-        let container = <DiInterface> this->container;
-        if typeof container != "object" {
-            let container = \Phalcon\Di::getDefault();
-            if typeof container != "object" {
+        var dependencyInjector;
+        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        if typeof dependencyInjector != "object" {
+            let dependencyInjector = \Phalcon\Di::getDefault();
+            if typeof dependencyInjector != "object" {
                 throw new Exception("A dependency injection object is required to access the 'url' service");
             }
-            let this->container = container;
+            let this->_dependencyInjector = dependencyInjector;
         }
-        return container;
+        return dependencyInjector;
     }
 
     /**
@@ -122,7 +122,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getEventsManager() -> <ManagerInterface>
     {
-        return this->eventsManager;
+        return this->_eventsManager;
     }
 
     /**
@@ -130,7 +130,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getHeaders() -> <HeadersInterface>
     {
-        return this->headers;
+        return this->_headers;
     }
 
     /**
@@ -181,7 +181,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function isSent() -> bool
     {
-        return this->sent;
+        return this->_sent;
     }
 
     /**
@@ -205,7 +205,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
     {
-        var header, url, container, matched, view;
+        var header, url, dependencyInjector, matched, view;
 
         if !location {
             let location = "";
@@ -226,15 +226,15 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             }
         }
 
-        let container = this->getDI();
+        let dependencyInjector = this->getDI();
 
         if !header {
-            let url = <UrlInterface> container->getShared("url"),
+            let url = <UrlInterface> dependencyInjector->getShared("url"),
                 header = url->get(location);
         }
 
-        if container->has("view") {
-            let view = container->getShared("view");
+        if dependencyInjector->has("view") {
+            let view = dependencyInjector->getShared("view");
             if view instanceof ViewInterface {
                 view->disable();
             }
@@ -289,7 +289,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var content, file;
 
-        if this->sent {
+        if this->_sent {
             throw new Exception("Response was already sent");
         }
 
@@ -300,18 +300,18 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * Output the response body
          */
-        let content = this->content;
+        let content = this->_content;
         if content != null {
             echo content;
         } else {
-            let file = this->file;
+            let file = this->_file;
 
             if typeof file == "string" && strlen(file) {
                 readfile(file);
             }
         }
 
-        let this->sent = true;
+        let this->_sent = true;
         return this;
     }
 
@@ -321,7 +321,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function sendCookies() -> <ResponseInterface>
     {
         var cookies;
-        let cookies = this->cookies;
+        let cookies = this->_cookies;
         if typeof cookies == "object" {
             cookies->send();
         }
@@ -383,7 +383,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setContent(string content) -> <ResponseInterface>
     {
-        let this->content = content;
+        let this->_content = content;
         return this;
     }
 
@@ -425,16 +425,16 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setCookies(<CookiesInterface> cookies) -> <ResponseInterface>
     {
-        let this->cookies = cookies;
+        let this->_cookies = cookies;
         return this;
     }
 
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**
@@ -484,7 +484,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setEventsManager(<ManagerInterface> eventsManager)
     {
-        let this->eventsManager = eventsManager;
+        let this->_eventsManager = eventsManager;
     }
 
     /**
@@ -507,7 +507,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             this->setRawHeader("Content-Transfer-Encoding: binary");
         }
 
-        let this->file = filePath;
+        let this->_file = filePath;
 
         return this;
     }
@@ -541,7 +541,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             existing->set(name, value);
         }
 
-        let this->headers = existing;
+        let this->_headers = existing;
 
         return this;
     }
