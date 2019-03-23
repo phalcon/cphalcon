@@ -21,12 +21,12 @@ use Phalcon\Translate\Adapter;
 class Csv extends Adapter implements \ArrayAccess
 {
 
-    protected _translate = [];
+    protected translate = [];
 
     /**
      * Phalcon\Translate\Adapter\Csv constructor
      */
-    public function __construct(array! options)
+    public function __construct(array! options) -> void
     {
         var delimiter, enclosure;
 
@@ -48,13 +48,35 @@ class Csv extends Adapter implements \ArrayAccess
             let enclosure = "\"";
         }
 
-        this->_load(options["content"], 0, delimiter, enclosure);
+        this->load(options["content"], 0, delimiter, enclosure);
+    }
+
+    /**
+     * Check whether is defined a translation key in the internal array
+     */
+    public function exists(string! index) -> bool
+    {
+        return isset this->translate[index];
+    }
+
+    /**
+     * Returns the translation related to the given key
+     */
+    public function query(string! index, placeholders = null) -> string
+    {
+        var translation;
+
+        if !fetch translation, this->translate[index] {
+            let translation = index;
+        }
+
+        return this->replacePlaceholders(translation, placeholders);
     }
 
     /**
     * Load translates from file
     */
-    private function _load(string file, int length, string delimiter, string enclosure) -> void
+    private function load(string file, int length, string delimiter, string enclosure) -> void
     {
         var data, fileHandler;
 
@@ -75,31 +97,9 @@ class Csv extends Adapter implements \ArrayAccess
                 continue;
             }
 
-            let this->_translate[data[0]] = data[1];
+            let this->translate[data[0]] = data[1];
         }
 
         fclose(fileHandler);
-    }
-
-    /**
-     * Returns the translation related to the given key
-     */
-    public function query(string! index, placeholders = null) -> string
-    {
-        var translation;
-
-        if !fetch translation, this->_translate[index] {
-            let translation = index;
-        }
-
-        return this->replacePlaceholders(translation, placeholders);
-    }
-
-    /**
-     * Check whether is defined a translation key in the internal array
-     */
-    public function exists(string! index) -> bool
-    {
-        return isset this->_translate[index];
     }
 }

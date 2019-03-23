@@ -22,12 +22,12 @@ class Locator implements LocatorInterface
     /**
      * @var array
      */
-    protected services = [];
+    protected mapper = [];
 
     /**
      * @var array
      */
-    protected mapper = [];
+    protected services = [];
 
     /**
      * Key value pairs with name as the key and a callable as the value for

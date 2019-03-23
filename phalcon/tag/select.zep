@@ -22,7 +22,6 @@ use Phalcon\Mvc\Model\ResulsetInterface;
  */
 abstract class Select
 {
-
     /**
      * Generates a SELECT tag
      *
@@ -118,7 +117,7 @@ abstract class Select
             /**
              * Create the SELECT's option from a resultset
              */
-            let code .= self::_optionsFromResultset(options, using, value, "</option>" . PHP_EOL);
+            let code .= self::optionsFromResultset(options, using, value, "</option>" . PHP_EOL);
 
         } else {
             if typeof options == "array" {
@@ -126,7 +125,7 @@ abstract class Select
                 /**
                  * Create the SELECT's option from an array
                  */
-                let code .= self::_optionsFromArray(options, value, "</option>" . PHP_EOL);
+                let code .= self::optionsFromArray(options, value, "</option>" . PHP_EOL);
             }
         }
 
@@ -136,11 +135,51 @@ abstract class Select
     }
 
     /**
+     * Generate the OPTION tags based on an array
+     */
+    private static function optionsFromArray(array data, var value, string closeOption)
+    {
+        var strValue, strOptionValue, code, optionValue, optionText, escaped;
+
+        let code = "";
+
+        for optionValue, optionText in data {
+
+            let escaped = htmlspecialchars(optionValue);
+
+            if typeof optionText == "array" {
+                let code .= "\t<optgroup label=\"" . escaped . "\">" . PHP_EOL . self::optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
+                continue;
+            }
+
+            if typeof value == "array" {
+                if in_array(optionValue, value) {
+                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
+                } else {
+                    let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
+                }
+            } else {
+
+                let strOptionValue = (string) optionValue,
+                    strValue = (string) value;
+
+                if strOptionValue === strValue {
+                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
+                } else {
+                    let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
+                }
+            }
+        }
+
+        return code;
+    }
+
+    /**
      * Generate the OPTION tags based on a resultset
      *
      * @param array using
      */
-    private static function _optionsFromResultset(<ResulsetInterface> resultset, using, var value, string closeOption)
+    private static function optionsFromResultset(<ResulsetInterface> resultset, using, var value, string closeOption)
     {
         var code, params, option, usingZero, usingOne, escaper,
             optionValue, optionText, strValue, strOptionValue;
@@ -210,46 +249,6 @@ abstract class Select
                     }
                     let params[0] = option;
                     let code .= call_user_func_array(using, params);
-                }
-            }
-        }
-
-        return code;
-    }
-
-    /**
-     * Generate the OPTION tags based on an array
-     */
-    private static function _optionsFromArray(array data, var value, string closeOption)
-    {
-        var strValue, strOptionValue, code, optionValue, optionText, escaped;
-
-        let code = "";
-
-        for optionValue, optionText in data {
-
-            let escaped = htmlspecialchars(optionValue);
-
-            if typeof optionText == "array" {
-                let code .= "\t<optgroup label=\"" . escaped . "\">" . PHP_EOL . self::_optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
-                continue;
-            }
-
-            if typeof value == "array" {
-                if in_array(optionValue, value) {
-                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
-                } else {
-                    let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
-                }
-            } else {
-
-                let strOptionValue = (string) optionValue,
-                    strValue = (string) value;
-
-                if strOptionValue === strValue {
-                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
-                } else {
-                    let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
                 }
             }
         }

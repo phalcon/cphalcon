@@ -85,83 +85,6 @@ namespace Phalcon\Security;
 class Random
 {
     /**
-     * Generates a random binary string
-     *
-     * The `Random::bytes` method returns a string and accepts as input an int
-     * representing the length in bytes to be returned.
-     *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
-     * The result may contain any byte: "x00" - "xFF".
-     *
-     *<code>
-     * $random = new \Phalcon\Security\Random();
-     *
-     * $bytes = $random->bytes();
-     * var_dump(bin2hex($bytes));
-     * // Possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
-     *</code>
-     *
-     * @throws Exception If secure random number generator is not available or unexpected partial read
-     */
-    public function bytes(int len = 16) -> string
-    {
-        var handle, ret;
-
-        if len <= 0 {
-            let len = 16;
-        }
-
-        if function_exists("random_bytes") {
-            return random_bytes(len);
-        }
-
-        if function_exists("\\Sodium\\randombytes_buf") {
-            return \\Sodium\\randombytes_buf(len);
-        }
-
-        if function_exists("openssl_random_pseudo_bytes") {
-            return openssl_random_pseudo_bytes(len);
-        }
-
-        if file_exists("/dev/urandom") {
-            let handle = fopen("/dev/urandom", "rb");
-
-            if handle !== false {
-                stream_set_read_buffer(handle, 0);
-                let ret = fread(handle, len);
-                fclose(handle);
-
-                if strlen(ret) != len {
-                    throw new Exception("Unexpected partial read from random device");
-                }
-
-                return ret;
-            }
-        }
-
-        throw new Exception("No random device available");
-    }
-
-    /**
-     * Generates a random hex string
-     *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
-     * The length of the result string is usually greater of $len.
-     *
-     *<code>
-     * $random = new \Phalcon\Security\Random();
-     *
-     * echo $random->hex(10); // a29f470508d5ccb8e289
-     *</code>
-     *
-     * @throws Exception If secure random number generator is not available or unexpected partial read
-     */
-    public function hex(int len = null) -> string
-    {
-        return array_shift(unpack("H*", this->bytes(len)));
-    }
-
-    /**
      * Generates a random base58 string
      *
      * If $len is not specified, 16 is assumed. It may be larger in future.
@@ -261,36 +184,80 @@ class Random
     }
 
     /**
-     * Generates a v4 random UUID (Universally Unique IDentifier)
+     * Generates a random binary string
      *
-     * The version 4 UUID is purely random (except the version). It doesn't contain meaningful
-     * information such as MAC address, time, etc. See RFC 4122 for details of UUID.
+     * The `Random::bytes` method returns a string and accepts as input an int
+     * representing the length in bytes to be returned.
      *
-     * This algorithm sets the version number (4 bits) as well as two reserved bits.
-     * All other bits (the remaining 122 bits) are set using a random or pseudorandom data source.
-     * Version 4 UUIDs have the form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal
-     * digit and y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
+     * If $len is not specified, 16 is assumed. It may be larger in future.
+     * The result may contain any byte: "x00" - "xFF".
      *
      *<code>
      * $random = new \Phalcon\Security\Random();
      *
-     * echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
+     * $bytes = $random->bytes();
+     * var_dump(bin2hex($bytes));
+     * // Possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
      *</code>
      *
-     * @link https://www.ietf.org/rfc/rfc4122.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    public function uuid() -> string
+    public function bytes(int len = 16) -> string
     {
-        var ary;
+        var handle, ret;
 
-        let ary = array_values(unpack("N1a/n1b/n1c/n1d/n1e/N1f", this->bytes(16)));
-        let ary[2] = (ary[2] & 0x0fff) | 0x4000,
-            ary[3] = (ary[3] & 0x3fff) | 0x8000;
+        if len <= 0 {
+            let len = 16;
+        }
 
-        array_unshift(ary, "%08x-%04x-%04x-%04x-%04x%08x");
+        if function_exists("random_bytes") {
+            return random_bytes(len);
+        }
 
-        return call_user_func_array("sprintf", ary);
+        if function_exists("\\Sodium\\randombytes_buf") {
+            return \\Sodium\\randombytes_buf(len);
+        }
+
+        if function_exists("openssl_random_pseudo_bytes") {
+            return openssl_random_pseudo_bytes(len);
+        }
+
+        if file_exists("/dev/urandom") {
+            let handle = fopen("/dev/urandom", "rb");
+
+            if handle !== false {
+                stream_set_read_buffer(handle, 0);
+                let ret = fread(handle, len);
+                fclose(handle);
+
+                if strlen(ret) != len {
+                    throw new Exception("Unexpected partial read from random device");
+                }
+
+                return ret;
+            }
+        }
+
+        throw new Exception("No random device available");
+    }
+
+    /**
+     * Generates a random hex string
+     *
+     * If $len is not specified, 16 is assumed. It may be larger in future.
+     * The length of the result string is usually greater of $len.
+     *
+     *<code>
+     * $random = new \Phalcon\Security\Random();
+     *
+     * echo $random->hex(10); // a29f470508d5ccb8e289
+     *</code>
+     *
+     * @throws Exception If secure random number generator is not available or unexpected partial read
+     */
+    public function hex(int len = null) -> string
+    {
+        return array_shift(unpack("H*", this->bytes(len)));
     }
 
     /**
@@ -345,6 +312,40 @@ class Random
 
         return hexdec(array_shift(ret));
     }
+
+    /**
+     * Generates a v4 random UUID (Universally Unique IDentifier)
+     *
+     * The version 4 UUID is purely random (except the version). It doesn't contain meaningful
+     * information such as MAC address, time, etc. See RFC 4122 for details of UUID.
+     *
+     * This algorithm sets the version number (4 bits) as well as two reserved bits.
+     * All other bits (the remaining 122 bits) are set using a random or pseudorandom data source.
+     * Version 4 UUIDs have the form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal
+     * digit and y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
+     *
+     *<code>
+     * $random = new \Phalcon\Security\Random();
+     *
+     * echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
+     *</code>
+     *
+     * @link https://www.ietf.org/rfc/rfc4122.txt
+     * @throws Exception If secure random number generator is not available or unexpected partial read
+     */
+    public function uuid() -> string
+    {
+        var ary;
+
+        let ary = array_values(unpack("N1a/n1b/n1c/n1d/n1e/N1f", this->bytes(16)));
+        let ary[2] = (ary[2] & 0x0fff) | 0x4000,
+            ary[3] = (ary[3] & 0x3fff) | 0x8000;
+
+        array_unshift(ary, "%08x-%04x-%04x-%04x-%04x%08x");
+
+        return call_user_func_array("sprintf", ary);
+    }
+
 
     /**
      * Generates a random string based on the number ($base) of characters ($alphabet).

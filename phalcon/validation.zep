@@ -26,34 +26,34 @@ use Phalcon\Service\LocatorInterface;
  */
 class Validation extends Injectable implements ValidationInterface
 {
-    protected _data { get };
+    protected combinedFieldsValidators = [];
 
-    protected _entity;
+    protected data { get };
 
-    protected _validators = [] { set };
+    protected defaultMessages;
 
-    protected _combinedFieldsValidators = [];
+    protected entity;
 
-    protected _filters = [];
+    protected filters = [];
 
-    protected _messages;
+    protected labels = [];
 
-    protected _defaultMessages;
+    protected messages;
 
-    protected _labels = [];
+    protected validators = [] { set };
 
-    protected _values;
+    protected values;
 
     /**
      * Phalcon\Validation constructor
      */
-    public function __construct(array validators = null)
+    public function __construct(array validators = null) -> void
     {
         if count(validators) {
-            let this->_validators = array_filter(validators, function(var element) {
+            let this->validators = array_filter(validators, function(var element) {
                 return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
             });
-            let this->_combinedFieldsValidators = array_filter(validators, function(var element) {
+            let this->combinedFieldsValidators = array_filter(validators, function(var element) {
                 return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
             });
         }
@@ -69,6 +69,377 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
+     * Adds a validator to a field
+     */
+    public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
+    {
+        var singleField;
+        if typeof field == "array" {
+            // Uniqueness validator for combination of fields is handled differently
+            if validator instanceof CombinedFieldsValidator {
+                let this->combinedFieldsValidators[] = [field, validator];
+            }
+            else {
+                for singleField in field {
+                    let this->validators[] = [singleField, validator];
+                }
+            }
+        }
+        elseif typeof field == "string" {
+            let this->validators[] = [field, validator];
+        }
+        else {
+            throw new Exception("Field must be passed as array of fields or string");
+        }
+        return this;
+    }
+
+    /**
+     * Appends a message to the messages list
+     */
+    public function appendMessage(<MessageInterface> message) -> <ValidationInterface>
+    {
+        var messages;
+
+        let messages = this->messages;
+        if typeof messages != "object" {
+            let messages = new Messages();
+        }
+
+        messages->appendMessage(message);
+
+        let this->messages = messages;
+
+        return this;
+    }
+
+    /**
+     * Assigns the data to an entity
+     * The entity is used to obtain the validation values
+     *
+     * @param object entity
+     * @param array|object data
+     */
+    public function bind(entity, data) -> <ValidationInterface>
+    {
+        if typeof entity != "object" {
+            throw new Exception("Entity must be an object");
+        }
+
+        if typeof data != "array" && typeof data != "object" {
+            throw new Exception("Data to validate must be an array or object");
+        }
+
+        let this->entity = entity,
+            this->data = data;
+
+        return this;
+    }
+
+    /**
+     * Get default message for validator type
+     */
+    public function getDefaultMessage(string! type) -> string
+    {
+        var defaultMessage;
+
+        if fetch defaultMessage, this->defaultMessages[type] {
+            return defaultMessage;
+        }
+
+        return "";
+    }
+
+    /**
+     * Returns the bound entity
+     *
+     * @return object
+     */
+    public function getEntity()
+    {
+        return this->entity;
+    }
+
+    /**
+     * Returns all the filters or a specific one
+     *
+     * @return mixed
+     */
+    public function getFilters(string field = null)
+    {
+        var filters, fieldFilters;
+        let filters = this->filters;
+
+        if field === null || field === "" {
+            return filters;
+        }
+
+        if !fetch fieldFilters, filters[field] {
+            return null;
+        }
+
+        return fieldFilters;
+    }
+
+    /**
+     * Get label for field
+     *
+     * @param string field
+     */
+    public function getLabel(var field) -> string
+    {
+        var labels, value;
+
+        let labels = this->labels;
+
+        if typeof field == "array" {
+            return join(", ", field);
+        }
+
+        if fetch value, labels[field] {
+            return value;
+        }
+
+        return field;
+    }
+
+    /**
+     * Returns the registered validators
+     */
+    public function getMessages() -> <Messages>
+    {
+        return this->messages;
+    }
+
+    /**
+     * Returns the validators added to the validation
+     */
+    public function getValidators() -> array
+    {
+        return this->validators;
+    }
+
+    /**
+     * Gets the a value to validate in the array/object data source
+     */
+    public function getValue(string field) -> var | null
+    {
+        var entity, method, value, data, values,
+            filters, fieldFilters, dependencyInjector,
+            filterService, camelizedField;
+
+        let entity = this->entity;
+
+        //  If the entity is an object use it to retrieve the values
+        if typeof entity == "object" {
+            let camelizedField = camelize(field);
+            let method = "get" . camelizedField;
+            if method_exists(entity, method) {
+                let value = entity->{method}();
+            } else {
+                if method_exists(entity, "readAttribute") {
+                    let value = entity->readAttribute(field);
+                } else {
+                    if isset entity->{field} {
+                        let value = entity->{field};
+                    } else {
+                        let value = null;
+                    }
+                }
+            }
+        }
+        else {
+            let data = this->data;
+
+            if typeof data != "array" && typeof data != "object" {
+                throw new Exception("There is no data to validate");
+            }
+
+            // Check if there is a calculated value
+            let values = this->values;
+            if fetch value, values[field] {
+                return value;
+            }
+
+            let value = null;
+            if typeof data == "array" {
+                if isset data[field] {
+                    let value = data[field];
+                }
+            } else {
+                if typeof data == "object" {
+                    if isset data->{field} {
+                        let value = data->{field};
+                    }
+                }
+            }
+        }
+
+        if typeof value == "null" {
+            return null;
+        }
+
+        let filters = this->filters;
+
+        if fetch fieldFilters, filters[field] {
+
+            if fieldFilters {
+
+                let dependencyInjector = this->getDI();
+                if typeof dependencyInjector != "object" {
+                    let dependencyInjector = Di::getDefault();
+                    if typeof dependencyInjector != "object" {
+                        throw new Exception("A dependency injector is required to obtain the 'filter' service");
+                    }
+                }
+
+                let filterService = <LocatorInterface> dependencyInjector->getShared("filter");
+//                let filterService = dependencyInjector->getShared("filter");
+                if typeof filterService != "object" {
+                    throw new Exception("Returned 'filter' service is invalid");
+                }
+
+                let value = filterService->sanitize(value, fieldFilters);
+
+                /**
+                 * Set filtered value in entity
+                 */
+                if typeof entity == "object" {
+                    let method = "set" . camelizedField;
+                    if method_exists(entity, method) {
+                        entity->{method}(value);
+                    } else {
+                        if method_exists(entity, "writeAttribute") {
+                            entity->writeAttribute(field, value);
+                        } else {
+                            if property_exists(entity, field) {
+                                let entity->{field} = value;
+                            }
+                        }
+                    }
+                }
+
+                return value;
+            }
+        }
+
+        // Cache the calculated value only if it's not entity
+        if typeof entity != "object" {
+            let this->values[field] = value;
+        }
+
+        return value;
+    }
+
+    /**
+     * Alias of `add` method
+     */
+    public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
+    {
+        return this->add(field, validator);
+    }
+
+    /**
+     * Adds the validators to a field
+     */
+    public function rules(var field, array! validators) -> <ValidationInterface>
+    {
+        var validator;
+
+        for validator in validators {
+            if validator instanceof ValidatorInterface {
+                this->add(field, validator);
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Adds default messages to validators
+     */
+    public function setDefaultMessages(array messages = []) -> array
+    {
+        var defaultMessages;
+
+        let defaultMessages = [
+            "Alnum": "Field :field must contain only letters and numbers",
+            "Alpha": "Field :field must contain only letters",
+            "Between": "Field :field must be within the range of :min to :max",
+            "Confirmation": "Field :field must be the same as :with",
+            "Digit": "Field :field must be numeric",
+            "Email": "Field :field must be an email address",
+            "ExclusionIn": "Field :field must not be a part of list: :domain",
+            "FileEmpty": "Field :field must not be empty",
+            "FileIniSize": "File :field exceeds the maximum file size",
+            "FileMaxResolution": "File :field must not exceed :max resolution",
+            "FileMinResolution": "File :field must be at least :min resolution",
+            "FileSize": "File :field exceeds the size of :max",
+            "FileType": "File :field must be of type: :types",
+            "FileValid": "Field :field is not valid",
+            "Identical": "Field :field does not have the expected value",
+            "InclusionIn": "Field :field must be a part of list: :domain",
+            "Numericality": "Field :field does not have a valid numeric format",
+            "PresenceOf": "Field :field is required",
+            "Regex": "Field :field does not match the required format",
+            "TooLong": "Field :field must not exceed :max characters long",
+            "TooShort": "Field :field must be at least :min characters long",
+            "Uniqueness": "Field :field must be unique",
+            "Url": "Field :field must be a url",
+            "CreditCard": "Field :field is not valid for a credit card number",
+            "Date": "Field :field is not a valid date"
+        ];
+
+        let this->defaultMessages = array_merge(defaultMessages, messages);
+
+        return this->defaultMessages;
+    }
+
+    /**
+     * Sets the bound entity
+     *
+     * @param object entity
+     */
+    public function setEntity(entity)
+    {
+        if typeof entity != "object" {
+            throw new Exception("Entity must be an object");
+        }
+        let this->entity = entity;
+    }
+
+    /**
+     * Adds filters to the field
+     *
+     * @param string field
+     * @param array|string filters
+     */
+    public function setFilters(var field, filters) -> <ValidationInterface>
+    {
+        var singleField;
+        if typeof field == "array" {
+            for singleField in field {
+                let this->filters[singleField] = filters;
+            }
+        }
+        elseif typeof field == "string" {
+            let this->filters[field] = filters;
+        }
+        else {
+            throw new Exception("Field must be passed as array of fields or string.");
+        }
+        return this;
+    }
+
+    /**
+     * Adds labels for fields
+     */
+    public function setLabels(array! labels)
+    {
+        let this->labels = labels;
+    }
+
+    /**
      * Validate a set of data according to a set of rules
      *
      * @param array|object data
@@ -78,8 +449,8 @@ class Validation extends Injectable implements ValidationInterface
     {
         var validators, messages, scope, field, validator, status, combinedFieldsValidators;
 
-        let validators = this->_validators;
-        let combinedFieldsValidators = this->_combinedFieldsValidators;
+        let validators = this->validators;
+        let combinedFieldsValidators = this->combinedFieldsValidators;
 
         if typeof validators != "array" {
             throw new Exception("There are no validators to validate");
@@ -88,7 +459,7 @@ class Validation extends Injectable implements ValidationInterface
         /**
          * Clear pre-calculated values
          */
-        let this->_values = null;
+        let this->values = null;
 
         /**
          * Implicitly creates a Phalcon\Messages\Messages object
@@ -109,11 +480,11 @@ class Validation extends Injectable implements ValidationInterface
             }
         }
 
-        let this->_messages = messages;
+        let this->messages = messages;
 
         if data !== null {
             if typeof data == "array" || typeof data == "object" {
-                let this->_data = data;
+                let this->data = data;
             } else {
                 throw new Exception("Invalid data to validate");
             }
@@ -182,381 +553,10 @@ class Validation extends Injectable implements ValidationInterface
          * Get the messages generated by the validators
          */
         if method_exists(this, "afterValidation") {
-            this->{"afterValidation"}(data, entity, this->_messages);
+            this->{"afterValidation"}(data, entity, this->messages);
         }
 
-        return this->_messages;
-    }
-
-    /**
-     * Adds a validator to a field
-     */
-    public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
-    {
-        var singleField;
-        if typeof field == "array" {
-            // Uniqueness validator for combination of fields is handled differently
-            if validator instanceof CombinedFieldsValidator {
-                let this->_combinedFieldsValidators[] = [field, validator];
-            }
-            else {
-                for singleField in field {
-                    let this->_validators[] = [singleField, validator];
-                }
-            }
-        }
-        elseif typeof field == "string" {
-            let this->_validators[] = [field, validator];
-        }
-        else {
-            throw new Exception("Field must be passed as array of fields or string");
-        }
-        return this;
-    }
-
-    /**
-     * Alias of `add` method
-     */
-    public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
-    {
-        return this->add(field, validator);
-    }
-
-    /**
-     * Adds the validators to a field
-     */
-    public function rules(var field, array! validators) -> <ValidationInterface>
-    {
-        var validator;
-
-        for validator in validators {
-            if validator instanceof ValidatorInterface {
-                this->add(field, validator);
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Adds filters to the field
-     *
-     * @param string field
-     * @param array|string filters
-     */
-    public function setFilters(var field, filters) -> <ValidationInterface>
-    {
-        var singleField;
-        if typeof field == "array" {
-            for singleField in field {
-                let this->_filters[singleField] = filters;
-            }
-        }
-        elseif typeof field == "string" {
-            let this->_filters[field] = filters;
-        }
-        else {
-            throw new Exception("Field must be passed as array of fields or string.");
-        }
-        return this;
-    }
-
-    /**
-     * Returns all the filters or a specific one
-     *
-     * @return mixed
-     */
-    public function getFilters(string field = null)
-    {
-        var filters, fieldFilters;
-        let filters = this->_filters;
-
-        if field === null || field === "" {
-            return filters;
-        }
-
-        if !fetch fieldFilters, filters[field] {
-            return null;
-        }
-
-        return fieldFilters;
-    }
-
-    /**
-     * Returns the validators added to the validation
-     */
-    public function getValidators() -> array
-    {
-        return this->_validators;
-    }
-
-    /**
-     * Sets the bound entity
-     *
-     * @param object entity
-     */
-    public function setEntity(entity)
-    {
-        if typeof entity != "object" {
-            throw new Exception("Entity must be an object");
-        }
-        let this->_entity = entity;
-    }
-
-    /**
-     * Returns the bound entity
-     *
-     * @return object
-     */
-    public function getEntity()
-    {
-        return this->_entity;
-    }
-
-    /**
-     * Adds default messages to validators
-     */
-    public function setDefaultMessages(array messages = []) -> array
-    {
-        var defaultMessages;
-
-        let defaultMessages = [
-            "Alnum": "Field :field must contain only letters and numbers",
-            "Alpha": "Field :field must contain only letters",
-            "Between": "Field :field must be within the range of :min to :max",
-            "Confirmation": "Field :field must be the same as :with",
-            "Digit": "Field :field must be numeric",
-            "Email": "Field :field must be an email address",
-            "ExclusionIn": "Field :field must not be a part of list: :domain",
-            "FileEmpty": "Field :field must not be empty",
-            "FileIniSize": "File :field exceeds the maximum file size",
-            "FileMaxResolution": "File :field must not exceed :max resolution",
-            "FileMinResolution": "File :field must be at least :min resolution",
-            "FileSize": "File :field exceeds the size of :max",
-            "FileType": "File :field must be of type: :types",
-            "FileValid": "Field :field is not valid",
-            "Identical": "Field :field does not have the expected value",
-            "InclusionIn": "Field :field must be a part of list: :domain",
-            "Numericality": "Field :field does not have a valid numeric format",
-            "PresenceOf": "Field :field is required",
-            "Regex": "Field :field does not match the required format",
-            "TooLong": "Field :field must not exceed :max characters long",
-            "TooShort": "Field :field must be at least :min characters long",
-            "Uniqueness": "Field :field must be unique",
-            "Url": "Field :field must be a url",
-            "CreditCard": "Field :field is not valid for a credit card number",
-            "Date": "Field :field is not a valid date"
-        ];
-
-        let this->_defaultMessages = array_merge(defaultMessages, messages);
-
-        return this->_defaultMessages;
-    }
-
-    /**
-     * Get default message for validator type
-     */
-    public function getDefaultMessage(string! type) -> string
-    {
-        var defaultMessage;
-
-        if fetch defaultMessage, this->_defaultMessages[type] {
-            return defaultMessage;
-        }
-
-        return "";
-    }
-
-    /**
-     * Returns the registered validators
-     */
-    public function getMessages() -> <Messages>
-    {
-        return this->_messages;
-    }
-
-    /**
-     * Adds labels for fields
-     */
-    public function setLabels(array! labels)
-    {
-        let this->_labels = labels;
-    }
-
-    /**
-     * Get label for field
-     *
-     * @param string field
-     */
-    public function getLabel(var field) -> string
-    {
-        var labels, value;
-
-        let labels = this->_labels;
-
-        if typeof field == "array" {
-            return join(", ", field);
-        }
-
-        if fetch value, labels[field] {
-            return value;
-        }
-
-        return field;
-    }
-
-    /**
-     * Appends a message to the messages list
-     */
-    public function appendMessage(<MessageInterface> message) -> <ValidationInterface>
-    {
-        var messages;
-
-        let messages = this->_messages;
-        if typeof messages != "object" {
-            let messages = new Messages();
-        }
-
-        messages->appendMessage(message);
-
-        let this->_messages = messages;
-
-        return this;
-    }
-
-    /**
-     * Assigns the data to an entity
-     * The entity is used to obtain the validation values
-     *
-     * @param object entity
-     * @param array|object data
-     */
-    public function bind(entity, data) -> <ValidationInterface>
-    {
-        if typeof entity != "object" {
-            throw new Exception("Entity must be an object");
-        }
-
-        if typeof data != "array" && typeof data != "object" {
-            throw new Exception("Data to validate must be an array or object");
-        }
-
-        let this->_entity = entity,
-            this->_data = data;
-
-        return this;
-    }
-
-    /**
-     * Gets the a value to validate in the array/object data source
-     */
-    public function getValue(string field) -> var | null
-    {
-        var entity, method, value, data, values,
-            filters, fieldFilters, dependencyInjector,
-            filterService, camelizedField;
-
-        let entity = this->_entity;
-
-        //  If the entity is an object use it to retrieve the values
-        if typeof entity == "object" {
-            let camelizedField = camelize(field);
-            let method = "get" . camelizedField;
-            if method_exists(entity, method) {
-                let value = entity->{method}();
-            } else {
-                if method_exists(entity, "readAttribute") {
-                    let value = entity->readAttribute(field);
-                } else {
-                    if isset entity->{field} {
-                        let value = entity->{field};
-                    } else {
-                        let value = null;
-                    }
-                }
-            }
-        }
-        else {
-            let data = this->_data;
-
-            if typeof data != "array" && typeof data != "object" {
-                throw new Exception("There is no data to validate");
-            }
-
-            // Check if there is a calculated value
-            let values = this->_values;
-            if fetch value, values[field] {
-                return value;
-            }
-
-            let value = null;
-            if typeof data == "array" {
-                if isset data[field] {
-                    let value = data[field];
-                }
-            } else {
-                if typeof data == "object" {
-                    if isset data->{field} {
-                        let value = data->{field};
-                    }
-                }
-            }
-        }
-
-        if typeof value == "null" {
-            return null;
-        }
-
-        let filters = this->_filters;
-
-        if fetch fieldFilters, filters[field] {
-
-            if fieldFilters {
-
-                let dependencyInjector = this->getDI();
-                if typeof dependencyInjector != "object" {
-                    let dependencyInjector = Di::getDefault();
-                    if typeof dependencyInjector != "object" {
-                        throw new Exception("A dependency injector is required to obtain the 'filter' service");
-                    }
-                }
-
-                let filterService = <LocatorInterface> dependencyInjector->getShared("filter");
-//                let filterService = dependencyInjector->getShared("filter");
-                if typeof filterService != "object" {
-                    throw new Exception("Returned 'filter' service is invalid");
-                }
-
-                let value = filterService->sanitize(value, fieldFilters);
-
-                /**
-                 * Set filtered value in entity
-                 */
-                if typeof entity == "object" {
-                    let method = "set" . camelizedField;
-                    if method_exists(entity, method) {
-                        entity->{method}(value);
-                    } else {
-                        if method_exists(entity, "writeAttribute") {
-                            entity->writeAttribute(field, value);
-                        } else {
-                            if property_exists(entity, field) {
-                                let entity->{field} = value;
-                            }
-                        }
-                    }
-                }
-
-                return value;
-            }
-        }
-
-        // Cache the calculated value only if it's not entity
-        if typeof entity != "object" {
-            let this->_values[field] = value;
-        }
-
-        return value;
+        return this->messages;
     }
 
     /**
