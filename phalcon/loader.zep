@@ -44,23 +44,23 @@ use Phalcon\Events\EventsAwareInterface;
 class Loader implements EventsAwareInterface
 {
 
-    protected _eventsManager = null;
+    protected eventsManager = null;
 
-    protected _foundPath = null;
+    protected foundPath = null;
 
-    protected _checkedPath = null;
+    protected checkedPath = null;
 
-    protected _classes = [];
+    protected classes = [];
 
-    protected _extensions = ["php"];
+    protected extensions = ["php"];
 
-    protected _namespaces = [];
+    protected namespaces = [];
 
-    protected _directories = [];
+    protected directories = [];
 
-    protected _files = [];
+    protected files = [];
 
-    protected _registered = false;
+    protected registered = false;
 
     protected fileCheckingCallback = "is_file";
 
@@ -99,7 +99,7 @@ class Loader implements EventsAwareInterface
      */
     public function setEventsManager(<ManagerInterface> eventsManager)
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
     }
 
     /**
@@ -107,7 +107,7 @@ class Loader implements EventsAwareInterface
      */
     public function getEventsManager() -> <ManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -115,7 +115,7 @@ class Loader implements EventsAwareInterface
      */
     public function setExtensions(array! extensions) -> <Loader>
     {
-        let this->_extensions = extensions;
+        let this->extensions = extensions;
         return this;
     }
 
@@ -124,7 +124,7 @@ class Loader implements EventsAwareInterface
      */
     public function getExtensions() -> array
     {
-        return this->_extensions;
+        return this->extensions;
     }
 
     /**
@@ -138,14 +138,14 @@ class Loader implements EventsAwareInterface
 
         if merge {
             for name, paths in preparedNamespaces {
-                if !isset this->_namespaces[name] {
-                    let this->_namespaces[name] = [];
+                if !isset this->namespaces[name] {
+                    let this->namespaces[name] = [];
                 }
 
-                let this->_namespaces[name] = array_merge(this->_namespaces[name], paths);
+                let this->namespaces[name] = array_merge(this->namespaces[name], paths);
             }
         } else {
-            let this->_namespaces = preparedNamespaces;
+            let this->namespaces = preparedNamespaces;
         }
 
         return this;
@@ -174,7 +174,7 @@ class Loader implements EventsAwareInterface
      */
     public function getNamespaces() -> array
     {
-        return this->_namespaces;
+        return this->namespaces;
     }
 
     /**
@@ -183,9 +183,9 @@ class Loader implements EventsAwareInterface
     public function registerDirs(array! directories, bool merge = false) -> <Loader>
     {
         if merge {
-            let this->_directories = array_merge(this->_directories, directories);
+            let this->directories = array_merge(this->directories, directories);
         } else {
-            let this->_directories = directories;
+            let this->directories = directories;
         }
 
         return this;
@@ -196,7 +196,7 @@ class Loader implements EventsAwareInterface
      */
     public function getDirs() -> array
     {
-        return this->_directories;
+        return this->directories;
     }
 
     /**
@@ -206,9 +206,9 @@ class Loader implements EventsAwareInterface
     public function registerFiles(array! files, bool merge = false) -> <Loader>
     {
         if merge {
-            let this->_files = array_merge(this->_files, files);
+            let this->files = array_merge(this->files, files);
         } else {
-            let this->_files = files;
+            let this->files = files;
         }
 
         return this;
@@ -219,7 +219,7 @@ class Loader implements EventsAwareInterface
      */
     public function getFiles() -> array
     {
-        return this->_files;
+        return this->files;
     }
 
     /**
@@ -228,9 +228,9 @@ class Loader implements EventsAwareInterface
     public function registerClasses(array! classes, bool merge = false) -> <Loader>
     {
         if merge {
-            let this->_classes = array_merge(this->_classes, classes);
+            let this->classes = array_merge(this->classes, classes);
         } else {
-            let this->_classes = classes;
+            let this->classes = classes;
         }
 
         return this;
@@ -241,7 +241,7 @@ class Loader implements EventsAwareInterface
      */
     public function getClasses() -> array
     {
-        return this->_classes;
+        return this->classes;
     }
 
     /**
@@ -249,7 +249,7 @@ class Loader implements EventsAwareInterface
      */
     public function register(bool prepend = false) -> <Loader>
     {
-        if this->_registered === false {
+        if this->registered === false {
             /**
              * Loads individual files added using Loader->registerFiles()
              */
@@ -260,7 +260,7 @@ class Loader implements EventsAwareInterface
              */
             spl_autoload_register([this, "autoLoad"], true, prepend);
 
-            let this->_registered = true;
+            let this->registered = true;
         }
         return this;
     }
@@ -270,9 +270,9 @@ class Loader implements EventsAwareInterface
      */
     public function unregister() -> <Loader>
     {
-        if this->_registered === true {
+        if this->registered === true {
             spl_autoload_unregister([this, "autoLoad"]);
-            let this->_registered = false;
+            let this->registered = false;
         }
         return this;
     }
@@ -286,10 +286,10 @@ class Loader implements EventsAwareInterface
 
         let fileCheckingCallback = this->fileCheckingCallback;
 
-        for filePath in this->_files {
-            if typeof this->_eventsManager == "object" {
-                let this->_checkedPath = filePath;
-                    this->_eventsManager->fire("loader:beforeCheckPath", this, filePath);
+        for filePath in this->files {
+            if typeof this->eventsManager == "object" {
+                let this->checkedPath = filePath;
+                    this->eventsManager->fire("loader:beforeCheckPath", this, filePath);
             }
 
             /**
@@ -300,9 +300,9 @@ class Loader implements EventsAwareInterface
                 /**
                  * Call 'pathFound' event
                  */
-                if typeof this->_eventsManager == "object" {
-                    let this->_foundPath = filePath;
-                    this->_eventsManager->fire("loader:pathFound", this, filePath);
+                if typeof this->eventsManager == "object" {
+                    let this->foundPath = filePath;
+                    this->eventsManager->fire("loader:pathFound", this, filePath);
                 }
 
                 /**
@@ -322,7 +322,7 @@ class Loader implements EventsAwareInterface
             directories, ns, namespaces, nsPrefix,
             directory, fileName, extension, nsClassName, fileCheckingCallback;
 
-        let eventsManager = this->_eventsManager;
+        let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
             eventsManager->fire("loader:beforeCheckClass", this, className);
         }
@@ -330,17 +330,17 @@ class Loader implements EventsAwareInterface
         /**
          * First we check for static paths for classes
          */
-        let classes = this->_classes;
+        let classes = this->classes;
         if fetch filePath, classes[className] {
             if typeof eventsManager == "object" {
-                let this->_foundPath = filePath;
+                let this->foundPath = filePath;
                 eventsManager->fire("loader:pathFound", this, filePath);
             }
             require filePath;
             return true;
         }
 
-        let extensions = this->_extensions;
+        let extensions = this->extensions;
 
         let ds = DIRECTORY_SEPARATOR,
             ns = "\\";
@@ -348,7 +348,7 @@ class Loader implements EventsAwareInterface
         /**
          * Checking in namespaces
          */
-        let namespaces = this->_namespaces;
+        let namespaces = this->namespaces;
 
         let fileCheckingCallback = this->fileCheckingCallback;
 
@@ -386,7 +386,7 @@ class Loader implements EventsAwareInterface
                      * Check if a events manager is available
                      */
                     if typeof eventsManager == "object" {
-                        let this->_checkedPath = filePath;
+                        let this->checkedPath = filePath;
                         eventsManager->fire("loader:beforeCheckPath", this);
                     }
 
@@ -396,7 +396,7 @@ class Loader implements EventsAwareInterface
                     if call_user_func(fileCheckingCallback, filePath) {
 
                         if typeof eventsManager == "object" {
-                            let this->_foundPath = filePath;
+                            let this->foundPath = filePath;
                             eventsManager->fire("loader:pathFound", this, filePath);
                         }
 
@@ -422,7 +422,7 @@ class Loader implements EventsAwareInterface
         /**
          * Checking in directories
          */
-        let directories = this->_directories;
+        let directories = this->directories;
 
         for directory in directories {
 
@@ -439,7 +439,7 @@ class Loader implements EventsAwareInterface
                 let filePath = fixedDirectory . nsClassName . "." . extension;
 
                 if typeof eventsManager == "object" {
-                    let this->_checkedPath = filePath;
+                    let this->checkedPath = filePath;
                     eventsManager->fire("loader:beforeCheckPath", this, filePath);
                 }
 
@@ -452,7 +452,7 @@ class Loader implements EventsAwareInterface
                      * Call 'pathFound' event
                      */
                     if typeof eventsManager == "object" {
-                        let this->_foundPath = filePath;
+                        let this->foundPath = filePath;
                         eventsManager->fire("loader:pathFound", this, filePath);
                     }
 
@@ -487,7 +487,7 @@ class Loader implements EventsAwareInterface
      */
     public function getFoundPath() -> string
     {
-        return this->_foundPath;
+        return this->foundPath;
     }
 
     /**
@@ -495,6 +495,6 @@ class Loader implements EventsAwareInterface
      */
     public function getCheckedPath() -> string
     {
-        return this->_checkedPath;
+        return this->checkedPath;
     }
 }

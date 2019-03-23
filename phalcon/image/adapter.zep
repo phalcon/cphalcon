@@ -20,25 +20,25 @@ use Phalcon\Image;
 abstract class Adapter implements AdapterInterface
 {
 
-    protected _image { get };
+    protected image { get };
 
-    protected _file;
+    protected file;
 
-    protected _realpath { get };
+    protected realpath { get };
 
     /**
      * Image width
      *
      * @var int
      */
-    protected _width { get };
+    protected width { get };
 
     /**
      * Image height
      *
      * @var int
      */
-    protected _height { get };
+    protected height { get };
 
     /**
      * Image type
@@ -47,16 +47,16 @@ abstract class Adapter implements AdapterInterface
      *
      * @var int
      */
-    protected _type { get };
+    protected type { get };
 
     /**
      * Image mime type
      *
      * @var string
      */
-    protected _mime { get };
+    protected mime { get };
 
-    protected static _checked = false;
+    protected static checked = false;
 
     /**
       * Resize the image to the given size
@@ -79,7 +79,7 @@ abstract class Adapter implements AdapterInterface
                     throw new Exception("width and height must be specified");
                 }
 
-                let master = (this->_width / width) > (this->_height / height) ? Image::WIDTH : Image::HEIGHT;
+                let master = (this->width / width) > (this->height / height) ? Image::WIDTH : Image::HEIGHT;
             }
 
             if master == Image::INVERSE {
@@ -88,7 +88,7 @@ abstract class Adapter implements AdapterInterface
                     throw new Exception("width and height must be specified");
                 }
 
-                let master = (this->_width / width) > (this->_height / height) ? Image::HEIGHT : Image::WIDTH;
+                let master = (this->width / width) > (this->height / height) ? Image::HEIGHT : Image::WIDTH;
             }
 
             switch master {
@@ -97,36 +97,36 @@ abstract class Adapter implements AdapterInterface
                     if !width {
                         throw new Exception("width must be specified");
                     }
-                    let height = this->_height * width / this->_width;
+                    let height = this->height * width / this->width;
                     break;
 
                 case Image::HEIGHT:
                     if !height {
                         throw new Exception("height must be specified");
                     }
-                    let width = this->_width * height / this->_height;
+                    let width = this->width * height / this->height;
                     break;
 
                 case Image::PRECISE:
                     if !width || !height {
                         throw new Exception("width and height must be specified");
                     }
-                    let ratio = this->_width / this->_height;
+                    let ratio = this->width / this->height;
 
                     if (width / height) > ratio {
-                        let height = this->_height * width / this->_width;
+                        let height = this->height * width / this->width;
                     } else {
-                        let width = this->_width * height / this->_height;
+                        let width = this->width * height / this->height;
                     }
                     break;
 
                 case Image::NONE:
                     if !width {
-                        let width = (int) this->_width;
+                        let width = (int) this->width;
                     }
 
                     if !height {
-                        let width = (int) this->_height;
+                        let width = (int) this->height;
                     }
                     break;
             }
@@ -160,35 +160,35 @@ abstract class Adapter implements AdapterInterface
     public function crop(int width, int height, int offsetX = null, int offsetY = null) -> <Adapter>
     {
         if is_null(offsetX) {
-            let offsetX = ((this->_width - width) / 2);
+            let offsetX = ((this->width - width) / 2);
         } else {
             if offsetX < 0 {
-                let offsetX = this->_width - width + offsetX;
+                let offsetX = this->width - width + offsetX;
             }
 
-            if offsetX > this->_width {
-                let offsetX = (int) this->_width;
+            if offsetX > this->width {
+                let offsetX = (int) this->width;
             }
         }
 
         if is_null(offsetY) {
-            let offsetY = ((this->_height - height) / 2);
+            let offsetY = ((this->height - height) / 2);
         } else {
             if offsetY < 0 {
-                let offsetY = this->_height - height + offsetY;
+                let offsetY = this->height - height + offsetY;
             }
 
-            if offsetY > this->_height {
-                let offsetY = (int) this->_height;
+            if offsetY > this->height {
+                let offsetY = (int) this->height;
             }
         }
 
-        if width > (this->_width - offsetX) {
-            let width = this->_width - offsetX;
+        if width > (this->width - offsetX) {
+            let width = this->width - offsetX;
         }
 
-        if height > (this->_height - offsetY) {
-            let height = this->_height - offsetY;
+        if height > (this->height - offsetY) {
+            let height = this->height - offsetY;
         }
 
         this->{"_crop"}(width, height, offsetX, offsetY);
@@ -250,8 +250,8 @@ abstract class Adapter implements AdapterInterface
       */
     public function reflection(int height, int opacity = 100, bool fadeIn = false) -> <Adapter>
     {
-        if height <= 0 || height > this->_height {
-            let height = (int) this->_height;
+        if height <= 0 || height > this->height {
+            let height = (int) this->height;
         }
 
         if opacity < 0 {
@@ -272,7 +272,7 @@ abstract class Adapter implements AdapterInterface
     {
         int tmp;
 
-        let tmp = this->_width - watermark->getWidth();
+        let tmp = this->width - watermark->getWidth();
 
         if offsetX < 0 {
             let offsetX = 0;
@@ -280,7 +280,7 @@ abstract class Adapter implements AdapterInterface
             let offsetX = tmp;
         }
 
-        let tmp = this->_height - watermark->getHeight();
+        let tmp = this->height - watermark->getHeight();
 
         if offsetY < 0 {
             let offsetY = 0;
@@ -393,7 +393,7 @@ abstract class Adapter implements AdapterInterface
     public function save(string file = null, int quality = -1) -> <Adapter>
     {
         if !file {
-            let file = (string) this->_realpath;
+            let file = (string) this->realpath;
         }
 
         this->{"_save"}(file, quality);
@@ -406,7 +406,7 @@ abstract class Adapter implements AdapterInterface
     public function render(string ext = null, int quality = 100) -> string
     {
         if !ext {
-            let ext = (string) pathinfo(this->_file, PATHINFO_EXTENSION);
+            let ext = (string) pathinfo(this->file, PATHINFO_EXTENSION);
         }
 
         if empty ext {

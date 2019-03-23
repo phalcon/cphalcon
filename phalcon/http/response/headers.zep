@@ -19,14 +19,14 @@ use Phalcon\Http\Response\HeadersInterface;
  */
 class Headers implements HeadersInterface
 {
-    protected _headers = [];
+    protected headers = [];
 
     /**
      * Sets a header to be sent at the end of the request
      */
     public function has(string name) -> bool
     {
-        return isset(this->_headers[name]);
+        return isset(this->headers[name]);
     }
 
     /**
@@ -34,7 +34,7 @@ class Headers implements HeadersInterface
      */
     public function set(string name, string value)
     {
-        let this->_headers[name] = value;
+        let this->headers[name] = value;
     }
 
     /**
@@ -43,7 +43,7 @@ class Headers implements HeadersInterface
     public function get(string name) -> string | bool
     {
         var headers, headerValue;
-        let headers = this->_headers;
+        let headers = this->headers;
 
         if fetch headerValue, headers[name] {
             return headerValue;
@@ -57,7 +57,7 @@ class Headers implements HeadersInterface
      */
     public function setRaw(string header)
     {
-        let this->_headers[header] = null;
+        let this->headers[header] = null;
     }
 
     /**
@@ -67,9 +67,9 @@ class Headers implements HeadersInterface
     {
         var headers;
 
-        let headers = this->_headers;
+        let headers = this->headers;
         unset headers[header];
-        let this->_headers = headers;
+        let this->headers = headers;
     }
 
     /**
@@ -79,7 +79,7 @@ class Headers implements HeadersInterface
     {
         var header, value;
         if !headers_sent() {
-            for header, value in this->_headers {
+            for header, value in this->headers {
                 if value !== null {
                     header(header . ": " . value, true);
                 } else {
@@ -100,7 +100,7 @@ class Headers implements HeadersInterface
      */
     public function reset()
     {
-        let this->_headers = [];
+        let this->headers = [];
     }
 
     /**
@@ -108,7 +108,7 @@ class Headers implements HeadersInterface
      */
     public function toArray() -> array
     {
-        return this->_headers;
+        return this->headers;
     }
 
     /**
@@ -118,7 +118,7 @@ class Headers implements HeadersInterface
     {
         var headers, key, value, dataHeaders;
         let headers = new self();
-        if fetch dataHeaders, data["_headers"] {
+        if fetch dataHeaders, data["headers"] {
             for key, value in dataHeaders {
                 headers->set(key, value);
             }

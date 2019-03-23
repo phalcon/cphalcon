@@ -38,15 +38,15 @@ use Phalcon\Http\Request\FileInterface;
 class File implements FileInterface
 {
 
-    protected _name;
+    protected name;
 
-    protected _tmp;
+    protected tmp;
 
-    protected _size;
+    protected size;
 
-    protected _type;
+    protected type;
 
-    protected _realType;
+    protected realType;
 
     /**
      * @var string|null
@@ -71,23 +71,23 @@ class File implements FileInterface
         var name, tempName, size, type, error;
 
         if fetch name, file["name"] {
-            let this->_name = name;
+            let this->name = name;
 
             if defined("PATHINFO_EXTENSION") {
                 let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
             }
         }
 
-        if fetch tempName, file["tmp_name"] {
-            let this->_tmp = tempName;
+        if fetch tempName, file["tmpname"] {
+            let this->tmp = tempName;
         }
 
         if fetch size, file["size"] {
-            let this->_size = size;
+            let this->size = size;
         }
 
         if fetch type, file["type"] {
-            let this->_type = type;
+            let this->type = type;
         }
 
         if fetch error, file["error"] {
@@ -104,7 +104,7 @@ class File implements FileInterface
      */
     public function getSize() -> int
     {
-        return this->_size;
+        return this->size;
     }
 
     /**
@@ -112,7 +112,7 @@ class File implements FileInterface
      */
     public function getName() -> string
     {
-        return this->_name;
+        return this->name;
     }
 
     /**
@@ -120,7 +120,7 @@ class File implements FileInterface
      */
     public function getTempName() -> string
     {
-        return this->_tmp;
+        return this->tmp;
     }
 
     /**
@@ -129,7 +129,7 @@ class File implements FileInterface
      */
     public function getType() -> string
     {
-        return this->_type;
+        return this->type;
     }
 
     /**
@@ -144,7 +144,7 @@ class File implements FileInterface
             return "";
         }
 
-        let mime = finfo_file(finfo, this->_tmp);
+        let mime = finfo_file(finfo, this->tmp);
         finfo_close(finfo);
 
         return mime;
@@ -166,6 +166,6 @@ class File implements FileInterface
      */
     public function moveTo(string! destination) -> bool
     {
-        return move_uploaded_file(this->_tmp, destination);
+        return move_uploaded_file(this->tmp, destination);
     }
 }

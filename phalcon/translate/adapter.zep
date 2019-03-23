@@ -24,7 +24,7 @@ abstract class Adapter implements AdapterInterface
     /**
     * @var Phalcon\Translate\InterpolatorInterface
     */
-    protected _interpolator;
+    protected interpolator;
 
     public function __construct(array! options)
     {
@@ -38,7 +38,7 @@ abstract class Adapter implements AdapterInterface
 
     public function setInterpolator(<InterpolatorInterface> interpolator) -> <Adapter>
     {
-        let this->_interpolator = interpolator;
+        let this->interpolator = interpolator;
         return this;
     }
 
@@ -101,6 +101,6 @@ abstract class Adapter implements AdapterInterface
      */
     protected function replacePlaceholders(string! translation, placeholders = null) -> string
     {
-        return this->_interpolator->{"replacePlaceholders"}(translation, placeholders);
+        return this->interpolator->{"replacePlaceholders"}(translation, placeholders);
     }
 }
