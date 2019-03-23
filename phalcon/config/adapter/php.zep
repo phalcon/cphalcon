@@ -49,11 +49,10 @@ use Phalcon\Config;
  */
 class Php extends Config
 {
-
     /**
      * Phalcon\Config\Adapter\Php constructor
      */
-    public function __construct(string! filePath)
+    public function __construct(string! filePath) -> void
     {
         parent::__construct(require filePath);
     }

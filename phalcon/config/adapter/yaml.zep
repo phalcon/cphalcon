@@ -52,13 +52,12 @@ use Phalcon\Config\Exception;
  */
 class Yaml extends Config
 {
-
     /**
      * Phalcon\Config\Adapter\Yaml constructor
      *
      * @throws \Phalcon\Config\Exception
      */
-    public function __construct(string! filePath, array! callbacks = null)
+    public function __construct(string! filePath, array! callbacks = null) -> void
     {
         var yamlConfig;
         int ndocs = 0;
