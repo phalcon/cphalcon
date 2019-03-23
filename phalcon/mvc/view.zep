@@ -503,7 +503,7 @@ class View extends Injectable implements ViewInterface
          */
         if engines === false {
 
-            let di = <DiInterface> this->_dependencyInjector;
+            let di = <DiInterface> this->container;
 
             let engines = [];
             let registeredEngines = this->_registeredEngines;
@@ -1143,7 +1143,7 @@ class View extends Injectable implements ViewInterface
         var dependencyInjector, cacheService, viewCache,
             viewOptions, cacheOptions;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        let dependencyInjector = <DiInterface> this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the view cache services");
         }

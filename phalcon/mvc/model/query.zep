@@ -188,7 +188,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let this->_manager = manager,
             this->_metaData = metaData;
 
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -196,7 +196,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -3258,7 +3258,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * We create another Phalcon\Mvc\Model\Query to get the related records
          */
         let query = new self();
-        query->setDI(this->_dependencyInjector);
+        query->setDI(this->container);
         query->setType(PHQL_T_SELECT);
         query->setIntermediate(selectIr);
 
@@ -3308,7 +3308,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let cacheService = "modelsCache";
             }
 
-            let cache = this->_dependencyInjector->getShared(cacheService);
+            let cache = this->container->getShared(cacheService);
             if typeof cache != "object" {
                 throw new Exception("Cache service must be an object");
             }

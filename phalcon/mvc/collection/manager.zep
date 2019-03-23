@@ -64,7 +64,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function setDI(<DiInterface> dependencyInjector) -> void
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -72,7 +72,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -239,7 +239,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
             }
         }
 
-        let dependencyInjector = this->_dependencyInjector;
+        let dependencyInjector = this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }

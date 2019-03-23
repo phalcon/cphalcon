@@ -110,7 +110,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     {
         var dependencyInjector, response, exception;
 
-        let dependencyInjector = this->_dependencyInjector;
+        let dependencyInjector = this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception(
                 "A dependency injection container is required to access the 'response' service",

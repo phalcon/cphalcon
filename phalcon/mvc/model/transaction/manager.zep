@@ -87,7 +87,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             let dependencyInjector = \Phalcon\Di::getDefault();
         }
 
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = dependencyInjector;
 
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
@@ -99,7 +99,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -107,7 +107,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -174,7 +174,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         var dependencyInjector, transaction, transactions;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        let dependencyInjector = <DiInterface> this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }

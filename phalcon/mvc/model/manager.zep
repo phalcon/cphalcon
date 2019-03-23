@@ -153,7 +153,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -161,7 +161,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -292,7 +292,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Load it using an autoloader
          */
-        let model = new {modelName}(null, this->_dependencyInjector, this);
+        let model = new {modelName}(null, this->container, this);
 
         return model;
     }
@@ -462,7 +462,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let service = this->_getConnectionService(model, connectionServices);
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        let dependencyInjector = <DiInterface> this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
@@ -1629,7 +1629,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var dependencyInjector, query;
 
-        let dependencyInjector = this->_dependencyInjector;
+        let dependencyInjector = this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access ORM services");
         }
@@ -1672,7 +1672,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var dependencyInjector;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
+        let dependencyInjector = <DiInterface> this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access ORM services");
         }
