@@ -50,7 +50,7 @@ use Phalcon\Events\EventsAwareInterface;
  */
 class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
 {
-    protected _dependencyInjector;
+    protected _container;
 
     protected _eventsManager;
 
@@ -125,9 +125,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> dependencyInjector) -> void
+    public function setDI(<DiInterface> container) -> void
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -135,7 +135,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -271,7 +271,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         var request, currentHostName, routeFound, parts,
             params, matches, notFoundPaths,
             vnamespace, module,  controller, action, paramsStr, strParams,
-            route, methods, dependencyInjector,
+            route, methods, container,
             hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
             paths, converters, part, position, matchPosition, converter, eventsManager;
 
@@ -317,12 +317,12 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                  */
                 if request === null {
 
-                    let dependencyInjector = <DiInterface> this->_dependencyInjector;
-                    if typeof dependencyInjector != "object" {
+                    let container = <DiInterface> this->container;
+                    if typeof container != "object" {
                         throw new Exception("A dependency injection container is required to access the 'request' service");
                     }
 
-                    let request = <RequestInterface> dependencyInjector->getShared("request");
+                    let request = <RequestInterface> container->getShared("request");
                 }
 
                 /**
@@ -344,12 +344,12 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                  */
                 if request === null {
 
-                    let dependencyInjector = <DiInterface> this->_dependencyInjector;
-                    if typeof dependencyInjector != "object" {
+                    let container = <DiInterface> this->container;
+                    if typeof container != "object" {
                         throw new Exception("A dependency injection container is required to access the 'request' service");
                     }
 
-                    let request = <RequestInterface> dependencyInjector->getShared("request");
+                    let request = <RequestInterface> container->getShared("request");
                 }
 
                 /**

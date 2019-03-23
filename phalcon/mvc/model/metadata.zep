@@ -117,7 +117,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                         /**
                          * Get the meta-data extraction strategy
                          */
-                        let dependencyInjector = this->_dependencyInjector,
+                        let dependencyInjector = this->container,
                             strategy = this->getStrategy(),
                             modelMetadata = strategy->getMetaData(model, dependencyInjector);
                     }
@@ -163,7 +163,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Get the meta-data extraction strategy
          */
         if typeof strategy != "object" {
-            let dependencyInjector = this->_dependencyInjector,
+            let dependencyInjector = this->container,
                 strategy = this->getStrategy();
         }
 
@@ -185,7 +185,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -193,7 +193,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**

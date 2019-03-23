@@ -59,7 +59,7 @@ class Volt extends Engine
             /**
              * Pass the IoC to the compiler only of it's an object
              */
-            let dependencyInjector = <DiInterface> this->_dependencyInjector;
+            let dependencyInjector = <DiInterface> this->container;
             if typeof dependencyInjector == "object" {
                 compiler->setDi(dependencyInjector);
             }

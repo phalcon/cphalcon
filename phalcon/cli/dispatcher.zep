@@ -171,7 +171,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
             return optionValue;
         }
 
-        let dependencyInjector = this->_dependencyInjector;
+        let dependencyInjector = this->container;
         if typeof dependencyInjector != "object" {
             this->{"_throwDispatchException"}(
                 "A dependency injection object is required to access the 'filter' service",

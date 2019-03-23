@@ -37,7 +37,7 @@ class Console extends BaseApplication
             moduleName, modules, module, path, className,
             moduleObject, dispatcher, task;
 
-        let dependencyInjector = this->_dependencyInjector;
+        let dependencyInjector = this->container;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access internal services");
         }
