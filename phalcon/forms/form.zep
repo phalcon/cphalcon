@@ -28,42 +28,42 @@ use Phalcon\Service\LocatorInterface;
  */
 class Form extends Injectable implements \Countable, \Iterator
 {
-    protected _position;
+    protected action;
 
-    protected _entity;
+    protected data;
 
-    protected _options = [];
+    protected elements = [];
 
-    protected _data;
+    protected elementsIndexed;
 
-    protected _elements = [];
+    protected entity;
 
-    protected _elementsIndexed;
+    protected messages;
 
-    protected _messages;
+    protected position;
 
-    protected _action;
+    protected options = [];
 
-    protected _validation { set, get };
+    protected validation { set, get };
 
     /**
      * Phalcon\Forms\Form constructor
      *
      * @param object entity
      */
-    public function __construct(var entity = null, array userOptions = [])
+    public function __construct(var entity = null, array userOptions = []) -> void
     {
         if typeof entity != "null" {
             if typeof entity != "object" {
                 throw new Exception("The base entity is not valid");
             }
-            let this->_entity = entity;
+            let this->entity = entity;
         }
 
         /**
          * Update the user options
          */
-        let this->_options = userOptions;
+        let this->options = userOptions;
 
         /**
          * Check for an 'initialize' method and call it
@@ -74,87 +74,55 @@ class Form extends Injectable implements \Countable, \Iterator
     }
 
     /**
-     * Sets the form's action
+     * Adds an element to the form
      */
-    public function setAction(string! action) -> <Form>
+    public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
     {
-        let this->_action = action;
-        return this;
-    }
+        var name, key, value, elements;
 
-    /**
-     * Returns the form's action
-     */
-    public function getAction() -> string
-    {
-        return this->_action;
-    }
+        /**
+         * Gets the element's name
+         */
+        let name = element->getName();
 
-    /**
-     * Sets an option for the form
-     */
-    public function setUserOption(string option, var value) -> <Form>
-    {
-        let this->_options[option] = value;
-        return this;
-    }
+        /**
+         * Link the element to the form
+         */
+        element->setForm(this);
 
-    /**
-     * Returns the value of an option if present
-     */
-    public function getUserOption(string option, var defaultValue = null) -> var
-    {
-        var value;
-        if fetch value, this->_options[option] {
-            return value;
+        if position == null || empty this->elements {
+            /**
+             * Append the element by its name
+             */
+            let this->elements[name] = element;
+        } else {
+            let elements = [];
+            /**
+             * Walk elements and add the element to a particular position
+             */
+            for key, value in this->elements {
+                if key == position {
+                    if type {
+                        /**
+                         * Add the element before position
+                         */
+                        let elements[name] = element, elements[key] = value;
+                    } else {
+                        /**
+                         * Add the element after position
+                         */
+                        let elements[key] = value, elements[name] = element;
+                    }
+                } else {
+                    /**
+                     * Copy the element to new array
+                     */
+                    let elements[key] = value;
+                }
+            }
+            let this->elements = elements;
         }
-        return defaultValue;
-    }
-
-    /**
-     * Sets options for the element
-     */
-    public function setUserOptions(array! options) -> <Form>
-    {
-        let this->_options = options;
         return this;
-    }
-
-    /**
-     * Returns the options for the element
-     */
-    public function getUserOptions() -> array
-    {
-        return this->_options;
-    }
-
-    /**
-     * Sets the entity related to the model
-     *
-     * @param object entity
-     */
-    public function setEntity(var entity) -> <Form>
-    {
-        let this->_entity = entity;
-        return this;
-    }
-
-    /**
-     * Returns the entity related to the model
-     *
-     * @return object
-     */
-    public function getEntity()
-    {
-        return this->_entity;
-    }
-
-    /**
-     * Returns the form elements added to the form
-     */
-    public function getElements() -> <ElementInterface[]>
-    {
-        return this->_elements;
     }
 
     /**
@@ -168,7 +136,7 @@ class Form extends Injectable implements \Countable, \Iterator
         var filter, key, value, element, filters,
             dependencyInjector, filteredValue, method;
 
-        if empty this->_elements {
+        if empty this->elements {
             throw new Exception("There are no elements in the form");
         }
 
@@ -178,7 +146,7 @@ class Form extends Injectable implements \Countable, \Iterator
             /**
              * Get the element
              */
-            if !fetch element, this->_elements[key] {
+            if !fetch element, this->elements[key] {
                 continue;
             }
 
@@ -227,126 +195,150 @@ class Form extends Injectable implements \Countable, \Iterator
             let entity->{key} = filteredValue;
         }
 
-        let this->_data = data;
+        let this->data = data;
 
         return this;
     }
 
     /**
-     * Validates the form
+     * Clears every element in the form to its default value
      *
-     * @param array data
-     * @param object entity
+     * @param array|string|null fields
      */
-    public function isValid(var data = null, var entity = null) -> bool
+    public function clear(var fields = null) -> <Form>
     {
-        var validationStatus, messages, element,
-            validators, name, filters,
-            validator, validation, elementMessage;
+        var elements, element, data, field;
 
-        if empty this->_elements {
-            return true;
-        }
-
-        /**
-         * If the data is not an array use the one passed previously
-         */
-        if typeof data != "array" {
-            let data = this->_data;
-        }
-
-        /**
-         * If the user doesn't pass an entity we use the one in this_ptr->_entity
-         */
-        if typeof entity == "object" {
-            this->bind(data, entity);
+        let data = this->data;
+        if fields === null {
+            let data = [];
         } else {
-            if typeof this->_entity == "object" {
-                this->bind(data, this->_entity);
+            if typeof fields == "array" {
+                for field in fields {
+                    if isset data[field] {
+                        unset data[field];
+                    }
+                }
+            } else {
+                if isset data[field] {
+                    unset data[field];
+                }
             }
         }
+
+        let this->data = data,
+            elements = this->elements;
 
         /**
-         * Check if there is a method 'beforeValidation'
-         */
-        if method_exists(this, "beforeValidation") {
-            if this->{"beforeValidation"}(data, entity) === false {
-                return false;
-            }
-        }
-
-        let validationStatus = true;
-
-        let validation = this->getValidation();
-
-        if typeof validation != "object" || !(validation instanceof ValidationInterface) {
-            // Create an implicit validation
-            let validation = new Validation();
-        }
-
-        for element in this->_elements {
-
-            let validators = element->getValidators();
-            if typeof validators != "array" || count(validators) == 0 {
-                continue;
-            }
-
-            /**
-             * Element's name
-             */
-            let name = element->getName();
-
-            /**
-            * Append (not overriding) element validators to validation class
-            */
-            for validator in validators {
-                validation->add(name, validator);
-            }
-
-            /**
-             * Get filters in the element
-             */
-            let filters = element->getFilters();
-
-            /**
-             * Assign the filters to the validation
-             */
-            if typeof filters == "array" {
-                validation->setFilters(name, filters);
-            }
-        }
-
-        /**
-        * Perform the validation
+        * If fields is string, clear just that field.
+        * If it's array, clear only fields in array.
+        * If null, clear all
         */
-        let messages = validation->validate(data, entity);
-        if messages->count() {
-            // Add validation messages to relevant elements
-            for elementMessage in iterator(messages) {
-                this->get(elementMessage->getField())->appendMessage(elementMessage);
+        if typeof elements == "array" {
+            if fields === null {
+                for element in elements {
+                    Tag::setDefault(element->getName(), element->getDefault());
+                }
+            } else {
+                if typeof fields == "array" {
+                    for element in elements {
+                        if in_array(element->getName(), fields) {
+                            Tag::setDefault(element->getName(), element->getDefault());
+                        }
+                    }
+                } else {
+                    if fetch element, elements[fields] {
+                        Tag::setDefault(element->getName(), element->getDefault());
+                    }
+                }
             }
-            messages->rewind();
-            let validationStatus = false;
+        }
+        return this;
+    }
+
+    /**
+     * Returns the number of elements in the form
+     */
+    public function count() -> int
+    {
+        return count(this->elements);
+    }
+
+    /**
+     * Returns the current element in the iterator
+     */
+    public function current() -> <ElementInterface> | bool
+    {
+        var element;
+
+        if fetch element, this->elementsIndexed[this->position] {
+            return element;
         }
 
-        /**
-         * If the validation fails update the messages
-         */
-        if !validationStatus {
-            let this->_messages = messages;
+        return false;
+    }
+
+    /**
+     * Returns an element added to the form by its name
+     */
+    public function get(string! name) -> <ElementInterface>
+    {
+        var element;
+
+        if fetch element, this->elements[name] {
+            return element;
         }
 
-        /**
-         * Check if there is a method 'afterValidation'
-         */
-        if method_exists(this, "afterValidation") {
-            this->{"afterValidation"}(messages);
+        throw new Exception("Element with ID=" . name . " is not part of the form");
+    }
+
+    /**
+     * Returns the form's action
+     */
+    public function getAction() -> string
+    {
+        return this->action;
+    }
+
+    /**
+     * Returns the form elements added to the form
+     */
+    public function getElements() -> <ElementInterface[]>
+    {
+        return this->elements;
+    }
+
+    /**
+     * Returns the entity related to the model
+     *
+     * @return object
+     */
+    public function getEntity()
+    {
+        return this->entity;
+    }
+
+    /**
+     * Returns a label for an element
+     */
+    public function getLabel(string! name) -> string
+    {
+        var element, label;
+
+        if !fetch element, this->elements[name] {
+            throw new Exception("Element with ID=" . name . " is not part of the form");
         }
 
+        let label = element->getLabel();
+
         /**
-         * Return the validation status
+         * Use the element's name as label if the label is not available
          */
-        return validationStatus;
+        if !label {
+            return name;
+        }
+
+        return label;
     }
 
     /**
@@ -376,7 +368,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var messages, messagesByItem, elementMessage, fieldName;
 
-        let messages = this->_messages;
+        let messages = this->messages;
 
         if typeof messages == "object" && messages instanceof Messages {
             /**
@@ -417,128 +409,23 @@ class Form extends Injectable implements \Countable, \Iterator
     }
 
     /**
-     * Check if messages were generated for a specific element
+     * Returns the value of an option if present
      */
-    public function hasMessagesFor(string! name) -> bool
+    public function getUserOption(string option, var defaultValue = null) -> var
     {
-        return this->getMessagesFor(name)->count() > 0;
+        var value;
+        if fetch value, this->options[option] {
+            return value;
+        }
+        return defaultValue;
     }
 
     /**
-     * Adds an element to the form
+     * Returns the options for the element
      */
-    public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
+    public function getUserOptions() -> array
     {
-        var name, key, value, elements;
-
-        /**
-         * Gets the element's name
-         */
-        let name = element->getName();
-
-        /**
-         * Link the element to the form
-         */
-        element->setForm(this);
-
-        if position == null || empty this->_elements {
-            /**
-             * Append the element by its name
-             */
-            let this->_elements[name] = element;
-        } else {
-            let elements = [];
-            /**
-             * Walk elements and add the element to a particular position
-             */
-            for key, value in this->_elements {
-                if key == position {
-                    if type {
-                        /**
-                         * Add the element before position
-                         */
-                        let elements[name] = element, elements[key] = value;
-                    } else {
-                        /**
-                         * Add the element after position
-                         */
-                        let elements[key] = value, elements[name] = element;
-                    }
-                } else {
-                    /**
-                     * Copy the element to new array
-                     */
-                    let elements[key] = value;
-                }
-            }
-            let this->_elements = elements;
-        }
-        return this;
-    }
-
-    /**
-     * Renders a specific item in the form
-     */
-    public function render(string! name, array attributes = []) -> string
-    {
-        var element;
-
-        if !fetch element, this->_elements[name] {
-            throw new Exception("Element with ID=" . name . " is not part of the form");
-        }
-
-        return element->render(attributes);
-    }
-
-    /**
-     * Returns an element added to the form by its name
-     */
-    public function get(string! name) -> <ElementInterface>
-    {
-        var element;
-
-        if fetch element, this->_elements[name] {
-            return element;
-        }
-
-        throw new Exception("Element with ID=" . name . " is not part of the form");
-    }
-
-    /**
-     * Generate the label of an element added to the form including HTML
-     */
-    public function label(string! name, array attributes = null) -> string
-    {
-        var element;
-
-        if fetch element, this->_elements[name] {
-            return element->label(attributes);
-        }
-
-        throw new Exception("Element with ID=" . name . " is not part of the form");
-    }
-
-    /**
-     * Returns a label for an element
-     */
-    public function getLabel(string! name) -> string
-    {
-        var element, label;
-
-        if !fetch element, this->_elements[name] {
-            throw new Exception("Element with ID=" . name . " is not part of the form");
-        }
-
-        let label = element->getLabel();
-
-        /**
-         * Use the element's name as label if the label is not available
-         */
-        if !label {
-            return name;
-        }
-
-        return label;
+        return this->options;
     }
 
     /**
@@ -548,8 +435,8 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var entity, method, value, data, $internal, forbidden, element;
 
-        let entity = this->_entity;
-        let data = this->_data;
+        let entity = this->entity;
+        let data = this->data;
 
         /**
          * Check if form has a getter
@@ -627,7 +514,7 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Check if element has default value
          */
-        if fetch element, this->_elements[name] {
+        if fetch element, this->elements[name] {
             return element->getDefault();
         }
 
@@ -642,7 +529,176 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Checks if the element is in the form
          */
-        return isset this->_elements[name];
+        return isset this->elements[name];
+    }
+
+    /**
+     * Check if messages were generated for a specific element
+     */
+    public function hasMessagesFor(string! name) -> bool
+    {
+        return this->getMessagesFor(name)->count() > 0;
+    }
+
+    /**
+     * Validates the form
+     *
+     * @param array data
+     * @param object entity
+     */
+    public function isValid(var data = null, var entity = null) -> bool
+    {
+        var validationStatus, messages, element,
+            validators, name, filters,
+            validator, validation, elementMessage;
+
+        if empty this->elements {
+            return true;
+        }
+
+        /**
+         * If the data is not an array use the one passed previously
+         */
+        if typeof data != "array" {
+            let data = this->data;
+        }
+
+        /**
+         * If the user doesn't pass an entity we use the one in this_ptr->entity
+         */
+        if typeof entity == "object" {
+            this->bind(data, entity);
+        } else {
+            if typeof this->entity == "object" {
+                this->bind(data, this->entity);
+            }
+        }
+
+        /**
+         * Check if there is a method 'beforeValidation'
+         */
+        if method_exists(this, "beforeValidation") {
+            if this->{"beforeValidation"}(data, entity) === false {
+                return false;
+            }
+        }
+
+        let validationStatus = true;
+
+        let validation = this->getValidation();
+
+        if typeof validation != "object" || !(validation instanceof ValidationInterface) {
+            // Create an implicit validation
+            let validation = new Validation();
+        }
+
+        for element in this->elements {
+
+            let validators = element->getValidators();
+            if typeof validators != "array" || count(validators) == 0 {
+                continue;
+            }
+
+            /**
+             * Element's name
+             */
+            let name = element->getName();
+
+            /**
+            * Append (not overriding) element validators to validation class
+            */
+            for validator in validators {
+                validation->add(name, validator);
+            }
+
+            /**
+             * Get filters in the element
+             */
+            let filters = element->getFilters();
+
+            /**
+             * Assign the filters to the validation
+             */
+            if typeof filters == "array" {
+                validation->setFilters(name, filters);
+            }
+        }
+
+        /**
+        * Perform the validation
+        */
+        let messages = validation->validate(data, entity);
+        if messages->count() {
+            // Add validation messages to relevant elements
+            for elementMessage in iterator(messages) {
+                this->get(elementMessage->getField())->appendMessage(elementMessage);
+            }
+            messages->rewind();
+            let validationStatus = false;
+        }
+
+        /**
+         * If the validation fails update the messages
+         */
+        if !validationStatus {
+            let this->messages = messages;
+        }
+
+        /**
+         * Check if there is a method 'afterValidation'
+         */
+        if method_exists(this, "afterValidation") {
+            this->{"afterValidation"}(messages);
+        }
+
+        /**
+         * Return the validation status
+         */
+        return validationStatus;
+    }
+
+    /**
+     * Returns the current position/key in the iterator
+     */
+    public function key() -> int
+    {
+        return this->position;
+    }
+
+    /**
+     * Generate the label of an element added to the form including HTML
+     */
+    public function label(string! name, array attributes = null) -> string
+    {
+        var element;
+
+        if fetch element, this->elements[name] {
+            return element->label(attributes);
+        }
+
+        throw new Exception("Element with ID=" . name . " is not part of the form");
+    }
+
+    /**
+     * Moves the internal iteration pointer to the next position
+     */
+    public function next() -> void
+    {
+        let this->position++;
+    }
+
+    /**
+     * Renders a specific item in the form
+     */
+    public function render(string! name, array attributes = []) -> string
+    {
+        var element;
+
+        if !fetch element, this->elements[name] {
+            throw new Exception("Element with ID=" . name . " is not part of the form");
+        }
+
+        return element->render(attributes);
     }
 
     /**
@@ -653,81 +709,17 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Checks if the element is in the form
          */
-        if isset this->_elements[name] {
-            unset this->_elements[name];
+        if isset this->elements[name] {
+            unset this->elements[name];
             return true;
         }
 
         /**
          * Clean the iterator index
          */
-        let this->_elementsIndexed = null;
+        let this->elementsIndexed = null;
 
         return false;
-    }
-
-    /**
-     * Clears every element in the form to its default value
-     *
-     * @param array|string|null fields
-     */
-    public function clear(var fields = null) -> <Form>
-    {
-        var elements, element, data, field;
-
-        let data = this->_data;
-        if fields === null {
-            let data = [];
-        } else {
-            if typeof fields == "array" {
-                for field in fields {
-                    if isset data[field] {
-                        unset data[field];
-                    }
-                }
-            } else {
-                if isset data[field] {
-                    unset data[field];
-                }
-            }
-        }
-
-        let this->_data = data,
-            elements = this->_elements;
-
-        /**
-        * If fields is string, clear just that field.
-        * If it's array, clear only fields in array.
-        * If null, clear all
-        */
-        if typeof elements == "array" {
-            if fields === null {
-                for element in elements {
-                    Tag::setDefault(element->getName(), element->getDefault());
-                }
-            } else {
-                if typeof fields == "array" {
-                    for element in elements {
-                        if in_array(element->getName(), fields) {
-                            Tag::setDefault(element->getName(), element->getDefault());
-                        }
-                    }
-                } else {
-                    if fetch element, elements[fields] {
-                        Tag::setDefault(element->getName(), element->getDefault());
-                    }
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Returns the number of elements in the form
-     */
-    public function count() -> int
-    {
-        return count(this->_elements);
     }
 
     /**
@@ -735,42 +727,50 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function rewind() -> void
     {
-        let this->_position = 0;
-        if typeof this->_elements == "array" {
-            let this->_elementsIndexed = array_values(this->_elements);
+        let this->position = 0;
+        if typeof this->elements == "array" {
+            let this->elementsIndexed = array_values(this->elements);
         } else {
-            let this->_elementsIndexed = [];
+            let this->elementsIndexed = [];
         }
     }
 
     /**
-     * Returns the current element in the iterator
+     * Sets the form's action
      */
-    public function current() -> <ElementInterface> | bool
+    public function setAction(string! action) -> <Form>
     {
-        var element;
-
-        if fetch element, this->_elementsIndexed[this->_position] {
-            return element;
-        }
-
-        return false;
+        let this->action = action;
+        return this;
     }
 
     /**
-     * Returns the current position/key in the iterator
+     * Sets the entity related to the model
+     *
+     * @param object entity
      */
-    public function key() -> int
+    public function setEntity(var entity) -> <Form>
     {
-        return this->_position;
+        let this->entity = entity;
+        return this;
     }
 
     /**
-     * Moves the internal iteration pointer to the next position
+     * Sets an option for the form
      */
-    public function next() -> void
+    public function setUserOption(string option, var value) -> <Form>
     {
-        let this->_position++;
+        let this->options[option] = value;
+        return this;
+    }
+
+    /**
+     * Sets options for the element
+     */
+    public function setUserOptions(array! options) -> <Form>
+    {
+        let this->options = options;
+        return this;
     }
 
     /**
@@ -778,6 +778,6 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function valid() -> bool
     {
-        return isset this->_elementsIndexed[this->_position];
+        return isset this->elementsIndexed[this->position];
     }
 }

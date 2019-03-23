@@ -23,24 +23,23 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Element implements ElementInterface
 {
-
-    protected _form;
-
-    protected _name;
-
-    protected _value;
-
-    protected _label;
-
     protected _attributes;
-
-    protected _validators = [];
 
     protected _filters;
 
-    protected _options;
+    protected _form;
+
+    protected _label;
 
     protected _messages;
+
+    protected _name;
+
+    protected _options;
+
+    protected _validators = [];
+
+    protected _value;
 
     /**
      * Phalcon\Forms\Element constructor
@@ -48,7 +47,7 @@ abstract class Element implements ElementInterface
      * @param string name Attribute name (value of 'name' attribute of HTML element)
      * @param array attributes Additional HTML element attributes
      */
-    public function __construct(string name, array attributes = [])
+    public function __construct(string name, array attributes = []) -> void
     {
         let name = trim(name);
 
@@ -62,51 +61,11 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Sets the parent form to the element
+     * Magic method __toString renders the widget without attributes
      */
-    public function setForm(<Form> form) -> <ElementInterface>
+    public function __toString() -> string
     {
-        let this->_form = form;
-        return this;
-    }
-
-    /**
-     * Returns the parent form to the element
-     */
-    public function getForm() -> <Form>
-    {
-        return this->_form;
-    }
-
-    /**
-     * Sets the element name
-     */
-    public function setName(string! name) -> <ElementInterface>
-    {
-        let this->_name = name;
-        return this;
-    }
-
-    /**
-     * Returns the element name
-     */
-    public function getName() -> string
-    {
-        return this->_name;
-    }
-
-    /**
-     * Sets the element filters
-     *
-     * @param array|string filters
-     */
-    public function setFilters(var filters) -> <ElementInterface>
-    {
-        if typeof filters != "string" && typeof filters != "array" {
-            throw new Exception("Wrong filter type added");
-        }
-        let this->_filters = filters;
-        return this;
+        return this->{"render"}();
     }
 
     /**
@@ -129,13 +88,12 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns the element filters
-     *
-     * @return mixed
+     * Adds a validator to the element
      */
-    public function getFilters()
+    public function addValidator(<ValidatorInterface> validator) -> <ElementInterface>
     {
-        return this->_filters;
+        let this->_validators[] = validator;
+        return this;
     }
 
     /**
@@ -160,12 +118,127 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Adds a validator to the element
+     * Appends a message to the internal message list
      */
-    public function addValidator(<ValidatorInterface> validator) -> <ElementInterface>
+    public function appendMessage(<MessageInterface> message) -> <ElementInterface>
     {
-        let this->_validators[] = validator;
+        this->_messages->appendMessage(message);
         return this;
+    }
+
+    /**
+     * Clears element to its default value
+     */
+    public function clear() -> <ElementInterface>
+    {
+        var form  = this->_form,
+            name  = this->_name,
+            value = this->_value;
+
+        if typeof form == "object" {
+            form->clear(name);
+        } else {
+            Tag::setDefault(name, value);
+        }
+
+        return this;
+    }
+
+    /**
+     * Returns the value of an attribute if present
+     */
+    public function getAttribute(string attribute, var defaultValue = null) -> var
+    {
+        var attributes, value;
+        let attributes = this->_attributes;
+        if fetch value, attributes[attribute] {
+            return value;
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Returns the default attributes for the element
+     */
+    public function getAttributes() -> array
+    {
+        var attributes;
+        let attributes = this->_attributes;
+        if typeof attributes != "array" {
+            return [];
+        }
+        return attributes;
+    }
+
+    /**
+     * Returns the default value assigned to the element
+     */
+    public function getDefault() -> var
+    {
+        return this->_value;
+    }
+
+    /**
+     * Returns the element filters
+     *
+     * @return mixed
+     */
+    public function getFilters()
+    {
+        return this->_filters;
+    }
+
+    /**
+     * Returns the parent form to the element
+     */
+    public function getForm() -> <Form>
+    {
+        return this->_form;
+    }
+
+    /**
+     * Returns the element label
+     */
+    public function getLabel() -> string
+    {
+        return this->_label;
+    }
+
+    /**
+     * Returns the messages that belongs to the element
+     * The element needs to be attached to a form
+     */
+    public function getMessages() -> <Messages>
+    {
+        return this->_messages;
+    }
+
+    /**
+     * Returns the element name
+     */
+    public function getName() -> string
+    {
+        return this->_name;
+    }
+
+    /**
+     * Returns the value of an option if present
+     */
+    public function getUserOption(string option, var defaultValue = null) -> var
+    {
+        var value;
+        if fetch value, this->_options[option] {
+            return value;
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Returns the options for the element
+     */
+    public function getUserOptions() -> array
+    {
+        return this->_options;
     }
 
     /**
@@ -174,6 +247,86 @@ abstract class Element implements ElementInterface
     public function getValidators() -> <ValidatorInterface[]>
     {
         return this->_validators;
+    }
+
+    /**
+     * Returns the element's value
+     */
+    public function getValue() -> var
+    {
+        var name  = this->_name,
+            form  = this->_form,
+            value = null;
+
+        /**
+         * If element belongs to the form, get value from the form
+         */
+        if typeof form == "object" {
+            return form->getValue(name);
+        }
+
+        /**
+         * Otherwise check Phalcon\Tag
+         */
+        if Tag::hasValue(name) {
+            let value = Tag::getValue(name);
+        }
+
+        /**
+         * Assign the default value if there is no form available or Phalcon\Tag returns null
+         */
+        if typeof value == "null" {
+            let value = this->_value;
+        }
+
+        return value;
+    }
+
+    /**
+     * Checks whether there are messages attached to the element
+     */
+    public function hasMessages() -> bool
+    {
+        return count(this->_messages) > 0;
+    }
+
+    /**
+     * Generate the HTML to label the element
+     */
+    public function label(array attributes = []) -> string
+    {
+        var internalAttributes, label, name, code;
+
+        /**
+         * Check if there is an "id" attribute defined
+         */
+        let internalAttributes = this->getAttributes();
+
+        if !fetch name, internalAttributes["id"] {
+            let name = this->_name;
+        }
+
+        if typeof attributes == "array" {
+            if !isset attributes["for"] {
+                let attributes["for"] = name;
+            }
+        } else {
+            let attributes = ["for": name];
+        }
+
+        let code = Tag::renderAttributes("<label", attributes);
+
+        /**
+         * Use the default label or leave the same name as label
+         */
+        let label = this->_label;
+        if label || is_numeric(label) {
+            let code .= ">" . label . "</label>";
+        } else {
+            let code .= ">" . name . "</label>";
+        }
+
+        return code;
     }
 
     /**
@@ -254,132 +407,12 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns the value of an attribute if present
-     */
-    public function getAttribute(string attribute, var defaultValue = null) -> var
-    {
-        var attributes, value;
-        let attributes = this->_attributes;
-        if fetch value, attributes[attribute] {
-            return value;
-        }
-        return defaultValue;
-    }
-
-    /**
      * Sets default attributes for the element
      */
     public function setAttributes(array! attributes) -> <ElementInterface>
     {
         let this->_attributes = attributes;
         return this;
-    }
-
-    /**
-     * Returns the default attributes for the element
-     */
-    public function getAttributes() -> array
-    {
-        var attributes;
-        let attributes = this->_attributes;
-        if typeof attributes != "array" {
-            return [];
-        }
-        return attributes;
-    }
-
-    /**
-     * Sets an option for the element
-     */
-    public function setUserOption(string option, var value) -> <ElementInterface>
-    {
-        let this->_options[option] = value;
-        return this;
-    }
-
-    /**
-     * Returns the value of an option if present
-     */
-    public function getUserOption(string option, var defaultValue = null) -> var
-    {
-        var value;
-        if fetch value, this->_options[option] {
-            return value;
-        }
-        return defaultValue;
-    }
-
-    /**
-     * Sets options for the element
-     */
-    public function setUserOptions(array options) -> <ElementInterface>
-    {
-        let this->_options = options;
-        return this;
-    }
-
-    /**
-     * Returns the options for the element
-     */
-    public function getUserOptions() -> array
-    {
-        return this->_options;
-    }
-
-    /**
-     * Sets the element label
-     */
-    public function setLabel(string label) -> <ElementInterface>
-    {
-        let this->_label = label;
-        return this;
-    }
-
-    /**
-     * Returns the element label
-     */
-    public function getLabel() -> string
-    {
-        return this->_label;
-    }
-
-    /**
-     * Generate the HTML to label the element
-     */
-    public function label(array attributes = []) -> string
-    {
-        var internalAttributes, label, name, code;
-
-        /**
-         * Check if there is an "id" attribute defined
-         */
-        let internalAttributes = this->getAttributes();
-
-        if !fetch name, internalAttributes["id"] {
-            let name = this->_name;
-        }
-
-        if typeof attributes == "array" {
-            if !isset attributes["for"] {
-                let attributes["for"] = name;
-            }
-        } else {
-            let attributes = ["for": name];
-        }
-
-        let code = Tag::renderAttributes("<label", attributes);
-
-        /**
-         * Use the default label or leave the same name as label
-         */
-        let label = this->_label;
-        if label || is_numeric(label) {
-            let code .= ">" . label . "</label>";
-        } else {
-            let code .= ">" . name . "</label>";
-        }
-
-        return code;
     }
 
     /**
@@ -393,61 +426,35 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns the default value assigned to the element
+     * Sets the element filters
+     *
+     * @param array|string filters
      */
-    public function getDefault() -> var
+    public function setFilters(var filters) -> <ElementInterface>
     {
-        return this->_value;
+        if typeof filters != "string" && typeof filters != "array" {
+            throw new Exception("Wrong filter type added");
+        }
+        let this->_filters = filters;
+        return this;
     }
 
     /**
-     * Returns the element's value
+     * Sets the parent form to the element
      */
-    public function getValue() -> var
+    public function setForm(<Form> form) -> <ElementInterface>
     {
-        var name  = this->_name,
-            form  = this->_form,
-            value = null;
-
-        /**
-         * If element belongs to the form, get value from the form
-         */
-        if typeof form == "object" {
-            return form->getValue(name);
-        }
-
-        /**
-         * Otherwise check Phalcon\Tag
-         */
-        if Tag::hasValue(name) {
-            let value = Tag::getValue(name);
-        }
-
-        /**
-         * Assign the default value if there is no form available or Phalcon\Tag returns null
-         */
-        if typeof value == "null" {
-            let value = this->_value;
-        }
-
-        return value;
+        let this->_form = form;
+        return this;
     }
 
     /**
-     * Returns the messages that belongs to the element
-     * The element needs to be attached to a form
+     * Sets the element label
      */
-    public function getMessages() -> <Messages>
+    public function setLabel(string label) -> <ElementInterface>
     {
-        return this->_messages;
-    }
-
-    /**
-     * Checks whether there are messages attached to the element
-     */
-    public function hasMessages() -> bool
-    {
-        return count(this->_messages) > 0;
+        let this->_label = label;
+        return this;
     }
 
     /**
@@ -460,37 +467,29 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Appends a message to the internal message list
+     * Sets the element name
      */
-    public function appendMessage(<MessageInterface> message) -> <ElementInterface>
+    public function setName(string! name) -> <ElementInterface>
     {
-        this->_messages->appendMessage(message);
+        let this->_name = name;
         return this;
     }
 
     /**
-     * Clears element to its default value
+     * Sets an option for the element
      */
-    public function clear() -> <ElementInterface>
+    public function setUserOption(string option, var value) -> <ElementInterface>
     {
-        var form  = this->_form,
-            name  = this->_name,
-            value = this->_value;
-
-        if typeof form == "object" {
-            form->clear(name);
-        } else {
-            Tag::setDefault(name, value);
-        }
-
+        let this->_options[option] = value;
         return this;
     }
 
     /**
-     * Magic method __toString renders the widget without attributes
+     * Sets options for the element
      */
-    public function __toString() -> string
+    public function setUserOptions(array options) -> <ElementInterface>
     {
-        return this->{"render"}();
+        let this->_options = options;
+        return this;
     }
 }

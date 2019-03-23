@@ -22,27 +22,27 @@ class Message implements MessageInterface, \JsonSerializable
     /**
      * @var int
      */
-    protected code;
+    protected code { get };
 
     /**
      * @var string
      */
-    protected field;
+    protected field { get };
 
     /**
      * @var string
      */
-    protected message;
+    protected message { get };
 
     /**
      * @var string
      */
-    protected type;
+    protected type { get };
 
     /**
      * @var array
      */
-    protected metaData = [];
+    protected metaData = [] { get };
 
     /**
      * Phalcon\Messages\Message constructor
@@ -57,45 +57,19 @@ class Message implements MessageInterface, \JsonSerializable
     }
 
     /**
-     * Returns the message code
+     * Magic __toString method returns verbose message
      */
-    public function getCode() -> int
-    {
-        return this->code;
-    }
-
-    /**
-     * Returns field name related to message
-     *
-     * @return mixed
-     */
-    public function getField()
-    {
-        return this->field;
-    }
-
-    /**
-     * Returns verbose message
-     */
-    public function getMessage() -> string
+    public function __toString() -> string
     {
         return this->message;
     }
 
     /**
-     * Returns message type
+     * Magic __set_state helps to re-build messages variable exporting
      */
-    public function getType() -> string
+    public static function __set_state(array! message) -> <MessageInterface>
     {
-        return this->type;
-    }
-
-    /**
-     * Returns message metadata
-     */
-    public function getMetaData() -> array
-    {
-        return this->metaData;
+        return new self(message["_message"], message["_field"], message["_type"], message["_code"], message["_metaData"]);
     }
 
     /**
@@ -104,7 +78,7 @@ class Message implements MessageInterface, \JsonSerializable
     public function jsonSerialize() -> array
     {
         return [
-               "field"    : this->field,
+            "field"    : this->field,
             "message"  : this->message,
             "type"     : this->type,
             "code"     : this->code,
@@ -140,15 +114,6 @@ class Message implements MessageInterface, \JsonSerializable
     }
 
     /**
-     * Sets message type
-     */
-    public function setType(string! type) -> <MessageInterface>
-    {
-        let this->type = type;
-        return this;
-    }
-
-    /**
      * Sets message metadata
      */
     public function setMetaData(array! metaData) -> <MessageInterface>
@@ -158,18 +123,11 @@ class Message implements MessageInterface, \JsonSerializable
     }
 
     /**
-     * Magic __toString method returns verbose message
+     * Sets message type
      */
-    public function __toString() -> string
+    public function setType(string! type) -> <MessageInterface>
     {
-        return this->message;
-    }
-
-    /**
-     * Magic __set_state helps to re-build messages variable exporting
-     */
-    public static function __set_state(array! message) -> <MessageInterface>
-    {
-        return new self(message["_message"], message["_field"], message["_type"], message["_code"], message["_metaData"]);
+        let this->type = type;
+        return this;
     }
 }

@@ -10,8 +10,8 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag\Select;
 use Phalcon\Forms\Element;
+use Phalcon\Tag\Select;
 
 /**
  * Phalcon\Forms\Element\Select
@@ -20,8 +20,7 @@ use Phalcon\Forms\Element;
  */
 class Select extends Element
 {
-
-    protected _optionsValues;
+    protected optionsValues;
 
     /**
      * Phalcon\Forms\Element constructor
@@ -29,31 +28,10 @@ class Select extends Element
      * @param object|array options
      * @param array attributes
      */
-    public function __construct(string name, options = null, attributes = null)
+    public function __construct(string name, options = null, attributes = null) -> void
     {
-        let this->_optionsValues = options;
+        let this->optionsValues = options;
         parent::__construct(name, attributes);
-    }
-
-    /**
-     * Set the choice's options
-     *
-     * @param array|object options
-     */
-    public function setOptions(var options) -> <Element>
-    {
-        let this->_optionsValues = options;
-        return this;
-    }
-
-    /**
-     * Returns the choices' options
-     *
-     * @return array|object
-     */
-    public function getOptions()
-    {
-        return this->_optionsValues;
     }
 
     /**
@@ -67,13 +45,23 @@ class Select extends Element
 
         if typeof option == "array" {
             for key, value in option {
-                let this->_optionsValues[key] = value;
+                let this->optionsValues[key] = value;
             }
         } else {
-            let this->_optionsValues[] = option;
+            let this->optionsValues[] = option;
         }
 
         return this;
+    }
+
+    /**
+     * Returns the choices' options
+     *
+     * @return array|object
+     */
+    public function getOptions()
+    {
+        return this->optionsValues;
     }
 
     /**
@@ -84,6 +72,17 @@ class Select extends Element
         /**
          * Merged passed attributes with previously defined ones
          */
-        return Select::selectField(this->prepareAttributes(attributes), this->_optionsValues);
+        return Select::selectField(this->prepareAttributes(attributes), this->optionsValues);
+    }
+
+    /**
+     * Set the choice's options
+     *
+     * @param array|object options
+     */
+    public function setOptions(var options) -> <Element>
+    {
+        let this->optionsValues = options;
+        return this;
     }
 }
