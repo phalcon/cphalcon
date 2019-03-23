@@ -33,17 +33,23 @@ use Phalcon\Annotations\Exception;
  */
 class Collection implements \Iterator, \Countable
 {
+    /**
+     * @var array
+     */
+    protected annotations;
+    
+    /**
+     * @var int 
+     */
+    protected position = 0;
 
-    protected _position = 0;
-
-    protected _annotations;
 
     /**
      * Phalcon\Annotations\Collection constructor
      *
      * @param array reflectionData
      */
-    public function __construct(array reflectionData = [])
+    public function __construct(array reflectionData = []) -> void
     {
         var annotations, annotationData;
 
@@ -53,7 +59,7 @@ class Collection implements \Iterator, \Countable
             let annotations[] = new Annotation(annotationData);
         }
 
-        let this->_annotations = annotations;
+        let this->annotations = annotations;
     }
 
     /**
@@ -61,15 +67,7 @@ class Collection implements \Iterator, \Countable
      */
     public function count() -> int
     {
-        return count(this->_annotations);
-    }
-
-    /**
-     * Rewinds the internal iterator
-     */
-    public function rewind() -> void
-    {
-        let this->_position = 0;
+        return count(this->annotations);
     }
 
     /**
@@ -78,42 +76,10 @@ class Collection implements \Iterator, \Countable
     public function current() -> <Annotation> | bool
     {
         var annotation;
-        if fetch annotation, this->_annotations[this->_position] {
+        if fetch annotation, this->annotations[this->position] {
             return annotation;
         }
         return false;
-    }
-
-    /**
-     * Returns the current position/key in the iterator
-     */
-    public function key() -> int
-    {
-        return this->_position;
-    }
-
-    /**
-     * Moves the internal iteration pointer to the next position
-     */
-    public function next() -> void
-    {
-        let this->_position++;
-    }
-
-    /**
-     * Check if the current annotation in the iterator is valid
-     */
-    public function valid() -> bool
-    {
-        return isset this->_annotations[this->_position];
-    }
-
-    /**
-     * Returns the internal annotations as an array
-     */
-    public function getAnnotations() -> <Annotation[]>
-    {
-        return this->_annotations;
     }
 
     /**
@@ -122,7 +88,7 @@ class Collection implements \Iterator, \Countable
     public function get(string name) -> <Annotation>
     {
         var annotation, annotations;
-        let annotations = this->_annotations;
+        let annotations = this->annotations;
         if typeof annotations == "array" {
             for annotation in annotations {
                 if name == annotation->getName() {
@@ -142,7 +108,7 @@ class Collection implements \Iterator, \Countable
         var annotations, found, annotation;
 
         let found = [],
-            annotations = this->_annotations;
+            annotations = this->annotations;
         if typeof annotations == "array" {
             for annotation in annotations {
                 if name == annotation->getName() {
@@ -155,13 +121,21 @@ class Collection implements \Iterator, \Countable
     }
 
     /**
+     * Returns the internal annotations as an array
+     */
+    public function getAnnotations() -> <Annotation[]>
+    {
+        return this->annotations;
+    }
+
+    /**
      * Check if an annotation exists in a collection
      */
     public function has(string name) -> bool
     {
         var annotations, annotation;
 
-        let annotations = this->_annotations;
+        let annotations = this->annotations;
         if typeof annotations == "array" {
             for annotation in annotations {
                 if name == annotation->getName() {
@@ -170,5 +144,36 @@ class Collection implements \Iterator, \Countable
             }
         }
         return false;
+    }
+    /**
+     * Returns the current position/key in the iterator
+     */
+    public function key() -> int
+    {
+        return this->position;
+    }
+
+    /**
+     * Moves the internal iteration pointer to the next position
+     */
+    public function next() -> void
+    {
+        let this->position++;
+    }
+
+    /**
+     * Rewinds the internal iterator
+     */
+    public function rewind() -> void
+    {
+        let this->position = 0;
+    }
+
+    /**
+     * Check if the current annotation in the iterator is valid
+     */
+    public function valid() -> bool
+    {
+        return isset this->annotations[this->position];
     }
 }

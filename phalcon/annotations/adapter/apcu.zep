@@ -26,26 +26,31 @@ use Phalcon\Annotations\Reflection;
  */
 class Apcu extends Adapter
 {
+    /**
+     * @var string
+     */
+    protected prefix = "";
 
-    protected _prefix = "";
-
-    protected _ttl = 172800;
+    /**
+     * @var int
+     */
+    protected ttl = 172800;
 
     /**
      * Phalcon\Annotations\Adapter\Apcu constructor
      *
      * @param array options
      */
-    public function __construct(options = null)
+    public function __construct(options = null) -> void
     {
         var prefix, ttl;
 
         if typeof options == "array" {
             if fetch prefix, options["prefix"] {
-                let this->_prefix = prefix;
+                let this->prefix = prefix;
             }
             if fetch ttl, options["lifetime"] {
-                let this->_ttl = ttl;
+                let this->ttl = ttl;
             }
         }
     }
@@ -55,14 +60,14 @@ class Apcu extends Adapter
      */
     public function read(string! key) -> <Reflection> | bool
     {
-        return apcu_fetch(strtolower("_PHAN" . this->_prefix . key));
+        return apcu_fetch(strtolower("_PHAN" . this->prefix . key));
     }
 
     /**
      * Writes parsed annotations to APCu
      */
-    public function write(string! key, <Reflection> data)
+    public function write(string! key, <Reflection> data) -> void
     {
-        return apcu_store(strtolower("_PHAN" . this->_prefix . key), data, this->_ttl);
+        return apcu_store(strtolower("_PHAN" . this->prefix . key), data, this->ttl);
     }
 }
