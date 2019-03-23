@@ -78,16 +78,16 @@ class Transaction implements TransactionInterface
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      */
-    public function __construct(<DiInterface> container, bool autoBegin = false, string service = null)
+    public function __construct(<DiInterface> dependencyInjector, bool autoBegin = false, string service = null)
     {
         var connection;
 
         let this->_messages = [];
 
         if service {
-            let connection = container->get(service);
+            let connection = dependencyInjector->get(service);
         } else {
-            let connection = container->get("db");
+            let connection = dependencyInjector->get("db");
         }
 
         let this->_connection = connection;

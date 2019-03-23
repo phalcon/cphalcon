@@ -33,12 +33,12 @@ class Console extends BaseApplication
      */
     public function handle(array arguments = null)
     {
-        var container, router, eventsManager,
+        var dependencyInjector, router, eventsManager,
             moduleName, modules, module, path, className,
             moduleObject, dispatcher, task;
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access internal services");
         }
 
@@ -53,7 +53,7 @@ class Console extends BaseApplication
             }
         }
 
-        let router = <Router> container->getShared("router");
+        let router = <Router> dependencyInjector->getShared("router");
 
         if !count(arguments) && this->arguments {
             router->handle(this->arguments);
@@ -101,10 +101,10 @@ class Console extends BaseApplication
                 }
             }
 
-            let moduleObject = container->get(className);
+            let moduleObject = dependencyInjector->get(className);
 
             moduleObject->registerAutoloaders();
-            moduleObject->registerServices(container);
+            moduleObject->registerServices(dependencyInjector);
 
             if typeof eventsManager == "object" {
                 if eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
@@ -114,7 +114,7 @@ class Console extends BaseApplication
 
         }
 
-        let dispatcher = <\Phalcon\Cli\Dispatcher> container->getShared("dispatcher");
+        let dispatcher = <\Phalcon\Cli\Dispatcher> dependencyInjector->getShared("dispatcher");
 
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setTaskName(router->getTaskName());

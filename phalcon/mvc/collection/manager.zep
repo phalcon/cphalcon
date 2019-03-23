@@ -41,7 +41,7 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
 class Manager implements InjectionAwareInterface, EventsAwareInterface
 {
 
-    protected container;
+    protected _dependencyInjector;
 
     protected _initialized;
 
@@ -62,9 +62,9 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container) -> void
+    public function setDI(<DiInterface> dependencyInjector) -> void
     {
-        let this->container = container;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -224,7 +224,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function getConnection(<CollectionInterface> model)
     {
-        var service, connectionService, connection, container, entityName;
+        var service, connectionService, connection, dependencyInjector, entityName;
 
         let service = this->_serviceName;
         let connectionService = this->_connectionServices;
@@ -239,15 +239,15 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
             }
         }
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->container;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
         /**
          * Request the connection service from the DI
          */
-        let connection = container->getShared(service);
+        let connection = dependencyInjector->getShared(service);
         if typeof connection != "object" {
             throw new Exception("Invalid injected connection service");
         }

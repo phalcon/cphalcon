@@ -76,17 +76,17 @@ class Annotations extends Router
     public function handle(string! uri)
     {
         var annotationsService, handlers, controllerSuffix,
-            scope, prefix, container, handler, controllerName,
+            scope, prefix, dependencyInjector, handler, controllerName,
             lowerControllerName, namespaceName, moduleName, sufixed, handlerAnnotations,
             classAnnotations, annotations, annotation, methodAnnotations, method,
             collection;
 
-        let container = <DiInterface> this->container;
-        if typeof container != "object" {
+        let dependencyInjector = <DiInterface> this->container;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection container is required to access the 'annotations' service");
         }
 
-        let annotationsService = container->getShared("annotations");
+        let annotationsService = dependencyInjector->getShared("annotations");
 
         let handlers = this->_handlers;
 

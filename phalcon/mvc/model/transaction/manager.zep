@@ -66,7 +66,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
 class Manager implements ManagerInterface, InjectionAwareInterface
 {
 
-    protected container;
+    protected _dependencyInjector;
 
     protected _initialized = false;
 
@@ -81,15 +81,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Transaction\Manager constructor
      */
-    public function __construct(<DiInterface> container = null)
+    public function __construct(<DiInterface> dependencyInjector = null)
     {
-        if !container {
-            let container = \Phalcon\Di::getDefault();
+        if !dependencyInjector {
+            let dependencyInjector = \Phalcon\Di::getDefault();
         }
 
-        let this->container = container;
+        let this->container = dependencyInjector;
 
-        if typeof container != "object" {
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
     }
@@ -97,9 +97,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -172,10 +172,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function getOrCreateTransaction(bool autoBegin = true) -> <TransactionInterface>
     {
-        var container, transaction, transactions;
+        var dependencyInjector, transaction, transactions;
 
-        let container = <DiInterface> this->container;
-        if typeof container != "object" {
+        let dependencyInjector = <DiInterface> this->container;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
@@ -191,7 +191,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             }
         }
 
-        let transaction = new Transaction(container, autoBegin, this->_service);
+        let transaction = new Transaction(dependencyInjector, autoBegin, this->_service);
             transaction->setTransactionManager(this);
 
         let this->_transactions[] = transaction, this->_number++;

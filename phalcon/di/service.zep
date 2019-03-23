@@ -104,7 +104,7 @@ class Service implements ServiceInterface
      * @param array parameters
      * @return mixed
      */
-    public function resolve(parameters = null, <DiInterface> container = null)
+    public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
     {
         bool found;
         var shared, definition, sharedInstance, instance, builder;
@@ -154,8 +154,8 @@ class Service implements ServiceInterface
                     /**
                      * Bounds the closure to the current DI
                      */
-                    if typeof container == "object" {
-                        let definition = \Closure::bind(definition, container);
+                    if typeof dependencyInjector == "object" {
+                        let definition = \Closure::bind(definition, dependencyInjector);
                     }
 
                     if typeof parameters == "array" {
@@ -172,7 +172,7 @@ class Service implements ServiceInterface
                  */
                 if typeof definition == "array" {
                     let builder = new Builder(),
-                        instance = builder->build(container, definition, parameters);
+                        instance = builder->build(dependencyInjector, definition, parameters);
                 } else {
                     let found = false;
                 }
