@@ -108,13 +108,13 @@ class Application extends BaseApplication
      */
     public function handle(string! uri) -> <ResponseInterface> | bool
     {
-        var container, eventsManager, router, dispatcher, response, view,
+        var dependencyInjector, eventsManager, router, dispatcher, response, view,
             module, moduleObject, moduleName, className, path,
             implicitView, returnedResponse, controller, possibleResponse,
             renderStatus, matchedRoute, match;
 
-        let container = this->container;
-        if typeof container != "object" {
+        let dependencyInjector = this->_dependencyInjector;
+        if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access internal services");
         }
 
@@ -129,7 +129,7 @@ class Application extends BaseApplication
             }
         }
 
-        let router = <RouterInterface> container->getShared("router");
+        let router = <RouterInterface> dependencyInjector->getShared("router");
 
         /**
          * Handle the URI pattern (if any)
@@ -146,7 +146,7 @@ class Application extends BaseApplication
             if match !== null {
 
                 if match instanceof \Closure {
-                    let match = \Closure::bind(match, container);
+                    let match = \Closure::bind(match, dependencyInjector);
                 }
 
                 /**
@@ -158,7 +158,7 @@ class Application extends BaseApplication
                  * If the returned value is a string return it as body
                  */
                 if typeof possibleResponse == "string" {
-                    let response = <ResponseInterface> container->getShared("response");
+                    let response = <ResponseInterface> dependencyInjector->getShared("response");
                     response->setContent(possibleResponse);
                     return response;
                 }
@@ -234,13 +234,13 @@ class Application extends BaseApplication
                     }
                 }
 
-                let moduleObject = <ModuleDefinitionInterface> container->get(className);
+                let moduleObject = <ModuleDefinitionInterface> dependencyInjector->get(className);
 
                 /**
                  * 'registerAutoloaders' and 'registerServices' are automatically called
                  */
-                moduleObject->registerAutoloaders(container);
-                moduleObject->registerServices(container);
+                moduleObject->registerAutoloaders(dependencyInjector);
+                moduleObject->registerServices(dependencyInjector);
 
             } else {
 
@@ -251,7 +251,7 @@ class Application extends BaseApplication
                     throw new Exception("Invalid module definition");
                 }
 
-                let moduleObject = call_user_func_array(module, [container]);
+                let moduleObject = call_user_func_array(module, [dependencyInjector]);
             }
 
             /**
@@ -268,14 +268,14 @@ class Application extends BaseApplication
         let implicitView = this->_implicitView;
 
         if implicitView === true {
-            let view = <ViewInterface> container->getShared("view");
+            let view = <ViewInterface> dependencyInjector->getShared("view");
         }
 
         /**
          * We get the parameters from the router and assign them to the dispatcher
          * Assign the values passed from the router
          */
-        let dispatcher = <DispatcherInterface> container->getShared("dispatcher");
+        let dispatcher = <DispatcherInterface> dependencyInjector->getShared("dispatcher");
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setNamespaceName(router->getNamespaceName());
         dispatcher->setControllerName(router->getControllerName());
@@ -312,14 +312,14 @@ class Application extends BaseApplication
          * Returning false from an action cancels the view
          */
         if typeof possibleResponse == "boolean" && possibleResponse === false {
-            let response = <ResponseInterface> container->getShared("response");
+            let response = <ResponseInterface> dependencyInjector->getShared("response");
         } else {
 
             /**
              * Returning a string makes use it as the body of the response
              */
             if typeof possibleResponse == "string" {
-                let response = <ResponseInterface> container->getShared("response");
+                let response = <ResponseInterface> dependencyInjector->getShared("response");
                 response->setContent(possibleResponse);
             } else {
 
@@ -381,7 +381,7 @@ class Application extends BaseApplication
                     let response = possibleResponse;
                 } else {
 
-                    let response = <ResponseInterface> container->getShared("response");
+                    let response = <ResponseInterface> dependencyInjector->getShared("response");
                     if implicitView === true {
 
                         /**

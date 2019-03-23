@@ -138,7 +138,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
-        let this->container = dependencyInjector;
+        let this->_dependencyInjector = dependencyInjector;
 
         /**
          * Inject the manager service from the DI
@@ -1424,7 +1424,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -1493,7 +1493,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let metaData = this->_modelsMetaData;
         if typeof metaData != "object" {
 
-            let dependencyInjector = <DiInterface> this->container;
+            let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
             /**
              * Obtain the models-metadata service from the DI
@@ -2173,7 +2173,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Update the dependency injector
              */
-            let this->container = dependencyInjector;
+            let this->_dependencyInjector = dependencyInjector;
 
             /**
              * Gets the default modelsManager service
@@ -2234,7 +2234,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = dependencyInjector;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**

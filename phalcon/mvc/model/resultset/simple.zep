@@ -219,13 +219,13 @@ class Simple extends Resultset
      */
     public function serialize() -> string
     {
-        var container, serializer;
-        let container = Di::getDefault();
-        if typeof container != "object" {
+        var dependencyInjector, serializer;
+        let dependencyInjector = Di::getDefault();
+        if typeof dependencyInjector != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
+        if dependencyInjector->has("serializer") {
+            let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
             return serializer->beforeStore([
                 "model"         : this->_model,
                 "cache"         : this->_cache,
@@ -253,12 +253,12 @@ class Simple extends Resultset
      */
     public function unserialize(var data) -> void
     {
-        var resultset, keepSnapshots, container, serializer;
-        let container = Di::getDefault();
-        if typeof container != "object" {
+        var resultset, keepSnapshots, dependencyInjector, serializer;
+        let dependencyInjector = Di::getDefault();
+        if typeof dependencyInjector != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
-        if container->has("serializer") {
+        if dependencyInjector->has("serializer") {
             let serializer = <FrontendInterface> dependencyInjector->getShared("serializer");
             let resultset = serializer->afterRetrieve(data);
         } else {

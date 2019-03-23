@@ -31,7 +31,7 @@ abstract class Engine extends Injectable implements EngineInterface
     public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null)
     {
         let this->_view = view;
-        let this->container = dependencyInjector;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**

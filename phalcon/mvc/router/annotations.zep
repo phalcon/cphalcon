@@ -81,7 +81,7 @@ class Annotations extends Router
             classAnnotations, annotations, annotation, methodAnnotations, method,
             collection;
 
-        let dependencyInjector = <DiInterface> this->container;
+        let dependencyInjector = <DiInterface> this->_dependencyInjector;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection container is required to access the 'annotations' service");
         }

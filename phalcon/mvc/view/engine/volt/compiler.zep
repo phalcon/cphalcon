@@ -31,7 +31,7 @@ use Phalcon\Mvc\View\Engine\Volt\Exception;
 class Compiler implements InjectionAwareInterface
 {
 
-    protected _container;
+    protected _dependencyInjector;
 
     protected _view;
 
@@ -88,9 +88,9 @@ class Compiler implements InjectionAwareInterface
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = container;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**
@@ -98,7 +98,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -282,7 +282,7 @@ class Compiler implements InjectionAwareInterface
     public function attributeReader(array! expr) -> string
     {
         var exprCode, left, leftType, variable,
-            level, container, leftCode, right;
+            level, dependencyInjector, leftCode, right;
 
         let exprCode = null;
 
@@ -304,8 +304,8 @@ class Compiler implements InjectionAwareInterface
                 /**
                  * Services registered in the dependency injector container are available always
                  */
-                let container = this->container;
-                if typeof container == "object" && container->has(variable) {
+                let dependencyInjector = this->_dependencyInjector;
+                if typeof dependencyInjector == "object" && dependencyInjector->has(variable) {
                     let exprCode .= "$this->" . variable;
                 } else {
                     let exprCode .= "$" . variable;

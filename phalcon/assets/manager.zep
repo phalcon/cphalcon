@@ -57,7 +57,7 @@ class Manager implements InjectionAwareInterface
      */
     public function setDI(<DiInterface> dependencyInjector)
     {
-        let this->container = dependencyInjector;
+        let this->_dependencyInjector = dependencyInjector;
     }
 
     /**
@@ -65,7 +65,7 @@ class Manager implements InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        return this->_dependencyInjector;
     }
 
     /**
@@ -793,7 +793,7 @@ class Manager implements InjectionAwareInterface
 
         let callback = ["Phalcon\\Tag", "stylesheetLink"];
 
-        let dependencyInjector = this->container;
+        let dependencyInjector = this->_dependencyInjector;
         if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
             let tag = dependencyInjector->getShared("tag");
             let callback = [tag, "stylesheetLink"];
@@ -833,7 +833,7 @@ class Manager implements InjectionAwareInterface
 
         let callback = ["Phalcon\\Tag", "javascriptInclude"];
 
-        let dependencyInjector = this->container;
+        let dependencyInjector = this->_dependencyInjector;
         if typeof dependencyInjector == "object" && dependencyInjector->has("tag") {
             let tag = dependencyInjector->getShared("tag");
             let callback = [tag, "javascriptInclude"];
