@@ -41,7 +41,7 @@ class Escaper implements EscaperInterface
 
     /**
      * Detect the character encoding of a string to be handled by an encoder
-     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detectencoding()
+     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
      */
     public final function detectEncoding(string str) -> string | null
     {
@@ -58,7 +58,7 @@ class Escaper implements EscaperInterface
         /**
         * We require mbstring extension here
         */
-        if !function_exists("mb_detectencoding") {
+        if !function_exists("mb_detect_encoding") {
             return null;
         }
 
@@ -67,7 +67,7 @@ class Escaper implements EscaperInterface
          * Check encoding
          */
         for charset in ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"] {
-            if mb_detectencoding(str, charset, true) {
+            if mb_detect_encoding(str, charset, true) {
                 return charset;
             }
         }
@@ -75,7 +75,7 @@ class Escaper implements EscaperInterface
         /**
          * Fallback to global detection
          */
-        return mb_detectencoding(str);
+        return mb_detect_encoding(str);
     }
 
     /**
@@ -142,7 +142,7 @@ class Escaper implements EscaperInterface
         /**
          * mbstring is required here
          */
-        if !function_exists("mb_convertencoding") {
+        if !function_exists("mb_convert_encoding") {
             throw new Exception("Extension 'mbstring' is required");
         }
 
@@ -150,7 +150,7 @@ class Escaper implements EscaperInterface
          * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
          * the character).
          */
-        return mb_convertencoding(str, "UTF-32", this->detectEncoding(str));
+        return mb_convert_encoding(str, "UTF-32", this->detectEncoding(str));
     }
 
     /**

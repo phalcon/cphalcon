@@ -57,7 +57,7 @@ class Manager
      */
     public function set(string name, <Form> form) -> <FormManager>
     {
-        let this->_forms[name] = form;
+        let this->forms[name] = form;
         return this;
     }
 
