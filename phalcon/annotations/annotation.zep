@@ -20,33 +20,32 @@ use Phalcon\Annotations\Exception;
  */
 class Annotation
 {
-
     /**
      * Annotation Name
      * @var string
      */
-    protected _name;
+    protected name;
 
     /**
      * Annotation Arguments
      * @var string
      */
-    protected _arguments;
+    protected arguments;
 
     /**
      * Annotation ExprArguments
      * @var string
      */
-    protected _exprArguments;
+    protected exprArguments;
 
     /**
      * Phalcon\Annotations\Annotation constructor
      */
-    public function __construct(array! reflectionData)
+    public function __construct(array! reflectionData) -> void
     {
         var name, exprArguments, argument, resolvedArgument, arguments;
 
-        let this->_name = reflectionData["name"];
+        let this->name = reflectionData["name"];
 
         /**
          * Process annotation arguments
@@ -61,17 +60,43 @@ class Annotation
                     let arguments[] = resolvedArgument;
                 }
             }
-            let this->_arguments = arguments;
-            let this->_exprArguments = exprArguments;
+            let this->arguments = arguments;
+            let this->exprArguments = exprArguments;
         }
     }
 
     /**
-     * Returns the annotation's name
+     * Returns an argument in a specific position
+     *
+     * @param int|string position
+     * @return mixed
      */
-    public function getName() -> string
+    public function getArgument(var position) -> var
     {
-        return this->_name;
+        var argument;
+        if fetch argument, this->arguments[position] {
+            return argument;
+        }
+    }
+
+    /**
+     * Returns the expression arguments
+     *
+     * @return array
+     */
+    public function getArguments() -> array
+    {
+        return this->arguments;
+    }
+
+    /**
+     * Returns the expression arguments without resolving
+     *
+     * @return array
+     */
+    public function getExprArguments() -> array
+    {
+        return this->exprArguments;
     }
 
     /**
@@ -79,7 +104,7 @@ class Annotation
      *
      * @return mixed
      */
-    public function getExpression(array! expr)
+    public function getExpression(array! expr) -> var
     {
         var value, item, resolvedItem, arrayValue, name, type;
 
@@ -128,55 +153,11 @@ class Annotation
     }
 
     /**
-     * Returns the expression arguments without resolving
-     *
-     * @return array
+     * Returns the annotation's name
      */
-    public function getExprArguments()
+    public function getName() -> string
     {
-        return this->_exprArguments;
-    }
-
-    /**
-     * Returns the expression arguments
-     *
-     * @return array
-     */
-    public function getArguments()
-    {
-        return this->_arguments;
-    }
-
-    /**
-     * Returns the number of arguments that the annotation has
-     */
-    public function numberArguments() -> int
-    {
-        return count(this->_arguments);
-    }
-
-    /**
-     * Returns an argument in a specific position
-     *
-     * @param int|string position
-     * @return mixed
-     */
-    public function getArgument(var position)
-    {
-        var argument;
-        if fetch argument, this->_arguments[position] {
-            return argument;
-        }
-    }
-
-    /**
-     * Returns an argument in a specific position
-     *
-     * @param int|string position
-     */
-    public function hasArgument(var position) -> bool
-    {
-        return isset this->_arguments[position];
+        return this->name;
     }
 
     /**
@@ -184,10 +165,10 @@ class Annotation
      *
      * @return mixed
      */
-    public function getNamedArgument(string! name)
+    public function getNamedArgument(string! name) -> var
     {
         var argument;
-        if fetch argument, this->_arguments[name] {
+        if fetch argument, this->arguments[name] {
             return argument;
         }
     }
@@ -197,8 +178,26 @@ class Annotation
      *
      * @return mixed
      */
-    public function getNamedParameter(string! name)
+    public function getNamedParameter(string! name) -> var
     {
         return this->getNamedArgument(name);
+    }
+
+    /**
+     * Returns an argument in a specific position
+     *
+     * @param int|string position
+     */
+    public function hasArgument(var position) -> bool
+    {
+        return isset this->arguments[position];
+    }
+
+    /**
+     * Returns the number of arguments that the annotation has
+     */
+    public function numberArguments() -> int
+    {
+        return count(this->arguments);
     }
 }
