@@ -38,7 +38,7 @@ class GetSizeCest
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_size'], $column->getSize());
+            $I->assertEquals($columns[$index]['size'], $column->getSize());
         }
     }
 }

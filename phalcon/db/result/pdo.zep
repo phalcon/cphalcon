@@ -36,30 +36,29 @@ use Phalcon\Db\ResultInterface;
  */
 class Pdo implements ResultInterface
 {
+    protected bindParams;
 
-    protected _connection;
+    protected bindTypes;
 
-    protected _result;
+    protected connection;
 
     /**
      * Active fetch mode
      */
-    protected _fetchMode = Db::FETCH_OBJ;
+    protected fetchMode = Db::FETCH_OBJ;
 
     /**
      * Internal resultset
      *
      * @var \PDOStatement
      */
-    protected _pdoStatement;
+    protected pdoStatement;
 
-    protected _sqlStatement;
+    protected result;
 
-    protected _bindParams;
+    protected rowCount = false;
 
-    protected _bindTypes;
-
-    protected _rowCount = false;
+    protected sqlStatement;
 
     /**
      * Phalcon\Db\Result\Pdo constructor
@@ -71,181 +70,21 @@ class Pdo implements ResultInterface
      * @param array bindTypes
      */
     public function __construct(<Db\AdapterInterface> connection, <\PDOStatement> result,
-        sqlStatement = null, bindParams = null, bindTypes = null)
+        sqlStatement = null, bindParams = null, bindTypes = null) -> void
     {
 
-        let this->_connection = connection,
-            this->_pdoStatement = result;
+        let this->connection = connection,
+            this->pdoStatement = result;
 
         if sqlStatement !== null {
-            let this->_sqlStatement = sqlStatement;
+            let this->sqlStatement = sqlStatement;
         }
         if bindParams !== null {
-            let this->_bindParams = bindParams;
+            let this->bindParams = bindParams;
         }
         if bindTypes !== null {
-            let this->_bindTypes = bindTypes;
+            let this->bindTypes = bindTypes;
         }
-    }
-
-    /**
-     * Allows to execute the statement again. Some database systems don't support scrollable cursors,
-     * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
-     */
-    public function execute() -> bool
-    {
-        return this->_pdoStatement->execute();
-    }
-
-    /**
-     * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
-     *
-     *<code>
-     * $result = $connection->query("SELECT * FROM robots ORDER BY name");
-     *
-     * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_OBJ
-     * );
-     *
-     * while ($robot = $result->fetch()) {
-     *     echo $robot->name;
-     * }
-     *</code>
-     */
-    public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
-    {
-        return this->_pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
-    }
-
-    /**
-     * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
-     *
-     *<code>
-     * $result = $connection->query("SELECT * FROM robots ORDER BY name");
-     *
-     * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_NUM
-     * );
-     *
-     * while ($robot = result->fetchArray()) {
-     *     print_r($robot);
-     * }
-     *</code>
-     */
-    public function fetchArray()
-    {
-        return this->_pdoStatement->$fetch();
-    }
-
-    /**
-     * Returns an array of arrays containing all the records in the result
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
-     *
-     *<code>
-     * $result = $connection->query(
-     *     "SELECT * FROM robots ORDER BY name"
-     * );
-     *
-     * $robots = $result->fetchAll();
-     *</code>
-     */
-    public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
-    {
-        var pdoStatement;
-
-        let pdoStatement = this->_pdoStatement;
-
-        if typeof fetchStyle == "integer" {
-
-            if fetchStyle == Db::FETCH_CLASS {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
-            }
-
-            if fetchStyle == Db::FETCH_COLUMN {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
-            }
-
-            if fetchStyle == Db::FETCH_FUNC {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
-            }
-
-            return pdoStatement->fetchAll(fetchStyle);
-        }
-
-        return pdoStatement->fetchAll();
-    }
-
-    /**
-     * Gets number of rows returned by a resultset
-     *
-     *<code>
-     * $result = $connection->query(
-     *     "SELECT * FROM robots ORDER BY name"
-     * );
-     *
-     * echo "There are ", $result->numRows(), " rows in the resultset";
-     *</code>
-     */
-    public function numRows() -> int
-    {
-        var sqlStatement, rowCount, connection, type,
-            pdoStatement, matches, result, row;
-
-        let rowCount = this->_rowCount;
-        if rowCount === false {
-
-            let connection = this->_connection,
-                type = connection->getType();
-
-            /**
-             * MySQL library properly returns the number of records PostgreSQL too
-             */
-            if type == "mysql" || type == "pgsql" {
-                let pdoStatement = this->_pdoStatement,
-                    rowCount = pdoStatement->rowCount();
-            }
-
-            /**
-             * We should get the count using a new statement :(
-             */
-            if rowCount === false {
-
-                /**
-                 * SQLite/SQLServer returns resultsets that to the client eyes
-                 * (PDO) has an arbitrary number of rows, so we need to perform
-                 * an extra count to know that
-                 */
-                let sqlStatement = this->_sqlStatement;
-
-                /**
-                 * If the sql_statement starts with SELECT COUNT(*) we don't make the count
-                 */
-                if !starts_with(sqlStatement, "SELECT COUNT(*) ") {
-
-                    let matches = null;
-                    if preg_match("/^SELECT\\s+(.*)/i", sqlStatement, matches) {
-                        let result = connection->query(
-                            "SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")",
-                            this->_bindParams,
-                            this->_bindTypes
-                        );
-
-                        let row = result->$fetch(),
-                            rowCount = row["numrows"];
-                    }
-                } else {
-                    let rowCount = 1;
-                }
-            }
-
-            /**
-             * Update the value to avoid further calculations
-             */
-            let this->_rowCount = rowCount;
-        }
-        return rowCount;
     }
 
     /**
@@ -268,10 +107,10 @@ class Pdo implements ResultInterface
         var connection, pdo, sqlStatement, bindParams, statement;
         long n;
 
-        let connection = this->_connection,
+        let connection = this->connection,
             pdo = connection->getInternalHandler(),
-            sqlStatement = this->_sqlStatement,
-            bindParams = this->_bindParams;
+            sqlStatement = this->sqlStatement,
+            bindParams = this->bindParams;
 
         /**
          * PDO doesn't support scrollable cursors, so we need to re-execute the statement
@@ -279,19 +118,187 @@ class Pdo implements ResultInterface
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
             if typeof statement == "object" {
-                let statement = connection->executePrepared(statement, bindParams, this->_bindTypes);
+                let statement = connection->executePrepared(statement, bindParams, this->bindTypes);
             }
         } else {
             let statement = pdo->query(sqlStatement);
         }
 
-        let this->_pdoStatement = statement;
+        let this->pdoStatement = statement;
 
         let n = -1, number--;
         while n != number {
             statement->$fetch();
             let n++;
         }
+    }
+
+    /**
+     * Allows to execute the statement again. Some database systems don't support scrollable cursors,
+     * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
+     */
+    public function execute() -> bool
+    {
+        return this->pdoStatement->execute();
+    }
+
+    /**
+     * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
+     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     *
+     *<code>
+     * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+     *
+     * $result->setFetchMode(
+     *     \Phalcon\Db::FETCH_OBJ
+     * );
+     *
+     * while ($robot = $result->fetch()) {
+     *     echo $robot->name;
+     * }
+     *</code>
+     */
+    public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
+    {
+        return this->pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
+    }
+
+    /**
+     * Returns an array of arrays containing all the records in the result
+     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     *
+     *<code>
+     * $result = $connection->query(
+     *     "SELECT * FROM robots ORDER BY name"
+     * );
+     *
+     * $robots = $result->fetchAll();
+     *</code>
+     */
+    public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
+    {
+        var pdoStatement;
+
+        let pdoStatement = this->pdoStatement;
+
+        if typeof fetchStyle == "integer" {
+
+            if fetchStyle == Db::FETCH_CLASS {
+                return pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
+            }
+
+            if fetchStyle == Db::FETCH_COLUMN {
+                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
+            }
+
+            if fetchStyle == Db::FETCH_FUNC {
+                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
+            }
+
+            return pdoStatement->fetchAll(fetchStyle);
+        }
+
+        return pdoStatement->fetchAll();
+    }
+
+    /**
+     * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
+     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     *
+     *<code>
+     * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+     *
+     * $result->setFetchMode(
+     *     \Phalcon\Db::FETCH_NUM
+     * );
+     *
+     * while ($robot = result->fetchArray()) {
+     *     print_r($robot);
+     * }
+     *</code>
+     */
+    public function fetchArray()
+    {
+        return this->pdoStatement->$fetch();
+    }
+
+    /**
+     * Gets the internal PDO result object
+     */
+    public function getInternalResult() -> <\PDOStatement>
+    {
+        return this->pdoStatement;
+    }
+
+    /**
+     * Gets number of rows returned by a resultset
+     *
+     *<code>
+     * $result = $connection->query(
+     *     "SELECT * FROM robots ORDER BY name"
+     * );
+     *
+     * echo "There are ", $result->numRows(), " rows in the resultset";
+     *</code>
+     */
+    public function numRows() -> int
+    {
+        var sqlStatement, rowCount, connection, type,
+            pdoStatement, matches, result, row;
+
+        let rowCount = this->rowCount;
+        if rowCount === false {
+
+            let connection = this->connection,
+                type = connection->getType();
+
+            /**
+             * MySQL library properly returns the number of records PostgreSQL too
+             */
+            if type == "mysql" || type == "pgsql" {
+                let pdoStatement = this->pdoStatement,
+                    rowCount = pdoStatement->rowCount();
+            }
+
+            /**
+             * We should get the count using a new statement :(
+             */
+            if rowCount === false {
+
+                /**
+                 * SQLite/SQLServer returns resultsets that to the client eyes
+                 * (PDO) has an arbitrary number of rows, so we need to perform
+                 * an extra count to know that
+                 */
+                let sqlStatement = this->sqlStatement;
+
+                /**
+                 * If the sql_statement starts with SELECT COUNT(*) we don't make the count
+                 */
+                if !starts_with(sqlStatement, "SELECT COUNT(*) ") {
+
+                    let matches = null;
+                    if preg_match("/^SELECT\\s+(.*)/i", sqlStatement, matches) {
+                        let result = connection->query(
+                            "SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")",
+                            this->bindParams,
+                            this->bindTypes
+                        );
+
+                        let row = result->$fetch(),
+                            rowCount = row["numrows"];
+                    }
+                } else {
+                    let rowCount = 1;
+                }
+            }
+
+            /**
+             * Update the value to avoid further calculations
+             */
+            let this->rowCount = rowCount;
+        }
+        return rowCount;
     }
 
     /**
@@ -323,11 +330,11 @@ class Pdo implements ResultInterface
     {
         var pdoStatement;
 
-        let pdoStatement = this->_pdoStatement;
+        let pdoStatement = this->pdoStatement;
 
         if fetchMode == Db::FETCH_CLASS {
             if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
-                let this->_fetchMode = fetchMode;
+                let this->fetchMode = fetchMode;
                 return true;
             }
             return false;
@@ -335,7 +342,7 @@ class Pdo implements ResultInterface
 
         if fetchMode == Db::FETCH_INTO {
             if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
-                let this->_fetchMode = fetchMode;
+                let this->fetchMode = fetchMode;
                 return true;
             }
             return false;
@@ -343,24 +350,16 @@ class Pdo implements ResultInterface
 
         if fetchMode == Db::FETCH_COLUMN {
             if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
-                let this->_fetchMode = fetchMode;
+                let this->fetchMode = fetchMode;
                 return true;
             }
             return false;
         }
 
         if pdoStatement->setFetchMode(fetchMode) {
-            let this->_fetchMode = fetchMode;
+            let this->fetchMode = fetchMode;
             return true;
         }
         return false;
-    }
-
-    /**
-     * Gets the internal PDO result object
-     */
-    public function getInternalResult() -> <\PDOStatement>
-    {
-        return this->_pdoStatement;
     }
 }

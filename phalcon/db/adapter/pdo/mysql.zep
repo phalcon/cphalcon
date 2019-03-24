@@ -42,20 +42,9 @@ use Phalcon\Db\ReferenceInterface;
 class Mysql extends PdoAdapter
 {
 
-    protected _dialectType = "mysql";
+    protected dialectType = "mysql";
 
-    protected _type = "mysql";
-
-    /**
-     * Returns PDO adapter DSN defaults as a key-value map.
-     */
-    protected function getDsnDefaults() -> array
-    {
-        // In modern MySQL the "utf8mb4" charset is more ideal than just "uf8".
-        return [
-            "charset" : "utf8mb4"
-        ];
-    }
+    protected type = "mysql";
 
     /**
      * Adds a foreign key to a table
@@ -64,12 +53,12 @@ class Mysql extends PdoAdapter
     {
         var foreignKeyCheck;
 
-        let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
+        let foreignKeyCheck = this->{"prepare"}(this->dialect->getForeignKeyChecks());
         if !foreignKeyCheck->execute() {
             throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
         }
 
-        return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
+        return this->{"execute"}(this->dialect->addForeignKey(tableName, schemaName, reference));
     }
 
     /**
@@ -97,7 +86,7 @@ class Mysql extends PdoAdapter
          * Get the describe
          * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
          */
-        for field in this->fetchAll(this->_dialect->describeColumns(table, schema), Db::FETCH_NUM) {
+        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
 
             /**
              * By default the bind types is two
@@ -424,9 +413,9 @@ class Mysql extends PdoAdapter
         var indexes, index, keyName, indexType, indexObjects, columns, name;
 
         let indexes = [];
-        for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
             let keyName = index["Key_name"];
-            let indexType = index["Index_type"];
+            let indexType = index["Indextype"];
 
             if !isset indexes[keyName] {
                 let indexes[keyName] = [];
@@ -478,7 +467,7 @@ class Mysql extends PdoAdapter
 
         let references = [];
 
-        for reference in this->fetchAll(this->_dialect->describeReferences(table, schema),Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema),Db::FETCH_NUM) {
 
             let constraintName = reference[2];
             if !isset references[constraintName] {
@@ -524,5 +513,16 @@ class Mysql extends PdoAdapter
         }
 
         return referenceObjects;
+    }
+
+    /**
+     * Returns PDO adapter DSN defaults as a key-value map.
+     */
+    protected function getDsnDefaults() -> array
+    {
+        // In modern MySQL the "utf8mb4" charset is more ideal than just "uf8".
+        return [
+            "charset" : "utf8mb4"
+        ];
     }
 }

@@ -38,7 +38,7 @@ class IsFirstCest
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_first'], $column->isFirst());
+            $I->assertEquals($columns[$index]['first'], $column->isFirst());
         }
     }
 }

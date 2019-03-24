@@ -18,47 +18,47 @@ namespace Phalcon\Db\Profiler;
  */
 class Item
 {
-
     /**
-     * SQL statement related to the profile
+     * Timestamp when the profile ended
      *
-     * @var string
+     * @var double
      */
-    protected _sqlStatement { set, get };
-
-    /**
-     * SQL variables related to the profile
-     *
-     * @var array
-     */
-    protected _sqlVariables { set, get };
-
-    /**
-     * SQL bind types related to the profile
-     *
-     * @var array
-     */
-    protected _sqlBindTypes { set, get };
+    protected finalTime { set, get };
 
     /**
      * Timestamp when the profile started
      *
      * @var double
      */
-    protected _initialTime { set, get };
+    protected initialTime { set, get };
 
     /**
-     * Timestamp when the profile ended
+     * SQL bind types related to the profile
      *
-     * @var double
+     * @var array
      */
-    protected _finalTime { set, get };
+    protected sqlBindTypes { set, get };
+
+    /**
+     * SQL statement related to the profile
+     *
+     * @var string
+     */
+    protected sqlStatement { set, get };
+
+    /**
+     * SQL variables related to the profile
+     *
+     * @var array
+     */
+    protected sqlVariables { set, get };
+
 
     /**
      * Returns the total time in seconds spent by the profile
      */
     public function getTotalElapsedSeconds() -> double
     {
-        return this->_finalTime - this->_initialTime;
+        return this->finalTime - this->initialTime;
     }
 }

@@ -67,27 +67,67 @@ use Phalcon\Db\Profiler\Item;
  */
 class Profiler
 {
+    /**
+     * Active Phalcon\Db\Profiler\Item
+     *
+     * @var Phalcon\Db\Profiler\Item
+     */
+    protected activeProfile;
 
     /**
      * All the Phalcon\Db\Profiler\Item in the active profile
      *
      * @var \Phalcon\Db\Profiler\Item[]
      */
-    protected _allProfiles;
-
-    /**
-     * Active Phalcon\Db\Profiler\Item
-     *
-     * @var Phalcon\Db\Profiler\Item
-     */
-    protected _activeProfile;
+    protected allProfiles;
 
     /**
      * Total time spent by all profiles to complete
      *
      * @var float
      */
-    protected _totalSeconds = 0;
+    protected totalSeconds = 0;
+
+    /**
+     * Returns the last profile executed in the profiler
+     */
+    public function getLastProfile() -> <Item>
+    {
+        return this->activeProfile;
+    }
+
+    /**
+     * Returns the total number of SQL statements processed
+     */
+    public function getNumberTotalStatements() -> int
+    {
+        return count(this->allProfiles);
+    }
+
+    /**
+     * Returns the total time in seconds spent by the profiles
+     */
+    public function getTotalElapsedSeconds() -> double
+    {
+        return this->totalSeconds;
+    }
+
+    /**
+     * Returns all the processed profiles
+     */
+    public function getProfiles() -> <Item[]>
+    {
+        return this->allProfiles;
+    }
+
+    /**
+     * Resets the profiler, cleaning up all the profiles
+     */
+    public function reset() -> <Profiler>
+    {
+        let this->allProfiles = [];
+        return this;
+    }
 
     /**
      * Starts the profile of a SQL sentence
@@ -114,7 +154,7 @@ class Profiler
             this->{"beforeStartProfile"}(activeProfile);
         }
 
-        let this->_activeProfile = activeProfile;
+        let this->activeProfile = activeProfile;
 
         return this;
     }
@@ -127,59 +167,18 @@ class Profiler
         var finalTime, initialTime, activeProfile;
 
         let finalTime = microtime(true),
-            activeProfile = <Item> this->_activeProfile;
+            activeProfile = <Item> this->activeProfile;
 
         activeProfile->setFinalTime(finalTime);
 
         let initialTime = activeProfile->getInitialTime(),
-            this->_totalSeconds = this->_totalSeconds + (finalTime - initialTime),
-            this->_allProfiles[] = activeProfile;
+            this->totalSeconds = this->totalSeconds + (finalTime - initialTime),
+            this->allProfiles[] = activeProfile;
 
         if method_exists(this, "afterEndProfile") {
             this->{"afterEndProfile"}(activeProfile);
         }
 
         return this;
-    }
-
-    /**
-     * Returns the total number of SQL statements processed
-     */
-    public function getNumberTotalStatements() -> int
-    {
-        return count(this->_allProfiles);
-    }
-
-    /**
-     * Returns the total time in seconds spent by the profiles
-     */
-    public function getTotalElapsedSeconds() -> double
-    {
-        return this->_totalSeconds;
-    }
-
-    /**
-     * Returns all the processed profiles
-     */
-    public function getProfiles() -> <Item[]>
-    {
-        return this->_allProfiles;
-    }
-
-    /**
-     * Resets the profiler, cleaning up all the profiles
-     */
-    public function reset() -> <Profiler>
-    {
-        let this->_allProfiles = [];
-        return this;
-    }
-
-    /**
-     * Returns the last profile executed in the profiler
-     */
-    public function getLastProfile() -> <Item>
-    {
-        return this->_activeProfile;
     }
 }

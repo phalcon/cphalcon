@@ -18,19 +18,9 @@ namespace Phalcon\Db;
 interface ReferenceInterface
 {
     /**
-     * Gets the index name
+     * Restore a Phalcon\Db\Reference object from export
      */
-    public function getName() -> string;
-
-    /**
-     * Gets the schema where referenced table is
-     */
-    public function getSchemaName() -> string;
-
-    /**
-     * Gets the schema where referenced table is
-     */
-    public function getReferencedSchema() -> string;
+    public static function __set_state(array! data) -> <ReferenceInterface>;
 
     /**
      * Gets local columns which reference is based
@@ -38,14 +28,9 @@ interface ReferenceInterface
     public function getColumns() -> array;
 
     /**
-     * Gets the referenced table
+     * Gets the index name
      */
-    public function getReferencedTable() -> string;
-
-    /**
-     * Gets referenced columns
-     */
-    public function getReferencedColumns() -> array;
+    public function getName() -> string;
 
     /**
      * Gets the referenced on delete
@@ -58,8 +43,22 @@ interface ReferenceInterface
     public function getOnUpdate() -> string;
 
     /**
-     * Restore a Phalcon\Db\Reference object from export
+     * Gets referenced columns
      */
-    public static function __set_state(array! data) -> <ReferenceInterface>;
+    public function getReferencedColumns() -> array;
 
+    /**
+     * Gets the schema where referenced table is
+     */
+    public function getReferencedSchema() -> string;
+
+    /**
+     * Gets the referenced table
+     */
+    public function getReferencedTable() -> string;
+
+    /**
+     * Gets the schema where referenced table is
+     */
+    public function getSchemaName() -> string;
 }

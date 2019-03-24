@@ -42,24 +42,19 @@ abstract class Pdo extends Adapter
     /**
      * Last affected rows
      */
-    protected _affectedRows;
+    protected affectedRows;
 
     /**
      * PDO Handler
      *
      * @var \Pdo
      */
-    protected _pdo;
-
-    /**
-     * Returns PDO adapter DSN defaults as a key-value map.
-     */
-    abstract protected function getDsnDefaults() -> array;
+    protected pdo;
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo
      */
-    public function __construct(array! descriptor)
+    public function __construct(array! descriptor) -> void
     {
         this->connect(descriptor);
         parent::__construct(descriptor);
@@ -78,7 +73,7 @@ abstract class Pdo extends Adapter
      */
     public function affectedRows() -> int
     {
-        return this->_affectedRows;
+        return this->affectedRows;
     }
 
     /**
@@ -88,7 +83,7 @@ abstract class Pdo extends Adapter
     {
         var pdo, transactionLevel, eventsManager, savepointName;
 
-        let pdo = this->_pdo;
+        let pdo = this->pdo;
         if typeof pdo != "object" {
             return false;
         }
@@ -96,12 +91,12 @@ abstract class Pdo extends Adapter
         /**
          * Increase the transaction nesting level
          */
-        let this->_transactionLevel++;
+        let this->transactionLevel++;
 
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->_transactionLevel;
+        let transactionLevel = (int) this->transactionLevel;
 
         if transactionLevel == 1 {
 
@@ -146,7 +141,7 @@ abstract class Pdo extends Adapter
     {
         var pdo, transactionLevel, eventsManager, savepointName;
 
-        let pdo = this->_pdo;
+        let pdo = this->pdo;
         if typeof pdo != "object" {
             return false;
         }
@@ -154,7 +149,7 @@ abstract class Pdo extends Adapter
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->_transactionLevel;
+        let transactionLevel = (int) this->transactionLevel;
         if !transactionLevel {
             throw new Exception("There is no active transaction");
         }
@@ -172,7 +167,7 @@ abstract class Pdo extends Adapter
             /**
              * Reduce the transaction nesting level
              */
-            let this->_transactionLevel--;
+            let this->transactionLevel--;
 
             return pdo->commit();
         } else {
@@ -194,7 +189,7 @@ abstract class Pdo extends Adapter
                 /**
                  * Reduce the transaction nesting level
                  */
-                let this->_transactionLevel--;
+                let this->transactionLevel--;
 
                 return this->releaseSavepoint(savepointName);
             }
@@ -205,7 +200,7 @@ abstract class Pdo extends Adapter
          * Reduce the transaction nesting level
          */
         if transactionLevel > 0 {
-            let this->_transactionLevel--;
+            let this->transactionLevel--;
         }
 
         return false;
@@ -218,9 +213,9 @@ abstract class Pdo extends Adapter
     public function close() -> bool
     {
         var pdo;
-        let pdo = this->_pdo;
+        let pdo = this->pdo;
         if typeof pdo == "object" {
-            let this->_pdo = null;
+            let this->pdo = null;
         }
         return true;
     }
@@ -254,7 +249,7 @@ abstract class Pdo extends Adapter
             options, key, value;
 
         if empty descriptor {
-            let descriptor = (array) this->_descriptor;
+            let descriptor = (array) this->descriptor;
         }
 
         // Check for a username or use null as default
@@ -304,7 +299,7 @@ abstract class Pdo extends Adapter
         let dsnAttributes = join(";", dsnParts);
 
         // Create the connection using PDO
-        let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+        let this->pdo = new \Pdo(this->type . ":" . dsnAttributes, username, password, options);
 
         return true;
     }
@@ -368,7 +363,7 @@ abstract class Pdo extends Adapter
      */
     public function escapeString(string str) -> string
     {
-        return this->_pdo->quote(str);
+        return this->pdo->quote(str);
     }
 
     /**
@@ -399,9 +394,9 @@ abstract class Pdo extends Adapter
          */
         let eventsManager = <ManagerInterface> this->_eventsManager;
         if typeof eventsManager == "object" {
-            let this->_sqlStatement = sqlStatement,
-                this->_sqlVariables = bindParams,
-                this->_sqlBindTypes = bindTypes;
+            let this->sqlStatement = sqlStatement,
+                this->sqlVariables = bindParams,
+                this->sqlBindTypes = bindTypes;
             if eventsManager->fire("db:beforeQuery", this) === false {
                 return false;
             }
@@ -412,7 +407,7 @@ abstract class Pdo extends Adapter
          */
         let affectedRows = 0;
 
-        let pdo = <\Pdo> this->_pdo;
+        let pdo = <\Pdo> this->pdo;
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
             if typeof statement == "object" {
@@ -427,7 +422,7 @@ abstract class Pdo extends Adapter
          * Execute the afterQuery event if an EventsManager is available
          */
         if typeof affectedRows == "integer" {
-            let this->_affectedRows = affectedRows;
+            let this->affectedRows = affectedRows;
             if typeof eventsManager == "object" {
                 eventsManager->fire("db:afterQuery", this);
             }
@@ -556,7 +551,7 @@ abstract class Pdo extends Adapter
      */
     public function getErrorInfo()
     {
-        return this->_pdo->errorInfo();
+        return this->pdo->errorInfo();
     }
 
     /**
@@ -564,7 +559,7 @@ abstract class Pdo extends Adapter
      */
     public function getInternalHandler() -> <\Pdo>
     {
-        return this->_pdo;
+        return this->pdo;
     }
 
     /**
@@ -572,7 +567,7 @@ abstract class Pdo extends Adapter
      */
     public function getTransactionLevel() -> int
     {
-        return this->_transactionLevel;
+        return this->transactionLevel;
     }
 
     /**
@@ -590,7 +585,7 @@ abstract class Pdo extends Adapter
     public function isUnderTransaction() -> bool
     {
         var pdo;
-        let pdo = this->_pdo;
+        let pdo = this->pdo;
         if typeof pdo == "object" {
             return pdo->inTransaction();
         }
@@ -623,7 +618,7 @@ abstract class Pdo extends Adapter
     public function lastInsertId(sequenceName = null) -> int | bool
     {
         var pdo;
-        let pdo = this->_pdo;
+        let pdo = this->pdo;
         if typeof pdo != "object" {
             return false;
         }
@@ -653,7 +648,7 @@ abstract class Pdo extends Adapter
      */
     public function prepare(string! sqlStatement) -> <\PDOStatement>
     {
-        return this->_pdo->prepare(sqlStatement);
+        return this->pdo->prepare(sqlStatement);
     }
 
     /**
@@ -684,15 +679,15 @@ abstract class Pdo extends Adapter
          * Execute the beforeQuery event if an EventsManager is available
          */
         if typeof eventsManager == "object" {
-            let this->_sqlStatement = sqlStatement,
-                this->_sqlVariables = bindParams,
-                this->_sqlBindTypes = bindTypes;
+            let this->sqlStatement = sqlStatement,
+                this->sqlVariables = bindParams,
+                this->sqlBindTypes = bindTypes;
             if eventsManager->fire("db:beforeQuery", this) === false {
                 return false;
             }
         }
 
-        let pdo = <\Pdo> this->_pdo;
+        let pdo = <\Pdo> this->pdo;
         if typeof bindParams == "array" {
             let params = bindParams;
             let types = bindTypes;
@@ -728,7 +723,7 @@ abstract class Pdo extends Adapter
     {
         var pdo, transactionLevel, eventsManager, savepointName;
 
-        let pdo = this->_pdo;
+        let pdo = this->pdo;
         if typeof pdo != "object" {
             return false;
         }
@@ -736,7 +731,7 @@ abstract class Pdo extends Adapter
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->_transactionLevel;
+        let transactionLevel = (int) this->transactionLevel;
         if !transactionLevel {
             throw new Exception("There is no active transaction");
         }
@@ -754,7 +749,7 @@ abstract class Pdo extends Adapter
             /**
              * Reduce the transaction nesting level
              */
-            let this->_transactionLevel--;
+            let this->transactionLevel--;
 
             return pdo->rollback();
 
@@ -778,7 +773,7 @@ abstract class Pdo extends Adapter
                 /**
                  * Reduce the transaction nesting level
                  */
-                let this->_transactionLevel--;
+                let this->transactionLevel--;
 
                 return this->rollbackSavepoint(savepointName);
             }
@@ -788,9 +783,14 @@ abstract class Pdo extends Adapter
          * Reduce the transaction nesting level
          */
         if transactionLevel > 0 {
-            let this->_transactionLevel--;
+            let this->transactionLevel--;
         }
 
         return false;
     }
+
+    /**
+     * Returns PDO adapter DSN defaults as a key-value map.
+     */
+    abstract protected function getDsnDefaults() -> array;
 }

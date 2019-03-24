@@ -18,9 +18,9 @@ namespace Phalcon\Db;
 interface IndexInterface
 {
     /**
-     * Gets the index name
+     * Restore a Phalcon\Db\Index object from export
      */
-    public function getName() -> string;
+    public static function __set_state(array! data) -> <IndexInterface>;
 
     /**
      * Gets the columns that corresponds the index
@@ -28,13 +28,12 @@ interface IndexInterface
     public function getColumns() -> array;
 
     /**
+     * Gets the index name
+     */
+    public function getName() -> string;
+
+    /**
      * Gets the index type
      */
     public function getType() -> string;
-
-    /**
-     * Restore a Phalcon\Db\Index object from export
-     */
-    public static function __set_state(array! data) -> <IndexInterface>;
-
 }

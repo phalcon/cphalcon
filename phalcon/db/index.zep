@@ -43,36 +43,35 @@ namespace Phalcon\Db;
  */
 class Index implements IndexInterface
 {
+    /**
+     * Index columns
+     *
+     * @var array
+     */
+    protected columns { get };
 
     /**
      * Index name
      *
      * @var string
      */
-    protected _name { get };
-
-    /**
-     * Index columns
-     *
-     * @var array
-     */
-    protected _columns { get };
+    protected name { get };
 
     /**
      * Index type
      *
      * @var string
      */
-    protected _type { get };
+    protected type { get };
 
     /**
      * Phalcon\Db\Index constructor
      */
-    public function __construct(string! name, array! columns, string type = "")
+    public function __construct(string! name, array! columns, string type = "") -> void
     {
-        let this->_name = name;
-        let this->_columns = columns;
-        let this->_type = type;
+        let this->name = name;
+        let this->columns = columns;
+        let this->type = type;
     }
 
     /**
@@ -82,15 +81,15 @@ class Index implements IndexInterface
     {
         var indexName, columns, type;
 
-        if !fetch indexName, data["_name"] {
-            throw new Exception("_name parameter is required");
+        if !fetch indexName, data["name"] {
+            throw new Exception("name parameter is required");
         }
 
-        if !fetch columns, data["_columns"] {
-            throw new Exception("_columns parameter is required");
+        if !fetch columns, data["columns"] {
+            throw new Exception("columns parameter is required");
         }
 
-        if !fetch type, data["_type"] {
+        if !fetch type, data["type"] {
             let type = "";
         }
 
@@ -99,5 +98,4 @@ class Index implements IndexInterface
          */
         return new Index(indexName, columns, type);
     }
-
 }
