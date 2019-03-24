@@ -95,7 +95,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     }
 
     /**
-    /**
      * Process the results of the router by calling into the appropriate controller action(s)
      * including any routing data or injected parameters.
      *
@@ -111,7 +110,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         int numberDispatches;
         var value, handler, container, namespaceName, handlerName,
             actionName, params, eventsManager,
-            actionSuffix, handlerClass, status, actionMethod,
+            handlerClass, status, actionMethod,
             modelBinder, bindCacheKey,
             isNewHandler, handlerHash, e;
 
@@ -162,7 +161,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         let value = null,
             handler = null,
             numberDispatches = 0,
-            actionSuffix = this->actionSuffix,
+//            actionSuffix = this->actionSuffix, // never used
             this->finished = false;
 
         while !this->finished {
@@ -567,6 +566,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         return activeMethodName . this->actionSuffix;
     }
 
+    /**
      * Returns bound models from binder instance
      *
      * <code>
