@@ -76,7 +76,7 @@ class Di implements DiInterface
      *
      * @var \Phalcon\Events\ManagerInterface
      */
-    protected _eventsManager;
+    protected eventsManager;
 
     /**
      * Latest DI build
@@ -100,7 +100,7 @@ class Di implements DiInterface
      */
     public function setInternalEventsManager(<ManagerInterface> eventsManager)
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
     }
 
     /**
@@ -108,7 +108,7 @@ class Di implements DiInterface
      */
     public function getInternalEventsManager() -> <ManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -211,7 +211,7 @@ class Di implements DiInterface
             }
         }
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
 
         // Allows for custom creation of instances through the "di:beforeServiceResolve" event.
         if typeof eventsManager == "object" {
@@ -419,9 +419,9 @@ class Di implements DiInterface
     /**
      * Set a default dependency injection container to be obtained into static methods
      */
-    public static function setDefault(<DiInterface> dependencyInjector) -> void
+    public static function setDefault(<DiInterface> container) -> void
     {
-        let self::_default = dependencyInjector;
+        let self::_default = container;
     }
 
     /**

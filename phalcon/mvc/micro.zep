@@ -47,7 +47,7 @@ use Phalcon\Mvc\Micro\CollectionInterface;
 class Micro extends Injectable implements \ArrayAccess
 {
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _handlers = [];
 
@@ -78,11 +78,11 @@ class Micro extends Injectable implements \ArrayAccess
     /**
      * Phalcon\Mvc\Micro constructor
      */
-    public function __construct(<DiInterface> dependencyInjector = null)
+    public function __construct(<DiInterface> container = null)
     {
-        if typeof dependencyInjector == "object" {
-            if dependencyInjector instanceof DiInterface {
-                this->setDi(dependencyInjector);
+        if typeof container == "object" {
+            if container instanceof DiInterface {
+                this->setDi(container);
             }
         }
     }
@@ -90,16 +90,16 @@ class Micro extends Injectable implements \ArrayAccess
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
         /**
          * We automatically set ourselves as application service
          */
-        if !dependencyInjector->has("application") {
-            dependencyInjector->set("application", this);
+        if !container->has("application") {
+            container->set("application", this);
         }
 
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -481,15 +481,15 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function setService(string! serviceName, var definition, bool shared = false) -> <ServiceInterface>
     {
-        var dependencyInjector;
+        var container;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = new FactoryDefault();
-            let this->_dependencyInjector = dependencyInjector;
+        let container = this->container;
+        if typeof container != "object" {
+            let container = new FactoryDefault();
+            let this->container = container;
         }
 
-        return dependencyInjector->set(serviceName, definition, shared);
+        return container->set(serviceName, definition, shared);
     }
 
     /**
@@ -497,15 +497,15 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function hasService(string! serviceName) -> bool
     {
-        var dependencyInjector;
+        var container;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = new FactoryDefault();
-            let this->_dependencyInjector = dependencyInjector;
+        let container = this->container;
+        if typeof container != "object" {
+            let container = new FactoryDefault();
+            let this->container = container;
         }
 
-        return dependencyInjector->has(serviceName);
+        return container->has(serviceName);
     }
 
     /**
@@ -515,15 +515,15 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function getService(string! serviceName)
     {
-        var dependencyInjector;
+        var container;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = new FactoryDefault();
-            let this->_dependencyInjector = dependencyInjector;
+        let container = this->container;
+        if typeof container != "object" {
+            let container = new FactoryDefault();
+            let this->container = container;
         }
 
-        return dependencyInjector->get(serviceName);
+        return container->get(serviceName);
     }
 
     /**
@@ -533,15 +533,15 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function getSharedService(string! serviceName)
     {
-        var dependencyInjector;
+        var container;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = new FactoryDefault();
-            let this->_dependencyInjector = dependencyInjector;
+        let container = this->container;
+        if typeof container != "object" {
+            let container = new FactoryDefault();
+            let this->container = container;
         }
 
-        return dependencyInjector->getShared(serviceName);
+        return container->getShared(serviceName);
     }
 
     /**
@@ -552,14 +552,14 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function handle(string! uri)
     {
-        var dependencyInjector, eventsManager, status = null, router, matchedRoute,
+        var container, eventsManager, status = null, router, matchedRoute,
             handler, beforeHandlers, params, returnedValue, e, errorHandler,
             afterHandlers, notFoundHandler, finishHandlers, finish, before, after,
             response, modelBinder, bindCacheKey, routeName, realHandler = null, methodName, lazyReturned,
             afterBindingHandlers, afterBinding;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injection container is required to access required micro services");
         }
 
@@ -570,7 +570,7 @@ class Micro extends Injectable implements \ArrayAccess
             /**
              * Calling beforeHandle routing
              */
-            let eventsManager = this->_eventsManager;
+            let eventsManager = this->eventsManager;
             if typeof eventsManager == "object" {
                 if eventsManager->fire("micro:beforeHandleRoute", this) === false {
                     return false;
@@ -580,7 +580,7 @@ class Micro extends Injectable implements \ArrayAccess
             /**
              * Handling routing information
              */
-            let router = <RouterInterface> dependencyInjector->getShared("router");
+            let router = <RouterInterface> container->getShared("router");
 
             /**
              * Handle the URI as normal
@@ -837,7 +837,7 @@ class Micro extends Injectable implements \ArrayAccess
                 /**
                  * Calling beforeNotFound event
                  */
-                let eventsManager = this->_eventsManager;
+                let eventsManager = this->eventsManager;
                 if typeof eventsManager == "object" {
                     if eventsManager->fire("micro:beforeNotFound", this) === false {
                         return false;
@@ -927,7 +927,7 @@ class Micro extends Injectable implements \ArrayAccess
             /**
              * Calling beforeNotFound event
              */
-            let eventsManager = this->_eventsManager;
+            let eventsManager = this->eventsManager;
             if typeof eventsManager == "object" {
                 let returnedValue = eventsManager->fire("micro:beforeException", this, e);
             }
@@ -981,7 +981,7 @@ class Micro extends Injectable implements \ArrayAccess
              * Check if the returned value is a string and take it as response body
              */
             if typeof returnedValue == "string" {
-                let response = <ResponseInterface> dependencyInjector->getShared("response");
+                let response = <ResponseInterface> container->getShared("response");
                 if !response->isSent() {
                     response->setContent(returnedValue);
                     response->send();
@@ -1082,15 +1082,15 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function offsetUnset(var alias) -> void
     {
-        var dependencyInjector;
+        var container;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = new FactoryDefault();
-            let this->_dependencyInjector = dependencyInjector;
+        let container = this->container;
+        if typeof container != "object" {
+            let container = new FactoryDefault();
+            let this->container = container;
         }
 
-        dependencyInjector->remove(alias);
+        container->remove(alias);
     }
 
     /**
@@ -1175,11 +1175,11 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Micro>
     {
-        var dependencyInjector;
+        var container;
 
         if typeof cache == "string" {
-            let dependencyInjector = this->_dependencyInjector;
-            let cache = dependencyInjector->get(cache);
+            let container = this->container;
+            let cache = container->get(cache);
         }
 
         if cache != null {

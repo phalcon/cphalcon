@@ -103,7 +103,7 @@ abstract class Pdo extends Adapter
             /**
              * Notify the events manager about the started transaction
              */
-            let eventsManager = <ManagerInterface> this->_eventsManager;
+            let eventsManager = <ManagerInterface> this->eventsManager;
             if typeof eventsManager == "object" {
                 eventsManager->fire("db:beginTransaction", this);
             }
@@ -116,7 +116,7 @@ abstract class Pdo extends Adapter
              */
             if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
 
-                let eventsManager = <ManagerInterface> this->_eventsManager,
+                let eventsManager = <ManagerInterface> this->eventsManager,
                     savepointName = this->getNestedTransactionSavepointName();
 
                 /**
@@ -159,7 +159,7 @@ abstract class Pdo extends Adapter
             /**
              * Notify the events manager about the committed transaction
              */
-            let eventsManager = <ManagerInterface> this->_eventsManager;
+            let eventsManager = <ManagerInterface> this->eventsManager;
             if typeof eventsManager == "object" {
                 eventsManager->fire("db:commitTransaction", this);
             }
@@ -180,7 +180,7 @@ abstract class Pdo extends Adapter
                 /**
                  * Notify the events manager about the committed savepoint
                  */
-                let eventsManager = <ManagerInterface> this->_eventsManager,
+                let eventsManager = <ManagerInterface> this->eventsManager,
                     savepointName = this->getNestedTransactionSavepointName();
                 if typeof eventsManager == "object" {
                     eventsManager->fire("db:releaseSavepoint", this, savepointName);
@@ -392,7 +392,7 @@ abstract class Pdo extends Adapter
         /**
          * Execute the beforeQuery event if an EventsManager is available
          */
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
         if typeof eventsManager == "object" {
             let this->sqlStatement = sqlStatement,
                 this->sqlVariables = bindParams,
@@ -673,7 +673,7 @@ abstract class Pdo extends Adapter
     {
         var eventsManager, pdo, statement, params, types;
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
          * Execute the beforeQuery event if an EventsManager is available
@@ -741,7 +741,7 @@ abstract class Pdo extends Adapter
             /**
              * Notify the events manager about the rollbacked transaction
              */
-            let eventsManager = <ManagerInterface> this->_eventsManager;
+            let eventsManager = <ManagerInterface> this->eventsManager;
             if typeof eventsManager == "object" {
                 eventsManager->fire("db:rollbackTransaction", this);
             }
@@ -765,7 +765,7 @@ abstract class Pdo extends Adapter
                 /**
                  * Notify the events manager about the rolled back savepoint
                  */
-                let eventsManager = <ManagerInterface> this->_eventsManager;
+                let eventsManager = <ManagerInterface> this->eventsManager;
                 if typeof eventsManager == "object" {
                     eventsManager->fire("db:rollbackSavepoint", this, savepointName);
                 }

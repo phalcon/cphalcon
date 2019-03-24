@@ -33,7 +33,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
     protected _useEncryption = false;
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _filter;
 
@@ -119,9 +119,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -129,7 +129,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -149,13 +149,13 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function getValue(var filters = null, var defaultValue = null) -> var
     {
-        var dependencyInjector, value, crypt, decryptedValue, filter, signKey, name;
+        var container, value, crypt, decryptedValue, filter, signKey, name;
 
         if !this->_restored {
             this->restore();
         }
 
-        let dependencyInjector = null,
+        let container = null,
             name = this->_name;
 
         if this->_readed === false {
@@ -164,14 +164,14 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
                 if this->_useEncryption {
 
-                    let dependencyInjector = <DiInterface> this->_dependencyInjector;
-                    if typeof dependencyInjector != "object" {
+                    let container = <DiInterface> this->container;
+                    if typeof container != "object" {
                         throw new Exception(
                             "A dependency injection object is required to access the 'filter' and 'crypt' service"
                         );
                     }
 
-                    let crypt = <CryptInterface> dependencyInjector->getShared("crypt");
+                    let crypt = <CryptInterface> container->getShared("crypt");
                     if typeof crypt != "object" {
                         throw new Exception(
                             "A dependency which implements CryptInterface is required to use encryption"
@@ -206,17 +206,17 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                     let filter = this->_filter;
                     if typeof filter != "object" {
 
-                        if dependencyInjector === null {
-                            let dependencyInjector = <DiInterface> this->_dependencyInjector;
-                            if typeof dependencyInjector != "object" {
+                        if container === null {
+                            let container = <DiInterface> this->container;
+                            if typeof container != "object" {
                                 throw new Exception(
                                     "A dependency injection object is required to access the 'filter' service"
                                 );
                             }
                         }
 
-//                        let filter = dependencyInjector->getShared("filter"),
-                        let filter = <LocatorInterface> dependencyInjector->getShared("filter"),
+//                        let filter = container->getShared("filter"),
+                        let filter = <LocatorInterface> container->getShared("filter"),
                             this->_filter = filter;
                     }
 
@@ -242,7 +242,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     public function send() -> <CookieInterface>
     {
         var name, value, expire, domain, path, secure, httpOnly,
-            dependencyInjector, definition, session, crypt, encryptValue, signKey;
+            container, definition, session, crypt, encryptValue, signKey;
 
         let name = this->_name,
             value = this->_value,
@@ -252,9 +252,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             secure = this->_secure,
             httpOnly = this->_httpOnly;
 
-        let dependencyInjector = this->_dependencyInjector;
+        let container = this->container;
 
-        if typeof dependencyInjector != "object" {
+        if typeof container != "object" {
             throw new Exception("A dependency injection object is required to access the 'session' service");
         }
 
@@ -284,7 +284,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
          * The definition is stored in session
          */
         if count(definition) {
-            let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+            let session = <SessionManagerInterface> container->getShared("session");
             if session->exists() {
                 session->set("_PHCOOKIE_" . name, definition);
             }
@@ -294,13 +294,13 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
             if !empty value {
 
-                if typeof dependencyInjector != "object" {
+                if typeof container != "object" {
                     throw new Exception(
                         "A dependency injection object is required to access the 'filter' service"
                     );
                 }
 
-                let crypt = <CryptInterface> dependencyInjector->getShared("crypt");
+                let crypt = <CryptInterface> container->getShared("crypt");
                 if typeof crypt != "object" {
                     throw new Exception(
                         "A dependency which implements CryptInterface is required to use encryption"
@@ -340,15 +340,15 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var dependencyInjector, expire, domain, path, secure,
+        var container, expire, domain, path, secure,
             httpOnly, session, definition;
 
         if !this->_restored {
 
-            let dependencyInjector = this->_dependencyInjector;
-            if typeof dependencyInjector == "object" {
+            let container = this->container;
+            if typeof container == "object" {
 
-                let session = dependencyInjector->getShared("session");
+                let session = container->getShared("session");
 
                 if session->exists() {
                     let definition = session->get("_PHCOOKIE_" . this->_name);
@@ -388,7 +388,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function delete()
     {
-        var name, domain, path, secure, httpOnly, dependencyInjector, session;
+        var name, domain, path, secure, httpOnly, container, session;
 
         let name     = this->_name,
             domain   = this->_domain,
@@ -396,9 +396,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             secure   = this->_secure,
             httpOnly = this->_httpOnly;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
-        if typeof dependencyInjector == "object" {
-            let session = <SessionManagerInterface> dependencyInjector->getShared("session");
+        let container = <DiInterface> this->container;
+        if typeof container == "object" {
+            let session = <SessionManagerInterface> container->getShared("session");
             if session->exists() {
                 session->remove("_PHCOOKIE_" . name);
             }

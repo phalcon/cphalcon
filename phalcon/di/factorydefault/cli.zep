@@ -10,8 +10,8 @@
 
 namespace Phalcon\Di\FactoryDefault;
 
-use Phalcon\Di\Service;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\Service;
 
  /**
  * Phalcon\Di\FactoryDefault\Cli
@@ -23,7 +23,6 @@ use Phalcon\Di\FactoryDefault;
  */
 class Cli extends FactoryDefault
 {
-
     /**
      * Phalcon\Di\FactoryDefault\Cli constructor
      */

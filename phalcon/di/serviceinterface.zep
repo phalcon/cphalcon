@@ -49,7 +49,7 @@ interface ServiceInterface
      * @param array parameters
      * @return mixed
      */
-    public function resolve(parameters = null, <DiInterface> dependencyInjector = null);
+    public function resolve(parameters = null, <DiInterface> container = null);
 
     /**
      * Changes a parameter in the definition without resolve the service
