@@ -47,7 +47,7 @@ class Message implements MessageInterface, \JsonSerializable
     /**
      * Phalcon\Messages\Message constructor
      */
-    public function __construct(string! message, var field = "", string type = "", int code = 0, array metaData = [])
+    public function __construct(string! message, var field = "", string type = "", int code = 0, array metaData = []) -> void
     {
         let this->message  = message,
             this->field    = field,

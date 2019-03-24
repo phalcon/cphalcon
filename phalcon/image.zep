@@ -13,13 +13,13 @@ namespace Phalcon;
 class Image
 {
     // Resizing constraints
-    const NONE    = 1;
-    const WIDTH   = 2;
-    const HEIGHT  = 3;
     const AUTO    = 4;
+    const HEIGHT  = 3;
     const INVERSE = 5;
+    const NONE    = 1;
     const PRECISE = 6;
     const TENSILE = 7;
+    const WIDTH   = 2;
 
     // Flipping directions
     const HORIZONTAL = 11;
