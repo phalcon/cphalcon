@@ -19,7 +19,6 @@ use Phalcon\Flash as FlashBase;
  */
 class Direct extends FlashBase
 {
-
     /**
      * Outputs a message
      */
@@ -35,7 +34,7 @@ class Direct extends FlashBase
     {
         var message, messages;
 
-        let messages = this->_messages;
+        let messages = this->messages;
         if typeof messages == "array" {
             for message in messages {
                 echo message;

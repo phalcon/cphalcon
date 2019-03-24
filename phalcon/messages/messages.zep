@@ -34,7 +34,7 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Phalcon\Messages\Messages constructor
      */
-    public function __construct(array messages = [])
+    public function __construct(array messages = []) -> void
     {
         let this->messages = messages;
     }
