@@ -415,7 +415,7 @@ class Mysql extends PdoAdapter
         let indexes = [];
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
             let keyName = index["Key_name"];
-            let indexType = index["Indextype"];
+            let indexType = index["Index_type"];
 
             if !isset indexes[keyName] {
                 let indexes[keyName] = [];
