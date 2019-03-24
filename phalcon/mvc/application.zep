@@ -69,56 +69,28 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 class Application extends BaseApplication
 {
 
-    protected _implicitView = true;
+    protected implicitView = true;
 
-    protected _sendHeaders = true;
+    protected sendCookies = true;
 
-    protected _sendCookies = true;
-
-    /**
-     * Enables or disables sending headers by each request handling
-     */
-    public function sendHeadersOnHandleRequest(bool sendHeaders) -> <Application>
-    {
-        let this->_sendHeaders = sendHeaders;
-        return this;
-    }
-
-    /**
-     * Enables or disables sending cookies by each request handling
-     */
-    public function sendCookiesOnHandleRequest(bool sendCookies) -> <Application>
-    {
-        let this->_sendCookies = sendCookies;
-        return this;
-    }
-
-    /**
-     * By default. The view is implicitly buffering all the output
-     * You can full disable the view component using this method
-     */
-    public function useImplicitView(bool implicitView) -> <Application>
-    {
-        let this->_implicitView = implicitView;
-        return this;
-    }
+    protected sendHeaders = true;
 
     /**
      * Handles a MVC request
      */
     public function handle(string! uri) -> <ResponseInterface> | bool
     {
-        var dependencyInjector, eventsManager, router, dispatcher, response, view,
+        var container, eventsManager, router, dispatcher, response, view,
             module, moduleObject, moduleName, className, path,
             implicitView, returnedResponse, controller, possibleResponse,
             renderStatus, matchedRoute, match;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injection object is required to access internal services");
         }
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
          * Call boot event, this allow the developer to perform initialization actions
@@ -129,7 +101,7 @@ class Application extends BaseApplication
             }
         }
 
-        let router = <RouterInterface> dependencyInjector->getShared("router");
+        let router = <RouterInterface> container->getShared("router");
 
         /**
          * Handle the URI pattern (if any)
@@ -146,7 +118,7 @@ class Application extends BaseApplication
             if match !== null {
 
                 if match instanceof \Closure {
-                    let match = \Closure::bind(match, dependencyInjector);
+                    let match = \Closure::bind(match, container);
                 }
 
                 /**
@@ -158,7 +130,7 @@ class Application extends BaseApplication
                  * If the returned value is a string return it as body
                  */
                 if typeof possibleResponse == "string" {
-                    let response = <ResponseInterface> dependencyInjector->getShared("response");
+                    let response = <ResponseInterface> container->getShared("response");
                     response->setContent(possibleResponse);
                     return response;
                 }
@@ -181,7 +153,7 @@ class Application extends BaseApplication
          */
         let moduleName = router->getModuleName();
         if !moduleName {
-            let moduleName = this->_defaultModule;
+            let moduleName = this->defaultModule;
         }
 
         let moduleObject = null;
@@ -234,13 +206,13 @@ class Application extends BaseApplication
                     }
                 }
 
-                let moduleObject = <ModuleDefinitionInterface> dependencyInjector->get(className);
+                let moduleObject = <ModuleDefinitionInterface> container->get(className);
 
                 /**
                  * 'registerAutoloaders' and 'registerServices' are automatically called
                  */
-                moduleObject->registerAutoloaders(dependencyInjector);
-                moduleObject->registerServices(dependencyInjector);
+                moduleObject->registerAutoloaders(container);
+                moduleObject->registerServices(container);
 
             } else {
 
@@ -251,7 +223,7 @@ class Application extends BaseApplication
                     throw new Exception("Invalid module definition");
                 }
 
-                let moduleObject = call_user_func_array(module, [dependencyInjector]);
+                let moduleObject = call_user_func_array(module, [container]);
             }
 
             /**
@@ -265,17 +237,17 @@ class Application extends BaseApplication
         /**
          * Check whether use implicit views or not
          */
-        let implicitView = this->_implicitView;
+        let implicitView = this->implicitView;
 
         if implicitView === true {
-            let view = <ViewInterface> dependencyInjector->getShared("view");
+            let view = <ViewInterface> container->getShared("view");
         }
 
         /**
          * We get the parameters from the router and assign them to the dispatcher
          * Assign the values passed from the router
          */
-        let dispatcher = <DispatcherInterface> dependencyInjector->getShared("dispatcher");
+        let dispatcher = <DispatcherInterface> container->getShared("dispatcher");
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setNamespaceName(router->getNamespaceName());
         dispatcher->setControllerName(router->getControllerName());
@@ -312,14 +284,14 @@ class Application extends BaseApplication
          * Returning false from an action cancels the view
          */
         if typeof possibleResponse == "boolean" && possibleResponse === false {
-            let response = <ResponseInterface> dependencyInjector->getShared("response");
+            let response = <ResponseInterface> container->getShared("response");
         } else {
 
             /**
              * Returning a string makes use it as the body of the response
              */
             if typeof possibleResponse == "string" {
-                let response = <ResponseInterface> dependencyInjector->getShared("response");
+                let response = <ResponseInterface> container->getShared("response");
                 response->setContent(possibleResponse);
             } else {
 
@@ -381,7 +353,7 @@ class Application extends BaseApplication
                     let response = possibleResponse;
                 } else {
 
-                    let response = <ResponseInterface> dependencyInjector->getShared("response");
+                    let response = <ResponseInterface> container->getShared("response");
                     if implicitView === true {
 
                         /**
@@ -403,14 +375,14 @@ class Application extends BaseApplication
         /**
          * Check whether send headers or not (by default yes)
          */
-        if this->_sendHeaders  {
+        if this->sendHeaders  {
             response->sendHeaders();
         }
 
         /**
          * Check whether send cookies or not (by default yes)
          */
-        if this->_sendCookies {
+        if this->sendCookies {
             response->sendCookies();
         }
 
@@ -418,5 +390,34 @@ class Application extends BaseApplication
          * Return the response
          */
         return response;
+    }
+
+    /**
+     * Enables or disables sending cookies by each request handling
+     */
+    public function sendCookiesOnHandleRequest(bool sendCookies) -> <Application>
+    {
+        let this->sendCookies = sendCookies;
+        return this;
+    }
+
+
+    /**
+     * Enables or disables sending headers by each request handling
+     */
+    public function sendHeadersOnHandleRequest(bool sendHeaders) -> <Application>
+    {
+        let this->sendHeaders = sendHeaders;
+        return this;
+    }
+
+    /**
+     * By default. The view is implicitly buffering all the output
+     * You can full disable the view component using this method
+     */
+    public function useImplicitView(bool implicitView) -> <Application>
+    {
+        let this->implicitView = implicitView;
+        return this;
     }
 }

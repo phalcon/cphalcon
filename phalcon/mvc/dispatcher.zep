@@ -41,118 +41,11 @@ use Phalcon\Dispatcher as BaseDispatcher;
 class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
 
-    protected _handlerSuffix = "Controller";
+    protected defaultAction = "index";
 
-    protected _defaultHandler = "index";
+    protected defaultHandler = "index";
 
-    protected _defaultAction = "index";
-
-    /**
-     * Sets the default controller suffix
-     */
-    public function setControllerSuffix(string! controllerSuffix)
-    {
-        let this->_handlerSuffix = controllerSuffix;
-    }
-
-    /**
-     * Sets the default controller name
-     */
-    public function setDefaultController(string! controllerName)
-    {
-        let this->_defaultHandler = controllerName;
-    }
-
-    /**
-     * Sets the controller name to be dispatched
-     */
-    public function setControllerName(string! controllerName)
-    {
-        let this->_handlerName = controllerName;
-    }
-
-    /**
-     * Gets last dispatched controller name
-     */
-    public function getControllerName() -> string
-    {
-        return this->_handlerName;
-    }
-
-    /**
-     * Gets previous dispatched namespace name
-     */
-    public function getPreviousNamespaceName() -> string
-    {
-        return this->_previousNamespaceName;
-    }
-
-    /**
-     * Gets previous dispatched controller name
-     */
-    public function getPreviousControllerName() -> string
-    {
-        return this->_previousHandlerName;
-    }
-
-    /**
-     * Gets previous dispatched action name
-     */
-    public function getPreviousActionName() -> string
-    {
-        return this->_previousActionName;
-    }
-
-    /**
-     * Throws an internal exception
-     */
-    protected function throwDispatchException(string! message, int exceptionCode = 0)
-    {
-        var dependencyInjector, response, exception;
-
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the 'response' service",
-                BaseDispatcher::EXCEPTION_NO_DI
-            );
-        }
-
-        let response = <ResponseInterface> dependencyInjector->getShared("response");
-
-        /**
-         * Dispatcher exceptions automatically sends a 404 status
-         */
-        response->setStatusCode(404, "Not Found");
-
-        /**
-         * Create the real exception
-         */
-        let exception = new Exception(message, exceptionCode);
-
-        if this->_handleException(exception) === false {
-            return false;
-        }
-
-        /**
-         * Throw the exception if it wasn't handled
-         */
-        throw exception;
-    }
-
-    /**
-     * Handles a user exception
-     */
-    protected function _handleException(<\Exception> exception)
-    {
-        var eventsManager;
-        let eventsManager = <ManagerInterface> this->_eventsManager;
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("dispatch:beforeException", this, exception) === false {
-                return false;
-            }
-        }
-    }
+    protected handlerSuffix = "Controller";
 
     /**
      * Forwards the execution flow to another controller/action.
@@ -212,12 +105,20 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     {
         var eventsManager;
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
         if typeof eventsManager == "object" {
             eventsManager->fire("dispatch:beforeForward", this, forward);
         }
 
         parent::forward(forward);
+    }
+
+    /**
+     * Returns the active controller in the dispatcher
+     */
+    public function getActiveController() -> <ControllerInterface>
+    {
+        return this->activeHandler;
     }
 
     /**
@@ -229,18 +130,117 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     }
 
     /**
+     * Gets last dispatched controller name
+     */
+    public function getControllerName() -> string
+    {
+        return this->handlerName;
+    }
+
+    /**
      * Returns the latest dispatched controller
      */
     public function getLastController() -> <ControllerInterface>
     {
-        return this->_lastHandler;
+        return this->lastHandler;
     }
 
     /**
-     * Returns the active controller in the dispatcher
+     * Gets previous dispatched action name
      */
-    public function getActiveController() -> <ControllerInterface>
+    public function getPreviousActionName() -> string
     {
-        return this->_activeHandler;
+        return this->previousActionName;
+    }
+
+    /**
+     * Gets previous dispatched controller name
+     */
+    public function getPreviousControllerName() -> string
+    {
+        return this->previousHandlerName;
+    }
+
+    /**
+     * Gets previous dispatched namespace name
+     */
+    public function getPreviousNamespaceName() -> string
+    {
+        return this->previousNamespaceName;
+    }
+
+    /**
+     * Sets the controller name to be dispatched
+     */
+    public function setControllerName(string! controllerName)
+    {
+        let this->handlerName = controllerName;
+    }
+
+    /**
+     * Sets the default controller suffix
+     */
+    public function setControllerSuffix(string! controllerSuffix)
+    {
+        let this->handlerSuffix = controllerSuffix;
+    }
+
+    /**
+     * Sets the default controller name
+     */
+    public function setDefaultController(string! controllerName)
+    {
+        let this->defaultHandler = controllerName;
+    }
+
+    /**
+     * Handles a user exception
+     */
+    protected function handleException(<\Exception> exception)
+    {
+        var eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
+        if typeof eventsManager == "object" {
+            if eventsManager->fire("dispatch:beforeException", this, exception) === false {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Throws an internal exception
+     */
+    protected function throwDispatchException(string! message, int exceptionCode = 0)
+    {
+        var container, response, exception;
+
+        let container = this->container;
+        if typeof container != "object" {
+            throw new Exception(
+                "A dependency injection container is required to access the 'response' service",
+                BaseDispatcher::EXCEPTION_NO_DI
+            );
+        }
+
+        let response = <ResponseInterface> container->getShared("response");
+
+        /**
+         * Dispatcher exceptions automatically sends a 404 status
+         */
+        response->setStatusCode(404, "Not Found");
+
+        /**
+         * Create the real exception
+         */
+        let exception = new Exception(message, exceptionCode);
+
+        if this->handleException(exception) === false {
+            return false;
+        }
+
+        /**
+         * Throw the exception if it wasn't handled
+         */
+        throw exception;
     }
 }
