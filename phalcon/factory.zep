@@ -15,7 +15,7 @@ use Phalcon\Config;
 
 abstract class Factory implements FactoryInterface
 {
-    protected static function loadClass(string $namespace, var config)
+    protected static function loadClass(string namespaceClass, var config)
     {
         var adapter, className;
 
@@ -29,7 +29,7 @@ abstract class Factory implements FactoryInterface
 
         if fetch adapter, config["adapter"] {
             unset config["adapter"];
-            let className = $namespace."\\".adapter;
+            let className = namespaceClass."\\".adapter;
 
             return new {className}(config);
         }

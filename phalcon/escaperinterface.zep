@@ -17,21 +17,10 @@ namespace Phalcon;
  */
 interface EscaperInterface
 {
-
     /**
-     * Sets the encoding to be used by the escaper
+     * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
      */
-    public function setEncoding(string encoding);
-
-    /**
-     * Returns the internal encoding used by the escaper
-     */
-    public function getEncoding() -> string;
-
-    /**
-     * Sets the HTML quoting type for htmlspecialchars
-     */
-    public function setHtmlQuoteType(int quoteType);
+    public function escapeCss(string css) -> string;
 
     /**
      * Escapes a HTML string
@@ -44,11 +33,6 @@ interface EscaperInterface
     public function escapeHtmlAttr(string text) -> string;
 
     /**
-     * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
-     */
-    public function escapeCss(string css) -> string;
-
-    /**
      * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
      */
     public function escapeJs(string js) -> string;
@@ -57,4 +41,19 @@ interface EscaperInterface
      * Escapes a URL. Internally uses rawurlencode
      */
     public function escapeUrl(string url) -> string;
+
+    /**
+     * Returns the internal encoding used by the escaper
+     */
+    public function getEncoding() -> string;
+
+    /**
+     * Sets the encoding to be used by the escaper
+     */
+    public function setEncoding(string encoding);
+
+    /**
+     * Sets the HTML quoting type for htmlspecialchars
+     */
+    public function setHtmlQuoteType(int quoteType);
 }

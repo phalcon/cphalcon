@@ -24,78 +24,9 @@ use Phalcon\Validation\ValidatorInterface;
 interface ValidationInterface
 {
     /**
-     * Validate a set of data according to a set of rules
-     *
-     * @param array|object data
-     * @param object entity
-     */
-    public function validate(var data = null, var entity = null) -> <Messages>;
-
-    /**
      * Adds a validator to a field
      */
     public function add(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
-
-    /**
-     * Alias of `add` method
-     */
-    public function rule(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
-
-    /**
-     * Adds the validators to a field
-     */
-    public function rules(string! field, array! validators) -> <ValidationInterface>;
-
-    /**
-     * Adds filters to the field
-     *
-     * @param array|string filters
-     */
-    public function setFilters(string field, filters) -> <ValidationInterface>;
-
-    /**
-     * Returns all the filters or a specific one
-     *
-     * @return mixed
-     */
-    public function getFilters(string field = null);
-
-    /**
-     * Returns the validators added to the validation
-     */
-    public function getValidators();
-
-    /**
-     * Returns the bound entity
-     *
-     * @return object
-     */
-    public function getEntity();
-
-    /**
-     * Adds default messages to validators
-     */
-    public function setDefaultMessages(array messages = []);
-
-    /**
-     * Get default message for validator type
-     */
-    public function getDefaultMessage(string! type);
-
-    /**
-     * Returns the registered validators
-     */
-    public function getMessages() -> <Messages>;
-
-    /**
-     * Adds labels for fields
-     */
-    public function setLabels(array! labels);
-
-    /**
-     * Get label for field
-     */
-    public function getLabel(string! field) -> string;
 
     /**
      * Appends a message to the messages list
@@ -112,7 +43,76 @@ interface ValidationInterface
     public function bind(entity, data) -> <ValidationInterface>;
 
     /**
+     * Get default message for validator type
+     */
+    public function getDefaultMessage(string! type);
+
+    /**
+     * Returns the bound entity
+     *
+     * @return object
+     */
+    public function getEntity();
+
+    /**
+     * Returns all the filters or a specific one
+     *
+     * @return mixed
+     */
+    public function getFilters(string field = null);
+
+    /**
+     * Get label for field
+     */
+    public function getLabel(string! field) -> string;
+
+    /**
+     * Returns the registered validators
+     */
+    public function getMessages() -> <Messages>;
+
+    /**
+     * Returns the validators added to the validation
+     */
+    public function getValidators();
+
+    /**
      * Gets the a value to validate in the array/object data source
      */
     public function getValue(string field) -> var | null;
+
+    /**
+     * Alias of `add` method
+     */
+    public function rule(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
+
+    /**
+     * Adds the validators to a field
+     */
+    public function rules(string! field, array! validators) -> <ValidationInterface>;
+
+    /**
+     * Adds default messages to validators
+     */
+    public function setDefaultMessages(array messages = []);
+
+    /**
+     * Adds filters to the field
+     *
+     * @param array|string filters
+     */
+    public function setFilters(string field, filters) -> <ValidationInterface>;
+
+    /**
+     * Adds labels for fields
+     */
+    public function setLabels(array! labels);
+
+    /**
+     * Validate a set of data according to a set of rules
+     *
+     * @param array|object data
+     * @param object entity
+     */
+    public function validate(var data = null, var entity = null) -> <Messages>;
 }
