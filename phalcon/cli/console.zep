@@ -11,10 +11,10 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Application as BaseApplication;
-use Phalcon\DiInterface;
 use Phalcon\Cli\Router\Route;
-use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Console\Exception;
+use Phalcon\DiInterface;
+use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Cli\Console

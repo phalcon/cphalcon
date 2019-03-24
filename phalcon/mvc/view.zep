@@ -503,7 +503,7 @@ class View extends Injectable implements ViewInterface
          */
         if engines === false {
 
-            let di = <DiInterface> this->_dependencyInjector;
+            let di = <DiInterface> this->container;
 
             let engines = [];
             let registeredEngines = this->_registeredEngines;
@@ -567,7 +567,7 @@ class View extends Injectable implements ViewInterface
         let notExists = true,
             basePath = this->_basePath,
             viewParams = this->_viewParams,
-            eventsManager = <ManagerInterface> this->_eventsManager,
+            eventsManager = <ManagerInterface> this->eventsManager,
             viewEnginePaths = [];
 
         for viewsDir in this->getViewsDirs() {
@@ -813,7 +813,7 @@ class View extends Injectable implements ViewInterface
             let cache = null;
         }
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
          * Create a virtual symbol table.
@@ -1140,11 +1140,11 @@ class View extends Injectable implements ViewInterface
      */
     protected function _createCache() -> <BackendInterface>
     {
-        var dependencyInjector, cacheService, viewCache,
+        var container, cacheService, viewCache,
             viewOptions, cacheOptions;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injector container is required to obtain the view cache services");
         }
 
@@ -1161,7 +1161,7 @@ class View extends Injectable implements ViewInterface
         /**
          * The injected service must be an object
          */
-        let viewCache = <BackendInterface> dependencyInjector->getShared(cacheService);
+        let viewCache = <BackendInterface> container->getShared(cacheService);
         if typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }

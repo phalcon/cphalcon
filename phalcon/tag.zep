@@ -395,18 +395,18 @@ class Tag
      */
     public static function getEscaperService() -> <EscaperInterface>
     {
-        var escaper, dependencyInjector;
+        var escaper, container;
 
         let escaper = self::escaperService;
         if typeof escaper != "object" {
 
-            let dependencyInjector = self::getDI();
+            let container = self::getDI();
 
-            if typeof dependencyInjector != "object" {
+            if typeof container != "object" {
                 throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
             }
 
-            let escaper = <EscaperInterface> dependencyInjector->getShared("escaper"),
+            let escaper = <EscaperInterface> container->getShared("escaper"),
                 self::escaperService = escaper;
         }
         return escaper;
@@ -506,18 +506,18 @@ class Tag
      */
     public static function getUrlService() -> <UrlInterface>
     {
-        var url, dependencyInjector;
+        var url, container;
 
         let url = self::urlService;
         if typeof url != "object" {
 
-            let dependencyInjector = self::getDI();
+            let container = self::getDI();
 
-            if typeof dependencyInjector != "object" {
+            if typeof container != "object" {
                 throw new Exception("A dependency injector container is required to obtain the 'url' service");
             }
 
-            let url = <UrlInterface> dependencyInjector->getShared("url"),
+            let url = <UrlInterface> container->getShared("url"),
                 self::urlService = url;
         }
         return url;
@@ -1139,9 +1139,9 @@ class Tag
     /**
      * Sets the dependency injector container.
      */
-    public static function setDI(<DiInterface> dependencyInjector)
+    public static function setDI(<DiInterface> container)
     {
-        let self::container = dependencyInjector;
+        let self::container = container;
     }
 
     /**

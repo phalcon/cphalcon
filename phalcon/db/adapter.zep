@@ -56,7 +56,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * @var Phalcon\Events\Manager
      */
-    protected _eventsManager;
+    protected eventsManager;
 
     /**
      * Active SQL Bind Types
@@ -621,7 +621,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getEventsManager() -> <ManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -891,7 +891,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function setEventsManager(<ManagerInterface> eventsManager)
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
     }
 
     /**

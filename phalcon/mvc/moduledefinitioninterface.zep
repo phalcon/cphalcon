@@ -23,10 +23,10 @@ interface ModuleDefinitionInterface
     /**
      * Registers an autoloader related to the module
      */
-    public function registerAutoloaders(<DiInterface> dependencyInjector = null);
+    public function registerAutoloaders(<DiInterface> container = null);
 
     /**
      * Registers services related to the module
      */
-    public function registerServices(<DiInterface> dependencyInjector);
+    public function registerServices(<DiInterface> container);
 }

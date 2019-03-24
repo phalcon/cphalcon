@@ -88,7 +88,7 @@ interface DiInterface extends \ArrayAccess
     /**
      * Set a default dependency injection container to be obtained into static methods
      */
-    public static function setDefault(<DiInterface> dependencyInjector);
+    public static function setDefault(<DiInterface> container);
 
     /**
      * Sets a service using a raw Phalcon\Di\Service definition

@@ -64,7 +64,7 @@ use Phalcon\Http\Cookie\Exception;
  */
 class Cookies implements CookiesInterface, InjectionAwareInterface
 {
-    protected _dependencyInjector;
+    protected container;
 
     protected _registered = false;
 
@@ -108,9 +108,9 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -118,7 +118,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -166,7 +166,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         string! domain = null,
         bool httpOnly = null
     ) -> <CookiesInterface> {
-        var cookie, encryption, dependencyInjector, response;
+        var cookie, encryption, container, response;
 
         let encryption = this->_useEncryption;
 
@@ -175,7 +175,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
          */
         if !fetch cookie, this->_cookies[name] {
             let cookie =
-                <CookieInterface> this->_dependencyInjector->get(
+                <CookieInterface> this->container->get(
                     "Phalcon\\Http\\Cookie",
                     [name, value, expire, path, secure, domain, httpOnly]
                 );
@@ -183,7 +183,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
             /**
              * Pass the DI to created cookies
              */
-            cookie->setDi(this->_dependencyInjector);
+            cookie->setDi(this->container);
 
             /**
              * Enable encryption in the cookie
@@ -213,12 +213,12 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
          */
         if this->_registered === false {
 
-            let dependencyInjector = this->_dependencyInjector;
-            if typeof dependencyInjector != "object" {
+            let container = this->container;
+            if typeof container != "object" {
                 throw new Exception("A dependency injection object is required to access the 'response' service");
             }
 
-            let response = dependencyInjector->getShared("response");
+            let response = container->getShared("response");
 
             /**
              * Pass the cookies bag to the response so it can send the headers at the of the request
@@ -236,7 +236,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function get(string! name) -> <CookieInterface>
     {
-        var dependencyInjector, encryption, cookie;
+        var container, encryption, cookie;
 
         /**
          * Gets cookie from the cookies service. They will be sent with response.
@@ -250,15 +250,15 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
          * It's value come from $_COOKIE with request, so it shouldn't be saved
          * to _cookies property, otherwise it will always be resent after get.
          */
-        let cookie = <CookieInterface> this->_dependencyInjector->get("Phalcon\\Http\\Cookie", [name]),
-            dependencyInjector = this->_dependencyInjector;
+        let cookie = <CookieInterface> this->container->get("Phalcon\\Http\\Cookie", [name]),
+            container = this->container;
 
-        if typeof dependencyInjector == "object" {
+        if typeof container == "object" {
 
             /**
              * Pass the DI to created cookies
              */
-            cookie->setDi(dependencyInjector);
+            cookie->setDi(container);
 
             let encryption = this->_useEncryption;
 

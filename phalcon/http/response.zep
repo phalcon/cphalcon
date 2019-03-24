@@ -50,11 +50,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
     protected _file;
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _statusCodes;
 
-    protected _eventsManager;
+    protected eventsManager;
 
     /**
      * Phalcon\Http\Response constructor
@@ -105,16 +105,16 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getDI() -> <DiInterface>
     {
-        var dependencyInjector;
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = \Phalcon\Di::getDefault();
-            if typeof dependencyInjector != "object" {
+        var container;
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
+            let container = \Phalcon\Di::getDefault();
+            if typeof container != "object" {
                 throw new Exception("A dependency injection object is required to access the 'url' service");
             }
-            let this->_dependencyInjector = dependencyInjector;
+            let this->container = container;
         }
-        return dependencyInjector;
+        return container;
     }
 
     /**
@@ -122,7 +122,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getEventsManager() -> <ManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -205,7 +205,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
     {
-        var header, url, dependencyInjector, matched, view;
+        var header, url, container, matched, view;
 
         if !location {
             let location = "";
@@ -226,15 +226,15 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             }
         }
 
-        let dependencyInjector = this->getDI();
+        let container = this->getDI();
 
         if !header {
-            let url = <UrlInterface> dependencyInjector->getShared("url"),
+            let url = <UrlInterface> container->getShared("url"),
                 header = url->get(location);
         }
 
-        if dependencyInjector->has("view") {
-            let view = dependencyInjector->getShared("view");
+        if container->has("view") {
+            let view = container->getShared("view");
             if view instanceof ViewInterface {
                 view->disable();
             }
@@ -432,9 +432,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -484,7 +484,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setEventsManager(<ManagerInterface> eventsManager)
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
     }
 
     /**

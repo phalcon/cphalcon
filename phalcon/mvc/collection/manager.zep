@@ -41,13 +41,13 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
 class Manager implements InjectionAwareInterface, EventsAwareInterface
 {
 
-    protected _dependencyInjector;
+    protected container;
 
     protected _initialized;
 
     protected _lastInitialized;
 
-    protected _eventsManager;
+    protected eventsManager;
 
     protected _customEventsManager;
 
@@ -62,9 +62,9 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector) -> void
+    public function setDI(<DiInterface> container) -> void
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -72,7 +72,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -80,7 +80,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
     }
 
     /**
@@ -88,7 +88,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function getEventsManager() -> <ManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -142,7 +142,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
             /**
             * If an EventsManager is available we pass to it every initialized model
             */
-            let eventsManager = this->_eventsManager;
+            let eventsManager = this->eventsManager;
             if typeof eventsManager == "object" {
                 eventsManager->fire("collectionManager:afterInitialize", model);
             }
@@ -224,7 +224,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function getConnection(<CollectionInterface> model)
     {
-        var service, connectionService, connection, dependencyInjector, entityName;
+        var service, connectionService, connection, container, entityName;
 
         let service = this->_serviceName;
         let connectionService = this->_connectionServices;
@@ -239,15 +239,15 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
             }
         }
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
         /**
          * Request the connection service from the DI
          */
-        let connection = dependencyInjector->getShared(service);
+        let connection = container->getShared(service);
         if typeof connection != "object" {
             throw new Exception("Invalid injected connection service");
         }
@@ -282,7 +282,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
         /**
          * Dispatch events to the global events manager
          */
-        let eventsManager = this->_eventsManager;
+        let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
             let status = eventsManager->fire( "collection:". eventName, model);
             if !status {
@@ -338,7 +338,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
         /**
          * Dispatch events to the global events manager
          */
-        let eventsManager = this->_eventsManager;
+        let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
             return eventsManager->fire("model:" . eventName, model, data);
         }

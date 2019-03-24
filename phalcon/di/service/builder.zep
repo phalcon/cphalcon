@@ -20,100 +20,13 @@ use Phalcon\Di\Exception;
  */
 class Builder
 {
-
-    /**
-     * Resolves a constructor/call parameter
-     *
-     * @return mixed
-     */
-    private function _buildParameter(<DiInterface> dependencyInjector, int position, array! argument)
-    {
-        var type, name, value, instanceArguments;
-
-        /**
-         * All the arguments must have a type
-         */
-        if !fetch type, argument["type"] {
-            throw new Exception("Argument at position " . position . " must have a type");
-        }
-
-        switch type {
-
-            /**
-             * If the argument type is 'service', we obtain the service from the DI
-             */
-            case "service":
-                if !fetch name, argument["name"] {
-                    throw new Exception("Service 'name' is required in parameter on position " . position);
-                }
-                if typeof dependencyInjector != "object" {
-                    throw new Exception("The dependency injector container is not valid");
-                }
-                return dependencyInjector->get(name);
-
-            /**
-             * If the argument type is 'parameter', we assign the value as it is
-             */
-            case "parameter":
-                if !fetch value, argument["value"] {
-                    throw new Exception("Service 'value' is required in parameter on position " . position);
-                }
-                return value;
-
-            /**
-             * If the argument type is 'instance', we assign the value as it is
-             */
-            case "instance":
-
-                if !fetch name, argument["className"] {
-                    throw new Exception("Service 'className' is required in parameter on position " . position);
-                }
-
-                if typeof dependencyInjector != "object" {
-                    throw new Exception("The dependency injector container is not valid");
-                }
-
-                if fetch instanceArguments, argument["arguments"] {
-                    /**
-                     * Build the instance with arguments
-                     */
-                    return dependencyInjector->get(name, instanceArguments);
-                }
-
-                /**
-                 * The instance parameter does not have arguments for its constructor
-                 */
-                return dependencyInjector->get(name);
-
-            default:
-                /**
-                 * Unknown parameter type
-                 */
-                throw new Exception("Unknown service type in parameter on position " . position);
-        }
-    }
-
-    /**
-     * Resolves an array of parameters
-     */
-    private function _buildParameters(<DiInterface> dependencyInjector, array! arguments) -> array
-    {
-        var position, argument, buildArguments;
-
-        let buildArguments = [];
-        for position, argument in arguments {
-            let buildArguments[] = this->_buildParameter(dependencyInjector, position, argument);
-        }
-        return buildArguments;
-    }
-
     /**
      * Builds a service using a complex service definition
      *
      * @param array parameters
      * @return mixed
      */
-    public function build(<DiInterface> dependencyInjector, array! definition, parameters = null)
+    public function build(<DiInterface> container, array! definition, parameters = null)
     {
         var className, arguments, paramCalls, methodPosition, method,
             methodName, methodCall, instance, propertyPosition, property,
@@ -147,7 +60,7 @@ class Builder
                 /**
                  * Create the instance based on the parameters
                  */
-                let instance = create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
+                let instance = create_instance_params(className, this->buildParameters(container, arguments));
 
             } else {
                 let instance = create_instance(className);
@@ -204,7 +117,7 @@ class Builder
                         /**
                          * Call the method on the instance
                          */
-                        call_user_func_array(methodCall, this->_buildParameters(dependencyInjector, arguments));
+                        call_user_func_array(methodCall, this->buildParameters(container, arguments));
 
                         /**
                          * Go to next method call
@@ -264,10 +177,96 @@ class Builder
                 /**
                  * Update the public property
                  */
-                let instance->{propertyName} = this->_buildParameter(dependencyInjector, propertyPosition, propertyValue);
+                let instance->{propertyName} = this->buildParameter(container, propertyPosition, propertyValue);
             }
         }
 
         return instance;
+    }
+
+    /**
+     * Resolves a constructor/call parameter
+     *
+     * @return mixed
+     */
+    private function buildParameter(<DiInterface> container, int position, array! argument)
+    {
+        var type, name, value, instanceArguments;
+
+        /**
+         * All the arguments must have a type
+         */
+        if !fetch type, argument["type"] {
+            throw new Exception("Argument at position " . position . " must have a type");
+        }
+
+        switch type {
+
+            /**
+             * If the argument type is 'service', we obtain the service from the DI
+             */
+            case "service":
+                if !fetch name, argument["name"] {
+                    throw new Exception("Service 'name' is required in parameter on position " . position);
+                }
+                if typeof container != "object" {
+                    throw new Exception("The dependency injector container is not valid");
+                }
+                return container->get(name);
+
+            /**
+             * If the argument type is 'parameter', we assign the value as it is
+             */
+            case "parameter":
+                if !fetch value, argument["value"] {
+                    throw new Exception("Service 'value' is required in parameter on position " . position);
+                }
+                return value;
+
+            /**
+             * If the argument type is 'instance', we assign the value as it is
+             */
+            case "instance":
+
+                if !fetch name, argument["className"] {
+                    throw new Exception("Service 'className' is required in parameter on position " . position);
+                }
+
+                if typeof container != "object" {
+                    throw new Exception("The dependency injector container is not valid");
+                }
+
+                if fetch instanceArguments, argument["arguments"] {
+                    /**
+                     * Build the instance with arguments
+                     */
+                    return container->get(name, instanceArguments);
+                }
+
+                /**
+                 * The instance parameter does not have arguments for its constructor
+                 */
+                return container->get(name);
+
+            default:
+                /**
+                 * Unknown parameter type
+                 */
+                throw new Exception("Unknown service type in parameter on position " . position);
+        }
+    }
+
+    /**
+     * Resolves an array of parameters
+     */
+    private function buildParameters(<DiInterface> container, array! arguments) -> array
+    {
+        var position, argument, buildArguments;
+
+        let buildArguments = [];
+        for position, argument in arguments {
+            let buildArguments[] = this->buildParameter(container, position, argument);
+        }
+        return buildArguments;
     }
 }

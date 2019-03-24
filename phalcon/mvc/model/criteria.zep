@@ -52,9 +52,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->_params["di"] = dependencyInjector;
+        let this->_params["di"] = container;
     }
 
     /**
@@ -628,7 +628,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
      */
-    public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>
+    public static function fromInput(<DiInterface> container, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>
     {
         var attribute, conditions, field, value, type, metaData,
             model, dataTypes, bind, criteria, columnMap;
@@ -636,9 +636,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let conditions = [];
         if count(data) {
 
-            let metaData = dependencyInjector->getShared("modelsMetadata");
+            let metaData = container->getShared("modelsMetadata");
 
-            let model = new {modelName}(null, dependencyInjector),
+            let model = new {modelName}(null, container),
                 dataTypes = metaData->getDataTypes(model),
                 columnMap = metaData->getReverseColumnMap(model);
 
@@ -699,15 +699,15 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function createBuilder() -> <BuilderInterface>
     {
-        var dependencyInjector, manager, builder;
+        var container, manager, builder;
 
-        let dependencyInjector = this->getDI();
-        if typeof dependencyInjector != "object" {
-            let dependencyInjector = Di::getDefault();
-            this->setDI(dependencyInjector);
+        let container = this->getDI();
+        if typeof container != "object" {
+            let container = Di::getDefault();
+            this->setDI(container);
         }
 
-        let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+        let manager = <ManagerInterface> container->getShared("modelsManager");
 
         /**
          * Builds a query with the passed parameters

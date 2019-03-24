@@ -54,9 +54,9 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
-    protected _dependencyInjector;
+    protected container;
 
-    protected _eventsManager;
+    protected eventsManager;
 
     protected _customEventsManager = [];
 
@@ -151,9 +151,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function setDI(<DiInterface> container)
     {
-        let this->_dependencyInjector = dependencyInjector;
+        let this->container = container;
     }
 
     /**
@@ -161,7 +161,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
@@ -169,7 +169,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setEventsManager(<EventsManagerInterface> eventsManager) -> <ManagerInterface>
     {
-        let this->_eventsManager = eventsManager;
+        let this->eventsManager = eventsManager;
         return this;
     }
 
@@ -178,7 +178,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getEventsManager() -> <EventsManagerInterface>
     {
-        return this->_eventsManager;
+        return this->eventsManager;
     }
 
     /**
@@ -239,7 +239,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * If an EventsManager is available we pass to it every initialized model
          */
-        let eventsManager = <EventsManagerInterface> this->_eventsManager;
+        let eventsManager = <EventsManagerInterface> this->eventsManager;
         if typeof eventsManager == "object" {
             eventsManager->fire("modelsManager:afterInitialize", this, model);
         }
@@ -292,7 +292,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Load it using an autoloader
          */
-        let model = new {modelName}(null, this->_dependencyInjector, this);
+        let model = new {modelName}(null, this->container, this);
 
         return model;
     }
@@ -458,19 +458,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     protected function _getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
     {
-        var dependencyInjector, service, connection;
+        var container, service, connection;
 
         let service = this->_getConnectionService(model, connectionServices);
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
         /**
          * Request the connection service from the DI
          */
-        let connection = <AdapterInterface> dependencyInjector->getShared(service);
+        let connection = <AdapterInterface> container->getShared(service);
 
         if typeof connection != "object" {
             throw new Exception("Invalid injected connection service");
@@ -539,7 +539,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Dispatch events to the global events manager
          */
-        let eventsManager = this->_eventsManager;
+        let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
             let status = eventsManager->fire("model:" . eventName, model);
             if status === false {
@@ -588,7 +588,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Dispatch events to the global events manager
          */
-        let eventsManager = this->_eventsManager;
+        let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
             return eventsManager->fire("model:" . eventName, model, data);
         }
@@ -1627,17 +1627,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function createQuery(string! phql) -> <QueryInterface>
     {
-        var dependencyInjector, query;
+        var container, query;
 
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injection object is required to access ORM services");
         }
 
         /**
          * Create a query
          */
-        let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
+        let query = <QueryInterface> container->get("Phalcon\\Mvc\\Model\\Query", [phql, container]);
         let this->_lastQuery = query;
         return query;
     }
@@ -1670,21 +1670,21 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function createBuilder(var params = null) -> <BuilderInterface>
     {
-        var dependencyInjector;
+        var container;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
             throw new Exception("A dependency injection object is required to access ORM services");
         }
 
         /**
          * Gets Builder instance from DI container
          */
-        return <BuilderInterface> dependencyInjector->get(
+        return <BuilderInterface> container->get(
             "Phalcon\\Mvc\\Model\\Query\\Builder",
             [
                 params,
-                dependencyInjector
+                container
             ]
         );
     }

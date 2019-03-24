@@ -29,7 +29,7 @@ class Introspection implements StrategyInterface
     /**
      * The meta-data is obtained by reading the column descriptions from the database information schema
      */
-    public final function getMetaData(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
+    public final function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {
         var schema, table, readConnection, columns, attributes,
             primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull,
@@ -173,7 +173,7 @@ class Introspection implements StrategyInterface
     /**
      * Read the model's column map, this can't be inferred
      */
-    public final function getColumnMaps(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
+    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
     {
         var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
 

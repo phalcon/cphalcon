@@ -186,7 +186,7 @@ interface ModelInterface
     /**
      * Create a criteria for a specific model
      */
-    public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>;
+    public static function query(<DiInterface> container = null) -> <CriteriaInterface>;
 
     /**
      * Refreshes the model attributes re-querying the record from the database
