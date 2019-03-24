@@ -502,7 +502,7 @@ class Column implements ColumnInterface
             }
         }
 
-        if fetch defaultValue, data["_default"] {
+        if fetch defaultValue, data["default"] {
             let definition["default"] = defaultValue;
         }
 
