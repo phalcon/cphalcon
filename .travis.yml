@@ -19,7 +19,6 @@ branches:
 addons:
   apt:
     packages:
-      - beanstalkd
       - gdb
       - lcov
   postgresql: "9.4"
@@ -40,7 +39,6 @@ cache:
 
 services:
   - mysql
-  - beanstalkd
   - mongodb
   - redis-server
   - postgresql
