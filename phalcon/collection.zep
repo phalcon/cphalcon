@@ -91,12 +91,12 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	/**
 	 * Get the element from the collection
 	 */
-	public function get(string! element, var defaultValue = null, bool insensitive = true) -> var | bool
+	public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
 	{
 		var value;
 
 		if likely insensitive {
-			let element = strtolower(element);
+			let element = element->lower();
 		}
 
 		if likely fetch value, this->lowerKeys[element] {
@@ -120,7 +120,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	public function has(string! element, bool insensitive = true) -> bool
 	{
 		if likely insensitive {
-			let element = strtolower(element);
+			let element = element->lower();
 		}
 
 		return isset this->lowerKeys[element];
@@ -209,7 +209,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
 		if this->has(element) {
 			if likely insensitive {
-				let element = strtolower(element);
+				let element = element->lower();
 			}
 
 			let value = lowerKeys[element];
@@ -239,7 +239,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 	{
 		var key;
 
-		let key = strtolower(element);
+		let key = element->lower();
 
 		let this->data[element]  = value,
 			this->lowerKeys[key] = element;

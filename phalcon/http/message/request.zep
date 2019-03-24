@@ -14,7 +14,7 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Arr;
+use Phalcon\Collection;
 use Phalcon\Http\Message\Stream\Input;
 use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\RequestInterface;
@@ -50,9 +50,9 @@ class Request implements RequestInterface
 	private body { get };
 
 	/**
-	 * @var array
+	 * @var <Collection>
 	 */
-	private headers = [];
+	private headers;
 
 	/**
 	 * Retrieves the HTTP method of the request.
@@ -93,21 +93,16 @@ class Request implements RequestInterface
 	/**
 	 * Constructor
 	 */
-	public function __construct(string method = "GET", var uri = null, var body = "php://temp", array headers = [])
+	public function __construct(string method = "GET", var uri = null, var body = "php://memory", var headers = [])
 	{
 		if "php://input" === body {
 			let body = new Input();
 		}
 
-		this
-			->processHeaders(headers)
-			->processUri(uri);
-
-		this->checkMethod(method);
-
-		let
-			this->method = method,
-			this->body   = this->processBody(body, "w+b");
+		let this->headers = this->processHeaders(headers),
+			this->uri     = this->processUri(uri),
+			this->method  = this->processMethod(method),
+			this->body    = this->processBody(body, "w+b");
 	}
 
 	/**
@@ -121,12 +116,9 @@ class Request implements RequestInterface
 	 */
 	public function getHeader(var name) -> array
 	{
-		var element, key;
+		let name = (string) name;
 
-		let key     = strtolower(name),
-			element = Arr::get(this->headers, key, []);
-
-		return Arr::get(element, "value", []);
+		return this->headers->get(name, []);
 	}
 
 	/**
@@ -179,16 +171,7 @@ class Request implements RequestInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var element, headers;
-		array headerData;
-
-		let headers    = this->headers,
-			headerData = [];
-		for element in headers {
-			let headerData[element["name"]] = element["value"];
-		}
-
-		return headerData;
+		return this->headers->toArray();
 	}
 
 	/**
@@ -227,7 +210,7 @@ class Request implements RequestInterface
 	 */
 	public function hasHeader(var name) -> bool
 	{
-		return isset this->headers[strtolower(name)];
+		return this->headers->has(name);
 	}
 
 	/**
@@ -243,21 +226,16 @@ class Request implements RequestInterface
 	 */
 	public function withAddedHeader(var name, var value) -> <Request>
 	{
-		var existing, headers, key;
+		var existing, headers;
 
 		this->checkHeaderName(name);
 
-		let key      = strtolower(name),
-			headers  = this->headers,
-			existing = Arr::get(headers, key, []),
-			existing = Arr::get(existing, "value", []),
+		let headers  = clone this->headers,
+			existing = headers->get(name, []),
 			value    = this->getHeaderValue(value),
-			existing = array_merge(existing, value);
+			value    = array_merge(existing, value);
 
-		let headers[key] = [
-			"name"  : name,
-			"value" : existing
-		];
+		headers->set(name, value);
 
 		return this->cloneInstance(headers, "headers");
 	}
@@ -296,18 +274,14 @@ class Request implements RequestInterface
 	 */
 	public function withHeader(var name, var value) -> <Request>
 	{
-		var headers, key;
+		var headers;
 
 		this->checkHeaderName(name);
 
-		let key     = strtolower(name),
-			headers = this->headers,
+		let headers = clone this->headers,
 			value   = this->getHeaderValue(value);
 
-		let headers[key] = [
-			"name"  : name,
-			"value" : value
-		];
+		headers->set(name, value);
 
 		return this->cloneInstance(headers, "headers");
 	}
@@ -327,7 +301,7 @@ class Request implements RequestInterface
 	 */
 	public function withMethod(var method) -> <Request>
 	{
-		this->checkMethod(method);
+		this->processMethod(method);
 
 		return this->cloneInstance(method, "method");
 	}
@@ -344,7 +318,7 @@ class Request implements RequestInterface
 	 */
 	public function withProtocolVersion(var version) -> <Request>
 	{
-		this->checkProtocol(version);
+		this->processProtocol(version);
 
 		return this->cloneInstance(version, "protocolVersion");
 	}
@@ -407,20 +381,17 @@ class Request implements RequestInterface
 		var headers, host, newInstance;
 
 		let preserveHost     = (bool) preserveHost,
-			headers          = this->headers,
+			headers          = clone this->headers,
 			newInstance      = clone this,
 			newInstance->uri = uri;
 
 		if !(true === preserveHost &&
-			true === this->hasHeader("Host") &&
+			true === headers->has("Host") &&
 			"" !== uri->getHost()) {
 
 			let host = this->getUriHost(uri);
 
-			let headers["host"] = [
-				"name"  : "Host",
-				"value" : [host]
-			];
+			headers->set("Host", [host]);
 
 			let newInstance->headers = headers;
 		}
@@ -439,12 +410,11 @@ class Request implements RequestInterface
 	 */
 	public function withoutHeader(var name) -> <Request>
 	{
-		var headers, key;
+		var headers;
 
-		let key     = strtolower(name),
-			headers = this->headers;
+		let headers = clone this->headers;
 
-		unset headers[key];
+		headers->remove(name);
 
 		return this->cloneInstance(headers, "headers");
 	}
@@ -521,69 +491,18 @@ class Request implements RequestInterface
 	}
 
 	/**
-	 * Check the method
-	 */
-	private function checkMethod(var method = "") ->  <Request>
-	{
-		array methods;
-
-		let methods = [
-			"GET"     : 1,
-			"CONNECT" : 1,
-			"DELETE"  : 1,
-			"HEAD"    : 1,
-			"OPTIONS" : 1,
-			"PATCH"   : 1,
-			"POST"    : 1,
-			"PUT"     : 1,
-			"TRACE"   : 1
-		];
-
-		if !(!empty(method) && typeof method === "string" && isset methods[method]) {
-			throw new \InvalidArgumentException("Invalid or unsupported method " . method);
-		}
-
-		return this;
-	}
-
-	/**
-	 * Checks the protocol
-	 */
-	private function checkProtocol(var protocol = "") -> <Request>
-	{
-		array protocols;
-
-		let protocols = [
-			"1.0" : 1,
-			"1.1" : 1,
-			"2.0" : 1,
-			"3.0" : 1
-		];
-
-    	if (empty(protocol)) || typeof protocol !== "string" {
-			throw new \InvalidArgumentException("Invalid protocol value");
-		}
-
-		if !isset protocols[protocol] {
-			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
-		}
-
-		return this;
-	}
-
-	/**
 	 * Returns a new instance having set the parameter
 	 */
 	private function cloneInstance(var element, string property) -> <Request>
 	{
-    	var newInstance;
+		var newInstance;
 
-        let newInstance = clone this;
+		let newInstance = clone this;
 		if element !== this->{property} {
-            let newInstance->{property} = element;
-        }
+			let newInstance->{property} = element;
+		}
 
-        return newInstance;
+		return newInstance;
 	}
 
 	/**
@@ -647,43 +566,106 @@ class Request implements RequestInterface
 	/**
 	 * Sets the headers
 	 */
-	private function processHeaders(array headers) -> <Request>
+	private function processHeaders(var headers) -> <Collection>
 	{
-		var key, name, value;
-		array headerData;
+		var collection, host, name, value;
 
-		let headerData = [];
-		for name, value in headers {
+		if typeof headers === "array" {
+			let collection = new Collection();
+			for name, value in headers {
 
-			this->checkHeaderName(name);
+				this->checkHeaderName(name);
 
-			let key   = strtolower(name),
-				value = this->getHeaderValue(value);
+				let name  = (string) name,
+					value = this->getHeaderValue(value);
 
-			let headerData[key] = [
-				"name"  : name,
-				"value" : value
-			];
+				collection->set(name, value);
+			}
+
+			if true === collection->has("host") && "" !== this->uri->getHost() {
+				let host = this->getUriHost(this->uri);
+
+				collection->set("Host", [host]);
+			}
+		} else {
+			if headers instanceof Collection {
+				let collection = headers;
+			} else {
+				throw new \InvalidArgumentException(
+					"Headers needs to be either an array or instance of Phalcon\Collection"
+				);
+			}
 		}
 
-		let this->headers = headerData;
+		return collection;
+	}
 
-		return this;
+	/**
+	 * Check the method
+	 */
+	private function processMethod(var method = "") ->  string
+	{
+		array methods;
+
+		let methods = [
+			"GET"     : 1,
+			"CONNECT" : 1,
+			"DELETE"  : 1,
+			"HEAD"    : 1,
+			"OPTIONS" : 1,
+			"PATCH"   : 1,
+			"POST"    : 1,
+			"PUT"     : 1,
+			"TRACE"   : 1
+		];
+
+		if !(!empty(method) && typeof method === "string" && isset methods[method]) {
+			throw new \InvalidArgumentException("Invalid or unsupported method " . method);
+		}
+
+		return method;
+	}
+
+	/**
+	 * Checks the protocol
+	 */
+	private function processProtocol(var protocol = "") -> string
+	{
+		array protocols;
+
+		let protocols = [
+			"1.0" : 1,
+			"1.1" : 1,
+			"2.0" : 1,
+			"3.0" : 1
+		];
+
+		if (empty(protocol)) || typeof protocol !== "string" {
+			throw new \InvalidArgumentException("Invalid protocol value");
+		}
+
+		if !isset protocols[protocol] {
+			throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+		}
+
+		return protocol;
 	}
 
 	/**
 	 * Sets a valid Uri
 	 */
-	private function processUri(var uri) -> <Request>
+	private function processUri(var uri) -> <UriInterface>
 	{
+		var localUri;
+
 		if uri instanceof UriInterface {
-			let this->uri = uri;
+			let localUri = uri;
 		} elseif typeof uri === "string" || null === uri {
-			let this->uri = new Uri(uri);
+			let localUri = new Uri(uri);
 		} else {
 			throw new \InvalidArgumentException("Invalid uri passed as a parameter");
 		}
 
-		return this;
+		return localUri;
 	}
 }
