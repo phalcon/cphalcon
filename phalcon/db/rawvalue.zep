@@ -34,23 +34,23 @@ class RawValue
      *
      * @var string
      */
-    protected _value { get, __toString };
+    protected value { get, __toString };
 
     /**
      * Phalcon\Db\RawValue constructor
      */
-    public function __construct(var value)
+    public function __construct(var value) -> void
     {
         if typeof value == "string" && value == "" {
-            let this->_value = "''";
+            let this->value = "''";
             return;
         }
 
         if value === null {
-            let this->_value = "NULL";
+            let this->value = "NULL";
             return;
         }
 
-        let this->_value = (string) value;
+        let this->value = (string) value;
     }
 }

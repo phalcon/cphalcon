@@ -216,19 +216,19 @@ class Column implements ColumnInterface
      *
      * @var string
      */
-    protected _after;
+    protected after;
 
     /**
      * Column is autoIncrement?
      *
      * @var bool
      */
-    protected _autoIncrement = false;
+    protected autoIncrement = false;
 
     /**
      * Bind Type
      */
-    protected _bindType = 2;
+    protected bindType = 2;
 
     /**
      * Default column value
@@ -240,125 +240,125 @@ class Column implements ColumnInterface
      *
      * @var bool
      */
-    protected _first = false;
+    protected first = false;
 
     /**
      * The column have some numeric type?
      */
-    protected _isNumeric = false;
+    protected isNumeric = false;
 
     /**
      * Column's name
      *
      * @var string
      */
-    protected _name { get };
+    protected name { get };
 
     /**
      * Column not nullable?
      *
      * @var bool
      */
-    protected _notNull = false;
+    protected notNull = false;
 
     /**
      * Column is part of the primary key?
      */
-    protected _primary = false;
+    protected primary = false;
 
     /**
      * Integer column number scale
      *
      * @var int
      */
-    protected _scale = 0 { get };
+    protected scale = 0 { get };
 
     /**
      * Schema which table related is
      *
      * @var string
      */
-    protected _schemaName { get };
+    protected schemaName { get };
 
     /**
      * Integer column size
      *
      * @var int
      */
-    protected _size = 0 { get };
+    protected size = 0 { get };
 
     /**
      * Column data type
      *
      * @var int
      */
-    protected _type { get };
+    protected type { get };
 
     /**
      * Column data type reference
      *
      * @var int
      */
-    protected _typeReference = -1 { get };
+    protected typeReference = -1 { get };
 
     /**
      * Column data type values
      *
      * @var array|string
      */
-    protected _typeValues { get };
+    protected typeValues { get };
 
     /**
      * Integer column unsigned?
      *
      * @var bool
      */
-    protected _unsigned = false;
+    protected unsigned = false;
 
     /**
      * Phalcon\Db\Column constructor
      */
-    public function __construct(string! name, array! definition)
+    public function __construct(string! name, array! definition) -> void
     {
         var type, notNull, primary, size, scale, dunsigned, first,
             after, bindType, isNumeric, autoIncrement, defaultValue,
             typeReference, typeValues;
 
-        let this->_name = name;
+        let this->name = name;
 
         /**
          * Get the column type, one of the TYPE_* constants
          */
         if fetch type, definition["type"] {
-            let this->_type = type;
+            let this->type = type;
         } else {
             throw new Exception("Column type is required");
         }
 
         if fetch typeReference, definition["typeReference"] {
-            let this->_typeReference = typeReference;
+            let this->typeReference = typeReference;
         }
 
         if fetch typeValues, definition["typeValues"] {
-            let this->_typeValues = typeValues;
+            let this->typeValues = typeValues;
         }
 
         /**
          * Check if the field is nullable
          */
         if fetch notNull, definition["notNull"] {
-            let this->_notNull = notNull;
+            let this->notNull = notNull;
         }
 
         /**
          * Check if the field is primary key
          */
         if fetch primary, definition["primary"] {
-            let this->_primary = primary;
+            let this->primary = primary;
         }
 
         if fetch size, definition["size"] {
-            let this->_size = size;
+            let this->size = size;
         }
 
         /**
@@ -372,7 +372,7 @@ class Column implements ColumnInterface
                 case self::TYPE_DECIMAL:
                 case self::TYPE_DOUBLE:
                 case self::TYPE_BIGINTEGER:
-                    let this->_scale = scale;
+                    let this->scale = scale;
                     break;
 
                 default:
@@ -391,14 +391,14 @@ class Column implements ColumnInterface
          * Check if the field is unsigned (only MySQL)
          */
         if fetch dunsigned, definition["unsigned"] {
-            let this->_unsigned = dunsigned;
+            let this->unsigned = dunsigned;
         }
 
         /**
          * Check if the field is numeric
          */
         if fetch isNumeric, definition["isNumeric"] {
-            let this->_isNumeric = isNumeric;
+            let this->isNumeric = isNumeric;
         }
 
         /**
@@ -406,13 +406,13 @@ class Column implements ColumnInterface
          */
         if fetch autoIncrement, definition["autoIncrement"] {
             if !autoIncrement {
-                let this->_autoIncrement = false;
+                let this->autoIncrement = false;
             } else {
                 switch type {
 
                     case self::TYPE_INTEGER:
                     case self::TYPE_BIGINTEGER:
-                        let this->_autoIncrement = true;
+                        let this->autoIncrement = true;
                         break;
 
                     default:
@@ -425,21 +425,21 @@ class Column implements ColumnInterface
          * Check if the field is placed at the first position of the table
          */
         if fetch first, definition["first"] {
-            let this->_first = first;
+            let this->first = first;
         }
 
         /**
          * Name of the column which is placed before the current field
          */
         if fetch after, definition["after"] {
-            let this->_after = after;
+            let this->after = after;
         }
 
         /**
          * The bind type to cast the field when passing it to PDO
          */
         if fetch bindType, definition["bindType"] {
-            let this->_bindType = bindType;
+            let this->bindType = bindType;
         }
 
     }
@@ -454,41 +454,41 @@ class Column implements ColumnInterface
             defaultValue, autoIncrement,
             columnTypeReference, columnTypeValues;
 
-        if !fetch columnName, data["_columnName"] {
-            if !fetch columnName, data["_name"] {
+        if !fetch columnName, data["columnName"] {
+            if !fetch columnName, data["name"] {
                 throw new Exception("Column name is required");
             }
         }
 
         let definition = [];
 
-        if fetch columnType,  data["_type"] {
+        if fetch columnType,  data["type"] {
             let definition["type"] = columnType;
         }
 
-        if fetch columnTypeReference,  data["_typeReference"] {
+        if fetch columnTypeReference,  data["typeReference"] {
             let definition["typeReference"] = columnTypeReference;
         } else {
             let definition["typeReference"] = -1;
         }
 
-        if fetch columnTypeValues,  data["_typeValues"] {
+        if fetch columnTypeValues,  data["typeValues"] {
             let definition["typeValues"] = columnTypeValues;
         }
 
-        if fetch notNull, data["_notNull"] {
+        if fetch notNull, data["notNull"] {
             let definition["notNull"] = notNull;
         }
 
-        if fetch primary, data["_primary"] {
+        if fetch primary, data["primary"] {
             let definition["primary"] = primary;
         }
 
-        if fetch size, data["_size"] {
+        if fetch size, data["size"] {
             let definition["size"] = size;
         }
 
-        if fetch scale, data["_scale"] {
+        if fetch scale, data["scale"] {
 
             switch definition["type"] {
 
@@ -506,27 +506,27 @@ class Column implements ColumnInterface
             let definition["default"] = defaultValue;
         }
 
-        if fetch dunsigned, data["_unsigned"] {
+        if fetch dunsigned, data["unsigned"] {
             let definition["unsigned"] = dunsigned;
         }
 
-        if fetch autoIncrement, data["_autoIncrement"] {
+        if fetch autoIncrement, data["autoIncrement"] {
             let definition["autoIncrement"] = autoIncrement;
         }
 
-        if fetch isNumeric, data["_isNumeric"] {
+        if fetch isNumeric, data["isNumeric"] {
             let definition["isNumeric"] = isNumeric;
         }
 
-        if fetch first, data["_first"] {
+        if fetch first, data["first"] {
             let definition["first"] = first;
         }
 
-        if fetch after, data["_after"] {
+        if fetch after, data["after"] {
             let definition["after"] = after;
         }
 
-        if fetch bindType, data["_bindType"] {
+        if fetch bindType, data["bindType"] {
             let definition["bindType"] = bindType;
         }
 
@@ -540,7 +540,7 @@ class Column implements ColumnInterface
      */
     public function getAfterPosition() -> string
     {
-        return this->_after;
+        return this->after;
     }
 
     /**
@@ -548,7 +548,7 @@ class Column implements ColumnInterface
      */
     public function getBindType() -> int
     {
-        return this->_bindType;
+        return this->bindType;
     }
 
     /**
@@ -568,7 +568,7 @@ class Column implements ColumnInterface
      */
     public function isAutoIncrement() -> bool
     {
-        return this->_autoIncrement;
+        return this->autoIncrement;
     }
 
     /**
@@ -576,7 +576,7 @@ class Column implements ColumnInterface
      */
     public function isFirst() -> bool
     {
-        return this->_first;
+        return this->first;
     }
 
     /**
@@ -584,7 +584,7 @@ class Column implements ColumnInterface
      */
     public function isNotNull() -> bool
     {
-        return this->_notNull;
+        return this->notNull;
     }
 
     /**
@@ -592,7 +592,7 @@ class Column implements ColumnInterface
      */
     public function isNumeric() -> bool
     {
-        return this->_isNumeric;
+        return this->isNumeric;
     }
 
     /**
@@ -600,7 +600,7 @@ class Column implements ColumnInterface
      */
     public function isPrimary() -> bool
     {
-        return this->_primary;
+        return this->primary;
     }
 
     /**
@@ -608,6 +608,6 @@ class Column implements ColumnInterface
      */
     public function isUnsigned() -> bool
     {
-        return this->_unsigned;
+        return this->unsigned;
     }
 }

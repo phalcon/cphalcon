@@ -39,22 +39,14 @@ use Phalcon\Db\ReferenceInterface;
 class Sqlite extends PdoAdapter
 {
 
-    protected _dialectType = "sqlite";
+    protected dialectType = "sqlite";
 
-    protected _type = "sqlite";
-
-    /**
-     * Returns PDO adapter DSN defaults as a key-value map.
-     */
-    protected function getDsnDefaults() -> array
-    {
-        return [];
-    }
+    protected type = "sqlite";
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
      */
-    public function __construct(array! descriptor)
+    public function __construct(array! descriptor) -> void
     {
         if isset descriptor["charset"] {
             trigger_error("Sqlite does not allow the charset to be changed in the DSN.");
@@ -72,7 +64,7 @@ class Sqlite extends PdoAdapter
         var dbname;
 
         if empty descriptor {
-            let descriptor = (array) this->_descriptor;
+            let descriptor = (array) this->descriptor;
         }
 
         if fetch dbname, descriptor["dbname"] {
@@ -107,7 +99,7 @@ class Sqlite extends PdoAdapter
         /**
          * We're using FETCH_NUM to fetch the columns
          */
-        for field in this->fetchAll(this->_dialect->describeColumns(table, schema), Db::FETCH_NUM) {
+        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
 
             /**
              * By default the bind types is two
@@ -311,7 +303,7 @@ class Sqlite extends PdoAdapter
         var indexes, index, keyName, indexObjects, name, columns, describeIndex, indexSql;
 
         let indexes = [];
-        for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
             let keyName = index["name"];
 
             if !isset indexes[keyName] {
@@ -324,12 +316,12 @@ class Sqlite extends PdoAdapter
                 let columns = indexes[keyName]["columns"];
             }
 
-            for describeIndex in this->fetchAll(this->_dialect->describeIndex(keyName), Db::FETCH_ASSOC) {
+            for describeIndex in this->fetchAll(this->dialect->describeIndex(keyName), Db::FETCH_ASSOC) {
                 let columns[] = describeIndex["name"];
             }
 
             let indexes[keyName]["columns"] = columns;
-            let indexSql = this->fetchColumn(this->_dialect->listIndexesSql(table, schema, keyName));
+            let indexSql = this->fetchColumn(this->dialect->listIndexesSql(table, schema, keyName));
 
             if index["unique"] {
                 if preg_match("# UNIQUE #i", indexSql) {
@@ -362,7 +354,7 @@ class Sqlite extends PdoAdapter
 
         let references = [];
 
-        for number, reference in this->fetchAll(this->_dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for number, reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
 
             let constraintName = "foreign_key_" . number;
             if !isset references[constraintName] {
@@ -430,5 +422,13 @@ class Sqlite extends PdoAdapter
     public function useExplicitIdValue() -> bool
     {
         return true;
+    }
+
+    /**
+     * Returns PDO adapter DSN defaults as a key-value map.
+     */
+    protected function getDsnDefaults() -> array
+    {
+        return [];
     }
 }

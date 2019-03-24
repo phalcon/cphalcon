@@ -19,41 +19,16 @@ namespace Phalcon\Db;
 abstract class Dialect implements DialectInterface
 {
 
-    protected _escapeChar;
+    protected escapeChar;
 
-    protected _customFunctions;
-
-    /**
-     * Registers custom SQL functions
-     */
-    public function registerCustomFunction(string name, callable customFunction) -> <Dialect>
-    {
-        let this->_customFunctions[name] = customFunction;
-        return this;
-    }
+    protected customFunctions;
 
     /**
-     * Returns registered functions
+     * Generate SQL to create a new savepoint
      */
-    public function getCustomFunctions() -> array
+    public function createSavepoint(string! name) -> string
     {
-        return this->_customFunctions;
-    }
-
-    /**
-     * Escape Schema
-     */
-    public final function escapeSchema(string! str, string escapeChar = null) -> string
-    {
-        if !globals_get("db.escape_identifiers") {
-            return str;
-        }
-
-        if escapeChar == "" {
-            let escapeChar = (string) this->_escapeChar;
-        }
-
-        return escapeChar . trim(str, escapeChar) . escapeChar;
+        return "SAVEPOINT " . name;
     }
 
     /**
@@ -68,7 +43,7 @@ abstract class Dialect implements DialectInterface
         }
 
         if escapeChar == "" {
-            let escapeChar = (string) this->_escapeChar;
+            let escapeChar = (string) this->escapeChar;
         }
 
         if !memstr(str, ".") {
@@ -96,30 +71,19 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Generates the SQL for LIMIT clause
-     *
-     * <code>
-     * $sql = $dialect->limit("SELECT * FROM robots", 10);
-     * echo $sql; // SELECT * FROM robots LIMIT 10
-     *
-     * $sql = $dialect->limit("SELECT * FROM robots", [10, 50]);
-     * echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 50
-     * </code>
+     * Escape Schema
      */
-    public function limit(string! sqlQuery, var number) -> string
+    public final function escapeSchema(string! str, string escapeChar = null) -> string
     {
-        if typeof number == "array" {
-
-            let sqlQuery .= " LIMIT " . number[0];
-
-            if isset number[1] && strlen(number[1]) {
-                let sqlQuery .= " OFFSET " . number[1];
-            }
-
-            return sqlQuery;
+        if !globals_get("db.escape_identifiers") {
+            return str;
         }
 
-        return sqlQuery . " LIMIT " . number;
+        if escapeChar == "" {
+            let escapeChar = (string) this->escapeChar;
+        }
+
+        return escapeChar . trim(str, escapeChar) . escapeChar;
     }
 
     /**
@@ -157,6 +121,14 @@ abstract class Dialect implements DialectInterface
         }
 
         return join(", ", columns);
+    }
+
+    /**
+     * Returns registered functions
+     */
+    public function getCustomFunctions() -> array
+    {
+        return this->customFunctions;
     }
 
     /**
@@ -379,6 +351,58 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Generates the SQL for LIMIT clause
+     *
+     * <code>
+     * $sql = $dialect->limit("SELECT * FROM robots", 10);
+     * echo $sql; // SELECT * FROM robots LIMIT 10
+     *
+     * $sql = $dialect->limit("SELECT * FROM robots", [10, 50]);
+     * echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 50
+     * </code>
+     */
+    public function limit(string! sqlQuery, var number) -> string
+    {
+        if typeof number == "array" {
+
+            let sqlQuery .= " LIMIT " . number[0];
+
+            if isset number[1] && strlen(number[1]) {
+                let sqlQuery .= " OFFSET " . number[1];
+            }
+
+            return sqlQuery;
+        }
+
+        return sqlQuery . " LIMIT " . number;
+    }
+
+    /**
+     * Registers custom SQL functions
+     */
+    public function registerCustomFunction(string name, callable customFunction) -> <Dialect>
+    {
+        let this->customFunctions[name] = customFunction;
+        return this;
+    }
+
+    /**
+     * Generate SQL to release a savepoint
+     */
+    public function releaseSavepoint(string! name) -> string
+    {
+        return "RELEASE SAVEPOINT " . name;
+    }
+
+    /**
+     * Generate SQL to rollback a savepoint
+     */
+    public function rollbackSavepoint(string! name) -> string
+    {
+        return "ROLLBACK TO SAVEPOINT " . name;
+    }
+
+    /**
      * Builds a SELECT statement
      */
     public function select(array! definition) -> string
@@ -408,7 +432,7 @@ abstract class Dialect implements DialectInterface
 
         fetch bindCounts, definition["bindCounts"];
 
-        let escapeChar = this->_escapeChar;
+        let escapeChar = this->escapeChar;
 
         /**
          * Resolve COLUMNS
@@ -489,27 +513,19 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Generate SQL to create a new savepoint
+     * Returns the size of the column enclosed in parentheses
      */
-    public function createSavepoint(string! name) -> string
+    protected function getColumnSize(<ColumnInterface> column) -> string
     {
-        return "SAVEPOINT " . name;
+        return "(" . column->getSize() . ")";
     }
 
     /**
-     * Generate SQL to release a savepoint
+     * Returns the column size and scale enclosed in parentheses
      */
-    public function releaseSavepoint(string! name) -> string
+    protected function getColumnSizeAndScale(<ColumnInterface> column) -> string
     {
-        return "RELEASE SAVEPOINT " . name;
-    }
-
-    /**
-     * Generate SQL to rollback a savepoint
-     */
-    public function rollbackSavepoint(string! name) -> string
-    {
-        return "ROLLBACK TO SAVEPOINT " . name;
+        return "(" . column->getSize() . "," . column->getScale() . ")";
     }
 
     /**
@@ -537,77 +553,15 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Returns the size of the column enclosed in parentheses
+     * Resolve *
      */
-    protected function getColumnSize(<ColumnInterface> column) -> string
+    protected final function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
     {
-        return "(" . column->getSize() . ")";
-    }
+        var domain;
 
-    /**
-     * Returns the column size and scale enclosed in parentheses
-     */
-    protected function getColumnSizeAndScale(<ColumnInterface> column) -> string
-    {
-        return "(" . column->getSize() . "," . column->getScale() . ")";
-    }
+        fetch domain, expression["domain"];
 
-    /**
-     * Resolve Column expressions
-     */
-    protected final function getSqlExpressionScalar(array! expression, string escapeChar = null, bindCounts = null) -> string
-    {
-        var value;
-
-        if isset expression["column"] {
-            return this->getSqlColumn(expression["column"]);
-        }
-
-        if !fetch value, expression["value"] {
-            throw new Exception("Invalid SQL expression");
-        }
-
-        if typeof value == "array" {
-            return this->getSqlExpression(value, escapeChar, bindCounts);
-        }
-
-        return value;
-    }
-
-    /**
-     * Resolve object expressions
-     */
-    protected final function getSqlExpressionObject(array! expression, string escapeChar = null, bindCounts = null) -> string
-    {
-        var domain = null, objectExpression;
-
-        let objectExpression = [
-            "type": "all"
-        ];
-
-        if (fetch domain, expression["column"] || fetch domain, expression["domain"]) && domain != "" {
-            let objectExpression["domain"] = domain;
-        }
-
-        return this->getSqlExpression(objectExpression, escapeChar, bindCounts);
-    }
-
-    /**
-     * Resolve qualified expressions
-     */
-    protected final function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
-    {
-        var column, domain;
-        let column = expression["name"];
-
-        /**
-         * A domain could be a table/schema
-         */
-        if !fetch domain, expression["domain"] {
-            let domain = null;
-        }
-
-        return this->prepareQualified(column, domain, escapeChar);
+        return this->prepareQualified("*", domain, escapeChar);
     }
 
     /**
@@ -624,100 +578,26 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Resolve unary operations expressions
+     * Resolve CASE expressions
      */
-    protected final function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
+    protected final function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var left, right;
+        var sql, whenClause;
 
-        /**
-         * Some unary operators use the left operand...
-         */
-        if fetch left, expression["left"] {
-            return this->getSqlExpression(left, escapeChar, bindCounts) . " " . expression["op"];
-        }
+        let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar, bindCounts);
 
-        /**
-         * ...Others use the right operand
-         */
-        if fetch right, expression["right"] {
-            return expression["op"] . " " . this->getSqlExpression(right, escapeChar, bindCounts);
-        }
-
-        throw new Exception("Invalid SQL-unary expression");
-    }
-
-    /**
-     * Resolve function calls
-     */
-    protected final function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, bindCounts) -> string
-    {
-        var name, customFunction, arguments;
-
-        let name = expression["name"];
-
-        if fetch customFunction, this->_customFunctions[name] {
-            return {customFunction}(this, expression, escapeChar);
-        }
-
-        if fetch arguments, expression["arguments"] && typeof arguments == "array" {
-
-            let arguments = this->getSqlExpression([
-                "type": "list",
-                "parentheses": false,
-                "value": arguments
-            ], escapeChar, bindCounts);
-
-            if isset expression["distinct"] && expression["distinct"] {
-                return name . "(DISTINCT " . arguments . ")";
+        for whenClause in expression["when-clauses"] {
+            if whenClause["type"] == "when" {
+                let sql .= " WHEN " .
+                        this->getSqlExpression(whenClause["expr"], escapeChar, bindCounts) .
+                        " THEN " .
+                        this->getSqlExpression(whenClause["then"], escapeChar, bindCounts);
+            } else {
+                let sql .= " ELSE " . this->getSqlExpression(whenClause["expr"], escapeChar, bindCounts);
             }
-
-            return name . "(" . arguments . ")";
         }
 
-        return name . "()";
-    }
-
-    /**
-     * Resolve Lists
-     */
-    protected final function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
-    {
-        var items, item, values, separator;
-
-        let items = [];
-        let separator = ", ";
-
-        if isset expression["separator"] {
-            let separator = expression["separator"];
-        }
-
-        if (fetch values, expression[0] || fetch values, expression["value"]) && typeof values == "array" {
-
-            for item in values {
-                let items[] = this->getSqlExpression(item, escapeChar, bindCounts);
-            }
-
-            if isset expression["parentheses"] && expression["parentheses"] === false {
-                return join(separator, items);
-            }
-
-            return "(" . join(separator, items) . ")";
-        }
-
-        throw new Exception("Invalid SQL-list expression");
-    }
-
-    /**
-     * Resolve *
-     */
-    protected final function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
-    {
-        var domain;
-
-        fetch domain, expression["domain"];
-
-        return this->prepareQualified("*", domain, escapeChar);
+        return sql . " END";
     }
 
     /**
@@ -747,29 +627,6 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Resolve CASE expressions
-     */
-    protected final function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
-    {
-        var sql, whenClause;
-
-        let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar, bindCounts);
-
-        for whenClause in expression["when-clauses"] {
-            if whenClause["type"] == "when" {
-                let sql .= " WHEN " .
-                        this->getSqlExpression(whenClause["expr"], escapeChar, bindCounts) .
-                        " THEN " .
-                        this->getSqlExpression(whenClause["then"], escapeChar, bindCounts);
-            } else {
-                let sql .= " ELSE " . this->getSqlExpression(whenClause["expr"], escapeChar, bindCounts);
-            }
-        }
-
-        return sql . " END";
-    }
-
-    /**
      * Resolve a FROM clause
      */
     protected final function getSqlExpressionFrom(var expression, string escapeChar = null) -> string
@@ -791,6 +648,73 @@ abstract class Dialect implements DialectInterface
         }
 
         return "FROM " . tables;
+    }
+
+    /**
+     * Resolve function calls
+     */
+    protected final function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, bindCounts) -> string
+    {
+        var name, customFunction, arguments;
+
+        let name = expression["name"];
+
+        if fetch customFunction, this->customFunctions[name] {
+            return {customFunction}(this, expression, escapeChar);
+        }
+
+        if fetch arguments, expression["arguments"] && typeof arguments == "array" {
+
+            let arguments = this->getSqlExpression([
+                "type": "list",
+                "parentheses": false,
+                "value": arguments
+            ], escapeChar, bindCounts);
+
+            if isset expression["distinct"] && expression["distinct"] {
+                return name . "(DISTINCT " . arguments . ")";
+            }
+
+            return name . "(" . arguments . ")";
+        }
+
+        return name . "()";
+    }
+
+    /**
+     * Resolve a GROUP BY clause
+     */
+    protected final function getSqlExpressionGroupBy(var expression, string escapeChar = null, bindCounts = null) -> string
+    {
+        var field, fields;
+
+        if typeof expression == "array" {
+
+            let fields = [];
+
+            for field in expression {
+                if unlikely typeof field != "array" {
+                    throw new Exception("Invalid SQL-GROUP-BY expression");
+                }
+
+                let fields[] = this->getSqlExpression(field, escapeChar, bindCounts);
+            }
+
+            let fields = join(", ", fields);
+
+        } else {
+            let fields = expression;
+        }
+
+        return "GROUP BY " . fields;
+    }
+
+    /**
+     * Resolve a HAVING clause
+     */
+    protected final function getSqlExpressionHaving(array! expression, string escapeChar = null, bindCounts = null) -> string
+    {
+        return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
     }
 
     /**
@@ -836,55 +760,85 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Resolve a WHERE clause
+     * Resolve a LIMIT clause
      */
-    protected final function getSqlExpressionWhere(var expression, string escapeChar = null, bindCounts = null) -> string
+    protected final function getSqlExpressionLimit(var expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var whereSql;
+        var sql = "", value, limit, offset = null;
+        let value = expression["value"];
 
-        if typeof expression == "array" {
-            let whereSql = this->getSqlExpression(expression, escapeChar, bindCounts);
-        } else {
-            let whereSql = expression;
+        if isset expression["sql"] {
+            let sql = expression["sql"];
         }
 
-        return "WHERE " . whereSql;
-    }
+        if typeof value == "array" {
 
-    /**
-     * Resolve a GROUP BY clause
-     */
-    protected final function getSqlExpressionGroupBy(var expression, string escapeChar = null, bindCounts = null) -> string
-    {
-        var field, fields;
-
-        if typeof expression == "array" {
-
-            let fields = [];
-
-            for field in expression {
-                if unlikely typeof field != "array" {
-                    throw new Exception("Invalid SQL-GROUP-BY expression");
-                }
-
-                let fields[] = this->getSqlExpression(field, escapeChar, bindCounts);
+            if typeof value["number"] == "array" {
+                let limit = this->getSqlExpression(value["number"], escapeChar, bindCounts);
+            } else {
+                let limit = value["number"];
             }
 
-            let fields = join(", ", fields);
+            /**
+             * Check for an OFFSET condition
+             */
+            if fetch offset, value["offset"] && typeof offset == "array" {
+                let offset = this->getSqlExpression(offset, escapeChar, bindCounts);
+            }
 
         } else {
-            let fields = expression;
+            let limit = value;
         }
 
-        return "GROUP BY " . fields;
+        return this->limit(sql, [limit, offset]);
     }
 
     /**
-     * Resolve a HAVING clause
+     * Resolve Lists
      */
-    protected final function getSqlExpressionHaving(array! expression, string escapeChar = null, bindCounts = null) -> string
+    protected final function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
-        return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
+        var items, item, values, separator;
+
+        let items = [];
+        let separator = ", ";
+
+        if isset expression["separator"] {
+            let separator = expression["separator"];
+        }
+
+        if (fetch values, expression[0] || fetch values, expression["value"]) && typeof values == "array" {
+
+            for item in values {
+                let items[] = this->getSqlExpression(item, escapeChar, bindCounts);
+            }
+
+            if isset expression["parentheses"] && expression["parentheses"] === false {
+                return join(separator, items);
+            }
+
+            return "(" . join(separator, items) . ")";
+        }
+
+        throw new Exception("Invalid SQL-list expression");
+    }
+
+    /**
+     * Resolve object expressions
+     */
+    protected final function getSqlExpressionObject(array! expression, string escapeChar = null, bindCounts = null) -> string
+    {
+        var domain = null, objectExpression;
+
+        let objectExpression = [
+            "type": "all"
+        ];
+
+        if (fetch domain, expression["column"] || fetch domain, expression["domain"]) && domain != "" {
+            let objectExpression["domain"] = domain;
+        }
+
+        return this->getSqlExpression(objectExpression, escapeChar, bindCounts);
     }
 
     /**
@@ -926,37 +880,83 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Resolve a LIMIT clause
+     * Resolve qualified expressions
      */
-    protected final function getSqlExpressionLimit(var expression, string escapeChar = null, bindCounts = null) -> string
+    protected final function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
     {
-        var sql = "", value, limit, offset = null;
-        let value = expression["value"];
+        var column, domain;
+        let column = expression["name"];
 
-        if isset expression["sql"] {
-            let sql = expression["sql"];
+        /**
+         * A domain could be a table/schema
+         */
+        if !fetch domain, expression["domain"] {
+            let domain = null;
+        }
+
+        return this->prepareQualified(column, domain, escapeChar);
+    }
+
+    /**
+     * Resolve Column expressions
+     */
+    protected final function getSqlExpressionScalar(array! expression, string escapeChar = null, bindCounts = null) -> string
+    {
+        var value;
+
+        if isset expression["column"] {
+            return this->getSqlColumn(expression["column"]);
+        }
+
+        if !fetch value, expression["value"] {
+            throw new Exception("Invalid SQL expression");
         }
 
         if typeof value == "array" {
-
-            if typeof value["number"] == "array" {
-                let limit = this->getSqlExpression(value["number"], escapeChar, bindCounts);
-            } else {
-                let limit = value["number"];
-            }
-
-            /**
-             * Check for an OFFSET condition
-             */
-            if fetch offset, value["offset"] && typeof offset == "array" {
-                let offset = this->getSqlExpression(offset, escapeChar, bindCounts);
-            }
-
-        } else {
-            let limit = value;
+            return this->getSqlExpression(value, escapeChar, bindCounts);
         }
 
-        return this->limit(sql, [limit, offset]);
+        return value;
+    }
+
+    /**
+     * Resolve unary operations expressions
+     */
+    protected final function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
+    {
+        var left, right;
+
+        /**
+         * Some unary operators use the left operand...
+         */
+        if fetch left, expression["left"] {
+            return this->getSqlExpression(left, escapeChar, bindCounts) . " " . expression["op"];
+        }
+
+        /**
+         * ...Others use the right operand
+         */
+        if fetch right, expression["right"] {
+            return expression["op"] . " " . this->getSqlExpression(right, escapeChar, bindCounts);
+        }
+
+        throw new Exception("Invalid SQL-unary expression");
+    }
+
+    /**
+     * Resolve a WHERE clause
+     */
+    protected final function getSqlExpressionWhere(var expression, string escapeChar = null, bindCounts = null) -> string
+    {
+        var whereSql;
+
+        if typeof expression == "array" {
+            let whereSql = this->getSqlExpression(expression, escapeChar, bindCounts);
+        } else {
+            let whereSql = expression;
+        }
+
+        return "WHERE " . whereSql;
     }
 
     /**

@@ -41,22 +41,14 @@ use Phalcon\Db\ReferenceInterface;
 class Postgresql extends PdoAdapter
 {
 
-    protected _dialectType = "postgresql";
+    protected dialectType = "postgresql";
 
-    protected _type = "pgsql";
-
-    /**
-     * Returns PDO adapter DSN defaults as a key-value map.
-     */
-    protected function getDsnDefaults() -> array
-    {
-        return [];
-    }
+    protected type = "pgsql";
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
      */
-    public function __construct(array! descriptor)
+    public function __construct(array! descriptor) -> void
     {
         if isset descriptor["charset"] {
             trigger_error("Postgres does not allow the charset to be changed in the DSN.");
@@ -74,7 +66,7 @@ class Postgresql extends PdoAdapter
         var schema, sql, status;
 
         if empty descriptor {
-            let descriptor = (array) this->_descriptor;
+            let descriptor = (array) this->descriptor;
         }
 
         if fetch schema, descriptor["schema"] {
@@ -114,7 +106,7 @@ class Postgresql extends PdoAdapter
             throw new Exception("The table must contain at least one column");
         }
 
-        let sql = this->_dialect->createTable(tableName, schemaName, definition);
+        let sql = this->dialect->createTable(tableName, schemaName, definition);
 
         let queries = explode(";",sql);
 
@@ -159,7 +151,7 @@ class Postgresql extends PdoAdapter
          * We're using FETCH_NUM to fetch the columns
          * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null, 6: key, 7: extra, 8: position, 9 default
          */
-        for field in this->fetchAll(this->_dialect->describeColumns(table, schema), Db::FETCH_NUM) {
+        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
 
             /**
              * By default the bind types is two
@@ -498,7 +490,7 @@ class Postgresql extends PdoAdapter
 
         let references = [];
 
-        for reference in this->fetchAll(this->_dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
 
             let constraintName = reference[2];
             if !isset references[constraintName] {
@@ -578,7 +570,7 @@ class Postgresql extends PdoAdapter
     {
         var sql,queries,query,exception;
 
-        let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
+        let sql = this->dialect->modifyColumn(tableName, schemaName, column, currentColumn);
         let queries = explode(";",sql);
 
         if count(queries) > 1 {
@@ -619,5 +611,13 @@ class Postgresql extends PdoAdapter
     public function useExplicitIdValue() -> bool
     {
         return true;
+    }
+
+    /**
+     * Returns PDO adapter DSN defaults as a key-value map.
+     */
+    protected function getDsnDefaults() -> array
+    {
+        return [];
     }
 }

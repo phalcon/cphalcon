@@ -26,7 +26,328 @@ use Phalcon\Db\ReferenceInterface;
 class Sqlite extends Dialect
 {
 
-    protected _escapeChar = "\"";
+    protected escapeChar = "\"";
+
+    /**
+     * Generates SQL to add a column to a table
+     */
+    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
+    {
+        var sql, defaultValue;
+
+        let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
+
+        let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
+
+        if column->hasDefault() {
+            let defaultValue = column->getDefault();
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                let sql .= " DEFAULT CURRENT_TIMESTAMP";
+            } else {
+                let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+            }
+        }
+
+        if column->isNotNull() {
+            let sql .= " NOT NULL";
+        }
+
+        if column->isAutoincrement() {
+            let sql .= " PRIMARY KEY AUTOINCREMENT";
+        }
+
+        return sql;
+    }
+
+    /**
+     * Generates SQL to add an index to a table
+     */
+    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
+    {
+        throw new Exception("Adding a foreign key constraint to an existing table is not supported by SQLite");
+    }
+
+    /**
+     * Generates SQL to add an index to a table
+     */
+    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    {
+        var sql, indexType;
+
+        let indexType = index->getType();
+
+        if !empty indexType {
+            let sql = "CREATE " . indexType . " INDEX \"";
+        } else {
+            let sql = "CREATE INDEX \"";
+        }
+
+        if schemaName {
+            let sql .= schemaName . "\".\"" . index->getName() . "\" ON \"" . tableName . "\" (";
+        } else {
+            let sql .= index->getName() . "\" ON \"" . tableName . "\" (";
+        }
+
+        let sql .= this->getColumnList(index->getColumns()) . ")";
+        return sql;
+    }
+
+    /**
+     * Generates SQL to add the primary key to a table
+     */
+    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    {
+        throw new Exception("Adding a primary key after table has been created is not supported by SQLite");
+    }
+
+    /**
+     * Generates SQL to create a table
+     */
+    public function createTable(string! tableName, string! schemaName, array! definition) -> string
+    {
+        var columns, table, temporary, options, createLines, columnLine, column,
+            indexes, index, indexName, indexType, references, reference, defaultValue,
+            referenceSql, onDelete, onUpdate, sql, hasPrimary;
+
+        let table = this->prepareTable(tableName, schemaName);
+
+        let temporary = false;
+        if fetch options, definition["options"] {
+            fetch temporary, options["temporary"];
+        }
+
+        if !fetch columns, definition["columns"] {
+            throw new Exception("The index 'columns' is required in the definition array");
+        }
+
+        /**
+         * Create a temporary or normal table
+         */
+        if temporary {
+            let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
+        } else {
+            let sql = "CREATE TABLE " . table . " (\n\t";
+        }
+
+        let hasPrimary = false;
+        let createLines = [];
+
+        for column in columns {
+            let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
+
+            /**
+             * Mark the column as primary key
+             */
+            if column->isPrimary() && !hasPrimary {
+                let columnLine .= " PRIMARY KEY";
+                let hasPrimary = true;
+            }
+
+            /**
+             * Add an AUTOINCREMENT clause
+             */
+            if column->isAutoIncrement() && hasPrimary {
+                let columnLine .= " AUTOINCREMENT";
+            }
+
+            /**
+             * Add a Default clause
+             */
+            if column->hasDefault() {
+                let defaultValue = column->getDefault();
+                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                    let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+                } else {
+                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                }
+            }
+
+            /**
+             * Add a NOT NULL clause
+             */
+            if column->isNotNull() {
+                let columnLine .= " NOT NULL";
+            }
+
+            let createLines[] = columnLine;
+        }
+
+        /**
+         * Create related indexes
+         */
+        if fetch indexes, definition["indexes"] {
+
+            for index in indexes {
+
+                let indexName = index->getName();
+                let indexType = index->getType();
+
+                /**
+                 * If the index name is primary we add a primary key
+                 */
+                if indexName == "PRIMARY" && !hasPrimary {
+                    let createLines[] = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                } elseif !empty indexType && memstr(strtoupper(indexType), "UNIQUE") {
+                    let createLines[] = "UNIQUE (" . this->getColumnList(index->getColumns()) . ")";
+                }
+            }
+        }
+
+        /**
+         * Create related references
+         */
+        if fetch references, definition["references"] {
+            for reference in references {
+                let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+                    . " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+
+                let onDelete = reference->getOnDelete();
+                if !empty onDelete {
+                    let referenceSql .= " ON DELETE " . onDelete;
+                }
+
+                let onUpdate = reference->getOnUpdate();
+                if !empty onUpdate {
+                    let referenceSql .= " ON UPDATE " . onUpdate;
+                }
+
+                let createLines[] = referenceSql;
+            }
+        }
+
+        let sql .= join(",\n\t", createLines) . "\n)";
+
+        return sql;
+    }
+
+    /**
+     * Generates SQL to create a view
+     */
+    public function createView(string! viewName, array! definition, string schemaName = null) -> string
+    {
+        var viewSql;
+
+        if !fetch viewSql, definition["sql"] {
+            throw new Exception("The index 'sql' is required in the definition array");
+        }
+
+        return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
+    }
+
+    /**
+     * Generates SQL describing a table
+     *
+     * <code>
+     * print_r(
+     *     $dialect->describeColumns("posts")
+     * );
+     * </code>
+     */
+    public function describeColumns(string! table, string schema = null) -> string
+    {
+        return "PRAGMA table_info('" . table . "')";
+    }
+
+    /**
+     * Generates SQL to query indexes detail on a table
+     */
+    public function describeIndex(string! index) -> string
+    {
+        return "PRAGMA index_info('" . index . "')";
+    }
+
+    /**
+     * Generates SQL to query indexes on a table
+     */
+    public function describeIndexes(string! table, string schema = null) -> string
+    {
+        return "PRAGMA index_list('" . table . "')";
+    }
+
+    /**
+     * Generates SQL to query foreign keys on a table
+     */
+    public function describeReferences(string! table, string schema = null) -> string
+    {
+        return "PRAGMA foreign_key_list('" . table . "')";
+    }
+
+    /**
+     * Generates SQL to delete a column from a table
+     */
+    public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
+    {
+        throw new Exception("Dropping DB column is not supported by SQLite");
+    }
+
+    /**
+     * Generates SQL to delete a foreign key from a table
+     */
+    public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
+    {
+        throw new Exception("Dropping a foreign key constraint is not supported by SQLite");
+    }
+
+    /**
+     * Generates SQL to delete an index from a table
+     */
+    public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
+    {
+        if schemaName {
+            return "DROP INDEX \"" . schemaName . "\".\"" . indexName . "\"";
+        }
+        return "DROP INDEX \"" . indexName . "\"";
+    }
+
+    /**
+     * Generates SQL to delete primary key from a table
+     */
+    public function dropPrimaryKey(string! tableName, string! schemaName) -> string
+    {
+        throw new Exception("Removing a primary key after table has been created is not supported by SQLite");
+    }
+
+    /**
+     * Generates SQL to drop a table
+     */
+    public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
+    {
+        var sql, table;
+
+        let table = this->prepareTable(tableName, schemaName);
+
+        if ifExists {
+            let sql = "DROP TABLE IF EXISTS " . table;
+        } else {
+            let sql = "DROP TABLE " . table;
+        }
+
+        return sql;
+    }
+
+    /**
+     * Generates SQL to drop a view
+     */
+    public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
+    {
+        var view;
+
+        let view = this->prepareTable(viewName, schemaName);
+
+        if ifExists {
+            return "DROP VIEW IF EXISTS " . view;
+        }
+        return "DROP VIEW " . view;
+    }
+
+    /**
+     * Returns a SQL modified with a FOR UPDATE clause. For sqlite it returns
+     * the original query
+     */
+    public function forUpdate(string! sqlQuery) -> string
+    {
+        return sqlQuery;
+    }
 
     /**
      * Gets the column name in SQLite
@@ -172,339 +493,25 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Generates SQL to add a column to a table
-     */
-    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
-    {
-        var sql, defaultValue;
-
-        let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
-
-        let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
-
-        if column->hasDefault() {
-            let defaultValue = column->getDefault();
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                let sql .= " DEFAULT CURRENT_TIMESTAMP";
-            } else {
-                let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-            }
-        }
-
-        if column->isNotNull() {
-            let sql .= " NOT NULL";
-        }
-
-        if column->isAutoincrement() {
-            let sql .= " PRIMARY KEY AUTOINCREMENT";
-        }
-
-        return sql;
-    }
-
-    /**
-     * Generates SQL to modify a column in a table
-     */
-    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
-    {
-        throw new Exception("Altering a DB column is not supported by SQLite");
-    }
-
-    /**
-     * Generates SQL to delete a column from a table
-     */
-    public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
-    {
-        throw new Exception("Dropping DB column is not supported by SQLite");
-    }
-
-    /**
-     * Generates SQL to add an index to a table
-     */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
-    {
-        var sql, indexType;
-
-        let indexType = index->getType();
-
-        if !empty indexType {
-            let sql = "CREATE " . indexType . " INDEX \"";
-        } else {
-            let sql = "CREATE INDEX \"";
-        }
-
-        if schemaName {
-            let sql .= schemaName . "\".\"" . index->getName() . "\" ON \"" . tableName . "\" (";
-        } else {
-            let sql .= index->getName() . "\" ON \"" . tableName . "\" (";
-        }
-
-        let sql .= this->getColumnList(index->getColumns()) . ")";
-        return sql;
-    }
-
-    /**
-     * Generates SQL to delete an index from a table
-     */
-    public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
-    {
-        if schemaName {
-            return "DROP INDEX \"" . schemaName . "\".\"" . indexName . "\"";
-        }
-        return "DROP INDEX \"" . indexName . "\"";
-    }
-
-    /**
-     * Generates SQL to add the primary key to a table
-     */
-    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
-    {
-        throw new Exception("Adding a primary key after table has been created is not supported by SQLite");
-    }
-
-    /**
-     * Generates SQL to delete primary key from a table
-     */
-    public function dropPrimaryKey(string! tableName, string! schemaName) -> string
-    {
-        throw new Exception("Removing a primary key after table has been created is not supported by SQLite");
-    }
-
-    /**
-     * Generates SQL to add an index to a table
-     */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
-    {
-        throw new Exception("Adding a foreign key constraint to an existing table is not supported by SQLite");
-    }
-
-    /**
-     * Generates SQL to delete a foreign key from a table
-     */
-    public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
-    {
-        throw new Exception("Dropping a foreign key constraint is not supported by SQLite");
-    }
-
-    /**
-     * Generates SQL to create a table
-     */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> string
-    {
-        var columns, table, temporary, options, createLines, columnLine, column,
-            indexes, index, indexName, indexType, references, reference, defaultValue,
-            referenceSql, onDelete, onUpdate, sql, hasPrimary;
-
-        let table = this->prepareTable(tableName, schemaName);
-
-        let temporary = false;
-        if fetch options, definition["options"] {
-            fetch temporary, options["temporary"];
-        }
-
-        if !fetch columns, definition["columns"] {
-            throw new Exception("The index 'columns' is required in the definition array");
-        }
-
-        /**
-         * Create a temporary or normal table
-         */
-        if temporary {
-            let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
-        } else {
-            let sql = "CREATE TABLE " . table . " (\n\t";
-        }
-
-        let hasPrimary = false;
-        let createLines = [];
-
-        for column in columns {
-            let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
-
-            /**
-             * Mark the column as primary key
-             */
-            if column->isPrimary() && !hasPrimary {
-                let columnLine .= " PRIMARY KEY";
-                let hasPrimary = true;
-            }
-
-            /**
-             * Add an AUTOINCREMENT clause
-             */
-            if column->isAutoIncrement() && hasPrimary {
-                let columnLine .= " AUTOINCREMENT";
-            }
-
-            /**
-             * Add a Default clause
-             */
-            if column->hasDefault() {
-                let defaultValue = column->getDefault();
-                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                    let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
-                } else {
-                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-                }
-            }
-
-            /**
-             * Add a NOT NULL clause
-             */
-            if column->isNotNull() {
-                let columnLine .= " NOT NULL";
-            }
-
-            let createLines[] = columnLine;
-        }
-
-        /**
-         * Create related indexes
-         */
-        if fetch indexes, definition["indexes"] {
-
-            for index in indexes {
-
-                let indexName = index->getName();
-                let indexType = index->getType();
-
-                /**
-                 * If the index name is primary we add a primary key
-                 */
-                if indexName == "PRIMARY" && !hasPrimary {
-                    let createLines[] = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
-                } elseif !empty indexType && memstr(strtoupper(indexType), "UNIQUE") {
-                    let createLines[] = "UNIQUE (" . this->getColumnList(index->getColumns()) . ")";
-                }
-            }
-        }
-
-        /**
-         * Create related references
-         */
-        if fetch references, definition["references"] {
-            for reference in references {
-                let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-                    . " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
-
-                let onDelete = reference->getOnDelete();
-                if !empty onDelete {
-                    let referenceSql .= " ON DELETE " . onDelete;
-                }
-
-                let onUpdate = reference->getOnUpdate();
-                if !empty onUpdate {
-                    let referenceSql .= " ON UPDATE " . onUpdate;
-                }
-
-                let createLines[] = referenceSql;
-            }
-        }
-
-        let sql .= join(",\n\t", createLines) . "\n)";
-
-        return sql;
-    }
-
-    /**
-     * Generates SQL to truncate a table
-     */
-    public function truncateTable(string! tableName, string! schemaName) -> string
-    {
-        var sql, table;
-
-        if schemaName {
-            let table = schemaName . "\".\"" . tableName;
-        } else {
-            let table = tableName;
-        }
-
-        let sql = "DELETE FROM \"" . table . "\"";
-
-        return sql;
-    }
-
-    /**
-     * Generates SQL to drop a table
-     */
-    public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
-    {
-        var sql, table;
-
-        let table = this->prepareTable(tableName, schemaName);
-
-        if ifExists {
-            let sql = "DROP TABLE IF EXISTS " . table;
-        } else {
-            let sql = "DROP TABLE " . table;
-        }
-
-        return sql;
-    }
-
-    /**
-     * Generates SQL to create a view
-     */
-    public function createView(string! viewName, array! definition, string schemaName = null) -> string
-    {
-        var viewSql;
-
-        if !fetch viewSql, definition["sql"] {
-            throw new Exception("The index 'sql' is required in the definition array");
-        }
-
-        return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
-    }
-
-    /**
-     * Generates SQL to drop a view
-     */
-    public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
-    {
-        var view;
-
-        let view = this->prepareTable(viewName, schemaName);
-
-        if ifExists {
-            return "DROP VIEW IF EXISTS " . view;
-        }
-        return "DROP VIEW " . view;
-    }
-
-    /**
-     * Generates SQL checking for the existence of a schema.table
-     *
-     * <code>
-     * echo $dialect->tableExists("posts", "blog");
-     *
-     * echo $dialect->tableExists("posts");
-     * </code>
-     */
-    public function tableExists(string! tableName, string schemaName = null) -> string
-    {
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . tableName . "'";
-    }
-
-    /**
-     * Generates SQL checking for the existence of a schema.view
-     */
-    public function viewExists(string! viewName, string schemaName = null) -> string
-    {
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . viewName . "'";
-    }
-
-    /**
-     * Generates SQL describing a table
+     * Generates the SQL to get query list of indexes
      *
      * <code>
      * print_r(
-     *     $dialect->describeColumns("posts")
+     *     $dialect->listIndexesSql("blog")
      * );
      * </code>
      */
-    public function describeColumns(string! table, string schema = null) -> string
+    public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string
     {
-        return "PRAGMA table_info('" . table . "')";
+        string sql;
+
+        let sql = "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ". this->escape(table) ." COLLATE NOCASE";
+
+        if keyName {
+            let sql .= " AND name = ". this->escape(keyName) ." COLLATE NOCASE";
+        }
+
+        return sql;
     }
 
     /**
@@ -530,57 +537,11 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Generates the SQL to get query list of indexes
-     *
-     * <code>
-     * print_r(
-     *     $dialect->listIndexesSql("blog")
-     * );
-     * </code>
+     * Generates SQL to modify a column in a table
      */
-    public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string
+    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        string sql;
-
-        let sql = "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ". this->escape(table) ." COLLATE NOCASE";
-
-        if keyName {
-            let sql .= " AND name = ". this->escape(keyName) ." COLLATE NOCASE";
-        }
-
-        return sql;
-    }
-
-    /**
-     * Generates SQL to query indexes on a table
-     */
-    public function describeIndexes(string! table, string schema = null) -> string
-    {
-        return "PRAGMA index_list('" . table . "')";
-    }
-
-    /**
-     * Generates SQL to query indexes detail on a table
-     */
-    public function describeIndex(string! index) -> string
-    {
-        return "PRAGMA index_info('" . index . "')";
-    }
-
-    /**
-     * Generates SQL to query foreign keys on a table
-     */
-    public function describeReferences(string! table, string schema = null) -> string
-    {
-        return "PRAGMA foreign_key_list('" . table . "')";
-    }
-
-    /**
-     * Generates the SQL to describe the table creation options
-     */
-    public function tableOptions(string! table, string schema = null) -> string
-    {
-        return "";
+        throw new Exception("Altering a DB column is not supported by SQLite");
     }
 
     /**
@@ -593,11 +554,50 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause. For sqlite it returns
-     * the original query
+     * Generates SQL checking for the existence of a schema.table
+     *
+     * <code>
+     * echo $dialect->tableExists("posts", "blog");
+     *
+     * echo $dialect->tableExists("posts");
+     * </code>
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function tableExists(string! tableName, string schemaName = null) -> string
     {
-        return sqlQuery;
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . tableName . "'";
+    }
+
+    /**
+     * Generates the SQL to describe the table creation options
+     */
+    public function tableOptions(string! table, string schema = null) -> string
+    {
+        return "";
+    }
+
+    /**
+     * Generates SQL to truncate a table
+     */
+    public function truncateTable(string! tableName, string! schemaName) -> string
+    {
+        var sql, table;
+
+        if schemaName {
+            let table = schemaName . "\".\"" . tableName;
+        } else {
+            let table = tableName;
+        }
+
+        let sql = "DELETE FROM \"" . table . "\"";
+
+        return sql;
+    }
+
+    /**
+     * Generates SQL checking for the existence of a schema.view
+     */
+    public function viewExists(string! viewName, string schemaName = null) -> string
+    {
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . viewName . "'";
     }
 }

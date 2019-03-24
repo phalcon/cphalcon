@@ -25,31 +25,31 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Connection ID
      */
-    protected static _connectionConsecutive = 0;
+    protected static connectionConsecutive = 0;
 
     /**
      * Active connection ID
      *
      * @var long
      */
-    protected _connectionId;
+    protected connectionId;
 
     /**
      * Descriptor used to connect to a database
      */
-    protected _descriptor = [];
+    protected descriptor = [];
 
     /**
      * Dialect instance
      */
-    protected _dialect;
+    protected dialect;
 
     /**
      * Name of the dialect used
      *
      * @var string
      */
-    protected _dialectType { get };
+    protected dialectType { get };
 
     /**
      * Event Manager
@@ -63,38 +63,38 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * @var array
      */
-    protected _sqlBindTypes;
+    protected sqlBindTypes;
 
     /**
      * Active SQL Statement
      *
      * @var string
      */
-    protected _sqlStatement;
+    protected sqlStatement;
 
     /**
      * Active SQL bound parameter variables
      *
      * @var array
      */
-    protected _sqlVariables { get };
+    protected sqlVariables { get };
 
     /**
      * Current transaction level
      */
-    protected _transactionLevel = 0;
+    protected transactionLevel = 0;
 
     /**
      * Whether the database supports transactions with save points
      */
-    protected _transactionsWithSavepoints = false;
+    protected transactionsWithSavepoints = false;
 
     /**
      * Type of database system the adapter is used for
      *
      * @var string
      */
-    protected _type { get };
+    protected type { get };
 
     /**
      * Phalcon\Db\Adapter constructor
@@ -103,29 +103,29 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var dialectClass, connectionId;
 
-        let connectionId = self::_connectionConsecutive,
-            this->_connectionId = connectionId,
-            self::_connectionConsecutive = connectionId + 1;
+        let connectionId = self::connectionConsecutive,
+            this->connectionId = connectionId,
+            self::connectionConsecutive = connectionId + 1;
 
         /**
          * Dialect class can override the default dialect
          */
         if !fetch dialectClass, descriptor["dialectClass"] {
-            let dialectClass = "phalcon\\db\\dialect\\" . this->_dialectType;
+            let dialectClass = "phalcon\\db\\dialect\\" . this->dialectType;
         }
 
         /**
          * Create the instance only if the dialect is a string
          */
         if typeof dialectClass == "string" {
-            let this->_dialect = new {dialectClass}();
+            let this->dialect = new {dialectClass}();
         } else {
             if typeof dialectClass == "object" {
-                let this->_dialect = dialectClass;
+                let this->dialect = dialectClass;
             }
         }
 
-        let this->_descriptor = descriptor;
+        let this->descriptor = descriptor;
     }
 
     /**
@@ -133,7 +133,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool
     {
-        return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
+        return this->{"execute"}(this->dialect->addColumn(tableName, schemaName, column));
     }
 
     /**
@@ -141,7 +141,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
     {
-        return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
+        return this->{"execute"}(this->dialect->addForeignKey(tableName, schemaName, reference));
     }
 
     /**
@@ -149,7 +149,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool
     {
-        return this->{"execute"}(this->_dialect->addIndex(tableName, schemaName, index));
+        return this->{"execute"}(this->dialect->addIndex(tableName, schemaName, index));
     }
 
     /**
@@ -157,7 +157,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool
     {
-        return this->{"execute"}(this->_dialect->addPrimaryKey(tableName, schemaName, index));
+        return this->{"execute"}(this->dialect->addPrimaryKey(tableName, schemaName, index));
     }
 
     /**
@@ -167,7 +167,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var dialect;
 
-        let dialect = this->_dialect;
+        let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
             throw new Exception("Savepoints are not supported by this database adapter.");
@@ -191,7 +191,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             throw new Exception("The table must contain at least one column");
         }
 
-        return this->{"execute"}(this->_dialect->createTable(tableName, schemaName, definition));
+        return this->{"execute"}(this->dialect->createTable(tableName, schemaName, definition));
     }
 
     /**
@@ -203,7 +203,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             throw new Exception("The table must contain at least one column");
         }
 
-        return this->{"execute"}(this->_dialect->createView(viewName, definition, schemaName));
+        return this->{"execute"}(this->dialect->createView(viewName, definition, schemaName));
     }
 
     /**
@@ -258,7 +258,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
         let indexes = [];
-        for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
 
             let keyName = index[2];
             if !isset indexes[keyName] {
@@ -300,7 +300,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let references = [];
 
-        for reference in this->fetchAll(this->_dialect->describeReferences(table, schema),Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema),Db::FETCH_NUM) {
 
             let constraintName = reference[2];
             if !isset references[constraintName] {
@@ -344,7 +344,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool
     {
-        return this->{"execute"}(this->_dialect->dropColumn(tableName, schemaName, columnName));
+        return this->{"execute"}(this->dialect->dropColumn(tableName, schemaName, columnName));
     }
 
     /**
@@ -352,7 +352,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> bool
     {
-        return this->{"execute"}(this->_dialect->dropForeignKey(tableName, schemaName, referenceName));
+        return this->{"execute"}(this->dialect->dropForeignKey(tableName, schemaName, referenceName));
     }
 
     /**
@@ -360,7 +360,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropIndex(string! tableName, string! schemaName, indexName) -> bool
     {
-        return this->{"execute"}(this->_dialect->dropIndex(tableName, schemaName, indexName));
+        return this->{"execute"}(this->dialect->dropIndex(tableName, schemaName, indexName));
     }
 
     /**
@@ -368,7 +368,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropPrimaryKey(string! tableName, string! schemaName) -> bool
     {
-        return this->{"execute"}(this->_dialect->dropPrimaryKey(tableName, schemaName));
+        return this->{"execute"}(this->dialect->dropPrimaryKey(tableName, schemaName));
     }
 
     /**
@@ -376,7 +376,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropTable(string! tableName, string! schemaName = null, bool ifExists = true) -> bool
     {
-        return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
+        return this->{"execute"}(this->dialect->dropTable(tableName, schemaName, ifExists));
     }
 
     /**
@@ -384,7 +384,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropView(string! viewName, string! schemaName = null, bool ifExists = true) -> bool
     {
-        return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
+        return this->{"execute"}(this->dialect->dropView(viewName, schemaName, ifExists));
     }
 
     /**
@@ -408,10 +408,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     public function escapeIdentifier(var identifier) -> string
     {
         if typeof identifier == "array" {
-            return this->_dialect->escape(identifier[0]) . "." . this->_dialect->escape(identifier[1]);
+            return this->dialect->escape(identifier[0]) . "." . this->dialect->escape(identifier[1]);
         }
 
-        return this->_dialect->escape(identifier);
+        return this->dialect->escape(identifier);
     }
 
     /**
@@ -523,7 +523,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function forUpdate(string! sqlQuery) -> string
     {
-        return this->_dialect->forUpdate(sqlQuery);
+        return this->dialect->forUpdate(sqlQuery);
     }
 
     /**
@@ -531,7 +531,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getColumnDefinition(<ColumnInterface> column) -> string
     {
-        return this->_dialect->getColumnDefinition(column);
+        return this->dialect->getColumnDefinition(column);
     }
 
     /**
@@ -541,7 +541,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getColumnList(var columnList) -> string
     {
-        return this->_dialect->getColumnList(columnList);
+        return this->dialect->getColumnList(columnList);
     }
 
     /**
@@ -549,7 +549,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getConnectionId() -> string
     {
-        return this->_connectionId;
+        return this->connectionId;
     }
 
     /**
@@ -605,7 +605,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getDescriptor() -> array
     {
-        return this->_descriptor;
+        return this->descriptor;
     }
 
     /**
@@ -613,7 +613,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getDialect() -> <DialectInterface>
     {
-        return this->_dialect;
+        return this->dialect;
     }
 
     /**
@@ -629,7 +629,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getNestedTransactionSavepointName() -> string
     {
-        return "PHALCON_SAVEPOINT_" . this->_transactionLevel;
+        return "PHALCON_SAVEPOINT_" . this->transactionLevel;
     }
 
     /**
@@ -637,7 +637,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getRealSQLStatement() -> string
     {
-        return this->_sqlStatement;
+        return this->sqlStatement;
     }
 
     /**
@@ -645,7 +645,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getSQLBindTypes() -> array
     {
-        return this->_sqlBindTypes;
+        return this->sqlBindTypes;
     }
 
     /**
@@ -653,7 +653,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function getSQLStatement() -> string
     {
-        return this->_sqlStatement;
+        return this->sqlStatement;
     }
 
     /**
@@ -787,7 +787,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function isNestedTransactionsWithSavepoints() -> bool
     {
-        return this->_transactionsWithSavepoints;
+        return this->transactionsWithSavepoints;
     }
 
     /**
@@ -799,7 +799,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function limit(string! sqlQuery, int number) -> string
     {
-        return this->_dialect->limit(sqlQuery, number);
+        return this->dialect->limit(sqlQuery, number);
     }
 
     /**
@@ -816,7 +816,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         var table, allTables;
 
         let allTables = [];
-        for table in this->fetchAll(this->_dialect->listTables(schemaName), Db::FETCH_NUM) {
+        for table in this->fetchAll(this->dialect->listTables(schemaName), Db::FETCH_NUM) {
             let allTables[] = table[0];
         }
         return allTables;
@@ -836,7 +836,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         var table, allTables;
 
         let allTables = [];
-        for table in this->fetchAll(this->_dialect->listViews(schemaName), Db::FETCH_NUM) {
+        for table in this->fetchAll(this->dialect->listViews(schemaName), Db::FETCH_NUM) {
             let allTables[] = table[0];
         }
         return allTables;
@@ -847,7 +847,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
-        return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn));
+        return this->{"execute"}(this->dialect->modifyColumn(tableName, schemaName, column, currentColumn));
     }
 
     /**
@@ -857,7 +857,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var dialect;
 
-        let dialect = this->_dialect;
+        let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
             throw new Exception("Savepoints are not supported by this database adapter");
@@ -877,7 +877,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var dialect;
 
-        let dialect = this->_dialect;
+        let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
             throw new Exception("Savepoints are not supported by this database adapter");
@@ -899,7 +899,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function setDialect(<DialectInterface> dialect)
     {
-        let this->_dialect = dialect;
+        let this->dialect = dialect;
     }
 
     /**
@@ -908,15 +908,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
     {
 
-        if this->_transactionLevel > 0 {
+        if this->transactionLevel > 0 {
             throw new Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
         }
 
-        if !this->_dialect->supportsSavePoints() {
+        if !this->dialect->supportsSavePoints() {
             throw new Exception("Savepoints are not supported by this database adapter");
         }
 
-        let this->_transactionsWithSavepoints = nestedTransactionsWithSavepoints;
+        let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
         return this;
     }
 
@@ -925,7 +925,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function sharedLock(string! sqlQuery) -> string
     {
-        return this->_dialect->sharedLock(sqlQuery);
+        return this->dialect->sharedLock(sqlQuery);
     }
 
     /**
@@ -947,7 +947,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function tableExists(string! tableName, string! schemaName = null) -> bool
     {
-        return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), Db::FETCH_NUM)[0] > 0;
+        return this->fetchOne(this->dialect->tableExists(tableName, schemaName), Db::FETCH_NUM)[0] > 0;
     }
 
     /**
@@ -963,7 +963,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var sql;
 
-        let sql = this->_dialect->tableOptions(tableName, schemaName);
+        let sql = this->dialect->tableOptions(tableName, schemaName);
         if sql {
             return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
         }
@@ -1167,6 +1167,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function viewExists(string! viewName, string! schemaName = null) -> bool
     {
-        return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), Db::FETCH_NUM)[0] > 0;
+        return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Db::FETCH_NUM)[0] > 0;
     }
 }

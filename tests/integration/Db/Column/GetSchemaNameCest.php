@@ -38,7 +38,7 @@ class GetSchemaNameCest
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_schemaName'], $column->getSchemaName());
+            $I->assertEquals($columns[$index]['schemaName'], $column->getSchemaName());
         }
     }
 }

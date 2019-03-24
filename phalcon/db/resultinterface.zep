@@ -18,6 +18,13 @@ namespace Phalcon\Db;
 interface ResultInterface
 {
     /**
+     * Moves internal resultset cursor to another position letting us to fetch a certain row
+     *
+     * @param long number
+     */
+    public function dataSeek(long number);
+
+    /**
      * Allows to executes the statement again. Some database systems don't support scrollable cursors,
      * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
      */
@@ -32,6 +39,12 @@ interface ResultInterface
     public function $fetch();
 
     /**
+     * Returns an array of arrays containing all the records in the result
+     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     */
+    public function fetchAll() -> array;
+
+    /**
      * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
      * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
      *
@@ -40,10 +53,11 @@ interface ResultInterface
     public function fetchArray();
 
     /**
-     * Returns an array of arrays containing all the records in the result
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     * Gets the internal PDO result object
+     *
+     * @return \PDOStatement
      */
-    public function fetchAll() -> array;
+    public function getInternalResult();
 
     /**
      * Gets number of rows returned by a resultset
@@ -51,22 +65,7 @@ interface ResultInterface
     public function numRows() -> int;
 
     /**
-     * Moves internal resultset cursor to another position letting us to fetch a certain row
-     *
-     * @param long number
-     */
-    public function dataSeek(long number);
-
-    /**
      * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
      */
     public function setFetchMode(int fetchMode) -> bool;
-
-    /**
-     * Gets the internal PDO result object
-     *
-     * @return \PDOStatement
-     */
-    public function getInternalResult();
-
 }
