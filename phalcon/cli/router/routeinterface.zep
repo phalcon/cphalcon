@@ -23,29 +23,9 @@ interface RouteInterface
     public function compilePattern(string! pattern) -> string;
 
     /**
-     * Reconfigure the route adding a new pattern and a set of paths
+     * Set the routing delimiter
      */
-    public function reConfigure(string! pattern, var paths = null) -> void;
-
-    /**
-     * Returns the route's name
-     */
-    public function getName() -> string;
-
-    /**
-     * Sets the route's name
-     */
-    public function setName(string name) -> void;
-
-    /**
-     * Returns the route's id
-     */
-    public function getRouteId() -> string;
-
-    /**
-     * Returns the route's pattern
-     */
-    public function getPattern() -> string;
+    public static function delimiter(string! delimiter = null);
 
     /**
      * Returns the route's pattern
@@ -53,9 +33,24 @@ interface RouteInterface
     public function getCompiledPattern() -> string;
 
     /**
+     * Get routing delimiter
+     */
+    public static function getDelimiter() -> string;
+
+    /**
+     * Returns the route's name
+     */
+    public function getName() -> string;
+
+    /**
      * Returns the paths
      */
     public function getPaths() -> array;
+
+    /**
+     * Returns the route's pattern
+     */
+    public function getPattern() -> string;
 
     /**
      * Returns the paths using positions as keys and names as values
@@ -63,17 +58,22 @@ interface RouteInterface
     public function getReversedPaths() -> array;
 
     /**
+     * Returns the route's id
+     */
+    public function getRouteId() -> string;
+
+    /**
+     * Reconfigure the route adding a new pattern and a set of paths
+     */
+    public function reConfigure(string! pattern, var paths = null) -> void;
+
+    /**
      * Resets the internal route id generator
      */
     public static function reset() -> void;
 
     /**
-     * Set the routing delimiter
+     * Sets the route's name
      */
-    public static function delimiter(string! delimiter = null);
-
-    /**
-     * Get routing delimiter
-     */
-    public static function getDelimiter() -> string;
+    public function setName(string name) -> void;
 }

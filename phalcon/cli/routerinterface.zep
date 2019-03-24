@@ -19,58 +19,15 @@ use Phalcon\Cli\Router\RouteInterface;
  */
 interface RouterInterface
 {
-
-    /**
-     * Sets the name of the default module
-     */
-    public function setDefaultModule(string! moduleName) -> void;
-
-    /**
-     * Sets the default task name
-     */
-    public function setDefaultTask(string! taskName) -> void;
-
-    /**
-     * Sets the default action name
-     */
-    public function setDefaultAction(string! actionName) -> void;
-
-    /**
-     * Sets an array of default paths
-     */
-    public function setDefaults(array! defaults) -> void;
-
-    /**
-     * Handles routing information received from the rewrite engine
-     *
-     * @param array arguments
-     */
-    public function handle(arguments = null) -> void;
-
     /**
      * Adds a route to the router on any HTTP method
      */
     public function add(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
-     * Returns processed module name
-     */
-    public function getModuleName() -> string;
-
-    /**
-     * Returns processed task name
-     */
-    public function getTaskName() -> string;
-
-    /**
      * Returns processed action name
      */
     public function getActionName() -> string;
-
-    /**
-     * Returns processed extra params
-     */
-    public function getParams() -> array;
 
     /**
      * Returns the route that matches the handled URI
@@ -83,14 +40,14 @@ interface RouterInterface
     public function getMatches() -> array;
 
     /**
-     * Check if the router matches any of the defined routes
+     * Returns processed module name
      */
-    public function wasMatched() -> bool;
+    public function getModuleName() -> string;
 
     /**
-     * Return all the routes defined in the router
+     * Returns processed extra params
      */
-    public function getRoutes() -> <RouteInterface[]>;
+    public function getParams() -> array;
 
     /**
      * Returns a route object by its id
@@ -101,4 +58,47 @@ interface RouterInterface
      * Returns a route object by its name
      */
     public function getRouteByName(string! name) -> <RouteInterface>;
+
+    /**
+     * Return all the routes defined in the router
+     */
+    public function getRoutes() -> <RouteInterface[]>;
+
+    /**
+     * Returns processed task name
+     */
+    public function getTaskName() -> string;
+
+    /**
+     * Handles routing information received from the rewrite engine
+     *
+     * @param array arguments
+     */
+    public function handle(arguments = null) -> void;
+
+    /**
+     * Sets the default action name
+     */
+    public function setDefaultAction(string! actionName) -> void;
+
+
+    /**
+     * Sets the name of the default module
+     */
+    public function setDefaultModule(string! moduleName) -> void;
+
+    /**
+     * Sets an array of default paths
+     */
+    public function setDefaults(array! defaults) -> void;
+
+    /**
+     * Sets the default task name
+     */
+    public function setDefaultTask(string! taskName) -> void;
+
+    /**
+     * Check if the router matches any of the defined routes
+     */
+    public function wasMatched() -> bool;
 }
