@@ -143,7 +143,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 // this behavior is slightly different than other subsequent events handled inside the
                 // dispatch loop.
 
-                let status = this->{"_handleException"}(e);
+                let status = this->{"handleException"}(e);
                 if this->finished !== false {
                     // No forwarding
                     if status === false {
@@ -183,7 +183,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->finished === false {
+                    if this->{"handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -282,7 +282,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->finished === false {
+                    if this->{"handleException"}(e) === false || this->finished === false {
                         container->remove(handlerClass);
                         continue;
                     }
@@ -299,7 +299,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->finished === false {
+                    if this->{"handleException"}(e) === false || this->finished === false {
                         container->remove(handlerClass);
                         continue;
                     }
@@ -333,7 +333,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         // order to ensure this doesn't happen all other exceptions thrown outside this method
                         // in this class should not call "throwDispatchException" but instead throw a normal Exception.
 
-                        if this->{"_handleException"}(e) === false || this->finished === false {
+                        if this->{"handleException"}(e) === false || this->finished === false {
                             continue;
                         }
 
@@ -350,7 +350,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                             continue;
                         }
                     } catch Exception, e {
-                        if this->{"_handleException"}(e) === false || this->finished === false {
+                        if this->{"handleException"}(e) === false || this->finished === false {
                             continue;
                         }
 
@@ -400,7 +400,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     continue;
                 }
             } catch Exception, e {
-                if this->{"_handleException"}(e) === false || this->finished === false {
+                if this->{"handleException"}(e) === false || this->finished === false {
                     continue;
                 }
 
@@ -414,7 +414,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->finished === false {
+                    if this->{"handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -429,7 +429,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->finished === false {
+                    if this->{"handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -443,7 +443,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     eventsManager->fire("dispatch:afterDispatch", this, value);
                 } catch Exception, e {
                     // Still check for finished here as we want to prioritize forwarding() calls
-                    if this->{"_handleException"}(e) === false || this->finished === false {
+                    if this->{"handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -459,7 +459,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 eventsManager->fire("dispatch:afterDispatchLoop", this);
             } catch Exception, e {
                 // Exception occurred in afterDispatchLoop.
-                if this->{"_handleException"}(e) === false {
+                if this->{"handleException"}(e) === false {
                     return false;
                 }
 
