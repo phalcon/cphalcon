@@ -19,6 +19,11 @@ use Phalcon\Helper\Arr;
  */
 class Debug
 {
+    /**
+     * @var array
+    */
+    protected blacklist = ["request" : [], "server" : []];
+
     protected data;
 
     /**
@@ -50,11 +55,6 @@ class Debug
      * @var string
     */
     protected uri = "https://assets.phalconphp.com/debug/4.0.x/";
-
-    /**
-     * @var array
-    */
-    protected blacklist = ["request" : [], "server" : []];
 
     /**
      * Clears are variables added previously

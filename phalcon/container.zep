@@ -23,7 +23,7 @@ class Container implements ContainerInterface
     /**
      * Phalcon\Di constructor
      */
-    public function __construct(<DiInterface> container)
+    public function __construct(<DiInterface> container) -> void
     {
         let this->container = container;
     }
