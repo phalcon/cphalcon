@@ -30,354 +30,71 @@ use Phalcon\Service\LocatorInterface;
  */
 abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {
-
-    protected _dependencyInjector;
-
-    protected _eventsManager;
-
-    protected _activeHandler;
-
-    protected _finished = false;
-
-    protected _forwarded = false;
-
-    protected _moduleName = null;
-
-    protected _namespaceName = null;
-
-    protected _handlerName = null;
-
-    protected _actionName = null;
-
-    protected _params = [];
-
-    protected _returnedValue = null;
-
-    protected _lastHandler = null;
-
-    protected _defaultNamespace = null;
-
-    protected _defaultHandler = null;
-
-    protected _defaultAction = "";
-
-    protected _handlerSuffix = "";
-
-    protected _actionSuffix = "Action";
-
-    protected _activeMethodMap = [];
-
-    protected _camelCaseMap = [];
-
-    protected _previousNamespaceName = null;
-
-    protected _previousHandlerName = null;
-
-    protected _previousActionName = null;
-
-    protected _modelBinding = false;
-
-    protected _modelBinder = null;
-
-    protected _isControllerInitialize = false;
-
-    protected _handlerHashes = [];
-
-    const EXCEPTION_NO_DI = 0;
-
-    const EXCEPTION_CYCLIC_ROUTING = 1;
-
+    const EXCEPTION_ACTION_NOT_FOUND  = 5;
+    const EXCEPTION_CYCLIC_ROUTING    = 1;
     const EXCEPTION_HANDLER_NOT_FOUND = 2;
+    const EXCEPTION_INVALID_HANDLER   = 3;
+    const EXCEPTION_INVALID_PARAMS    = 4;
+    const EXCEPTION_NO_DI             = 0;
 
-    const EXCEPTION_INVALID_HANDLER = 3;
+    protected activeHandler;
 
-    const EXCEPTION_INVALID_PARAMS = 4;
+    protected activeMethodMap = [];
 
-    const EXCEPTION_ACTION_NOT_FOUND = 5;
+    protected actionName = null;
 
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> dependencyInjector)
+    protected actionSuffix = "Action";
+
+    protected camelCaseMap = [];
+
+    protected container;
+
+    protected defaultAction = "";
+
+    protected defaultNamespace = null;
+
+    protected defaultHandler = null;
+
+    protected handlerHashes = [];
+
+    protected handlerName = null;
+
+    protected handlerSuffix = "";
+
+    protected eventsManager;
+
+    protected finished = false;
+
+    protected forwarded = false;
+
+    protected isControllerInitialize = false;
+
+    protected lastHandler = null;
+
+    protected modelBinder = null;
+
+    protected modelBinding = false;
+
+    protected moduleName = null;
+
+    protected namespaceName = null;
+
+    protected params = [];
+
+    protected previousActionName = null;
+
+    protected previousHandlerName = null;
+
+    protected previousNamespaceName = null;
+
+    protected returnedValue = null;
+
+    public function callActionMethod(handler, string actionMethod, array! params = [])
     {
-        let this->_dependencyInjector = dependencyInjector;
+        return call_user_func_array([handler, actionMethod], params);
     }
 
     /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->_dependencyInjector;
-    }
-
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager)
-    {
-        let this->_eventsManager = eventsManager;
-    }
-
-    /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface>
-    {
-        return this->_eventsManager;
-    }
-
-    /**
-     * Sets the default action suffix
-     */
-    public function setActionSuffix(string actionSuffix)
-    {
-        let this->_actionSuffix = actionSuffix;
-    }
-
-    /**
-     * Gets the default action suffix
-     */
-    public function getActionSuffix() -> string
-    {
-        return this->_actionSuffix;
-    }
-
-    /**
-     * Sets the module where the controller is (only informative)
-     */
-    public function setModuleName(string moduleName) -> void
-    {
-        let this->_moduleName = moduleName;
-    }
-
-    /**
-     * Gets the module where the controller class is
-     */
-    public function getModuleName() -> string
-    {
-        return this->_moduleName;
-    }
-
-    /**
-     * Sets the namespace where the controller class is
-     */
-    public function setNamespaceName(string namespaceName) -> void
-    {
-        let this->_namespaceName = namespaceName;
-    }
-
-    /**
-     * Gets a namespace to be prepended to the current handler name
-     */
-    public function getNamespaceName() -> string
-    {
-        return this->_namespaceName;
-    }
-
-    /**
-     * Sets the default namespace
-     */
-    public function setDefaultNamespace(string namespaceName) -> void
-    {
-        let this->_defaultNamespace = namespaceName;
-    }
-
-    /**
-     * Returns the default namespace
-     */
-    public function getDefaultNamespace() -> string
-    {
-        return this->_defaultNamespace;
-    }
-
-    /**
-     * Sets the default action name
-     */
-    public function setDefaultAction(string actionName) -> void
-    {
-        let this->_defaultAction = actionName;
-    }
-
-    /**
-     * Sets the action name to be dispatched
-     */
-    public function setActionName(string actionName) -> void
-    {
-        let this->_actionName = actionName;
-    }
-
-    /**
-     * Gets the latest dispatched action name
-     */
-    public function getActionName() -> string
-    {
-        return this->_actionName;
-    }
-
-    /**
-     * Sets action params to be dispatched
-     *
-     * @param array params
-     */
-    public function setParams(var params) -> void
-    {
-        // @todo Deprecate in 4.0 and replace with array params
-        if typeof params != "array" {
-            // Note: Important that we do not throw a "_throwDispatchException" call here. This is important
-            // because it would allow the application to break out of the defined logic inside the dispatcher
-            // which handles all dispatch exceptions.
-            throw new PhalconException("Parameters must be an Array");
-        }
-        let this->_params = params;
-    }
-
-    /**
-     * Gets action params
-     */
-    public function getParams() -> array
-    {
-        return this->_params;
-    }
-
-    /**
-     * Set a param by its name or numeric index
-     */
-    public function setParam(var param, var value)
-    {
-        let this->_params[param] = value;
-    }
-
-    /**
-     * Gets a param by its name or numeric index
-     *
-     * @param  mixed param
-     * @param  string|array filters
-     * @param  mixed defaultValue
-     * @return mixed
-     */
-    public function getParam(var param, filters = null, defaultValue = null)
-    {
-        var params, filter, paramValue, dependencyInjector;
-
-        let params = this->_params;
-        if !fetch paramValue, params[param] {
-            return defaultValue;
-        }
-
-        if filters === null {
-            return paramValue;
-        }
-
-        let dependencyInjector = this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
-        }
-        let filter = <LocatorInterface> dependencyInjector->getShared("filter");
-//        let filter = <FilterInterface> dependencyInjector->getShared("filter");
-        return filter->sanitize(paramValue, filters);
-    }
-
-    /**
-     * Check if a param exists
-     */
-    public function hasParam(var param) -> bool
-    {
-        return isset this->_params[param];
-    }
-
-    /**
-     * Returns the current method to be/executed in the dispatcher
-     */
-    public function getActiveMethod() -> string
-    {
-        var activeMethodName;
-        if !fetch activeMethodName, this->_activeMethodMap[this->_actionName] {
-            let activeMethodName = lcfirst(this->toCamelCase(this->_actionName));
-            let this->_activeMethodMap[this->_actionName] = activeMethodName;
-        }
-        return activeMethodName . this->_actionSuffix;
-    }
-
-    /**
-     * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
-     */
-    public function isFinished() -> bool
-    {
-        return this->_finished;
-    }
-
-    /**
-     * Sets the latest returned value by an action manually
-     */
-    public function setReturnedValue(var value)
-    {
-        let this->_returnedValue = value;
-    }
-
-    /**
-     * Returns value returned by the latest dispatched action
-     */
-    public function getReturnedValue() -> var
-    {
-        return this->_returnedValue;
-    }
-
-    /**
-     * Sets the default suffix for the handler
-     */
-    public function setHandlerSuffix(string handlerSuffix) -> void
-    {
-        let this->_handlerSuffix = handlerSuffix;
-    }
-
-    /**
-     * Enable model binding during dispatch
-     *
-     * <code>
-     * $di->set('dispatcher', function() {
-     *     $dispatcher = new Dispatcher();
-     *
-     *     $dispatcher->setModelBinder(new Binder(), 'cache');
-     *     return $dispatcher;
-     * });
-     * </code>
-     */
-    public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
-    {
-        var dependencyInjector;
-
-        if typeof cache == "string" {
-            let dependencyInjector = this->_dependencyInjector;
-            let cache = dependencyInjector->get(cache);
-        }
-
-        if cache != null {
-            modelBinder->setCache(cache);
-        }
-
-        let this->_modelBinding = true;
-        let this->_modelBinder = modelBinder;
-
-        return this;
-    }
-
-    /**
-     * Gets the default handler suffix
-     */
-    public function getHandlerSuffix() -> string
-    {
-        return this->_handlerSuffix;
-    }
-
-    /**
-     * Gets model binder
-     */
-    public function getModelBinder() -> <BinderInterface>|null
-    {
-        return this->_modelBinder;
-    }
-
     /**
      * Process the results of the router by calling into the appropriate controller action(s)
      * including any routing data or injected parameters.
@@ -392,27 +109,27 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     {
         bool hasService, hasEventsManager;
         int numberDispatches;
-        var value, handler, dependencyInjector, namespaceName, handlerName,
+        var value, handler, container, namespaceName, handlerName,
             actionName, params, eventsManager,
             actionSuffix, handlerClass, status, actionMethod,
             modelBinder, bindCacheKey,
             isNewHandler, handlerHash, e;
 
-        let dependencyInjector = <DiInterface> this->_dependencyInjector;
-        if typeof dependencyInjector != "object" {
-            this->{"_throwDispatchException"}("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
+        let container = <DiInterface> this->container;
+        if typeof container != "object" {
+            this->{"throwDispatchException"}("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
             return false;
         }
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
         let hasEventsManager = typeof eventsManager == "object";
-        let this->_finished = true;
+        let this->finished = true;
 
         if hasEventsManager {
             try {
                 // Calling beforeDispatchLoop event
                 // Note: Allow user to forward in the beforeDispatchLoop.
-                if eventsManager->fire("dispatch:beforeDispatchLoop", this) === false && this->_finished !== false {
+                if eventsManager->fire("dispatch:beforeDispatchLoop", this) === false && this->finished !== false {
                     return false;
                 }
             } catch Exception, e {
@@ -428,7 +145,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 // dispatch loop.
 
                 let status = this->{"_handleException"}(e);
-                if this->_finished !== false {
+                if this->finished !== false {
                     // No forwarding
                     if status === false {
                         return false;
@@ -445,29 +162,29 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         let value = null,
             handler = null,
             numberDispatches = 0,
-            actionSuffix = this->_actionSuffix,
-            this->_finished = false;
+            actionSuffix = this->actionSuffix,
+            this->finished = false;
 
-        while !this->_finished {
+        while !this->finished {
             let numberDispatches++;
 
             // Throw an exception after 256 consecutive forwards
             if numberDispatches == 256 {
-                this->{"_throwDispatchException"}("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
+                this->{"throwDispatchException"}("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
                 break;
             }
 
-            let this->_finished = true;
-            this->_resolveEmptyProperties();
+            let this->finished = true;
+            this->resolveEmptyProperties();
 
             if hasEventsManager {
                 try {
                     // Calling "dispatch:beforeDispatch" event
-                    if eventsManager->fire("dispatch:beforeDispatch", this) === false || this->_finished === false {
+                    if eventsManager->fire("dispatch:beforeDispatch", this) === false || this->finished === false {
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->_finished === false {
+                    if this->{"_handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -478,7 +195,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             let handlerClass = this->getHandlerClass();
 
             // Handlers are retrieved as shared instances from the Service Container
-            let hasService = (bool) dependencyInjector->has(handlerClass);
+            let hasService = (bool) container->has(handlerClass);
             if !hasService {
                 // DI doesn't have a service with that name, try to load it using an autoloader
                 let hasService = (bool) class_exists(handlerClass);
@@ -486,19 +203,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // If the service can be loaded we throw an exception
             if !hasService {
-                let status = this->{"_throwDispatchException"}(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
-                if status === false && this->_finished === false {
+                let status = this->{"throwDispatchException"}(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
+                if status === false && this->finished === false {
                     continue;
                 }
                 break;
             }
 
-            let handler = dependencyInjector->getShared(handlerClass);
+            let handler = container->getShared(handlerClass);
 
             // Handlers must be only objects
             if typeof handler !== "object" {
-                let status = this->{"_throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
-                if status === false && this->_finished === false {
+                let status = this->{"throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
+                if status === false && this->finished === false {
                     continue;
                 }
                 break;
@@ -506,23 +223,23 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // Check if the handler is new (hasn't been initialized).
             let handlerHash = spl_object_hash(handler);
-            let isNewHandler = isset this->_handlerHashes[handlerHash] ? false : true;
+            let isNewHandler = isset this->handlerHashes[handlerHash] ? false : true;
             if isNewHandler {
-                let this->_handlerHashes[handlerHash] = true;
+                let this->handlerHashes[handlerHash] = true;
             }
 
-            let this->_activeHandler = handler;
+            let this->activeHandler = handler;
 
-            let namespaceName = this->_namespaceName;
-            let handlerName = this->_handlerName;
-            let actionName = this->_actionName;
-            let params = this->_params;
+            let namespaceName = this->namespaceName;
+            let handlerName = this->handlerName;
+            let actionName = this->actionName;
+            let params = this->params;
 
             // Check if the params is an array
             if typeof params != "array" {
                 // An invalid parameter variable was passed throw an exception
-                let status = this->{"_throwDispatchException"}("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
-                if status === false && this->_finished === false {
+                let status = this->{"throwDispatchException"}("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
+                if status === false && this->finished === false {
                     continue;
                 }
                 break;
@@ -537,14 +254,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         continue;
                     }
 
-                    if this->_finished === false {
+                    if this->finished === false {
                         continue;
                     }
                 }
 
                 // Try to throw an exception when an action isn't defined on the object
-                let status = this->{"_throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
-                if status === false && this->_finished === false {
+                let status = this->{"throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
+                if status === false && this->finished === false {
                     continue;
                 }
 
@@ -561,13 +278,13 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             if hasEventsManager {
                 try {
                     // Calling "dispatch:beforeExecuteRoute" event
-                    if eventsManager->fire("dispatch:beforeExecuteRoute", this) === false || this->_finished === false {
-                        dependencyInjector->remove(handlerClass);
+                    if eventsManager->fire("dispatch:beforeExecuteRoute", this) === false || this->finished === false {
+                        container->remove(handlerClass);
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->_finished === false {
-                        dependencyInjector->remove(handlerClass);
+                    if this->{"_handleException"}(e) === false || this->finished === false {
+                        container->remove(handlerClass);
                         continue;
                     }
 
@@ -578,13 +295,13 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             if method_exists(handler, "beforeExecuteRoute") {
                 try {
                     // Calling "beforeExecuteRoute" as direct method
-                    if handler->beforeExecuteRoute(this) === false || this->_finished === false {
-                        dependencyInjector->remove(handlerClass);
+                    if handler->beforeExecuteRoute(this) === false || this->finished === false {
+                        container->remove(handlerClass);
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->_finished === false {
-                        dependencyInjector->remove(handlerClass);
+                    if this->{"_handleException"}(e) === false || this->finished === false {
+                        container->remove(handlerClass);
                         continue;
                     }
 
@@ -607,17 +324,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             if isNewHandler === true {
                 if method_exists(handler, "initialize") {
                     try {
-                        let this->_isControllerInitialize = true;
+                        let this->isControllerInitialize = true;
                         handler->initialize();
 
                     } catch Exception, e {
-                        let this->_isControllerInitialize = false;
+                        let this->isControllerInitialize = false;
 
                         // If this is a dispatch exception (e.g. From forwarding) ensure we don't handle this twice. In
                         // order to ensure this doesn't happen all other exceptions thrown outside this method
-                        // in this class should not call "_throwDispatchException" but instead throw a normal Exception.
+                        // in this class should not call "throwDispatchException" but instead throw a normal Exception.
 
-                        if this->{"_handleException"}(e) === false || this->_finished === false {
+                        if this->{"_handleException"}(e) === false || this->finished === false {
                             continue;
                         }
 
@@ -625,16 +342,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     }
                 }
 
-                let this->_isControllerInitialize = false;
+                let this->isControllerInitialize = false;
 
                 // Calling "dispatch:afterInitialize" event
                 if eventsManager {
                     try {
-                        if eventsManager->fire("dispatch:afterInitialize", this) === false || this->_finished === false {
+                        if eventsManager->fire("dispatch:afterInitialize", this) === false || this->finished === false {
                             continue;
                         }
                     } catch Exception, e {
-                        if this->{"_handleException"}(e) === false || this->_finished === false {
+                        if this->{"_handleException"}(e) === false || this->finished === false {
                             continue;
                         }
 
@@ -643,8 +360,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 }
             }
 
-            if this->_modelBinding {
-                let modelBinder = this->_modelBinder;
+            if this->modelBinding {
+                let modelBinder = this->modelBinder;
                 let bindCacheKey = "_PHMB_" . handlerClass . "_" . actionMethod;
                 let params = modelBinder->bindToHandler(handler, params, bindCacheKey, actionMethod);
             }
@@ -656,7 +373,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 }
 
                 // Check if the user made a forward in the listener
-                if this->_finished === false {
+                if this->finished === false {
                     continue;
                 }
             }
@@ -668,23 +385,23 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 }
 
                 // Check if the user made a forward in the listener
-                if this->_finished === false {
+                if this->finished === false {
                     continue;
                 }
             }
 
             // Save the current handler
-            let this->_lastHandler = handler;
+            let this->lastHandler = handler;
 
             try {
                 // We update the latest value produced by the latest handler
-                let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+                let this->returnedValue = this->callActionMethod(handler, actionMethod, params);
 
-                if this->_finished === false {
+                if this->finished === false {
                     continue;
                 }
             } catch Exception, e {
-                if this->{"_handleException"}(e) === false || this->_finished === false {
+                if this->{"_handleException"}(e) === false || this->finished === false {
                     continue;
                 }
 
@@ -694,11 +411,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             // Calling "dispatch:afterExecuteRoute" event
             if hasEventsManager {
                 try {
-                    if eventsManager->fire("dispatch:afterExecuteRoute", this, value) === false || this->_finished === false {
+                    if eventsManager->fire("dispatch:afterExecuteRoute", this, value) === false || this->finished === false {
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->_finished === false {
+                    if this->{"_handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -709,11 +426,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             // Calling "afterExecuteRoute" as direct method
             if method_exists(handler, "afterExecuteRoute") {
                 try {
-                    if handler->afterExecuteRoute(this, value) === false || this->_finished === false {
+                    if handler->afterExecuteRoute(this, value) === false || this->finished === false {
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"_handleException"}(e) === false || this->_finished === false {
+                    if this->{"_handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -727,7 +444,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     eventsManager->fire("dispatch:afterDispatch", this, value);
                 } catch Exception, e {
                     // Still check for finished here as we want to prioritize forwarding() calls
-                    if this->{"_handleException"}(e) === false || this->_finished === false {
+                    if this->{"_handleException"}(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -775,8 +492,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     {
         var namespaceName, controllerName, params, actionName, taskName;
 
-        if this->_isControllerInitialize === true {
-            // Note: Important that we do not throw a "_throwDispatchException" call here. This is important
+        if this->isControllerInitialize === true {
+            // Note: Important that we do not throw a "throwDispatchException" call here. This is important
             // because it would allow the application to break out of the defined logic inside the dispatcher
             // which handles all dispatch exceptions.
             throw new PhalconException("Forwarding inside a controller's initialize() method is forbidden");
@@ -784,49 +501,238 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
         // @todo Remove in 4.0.x and ensure forward is of type "array"
         if typeof forward !== "array" {
-            // Note: Important that we do not throw a "_throwDispatchException" call here. This is important
+            // Note: Important that we do not throw a "throwDispatchException" call here. This is important
             // because it would allow the application to break out of the defined logic inside the dispatcher
             // which handles all dispatch exceptions.
             throw new PhalconException("Forward parameter must be an Array");
         }
 
         // Save current values as previous to ensure calls to getPrevious methods don't return <tt>null</tt>.
-        let this->_previousNamespaceName = this->_namespaceName,
-            this->_previousHandlerName = this->_handlerName,
-            this->_previousActionName = this->_actionName;
+        let this->previousNamespaceName = this->namespaceName,
+            this->previousHandlerName = this->handlerName,
+            this->previousActionName = this->actionName;
 
         // Check if we need to forward to another namespace
         if fetch namespaceName, forward["namespace"] {
-            let this->_namespaceName = namespaceName;
+            let this->namespaceName = namespaceName;
         }
 
         // Check if we need to forward to another controller.
         if fetch controllerName, forward["controller"] {
-            let this->_handlerName = controllerName;
+            let this->handlerName = controllerName;
         } elseif fetch taskName, forward["task"] {
-            let this->_handlerName = taskName;
+            let this->handlerName = taskName;
         }
 
         // Check if we need to forward to another action
         if fetch actionName, forward["action"] {
-            let this->_actionName = actionName;
+            let this->actionName = actionName;
         }
 
         // Check if we need to forward changing the current parameters
         if fetch params, forward["params"] {
-            let this->_params = params;
+            let this->params = params;
         }
 
-        let this->_finished = false,
-            this->_forwarded = true;
+        let this->finished = false,
+            this->forwarded = true;
     }
 
     /**
-     * Check if the current executed action was forwarded by another one
+     * Gets the latest dispatched action name
      */
-    public function wasForwarded() -> bool
+    public function getActionName() -> string
     {
-        return this->_forwarded;
+        return this->actionName;
+    }
+
+    /**
+     * Gets the default action suffix
+     */
+    public function getActionSuffix() -> string
+    {
+        return this->actionSuffix;
+    }
+
+    /**
+     * Returns the current method to be/executed in the dispatcher
+     */
+    public function getActiveMethod() -> string
+    {
+        var activeMethodName;
+        if !fetch activeMethodName, this->activeMethodMap[this->actionName] {
+            let activeMethodName = lcfirst(this->toCamelCase(this->actionName));
+            let this->activeMethodMap[this->actionName] = activeMethodName;
+        }
+        return activeMethodName . this->actionSuffix;
+    }
+
+     * Returns bound models from binder instance
+     *
+     * <code>
+     * class UserController extends Controller
+     * {
+     *     public function showAction(User $user)
+     *     {
+     *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
+     *     }
+     * }
+     * </code>
+     */
+    public function getBoundModels() -> array
+    {
+        var modelBinder;
+
+        let modelBinder = this->modelBinder;
+
+        if modelBinder != null {
+            return modelBinder->getBoundModels();
+        }
+
+        return [];
+    }
+
+    /**
+     * Returns the default namespace
+     */
+    public function getDefaultNamespace() -> string
+    {
+        return this->defaultNamespace;
+    }
+
+    /**
+     * Returns the internal dependency injector
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
+    }
+
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface>
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Gets the default handler suffix
+     */
+    public function getHandlerSuffix() -> string
+    {
+        return this->handlerSuffix;
+    }
+
+    /**
+     * Gets model binder
+     */
+    public function getModelBinder() -> <BinderInterface>|null
+    {
+        return this->modelBinder;
+    }
+
+    /**
+     * Gets the module where the controller class is
+     */
+    public function getModuleName() -> string
+    {
+        return this->moduleName;
+    }
+
+    /**
+     * Gets a namespace to be prepended to the current handler name
+     */
+    public function getNamespaceName() -> string
+    {
+        return this->namespaceName;
+    }
+
+    /**
+     * Gets a param by its name or numeric index
+     *
+     * @param  mixed param
+     * @param  string|array filters
+     * @param  mixed defaultValue
+     * @return mixed
+     */
+    public function getParam(var param, filters = null, defaultValue = null)
+    {
+        var params, filter, paramValue, container;
+
+        let params = this->params;
+        if !fetch paramValue, params[param] {
+            return defaultValue;
+        }
+
+        if filters === null {
+            return paramValue;
+        }
+
+        let container = this->container;
+        if typeof container != "object" {
+            this->{"throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
+        }
+        let filter = <LocatorInterface> container->getShared("filter");
+//        let filter = <FilterInterface> container->getShared("filter");
+        return filter->sanitize(paramValue, filters);
+    }
+
+    /**
+     * Gets action params
+     */
+    public function getParams() -> array
+    {
+        return this->params;
+    }
+
+    /**
+     * Check if a param exists
+     */
+    public function hasParam(var param) -> bool
+    {
+        return isset this->params[param];
+    }
+
+    /**
+     * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+     */
+    public function isFinished() -> bool
+    {
+        return this->finished;
+    }
+
+    /**
+     * Sets the action name to be dispatched
+     */
+    public function setActionName(string actionName) -> void
+    {
+        let this->actionName = actionName;
+    }
+
+
+    /**
+     * Sets the default action name
+     */
+    public function setDefaultAction(string actionName) -> void
+    {
+        let this->defaultAction = actionName;
+    }
+
+    /**
+     * Sets the default namespace
+     */
+    public function setDefaultNamespace(string namespaceName) -> void
+    {
+        let this->defaultNamespace = namespaceName;
+    }
+
+    /**
+     * Sets the dependency injector
+     */
+    public function setDI(<DiInterface> container)
+    {
+        let this->container = container;
     }
 
     /**
@@ -837,11 +743,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         var handlerSuffix, handlerName, namespaceName,
             camelizedClass, handlerClass;
 
-        this->_resolveEmptyProperties();
+        this->resolveEmptyProperties();
 
-        let handlerSuffix = this->_handlerSuffix,
-            handlerName = this->_handlerName,
-            namespaceName = this->_namespaceName;
+        let handlerSuffix = this->handlerSuffix,
+            handlerName = this->handlerName,
+            namespaceName = this->namespaceName;
 
         // We don't camelize the classes if they are in namespaces
         if !memstr(handlerName, "\\") {
@@ -864,64 +770,153 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         return handlerClass;
     }
 
-    public function callActionMethod(handler, string actionMethod, array! params = [])
+    /**
+     * Set a param by its name or numeric index
+     */
+    public function setParam(var param, var value)
     {
-        return call_user_func_array([handler, actionMethod], params);
+        let this->params[param] = value;
     }
 
     /**
-     * Returns bound models from binder instance
+     * Sets action params to be dispatched
+     *
+     * @param array params
+     */
+    public function setParams(var params) -> void
+    {
+        // @todo Deprecate in 4.0 and replace with array params
+        if typeof params != "array" {
+            // Note: Important that we do not throw a "throwDispatchException" call here. This is important
+            // because it would allow the application to break out of the defined logic inside the dispatcher
+            // which handles all dispatch exceptions.
+            throw new PhalconException("Parameters must be an Array");
+        }
+        let this->params = params;
+    }
+
+    /**
+     * Sets the latest returned value by an action manually
+     */
+    public function setReturnedValue(var value)
+    {
+        let this->returnedValue = value;
+    }
+
+    /**
+     * Sets the default action suffix
+     */
+    public function setActionSuffix(string actionSuffix)
+    {
+        let this->actionSuffix = actionSuffix;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager)
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Sets the default suffix for the handler
+     */
+    public function setHandlerSuffix(string handlerSuffix) -> void
+    {
+        let this->handlerSuffix = handlerSuffix;
+    }
+
+    /**
+     * Enable model binding during dispatch
      *
      * <code>
-     * class UserController extends Controller
-     * {
-     *     public function showAction(User $user)
-     *     {
-     *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
-     *     }
-     * }
+     * $di->set('dispatcher', function() {
+     *     $dispatcher = new Dispatcher();
+     *
+     *     $dispatcher->setModelBinder(new Binder(), 'cache');
+     *     return $dispatcher;
+     * });
      * </code>
      */
-    public function getBoundModels() -> array
+    public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
     {
-        var modelBinder;
+        var container;
 
-        let modelBinder = this->_modelBinder;
-
-        if modelBinder != null {
-            return modelBinder->getBoundModels();
+        if typeof cache == "string" {
+            let container = this->container;
+            let cache = container->get(cache);
         }
 
-        return [];
+        if cache != null {
+            modelBinder->setCache(cache);
+        }
+
+        let this->modelBinding = true;
+        let this->modelBinder = modelBinder;
+
+        return this;
+    }
+
+    /**
+     * Sets the module where the controller is (only informative)
+     */
+    public function setModuleName(string moduleName) -> void
+    {
+        let this->moduleName = moduleName;
+    }
+
+    /**
+     * Sets the namespace where the controller class is
+     */
+    public function setNamespaceName(string namespaceName) -> void
+    {
+        let this->namespaceName = namespaceName;
+    }
+
+    /**
+     * Returns value returned by the latest dispatched action
+     */
+    public function getReturnedValue() -> var
+    {
+        return this->returnedValue;
+    }
+
+    /**
+     * Check if the current executed action was forwarded by another one
+     */
+    public function wasForwarded() -> bool
+    {
+        return this->forwarded;
     }
 
     /**
      * Set empty properties to their defaults (where defaults are available)
      */
-    protected function _resolveEmptyProperties() -> void
+    protected function resolveEmptyProperties() -> void
     {
-        // If the current namespace is null we used the set in this->_defaultNamespace
-        if !this->_namespaceName {
-            let this->_namespaceName = this->_defaultNamespace;
+        // If the current namespace is null we used the set in this->defaultNamespace
+        if !this->namespaceName {
+            let this->namespaceName = this->defaultNamespace;
         }
 
-        // If the handler is null we use the set in this->_defaultHandler
-        if !this->_handlerName {
-            let this->_handlerName = this->_defaultHandler;
+        // If the handler is null we use the set in this->defaultHandler
+        if !this->handlerName {
+            let this->handlerName = this->defaultHandler;
         }
 
-        // If the action is null we use the set in this->_defaultAction
-        if !this->_actionName {
-            let this->_actionName = this->_defaultAction;
+        // If the action is null we use the set in this->defaultAction
+        if !this->actionName {
+            let this->actionName = this->defaultAction;
         }
     }
 
     protected function toCamelCase(string input) -> string
     {
         var camelCaseInput;
-        if !fetch camelCaseInput, this->_camelCaseMap[input] {
+        if !fetch camelCaseInput, this->camelCaseMap[input] {
             let camelCaseInput = join("", array_map("ucfirst", preg_split("/[_-]+/", input)));
-            let this->_camelCaseMap[input] = camelCaseInput;
+            let this->camelCaseMap[input] = camelCaseInput;
         }
         return camelCaseInput;
     }

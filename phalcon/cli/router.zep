@@ -38,37 +38,37 @@ use Phalcon\Cli\Router\Exception;
  */
 class Router implements \Phalcon\Di\InjectionAwareInterface
 {
+    protected action;
 
-    protected _dependencyInjector;
 
-    protected _module;
+    protected container;
 
-    protected _task;
+    protected defaultAction = null;
 
-    protected _action;
+    protected defaultModule = null;
 
-    protected _params = [];
+    protected defaultParams = [];
 
-    protected _defaultModule = null;
+    protected defaultTask = null;
 
-    protected _defaultTask = null;
+    protected matchedRoute;
 
-    protected _defaultAction = null;
+    protected matches;
 
-    protected _defaultParams = [];
+    protected module;
 
-    protected _routes;
+    protected params = [];
 
-    protected _matchedRoute;
+    protected routes;
 
-    protected _matches;
+    protected task;
 
-    protected _wasMatched = false;
+    protected wasMatched = false;
 
     /**
      * Phalcon\Cli\Router constructor
      */
-    public function __construct(bool defaultRoutes = true)
+    public function __construct(bool defaultRoutes = true) -> void
     {
         var routes;
 
@@ -89,15 +89,33 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             ]);
         }
 
-        let this->_routes = routes;
+        let this->routes = routes;
     }
 
     /**
-     * Sets the dependency injector
+     * Adds a route to the router
+     *
+     *<code>
+     * $router->add("/about", "About::main");
+     *</code>
+     *
+     * @param string|array paths
      */
-    public function setDI(<DiInterface> dependencyInjector)
+    public function add(string! pattern, paths = null) -> <RouteInterface>
     {
-        let this->_dependencyInjector = dependencyInjector;
+        var route;
+
+        let route = new Route(pattern, paths),
+            this->routes[] = route;
+        return route;
+    }
+
+    /**
+     * Returns processed action name
+     */
+    public function getActionName() -> string
+    {
+        return this->action;
     }
 
     /**
@@ -105,71 +123,87 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_dependencyInjector;
+        return this->container;
     }
 
     /**
-     * Sets the name of the default module
+     * Returns the route that matches the handled URI
      */
-    public function setDefaultModule(string moduleName)
+    public function getMatchedRoute() -> <RouteInterface>
     {
-        let this->_defaultModule = moduleName;
+        return this->matchedRoute;
     }
 
     /**
-     * Sets the default controller name
+     * Returns the sub expressions in the regular expression matched
      */
-    public function setDefaultTask(string taskName)
+    public function getMatches() -> array
     {
-        let this->_defaultTask = taskName;
+        return this->matches;
     }
 
     /**
-     * Sets the default action name
+     * Returns processed module name
      */
-    public function setDefaultAction(string actionName)
+    public function getModuleName() -> string
     {
-        let this->_defaultAction = actionName;
+        return this->module;
     }
 
     /**
-     * Sets an array of default paths. If a route is missing a path the router will use the defined here
-     * This method must not be used to set a 404 route
+     * Returns processed extra params
+     */
+    public function getParams() -> array
+    {
+        return this->params;
+    }
+
+    /**
+     * Returns a route object by its id
      *
-     *<code>
-     * $router->setDefaults(
-     *     [
-     *         "module" => "common",
-     *         "action" => "index",
-     *     ]
-     * );
-     *</code>
+     * @param int id
      */
-    public function setDefaults(array! defaults) -> <Router>
+    public function getRouteById(var id) -> <RouteInterface> | bool
     {
-        var module, task, action, params;
+        var route;
 
-        // Set a default module
-        if fetch module, defaults["module"] {
-            let this->_defaultModule = module;
+        for route in this->routes {
+            if route->getRouteId() == id {
+                return route;
+            }
         }
+        return false;
+    }
 
-        // Set a default task
-        if fetch task, defaults["task"] {
-            let this->_defaultTask = task;
+    /**
+     * Returns a route object by its name
+     */
+    public function getRouteByName(string! name) -> <RouteInterface> | bool
+    {
+        var route;
+
+        for route in this->routes {
+            if route->getName() == name {
+                return route;
+            }
         }
+        return false;
+    }
 
-        // Set a default action
-        if fetch action, defaults["action"] {
-            let this->_defaultAction = action;
-        }
+    /**
+     * Returns all the routes defined in the router
+     */
+    public function getRoutes() -> <Route[]>
+    {
+        return this->routes;
+    }
 
-        // Set default parameters
-        if fetch params, defaults["params"] {
-            let this->_defaultParams = params;
-        }
-
-        return this;
+    /**
+     * Returns processed task name
+     */
+    public function getTaskName() -> string
+    {
+        return this->task;
     }
 
     /**
@@ -188,8 +222,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             parts = [],
             params = [],
             matches = null,
-            this->_wasMatched = false,
-            this->_matchedRoute = null;
+            this->wasMatched = false,
+            this->matchedRoute = null;
 
         if typeof arguments != "array" {
 
@@ -197,7 +231,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                 throw new Exception("Arguments must be an array or string");
             }
 
-            for route in reverse this->_routes {
+            for route in reverse this->routes {
 
                 /**
                  * If the route has parentheses use preg_match
@@ -283,10 +317,10 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                         /**
                          * Update the matches generated by preg_match
                          */
-                        let this->_matches = matches;
+                        let this->matches = matches;
                     }
 
-                    let this->_matchedRoute = route;
+                    let this->matchedRoute = route;
                     break;
                 }
             }
@@ -295,17 +329,17 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
              * Update the wasMatched property indicating if the route was matched
              */
             if routeFound {
-                let this->_wasMatched = true;
+                let this->wasMatched = true;
             } else {
-                let this->_wasMatched = false;
+                let this->wasMatched = false;
 
                 /**
                  * The route wasn't found, try to use the not-found paths
                  */
-                let this->_module = this->_defaultModule,
-                    this->_task = this->_defaultTask,
-                    this->_action = this->_defaultAction,
-                    this->_params = this->_defaultParams;
+                let this->module = this->defaultModule,
+                    this->task = this->defaultTask,
+                    this->action = this->defaultAction,
+                    this->params = this->defaultParams;
                 return this;
             }
         } else {
@@ -322,7 +356,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
         if fetch moduleName, parts["module"] {
             unset parts["module"];
         } else {
-            let moduleName = this->_defaultModule;
+            let moduleName = this->defaultModule;
         }
 
         /**
@@ -331,7 +365,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
         if fetch taskName, parts["task"] {
             unset parts["task"];
         } else {
-            let taskName = this->_defaultTask;
+            let taskName = this->defaultTask;
         }
 
         /**
@@ -340,7 +374,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
         if fetch actionName, parts["action"] {
             unset parts["action"];
         } else {
-            let actionName = this->_defaultAction;
+            let actionName = this->defaultAction;
         }
 
         /**
@@ -363,76 +397,82 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             let params = parts;
         }
 
-        let this->_module = moduleName,
-            this->_task = taskName,
-            this->_action = actionName,
-            this->_params = params;
+        let this->module = moduleName,
+            this->task = taskName,
+            this->action = actionName,
+            this->params = params;
     }
 
     /**
-     * Adds a route to the router
+     * Sets the default action name
+     */
+    public function setDefaultAction(string actionName)
+    {
+        let this->defaultAction = actionName;
+    }
+
+    /**
+     * Sets the name of the default module
+     */
+    public function setDefaultModule(string moduleName)
+    {
+        let this->defaultModule = moduleName;
+    }
+
+    /**
+     * Sets an array of default paths. If a route is missing a path the router will use the defined here
+     * This method must not be used to set a 404 route
      *
      *<code>
-     * $router->add("/about", "About::main");
+     * $router->setDefaults(
+     *     [
+     *         "module" => "common",
+     *         "action" => "index",
+     *     ]
+     * );
      *</code>
-     *
-     * @param string|array paths
      */
-    public function add(string! pattern, paths = null) -> <RouteInterface>
+    public function setDefaults(array! defaults) -> <Router>
     {
-        var route;
+        var module, task, action, params;
 
-        let route = new Route(pattern, paths),
-            this->_routes[] = route;
-        return route;
+        // Set a default module
+        if fetch module, defaults["module"] {
+            let this->defaultModule = module;
+        }
+
+        // Set a default task
+        if fetch task, defaults["task"] {
+            let this->defaultTask = task;
+        }
+
+        // Set a default action
+        if fetch action, defaults["action"] {
+            let this->defaultAction = action;
+        }
+
+        // Set default parameters
+        if fetch params, defaults["params"] {
+            let this->defaultParams = params;
+        }
+
+        return this;
     }
 
     /**
-     * Returns processed module name
+     * Sets the default controller name
      */
-    public function getModuleName() -> string
+    public function setDefaultTask(string taskName)
     {
-        return this->_module;
+        let this->defaultTask = taskName;
     }
 
     /**
-     * Returns processed task name
+     * Sets the dependency injector
      */
-    public function getTaskName() -> string
+    public function setDI(<DiInterface> dependencyInjector)
     {
-        return this->_task;
-    }
-
-    /**
-     * Returns processed action name
-     */
-    public function getActionName() -> string
-    {
-        return this->_action;
-    }
-
-    /**
-     * Returns processed extra params
-     */
-    public function getParams() -> array
-    {
-        return this->_params;
-    }
-
-    /**
-     * Returns the route that matches the handled URI
-     */
-    public function getMatchedRoute() -> <RouteInterface>
-    {
-        return this->_matchedRoute;
-    }
-
-    /**
-     * Returns the sub expressions in the regular expression matched
-     */
-    public function getMatches() -> array
-    {
-        return this->_matches;
+        let this->container = dependencyInjector;
     }
 
     /**
@@ -440,46 +480,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      */
     public function wasMatched() -> bool
     {
-        return this->_wasMatched;
-    }
-
-    /**
-     * Returns all the routes defined in the router
-     */
-    public function getRoutes() -> <Route[]>
-    {
-        return this->_routes;
-    }
-
-    /**
-     * Returns a route object by its id
-     *
-     * @param int id
-     */
-    public function getRouteById(var id) -> <RouteInterface> | bool
-    {
-        var route;
-
-        for route in this->_routes {
-            if route->getRouteId() == id {
-                return route;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns a route object by its name
-     */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool
-    {
-        var route;
-
-        for route in this->_routes {
-            if route->getName() == name {
-                return route;
-            }
-        }
-        return false;
+        return this->wasMatched;
     }
 }

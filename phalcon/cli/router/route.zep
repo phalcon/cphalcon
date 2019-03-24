@@ -17,58 +17,70 @@ namespace Phalcon\Cli\Router;
  */
 class Route
 {
-
-    protected _pattern;
-
-    protected _compiledPattern;
-
-    protected _paths;
-
-    protected _converters;
-
-    protected _id;
-
-    protected _name;
-
-    protected _beforeMatch;
-
-    protected _delimiter;
-
-    protected static _uniqueId;
-
-    protected static _delimiterPath;
-
     const DEFAULT_DELIMITER = " ";
+
+    protected beforeMatch;
+
+    protected compiledPattern;
+
+    protected converters;
+
+    protected delimiter;
+
+    protected static delimiterPath;
+
+    protected id;
+
+    protected name;
+
+    protected paths;
+
+    protected pattern;
+
+    protected static uniqueId;
 
     /**
      * Phalcon\Cli\Router\Route constructor
      *
      * @param array paths
      */
-    public function __construct(string! pattern, paths = null)
+    public function __construct(string! pattern, paths = null) -> void
     {
         var routeId, uniqueId, delimiter;
 
-        // Get the delimiter from the static member _delimiterPath
-        let delimiter = self::_delimiterPath;
+        // Get the delimiter from the static member delimiterPath
+        let delimiter = self::delimiterPath;
         if !delimiter {
             let delimiter = self::DEFAULT_DELIMITER;
         }
-        let this->_delimiter = delimiter;
+        let this->delimiter = delimiter;
 
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
 
-        // Get the unique Id from the static member _uniqueId
-        let uniqueId = self::_uniqueId;
+        // Get the unique Id from the static member uniqueId
+        let uniqueId = self::uniqueId;
         if uniqueId === null {
             let uniqueId = 0;
         }
 
         // TODO: Add a function that increase static members
         let routeId = uniqueId,
-            this->_id = routeId,
-            self::_uniqueId = uniqueId + 1;
+            this->id = routeId,
+            self::uniqueId = uniqueId + 1;
+    }
+
+    /**
+     * Sets a callback that is called if the route is matched.
+     * The developer can implement any arbitrary conditions here
+     * If the callback returns false the route is treated as not matched
+     *
+     * @param callback callback
+     */
+    public function beforeMatch(var callback) -> <Route>
+    {
+        let this->beforeMatch = callback;
+        return this;
     }
 
     /**
@@ -82,47 +94,47 @@ class Route
         if memstr(pattern, ":") {
 
             // This is a pattern for valid identifiers
-            let idPattern = this->_delimiter . "([a-zA-Z0-9\\_\\-]+)";
+            let idPattern = this->delimiter . "([a-zA-Z0-9\\_\\-]+)";
 
             // Replace the delimiter part
             if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(":delimiter", this->_delimiter, pattern);
+                let pattern = str_replace(":delimiter", this->delimiter, pattern);
             }
 
             // Replace the module part
-            let part = this->_delimiter . ":module";
+            let part = this->delimiter . ":module";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the task placeholder
-            let part = this->_delimiter . ":task";
+            let part = this->delimiter . ":task";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the namespace placeholder
-            let part = this->_delimiter . ":namespace";
+            let part = this->delimiter . ":namespace";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the action placeholder
-            let part = this->_delimiter . ":action";
+            let part = this->delimiter . ":action";
             if memstr(pattern, part) {
                 let pattern = str_replace(part, idPattern, pattern);
             }
 
             // Replace the params placeholder
-            let part = this->_delimiter . ":params";
+            let part = this->delimiter . ":params";
             if memstr(pattern, part) {
-                let pattern = str_replace(part, "(" . this->_delimiter . ".*)*", pattern);
+                let pattern = str_replace(part, "(" . this->delimiter . ".*)*", pattern);
             }
 
             // Replace the int placeholder
-            let part = this->_delimiter . ":int";
+            let part = this->delimiter . ":int";
             if memstr(pattern, part) {
-                let pattern = str_replace(part, this->_delimiter . "([0-9]+)", pattern);
+                let pattern = str_replace(part, this->delimiter . "([0-9]+)", pattern);
             }
         }
 
@@ -137,6 +149,25 @@ class Route
         }
 
         return pattern;
+    }
+
+    /**
+     * Adds a converter to perform an additional transformation for certain parameter
+     *
+     * @param callable converter
+     */
+    public function convert(string! name, converter) -> <Route>
+    {
+        let this->converters[name] = converter;
+        return this;
+    }
+
+    /**
+     * Set the routing delimiter
+     */
+    public static function delimiter(string! delimiter = null)
+    {
+        let self::delimiterPath = delimiter;
     }
 
     /**
@@ -237,7 +268,7 @@ class Route
                                         }
                                         let matches[variable] = tmp;
                                     } else {
-                                        let route .= "([^" . this->_delimiter . "]*)",
+                                        let route .= "([^" . this->delimiter . "]*)",
                                             matches[item] = tmp;
                                     }
                                 } else {
@@ -275,6 +306,92 @@ class Route
         return [route, matches];
     }
 
+    /**
+     * Returns the 'before match' callback if any
+     *
+     * @return mixed
+     */
+    public function getBeforeMatch()
+    {
+        return this->beforeMatch;
+    }
+
+    /**
+     * Returns the route's compiled pattern
+     */
+    public function getCompiledPattern() -> string
+    {
+        return this->compiledPattern;
+    }
+
+    /**
+     * Returns the router converter
+     */
+    public function getConverters() -> array
+    {
+        return this->converters;
+    }
+
+    /**
+     * Get routing delimiter
+     */
+    public static function getDelimiter() -> string
+    {
+        var delimiter;
+
+        let delimiter = self::delimiterPath;
+        if !delimiter {
+            let delimiter = self::DEFAULT_DELIMITER;
+        }
+
+        return delimiter;
+    }
+
+    /**
+     * Returns the route's name
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Returns the paths
+     */
+    public function getPaths() -> array
+    {
+        return this->paths;
+    }
+
+    /**
+     * Returns the route's pattern
+     */
+    public function getPattern() -> string
+    {
+        return this->pattern;
+    }
+
+    /**
+     * Returns the paths using positions as keys and names as values
+     */
+    public function getReversedPaths() -> array
+    {
+        var reversed, path, position;
+
+        let reversed = [];
+        for path, position in this->paths {
+            let reversed[position] = path;
+        }
+        return reversed;
+    }
+
+    /**
+     * Returns the route's id
+     */
+    public function getRouteId() -> string
+    {
+        return this->id;
+    }
 
     /**
      * Reconfigure the route adding a new pattern and a set of paths
@@ -385,7 +502,7 @@ class Route
         } else {
             // Replace the delimiter part
             if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(":delimiter", this->_delimiter, pattern);
+                let pattern = str_replace(":delimiter", this->delimiter, pattern);
             }
             let compiledPattern = pattern;
         }
@@ -393,25 +510,25 @@ class Route
         /**
          * Update the original pattern
          */
-        let this->_pattern = pattern;
+        let this->pattern = pattern;
 
         /**
          * Update the compiled pattern
          */
-        let this->_compiledPattern = compiledPattern;
+        let this->compiledPattern = compiledPattern;
 
         /**
          * Update the route's paths
          */
-        let this->_paths = routePaths;
+        let this->paths = routePaths;
     }
 
     /**
-     * Returns the route's name
+     * Resets the internal route id generator
      */
-    public function getName() -> string
+    public static function reset()
     {
-        return this->_name;
+        let self::uniqueId = null;
     }
 
     /**
@@ -428,126 +545,7 @@ class Route
      */
     public function setName(string! name) -> <Route>
     {
-        let this->_name = name;
+        let this->name = name;
         return this;
-    }
-
-    /**
-     * Sets a callback that is called if the route is matched.
-     * The developer can implement any arbitrary conditions here
-     * If the callback returns false the route is treated as not matched
-     *
-     * @param callback callback
-     */
-    public function beforeMatch(var callback) -> <Route>
-    {
-        let this->_beforeMatch = callback;
-        return this;
-    }
-
-    /**
-     * Returns the 'before match' callback if any
-     *
-     * @return mixed
-     */
-    public function getBeforeMatch()
-    {
-        return this->_beforeMatch;
-    }
-
-    /**
-     * Returns the route's id
-     */
-    public function getRouteId() -> string
-    {
-        return this->_id;
-    }
-
-    /**
-     * Returns the route's pattern
-     */
-    public function getPattern() -> string
-    {
-        return this->_pattern;
-    }
-
-    /**
-     * Returns the route's compiled pattern
-     */
-    public function getCompiledPattern() -> string
-    {
-        return this->_compiledPattern;
-    }
-
-    /**
-     * Returns the paths
-     */
-    public function getPaths() -> array
-    {
-        return this->_paths;
-    }
-
-    /**
-     * Returns the paths using positions as keys and names as values
-     */
-    public function getReversedPaths() -> array
-    {
-        var reversed, path, position;
-
-        let reversed = [];
-        for path, position in this->_paths {
-            let reversed[position] = path;
-        }
-        return reversed;
-    }
-
-    /**
-     * Adds a converter to perform an additional transformation for certain parameter
-     *
-     * @param callable converter
-     */
-    public function convert(string! name, converter) -> <Route>
-    {
-        let this->_converters[name] = converter;
-        return this;
-    }
-
-    /**
-     * Returns the router converter
-     */
-    public function getConverters() -> array
-    {
-        return this->_converters;
-    }
-
-    /**
-     * Resets the internal route id generator
-     */
-    public static function reset()
-    {
-        let self::_uniqueId = null;
-    }
-
-    /**
-     * Set the routing delimiter
-     */
-    public static function delimiter(string! delimiter = null)
-    {
-        let self::_delimiterPath = delimiter;
-    }
-
-    /**
-     * Get routing delimiter
-     */
-    public static function getDelimiter() -> string
-    {
-        var delimiter;
-
-        let delimiter = self::_delimiterPath;
-        if !delimiter {
-            let delimiter = self::DEFAULT_DELIMITER;
-        }
-
-        return delimiter;
     }
 }

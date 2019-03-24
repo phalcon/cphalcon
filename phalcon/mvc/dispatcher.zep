@@ -106,7 +106,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Throws an internal exception
      */
-    protected function _throwDispatchException(string! message, int exceptionCode = 0)
+    protected function throwDispatchException(string! message, int exceptionCode = 0)
     {
         var dependencyInjector, response, exception;
 

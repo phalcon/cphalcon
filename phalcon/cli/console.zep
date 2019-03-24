@@ -24,9 +24,9 @@ use Phalcon\Cli\Console\Exception;
 class Console extends BaseApplication
 {
 
-    protected _arguments = [];
+    protected arguments = [];
 
-    protected _options = [];
+    protected options = [];
 
     /**
      * Handle the whole command-line tasks
@@ -37,12 +37,12 @@ class Console extends BaseApplication
             moduleName, modules, module, path, className,
             moduleObject, dispatcher, task;
 
-        let dependencyInjector = this->_dependencyInjector;
+        let dependencyInjector = this->dependencyInjector;
         if typeof dependencyInjector != "object" {
             throw new Exception("A dependency injection object is required to access internal services");
         }
 
-        let eventsManager = <ManagerInterface> this->_eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
          * Call boot event, this allow the developer to perform initialization actions
@@ -55,8 +55,8 @@ class Console extends BaseApplication
 
         let router = <Router> dependencyInjector->getShared("router");
 
-        if !count(arguments) && this->_arguments {
-            router->handle(this->_arguments);
+        if !count(arguments) && this->arguments {
+            router->handle(this->arguments);
         } else {
             router->handle(arguments);
         }
@@ -66,7 +66,7 @@ class Console extends BaseApplication
          */
         let moduleName = router->getModuleName();
         if !moduleName {
-            let moduleName = this->_defaultModule;
+            let moduleName = this->defaultModule;
         }
 
         if moduleName {
@@ -77,7 +77,7 @@ class Console extends BaseApplication
                 }
             }
 
-            let modules = this->_modules;
+            let modules = this->modules;
             if !isset modules[moduleName] {
                 throw new Exception("Module '" . moduleName . "' isn't registered in the console container");
             }
@@ -120,7 +120,7 @@ class Console extends BaseApplication
         dispatcher->setTaskName(router->getTaskName());
         dispatcher->setActionName(router->getActionName());
         dispatcher->setParams(router->getParams());
-        dispatcher->setOptions(this->_options);
+        dispatcher->setOptions(this->options);
 
         if typeof eventsManager == "object" {
             if eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
@@ -174,7 +174,7 @@ class Console extends BaseApplication
         }
 
         if str {
-            let this->_arguments = implode(Route::getDelimiter(), args);
+            let this->arguments = implode(Route::getDelimiter(), args);
         } else {
             if count(args) {
                 let handleArgs["task"] = array_shift(args);
@@ -185,10 +185,10 @@ class Console extends BaseApplication
             if count(args) {
                 let handleArgs = array_merge(handleArgs, args);
             }
-            let this->_arguments = handleArgs;
+            let this->arguments = handleArgs;
         }
 
-        let this->_options = opts;
+        let this->options = opts;
 
         return this;
     }
