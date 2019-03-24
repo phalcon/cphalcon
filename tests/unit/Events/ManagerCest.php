@@ -240,7 +240,7 @@ class ManagerCest
             };
 
             $manager->attach('test:detachable', $handler);
-            $events = $I->getProtectedProperty($manager, '_events');
+            $events = $I->getProtectedProperty($manager, 'events');
 
             $I->assertCount(1, $events);
             $I->assertTrue(array_key_exists('test:detachable', $events));
@@ -248,7 +248,7 @@ class ManagerCest
 
             $manager->detach('test:detachable', $handler);
 
-            $events = $I->getProtectedProperty($manager, '_events');
+            $events = $I->getProtectedProperty($manager, 'events');
 
             $I->assertCount(1, $events);
             $I->assertTrue(array_key_exists('test:detachable', $events));
@@ -273,7 +273,7 @@ class ManagerCest
 
             $handler = new \stdClass();
             $manager->attach('test:detachable', $handler);
-            $events = $I->getProtectedProperty($manager, '_events');
+            $events = $I->getProtectedProperty($manager, 'events');
 
             $I->assertCount(1, $events);
             $I->assertTrue(array_key_exists('test:detachable', $events));
@@ -281,7 +281,7 @@ class ManagerCest
 
             $manager->detach('test:detachable', $handler);
 
-            $events = $I->getProtectedProperty($manager, '_events');
+            $events = $I->getProtectedProperty($manager, 'events');
 
             $I->assertCount(1, $events);
             $I->assertTrue(array_key_exists('test:detachable', $events));
