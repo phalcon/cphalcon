@@ -59,7 +59,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Constructor
      */
-    public function __construct(array! options = [])
+    public function __construct(array! options = []) -> void
     {
         var prefix;
 

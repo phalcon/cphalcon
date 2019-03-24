@@ -51,15 +51,15 @@ class NativeArray extends Adapter
         /**
          * TODO: Rewrite the whole method!
          */
-        let config = this->_config,
+        let config = this->config,
             items  = config["data"];
 
         if typeof items != "array" {
             throw new Exception("Invalid data for paginator");
         }
 
-        let show    = (int) this->_limitRows,
-            pageNumber = (int) this->_page;
+        let show    = (int) this->limitRows,
+            pageNumber = (int) this->page;
 
         if pageNumber <= 0 {
             let pageNumber = 1;
@@ -70,7 +70,7 @@ class NativeArray extends Adapter
             totalPages = (int) roundedTotal;
 
         /**
-         * Increase total_pages if wasn't integer
+         * Increase totalpages if wasn't integer
          */
         if totalPages != roundedTotal {
             let totalPages++;
@@ -94,7 +94,7 @@ class NativeArray extends Adapter
         return this->getRepository([
             RepositoryInterface::PROPERTY_ITEMS         : items,
             RepositoryInterface::PROPERTY_TOTAL_ITEMS     : number,
-            RepositoryInterface::PROPERTY_LIMIT         : this->_limitRows,
+            RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
             RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
             RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
             RepositoryInterface::PROPERTY_CURRENT_PAGE     : pageNumber,

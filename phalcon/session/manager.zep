@@ -55,7 +55,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      *
      * @param array options
      */
-    public function __construct(array options = [])
+    public function __construct(array options = []) -> void
     {
         this->setOptions(options);
     }

@@ -43,17 +43,17 @@ class QueryBuilder extends Adapter
     /**
      * Paginator's data
      */
-    protected _builder;
+    protected builder;
 
     /**
      * Columns for count query if builder has having
      */
-    protected _columns;
+    protected columns;
 
     /**
      * Phalcon\Paginator\Adapter\QueryBuilder
      */
-    public function __construct(array config)
+    public function __construct(array config) -> void
     {
         var builder, columns;
 
@@ -66,7 +66,7 @@ class QueryBuilder extends Adapter
         }
 
         if fetch columns, config["columns"] {
-            let this->_columns = columns;
+            let this->columns = columns;
         }
 
         parent::__construct(config);
@@ -78,17 +78,7 @@ class QueryBuilder extends Adapter
      */
     public function getCurrentPage() -> int
     {
-        return this->_page;
-    }
-
-    /**
-     * Set query builder object
-     */
-    public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
-    {
-        let this->_builder = builder;
-
-        return this;
+        return this->page;
     }
 
     /**
@@ -96,7 +86,7 @@ class QueryBuilder extends Adapter
      */
     public function getQueryBuilder() -> <Builder>
     {
-        return this->_builder;
+        return this->builder;
     }
 
     /**
@@ -109,8 +99,8 @@ class QueryBuilder extends Adapter
             result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
             model, modelClass, dbService, groups, groupColumn;
 
-        let originalBuilder = this->_builder;
-        let columns = this->_columns;
+        let originalBuilder = this->builder;
+        let columns = this->columns;
 
         /**
          * We make a copy of the original builder to leave it as it is
@@ -122,8 +112,8 @@ class QueryBuilder extends Adapter
          */
         let totalBuilder = clone builder;
 
-        let limit = this->_limitRows;
-        let numberPage = (int) this->_page;
+        let limit = this->limitRows;
+        let numberPage = (int) this->page;
 
         if !numberPage {
             let numberPage = 1;
@@ -233,12 +223,22 @@ class QueryBuilder extends Adapter
         return this->getRepository([
             RepositoryInterface::PROPERTY_ITEMS         : items,
             RepositoryInterface::PROPERTY_TOTAL_ITEMS     : rowcount,
-            RepositoryInterface::PROPERTY_LIMIT         : this->_limitRows,
+            RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
             RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
             RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
             RepositoryInterface::PROPERTY_CURRENT_PAGE     : numberPage,
             RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
             RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
         ]);
+    }
+
+    /**
+     * Set query builder object
+     */
+    public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
+    {
+        let this->builder = builder;
+
+        return this;
     }
 }

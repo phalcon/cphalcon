@@ -44,10 +44,10 @@ class Model extends Adapter
         int pageNumber, show, n, start, lastShowPage,
             i, next, totalPages, previous;
 
-        let show       = (int) this->_limitRows,
-            config     = this->_config,
+        let show       = (int) this->limitRows,
+            config     = this->config,
             items      = config["data"],
-            pageNumber = (int) this->_page;
+            pageNumber = (int) this->page;
 
         if typeof items != "object" {
             throw new Exception("Invalid data for paginator");
@@ -111,7 +111,7 @@ class Model extends Adapter
         return this->getRepository([
             RepositoryInterface::PROPERTY_ITEMS         : pageItems,
             RepositoryInterface::PROPERTY_TOTAL_ITEMS     : n,
-            RepositoryInterface::PROPERTY_LIMIT         : this->_limitRows,
+            RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
             RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
             RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
             RepositoryInterface::PROPERTY_CURRENT_PAGE     : pageNumber,

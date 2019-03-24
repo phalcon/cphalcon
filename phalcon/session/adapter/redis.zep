@@ -42,7 +42,7 @@ use Phalcon\Helper\Arr;
  */
  class Redis extends Noop
 {
-    public function __construct(array! options = [])
+    public function __construct(array! options = []) -> void
     {
         var options, params;
 

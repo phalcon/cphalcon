@@ -38,7 +38,7 @@ class Bag extends Collection implements InjectionAwareInterface
     /**
      * Phalcon\Session\Bag constructor
      */
-    public function __construct(string! name)
+    public function __construct(string! name) -> void
     {
         var container, data, session;
 

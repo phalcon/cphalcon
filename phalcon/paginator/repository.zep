@@ -17,103 +17,13 @@ namespace Phalcon\Paginator;
  */
 class Repository implements RepositoryInterface
 {
-    protected _properties = [];
-    protected _aliases = [];
+    protected aliases = [];
+    protected properties = [];
 
     /**
      * {@inheritdoc}
      */
-    public function setProperties(array properties) -> <RepositoryInterface>
-    {
-        let this->_properties = properties;
-        return this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setAliases(array aliases) -> <RepositoryInterface>
-    {
-        let this->_aliases = aliases;
-        return this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAliases() -> array
-    {
-        return this->_aliases;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getItems() -> var
-    {
-        return this->getProperty(self::PROPERTY_ITEMS, null);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTotalItems() -> int
-    {
-        return this->getProperty(self::PROPERTY_TOTAL_ITEMS, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLimit() -> int
-    {
-        return this->getProperty(self::PROPERTY_LIMIT, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFirst() -> int
-    {
-        return this->getProperty(self::PROPERTY_FIRST_PAGE, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPrevious() -> int
-    {
-        return this->getProperty(self::PROPERTY_PREVIOUS_PAGE, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurrent() -> int
-    {
-        return this->getProperty(self::PROPERTY_CURRENT_PAGE, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNext() -> int
-    {
-        return this->getProperty(self::PROPERTY_NEXT_PAGE, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLast() -> int
-    {
-        return this->getProperty(self::PROPERTY_LAST_PAGE, 0);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __get(string property)
+    public function __get(string property) -> var | null
     {
         var method;
         let method = "get" . camelize(this->getRealNameProperty(property));
@@ -130,11 +40,101 @@ class Repository implements RepositoryInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getAliases() -> array
+    {
+        return this->aliases;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCurrent() -> int
+    {
+        return this->getProperty(self::PROPERTY_CURRENT_PAGE, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFirst() -> int
+    {
+        return this->getProperty(self::PROPERTY_FIRST_PAGE, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItems() -> var
+    {
+        return this->getProperty(self::PROPERTY_ITEMS, null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLast() -> int
+    {
+        return this->getProperty(self::PROPERTY_LAST_PAGE, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLimit() -> int
+    {
+        return this->getProperty(self::PROPERTY_LIMIT, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNext() -> int
+    {
+        return this->getProperty(self::PROPERTY_NEXT_PAGE, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPrevious() -> int
+    {
+        return this->getProperty(self::PROPERTY_PREVIOUS_PAGE, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalItems() -> int
+    {
+        return this->getProperty(self::PROPERTY_TOTAL_ITEMS, 0);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAliases(array aliases) -> <RepositoryInterface>
+    {
+        let this->aliases = aliases;
+        return this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setProperties(array properties) -> <RepositoryInterface>
+    {
+        let this->properties = properties;
+        return this;
+    }
+
+    /**
      * Gets value of property by name
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {
-        return isset this->_properties[property] ? this->_properties[property] : defaultValue;
+        return isset this->properties[property] ? this->properties[property] : defaultValue;
     }
 
     /**
