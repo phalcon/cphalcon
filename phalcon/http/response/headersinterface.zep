@@ -17,15 +17,6 @@ namespace Phalcon\Http\Response;
  */
 interface HeadersInterface
 {
-    /**
-     * Restore a \Phalcon\Http\Response\Headers object
-     */
-    public static function __set_state(array! data) -> <HeadersInterface>;
-
-    /**
-     * Gets a header value from the internal bag
-     */
-    public function get(string name) -> string | bool;
 
     /**
      * Returns true if the header is set, false otherwise
@@ -33,9 +24,19 @@ interface HeadersInterface
     public function has(string name) -> bool;
 
     /**
-     * Reset set headers
+     * Sets a header to be sent at the end of the request
      */
-    public function reset();
+    public function set(string name, string value);
+
+    /**
+     * Gets a header value from the internal bag
+     */
+    public function get(string name) -> string | bool;
+
+    /**
+     * Sets a raw header to be sent at the end of the request
+     */
+    public function setRaw(string header);
 
     /**
      * Sends the headers to the client
@@ -43,12 +44,13 @@ interface HeadersInterface
     public function send() -> bool;
 
     /**
-     * Sets a header to be sent at the end of the request
+     * Reset set headers
      */
-    public function set(string name, string value);
+    public function reset();
 
     /**
-     * Sets a raw header to be sent at the end of the request
+     * Restore a \Phalcon\Http\Response\Headers object
      */
-    public function setRaw(string header);
+    public static function __set_state(array! data) -> <HeadersInterface>;
+
 }
