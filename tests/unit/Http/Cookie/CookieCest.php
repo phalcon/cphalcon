@@ -64,7 +64,7 @@ class CookieCest extends HttpBase
 
                 $cookie->send();
 
-                $I->setProtectedProperty($cookie, '_readed', false);
+                $I->setProtectedProperty($cookie, 'readed', false);
 
                 $rawCookie = $this->getCookie($cookieName);
                 $rawValue  = explode(';', $rawCookie)[0];
@@ -102,7 +102,7 @@ class CookieCest extends HttpBase
 
         $cookie->send();
 
-        $I->setProtectedProperty($cookie, '_readed', false);
+        $I->setProtectedProperty($cookie, 'readed', false);
 
         $rawCookie = $this->getCookie($cookieName);
         $rawValue  = explode(';', $rawCookie)[0];
