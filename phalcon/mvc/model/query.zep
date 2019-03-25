@@ -646,7 +646,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function setTransaction(<TransactionInterface> transaction) -> <QueryInterface>
     {
-        let this->_transaction = transaction;
+        let this->transaction = transaction;
         return this;
     }
 
@@ -687,7 +687,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let modelName = models[0];
 
         /**
-         * Load the model from the modelsManager or from the _modelsInstances property
+         * Load the model from the modelsManager or from the modelsInstances property
          */
         if !fetch model, this->modelsInstances[modelName] {
             let model = this->manager->load(modelName);
@@ -2282,7 +2282,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let this->sqlAliases[intermediateModelName] = intermediateSource;
 
         /**
-         * Update the internal _sqlAliasesModelsInstances to rename columns if necessary
+         * Update the internal _qlAliasesModelsInstances to rename columns if necessary
          */
         let this->sqlAliasesModelsInstances[intermediateModelName] = intermediateModel;
 
@@ -2547,7 +2547,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
 
             /**
-             * Check if the _models property is correctly prepared
+             * Check if the models property is correctly prepared
              */
             let models = this->models;
             if typeof models != "array" {
