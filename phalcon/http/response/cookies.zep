@@ -66,11 +66,9 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 {
     protected container;
 
-    protected _registered = false;
+    protected cookies = [];
 
-    protected _useEncryption = true;
-
-    protected _cookies = [];
+    protected registered = false;
 
     /**
      * The cookie's sign key.
@@ -78,39 +76,86 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     protected signKey = null;
 
+    protected useEncryption = true;
+
     /**
      * Phalcon\Http\Response\Cookies constructor
      */
     public function __construct(bool useEncryption = true, string signKey = null)
     {
-        let this->_useEncryption = useEncryption;
+        let this->useEncryption = useEncryption;
 
         this->setSignKey(signKey);
     }
 
     /**
-     * Sets the cookie's sign key.
-     *
-     * The `$signKey' MUST be at least 32 characters long
-     * and generated using a cryptographically secure pseudo random generator.
-     *
-     * Use NULL to disable cookie signing.
-     *
-     * @see \Phalcon\Security\Random
+     * Deletes a cookie by its name
+     * This method does not removes cookies from the _COOKIE superglobal
      */
-    public function setSignKey(string signKey = null) -> <CookieInterface>
+    public function delete(string! name) -> bool
     {
-        let this->signKey = signKey;
+        var cookie;
 
-        return this;
+        /**
+         * Check the internal bag
+         */
+        if fetch cookie, this->cookies[name] {
+            cookie->delete();
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Sets the dependency injector
+     * Gets a cookie from the bag
      */
-    public function setDI(<DiInterface> container)
+    public function get(string! name) -> <CookieInterface>
     {
-        let this->container = container;
+        var container, encryption, cookie;
+
+        /**
+         * Gets cookie from the cookies service. They will be sent with response.
+         */
+        if fetch cookie, this->cookies[name] {
+            return cookie;
+        }
+
+        /**
+         * Create the cookie if the it does not exist.
+         * It's value come from $_COOKIE with request, so it shouldn't be saved
+         * to _cookies property, otherwise it will always be resent after get.
+         */
+        let cookie = <CookieInterface> this->container->get("Phalcon\\Http\\Cookie", [name]),
+            container = this->container;
+
+        if typeof container == "object" {
+
+            /**
+             * Pass the DI to created cookies
+             */
+            cookie->setDi(container);
+
+            let encryption = this->useEncryption;
+
+            /**
+             * Enable encryption in the cookie
+             */
+            if encryption {
+                cookie->useEncryption(encryption);
+                cookie->setSignKey(this->signKey);
+            }
+        }
+
+        return cookie;
+    }
+
+    /**
+     * Gets all cookies from the bag
+     */
+    public function getCookies() -> array
+    {
+        return this->cookies;
     }
 
     /**
@@ -122,12 +167,25 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     }
 
     /**
-     * Set if cookies in the bag must be automatically encrypted/decrypted
+     * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
      */
-    public function useEncryption(bool useEncryption) -> <CookiesInterface>
+    public function has(string! name) -> bool
     {
-        let this->_useEncryption = useEncryption;
-        return this;
+        /**
+         * Check the internal bag
+         */
+        if isset this->cookies[name] {
+            return true;
+        }
+
+        /**
+         * Check the superglobal
+         */
+        if isset _COOKIE[name] {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -135,7 +193,35 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function isUsingEncryption() -> bool
     {
-        return this->_useEncryption;
+        return this->useEncryption;
+    }
+
+    /**
+     * Reset set cookies
+     */
+    public function reset() -> <CookiesInterface>
+    {
+        let this->cookies = [];
+        return this;
+    }
+
+    /**
+     * Sends the cookies to the client
+     * Cookies aren't sent if headers are sent in the current request
+     */
+    public function send() -> bool
+    {
+        var cookie;
+
+        if !headers_sent() {
+            for cookie in this->cookies {
+                cookie->send();
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -168,12 +254,12 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     ) -> <CookiesInterface> {
         var cookie, encryption, container, response;
 
-        let encryption = this->_useEncryption;
+        let encryption = this->useEncryption;
 
         /**
          * Check if the cookie needs to be updated or
          */
-        if !fetch cookie, this->_cookies[name] {
+        if !fetch cookie, this->cookies[name] {
             let cookie =
                 <CookieInterface> this->container->get(
                     "Phalcon\\Http\\Cookie",
@@ -193,7 +279,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
                 cookie->setSignKey(this->signKey);
             }
 
-            let this->_cookies[name] = cookie;
+            let this->cookies[name] = cookie;
 
         } else {
             /**
@@ -211,7 +297,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         /**
          * Register the cookies bag in the response
          */
-        if this->_registered === false {
+        if this->registered === false {
 
             let container = this->container;
             if typeof container != "object" {
@@ -225,129 +311,43 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
              */
             response->setCookies(this);
 
-            let this->_registered = true;
+            let this->registered = true;
         }
 
         return this;
     }
 
     /**
-     * Gets a cookie from the bag
+     * Sets the dependency injector
      */
-    public function get(string! name) -> <CookieInterface>
+    public function setDI(<DiInterface> container)
     {
-        var container, encryption, cookie;
-
-        /**
-         * Gets cookie from the cookies service. They will be sent with response.
-         */
-        if fetch cookie, this->_cookies[name] {
-            return cookie;
-        }
-
-        /**
-         * Create the cookie if the it does not exist.
-         * It's value come from $_COOKIE with request, so it shouldn't be saved
-         * to _cookies property, otherwise it will always be resent after get.
-         */
-        let cookie = <CookieInterface> this->container->get("Phalcon\\Http\\Cookie", [name]),
-            container = this->container;
-
-        if typeof container == "object" {
-
-            /**
-             * Pass the DI to created cookies
-             */
-            cookie->setDi(container);
-
-            let encryption = this->_useEncryption;
-
-            /**
-             * Enable encryption in the cookie
-             */
-            if encryption {
-                cookie->useEncryption(encryption);
-                cookie->setSignKey(this->signKey);
-            }
-        }
-
-        return cookie;
+        let this->container = container;
     }
 
     /**
-     * Gets all cookies from the bag
+     * Sets the cookie's sign key.
+     *
+     * The `$signKey' MUST be at least 32 characters long
+     * and generated using a cryptographically secure pseudo random generator.
+     *
+     * Use NULL to disable cookie signing.
+     *
+     * @see \Phalcon\Security\Random
      */
-    public function getCookies() -> array
+    public function setSignKey(string signKey = null) -> <CookieInterface>
     {
-        return this->_cookies;
+        let this->signKey = signKey;
+
+        return this;
     }
 
     /**
-     * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
+     * Set if cookies in the bag must be automatically encrypted/decrypted
      */
-    public function has(string! name) -> bool
+    public function useEncryption(bool useEncryption) -> <CookiesInterface>
     {
-        /**
-         * Check the internal bag
-         */
-        if isset this->_cookies[name] {
-            return true;
-        }
-
-        /**
-         * Check the superglobal
-         */
-        if isset _COOKIE[name] {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Deletes a cookie by its name
-     * This method does not removes cookies from the _COOKIE superglobal
-     */
-    public function delete(string! name) -> bool
-    {
-        var cookie;
-
-        /**
-         * Check the internal bag
-         */
-        if fetch cookie, this->_cookies[name] {
-            cookie->delete();
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Sends the cookies to the client
-     * Cookies aren't sent if headers are sent in the current request
-     */
-    public function send() -> bool
-    {
-        var cookie;
-
-        if !headers_sent() {
-            for cookie in this->_cookies {
-                cookie->send();
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Reset set cookies
-     */
-    public function reset() -> <CookiesInterface>
-    {
-        let this->_cookies = [];
+        let this->useEncryption = useEncryption;
         return this;
     }
 }

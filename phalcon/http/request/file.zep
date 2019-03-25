@@ -37,31 +37,30 @@ use Phalcon\Http\Request\FileInterface;
  */
 class File implements FileInterface
 {
-
-    protected _name;
-
-    protected _tmp;
-
-    protected _size;
-
-    protected _type;
-
-    protected _realType;
-
     /**
      * @var string|null
      */
-    protected _error { get };
-
-    /**
-     * @var string|null
-     */
-    protected _key { get };
+    protected error { get };
 
     /**
      * @var string
      */
-    protected _extension { get };
+    protected extension { get };
+
+    /**
+     * @var string|null
+     */
+    protected key { get };
+
+    protected name;
+
+    protected realType;
+
+    protected size;
+
+    protected tmp;
+
+    protected type;
 
     /**
      * Phalcon\Http\Request\File constructor
@@ -71,40 +70,32 @@ class File implements FileInterface
         var name, tempName, size, type, error;
 
         if fetch name, file["name"] {
-            let this->_name = name;
+            let this->name = name;
 
             if defined("PATHINFO_EXTENSION") {
-                let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
+                let this->extension = pathinfo(name, PATHINFO_EXTENSION);
             }
         }
 
         if fetch tempName, file["tmp_name"] {
-            let this->_tmp = tempName;
+            let this->tmp = tempName;
         }
 
         if fetch size, file["size"] {
-            let this->_size = size;
+            let this->size = size;
         }
 
         if fetch type, file["type"] {
-            let this->_type = type;
+            let this->type = type;
         }
 
         if fetch error, file["error"] {
-            let this->_error = error;
+            let this->error = error;
         }
 
         if key {
-            let this->_key = key;
+            let this->key = key;
         }
-    }
-
-    /**
-     * Returns the file size of the uploaded file
-     */
-    public function getSize() -> int
-    {
-        return this->_size;
     }
 
     /**
@@ -112,24 +103,7 @@ class File implements FileInterface
      */
     public function getName() -> string
     {
-        return this->_name;
-    }
-
-    /**
-     * Returns the temporary name of the uploaded file
-     */
-    public function getTempName() -> string
-    {
-        return this->_tmp;
-    }
-
-    /**
-     * Returns the mime type reported by the browser
-     * This mime type is not completely secure, use getRealType() instead
-     */
-    public function getType() -> string
-    {
-        return this->_type;
+        return this->name;
     }
 
     /**
@@ -144,10 +118,35 @@ class File implements FileInterface
             return "";
         }
 
-        let mime = finfo_file(finfo, this->_tmp);
+        let mime = finfo_file(finfo, this->tmp);
         finfo_close(finfo);
 
         return mime;
+    }
+
+    /**
+     * Returns the file size of the uploaded file
+     */
+    public function getSize() -> int
+    {
+        return this->size;
+    }
+
+    /**
+     * Returns the temporary name of the uploaded file
+     */
+    public function getTempName() -> string
+    {
+        return this->tmp;
+    }
+
+    /**
+     * Returns the mime type reported by the browser
+     * This mime type is not completely secure, use getRealType() instead
+     */
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**
@@ -166,6 +165,6 @@ class File implements FileInterface
      */
     public function moveTo(string! destination) -> bool
     {
-        return move_uploaded_file(this->_tmp, destination);
+        return move_uploaded_file(this->tmp, destination);
     }
 }
