@@ -64,12 +64,12 @@ class Di implements DiInterface
     /**
      * List of registered services
      */
-    protected services;
+    protected _services;
 
     /**
      * List of shared instances
      */
-    protected sharedInstances;
+    protected _sharedInstances;
 
     /**
      * Events Manager
@@ -118,7 +118,7 @@ class Di implements DiInterface
     {
         var service;
         let service = new Service(definition, shared),
-            this->services[name] = service;
+            this->_services[name] = service;
         return service;
     }
 
@@ -136,8 +136,8 @@ class Di implements DiInterface
      */
     public function remove(string! name)
     {
-        unset this->services[name];
-        unset this->sharedInstances[name];
+        unset this->_services[name];
+        unset this->_sharedInstances[name];
     }
 
     /**
@@ -149,9 +149,9 @@ class Di implements DiInterface
     {
         var service;
 
-        if !isset this->services[name] {
+        if !isset this->_services[name] {
             let service = new Service(definition, shared),
-                this->services[name] = service;
+                this->_services[name] = service;
             return service;
         }
 
@@ -163,7 +163,7 @@ class Di implements DiInterface
      */
     public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
     {
-        let this->services[name] = rawDefinition;
+        let this->_services[name] = rawDefinition;
         return rawDefinition;
     }
 
@@ -174,7 +174,7 @@ class Di implements DiInterface
     {
         var service;
 
-        if fetch service, this->services[name] {
+        if fetch service, this->_services[name] {
             return service->getDefinition();
         }
 
@@ -188,7 +188,7 @@ class Di implements DiInterface
     {
         var service;
 
-        if fetch service, this->services[name] {
+        if fetch service, this->_services[name] {
             return service;
         }
 
@@ -204,10 +204,10 @@ class Di implements DiInterface
 
         // If the service is shared and it already has a cached instance then
         // immediately return it without triggering events.
-        if fetch service, this->services[name] {
+        if fetch service, this->_services[name] {
             let isShared = service->isShared();
-            if isShared && isset this->sharedInstances[name] {
-                return this->sharedInstances[name];
+            if isShared && isset this->_sharedInstances[name] {
+                return this->_sharedInstances[name];
             }
         }
 
@@ -237,7 +237,7 @@ class Di implements DiInterface
 
                 // If the service is shared then we'll cache the instance.
                 if isShared {
-                    let this->sharedInstances[name] = instance;
+                    let this->_sharedInstances[name] = instance;
                 }
             } else {
 
@@ -289,12 +289,12 @@ class Di implements DiInterface
         var instance;
 
         // Attempt to use the instance from the shared instances cache.
-        if !fetch instance, this->sharedInstances[name] {
+        if !fetch instance, this->_sharedInstances[name] {
             // Resolve the instance normally
             let instance = this->get(name, parameters);
 
             // Store the instance in the shared instances cache.
-            let this->sharedInstances[name] = instance;
+            let this->_sharedInstances[name] = instance;
         }
 
         return instance;
@@ -305,7 +305,7 @@ class Di implements DiInterface
      */
     public function has(string! name) -> bool
     {
-        return isset this->services[name];
+        return isset this->_services[name];
     }
 
     /**
@@ -313,7 +313,7 @@ class Di implements DiInterface
      */
     public function getServices() -> <ServiceInterface[]>
     {
-        return this->services;
+        return this->_services;
     }
 
     /**
@@ -367,7 +367,7 @@ class Di implements DiInterface
          * If the magic method starts with "get" we try to get a service with that name
          */
         if starts_with(method, "get") {
-            let services = this->services,
+            let services = this->_services,
                 possibleService = lcfirst(substr(method, 3));
 
             if isset services[possibleService] {

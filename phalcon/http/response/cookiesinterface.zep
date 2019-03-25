@@ -19,11 +19,21 @@ use Phalcon\Http\CookieInterface;
  */
 interface CookiesInterface
 {
+
     /**
-     * Deletes a cookie by its name
-     * This method does not removes cookies from the _COOKIE superglobal
+     * Set if cookies in the bag must be automatically encrypted/decrypted
      */
-    public function delete(string! name) -> bool;
+    public function useEncryption(bool useEncryption) -> <CookiesInterface>;
+
+    /**
+     * Returns if the bag is automatically encrypting/decrypting cookies
+     */
+    public function isUsingEncryption() -> bool;
+
+    /**
+     * Sets a cookie to be sent at the end of the request
+     */
+    public function set(string! name, value = null, int expire = 0, string path = "/", bool secure = null, string! domain = null, bool httpOnly = null) -> <CookiesInterface>;
 
     /**
      * Gets a cookie from the bag
@@ -36,14 +46,10 @@ interface CookiesInterface
     public function has(string! name) -> bool;
 
     /**
-     * Returns if the bag is automatically encrypting/decrypting cookies
+     * Deletes a cookie by its name
+     * This method does not removes cookies from the _COOKIE superglobal
      */
-    public function isUsingEncryption() -> bool;
-
-    /**
-     * Reset set cookies
-     */
-    public function reset() -> <CookiesInterface>;
+    public function delete(string! name) -> bool;
 
     /**
      * Sends the cookies to the client
@@ -51,12 +57,8 @@ interface CookiesInterface
     public function send() -> bool;
 
     /**
-     * Sets a cookie to be sent at the end of the request
+     * Reset set cookies
      */
-    public function set(string! name, value = null, int expire = 0, string path = "/", bool secure = null, string! domain = null, bool httpOnly = null) -> <CookiesInterface>;
+    public function reset() -> <CookiesInterface>;
 
-    /**
-     * Set if cookies in the bag must be automatically encrypted/decrypted
-     */
-    public function useEncryption(bool useEncryption) -> <CookiesInterface>;
 }

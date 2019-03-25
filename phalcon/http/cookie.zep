@@ -26,35 +26,36 @@ use Phalcon\Service\LocatorInterface;
  */
 class Cookie implements CookieInterface, InjectionAwareInterface
 {
+
+    protected _readed = false;
+
+    protected _restored = false;
+
+    protected _useEncryption = false;
+
     protected container;
 
-    protected domain;
+    protected _filter;
 
-    protected expire;
+    protected _name;
 
-    protected httpOnly = false;
+    protected _value;
 
-    protected filter;
+    protected _expire;
 
-    protected name;
+    protected _path = "/";
 
-    protected path = "/";
+    protected _domain;
 
-    protected readed = false;
+    protected _secure;
 
-    protected restored = false;
-
-    protected secure;
+    protected _httpOnly = false;
 
     /**
      * The cookie's sign key.
      * @var string|null
      */
     protected signKey = null;
-
-    protected useEncryption = false;
-
-    protected value;
 
     /**
      * Phalcon\Http\Cookie constructor.
@@ -68,82 +69,59 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         string domain = null,
         bool httpOnly = null
     ) {
-        let this->name = name;
+        let this->_name = name;
 
         if value !== null {
             this->setValue(value);
         }
 
-        let this->expire = expire;
+        let this->_expire = expire;
 
         if path !== null {
-            let this->path = path;
+            let this->_path = path;
         }
 
         if secure !== null {
-            let this->secure = secure;
+            let this->_secure = secure;
         }
 
         if domain !== null {
-            let this->domain = domain;
+            let this->_domain = domain;
         }
 
         if httpOnly !== null {
-            let this->httpOnly = httpOnly;
+            let this->_httpOnly = httpOnly;
         }
     }
 
     /**
-     * Magic __toString method converts the cookie's value to string
-     */
-    public function __toString() -> string
-    {
-        return (string) this->getValue();
-    }
-
-    /**
-     * Assert the cookie's key is enough long.
+     * Sets the cookie's sign key.
      *
+     * The `$signKey' MUST be at least 32 characters long
+     * and generated using a cryptographically secure pseudo random generator.
+     *
+     * Use NULL to disable cookie signing.
+     *
+     * @see \Phalcon\Security\Random
      * @throws \Phalcon\Http\Cookie\Exception
      */
-    protected function assertSignKeyIsLongEnough(string! signKey) -> void
+    public function setSignKey(string signKey = null) -> <CookieInterface>
     {
-        var length;
-
-        let length = mb_strlen(signKey);
-        if length < 32 {
-            throw new CookieException(
-                sprintf(
-                    "The cookie's key should be at least 32 characters long. Current length is %d.",
-                    length
-                )
-            );
+        if signKey !== null {
+            this->assertSignKeyIsLongEnough(signKey);
         }
+
+        let this->signKey = signKey;
+
+        return this;
     }
 
     /**
-     * Deletes the cookie by setting an expire time in the past
+     * Sets the dependency injector
      */
-    public function delete()
+    public function setDI(<DiInterface> container)
     {
-        var name, domain, path, secure, httpOnly, container, session;
-
-        let name     = this->name,
-            domain   = this->domain,
-            path     = this->path,
-            secure   = this->secure,
-            httpOnly = this->httpOnly;
-
-        let container = <DiInterface> this->container;
-        if typeof container == "object" {
-            let session = <SessionManagerInterface> container->getShared("session");
-            if session->exists() {
-                session->remove("_PHCOOKIE_" . name);
-            }
-        }
-
-        let this->value = null;
-        setcookie(name, null, time() - 691200, path, domain, secure, httpOnly);
+        let this->container = container;
     }
 
     /**
@@ -155,66 +133,15 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the domain that the cookie is available to
+     * Sets the cookie's value
+     *
+     * @param string value
      */
-    public function getDomain() -> string
+    public function setValue(value) -> <CookieInterface>
     {
-        if !this->restored {
-            this->restore();
-        }
-        return this->domain;
-    }
-
-    /**
-     * Returns the current expiration time
-     */
-    public function getExpiration() -> string
-    {
-        if !this->restored {
-            this->restore();
-        }
-        return this->expire;
-    }
-
-    /**
-     * Returns if the cookie is accessible only through the HTTP protocol
-     */
-    public function getHttpOnly() -> bool
-    {
-        if !this->restored {
-            this->restore();
-        }
-        return this->httpOnly;
-    }
-
-    /**
-     * Returns the current cookie's name
-     */
-    public function getName() -> string
-    {
-        return this->name;
-    }
-
-    /**
-     * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
-     */
-    public function getSecure() -> bool
-    {
-        if !this->restored {
-            this->restore();
-        }
-        return this->secure;
-    }
-
-    /**
-     * Returns the current cookie's path
-     */
-    public function getPath() -> string
-    {
-        if !this->restored {
-            this->restore();
-        }
-        return this->path;
+        let this->_value = value,
+            this->_readed = true;
+        return this;
     }
 
     /**
@@ -224,18 +151,18 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     {
         var container, value, crypt, decryptedValue, filter, signKey, name;
 
-        if !this->restored {
+        if !this->_restored {
             this->restore();
         }
 
         let container = null,
-            name = this->name;
+            name = this->_name;
 
-        if this->readed === false {
+        if this->_readed === false {
 
             if fetch value, _COOKIE[name] {
 
-                if this->useEncryption {
+                if this->_useEncryption {
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
@@ -273,10 +200,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                 /**
                  * Update the decrypted value
                  */
-                let this->value = decryptedValue;
+                let this->_value = decryptedValue;
 
                 if filters !== null {
-                    let filter = this->filter;
+                    let filter = this->_filter;
                     if typeof filter != "object" {
 
                         if container === null {
@@ -290,7 +217,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 //                        let filter = container->getShared("filter"),
                         let filter = <LocatorInterface> container->getShared("filter"),
-                            this->filter = filter;
+                            this->_filter = filter;
                     }
 
                     return filter->sanitize(decryptedValue, filters);
@@ -304,65 +231,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             return defaultValue;
         }
 
-        return this->value;
-    }
-
-    /**
-     * Check if the cookie is using implicit encryption
-     */
-    public function isUsingEncryption() -> bool
-    {
-        return this->useEncryption;
-    }
-
-    /**
-     * Reads the cookie-related info from the SESSION to restore the cookie as it was set.
-     *
-     * This method is automatically called internally so normally you don't need to call it.
-     */
-    public function restore() -> <CookieInterface>
-    {
-        var container, expire, domain, path, secure,
-            httpOnly, session, definition;
-
-        if !this->restored {
-
-            let container = this->container;
-            if typeof container == "object" {
-
-                let session = container->getShared("session");
-
-                if session->exists() {
-                    let definition = session->get("_PHCOOKIE_" . this->name);
-                    if typeof definition == "array" {
-
-                        if fetch expire, definition["expire"] {
-                            let this->expire = expire;
-                        }
-
-                        if fetch domain, definition["domain"] {
-                            let this->domain = domain;
-                        }
-
-                        if fetch path, definition["path"] {
-                            let this->path = path;
-                        }
-
-                        if fetch secure, definition["secure"] {
-                            let this->secure = secure;
-                        }
-
-                        if fetch httpOnly, definition["httpOnly"] {
-                            let this->httpOnly = httpOnly;
-                        }
-                    }
-                }
-            }
-
-            let this->restored = true;
-        }
-
-        return this;
+        return this->_value;
     }
 
     /**
@@ -375,13 +244,13 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         var name, value, expire, domain, path, secure, httpOnly,
             container, definition, session, crypt, encryptValue, signKey;
 
-        let name = this->name,
-            value = this->value,
-            expire = this->expire,
-            domain = this->domain,
-            path = this->path,
-            secure = this->secure,
-            httpOnly = this->httpOnly;
+        let name = this->_name,
+            value = this->_value,
+            expire = this->_expire,
+            domain = this->_domain,
+            path = this->_path,
+            secure = this->_secure,
+            httpOnly = this->_httpOnly;
 
         let container = this->container;
 
@@ -421,7 +290,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             }
         }
 
-        if this->useEncryption {
+        if this->_useEncryption {
 
             if !empty value {
 
@@ -465,105 +334,78 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container)
-    {
-        let this->container = container;
-    }
-
-    /**
-     * Sets the domain that the cookie is available to
-     */
-    public function setDomain(string! domain) -> <CookieInterface>
-    {
-        if !this->restored {
-            this->restore();
-        }
-        let this->domain = domain;
-        return this;
-    }
-
-    /**
-     * Sets the cookie's expiration time
-     */
-    public function setExpiration(int expire) -> <CookieInterface>
-    {
-        if !this->restored {
-            this->restore();
-        }
-        let this->expire = expire;
-        return this;
-    }
-
-    /**
-     * Sets if the cookie is accessible only through the HTTP protocol
-     */
-    public function setHttpOnly(bool httpOnly) -> <CookieInterface>
-    {
-        if !this->restored {
-            this->restore();
-        }
-        let this->httpOnly = httpOnly;
-        return this;
-    }
-
-    /**
-     * Sets the cookie's expiration time
-     */
-    public function setPath(string! path) -> <CookieInterface>
-    {
-        if !this->restored {
-            this->restore();
-        }
-        let this->path = path;
-        return this;
-    }
-
-    /**
-     * Sets if the cookie must only be sent when the connection is secure (HTTPS)
-     */
-    public function setSecure(bool secure) -> <CookieInterface>
-    {
-        if !this->restored {
-            this->restore();
-        }
-        let this->secure = secure;
-        return this;
-    }
-
-    /**
-     * Sets the cookie's sign key.
+     * Reads the cookie-related info from the SESSION to restore the cookie as it was set.
      *
-     * The `$signKey' MUST be at least 32 characters long
-     * and generated using a cryptographically secure pseudo random generator.
-     *
-     * Use NULL to disable cookie signing.
-     *
-     * @see \Phalcon\Security\Random
-     * @throws \Phalcon\Http\Cookie\Exception
+     * This method is automatically called internally so normally you don't need to call it.
      */
-    public function setSignKey(string signKey = null) -> <CookieInterface>
+    public function restore() -> <CookieInterface>
     {
-        if signKey !== null {
-            this->assertSignKeyIsLongEnough(signKey);
-        }
+        var container, expire, domain, path, secure,
+            httpOnly, session, definition;
 
-        let this->signKey = signKey;
+        if !this->_restored {
+
+            let container = this->container;
+            if typeof container == "object" {
+
+                let session = container->getShared("session");
+
+                if session->exists() {
+                    let definition = session->get("_PHCOOKIE_" . this->_name);
+                    if typeof definition == "array" {
+
+                        if fetch expire, definition["expire"] {
+                            let this->_expire = expire;
+                        }
+
+                        if fetch domain, definition["domain"] {
+                            let this->_domain = domain;
+                        }
+
+                        if fetch path, definition["path"] {
+                            let this->_path = path;
+                        }
+
+                        if fetch secure, definition["secure"] {
+                            let this->_secure = secure;
+                        }
+
+                        if fetch httpOnly, definition["httpOnly"] {
+                            let this->_httpOnly = httpOnly;
+                        }
+                    }
+                }
+            }
+
+            let this->_restored = true;
+        }
 
         return this;
     }
 
     /**
-     * Sets the cookie's value
-     *
-     * @param string value
+     * Deletes the cookie by setting an expire time in the past
      */
-    public function setValue(value) -> <CookieInterface>
+    public function delete()
     {
-        let this->value = value,
-            this->readed = true;
-        return this;
+        var name, domain, path, secure, httpOnly, container, session;
+
+        let name     = this->_name,
+            domain   = this->_domain,
+            path     = this->_path,
+            secure   = this->_secure,
+            httpOnly = this->_httpOnly;
+
+        let container = <DiInterface> this->container;
+        if typeof container == "object" {
+            let session = <SessionManagerInterface> container->getShared("session");
+            if session->exists() {
+                session->remove("_PHCOOKIE_" . name);
+            }
+        }
+
+        let this->_value = null;
+        setcookie(name, null, time() - 691200, path, domain, secure, httpOnly);
     }
 
     /**
@@ -571,7 +413,166 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function useEncryption(bool useEncryption) -> <CookieInterface>
     {
-        let this->useEncryption = useEncryption;
+        let this->_useEncryption = useEncryption;
         return this;
+    }
+
+    /**
+     * Check if the cookie is using implicit encryption
+     */
+    public function isUsingEncryption() -> bool
+    {
+        return this->_useEncryption;
+    }
+
+    /**
+     * Sets the cookie's expiration time
+     */
+    public function setExpiration(int expire) -> <CookieInterface>
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        let this->_expire = expire;
+        return this;
+    }
+
+    /**
+     * Returns the current expiration time
+     */
+    public function getExpiration() -> string
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        return this->_expire;
+    }
+
+    /**
+     * Sets the cookie's expiration time
+     */
+    public function setPath(string! path) -> <CookieInterface>
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        let this->_path = path;
+        return this;
+    }
+
+    /**
+     * Returns the current cookie's name
+     */
+    public function getName() -> string
+    {
+        return this->_name;
+    }
+
+    /**
+     * Returns the current cookie's path
+     */
+    public function getPath() -> string
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        return this->_path;
+    }
+
+    /**
+     * Sets the domain that the cookie is available to
+     */
+    public function setDomain(string! domain) -> <CookieInterface>
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        let this->_domain = domain;
+        return this;
+    }
+
+    /**
+     * Returns the domain that the cookie is available to
+     */
+    public function getDomain() -> string
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        return this->_domain;
+    }
+
+    /**
+     * Sets if the cookie must only be sent when the connection is secure (HTTPS)
+     */
+    public function setSecure(bool secure) -> <CookieInterface>
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        let this->_secure = secure;
+        return this;
+    }
+
+    /**
+     * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
+     */
+    public function getSecure() -> bool
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        return this->_secure;
+    }
+
+    /**
+     * Sets if the cookie is accessible only through the HTTP protocol
+     */
+    public function setHttpOnly(bool httpOnly) -> <CookieInterface>
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        let this->_httpOnly = httpOnly;
+        return this;
+    }
+
+    /**
+     * Returns if the cookie is accessible only through the HTTP protocol
+     */
+    public function getHttpOnly() -> bool
+    {
+        if !this->_restored {
+            this->restore();
+        }
+        return this->_httpOnly;
+    }
+
+    /**
+     * Magic __toString method converts the cookie's value to string
+     */
+    public function __toString() -> string
+    {
+        return (string) this->getValue();
+    }
+
+    /**
+     * Assert the cookie's key is enough long.
+     *
+     * @throws \Phalcon\Http\Cookie\Exception
+     */
+    protected function assertSignKeyIsLongEnough(string! signKey) -> void
+    {
+        var length;
+
+        let length = mb_strlen(signKey);
+        if length < 32 {
+            throw new CookieException(
+                sprintf(
+                    "The cookie's key should be at least 32 characters long. Current length is %d.",
+                    length
+                )
+            );
+        }
     }
 }

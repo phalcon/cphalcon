@@ -32,41 +32,60 @@ use Phalcon\Di\Service\Builder;
  */
 class Service implements ServiceInterface
 {
-    protected definition;
 
-    protected resolved = false;
+    protected _definition;
 
-    protected shared = false;
+    protected _shared = false;
 
-    protected sharedInstance;
+    protected _resolved = false;
+
+    protected _sharedInstance;
 
     /**
      * Phalcon\Di\Service
      *
      * @param mixed definition
      */
-    public final function __construct(definition, bool shared = false) -> void
+    public final function __construct(definition, bool shared = false)
     {
-        let this->definition = definition,
-            this->shared = shared;
+        let this->_definition = definition,
+            this->_shared = shared;
     }
 
     /**
-     * Restore the internal state of a service
+     * Sets if the service is shared or not
      */
-    public static function __set_state(array! attributes) -> <ServiceInterface>
+    public function setShared(bool shared) -> void
     {
-        var definition, shared;
+        let this->_shared = shared;
+    }
 
-        if !fetch definition, attributes["definition"] {
-            throw new Exception("The attribute 'definition' is required");
-        }
+    /**
+     * Check whether the service is shared or not
+     */
+    public function isShared() -> bool
+    {
+        return this->_shared;
+    }
 
-        if !fetch shared, attributes["shared"] {
-            throw new Exception("The attribute 'shared' is required");
-        }
+    /**
+     * Sets/Resets the shared instance related to the service
+     *
+     * @param mixed sharedInstance
+     */
+    public function setSharedInstance(sharedInstance) -> void
+    {
+        let this->_sharedInstance = sharedInstance;
+    }
 
-        return new self(definition, shared);
+    /**
+     * Set the service definition
+     *
+     * @param mixed definition
+     */
+    public function setDefinition(definition) -> void
+    {
+        let this->_definition = definition;
     }
 
     /**
@@ -76,23 +95,7 @@ class Service implements ServiceInterface
      */
     public function getDefinition()
     {
-        return this->definition;
-    }
-
-    /**
-     * Returns true if the service was resolved
-     */
-    public function isResolved() -> bool
-    {
-        return this->resolved;
-    }
-
-    /**
-     * Check whether the service is shared or not
-     */
-    public function isShared() -> bool
-    {
-        return this->shared;
+        return this->_definition;
     }
 
     /**
@@ -106,13 +109,13 @@ class Service implements ServiceInterface
         bool found;
         var shared, definition, sharedInstance, instance, builder;
 
-        let shared = this->shared;
+        let shared = this->_shared;
 
         /**
          * Check if the service is shared
          */
         if shared {
-            let sharedInstance = this->sharedInstance;
+            let sharedInstance = this->_sharedInstance;
             if sharedInstance !== null {
                 return sharedInstance;
             }
@@ -121,7 +124,7 @@ class Service implements ServiceInterface
         let found = true,
             instance = null;
 
-        let definition = this->definition;
+        let definition = this->_definition;
         if typeof definition == "string" {
 
             /**
@@ -187,22 +190,12 @@ class Service implements ServiceInterface
          * Update the shared instance if the service is shared
          */
         if shared {
-            let this->sharedInstance = instance;
+            let this->_sharedInstance = instance;
         }
 
-        let this->resolved = true;
+        let this->_resolved = true;
 
         return instance;
-    }
-
-    /**
-     * Set the service definition
-     *
-     * @param mixed definition
-     */
-    public function setDefinition(definition) -> void
-    {
-        let this->definition = definition;
     }
 
     /**
@@ -212,7 +205,7 @@ class Service implements ServiceInterface
     {
         var definition, arguments;
 
-        let definition = this->definition;
+        let definition = this->_definition;
         if typeof definition != "array" {
             throw new Exception("Definition must be an array to update its parameters");
         }
@@ -234,7 +227,7 @@ class Service implements ServiceInterface
         /**
          * Re-update the definition
          */
-        let this->definition = definition;
+        let this->_definition = definition;
 
         return this;
     }
@@ -248,7 +241,7 @@ class Service implements ServiceInterface
     {
         var definition, arguments, parameter;
 
-        let definition = this->definition;
+        let definition = this->_definition;
         if typeof definition != "array" {
             throw new Exception("Definition must be an array to obtain its parameters");
         }
@@ -266,20 +259,28 @@ class Service implements ServiceInterface
     }
 
     /**
-     * Sets if the service is shared or not
+     * Returns true if the service was resolved
      */
-    public function setShared(bool shared) -> void
+    public function isResolved() -> bool
     {
-        let this->shared = shared;
+        return this->_resolved;
     }
 
     /**
-     * Sets/Resets the shared instance related to the service
-     *
-     * @param mixed sharedInstance
+     * Restore the internal state of a service
      */
-    public function setSharedInstance(sharedInstance) -> void
+    public static function __set_state(array! attributes) -> <ServiceInterface>
     {
-        let this->sharedInstance = sharedInstance;
+        var definition, shared;
+
+        if !fetch definition, attributes["_definition"] {
+            throw new Exception("The attribute '_definition' is required");
+        }
+
+        if !fetch shared, attributes["_shared"] {
+            throw new Exception("The attribute '_shared' is required");
+        }
+
+        return new self(definition, shared);
     }
 }

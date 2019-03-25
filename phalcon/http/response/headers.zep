@@ -19,21 +19,22 @@ use Phalcon\Http\Response\HeadersInterface;
  */
 class Headers implements HeadersInterface
 {
-    protected headers = [];
+    protected _headers = [];
 
     /**
-     * Restore a \Phalcon\Http\Response\Headers object
+     * Sets a header to be sent at the end of the request
      */
-    public static function __set_state(array! data) -> <HeadersInterface>
+    public function has(string name) -> bool
     {
-        var headers, key, value, dataHeaders;
-        let headers = new self();
-        if fetch dataHeaders, data["_headers"] {
-            for key, value in dataHeaders {
-                headers->set(key, value);
-            }
-        }
-        return headers;
+        return isset(this->_headers[name]);
+    }
+
+    /**
+     * Sets a header to be sent at the end of the request
+     */
+    public function set(string name, string value)
+    {
+        let this->_headers[name] = value;
     }
 
     /**
@@ -42,7 +43,7 @@ class Headers implements HeadersInterface
     public function get(string name) -> string | bool
     {
         var headers, headerValue;
-        let headers = this->headers;
+        let headers = this->_headers;
 
         if fetch headerValue, headers[name] {
             return headerValue;
@@ -52,11 +53,11 @@ class Headers implements HeadersInterface
     }
 
     /**
-     * Sets a header to be sent at the end of the request
+     * Sets a raw header to be sent at the end of the request
      */
-    public function has(string name) -> bool
+    public function setRaw(string header)
     {
-        return isset(this->headers[name]);
+        let this->_headers[header] = null;
     }
 
     /**
@@ -66,17 +67,9 @@ class Headers implements HeadersInterface
     {
         var headers;
 
-        let headers = this->headers;
+        let headers = this->_headers;
         unset headers[header];
-        let this->headers = headers;
-    }
-
-    /**
-     * Reset set headers
-     */
-    public function reset()
-    {
-        let this->headers = [];
+        let this->_headers = headers;
     }
 
     /**
@@ -86,7 +79,7 @@ class Headers implements HeadersInterface
     {
         var header, value;
         if !headers_sent() {
-            for header, value in this->headers {
+            for header, value in this->_headers {
                 if value !== null {
                     header(header . ": " . value, true);
                 } else {
@@ -103,19 +96,11 @@ class Headers implements HeadersInterface
     }
 
     /**
-     * Sets a header to be sent at the end of the request
+     * Reset set headers
      */
-    public function set(string name, string value)
+    public function reset()
     {
-        let this->headers[name] = value;
-    }
-
-    /**
-     * Sets a raw header to be sent at the end of the request
-     */
-    public function setRaw(string header)
-    {
-        let this->headers[header] = null;
+        let this->_headers = [];
     }
 
     /**
@@ -123,6 +108,21 @@ class Headers implements HeadersInterface
      */
     public function toArray() -> array
     {
-        return this->headers;
+        return this->_headers;
+    }
+
+    /**
+     * Restore a \Phalcon\Http\Response\Headers object
+     */
+    public static function __set_state(array! data) -> <HeadersInterface>
+    {
+        var headers, key, value, dataHeaders;
+        let headers = new self();
+        if fetch dataHeaders, data["_headers"] {
+            for key, value in dataHeaders {
+                headers->set(key, value);
+            }
+        }
+        return headers;
     }
 }
