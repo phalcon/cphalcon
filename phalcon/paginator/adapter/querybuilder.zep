@@ -10,11 +10,11 @@
 
 namespace Phalcon\Paginator\Adapter;
 
-use Phalcon\Db;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter;
 use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
+use Phalcon\Db;
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
