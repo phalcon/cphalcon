@@ -46,7 +46,7 @@ trait CookieTrait
                 );
             }
 
-            $headers = xdebug_get_headers();
+            $headers = xdebug_getheaders();
         } else {
             $headers = headers_list();
         }
