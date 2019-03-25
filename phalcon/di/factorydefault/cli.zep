@@ -30,7 +30,7 @@ class Cli extends FactoryDefault
     {
         parent::__construct();
 
-        let this->_services = [
+        let this->services = [
             "annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
             "dispatcher":         new Service("Phalcon\\Cli\\Dispatcher", true),
             "escaper":            new Service("Phalcon\\Escaper", true),

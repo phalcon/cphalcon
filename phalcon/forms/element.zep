@@ -23,23 +23,23 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Element implements ElementInterface
 {
-    protected _attributes;
+    protected attributes;
 
-    protected _filters;
+    protected filters;
 
-    protected _form;
+    protected form;
 
-    protected _label;
+    protected label;
 
-    protected _messages;
+    protected messages;
 
-    protected _name;
+    protected name;
 
-    protected _options;
+    protected options;
 
-    protected _validators = [];
+    protected validators = [];
 
-    protected _value;
+    protected value;
 
     /**
      * Phalcon\Forms\Element constructor
@@ -55,9 +55,9 @@ abstract class Element implements ElementInterface
             throw new \InvalidArgumentException("Form element name is required");
         }
 
-        let this->_name = name;
-        let this->_attributes = attributes;
-        let this->_messages = new Messages();
+        let this->name = name;
+        let this->attributes = attributes;
+        let this->messages = new Messages();
     }
 
     /**
@@ -74,14 +74,14 @@ abstract class Element implements ElementInterface
     public function addFilter(string filter) -> <ElementInterface>
     {
         var filters;
-        let filters = this->_filters;
+        let filters = this->filters;
         if typeof filters == "array" {
-            let this->_filters[] = filter;
+            let this->filters[] = filter;
         } else {
             if typeof filters == "string" {
-                let this->_filters = [filters, filter];
+                let this->filters = [filters, filter];
             } else {
-                let this->_filters = [filter];
+                let this->filters = [filter];
             }
         }
         return this;
@@ -92,7 +92,7 @@ abstract class Element implements ElementInterface
      */
     public function addValidator(<ValidatorInterface> validator) -> <ElementInterface>
     {
-        let this->_validators[] = validator;
+        let this->validators[] = validator;
         return this;
     }
 
@@ -105,7 +105,7 @@ abstract class Element implements ElementInterface
     {
         var currentValidators, mergedValidators;
         if merge {
-            let currentValidators = this->_validators;
+            let currentValidators = this->validators;
             if typeof currentValidators == "array" {
                 let mergedValidators = array_merge(currentValidators, validators);
             }
@@ -113,7 +113,7 @@ abstract class Element implements ElementInterface
         else {
             let mergedValidators = validators;
         }
-        let this->_validators = mergedValidators;
+        let this->validators = mergedValidators;
         return this;
     }
 
@@ -122,7 +122,7 @@ abstract class Element implements ElementInterface
      */
     public function appendMessage(<MessageInterface> message) -> <ElementInterface>
     {
-        this->_messages->appendMessage(message);
+        this->messages->appendMessage(message);
         return this;
     }
 
@@ -131,9 +131,9 @@ abstract class Element implements ElementInterface
      */
     public function clear() -> <ElementInterface>
     {
-        var form  = this->_form,
-            name  = this->_name,
-            value = this->_value;
+        var form  = this->form,
+            name  = this->name,
+            value = this->value;
 
         if typeof form == "object" {
             form->clear(name);
@@ -150,7 +150,7 @@ abstract class Element implements ElementInterface
     public function getAttribute(string attribute, var defaultValue = null) -> var
     {
         var attributes, value;
-        let attributes = this->_attributes;
+        let attributes = this->attributes;
         if fetch value, attributes[attribute] {
             return value;
         }
@@ -163,7 +163,7 @@ abstract class Element implements ElementInterface
     public function getAttributes() -> array
     {
         var attributes;
-        let attributes = this->_attributes;
+        let attributes = this->attributes;
         if typeof attributes != "array" {
             return [];
         }
@@ -175,7 +175,7 @@ abstract class Element implements ElementInterface
      */
     public function getDefault() -> var
     {
-        return this->_value;
+        return this->value;
     }
 
     /**
@@ -185,7 +185,7 @@ abstract class Element implements ElementInterface
      */
     public function getFilters()
     {
-        return this->_filters;
+        return this->filters;
     }
 
     /**
@@ -193,7 +193,7 @@ abstract class Element implements ElementInterface
      */
     public function getForm() -> <Form>
     {
-        return this->_form;
+        return this->form;
     }
 
     /**
@@ -201,7 +201,7 @@ abstract class Element implements ElementInterface
      */
     public function getLabel() -> string
     {
-        return this->_label;
+        return this->label;
     }
 
     /**
@@ -210,7 +210,7 @@ abstract class Element implements ElementInterface
      */
     public function getMessages() -> <Messages>
     {
-        return this->_messages;
+        return this->messages;
     }
 
     /**
@@ -218,7 +218,7 @@ abstract class Element implements ElementInterface
      */
     public function getName() -> string
     {
-        return this->_name;
+        return this->name;
     }
 
     /**
@@ -227,7 +227,7 @@ abstract class Element implements ElementInterface
     public function getUserOption(string option, var defaultValue = null) -> var
     {
         var value;
-        if fetch value, this->_options[option] {
+        if fetch value, this->options[option] {
             return value;
         }
         return defaultValue;
@@ -238,7 +238,7 @@ abstract class Element implements ElementInterface
      */
     public function getUserOptions() -> array
     {
-        return this->_options;
+        return this->options;
     }
 
     /**
@@ -246,7 +246,7 @@ abstract class Element implements ElementInterface
      */
     public function getValidators() -> <ValidatorInterface[]>
     {
-        return this->_validators;
+        return this->validators;
     }
 
     /**
@@ -254,8 +254,8 @@ abstract class Element implements ElementInterface
      */
     public function getValue() -> var
     {
-        var name  = this->_name,
-            form  = this->_form,
+        var name  = this->name,
+            form  = this->form,
             value = null;
 
         /**
@@ -276,7 +276,7 @@ abstract class Element implements ElementInterface
          * Assign the default value if there is no form available or Phalcon\Tag returns null
          */
         if typeof value == "null" {
-            let value = this->_value;
+            let value = this->value;
         }
 
         return value;
@@ -287,7 +287,7 @@ abstract class Element implements ElementInterface
      */
     public function hasMessages() -> bool
     {
-        return count(this->_messages) > 0;
+        return count(this->messages) > 0;
     }
 
     /**
@@ -303,7 +303,7 @@ abstract class Element implements ElementInterface
         let internalAttributes = this->getAttributes();
 
         if !fetch name, internalAttributes["id"] {
-            let name = this->_name;
+            let name = this->name;
         }
 
         if typeof attributes == "array" {
@@ -319,7 +319,7 @@ abstract class Element implements ElementInterface
         /**
          * Use the default label or leave the same name as label
          */
-        let label = this->_label;
+        let label = this->label;
         if label || is_numeric(label) {
             let code .= ">" . label . "</label>";
         } else {
@@ -338,7 +338,7 @@ abstract class Element implements ElementInterface
         var value, name, widgetAttributes, mergedAttributes,
             defaultAttributes, currentValue;
 
-        let name = this->_name;
+        let name = this->name;
 
         /**
          * Create an array of parameters
@@ -354,7 +354,7 @@ abstract class Element implements ElementInterface
         /**
          * Merge passed parameters with default ones
          */
-        let defaultAttributes = this->_attributes;
+        let defaultAttributes = this->attributes;
         if typeof defaultAttributes == "array" {
             let mergedAttributes = array_merge(defaultAttributes, widgetAttributes);
         } else {
@@ -402,7 +402,7 @@ abstract class Element implements ElementInterface
      */
     public function setAttribute(string attribute, var value) -> <ElementInterface>
     {
-        let this->_attributes[attribute] = value;
+        let this->attributes[attribute] = value;
         return this;
     }
 
@@ -411,7 +411,7 @@ abstract class Element implements ElementInterface
      */
     public function setAttributes(array! attributes) -> <ElementInterface>
     {
-        let this->_attributes = attributes;
+        let this->attributes = attributes;
         return this;
     }
 
@@ -421,7 +421,7 @@ abstract class Element implements ElementInterface
      */
     public function setDefault(var value) -> <ElementInterface>
     {
-        let this->_value = value;
+        let this->value = value;
         return this;
     }
 
@@ -435,7 +435,7 @@ abstract class Element implements ElementInterface
         if typeof filters != "string" && typeof filters != "array" {
             throw new Exception("Wrong filter type added");
         }
-        let this->_filters = filters;
+        let this->filters = filters;
         return this;
     }
 
@@ -444,7 +444,7 @@ abstract class Element implements ElementInterface
      */
     public function setForm(<Form> form) -> <ElementInterface>
     {
-        let this->_form = form;
+        let this->form = form;
         return this;
     }
 
@@ -453,7 +453,7 @@ abstract class Element implements ElementInterface
      */
     public function setLabel(string label) -> <ElementInterface>
     {
-        let this->_label = label;
+        let this->label = label;
         return this;
     }
 
@@ -462,7 +462,7 @@ abstract class Element implements ElementInterface
      */
     public function setMessages(<Messages> messages) -> <ElementInterface>
     {
-        let this->_messages = messages;
+        let this->messages = messages;
         return this;
     }
 
@@ -471,7 +471,7 @@ abstract class Element implements ElementInterface
      */
     public function setName(string! name) -> <ElementInterface>
     {
-        let this->_name = name;
+        let this->name = name;
         return this;
     }
 
@@ -480,7 +480,7 @@ abstract class Element implements ElementInterface
      */
     public function setUserOption(string option, var value) -> <ElementInterface>
     {
-        let this->_options[option] = value;
+        let this->options[option] = value;
         return this;
     }
 
@@ -489,7 +489,7 @@ abstract class Element implements ElementInterface
      */
     public function setUserOptions(array options) -> <ElementInterface>
     {
-        let this->_options = options;
+        let this->options = options;
         return this;
     }
 }

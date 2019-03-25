@@ -31,7 +31,7 @@ class FactoryDefault extends \Phalcon\Di
 
         let filter = new FilterLocatorFactory();
 
-        let this->_services = [
+        let this->services = [
             "annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
             "assets":             new Service("Phalcon\\Assets\\Manager", true),
             "crypt":              new Service("Phalcon\\Crypt", true),

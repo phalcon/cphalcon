@@ -20,21 +20,9 @@ use Phalcon\DiInterface;
 interface ServiceInterface
 {
     /**
-     * Sets if the service is shared or not
+     * Restore the internal state of a service
      */
-    public function setShared(bool shared);
-
-    /**
-     * Check whether the service is shared or not
-     */
-    public function isShared() -> bool;
-
-    /**
-     * Set the service definition
-     *
-     * @param mixed definition
-     */
-    public function setDefinition(definition);
+    public static function __set_state(array! attributes) -> <ServiceInterface>;
 
     /**
      * Returns the service definition
@@ -42,19 +30,6 @@ interface ServiceInterface
      * @return mixed
      */
     public function getDefinition();
-
-    /**
-     * Resolves the service
-     *
-     * @param array parameters
-     * @return mixed
-     */
-    public function resolve(parameters = null, <DiInterface> container = null);
-
-    /**
-     * Changes a parameter in the definition without resolve the service
-     */
-    public function setParameter(int position, array! parameter) -> <ServiceInterface>;
 
     /**
      * Returns a parameter in a specific position
@@ -69,8 +44,33 @@ interface ServiceInterface
     public function isResolved() -> bool;
 
     /**
-     * Restore the internal state of a service
+     * Check whether the service is shared or not
      */
-    public static function __set_state(array! attributes) -> <ServiceInterface>;
+    public function isShared() -> bool;
+
+    /**
+     * Resolves the service
+     *
+     * @param array parameters
+     * @return mixed
+     */
+    public function resolve(parameters = null, <DiInterface> container = null);
+
+    /**
+     * Set the service definition
+     *
+     * @param mixed definition
+     */
+    public function setDefinition(definition);
+
+    /**
+     * Changes a parameter in the definition without resolve the service
+     */
+    public function setParameter(int position, array! parameter) -> <ServiceInterface>;
+
+    /**
+     * Sets if the service is shared or not
+     */
+    public function setShared(bool shared);
 
 }
