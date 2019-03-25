@@ -40,7 +40,6 @@ use Phalcon\Db\ColumnInterface;
  */
 class Column implements ColumnInterface
 {
-
     /**
      * Bind Type Blob
      */

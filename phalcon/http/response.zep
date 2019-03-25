@@ -40,21 +40,21 @@ use Phalcon\Events\ManagerInterface;
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
-    protected _sent = false;
-
-    protected _content;
-
-    protected _headers;
-
-    protected _cookies;
-
-    protected _file;
-
     protected container;
 
-    protected _statusCodes;
+    protected content;
+
+    protected cookies;
 
     protected eventsManager;
+
+    protected file;
+
+    protected headers;
+
+    protected sent = false;
+
+    protected statusCodes;
 
     /**
      * Phalcon\Http\Response constructor
@@ -64,10 +64,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
          */
-        let this->_headers = new Headers();
+        let this->headers = new Headers();
 
         if content !== null {
-            let this->_content = content;
+            let this->content = content;
         }
 
         if code !== null {
@@ -80,7 +80,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function appendContent(content) -> <ResponseInterface>
     {
-        let this->_content = this->getContent() . content;
+        let this->content = this->getContent() . content;
         return this;
     }
 
@@ -89,7 +89,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getContent() -> string
     {
-        return this->_content;
+        return this->content;
     }
 
     /**
@@ -97,7 +97,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getCookies() -> <CookiesInterface>
     {
-        return this->_cookies;
+        return this->cookies;
     }
 
     /**
@@ -130,7 +130,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getHeaders() -> <HeadersInterface>
     {
-        return this->_headers;
+        return this->headers;
     }
 
     /**
@@ -181,7 +181,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function isSent() -> bool
     {
-        return this->_sent;
+        return this->sent;
     }
 
     /**
@@ -289,7 +289,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var content, file;
 
-        if this->_sent {
+        if this->sent {
             throw new Exception("Response was already sent");
         }
 
@@ -300,18 +300,18 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * Output the response body
          */
-        let content = this->_content;
+        let content = this->content;
         if content != null {
             echo content;
         } else {
-            let file = this->_file;
+            let file = this->file;
 
             if typeof file == "string" && strlen(file) {
                 readfile(file);
             }
         }
 
-        let this->_sent = true;
+        let this->sent = true;
         return this;
     }
 
@@ -321,7 +321,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function sendCookies() -> <ResponseInterface>
     {
         var cookies;
-        let cookies = this->_cookies;
+        let cookies = this->cookies;
         if typeof cookies == "object" {
             cookies->send();
         }
@@ -383,7 +383,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setContent(string content) -> <ResponseInterface>
     {
-        let this->_content = content;
+        let this->content = content;
         return this;
     }
 
@@ -425,7 +425,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setCookies(<CookiesInterface> cookies) -> <ResponseInterface>
     {
-        let this->_cookies = cookies;
+        let this->cookies = cookies;
         return this;
     }
 
@@ -507,7 +507,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             this->setRawHeader("Content-Transfer-Encoding: binary");
         }
 
-        let this->_file = filePath;
+        let this->file = filePath;
 
         return this;
     }
@@ -541,7 +541,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             existing->set(name, value);
         }
 
-        let this->_headers = existing;
+        let this->headers = existing;
 
         return this;
     }

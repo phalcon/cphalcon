@@ -194,8 +194,8 @@ class QueryBuilder extends Adapter
          * If we have having perform native count on temp table
          */
         if hasHaving {
-            let sql = totalQuery->getSql(),
-              modelClass = builder->_models;
+            let sql        = totalQuery->getSql(),
+                modelClass = builder->models;
 
             if typeof modelClass == "array" {
                 let modelClass = array_values(modelClass)[0];
