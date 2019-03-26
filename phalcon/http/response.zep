@@ -109,7 +109,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
             if typeof container != "object" {
-                throw new Exception("A dependency injection object is required to access the 'url' service");
+                        throw new Exception(Exception::containerServiceNotFound("the 'url' service"));
             }
             let this->container = container;
         }

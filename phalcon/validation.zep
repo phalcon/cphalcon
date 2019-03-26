@@ -289,7 +289,7 @@ class Validation extends Injectable implements ValidationInterface
                 if typeof container != "object" {
                     let container = Di::getDefault();
                     if typeof container != "object" {
-                        throw new Exception("A dependency injector is required to obtain the 'filter' service");
+                        throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
                     }
                 }
 

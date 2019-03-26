@@ -930,7 +930,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injection object is required to access ORM services");
+            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
         }
 
         /**

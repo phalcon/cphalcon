@@ -87,7 +87,7 @@ class Application extends BaseApplication
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injection object is required to access internal services");
+            throw new Exception(Exception::containerServiceNotFound("internal services"));
         }
 
         let eventsManager = <ManagerInterface> this->eventsManager;

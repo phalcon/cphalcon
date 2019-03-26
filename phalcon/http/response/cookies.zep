@@ -301,7 +301,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
             let container = this->container;
             if typeof container != "object" {
-                throw new Exception("A dependency injection object is required to access the 'response' service");
+                throw new Exception(Exception::containerServiceNotFound("the 'response' service"));
             }
 
             let response = container->getShared("response");

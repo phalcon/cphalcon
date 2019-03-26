@@ -116,7 +116,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            this->{"throwDispatchException"}("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
+            this->{"throwDispatchException"}(
+                PhalconException::containerServiceNotFound("related dispatching services"),
+                self::EXCEPTION_NO_DI
+            );
             return false;
         }
 
@@ -671,7 +674,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
         let container = this->container;
         if typeof container != "object" {
-            this->{"throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
+            this->{"throwDispatchException"}(
+                PhalconException::containerServiceNotFound("the 'filter' service"),
+                self::EXCEPTION_NO_DI
+            );
         }
         let filter = <LocatorInterface> container->getShared("filter");
 //        let filter = <FilterInterface> container->getShared("filter");

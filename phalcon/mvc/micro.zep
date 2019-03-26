@@ -337,7 +337,7 @@ class Micro extends Injectable implements \ArrayAccess
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access required micro services");
+            throw new Exception(Exception::containerServiceNotFound("micro services"));
         }
 
         try {

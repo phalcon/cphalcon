@@ -1504,7 +1504,7 @@ class Tag implements InjectionAwareInterface
             let container = this->getDI();
 
             if typeof container != "object" {
-                throw new Exception("A dependency injector container is required to obtain the '" . name . "' service");
+                throw new Exception(Exception::containerServiceNotFound("the '" . name . "' service"));
             }
 
             if ("escaper" === name) {

@@ -77,7 +77,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
             if typeof container != "object" {
-                throw new Exception("A dependency injection object is required to access the application services");
+                throw new Exception(Exception::containerServiceNotFound("internal services"));
             }
         }
 

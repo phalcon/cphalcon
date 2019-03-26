@@ -145,7 +145,7 @@ class Simple extends Injectable implements ViewBaseInterface
             } else {
 
                 if typeof di != "object" {
-                    throw new Exception("A dependency injector container is required to obtain the application services");
+                    throw new Exception(Exception::containerServiceNotFound("the application services"));
                 }
 
                 for extension, engineService in registeredEngines {
@@ -471,7 +471,7 @@ class Simple extends Injectable implements ViewBaseInterface
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injector container is required to obtain the view cache services");
+            throw new Exception(Exception::containerServiceNotFound("the view cache services"));
         }
 
         let cacheService = "viewCache";

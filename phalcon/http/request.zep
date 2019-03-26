@@ -1132,7 +1132,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             if typeof filter != "object" {
                 let container = <DiInterface> this->container;
                 if typeof container != "object" {
-                    throw new Exception("A dependency injection object is required to access the 'filter' service");
+                    throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
                 }
                 let filter = <LocatorInterface> container->getShared("filter");
 //                let filter = <FilterInterface> container->getShared("filter");
@@ -1340,7 +1340,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         if typeof locator != "object" {
             let container = <DiInterface> this->container;
             if typeof container != "object" {
-                throw new Exception("A dependency injection object is required to access the 'filter' service");
+                throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
             }
             let locator             = <LocatorInterface> container->getShared("filter"),
                 this->filterLocator = locator;

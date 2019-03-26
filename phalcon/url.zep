@@ -130,7 +130,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
                 let container = <DiInterface> this->container;
                 if typeof container != "object" {
-                    throw new Exception("A dependency injector container is required to obtain the 'router' service");
+                    throw new Exception(Exception::containerServiceNotFound("the 'router' service"));
                 }
 
                 let router = <RouterInterface> container->getShared("router"),

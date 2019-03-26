@@ -127,7 +127,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
         }
 
         /**

@@ -516,7 +516,7 @@ class View extends Injectable implements ViewInterface
             } else {
 
                 if typeof di != "object" {
-                    throw new Exception("A dependency injector container is required to obtain the application services");
+                    throw new Exception(Exception::containerServiceNotFound("application services"));
                 }
 
                 for extension, engineService in registeredEngines {
@@ -1145,7 +1145,7 @@ class View extends Injectable implements ViewInterface
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injector container is required to obtain the view cache services");
+            throw new Exception(Exception::containerServiceNotFound("the view cache services"));
         }
 
         let cacheService = "viewCache";
