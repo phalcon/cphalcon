@@ -40,7 +40,6 @@ use Phalcon\Dispatcher as BaseDispatcher;
  */
 class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
-
     protected defaultAction = "index";
 
     protected defaultHandler = "index";
