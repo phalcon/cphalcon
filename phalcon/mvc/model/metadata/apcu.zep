@@ -33,12 +33,11 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Apcu extends MetaData
 {
+    protected metaData = [];
 
-    protected _prefix = "";
+    protected prefix = "";
 
-    protected _ttl = 172800;
-
-    protected _metaData = [];
+    protected ttl = 172800;
 
     /**
      * Phalcon\Mvc\Model\MetaData\Apcu constructor
@@ -51,10 +50,10 @@ class Apcu extends MetaData
 
         if typeof options == "array" {
             if fetch prefix, options["prefix"] {
-                let this->_prefix = prefix;
+                let this->prefix = prefix;
             }
             if fetch ttl, options["lifetime"] {
-                let this->_ttl = ttl;
+                let this->ttl = ttl;
             }
         }
     }
@@ -66,7 +65,7 @@ class Apcu extends MetaData
     {
         var data;
 
-        let data = apcu_fetch("$PMM$" . this->_prefix . key);
+        let data = apcu_fetch("$PMM$" . this->prefix . key);
         if typeof data == "array" {
             return data;
         }
@@ -78,6 +77,6 @@ class Apcu extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        apcu_store("$PMM$" . this->_prefix . key, data, this->_ttl);
+        apcu_store("$PMM$" . this->prefix . key, data, this->ttl);
     }
 }

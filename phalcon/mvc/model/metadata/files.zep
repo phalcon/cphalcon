@@ -28,10 +28,9 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Files extends MetaData
 {
+    protected metaData = [];
 
-    protected _metaDataDir = "./";
-
-    protected _metaData = [];
+    protected metaDataDir = "./";
 
     /**
      * Phalcon\Mvc\Model\MetaData\Files constructor
@@ -43,7 +42,7 @@ class Files extends MetaData
         var metaDataDir;
 
         if fetch metaDataDir, options["metaDataDir"] {
-            let this->_metaDataDir = metaDataDir;
+            let this->metaDataDir = metaDataDir;
         }
     }
 
@@ -53,7 +52,7 @@ class Files extends MetaData
     public function read(string! key) -> array | null
     {
         var path;
-        let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
         if file_exists(path) {
             return require path;
         }
@@ -67,7 +66,7 @@ class Files extends MetaData
     {
         var path;
 
-        let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
         if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
             throw new Exception("Meta-Data directory cannot be written");
         }

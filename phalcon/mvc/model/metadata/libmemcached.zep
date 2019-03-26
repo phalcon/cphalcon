@@ -44,12 +44,11 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Libmemcached extends MetaData
 {
+    protected memcache = null;
 
-    protected _ttl = 172800;
+    protected metaData = [];
 
-    protected _memcache = null;
-
-    protected _metaData = [];
+    protected ttl = 172800;
 
     /**
      * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
@@ -69,15 +68,15 @@ class Libmemcached extends MetaData
         }
 
         if fetch ttl, options["lifetime"] {
-            let this->_ttl = ttl;
+            let this->ttl = ttl;
         }
 
         if !isset options["statsKey"] {
             let options["statsKey"] = "_PHCM_MM";
         }
 
-        let this->_memcache = new Libmemcached(
-            new FrontendData(["lifetime": this->_ttl]),
+        let this->memcache = new Libmemcached(
+            new FrontendData(["lifetime": this->ttl]),
             options
         );
     }
@@ -89,7 +88,7 @@ class Libmemcached extends MetaData
     {
         var data;
 
-        let data = this->_memcache->get(key);
+        let data = this->memcache->get(key);
         if typeof data == "array" {
             return data;
         }
@@ -101,7 +100,7 @@ class Libmemcached extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        this->_memcache->save(key, data);
+        this->memcache->save(key, data);
     }
 
     /**
@@ -111,14 +110,14 @@ class Libmemcached extends MetaData
     {
         var meta, key, realKey;
 
-        let meta = this->_metaData;
+        let meta = this->metaData;
 
         if typeof meta == "array" {
 
             for key, _ in meta {
                 let realKey = "meta-" . key;
 
-                this->_memcache->delete(realKey);
+                this->memcache->delete(realKey);
             }
         }
 

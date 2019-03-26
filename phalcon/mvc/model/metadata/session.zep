@@ -32,7 +32,7 @@ use Phalcon\Mvc\Model\Exception;
 class Session extends MetaData
 {
 
-    protected _prefix = "";
+    protected prefix = "";
 
     /**
      * Phalcon\Mvc\Model\MetaData\Session constructor
@@ -44,7 +44,7 @@ class Session extends MetaData
         var prefix;
 
         if fetch prefix, options["prefix"] {
-            let this->_prefix = prefix;
+            let this->prefix = prefix;
         }
     }
 
@@ -61,7 +61,7 @@ class Session extends MetaData
             return null;
         }
 
-        if fetch metaData, _SESSION["$PMM$" . this->_prefix][key] {
+        if fetch metaData, _SESSION["$PMM$" . this->prefix][key] {
             return metaData;
         }
 
@@ -81,6 +81,6 @@ class Session extends MetaData
             return;
         }
 
-        let _SESSION["$PMM$" . this->_prefix][key] = data;
+        let _SESSION["$PMM$" . this->prefix][key] = data;
     }
 }

@@ -25,6 +25,37 @@ use Phalcon\Mvc\Model\MetaData\StrategyInterface;
  */
 class Introspection implements StrategyInterface
 {
+    /**
+     * Read the model's column map, this can't be inferred
+     */
+    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
+    {
+        var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
+
+        let orderedColumnMap = null;
+        let reversedColumnMap = null;
+
+        /**
+         * Check for a columnMap() method on the model
+         */
+        if method_exists(model, "columnMap") {
+
+            let userColumnMap = model->{"columnMap"}();
+            if typeof userColumnMap != "array" {
+                throw new Exception("columnMap() not returned an array");
+            }
+
+            let reversedColumnMap = [], orderedColumnMap = userColumnMap;
+            for name, userName in userColumnMap {
+                let reversedColumnMap[userName] = name;
+            }
+        }
+
+        /**
+         * Store the column map
+         */
+        return [orderedColumnMap, reversedColumnMap];
+    }
 
     /**
      * The meta-data is obtained by reading the column descriptions from the database information schema
@@ -168,37 +199,5 @@ class Introspection implements StrategyInterface
             MetaData::MODELS_DEFAULT_VALUES           : defaultValues,
             MetaData::MODELS_EMPTY_STRING_VALUES      : emptyStringValues
         ];
-    }
-
-    /**
-     * Read the model's column map, this can't be inferred
-     */
-    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
-    {
-        var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
-
-        let orderedColumnMap = null;
-        let reversedColumnMap = null;
-
-        /**
-         * Check for a columnMap() method on the model
-         */
-        if method_exists(model, "columnMap") {
-
-            let userColumnMap = model->{"columnMap"}();
-            if typeof userColumnMap != "array" {
-                throw new Exception("columnMap() not returned an array");
-            }
-
-            let reversedColumnMap = [], orderedColumnMap = userColumnMap;
-            for name, userName in userColumnMap {
-                let reversedColumnMap[userName] = name;
-            }
-        }
-
-        /**
-         * Store the column map
-         */
-        return [orderedColumnMap, reversedColumnMap];
     }
 }

@@ -20,6 +20,79 @@ use Phalcon\Mvc\Model\Exception;
 class Annotations implements StrategyInterface
 {
     /**
+     * Read the model's column map, this can't be inferred
+     */
+    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
+    {
+        var annotations, className, reflection, propertiesAnnotations;
+        var property, propAnnotations, columnAnnotation, columnName;
+        var orderedColumnMap, reversedColumnMap, hasReversedColumn;
+
+        if typeof container != "object" {
+            throw new Exception("The dependency injector is invalid");
+        }
+
+        let annotations = container->get("annotations");
+
+        let className = get_class(model), reflection = annotations->get(className);
+        if typeof reflection != "object" {
+            throw new Exception("No annotations were found in class " . className);
+        }
+
+        /**
+         * Get the properties defined in
+         */
+        let propertiesAnnotations = reflection->getPropertiesAnnotations();
+        if !count(propertiesAnnotations) {
+            throw new Exception("No properties with annotations were found in class " . className);
+        }
+
+        let orderedColumnMap = [],
+            reversedColumnMap = [],
+            hasReversedColumn = false;
+
+        for property, propAnnotations in propertiesAnnotations {
+
+            /**
+             * All columns marked with the 'Column' annotation are considered columns
+             */
+            if !propAnnotations->has("Column") {
+                continue;
+            }
+
+            /**
+             * Fetch the 'column' annotation
+             */
+            let columnAnnotation = propAnnotations->get("Column");
+
+            /**
+             * Check if annotation has the 'column' named parameter
+             */
+            let columnName = columnAnnotation->getNamedParameter("column");
+
+            if empty columnName {
+                let columnName = property;
+            }
+
+            let orderedColumnMap[columnName] = property,
+                reversedColumnMap[property] = columnName;
+
+            if !hasReversedColumn && columnName != property {
+                let hasReversedColumn = true;
+            }
+        }
+
+        if !hasReversedColumn {
+            return [null, null];
+        }
+
+        /**
+         * Store the column map
+         */
+        return [orderedColumnMap, reversedColumnMap];
+    }
+
+    /**
      * The meta-data is obtained by reading the column descriptions from the database information schema
      */
     public final function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
@@ -317,78 +390,5 @@ class Annotations implements StrategyInterface
             MetaData::MODELS_DEFAULT_VALUES           : defaultValues,
             MetaData::MODELS_EMPTY_STRING_VALUES      : emptyStringValues
         ];
-    }
-
-    /**
-     * Read the model's column map, this can't be inferred
-     */
-    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
-    {
-        var annotations, className, reflection, propertiesAnnotations;
-        var property, propAnnotations, columnAnnotation, columnName;
-        var orderedColumnMap, reversedColumnMap, hasReversedColumn;
-
-        if typeof container != "object" {
-            throw new Exception("The dependency injector is invalid");
-        }
-
-        let annotations = container->get("annotations");
-
-        let className = get_class(model), reflection = annotations->get(className);
-        if typeof reflection != "object" {
-            throw new Exception("No annotations were found in class " . className);
-        }
-
-        /**
-         * Get the properties defined in
-         */
-        let propertiesAnnotations = reflection->getPropertiesAnnotations();
-        if !count(propertiesAnnotations) {
-            throw new Exception("No properties with annotations were found in class " . className);
-        }
-
-        let orderedColumnMap = [],
-            reversedColumnMap = [],
-            hasReversedColumn = false;
-
-        for property, propAnnotations in propertiesAnnotations {
-
-            /**
-             * All columns marked with the 'Column' annotation are considered columns
-             */
-            if !propAnnotations->has("Column") {
-                continue;
-            }
-
-            /**
-             * Fetch the 'column' annotation
-             */
-            let columnAnnotation = propAnnotations->get("Column");
-
-            /**
-             * Check if annotation has the 'column' named parameter
-             */
-            let columnName = columnAnnotation->getNamedParameter("column");
-
-            if empty columnName {
-                let columnName = property;
-            }
-
-            let orderedColumnMap[columnName] = property,
-                reversedColumnMap[property] = columnName;
-
-            if !hasReversedColumn && columnName != property {
-                let hasReversedColumn = true;
-            }
-        }
-
-        if !hasReversedColumn {
-            return [null, null];
-        }
-
-        /**
-         * Store the column map
-         */
-        return [orderedColumnMap, reversedColumnMap];
     }
 }

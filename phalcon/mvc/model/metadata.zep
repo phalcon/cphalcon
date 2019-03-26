@@ -38,341 +38,30 @@ use Phalcon\Mvc\Model\MetaData\StrategyInterface;
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
+    const MODELS_ATTRIBUTES = 0;
+    const MODELS_AUTOMATIC_DEFAULT_INSERT = 10;
+    const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
+    const MODELS_COLUMN_MAP = 0;
+    const MODELS_DATE_AT = 6;
+    const MODELS_DATE_IN = 7;
+    const MODELS_DATA_TYPES = 4;
+    const MODELS_DATA_TYPES_BIND = 9;
+    const MODELS_DATA_TYPES_NUMERIC = 5;
+    const MODELS_DEFAULT_VALUES = 12;
+    const MODELS_EMPTY_STRING_VALUES = 13;
+    const MODELS_IDENTITY_COLUMN = 8;
+    const MODELS_NON_PRIMARY_KEY = 2;
+    const MODELS_NOT_NULL = 3;
+    const MODELS_PRIMARY_KEY = 1;
+    const MODELS_REVERSE_COLUMN_MAP = 1;
+
+    protected columnMap;
 
     protected container;
 
-    protected _strategy;
+    protected metaData;
 
-    protected _metaData;
-
-    protected _columnMap;
-
-    const MODELS_ATTRIBUTES = 0;
-
-    const MODELS_PRIMARY_KEY = 1;
-
-    const MODELS_NON_PRIMARY_KEY = 2;
-
-    const MODELS_NOT_NULL = 3;
-
-    const MODELS_DATA_TYPES = 4;
-
-    const MODELS_DATA_TYPES_NUMERIC = 5;
-
-    const MODELS_DATE_AT = 6;
-
-    const MODELS_DATE_IN = 7;
-
-    const MODELS_IDENTITY_COLUMN = 8;
-
-    const MODELS_DATA_TYPES_BIND = 9;
-
-    const MODELS_AUTOMATIC_DEFAULT_INSERT = 10;
-
-    const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
-
-    const MODELS_DEFAULT_VALUES = 12;
-
-    const MODELS_EMPTY_STRING_VALUES = 13;
-
-    const MODELS_COLUMN_MAP = 0;
-
-    const MODELS_REVERSE_COLUMN_MAP = 1;
-
-    /**
-     * Initialize the metadata for certain table
-     */
-    protected final function _initialize(<ModelInterface> model, var key, var table, var schema)
-    {
-        var strategy, className, metaData, data, modelMetadata, modelColumnMap,
-            container, keyName, prefixKey;
-
-        let strategy = null,
-            className = get_class(model);
-
-        if key !== null {
-
-            let metaData = this->_metaData;
-            if !isset metaData[key] {
-
-                /**
-                 * The meta-data is read from the adapter always if not available in _metaData property
-                 */
-                let prefixKey = "meta-" . key,
-                    data = this->{"read"}(prefixKey);
-                if data !== null {
-                    let this->_metaData[key] = data;
-                } else {
-
-                    /**
-                     * Check if there is a method 'metaData' in the model to retrieve meta-data from it
-                     */
-                    if method_exists(model, "metaData") {
-                        let modelMetadata = model->{"metaData"}();
-                        if typeof modelMetadata != "array" {
-                            throw new Exception("Invalid meta-data for model " . className);
-                        }
-                    } else {
-
-                        /**
-                         * Get the meta-data extraction strategy
-                         */
-                        let container = this->container,
-                            strategy = this->getStrategy(),
-                            modelMetadata = strategy->getMetaData(model, container);
-                    }
-
-                    /**
-                     * Store the meta-data locally
-                     */
-                    let this->_metaData[key] = modelMetadata;
-
-                    /**
-                     * Store the meta-data in the adapter
-                     */
-                    this->{"write"}(prefixKey, modelMetadata);
-                }
-            }
-        }
-
-        /**
-         * Check for a column map, store in _columnMap in order and reversed order
-         */
-        if !globals_get("orm.column_renaming") {
-            return null;
-        }
-
-        let keyName = strtolower(className);
-        if isset this->_columnMap[keyName] {
-            return null;
-        }
-
-        /**
-         * Create the map key name
-         * Check if the meta-data is already in the adapter
-         */
-        let prefixKey = "map-" . keyName,
-            data = this->{"read"}(prefixKey);
-
-        if data !== null {
-            let this->_columnMap[keyName] = data;
-            return null;
-        }
-
-        /**
-         * Get the meta-data extraction strategy
-         */
-        if typeof strategy != "object" {
-            let container = this->container,
-                strategy = this->getStrategy();
-        }
-
-        /**
-         * Get the meta-data
-         * Update the column map locally
-         */
-        let modelColumnMap = strategy->getColumnMaps(model, container),
-            this->_columnMap[keyName] = modelColumnMap;
-
-        /**
-         * Write the data to the adapter
-         */
-        this->{"write"}(prefixKey, modelColumnMap);
-    }
-
-    /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container)
-    {
-        let this->container = container;
-    }
-
-    /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
-     * Set the meta-data extraction strategy
-     */
-    public function setStrategy(<StrategyInterface> strategy) -> void
-    {
-        let this->_strategy = strategy;
-    }
-
-    /**
-     * Return the strategy to obtain the meta-data
-     */
-    public function getStrategy() -> <StrategyInterface>
-    {
-        if typeof this->_strategy == "null" {
-            let this->_strategy = new Introspection();
-        }
-
-        return this->_strategy;
-    }
-
-    /**
-     * Reads the complete meta-data for certain model
-     *
-     *<code>
-     * print_r(
-     *     $metaData->readMetaData(
-     *         new Robots()
-     *     )
-     * );
-     *</code>
-     */
-    public final function readMetaData(<ModelInterface> model) -> array
-    {
-        var source, schema, key;
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-source
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-        if !isset this->_metaData[key] {
-            this->_initialize(model, key, source, schema);
-        }
-
-        return this->_metaData[key];
-    }
-
-    /**
-     * Reads meta-data for certain model
-     *
-     *<code>
-     * print_r(
-     *     $metaData->readMetaDataIndex(
-     *         new Robots(),
-     *         0
-     *     )
-     * );
-     *</code>
-     */
-    public final function readMetaDataIndex(<ModelInterface> model, int index)
-    {
-        var source, schema, key;
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-source
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->_metaData[key][index] {
-            this->_initialize(model, key, source, schema);
-        }
-
-        return this->_metaData[key][index];
-    }
-
-    /**
-     * Writes meta-data for certain model using a MODEL_* constant
-     *
-     *<code>
-     * print_r(
-     *     $metaData->writeColumnMapIndex(
-     *         new Robots(),
-     *         MetaData::MODELS_REVERSE_COLUMN_MAP,
-     *         [
-     *             "leName" => "name",
-     *         ]
-     *     )
-     * );
-     *</code>
-     */
-    public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
-    {
-        var source, schema, key;
-
-        if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
-            throw new Exception("Invalid data for index");
-        }
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-table
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->_metaData[key] {
-            this->_initialize(model, key, source, schema);
-        }
-
-        let this->_metaData[key][index] = data;
-    }
-
-    /**
-     * Reads the ordered/reversed column map for certain model
-     *
-     *<code>
-     * print_r(
-     *     $metaData->readColumnMap(
-     *         new Robots()
-     *     )
-     * );
-     *</code>
-     */
-    public final function readColumnMap(<ModelInterface> model) -> array | null
-    {
-        var keyName, data;
-
-        if !globals_get("orm.column_renaming") {
-            return null;
-        }
-
-        let keyName = get_class_lower(model);
-        if !fetch data, this->_columnMap[keyName] {
-            this->_initialize(model, null, null, null);
-            let data = this->_columnMap[keyName];
-        }
-
-        return data;
-    }
-
-    /**
-     * Reads column-map information for certain model using a MODEL_* constant
-     *
-     *<code>
-     * print_r(
-     *     $metaData->readColumnMapIndex(
-     *         new Robots(),
-     *         MetaData::MODELS_REVERSE_COLUMN_MAP
-     *     )
-     * );
-     *</code>
-     */
-    public final function readColumnMapIndex(<ModelInterface> model, int index)
-    {
-        var keyName, columnMapModel, map;
-
-        if !globals_get("orm.column_renaming") {
-            return null;
-        }
-
-        let keyName = get_class_lower(model);
-
-        if !fetch columnMapModel, this->_columnMap[keyName] {
-            this->_initialize(model, null, null, null);
-            let columnMapModel = this->_columnMap[keyName];
-        }
-
-        fetch map, columnMapModel[index];
-
-        return map;
-    }
+    protected strategy;
 
     /**
      * Returns table attributes names (fields)
@@ -396,20 +85,20 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns an array of fields which are part of the primary key
+     * Returns attributes that must be ignored from the INSERT SQL generation
      *
      *<code>
      * print_r(
-     *     $metaData->getPrimaryKeyAttributes(
+     *     $metaData->getAutomaticCreateAttributes(
      *         new Robots()
      *     )
      * );
      *</code>
      */
-    public function getPrimaryKeyAttributes(<ModelInterface> model) -> array
+    public function getAutomaticCreateAttributes(<ModelInterface> model) -> array
     {
         var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
+        let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT);
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
@@ -417,20 +106,20 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns an array of fields which are not part of the primary key
+     * Returns attributes that must be ignored from the UPDATE SQL generation
      *
      *<code>
      * print_r(
-     *     $metaData->getNonPrimaryKeyAttributes(
+     *     $metaData->getAutomaticUpdateAttributes(
      *         new Robots()
      *     )
      * );
      *</code>
      */
-    public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array
+    public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array
     {
         var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_NON_PRIMARY_KEY);
+        let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE);
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
@@ -438,20 +127,63 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns an array of not null attributes
+     * Returns attributes and their bind data types
      *
      *<code>
      * print_r(
-     *     $metaData->getNotNullAttributes(
+     *     $metaData->getBindTypes(
      *         new Robots()
      *     )
      * );
      *</code>
      */
-    public function getNotNullAttributes(<ModelInterface> model) -> array
+    public function getBindTypes(<ModelInterface> model) -> array
     {
         var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_NOT_NULL);
+        let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_BIND);
+        if typeof data != "array" {
+            throw new Exception("The meta-data is invalid or is corrupt");
+        }
+        return data;
+    }
+
+    /**
+     * Returns the column map if any
+     *
+     *<code>
+     * print_r(
+     *     $metaData->getColumnMap(
+     *         new Robots()
+     *     )
+     * );
+     *</code>
+     */
+    public function getColumnMap(<ModelInterface> model) -> array
+    {
+        var data;
+
+        let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
+        if typeof data != "null" && typeof data != "array" {
+            throw new Exception("The meta-data is invalid or is corrupt");
+        }
+        return data;
+    }
+
+    /**
+     * Returns attributes (which have default values) and their default values
+     *
+     *<code>
+     * print_r(
+     *     $metaData->getDefaultValues(
+     *         new Robots()
+     *     )
+     * );
+     *</code>
+     */
+    public function getDefaultValues(<ModelInterface> model) -> array
+    {
+        var data;
+        let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
@@ -501,6 +233,35 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
+    }
+
+    /**
+     * Returns attributes allow empty strings
+     *
+     *<code>
+     * print_r(
+     *     $metaData->getEmptyStringAttributes(
+     *         new Robots()
+     *     )
+     * );
+     *</code>
+     */
+    public function getEmptyStringAttributes(<ModelInterface> model) -> array
+    {
+        var data;
+        let data = this->readMetaDataIndex(model, self::MODELS_EMPTY_STRING_VALUES);
+        if typeof data != "array" {
+            throw new Exception("The meta-data is invalid or is corrupt");
+        }
+        return data;
+    }
+
+    /**
      * Returns the name of identity field (if one is present)
      *
      *<code>
@@ -520,20 +281,20 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns attributes and their bind data types
+     * Returns an array of fields which are not part of the primary key
      *
      *<code>
      * print_r(
-     *     $metaData->getBindTypes(
+     *     $metaData->getNonPrimaryKeyAttributes(
      *         new Robots()
      *     )
      * );
      *</code>
      */
-    public function getBindTypes(<ModelInterface> model) -> array
+    public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
         var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_BIND);
+        let data = this->readMetaDataIndex(model, self::MODELS_NON_PRIMARY_KEY);
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
@@ -541,20 +302,20 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns attributes that must be ignored from the INSERT SQL generation
+     * Returns an array of not null attributes
      *
      *<code>
      * print_r(
-     *     $metaData->getAutomaticCreateAttributes(
+     *     $metaData->getNotNullAttributes(
      *         new Robots()
      *     )
      * );
      *</code>
      */
-    public function getAutomaticCreateAttributes(<ModelInterface> model) -> array
+    public function getNotNullAttributes(<ModelInterface> model) -> array
     {
         var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT);
+        let data = this->readMetaDataIndex(model, self::MODELS_NOT_NULL);
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
@@ -562,24 +323,229 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns attributes that must be ignored from the UPDATE SQL generation
+     * Returns an array of fields which are part of the primary key
      *
      *<code>
      * print_r(
-     *     $metaData->getAutomaticUpdateAttributes(
+     *     $metaData->getPrimaryKeyAttributes(
      *         new Robots()
      *     )
      * );
      *</code>
      */
-    public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array
+    public function getPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
         var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE);
+        let data = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
         return data;
+    }
+
+    /**
+     * Returns the reverse column map if any
+     *
+     *<code>
+     * print_r(
+     *     $metaData->getReverseColumnMap(
+     *         new Robots()
+     *     )
+     * );
+     *</code>
+     */
+    public function getReverseColumnMap(<ModelInterface> model) -> array
+    {
+        var data;
+
+        let data = this->readColumnMapIndex(model, self::MODELS_REVERSE_COLUMN_MAP);
+        if typeof data != "null" && typeof data != "array" {
+            throw new Exception("The meta-data is invalid or is corrupt");
+        }
+        return data;
+    }
+
+    /**
+     * Return the strategy to obtain the meta-data
+     */
+    public function getStrategy() -> <StrategyInterface>
+    {
+        if typeof this->strategy == "null" {
+            let this->strategy = new Introspection();
+        }
+
+        return this->strategy;
+    }
+
+    /**
+     * Check if a model has certain attribute
+     *
+     *<code>
+     * var_dump(
+     *     $metaData->hasAttribute(
+     *         new Robots(),
+     *         "name"
+     *     )
+     * );
+     *</code>
+     */
+    public function hasAttribute(<ModelInterface> model, string attribute) -> bool
+    {
+        var columnMap;
+
+        let columnMap = this->getReverseColumnMap(model);
+        if typeof columnMap == "array" {
+            return isset columnMap[attribute];
+        } else {
+            return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
+        }
+    }
+
+    /**
+     * Checks if the internal meta-data container is empty
+     *
+     *<code>
+     * var_dump(
+     *     $metaData->isEmpty()
+     * );
+     *</code>
+     */
+    public function isEmpty() -> bool
+    {
+        return count(this->metaData) == 0;
+    }
+
+    /**
+     * Reads the ordered/reversed column map for certain model
+     *
+     *<code>
+     * print_r(
+     *     $metaData->readColumnMap(
+     *         new Robots()
+     *     )
+     * );
+     *</code>
+     */
+    public final function readColumnMap(<ModelInterface> model) -> array | null
+    {
+        var keyName, data;
+
+        if !globals_get("orm.column_renaming") {
+            return null;
+        }
+
+        let keyName = get_class_lower(model);
+        if !fetch data, this->columnMap[keyName] {
+            this->initialize(model, null, null, null);
+            let data = this->columnMap[keyName];
+        }
+
+        return data;
+    }
+
+    /**
+     * Reads column-map information for certain model using a MODEL_* constant
+     *
+     *<code>
+     * print_r(
+     *     $metaData->readColumnMapIndex(
+     *         new Robots(),
+     *         MetaData::MODELS_REVERSE_COLUMN_MAP
+     *     )
+     * );
+     *</code>
+     */
+    public final function readColumnMapIndex(<ModelInterface> model, int index)
+    {
+        var keyName, columnMapModel, map;
+
+        if !globals_get("orm.column_renaming") {
+            return null;
+        }
+
+        let keyName = get_class_lower(model);
+
+        if !fetch columnMapModel, this->columnMap[keyName] {
+            this->initialize(model, null, null, null);
+            let columnMapModel = this->columnMap[keyName];
+        }
+
+        fetch map, columnMapModel[index];
+
+        return map;
+    }
+
+    /**
+     * Reads the complete meta-data for certain model
+     *
+     *<code>
+     * print_r(
+     *     $metaData->readMetaData(
+     *         new Robots()
+     *     )
+     * );
+     *</code>
+     */
+    public final function readMetaData(<ModelInterface> model) -> array
+    {
+        var source, schema, key;
+
+        let source = model->getSource(),
+            schema = model->getSchema();
+
+        /*
+         * Unique key for meta-data is created using class-name-schema-source
+         */
+        let key = get_class_lower(model) . "-" . schema . source;
+        if !isset this->metaData[key] {
+            this->initialize(model, key, source, schema);
+        }
+
+        return this->metaData[key];
+    }
+
+    /**
+     * Reads meta-data for certain model
+     *
+     *<code>
+     * print_r(
+     *     $metaData->readMetaDataIndex(
+     *         new Robots(),
+     *         0
+     *     )
+     * );
+     *</code>
+     */
+    public final function readMetaDataIndex(<ModelInterface> model, int index)
+    {
+        var source, schema, key;
+
+        let source = model->getSource(),
+            schema = model->getSchema();
+
+        /*
+         * Unique key for meta-data is created using class-name-schema-source
+         */
+        let key = get_class_lower(model) . "-" . schema . source;
+
+        if !isset this->metaData[key][index] {
+            this->initialize(model, key, source, schema);
+        }
+
+        return this->metaData[key][index];
+    }
+
+    /**
+     * Resets internal meta-data in order to regenerate it
+     *
+     *<code>
+     * $metaData->reset();
+     *</code>
+     */
+    public function reset() -> void
+    {
+        let this->metaData = [],
+            this->columnMap = [];
     }
 
     /**
@@ -634,139 +600,157 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns attributes allow empty strings
-     *
-     *<code>
-     * print_r(
-     *     $metaData->getEmptyStringAttributes(
-     *         new Robots()
-     *     )
-     * );
-     *</code>
+     * Sets the DependencyInjector container
      */
-    public function getEmptyStringAttributes(<ModelInterface> model) -> array
+    public function setDI(<DiInterface> container)
     {
-        var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_EMPTY_STRING_VALUES);
-        if typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
-        }
-        return data;
+        let this->container = container;
     }
 
     /**
-     * Returns attributes (which have default values) and their default values
-     *
-     *<code>
-     * print_r(
-     *     $metaData->getDefaultValues(
-     *         new Robots()
-     *     )
-     * );
-     *</code>
+     * Set the meta-data extraction strategy
      */
-    public function getDefaultValues(<ModelInterface> model) -> array
+    public function setStrategy(<StrategyInterface> strategy) -> void
     {
-        var data;
-        let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
-        if typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
-        }
-        return data;
+        let this->strategy = strategy;
     }
 
     /**
-     * Returns the column map if any
+     * Writes meta-data for certain model using a MODEL_* constant
      *
      *<code>
      * print_r(
-     *     $metaData->getColumnMap(
-     *         new Robots()
-     *     )
-     * );
-     *</code>
-     */
-    public function getColumnMap(<ModelInterface> model) -> array
-    {
-        var data;
-
-        let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
-        if typeof data != "null" && typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
-        }
-        return data;
-    }
-
-    /**
-     * Returns the reverse column map if any
-     *
-     *<code>
-     * print_r(
-     *     $metaData->getReverseColumnMap(
-     *         new Robots()
-     *     )
-     * );
-     *</code>
-     */
-    public function getReverseColumnMap(<ModelInterface> model) -> array
-    {
-        var data;
-
-        let data = this->readColumnMapIndex(model, self::MODELS_REVERSE_COLUMN_MAP);
-        if typeof data != "null" && typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
-        }
-        return data;
-    }
-
-    /**
-     * Check if a model has certain attribute
-     *
-     *<code>
-     * var_dump(
-     *     $metaData->hasAttribute(
+     *     $metaData->writeColumnMapIndex(
      *         new Robots(),
-     *         "name"
+     *         MetaData::MODELS_REVERSE_COLUMN_MAP,
+     *         [
+     *             "leName" => "name",
+     *         ]
      *     )
      * );
      *</code>
      */
-    public function hasAttribute(<ModelInterface> model, string attribute) -> bool
+    public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
     {
-        var columnMap;
+        var source, schema, key;
 
-        let columnMap = this->getReverseColumnMap(model);
-        if typeof columnMap == "array" {
-            return isset columnMap[attribute];
-        } else {
-            return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
+        if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
+            throw new Exception("Invalid data for index");
         }
+
+        let source = model->getSource(),
+            schema = model->getSchema();
+
+        /*
+         * Unique key for meta-data is created using class-name-schema-table
+         */
+        let key = get_class_lower(model) . "-" . schema . source;
+
+        if !isset this->metaData[key] {
+            this->initialize(model, key, source, schema);
+        }
+
+        let this->metaData[key][index] = data;
     }
 
     /**
-     * Checks if the internal meta-data container is empty
-     *
-     *<code>
-     * var_dump(
-     *     $metaData->isEmpty()
-     * );
-     *</code>
+     * Initialize the metadata for certain table
      */
-    public function isEmpty() -> bool
+    protected final function _initialize(<ModelInterface> model, var key, var table, var schema)
     {
-        return count(this->_metaData) == 0;
-    }
+        var strategy, className, metaData, data, modelMetadata, modelColumnMap,
+            container, keyName, prefixKey;
 
-    /**
-     * Resets internal meta-data in order to regenerate it
-     *
-     *<code>
-     * $metaData->reset();
-     *</code>
-     */
-    public function reset() -> void
-    {
-        let this->_metaData = [],
-            this->_columnMap = [];
+        let strategy = null,
+            className = get_class(model);
+
+        if key !== null {
+
+            let metaData = this->metaData;
+            if !isset metaData[key] {
+
+                /**
+                 * The meta-data is read from the adapter always if not available in _metaData property
+                 */
+                let prefixKey = "meta-" . key,
+                    data = this->{"read"}(prefixKey);
+                if data !== null {
+                    let this->metaData[key] = data;
+                } else {
+
+                    /**
+                     * Check if there is a method 'metaData' in the model to retrieve meta-data from it
+                     */
+                    if method_exists(model, "metaData") {
+                        let modelMetadata = model->{"metaData"}();
+                        if typeof modelMetadata != "array" {
+                            throw new Exception("Invalid meta-data for model " . className);
+                        }
+                    } else {
+
+                        /**
+                         * Get the meta-data extraction strategy
+                         */
+                        let container = this->container,
+                            strategy = this->getStrategy(),
+                            modelMetadata = strategy->getMetaData(model, container);
+                    }
+
+                    /**
+                     * Store the meta-data locally
+                     */
+                    let this->metaData[key] = modelMetadata;
+
+                    /**
+                     * Store the meta-data in the adapter
+                     */
+                    this->{"write"}(prefixKey, modelMetadata);
+                }
+            }
+        }
+
+        /**
+         * Check for a column map, store in _columnMap in order and reversed order
+         */
+        if !globals_get("orm.column_renaming") {
+            return null;
+        }
+
+        let keyName = strtolower(className);
+        if isset this->columnMap[keyName] {
+            return null;
+        }
+
+        /**
+         * Create the map key name
+         * Check if the meta-data is already in the adapter
+         */
+        let prefixKey = "map-" . keyName,
+            data = this->{"read"}(prefixKey);
+
+        if data !== null {
+            let this->columnMap[keyName] = data;
+            return null;
+        }
+
+        /**
+         * Get the meta-data extraction strategy
+         */
+        if typeof strategy != "object" {
+            let container = this->container,
+                strategy = this->getStrategy();
+        }
+
+        /**
+         * Get the meta-data
+         * Update the column map locally
+         */
+        let modelColumnMap = strategy->getColumnMaps(model, container),
+            this->columnMap[keyName] = modelColumnMap;
+
+        /**
+         * Write the data to the adapter
+         */
+        this->{"write"}(prefixKey, modelColumnMap);
     }
 }
