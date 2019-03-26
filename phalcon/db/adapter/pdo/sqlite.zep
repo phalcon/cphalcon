@@ -44,34 +44,6 @@ class Sqlite extends PdoAdapter
 	protected _type = "sqlite";
 
 	/**
-	 * Returns PDO adapter DSN defaults as a key-value map.
-	 */
-	protected function getDsnDefaults() -> array
-	{
-		return [];
-	}
-
-	/**
-	 * Returns PDO options defaults as a key-value map.
-	 */
-	protected function getOptionsDefaults() -> array
-	{
-		return [];
-	}
-
-	/**
-	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
-	 */
-	protected function getPostOptionsDefaults() -> array
-	{
-		// Sqlite ignores the \Pdo::ATTR_ERRMODE option if it is passed in the constructor.
-		// To get the intended behaviour it must be set after the PDO object is instantiated.
-		return [
-			\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
-		];
-	}
-
-	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
 	 */
 	public function __construct(array! descriptor)
@@ -102,7 +74,13 @@ class Sqlite extends PdoAdapter
 			throw new Exception("The database must be specified with either 'dbname' or 'dsn'.");
 		}
 
-		return parent::connect(descriptor);
+		return parent::realConnect(descriptor,
+			[],
+			[],
+			[
+				\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
+			]
+		);
 	}
 
 	/**

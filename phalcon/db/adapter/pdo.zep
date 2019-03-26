@@ -52,19 +52,9 @@ abstract class Pdo extends Adapter
 	protected _pdo;
 
 	/**
-	 * Returns PDO adapter DSN defaults as a key-value map.
+	 *
 	 */
-	abstract protected function getDsnDefaults() -> array;
-
-	/**
-	 * Returns PDO options defaults as a key-value map.
-	 */
-	abstract protected function getOptionsDefaults() -> array;
-
-	/**
-	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
-	 */
-	abstract protected function getPostOptionsDefaults() -> array;
+	 abstract public function connect(array descriptor = null) -> bool;
 
 	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo
@@ -258,10 +248,9 @@ abstract class Pdo extends Adapter
 	 * $connection->connect();
 	 * </code>
 	 */
-	public function connect(array descriptor = null) -> bool
+	protected function realConnect(array descriptor = null, array dsnDefaults, array optionsDefaults, array postOptionsDefaults) -> bool
 	{
-		var username, password, key, value, pdo,
-			options, optionsDefaults, postOptions, postOptionsDefaults,
+		var username, password, key, value, pdo, options, postOptions,
 			dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap;
 
 		if empty descriptor {
@@ -283,9 +272,6 @@ abstract class Pdo extends Adapter
 			unset descriptor["dialectClass"];
 		}
 
-		// Get PDO options adapter specific defaults.
-		let optionsDefaults = this->getOptionsDefaults();
-
 		// Check if the developer has defined custom options
 		if fetch options, descriptor["options"] {
 			unset descriptor["options"];
@@ -295,9 +281,6 @@ abstract class Pdo extends Adapter
 		} else {
 			let options = optionsDefaults;
 		}
-
-		// Get PDO post options adapter specific defaults.
-		let postOptionsDefaults = this->getPostOptionsDefaults();
 
 		// Check if the developer has defined custom post options
 		if fetch postOptions, descriptor["postOptions"] {
@@ -321,7 +304,7 @@ abstract class Pdo extends Adapter
 		// Start with the dsn defaults and then write over it with the descriptor.
 		// At this point the descriptor should be a valid DSN key-value map due to
 		// all other values having been removed.
-		let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
+		let dsnAttributesMap = array_merge(dsnDefaults, descriptor);
 
 		for key, value in dsnAttributesMap {
 			let dsnParts[] = key . "=" . value;

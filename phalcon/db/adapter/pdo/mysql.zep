@@ -47,33 +47,19 @@ class Mysql extends PdoAdapter
 	protected _type = "mysql";
 
 	/**
-	 * Returns PDO adapter DSN defaults as a key-value map.
+	 *
 	 */
-	protected function getDsnDefaults() -> array
+	public function connect(array descriptor = null) -> bool
 	{
-		// In modern MySQL the "utf8mb4" charset is more ideal than just "utf8".
-		return [
-			"charset" : "utf8mb4"
-		];
-	}
-
-	/**
-	 * Returns PDO options defaults as a key-value map.
-	 */
-	protected function getOptionsDefaults() -> array
-	{
-		// Set PDO to throw exceptions when an error is encountered.
-		return [
-			\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
-		];
-	}
-
-	/**
-	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
-	 */
-	protected function getPostOptionsDefaults() -> array
-	{
-		return [];
+		return this->realConnect(descriptor,
+			[
+				"charset" : "utf8mb4"
+			],
+			[
+				\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
+			],
+			[]
+		);
 	}
 
 	/**

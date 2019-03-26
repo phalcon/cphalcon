@@ -46,33 +46,6 @@ class Postgresql extends PdoAdapter
 	protected _type = "pgsql";
 
 	/**
-	 * Returns PDO adapter DSN defaults as a key-value map.
-	 */
-	protected function getDsnDefaults() -> array
-	{
-		return [];
-	}
-
-	/**
-	 * Returns PDO options defaults as a key-value map.
-	 */
-	protected function getOptionsDefaults() -> array
-	{
-		// Set PDO to throw exceptions when an error is encountered.
-		return [
-			\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
-		];
-	}
-
-	/**
-	 * Returns PDO post options defaults as a key-value map for after the PDO object has been instantiated.
-	 */
-	protected function getPostOptionsDefaults() -> array
-	{
-		return [];
-	}
-
-	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
 	 */
 	public function __construct(array! descriptor)
@@ -108,7 +81,13 @@ class Postgresql extends PdoAdapter
 			}
 		}
 
-		let status = parent::connect(descriptor);
+		let status = this->realConnect(descriptor,
+			[],
+			[
+				\Pdo::ATTR_ERRMODE : \Pdo::ERRMODE_EXCEPTION
+			],
+			[]
+		);
 
 		if ! empty schema {
 			let sql = "SET search_path TO '" . schema . "'";
