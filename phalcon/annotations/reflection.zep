@@ -34,14 +34,13 @@ use Phalcon\Annotations\Collection;
  */
 class Reflection
 {
-
-    protected reflectionData;
-
     protected classAnnotations;
 
     protected methodAnnotations;
 
     protected propertyAnnotations;
+
+    protected reflectionData;
 
     /**
      * Phalcon\Annotations\Reflection constructor
@@ -50,7 +49,6 @@ class Reflection
     {
         let this->reflectionData = reflectionData;
     }
-
 
     /**
      * Restores the state of a Phalcon\Annotations\Reflection variable export

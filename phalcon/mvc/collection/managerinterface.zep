@@ -38,16 +38,25 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  */
 interface ManagerInterface
 {
+    /**
+     * Binds a behavior to a collection
+     */
+    public function addBehavior(<CollectionInterface> model, <BehaviorInterface> behavior);
 
     /**
-     * Sets a custom events manager for a specific model
+     * Returns the connection related to a model
      */
-    public function setCustomEventsManager(<CollectionInterface> model, <EventsManagerInterface> eventsManager);
+    public function getConnection(<CollectionInterface> model) -> <AdapterInterface>;
 
     /**
      * Returns a custom events manager related to a model
      */
     public function getCustomEventsManager(<CollectionInterface> model) -> <EventsManagerInterface>;
+
+    /**
+     * Get the latest initialized model
+     */
+    public function getLastInitialized() -> <CollectionInterface>;
 
     /**
      * Initializes a model in the models manager
@@ -60,9 +69,20 @@ interface ManagerInterface
     public function isInitialized(string! modelName) -> bool;
 
     /**
-     * Get the latest initialized model
+     * Checks if a model is using implicit object ids
      */
-    public function getLastInitialized() -> <CollectionInterface>;
+    public function isUsingImplicitObjectIds(<CollectionInterface> model) -> bool;
+
+    /**
+     * Receives events generated in the models and dispatches them to an events-manager if available
+     * Notify the behaviors that are listening in the model
+     */
+    public function notifyEvent(string! eventName, <CollectionInterface> model);
+
+    /**
+     * Sets a custom events manager for a specific model
+     */
+    public function setCustomEventsManager(<CollectionInterface> model, <EventsManagerInterface> eventsManager);
 
     /**
      * Sets a connection service for a specific model
@@ -73,25 +93,4 @@ interface ManagerInterface
      * Sets if a model must use implicit objects ids
      */
     public function useImplicitObjectIds(<CollectionInterface> model, bool useImplicitObjectIds);
-
-    /**
-     * Checks if a model is using implicit object ids
-     */
-    public function isUsingImplicitObjectIds(<CollectionInterface> model) -> bool;
-
-    /**
-     * Returns the connection related to a model
-     */
-    public function getConnection(<CollectionInterface> model) -> <AdapterInterface>;
-
-    /**
-     * Receives events generated in the models and dispatches them to an events-manager if available
-     * Notify the behaviors that are listening in the model
-     */
-    public function notifyEvent(string! eventName, <CollectionInterface> model);
-
-    /**
-     * Binds a behavior to a collection
-     */
-    public function addBehavior(<CollectionInterface> model, <BehaviorInterface> behavior);
 }

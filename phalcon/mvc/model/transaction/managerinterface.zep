@@ -20,9 +20,14 @@ use Phalcon\Mvc\Model\TransactionInterface;
 interface ManagerInterface
 {
     /**
-     * Checks whether manager has an active transaction
+     * Remove all the transactions from the manager
      */
-    public function has() -> bool;
+    public function collectTransactions();
+
+    /**
+     * Commits active transactions within the manager
+     */
+    public function commit();
 
     /**
      * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
@@ -30,14 +35,29 @@ interface ManagerInterface
     public function get(bool autoBegin = true) -> <\Phalcon\Mvc\Model\TransactionInterface>;
 
     /**
-     * Rollbacks active transactions within the manager
+     * Returns the database service used to isolate the transaction
      */
-    public function rollbackPendent();
+    public function getDbService() -> string;
 
     /**
-     * Commits active transactions within the manager
+     * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
      */
-    public function commit();
+    public function getRollbackPendent() -> bool;
+
+    /**
+     * Checks whether manager has an active transaction
+     */
+    public function has() -> bool;
+
+    /**
+     * Notifies the manager about a committed transaction
+     */
+    public function notifyCommit(<TransactionInterface> transaction);
+
+    /**
+     * Notifies the manager about a rollbacked transaction
+     */
+    public function notifyRollback(<TransactionInterface> transaction);
 
     /**
      * Rollbacks active transactions within the manager
@@ -46,19 +66,9 @@ interface ManagerInterface
     public function rollback(bool collect = false);
 
     /**
-     * Notifies the manager about a rollbacked transaction
+     * Rollbacks active transactions within the manager
      */
-    public function notifyRollback(<TransactionInterface> transaction);
-
-    /**
-     * Notifies the manager about a committed transaction
-     */
-    public function notifyCommit(<TransactionInterface> transaction);
-
-    /**
-     * Remove all the transactions from the manager
-     */
-    public function collectTransactions();
+    public function rollbackPendent();
 
     /**
      * Sets the database service used to run the isolated transactions
@@ -66,17 +76,7 @@ interface ManagerInterface
     public function setDbService(string! service) -> <ManagerInterface>;
 
     /**
-     * Returns the database service used to isolate the transaction
-     */
-    public function getDbService() -> string;
-
-    /**
      * Set if the transaction manager must register a shutdown function to clean up pendent transactions
      */
     public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>;
-
-    /**
-     * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
-     */
-    public function getRollbackPendent() -> bool;
 }

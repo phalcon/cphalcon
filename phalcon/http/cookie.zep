@@ -40,7 +40,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
     protected path = "/";
 
-    protected readed = false;
+    protected read = false;
 
     protected restored = false;
 
@@ -212,7 +212,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         let container = null,
             name = this->name;
 
-        if this->readed === false {
+        if this->read === false {
 
             if fetch value, _COOKIE[name] {
 
@@ -543,7 +543,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     public function setValue(value) -> <CookieInterface>
     {
         let this->value = value,
-            this->readed = true;
+            this->read = true;
         return this;
     }
 

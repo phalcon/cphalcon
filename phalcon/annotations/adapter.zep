@@ -24,10 +24,9 @@ use Phalcon\Annotations\ReaderInterface;
  */
 abstract class Adapter implements AdapterInterface
 {
+    protected annotations;
 
     protected reader;
-
-    protected annotations;
 
     /**
      * Parses or retrieves all the annotations found in a class

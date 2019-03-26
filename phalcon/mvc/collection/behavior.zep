@@ -19,22 +19,14 @@ use Phalcon\Mvc\CollectionInterface;
  */
 abstract class Behavior implements BehaviorInterface
 {
-    protected _options;
+    protected options;
 
     /**
      * Phalcon\Mvc\Collection\Behavior
      */
     public function __construct(array options = [])
     {
-        let this->_options = options;
-    }
-
-    /**
-     * Checks whether the behavior must take action on certain event
-     */
-    protected function mustTakeAction(string! eventName) -> bool
-    {
-        return isset this->_options[eventName];
+        let this->options = options;
     }
 
     /**
@@ -46,7 +38,7 @@ abstract class Behavior implements BehaviorInterface
     {
         var options, eventOptions;
 
-        let options = this->_options;
+        let options = this->options;
         if eventName !== null {
             if fetch eventOptions, options[eventName] {
                 return eventOptions;
@@ -57,14 +49,6 @@ abstract class Behavior implements BehaviorInterface
     }
 
     /**
-     * This method receives the notifications from the EventsManager
-     */
-    public function notify(string type, <CollectionInterface> model)
-    {
-        return null;
-    }
-
-    /**
      * Acts as fallbacks when a missing method is called on the collection
      */
     public function missingMethod(<CollectionInterface> model, string method, array arguments = [])
@@ -72,4 +56,19 @@ abstract class Behavior implements BehaviorInterface
         return null;
     }
 
+    /**
+     * Checks whether the behavior must take action on certain event
+     */
+    protected function mustTakeAction(string! eventName) -> bool
+    {
+        return isset this->options[eventName];
+    }
+
+    /**
+     * This method receives the notifications from the EventsManager
+     */
+    public function notify(string type, <CollectionInterface> model)
+    {
+        return null;
+    }
 }

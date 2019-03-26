@@ -68,15 +68,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     protected container;
 
-    protected _initialized = false;
+    protected initialized = false;
 
-    protected _rollbackPendent = true;
+    protected number = 0;
 
-    protected _number = 0;
+    protected rollbackPendent = true;
 
-    protected _service = "db";
+    protected service = "db";
 
-    protected _transactions;
+    protected transactions;
 
     /**
      * Phalcon\Mvc\Model\Transaction\Manager constructor
@@ -95,61 +95,36 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets the dependency injection container
+     * Remove all the transactions from the manager
      */
-    public function setDI(<DiInterface> container)
+    public function collectTransactions()
     {
-        let this->container = container;
+        var transactions;
+
+        let transactions = this->transactions;
+        if count(transactions) {
+            for _ in transactions {
+                let this->number--;
+            }
+            let this->transactions = null;
+        }
     }
 
     /**
-     * Returns the dependency injection container
+     * Commits active transactions within the manager
      */
-    public function getDI() -> <DiInterface>
+    public function commit()
     {
-        return this->container;
-    }
-
-    /**
-     * Sets the database service used to run the isolated transactions
-     */
-    public function setDbService(string! service) -> <ManagerInterface>
-    {
-        let this->_service = service;
-        return this;
-    }
-
-    /**
-     * Returns the database service used to isolate the transaction
-     */
-    public function getDbService() -> string
-    {
-        return this->_service;
-    }
-
-    /**
-     * Set if the transaction manager must register a shutdown function to clean up pendent transactions
-     */
-    public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>
-    {
-        let this->_rollbackPendent = rollbackPendent;
-        return this;
-    }
-
-    /**
-     * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
-     */
-    public function getRollbackPendent() -> bool
-    {
-        return this->_rollbackPendent;
-    }
-
-    /**
-     * Checks whether the manager has an active transaction
-     */
-    public function has() -> bool
-    {
-        return this->_number > 0;
+        var transactions, transaction, connection;
+        let transactions = this->transactions;
+        if typeof transactions == "array" {
+            for transaction in transactions {
+                let connection = transaction->getConnection();
+                if connection->isUnderTransaction() {
+                    connection->commit();
+                }
+            }
+        }
     }
 
     /**
@@ -158,13 +133,29 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function get(bool autoBegin = true) -> <TransactionInterface>
     {
-        if !this->_initialized {
-            if this->_rollbackPendent {
+        if !this->initialized {
+            if this->rollbackPendent {
                 register_shutdown_function([this, "rollbackPendent"]);
             }
-            let this->_initialized = true;
+            let this->initialized = true;
         }
         return this->getOrCreateTransaction(autoBegin);
+    }
+
+    /**
+     * Returns the database service used to isolate the transaction
+     */
+    public function getDbService() -> string
+    {
+        return this->service;
+    }
+
+    /**
+     * Returns the dependency injection container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
     }
 
     /**
@@ -179,8 +170,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
         }
 
-        if this->_number {
-            let transactions = this->_transactions;
+        if this->number {
+            let transactions = this->transactions;
             if typeof transactions == "array" {
                 for transaction in reverse transactions {
                     if typeof transaction == "object" {
@@ -191,12 +182,67 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             }
         }
 
-        let transaction = new Transaction(container, autoBegin, this->_service);
+        let transaction = new Transaction(container, autoBegin, this->service);
             transaction->setTransactionManager(this);
 
-        let this->_transactions[] = transaction, this->_number++;
+        let this->transactions[] = transaction, this->number++;
 
         return transaction;
+    }
+
+    /**
+     * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
+     */
+    public function getRollbackPendent() -> bool
+    {
+        return this->rollbackPendent;
+    }
+
+    /**
+     * Checks whether the manager has an active transaction
+     */
+    public function has() -> bool
+    {
+        return this->number > 0;
+    }
+
+    /**
+     * Notifies the manager about a committed transaction
+     */
+    public function notifyCommit(<TransactionInterface> transaction)
+    {
+        this->collectTransaction(transaction);
+    }
+
+    /**
+     * Notifies the manager about a rollbacked transaction
+     */
+    public function notifyRollback(<TransactionInterface> transaction)
+    {
+        this->collectTransaction(transaction);
+    }
+
+    /**
+     * Rollbacks active transactions within the manager
+     * Collect will remove the transaction from the manager
+     */
+    public function rollback(bool collect = true)
+    {
+        var transactions, transaction, connection;
+
+        let transactions = this->transactions;
+        if typeof transactions == "array" {
+            for transaction in transactions {
+                let connection = transaction->getConnection();
+                if connection->isUnderTransaction() {
+                    connection->rollback();
+                    connection->close();
+                }
+                if collect {
+                    this->collectTransaction(transaction);
+                }
+            }
+        }
     }
 
     /**
@@ -208,69 +254,39 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Commits active transactions within the manager
+     * Sets the database service used to run the isolated transactions
      */
-    public function commit()
+    public function setDbService(string! service) -> <ManagerInterface>
     {
-        var transactions, transaction, connection;
-        let transactions = this->_transactions;
-        if typeof transactions == "array" {
-            for transaction in transactions {
-                let connection = transaction->getConnection();
-                if connection->isUnderTransaction() {
-                    connection->commit();
-                }
-            }
-        }
+        let this->service = service;
+        return this;
     }
 
     /**
-     * Rollbacks active transactions within the manager
-     * Collect will remove the transaction from the manager
+     * Sets the dependency injection container
      */
-    public function rollback(bool collect = true)
+    public function setDI(<DiInterface> container)
     {
-        var transactions, transaction, connection;
-
-        let transactions = this->_transactions;
-        if typeof transactions == "array" {
-            for transaction in transactions {
-                let connection = transaction->getConnection();
-                if connection->isUnderTransaction() {
-                    connection->rollback();
-                    connection->close();
-                }
-                if collect {
-                    this->_collectTransaction(transaction);
-                }
-            }
-        }
+        let this->container = container;
     }
 
     /**
-     * Notifies the manager about a rollbacked transaction
+     * Set if the transaction manager must register a shutdown function to clean up pendent transactions
      */
-    public function notifyRollback(<TransactionInterface> transaction)
+    public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>
     {
-        this->_collectTransaction(transaction);
-    }
-
-    /**
-     * Notifies the manager about a committed transaction
-     */
-    public function notifyCommit(<TransactionInterface> transaction)
-    {
-        this->_collectTransaction(transaction);
+        let this->rollbackPendent = rollbackPendent;
+        return this;
     }
 
     /**
      * Removes transactions from the TransactionManager
      */
-    protected function _collectTransaction(<TransactionInterface> transaction)
+    protected function collectTransaction(<TransactionInterface> transaction)
     {
         var transactions, newTransactions, managedTransaction;
 
-        let transactions = this->_transactions;
+        let transactions = this->transactions;
         if count(transactions) {
             let newTransactions = [];
             for managedTransaction in transactions {
@@ -278,26 +294,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface
                     let newTransactions[] = transaction;
                 }
                 else {
-                    let this->_number--;
+                    let this->number--;
                 }
             }
-            let this->_transactions = newTransactions;
-        }
-    }
-
-    /**
-     * Remove all the transactions from the manager
-     */
-    public function collectTransactions()
-    {
-        var transactions;
-
-        let transactions = this->_transactions;
-        if count(transactions) {
-            for _ in transactions {
-                let this->_number--;
-            }
-            let this->_transactions = null;
+            let this->transactions = newTransactions;
         }
     }
 }

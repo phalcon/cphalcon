@@ -22,24 +22,9 @@ use Phalcon\Annotations\ReaderInterface;
 interface AdapterInterface
 {
     /**
-     * Sets the annotations parser
-     */
-    public function setReader(<ReaderInterface> reader);
-
-    /**
-     * Returns the annotation reader
-     */
-    public function getReader() -> <ReaderInterface>;
-
-    /**
      * Parses or retrieves all the annotations found in a class
      */
     public function get(string className) -> <Reflection>;
-
-    /**
-     * Returns the annotations found in all the class' methods
-     */
-    public function getMethods(string className) -> array;
 
     /**
      * Returns the annotations found in a specific method
@@ -49,10 +34,25 @@ interface AdapterInterface
     /**
      * Returns the annotations found in all the class' methods
      */
-    public function getProperties(string className) -> array;
+    public function getMethods(string className) -> array;
 
     /**
      * Returns the annotations found in a specific property
      */
     public function getProperty(string className, string propertyName) -> <Collection>;
+
+    /**
+     * Returns the annotations found in all the class' methods
+     */
+    public function getProperties(string className) -> array;
+
+    /**
+     * Returns the annotation reader
+     */
+    public function getReader() -> <ReaderInterface>;
+
+    /**
+     * Sets the annotations parser
+     */
+    public function setReader(<ReaderInterface> reader);
 }

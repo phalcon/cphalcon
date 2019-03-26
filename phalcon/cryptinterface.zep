@@ -18,16 +18,6 @@ namespace Phalcon;
 interface CryptInterface
 {
     /**
-     * Encrypts a text
-     */
-    public function encrypt(string! text, string! key = null) -> string;
-
-    /**
-     * Encrypts a text returning the result as a base64 string
-     */
-    public function encryptBase64(string! text, key = null) -> string;
-
-    /**
      * Decrypts a text
      */
     public function decrypt(string! text, string! key = null) -> string;
@@ -36,6 +26,16 @@ interface CryptInterface
      * Decrypt a text that is coded as a base64 string
      */
     public function decryptBase64(string! text, key = null) -> string;
+
+    /**
+     * Encrypts a text
+     */
+    public function encrypt(string! text, string! key = null) -> string;
+
+    /**
+     * Encrypts a text returning the result as a base64 string
+     */
+    public function encryptBase64(string! text, key = null) -> string;
 
     /**
      * Returns a list of available cyphers
