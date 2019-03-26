@@ -19,26 +19,26 @@ use Phalcon\Image;
  */
 abstract class Adapter implements AdapterInterface
 {
+    protected static checked = false;
 
-    protected _image { get };
-
-    protected _file;
-
-    protected _realpath { get };
-
-    /**
-     * Image width
-     *
-     * @var int
-     */
-    protected _width { get };
+    protected file;
 
     /**
      * Image height
      *
      * @var int
      */
-    protected _height { get };
+    protected height { get };
+
+    protected image { get };
+    /**
+     * Image mime type
+     *
+     * @var string
+     */
+    protected mime { get };
+
+    protected realpath { get };
 
     /**
      * Image type
@@ -47,16 +47,184 @@ abstract class Adapter implements AdapterInterface
      *
      * @var int
      */
-    protected _type { get };
+    protected type { get };
 
     /**
-     * Image mime type
+     * Image width
      *
-     * @var string
+     * @var int
      */
-    protected _mime { get };
+    protected width { get };
 
-    protected static _checked = false;
+    /**
+      * Set the background color of an image
+      */
+    public function background(string color, int opacity = 100) -> <Adapter>
+    {
+        var colors;
+
+        if strlen(color) > 1 && substr(color, 0, 1) === "#" {
+            let color = substr(color, 1);
+        }
+
+        if strlen(color) === 3 {
+            let color = preg_replace("/./", "$0$0", color);
+        }
+
+        let colors = array_map("hexdec", str_split(color, 2));
+
+        this->{"processBackground"}(colors[0], colors[1], colors[2], opacity);
+        return this;
+    }
+
+    /**
+      * Blur image
+      */
+    public function blur(int radius) -> <Adapter>
+    {
+        if radius < 1 {
+            let radius = 1;
+        } elseif radius > 100 {
+            let radius = 100;
+        }
+
+        this->{"processBlur"}(radius);
+        return this;
+    }
+
+    /**
+      * Crop an image to the given size
+      */
+    public function crop(int width, int height, int offsetX = null, int offsetY = null) -> <Adapter>
+    {
+        if is_null(offsetX) {
+            let offsetX = ((this->width - width) / 2);
+        } else {
+            if offsetX < 0 {
+                let offsetX = this->width - width + offsetX;
+            }
+
+            if offsetX > this->width {
+                let offsetX = (int) this->width;
+            }
+        }
+
+        if is_null(offsetY) {
+            let offsetY = ((this->height - height) / 2);
+        } else {
+            if offsetY < 0 {
+                let offsetY = this->height - height + offsetY;
+            }
+
+            if offsetY > this->height {
+                let offsetY = (int) this->height;
+            }
+        }
+
+        if width > (this->width - offsetX) {
+            let width = this->width - offsetX;
+        }
+
+        if height > (this->height - offsetY) {
+            let height = this->height - offsetY;
+        }
+
+        this->{"processCrop"}(width, height, offsetX, offsetY);
+
+        return this;
+    }
+
+    /**
+      * Flip the image along the horizontal or vertical axis
+      */
+    public function flip(int direction) -> <Adapter>
+    {
+        if direction != Image::HORIZONTAL && direction != Image::VERTICAL {
+            let direction = Image::HORIZONTAL;
+        }
+
+        this->{"processFlip"}(direction);
+        return this;
+    }
+
+
+    /**
+     * This method scales the images using liquid rescaling method. Only support Imagick
+     *
+     * @param int $width   new width
+     * @param int $height  new height
+     * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
+     * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
+     */
+    public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <Adapter>
+    {
+        this->{"processLiquidRescale"}(width, height, deltaX, rigidity);
+        return this;
+    }
+
+    /**
+      * Composite one image onto another
+      */
+    public function mask(<Adapter> watermark) -> <Adapter>
+    {
+        this->{"processMask"}(watermark);
+        return this;
+    }
+
+    /**
+      * Pixelate image
+      */
+    public function pixelate(int amount) -> <Adapter>
+    {
+        if amount < 2 {
+            let amount = 2;
+        }
+
+        this->{"processPixelate"}(amount);
+        return this;
+    }
+
+    /**
+      * Add a reflection to an image
+      */
+    public function reflection(int height, int opacity = 100, bool fadeIn = false) -> <Adapter>
+    {
+        if height <= 0 || height > this->height {
+            let height = (int) this->height;
+        }
+
+        if opacity < 0 {
+            let opacity = 0;
+        } elseif opacity > 100 {
+            let opacity = 100;
+        }
+
+        this->{"processReflection"}(height, opacity, fadeIn);
+
+        return this;
+    }
+
+    /**
+      * Render the image and return the binary string
+      */
+    public function render(string ext = null, int quality = 100) -> string
+    {
+        if !ext {
+            let ext = (string) pathinfo(this->file, PATHINFO_EXTENSION);
+        }
+
+        if empty ext {
+            let ext = "png";
+        }
+
+        if quality < 1 {
+            let quality = 1;
+        } elseif quality > 100 {
+            let quality = 100;
+        }
+
+        return this->{"processRender"}(ext, quality);
+    }
 
     /**
       * Resize the image to the given size
@@ -79,7 +247,7 @@ abstract class Adapter implements AdapterInterface
                     throw new Exception("width and height must be specified");
                 }
 
-                let master = (this->_width / width) > (this->_height / height) ? Image::WIDTH : Image::HEIGHT;
+                let master = (this->width / width) > (this->height / height) ? Image::WIDTH : Image::HEIGHT;
             }
 
             if master == Image::INVERSE {
@@ -88,7 +256,7 @@ abstract class Adapter implements AdapterInterface
                     throw new Exception("width and height must be specified");
                 }
 
-                let master = (this->_width / width) > (this->_height / height) ? Image::HEIGHT : Image::WIDTH;
+                let master = (this->width / width) > (this->height / height) ? Image::HEIGHT : Image::WIDTH;
             }
 
             switch master {
@@ -97,36 +265,36 @@ abstract class Adapter implements AdapterInterface
                     if !width {
                         throw new Exception("width must be specified");
                     }
-                    let height = this->_height * width / this->_width;
+                    let height = this->height * width / this->width;
                     break;
 
                 case Image::HEIGHT:
                     if !height {
                         throw new Exception("height must be specified");
                     }
-                    let width = this->_width * height / this->_height;
+                    let width = this->width * height / this->height;
                     break;
 
                 case Image::PRECISE:
                     if !width || !height {
                         throw new Exception("width and height must be specified");
                     }
-                    let ratio = this->_width / this->_height;
+                    let ratio = this->width / this->height;
 
                     if (width / height) > ratio {
-                        let height = this->_height * width / this->_width;
+                        let height = this->height * width / this->width;
                     } else {
-                        let width = this->_width * height / this->_height;
+                        let width = this->width * height / this->height;
                     }
                     break;
 
                 case Image::NONE:
                     if !width {
-                        let width = (int) this->_width;
+                        let width = (int) this->width;
                     }
 
                     if !height {
-                        let width = (int) this->_height;
+                        let width = (int) this->height;
                     }
                     break;
             }
@@ -135,63 +303,7 @@ abstract class Adapter implements AdapterInterface
         let width  = (int) max(round(width), 1);
         let height = (int) max(round(height), 1);
 
-        this->{"_resize"}(width, height);
-
-        return this;
-    }
-
-    /**
-     * This method scales the images using liquid rescaling method. Only support Imagick
-     *
-     * @param int $width   new width
-     * @param int $height  new height
-     * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
-     * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
-     */
-    public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <Adapter>
-    {
-        this->{"_liquidRescale"}(width, height, deltaX, rigidity);
-        return this;
-    }
-
-    /**
-      * Crop an image to the given size
-      */
-    public function crop(int width, int height, int offsetX = null, int offsetY = null) -> <Adapter>
-    {
-        if is_null(offsetX) {
-            let offsetX = ((this->_width - width) / 2);
-        } else {
-            if offsetX < 0 {
-                let offsetX = this->_width - width + offsetX;
-            }
-
-            if offsetX > this->_width {
-                let offsetX = (int) this->_width;
-            }
-        }
-
-        if is_null(offsetY) {
-            let offsetY = ((this->_height - height) / 2);
-        } else {
-            if offsetY < 0 {
-                let offsetY = this->_height - height + offsetY;
-            }
-
-            if offsetY > this->_height {
-                let offsetY = (int) this->_height;
-            }
-        }
-
-        if width > (this->_width - offsetX) {
-            let width = this->_width - offsetX;
-        }
-
-        if height > (this->_height - offsetY) {
-            let height = this->_height - offsetY;
-        }
-
-        this->{"_crop"}(width, height, offsetX, offsetY);
+        this->{"processResize"}(width, height);
 
         return this;
     }
@@ -213,20 +325,20 @@ abstract class Adapter implements AdapterInterface
             }
         }
 
-        this->{"_rotate"}(degrees);
+        this->{"processRotate"}(degrees);
         return this;
     }
 
     /**
-      * Flip the image along the horizontal or vertical axis
+      * Save the image
       */
-    public function flip(int direction) -> <Adapter>
+    public function save(string file = null, int quality = -1) -> <Adapter>
     {
-        if direction != Image::HORIZONTAL && direction != Image::VERTICAL {
-            let direction = Image::HORIZONTAL;
+        if !file {
+            let file = (string) this->realpath;
         }
 
-        this->{"_flip"}(direction);
+        this->{"processSave"}(file, quality);
         return this;
     }
 
@@ -241,61 +353,7 @@ abstract class Adapter implements AdapterInterface
             let amount = 1;
         }
 
-        this->{"_sharpen"}(amount);
-        return this;
-    }
-
-    /**
-      * Add a reflection to an image
-      */
-    public function reflection(int height, int opacity = 100, bool fadeIn = false) -> <Adapter>
-    {
-        if height <= 0 || height > this->_height {
-            let height = (int) this->_height;
-        }
-
-        if opacity < 0 {
-            let opacity = 0;
-        } elseif opacity > 100 {
-            let opacity = 100;
-        }
-
-        this->{"_reflection"}(height, opacity, fadeIn);
-
-        return this;
-    }
-
-    /**
-      * Add a watermark to an image with the specified opacity
-      */
-    public function watermark(<Adapter> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100) -> <Adapter>
-    {
-        int tmp;
-
-        let tmp = this->_width - watermark->getWidth();
-
-        if offsetX < 0 {
-            let offsetX = 0;
-        } elseif offsetX > tmp {
-            let offsetX = tmp;
-        }
-
-        let tmp = this->_height - watermark->getHeight();
-
-        if offsetY < 0 {
-            let offsetY = 0;
-        } elseif offsetY > tmp {
-            let offsetY = tmp;
-        }
-
-        if opacity < 0 {
-            let opacity = 0;
-        } elseif opacity > 100 {
-            let opacity = 100;
-        }
-
-        this->{"_watermark"}(watermark, offsetX, offsetY, opacity);
-
+        this->{"processSharpen"}(amount);
         return this;
     }
 
@@ -324,101 +382,43 @@ abstract class Adapter implements AdapterInterface
 
         let colors = array_map("hexdec", str_split(color, 2));
 
-        this->{"_text"}(text, offsetX, offsetY, opacity, colors[0], colors[1], colors[2], size, fontfile);
+        this->{"processText"}(text, offsetX, offsetY, opacity, colors[0], colors[1], colors[2], size, fontfile);
 
         return this;
     }
 
     /**
-      * Composite one image onto another
+      * Add a watermark to an image with the specified opacity
       */
-    public function mask(<Adapter> watermark) -> <Adapter>
+    public function watermark(<Adapter> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100) -> <Adapter>
     {
-        this->{"_mask"}(watermark);
+        int tmp;
+
+        let tmp = this->width - watermark->getWidth();
+
+        if offsetX < 0 {
+            let offsetX = 0;
+        } elseif offsetX > tmp {
+            let offsetX = tmp;
+        }
+
+        let tmp = this->height - watermark->getHeight();
+
+        if offsetY < 0 {
+            let offsetY = 0;
+        } elseif offsetY > tmp {
+            let offsetY = tmp;
+        }
+
+        if opacity < 0 {
+            let opacity = 0;
+        } elseif opacity > 100 {
+            let opacity = 100;
+        }
+
+        this->{"processWatermark"}(watermark, offsetX, offsetY, opacity);
+
         return this;
     }
 
-    /**
-      * Set the background color of an image
-      */
-    public function background(string color, int opacity = 100) -> <Adapter>
-    {
-        var colors;
-
-        if strlen(color) > 1 && substr(color, 0, 1) === "#" {
-            let color = substr(color, 1);
-        }
-
-        if strlen(color) === 3 {
-            let color = preg_replace("/./", "$0$0", color);
-        }
-
-        let colors = array_map("hexdec", str_split(color, 2));
-
-        this->{"_background"}(colors[0], colors[1], colors[2], opacity);
-        return this;
-    }
-
-    /**
-      * Blur image
-      */
-    public function blur(int radius) -> <Adapter>
-    {
-        if radius < 1 {
-            let radius = 1;
-        } elseif radius > 100 {
-            let radius = 100;
-        }
-
-        this->{"_blur"}(radius);
-        return this;
-    }
-
-    /**
-      * Pixelate image
-      */
-    public function pixelate(int amount) -> <Adapter>
-    {
-        if amount < 2 {
-            let amount = 2;
-        }
-
-        this->{"_pixelate"}(amount);
-        return this;
-    }
-
-    /**
-      * Save the image
-      */
-    public function save(string file = null, int quality = -1) -> <Adapter>
-    {
-        if !file {
-            let file = (string) this->_realpath;
-        }
-
-        this->{"_save"}(file, quality);
-        return this;
-    }
-
-    /**
-      * Render the image and return the binary string
-      */
-    public function render(string ext = null, int quality = 100) -> string
-    {
-        if !ext {
-            let ext = (string) pathinfo(this->_file, PATHINFO_EXTENSION);
-        }
-
-        if empty ext {
-            let ext = "png";
-        }
-
-        if quality < 1 {
-            let quality = 1;
-        } elseif quality > 100 {
-            let quality = 100;
-        }
-
-        return this->{"_render"}(ext, quality);
-    }
 }

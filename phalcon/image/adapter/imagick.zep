@@ -30,30 +30,8 @@ use Phalcon\Image\Exception;
  */
 class Imagick extends Adapter
 {
-    protected static _version = 0;
-    protected static _checked = false;
-
-    /**
-     * Checks if Imagick is enabled
-     */
-    public static function check() -> bool
-    {
-        if self::_checked {
-            return true;
-        }
-
-        if !class_exists("imagick") {
-            throw new Exception("Imagick is not installed, or the extension is not loaded");
-        }
-
-        if defined("Imagick::IMAGICK_EXTNUM") {
-            let self::_version = constant("Imagick::IMAGICK_EXTNUM");
-        }
-
-        let self::_checked = true;
-
-        return self::_checked;
-    }
+    protected static checked = false;
+    protected static version = 0;
 
     /**
      * \Phalcon\Image\Adapter\Imagick constructor
@@ -62,69 +40,203 @@ class Imagick extends Adapter
     {
         var image;
 
-        if !self::_checked {
+        if !self::checked {
             self::check();
         }
 
-        let this->_file = file;
+        let this->file = file;
 
-        let this->_image = new \Imagick();
+        let this->image = new \Imagick();
 
-        if file_exists(this->_file) {
-            let this->_realpath = realpath(this->_file);
+        if file_exists(this->file) {
+            let this->realpath = realpath(this->file);
 
-            if !this->_image->readImage(this->_realpath) {
-                 throw new Exception("Imagick::readImage ".this->_file." failed");
+            if !this->image->readImage(this->realpath) {
+                 throw new Exception("Imagick::readImage ".this->file." failed");
             }
 
-            if !this->_image->getImageAlphaChannel() {
-                this->_image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
+            if !this->image->getImageAlphaChannel() {
+                this->image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
             }
 
-            if this->_type == 1 {
-                let image = this->_image->coalesceImages();
-                this->_image->clear();
-                this->_image->destroy();
+            if this->type == 1 {
+                let image = this->image->coalesceImages();
+                this->image->clear();
+                this->image->destroy();
 
-                let this->_image = image;
+                let this->image = image;
             }
         } else {
             if !width || !height {
-                throw new Exception("Failed to create image from file " . this->_file);
+                throw new Exception("Failed to create image from file " . this->file);
             }
 
-            this->_image->newImage(width, height, new \ImagickPixel("transparent"));
-            this->_image->setFormat("png");
-            this->_image->setImageFormat("png");
+            this->image->newImage(width, height, new \ImagickPixel("transparent"));
+            this->image->setFormat("png");
+            this->image->setImageFormat("png");
 
-            let this->_realpath = this->_file;
+            let this->realpath = this->file;
         }
 
-        let this->_width = this->_image->getImageWidth();
-        let this->_height = this->_image->getImageHeight();
-        let this->_type = this->_image->getImageType();
-        let this->_mime = "image/" . this->_image->getImageFormat();
+        let this->width = this->image->getImageWidth();
+        let this->height = this->image->getImageHeight();
+        let this->type = this->image->getImageType();
+        let this->mime = "image/" . this->image->getImageFormat();
     }
 
     /**
-     * Execute a resize.
+     * Destroys the loaded image to free up resources.
      */
-    protected function _resize(int width, int height)
+    public function __destruct()
     {
-        var image;
-        let image = this->_image;
+        if this->image instanceof \Imagick {
+            this->image->clear();
+            this->image->destroy();
+        }
+    }
 
-        image->setIteratorIndex(0);
+    /**
+     * Checks if Imagick is enabled
+     */
+    public static function check() -> bool
+    {
+        if self::checked {
+            return true;
+        }
+
+        if !class_exists("imagick") {
+            throw new Exception("Imagick is not installed, or the extension is not loaded");
+        }
+
+        if defined("Imagick::IMAGICK_EXTNUM") {
+            let self::version = constant("Imagick::IMAGICK_EXTNUM");
+        }
+
+        let self::checked = true;
+
+        return self::checked;
+    }
+
+    /**
+     * Get instance
+     */
+    public function getInternalImInstance() -> <\Imagick>
+    {
+        return this->image;
+    }
+
+    /**
+     * Sets the limit for a particular resource in megabytes
+     *
+     * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
+     */
+    public function setResourceLimit(int type, int limit)
+    {
+        this->image->setResourceLimit(type, limit);
+    }
+
+    /**
+     * Execute a background.
+     */
+    protected function processBackground(int r, int g, int b, int opacity)
+    {
+        var background, color, pixel1, pixel2, ret;
+
+        let color = sprintf("rgb(%d, %d, %d)", r, g, b);
+        let pixel1 = new \ImagickPixel(color);
+        let opacity = opacity / 100;
+
+        let pixel2 = new \ImagickPixel("transparent");
+
+        let background = new \Imagick();
+        this->image->setIteratorIndex(0);
 
         loop {
-            image->scaleImage(width, height);
-            if image->nextImage() === false {
+            background->newImage(this->width, this->height, pixel1);
+            if !background->getImageAlphaChannel() {
+                background->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
+            }
+            background->setImageBackgroundColor(pixel2);
+            background->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
+            background->setColorspace(this->image->getColorspace());
+            let ret = background->compositeImage(this->image, constant("Imagick::COMPOSITE_DISSOLVE"), 0, 0);
+
+            if ret !== true {
+                throw new Exception("Imagick::compositeImage failed");
+            }
+
+            if this->image->nextImage() === false {
                 break;
             }
         }
 
-        let this->_width = image->getImageWidth();
-        let this->_height = image->getImageHeight();
+        this->image->clear();
+        this->image->destroy();
+
+        let this->image = background;
+    }
+
+    /**
+     * Blur image
+     *
+     * @param int $radius Blur radius
+     */
+    protected function processBlur(int radius)
+    {
+        this->image->setIteratorIndex(0);
+
+        loop {
+            this->image->blurImage(radius, 100);
+            if this->image->nextImage() === false {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Execute a crop.
+     */
+    protected function processCrop(int width, int height, int offsetX, int offsetY)
+    {
+        var image;
+        let image = this->image;
+
+        image->setIteratorIndex(0);
+
+        loop {
+
+            image->cropImage(width, height, offsetX, offsetY);
+            image->setImagePage(width, height, 0, 0);
+
+            if !image->nextImage() {
+                break;
+            }
+        }
+
+        let this->width  = image->getImageWidth();
+        let this->height = image->getImageHeight();
+    }
+
+    /**
+     * Execute a flip.
+     */
+    protected function processFlip(int direction)
+    {
+        var func;
+
+        let func = "flipImage";
+        if direction == \Phalcon\Image::HORIZONTAL {
+           let func = "flopImage";
+        }
+
+        this->image->setIteratorIndex(0);
+
+        loop {
+            this->image->{func}();
+            if this->image->nextImage() === false {
+                break;
+            }
+        }
     }
 
     /**
@@ -135,10 +247,10 @@ class Imagick extends Adapter
      * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
      * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
      */
-    protected function _liquidRescale(int width, int height, int deltaX, int rigidity)
+    protected function processLiquidRescale(int width, int height, int deltaX, int rigidity)
     {
         var ret, image;
-        let image = this->_image;
+        let image = this->image;
 
         image->setIteratorIndex(0);
 
@@ -153,92 +265,57 @@ class Imagick extends Adapter
             }
         }
 
-        let this->_width = image->getImageWidth();
-        let this->_height = image->getImageHeight();
+        let this->width = image->getImageWidth();
+        let this->height = image->getImageHeight();
     }
 
     /**
-     * Execute a crop.
+     * Composite one image onto another
      */
-    protected function _crop(int width, int height, int offsetX, int offsetY)
+    protected function processMask(<Adapter> image)
     {
-        var image;
-        let image = this->_image;
+        var mask, ret;
 
-        image->setIteratorIndex(0);
+        let mask = new \Imagick();
+
+        mask->readImageBlob(image->render());
+        this->image->setIteratorIndex(0);
 
         loop {
+            this->image->setImageMatte(1);
+            let ret = this->image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
 
-            image->cropImage(width, height, offsetX, offsetY);
-            image->setImagePage(width, height, 0, 0);
+            if ret !== true {
+                throw new Exception("Imagick::compositeImage failed");
+            }
 
-            if !image->nextImage() {
+            if this->image->nextImage() === false {
                 break;
             }
         }
 
-        let this->_width  = image->getImageWidth();
-        let this->_height = image->getImageHeight();
+        mask->clear();
+        mask->destroy();
     }
 
     /**
-     * Execute a rotation.
+     * Pixelate image
+     *
+     * @param int $amount amount to pixelate
      */
-    protected function _rotate(int degrees)
+    protected function processPixelate(int amount)
     {
-        var pixel;
+        int width, height;
 
-        this->_image->setIteratorIndex(0);
+        let width = this->width / amount;
+        let height = this->height / amount;
 
-        let pixel = new \ImagickPixel();
+        this->image->setIteratorIndex(0);
 
         loop {
-            this->_image->rotateImage(pixel, degrees);
-            this->_image->setImagePage(this->_width, this->_height, 0, 0);
-            if this->_image->nextImage() === false {
-                break;
-            }
-        }
-
-        let this->_width = this->_image->getImageWidth();
-        let this->_height = this->_image->getImageHeight();
-    }
-
-    /**
-     * Execute a flip.
-     */
-    protected function _flip(int direction)
-    {
-        var func;
-
-        let func = "flipImage";
-        if direction == \Phalcon\Image::HORIZONTAL {
-           let func = "flopImage";
-        }
-
-        this->_image->setIteratorIndex(0);
-
-        loop {
-            this->_image->{func}();
-            if this->_image->nextImage() === false {
-                break;
-            }
-        }
-    }
-
-    /**
-     * Execute a sharpen.
-     */
-    protected function _sharpen(int amount)
-    {
-        let amount = (amount < 5) ? 5 : amount;
-        let amount = (amount * 3.0) / 100;
-
-        this->_image->setIteratorIndex(0);
-
-        loop {
-            this->_image->sharpenImage(0, amount);
-            if this->_image->nextImage() === false {
+            this->image->scaleImage(width, height);
+            this->image->scaleImage(this->width, this->height);
+            if this->image->nextImage() === false{
                 break;
             }
         }
@@ -247,14 +324,14 @@ class Imagick extends Adapter
     /**
      * Execute a reflection.
      */
-    protected function _reflection(int height, int opacity, bool fadeIn)
+    protected function processReflection(int height, int opacity, bool fadeIn)
     {
         var reflection, fade, pseudo, image, pixel, ret;
 
-        if self::_version >= 30100 {
-            let reflection = clone this->_image;
+        if self::version >= 30100 {
+            let reflection = clone this->image;
         } else {
-            let reflection = clone this->_image->$clone();
+            let reflection = clone this->image->$clone();
         }
 
         reflection->setIteratorIndex(0);
@@ -293,22 +370,22 @@ class Imagick extends Adapter
 
         let image = new \Imagick(),
             pixel = new \ImagickPixel(),
-            height = this->_image->getImageHeight() + height;
+            height = this->image->getImageHeight() + height;
 
-        this->_image->setIteratorIndex(0);
+        this->image->setIteratorIndex(0);
 
         loop {
-            image->newImage(this->_width, height, pixel);
+            image->newImage(this->width, height, pixel);
             image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
-            image->setColorspace(this->_image->getColorspace());
-            image->setImageDelay(this->_image->getImageDelay());
-            let ret = image->compositeImage(this->_image, constant("Imagick::COMPOSITE_SRC"), 0, 0);
+            image->setColorspace(this->image->getColorspace());
+            image->setImageDelay(this->image->getImageDelay());
+            let ret = image->compositeImage(this->image, constant("Imagick::COMPOSITE_SRC"), 0, 0);
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
-            if this->_image->nextImage() === false {
+            if this->image->nextImage() === false {
                 break;
             }
         }
@@ -317,7 +394,7 @@ class Imagick extends Adapter
         reflection->setIteratorIndex(0);
 
         loop {
-            let ret = image->compositeImage(reflection, constant("Imagick::COMPOSITE_OVER"), 0, this->_height);
+            let ret = image->compositeImage(reflection, constant("Imagick::COMPOSITE_OVER"), 0, this->height);
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
@@ -330,49 +407,146 @@ class Imagick extends Adapter
 
         reflection->destroy();
 
-        this->_image->clear();
-        this->_image->destroy();
+        this->image->clear();
+        this->image->destroy();
 
-        let this->_image = image;
-        let this->_width = this->_image->getImageWidth();
-        let this->_height = this->_image->getImageHeight();
+        let this->image = image;
+        let this->width = this->image->getImageWidth();
+        let this->height = this->image->getImageHeight();
     }
 
     /**
-     * Execute a watermarking.
+     * Execute a render.
      */
-    protected function _watermark(<Adapter> image, int offsetX, int offsetY, int opacity)
+    protected function processRender(string extension, int quality) -> string
     {
-        var watermark, ret;
+        var image;
 
-        let opacity = opacity / 100,
-            watermark = new \Imagick();
+        let image = this->image;
 
-        watermark->readImageBlob(image->render());
-        watermark->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
+        image->setFormat(extension);
+        image->setImageFormat(extension);
+        image->stripImage();
 
-        this->_image->setIteratorIndex(0);
+        let this->type = image->getImageType(),
+            this->mime = "image/" . image->getImageFormat();
+
+        if strcasecmp(extension, "gif") === 0 {
+            image->optimizeImageLayers();
+        } else {
+            if strcasecmp(extension, "jpg") === 0 || strcasecmp(extension, "jpeg") === 0 {
+                image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
+            }
+            image->setImageCompressionQuality(quality);
+        }
+
+        return image->getImageBlob();
+    }
+
+    /**
+     * Execute a resize.
+     */
+    protected function processResize(int width, int height)
+    {
+        var image;
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         loop {
-            let ret = this->_image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offsetX, offsetY);
-
-            if ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
-            }
-
-            if this->_image->nextImage() === false {
+            image->scaleImage(width, height);
+            if image->nextImage() === false {
                 break;
             }
         }
 
-        watermark->clear();
-        watermark->destroy();
+        let this->width = image->getImageWidth();
+        let this->height = image->getImageHeight();
+    }
+
+    /**
+     * Execute a rotation.
+     */
+    protected function processRotate(int degrees)
+    {
+        var pixel;
+
+        this->image->setIteratorIndex(0);
+
+        let pixel = new \ImagickPixel();
+
+        loop {
+            this->image->rotateImage(pixel, degrees);
+            this->image->setImagePage(this->width, this->height, 0, 0);
+            if this->image->nextImage() === false {
+                break;
+            }
+        }
+
+        let this->width = this->image->getImageWidth();
+        let this->height = this->image->getImageHeight();
+    }
+
+    /**
+     * Execute a save.
+     */
+    protected function processSave(string file, int quality)
+    {
+        var ext, fp;
+
+        let ext = pathinfo(file, PATHINFO_EXTENSION);
+
+        this->image->setFormat(ext);
+        this->image->setImageFormat(ext);
+
+        let this->type = this->image->getImageType();
+        let this->mime = "image/" . this->image->getImageFormat();
+
+        if strcasecmp(ext, "gif") == 0 {
+            this->image->optimizeImageLayers();
+            let fp= fopen(file, "w");
+            this->image->writeImagesFile(fp);
+            fclose(fp);
+            return;
+        } else {
+            if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
+                this->image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
+            }
+
+            if quality >= 0 {
+                if quality < 1 {
+                    let quality = 1;
+                } elseif quality > 100 {
+                    let quality = 100;
+                }
+                this->image->setImageCompressionQuality(quality);
+            }
+            this->image->writeImage(file);
+        }
+    }
+
+    /**
+     * Execute a sharpen.
+     */
+    protected function processSharpen(int amount)
+    {
+        let amount = (amount < 5) ? 5 : amount;
+        let amount = (amount * 3.0) / 100;
+
+        this->image->setIteratorIndex(0);
+
+        loop {
+            this->image->sharpenImage(0, amount);
+            if this->image->nextImage() === false {
+                break;
+            }
+        }
     }
 
     /**
      * Execute a text
      */
-    protected function _text(string text, var offsetX, var offsetY, int opacity, int r, int g, int b, int size, string fontfile)
+    protected function processText(string text, var offsetX, var offsetY, int opacity, int r, int g, int b, int size, string fontfile)
     {
         var x, y, draw, color, gravity;
 
@@ -493,11 +667,11 @@ class Imagick extends Adapter
 
         draw->setGravity(gravity);
 
-        this->_image->setIteratorIndex(0);
+        this->image->setIteratorIndex(0);
 
         loop {
-            this->_image->annotateImage(draw, offsetX, offsetY, 0, text);
-            if this->_image->nextImage() === false {
+            this->image->annotateImage(draw, offsetX, offsetY, 0, text);
+            if this->image->nextImage() === false {
                 break;
             }
         }
@@ -506,207 +680,33 @@ class Imagick extends Adapter
     }
 
     /**
-     * Composite one image onto another
+     * Execute a watermarking.
      */
-    protected function _mask(<Adapter> image)
+    protected function processWatermark(<Adapter> image, int offsetX, int offsetY, int opacity)
     {
-        var mask, ret;
+        var watermark, ret;
 
-        let mask = new \Imagick();
+        let opacity = opacity / 100,
+            watermark = new \Imagick();
 
-        mask->readImageBlob(image->render());
-        this->_image->setIteratorIndex(0);
+        watermark->readImageBlob(image->render());
+        watermark->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
+
+        this->image->setIteratorIndex(0);
 
         loop {
-            this->_image->setImageMatte(1);
-            let ret = this->_image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
+            let ret = this->image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offsetX, offsetY);
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
-            if this->_image->nextImage() === false {
+            if this->image->nextImage() === false {
                 break;
             }
         }
 
-        mask->clear();
-        mask->destroy();
-    }
-
-    /**
-     * Execute a background.
-     */
-    protected function _background(int r, int g, int b, int opacity)
-    {
-        var background, color, pixel1, pixel2, ret;
-
-        let color = sprintf("rgb(%d, %d, %d)", r, g, b);
-        let pixel1 = new \ImagickPixel(color);
-        let opacity = opacity / 100;
-
-        let pixel2 = new \ImagickPixel("transparent");
-
-        let background = new \Imagick();
-        this->_image->setIteratorIndex(0);
-
-        loop {
-            background->newImage(this->_width, this->_height, pixel1);
-            if !background->getImageAlphaChannel() {
-                background->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
-            }
-            background->setImageBackgroundColor(pixel2);
-            background->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
-            background->setColorspace(this->_image->getColorspace());
-            let ret = background->compositeImage(this->_image, constant("Imagick::COMPOSITE_DISSOLVE"), 0, 0);
-
-            if ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
-            }
-
-            if this->_image->nextImage() === false {
-                break;
-            }
-        }
-
-        this->_image->clear();
-        this->_image->destroy();
-
-        let this->_image = background;
-    }
-
-    /**
-     * Blur image
-     *
-     * @param int $radius Blur radius
-     */
-    protected function _blur(int radius)
-    {
-        this->_image->setIteratorIndex(0);
-
-        loop {
-            this->_image->blurImage(radius, 100);
-            if this->_image->nextImage() === false {
-                break;
-            }
-        }
-    }
-
-    /**
-     * Pixelate image
-     *
-     * @param int $amount amount to pixelate
-     */
-    protected function _pixelate(int amount)
-    {
-        int width, height;
-
-        let width = this->_width / amount;
-        let height = this->_height / amount;
-
-        this->_image->setIteratorIndex(0);
-
-        loop {
-            this->_image->scaleImage(width, height);
-            this->_image->scaleImage(this->_width, this->_height);
-            if this->_image->nextImage() === false{
-                break;
-            }
-        }
-    }
-
-    /**
-     * Execute a save.
-     */
-    protected function _save(string file, int quality)
-    {
-        var ext, fp;
-
-        let ext = pathinfo(file, PATHINFO_EXTENSION);
-
-        this->_image->setFormat(ext);
-        this->_image->setImageFormat(ext);
-
-        let this->_type = this->_image->getImageType();
-        let this->_mime = "image/" . this->_image->getImageFormat();
-
-        if strcasecmp(ext, "gif") == 0 {
-            this->_image->optimizeImageLayers();
-            let fp= fopen(file, "w");
-            this->_image->writeImagesFile(fp);
-            fclose(fp);
-            return;
-        } else {
-            if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
-                this->_image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
-            }
-
-            if quality >= 0 {
-                if quality < 1 {
-                    let quality = 1;
-                } elseif quality > 100 {
-                    let quality = 100;
-                }
-                this->_image->setImageCompressionQuality(quality);
-            }
-            this->_image->writeImage(file);
-        }
-    }
-
-    /**
-     * Execute a render.
-     */
-    protected function _render(string extension, int quality) -> string
-    {
-        var image;
-
-        let image = this->_image;
-
-        image->setFormat(extension);
-        image->setImageFormat(extension);
-        image->stripImage();
-
-        let this->_type = image->getImageType(),
-            this->_mime = "image/" . image->getImageFormat();
-
-        if strcasecmp(extension, "gif") === 0 {
-            image->optimizeImageLayers();
-        } else {
-            if strcasecmp(extension, "jpg") === 0 || strcasecmp(extension, "jpeg") === 0 {
-                image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
-            }
-            image->setImageCompressionQuality(quality);
-        }
-
-        return image->getImageBlob();
-    }
-
-    /**
-     * Destroys the loaded image to free up resources.
-     */
-    public function __destruct()
-    {
-        if this->_image instanceof \Imagick {
-            this->_image->clear();
-            this->_image->destroy();
-        }
-    }
-
-    /**
-     * Get instance
-     */
-    public function getInternalImInstance() -> <\Imagick>
-    {
-        return this->_image;
-    }
-
-    /**
-     * Sets the limit for a particular resource in megabytes
-     *
-     * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
-     */
-    public function setResourceLimit(int type, int limit)
-    {
-        this->_image->setResourceLimit(type, limit);
+        watermark->clear();
+        watermark->destroy();
     }
 }
