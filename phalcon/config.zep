@@ -40,10 +40,9 @@ use Phalcon\Config\Exception;
  */
 class Config implements \ArrayAccess, \Countable
 {
+    const DEFAULT_PATH_DELIMITER = ".";
 
     protected static pathDelimiter;
-
-    const DEFAULT_PATH_DELIMITER = ".";
 
     /**
      * Phalcon\Config constructor

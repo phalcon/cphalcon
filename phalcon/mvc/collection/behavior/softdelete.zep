@@ -22,7 +22,6 @@ use Phalcon\Mvc\Collection\Exception;
  */
 class SoftDelete extends Behavior
 {
-
     /**
      * Listens for notifications from the models manager
      */

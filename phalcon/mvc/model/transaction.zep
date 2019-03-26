@@ -61,19 +61,19 @@ use Phalcon\Mvc\Model\TransactionInterface;
  */
 class Transaction implements TransactionInterface
 {
-    protected _connection;
+    protected activeTransaction = false;
 
-    protected _activeTransaction = false;
+    protected connection;
 
-    protected _isNewTransaction = true;
+    protected isNewTransaction = true;
 
-    protected _rollbackOnAbort = false;
+    protected manager;
 
-    protected _manager;
+    protected messages;
 
-    protected _messages;
+    protected rollbackRecord;
 
-    protected _rollbackRecord;
+    protected rollbackOnAbort = false;
 
     /**
      * Phalcon\Mvc\Model\Transaction constructor
@@ -82,7 +82,7 @@ class Transaction implements TransactionInterface
     {
         var connection;
 
-        let this->_messages = [];
+        let this->messages = [];
 
         if service {
             let connection = container->get(service);
@@ -90,18 +90,10 @@ class Transaction implements TransactionInterface
             let connection = container->get("db");
         }
 
-        let this->_connection = connection;
+        let this->connection = connection;
         if autoBegin {
             connection->begin();
         }
-    }
-
-    /**
-     * Sets transaction manager related to the transaction
-     */
-    public function setTransactionManager(<ManagerInterface> manager)
-    {
-        let this->_manager = manager;
     }
 
     /**
@@ -109,7 +101,7 @@ class Transaction implements TransactionInterface
      */
     public function begin() -> bool
     {
-        return this->_connection->begin();
+        return this->connection->begin();
     }
 
     /**
@@ -119,12 +111,57 @@ class Transaction implements TransactionInterface
     {
         var manager;
 
-        let manager = this->_manager;
+        let manager = this->manager;
         if typeof manager == "object" {
             manager->notifyCommit(this);
         }
 
-        return this->_connection->commit();
+        return this->connection->commit();
+    }
+
+    /**
+     * Returns the connection related to transaction
+     */
+    public function getConnection() -> <\Phalcon\Db\AdapterInterface>
+    {
+        if this->rollbackOnAbort {
+            if connection_aborted() {
+                this->rollback("The request was aborted");
+            }
+        }
+        return this->connection;
+    }
+
+    /**
+     * Returns validations messages from last save try
+     */
+    public function getMessages() -> array
+    {
+        return this->messages;
+    }
+
+    /**
+     * Sets object which generates rollback action
+     */
+    public function setRollbackedRecord(<ModelInterface> record)
+    {
+        let this->rollbackRecord = record;
+    }
+
+    /**
+     * Checks whether transaction is managed by a transaction manager
+     */
+    public function isManaged() -> bool
+    {
+        return typeof this->manager == "object";
+    }
+
+    /**
+     * Checks whether internal connection is under an active transaction
+     */
+    public function isValid() -> bool
+    {
+        return this->connection->isUnderTransaction();
     }
 
     /**
@@ -134,36 +171,23 @@ class Transaction implements TransactionInterface
     {
         var manager, connection;
 
-        let manager = this->_manager;
+        let manager = this->manager;
         if typeof manager == "object" {
             manager->notifyRollback(this);
         }
 
-        let connection = this->_connection;
+        let connection = this->connection;
         if connection->rollback() {
             if !rollbackMessage {
                 let rollbackMessage = "Transaction aborted";
             }
             if typeof rollbackRecord == "object" {
-                let this->_rollbackRecord = rollbackRecord;
+                let this->rollbackRecord = rollbackRecord;
             }
-            throw new TxFailed(rollbackMessage, this->_rollbackRecord);
+            throw new TxFailed(rollbackMessage, this->rollbackRecord);
         }
 
         return true;
-    }
-
-    /**
-     * Returns the connection related to transaction
-     */
-    public function getConnection() -> <\Phalcon\Db\AdapterInterface>
-    {
-        if this->_rollbackOnAbort {
-            if connection_aborted() {
-                this->rollback("The request was aborted");
-            }
-        }
-        return this->_connection;
     }
 
     /**
@@ -171,7 +195,7 @@ class Transaction implements TransactionInterface
      */
     public function setIsNewTransaction(bool isNew)
     {
-        let this->_isNewTransaction = isNew;
+        let this->isNewTransaction = isNew;
     }
 
     /**
@@ -179,38 +203,14 @@ class Transaction implements TransactionInterface
      */
     public function setRollbackOnAbort(bool rollbackOnAbort)
     {
-        let this->_rollbackOnAbort = rollbackOnAbort;
+        let this->rollbackOnAbort = rollbackOnAbort;
     }
 
     /**
-     * Checks whether transaction is managed by a transaction manager
+     * Sets transaction manager related to the transaction
      */
-    public function isManaged() -> bool
+    public function setTransactionManager(<ManagerInterface> manager)
     {
-        return typeof this->_manager == "object";
-    }
-
-    /**
-     * Returns validations messages from last save try
-     */
-    public function getMessages() -> array
-    {
-        return this->_messages;
-    }
-
-    /**
-     * Checks whether internal connection is under an active transaction
-     */
-    public function isValid() -> bool
-    {
-        return this->_connection->isUnderTransaction();
-    }
-
-    /**
-     * Sets object which generates rollback action
-     */
-    public function setRollbackedRecord(<ModelInterface> record)
-    {
-        let this->_rollbackRecord = record;
+        let this->manager = manager;
     }
 }

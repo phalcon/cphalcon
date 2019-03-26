@@ -19,16 +19,40 @@ use Phalcon\Cache\BackendInterface;
  */
 interface ViewBaseInterface
 {
+    /**
+     * Cache the actual view render to certain level
+     */
+    public function cache(var options = true);
 
     /**
-     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+     * Returns the cache instance used to cache
      */
-    public function setViewsDir(string! viewsDir);
+    public function getCache() -> <BackendInterface>;
+
+    /**
+     * Returns cached output from another view stage
+     */
+    public function getContent() -> string;
+
+    /**
+     * Returns parameters to views
+     */
+    public function getParamsToView() -> array;
 
     /**
      * Gets views directory
      */
     public function getViewsDir() -> string | array;
+
+    /**
+     * Renders a partial view
+     */
+    public function partial(string! partialPath, var params = null);
+
+    /**
+     * Externally sets the view content
+     */
+    public function setContent(string! content);
 
     /**
      * Adds parameters to views (alias of setVar)
@@ -41,32 +65,8 @@ interface ViewBaseInterface
     public function setVar(string! key, var value);
 
     /**
-     * Returns parameters to views
+     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
      */
-    public function getParamsToView() -> array;
+    public function setViewsDir(string! viewsDir);
 
-    /**
-     * Returns the cache instance used to cache
-     */
-    public function getCache() -> <BackendInterface>;
-
-    /**
-     * Cache the actual view render to certain level
-     */
-    public function cache(var options = true);
-
-    /**
-     * Externally sets the view content
-     */
-    public function setContent(string! content);
-
-    /**
-     * Returns cached output from another view stage
-     */
-    public function getContent() -> string;
-
-    /**
-     * Renders a partial view
-     */
-    public function partial(string! partialPath, var params = null);
 }

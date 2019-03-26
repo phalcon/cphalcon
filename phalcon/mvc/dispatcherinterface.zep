@@ -20,21 +20,10 @@ use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
  */
 interface DispatcherInterface extends DispatcherInterfaceBase
 {
-
     /**
-     * Sets the default controller suffix
+     * Returns the active controller in the dispatcher
      */
-    public function setControllerSuffix(string! controllerSuffix);
-
-    /**
-     * Sets the default controller name
-     */
-    public function setDefaultController(string! controllerName);
-
-    /**
-     * Sets the controller name to be dispatched
-     */
-    public function setControllerName(string! controllerName);
+    public function getActiveController() -> <ControllerInterface>;
 
     /**
      * Gets last dispatched controller name
@@ -47,7 +36,17 @@ interface DispatcherInterface extends DispatcherInterfaceBase
     public function getLastController() -> <ControllerInterface>;
 
     /**
-     * Returns the active controller in the dispatcher
+     * Sets the default controller suffix
      */
-    public function getActiveController() -> <ControllerInterface>;
+    public function setControllerSuffix(string! controllerSuffix);
+
+    /**
+     * Sets the controller name to be dispatched
+     */
+    public function setControllerName(string! controllerName);
+
+    /**
+     * Sets the default controller name
+     */
+    public function setDefaultController(string! controllerName);
 }

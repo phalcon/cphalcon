@@ -21,12 +21,6 @@ use Phalcon\Annotations\Exception;
 class Annotation
 {
     /**
-     * Annotation Name
-     * @var string
-     */
-    protected name;
-
-    /**
      * Annotation Arguments
      * @var string
      */
@@ -37,6 +31,12 @@ class Annotation
      * @var string
      */
     protected exprArguments;
+
+    /**
+     * Annotation Name
+     * @var string
+     */
+    protected name;
 
     /**
      * Phalcon\Annotations\Annotation constructor

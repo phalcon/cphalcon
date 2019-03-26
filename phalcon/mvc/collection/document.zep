@@ -22,14 +22,6 @@ use Phalcon\Mvc\Collection\Exception;
 class Document implements EntityInterface, \ArrayAccess
 {
     /**
-     * Checks whether an offset exists in the document
-     */
-    public function offsetExists(var index) -> bool
-    {
-        return isset this->{index};
-    }
-
-    /**
      * Returns the value of a field using the ArrayAccess interfase
      */
     public function offsetGet(var index) -> var
@@ -39,6 +31,14 @@ class Document implements EntityInterface, \ArrayAccess
             return value;
         }
         throw new Exception("The index does not exist in the row");
+    }
+
+    /**
+     * Checks whether an offset exists in the document
+     */
+    public function offsetExists(var index) -> bool
+    {
+        return isset this->{index};
     }
 
     /**
@@ -74,6 +74,14 @@ class Document implements EntityInterface, \ArrayAccess
     }
 
     /**
+     * Returns the instance as an array representation
+     */
+    public function toArray() -> array
+    {
+        return get_object_vars(this);
+    }
+
+    /**
      * Writes an attribute value by its name
      *
      *<code>
@@ -83,13 +91,5 @@ class Document implements EntityInterface, \ArrayAccess
     public function writeAttribute(string! attribute, var value) -> void
     {
         let this->{attribute} = value;
-    }
-
-    /**
-     * Returns the instance as an array representation
-     */
-    public function toArray() -> array
-    {
-        return get_object_vars(this);
     }
 }
