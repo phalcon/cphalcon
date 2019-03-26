@@ -38,12 +38,11 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  */
 class Redis extends MetaData
 {
+    protected metaData = [];
 
-    protected _ttl = 172800;
+    protected redis = null;
 
-    protected _redis = null;
-
-    protected _metaData = [];
+    protected ttl = 172800;
 
     /**
      * Phalcon\Mvc\Model\MetaData\Redis constructor
@@ -63,11 +62,11 @@ class Redis extends MetaData
         }
 
         if fetch ttl, options["lifetime"] {
-            let this->_ttl = ttl;
+            let this->ttl = ttl;
         }
 
-        let this->_redis = new Redis(
-            new FrontendData(["lifetime": this->_ttl]),
+        let this->redis = new Redis(
+            new FrontendData(["lifetime": this->ttl]),
             options
         );
     }
@@ -79,7 +78,7 @@ class Redis extends MetaData
     {
         var data;
 
-        let data = this->_redis->get(key);
+        let data = this->redis->get(key);
         if typeof data == "array" {
             return data;
         }
@@ -91,7 +90,7 @@ class Redis extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        this->_redis->save(key, data);
+        this->redis->save(key, data);
     }
 
     /**
@@ -101,14 +100,14 @@ class Redis extends MetaData
     {
         var meta, key, realKey;
 
-        let meta = this->_metaData;
+        let meta = this->metaData;
 
         if typeof meta == "array" {
 
             for key, _ in meta {
                 let realKey = "meta-" . key;
 
-                this->_redis->delete(realKey);
+                this->redis->delete(realKey);
             }
         }
 

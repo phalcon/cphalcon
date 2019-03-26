@@ -21,8 +21,7 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Memory extends MetaData
 {
-
-    protected _metaData = [];
+    protected metaData = [];
 
     /**
      * Phalcon\Mvc\Model\MetaData\Memory constructor

@@ -16,15 +16,14 @@ use Phalcon\DiInterface;
 interface StrategyInterface
 {
     /**
-     * The meta-data is obtained by reading the column descriptions from the database information schema
-     */
-    public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array;
-
-    /**
      * Read the model's column map, this can't be inferred
      *
      * @todo Not implemented
      */
     public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array;
 
+    /**
+     * The meta-data is obtained by reading the column descriptions from the database information schema
+     */
+    public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array;
 }
