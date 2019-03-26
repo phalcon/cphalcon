@@ -43,17 +43,26 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
  */
 class Status implements StatusInterface
 {
-    protected model;
 
-    protected success;
+    protected _success;
+
+    protected _model;
 
     /**
      * Phalcon\Mvc\Model\Query\Status
      */
     public function __construct(bool success, <ModelInterface> model = null)
     {
-        let this->success = success,
-            this->model = model;
+        let this->_success = success,
+            this->_model = model;
+    }
+
+    /**
+     * Returns the model that executed the action
+     */
+    public function getModel() -> <ModelInterface>
+    {
+        return this->_model;
     }
 
     /**
@@ -62,7 +71,7 @@ class Status implements StatusInterface
     public function getMessages() -> <MessageInterface[]>
     {
         var model;
-        let model = this->model;
+        let model = this->_model;
         if typeof model != "object" {
             return [];
         }
@@ -70,18 +79,11 @@ class Status implements StatusInterface
     }
 
     /**
-     * Returns the model that executed the action
-     */
-    public function getModel() -> <ModelInterface>
-    {
-        return this->model;
-    }
-
-    /**
      * Allows to check if the executed operation was successful
      */
     public function success() -> bool
     {
-        return this->success;
+        return this->_success;
     }
+
 }

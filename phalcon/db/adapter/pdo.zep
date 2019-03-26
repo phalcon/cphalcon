@@ -38,6 +38,7 @@ use Phalcon\Events\ManagerInterface;
  */
 abstract class Pdo extends Adapter
 {
+
     /**
      * Last affected rows
      */
