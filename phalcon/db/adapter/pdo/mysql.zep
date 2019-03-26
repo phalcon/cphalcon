@@ -41,7 +41,6 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Mysql extends PdoAdapter
 {
-
     protected dialectType = "mysql";
 
     protected type = "mysql";

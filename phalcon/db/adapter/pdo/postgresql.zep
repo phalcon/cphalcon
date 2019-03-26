@@ -40,7 +40,6 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Postgresql extends PdoAdapter
 {
-
     protected dialectType = "postgresql";
 
     protected type = "pgsql";
