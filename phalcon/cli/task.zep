@@ -38,7 +38,6 @@ use Phalcon\Di\Injectable;
  */
 class Task extends Injectable implements TaskInterface
 {
-
     /**
      * Phalcon\Cli\Task constructor
      */

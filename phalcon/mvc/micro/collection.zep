@@ -31,41 +31,42 @@ namespace Phalcon\Mvc\Micro;
  */
 class Collection implements CollectionInterface
 {
+    protected handler;
 
-    protected _prefix;
+    protected handlers;
 
-    protected _lazy;
+    protected lazy;
 
-    protected _handler;
-
-    protected _handlers;
+    protected prefix;
 
     /**
-     * Internal function to add a handler to the group.
+     * Maps a route to a handler that only matches if the HTTP method is DELETE.
      *
-     * @param string|array method
      * @param callable|string handler
      */
-    protected function _addMap(var method, string! routePattern, var handler, string name)
+    public function delete(string! routePattern, var handler, string name = null) -> <CollectionInterface>
     {
-        let this->_handlers[] = [method, routePattern, handler, name];
-    }
-
-    /**
-     * Sets a prefix for all routes added to the collection
-     */
-    public function setPrefix(string! prefix) -> <CollectionInterface>
-    {
-        let this->_prefix = prefix;
+        this->addMap("DELETE", routePattern, handler, name);
         return this;
     }
 
     /**
-     * Returns the collection prefix if any
+     * Maps a route to a handler that only matches if the HTTP method is GET.
+     *
+     * @param callable|string handler
      */
-    public function getPrefix() -> string
+    public function get(string! routePattern, var handler, string name = null) -> <CollectionInterface>
     {
-        return this->_prefix;
+        this->addMap("GET", routePattern, handler, name);
+        return this;
+    }
+
+    /**
+     * Returns the main handler
+     */
+    public function getHandler() -> var
+    {
+        return this->handler;
     }
 
     /**
@@ -73,26 +74,25 @@ class Collection implements CollectionInterface
      */
     public function getHandlers() -> array
     {
-        return this->_handlers;
+        return this->handlers;
     }
 
     /**
-     * Sets the main handler.
+     * Returns the collection prefix if any
+     */
+    public function getPrefix() -> string
+    {
+        return this->prefix;
+    }
+
+    /**
+     * Maps a route to a handler that only matches if the HTTP method is HEAD.
      *
      * @param callable|string handler
      */
-    public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>
+    public function head(string! routePattern, var handler, string name = null) -> <CollectionInterface>
     {
-        let this->_handler = handler, this->_lazy = lazy;
-        return this;
-    }
-
-    /**
-     * Sets if the main handler must be lazy loaded
-     */
-    public function setLazy(bool! lazy) -> <CollectionInterface>
-    {
-        let this->_lazy = lazy;
+        this->addMap("HEAD", routePattern, handler, name);
         return this;
     }
 
@@ -101,15 +101,7 @@ class Collection implements CollectionInterface
      */
     public function isLazy() -> bool
     {
-        return this->_lazy;
-    }
-
-    /**
-     * Returns the main handler
-     */
-    public function getHandler() -> var
-    {
-        return this->_handler;
+        return this->lazy;
     }
 
     /**
@@ -119,7 +111,7 @@ class Collection implements CollectionInterface
      */
     public function map(string! routePattern, var handler, string name = null) -> <CollectionInterface>
     {
-        this->_addMap(null, routePattern, handler, name);
+        this->addMap(null, routePattern, handler, name);
         return this;
     }
 
@@ -135,74 +127,8 @@ class Collection implements CollectionInterface
      */
     public function mapVia(string! routePattern, var handler, var method, string name = null) -> <CollectionInterface>
     {
-        this->_addMap(method, routePattern, handler, name);
+        this->addMap(method, routePattern, handler, name);
 
-        return this;
-    }
-
-    /**
-     * Maps a route to a handler that only matches if the HTTP method is GET.
-     *
-     * @param callable|string handler
-     */
-    public function get(string! routePattern, var handler, string name = null) -> <CollectionInterface>
-    {
-        this->_addMap("GET", routePattern, handler, name);
-        return this;
-    }
-
-    /**
-     * Maps a route to a handler that only matches if the HTTP method is POST.
-     *
-     * @param callable|string handler
-     */
-    public function post(string! routePattern, var handler, string name = null) -> <CollectionInterface>
-    {
-        this->_addMap("POST", routePattern, handler, name);
-        return this;
-    }
-
-    /**
-     * Maps a route to a handler that only matches if the HTTP method is PUT.
-     *
-     * @param callable|string handler
-     */
-    public function put(string! routePattern, var handler, string name = null) -> <CollectionInterface>
-    {
-        this->_addMap("PUT", routePattern, handler, name);
-        return this;
-    }
-
-    /**
-     * Maps a route to a handler that only matches if the HTTP method is PATCH.
-     *
-     * @param callable|string handler
-     */
-    public function patch(string! routePattern, var handler, string name = null) -> <CollectionInterface>
-    {
-        this->_addMap("PATCH", routePattern, handler, name);
-        return this;
-    }
-
-    /**
-     * Maps a route to a handler that only matches if the HTTP method is HEAD.
-     *
-     * @param callable|string handler
-     */
-    public function head(string! routePattern, var handler, string name = null) -> <CollectionInterface>
-    {
-        this->_addMap("HEAD", routePattern, handler, name);
-        return this;
-    }
-
-    /**
-     * Maps a route to a handler that only matches if the HTTP method is DELETE.
-     *
-     * @param callable|string handler
-     */
-    public function delete(string! routePattern, var handler, string name = null) -> <CollectionInterface>
-    {
-        this->_addMap("DELETE", routePattern, handler, name);
         return this;
     }
 
@@ -213,7 +139,80 @@ class Collection implements CollectionInterface
      */
     public function options(string! routePattern, var handler, string name = null) -> <CollectionInterface>
     {
-        this->_addMap("OPTIONS", routePattern, handler, name);
+        this->addMap("OPTIONS", routePattern, handler, name);
         return this;
+    }
+
+    /**
+     * Maps a route to a handler that only matches if the HTTP method is PATCH.
+     *
+     * @param callable|string handler
+     */
+    public function patch(string! routePattern, var handler, string name = null) -> <CollectionInterface>
+    {
+        this->addMap("PATCH", routePattern, handler, name);
+        return this;
+    }
+
+    /**
+     * Maps a route to a handler that only matches if the HTTP method is POST.
+     *
+     * @param callable|string handler
+     */
+    public function post(string! routePattern, var handler, string name = null) -> <CollectionInterface>
+    {
+        this->addMap("POST", routePattern, handler, name);
+        return this;
+    }
+
+    /**
+     * Maps a route to a handler that only matches if the HTTP method is PUT.
+     *
+     * @param callable|string handler
+     */
+    public function put(string! routePattern, var handler, string name = null) -> <CollectionInterface>
+    {
+        this->addMap("PUT", routePattern, handler, name);
+        return this;
+    }
+
+    /**
+     * Sets the main handler.
+     *
+     * @param callable|string handler
+     */
+    public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>
+    {
+        let this->handler = handler, this->lazy = lazy;
+        return this;
+    }
+
+    /**
+     * Sets if the main handler must be lazy loaded
+     */
+    public function setLazy(bool! lazy) -> <CollectionInterface>
+    {
+        let this->lazy = lazy;
+        return this;
+    }
+
+    /**
+     * Sets a prefix for all routes added to the collection
+     */
+    public function setPrefix(string! prefix) -> <CollectionInterface>
+    {
+        let this->prefix = prefix;
+        return this;
+    }
+
+    /**
+     * Internal function to add a handler to the group.
+     *
+     * @param string|array method
+     * @param callable|string handler
+     */
+    protected function addMap(var method, string! routePattern, var handler, string name)
+    {
+        let this->handlers[] = [method, routePattern, handler, name];
     }
 }

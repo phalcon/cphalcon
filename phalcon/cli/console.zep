@@ -23,7 +23,6 @@ use Phalcon\Events\ManagerInterface;
  */
 class Console extends BaseApplication
 {
-
     protected arguments = [];
 
     protected options = [];

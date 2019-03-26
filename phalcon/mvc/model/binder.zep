@@ -52,24 +52,6 @@ class Binder implements BinderInterface
     }
 
     /**
-     * Gets cache instance
-     */
-    public function setCache(<BackendInterface> cache) -> <BinderInterface>
-    {
-        let this->cache = cache;
-
-        return this;
-    }
-
-    /**
-     * Sets cache instance
-     */
-    public function getCache() -> <BackendInterface>
-    {
-        return this->cache;
-    }
-
-    /**
      * Bind models into params in proper handler
      */
     public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array
@@ -106,6 +88,14 @@ class Binder implements BinderInterface
     protected function findBoundModel(var paramValue, string className) -> object | bool
     {
         return {className}::findFirst(paramValue);
+    }
+
+    /**
+     * Sets cache instance
+     */
+    public function getCache() -> <BackendInterface>
+    {
+        return this->cache;
     }
 
     /**
@@ -212,4 +202,15 @@ class Binder implements BinderInterface
 
         return params;
     }
+
+    /**
+     * Gets cache instance
+     */
+    public function setCache(<BackendInterface> cache) -> <BinderInterface>
+    {
+        let this->cache = cache;
+
+        return this;
+    }
+
 }

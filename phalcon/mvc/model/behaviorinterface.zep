@@ -20,12 +20,12 @@ use Phalcon\Mvc\ModelInterface;
 interface BehaviorInterface
 {
     /**
-     * This method receives the notifications from the EventsManager
-     */
-    public function notify(string! type, <ModelInterface> model);
-
-    /**
      * Calls a method when it's missing in the model
      */
     public function missingMethod(<ModelInterface> model, string! method, array arguments = []);
+
+    /**
+     * This method receives the notifications from the EventsManager
+     */
+    public function notify(string! type, <ModelInterface> model);
 }
