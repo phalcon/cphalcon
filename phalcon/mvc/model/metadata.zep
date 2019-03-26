@@ -656,7 +656,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Initialize the metadata for certain table
      */
-    protected final function _initialize(<ModelInterface> model, var key, var table, var schema)
+    protected final function initialize(<ModelInterface> model, var key, var table, var schema)
     {
         var strategy, className, metaData, data, modelMetadata, modelColumnMap,
             container, keyName, prefixKey;
