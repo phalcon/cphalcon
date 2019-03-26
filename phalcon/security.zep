@@ -115,7 +115,7 @@ class Security implements InjectionAwareInterface
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'session' service");
+            throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
         }
 
         let session = <SessionInterface> container->getShared("session");
@@ -183,7 +183,7 @@ class Security implements InjectionAwareInterface
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'session' service");
+            throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
         }
 
         let session = <SessionInterface> container->getShared("session");
@@ -250,7 +250,7 @@ class Security implements InjectionAwareInterface
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'session' service");
+            throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
         }
 
         let session = <SessionInterface> container->getShared("session");
@@ -296,7 +296,7 @@ class Security implements InjectionAwareInterface
             let container = <DiInterface> this->container;
 
             if typeof container != "object" {
-                throw new Exception("A dependency injection container is required to access the 'session' service");
+                throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
             }
 
             let session = <SessionInterface> container->getShared("session");
@@ -316,7 +316,7 @@ class Security implements InjectionAwareInterface
         if null === this->tokenKey {
             let container = <DiInterface> this->container;
             if typeof container != "object" {
-                throw new Exception("A dependency injection container is required to access the 'session' service");
+                throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
             }
 
             let this->tokenKey = this->random->base64Safe(this->numberBytes);

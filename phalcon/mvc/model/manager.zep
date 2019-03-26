@@ -464,7 +464,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
         }
 
         /**
@@ -1631,7 +1631,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injection object is required to access ORM services");
+            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
         }
 
         /**
@@ -1674,7 +1674,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injection object is required to access ORM services");
+            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
         }
 
         /**

@@ -83,7 +83,7 @@ class Annotations extends Router
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception("A dependency injection container is required to access the 'annotations' service");
+            throw new Exception(Exception::containerServiceNotFound("the 'annotations' service"));
         }
 
         let annotationsService = container->getShared("annotations");

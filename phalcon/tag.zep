@@ -403,7 +403,7 @@ class Tag
             let container = self::getDI();
 
             if typeof container != "object" {
-                throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
+                throw new Exception(Exception::containerServiceNotFound("the 'escaper' service"));
             }
 
             let escaper = <EscaperInterface> container->getShared("escaper"),
@@ -514,7 +514,7 @@ class Tag
             let container = self::getDI();
 
             if typeof container != "object" {
-                throw new Exception("A dependency injector container is required to obtain the 'url' service");
+                throw new Exception(Exception::containerServiceNotFound("the 'url' service"));
             }
 
             let url = <UrlInterface> container->getShared("url"),

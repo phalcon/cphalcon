@@ -319,7 +319,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
-                        throw new Exception("A dependency injection container is required to access the 'request' service");
+                        throw new Exception(Exception::containerServiceNotFound("the 'request' service"));
                     }
 
                     let request = <RequestInterface> container->getShared("request");
@@ -346,7 +346,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
-                        throw new Exception("A dependency injection container is required to access the 'request' service");
+                        throw new Exception(Exception::containerServiceNotFound("the 'request' service"));
                     }
 
                     let request = <RequestInterface> container->getShared("request");

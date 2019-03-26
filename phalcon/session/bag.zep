@@ -50,7 +50,7 @@ class Bag extends Collection implements InjectionAwareInterface
             if typeof container != "object" {
                 let container = Di::getDefault();
                 if typeof container != "object" {
-                    throw new Exception("A dependency injection object is required to access the 'session' service");
+                    throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
                 }
             }
 

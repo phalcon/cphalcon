@@ -17,5 +17,8 @@ namespace Phalcon;
  */
 class Exception extends \Exception implements \Throwable
 {
-
+    public static function containerServiceNotFound(string! service) -> string
+    {
+        return "A dependency injection container is required to access " . service;
+    }
 }

@@ -102,7 +102,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         let container = this->container;
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                "A dependency injection object is required to access the 'filter' service",
+                Exception::containerServiceNotFound("the 'filter' service"),
                 CliDispatcher::EXCEPTION_NO_DI
             );
         }

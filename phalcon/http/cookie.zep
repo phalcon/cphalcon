@@ -220,9 +220,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
-                        throw new Exception(
-                            "A dependency injection object is required to access the 'filter' and 'crypt' service"
-                        );
+                        throw new Exception(Exception::containerServiceNotFound("the 'filter' and 'crypt' services"));
                     }
 
                     let crypt = <CryptInterface> container->getShared("crypt");
@@ -263,9 +261,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                         if container === null {
                             let container = <DiInterface> this->container;
                             if typeof container != "object" {
-                                throw new Exception(
-                                    "A dependency injection object is required to access the 'filter' service"
-                                );
+                                throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
                             }
                         }
 
@@ -367,7 +363,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         let container = this->container;
 
         if typeof container != "object" {
-            throw new Exception("A dependency injection object is required to access the 'session' service");
+            throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
         }
 
         let definition = [];
@@ -407,9 +403,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             if !empty value {
 
                 if typeof container != "object" {
-                    throw new Exception(
-                        "A dependency injection object is required to access the 'filter' service"
-                    );
+                    throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
                 }
 
                 let crypt = <CryptInterface> container->getShared("crypt");
