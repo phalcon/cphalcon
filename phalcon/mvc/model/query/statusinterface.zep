@@ -21,14 +21,14 @@ use Phalcon\Mvc\ModelInterface;
 interface StatusInterface
 {
     /**
-     * Returns the model which executed the action
-     */
-    public function getModel() -> <ModelInterface>;
-
-    /**
      * Returns the messages produced by an operation failed
      */
     public function getMessages() -> <MessageInterface[]>;
+
+    /**
+     * Returns the model which executed the action
+     */
+    public function getModel() -> <ModelInterface>;
 
     /**
      * Allows to check if the executed operation was successful
