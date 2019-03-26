@@ -40,7 +40,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 {
     protected action;
 
-
     protected container;
 
     protected defaultAction = null;

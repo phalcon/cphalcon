@@ -19,7 +19,6 @@ use Phalcon\Mvc\View\Engine;
  */
 class Php extends Engine
 {
-
     /**
      * Renders a view using the template engine
      */

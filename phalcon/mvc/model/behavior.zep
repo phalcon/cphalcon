@@ -20,22 +20,14 @@ use Phalcon\Mvc\Model\BehaviorInterface;
  */
 abstract class Behavior implements BehaviorInterface
 {
-    protected _options;
+    protected options;
 
     /**
      * Phalcon\Mvc\Model\Behavior
      */
     public function __construct(array options = [])
     {
-        let this->_options = options;
-    }
-
-    /**
-     * Checks whether the behavior must take action on certain event
-     */
-    protected function mustTakeAction(string! eventName) -> bool
-    {
-        return isset this->_options[eventName];
+        let this->options = options;
     }
 
     /**
@@ -47,7 +39,7 @@ abstract class Behavior implements BehaviorInterface
     {
         var options, eventOptions;
 
-        let options = this->_options;
+        let options = this->options;
         if eventName !== null {
             if fetch eventOptions, options[eventName] {
                 return eventOptions;
@@ -58,17 +50,25 @@ abstract class Behavior implements BehaviorInterface
     }
 
     /**
-     * This method receives the notifications from the EventsManager
+     * Acts as fallbacks when a missing method is called on the model
      */
-    public function notify(string type, <ModelInterface> model)
+    public function missingMethod(<ModelInterface> model, string method, array arguments = [])
     {
         return null;
     }
 
     /**
-     * Acts as fallbacks when a missing method is called on the model
+     * Checks whether the behavior must take action on certain event
      */
-    public function missingMethod(<ModelInterface> model, string method, array arguments = [])
+    protected function mustTakeAction(string! eventName) -> bool
+    {
+        return isset this->options[eventName];
+    }
+
+    /**
+     * This method receives the notifications from the EventsManager
+     */
+    public function notify(string type, <ModelInterface> model)
     {
         return null;
     }

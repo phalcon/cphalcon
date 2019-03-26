@@ -19,7 +19,6 @@ use Phalcon\DiInterface;
  */
 interface CriteriaInterface
 {
-
     /**
      * Set a model on which the query will be executed
      */
