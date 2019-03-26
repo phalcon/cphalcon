@@ -55,37 +55,22 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
 class Builder implements BuilderInterface, InjectionAwareInterface
 {
 
-    protected container;
-
-    protected _columns;
-
-    protected _models;
-
-    protected _joins;
-
-    protected _conditions;
-
-    protected _group;
-
-    protected _having;
-
-    protected _order;
-
-    protected _limit;
-
-    protected _offset;
-
-    protected _forUpdate;
-
-    protected _sharedLock;
-
     protected _bindParams;
-
     protected _bindTypes;
-
+    protected _columns;
+    protected _conditions;
+    protected container;
     protected _distinct;
-
+    protected _forUpdate;
+    protected _group;
+    protected _having;
     protected _hiddenParamNumber = 0;
+    protected _joins;
+    protected _limit;
+    protected _models;
+    protected _offset;
+    protected _order;
+    protected _sharedLock;
 
     /**
      * Phalcon\Mvc\Model\Query\Builder constructor
@@ -267,109 +252,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> <BuilderInterface>
-    {
-        let this->container = container;
-        return this;
-    }
-
-    /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
-     * Sets SELECT DISTINCT / SELECT ALL flag
-     *
-     *<code>
-     * $builder->distinct("status");
-     * $builder->distinct(null);
-     *</code>
-     */
-     public function distinct(var distinct) -> <BuilderInterface>
-     {
-         let this->_distinct = distinct;
-         return this;
-     }
-
-    /**
-     * Returns SELECT DISTINCT / SELECT ALL flag
-     */
-    public function getDistinct() -> bool
-    {
-        return this->_distinct;
-    }
-
-    /**
-     * Sets the columns to be queried
-     *
-     *<code>
-     * $builder->columns("id, name");
-     *
-     * $builder->columns(
-     *     [
-     *         "id",
-     *         "name",
-     *     ]
-     * );
-     *
-     * $builder->columns(
-     *     [
-     *         "name",
-     *         "number" => "COUNT(*)",
-     *     ]
-     * );
-     *</code>
-     */
-    public function columns(var columns) -> <BuilderInterface>
-    {
-        let this->_columns = columns;
-        return this;
-    }
-
-    /**
-     * Return the columns to be queried
-     *
-     * @return string|array
-     */
-    public function getColumns()
-    {
-        return this->_columns;
-    }
-
-    /**
-     * Sets the models who makes part of the query
-     *
-     *<code>
-     * $builder->from("Robots");
-     *
-     * $builder->from(
-     *     [
-     *         "Robots",
-     *         "RobotsParts",
-     *     ]
-     * );
-     *
-     * $builder->from(
-     *     [
-     *         "r"  => "Robots",
-     *         "rp" => "RobotsParts",
-     *     ]
-     * );
-     *</code>
-     */
-    public function from(var models) -> <BuilderInterface>
-    {
-        let this->_models = models;
-        return this;
-    }
-
-    /**
      * Add a model to take part of the query
      *
      *<code>
@@ -401,342 +283,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let this->_models = models;
-        return this;
-    }
-
-    /**
-     * Return the models who makes part of the query
-     *
-     * @return string|array
-     */
-    public function getFrom()
-    {
-        return this->_models;
-    }
-
-    /**
-     * Adds an :type: join (by default type - INNER) to the query
-     *
-     *<code>
-     * // Inner Join model 'Robots' with automatic conditions and alias
-     * $builder->join("Robots");
-     *
-     * // Inner Join model 'Robots' specifying conditions
-     * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
-     *
-     * // Inner Join model 'Robots' specifying conditions and alias
-     * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
-     *
-     * // Left Join model 'Robots' specifying conditions, alias and type of join
-     * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
-     *</code>
-     */
-    public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
-    {
-        let this->_joins[] = [model, conditions, alias, type];
-        return this;
-    }
-
-    /**
-     * Adds an INNER join to the query
-     *
-     *<code>
-     * // Inner Join model 'Robots' with automatic conditions and alias
-     * $builder->innerJoin("Robots");
-     *
-     * // Inner Join model 'Robots' specifying conditions
-     * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
-     *
-     * // Inner Join model 'Robots' specifying conditions and alias
-     * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
-     *</code>
-     */
-    public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
-    {
-        let this->_joins[] = [model, conditions, alias, "INNER"];
-        return this;
-    }
-
-    /**
-     * Adds a LEFT join to the query
-     *
-     *<code>
-     * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
-     *</code>
-     */
-    public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
-    {
-        let this->_joins[] = [model, conditions, alias, "LEFT"];
-        return this;
-    }
-
-    /**
-     * Adds a RIGHT join to the query
-     *
-     *<code>
-     * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
-     *</code>
-     */
-    public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
-    {
-        let this->_joins[] = [model, conditions, alias, "RIGHT"];
-        return this;
-    }
-
-    /**
-     * Return join parts of the query
-     */
-    public function getJoins() -> array
-    {
-        return this->_joins;
-    }
-
-    /**
-     * Sets the query WHERE conditions
-     *
-     *<code>
-     * $builder->where(100);
-     *
-     * $builder->where("name = 'Peter'");
-     *
-     * $builder->where(
-     *     "name = :name: AND id > :id:",
-     *     [
-     *         "name" => "Peter",
-     *         "id"   => 100,
-     *     ]
-     * );
-     *</code>
-     */
-    public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
-    {
-        var currentBindParams, currentBindTypes;
-
-        let this->_conditions = conditions;
-
-        /**
-         * Merge the bind params to the current ones
-         */
-        if count(bindParams) > 0 {
-            let currentBindParams = this->_bindParams;
-            if typeof currentBindParams == "array" {
-                let this->_bindParams = currentBindParams + bindParams;
-            } else {
-                let this->_bindParams = bindParams;
-            }
-        }
-
-        /**
-         * Merge the bind types to the current ones
-         */
-        if count(bindTypes) > 0 {
-            let currentBindTypes = this->_bindTypes;
-            if typeof currentBindTypes == "array" {
-                let this->_bindTypes = currentBindTypes + bindTypes;
-            } else {
-                let this->_bindTypes = bindTypes;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Appends a condition to the current WHERE conditions using a AND operator
-     *
-     *<code>
-     * $builder->andWhere("name = 'Peter'");
-     *
-     * $builder->andWhere(
-     *     "name = :name: AND id > :id:",
-     *     [
-     *         "name" => "Peter",
-     *         "id"   => 100,
-     *     ]
-     * );
-     *</code>
-     */
-    public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
-    {
-        var currentConditions;
-
-        let currentConditions = this->_conditions;
-
-        /**
-         * Nest the condition to current ones or set as unique
-         */
-        if currentConditions {
-            let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
-        }
-
-        return this->where(conditions, bindParams, bindTypes);
-    }
-
-    /**
-     * Appends a condition to the current conditions using an OR operator
-     *
-     *<code>
-     * $builder->orWhere("name = 'Peter'");
-     *
-     * $builder->orWhere(
-     *     "name = :name: AND id > :id:",
-     *     [
-     *         "name" => "Peter",
-     *         "id"   => 100,
-     *     ]
-     * );
-     *</code>
-     */
-    public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
-    {
-        var currentConditions;
-
-        let currentConditions = this->_conditions;
-
-        /**
-         * Nest the condition to current ones or set as unique
-         */
-        if currentConditions {
-            let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
-        }
-
-        return this->where(conditions, bindParams, bindTypes);
-    }
-
-    /**
-     * Appends a BETWEEN condition to the current WHERE conditions
-     *
-     *<code>
-     * $builder->betweenWhere("price", 100.25, 200.50);
-     *</code>
-     */
-    public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->_conditionBetween("Where", operator, expr, minimum, maximum);
-    }
-
-    /**
-     * Appends a NOT BETWEEN condition to the current WHERE conditions
-     *
-     *<code>
-     * $builder->notBetweenWhere("price", 100.25, 200.50);
-     *</code>
-     */
-    public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->_conditionNotBetween("Where", operator, expr, minimum, maximum);
-    }
-
-    /**
-     * Appends an IN condition to the current WHERE conditions
-     *
-     *<code>
-     * $builder->inWhere("id", [1, 2, 3]);
-     *</code>
-     */
-    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->_conditionIn("Where", operator, expr, values);
-    }
-
-    /**
-     * Appends a NOT IN condition to the current WHERE conditions
-     *
-     *<code>
-     * $builder->notInWhere("id", [1, 2, 3]);
-     *</code>
-     */
-    public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->_conditionNotIn("Where", operator, expr, values);
-    }
-
-    /**
-     * Return the conditions for the query
-     *
-     * @return string|array
-     */
-    public function getWhere()
-    {
-        return this->_conditions;
-    }
-
-    /**
-     * Sets an ORDER BY condition clause
-     *
-     *<code>
-     * $builder->orderBy("Robots.name");
-     * $builder->orderBy(["1", "Robots.name"]);
-     * $builder->orderBy(["Robots.name DESC"]);
-     *</code>
-     *
-     * @param string|array orderBy
-     */
-    public function orderBy(var orderBy) -> <BuilderInterface>
-    {
-        let this->_order = orderBy;
-        return this;
-    }
-
-    /**
-     * Returns the set ORDER BY clause
-     *
-     * @return string|array
-     */
-    public function getOrderBy()
-    {
-        return this->_order;
-    }
-
-    /**
-     * Sets the HAVING condition clause
-     *
-     *<code>
-     * $builder->having("SUM(Robots.price) > 0");
-     *
-     * $builder->having(
-     *     "SUM(Robots.price) > :sum:",
-     *     [
-     *         "sum" => 100,
-     *     ]
-     * );
-     *</code>
-     *
-     * @param mixed conditions
-     * @param array bindParams
-     * @param array bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
-     */
-    public function having(var conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
-    {
-        var currentBindParams, currentBindTypes;
-
-        let this->_having = conditions;
-
-        /**
-         * Merge the bind params to the current ones
-         */
-        if typeof bindParams == "array" {
-            let currentBindParams = this->_bindParams;
-            if typeof currentBindParams == "array" {
-                let this->_bindParams = currentBindParams + bindParams;
-            } else {
-                let this->_bindParams = bindParams;
-            }
-        }
-
-        /**
-         * Merge the bind types to the current ones
-         */
-        if typeof bindTypes == "array" {
-            let currentBindTypes = this->_bindTypes;
-            if typeof currentBindTypes == "array" {
-                let this->_bindTypes = currentBindTypes + bindTypes;
-            } else {
-                let this->_bindTypes = bindTypes;
-            }
-        }
-
         return this;
     }
 
@@ -776,38 +322,46 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Appends a condition to the current HAVING conditions clause using an OR operator
+     * Appends a condition to the current WHERE conditions using a AND operator
      *
      *<code>
-     * $builder->orHaving("SUM(Robots.price) > 0");
+     * $builder->andWhere("name = 'Peter'");
      *
-     * $builder->orHaving(
-     *     "SUM(Robots.price) > :sum:",
+     * $builder->andWhere(
+     *     "name = :name: AND id > :id:",
      *     [
-     *         "sum" => 100,
+     *         "name" => "Peter",
+     *         "id"   => 100,
      *     ]
      * );
      *</code>
-     *
-     * @param string conditions
-     * @param array bindParams
-     * @param array bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
      */
-    public function orHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
+    public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
-        let currentConditions = this->_having;
+        let currentConditions = this->_conditions;
 
         /**
          * Nest the condition to current ones or set as unique
          */
         if currentConditions {
-            let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
+            let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
         }
 
-        return this->having(conditions, bindParams, bindTypes);
+        return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Automatically escapes identifiers but only if they need to be escaped.
+     */
+    final public function autoescape(string identifier) -> string
+    {
+        if memstr(identifier, "[") || memstr(identifier, ".") || is_numeric(identifier) {
+            return identifier;
+        }
+
+        return "[" . identifier . "]";
     }
 
     /**
@@ -819,52 +373,61 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function betweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
-        return this->_conditionBetween("Having", operator, expr, minimum, maximum);
+        return this->conditionBetween("Having", operator, expr, minimum, maximum);
     }
 
     /**
-     * Appends a NOT BETWEEN condition to the current HAVING conditions clause
+     * Appends a BETWEEN condition to the current WHERE conditions
      *
      *<code>
-     * $builder->notBetweenHaving("SUM(Robots.price)", 100.25, 200.50);
+     * $builder->betweenWhere("price", 100.25, 200.50);
      *</code>
      */
-    public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
-        return this->_conditionNotBetween("Having", operator, expr, minimum, maximum);
+        return this->conditionBetween("Where", operator, expr, minimum, maximum);
     }
 
     /**
-     * Appends an IN condition to the current HAVING conditions clause
+     * Sets the columns to be queried
      *
      *<code>
-     * $builder->inHaving("SUM(Robots.price)", [100, 200]);
+     * $builder->columns("id, name");
+     *
+     * $builder->columns(
+     *     [
+     *         "id",
+     *         "name",
+     *     ]
+     * );
+     *
+     * $builder->columns(
+     *     [
+     *         "name",
+     *         "number" => "COUNT(*)",
+     *     ]
+     * );
      *</code>
      */
-    public function inHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function columns(var columns) -> <BuilderInterface>
     {
-        return this->_conditionIn("Having", operator, expr, values);
+        let this->_columns = columns;
+        return this;
     }
 
     /**
-     * Appends a NOT IN condition to the current HAVING conditions clause
+     * Sets SELECT DISTINCT / SELECT ALL flag
      *
      *<code>
-     * $builder->notInHaving("SUM(Robots.price)", [100, 200]);
+     * $builder->distinct("status");
+     * $builder->distinct(null);
      *</code>
      */
-    public function notInHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->_conditionNotIn("Having", operator, expr, values);
-    }
-
-    /**
-     * Return the current having clause
-     */
-    public function getHaving() -> string
-    {
-        return this->_having;
-    }
+     public function distinct(var distinct) -> <BuilderInterface>
+     {
+         let this->_distinct = distinct;
+         return this;
+     }
 
     /**
      * Sets a FOR UPDATE clause
@@ -880,29 +443,106 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets a LIMIT clause, optionally an offset clause
+     * Sets the models who makes part of the query
      *
-     * <code>
-     * $builder->limit(100);
-     * $builder->limit(100, 20);
-     * $builder->limit("100", "20");
-     * </code>
+     *<code>
+     * $builder->from("Robots");
+     *
+     * $builder->from(
+     *     [
+     *         "Robots",
+     *         "RobotsParts",
+     *     ]
+     * );
+     *
+     * $builder->from(
+     *     [
+     *         "r"  => "Robots",
+     *         "rp" => "RobotsParts",
+     *     ]
+     * );
+     *</code>
      */
-    public function limit(int limit, var offset = null) -> <BuilderInterface>
+    public function from(var models) -> <BuilderInterface>
     {
-        let limit = abs(limit);
-
-        if unlikely limit == 0 {
-            return this;
-        }
-
-        let this->_limit = limit;
-
-        if is_numeric(offset) {
-            let this->_offset = abs((int) offset);
-        }
-
+        let this->_models = models;
         return this;
+    }
+
+    /**
+     * Returns default bind params
+     */
+    public function getBindParams() -> array
+    {
+        return this->_bindParams;
+    }
+
+    /**
+     * Returns default bind types
+     */
+    public function getBindTypes() -> array
+    {
+        return this->_bindTypes;
+    }
+
+    /**
+     * Return the columns to be queried
+     *
+     * @return string|array
+     */
+    public function getColumns()
+    {
+        return this->_columns;
+    }
+
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
+    }
+
+    /**
+     * Returns SELECT DISTINCT / SELECT ALL flag
+     */
+    public function getDistinct() -> bool
+    {
+        return this->_distinct;
+    }
+
+    /**
+     * Return the models who makes part of the query
+     *
+     * @return string|array
+     */
+    public function getFrom()
+    {
+        return this->_models;
+    }
+
+    /**
+     * Returns the GROUP BY clause
+     */
+    public function getGroupBy() -> string
+    {
+        return this->_group;
+    }
+
+    /**
+     * Return the current having clause
+     */
+    public function getHaving() -> string
+    {
+        return this->_having;
+    }
+
+    /**
+     * Return join parts of the query
+     */
+    public function getJoins() -> array
+    {
+        return this->_joins;
     }
 
     /**
@@ -916,19 +556,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets an OFFSET clause
-     *
-     *<code>
-     * $builder->offset(30);
-     *</code>
-     */
-    public function offset(int offset) -> <BuilderInterface>
-    {
-        let this->_offset = offset;
-        return this;
-    }
-
-    /**
      * Returns the current OFFSET clause
      */
     public function getOffset() -> int
@@ -937,30 +564,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets a GROUP BY clause
+     * Returns the set ORDER BY clause
      *
-     *<code>
-     * $builder->groupBy(
-     *     [
-     *         "Robots.name",
-     *     ]
-     * );
-     *</code>
-     *
-     * @param string|array group
+     * @return string|array
      */
-    public function groupBy(var group) -> <BuilderInterface>
+    public function getOrderBy()
     {
-        let this->_group = group;
-        return this;
-    }
-
-    /**
-     * Returns the GROUP BY clause
-     */
-    public function getGroupBy() -> string
-    {
-        return this->_group;
+        return this->_order;
     }
 
     /**
@@ -1351,21 +961,454 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Automatically escapes identifiers but only if they need to be escaped.
+     * Return the conditions for the query
+     *
+     * @return string|array
      */
-    final public function autoescape(string identifier) -> string
+    public function getWhere()
     {
-        if memstr(identifier, "[") || memstr(identifier, ".") || is_numeric(identifier) {
-            return identifier;
+        return this->_conditions;
+    }
+
+    /**
+     * Sets a GROUP BY clause
+     *
+     *<code>
+     * $builder->groupBy(
+     *     [
+     *         "Robots.name",
+     *     ]
+     * );
+     *</code>
+     *
+     * @param string|array group
+     */
+    public function groupBy(var group) -> <BuilderInterface>
+    {
+        let this->_group = group;
+        return this;
+    }
+
+    /**
+     * Sets the HAVING condition clause
+     *
+     *<code>
+     * $builder->having("SUM(Robots.price) > 0");
+     *
+     * $builder->having(
+     *     "SUM(Robots.price) > :sum:",
+     *     [
+     *         "sum" => 100,
+     *     ]
+     * );
+     *</code>
+     *
+     * @param mixed conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function having(var conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
+    {
+        var currentBindParams, currentBindTypes;
+
+        let this->_having = conditions;
+
+        /**
+         * Merge the bind params to the current ones
+         */
+        if typeof bindParams == "array" {
+            let currentBindParams = this->_bindParams;
+            if typeof currentBindParams == "array" {
+                let this->_bindParams = currentBindParams + bindParams;
+            } else {
+                let this->_bindParams = bindParams;
+            }
         }
 
-        return "[" . identifier . "]";
+        /**
+         * Merge the bind types to the current ones
+         */
+        if typeof bindTypes == "array" {
+            let currentBindTypes = this->_bindTypes;
+            if typeof currentBindTypes == "array" {
+                let this->_bindTypes = currentBindTypes + bindTypes;
+            } else {
+                let this->_bindTypes = bindTypes;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Appends an IN condition to the current HAVING conditions clause
+     *
+     *<code>
+     * $builder->inHaving("SUM(Robots.price)", [100, 200]);
+     *</code>
+     */
+    public function inHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionIn("Having", operator, expr, values);
+    }
+
+    /**
+     * Adds an INNER join to the query
+     *
+     *<code>
+     * // Inner Join model 'Robots' with automatic conditions and alias
+     * $builder->innerJoin("Robots");
+     *
+     * // Inner Join model 'Robots' specifying conditions
+     * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
+     *
+     * // Inner Join model 'Robots' specifying conditions and alias
+     * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     *</code>
+     */
+    public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
+    {
+        let this->_joins[] = [model, conditions, alias, "INNER"];
+        return this;
+    }
+
+    /**
+     * Appends an IN condition to the current WHERE conditions
+     *
+     *<code>
+     * $builder->inWhere("id", [1, 2, 3]);
+     *</code>
+     */
+    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionIn("Where", operator, expr, values);
+    }
+
+    /**
+     * Adds an :type: join (by default type - INNER) to the query
+     *
+     *<code>
+     * // Inner Join model 'Robots' with automatic conditions and alias
+     * $builder->join("Robots");
+     *
+     * // Inner Join model 'Robots' specifying conditions
+     * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
+     *
+     * // Inner Join model 'Robots' specifying conditions and alias
+     * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
+     *
+     * // Left Join model 'Robots' specifying conditions, alias and type of join
+     * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
+     *</code>
+     */
+    public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
+    {
+        let this->_joins[] = [model, conditions, alias, type];
+        return this;
+    }
+
+    /**
+     * Adds a LEFT join to the query
+     *
+     *<code>
+     * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     *</code>
+     */
+    public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
+    {
+        let this->_joins[] = [model, conditions, alias, "LEFT"];
+        return this;
+    }
+
+    /**
+     * Sets a LIMIT clause, optionally an offset clause
+     *
+     * <code>
+     * $builder->limit(100);
+     * $builder->limit(100, 20);
+     * $builder->limit("100", "20");
+     * </code>
+     */
+    public function limit(int limit, var offset = null) -> <BuilderInterface>
+    {
+        let limit = abs(limit);
+
+        if unlikely limit == 0 {
+            return this;
+        }
+
+        let this->_limit = limit;
+
+        if is_numeric(offset) {
+            let this->_offset = abs((int) offset);
+        }
+
+        return this;
+    }
+
+    /**
+     * Appends a NOT BETWEEN condition to the current HAVING conditions clause
+     *
+     *<code>
+     * $builder->notBetweenHaving("SUM(Robots.price)", 100.25, 200.50);
+     *</code>
+     */
+    public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionNotBetween("Having", operator, expr, minimum, maximum);
+    }
+
+    /**
+     * Appends a NOT BETWEEN condition to the current WHERE conditions
+     *
+     *<code>
+     * $builder->notBetweenWhere("price", 100.25, 200.50);
+     *</code>
+     */
+    public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionNotBetween("Where", operator, expr, minimum, maximum);
+    }
+
+    /**
+     * Appends a NOT IN condition to the current HAVING conditions clause
+     *
+     *<code>
+     * $builder->notInHaving("SUM(Robots.price)", [100, 200]);
+     *</code>
+     */
+    public function notInHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionNotIn("Having", operator, expr, values);
+    }
+
+    /**
+     * Appends a NOT IN condition to the current WHERE conditions
+     *
+     *<code>
+     * $builder->notInWhere("id", [1, 2, 3]);
+     *</code>
+     */
+    public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionNotIn("Where", operator, expr, values);
+    }
+
+    /**
+     * Sets an OFFSET clause
+     *
+     *<code>
+     * $builder->offset(30);
+     *</code>
+     */
+    public function offset(int offset) -> <BuilderInterface>
+    {
+        let this->_offset = offset;
+        return this;
+    }
+
+    /**
+     * Sets an ORDER BY condition clause
+     *
+     *<code>
+     * $builder->orderBy("Robots.name");
+     * $builder->orderBy(["1", "Robots.name"]);
+     * $builder->orderBy(["Robots.name DESC"]);
+     *</code>
+     *
+     * @param string|array orderBy
+     */
+    public function orderBy(var orderBy) -> <BuilderInterface>
+    {
+        let this->_order = orderBy;
+        return this;
+    }
+
+    /**
+     * Appends a condition to the current HAVING conditions clause using an OR operator
+     *
+     *<code>
+     * $builder->orHaving("SUM(Robots.price) > 0");
+     *
+     * $builder->orHaving(
+     *     "SUM(Robots.price) > :sum:",
+     *     [
+     *         "sum" => 100,
+     *     ]
+     * );
+     *</code>
+     *
+     * @param string conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function orHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
+    {
+        var currentConditions;
+
+        let currentConditions = this->_having;
+
+        /**
+         * Nest the condition to current ones or set as unique
+         */
+        if currentConditions {
+            let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
+        }
+
+        return this->having(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Appends a condition to the current conditions using an OR operator
+     *
+     *<code>
+     * $builder->orWhere("name = 'Peter'");
+     *
+     * $builder->orWhere(
+     *     "name = :name: AND id > :id:",
+     *     [
+     *         "name" => "Peter",
+     *         "id"   => 100,
+     *     ]
+     * );
+     *</code>
+     */
+    public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    {
+        var currentConditions;
+
+        let currentConditions = this->_conditions;
+
+        /**
+         * Nest the condition to current ones or set as unique
+         */
+        if currentConditions {
+            let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
+        }
+
+        return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Adds a RIGHT join to the query
+     *
+     *<code>
+     * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     *</code>
+     */
+    public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
+    {
+        let this->_joins[] = [model, conditions, alias, "RIGHT"];
+        return this;
+    }
+
+    /**
+     * Set default bind parameters
+     */
+    public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>
+    {
+        var currentBindParams;
+
+        if merge {
+            let currentBindParams = this->_bindParams;
+            if typeof currentBindParams == "array" {
+                let this->_bindParams = currentBindParams + bindParams;
+            } else {
+                let this->_bindParams = bindParams;
+            }
+        } else {
+            let this->_bindParams = bindParams;
+        }
+
+        return this;
+    }
+
+    /**
+     * Set default bind types
+     */
+    public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>
+    {
+        var currentBindTypes;
+
+        if unlikely merge {
+            let currentBindTypes = this->_bindTypes;
+            if typeof currentBindTypes == "array" {
+                let this->_bindTypes = currentBindTypes + bindTypes;
+            } else {
+                let this->_bindTypes = bindTypes;
+            }
+        } else {
+            let this->_bindTypes = bindTypes;
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the DependencyInjector container
+     */
+    public function setDI(<DiInterface> container) -> <BuilderInterface>
+    {
+        let this->container = container;
+        return this;
+    }
+
+    /**
+     * Sets the query WHERE conditions
+     *
+     *<code>
+     * $builder->where(100);
+     *
+     * $builder->where("name = 'Peter'");
+     *
+     * $builder->where(
+     *     "name = :name: AND id > :id:",
+     *     [
+     *         "name" => "Peter",
+     *         "id"   => 100,
+     *     ]
+     * );
+     *</code>
+     */
+    public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    {
+        var currentBindParams, currentBindTypes;
+
+        let this->_conditions = conditions;
+
+        /**
+         * Merge the bind params to the current ones
+         */
+        if count(bindParams) > 0 {
+            let currentBindParams = this->_bindParams;
+            if typeof currentBindParams == "array" {
+                let this->_bindParams = currentBindParams + bindParams;
+            } else {
+                let this->_bindParams = bindParams;
+            }
+        }
+
+        /**
+         * Merge the bind types to the current ones
+         */
+        if count(bindTypes) > 0 {
+            let currentBindTypes = this->_bindTypes;
+            if typeof currentBindTypes == "array" {
+                let this->_bindTypes = currentBindTypes + bindTypes;
+            } else {
+                let this->_bindTypes = bindTypes;
+            }
+        }
+
+        return this;
     }
 
     /**
      * Appends a BETWEEN condition
      */
-    protected function _conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
+    protected function conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1402,47 +1445,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Appends a NOT BETWEEN condition
-     */
-    protected function _conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
-    {
-        var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
-
-        if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(sprintf("Operator % is not available.", operator));
-        }
-
-        let operatorMethod = operator . clause;
-
-        let hiddenParam = this->_hiddenParamNumber,
-            nextHiddenParam = hiddenParam + 1;
-
-        /**
-         * Minimum key with auto bind-params and
-         * Maximum key with auto bind-params
-         */
-        let minimumKey = "AP" . hiddenParam,
-            maximumKey = "AP" . nextHiddenParam;
-
-        /**
-         * Create a standard BETWEEN condition with bind params
-         * Append the NOT BETWEEN to the current conditions using and "and"
-         */
-        this->{operatorMethod}(
-            expr . " NOT BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
-            [minimumKey: minimum, maximumKey: maximum]
-        );
-
-        let nextHiddenParam++,
-            this->_hiddenParamNumber = nextHiddenParam;
-
-        return this;
-    }
-
-    /**
      * Appends an IN condition
      */
-    protected function _conditionIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
+    protected function conditionIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
     {
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;
@@ -1485,9 +1490,47 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Appends a NOT BETWEEN condition
+     */
+    protected function conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
+    {
+        var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
+
+        if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+            throw new Exception(sprintf("Operator % is not available.", operator));
+        }
+
+        let operatorMethod = operator . clause;
+
+        let hiddenParam = this->_hiddenParamNumber,
+            nextHiddenParam = hiddenParam + 1;
+
+        /**
+         * Minimum key with auto bind-params and
+         * Maximum key with auto bind-params
+         */
+        let minimumKey = "AP" . hiddenParam,
+            maximumKey = "AP" . nextHiddenParam;
+
+        /**
+         * Create a standard BETWEEN condition with bind params
+         * Append the NOT BETWEEN to the current conditions using and "and"
+         */
+        this->{operatorMethod}(
+            expr . " NOT BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
+            [minimumKey: minimum, maximumKey: maximum]
+        );
+
+        let nextHiddenParam++,
+            this->_hiddenParamNumber = nextHiddenParam;
+
+        return this;
+    }
+
+    /**
      * Appends a NOT IN condition
      */
-    protected function _conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
+    protected function conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
     {
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;
@@ -1527,63 +1570,5 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let this->_hiddenParamNumber = hiddenParam;
 
         return this;
-    }
-
-    /**
-     * Set default bind parameters
-     */
-    public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>
-    {
-        var currentBindParams;
-
-        if merge {
-            let currentBindParams = this->_bindParams;
-            if typeof currentBindParams == "array" {
-                let this->_bindParams = currentBindParams + bindParams;
-            } else {
-                let this->_bindParams = bindParams;
-            }
-        } else {
-            let this->_bindParams = bindParams;
-        }
-
-        return this;
-    }
-
-    /**
-     * Returns default bind params
-     */
-    public function getBindParams() -> array
-    {
-        return this->_bindParams;
-    }
-
-    /**
-     * Set default bind types
-     */
-    public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>
-    {
-        var currentBindTypes;
-
-        if unlikely merge {
-            let currentBindTypes = this->_bindTypes;
-            if typeof currentBindTypes == "array" {
-                let this->_bindTypes = currentBindTypes + bindTypes;
-            } else {
-                let this->_bindTypes = bindTypes;
-            }
-        } else {
-            let this->_bindTypes = bindTypes;
-        }
-
-        return this;
-    }
-
-    /**
-     * Returns default bind types
-     */
-    public function getBindTypes() -> array
-    {
-        return this->_bindTypes;
     }
 }
