@@ -30,50 +30,29 @@ use Phalcon\Mvc\View\Engine\Volt\Exception;
  */
 class Compiler implements InjectionAwareInterface
 {
-
+    protected arrayHelpers;
+    protected autoescape = false;
+    protected blockLevel = 0;
+    protected blocks;
     protected container;
+    protected compiledTemplatePath;
+    protected currentBlock;
+    protected currentPath;
+    protected exprLevel = 0;
+    protected extended = false;
+    protected extensions;
+    protected extendedBlocks;
+    protected filters;
+    protected foreachLevel = 0;
+    protected forElsePointers;
+    protected functions;
+    protected level = 0;
+    protected loopPointers;
+    protected macros;
+    protected options;
+    protected prefix;
+    protected view;
 
-    protected _view;
-
-    protected _options;
-
-    protected _arrayHelpers;
-
-    protected _level = 0;
-
-    protected _foreachLevel = 0;
-
-    protected _blockLevel = 0;
-
-    protected _exprLevel = 0;
-
-    protected _extended = false;
-
-    protected _autoescape = false;
-
-    protected _extendedBlocks;
-
-    protected _currentBlock;
-
-    protected _blocks;
-
-    protected _forElsePointers;
-
-    protected _loopPointers;
-
-    protected _extensions;
-
-    protected _functions;
-
-    protected _filters;
-
-    protected _macros;
-
-    protected _prefix;
-
-    protected _currentPath;
-
-    protected _compiledTemplatePath;
 
     /**
      * Phalcon\Mvc\View\Engine\Volt\Compiler
@@ -81,99 +60,7 @@ class Compiler implements InjectionAwareInterface
     public function __construct(<ViewBaseInterface> view = null)
     {
         if typeof view == "object" {
-            let this->_view = view;
-        }
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container)
-    {
-        let this->container = container;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
-     * Sets the compiler options
-     */
-    public function setOptions(array! options)
-    {
-        let this->_options = options;
-    }
-
-    /**
-     * Sets a single compiler option
-     *
-     * @param mixed value
-     */
-    public function setOption(string! option, value)
-    {
-        let this->_options[option] = value;
-    }
-
-    /**
-     * Returns a compiler's option
-     *
-     * @return string
-     */
-    public function getOption(string! option)
-    {
-        var value;
-        if fetch value, this->_options[option] {
-            return value;
-        }
-        return null;
-    }
-
-    /**
-     * Returns the compiler options
-     */
-    public function getOptions() -> array
-    {
-        return this->_options;
-    }
-
-    /**
-     * Fires an event to registered extensions
-     *
-     * @param array arguments
-     * @return mixed
-     */
-    public final function fireExtensionEvent(string! name, arguments = null)
-    {
-        var extensions, extension, status;
-
-        let extensions = this->_extensions;
-        if typeof extensions == "array" {
-            for extension in extensions {
-
-                /**
-                 * Check if the extension implements the required event name
-                 */
-                if method_exists(extension, name) {
-
-                    if typeof arguments == "array" {
-                        let status = call_user_func_array([extension, name], arguments);
-                    } else {
-                        let status = call_user_func([extension, name]);
-                    }
-
-                    /**
-                     * Only string statuses means the extension process something
-                     */
-                    if typeof status == "string" {
-                        return status;
-                    }
-                }
-            }
+            let this->view = view;
         }
     }
 
@@ -193,33 +80,8 @@ class Compiler implements InjectionAwareInterface
             extension->initialize(this);
         }
 
-        let this->_extensions[] = extension;
+        let this->extensions[] = extension;
         return this;
-    }
-
-    /**
-     * Returns the list of extensions registered in Volt
-     */
-    public function getExtensions() -> array
-    {
-        return this->_extensions;
-    }
-
-    /**
-     * Register a new function in the compiler
-     */
-    public function addFunction(string! name, var definition) -> <Compiler>
-    {
-        let this->_functions[name] = definition;
-        return this;
-    }
-
-    /**
-     * Register the user registered functions
-     */
-    public function getFunctions() -> array
-    {
-        return this->_functions;
     }
 
     /**
@@ -227,53 +89,17 @@ class Compiler implements InjectionAwareInterface
      */
     public function addFilter(string! name, var definition) -> <Compiler>
     {
-        let this->_filters[name] = definition;
+        let this->filters[name] = definition;
         return this;
     }
 
     /**
-     * Register the user registered filters
+     * Register a new function in the compiler
      */
-    public function getFilters() -> array
+    public function addFunction(string! name, var definition) -> <Compiler>
     {
-        return this->_filters;
-    }
-
-    /**
-     * Set a unique prefix to be used as prefix for compiled variables
-     */
-    public function setUniquePrefix(string! prefix) -> <Compiler>
-    {
-        let this->_prefix = prefix;
+        let this->functions[name] = definition;
         return this;
-    }
-
-    /**
-     * Return a unique prefix to be used as prefix for compiled variables and contexts
-     */
-    public function getUniquePrefix() -> string
-    {
-        /**
-         * If the unique prefix is not set we use a hash using the modified Berstein algotithm
-         */
-        if !this->_prefix {
-            let this->_prefix = unique_path_key(this->_currentPath);
-        }
-
-        /**
-         * The user could use a closure generator
-         */
-        if typeof this->_prefix == "object" {
-            if this->_prefix instanceof \Closure {
-                let this->_prefix = call_user_func_array(this->_prefix, [this]);
-            }
-        }
-
-        if typeof this->_prefix != "string" {
-            throw new Exception("The unique compilation prefix is invalid");
-        }
-
-        return this->_prefix;
     }
 
     /**
@@ -296,9 +122,9 @@ class Compiler implements InjectionAwareInterface
              * Check if the variable is the loop context
              */
             if variable == "loop" {
-                let level = this->_foreachLevel,
+                let level = this->foreachLevel,
                     exprCode .= "$" . this->getUniquePrefix() . level . "loop",
-                    this->_loopPointers[level] = level;
+                    this->loopPointers[level] = level;
             } else {
 
                 /**
@@ -335,666 +161,998 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Resolves function intermediate code into PHP function calls
+     * Compiles a template into a file applying the compiler options
+     * This method does not return the compiled path if the template was not compiled
+     *
+     *<code>
+     * $compiler->compile("views/layouts/main.volt");
+     *
+     * require $compiler->getCompiledTemplatePath();
+     *</code>
      */
-    public function functionCall(array! expr) -> string
+    public function compile(string! templatePath, bool extendsMode = false)
     {
-        var code, funcArguments, arguments, nameExpr,
-            nameType, name, extensions, functions, definition,
-            extendedBlocks, block, currentBlock, exprLevel, escapedCode,
-            method, arrayHelpers, className;
-
-        let code = null;
-
-        let funcArguments = null;
-        if fetch funcArguments, expr["arguments"] {
-            let arguments = this->expression(funcArguments);
-        } else {
-            let arguments = "";
-        }
-
-        let nameExpr = expr["name"], nameType = nameExpr["type"];
+        var blocksCode, compilation, compileAlways, compiledExtension, compiledPath,
+            compiledSeparator, compiledTemplatePath, optionKey, options, prefix,
+            realCompiledPath, stat, templateSepPath;
 
         /**
-         * Check if it's a single function
+         * Re-initialize some properties already initialized when the object is cloned
          */
-        if nameType == PHVOLT_T_IDENTIFIER {
+        let this->extended = false;
+        let this->extendedBlocks = false;
+        let this->blocks = null;
+        let this->level = 0;
+        let this->foreachLevel = 0;
+        let this->blockLevel = 0;
+        let this->exprLevel = 0;
 
-            let name = nameExpr["value"];
+        let stat = true;
+        let compileAlways = false;
+        let compiledPath = "";
+        let prefix = null;
+        let compiledSeparator = "%%";
+        let compiledExtension = ".php";
+        let compilation = null;
+
+        let options = this->options;
+        if typeof options == "array" {
 
             /**
-             * Check if any of the registered extensions provide compilation for this function
+             * This makes that templates will be compiled always
              */
-            let extensions = this->_extensions;
-            if typeof extensions == "array" {
-
-                /**
-                 * Notify the extensions about being compiling a function
-                 */
-                let code = this->fireExtensionEvent("compileFunction", [name, arguments, funcArguments]);
-                if typeof code == "string" {
-                    return code;
+            if isset options["always"] || isset options["compileAlways"] {
+                if isset options["always"] {
+                    let optionKey = "always";
+                } else {
+                    let optionKey = "compileAlways";
+                    trigger_error("The 'compileAlways' option is deprecated. Use 'always' instead.", E_USER_DEPRECATED);
+                }
+                let compileAlways = options[optionKey];
+                if typeof compileAlways != "boolean" {
+                    throw new Exception("'" . optionKey . "' must be a bool value");
                 }
             }
 
             /**
-             * Check if it's a user defined function
+             * Prefix is prepended to the template name
              */
-            let functions = this->_functions;
-            if typeof functions == "array" {
-                if fetch definition, functions[name] {
-
-                    /**
-                     * Use the string as function
-                     */
-                    if typeof definition == "string" {
-                        return definition . "(" . arguments . ")";
-                    }
-
-                    /**
-                     * Execute the function closure returning the compiled definition
-                     */
-                    if typeof definition == "object" {
-
-                        if definition instanceof \Closure {
-                            return call_user_func_array(definition, [arguments, funcArguments]);
-                        }
-                    }
-
-                    throw new Exception(
-                        "Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]
-                    );
+            if isset options["prefix"] {
+                let prefix = options["prefix"];
+                if typeof prefix != "string" {
+                    throw new Exception("'prefix' must be a string");
                 }
             }
 
             /**
-             * This function includes the previous rendering stage
+             * Compiled path is a directory where the compiled templates will be located
              */
-            if name == "get_content" || name == "content" {
-                return "$this->getContent()";
-            }
-
-            /**
-             * This function includes views of volt or others template engines dynamically
-             */
-            if name == "partial" {
-                return "$this->partial(" . arguments . ")";
-            }
-
-            /**
-             * This function embeds the parent block in the current block
-             */
-            if name == "super" {
-                let extendedBlocks = this->_extendedBlocks;
-                if typeof extendedBlocks == "array" {
-
-                    let currentBlock = this->_currentBlock;
-                    if fetch block, extendedBlocks[currentBlock] {
-
-                        let exprLevel = this->_exprLevel;
-                        if typeof block == "array" {
-                            let code = this->_statementListOrExtends(block);
-                            if exprLevel == 1 {
-                                let escapedCode = code;
-                            } else {
-                                let escapedCode = addslashes(code);
-                            }
-                        } else {
-                            if exprLevel == 1 {
-                                let escapedCode = block;
-                            } else {
-                                let escapedCode = addslashes(block);
-                            }
-                        }
-
-                        /**
-                         * If the super() is the first level we don't escape it
-                         */
-                        if exprLevel == 1 {
-                            return escapedCode;
-                        }
-                        return "'" . escapedCode . "'";
+            if isset options["path"] || isset options["compiledPath"] {
+                if isset options["path"] {
+                    let optionKey = "path";
+                } else {
+                    let optionKey = "compiledPath";
+                    trigger_error("The 'compiledPath' option is deprecated. Use 'path' instead.", E_USER_DEPRECATED);
+                }
+                let compiledPath = options[optionKey];
+                if typeof compiledPath != "string" {
+                    if typeof compiledPath != "object" {
+                        throw new Exception("'" . optionKey . "' must be a string or a closure");
                     }
                 }
-                return "''";
             }
 
-            let method = lcfirst(camelize(name)),
-                className = "Phalcon\\Tag";
-
             /**
-             * Check if it's a method in Phalcon\Tag
+             * There is no compiled separator by default
              */
-            if method_exists(className, method) {
-
-                let arrayHelpers = this->_arrayHelpers;
-                if typeof arrayHelpers != "array" {
-                    let arrayHelpers = [
-                        "link_to": true,
-                        "image": true,
-                        "form": true,
-                        "submit_button": true,
-                        "radio_field": true,
-                        "check_field": true,
-                        "file_field": true,
-                        "hidden_field": true,
-                        "password_field": true,
-                        "text_area": true,
-                        "text_field": true,
-                        "email_field": true,
-                        "date_field": true,
-                        "tel_field": true,
-                        "numeric_field": true,
-                        "image_input": true
-                    ];
-                    let this->_arrayHelpers = arrayHelpers;
+            if isset options["separator"] || isset options["compiledSeparator"] {
+                if isset options["separator"] {
+                    let optionKey = "separator";
+                } else {
+                    let optionKey = "compiledSeparator";
+                    trigger_error("The 'compiledSeparator' option is deprecated. Use 'separator' instead.", E_USER_DEPRECATED);
                 }
-
-                if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
+                let compiledPath = options[optionKey];
+                if typeof compiledSeparator != "string" {
+                    throw new Exception("'" . optionKey . "' must be a string");
                 }
-                return "$this->tag->" . method . "(" . arguments . ")";
             }
 
             /**
-             * The code below will be activated when Html\Tag is enabled
+             * By default the compile extension is .php
              */
-            /**
-            let className = "Phalcon\\Html\\Tag";
-
-            if method_exists(className, method) {
-                let arrayHelpers = this->_arrayHelpers;
-                if typeof arrayHelpers != "array" {
-                    let arrayHelpers = [
-                        "button_submit"         : true.
-                        "element"               : true.
-                        "element_close"         : true.
-                        "end_form"              : true.
-                        "form"                  : true.
-                        "friendly_title"        : true.
-                        "get_doc_type"          : true.
-                        "get_title"             : true.
-                        "get_title_separator"   : true.
-                        "image"                 : true.
-                        "input_checkbox"        : true.
-                        "input_color"           : true.
-                        "input_date"            : true.
-                        "input_date_time"       : true.
-                        "input_date_time_local" : true.
-                        "input_email"           : true.
-                        "input_file"            : true.
-                        "input_hidden"          : true.
-                        "input_image"           : true.
-                        "input_month"           : true.
-                        "input_numeric"         : true.
-                        "input_password"        : true.
-                        "input_radio"           : true.
-                        "input_range"           : true.
-                        "input_search"          : true.
-                        "input_tel"             : true.
-                        "input_text"            : true.
-                        "input_time"            : true.
-                        "input_url"             : true.
-                        "input_week"            : true.
-                        "javascript"            : true.
-                        "link"                  : true.
-                        "prepend_title"         : true.
-                        "render_title"          : true.
-                        "select"                : true.
-                        "stylesheet"            : true.
-                        "submit"                : true.
-                        "text_area"             : true.
-                    ];
-                    let this->_arrayHelpers = arrayHelpers;
+            if isset options["extension"] || isset options["compiledExtension"] {
+                if isset options["extension"] {
+                    let optionKey = "extension";
+                } else {
+                    let optionKey = "compiledExtension";
+                    trigger_error("The 'compiledExtension' option is deprecated. Use 'extension' instead.", E_USER_DEPRECATED);
                 }
-
-                if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
+                let compiledPath = options[optionKey];
+                if typeof compiledExtension != "string" {
+                    throw new Exception("'" . optionKey . "' must be a string");
                 }
-                return "$this->tag->" . method . "(" . arguments . ")";
-            }
-            */
-
-            /**
-             * Get a dynamic URL
-             */
-            if name == "url" {
-                return "$this->url->get(" . arguments . ")";
             }
 
             /**
-             * Get a static URL
+             * Stat option assumes the compilation of the file
              */
-            if name == "static_url" {
-                return "$this->url->getStatic(" . arguments . ")";
+            if isset options["stat"] {
+                let stat = options["stat"];
             }
-
-            if name == "date" {
-                return "date(" . arguments . ")";
-            }
-
-            if name == "time" {
-                return "time()";
-            }
-
-            if name == "dump" {
-                return "var_dump(" . arguments . ")";
-            }
-
-            if name == "version" {
-                return "Phalcon\\Version::get()";
-            }
-
-            if name == "version_id" {
-                return "Phalcon\\Version::getId()";
-            }
-
-            /**
-             * Read PHP constants in templates
-             */
-            if name == "constant" {
-                return "constant(" . arguments . ")";
-            }
-
-            /**
-             * By default it tries to call a macro
-             */
-            return "$this->callMacro('" . name . "', [" . arguments . "])";
         }
 
-        return this->expression(nameExpr) . "(" . arguments . ")";
+        /**
+         * Check if there is a compiled path
+         */
+        if typeof compiledPath == "string" {
+
+            /**
+             * Calculate the template realpath's
+             */
+            if !empty compiledPath {
+                /**
+                 * Create the virtual path replacing the directory separator by the compiled separator
+                 */
+                let templateSepPath = prepare_virtual_path(realpath(templatePath), compiledSeparator);
+            } else {
+                let templateSepPath = templatePath;
+            }
+
+            /**
+             * In extends mode we add an additional 'e' suffix to the file
+             */
+            if extendsMode === true {
+                let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
+            } else {
+                let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
+            }
+
+        } else {
+
+            /**
+             * A closure can dynamically compile the path
+             */
+            if typeof compiledPath == "object" {
+
+                if compiledPath instanceof \Closure {
+
+                    let compiledTemplatePath = call_user_func_array(compiledPath, [templatePath, options, extendsMode]);
+
+                    /**
+                     * The closure must return a valid path
+                     */
+                    if typeof compiledTemplatePath != "string" {
+                        throw new Exception("compiledPath closure didn't return a valid string");
+                    }
+                } else {
+                    throw new Exception("compiledPath must be a string or a closure");
+                }
+            }
+        }
+
+        /**
+         * Use the real path to avoid collisions
+         */
+        let realCompiledPath = compiledTemplatePath;
+
+        if compileAlways {
+
+            /**
+             * Compile always must be used only in the development stage
+             */
+            let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+        } else {
+            if stat === true {
+                if file_exists(compiledTemplatePath) {
+
+                    /**
+                     * Compare modification timestamps to check if the file needs to be recompiled
+                     */
+                    if compare_mtime(templatePath, realCompiledPath) {
+                        let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                    } else {
+
+                        if extendsMode === true {
+
+                            /**
+                             * In extends mode we read the file that must contains a serialized array of blocks
+                             */
+                            let blocksCode = file_get_contents(realCompiledPath);
+                            if blocksCode === false {
+                                throw new Exception("Extends compilation file " . realCompiledPath . " could not be opened");
+                            }
+
+                            /**
+                             * Unserialize the array blocks code
+                             */
+                            if blocksCode {
+                                let compilation = unserialize(blocksCode);
+                            } else {
+                                let compilation = [];
+                            }
+                        }
+                    }
+                } else {
+
+                    /**
+                     * The file doesn't exist so we compile the php version for the first time
+                     */
+                    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                }
+            } else {
+
+                /**
+                 * Stat is off but the compiled file doesn't exist
+                 */
+                if !file_exists(realCompiledPath) {
+                    /**
+                     * The file doesn't exist so we compile the php version for the first time
+                     */
+                    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                }
+
+            }
+        }
+
+        let this->compiledTemplatePath = realCompiledPath;
+
+        return compilation;
     }
 
     /**
-     * Resolves filter intermediate code into a valid PHP expression
+     * Compiles a "autoescape" statement returning PHP code
      */
-    public function resolveTest(array! test, string left) -> string
+    public function compileAutoEscape(array! statement, bool extendsMode) -> string
     {
-        var type, name, testName;
-
-        let type = test["type"];
+        var autoescape, oldAutoescape, compilation;
 
         /**
-         * Check if right part is a single identifier
+         * A valid option is required
          */
-        if type == PHVOLT_T_IDENTIFIER {
-
-            let name = test["value"];
-
-            /**
-             * Empty uses the PHP's empty operator
-             */
-            if name == "empty" {
-                return "empty(" . left . ")";
-            }
-
-            /**
-             * Check if a value is even
-             */
-            if name == "even" {
-                return "(((" . left . ") % 2) == 0)";
-            }
-
-            /**
-             * Check if a value is odd
-             */
-            if name == "odd" {
-                return "(((" . left . ") % 2) != 0)";
-            }
-
-            /**
-             * Check if a value is numeric
-             */
-            if name == "numeric" {
-                return "is_numeric(" . left . ")";
-            }
-
-            /**
-             * Check if a value is scalar
-             */
-            if name == "scalar" {
-                return "is_scalar(" . left . ")";
-            }
-
-            /**
-             * Check if a value is iterable
-             */
-            if name == "iterable" {
-                return "(is_array(" . left . ") || (" . left . ") instanceof Traversable)";
-            }
-
+        if !fetch autoescape, statement["enable"] {
+            throw new Exception("Corrupted statement");
         }
 
         /**
-         * Check if right part is a function call
+         * "autoescape" mode
          */
-        if type == PHVOLT_T_FCALL {
+        let oldAutoescape = this->autoescape,
+            this->autoescape = autoescape;
 
-            let testName = test["name"];
-            if fetch name, testName["value"] {
+        let compilation = this->statementList(statement["block_statements"], extendsMode),
+            this->autoescape = oldAutoescape;
 
-                if name == "divisibleby" {
-                    return "(((" . left . ") % (" . this->expression(test["arguments"]) . ")) == 0)";
-                }
-
-                /**
-                 * Checks if a value is equals to other
-                 */
-                if name == "sameas" {
-                    return "(" . left . ") === (" . this->expression(test["arguments"]) . ")";
-                }
-
-                /**
-                 * Checks if a variable match a type
-                 */
-                if name == "type" {
-                    return "gettype(" . left . ") === (" . this->expression(test["arguments"]) . ")";
-                }
-            }
-        }
-
-        /**
-         * Fall back to the equals operator
-         */
-        return left . " == " . this->expression(test);
+        return compilation;
     }
 
     /**
-     * Resolves filter intermediate code into PHP function calls
+     * Compiles a "cache" statement returning PHP code
      */
-    final protected function resolveFilter(array! filter, string left) -> string
+    public function compileCache(array! statement, bool extendsMode = false) -> string
     {
-        var code, type, functionName, name, file, line,
-            extensions, filters, funcArguments, arguments, definition;
-
-        let code = null, type = filter["type"];
+        var compilation, expr, exprCode, lifetime;
 
         /**
-         * Check if the filter is a single identifier
+         * A valid expression is required
          */
-        if type == PHVOLT_T_IDENTIFIER {
-            let name = filter["value"];
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupt statement", statement);
+        }
+
+        /**
+         * Cache statement
+         */
+        let exprCode = this->expression(expr);
+        let compilation = "<?php $_cache[" . this->expression(expr) . "] = $this->di->get('viewCache'); ";
+        if fetch lifetime, statement["lifetime"] {
+            let compilation .= "$_cacheKey[" . exprCode . "]";
+            if lifetime["type"] == PHVOLT_T_IDENTIFIER {
+                let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", $" . lifetime["value"] . "); ";
+            } else {
+                let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", " . lifetime["value"] . "); ";
+            }
         } else {
-
-            if type != PHVOLT_T_FCALL {
-
-                /**
-                 * Unknown filter throw an exception
-                 */
-                throw new Exception("Unknown filter type in " . filter["file"] . " on line " . filter["line"]);
-            }
-
-            let functionName = filter["name"],
-                name = functionName["value"];
+            let compilation .= "$_cacheKey[" . exprCode . "] = $_cache[" . exprCode."]->start(" . exprCode . "); ";
         }
-
-        let funcArguments = null, arguments = null;
+        let compilation .= "if ($_cacheKey[" . exprCode . "] === null) { ?>";
 
         /**
-         * Resolve arguments
+         * Get the code in the block
          */
-        if fetch funcArguments, filter["arguments"] {
+        let compilation .= this->statementList(statement["block_statements"], extendsMode);
 
-            /**
-             * "default" filter is not the first argument, improve this!
-             */
-            if name != "default" {
-
-                let file = filter["file"], line = filter["line"];
-
-                /**
-                 * TODO: Implement this function directly
-                 */
-                array_unshift(funcArguments, [
-                    "expr": [
-                        "type":  364,
-                        "value": left,
-                        "file": file,
-                        "line": line
-                    ],
-                    "file": file,
-                    "line": line
-                ]);
+        /**
+         * Check if the cache has a lifetime
+         */
+        if fetch lifetime, statement["lifetime"] {
+            if lifetime["type"] == PHVOLT_T_IDENTIFIER {
+                let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, $" . lifetime["value"] . "); ";
+            } else {
+                let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime["value"] . "); ";
             }
-
-            let arguments = this->expression(funcArguments);
+            let compilation .= "} else { echo $_cacheKey[" . exprCode . "]; } ?>";
         } else {
-            let arguments = left;
+            let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . "); } else { echo $_cacheKey[" . exprCode . "]; } ?>";
+        }
+
+        return compilation;
+    }
+
+    /**
+     * Compiles calls to macros
+     */
+    public function compileCall(array! statement, bool extendsMode)
+    {
+
+    }
+
+    /**
+     * Compiles a "case"/"default" clause returning PHP code
+     */
+    public function compileCase(array! statement, bool caseClause = true) -> string
+    {
+        var expr;
+
+        if unlikely caseClause === false {
+            /**
+             * "default" statement
+             */
+            return "<?php default: ?>";
         }
 
         /**
-         * Check if any of the registered extensions provide compilation for this filter
+         * A valid expression is required
          */
-        let extensions = this->_extensions;
-        if typeof extensions == "array" {
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupt statement", statement);
+        }
 
-            /**
-             * Notify the extensions about being compiling a function
-             */
-            let code = this->fireExtensionEvent("compileFilter", [name, arguments, funcArguments]);
-            if typeof code == "string" {
-                return code;
+        /**
+         * "case" statement
+         */
+        return "<?php case " . this->expression(expr) . ": ?>";
+    }
+
+    /**
+     * Compiles a "do" statement returning PHP code
+     */
+    public function compileDo(array! statement) -> string
+    {
+        var expr;
+
+        /**
+         * A valid expression is required
+         */
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupted statement");
+        }
+
+        /**
+         * "Do" statement
+         */
+        return "<?php " . this->expression(expr) . "; ?>";
+    }
+
+    /**
+     * Compiles a '{{' '}}' statement returning PHP code
+     */
+    public function compileEcho(array! statement) -> string
+    {
+        var expr, exprCode, name;
+
+        /**
+         * A valid expression is required
+         */
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupt statement", statement);
+        }
+
+        /**
+         * Evaluate common expressions
+         */
+        let exprCode = this->expression(expr);
+
+        if expr["type"] == PHVOLT_T_FCALL  {
+
+            let name = expr["name"];
+
+            if name["type"] == PHVOLT_T_IDENTIFIER {
+
+                /**
+                 * super() is a function however the return of this function must be output as it is
+                 */
+                if name["value"] == "super" {
+                    return exprCode;
+                }
             }
         }
 
         /**
-         * Check if it's a user defined filter
+         * Echo statement
          */
-        let filters = this->_filters;
-        if typeof filters == "array" {
-            if fetch definition, filters[name] {
+        if this->autoescape {
+            return "<?= $this->escaper->escapeHtml(" . exprCode . ") ?>";
+        }
 
-                /**
-                 * The definition is a string
-                 */
-                if typeof definition == "string" {
-                    return definition . "(" . arguments . ")";
+        return "<?= " . exprCode . " ?>";
+    }
+
+    /**
+     * Compiles a "elseif" statement returning PHP code
+     */
+    public function compileElseIf(array! statement) -> string
+    {
+        var expr;
+
+        /**
+         * A valid expression is required
+         */
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupt statement", statement);
+        }
+
+        /**
+         * "elseif" statement
+         */
+        return "<?php } elseif (" . this->expression(expr) . ") { ?>";
+    }
+
+    /**
+     * Compiles a template into a file forcing the destination path
+     *
+     *<code>
+     * $compiler->compileFile("views/layouts/main.volt", "views/layouts/main.volt.php");
+     *</code>
+     *
+     * @return string|array
+     */
+    public function compileFile(string! path, string! compiledPath, bool extendsMode = false)
+    {
+        var viewCode, compilation, finalCompilation;
+
+        if path == compiledPath {
+            throw new Exception("Template path and compilation template path cannot be the same");
+        }
+
+        /**
+         * Check if the template does exist
+         */
+        if !file_exists(path) {
+            throw new Exception("Template file " . path . " does not exist");
+        }
+
+        /**
+         * Always use file_get_contents instead of read the file directly, this respect the open_basedir directive
+         */
+        let viewCode = file_get_contents(path);
+        if viewCode === false {
+            throw new Exception("Template file " . path . " could not be opened");
+        }
+
+        let this->currentPath = path;
+        let compilation = this->compileSource(viewCode, extendsMode);
+
+        /**
+         * We store the file serialized if it's an array of blocks
+         */
+        if typeof compilation == "array" {
+            let finalCompilation = serialize(compilation);
+        } else {
+            let finalCompilation = compilation;
+        }
+
+        /**
+         * Always use file_put_contents to write files instead of write the file
+         * directly, this respect the open_basedir directive
+         */
+        if file_put_contents(compiledPath, finalCompilation) === false {
+            throw new Exception("Volt directory can't be written");
+        }
+
+        return compilation;
+    }
+
+    /**
+     * Compiles a "foreach" intermediate code representation into plain PHP code
+     */
+    public function compileForeach(array! statement, bool extendsMode = false) -> string
+    {
+        var compilation, prefix, level, prefixLevel, expr,
+            exprCode, bstatement, type, blockStatements, forElse, code,
+            loopContext, iterator, key, ifExpr, variable;
+
+        /**
+         * A valid expression is required
+         */
+        if !isset statement["expr"] {
+            throw new Exception("Corrupted statement");
+        }
+
+        let compilation = "", forElse = null;
+
+        let this->foreachLevel++;
+
+        let prefix = this->getUniquePrefix();
+        let level = this->foreachLevel;
+
+        /**
+         * prefixLevel is used to prefix every temporal variable
+         */
+        let prefixLevel = prefix . level;
+
+        /**
+         * Evaluate common expressions
+         */
+        let expr = statement["expr"];
+        let exprCode = this->expression(expr);
+
+        /**
+         * Process the block statements
+         */
+        let blockStatements = statement["block_statements"];
+
+        let forElse = false;
+        if typeof blockStatements == "array" {
+
+            for bstatement in blockStatements {
+
+                if typeof bstatement != "array" {
+                    break;
                 }
 
                 /**
-                 * The definition is a closure
+                 * Check if the statement is valid
                  */
-                if typeof definition == "object" {
-                    if definition instanceof \Closure {
-                        return call_user_func_array(definition, [arguments, funcArguments]);
-                    }
+                if !fetch type, bstatement["type"] {
+                    break;
                 }
 
-                /**
-                 * Invalid filter definition throw an exception
-                 */
-                throw new Exception(
-                    "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
-                );
+                if type == PHVOLT_T_ELSEFOR {
+                    let compilation .= "<?php $" . prefixLevel . "iterated = false; ?>";
+                    let forElse = prefixLevel;
+                    let this->forElsePointers[level] = forElse;
+                    break;
+                }
+
             }
         }
 
         /**
-         * "length" uses the length method implemented in the Volt adapter
+         * Process statements block
          */
-        if name == "length" {
-            return "$this->length(" . arguments . ")";
+        let code = this->statementList(blockStatements, extendsMode);
+
+        let loopContext = this->loopPointers;
+
+        /**
+         * Generate the loop context for the "foreach"
+         */
+        if isset loopContext[level] {
+            let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
+            let compilation .= "$" . prefixLevel . "incr = 0; ";
+            let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
+            let compilation .= "$" . prefixLevel . "loop->self = &$" . prefixLevel . "loop; ";
+            let compilation .= "$" . prefixLevel . "loop->length = count($" . prefixLevel . "iterator); ";
+            let compilation .= "$" . prefixLevel . "loop->index = 1; ";
+            let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
+            let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length; ";
+            let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - 1; ?>";
+            let iterator = "$" . prefixLevel . "iterator";
+        } else {
+            let iterator = exprCode;
         }
 
         /**
-         * "e"/"escape" filter uses the escaper component
+         * Foreach statement
          */
-        if name == "e" || name == "escape" {
-            return "$this->escaper->escapeHtml(" . arguments . ")";
+        let variable = statement["variable"];
+
+        /**
+         * Check if a "key" variable needs to be calculated
+         */
+        if fetch key, statement["key"] {
+            let compilation .= "<?php foreach (" . iterator . " as $" . key . " => $" . variable . ") { ";
+        } else {
+            let compilation .= "<?php foreach (" . iterator . " as $" . variable . ") { ";
         }
 
         /**
-         * "escape_css" filter uses the escaper component to filter css
+         * Check for an "if" expr in the block
          */
-        if name == "escape_css" {
-            return "$this->escaper->escapeCss(" . arguments . ")";
+        if fetch ifExpr, statement["if_expr"] {
+            let compilation .= "if (" . this->expression(ifExpr) . ") { ?>";
+        } else {
+            let compilation .= "?>";
         }
 
         /**
-         * "escape_js" filter uses the escaper component to escape javascript
+         * Generate the loop context inside the cycle
          */
-        if name == "escape_js" {
-            return "$this->escaper->escapeJs(" . arguments . ")";
+        if isset loopContext[level] {
+            let compilation .= "<?php $" . prefixLevel . "loop->first = ($" . prefixLevel . "incr == 0); ";
+            let compilation .= "$" . prefixLevel . "loop->index = $" . prefixLevel . "incr + 1; ";
+            let compilation .= "$" . prefixLevel . "loop->index0 = $" . prefixLevel . "incr; ";
+            let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length - $" . prefixLevel . "incr; ";
+            let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - ($" . prefixLevel . "incr + 1); ";
+            let compilation .= "$" . prefixLevel . "loop->last = ($" . prefixLevel . "incr == ($" . prefixLevel . "loop->length - 1)); ?>";
         }
 
         /**
-         * "escape_attr" filter uses the escaper component to escape html attributes
+         * Update the forelse var if it's iterated at least one time
          */
-        if name == "escape_attr" {
-            return "$this->escaper->escapeHtmlAttr(" . arguments . ")";
+        if typeof forElse == "string" {
+            let compilation .= "<?php $" . forElse . "iterated = true; ?>";
         }
 
         /**
-         * "trim" calls the "trim" function in the PHP userland
+         * Append the internal block compilation
          */
-        if name == "trim" {
-            return "trim(" . arguments . ")";
+        let compilation .= code;
+
+        if isset statement["if_expr"] {
+            let compilation .= "<?php } ?>";
+        }
+
+        if typeof forElse == "string" {
+            let compilation .= "<?php } ?>";
+        } else {
+            if isset loopContext[level] {
+                let compilation .= "<?php $" . prefixLevel . "incr++; } ?>";
+            } else {
+                let compilation .= "<?php } ?>";
+            }
+        }
+
+        let this->foreachLevel--;
+
+        return compilation;
+    }
+
+    /**
+     * Generates a 'forelse' PHP code
+     */
+    public function compileForElse() -> string
+    {
+        var level, prefix;
+
+        let level = this->foreachLevel;
+        if fetch prefix, this->forElsePointers[level] {
+            if isset this->loopPointers[level] {
+                return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
+            }
+            return "<?php } if (!$" . prefix . "iterated) { ?>";
+        }
+        return "";
+    }
+
+    /**
+     * Compiles a 'if' statement returning PHP code
+     */
+    public function compileIf(array! statement, bool extendsMode = false) -> string
+    {
+        var compilation, blockStatements, expr;
+
+        /**
+         * A valid expression is required
+         */
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupt statement", statement);
         }
 
         /**
-         * "left_trim" calls the "ltrim" function in the PHP userland
+         * Process statements in the "true" block
          */
-        if name == "left_trim" {
-            return "ltrim(" . arguments . ")";
+        let compilation = "<?php if (" . this->expression(expr) . ") { ?>" . this->statementList(statement["true_statements"], extendsMode);
+
+        /**
+         * Check for a "else"/"elseif" block
+         */
+        if fetch blockStatements, statement["false_statements"] {
+
+            /**
+             * Process statements in the "false" block
+             */
+            let compilation .= "<?php } else { ?>" . this->statementList(blockStatements, extendsMode);
+        }
+
+        let compilation .= "<?php } ?>";
+
+        return compilation;
+    }
+
+    /**
+     * Compiles a 'include' statement returning PHP code
+     */
+    public function compileInclude(array! statement) -> string
+    {
+        var pathExpr, path, subCompiler, finalPath, compilation, params;
+
+        /**
+         * Include statement
+         * A valid expression is required
+         */
+        if !fetch pathExpr, statement["path"] {
+            throw new Exception("Corrupted statement");
         }
 
         /**
-         * "right_trim" calls the "rtrim" function in the PHP userland
+         * Check if the expression is a string
+         * If the path is an string try to make an static compilation
          */
-        if name == "right_trim" {
-            return "rtrim(" . arguments . ")";
+        if pathExpr["type"] == 260 {
+
+            /**
+             * Static compilation cannot be performed if the user passed extra parameters
+             */
+            if !isset statement["params"]  {
+
+                /**
+                 * Get the static path
+                 */
+                let path = pathExpr["value"];
+
+                let finalPath = this->getFinalPath(path);
+
+                /**
+                 * Clone the original compiler
+                 * Perform a sub-compilation of the included file
+                 * If the compilation doesn't return anything we include the compiled path
+                 */
+                let subCompiler = clone this;
+                let compilation = subCompiler->compile(finalPath, false);
+                if typeof compilation == "null" {
+
+                    /**
+                     * Use file-get-contents to respect the openbase_dir directive
+                     */
+                    let compilation = file_get_contents(subCompiler->getCompiledTemplatePath());
+                }
+
+                return compilation;
+            }
+
         }
 
         /**
-         * "striptags" calls the "strip_tags" function in the PHP userland
+         * Resolve the path's expression
          */
-        if name == "striptags" {
-            return "strip_tags(" . arguments . ")";
+        let path = this->expression(pathExpr);
+
+        /**
+         * Use partial
+         */
+        if !fetch params, statement["params"] {
+            return "<?php $this->partial(" . path . "); ?>";
+        }
+
+        return "<?php $this->partial(" . path . ", " . this->expression(params) . "); ?>";
+    }
+
+    /**
+     * Compiles macros
+     */
+    public function compileMacro(array! statement, bool extendsMode) -> string
+    {
+        var code, name, defaultValue, macroName, parameters, position, parameter, variableName, blockStatements;
+
+        /**
+         * A valid name is required
+         */
+        if !fetch name, statement["name"] {
+            throw new Exception("Corrupted statement");
         }
 
         /**
-         * "url_encode" calls the "urlencode" function in the PHP userland
+         * Check if the macro is already defined
          */
-        if name == "url_encode" {
-            return "urlencode(" . arguments . ")";
+        if isset this->macros[name] {
+            throw new Exception("Macro '" . name . "' is already defined");
         }
 
         /**
-         * "slashes" calls the "addslashes" function in the PHP userland
+         * Register the macro
          */
-        if name == "slashes" {
-            return "addslashes(" . arguments . ")";
+        let this->macros[name] = name;
+
+        let macroName = "$this->macros['" . name . "']";
+
+        let code = "<?php ";
+        if !fetch parameters, statement["parameters"] {
+            let code .= macroName . " = function() { ?>";
+        } else {
+
+            /**
+             * Parameters are always received as an array
+             */
+            let code .= macroName . " = function($__p = null) { ";
+            for position, parameter in parameters {
+
+                let variableName = parameter["variable"];
+
+                let code .= "if (isset($__p[" . position . "])) { ";
+                let code .= "$" . variableName . " = $__p[" . position ."];";
+                let code .= " } else { ";
+                let code .= "if (array_key_exists(\"" . variableName . "\", $__p)) { ";
+                let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
+                let code .= " } else { ";
+                if fetch defaultValue, parameter["default"] {
+                    let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
+                } else {
+                    let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro '" . name . "' was called without parameter: " . variableName . "\"); ";
+                }
+                let code .= " } } ";
+            }
+
+            let code .= " ?>";
         }
 
         /**
-         * "stripslashes" calls the "stripslashes" function in the PHP userland
+         * Block statements are allowed
          */
-        if name == "stripslashes" {
-            return "stripslashes(" . arguments . ")";
+        if fetch blockStatements, statement["block_statements"] {
+
+            /**
+             * Process statements block
+             */
+            let code .= this->statementList(blockStatements, extendsMode) . "<?php }; ";
+        }  else {
+            let code .= "<?php }; ";
         }
 
         /**
-         * "nl2br" calls the "nl2br" function in the PHP userland
+         * Bind the closure to the $this object allowing to call services
          */
-        if name == "nl2br" {
-            return "nl2br(" . arguments . ")";
+        let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
+
+        return code;
+    }
+
+    /**
+     * Compiles a "return" statement returning PHP code
+     */
+    public function compileReturn(array! statement) -> string
+    {
+        var expr;
+
+        /**
+         * A valid expression is required
+         */
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupted statement");
         }
 
         /**
-         * "keys" uses calls the "array_keys" function in the PHP userland
+         * "Return" statement
          */
-        if name == "keys" {
-            return "array_keys(" . arguments . ")";
+        return "<?php return " . this->expression(expr) . "; ?>";
+    }
+
+    /**
+     * Compiles a "set" statement returning PHP code
+     */
+    public function compileSet(array! statement) -> string
+    {
+        var assignments, assignment, exprCode, target, compilation;
+
+        /**
+         * A valid assignment list is required
+         */
+        if !fetch assignments, statement["assignments"] {
+            throw new Exception("Corrupted statement");
+        }
+
+        let compilation = "<?php";
+
+        /**
+         * A single set can have several assignments
+         */
+        for assignment in assignments {
+
+            let exprCode = this->expression(assignment["expr"]);
+
+            /**
+             * Resolve the expression assigned
+             */
+            let target = this->expression(assignment["variable"]);
+
+            /**
+             * Assignment operator
+             * Generate the right operator
+             */
+            switch assignment["op"] {
+
+                case PHVOLT_T_ADD_ASSIGN:
+                    let compilation .= " " . target . " += " . exprCode . ";";
+                    break;
+
+                case PHVOLT_T_SUB_ASSIGN:
+                    let compilation .= " " . target . " -= " . exprCode . ";";
+                    break;
+
+                case PHVOLT_T_MUL_ASSIGN:
+                    let compilation .= " " . target . " *= " . exprCode . ";";
+                    break;
+
+                case PHVOLT_T_DIV_ASSIGN:
+                    let compilation .= " " . target . " /= " . exprCode . ";";
+                    break;
+
+                default:
+                    let compilation .= " " . target . " = " . exprCode . ";";
+                    break;
+            }
+
+        }
+
+        let compilation .= " ?>";
+        return compilation;
+    }
+
+    /**
+     * Compiles a template into a string
+     *
+     *<code>
+     * echo $compiler->compileString('{{ "hello world" }}');
+     *</code>
+     */
+    public function compileString(string! viewCode, bool extendsMode = false) -> string
+    {
+        let this->currentPath = "eval code";
+        return this->compileSource(viewCode, extendsMode);
+    }
+
+    /**
+     * Compiles a 'switch' statement returning PHP code
+     */
+    public function compileSwitch(array! statement, bool extendsMode = false) -> string
+    {
+        var compilation, caseClauses, expr, lines;
+
+        /**
+         * A valid expression is required
+         */
+        if !fetch expr, statement["expr"] {
+            throw new Exception("Corrupt statement", statement);
         }
 
         /**
-         * "join" uses calls the "join" function in the PHP userland
+         * Process statements in the "true" block
          */
-        if name == "join" {
-            return "join(" . arguments . ")";
-        }
+        let compilation = "<?php switch (" . this->expression(expr) . "): ?>";
 
         /**
-         * "lower"/"lowercase" calls the "strtolower" function or "mb_strtolower" if the mbstring extension is loaded
+         * Check for a "case"/"default" blocks
          */
-        if name == "lower" || name == "lowercase" {
-            return "Phalcon\\Text::lower(" . arguments . ")";
+        if fetch caseClauses, statement["case_clauses"] {
+            let lines = this->statementList(caseClauses, extendsMode);
+
+            /**
+             * Any output (including whitespace) between a switch statement and the first case will result in
+             * a syntax error. This is the responsibility of the user. However, we can clear empty lines
+             * and whitespaces here to reduce the number of errors.
+             *
+             * http://php.net/control-structures.alternative-syntax
+             */
+             if strlen(lines) !== 0 {
+                /**
+                 * (*ANYCRLF) - specifies a newline convention: (*CR), (*LF) or (*CRLF)
+                 * \h+ - 1+ horizontal whitespace chars
+                 * $ - end of line (now, before CR or LF)
+                 * m - multiline mode on ($ matches at the end of a line).
+                 * u - unicode
+                 *
+                 * g - global search, - is implicit with preg_replace(), you don't need to include it.
+                 */
+                let lines = preg_replace("/(*ANYCRLF)^\h+|\h+$|(\h){2,}/mu", "", lines);
+             }
+
+            let compilation .= lines;
         }
 
-        /**
-         * "upper"/"uppercase" calls the "strtoupper" function or "mb_strtoupper" if the mbstring extension is loaded
-         */
-        if name == "upper" || name == "uppercase" {
-            return "Phalcon\\Text::upper(" . arguments . ")";
-        }
+        let compilation .= "<?php endswitch ?>";
 
-        /**
-         * "capitalize" filter calls "ucwords"
-         */
-        if name == "capitalize" {
-            return "ucwords(" . arguments . ")";
-        }
-
-        /**
-         * "sort" calls "sort" method in the engine adapter
-         */
-        if name == "sort" {
-            return "$this->sort(" . arguments . ")";
-        }
-
-        /**
-         * "json_encode" calls the "json_encode" function in the PHP userland
-         */
-        if name == "json_encode" {
-            return "json_encode(" . arguments . ")";
-        }
-
-        /**
-         * "json_decode" calls the "json_decode" function in the PHP userland
-         */
-        if name == "json_decode" {
-            return "json_decode(" . arguments . ")";
-        }
-
-        /**
-         * "format" calls the "sprintf" function in the PHP userland
-         */
-        if name == "format" {
-            return "sprintf(" . arguments . ")";
-        }
-
-        /**
-         * "abs" calls the "abs" function in the PHP userland
-         */
-        if name == "abs" {
-            return "abs(" . arguments . ")";
-        }
-
-        /**
-         * "slice" slices string/arrays/traversable objects
-         */
-        if name == "slice" {
-            return "$this->slice(" . arguments . ")";
-        }
-
-        /**
-         * "default" checks if a variable is empty
-         */
-        if name == "default" {
-            return "(empty(" . left . ") ? (" . arguments . ") : (" . left . "))";
-        }
-
-        /**
-         * This function uses mbstring or iconv to convert strings from one charset to another
-         */
-        if name == "convert_encoding" {
-            return "$this->convertEncoding(" . arguments . ")";
-        }
-
-        /**
-         * Unknown filter throw an exception
-         */
-        throw new Exception("Unknown filter \"" . name . "\" in " . filter["file"] . " on line " . filter["line"]);
+        return compilation;
     }
 
     /**
@@ -1005,12 +1163,12 @@ class Compiler implements InjectionAwareInterface
         var exprCode, extensions, items, singleExpr, singleExprCode, name,
             left, leftCode, right, rightCode, type, startCode, endCode, start, end;
 
-        let exprCode = null, this->_exprLevel++;
+        let exprCode = null, this->exprLevel++;
 
         /**
          * Check if any of the registered extensions provide compilation for this expression
          */
-        let extensions = this->_extensions;
+        let extensions = this->extensions;
 
         loop {
 
@@ -1318,746 +1476,1007 @@ class Compiler implements InjectionAwareInterface
             break;
         }
 
-        let this->_exprLevel--;
+        let this->exprLevel--;
 
         return exprCode;
     }
 
     /**
-     * Compiles a block of statements
+     * Fires an event to registered extensions
      *
-     * @param array statements
-     * @return string|array
+     * @param array arguments
+     * @return mixed
      */
-    final protected function _statementListOrExtends(var statements)
+    public final function fireExtensionEvent(string! name, arguments = null)
     {
-        var statement;
-        bool isStatementList;
+        var extensions, extension, status;
 
-        /**
-         * Resolve the statement list as normal
-         */
-        if typeof statements != "array" {
-            return statements;
-        }
-
-        /**
-         * If all elements in the statement list are arrays we resolve this as a statementList
-         */
-        let isStatementList = true;
-        if !isset statements["type"] {
-            for statement in statements {
-                if typeof statement != "array" {
-                    let isStatementList = false;
-                    break;
-                }
-            }
-        }
-
-        /**
-         * Resolve the statement list as normal
-         */
-        if isStatementList === true {
-            return this->_statementList(statements);
-        }
-
-        /**
-         * Is an array but not a statement list?
-         */
-        return statements;
-    }
-
-    /**
-     * Compiles a "foreach" intermediate code representation into plain PHP code
-     */
-    public function compileForeach(array! statement, bool extendsMode = false) -> string
-    {
-        var compilation, prefix, level, prefixLevel, expr,
-            exprCode, bstatement, type, blockStatements, forElse, code,
-            loopContext, iterator, key, ifExpr, variable;
-
-        /**
-         * A valid expression is required
-         */
-        if !isset statement["expr"] {
-            throw new Exception("Corrupted statement");
-        }
-
-        let compilation = "", forElse = null;
-
-        let this->_foreachLevel++;
-
-        let prefix = this->getUniquePrefix();
-        let level = this->_foreachLevel;
-
-        /**
-         * prefixLevel is used to prefix every temporal variable
-         */
-        let prefixLevel = prefix . level;
-
-        /**
-         * Evaluate common expressions
-         */
-        let expr = statement["expr"];
-        let exprCode = this->expression(expr);
-
-        /**
-         * Process the block statements
-         */
-        let blockStatements = statement["block_statements"];
-
-        let forElse = false;
-        if typeof blockStatements == "array" {
-
-            for bstatement in blockStatements {
-
-                if typeof bstatement != "array" {
-                    break;
-                }
+        let extensions = this->extensions;
+        if typeof extensions == "array" {
+            for extension in extensions {
 
                 /**
-                 * Check if the statement is valid
+                 * Check if the extension implements the required event name
                  */
-                if !fetch type, bstatement["type"] {
-                    break;
-                }
-
-                if type == PHVOLT_T_ELSEFOR {
-                    let compilation .= "<?php $" . prefixLevel . "iterated = false; ?>";
-                    let forElse = prefixLevel;
-                    let this->_forElsePointers[level] = forElse;
-                    break;
-                }
-
-            }
-        }
-
-        /**
-         * Process statements block
-         */
-        let code = this->_statementList(blockStatements, extendsMode);
-
-        let loopContext = this->_loopPointers;
-
-        /**
-         * Generate the loop context for the "foreach"
-         */
-        if isset loopContext[level] {
-            let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
-            let compilation .= "$" . prefixLevel . "incr = 0; ";
-            let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
-            let compilation .= "$" . prefixLevel . "loop->self = &$" . prefixLevel . "loop; ";
-            let compilation .= "$" . prefixLevel . "loop->length = count($" . prefixLevel . "iterator); ";
-            let compilation .= "$" . prefixLevel . "loop->index = 1; ";
-            let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
-            let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length; ";
-            let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - 1; ?>";
-            let iterator = "$" . prefixLevel . "iterator";
-        } else {
-            let iterator = exprCode;
-        }
-
-        /**
-         * Foreach statement
-         */
-        let variable = statement["variable"];
-
-        /**
-         * Check if a "key" variable needs to be calculated
-         */
-        if fetch key, statement["key"] {
-            let compilation .= "<?php foreach (" . iterator . " as $" . key . " => $" . variable . ") { ";
-        } else {
-            let compilation .= "<?php foreach (" . iterator . " as $" . variable . ") { ";
-        }
-
-        /**
-         * Check for an "if" expr in the block
-         */
-        if fetch ifExpr, statement["if_expr"] {
-            let compilation .= "if (" . this->expression(ifExpr) . ") { ?>";
-        } else {
-            let compilation .= "?>";
-        }
-
-        /**
-         * Generate the loop context inside the cycle
-         */
-        if isset loopContext[level] {
-            let compilation .= "<?php $" . prefixLevel . "loop->first = ($" . prefixLevel . "incr == 0); ";
-            let compilation .= "$" . prefixLevel . "loop->index = $" . prefixLevel . "incr + 1; ";
-            let compilation .= "$" . prefixLevel . "loop->index0 = $" . prefixLevel . "incr; ";
-            let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length - $" . prefixLevel . "incr; ";
-            let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - ($" . prefixLevel . "incr + 1); ";
-            let compilation .= "$" . prefixLevel . "loop->last = ($" . prefixLevel . "incr == ($" . prefixLevel . "loop->length - 1)); ?>";
-        }
-
-        /**
-         * Update the forelse var if it's iterated at least one time
-         */
-        if typeof forElse == "string" {
-            let compilation .= "<?php $" . forElse . "iterated = true; ?>";
-        }
-
-        /**
-         * Append the internal block compilation
-         */
-        let compilation .= code;
-
-        if isset statement["if_expr"] {
-            let compilation .= "<?php } ?>";
-        }
-
-        if typeof forElse == "string" {
-            let compilation .= "<?php } ?>";
-        } else {
-            if isset loopContext[level] {
-                let compilation .= "<?php $" . prefixLevel . "incr++; } ?>";
-            } else {
-                let compilation .= "<?php } ?>";
-            }
-        }
-
-        let this->_foreachLevel--;
-
-        return compilation;
-    }
-
-    /**
-     * Generates a 'forelse' PHP code
-     */
-    public function compileForElse() -> string
-    {
-        var level, prefix;
-
-        let level = this->_foreachLevel;
-        if fetch prefix, this->_forElsePointers[level] {
-            if isset this->_loopPointers[level] {
-                return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
-            }
-            return "<?php } if (!$" . prefix . "iterated) { ?>";
-        }
-        return "";
-    }
-
-    /**
-     * Compiles a 'if' statement returning PHP code
-     */
-    public function compileIf(array! statement, bool extendsMode = false) -> string
-    {
-        var compilation, blockStatements, expr;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * Process statements in the "true" block
-         */
-        let compilation = "<?php if (" . this->expression(expr) . ") { ?>" . this->_statementList(statement["true_statements"], extendsMode);
-
-        /**
-         * Check for a "else"/"elseif" block
-         */
-        if fetch blockStatements, statement["false_statements"] {
-
-            /**
-             * Process statements in the "false" block
-             */
-            let compilation .= "<?php } else { ?>" . this->_statementList(blockStatements, extendsMode);
-        }
-
-        let compilation .= "<?php } ?>";
-
-        return compilation;
-    }
-
-    /**
-     * Compiles a 'switch' statement returning PHP code
-     */
-    public function compileSwitch(array! statement, bool extendsMode = false) -> string
-    {
-        var compilation, caseClauses, expr, lines;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * Process statements in the "true" block
-         */
-        let compilation = "<?php switch (" . this->expression(expr) . "): ?>";
-
-        /**
-         * Check for a "case"/"default" blocks
-         */
-        if fetch caseClauses, statement["case_clauses"] {
-            let lines = this->_statementList(caseClauses, extendsMode);
-
-            /**
-             * Any output (including whitespace) between a switch statement and the first case will result in
-             * a syntax error. This is the responsibility of the user. However, we can clear empty lines
-             * and whitespaces here to reduce the number of errors.
-             *
-             * http://php.net/control-structures.alternative-syntax
-             */
-             if strlen(lines) !== 0 {
-                /**
-                 * (*ANYCRLF) - specifies a newline convention: (*CR), (*LF) or (*CRLF)
-                 * \h+ - 1+ horizontal whitespace chars
-                 * $ - end of line (now, before CR or LF)
-                 * m - multiline mode on ($ matches at the end of a line).
-                 * u - unicode
-                 *
-                 * g - global search, - is implicit with preg_replace(), you don't need to include it.
-                 */
-                let lines = preg_replace("/(*ANYCRLF)^\h+|\h+$|(\h){2,}/mu", "", lines);
-             }
-
-            let compilation .= lines;
-        }
-
-        let compilation .= "<?php endswitch ?>";
-
-        return compilation;
-    }
-
-    /**
-     * Compiles a "case"/"default" clause returning PHP code
-     */
-    public function compileCase(array! statement, bool caseClause = true) -> string
-    {
-        var expr;
-
-        if unlikely caseClause === false {
-            /**
-             * "default" statement
-             */
-            return "<?php default: ?>";
-        }
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * "case" statement
-         */
-        return "<?php case " . this->expression(expr) . ": ?>";
-    }
-
-    /**
-     * Compiles a "elseif" statement returning PHP code
-     */
-    public function compileElseIf(array! statement) -> string
-    {
-        var expr;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * "elseif" statement
-         */
-        return "<?php } elseif (" . this->expression(expr) . ") { ?>";
-    }
-
-    /**
-     * Compiles a "cache" statement returning PHP code
-     */
-    public function compileCache(array! statement, bool extendsMode = false) -> string
-    {
-        var compilation, expr, exprCode, lifetime;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * Cache statement
-         */
-        let exprCode = this->expression(expr);
-        let compilation = "<?php $_cache[" . this->expression(expr) . "] = $this->di->get('viewCache'); ";
-        if fetch lifetime, statement["lifetime"] {
-            let compilation .= "$_cacheKey[" . exprCode . "]";
-            if lifetime["type"] == PHVOLT_T_IDENTIFIER {
-                let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", $" . lifetime["value"] . "); ";
-            } else {
-                let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", " . lifetime["value"] . "); ";
-            }
-        } else {
-            let compilation .= "$_cacheKey[" . exprCode . "] = $_cache[" . exprCode."]->start(" . exprCode . "); ";
-        }
-        let compilation .= "if ($_cacheKey[" . exprCode . "] === null) { ?>";
-
-        /**
-         * Get the code in the block
-         */
-        let compilation .= this->_statementList(statement["block_statements"], extendsMode);
-
-        /**
-         * Check if the cache has a lifetime
-         */
-        if fetch lifetime, statement["lifetime"] {
-            if lifetime["type"] == PHVOLT_T_IDENTIFIER {
-                let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, $" . lifetime["value"] . "); ";
-            } else {
-                let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime["value"] . "); ";
-            }
-            let compilation .= "} else { echo $_cacheKey[" . exprCode . "]; } ?>";
-        } else {
-            let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . "); } else { echo $_cacheKey[" . exprCode . "]; } ?>";
-        }
-
-        return compilation;
-    }
-
-    /**
-     * Compiles a "set" statement returning PHP code
-     */
-    public function compileSet(array! statement) -> string
-    {
-        var assignments, assignment, exprCode, target, compilation;
-
-        /**
-         * A valid assignment list is required
-         */
-        if !fetch assignments, statement["assignments"] {
-            throw new Exception("Corrupted statement");
-        }
-
-        let compilation = "<?php";
-
-        /**
-         * A single set can have several assignments
-         */
-        for assignment in assignments {
-
-            let exprCode = this->expression(assignment["expr"]);
-
-            /**
-             * Resolve the expression assigned
-             */
-            let target = this->expression(assignment["variable"]);
-
-            /**
-             * Assignment operator
-             * Generate the right operator
-             */
-            switch assignment["op"] {
-
-                case PHVOLT_T_ADD_ASSIGN:
-                    let compilation .= " " . target . " += " . exprCode . ";";
-                    break;
-
-                case PHVOLT_T_SUB_ASSIGN:
-                    let compilation .= " " . target . " -= " . exprCode . ";";
-                    break;
-
-                case PHVOLT_T_MUL_ASSIGN:
-                    let compilation .= " " . target . " *= " . exprCode . ";";
-                    break;
-
-                case PHVOLT_T_DIV_ASSIGN:
-                    let compilation .= " " . target . " /= " . exprCode . ";";
-                    break;
-
-                default:
-                    let compilation .= " " . target . " = " . exprCode . ";";
-                    break;
-            }
-
-        }
-
-        let compilation .= " ?>";
-        return compilation;
-    }
-
-    /**
-     * Compiles a "do" statement returning PHP code
-     */
-    public function compileDo(array! statement) -> string
-    {
-        var expr;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupted statement");
-        }
-
-        /**
-         * "Do" statement
-         */
-        return "<?php " . this->expression(expr) . "; ?>";
-    }
-
-    /**
-     * Compiles a "return" statement returning PHP code
-     */
-    public function compileReturn(array! statement) -> string
-    {
-        var expr;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupted statement");
-        }
-
-        /**
-         * "Return" statement
-         */
-        return "<?php return " . this->expression(expr) . "; ?>";
-    }
-
-    /**
-     * Compiles a "autoescape" statement returning PHP code
-     */
-    public function compileAutoEscape(array! statement, bool extendsMode) -> string
-    {
-        var autoescape, oldAutoescape, compilation;
-
-        /**
-         * A valid option is required
-         */
-        if !fetch autoescape, statement["enable"] {
-            throw new Exception("Corrupted statement");
-        }
-
-        /**
-         * "autoescape" mode
-         */
-        let oldAutoescape = this->_autoescape,
-            this->_autoescape = autoescape;
-
-        let compilation = this->_statementList(statement["block_statements"], extendsMode),
-            this->_autoescape = oldAutoescape;
-
-        return compilation;
-    }
-
-    /**
-     * Compiles a '{{' '}}' statement returning PHP code
-     */
-    public function compileEcho(array! statement) -> string
-    {
-        var expr, exprCode, name;
-
-        /**
-         * A valid expression is required
-         */
-        if !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * Evaluate common expressions
-         */
-        let exprCode = this->expression(expr);
-
-        if expr["type"] == PHVOLT_T_FCALL  {
-
-            let name = expr["name"];
-
-            if name["type"] == PHVOLT_T_IDENTIFIER {
-
-                /**
-                 * super() is a function however the return of this function must be output as it is
-                 */
-                if name["value"] == "super" {
-                    return exprCode;
-                }
-            }
-        }
-
-        /**
-         * Echo statement
-         */
-        if this->_autoescape {
-            return "<?= $this->escaper->escapeHtml(" . exprCode . ") ?>";
-        }
-
-        return "<?= " . exprCode . " ?>";
-    }
-
-    /**
-     * Compiles a 'include' statement returning PHP code
-     */
-    public function compileInclude(array! statement) -> string
-    {
-        var pathExpr, path, subCompiler, finalPath, compilation, params;
-
-        /**
-         * Include statement
-         * A valid expression is required
-         */
-        if !fetch pathExpr, statement["path"] {
-            throw new Exception("Corrupted statement");
-        }
-
-        /**
-         * Check if the expression is a string
-         * If the path is an string try to make an static compilation
-         */
-        if pathExpr["type"] == 260 {
-
-            /**
-             * Static compilation cannot be performed if the user passed extra parameters
-             */
-            if !isset statement["params"]  {
-
-                /**
-                 * Get the static path
-                 */
-                let path = pathExpr["value"];
-
-                let finalPath = this->getFinalPath(path);
-
-                /**
-                 * Clone the original compiler
-                 * Perform a sub-compilation of the included file
-                 * If the compilation doesn't return anything we include the compiled path
-                 */
-                let subCompiler = clone this;
-                let compilation = subCompiler->compile(finalPath, false);
-                if typeof compilation == "null" {
+                if method_exists(extension, name) {
+
+                    if typeof arguments == "array" {
+                        let status = call_user_func_array([extension, name], arguments);
+                    } else {
+                        let status = call_user_func([extension, name]);
+                    }
 
                     /**
-                     * Use file-get-contents to respect the openbase_dir directive
+                     * Only string statuses means the extension process something
                      */
-                    let compilation = file_get_contents(subCompiler->getCompiledTemplatePath());
+                    if typeof status == "string" {
+                        return status;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Resolves function intermediate code into PHP function calls
+     */
+    public function functionCall(array! expr) -> string
+    {
+        var code, funcArguments, arguments, nameExpr,
+            nameType, name, extensions, functions, definition,
+            extendedBlocks, block, currentBlock, exprLevel, escapedCode,
+            method, arrayHelpers, className;
+
+        let code = null;
+
+        let funcArguments = null;
+        if fetch funcArguments, expr["arguments"] {
+            let arguments = this->expression(funcArguments);
+        } else {
+            let arguments = "";
+        }
+
+        let nameExpr = expr["name"], nameType = nameExpr["type"];
+
+        /**
+         * Check if it's a single function
+         */
+        if nameType == PHVOLT_T_IDENTIFIER {
+
+            let name = nameExpr["value"];
+
+            /**
+             * Check if any of the registered extensions provide compilation for this function
+             */
+            let extensions = this->extensions;
+            if typeof extensions == "array" {
+
+                /**
+                 * Notify the extensions about being compiling a function
+                 */
+                let code = this->fireExtensionEvent("compileFunction", [name, arguments, funcArguments]);
+                if typeof code == "string" {
+                    return code;
+                }
+            }
+
+            /**
+             * Check if it's a user defined function
+             */
+            let functions = this->functions;
+            if typeof functions == "array" {
+                if fetch definition, functions[name] {
+
+                    /**
+                     * Use the string as function
+                     */
+                    if typeof definition == "string" {
+                        return definition . "(" . arguments . ")";
+                    }
+
+                    /**
+                     * Execute the function closure returning the compiled definition
+                     */
+                    if typeof definition == "object" {
+
+                        if definition instanceof \Closure {
+                            return call_user_func_array(definition, [arguments, funcArguments]);
+                        }
+                    }
+
+                    throw new Exception(
+                        "Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]
+                    );
+                }
+            }
+
+            /**
+             * This function includes the previous rendering stage
+             */
+            if name == "get_content" || name == "content" {
+                return "$this->getContent()";
+            }
+
+            /**
+             * This function includes views of volt or others template engines dynamically
+             */
+            if name == "partial" {
+                return "$this->partial(" . arguments . ")";
+            }
+
+            /**
+             * This function embeds the parent block in the current block
+             */
+            if name == "super" {
+                let extendedBlocks = this->extendedBlocks;
+                if typeof extendedBlocks == "array" {
+
+                    let currentBlock = this->currentBlock;
+                    if fetch block, extendedBlocks[currentBlock] {
+
+                        let exprLevel = this->exprLevel;
+                        if typeof block == "array" {
+                            let code = this->statementListOrExtends(block);
+                            if exprLevel == 1 {
+                                let escapedCode = code;
+                            } else {
+                                let escapedCode = addslashes(code);
+                            }
+                        } else {
+                            if exprLevel == 1 {
+                                let escapedCode = block;
+                            } else {
+                                let escapedCode = addslashes(block);
+                            }
+                        }
+
+                        /**
+                         * If the super() is the first level we don't escape it
+                         */
+                        if exprLevel == 1 {
+                            return escapedCode;
+                        }
+                        return "'" . escapedCode . "'";
+                    }
+                }
+                return "''";
+            }
+
+            let method = lcfirst(camelize(name)),
+                className = "Phalcon\\Tag";
+
+            /**
+             * Check if it's a method in Phalcon\Tag
+             */
+            if method_exists(className, method) {
+
+                let arrayHelpers = this->arrayHelpers;
+                if typeof arrayHelpers != "array" {
+                    let arrayHelpers = [
+                        "link_to": true,
+                        "image": true,
+                        "form": true,
+                        "submit_button": true,
+                        "radio_field": true,
+                        "check_field": true,
+                        "file_field": true,
+                        "hidden_field": true,
+                        "password_field": true,
+                        "text_area": true,
+                        "text_field": true,
+                        "email_field": true,
+                        "date_field": true,
+                        "tel_field": true,
+                        "numeric_field": true,
+                        "image_input": true
+                    ];
+                    let this->arrayHelpers = arrayHelpers;
                 }
 
-                return compilation;
+                if isset arrayHelpers[name] {
+                    return "$this->tag->" . method . "([" . arguments . "])";
+                }
+                return "$this->tag->" . method . "(" . arguments . ")";
+            }
+
+            /**
+             * The code below will be activated when Html\Tag is enabled
+             */
+            /**
+            let className = "Phalcon\\Html\\Tag";
+
+            if method_exists(className, method) {
+                let arrayHelpers = this->arrayHelpers;
+                if typeof arrayHelpers != "array" {
+                    let arrayHelpers = [
+                        "button_submit"         : true.
+                        "element"               : true.
+                        "element_close"         : true.
+                        "end_form"              : true.
+                        "form"                  : true.
+                        "friendly_title"        : true.
+                        "get_doc_type"          : true.
+                        "get_title"             : true.
+                        "get_title_separator"   : true.
+                        "image"                 : true.
+                        "input_checkbox"        : true.
+                        "input_color"           : true.
+                        "input_date"            : true.
+                        "input_date_time"       : true.
+                        "input_date_time_local" : true.
+                        "input_email"           : true.
+                        "input_file"            : true.
+                        "input_hidden"          : true.
+                        "input_image"           : true.
+                        "input_month"           : true.
+                        "input_numeric"         : true.
+                        "input_password"        : true.
+                        "input_radio"           : true.
+                        "input_range"           : true.
+                        "input_search"          : true.
+                        "input_tel"             : true.
+                        "input_text"            : true.
+                        "input_time"            : true.
+                        "input_url"             : true.
+                        "input_week"            : true.
+                        "javascript"            : true.
+                        "link"                  : true.
+                        "prepend_title"         : true.
+                        "render_title"          : true.
+                        "select"                : true.
+                        "stylesheet"            : true.
+                        "submit"                : true.
+                        "text_area"             : true.
+                    ];
+                    let this->arrayHelpers = arrayHelpers;
+                }
+
+                if isset arrayHelpers[name] {
+                    return "$this->tag->" . method . "([" . arguments . "])";
+                }
+                return "$this->tag->" . method . "(" . arguments . ")";
+            }
+            */
+
+            /**
+             * Get a dynamic URL
+             */
+            if name == "url" {
+                return "$this->url->get(" . arguments . ")";
+            }
+
+            /**
+             * Get a static URL
+             */
+            if name == "static_url" {
+                return "$this->url->getStatic(" . arguments . ")";
+            }
+
+            if name == "date" {
+                return "date(" . arguments . ")";
+            }
+
+            if name == "time" {
+                return "time()";
+            }
+
+            if name == "dump" {
+                return "var_dump(" . arguments . ")";
+            }
+
+            if name == "version" {
+                return "Phalcon\\Version::get()";
+            }
+
+            if name == "version_id" {
+                return "Phalcon\\Version::getId()";
+            }
+
+            /**
+             * Read PHP constants in templates
+             */
+            if name == "constant" {
+                return "constant(" . arguments . ")";
+            }
+
+            /**
+             * By default it tries to call a macro
+             */
+            return "$this->callMacro('" . name . "', [" . arguments . "])";
+        }
+
+        return this->expression(nameExpr) . "(" . arguments . ")";
+    }
+
+    /**
+     * Returns the path to the last compiled template
+     */
+    public function getCompiledTemplatePath() -> string
+    {
+        return this->compiledTemplatePath;
+    }
+
+    /**
+     * Returns the internal dependency injector
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
+    }
+
+    /**
+     * Returns the list of extensions registered in Volt
+     */
+    public function getExtensions() -> array
+    {
+        return this->extensions;
+    }
+
+    /**
+     * Register the user registered filters
+     */
+    public function getFilters() -> array
+    {
+        return this->filters;
+    }
+
+    /**
+     * Register the user registered functions
+     */
+    public function getFunctions() -> array
+    {
+        return this->functions;
+    }
+
+    /**
+     * Returns a compiler's option
+     *
+     * @return string
+     */
+    public function getOption(string! option)
+    {
+        var value;
+        if fetch value, this->options[option] {
+            return value;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the compiler options
+     */
+    public function getOptions() -> array
+    {
+        return this->options;
+    }
+
+    /**
+     * Returns the path that is currently being compiled
+     */
+    public function getTemplatePath() -> string
+    {
+        return this->currentPath;
+    }
+
+    /**
+     * Return a unique prefix to be used as prefix for compiled variables and contexts
+     */
+    public function getUniquePrefix() -> string
+    {
+        /**
+         * If the unique prefix is not set we use a hash using the modified Berstein algotithm
+         */
+        if !this->prefix {
+            let this->prefix = unique_path_key(this->currentPath);
+        }
+
+        /**
+         * The user could use a closure generator
+         */
+        if typeof this->prefix == "object" {
+            if this->prefix instanceof \Closure {
+                let this->prefix = call_user_func_array(this->prefix, [this]);
+            }
+        }
+
+        if typeof this->prefix != "string" {
+            throw new Exception("The unique compilation prefix is invalid");
+        }
+
+        return this->prefix;
+    }
+
+
+    /**
+     * Parses a Volt template returning its intermediate representation
+     *
+     *<code>
+     * print_r(
+     *     $compiler->parse("{{ 3 + 2 }}")
+     * );
+     *</code>
+     *
+     * @return array
+     */
+    public function parse(string! viewCode)
+    {
+        var currentPath = "eval code";
+        return phvolt_parse_view(viewCode, currentPath);
+    }
+
+    /**
+     * Resolves filter intermediate code into a valid PHP expression
+     */
+    public function resolveTest(array! test, string left) -> string
+    {
+        var type, name, testName;
+
+        let type = test["type"];
+
+        /**
+         * Check if right part is a single identifier
+         */
+        if type == PHVOLT_T_IDENTIFIER {
+
+            let name = test["value"];
+
+            /**
+             * Empty uses the PHP's empty operator
+             */
+            if name == "empty" {
+                return "empty(" . left . ")";
+            }
+
+            /**
+             * Check if a value is even
+             */
+            if name == "even" {
+                return "(((" . left . ") % 2) == 0)";
+            }
+
+            /**
+             * Check if a value is odd
+             */
+            if name == "odd" {
+                return "(((" . left . ") % 2) != 0)";
+            }
+
+            /**
+             * Check if a value is numeric
+             */
+            if name == "numeric" {
+                return "is_numeric(" . left . ")";
+            }
+
+            /**
+             * Check if a value is scalar
+             */
+            if name == "scalar" {
+                return "is_scalar(" . left . ")";
+            }
+
+            /**
+             * Check if a value is iterable
+             */
+            if name == "iterable" {
+                return "(is_array(" . left . ") || (" . left . ") instanceof Traversable)";
             }
 
         }
 
         /**
-         * Resolve the path's expression
+         * Check if right part is a function call
          */
-        let path = this->expression(pathExpr);
+        if type == PHVOLT_T_FCALL {
 
-        /**
-         * Use partial
-         */
-        if !fetch params, statement["params"] {
-            return "<?php $this->partial(" . path . "); ?>";
+            let testName = test["name"];
+            if fetch name, testName["value"] {
+
+                if name == "divisibleby" {
+                    return "(((" . left . ") % (" . this->expression(test["arguments"]) . ")) == 0)";
+                }
+
+                /**
+                 * Checks if a value is equals to other
+                 */
+                if name == "sameas" {
+                    return "(" . left . ") === (" . this->expression(test["arguments"]) . ")";
+                }
+
+                /**
+                 * Checks if a variable match a type
+                 */
+                if name == "type" {
+                    return "gettype(" . left . ") === (" . this->expression(test["arguments"]) . ")";
+                }
+            }
         }
 
-        return "<?php $this->partial(" . path . ", " . this->expression(params) . "); ?>";
+        /**
+         * Fall back to the equals operator
+         */
+        return left . " == " . this->expression(test);
     }
 
     /**
-     * Compiles macros
+     * Sets the dependency injector
      */
-    public function compileMacro(array! statement, bool extendsMode) -> string
+    public function setDI(<DiInterface> container)
     {
-        var code, name, defaultValue, macroName, parameters, position, parameter, variableName, blockStatements;
+        let this->container = container;
+    }
+
+    /**
+     * Sets a single compiler option
+     *
+     * @param mixed value
+     */
+    public function setOption(string! option, value)
+    {
+        let this->options[option] = value;
+    }
+
+    /**
+     * Sets the compiler options
+     */
+    public function setOptions(array! options)
+    {
+        let this->options = options;
+    }
+
+    /**
+     * Set a unique prefix to be used as prefix for compiled variables
+     */
+    public function setUniquePrefix(string! prefix) -> <Compiler>
+    {
+        let this->prefix = prefix;
+        return this;
+    }
+
+
+    /**
+     * Compiles a Volt source code returning a PHP plain version
+     */
+    protected function compileSource(string! viewCode, bool extendsMode = false) -> string
+    {
+        var currentPath, intermediate, extended,
+            finalCompilation, blocks, extendedBlocks, name, block,
+            blockCompilation, localBlock, compilation, options, autoescape;
+
+        let currentPath = this->currentPath;
 
         /**
-         * A valid name is required
+         * Check for compilation options
          */
-        if !fetch name, statement["name"] {
-            throw new Exception("Corrupted statement");
+        let options = this->options;
+        if typeof options == "array" {
+
+            /**
+             * Enable autoescape globally
+             */
+            if fetch autoescape, options["autoescape"] {
+                if typeof autoescape != "boolean" {
+                    throw new Exception("'autoescape' must be bool");
+                }
+                let this->autoescape = autoescape;
+            }
         }
 
+        let intermediate = phvolt_parse_view(viewCode, currentPath);
+
         /**
-         * Check if the macro is already defined
+         * The parsing must return a valid array
          */
-        if isset this->_macros[name] {
-            throw new Exception("Macro '" . name . "' is already defined");
+        if typeof intermediate != "array" {
+            throw new Exception("Invalid intermediate representation");
         }
 
+        let compilation = this->statementList(intermediate, extendsMode);
+
         /**
-         * Register the macro
+         * Check if the template is extending another
          */
-        let this->_macros[name] = name;
+        let extended = this->extended;
+        if extended === true {
 
-        let macroName = "$this->_macros['" . name . "']";
+            /**
+             * Multiple-Inheritance is allowed
+             */
+            if extendsMode === true {
+                let finalCompilation = [];
+            } else {
+                let finalCompilation = null;
+            }
 
-        let code = "<?php ";
-        if !fetch parameters, statement["parameters"] {
-            let code .= macroName . " = function() { ?>";
+            let blocks = this->blocks;
+            let extendedBlocks = this->extendedBlocks;
+
+            for name, block in extendedBlocks {
+
+                /**
+                 * If name is a string then is a block name
+                 */
+                if typeof name == "string" {
+
+                    if isset blocks[name] {
+                        /**
+                         * The block is set in the local template
+                         */
+                        let localBlock = blocks[name],
+                            this->currentBlock = name,
+                            blockCompilation = this->statementList(localBlock);
+                    } else {
+                        if typeof block == "array" {
+                            /**
+                             * The block is not set local only in the extended template
+                             */
+                            let blockCompilation = this->statementList(block);
+                        } else {
+                            let blockCompilation = block;
+                        }
+                    }
+
+                    if extendsMode === true {
+                        let finalCompilation[name] = blockCompilation;
+                    } else {
+                        let finalCompilation .= blockCompilation;
+                    }
+                } else {
+
+                    /**
+                     * Here the block is an already compiled text
+                     */
+                    if extendsMode === true {
+                        let finalCompilation[] = block;
+                    } else {
+                        let finalCompilation .= block;
+                    }
+                }
+            }
+
+            return finalCompilation;
+        }
+
+        if extendsMode === true {
+            /**
+             * In extends mode we return the template blocks instead of the compilation
+             */
+            return this->blocks;
+        }
+        return compilation;
+    }
+
+    /**
+     * Gets the final path with VIEW
+     */
+    protected function getFinalPath(string path)
+    {
+        var view, viewsDirs, viewsDir;
+        let view = this->view;
+
+        if typeof view == "object" {
+            let viewsDirs = view->getViewsDir();
+
+            if typeof viewsDirs == "array" {
+                for viewsDir in viewsDirs {
+                    if file_exists(viewsDir . path) {
+                        return viewsDir . path;
+                    }
+                }
+
+                // Otherwise, take the last viewsDir
+                return viewsDir . path;
+
+            } else {
+                return viewsDirs . path;
+            }
+        }
+
+        return path;
+    }
+
+    /**
+     * Resolves filter intermediate code into PHP function calls
+     */
+    final protected function resolveFilter(array! filter, string left) -> string
+    {
+        var code, type, functionName, name, file, line,
+            extensions, filters, funcArguments, arguments, definition;
+
+        let code = null, type = filter["type"];
+
+        /**
+         * Check if the filter is a single identifier
+         */
+        if type == PHVOLT_T_IDENTIFIER {
+            let name = filter["value"];
         } else {
 
-            /**
-             * Parameters are always received as an array
-             */
-            let code .= macroName . " = function($__p = null) { ";
-            for position, parameter in parameters {
+            if type != PHVOLT_T_FCALL {
 
-                let variableName = parameter["variable"];
-
-                let code .= "if (isset($__p[" . position . "])) { ";
-                let code .= "$" . variableName . " = $__p[" . position ."];";
-                let code .= " } else { ";
-                let code .= "if (array_key_exists(\"" . variableName . "\", $__p)) { ";
-                let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
-                let code .= " } else { ";
-                if fetch defaultValue, parameter["default"] {
-                    let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
-                } else {
-                    let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro '" . name . "' was called without parameter: " . variableName . "\"); ";
-                }
-                let code .= " } } ";
+                /**
+                 * Unknown filter throw an exception
+                 */
+                throw new Exception("Unknown filter type in " . filter["file"] . " on line " . filter["line"]);
             }
 
-            let code .= " ?>";
+            let functionName = filter["name"],
+                name = functionName["value"];
         }
 
+        let funcArguments = null, arguments = null;
+
         /**
-         * Block statements are allowed
+         * Resolve arguments
          */
-        if fetch blockStatements, statement["block_statements"] {
+        if fetch funcArguments, filter["arguments"] {
 
             /**
-             * Process statements block
+             * "default" filter is not the first argument, improve this!
              */
-            let code .= this->_statementList(blockStatements, extendsMode) . "<?php }; ";
-        }  else {
-            let code .= "<?php }; ";
+            if name != "default" {
+
+                let file = filter["file"], line = filter["line"];
+
+                /**
+                 * TODO: Implement this function directly
+                 */
+                array_unshift(funcArguments, [
+                    "expr": [
+                        "type":  364,
+                        "value": left,
+                        "file": file,
+                        "line": line
+                    ],
+                    "file": file,
+                    "line": line
+                ]);
+            }
+
+            let arguments = this->expression(funcArguments);
+        } else {
+            let arguments = left;
         }
 
         /**
-         * Bind the closure to the $this object allowing to call services
+         * Check if any of the registered extensions provide compilation for this filter
          */
-        let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
+        let extensions = this->extensions;
+        if typeof extensions == "array" {
 
-        return code;
-    }
+            /**
+             * Notify the extensions about being compiling a function
+             */
+            let code = this->fireExtensionEvent("compileFilter", [name, arguments, funcArguments]);
+            if typeof code == "string" {
+                return code;
+            }
+        }
 
-    /**
-     * Compiles calls to macros
-     */
-    public function compileCall(array! statement, bool extendsMode)
-    {
+        /**
+         * Check if it's a user defined filter
+         */
+        let filters = this->filters;
+        if typeof filters == "array" {
+            if fetch definition, filters[name] {
 
+                /**
+                 * The definition is a string
+                 */
+                if typeof definition == "string" {
+                    return definition . "(" . arguments . ")";
+                }
+
+                /**
+                 * The definition is a closure
+                 */
+                if typeof definition == "object" {
+                    if definition instanceof \Closure {
+                        return call_user_func_array(definition, [arguments, funcArguments]);
+                    }
+                }
+
+                /**
+                 * Invalid filter definition throw an exception
+                 */
+                throw new Exception(
+                    "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
+                );
+            }
+        }
+
+        /**
+         * "length" uses the length method implemented in the Volt adapter
+         */
+        if name == "length" {
+            return "$this->length(" . arguments . ")";
+        }
+
+        /**
+         * "e"/"escape" filter uses the escaper component
+         */
+        if name == "e" || name == "escape" {
+            return "$this->escaper->escapeHtml(" . arguments . ")";
+        }
+
+        /**
+         * "escape_css" filter uses the escaper component to filter css
+         */
+        if name == "escape_css" {
+            return "$this->escaper->escapeCss(" . arguments . ")";
+        }
+
+        /**
+         * "escape_js" filter uses the escaper component to escape javascript
+         */
+        if name == "escape_js" {
+            return "$this->escaper->escapeJs(" . arguments . ")";
+        }
+
+        /**
+         * "escape_attr" filter uses the escaper component to escape html attributes
+         */
+        if name == "escape_attr" {
+            return "$this->escaper->escapeHtmlAttr(" . arguments . ")";
+        }
+
+        /**
+         * "trim" calls the "trim" function in the PHP userland
+         */
+        if name == "trim" {
+            return "trim(" . arguments . ")";
+        }
+
+        /**
+         * "left_trim" calls the "ltrim" function in the PHP userland
+         */
+        if name == "left_trim" {
+            return "ltrim(" . arguments . ")";
+        }
+
+        /**
+         * "right_trim" calls the "rtrim" function in the PHP userland
+         */
+        if name == "right_trim" {
+            return "rtrim(" . arguments . ")";
+        }
+
+        /**
+         * "striptags" calls the "strip_tags" function in the PHP userland
+         */
+        if name == "striptags" {
+            return "strip_tags(" . arguments . ")";
+        }
+
+        /**
+         * "url_encode" calls the "urlencode" function in the PHP userland
+         */
+        if name == "url_encode" {
+            return "urlencode(" . arguments . ")";
+        }
+
+        /**
+         * "slashes" calls the "addslashes" function in the PHP userland
+         */
+        if name == "slashes" {
+            return "addslashes(" . arguments . ")";
+        }
+
+        /**
+         * "stripslashes" calls the "stripslashes" function in the PHP userland
+         */
+        if name == "stripslashes" {
+            return "stripslashes(" . arguments . ")";
+        }
+
+        /**
+         * "nl2br" calls the "nl2br" function in the PHP userland
+         */
+        if name == "nl2br" {
+            return "nl2br(" . arguments . ")";
+        }
+
+        /**
+         * "keys" uses calls the "array_keys" function in the PHP userland
+         */
+        if name == "keys" {
+            return "array_keys(" . arguments . ")";
+        }
+
+        /**
+         * "join" uses calls the "join" function in the PHP userland
+         */
+        if name == "join" {
+            return "join(" . arguments . ")";
+        }
+
+        /**
+         * "lower"/"lowercase" calls the "strtolower" function or "mb_strtolower" if the mbstring extension is loaded
+         */
+        if name == "lower" || name == "lowercase" {
+            return "Phalcon\\Text::lower(" . arguments . ")";
+        }
+
+        /**
+         * "upper"/"uppercase" calls the "strtoupper" function or "mb_strtoupper" if the mbstring extension is loaded
+         */
+        if name == "upper" || name == "uppercase" {
+            return "Phalcon\\Text::upper(" . arguments . ")";
+        }
+
+        /**
+         * "capitalize" filter calls "ucwords"
+         */
+        if name == "capitalize" {
+            return "ucwords(" . arguments . ")";
+        }
+
+        /**
+         * "sort" calls "sort" method in the engine adapter
+         */
+        if name == "sort" {
+            return "$this->sort(" . arguments . ")";
+        }
+
+        /**
+         * "json_encode" calls the "json_encode" function in the PHP userland
+         */
+        if name == "json_encode" {
+            return "json_encode(" . arguments . ")";
+        }
+
+        /**
+         * "json_decode" calls the "json_decode" function in the PHP userland
+         */
+        if name == "json_decode" {
+            return "json_decode(" . arguments . ")";
+        }
+
+        /**
+         * "format" calls the "sprintf" function in the PHP userland
+         */
+        if name == "format" {
+            return "sprintf(" . arguments . ")";
+        }
+
+        /**
+         * "abs" calls the "abs" function in the PHP userland
+         */
+        if name == "abs" {
+            return "abs(" . arguments . ")";
+        }
+
+        /**
+         * "slice" slices string/arrays/traversable objects
+         */
+        if name == "slice" {
+            return "$this->slice(" . arguments . ")";
+        }
+
+        /**
+         * "default" checks if a variable is empty
+         */
+        if name == "default" {
+            return "(empty(" . left . ") ? (" . arguments . ") : (" . left . "))";
+        }
+
+        /**
+         * This function uses mbstring or iconv to convert strings from one charset to another
+         */
+        if name == "convert_encoding" {
+            return "$this->convertEncoding(" . arguments . ")";
+        }
+
+        /**
+         * Unknown filter throw an exception
+         */
+        throw new Exception("Unknown filter \"" . name . "\" in " . filter["file"] . " on line " . filter["line"]);
     }
 
     /**
      * Traverses a statement list compiling each of its nodes
      */
-    final protected function _statementList(array! statements, bool extendsMode = false) -> string
+    final protected function statementList(array! statements, bool extendsMode = false) -> string
     {
         var extended, blockMode, compilation, extensions,
             statement, tempCompilation, type, blockName, blockStatements,
@@ -2073,17 +2492,17 @@ class Compiler implements InjectionAwareInterface
         /**
          * Increase the statement recursion level in extends mode
          */
-        let extended = this->_extended;
+        let extended = this->extended;
         let blockMode = extended || extendsMode;
         if blockMode === true {
-            let this->_blockLevel++;
+            let this->blockLevel++;
         }
 
-        let this->_level++;
+        let this->level++;
 
         let compilation = null;
 
-        let extensions = this->_extensions;
+        let extensions = this->extensions;
         for statement in statements {
 
             /**
@@ -2170,7 +2589,7 @@ class Compiler implements InjectionAwareInterface
 
                     fetch blockStatements, statement["block_statements"];
 
-                    let blocks = this->_blocks;
+                    let blocks = this->blocks;
                     if blockMode {
 
                         if typeof blocks != "array" {
@@ -2189,11 +2608,11 @@ class Compiler implements InjectionAwareInterface
                          * In extends mode we add the block statements to the blocks variable
                          */
                         let blocks[blockName] = blockStatements;
-                        let this->_blocks = blocks;
+                        let this->blocks = blocks;
 
                     } else {
                         if typeof blockStatements == "array" {
-                            let compilation .= this->_statementList(blockStatements, extendsMode);
+                            let compilation .= this->statementList(blockStatements, extendsMode);
                         }
                     }
                     break;
@@ -2222,8 +2641,8 @@ class Compiler implements InjectionAwareInterface
                         let tempCompilation = file_get_contents(subCompiler->getCompiledTemplatePath());
                     }
 
-                    let this->_extended = true;
-                    let this->_extendedBlocks = tempCompilation;
+                    let this->extended = true;
+                    let this->extendedBlocks = tempCompilation;
                     let blockMode = extended;
                     break;
 
@@ -2298,499 +2717,61 @@ class Compiler implements InjectionAwareInterface
          * Reduce the statement level nesting
          */
         if blockMode === true {
-            let level = this->_blockLevel;
+            let level = this->blockLevel;
             if level == 1 {
                 if typeof compilation != "null" {
-                    let this->_blocks[] = compilation;
+                    let this->blocks[] = compilation;
                 }
             }
-            let this->_blockLevel--;
+            let this->blockLevel--;
         }
 
-        let this->_level--;
+        let this->level--;
 
         return compilation;
     }
 
     /**
-     * Compiles a Volt source code returning a PHP plain version
-     */
-    protected function _compileSource(string! viewCode, bool extendsMode = false) -> string
-    {
-        var currentPath, intermediate, extended,
-            finalCompilation, blocks, extendedBlocks, name, block,
-            blockCompilation, localBlock, compilation, options, autoescape;
-
-        let currentPath = this->_currentPath;
-
-        /**
-         * Check for compilation options
-         */
-        let options = this->_options;
-        if typeof options == "array" {
-
-            /**
-             * Enable autoescape globally
-             */
-            if fetch autoescape, options["autoescape"] {
-                if typeof autoescape != "boolean" {
-                    throw new Exception("'autoescape' must be bool");
-                }
-                let this->_autoescape = autoescape;
-            }
-        }
-
-        let intermediate = phvolt_parse_view(viewCode, currentPath);
-
-        /**
-         * The parsing must return a valid array
-         */
-        if typeof intermediate != "array" {
-            throw new Exception("Invalid intermediate representation");
-        }
-
-        let compilation = this->_statementList(intermediate, extendsMode);
-
-        /**
-         * Check if the template is extending another
-         */
-        let extended = this->_extended;
-        if extended === true {
-
-            /**
-             * Multiple-Inheritance is allowed
-             */
-            if extendsMode === true {
-                let finalCompilation = [];
-            } else {
-                let finalCompilation = null;
-            }
-
-            let blocks = this->_blocks;
-            let extendedBlocks = this->_extendedBlocks;
-
-            for name, block in extendedBlocks {
-
-                /**
-                 * If name is a string then is a block name
-                 */
-                if typeof name == "string" {
-
-                    if isset blocks[name] {
-                        /**
-                         * The block is set in the local template
-                         */
-                        let localBlock = blocks[name],
-                            this->_currentBlock = name,
-                            blockCompilation = this->_statementList(localBlock);
-                    } else {
-                        if typeof block == "array" {
-                            /**
-                             * The block is not set local only in the extended template
-                             */
-                            let blockCompilation = this->_statementList(block);
-                        } else {
-                            let blockCompilation = block;
-                        }
-                    }
-
-                    if extendsMode === true {
-                        let finalCompilation[name] = blockCompilation;
-                    } else {
-                        let finalCompilation .= blockCompilation;
-                    }
-                } else {
-
-                    /**
-                     * Here the block is an already compiled text
-                     */
-                    if extendsMode === true {
-                        let finalCompilation[] = block;
-                    } else {
-                        let finalCompilation .= block;
-                    }
-                }
-            }
-
-            return finalCompilation;
-        }
-
-        if extendsMode === true {
-            /**
-             * In extends mode we return the template blocks instead of the compilation
-             */
-            return this->_blocks;
-        }
-        return compilation;
-    }
-
-    /**
-     * Compiles a template into a string
+     * Compiles a block of statements
      *
-     *<code>
-     * echo $compiler->compileString('{{ "hello world" }}');
-     *</code>
-     */
-    public function compileString(string! viewCode, bool extendsMode = false) -> string
-    {
-        let this->_currentPath = "eval code";
-        return this->_compileSource(viewCode, extendsMode);
-    }
-
-    /**
-     * Compiles a template into a file forcing the destination path
-     *
-     *<code>
-     * $compiler->compileFile("views/layouts/main.volt", "views/layouts/main.volt.php");
-     *</code>
-     *
+     * @param array statements
      * @return string|array
      */
-    public function compileFile(string! path, string! compiledPath, bool extendsMode = false)
+    final protected function statementListOrExtends(var statements)
     {
-        var viewCode, compilation, finalCompilation;
+        var statement;
+        bool isStatementList;
 
-        if path == compiledPath {
-            throw new Exception("Template path and compilation template path cannot be the same");
+        /**
+         * Resolve the statement list as normal
+         */
+        if typeof statements != "array" {
+            return statements;
         }
 
         /**
-         * Check if the template does exist
+         * If all elements in the statement list are arrays we resolve this as a statementList
          */
-        if !file_exists(path) {
-            throw new Exception("Template file " . path . " does not exist");
-        }
-
-        /**
-         * Always use file_get_contents instead of read the file directly, this respect the open_basedir directive
-         */
-        let viewCode = file_get_contents(path);
-        if viewCode === false {
-            throw new Exception("Template file " . path . " could not be opened");
-        }
-
-        let this->_currentPath = path;
-        let compilation = this->_compileSource(viewCode, extendsMode);
-
-        /**
-         * We store the file serialized if it's an array of blocks
-         */
-        if typeof compilation == "array" {
-            let finalCompilation = serialize(compilation);
-        } else {
-            let finalCompilation = compilation;
-        }
-
-        /**
-         * Always use file_put_contents to write files instead of write the file
-         * directly, this respect the open_basedir directive
-         */
-        if file_put_contents(compiledPath, finalCompilation) === false {
-            throw new Exception("Volt directory can't be written");
-        }
-
-        return compilation;
-    }
-
-    /**
-     * Compiles a template into a file applying the compiler options
-     * This method does not return the compiled path if the template was not compiled
-     *
-     *<code>
-     * $compiler->compile("views/layouts/main.volt");
-     *
-     * require $compiler->getCompiledTemplatePath();
-     *</code>
-     */
-    public function compile(string! templatePath, bool extendsMode = false)
-    {
-        var blocksCode, compilation, compileAlways, compiledExtension, compiledPath,
-            compiledSeparator, compiledTemplatePath, optionKey, options, prefix,
-            realCompiledPath, stat, templateSepPath;
-
-        /**
-         * Re-initialize some properties already initialized when the object is cloned
-         */
-        let this->_extended = false;
-        let this->_extendedBlocks = false;
-        let this->_blocks = null;
-        let this->_level = 0;
-        let this->_foreachLevel = 0;
-        let this->_blockLevel = 0;
-        let this->_exprLevel = 0;
-
-        let stat = true;
-        let compileAlways = false;
-        let compiledPath = "";
-        let prefix = null;
-        let compiledSeparator = "%%";
-        let compiledExtension = ".php";
-        let compilation = null;
-
-        let options = this->_options;
-        if typeof options == "array" {
-
-            /**
-             * This makes that templates will be compiled always
-             */
-            if isset options["always"] || isset options["compileAlways"] {
-                if isset options["always"] {
-                    let optionKey = "always";
-                } else {
-                    let optionKey = "compileAlways";
-                    trigger_error("The 'compileAlways' option is deprecated. Use 'always' instead.", E_USER_DEPRECATED);
-                }
-                let compileAlways = options[optionKey];
-                if typeof compileAlways != "boolean" {
-                    throw new Exception("'" . optionKey . "' must be a bool value");
-                }
-            }
-
-            /**
-             * Prefix is prepended to the template name
-             */
-            if isset options["prefix"] {
-                let prefix = options["prefix"];
-                if typeof prefix != "string" {
-                    throw new Exception("'prefix' must be a string");
-                }
-            }
-
-            /**
-             * Compiled path is a directory where the compiled templates will be located
-             */
-            if isset options["path"] || isset options["compiledPath"] {
-                if isset options["path"] {
-                    let optionKey = "path";
-                } else {
-                    let optionKey = "compiledPath";
-                    trigger_error("The 'compiledPath' option is deprecated. Use 'path' instead.", E_USER_DEPRECATED);
-                }
-                let compiledPath = options[optionKey];
-                if typeof compiledPath != "string" {
-                    if typeof compiledPath != "object" {
-                        throw new Exception("'" . optionKey . "' must be a string or a closure");
-                    }
-                }
-            }
-
-            /**
-             * There is no compiled separator by default
-             */
-            if isset options["separator"] || isset options["compiledSeparator"] {
-                if isset options["separator"] {
-                    let optionKey = "separator";
-                } else {
-                    let optionKey = "compiledSeparator";
-                    trigger_error("The 'compiledSeparator' option is deprecated. Use 'separator' instead.", E_USER_DEPRECATED);
-                }
-                let compiledPath = options[optionKey];
-                if typeof compiledSeparator != "string" {
-                    throw new Exception("'" . optionKey . "' must be a string");
-                }
-            }
-
-            /**
-             * By default the compile extension is .php
-             */
-            if isset options["extension"] || isset options["compiledExtension"] {
-                if isset options["extension"] {
-                    let optionKey = "extension";
-                } else {
-                    let optionKey = "compiledExtension";
-                    trigger_error("The 'compiledExtension' option is deprecated. Use 'extension' instead.", E_USER_DEPRECATED);
-                }
-                let compiledPath = options[optionKey];
-                if typeof compiledExtension != "string" {
-                    throw new Exception("'" . optionKey . "' must be a string");
-                }
-            }
-
-            /**
-             * Stat option assumes the compilation of the file
-             */
-            if isset options["stat"] {
-                let stat = options["stat"];
-            }
-        }
-
-        /**
-         * Check if there is a compiled path
-         */
-        if typeof compiledPath == "string" {
-
-            /**
-             * Calculate the template realpath's
-             */
-            if !empty compiledPath {
-                /**
-                 * Create the virtual path replacing the directory separator by the compiled separator
-                 */
-                let templateSepPath = prepare_virtual_path(realpath(templatePath), compiledSeparator);
-            } else {
-                let templateSepPath = templatePath;
-            }
-
-            /**
-             * In extends mode we add an additional 'e' suffix to the file
-             */
-            if extendsMode === true {
-                let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
-            } else {
-                let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
-            }
-
-        } else {
-
-            /**
-             * A closure can dynamically compile the path
-             */
-            if typeof compiledPath == "object" {
-
-                if compiledPath instanceof \Closure {
-
-                    let compiledTemplatePath = call_user_func_array(compiledPath, [templatePath, options, extendsMode]);
-
-                    /**
-                     * The closure must return a valid path
-                     */
-                    if typeof compiledTemplatePath != "string" {
-                        throw new Exception("compiledPath closure didn't return a valid string");
-                    }
-                } else {
-                    throw new Exception("compiledPath must be a string or a closure");
+        let isStatementList = true;
+        if !isset statements["type"] {
+            for statement in statements {
+                if typeof statement != "array" {
+                    let isStatementList = false;
+                    break;
                 }
             }
         }
 
         /**
-         * Use the real path to avoid collisions
+         * Resolve the statement list as normal
          */
-        let realCompiledPath = compiledTemplatePath;
-
-        if compileAlways {
-
-            /**
-             * Compile always must be used only in the development stage
-             */
-            let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
-        } else {
-            if stat === true {
-                if file_exists(compiledTemplatePath) {
-
-                    /**
-                     * Compare modification timestamps to check if the file needs to be recompiled
-                     */
-                    if compare_mtime(templatePath, realCompiledPath) {
-                        let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
-                    } else {
-
-                        if extendsMode === true {
-
-                            /**
-                             * In extends mode we read the file that must contains a serialized array of blocks
-                             */
-                            let blocksCode = file_get_contents(realCompiledPath);
-                            if blocksCode === false {
-                                throw new Exception("Extends compilation file " . realCompiledPath . " could not be opened");
-                            }
-
-                            /**
-                             * Unserialize the array blocks code
-                             */
-                            if blocksCode {
-                                let compilation = unserialize(blocksCode);
-                            } else {
-                                let compilation = [];
-                            }
-                        }
-                    }
-                } else {
-
-                    /**
-                     * The file doesn't exist so we compile the php version for the first time
-                     */
-                    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
-                }
-            } else {
-
-                /**
-                 * Stat is off but the compiled file doesn't exist
-                 */
-                if !file_exists(realCompiledPath) {
-                    /**
-                     * The file doesn't exist so we compile the php version for the first time
-                     */
-                    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
-                }
-
-            }
+        if isStatementList === true {
+            return this->statementList(statements);
         }
 
-        let this->_compiledTemplatePath = realCompiledPath;
-
-        return compilation;
-    }
-
-    /**
-     * Returns the path that is currently being compiled
-     */
-    public function getTemplatePath() -> string
-    {
-        return this->_currentPath;
-    }
-
-    /**
-     * Returns the path to the last compiled template
-     */
-    public function getCompiledTemplatePath() -> string
-    {
-        return this->_compiledTemplatePath;
-    }
-
-    /**
-     * Parses a Volt template returning its intermediate representation
-     *
-     *<code>
-     * print_r(
-     *     $compiler->parse("{{ 3 + 2 }}")
-     * );
-     *</code>
-     *
-     * @return array
-     */
-    public function parse(string! viewCode)
-    {
-        var currentPath = "eval code";
-        return phvolt_parse_view(viewCode, currentPath);
-    }
-
-    /**
-     * Gets the final path with VIEW
-     */
-    protected function getFinalPath(string path)
-    {
-        var view, viewsDirs, viewsDir;
-        let view = this->_view;
-
-        if typeof view == "object" {
-            let viewsDirs = view->getViewsDir();
-
-            if typeof viewsDirs == "array" {
-                for viewsDir in viewsDirs {
-                    if file_exists(viewsDir . path) {
-                        return viewsDir . path;
-                    }
-                }
-
-                // Otherwise, take the last viewsDir
-                return viewsDir . path;
-
-            } else {
-                return viewsDirs . path;
-            }
-        }
-
-        return path;
+        /**
+         * Is an array but not a statement list?
+         */
+        return statements;
     }
 }

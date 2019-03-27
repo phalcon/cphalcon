@@ -47,46 +47,146 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 class Simple extends Injectable implements ViewBaseInterface
 {
 
-    protected _options;
-
-    protected _viewsDir;
-
-    protected _partialsDir;
-
-    protected _viewParams;
+    protected activeRenderPath;
+    protected cache = false;
+    protected cacheOptions;
+    protected content;
 
     /**
      * @var \Phalcon\Mvc\View\EngineInterface[]|false
      */
-    protected _engines = false;
+    protected engines = false;
+
+    protected options;
+    protected partialsDir;
 
     /**
      * @var array|null
      */
-    protected _registeredEngines { get };
+    protected registeredEngines { get };
 
-    protected _activeRenderPath;
+    protected viewsDir;
 
-    protected _content;
-
-    protected _cache = false;
-
-    protected _cacheOptions;
+    protected viewParams;
 
     /**
      * Phalcon\Mvc\View\Simple constructor
      */
     public function __construct(array options = [])
     {
-        let this->_options = options;
+        let this->options = options;
     }
 
     /**
-     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+     * Magic method to retrieve a variable passed to the view
+     *
+     *<code>
+     * echo $this->view->products;
+     *</code>
      */
-    public function setViewsDir(string! viewsDir)
+    public function __get(string! key) -> var | null
     {
-        let this->_viewsDir = viewsDir;
+        var value;
+        if fetch value, this->viewParams[key] {
+            return value;
+        }
+
+        return null;
+    }
+
+    /**
+     * Magic method to pass variables to the views
+     *
+     *<code>
+     * $this->view->products = $products;
+     *</code>
+     */
+    public function __set(string! key, var value)
+    {
+        let this->viewParams[key] = value;
+    }
+
+    /**
+     * Cache the actual view render to certain level
+     *
+     *<code>
+     * $this->view->cache(
+     *     [
+     *         "key"      => "my-key",
+     *         "lifetime" => 86400,
+     *     ]
+     * );
+     *</code>
+     */
+    public function cache(var options = true) -> <Simple>
+    {
+        if typeof options == "array" {
+            let this->cache = true,
+                this->cacheOptions = options;
+        } else {
+            if options {
+                let this->cache = true;
+            } else {
+                let this->cache = false;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Returns the path of the view that is currently rendered
+     */
+    public function getActiveRenderPath() -> string
+    {
+        return this->activeRenderPath;
+    }
+
+    /**
+     * Returns the cache instance used to cache
+     */
+    public function getCache() -> <BackendInterface>
+    {
+        if this->cache && typeof this->cache != "object" {
+            let this->cache = this->createCache();
+        }
+
+        return this->cache;
+    }
+
+    /**
+     * Returns the cache options
+     */
+    public function getCacheOptions() -> array
+    {
+        return this->cacheOptions;
+    }
+
+    /**
+     * Returns cached output from another view stage
+     */
+    public function getContent() -> string
+    {
+        return this->content;
+    }
+
+    /**
+     * Returns parameters to views
+     */
+    public function getParamsToView() -> array
+    {
+        return this->viewParams;
+    }
+
+    /**
+     * Returns a parameter previously set in the view
+     */
+    public function getVar(string! key) -> var | null
+    {
+        var    value;
+        if fetch value, this->viewParams[key] {
+            return value;
+        }
+        return null;
     }
 
     /**
@@ -94,7 +194,82 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function getViewsDir() -> string
     {
-        return this->_viewsDir;
+        return this->viewsDir;
+    }
+
+    /**
+     * Renders a partial view
+     *
+     * <code>
+     * // Show a partial inside another view
+     * $this->partial("shared/footer");
+     * </code>
+     *
+     * <code>
+     * // Show a partial inside another view with parameters
+     * $this->partial(
+     *     "shared/footer",
+     *     [
+     *         "content" => $html,
+     *     ]
+     * );
+     * </code>
+     */
+    public function partial(string! partialPath, var params = null)
+    {
+        var viewParams, mergedParams;
+
+        /**
+         * Start output buffering
+         */
+        ob_start();
+
+        /**
+         * If the developer pass an array of variables we create a new virtual symbol table
+         */
+        if typeof params == "array" {
+
+            let viewParams = this->viewParams;
+
+            /**
+             * Merge or assign the new params as parameters
+             */
+            if typeof viewParams == "array" {
+                let mergedParams = array_merge(viewParams, params);
+            } else {
+                let mergedParams = params;
+            }
+
+            /**
+             * Create a virtual symbol table
+             */
+            create_symbol_table();
+
+        } else {
+            let mergedParams = params;
+        }
+
+        /**
+         * Call engine render, this checks in every registered engine for the partial
+         */
+        this->internalRender(partialPath, mergedParams);
+
+        /**
+         * Now we need to restore the original view parameters
+         */
+        if typeof params == "array" {
+            /**
+             * Restore the original view params
+             */
+            let this->viewParams = viewParams;
+        }
+
+        ob_end_clean();
+
+        /**
+         * Content is output to the parent view
+         */
+        echo this->content;
     }
 
     /**
@@ -112,13 +287,217 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function registerEngines(array! engines)
     {
-        let this->_registeredEngines = engines;
+        let this->registeredEngines = engines;
+    }
+
+    /**
+     * Renders a view
+     *
+     * @param  array  params
+     */
+    public function render(string! path, params = null) -> string
+    {
+        var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
+
+        /**
+         * Create/Get a cache
+         */
+        let cache = this->getCache();
+
+        if typeof cache == "object" {
+
+            /**
+             * Check if the cache is started, the first time a cache is started we start the cache
+             */
+            if cache->isStarted() === false {
+
+                let key = null, lifetime = null;
+
+                /**
+                 * Check if the user has defined a different options to the default
+                 */
+                let cacheOptions = this->cacheOptions;
+                if typeof cacheOptions == "array" {
+                    fetch key, cacheOptions["key"];
+                    fetch lifetime, cacheOptions["lifetime"];
+                }
+
+                /**
+                 * If a cache key is not set we create one using a md5
+                 */
+                if key === null {
+                    let key = md5(path);
+                }
+
+                /**
+                 * We start the cache using the key set
+                 */
+                let content = cache->start(key, lifetime);
+                if content !== null {
+                    let this->content = content;
+                    return content;
+                }
+            }
+
+        }
+
+        /**
+         * Create a virtual symbol table
+         */
+        create_symbol_table();
+
+        ob_start();
+
+        let viewParams = this->viewParams;
+
+        /**
+         * Merge parameters
+         */
+        if typeof params == "array" {
+            if typeof viewParams == "array" {
+                let mergedParams = array_merge(viewParams, params);
+            } else {
+                let mergedParams = params;
+            }
+        } else {
+            let mergedParams = viewParams;
+        }
+
+        /**
+         * internalRender is also reused by partials
+         */
+        this->internalRender(path, mergedParams);
+
+        /**
+         * Store the data in output into the cache
+         */
+        if typeof cache == "object" {
+            if cache->isStarted() && cache->isFresh() {
+                cache->save();
+            } else {
+                cache->stop();
+            }
+        }
+
+        ob_end_clean();
+
+        return this->content;
+    }
+
+    /**
+     * Sets the cache options
+     */
+    public function setCacheOptions(array options) -> <Simple>
+    {
+        let this->cacheOptions = options;
+        return this;
+    }
+
+    /**
+     * Externally sets the view content
+     *
+     *<code>
+     * $this->view->setContent("<h1>hello</h1>");
+     *</code>
+     */
+    public function setContent(string! content) -> <Simple>
+    {
+        let this->content = content;
+        return this;
+    }
+
+    /**
+     * Adds parameters to views (alias of setVar)
+     *
+     *<code>
+     * $this->view->setParamToView("products", $products);
+     *</code>
+     */
+    public function setParamToView(string! key, var value) -> <Simple>
+    {
+        let this->viewParams[key] = value;
+        return this;
+    }
+
+    /**
+     * Set a single view parameter
+     *
+     *<code>
+     * $this->view->setVar("products", $products);
+     *</code>
+     */
+    public function setVar(string! key, var value) -> <Simple>
+    {
+        let this->viewParams[key] = value;
+        return this;
+    }
+
+    /**
+     * Set all the render params
+     *
+     *<code>
+     * $this->view->setVars(
+     *     [
+     *         "products" => $products,
+     *     ]
+     * );
+     *</code>
+     */
+    public function setVars(array! params, bool merge = true) -> <Simple>
+    {
+        if merge && typeof this->viewParams == "array" {
+            let this->viewParams = array_merge(this->viewParams, params);
+        } else {
+            let this->viewParams = params;
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+     */
+    public function setViewsDir(string! viewsDir)
+    {
+        let this->viewsDir = viewsDir;
+    }
+
+    /**
+     * Create a Phalcon\Cache based on the internal cache options
+     */
+    protected function createCache() -> <BackendInterface>
+    {
+        var container, cacheService, cacheOptions, viewCache;
+
+        let container = this->container;
+        if typeof container != "object" {
+            throw new Exception(Exception::containerServiceNotFound("the view cache services"));
+        }
+
+        let cacheService = "viewCache";
+
+        let cacheOptions = this->cacheOptions;
+        if typeof cacheOptions == "array" {
+            if isset cacheOptions["service"] {
+                fetch cacheService, cacheOptions["service"];
+            }
+        }
+
+        /**
+         * The injected service must be an object
+         */
+        let viewCache = <BackendInterface> container->getShared(cacheService);
+        if typeof viewCache != "object" {
+            throw new Exception("The injected caching service is invalid");
+        }
+
+        return viewCache;
     }
 
     /**
      * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
      */
-    protected function _loadTemplateEngines() -> array
+    protected function loadTemplateEngines() -> array
     {
         var engines, di, registeredEngines, extension,
             engineService, engineObject;
@@ -126,14 +505,14 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * If the engines aren't initialized 'engines' is false
          */
-        let engines = this->_engines;
+        let engines = this->engines;
         if engines === false {
 
             let di = this->container;
 
             let engines = [];
 
-            let registeredEngines = this->_registeredEngines;
+            let registeredEngines = this->registeredEngines;
             if typeof registeredEngines != "array" {
 
                 /**
@@ -175,9 +554,9 @@ class Simple extends Injectable implements ViewBaseInterface
                 }
             }
 
-            let this->_engines = engines;
+            let this->engines = engines;
         } else {
-            let engines = this->_engines;
+            let engines = this->engines;
         }
 
         return engines;
@@ -188,14 +567,14 @@ class Simple extends Injectable implements ViewBaseInterface
      *
      * @param array  params
      */
-    protected final function _internalRender(string! path, params)
+    protected final function internalRender(string! path, params)
     {
         var eventsManager, notExists, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
 
         let eventsManager = this->eventsManager;
 
         if typeof eventsManager == "object" {
-            let this->_activeRenderPath = path;
+            let this->activeRenderPath = path;
         }
 
         /**
@@ -210,12 +589,12 @@ class Simple extends Injectable implements ViewBaseInterface
         let notExists = true,
             mustClean = true;
 
-        let viewsDirPath =  this->_viewsDir . path;
+        let viewsDirPath =  this->viewsDir . path;
 
         /**
          * Load the template engines
          */
-        let engines = this->_loadTemplateEngines();
+        let engines = this->loadTemplateEngines();
 
         /**
          * Views are rendered in each engine
@@ -274,388 +653,5 @@ class Simple extends Injectable implements ViewBaseInterface
             eventsManager->fire("view:afterRender", this);
         }
 
-    }
-
-    /**
-     * Renders a view
-     *
-     * @param  array  params
-     */
-    public function render(string! path, params = null) -> string
-    {
-        var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
-
-        /**
-         * Create/Get a cache
-         */
-        let cache = this->getCache();
-
-        if typeof cache == "object" {
-
-            /**
-             * Check if the cache is started, the first time a cache is started we start the cache
-             */
-            if cache->isStarted() === false {
-
-                let key = null, lifetime = null;
-
-                /**
-                 * Check if the user has defined a different options to the default
-                 */
-                let cacheOptions = this->_cacheOptions;
-                if typeof cacheOptions == "array" {
-                    fetch key, cacheOptions["key"];
-                    fetch lifetime, cacheOptions["lifetime"];
-                }
-
-                /**
-                 * If a cache key is not set we create one using a md5
-                 */
-                if key === null {
-                    let key = md5(path);
-                }
-
-                /**
-                 * We start the cache using the key set
-                 */
-                let content = cache->start(key, lifetime);
-                if content !== null {
-                    let this->_content = content;
-                    return content;
-                }
-            }
-
-        }
-
-        /**
-         * Create a virtual symbol table
-         */
-        create_symbol_table();
-
-        ob_start();
-
-        let viewParams = this->_viewParams;
-
-        /**
-         * Merge parameters
-         */
-        if typeof params == "array" {
-            if typeof viewParams == "array" {
-                let mergedParams = array_merge(viewParams, params);
-            } else {
-                let mergedParams = params;
-            }
-        } else {
-            let mergedParams = viewParams;
-        }
-
-        /**
-         * internalRender is also reused by partials
-         */
-        this->_internalRender(path, mergedParams);
-
-        /**
-         * Store the data in output into the cache
-         */
-        if typeof cache == "object" {
-            if cache->isStarted() && cache->isFresh() {
-                cache->save();
-            } else {
-                cache->stop();
-            }
-        }
-
-        ob_end_clean();
-
-        return this->_content;
-    }
-
-    /**
-     * Renders a partial view
-     *
-     * <code>
-     * // Show a partial inside another view
-     * $this->partial("shared/footer");
-     * </code>
-     *
-     * <code>
-     * // Show a partial inside another view with parameters
-     * $this->partial(
-     *     "shared/footer",
-     *     [
-     *         "content" => $html,
-     *     ]
-     * );
-     * </code>
-     */
-    public function partial(string! partialPath, var params = null)
-    {
-        var viewParams, mergedParams;
-
-        /**
-         * Start output buffering
-         */
-        ob_start();
-
-        /**
-         * If the developer pass an array of variables we create a new virtual symbol table
-         */
-        if typeof params == "array" {
-
-            let viewParams = this->_viewParams;
-
-            /**
-             * Merge or assign the new params as parameters
-             */
-            if typeof viewParams == "array" {
-                let mergedParams = array_merge(viewParams, params);
-            } else {
-                let mergedParams = params;
-            }
-
-            /**
-             * Create a virtual symbol table
-             */
-            create_symbol_table();
-
-        } else {
-            let mergedParams = params;
-        }
-
-        /**
-         * Call engine render, this checks in every registered engine for the partial
-         */
-        this->_internalRender(partialPath, mergedParams);
-
-        /**
-         * Now we need to restore the original view parameters
-         */
-        if typeof params == "array" {
-            /**
-             * Restore the original view params
-             */
-            let this->_viewParams = viewParams;
-        }
-
-        ob_end_clean();
-
-        /**
-         * Content is output to the parent view
-         */
-        echo this->_content;
-    }
-
-    /**
-     * Sets the cache options
-     */
-    public function setCacheOptions(array options) -> <Simple>
-    {
-        let this->_cacheOptions = options;
-        return this;
-    }
-
-    /**
-     * Returns the cache options
-     */
-    public function getCacheOptions() -> array
-    {
-        return this->_cacheOptions;
-    }
-
-    /**
-     * Create a Phalcon\Cache based on the internal cache options
-     */
-    protected function _createCache() -> <BackendInterface>
-    {
-        var container, cacheService, cacheOptions, viewCache;
-
-        let container = this->container;
-        if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the view cache services"));
-        }
-
-        let cacheService = "viewCache";
-
-        let cacheOptions = this->_cacheOptions;
-        if typeof cacheOptions == "array" {
-            if isset cacheOptions["service"] {
-                fetch cacheService, cacheOptions["service"];
-            }
-        }
-
-        /**
-         * The injected service must be an object
-         */
-        let viewCache = <BackendInterface> container->getShared(cacheService);
-        if typeof viewCache != "object" {
-            throw new Exception("The injected caching service is invalid");
-        }
-
-        return viewCache;
-    }
-
-    /**
-     * Returns the cache instance used to cache
-     */
-    public function getCache() -> <BackendInterface>
-    {
-        if this->_cache && typeof this->_cache != "object" {
-            let this->_cache = this->_createCache();
-        }
-
-        return this->_cache;
-    }
-
-    /**
-     * Cache the actual view render to certain level
-     *
-     *<code>
-     * $this->view->cache(
-     *     [
-     *         "key"      => "my-key",
-     *         "lifetime" => 86400,
-     *     ]
-     * );
-     *</code>
-     */
-    public function cache(var options = true) -> <Simple>
-    {
-        if typeof options == "array" {
-            let this->_cache = true,
-                this->_cacheOptions = options;
-        } else {
-            if options {
-                let this->_cache = true;
-            } else {
-                let this->_cache = false;
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Adds parameters to views (alias of setVar)
-     *
-     *<code>
-     * $this->view->setParamToView("products", $products);
-     *</code>
-     */
-    public function setParamToView(string! key, var value) -> <Simple>
-    {
-        let this->_viewParams[key] = value;
-        return this;
-    }
-
-    /**
-     * Set all the render params
-     *
-     *<code>
-     * $this->view->setVars(
-     *     [
-     *         "products" => $products,
-     *     ]
-     * );
-     *</code>
-     */
-    public function setVars(array! params, bool merge = true) -> <Simple>
-    {
-        if merge && typeof this->_viewParams == "array" {
-            let this->_viewParams = array_merge(this->_viewParams, params);
-        } else {
-            let this->_viewParams = params;
-        }
-
-        return this;
-    }
-
-    /**
-     * Set a single view parameter
-     *
-     *<code>
-     * $this->view->setVar("products", $products);
-     *</code>
-     */
-    public function setVar(string! key, var value) -> <Simple>
-    {
-        let this->_viewParams[key] = value;
-        return this;
-    }
-
-    /**
-     * Returns a parameter previously set in the view
-     */
-    public function getVar(string! key) -> var | null
-    {
-        var    value;
-        if fetch value, this->_viewParams[key] {
-            return value;
-        }
-        return null;
-    }
-
-    /**
-     * Returns parameters to views
-     */
-    public function getParamsToView() -> array
-    {
-        return this->_viewParams;
-    }
-
-    /**
-     * Externally sets the view content
-     *
-     *<code>
-     * $this->view->setContent("<h1>hello</h1>");
-     *</code>
-     */
-    public function setContent(string! content) -> <Simple>
-    {
-        let this->_content = content;
-        return this;
-    }
-
-    /**
-     * Returns cached output from another view stage
-     */
-    public function getContent() -> string
-    {
-        return this->_content;
-    }
-
-    /**
-     * Returns the path of the view that is currently rendered
-     */
-    public function getActiveRenderPath() -> string
-    {
-        return this->_activeRenderPath;
-    }
-
-    /**
-     * Magic method to pass variables to the views
-     *
-     *<code>
-     * $this->view->products = $products;
-     *</code>
-     */
-    public function __set(string! key, var value)
-    {
-        let this->_viewParams[key] = value;
-    }
-
-    /**
-     * Magic method to retrieve a variable passed to the view
-     *
-     *<code>
-     * echo $this->view->products;
-     *</code>
-     */
-    public function __get(string! key) -> var | null
-    {
-        var value;
-        if fetch value, this->_viewParams[key] {
-            return value;
-        }
-
-        return null;
     }
 }

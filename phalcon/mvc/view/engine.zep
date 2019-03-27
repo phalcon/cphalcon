@@ -22,15 +22,14 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 abstract class Engine extends Injectable implements EngineInterface
 {
-
-    protected _view;
+    protected view;
 
     /**
      * Phalcon\Mvc\View\Engine constructor
      */
     public function __construct(<ViewBaseInterface> view, <DiInterface> container = null)
     {
-        let this->_view = view;
+        let this->view = view;
         let this->container = container;
     }
 
@@ -39,7 +38,15 @@ abstract class Engine extends Injectable implements EngineInterface
      */
     public function getContent() -> string
     {
-        return this->_view->getContent();
+        return this->view->getContent();
+    }
+
+    /**
+     * Returns the view component related to the adapter
+     */
+    public function getView() -> <ViewBaseInterface>
+    {
+        return this->view;
     }
 
     /**
@@ -49,14 +56,6 @@ abstract class Engine extends Injectable implements EngineInterface
      */
     public function partial(string! partialPath, var params = null) -> string
     {
-        return this->_view->partial(partialPath, params);
-    }
-
-    /**
-     * Returns the view component related to the adapter
-     */
-    public function getView() -> <ViewBaseInterface>
-    {
-        return this->_view;
+        return this->view->partial(partialPath, params);
     }
 }

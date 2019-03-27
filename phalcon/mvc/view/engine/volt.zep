@@ -22,26 +22,61 @@ use Phalcon\Mvc\View\Exception;
  */
 class Volt extends Engine
 {
-    protected _options;
-
-    protected _compiler;
-
-    protected _macros;
+    protected compiler;
+    protected macros;
+    protected options;
 
     /**
-     * Set Volt's options
+     * Checks if a macro is defined and calls it
      */
-    public function setOptions(array! options)
+    public function callMacro(string! name, array arguments = []) -> var
     {
-        let this->_options = options;
+        var macro;
+
+        if !fetch macro, this->macros[name] {
+            throw new Exception("Macro '" . name . "' does not exist");
+        }
+
+        return call_user_func(macro, arguments);
     }
 
     /**
-     * Return Volt's options
+     * Performs a string conversion
      */
-    public function getOptions() -> array
+    public function convertEncoding(string text, string! from, string! to) -> string
     {
-        return this->_options;
+        /**
+         * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
+         */
+        if from == "latin1" || to == "utf8" {
+            return utf8_encode(text);
+        }
+
+        /**
+         * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
+         */
+        if to == "latin1" || from == "utf8" {
+            return utf8_decode(text);
+        }
+
+        /**
+         * Fallback to mb_convert_encoding
+         */
+        if function_exists("mb_convert_encoding") {
+            return mb_convert_encoding(text, from, to);
+        }
+
+        /**
+         * Fallback to iconv
+         */
+        if function_exists("iconv") {
+            return iconv(from, to, text);
+        }
+
+        /**
+         * There are no enough extensions available
+         */
+        throw new Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
     }
 
     /**
@@ -51,10 +86,10 @@ class Volt extends Engine
     {
         var compiler, container, options;
 
-        let compiler = this->_compiler;
+        let compiler = this->compiler;
         if typeof compiler != "object" {
 
-            let compiler = new Compiler(this->_view);
+            let compiler = new Compiler(this->view);
 
             /**
              * Pass the IoC to the compiler only of it's an object
@@ -67,14 +102,58 @@ class Volt extends Engine
             /**
              * Pass the options to the compiler only if they're an array
              */
-            let options = this->_options;
+            let options = this->options;
             if typeof options == "array" {
                 compiler->setOptions(options);
             }
 
-            let this->_compiler = compiler;
+            let this->compiler = compiler;
         }
         return compiler;
+    }
+
+    /**
+     * Return Volt's options
+     */
+    public function getOptions() -> array
+    {
+        return this->options;
+    }
+
+    /**
+     * Checks if the needle is included in the haystack
+     */
+    public function isIncluded(var needle, var haystack) -> bool
+    {
+        if typeof haystack == "array" {
+            return in_array(needle, haystack);
+        }
+
+        if typeof haystack == "string" {
+            if function_exists("mb_strpos") {
+                return mb_strpos(haystack, needle) !== false;
+            }
+
+            return strpos(haystack, needle) !== false;
+        }
+
+        throw new Exception("Invalid haystack");
+    }
+
+    /**
+     * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
+     */
+    public function length(var item) -> int
+    {
+        if typeof item == "object" || typeof item == "array" {
+            return count(item);
+        }
+
+        if function_exists("mb_strlen") {
+            return mb_strlen(item);
+        }
+
+        return strlen(item);
     }
 
     /**
@@ -122,83 +201,16 @@ class Volt extends Engine
         require compiledTemplatePath;
 
         if mustClean {
-            this->_view->setContent(ob_get_contents());
+            this->view->setContent(ob_get_contents());
         }
     }
 
     /**
-     * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
+     * Set Volt's options
      */
-    public function length(var item) -> int
+    public function setOptions(array! options)
     {
-        if typeof item == "object" || typeof item == "array" {
-            return count(item);
-        }
-
-        if function_exists("mb_strlen") {
-            return mb_strlen(item);
-        }
-
-        return strlen(item);
-    }
-
-    /**
-     * Checks if the needle is included in the haystack
-     */
-    public function isIncluded(var needle, var haystack) -> bool
-    {
-        if typeof haystack == "array" {
-            return in_array(needle, haystack);
-        }
-
-        if typeof haystack == "string" {
-            if function_exists("mb_strpos") {
-                return mb_strpos(haystack, needle) !== false;
-            }
-
-            return strpos(haystack, needle) !== false;
-        }
-
-        throw new Exception("Invalid haystack");
-    }
-
-    /**
-     * Performs a string conversion
-     */
-    public function convertEncoding(string text, string! from, string! to) -> string
-    {
-        /**
-         * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
-         */
-        if from == "latin1" || to == "utf8" {
-            return utf8_encode(text);
-        }
-
-        /**
-         * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
-         */
-        if to == "latin1" || from == "utf8" {
-            return utf8_decode(text);
-        }
-
-        /**
-         * Fallback to mb_convert_encoding
-         */
-        if function_exists("mb_convert_encoding") {
-            return mb_convert_encoding(text, from, to);
-        }
-
-        /**
-         * Fallback to iconv
-         */
-        if function_exists("iconv") {
-            return iconv(from, to, text);
-        }
-
-        /**
-         * There are no enough extensions available
-         */
-        throw new Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
+        let this->options = options;
     }
 
     /**
@@ -278,19 +290,5 @@ class Volt extends Engine
     {
         asort(value);
         return value;
-    }
-
-    /**
-     * Checks if a macro is defined and calls it
-     */
-    public function callMacro(string! name, array arguments = []) -> var
-    {
-        var macro;
-
-        if !fetch macro, this->_macros[name] {
-            throw new Exception("Macro '" . name . "' does not exist");
-        }
-
-        return call_user_func(macro, arguments);
     }
 }

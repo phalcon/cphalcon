@@ -45,7 +45,7 @@ class Php extends Engine
         require path;
 
         if mustClean === true {
-            this->_view->setContent(ob_get_contents());
+            this->view->setContent(ob_get_contents());
         }
     }
 }
