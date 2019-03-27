@@ -23,23 +23,12 @@ use Phalcon\Mvc\Model\ResultInterface;
  */
 class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerializable
 {
-
     /**
-     * Set the current object's state
-     */
-    public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
+    * Serializes the object for json_encode
+    */
+    public function jsonSerialize() -> array
     {
-        return false;
-    }
-
-    /**
-     * Checks whether offset exists in the row
-     *
-     * @param string|int $index
-     */
-    public function offsetExists(var index) -> bool
-    {
-        return isset this->{index};
+        return this->toArray();
     }
 
     /**
@@ -55,6 +44,16 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
             return value;
         }
         throw new Exception("The index does not exist in the row");
+    }
+
+    /**
+     * Checks whether offset exists in the row
+     *
+     * @param string|int $index
+     */
+    public function offsetExists(var index) -> bool
+    {
+        return isset this->{index};
     }
 
     /**
@@ -97,17 +96,11 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Writes an attribute value by its name
-     *
-     *<code>
-     * $robot->writeAttribute("name", "Rosey");
-     *</code>
-     *
-     * @param mixed value
+     * Set the current object's state
      */
-    public function writeAttribute(string! attribute, value) -> void
+    public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
     {
-        let this->{attribute} = value;
+        return false;
     }
 
     /**
@@ -119,10 +112,16 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-    * Serializes the object for json_encode
-    */
-    public function jsonSerialize() -> array
+     * Writes an attribute value by its name
+     *
+     *<code>
+     * $robot->writeAttribute("name", "Rosey");
+     *</code>
+     *
+     * @param mixed value
+     */
+    public function writeAttribute(string! attribute, value) -> void
     {
-        return this->toArray();
+        let this->{attribute} = value;
     }
 }

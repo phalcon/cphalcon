@@ -20,10 +20,9 @@ use Phalcon\Mvc\Model;
  */
 class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 {
+    protected messages;
 
-    protected _model;
-
-    protected _messages;
+    protected model;
 
     /**
      * Phalcon\Mvc\Model\ValidationFailed constructor
@@ -48,18 +47,10 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
             let messageStr = "Validation failed";
         }
 
-        let this->_model = model;
-        let this->_messages = validationMessages;
+        let this->model = model;
+        let this->messages = validationMessages;
 
         parent::__construct(messageStr);
-    }
-
-    /**
-     * Returns the model that generated the messages
-     */
-    public function getModel() -> <Model>
-    {
-        return this->_model;
     }
 
     /**
@@ -67,6 +58,14 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
      */
     public function getMessages() -> <Message[]>
     {
-        return this->_messages;
+        return this->messages;
+    }
+
+    /**
+     * Returns the model that generated the messages
+     */
+    public function getModel() -> <Model>
+    {
+        return this->model;
     }
 }
