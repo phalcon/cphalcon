@@ -17,11 +17,10 @@ namespace Phalcon;
  */
 interface FlashInterface
 {
-
     /**
      * Shows a HTML error message
      */
-    public function error(string message);
+    public function error(string message) -> string;
 
     /**
      * Outputs a message
@@ -31,15 +30,15 @@ interface FlashInterface
     /**
      * Shows a HTML notice/information message
      */
-    public function notice(string message);
+    public function notice(string message) -> string;
 
     /**
      * Shows a HTML success message
      */
-    public function success(string message);
+    public function success(string message) -> string;
 
     /**
      * Shows a HTML warning message
      */
-    public function warning(string message);
+    public function warning(string message) -> string;
 }

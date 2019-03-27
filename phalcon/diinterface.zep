@@ -71,12 +71,12 @@ interface DiInterface extends \ArrayAccess
     /**
      * Removes a service in the services container
      */
-    public function remove(string! name);
+    public function remove(string! name) -> void;
 
     /**
      * Resets the internal default DI
      */
-    public static function reset();
+    public static function reset() -> void;
 
     /**
      * Registers a service in the services container
@@ -88,7 +88,7 @@ interface DiInterface extends \ArrayAccess
     /**
      * Set a default dependency injection container to be obtained into static methods
      */
-    public static function setDefault(<DiInterface> container);
+    public static function setDefault(<DiInterface> container) -> void;
 
     /**
      * Sets a service using a raw Phalcon\Di\Service definition

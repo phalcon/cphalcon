@@ -31,8 +31,14 @@ use Phalcon\Escaper\Exception;
  */
 class Escaper implements EscaperInterface
 {
+    /**
+     * @var bool
+     */
     protected doubleEncode = true;
 
+    /**
+     * @var string
+     */
     protected encoding = "utf-8";
 
     protected htmlEscapeMap = null;

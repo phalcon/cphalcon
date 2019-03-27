@@ -602,7 +602,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
     }

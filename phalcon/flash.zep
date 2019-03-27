@@ -25,18 +25,33 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 abstract class Flash implements FlashInterface, InjectionAwareInterface
 {
+    /**
+     * @var bool
+     */
     protected autoescape = true;
 
+    /**
+     * @var bool
+     */
     protected automaticHtml = true;
 
-    protected cssClasses;
+    /**
+     * @var array
+     */
+    protected cssClasses = [];
 
+    /**
+     * @var string
+     */
     protected customTemplate = "";
 
     protected container = null;
 
     protected escaperService = null;
 
+    /**
+     * @var bool
+     */
     protected implicitFlush = true;
 
     protected messages;

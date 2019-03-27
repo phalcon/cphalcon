@@ -171,7 +171,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         var manager, metaData;
 

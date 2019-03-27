@@ -2232,7 +2232,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
     }

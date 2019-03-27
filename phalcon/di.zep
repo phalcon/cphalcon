@@ -64,12 +64,12 @@ class Di implements DiInterface
     /**
      * List of registered services
      */
-    protected _services;
+    protected services;
 
     /**
      * List of shared instances
      */
-    protected _sharedInstances;
+    protected sharedInstances;
 
     /**
      * Events Manager
@@ -86,7 +86,7 @@ class Di implements DiInterface
     /**
      * Phalcon\Di constructor
      */
-    public function __construct()
+    public function __construct() -> void
     {
         var di;
         let di = self::_default;
@@ -96,48 +96,40 @@ class Di implements DiInterface
     }
 
     /**
-     * Sets the internal event manager
+     * Magic method to get or set services using setters/getters
      */
-    public function setInternalEventsManager(<ManagerInterface> eventsManager)
+    public function __call(string! method, array arguments = []) -> var | null
     {
-        let this->eventsManager = eventsManager;
-    }
+        var instance, possibleService, services, definition;
 
-    /**
-     * Returns the internal event manager
-     */
-    public function getInternalEventsManager() -> <ManagerInterface>
-    {
-        return this->eventsManager;
-    }
+        /**
+         * If the magic method starts with "get" we try to get a service with that name
+         */
+        if starts_with(method, "get") {
+            let services = this->services,
+                possibleService = lcfirst(substr(method, 3));
 
-    /**
-     * Registers a service in the services container
-     */
-    public function set(string! name, var definition, bool shared = false) -> <ServiceInterface>
-    {
-        var service;
-        let service = new Service(definition, shared),
-            this->_services[name] = service;
-        return service;
-    }
+            if isset services[possibleService] {
+                let instance = this->get(possibleService, arguments);
 
-    /**
-     * Registers an "always shared" service in the services container
-     */
-    public function setShared(string! name, var definition) -> <ServiceInterface>
-    {
-        return this->set(name, definition, true);
-    }
+                return instance;
+            }
+        }
 
-    /**
-     * Removes a service in the services container
-     * It also removes any shared instance created for the service
-     */
-    public function remove(string! name)
-    {
-        unset this->_services[name];
-        unset this->_sharedInstances[name];
+        /**
+         * If the magic method starts with "set" we try to set a service using that name
+         */
+        if starts_with(method, "set") {
+            if fetch definition, arguments[0] {
+                this->set(lcfirst(substr(method, 3)), definition);
+                return null;
+            }
+        }
+
+        /**
+         * The method doesn't start with set/get throw an exception
+         */
+        throw new Exception("Call to undefined method or service '" . method . "'");
     }
 
     /**
@@ -149,50 +141,13 @@ class Di implements DiInterface
     {
         var service;
 
-        if !isset this->_services[name] {
+        if !isset this->services[name] {
             let service = new Service(definition, shared),
-                this->_services[name] = service;
+                this->services[name] = service;
             return service;
         }
 
         return false;
-    }
-
-    /**
-     * Sets a service using a raw Phalcon\Di\Service definition
-     */
-    public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
-    {
-        let this->_services[name] = rawDefinition;
-        return rawDefinition;
-    }
-
-    /**
-     * Returns a service definition without resolving
-     */
-    public function getRaw(string! name) -> var
-    {
-        var service;
-
-        if fetch service, this->_services[name] {
-            return service->getDefinition();
-        }
-
-        throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
-    }
-
-    /**
-     * Returns a Phalcon\Di\Service instance
-     */
-    public function getService(string! name) -> <ServiceInterface>
-    {
-        var service;
-
-        if fetch service, this->_services[name] {
-            return service;
-        }
-
-        throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
     }
 
     /**
@@ -204,10 +159,10 @@ class Di implements DiInterface
 
         // If the service is shared and it already has a cached instance then
         // immediately return it without triggering events.
-        if fetch service, this->_services[name] {
+        if fetch service, this->services[name] {
             let isShared = service->isShared();
-            if isShared && isset this->_sharedInstances[name] {
-                return this->_sharedInstances[name];
+            if isShared && isset this->sharedInstances[name] {
+                return this->sharedInstances[name];
             }
         }
 
@@ -237,7 +192,7 @@ class Di implements DiInterface
 
                 // If the service is shared then we'll cache the instance.
                 if isShared {
-                    let this->_sharedInstances[name] = instance;
+                    let this->sharedInstances[name] = instance;
                 }
             } else {
 
@@ -278,6 +233,58 @@ class Di implements DiInterface
     }
 
     /**
+     * Return the latest DI created
+     */
+    public static function getDefault() -> <DiInterface> | null
+    {
+        return self::_default;
+    }
+
+    /**
+     * Returns the internal event manager
+     */
+    public function getInternalEventsManager() -> <ManagerInterface>
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Returns a service definition without resolving
+     */
+    public function getRaw(string! name) -> var
+    {
+        var service;
+
+        if fetch service, this->services[name] {
+            return service->getDefinition();
+        }
+
+        throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+    }
+
+    /**
+     * Returns a Phalcon\Di\Service instance
+     */
+    public function getService(string! name) -> <ServiceInterface>
+    {
+        var service;
+
+        if fetch service, this->services[name] {
+            return service;
+        }
+
+        throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+    }
+
+    /**
+     * Return the services registered in the DI
+     */
+    public function getServices() -> <ServiceInterface[]>
+    {
+        return this->services;
+    }
+
+    /**
      * Resolves a service, the resolved service is stored in the DI, subsequent
      * requests for this service will return the same instance
      *
@@ -289,155 +296,70 @@ class Di implements DiInterface
         var instance;
 
         // Attempt to use the instance from the shared instances cache.
-        if !fetch instance, this->_sharedInstances[name] {
+        if !fetch instance, this->sharedInstances[name] {
             // Resolve the instance normally
             let instance = this->get(name, parameters);
 
             // Store the instance in the shared instances cache.
-            let this->_sharedInstances[name] = instance;
+            let this->sharedInstances[name] = instance;
         }
 
         return instance;
     }
 
     /**
-     * Check whether the DI contains a service by a name
+     * Loads services from a Config object.
      */
-    public function has(string! name) -> bool
+    protected function loadFromConfig(<Config> config) -> void
     {
-        return isset this->_services[name];
-    }
+        var services, name, service;
 
-    /**
-     * Return the services registered in the DI
-     */
-    public function getServices() -> <ServiceInterface[]>
-    {
-        return this->_services;
-    }
+        let services = config->toArray();
 
-    /**
-     * Check if a service is registered using the array syntax
-     */
-    public function offsetExists(var name) -> bool
-    {
-        return this->has(name);
-    }
-
-    /**
-     * Allows to register a shared service using the array syntax
-     *
-     *<code>
-     * $di["request"] = new \Phalcon\Http\Request();
-     *</code>
-     */
-    public function offsetSet(var name, var definition) -> void
-    {
-        this->setShared(name, definition);
-    }
-
-    /**
-     * Allows to obtain a shared service using the array syntax
-     *
-     *<code>
-     * var_dump($di["request"]);
-     *</code>
-     */
-    public function offsetGet(var name) -> var
-    {
-        return this->getShared(name);
-    }
-
-    /**
-     * Removes a service from the services container using the array syntax
-     */
-    public function offsetUnset(var name) -> void
-    {
-        this->remove(name);
-    }
-
-    /**
-     * Magic method to get or set services using setters/getters
-     */
-    public function __call(string! method, array arguments = []) -> var | null
-    {
-        var instance, possibleService, services, definition;
-
-        /**
-         * If the magic method starts with "get" we try to get a service with that name
-         */
-        if starts_with(method, "get") {
-            let services = this->_services,
-                possibleService = lcfirst(substr(method, 3));
-
-            if isset services[possibleService] {
-                let instance = this->get(possibleService, arguments);
-
-                return instance;
-            }
+        for name, service in services {
+            this->set(name, service, isset service["shared"] && service["shared"]);
         }
-
-        /**
-         * If the magic method starts with "set" we try to set a service using that name
-         */
-        if starts_with(method, "set") {
-            if fetch definition, arguments[0] {
-                this->set(lcfirst(substr(method, 3)), definition);
-                return null;
-            }
-        }
-
-        /**
-         * The method doesn't start with set/get throw an exception
-         */
-        throw new Exception("Call to undefined method or service '" . method . "'");
     }
 
     /**
-     * Registers a service provider.
+     * Loads services from a php config file.
      *
      * <code>
-     * use Phalcon\DiInterface;
-     * use Phalcon\Di\ServiceProviderInterface;
-     *
-     * class SomeServiceProvider implements ServiceProviderInterface
-     * {
-     *     public function register(DiInterface $di)
-     *     {
-     *         $di->setShared('service', function () {
-     *             // ...
-     *         });
-     *     }
-     * }
+     * $di->loadFromPhp("path/services.php");
      * </code>
+     *
+     * And the services can be specified in the file as:
+     *
+     * <code>
+     * return [
+     *      'myComponent' => [
+     *          'className' => '\Acme\Components\MyComponent',
+     *          'shared' => true,
+     *      ],
+     *      'group' => [
+     *          'className' => '\Acme\Group',
+     *          'arguments' => [
+     *              [
+     *                  'type' => 'service',
+     *                  'service' => 'myComponent',
+     *              ],
+     *          ],
+     *      ],
+     *      'user' => [
+     *          'className' => '\Acme\User',
+     *      ],
+     * ];
+     * </code>
+     *
+     * @link https://docs.phalconphp.com/en/latest/reference/di.html
      */
-    public function register(<ServiceProviderInterface> provider) -> void
+    public function loadFromPhp(string! filePath) -> void
     {
-        provider->register(this);
-    }
+        var services;
 
-    /**
-     * Set a default dependency injection container to be obtained into static methods
-     */
-    public static function setDefault(<DiInterface> container) -> void
-    {
-        let self::_default = container;
-    }
+        let services = new Php(filePath);
 
-    /**
-     * Return the latest DI created
-     */
-    public static function getDefault() -> <DiInterface> | null
-    {
-        return self::_default;
-    }
-
-    /**
-     * Resets the internal default DI
-     */
-    public static function reset()
-    {
-        let self::_default = null;
+        this->loadFromConfig(services);
     }
 
     /**
@@ -483,57 +405,135 @@ class Di implements DiInterface
     }
 
     /**
-     * Loads services from a php config file.
-     *
-     * <code>
-     * $di->loadFromPhp("path/services.php");
-     * </code>
-     *
-     * And the services can be specified in the file as:
-     *
-     * <code>
-     * return [
-     *      'myComponent' => [
-     *          'className' => '\Acme\Components\MyComponent',
-     *          'shared' => true,
-     *      ],
-     *      'group' => [
-     *          'className' => '\Acme\Group',
-     *          'arguments' => [
-     *              [
-     *                  'type' => 'service',
-     *                  'service' => 'myComponent',
-     *              ],
-     *          ],
-     *      ],
-     *      'user' => [
-     *          'className' => '\Acme\User',
-     *      ],
-     * ];
-     * </code>
-     *
-     * @link https://docs.phalconphp.com/en/latest/reference/di.html
+     * Check whether the DI contains a service by a name
      */
-    public function loadFromPhp(string! filePath) -> void
+    public function has(string! name) -> bool
     {
-        var services;
-
-        let services = new Php(filePath);
-
-        this->loadFromConfig(services);
+        return isset this->services[name];
     }
 
     /**
-     * Loads services from a Config object.
+     * Allows to obtain a shared service using the array syntax
+     *
+     *<code>
+     * var_dump($di["request"]);
+     *</code>
      */
-    protected function loadFromConfig(<Config> config) -> void
+    public function offsetGet(var name) -> var
     {
-        var services, name, service;
+        return this->getShared(name);
+    }
 
-        let services = config->toArray();
+    /**
+     * Check if a service is registered using the array syntax
+     */
+    public function offsetExists(var name) -> bool
+    {
+        return this->has(name);
+    }
 
-        for name, service in services {
-            this->set(name, service, isset service["shared"] && service["shared"]);
-        }
+    /**
+     * Allows to register a shared service using the array syntax
+     *
+     *<code>
+     * $di["request"] = new \Phalcon\Http\Request();
+     *</code>
+     */
+    public function offsetSet(var name, var definition) -> void
+    {
+        this->setShared(name, definition);
+    }
+
+    /**
+     * Removes a service from the services container using the array syntax
+     */
+    public function offsetUnset(var name) -> void
+    {
+        this->remove(name);
+    }
+
+    /**
+     * Registers a service provider.
+     *
+     * <code>
+     * use Phalcon\DiInterface;
+     * use Phalcon\Di\ServiceProviderInterface;
+     *
+     * class SomeServiceProvider implements ServiceProviderInterface
+     * {
+     *     public function register(DiInterface $di)
+     *     {
+     *         $di->setShared('service', function () {
+     *             // ...
+     *         });
+     *     }
+     * }
+     * </code>
+     */
+    public function register(<ServiceProviderInterface> provider) -> void
+    {
+        provider->register(this);
+    }
+
+    /**
+     * Removes a service in the services container
+     * It also removes any shared instance created for the service
+     */
+    public function remove(string! name) -> void
+    {
+        unset this->services[name];
+        unset this->sharedInstances[name];
+    }
+
+    /**
+     * Resets the internal default DI
+     */
+    public static function reset() -> void
+    {
+        let self::_default = null;
+    }
+
+    /**
+     * Registers a service in the services container
+     */
+    public function set(string! name, var definition, bool shared = false) -> <ServiceInterface>
+    {
+        var service;
+        let service = new Service(definition, shared),
+            this->services[name] = service;
+        return service;
+    }
+
+    /**
+     * Set a default dependency injection container to be obtained into static methods
+     */
+    public static function setDefault(<DiInterface> container) -> void
+    {
+        let self::_default = container;
+    }
+
+    /**
+     * Sets the internal event manager
+     */
+    public function setInternalEventsManager(<ManagerInterface> eventsManager)
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Sets a service using a raw Phalcon\Di\Service definition
+     */
+    public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
+    {
+        let this->services[name] = rawDefinition;
+        return rawDefinition;
+    }
+
+    /**
+     * Registers an "always shared" service in the services container
+     */
+    public function setShared(string! name, var definition) -> <ServiceInterface>
+    {
+        return this->set(name, definition, true);
     }
 }

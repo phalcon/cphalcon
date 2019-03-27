@@ -22,14 +22,14 @@ interface DispatcherInterface
      *
      * @return object
      */
-    public function dispatch();
+    public function dispatch()  -> object | bool;
 
     /**
      * Forwards the execution flow to another controller/action
      *
      * @param array forward
      */
-    public function forward(forward);
+    public function forward(forward) -> void;
 
     /**
      * Gets last dispatched action name
@@ -52,7 +52,7 @@ interface DispatcherInterface
      * @param  string|array filters
      * @return mixed
      */
-    public function getParam(var param, filters = null);
+    public function getParam(var param, filters = null) -> var;
 
     /**
      * Gets action params
@@ -77,49 +77,49 @@ interface DispatcherInterface
     /**
      * Sets the action name to be dispatched
      */
-    public function setActionName(string actionName);
+    public function setActionName(string actionName) -> void;
 
     /**
      * Sets the default action suffix
      */
-    public function setActionSuffix(string actionSuffix);
+    public function setActionSuffix(string actionSuffix) -> void;
 
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string actionName);
+    public function setDefaultAction(string actionName) -> void;
 
     /**
      * Sets the default namespace
      */
-    public function setDefaultNamespace(string defaultNamespace);
+    public function setDefaultNamespace(string defaultNamespace) -> void;
 
     /**
      * Sets the default suffix for the handler
      */
-    public function setHandlerSuffix(string handlerSuffix);
+    public function setHandlerSuffix(string handlerSuffix) -> void;
 
     /**
      * Sets the module name which the application belongs to
      */
-    public function setModuleName(string moduleName);
+    public function setModuleName(string moduleName) -> void;
 
     /**
      * Sets the namespace which the controller belongs to
      */
-    public function setNamespaceName(string namespaceName);
+    public function setNamespaceName(string namespaceName) -> void;
 
     /**
      * Set a param by its name or numeric index
      *
      * @param  mixed value
      */
-    public function setParam(var param, value);
+    public function setParam(var param, value) -> void;
 
     /**
      * Sets action params to be dispatched
      *
      * @param array params
      */
-    public function setParams(params);
+    public function setParams(params) -> void;
 }

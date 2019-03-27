@@ -39,54 +39,79 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
     protected activeHandler;
 
+    /**
+     * @var array
+     */
     protected activeMethodMap = [];
 
     protected actionName = null;
 
+    /**
+     * @var string
+     */
     protected actionSuffix = "Action";
 
+    /**
+     * @var array
+     */
     protected camelCaseMap = [];
 
     protected container;
 
+    /**
+     * @var string
+     */
     protected defaultAction = "";
 
     protected defaultNamespace = null;
 
     protected defaultHandler = null;
 
+    /**
+     * @var array
+     */
     protected handlerHashes = [];
 
     protected handlerName = null;
 
+    /**
+     * @var string
+     */
     protected handlerSuffix = "";
 
     protected eventsManager;
 
+    /**
+     * @var bool
+     */
     protected finished = false;
 
+    /**
+     * @var bool
+     */
     protected forwarded = false;
 
+    /**
+     * @var bool
+     */
     protected isControllerInitialize = false;
-
     protected lastHandler = null;
-
     protected modelBinder = null;
 
+    /**
+     * @var bool
+     */
     protected modelBinding = false;
-
     protected moduleName = null;
-
     protected namespaceName = null;
 
+    /**
+     * @var array
+     */
     protected params = [];
-
     protected previousActionName = null;
-
     protected previousHandlerName = null;
-
     protected previousNamespaceName = null;
-
     protected returnedValue = null;
 
     public function callActionMethod(handler, string actionMethod, array! params = [])
@@ -104,7 +129,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      *
      * @throws \Exception if any uncaught or unhandled exception occurs during the dispatcher process.
      */
-    public function dispatch()
+    public function dispatch() -> object | bool
     {
         bool hasService, hasEventsManager;
         int numberDispatches;
@@ -659,7 +684,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      * @param  mixed defaultValue
      * @return mixed
      */
-    public function getParam(var param, filters = null, defaultValue = null)
+    public function getParam(var param, filters = null, defaultValue = null) -> var
     {
         var params, filter, paramValue, container;
 
@@ -736,7 +761,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
     }
@@ -779,7 +804,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Set a param by its name or numeric index
      */
-    public function setParam(var param, var value)
+    public function setParam(var param, var value) -> void
     {
         let this->params[param] = value;
     }
@@ -804,7 +829,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Sets the latest returned value by an action manually
      */
-    public function setReturnedValue(var value)
+    public function setReturnedValue(var value) -> void
     {
         let this->returnedValue = value;
     }
@@ -812,7 +837,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Sets the default action suffix
      */
-    public function setActionSuffix(string actionSuffix)
+    public function setActionSuffix(string actionSuffix) -> void
     {
         let this->actionSuffix = actionSuffix;
     }
@@ -820,7 +845,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Sets the events manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager)
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
     }

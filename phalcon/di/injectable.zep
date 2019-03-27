@@ -136,7 +136,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
     /**
      * Sets the dependency injector
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
     }

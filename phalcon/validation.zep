@@ -27,21 +27,13 @@ use Phalcon\Service\LocatorInterface;
 class Validation extends Injectable implements ValidationInterface
 {
     protected combinedFieldsValidators = [];
-
     protected data { get };
-
     protected defaultMessages;
-
     protected entity;
-
     protected filters = [];
-
     protected labels = [];
-
     protected messages;
-
     protected validators = [] { set };
-
     protected values;
 
     /**
@@ -155,7 +147,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @return object
      */
-    public function getEntity()
+    public function getEntity() -> object
     {
         return this->entity;
     }
@@ -165,7 +157,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @return mixed
      */
-    public function getFilters(string field = null)
+    public function getFilters(string field = null) -> var | null
     {
         var filters, fieldFilters;
         let filters = this->filters;
@@ -400,7 +392,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @param object entity
      */
-    public function setEntity(entity)
+    public function setEntity(entity) -> void
     {
         if typeof entity != "object" {
             throw new Exception("Entity must be an object");
@@ -434,7 +426,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds labels for fields
      */
-    public function setLabels(array! labels)
+    public function setLabels(array! labels) -> void
     {
         let this->labels = labels;
     }
