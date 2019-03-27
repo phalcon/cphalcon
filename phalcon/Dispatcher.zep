@@ -655,7 +655,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Gets model binder
      */
-    public function getModelBinder() -> <BinderInterface>|null
+    public function getModelBinder() -> <BinderInterface> | null
     {
         return this->modelBinder;
     }

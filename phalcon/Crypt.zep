@@ -456,7 +456,7 @@ class Crypt implements CryptInterface
      *
      * @link http://www.di-mgt.com.au/cryptopad.html
      */
-    protected function cryptPadText(string text, string! mode, int! blockSize, int! paddingType)
+    protected function cryptPadText(string text, string! mode, int! blockSize, int! paddingType) -> string
     {
         int i;
         var paddingSize = 0, padding = null;
