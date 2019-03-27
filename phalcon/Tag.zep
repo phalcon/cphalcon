@@ -1279,8 +1279,13 @@ class Tag
     /**
      * Builds a HTML tag
      */
-    public static function tagHtml(string tagName, var parameters = null, bool selfClose = false,
-        bool onlyStart = false, bool useEol = false) -> string
+    public static function tagHtml(
+        string tagName,
+        var parameters = null,
+        bool selfClose = false,
+        bool onlyStart = false,
+        bool useEol = false
+    ) -> string
     {
         var params, localCode;
 

@@ -124,7 +124,7 @@ class Debug
     /**
      * Halts the request showing a backtrace
      */
-    public function halt()
+    public function halt() -> void
     {
         throw new Exception("Halted request");
     }
@@ -338,7 +338,7 @@ class Debug
     /**
      * Throws an exception when a notice or warning is raised
      */
-    public function onUncaughtLowSeverity(severity, message, file, line, context)
+    public function onUncaughtLowSeverity(severity, message, file, line, context) -> void
     {
         if error_reporting() & severity {
             throw new \ErrorException(message, 0, severity, file, line);
@@ -546,7 +546,7 @@ class Debug
     /**
      * Shows a backtrace item
      */
-    protected final function showTraceItem(int n, array! trace)
+    protected final function showTraceItem(int n, array! trace) -> string
     {
         var className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
             functionName, functionReflection, traceArgs, arguments, argument,
