@@ -60,16 +60,11 @@ namespace Phalcon\Mvc\Router;
  */
 class Group implements GroupInterface
 {
-
-    protected _prefix;
-
-    protected _hostname;
-
-    protected _paths;
-
-    protected _routes;
-
-    protected _beforeMatch;
+    protected beforeMatch;
+    protected hostname;
+    protected paths;
+    protected prefix;
+    protected routes;
 
     /**
      * Phalcon\Mvc\Router\Group constructor
@@ -77,90 +72,12 @@ class Group implements GroupInterface
     public function __construct(var paths = null)
     {
         if typeof paths == "array" || typeof paths == "string" {
-            let this->_paths = paths;
+            let this->paths = paths;
         }
 
         if method_exists(this, "initialize") {
             this->{"initialize"}(paths);
         }
-    }
-
-    /**
-     * Set a hostname restriction for all the routes in the group
-     */
-    public function setHostname(string hostname) -> <GroupInterface>
-    {
-        let this->_hostname = hostname;
-        return this;
-    }
-
-    /**
-     * Returns the hostname restriction
-     */
-    public function getHostname() -> string
-    {
-        return this->_hostname;
-    }
-
-    /**
-     * Set a common uri prefix for all the routes in this group
-     */
-    public function setPrefix(string prefix) -> <GroupInterface>
-    {
-        let this->_prefix = prefix;
-        return this;
-    }
-
-    /**
-     * Returns the common prefix for all the routes
-     */
-    public function getPrefix() -> string
-    {
-        return this->_prefix;
-    }
-
-    /**
-     * Sets a callback that is called if the route is matched.
-     * The developer can implement any arbitrary conditions here
-     * If the callback returns false the route is treated as not matched
-     */
-     public function beforeMatch(callable beforeMatch) -> <GroupInterface>
-    {
-        let this->_beforeMatch = beforeMatch;
-        return this;
-    }
-
-    /**
-     * Returns the 'before match' callback if any
-     */
-    public function getBeforeMatch() -> callable
-    {
-        return this->_beforeMatch;
-    }
-
-    /**
-     * Set common paths for all the routes in the group
-     */
-    public function setPaths(var paths) -> <GroupInterface>
-    {
-        let this->_paths = paths;
-        return this;
-    }
-
-    /**
-     * Returns the common paths defined for this group
-     */
-    public function getPaths() -> array | string
-    {
-        return this->_paths;
-    }
-
-    /**
-     * Returns the routes added to the group
-     */
-    public function getRoutes() -> <RouteInterface[]>
-    {
-        return this->_routes;
     }
 
     /**
@@ -172,47 +89,7 @@ class Group implements GroupInterface
      */
     public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
     {
-        return this->_addRoute(pattern, paths, httpMethods);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is GET
-     *
-     * @param string|array paths
-     */
-    public function addGet(string! pattern, var paths = null) -> <RouteInterface>
-    {
-        return this->_addRoute(pattern, paths, "GET");
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is POST
-     *
-     * @param string|array paths
-     */
-    public function addPost(string! pattern, var paths = null) -> <RouteInterface>
-    {
-        return this->_addRoute(pattern, paths, "POST");
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is PUT
-     *
-     * @param string|array paths
-     */
-    public function addPut(string! pattern, var paths = null) -> <RouteInterface>
-    {
-        return this->_addRoute(pattern, paths, "PUT");
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is PATCH
-     *
-     * @param string|array paths
-     */
-    public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
-    {
-        return this->_addRoute(pattern, paths, "PATCH");
+        return this->addRoute(pattern, paths, httpMethods);
     }
 
     /**
@@ -222,17 +99,17 @@ class Group implements GroupInterface
      */
     public function addDelete(string! pattern, var paths = null) -> <RouteInterface>
     {
-        return this->_addRoute(pattern, paths, "DELETE");
+        return this->addRoute(pattern, paths, "DELETE");
     }
 
     /**
-     * Add a route to the router that only match if the HTTP method is OPTIONS
+     * Adds a route to the router that only match if the HTTP method is GET
      *
      * @param string|array paths
      */
-    public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
+    public function addGet(string! pattern, var paths = null) -> <RouteInterface>
     {
-        return this->_addRoute(pattern, paths, "OPTIONS");
+        return this->addRoute(pattern, paths, "GET");
     }
 
     /**
@@ -242,7 +119,58 @@ class Group implements GroupInterface
      */
     public function addHead(string! pattern, var paths = null) -> <RouteInterface>
     {
-        return this->_addRoute(pattern, paths, "HEAD");
+        return this->addRoute(pattern, paths, "HEAD");
+    }
+
+    /**
+     * Add a route to the router that only match if the HTTP method is OPTIONS
+     *
+     * @param string|array paths
+     */
+    public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "OPTIONS");
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is PATCH
+     *
+     * @param string|array paths
+     */
+    public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "PATCH");
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is POST
+     *
+     * @param string|array paths
+     */
+    public function addPost(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "POST");
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is PUT
+     *
+     * @param string|array paths
+     */
+    public function addPut(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "PUT");
+    }
+
+    /**
+     * Sets a callback that is called if the route is matched.
+     * The developer can implement any arbitrary conditions here
+     * If the callback returns false the route is treated as not matched
+     */
+     public function beforeMatch(callable beforeMatch) -> <GroupInterface>
+    {
+        let this->beforeMatch = beforeMatch;
+        return this;
     }
 
     /**
@@ -250,20 +178,87 @@ class Group implements GroupInterface
      */
     public function clear() -> void
     {
-        let this->_routes = [];
+        let this->routes = [];
+    }
+
+    /**
+     * Returns the 'before match' callback if any
+     */
+    public function getBeforeMatch() -> callable
+    {
+        return this->beforeMatch;
+    }
+
+    /**
+     * Returns the hostname restriction
+     */
+    public function getHostname() -> string
+    {
+        return this->hostname;
+    }
+
+    /**
+     * Returns the common paths defined for this group
+     */
+    public function getPaths() -> array | string
+    {
+        return this->paths;
+    }
+
+    /**
+     * Returns the common prefix for all the routes
+     */
+    public function getPrefix() -> string
+    {
+        return this->prefix;
+    }
+
+    /**
+     * Returns the routes added to the group
+     */
+    public function getRoutes() -> <RouteInterface[]>
+    {
+        return this->routes;
+    }
+
+    /**
+     * Set a hostname restriction for all the routes in the group
+     */
+    public function setHostname(string hostname) -> <GroupInterface>
+    {
+        let this->hostname = hostname;
+        return this;
+    }
+
+    /**
+     * Set common paths for all the routes in the group
+     */
+    public function setPaths(var paths) -> <GroupInterface>
+    {
+        let this->paths = paths;
+        return this;
+    }
+
+    /**
+     * Set a common uri prefix for all the routes in this group
+     */
+    public function setPrefix(string prefix) -> <GroupInterface>
+    {
+        let this->prefix = prefix;
+        return this;
     }
 
     /**
      * Adds a route applying the common attributes
      */
-    protected function _addRoute(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
+    protected function addRoute(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
     {
         var mergedPaths, route, defaultPaths, processedPaths;
 
         /**
          * Check if the paths need to be merged with current paths
          */
-        let defaultPaths = this->_paths;
+        let defaultPaths = this->paths;
 
         if typeof defaultPaths == "array" {
 
@@ -288,8 +283,8 @@ class Group implements GroupInterface
         /**
          * Every route is internally stored as a Phalcon\Mvc\Router\Route
          */
-        let route = new Route(this->_prefix . pattern, mergedPaths, httpMethods),
-            this->_routes[] = route;
+        let route = new Route(this->prefix . pattern, mergedPaths, httpMethods),
+            this->routes[] = route;
 
         route->setGroup(this);
         return route;
