@@ -20,74 +20,12 @@ use Phalcon\DiInterface;
 interface CriteriaInterface
 {
     /**
-     * Set a model on which the query will be executed
-     */
-    public function setModelName(string! modelName) -> <CriteriaInterface>;
-
-    /**
-     * Returns an internal model name on which the criteria will be applied
-     */
-    public function getModelName() -> string;
-
-    /**
-     * Sets the bound parameters in the criteria
-     * This method replaces all previously set bound parameters
-     */
-    public function bind(array! bindParams) -> <CriteriaInterface>;
-
-    /**
-     * Sets the bind types in the criteria
-     * This method replaces all previously set bound parameters
-     */
-    public function bindTypes(array! bindTypes) -> <CriteriaInterface>;
-
-    /**
-     * Sets the conditions parameter in the criteria
-     */
-    public function where(string! conditions) -> <CriteriaInterface>;
-
-    /**
-     * Adds the conditions parameter to the criteria
-     */
-    public function conditions(string! conditions) -> <CriteriaInterface>;
-
-    /**
-     * Adds the order-by parameter to the criteria
-     */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>;
-
-    /**
-     * Sets the limit parameter to the criteria
-     *
-     * @param int offset
-     */
-    public function limit(int limit, offset = null) -> <CriteriaInterface>;
-
-    /**
-     * Sets the "for_update" parameter to the criteria
-     */
-    public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>;
-
-    /**
-     * Sets the "shared_lock" parameter to the criteria
-     */
-    public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>;
-
-    /**
      * Appends a condition to the current conditions using an AND operator
      *
      * @param array bindParams
      * @param array bindTypes
      */
     public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
-
-    /**
-     * Appends a condition to the current conditions using an OR operator
-     *
-     * @param array bindParams
-     * @param array bindTypes
-     */
-    public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
     /**
      * Appends a BETWEEN condition to the current conditions
@@ -102,41 +40,49 @@ interface CriteriaInterface
     public function betweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
 
     /**
-     * Appends a NOT BETWEEN condition to the current conditions
-     *
-     *<code>
-     * $criteria->notBetweenWhere("price", 100.25, 200.50);
-     *</code>
-     *
-     * @param mixed minimum
-     * @param mixed maximum
+     * Sets the bound parameters in the criteria
+     * This method replaces all previously set bound parameters
      */
-    public function notBetweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
+    public function bind(array! bindParams) -> <CriteriaInterface>;
 
     /**
-     * Appends an IN condition to the current conditions
-     *
-     *<code>
-     * $criteria->inWhere("id", [1, 2, 3]);
-     *</code>
+     * Sets the bind types in the criteria
+     * This method replaces all previously set bound parameters
      */
-    public function inWhere(string! expr, array! values) -> <CriteriaInterface>;
+    public function bindTypes(array! bindTypes) -> <CriteriaInterface>;
 
     /**
-     * Appends a NOT IN condition to the current conditions
-     *
-     *<code>
-     * $criteria->notInWhere("id", [1, 2, 3]);
-     *</code>
+     * Sets the cache options in the criteria
+     * This method replaces all previously set cache options
      */
-    public function notInWhere(string! expr, array! values) -> <CriteriaInterface>;
+    public function cache(array! cache) -> <CriteriaInterface>;
 
     /**
-     * Returns the conditions parameter in the criteria
-     *
-     * @return string|null
+     * Adds the conditions parameter to the criteria
      */
-    public function getWhere();
+    public function conditions(string! conditions) -> <CriteriaInterface>;
+
+    /**
+     * Sets SELECT DISTINCT / SELECT ALL flag
+     */
+     public function distinct(var distinct) -> <CriteriaInterface>;
+
+    /**
+     * Executes a find using the parameters built with the criteria
+     */
+    public function execute() -> <ResultsetInterface>;
+
+    /**
+     * Sets the "for_update" parameter to the criteria
+     */
+    public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>;
+
+    /**
+     * Returns the columns to be queried
+     *
+     * @return string|array|null
+     */
+    public function getColumns() -> string | null;
 
     /**
      * Returns the conditions parameter in the criteria
@@ -144,6 +90,16 @@ interface CriteriaInterface
      * @return string|null
      */
     public function getConditions();
+
+    /**
+     * Returns the group clause in the criteria
+     */
+    public function getGroupBy();
+
+    /**
+     * Returns the having clause in the criteria
+     */
+    public function getHaving();
 
     /**
      * Returns the limit parameter in the criteria, which will be
@@ -154,6 +110,11 @@ interface CriteriaInterface
      * @return int|array|null
      */
     public function getLimit();
+
+    /**
+     * Returns an internal model name on which the criteria will be applied
+     */
+    public function getModelName() -> string;
 
     /**
      * Returns the order parameter in the criteria
@@ -168,14 +129,21 @@ interface CriteriaInterface
     public function getParams() -> array;
 
     /**
-     * Executes a find using the parameters built with the criteria
+     * Returns the conditions parameter in the criteria
+     *
+     * @return string|null
      */
-    public function execute() -> <ResultsetInterface>;
+    public function getWhere();
 
     /**
-     * Sets SELECT DISTINCT / SELECT ALL flag
+     * Adds the group-by clause to the criteria
      */
-     public function distinct(var distinct) -> <CriteriaInterface>;
+    public function groupBy(var group) -> <CriteriaInterface>;
+
+    /**
+     * Adds the having clause to the criteria
+     */
+    public function having(var having) -> <CriteriaInterface>;
 
     /**
      * Adds an INNER join to the query
@@ -189,6 +157,15 @@ interface CriteriaInterface
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
 
     /**
+     * Appends an IN condition to the current conditions
+     *
+     *<code>
+     * $criteria->inWhere("id", [1, 2, 3]);
+     *</code>
+     */
+    public function inWhere(string! expr, array! values) -> <CriteriaInterface>;
+
+    /**
      * Adds a LEFT join to the query
      *
      *<code>
@@ -196,6 +173,47 @@ interface CriteriaInterface
      *</code>
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
+
+    /**
+     * Sets the limit parameter to the criteria
+     *
+     * @param int offset
+     */
+    public function limit(int limit, offset = null) -> <CriteriaInterface>;
+
+    /**
+     * Appends a NOT BETWEEN condition to the current conditions
+     *
+     *<code>
+     * $criteria->notBetweenWhere("price", 100.25, 200.50);
+     *</code>
+     *
+     * @param mixed minimum
+     * @param mixed maximum
+     */
+    public function notBetweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
+
+    /**
+     * Appends a NOT IN condition to the current conditions
+     *
+     *<code>
+     * $criteria->notInWhere("id", [1, 2, 3]);
+     *</code>
+     */
+    public function notInWhere(string! expr, array! values) -> <CriteriaInterface>;
+
+    /**
+     * Adds the order-by parameter to the criteria
+     */
+    public function orderBy(string! orderColumns) -> <CriteriaInterface>;
+
+    /**
+     * Appends a condition to the current conditions using an OR operator
+     *
+     * @param array bindParams
+     * @param array bindTypes
+     */
+    public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
     /**
      * Adds a RIGHT join to the query
@@ -207,35 +225,17 @@ interface CriteriaInterface
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>;
 
     /**
-     * Adds the group-by clause to the criteria
+     * Set a model on which the query will be executed
      */
-    public function groupBy(var group) -> <CriteriaInterface>;
+    public function setModelName(string! modelName) -> <CriteriaInterface>;
 
     /**
-     * Adds the having clause to the criteria
+     * Sets the "shared_lock" parameter to the criteria
      */
-    public function having(var having) -> <CriteriaInterface>;
+    public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>;
 
     /**
-     * Sets the cache options in the criteria
-     * This method replaces all previously set cache options
+     * Sets the conditions parameter in the criteria
      */
-    public function cache(array! cache) -> <CriteriaInterface>;
-
-    /**
-     * Returns the columns to be queried
-     *
-     * @return string|array|null
-     */
-    public function getColumns() -> string | null;
-
-    /**
-     * Returns the group clause in the criteria
-     */
-    public function getGroupBy();
-
-    /**
-     * Returns the having clause in the criteria
-     */
-    public function getHaving();
+    public function where(string! conditions) -> <CriteriaInterface>;
 }

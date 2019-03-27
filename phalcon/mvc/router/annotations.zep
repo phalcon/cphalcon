@@ -39,24 +39,13 @@ use Phalcon\Mvc\Router\Exception;
  */
 class Annotations extends Router
 {
-    protected _handlers = [];
+    protected actionSuffix = "Action";
 
-    protected _controllerSuffix = "Controller";
+    protected controllerSuffix = "Controller";
 
-    protected _actionSuffix = "Action";
+    protected handlers = [];
 
-    protected _routePrefix;
-
-    /**
-     * Adds a resource to the annotations handler
-     * A resource is a class that contains routing annotations
-     */
-    public function addResource(string! handler, string! prefix = null) -> <Annotations>
-    {
-        let this->_handlers[] = [prefix, handler];
-
-        return this;
-    }
+    protected routePrefix;
 
     /**
      * Adds a resource to the annotations handler
@@ -65,9 +54,28 @@ class Annotations extends Router
      */
     public function addModuleResource(string! module, string! handler, string! prefix = null) -> <Annotations>
     {
-        let this->_handlers[] = [prefix, handler, module];
+        let this->handlers[] = [prefix, handler, module];
 
         return this;
+    }
+
+    /**
+     * Adds a resource to the annotations handler
+     * A resource is a class that contains routing annotations
+     */
+    public function addResource(string! handler, string! prefix = null) -> <Annotations>
+    {
+        let this->handlers[] = [prefix, handler];
+
+        return this;
+    }
+
+    /**
+     * Return the registered resources
+     */
+    public function getResources() -> array
+    {
+        return this->handlers;
     }
 
     /**
@@ -88,9 +96,9 @@ class Annotations extends Router
 
         let annotationsService = container->getShared("annotations");
 
-        let handlers = this->_handlers;
+        let handlers = this->handlers;
 
-        let controllerSuffix = this->_controllerSuffix;
+        let controllerSuffix = this->controllerSuffix;
 
         for scope in handlers {
 
@@ -123,10 +131,10 @@ class Annotations extends Router
                     namespaceName = get_ns_class(handler);
             } else {
                 let controllerName = handler;
-                fetch namespaceName, this->_defaultNamespace;
+                fetch namespaceName, this->defaultNamespace;
             }
 
-            let this->_routePrefix = null;
+            let this->routePrefix = null;
 
             /**
              * Check if the scope has a module associated
@@ -188,19 +196,6 @@ class Annotations extends Router
     }
 
     /**
-     * Checks for annotations in the controller docblock
-     */
-    public function processControllerAnnotation(string! handler, <Annotation> annotation)
-    {
-        /**
-         * @RoutePrefix add a prefix for all the routes defined in the model
-         */
-        if annotation->getName() == "RoutePrefix" {
-            let this->_routePrefix = annotation->getArgument(0);
-        }
-    }
-
-    /**
      * Checks for annotations in the public methods of the controller
      */
     public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
@@ -250,8 +245,8 @@ class Annotations extends Router
 
         if isRoute === true {
 
-            let actionName = strtolower(str_replace(this->_actionSuffix, "", action)),
-                routePrefix = this->_routePrefix;
+            let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
+                routePrefix = this->routePrefix;
 
             /**
              * Check for existing paths in the annotation
@@ -352,11 +347,16 @@ class Annotations extends Router
     }
 
     /**
-     * Changes the controller class suffix
+     * Checks for annotations in the controller docblock
      */
-    public function setControllerSuffix(string! controllerSuffix)
+    public function processControllerAnnotation(string! handler, <Annotation> annotation)
     {
-        let this->_controllerSuffix = controllerSuffix;
+        /**
+         * @RoutePrefix add a prefix for all the routes defined in the model
+         */
+        if annotation->getName() == "RoutePrefix" {
+            let this->routePrefix = annotation->getArgument(0);
+        }
     }
 
     /**
@@ -364,14 +364,14 @@ class Annotations extends Router
      */
     public function setActionSuffix(string! actionSuffix)
     {
-        let this->_actionSuffix = actionSuffix;
+        let this->actionSuffix = actionSuffix;
     }
 
     /**
-     * Return the registered resources
+     * Changes the controller class suffix
      */
-    public function getResources() -> array
+    public function setControllerSuffix(string! controllerSuffix)
     {
-        return this->_handlers;
+        let this->controllerSuffix = controllerSuffix;
     }
 }
