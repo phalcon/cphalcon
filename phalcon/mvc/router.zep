@@ -50,51 +50,30 @@ use Phalcon\Events\EventsAwareInterface;
  */
 class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
 {
-    protected container;
-
-    protected eventsManager;
-
-    protected _uriSource;
-
-    protected _namespace = null;
-
-    protected _module = null;
-
-    protected _controller = null;
-
-    protected _action = null;
-
-    protected _params = [];
-
-    protected _routes;
-
-    protected _matchedRoute;
-
-    protected _matches;
-
-    protected _wasMatched = false;
-
-    protected _defaultNamespace;
-
-    protected _defaultModule;
-
-    protected _defaultController;
-
-    protected _defaultAction;
-
-    protected _defaultParams = [];
-
-    protected _removeExtraSlashes;
-
-    protected _notFoundPaths;
-
-    protected _keyRouteNames = [] { get, set };
-
-    protected _keyRouteIds = [] { get, set };
-
     const POSITION_FIRST = 0;
-
     const POSITION_LAST = 1;
+
+    protected action = null;
+    protected container;
+    protected controller = null;
+    protected defaultAction;
+    protected defaultController;
+    protected defaultModule;
+    protected defaultNamespace;
+    protected defaultParams = [];
+    protected eventsManager;
+    protected keyRouteNames = [] { get, set };
+    protected keyRouteIds = [] { get, set };
+    protected matchedRoute;
+    protected matches;
+    protected module = null;
+    protected namespaceName = null;
+    protected notFoundPaths;
+    protected params = [];
+    protected removeExtraSlashes;
+    protected routes;
+    protected uriSource;
+    protected wasMatched = false;
 
     /**
      * Phalcon\Mvc\Router constructor
@@ -119,15 +98,155 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             ]);
         }
 
-        let this->_routes = routes;
+        let this->routes = routes;
     }
 
     /**
-     * Sets the dependency injector
+     * Adds a route to the router without any HTTP constraint
+     *
+     *<code>
+     * use Phalcon\Mvc\Router;
+     *
+     * $router->add("/about", "About::index");
+     * $router->add("/about", "About::index", ["GET", "POST"]);
+     * $router->add("/about", "About::index", ["GET", "POST"], Router::POSITION_FIRST);
+     *</code>
      */
-    public function setDI(<DiInterface> container) -> void
+    public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>
     {
-        let this->container = container;
+        var route;
+
+        /**
+         * Every route is internally stored as a Phalcon\Mvc\Router\Route
+         */
+        let route = new Route(pattern, paths, httpMethods);
+
+        this->attach(route, position);
+
+        return route;
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is CONNECT
+     */
+    public function addConnect(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "CONNECT", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is DELETE
+     */
+    public function addDelete(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "DELETE", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is GET
+     */
+    public function addGet(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "GET", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is HEAD
+     */
+    public function addHead(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "HEAD", position);
+    }
+
+    /**
+     * Add a route to the router that only match if the HTTP method is OPTIONS
+     */
+    public function addOptions(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "OPTIONS", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is PATCH
+     */
+    public function addPatch(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "PATCH", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is POST
+     */
+    public function addPost(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "POST", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+     */
+    public function addPurge(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "PURGE", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is PUT
+     */
+    public function addPut(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "PUT", position);
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is TRACE
+     */
+    public function addTrace(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
+    {
+        return this->add(pattern, paths, "TRACE", position);
+    }
+
+    /**
+     * Attach Route object to the routes stack.
+     *
+     * <code>
+     * use Phalcon\Mvc\Router;
+     * use Phalcon\Mvc\Router\Route;
+     *
+     * class CustomRoute extends Route {
+     *      // ...
+     * }
+     *
+     * $router = new Router();
+     *
+     * $router->attach(
+     *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
+     *     Router::POSITION_FIRST
+     * );
+     * </code>
+     */
+    public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>
+    {
+        switch position {
+            case self::POSITION_LAST:
+                let this->routes[] = route;
+                break;
+            case self::POSITION_FIRST:
+                let this->routes = array_merge([route], this->routes);
+                break;
+            default:
+                throw new Exception("Invalid route position");
+        }
+
+        return this;
+    }
+
+    /**
+     * Removes all the pre-defined routes
+     */
+    public function clear() -> void
+    {
+        let this->routes = [];
     }
 
     /**
@@ -139,14 +258,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     }
 
     /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager)
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
      * Returns the internal event manager
      */
     public function getEventsManager() -> <ManagerInterface>
@@ -155,107 +266,113 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     }
 
     /**
-     * Set whether router must remove the extra slashes in the handled routes
+     * Returns the processed action name
      */
-    public function removeExtraSlashes(bool! remove) -> <RouterInterface>
+    public function getActionName() -> string
     {
-        let this->_removeExtraSlashes = remove;
-        return this;
+        return this->action;
     }
 
     /**
-     * Sets the name of the default namespace
+     * Returns the processed controller name
      */
-    public function setDefaultNamespace(string! namespaceName) -> <RouterInterface>
+    public function getControllerName() -> string
     {
-        let this->_defaultNamespace = namespaceName;
-        return this;
+        return this->controller;
     }
 
     /**
-     * Sets the name of the default module
+     * Returns the route that matches the handled URI
      */
-    public function setDefaultModule(string! moduleName) -> <RouterInterface>
+    public function getMatchedRoute() -> <RouteInterface>
     {
-        let this->_defaultModule = moduleName;
-        return this;
+        return this->matchedRoute;
     }
 
     /**
-     * Sets the default controller name
+     * Returns the sub expressions in the regular expression matched
      */
-    public function setDefaultController(string! controllerName) -> <RouterInterface>
+    public function getMatches() -> array
     {
-        let this->_defaultController = controllerName;
-        return this;
+        return this->matches;
     }
 
     /**
-     * Sets the default action name
+     * Returns the processed module name
      */
-    public function setDefaultAction(string! actionName) -> <RouterInterface>
+    public function getModuleName() -> string
     {
-        let this->_defaultAction = actionName;
-        return this;
+        return this->module;
     }
 
     /**
-     * Sets an array of default paths. If a route is missing a path the router will use the defined here
-     * This method must not be used to set a 404 route
-     *
-     *<code>
-     * $router->setDefaults(
-     *     [
-     *         "module" => "common",
-     *         "action" => "index",
-     *     ]
-     * );
-     *</code>
+     * Returns the processed namespace name
      */
-    public function setDefaults(array! defaults) -> <RouterInterface>
+    public function getNamespaceName() -> string
     {
-        var namespaceName, module, controller, action, params;
+        return this->namespaceName;
+    }
 
-        // Set a default namespace
-        if fetch namespaceName, defaults["namespace"] {
-            let this->_defaultNamespace = namespaceName;
+    /**
+     * Returns the processed parameters
+     */
+    public function getParams() -> array
+    {
+        return this->params;
+    }
+
+    /**
+     * Returns a route object by its id
+     */
+    public function getRouteById(var id) -> <RouteInterface> | bool
+    {
+        var route, routeId, key;
+
+        if fetch key, this->keyRouteIds[id] {
+            return this->routes[key];
         }
 
-        // Set a default module
-        if fetch module, defaults["module"] {
-            let this->_defaultModule = module;
-        }
+        for key, route in this->routes {
+            let routeId = route->getRouteId();
+            let this->keyRouteIds[routeId] = key;
 
-        // Set a default controller
-        if fetch controller, defaults["controller"] {
-            let this->_defaultController = controller;
+            if routeId == id {
+                return route;
+            }
         }
-
-        // Set a default action
-        if fetch action, defaults["action"] {
-            let this->_defaultAction = action;
-        }
-
-        // Set default parameters
-        if fetch params, defaults["params"] {
-            let this->_defaultParams = params;
-        }
-
-        return this;
+        return false;
     }
 
     /**
-     * Returns an array of default parameters
+     * Returns a route object by its name
      */
-    public function getDefaults() -> array
+    public function getRouteByName(string! name) -> <RouteInterface> | bool
     {
-        return [
-            "namespace":  this->_defaultNamespace,
-            "module":     this->_defaultModule,
-            "controller": this->_defaultController,
-            "action":     this->_defaultAction,
-            "params":     this->_defaultParams
-        ];
+        var route, routeName, key;
+
+        if fetch key, this->keyRouteNames[name] {
+            return this->routes[key];
+        }
+
+        for key, route in this->routes {
+            let routeName = route->getName();
+            if !empty routeName {
+                let this->keyRouteNames[routeName] = key;
+
+                if routeName == name {
+                    return route;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns all the routes defined in the router
+     */
+    public function getRoutes() -> <RouteInterface[]>
+    {
+        return this->routes;
     }
 
     /**
@@ -278,7 +395,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         /**
          * Remove extra slashes in the route
          */
-        if this->_removeExtraSlashes && uri != "/" {
+        if this->removeExtraSlashes && uri != "/" {
             let handledUri = rtrim(uri, "/");
         } else {
             let handledUri = uri;
@@ -290,8 +407,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             parts = [],
             params = [],
             matches = null,
-            this->_wasMatched = false,
-            this->_matchedRoute = null;
+            this->wasMatched = false,
+            this->matchedRoute = null;
 
         let eventsManager = this->eventsManager;
 
@@ -302,7 +419,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         /**
          * Routes are traversed in reversed order
          */
-        for route in reverse this->_routes {
+        for route in reverse this->routes {
             let params = [],
                 matches = null;
 
@@ -503,10 +620,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                     /**
                      * Update the matches generated by preg_match
                      */
-                    let this->_matches = matches;
+                    let this->matches = matches;
                 }
 
-                let this->_matchedRoute = route;
+                let this->matchedRoute = route;
                 break;
             }
         }
@@ -515,16 +632,16 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
          * Update the wasMatched property indicating if the route was matched
          */
         if routeFound {
-            let this->_wasMatched = true;
+            let this->wasMatched = true;
         } else {
-            let this->_wasMatched = false;
+            let this->wasMatched = false;
         }
 
         /**
          * The route wasn't found, try to use the not-found paths
          */
         if !routeFound {
-            let notFoundPaths = this->_notFoundPaths;
+            let notFoundPaths = this->notFoundPaths;
             if notFoundPaths !== null {
                 let parts = Route::getRoutePaths(notFoundPaths),
                     routeFound = true;
@@ -534,11 +651,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         /**
          * Use default values before we overwrite them if the route is matched
          */
-        let this->_namespace = this->_defaultNamespace,
-            this->_module = this->_defaultModule,
-            this->_controller = this->_defaultController,
-            this->_action = this->_defaultAction,
-            this->_params = this->_defaultParams;
+        let this->namespaceName = this->defaultNamespace,
+            this->module = this->defaultModule,
+            this->controller = this->defaultController,
+            this->action = this->defaultAction,
+            this->params = this->defaultParams;
 
         if routeFound {
 
@@ -547,7 +664,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              */
             if fetch vnamespace, parts["namespace"] {
                 if !is_numeric(vnamespace) {
-                    let this->_namespace = vnamespace;
+                    let this->namespaceName = vnamespace;
                 }
                 unset parts["namespace"];
             }
@@ -557,7 +674,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              */
             if fetch module, parts["module"] {
                 if !is_numeric(module) {
-                    let this->_module = module;
+                    let this->module = module;
                 }
                 unset parts["module"];
             }
@@ -567,7 +684,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              */
             if fetch controller, parts["controller"] {
                 if !is_numeric(controller) {
-                    let this->_controller = controller;
+                    let this->controller = controller;
                 }
                 unset parts["controller"];
             }
@@ -577,7 +694,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              */
             if fetch action, parts["action"] {
                 if !is_numeric(action) {
-                    let this->_action = action;
+                    let this->action = action;
                 }
                 unset parts["action"];
             }
@@ -597,9 +714,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             }
 
             if count(params) {
-                let this->_params = array_merge(params, parts);
+                let this->params = array_merge(params, parts);
             } else {
-                let this->_params = parts;
+                let this->params = parts;
             }
         }
 
@@ -609,145 +726,12 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     }
 
     /**
-     * Attach Route object to the routes stack.
-     *
-     * <code>
-     * use Phalcon\Mvc\Router;
-     * use Phalcon\Mvc\Router\Route;
-     *
-     * class CustomRoute extends Route {
-     *      // ...
-     * }
-     *
-     * $router = new Router();
-     *
-     * $router->attach(
-     *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
-     *     Router::POSITION_FIRST
-     * );
-     * </code>
+     * Returns whether controller name should not be mangled
      */
-    public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>
+    public function isExactControllerName() -> bool
     {
-        switch position {
-            case self::POSITION_LAST:
-                let this->_routes[] = route;
-                break;
-            case self::POSITION_FIRST:
-                let this->_routes = array_merge([route], this->_routes);
-                break;
-            default:
-                throw new Exception("Invalid route position");
-        }
-
-        return this;
+        return true;
     }
-
-    /**
-     * Adds a route to the router without any HTTP constraint
-     *
-     *<code>
-     * use Phalcon\Mvc\Router;
-     *
-     * $router->add("/about", "About::index");
-     * $router->add("/about", "About::index", ["GET", "POST"]);
-     * $router->add("/about", "About::index", ["GET", "POST"], Router::POSITION_FIRST);
-     *</code>
-     */
-    public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        var route;
-
-        /**
-         * Every route is internally stored as a Phalcon\Mvc\Router\Route
-         */
-        let route = new Route(pattern, paths, httpMethods);
-
-        this->attach(route, position);
-
-        return route;
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is GET
-     */
-    public function addGet(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "GET", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is POST
-     */
-    public function addPost(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "POST", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is PUT
-     */
-    public function addPut(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "PUT", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is PATCH
-     */
-    public function addPatch(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "PATCH", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is DELETE
-     */
-    public function addDelete(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "DELETE", position);
-    }
-
-    /**
-     * Add a route to the router that only match if the HTTP method is OPTIONS
-     */
-    public function addOptions(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "OPTIONS", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is HEAD
-     */
-    public function addHead(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "HEAD", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
-     */
-    public function addPurge(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "PURGE", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is TRACE
-     */
-    public function addTrace(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "TRACE", position);
-    }
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is CONNECT
-     */
-    public function addConnect(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
-    {
-        return this->add(pattern, paths, "CONNECT", position);
-    }
-
     /**
      * Mounts a group of routes in the router
      */
@@ -786,12 +770,12 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             }
         }
 
-        let routes = this->_routes;
+        let routes = this->routes;
 
         if typeof routes == "array" {
-            let this->_routes = array_merge(routes, groupRoutes);
+            let this->routes = array_merge(routes, groupRoutes);
         } else {
-            let this->_routes = groupRoutes;
+            let this->routes = groupRoutes;
         }
 
         return this;
@@ -805,72 +789,128 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         if typeof paths != "array" && typeof paths != "string" {
             throw new Exception("The not-found paths must be an array or string");
         }
-        let this->_notFoundPaths = paths;
+        let this->notFoundPaths = paths;
         return this;
     }
 
     /**
-     * Removes all the pre-defined routes
+     * Set whether router must remove the extra slashes in the handled routes
      */
-    public function clear() -> void
+    public function removeExtraSlashes(bool! remove) -> <RouterInterface>
     {
-        let this->_routes = [];
+        let this->removeExtraSlashes = remove;
+        return this;
     }
 
     /**
-     * Returns the processed namespace name
+     * Sets the default action name
      */
-    public function getNamespaceName() -> string
+    public function setDefaultAction(string! actionName) -> <RouterInterface>
     {
-        return this->_namespace;
+        let this->defaultAction = actionName;
+        return this;
     }
 
     /**
-     * Returns the processed module name
+     * Sets the default controller name
      */
-    public function getModuleName() -> string
+    public function setDefaultController(string! controllerName) -> <RouterInterface>
     {
-        return this->_module;
+        let this->defaultController = controllerName;
+        return this;
     }
 
     /**
-     * Returns the processed controller name
+     * Sets the name of the default module
      */
-    public function getControllerName() -> string
+    public function setDefaultModule(string! moduleName) -> <RouterInterface>
     {
-        return this->_controller;
+        let this->defaultModule = moduleName;
+        return this;
     }
 
     /**
-     * Returns the processed action name
+     * Sets the name of the default namespace
      */
-    public function getActionName() -> string
+    public function setDefaultNamespace(string! namespaceName) -> <RouterInterface>
     {
-        return this->_action;
+        let this->defaultNamespace = namespaceName;
+        return this;
     }
 
     /**
-     * Returns the processed parameters
+     * Sets an array of default paths. If a route is missing a path the router will use the defined here
+     * This method must not be used to set a 404 route
+     *
+     *<code>
+     * $router->setDefaults(
+     *     [
+     *         "module" => "common",
+     *         "action" => "index",
+     *     ]
+     * );
+     *</code>
      */
-    public function getParams() -> array
+    public function setDefaults(array! defaults) -> <RouterInterface>
     {
-        return this->_params;
+        var namespaceName, module, controller, action, params;
+
+        // Set a default namespace
+        if fetch namespaceName, defaults["namespace"] {
+            let this->defaultNamespace = namespaceName;
+        }
+
+        // Set a default module
+        if fetch module, defaults["module"] {
+            let this->defaultModule = module;
+        }
+
+        // Set a default controller
+        if fetch controller, defaults["controller"] {
+            let this->defaultController = controller;
+        }
+
+        // Set a default action
+        if fetch action, defaults["action"] {
+            let this->defaultAction = action;
+        }
+
+        // Set default parameters
+        if fetch params, defaults["params"] {
+            let this->defaultParams = params;
+        }
+
+        return this;
     }
 
     /**
-     * Returns the route that matches the handled URI
+     * Returns an array of default parameters
      */
-    public function getMatchedRoute() -> <RouteInterface>
+    public function getDefaults() -> array
     {
-        return this->_matchedRoute;
+        return [
+            "namespace":  this->defaultNamespace,
+            "module":     this->defaultModule,
+            "controller": this->defaultController,
+            "action":     this->defaultAction,
+            "params":     this->defaultParams
+        ];
     }
 
     /**
-     * Returns the sub expressions in the regular expression matched
+     * Sets the dependency injector
      */
-    public function getMatches() -> array
+    public function setDI(<DiInterface> container) -> void
     {
-        return this->_matches;
+        let this->container = container;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager)
+    {
+        let this->eventsManager = eventsManager;
     }
 
     /**
@@ -878,68 +918,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      */
     public function wasMatched() -> bool
     {
-        return this->_wasMatched;
-    }
-
-    /**
-     * Returns all the routes defined in the router
-     */
-    public function getRoutes() -> <RouteInterface[]>
-    {
-        return this->_routes;
-    }
-
-    /**
-     * Returns a route object by its id
-     */
-    public function getRouteById(var id) -> <RouteInterface> | bool
-    {
-        var route, routeId, key;
-
-        if fetch key, this->_keyRouteIds[id] {
-            return this->_routes[key];
-        }
-
-        for key, route in this->_routes {
-            let routeId = route->getRouteId();
-            let this->_keyRouteIds[routeId] = key;
-
-            if routeId == id {
-                return route;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns a route object by its name
-     */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool
-    {
-        var route, routeName, key;
-
-        if fetch key, this->_keyRouteNames[name] {
-            return this->_routes[key];
-        }
-
-        for key, route in this->_routes {
-            let routeName = route->getName();
-            if !empty routeName {
-                let this->_keyRouteNames[routeName] = key;
-
-                if routeName == name {
-                    return route;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns whether controller name should not be mangled
-     */
-    public function isExactControllerName() -> bool
-    {
-        return true;
+        return this->wasMatched;
     }
 }

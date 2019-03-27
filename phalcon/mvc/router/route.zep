@@ -19,30 +19,18 @@ use Phalcon\Mvc\Router\Exception;
  */
 class Route implements RouteInterface
 {
-
-    protected _pattern;
-
-    protected _compiledPattern;
-
-    protected _paths;
-
-    protected _methods;
-
-    protected _hostname;
-
-    protected _converters;
-
-    protected _id { get };
-
-    protected _name;
-
-    protected _beforeMatch;
-
-    protected _match;
-
-    protected _group;
-
-    protected static _uniqueId;
+    protected beforeMatch;
+    protected compiledPattern;
+    protected converters;
+    protected group;
+    protected hostname;
+    protected id { get };
+    protected methods;
+    protected match;
+    protected name;
+    protected paths;
+    protected pattern;
+    protected static uniqueId;
 
     /**
      * Phalcon\Mvc\Router\Route constructor
@@ -55,18 +43,48 @@ class Route implements RouteInterface
         this->reConfigure(pattern, paths);
 
         // Update the HTTP method constraints
-        let this->_methods = httpMethods;
+        let this->methods = httpMethods;
 
         // Get the unique Id from the static member _uniqueId
-        let uniqueId = self::_uniqueId;
+        let uniqueId = self::uniqueId;
         if uniqueId === null {
             let uniqueId = 0;
         }
 
         // TODO: Add a function that increase static members
         let routeId = uniqueId,
-            this->_id = routeId,
-            self::_uniqueId = uniqueId + 1;
+            this->id = routeId,
+            self::uniqueId = uniqueId + 1;
+    }
+
+    /**
+     * Sets a callback that is called if the route is matched.
+     * The developer can implement any arbitrary conditions here
+     * If the callback returns false the route is treated as not matched
+     *
+     *<code>
+     * $router->add(
+     *     "/login",
+     *     [
+     *         "module"     => "admin",
+     *         "controller" => "session",
+     *     ]
+     * )->beforeMatch(
+     *     function ($uri, $route) {
+     *         // Check if the request was made with Ajax
+     *         if ($_SERVER["HTTP_X_REQUESTED_WITH"] === "xmlhttprequest") {
+     *             return false;
+     *         }
+     *
+     *         return true;
+     *     }
+     * );
+     *</code>
+     */
+    public function beforeMatch(var callback) -> <RouteInterface>
+    {
+        let this->beforeMatch = callback;
+        return this;
     }
 
     /**
@@ -127,22 +145,12 @@ class Route implements RouteInterface
     }
 
     /**
-     * Set one or more HTTP methods that constraint the matching of the route
-     *
-     *<code>
-     * $route->via("GET");
-     *
-     * $route->via(
-     *     [
-     *         "GET",
-     *         "POST",
-     *     ]
-     * );
-     *</code>
+     * {@inheritdoc}
      */
-    public function via(var httpMethods) -> <RouteInterface>
+    public function convert(string! name, var converter) -> <RouteInterface>
     {
-        let this->_methods = httpMethods;
+        let this->converters[name] = converter;
+
         return this;
     }
 
@@ -283,53 +291,105 @@ class Route implements RouteInterface
     }
 
     /**
-     * Reconfigure the route adding a new pattern and a set of paths
+     * Returns the 'before match' callback if any
      */
-    public function reConfigure(string! pattern, var paths = null) -> void
+    public function getBeforeMatch() -> callable
     {
-        var routePaths, pcrePattern, compiledPattern,
-            extracted;
+        return this->beforeMatch;
+    }
 
-        let routePaths = self::getRoutePaths(paths);
+    /**
+     * Returns the route's compiled pattern
+     */
+    public function getCompiledPattern() -> string
+    {
+        return this->compiledPattern;
+    }
 
-        /**
-         * If the route starts with '#' we assume that it is a regular expression
-         */
-        if !starts_with(pattern, "#") {
+    /**
+     * Returns the router converter
+     */
+    public function getConverters() -> array
+    {
+        return this->converters;
+    }
 
-            if memstr(pattern, "{") {
-                /**
-                 * The route has named parameters so we need to extract them
-                 */
-                let extracted = this->extractNamedParams(pattern),
-                    pcrePattern = extracted[0],
-                    routePaths = array_merge(routePaths, extracted[1]);
-            } else {
-                let pcrePattern = pattern;
-            }
+    /**
+     * Returns the group associated with the route
+     */
+    public function getGroup() -> <GroupInterface> | null
+    {
+        return this->group;
+    }
 
-            /**
-             * Transform the route's pattern to a regular expression
-             */
-            let compiledPattern = this->compilePattern(pcrePattern);
-        } else {
-            let compiledPattern = pattern;
+    /**
+     * Returns the HTTP methods that constraint matching the route
+     */
+    public function getHttpMethods() -> array | string
+    {
+        return this->methods;
+    }
+
+    /**
+     * Returns the hostname restriction if any
+     */
+    public function getHostname() -> string
+    {
+        return this->hostname;
+    }
+
+    /**
+     * Returns the 'match' callback if any
+     */
+    public function getMatch() -> callable
+    {
+        return this->match;
+    }
+
+    /**
+     * Returns the route's name
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Returns the paths
+     */
+    public function getPaths() -> array
+    {
+        return this->paths;
+    }
+
+    /**
+     * Returns the route's pattern
+     */
+    public function getPattern() -> string
+    {
+        return this->pattern;
+    }
+
+    /**
+     * Returns the paths using positions as keys and names as values
+     */
+    public function getReversedPaths() -> array
+    {
+        var reversed, path, position;
+
+        let reversed = [];
+        for path, position in this->paths {
+            let reversed[position] = path;
         }
+        return reversed;
+    }
 
-        /**
-         * Update the original pattern
-         */
-        let this->_pattern = pattern;
-
-        /**
-         * Update the compiled pattern
-         */
-        let this->_compiledPattern = compiledPattern;
-
-        /**
-         * Update the route's paths
-         */
-        let this->_paths = routePaths;
+    /**
+     * Returns the route's id
+     */
+    public function getRouteId() -> string
+    {
+        return this->id;
     }
 
     /**
@@ -420,11 +480,117 @@ class Route implements RouteInterface
     }
 
     /**
-     * Returns the route's name
+     * Allows to set a callback to handle the request directly in the route
+     *
+     *<code>
+     * $router->add(
+     *     "/help",
+     *     []
+     * )->match(
+     *     function () {
+     *         return $this->getResponse()->redirect("https://support.google.com/", true);
+     *     }
+     * );
+     *</code>
      */
-    public function getName() -> string
+    public function match(var callback) -> <RouteInterface>
     {
-        return this->_name;
+        let this->match = callback;
+        return this;
+    }
+
+    /**
+     * Reconfigure the route adding a new pattern and a set of paths
+     */
+    public function reConfigure(string! pattern, var paths = null) -> void
+    {
+        var routePaths, pcrePattern, compiledPattern,
+            extracted;
+
+        let routePaths = self::getRoutePaths(paths);
+
+        /**
+         * If the route starts with '#' we assume that it is a regular expression
+         */
+        if !starts_with(pattern, "#") {
+
+            if memstr(pattern, "{") {
+                /**
+                 * The route has named parameters so we need to extract them
+                 */
+                let extracted = this->extractNamedParams(pattern),
+                    pcrePattern = extracted[0],
+                    routePaths = array_merge(routePaths, extracted[1]);
+            } else {
+                let pcrePattern = pattern;
+            }
+
+            /**
+             * Transform the route's pattern to a regular expression
+             */
+            let compiledPattern = this->compilePattern(pcrePattern);
+        } else {
+            let compiledPattern = pattern;
+        }
+
+        /**
+         * Update the original pattern
+         */
+        let this->pattern = pattern;
+
+        /**
+         * Update the compiled pattern
+         */
+        let this->compiledPattern = compiledPattern;
+
+        /**
+         * Update the route's paths
+         */
+        let this->paths = routePaths;
+    }
+
+    /**
+     * Resets the internal route id generator
+     */
+    public static function reset() -> void
+    {
+        let self::uniqueId = null;
+    }
+
+    /**
+     * Sets the group associated with the route
+     */
+    public function setGroup(<GroupInterface> group) -> <RouteInterface>
+    {
+        let this->group = group;
+        return this;
+    }
+
+    /**
+     * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
+     *
+     *<code>
+     * $route->setHttpMethods("GET");
+     * $route->setHttpMethods(["GET", "POST"]);
+     *</code>
+     */
+    public function setHttpMethods(var httpMethods) -> <RouteInterface>
+    {
+        let this->methods = httpMethods;
+        return this;
+    }
+
+    /**
+     * Sets a hostname restriction to the route
+     *
+     *<code>
+     * $route->setHostname("localhost");
+     *</code>
+     */
+    public function setHostname(string! hostname) -> <RouteInterface>
+    {
+        let this->hostname = hostname;
+        return this;
     }
 
     /**
@@ -441,205 +607,27 @@ class Route implements RouteInterface
      */
     public function setName(string name) -> <RouteInterface>
     {
-        let this->_name = name;
+        let this->name = name;
         return this;
     }
 
     /**
-     * Sets a callback that is called if the route is matched.
-     * The developer can implement any arbitrary conditions here
-     * If the callback returns false the route is treated as not matched
+     * Set one or more HTTP methods that constraint the matching of the route
      *
      *<code>
-     * $router->add(
-     *     "/login",
+     * $route->via("GET");
+     *
+     * $route->via(
      *     [
-     *         "module"     => "admin",
-     *         "controller" => "session",
+     *         "GET",
+     *         "POST",
      *     ]
-     * )->beforeMatch(
-     *     function ($uri, $route) {
-     *         // Check if the request was made with Ajax
-     *         if ($_SERVER["HTTP_X_REQUESTED_WITH"] === "xmlhttprequest") {
-     *             return false;
-     *         }
-     *
-     *         return true;
-     *     }
      * );
      *</code>
      */
-    public function beforeMatch(var callback) -> <RouteInterface>
+    public function via(var httpMethods) -> <RouteInterface>
     {
-        let this->_beforeMatch = callback;
+        let this->methods = httpMethods;
         return this;
-    }
-
-    /**
-     * Returns the 'before match' callback if any
-     */
-    public function getBeforeMatch() -> callable
-    {
-        return this->_beforeMatch;
-    }
-
-    /**
-     * Allows to set a callback to handle the request directly in the route
-     *
-     *<code>
-     * $router->add(
-     *     "/help",
-     *     []
-     * )->match(
-     *     function () {
-     *         return $this->getResponse()->redirect("https://support.google.com/", true);
-     *     }
-     * );
-     *</code>
-     */
-    public function match(var callback) -> <RouteInterface>
-    {
-        let this->_match = callback;
-        return this;
-    }
-
-    /**
-     * Returns the 'match' callback if any
-     */
-    public function getMatch() -> callable
-    {
-        return this->_match;
-    }
-
-    /**
-     * Returns the route's id
-     */
-    public function getRouteId() -> string
-    {
-        return this->_id;
-    }
-
-    /**
-     * Returns the route's pattern
-     */
-    public function getPattern() -> string
-    {
-        return this->_pattern;
-    }
-
-    /**
-     * Returns the route's compiled pattern
-     */
-    public function getCompiledPattern() -> string
-    {
-        return this->_compiledPattern;
-    }
-
-    /**
-     * Returns the paths
-     */
-    public function getPaths() -> array
-    {
-        return this->_paths;
-    }
-
-    /**
-     * Returns the paths using positions as keys and names as values
-     */
-    public function getReversedPaths() -> array
-    {
-        var reversed, path, position;
-
-        let reversed = [];
-        for path, position in this->_paths {
-            let reversed[position] = path;
-        }
-        return reversed;
-    }
-
-    /**
-     * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
-     *
-     *<code>
-     * $route->setHttpMethods("GET");
-     * $route->setHttpMethods(["GET", "POST"]);
-     *</code>
-     */
-    public function setHttpMethods(var httpMethods) -> <RouteInterface>
-    {
-        let this->_methods = httpMethods;
-        return this;
-    }
-
-    /**
-     * Returns the HTTP methods that constraint matching the route
-     */
-    public function getHttpMethods() -> array | string
-    {
-        return this->_methods;
-    }
-
-    /**
-     * Sets a hostname restriction to the route
-     *
-     *<code>
-     * $route->setHostname("localhost");
-     *</code>
-     */
-    public function setHostname(string! hostname) -> <RouteInterface>
-    {
-        let this->_hostname = hostname;
-        return this;
-    }
-
-    /**
-     * Returns the hostname restriction if any
-     */
-    public function getHostname() -> string
-    {
-        return this->_hostname;
-    }
-
-    /**
-     * Sets the group associated with the route
-     */
-    public function setGroup(<GroupInterface> group) -> <RouteInterface>
-    {
-        let this->_group = group;
-        return this;
-    }
-
-    /**
-     * Returns the group associated with the route
-     */
-    public function getGroup() -> <GroupInterface> | null
-    {
-        return this->_group;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convert(string! name, var converter) -> <RouteInterface>
-    {
-        let this->_converters[name] = converter;
-
-        return this;
-    }
-
-    /**
-     * Returns the router converter
-     */
-    public function getConverters() -> array
-    {
-        return this->_converters;
-    }
-
-    /**
-     * Resets the internal route id generator
-     */
-    public static function reset() -> void
-    {
-        let self::_uniqueId = null;
     }
 }
