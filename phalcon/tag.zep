@@ -103,7 +103,7 @@ class Tag
      */
     public static function checkField(var parameters) -> string
     {
-        return self::_inputFieldChecked("checkbox", parameters);
+        return self::inputFieldChecked("checkbox", parameters);
     }
 
     /**
@@ -113,7 +113,7 @@ class Tag
      */
     public static function colorField(var parameters) -> string
     {
-        return self::_inputField("color", parameters);
+        return self::inputField("color", parameters);
     }
 
     /**
@@ -132,7 +132,7 @@ class Tag
      */
     public static function dateField(var parameters) -> string
     {
-        return self::_inputField("date", parameters);
+        return self::inputField("date", parameters);
     }
 
     /**
@@ -142,7 +142,7 @@ class Tag
     */
     public static function dateTimeField(var parameters) -> string
     {
-        return self::_inputField("datetime", parameters);
+        return self::inputField("datetime", parameters);
     }
 
     /**
@@ -152,7 +152,7 @@ class Tag
     */
     public static function dateTimeLocalField(var parameters) -> string
     {
-        return self::_inputField("datetime-local", parameters);
+        return self::inputField("datetime-local", parameters);
     }
 
     /**
@@ -176,7 +176,7 @@ class Tag
      */
     public static function emailField(var parameters) -> string
     {
-        return self::_inputField("email", parameters);
+        return self::inputField("email", parameters);
     }
 
     /**
@@ -198,7 +198,7 @@ class Tag
      */
     public static function fileField(var parameters) -> string
     {
-        return self::_inputField("file", parameters);
+        return self::inputField("file", parameters);
     }
 
     /**
@@ -274,7 +274,12 @@ class Tag
      * echo Phalcon\Tag::friendlyTitle("These are big important news", "-")
      *</code>
      */
-    public static function friendlyTitle(string text, string separator = "-", bool lowercase = true, var replace = null) -> string
+    public static function friendlyTitle(
+        string text,
+        string separator = "-",
+        bool lowercase = true,
+        var replace = null
+    ) -> string
     {
         var friendly, locale, search;
 
@@ -580,7 +585,7 @@ class Tag
      */
     public static function hiddenField(var parameters) -> string
     {
-        return self::_inputField("hidden", parameters);
+        return self::inputField("hidden", parameters);
     }
 
     /**
@@ -668,7 +673,7 @@ class Tag
      */
     public static function imageInput(var parameters) -> string
     {
-        return self::_inputField("image", parameters, true);
+        return self::inputField("image", parameters, true);
     }
 
     /**
@@ -840,7 +845,7 @@ class Tag
      */
     public static function monthField(var parameters) -> string
     {
-        return self::_inputField("month", parameters);
+        return self::inputField("month", parameters);
     }
 
     /**
@@ -860,7 +865,7 @@ class Tag
      */
     public static function numericField(var parameters) -> string
     {
-        return self::_inputField("number", parameters);
+        return self::inputField("number", parameters);
     }
 
 
@@ -880,7 +885,7 @@ class Tag
      */
     public static function passwordField(var parameters) -> string
     {
-        return self::_inputField("password", parameters);
+        return self::inputField("password", parameters);
     }
 
     /**
@@ -920,7 +925,7 @@ class Tag
      */
     public static function radioField(var parameters) -> string
     {
-        return self::_inputFieldChecked("radio", parameters);
+        return self::inputFieldChecked("radio", parameters);
     }
 
     /**
@@ -930,7 +935,7 @@ class Tag
     */
     public static function rangeField(var parameters) -> string
     {
-        return self::_inputField("range", parameters);
+        return self::inputField("range", parameters);
     }
 
     /**
@@ -1031,7 +1036,7 @@ class Tag
      */
     public static function searchField(var parameters) -> string
     {
-        return self::_inputField("search", parameters);
+        return self::inputField("search", parameters);
     }
 
     /**
@@ -1139,7 +1144,7 @@ class Tag
     /**
      * Sets the dependency injector container.
      */
-    public static function setDI(<DiInterface> container)
+    public static function setDI(<DiInterface> container) -> void
     {
         let self::container = container;
     }
@@ -1268,7 +1273,7 @@ class Tag
      */
     public static function submitButton(var parameters) -> string
     {
-        return self::_inputField("submit", parameters, true);
+        return self::inputField("submit", parameters, true);
     }
 
     /**
@@ -1333,7 +1338,7 @@ class Tag
     */
     public static function telField(var parameters) -> string
     {
-        return self::_inputField("tel", parameters);
+        return self::inputField("tel", parameters);
     }
 
     /**
@@ -1415,7 +1420,7 @@ class Tag
      */
     public static function textField(var parameters) -> string
     {
-        return self::_inputField("text", parameters);
+        return self::inputField("text", parameters);
     }
 
     /**
@@ -1425,7 +1430,7 @@ class Tag
      */
     public static function timeField(var parameters) -> string
     {
-        return self::_inputField("time", parameters);
+        return self::inputField("time", parameters);
     }
 
     /**
@@ -1435,7 +1440,7 @@ class Tag
      */
     public static function urlField(var parameters) -> string
     {
-        return self::_inputField("url", parameters);
+        return self::inputField("url", parameters);
     }
 
     /**
@@ -1445,7 +1450,7 @@ class Tag
      */
     public static function weekField(var parameters) -> string
     {
-        return self::_inputField("week", parameters);
+        return self::inputField("week", parameters);
     }
 
     /**
@@ -1453,7 +1458,7 @@ class Tag
      *
      * @param array parameters
      */
-    static protected final function _inputField(string type, parameters, bool asValue = false) -> string
+    static protected final function inputField(string type, parameters, bool asValue = false) -> string
     {
         var params, id, value, code, name;
 
@@ -1521,7 +1526,7 @@ class Tag
      *
      * @param array parameters
      */
-    static protected final function _inputFieldChecked(string type, var parameters) -> string
+    static protected final function inputFieldChecked(string type, var parameters) -> string
     {
         var params, value, id, code, name, currentValue;
 

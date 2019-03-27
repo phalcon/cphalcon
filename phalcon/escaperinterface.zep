@@ -50,10 +50,10 @@ interface EscaperInterface
     /**
      * Sets the encoding to be used by the escaper
      */
-    public function setEncoding(string encoding);
+    public function setEncoding(string encoding) -> void;
 
     /**
      * Sets the HTML quoting type for htmlspecialchars
      */
-    public function setHtmlQuoteType(int quoteType);
+    public function setHtmlQuoteType(int quoteType) -> void;
 }

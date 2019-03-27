@@ -265,7 +265,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Sets the dependency injection container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
     }

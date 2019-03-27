@@ -48,23 +48,14 @@ class Security implements InjectionAwareInterface
     const CRYPT_STD_DES    = 1;
 
     protected container;
-
     protected defaultHash;
-
     protected numberBytes = 16;
-
     protected random;
-
     protected requestToken;
-
     protected token;
-
     protected tokenKey;
-
     protected tokenKeySessionId = "$PHALCON/CSRF/KEY$";
-
     protected tokenValueSessionId = "$PHALCON/CSRF$";
-
     protected workFactor = 8 { set, get };
 
     /**

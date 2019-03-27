@@ -31,7 +31,7 @@ interface ValidationInterface
     /**
      * Appends a message to the messages list
      */
-    public function appendMessage(<MessageInterface> message);
+    public function appendMessage(<MessageInterface> message) -> <ValidationInterface>;
 
     /**
      * Assigns the data to an entity
@@ -45,21 +45,21 @@ interface ValidationInterface
     /**
      * Get default message for validator type
      */
-    public function getDefaultMessage(string! type);
+    public function getDefaultMessage(string! type) -> string;
 
     /**
      * Returns the bound entity
      *
      * @return object
      */
-    public function getEntity();
+    public function getEntity() -> object;
 
     /**
      * Returns all the filters or a specific one
      *
      * @return mixed
      */
-    public function getFilters(string field = null);
+    public function getFilters(string field = null) -> var | null;
 
     /**
      * Get label for field
@@ -74,7 +74,7 @@ interface ValidationInterface
     /**
      * Returns the validators added to the validation
      */
-    public function getValidators();
+    public function getValidators() -> array;
 
     /**
      * Gets the a value to validate in the array/object data source
@@ -94,7 +94,7 @@ interface ValidationInterface
     /**
      * Adds default messages to validators
      */
-    public function setDefaultMessages(array messages = []);
+    public function setDefaultMessages(array messages = []) -> array;
 
     /**
      * Adds filters to the field
@@ -106,7 +106,7 @@ interface ValidationInterface
     /**
      * Adds labels for fields
      */
-    public function setLabels(array! labels);
+    public function setLabels(array! labels) -> void;
 
     /**
      * Validate a set of data according to a set of rules

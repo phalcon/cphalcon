@@ -52,7 +52,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->_params["di"] = container;
     }

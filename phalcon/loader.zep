@@ -46,22 +46,41 @@ class Loader implements EventsAwareInterface
 
     protected checkedPath = null;
 
+    /**
+     * @var array
+     */
     protected classes = [];
 
+    /**
+     * @var array
+     */
     protected directories = [];
-
     protected eventsManager = null;
 
+    /**
+     * @var array
+     */
     protected extensions = ["php"];
-
     protected fileCheckingCallback = "is_file";
 
+    /**
+     * @var array
+     */
     protected files = [];
 
+    /**
+     * @var bool
+     */
     protected foundPath = null;
 
+    /**
+     * @var array
+     */
     protected namespaces = [];
 
+    /**
+     * @var bool
+     */
     protected registered = false;
 
     /**
@@ -299,7 +318,7 @@ class Loader implements EventsAwareInterface
     /**
      * Checks if a file exists and then adds the file by doing virtual require
      */
-    public function loadFiles()
+    public function loadFiles() -> void
     {
         var filePath, fileCheckingCallback;
 
@@ -496,5 +515,4 @@ class Loader implements EventsAwareInterface
 
         return prepared;
     }
-
 }

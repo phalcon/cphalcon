@@ -1133,7 +1133,7 @@ class Micro extends Injectable implements \ArrayAccess
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         /**
          * We automatically set ourselves as application service

@@ -112,7 +112,7 @@ class Bag extends Collection implements InjectionAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container)
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
     }
