@@ -50,7 +50,7 @@ class Service implements ServiceInterface
      *
      * @param mixed definition
      */
-    public final function __construct(definition, bool shared = false) -> void
+    final public function __construct(definition, bool shared = false) -> void
     {
         let this->definition = definition,
             this->shared = shared;

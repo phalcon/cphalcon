@@ -1288,7 +1288,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Checks if a path is absolute or not
      */
-    protected final function isAbsolutePath(string path)
+    final protected function isAbsolutePath(string path)
     {
         if PHP_OS == "WINNT" {
             return strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';

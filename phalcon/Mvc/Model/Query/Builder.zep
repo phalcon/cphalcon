@@ -576,7 +576,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Returns a PHQL statement built based on the builder parameters
      */
-    public final function getPhql() -> string
+    final public function getPhql() -> string
     {
         var container, models, conditions, model, metaData,
             modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias,

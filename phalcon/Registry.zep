@@ -67,7 +67,7 @@ final class Registry extends Collection
     /**
      * Constructor
      */
-    public final function __construct(array! data = null) -> void
+    final public function __construct(array! data = null) -> void
     {
         parent::__construct(data);
     }
@@ -75,7 +75,7 @@ final class Registry extends Collection
     /**
      * Magic getter to get an element from the collection
      */
-    public final function __get(string! element) -> var
+    final public function __get(string! element) -> var
     {
         return parent::get(element);
     }
@@ -83,7 +83,7 @@ final class Registry extends Collection
     /**
      * Magic isset to check whether an element exists or not
      */
-    public final function __isset(string! element) -> bool
+    final public function __isset(string! element) -> bool
     {
         return parent::has(element);
     }
@@ -91,7 +91,7 @@ final class Registry extends Collection
     /**
      * Magic setter to assign values to an element
      */
-    public final function __set(string! element, var value) -> void
+    final public function __set(string! element, var value) -> void
     {
         parent::set(element, value);
     }
@@ -99,7 +99,7 @@ final class Registry extends Collection
     /**
      * Magic unset to remove an element from the collection
      */
-    public final function __unset(string! element) -> void
+    final public function __unset(string! element) -> void
     {
         parent::remove(element);
     }
@@ -107,7 +107,7 @@ final class Registry extends Collection
     /**
      * Clears the internal collection
      */
-    public final function clear() -> void
+    final public function clear() -> void
     {
         parent::clear();
     }
@@ -117,7 +117,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/countable.count.php
      */
-    public final function count() -> int
+    final public function count() -> int
     {
         return parent::count();
     }
@@ -125,7 +125,7 @@ final class Registry extends Collection
     /**
      * Get the element from the collection
      */
-    public final function get(string! element, var defaultValue = null, bool insensitive = true) -> var
+    final public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
     {
         return parent::get(element, defaultValue, insensitive);
     }
@@ -133,7 +133,7 @@ final class Registry extends Collection
     /**
      * Returns the iterator of the class
      */
-    public final function getIterator() -> <Traversable>
+    final public function getIterator() -> <Traversable>
     {
         return parent::getIterator();
     }
@@ -141,7 +141,7 @@ final class Registry extends Collection
     /**
      * Get the element from the collection
      */
-    public final function has(string! element, bool insensitive = true) -> bool
+    final public function has(string! element, bool insensitive = true) -> bool
     {
         return parent::has(element, insensitive);
     }
@@ -149,7 +149,7 @@ final class Registry extends Collection
     /**
      * Initialize internal array
      */
-    public final function init(array! data = []) -> void
+    final public function init(array! data = []) -> void
     {
         parent::init(data);
     }
@@ -159,7 +159,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public final function jsonSerialize () -> array
+    final public function jsonSerialize () -> array
     {
         return parent::jsonSerialize();
     }
@@ -169,7 +169,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetexists.php
      */
-    public final function offsetExists(var element) -> bool
+    final public function offsetExists(var element) -> bool
     {
         return parent::has(element);
     }
@@ -179,7 +179,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetget.php
      */
-    public final function offsetGet(var element) -> var
+    final public function offsetGet(var element) -> var
     {
         return parent::get(element);
     }
@@ -189,7 +189,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetset.php
      */
-    public final function offsetSet(var element, var value) -> void
+    final public function offsetSet(var element, var value) -> void
     {
         parent::set(element, value);
     }
@@ -199,7 +199,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetunset.php
      */
-    public final function offsetUnset(var element) -> void
+    final public function offsetUnset(var element) -> void
     {
         parent::remove(element);
     }
@@ -207,7 +207,7 @@ final class Registry extends Collection
     /**
      * Delete the element from the collection
      */
-    public final function remove(string! element, bool insensitive = true) -> void
+    final public function remove(string! element, bool insensitive = true) -> void
     {
         parent::remove(element, insensitive);
     }
@@ -217,7 +217,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/serializable.serialize.php
      */
-    public final function serialize() -> string
+    final public function serialize() -> string
     {
         return parent::serialize();
     }
@@ -225,7 +225,7 @@ final class Registry extends Collection
     /**
      * Set an element in the collection
      */
-    public final function set(string! element, var value) -> void
+    final public function set(string! element, var value) -> void
     {
         parent::set(element, value);
     }
@@ -233,7 +233,7 @@ final class Registry extends Collection
     /**
      * Returns the object in an array format
      */
-    public final function toArray() -> array
+    final public function toArray() -> array
     {
         return parent::toArray();
     }
@@ -247,7 +247,7 @@ final class Registry extends Collection
      *
      * @see https://www.ietf.org/rfc/rfc4627.txt
      */
-    public final function toJson(int options = 74) -> string
+    final public function toJson(int options = 74) -> string
     {
         return parent::toJson(options);
     }
@@ -257,7 +257,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/serializable.unserialize.php
      */
-    public final function unserialize(var serialized) -> void
+    final public function unserialize(var serialized) -> void
     {
         parent::unserialize(serialized);
     }

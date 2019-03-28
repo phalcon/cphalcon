@@ -1487,7 +1487,7 @@ class Compiler implements InjectionAwareInterface
      * @param array arguments
      * @return mixed
      */
-    public final function fireExtensionEvent(string! name, arguments = null)
+    final public function fireExtensionEvent(string! name, arguments = null)
     {
         var extensions, extension, status;
 

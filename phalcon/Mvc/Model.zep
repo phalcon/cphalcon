@@ -125,7 +125,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Phalcon\Mvc\Model constructor
      */
-    public final function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
+    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
     {
         /**
          * We use a default DI if the user doesn't define one
@@ -2662,7 +2662,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
      * to verify that inserted/updated values are present in the related entity
      */
-    protected final function _checkForeignKeysRestrict() -> bool
+    final protected function _checkForeignKeysRestrict() -> bool
     {
         var manager, belongsTo, foreignKey, relation, conditions,
             position, bindParams, extraConditions, message, fields,
@@ -2811,7 +2811,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
      */
-    protected final function _checkForeignKeysReverseCascade() -> bool
+    final protected function _checkForeignKeysReverseCascade() -> bool
     {
         var manager, relations, relation, foreignKey,
             resultset, conditions, bindParams, referencedModel,
@@ -2916,7 +2916,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
      */
-    protected final function _checkForeignKeysReverseRestrict() -> bool
+    final protected function _checkForeignKeysReverseRestrict() -> bool
     {
         bool error;
         var manager, relations, foreignKey, relation,
@@ -3848,7 +3848,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Check for, and attempt to use, possible setter.
      */
-    protected final function _possibleSetter(string property, var value) -> bool
+    final protected function _possibleSetter(string property, var value) -> bool
     {
         var possibleSetter;
 

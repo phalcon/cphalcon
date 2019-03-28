@@ -34,7 +34,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Escape identifiers
      */
-    public final function escape(string! str, string escapeChar = null) -> string
+    final public function escape(string! str, string escapeChar = null) -> string
     {
         var parts, key, part, newParts;
 
@@ -73,7 +73,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Escape Schema
      */
-    public final function escapeSchema(string! str, string escapeChar = null) -> string
+    final public function escapeSchema(string! str, string escapeChar = null) -> string
     {
         if !globals_get("db.escape_identifiers") {
             return str;
@@ -111,7 +111,7 @@ abstract class Dialect implements DialectInterface
      * );
      * </code>
      */
-    public final function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string
+    final public function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string
     {
         var columns, column;
         let columns = [];
@@ -134,7 +134,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve Column expressions
      */
-    public final function getSqlColumn(var column, string escapeChar = null, bindCounts = null) -> string
+    final public function getSqlColumn(var column, string escapeChar = null, bindCounts = null) -> string
     {
         var columnExpression, columnAlias, columnField, columnDomain;
 
@@ -323,7 +323,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Transform an intermediate representation of a schema/table into a database system valid expression
      */
-    public final function getSqlTable(var table, string escapeChar = null) -> string
+    final public function getSqlTable(var table, string escapeChar = null) -> string
     {
         var tableName, schemaName, aliasName;
 
@@ -555,7 +555,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve *
      */
-    protected final function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
+    final protected function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
     {
         var domain;
 
@@ -567,7 +567,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve binary operations expressions
      */
-    protected final function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var left, right;
 
@@ -580,7 +580,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve CASE expressions
      */
-    protected final function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var sql, whenClause;
 
@@ -603,7 +603,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve CAST of values
      */
-    protected final function getSqlExpressionCastValue(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionCastValue(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var left, right;
 
@@ -616,7 +616,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve CONVERT of values encodings
      */
-    protected final function getSqlExpressionConvertValue(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionConvertValue(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var left, right;
 
@@ -629,7 +629,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve a FROM clause
      */
-    protected final function getSqlExpressionFrom(var expression, string escapeChar = null) -> string
+    final protected function getSqlExpressionFrom(var expression, string escapeChar = null) -> string
     {
         var table, tables;
 
@@ -653,7 +653,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve function calls
      */
-    protected final function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, bindCounts) -> string
+    final protected function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, bindCounts) -> string
     {
         var name, customFunction, arguments;
 
@@ -684,7 +684,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve a GROUP BY clause
      */
-    protected final function getSqlExpressionGroupBy(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionGroupBy(var expression, string escapeChar = null, bindCounts = null) -> string
     {
         var field, fields;
 
@@ -712,7 +712,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve a HAVING clause
      */
-    protected final function getSqlExpressionHaving(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionHaving(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
     }
@@ -720,7 +720,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve a JOINs clause
      */
-    protected final function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
     {
         var condition, join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
 
@@ -762,7 +762,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve a LIMIT clause
      */
-    protected final function getSqlExpressionLimit(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionLimit(var expression, string escapeChar = null, bindCounts = null) -> string
     {
         var sql = "", value, limit, offset = null;
         let value = expression["value"];
@@ -796,7 +796,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve Lists
      */
-    protected final function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var items, item, values, separator;
 
@@ -826,7 +826,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve object expressions
      */
-    protected final function getSqlExpressionObject(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionObject(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var domain = null, objectExpression;
 
@@ -844,7 +844,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve an ORDER BY clause
      */
-    protected final function getSqlExpressionOrderBy(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionOrderBy(var expression, string escapeChar = null, bindCounts = null) -> string
     {
         var field, fields, type, fieldSql = null;
 
@@ -882,7 +882,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve qualified expressions
      */
-    protected final function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
+    final protected function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
     {
         var column, domain;
         let column = expression["name"];
@@ -900,7 +900,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve Column expressions
      */
-    protected final function getSqlExpressionScalar(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionScalar(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var value;
 
@@ -922,7 +922,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve unary operations expressions
      */
-    protected final function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         var left, right;
 
@@ -946,7 +946,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve a WHERE clause
      */
-    protected final function getSqlExpressionWhere(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionWhere(var expression, string escapeChar = null, bindCounts = null) -> string
     {
         var whereSql;
 

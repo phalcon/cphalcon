@@ -546,7 +546,7 @@ class Debug
     /**
      * Shows a backtrace item
      */
-    protected final function showTraceItem(int n, array! trace) -> string
+    final protected function showTraceItem(int n, array! trace) -> string
     {
         var className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
             functionName, functionReflection, traceArgs, arguments, argument,

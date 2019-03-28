@@ -56,7 +56,7 @@ class Simple extends Resultset
     /**
      * Returns current row in the resultset
      */
-    public final function current() -> <ModelInterface> | bool
+    final public function current() -> <ModelInterface> | bool
     {
         var row, hydrateMode, columnMap, activeRow, modelName;
 

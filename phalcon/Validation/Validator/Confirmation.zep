@@ -107,7 +107,7 @@ class Confirmation extends Validator
     /**
      * Compare strings
      */
-    protected final function compare(string a, string b) -> bool
+    final protected function compare(string a, string b) -> bool
     {
         if this->getOption("ignoreCase", false) {
 

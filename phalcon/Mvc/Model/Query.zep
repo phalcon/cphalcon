@@ -219,7 +219,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Replaces the model's name to its source name in a qualified-name expression
      */
-    protected final function _getQualified(array! expr) -> array
+    final protected function _getQualified(array! expr) -> array
     {
         var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
             source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -381,7 +381,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    protected final function _getCallArgument(array! argument) -> array
+    final protected function _getCallArgument(array! argument) -> array
     {
         if argument["type"] == PHQL_T_STARALL {
             return ["type": "all"];
@@ -392,7 +392,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    protected final function _getCaseExpression(array! expr) -> array
+    final protected function _getCaseExpression(array! expr) -> array
     {
         var whenClauses, whenExpr;
 
@@ -422,7 +422,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    protected final function _getFunctionCall(array! expr) -> array
+    final protected function _getFunctionCall(array! expr) -> array
     {
         var arguments, distinct, argument, functionArgs;
 
@@ -470,7 +470,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression from its intermediate code into a string
      */
-    protected final function _getExpression(array expr, bool quoting = true) -> string
+    final protected function _getExpression(array expr, bool quoting = true) -> string
     {
         var exprType, exprLeft, exprRight, left = null, right = null, listItems, exprListItem,
             exprReturn, tempNotQuoting, value, escapedValue, exprValue,
@@ -800,7 +800,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Resolves a column from its intermediate representation into an array used to determine
      * if the resultset produced is simple or complex
      */
-    protected final function _getSelectColumn(array! column) -> array
+    final protected function _getSelectColumn(array! column) -> array
     {
         var sqlColumns, columnType, sqlAliases, modelName, source,
             columnDomain, sqlColumnAlias, preparedAlias, sqlExprColumn,
@@ -944,7 +944,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @return string
      */
-    protected final function _getTable(<ManagerInterface> manager, array qualifiedName)
+    final protected function _getTable(<ManagerInterface> manager, array qualifiedName)
     {
         var modelName, model, source, schema;
 
@@ -966,7 +966,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves a JOIN clause checking if the associated models exist
      */
-    protected final function _getJoin(<ManagerInterface> manager, array join) -> array
+    final protected function _getJoin(<ManagerInterface> manager, array join) -> array
     {
         var qualified, modelName, realModelName, nsAlias,
             source, model, schema;
@@ -1003,7 +1003,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves a JOIN type
      */
-    protected final function _getJoinType(array join) -> string
+    final protected function _getJoinType(array join) -> string
     {
         var type;
 
@@ -1037,7 +1037,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param string joinSource
      */
-    protected final function _getSingleJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function _getSingleJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, sqlJoinConditions = null,
             sqlJoinPartialConditions, position, field, referencedField;
@@ -1131,7 +1131,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param string joinSource
      */
-    protected final function _getMultiJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function _getMultiJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var sqlJoins, fields, referencedFields,
             intermediateModelName, intermediateModel, intermediateSource,
@@ -1298,7 +1298,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Processes the JOINs in the query returning an internal representation for the database dialect
      */
-    protected final function _getJoins(array select) -> array
+    final protected function _getJoins(array select) -> array
     {
         var models, sqlAliases, sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
             modelsInstances, fromModels, sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
@@ -1645,7 +1645,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param array|string order
      */
-    protected final function _getOrderClause(order) -> array
+    final protected function _getOrderClause(order) -> array
     {
         var orderColumns, orderParts, orderItem, orderPartExpr,
             orderSort, orderPartSort;
@@ -1683,7 +1683,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns a processed group clause for a SELECT statement
      */
-    protected final function _getGroupClause(array! group) -> array
+    final protected function _getGroupClause(array! group) -> array
     {
         var groupItem, groupParts;
 
@@ -1704,7 +1704,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns a processed limit clause for a SELECT statement
      */
-    protected final function _getLimitClause(array! limitClause) -> array
+    final protected function _getLimitClause(array! limitClause) -> array
     {
         var number, offset;
         array limit = [];
@@ -1723,7 +1723,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes a SELECT intermediate code and produces an array to be executed later
      */
-    protected final function _prepareSelect(var ast = null, var merge = null) -> array
+    final protected function _prepareSelect(var ast = null, var merge = null) -> array
     {
         int position;
         var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
@@ -2103,7 +2103,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes an INSERT intermediate code and produces an array to be executed later
      */
-    protected final function _prepareInsert() -> array
+    final protected function _prepareInsert() -> array
     {
         var ast, qualifiedName, nsAlias, manager, modelName, model, source, schema,
             exprValues, exprValue, sqlInsert, metaData, fields,
@@ -2193,7 +2193,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes an UPDATE intermediate code and produces an array to be executed later
      */
-    protected final function _prepareUpdate() -> array
+    final protected function _prepareUpdate() -> array
     {
         var ast, update, tables, values, modelsInstances, models,
             sqlTables, sqlAliases, sqlAliasesModelsInstances, updateTables,
@@ -2334,7 +2334,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes a DELETE intermediate code and produces an array to be executed later
      */
-    protected final function _prepareDelete() -> array
+    final protected function _prepareDelete() -> array
     {
         var ast, delete, tables, models, modelsInstances,
             sqlTables, sqlModels, sqlAliases, sqlAliasesModelsInstances,
@@ -2534,7 +2534,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Model\Resultset
      */
-    protected final function _executeSelect(array intermediate, var bindParams, var bindTypes, bool simulate = false) -> <ResultsetInterface> | array
+    final protected function _executeSelect(array intermediate, var bindParams, var bindTypes, bool simulate = false) -> <ResultsetInterface> | array
     {
 
         var manager, modelName, models, model, connection, connectionTypes,
@@ -2870,7 +2870,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @param array bindParams
      * @param array bindTypes
      */
-    protected final function _executeInsert(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+    final protected function _executeInsert(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
     {
         var modelName, manager, connection, metaData, attributes,
             fields, columnMap, dialect, insertValues, number, value, model,
@@ -2996,7 +2996,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @param array bindParams
      * @param array bindTypes
      */
-    protected final function _executeUpdate(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+    final protected function _executeUpdate(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
     {
         var models, modelName, model, connection, dialect,
             fields, values, updateValues, fieldName, value,
@@ -3147,7 +3147,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @param array bindParams
      * @param array bindTypes
      */
-    protected final function _executeDelete(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+    final protected function _executeDelete(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
     {
         var models, modelName, model, records, connection, record;
 
@@ -3223,7 +3223,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @param array bindParams
      * @param array bindTypes
      */
-    protected final function _getRelatedRecords(<ModelInterface> model, array intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
+    final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
     {
         var selectIr, whereConditions, limitConditions, query;
 
