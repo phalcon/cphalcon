@@ -32,6 +32,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
 ## Changed
 - Refactored `Phalcon\Registry` to use the `Phalcon\Collection` class [#13893](https://github.com/phalcon/cphalcon/issues/13893)
 - Refactored `Phalcon\Session\Bag` to use the `Phalcon\Collection` class [#13893](https://github.com/phalcon/cphalcon/issues/13893)
+- Refactored almost all files of the project to abide by the new coding standard for Phalcon. Certain files have been intentionally left untouched because they will be relaced later on. [#13915](https://github.com/phalcon/cphalcon/issues/13915)
 
 ## Removed
 - Removed `Phalcon\Session\BagInterface` [#13893](https://github.com/phalcon/cphalcon/issues/13893)
