@@ -27,12 +27,12 @@ use Phalcon\Cache\FrontendInterface;
  */
 class Simple extends Resultset
 {
-
-    protected _model;
-
-    protected _columnMap;
-
-    protected _keepSnapshots = false;
+    protected columnMap;
+    protected model;
+    /**
+     * @var bool
+     */
+    protected keepSnapshots = false;
 
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
@@ -42,13 +42,13 @@ class Simple extends Resultset
      */
     public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null)
     {
-        let this->_model = model,
-            this->_columnMap = columnMap;
+        let this->model = model,
+            this->columnMap = columnMap;
 
         /**
          * Set if the returned resultset must keep the record snapshots
          */
-        let this->_keepSnapshots = keepSnapshots;
+        let this->keepSnapshots = keepSnapshots;
 
         parent::__construct(result, cache);
     }
@@ -60,7 +60,7 @@ class Simple extends Resultset
     {
         var row, hydrateMode, columnMap, activeRow, modelName;
 
-        let activeRow = this->_activeRow;
+        let activeRow = this->activeRow;
         if activeRow !== null {
             return activeRow;
         }
@@ -68,25 +68,25 @@ class Simple extends Resultset
         /**
          * Current row is set by seek() operations
          */
-        let row = this->_row;
+        let row = this->row;
 
         /**
          * Valid records are arrays
          */
         if typeof row != "array" {
-            let this->_activeRow = false;
+            let this->activeRow = false;
             return false;
         }
 
         /**
          * Get current hydration mode
          */
-        let hydrateMode = this->_hydrateMode;
+        let hydrateMode = this->hydrateMode;
 
         /**
          * Get the resultset column map
          */
-        let columnMap = this->_columnMap;
+        let columnMap = this->columnMap;
 
         /**
          * Hydrate based on the current hydration
@@ -101,26 +101,26 @@ class Simple extends Resultset
                  */
                 if globals_get("orm.late_state_binding") {
 
-                    if this->_model instanceof \Phalcon\Mvc\Model {
-                        let modelName = get_class(this->_model);
+                    if this->model instanceof \Phalcon\Mvc\Model {
+                        let modelName = get_class(this->model);
                     } else {
                         let modelName = "Phalcon\\Mvc\\Model";
                     }
 
                     let activeRow = {modelName}::cloneResultMap(
-                        this->_model,
+                        this->model,
                         row,
                         columnMap,
                         Model::DIRTY_STATE_PERSISTENT,
-                        this->_keepSnapshots
+                        this->keepSnapshots
                     );
                 } else {
                     let activeRow = Model::cloneResultMap(
-                        this->_model,
+                        this->model,
                         row,
                         columnMap,
                         Model::DIRTY_STATE_PERSISTENT,
-                        this->_keepSnapshots
+                        this->keepSnapshots
                     );
                 }
                 break;
@@ -133,7 +133,7 @@ class Simple extends Resultset
                 break;
         }
 
-        let this->_activeRow = activeRow;
+        let this->activeRow = activeRow;
         return activeRow;
     }
 
@@ -151,16 +151,16 @@ class Simple extends Resultset
          * If _rows is not present, fetchAll from database
          * and keep them in memory for further operations
          */
-        let records = this->_rows;
+        let records = this->rows;
         if typeof records != "array" {
-            let result = this->_result;
-            if this->_row !== null {
+            let result = this->result;
+            if this->row !== null {
                 // re-execute query if required and fetchAll rows
                 result->execute();
             }
             let records = result->fetchAll();
-            let this->_row = null;
-            let this->_rows = records; // keep result-set in memory
+            let this->row = null;
+            let this->rows = records; // keep result-set in memory
         }
 
         /**
@@ -171,7 +171,7 @@ class Simple extends Resultset
             /**
              * Get the resultset column map
              */
-            let columnMap = this->_columnMap;
+            let columnMap = this->columnMap;
             if typeof columnMap != "array" {
                 return records;
             }
@@ -227,24 +227,24 @@ class Simple extends Resultset
         if container->has("serializer") {
             let serializer = <FrontendInterface> container->getShared("serializer");
             return serializer->beforeStore([
-                "model"         : this->_model,
-                "cache"         : this->_cache,
+                "model"         : this->model,
+                "cache"         : this->cache,
                 "rows"          : this->toArray(false),
-                "columnMap"     : this->_columnMap,
-                "hydrateMode"   : this->_hydrateMode,
-                "keepSnapshots" : this->_keepSnapshots
+                "columnMap"     : this->columnMap,
+                "hydrateMode"   : this->hydrateMode,
+                "keepSnapshots" : this->keepSnapshots
             ]);
         }
         /**
          * Serialize the cache using the serialize function
          */
         return serialize([
-            "model"         : this->_model,
-            "cache"         : this->_cache,
+            "model"         : this->model,
+            "cache"         : this->cache,
             "rows"          : this->toArray(false),
-            "columnMap"     : this->_columnMap,
-            "hydrateMode"   : this->_hydrateMode,
-            "keepSnapshots" : this->_keepSnapshots
+            "columnMap"     : this->columnMap,
+            "hydrateMode"   : this->hydrateMode,
+            "keepSnapshots" : this->keepSnapshots
         ]);
     }
 
@@ -268,15 +268,15 @@ class Simple extends Resultset
             throw new Exception("Invalid serialization data");
         }
 
-        let this->_model = resultset["model"],
-            this->_rows = resultset["rows"],
-            this->_count = count(resultset["rows"]),
-            this->_cache = resultset["cache"],
-            this->_columnMap = resultset["columnMap"],
-            this->_hydrateMode = resultset["hydrateMode"];
+        let this->model = resultset["model"],
+            this->rows = resultset["rows"],
+            this->count = count(resultset["rows"]),
+            this->cache = resultset["cache"],
+            this->columnMap = resultset["columnMap"],
+            this->hydrateMode = resultset["hydrateMode"];
 
         if fetch keepSnapshots, resultset["keepSnapshots"] {
-            let this->_keepSnapshots = keepSnapshots;
+            let this->keepSnapshots = keepSnapshots;
         }
     }
 }

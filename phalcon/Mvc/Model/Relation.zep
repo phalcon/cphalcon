@@ -19,38 +19,23 @@ use Phalcon\Mvc\Model\RelationInterface;
  */
 class Relation implements RelationInterface
 {
-
-    protected _type;
-
-    protected _referencedModel;
-
-    protected _fields;
-
-    protected _referencedFields;
-
-    protected _intermediateModel;
-
-    protected _intermediateFields;
-
-    protected _intermediateReferencedFields;
-
-    protected _options;
-
-    const BELONGS_TO = 0;
-
-    const HAS_ONE = 1;
-
-    const HAS_MANY = 2;
-
-    const HAS_ONE_THROUGH = 3;
-
+    const ACTION_CASCADE   = 2;
+    const ACTION_RESTRICT  = 1;
+    const BELONGS_TO       = 0;
+    const HAS_MANY         = 2;
     const HAS_MANY_THROUGH = 4;
+    const HAS_ONE          = 1;
+    const HAS_ONE_THROUGH  = 3;
+    const NO_ACTION        = 0;
 
-    const NO_ACTION = 0;
-
-    const ACTION_RESTRICT = 1;
-
-    const ACTION_CASCADE = 2;
+    protected fields;
+    protected intermediateFields;
+    protected intermediateModel;
+    protected intermediateReferencedFields;
+    protected options;
+    protected referencedFields;
+    protected referencedModel;
+    protected type;
 
     /**
      * Phalcon\Mvc\Model\Relation constructor
@@ -62,40 +47,11 @@ class Relation implements RelationInterface
      */
     public function __construct(type, string! referencedModel, var fields, var referencedFields, var options = null)
     {
-        let this->_type = type,
-            this->_referencedModel = referencedModel,
-            this->_fields = fields,
-            this->_referencedFields = referencedFields,
-            this->_options = options;
-    }
-
-    /**
-     * Sets the intermediate model data for has-*-through relations
-     *
-     * @param string|array intermediateFields
-     * @param string intermediateReferencedFields
-     */
-    public function setIntermediateRelation(intermediateFields, string! intermediateModel, intermediateReferencedFields)
-    {
-        let this->_intermediateFields = intermediateFields,
-            this->_intermediateModel = intermediateModel,
-            this->_intermediateReferencedFields = intermediateReferencedFields;
-    }
-
-    /**
-     * Returns the relation type
-     */
-    public function getType() -> int
-    {
-        return this->_type;
-    }
-
-    /**
-     * Returns the referenced model
-     */
-    public function getReferencedModel() -> string
-    {
-        return this->_referencedModel;
+        let this->type = type,
+            this->referencedModel = referencedModel,
+            this->fields = fields,
+            this->referencedFields = referencedFields,
+            this->options = options;
     }
 
     /**
@@ -105,48 +61,7 @@ class Relation implements RelationInterface
      */
     public function getFields()
     {
-        return this->_fields;
-    }
-
-    /**
-     * Returns the referenced fields
-     *
-     * @return string|array
-     */
-    public function getReferencedFields()
-    {
-        return this->_referencedFields;
-    }
-
-    /**
-     * Returns the options
-     *
-     * @return string|array
-     */
-    public function getOptions()
-    {
-        return this->_options;
-    }
-
-    /**
-     * Returns an option by the specified name
-     * If the option doesn't exist null is returned
-     */
-    public function getOption(string! name)
-    {
-        var option;
-        if fetch option, this->_options[name] {
-            return option;
-        }
-        return null;
-    }
-
-    /**
-     * Check whether the relation act as a foreign key
-     */
-    public function isForeignKey() -> bool
-    {
-        return isset this->_options["foreignKey"];
+        return this->fields;
     }
 
     /**
@@ -157,56 +72,12 @@ class Relation implements RelationInterface
     public function getForeignKey()
     {
         var options, foreignKey;
-        let options = this->_options;
+        let options = this->options;
         if typeof options == "array" {
             if fetch foreignKey, options["foreignKey"] {
                 if foreignKey {
                     return foreignKey;
                 }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns parameters that must be always used when the related records are obtained
-     *
-     * @return array
-     */
-    public function getParams()
-    {
-        var options, params;
-        let options = this->_options;
-        if typeof options == "array" {
-            if fetch params, options["params"] {
-                if params {
-                    return params;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Check whether the relation is a 'many-to-many' relation or not
-     */
-    public function isThrough() -> bool
-    {
-        var type;
-        let type = this->_type;
-        return type == self::HAS_ONE_THROUGH || type == self::HAS_MANY_THROUGH;
-    }
-
-    /**
-     * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
-     */
-    public function isReusable() -> bool
-    {
-        var options, reusable;
-        let options = this->_options;
-        if typeof options == "array" {
-            if fetch reusable, options["reusable"] {
-                return reusable;
             }
         }
         return false;
@@ -219,7 +90,7 @@ class Relation implements RelationInterface
      */
     public function getIntermediateFields()
     {
-        return this->_intermediateFields;
+        return this->intermediateFields;
     }
 
     /**
@@ -227,7 +98,7 @@ class Relation implements RelationInterface
      */
     public function getIntermediateModel() -> string
     {
-        return this->_intermediateModel;
+        return this->intermediateModel;
     }
 
     /**
@@ -237,6 +108,120 @@ class Relation implements RelationInterface
      */
     public function getIntermediateReferencedFields()
     {
-        return this->_intermediateReferencedFields;
+        return this->intermediateReferencedFields;
+    }
+
+    /**
+     * Returns an option by the specified name
+     * If the option doesn't exist null is returned
+     */
+    public function getOption(string! name)
+    {
+        var option;
+        if fetch option, this->options[name] {
+            return option;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the options
+     *
+     * @return string|array
+     */
+    public function getOptions()
+    {
+        return this->options;
+    }
+
+    /**
+     * Returns parameters that must be always used when the related records are obtained
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        var options, params;
+        let options = this->options;
+        if typeof options == "array" {
+            if fetch params, options["params"] {
+                if params {
+                    return params;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the relation type
+     */
+    public function getType() -> int
+    {
+        return this->type;
+    }
+
+    /**
+     * Returns the referenced fields
+     *
+     * @return string|array
+     */
+    public function getReferencedFields()
+    {
+        return this->referencedFields;
+    }
+
+    /**
+     * Returns the referenced model
+     */
+    public function getReferencedModel() -> string
+    {
+        return this->referencedModel;
+    }
+
+    /**
+     * Check whether the relation act as a foreign key
+     */
+    public function isForeignKey() -> bool
+    {
+        return isset this->options["foreignKey"];
+    }
+
+    /**
+     * Check whether the relation is a 'many-to-many' relation or not
+     */
+    public function isThrough() -> bool
+    {
+        var type;
+        let type = this->type;
+        return type == self::HAS_ONE_THROUGH || type == self::HAS_MANY_THROUGH;
+    }
+
+    /**
+     * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
+     */
+    public function isReusable() -> bool
+    {
+        var options, reusable;
+        let options = this->options;
+        if typeof options == "array" {
+            if fetch reusable, options["reusable"] {
+                return reusable;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Sets the intermediate model data for has-*-through relations
+     *
+     * @param string|array intermediateFields
+     * @param string intermediateReferencedFields
+     */
+    public function setIntermediateRelation(intermediateFields, string! intermediateModel, intermediateReferencedFields)
+    {
+        let this->intermediateFields = intermediateFields,
+            this->intermediateModel = intermediateModel,
+            this->intermediateReferencedFields = intermediateReferencedFields;
     }
 }
