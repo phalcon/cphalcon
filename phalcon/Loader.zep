@@ -442,7 +442,7 @@ class Loader implements EventsAwareInterface
     /**
      * Sets the events manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager)
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
     }
