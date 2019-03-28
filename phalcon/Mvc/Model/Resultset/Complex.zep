@@ -29,12 +29,12 @@ use Phalcon\Cache\FrontendInterface;
  */
 class Complex extends Resultset implements ResultsetInterface
 {
-    protected _columnTypes;
+    protected columnTypes;
 
     /**
     * Unserialised result-set hydrated all rows already. unserialise() sets _disableHydration to true
     */
-    protected _disableHydration = false;
+    protected disableHydration = false;
 
     /**
      * Phalcon\Mvc\Model\Resultset\Complex constructor
@@ -46,7 +46,7 @@ class Complex extends Resultset implements ResultsetInterface
         /**
          * Column types, tell the resultset how to build the result
          */
-        let this->_columnTypes = columnTypes;
+        let this->columnTypes = columnTypes;
 
         parent::__construct(result, cache);
     }
@@ -61,7 +61,7 @@ class Complex extends Resultset implements ResultsetInterface
             value, attribute, source, attributes,
             columnMap, rowModel, keepSnapshots, sqlAlias, modelName;
 
-        let activeRow = this->_activeRow;
+        let activeRow = this->activeRow;
         if activeRow !== null {
             return activeRow;
         }
@@ -69,13 +69,13 @@ class Complex extends Resultset implements ResultsetInterface
         /**
          * Current row is set by seek() operations
          */
-        let row = this->_row;
+        let row = this->row;
 
         /**
          * Resultset was unserialized, we do not need to hydrate
          */
-        if this->_disableHydration {
-            let this->_activeRow = row;
+        if this->disableHydration {
+            let this->activeRow = row;
             return row;
         }
 
@@ -83,14 +83,14 @@ class Complex extends Resultset implements ResultsetInterface
          * Valid records are arrays
          */
         if typeof row != "array" {
-            let this->_activeRow = false;
+            let this->activeRow = false;
             return false;
         }
 
         /**
          * Get current hydration mode
          */
-        let hydrateMode = this->_hydrateMode;
+        let hydrateMode = this->hydrateMode;
 
         /**
          * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
@@ -119,7 +119,7 @@ class Complex extends Resultset implements ResultsetInterface
         /**
          * Create every record according to the column types
          */
-        for alias, column in this->_columnTypes {
+        for alias, column in this->columnTypes {
 
             if typeof column != "array" {
                 throw new Exception("Column type is corrupt");
@@ -235,7 +235,7 @@ class Complex extends Resultset implements ResultsetInterface
         /**
          * Store the generated row in this_ptr->activeRow to be retrieved by 'current'
          */
-        let this->_activeRow = activeRow;
+        let this->activeRow = activeRow;
         return activeRow;
     }
 
@@ -270,9 +270,9 @@ class Complex extends Resultset implements ResultsetInterface
          */
         let records = this->toArray();
 
-        let cache = this->_cache,
-            columnTypes = this->_columnTypes,
-            hydrateMode = this->_hydrateMode;
+        let cache = this->cache,
+            columnTypes = this->columnTypes,
+            hydrateMode = this->hydrateMode;
         let container = Di::getDefault();
         if typeof container != "object" {
             throw new Exception("The dependency injector container is not valid");
@@ -304,7 +304,7 @@ class Complex extends Resultset implements ResultsetInterface
         /**
         * Rows are already hydrated
         */
-        let this->_disableHydration = true;
+        let this->disableHydration = true;
         let container = Di::getDefault();
         if typeof container != "object" {
             throw new Exception("The dependency injector container is not valid");
@@ -319,10 +319,10 @@ class Complex extends Resultset implements ResultsetInterface
             throw new Exception("Invalid serialization data");
         }
 
-        let this->_rows = resultset["rows"],
-            this->_count = count(resultset["rows"]),
-            this->_cache = resultset["cache"],
-            this->_columnTypes = resultset["columnTypes"],
-            this->_hydrateMode = resultset["hydrateMode"];
+        let this->rows = resultset["rows"],
+            this->count = count(resultset["rows"]),
+            this->cache = resultset["cache"],
+            this->columnTypes = resultset["columnTypes"],
+            this->hydrateMode = resultset["hydrateMode"];
     }
 }
