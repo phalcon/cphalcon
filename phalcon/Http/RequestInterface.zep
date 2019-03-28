@@ -172,7 +172,7 @@ interface RequestInterface
     /**
      * Gets HTTP URI which request has been made
      */
-    public final function getURI() -> string;
+    final public function getURI() -> string;
 
     /**
      * Gets a variable from the $_POST superglobal applying filters if needed

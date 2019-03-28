@@ -82,7 +82,7 @@ class Mongo extends Backend
      *
      * @return MongoCollection
      */
-    protected final function _getCollection()
+    final protected function _getCollection()
     {
         var options, mongo, server, database, collection, mongoCollection;
 

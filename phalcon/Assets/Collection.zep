@@ -386,7 +386,7 @@ class Collection implements \Countable, \Iterator
     /**
      * Adds a asset or inline-code to the collection
      */
-    protected final function addAsset(<AssetInterface> asset) -> bool
+    final protected function addAsset(<AssetInterface> asset) -> bool
     {
         if !this->has(asset) {
             if asset instanceof Asset {

@@ -22,7 +22,7 @@ class Annotations implements StrategyInterface
     /**
      * Read the model's column map, this can't be inferred
      */
-    public final function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
+    final public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
     {
         var annotations, className, reflection, propertiesAnnotations;
         var property, propAnnotations, columnAnnotation, columnName;
@@ -95,7 +95,7 @@ class Annotations implements StrategyInterface
     /**
      * The meta-data is obtained by reading the column descriptions from the database information schema
      */
-    public final function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
+    final public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {
         var annotations, className, reflection, propertiesAnnotations;
         var property, propAnnotations, columnAnnotation, columnName, feature;

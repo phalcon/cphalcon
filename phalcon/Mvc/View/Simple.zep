@@ -567,7 +567,7 @@ class Simple extends Injectable implements ViewBaseInterface
      *
      * @param array  params
      */
-    protected final function internalRender(string! path, params)
+    final protected function internalRender(string! path, params)
     {
         var eventsManager, notExists, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
 

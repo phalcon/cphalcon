@@ -239,7 +239,7 @@ class Manager implements ManagerInterface
      * @param \SplPriorityQueue|array queue
      * @return mixed
      */
-    public final function fireQueue(var queue, <EventInterface> event)
+    final public function fireQueue(var queue, <EventInterface> event)
     {
         var status, arguments, eventName, data, iterator, source, handler;
         bool collect, cancelable;

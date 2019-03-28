@@ -426,7 +426,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *</code>
      */
-    public final function readColumnMap(<ModelInterface> model) -> array | null
+    final public function readColumnMap(<ModelInterface> model) -> array | null
     {
         var keyName, data;
 
@@ -455,7 +455,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *</code>
      */
-    public final function readColumnMapIndex(<ModelInterface> model, int index)
+    final public function readColumnMapIndex(<ModelInterface> model, int index)
     {
         var keyName, columnMapModel, map;
 
@@ -486,7 +486,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *</code>
      */
-    public final function readMetaData(<ModelInterface> model) -> array
+    final public function readMetaData(<ModelInterface> model) -> array
     {
         var source, schema, key;
 
@@ -516,7 +516,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *</code>
      */
-    public final function readMetaDataIndex(<ModelInterface> model, int index)
+    final public function readMetaDataIndex(<ModelInterface> model, int index)
     {
         var source, schema, key;
 
@@ -630,7 +630,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *</code>
      */
-    public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
+    final public function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
     {
         var source, schema, key;
 
@@ -656,7 +656,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Initialize the metadata for certain table
      */
-    protected final function initialize(<ModelInterface> model, var key, var table, var schema)
+    final protected function initialize(<ModelInterface> model, var key, var table, var schema)
     {
         var strategy, className, metaData, data, modelMetadata, modelColumnMap,
             container, keyName, prefixKey;

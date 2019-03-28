@@ -275,7 +275,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Gets HTTP header from request data
      */
-    public final function getHeader(string! header) -> string
+    final public function getHeader(string! header) -> string
     {
         var value, name;
 
@@ -467,7 +467,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      *
      * The method is always an uppercased string.
      */
-    public final function getMethod() -> string
+    final public function getMethod() -> string
     {
         var overridedMethod, spoofedMethod, requestMethod;
         string returnMethod = "";
@@ -733,7 +733,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Gets HTTP URI which request has been made
      */
-    public final function getURI() -> string
+    final public function getURI() -> string
     {
         var requestURI;
 
@@ -802,7 +802,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Checks whether headers has certain index
      */
-    public final function hasHeader(string! header) -> bool
+    final public function hasHeader(string! header) -> bool
     {
         var name;
 
@@ -850,7 +850,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Checks whether $_SERVER superglobal has certain index
      */
-    public final function hasServer(string! name) -> bool
+    final public function hasServer(string! name) -> bool
     {
         return isset _SERVER[name];
     }
@@ -1086,7 +1086,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Process a request header and return the one with best quality
      */
-    protected final function getBestQuality(array qualityParts, string! name) -> string
+    final protected function getBestQuality(array qualityParts, string! name) -> string
     {
         int i;
         double quality, acceptQuality;
@@ -1116,7 +1116,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      * Helper to get data from superglobals, applying filters if needed.
      * If no parameters are given the superglobal is returned.
      */
-    protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
+    final protected function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
     {
         var value, filter, container;
 
@@ -1152,7 +1152,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Recursively counts file in an array of files
      */
-    protected final function hasFileHelper(var data, bool onlySuccessful) -> long
+    final protected function hasFileHelper(var data, bool onlySuccessful) -> long
     {
         var value;
         int numberFiles = 0;
@@ -1179,7 +1179,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Process a request header and return an array of values with their qualities
      */
-    protected final function getQualityHeader(string! serverIndex, string! name) -> array
+    final protected function getQualityHeader(string! serverIndex, string! name) -> array
     {
         var returnedParts, part, headerParts, headerPart, split;
 
@@ -1289,7 +1289,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Smooth out $_FILES to have plain array with all files uploaded
      */
-    protected final function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+    final protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
     {
         var idx, name, file, files, parentFiles, p;
 

@@ -159,7 +159,7 @@ abstract class Resultset
     /**
      * Counts how many rows are in the resultset
      */
-    public final function count() -> int
+    final public function count() -> int
     {
         return this->count;
     }
@@ -451,7 +451,7 @@ abstract class Resultset
     /**
      * Rewinds resultset to its beginning
      */
-    public final function rewind() -> void
+    final public function rewind() -> void
     {
         this->seek(0);
     }
@@ -460,7 +460,7 @@ abstract class Resultset
      * Changes the internal pointer to a specific position in the resultset.
      * Set the new position if required, and then set this->row
      */
-    public final function seek(var position) -> void
+    final public function seek(var position) -> void
     {
         var result, row;
 

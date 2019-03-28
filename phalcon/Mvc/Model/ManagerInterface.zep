@@ -257,7 +257,7 @@ interface ManagerInterface
      * );
      * </code>
      */
-    public final function isVisibleModelProperty(<ModelInterface> model, string property) -> bool;
+    final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool;
 
     /**
      * Sets if a model must keep snapshots

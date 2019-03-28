@@ -1463,7 +1463,7 @@ class Tag
      *
      * @param array parameters
      */
-    static protected final function inputField(string type, parameters, bool asValue = false) -> string
+    static final protected function inputField(string type, parameters, bool asValue = false) -> string
     {
         var params, id, value, code, name;
 
@@ -1531,7 +1531,7 @@ class Tag
      *
      * @param array parameters
      */
-    static protected final function inputFieldChecked(string type, var parameters) -> string
+    static final protected function inputFieldChecked(string type, var parameters) -> string
     {
         var params, value, id, code, name, currentValue;
 

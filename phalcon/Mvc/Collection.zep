@@ -64,7 +64,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Phalcon\Mvc\Collection constructor
      */
-    public final function __construct(<DiInterface> container = null, <ManagerInterface> modelsManager = null)
+    final public function __construct(<DiInterface> container = null, <ManagerInterface> modelsManager = null)
     {
         /**
          * We use a default DI if the user doesn't define one
@@ -1477,7 +1477,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Executes internal hooks before save a document
      */
-    protected final function preSave(<DiInterface> container, bool disableEvents, bool exists) -> bool
+    final protected function preSave(<DiInterface> container, bool disableEvents, bool exists) -> bool
     {
         var eventName;
 
@@ -1556,7 +1556,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Executes internal events after save a document
      */
-    protected final function postSave(bool disableEvents, bool success, bool exists) -> bool
+    final protected function postSave(bool disableEvents, bool success, bool exists) -> bool
     {
         var eventName;
 

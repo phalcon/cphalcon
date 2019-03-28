@@ -359,7 +359,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * );
      * </code>
      */
-    public final function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
+    final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
     {
         var properties, className;
 
@@ -1132,7 +1132,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Merge two arrays of find parameters
      */
-    protected final function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
+    final protected function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
     {
         var key, value, findParams;
 
