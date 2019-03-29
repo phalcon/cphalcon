@@ -186,7 +186,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function create() -> bool
     {
-        var exists, data, success, status, id, ok, collection;
+        var data, success, status, id, ok, collection;
+        bool exists;
 
         let collection = this->prepareCU();
 
@@ -221,7 +222,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             if fetch ok, status["ok"] {
                 if ok {
                     let success = true;
-                    if exists === false {
+                    if !exists {
                         if fetch id, data["_id"] {
                             let this->_id = id;
                         }
@@ -1440,7 +1441,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             documentsCursor->skip(skip);
         }
 
-        if unique === true {
+        if unique {
 
             /**
              * Requesting a single result

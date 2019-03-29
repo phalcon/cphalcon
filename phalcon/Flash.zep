@@ -249,7 +249,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             /**
              * We create the message with implicit flush or other
              */
-            if implicitFlush === false {
+            if !implicitFlush {
                 let content = "";
             }
 
@@ -267,7 +267,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
                  */
                 let htmlMessage = this->prepareHtmlMessage(type, preparedMsg);
 
-                if implicitFlush === true {
+                if implicitFlush {
                     echo htmlMessage;
                 } else {
                     let content .= htmlMessage;
@@ -278,7 +278,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             /**
              * We return the message as string if the implicitFlush is turned off
              */
-            if implicitFlush === false {
+            if !implicitFlush {
                 return content;
             }
 
@@ -296,7 +296,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             /**
              * We return the message as string if the implicit_flush is turned off
              */
-            if implicitFlush === true {
+            if implicitFlush {
                 echo htmlMessage;
             } else {
                 let this->messages[] = htmlMessage;
@@ -341,7 +341,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
         let autoEscape = (bool) this->autoescape;
 
-        if autoEscape === true {
+        if autoEscape {
             let escaper = this->getEscaperService();
             return escaper->escapeHtml(message);
         } else {
@@ -359,7 +359,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
         let automaticHtml = (bool) this->automaticHtml;
 
-        if automaticHtml === true {
+        if automaticHtml {
             let classes = this->cssClasses;
             if fetch typeClasses, classes[type] {
                 if typeof typeClasses == "array" {

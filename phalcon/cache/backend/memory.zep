@@ -102,7 +102,7 @@ class Memory extends Backend implements \Serializable
         let this->_data[lastKey] = preparedContent,
             isBuffering = frontend->isBuffering();
 
-        if stopBuffer === true {
+        if stopBuffer {
             frontend->stop();
         }
 

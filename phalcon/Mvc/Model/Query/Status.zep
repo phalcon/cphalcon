@@ -36,7 +36,7 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
  * );
  *
  * // Check if the update was successful
- * if ($status->success() === true) {
+ * if ($status->success()) {
  *     echo "OK";
  * }
  *</code>

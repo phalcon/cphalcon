@@ -201,9 +201,10 @@ class Annotations extends Router
     public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
         <Annotation> annotation)
     {
-        var isRoute, name, actionName, routePrefix, paths, value, uri,
+        var name, actionName, routePrefix, paths, value, uri,
             route, methods, converts, param, convert, conversorParam, routeName,
             beforeMatch;
+        bool isRoute;
 
         let isRoute = false,
             methods = null,
@@ -243,7 +244,7 @@ class Annotations extends Router
                 break;
         }
 
-        if isRoute === true {
+        if isRoute {
 
             let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
                 routePrefix = this->routePrefix;

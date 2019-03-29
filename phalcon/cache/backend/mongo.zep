@@ -241,7 +241,7 @@ class Mongo extends Backend
 
         let isBuffering = frontend->isBuffering();
 
-        if stopBuffer === true {
+        if stopBuffer {
             frontend->stop();
         }
 

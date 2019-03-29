@@ -591,7 +591,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                 case PHQL_T_STRING:
                     let value = expr["value"];
-                    if quoting === true {
+                    if quoting {
                         /**
                          * Check if static literals have single quotes and escape them
                          */
@@ -2600,9 +2600,9 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         // Check if the resultset to return is complex or simple
-        if isComplex === false {
-            if haveObjects === true {
-                if haveScalars === true {
+        if !isComplex {
+            if haveObjects {
+                if haveScalars {
                     let isComplex = true;
                 } else {
                     if numberObjects == 1 {
@@ -2640,7 +2640,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
 
                 let attributes = metaData->getAttributes(instance);
-                if isComplex === true {
+                if isComplex {
 
                     // If the resultset is complex we open every model into their columns
                     if globals_get("orm.column_renaming") {
@@ -2690,7 +2690,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * Simulate a column map
              */
-            if isComplex === false && isSimpleStd === true {
+            if !isComplex && isSimpleStd {
                 if fetch sqlAlias, column["sqlAlias"] {
                     let simpleColumnMap[sqlAlias] = aliasCopy;
                 } else {
@@ -2782,12 +2782,12 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Choose a resultset type
          */
         let cache = this->_cache;
-        if isComplex === false {
+        if !isComplex {
 
             /**
              * Select the base object
              */
-            if isSimpleStd === true {
+            if isSimpleStd {
 
                 /**
                  * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
@@ -2961,7 +2961,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * If the user didn't define a column list we assume all the model's attributes as columns
              */
-            if automaticFields === true {
+            if automaticFields {
                 if typeof columnMap == "array" {
                     if !fetch attributeName, columnMap[fieldName] {
                         throw new Exception("Column '" . fieldName . "' isn't part of the column map");

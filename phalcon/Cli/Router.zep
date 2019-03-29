@@ -78,8 +78,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
         var routes;
 
         let routes = [];
-        if defaultRoutes === true {
 
+        if defaultRoutes {
             // Two routes are added by default to match
             // /:task/:action and /:task/:action/:params
 

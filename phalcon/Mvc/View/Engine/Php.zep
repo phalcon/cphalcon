@@ -26,7 +26,7 @@ class Php extends Engine
     {
         var key, value;
 
-        if mustClean === true {
+        if mustClean {
             ob_clean();
         }
 
@@ -44,7 +44,7 @@ class Php extends Engine
          */
         require path;
 
-        if mustClean === true {
+        if mustClean {
             this->view->setContent(ob_get_contents());
         }
     }

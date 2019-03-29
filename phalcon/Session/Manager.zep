@@ -131,7 +131,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         let uniqueKey = this->getUniqueKey(key),
             value     = Arr::get(_SESSION, uniqueKey, defaultValue);
 
-        if (remove === true) {
+        if remove {
             unset(_SESSION[uniqueKey]);
         }
 

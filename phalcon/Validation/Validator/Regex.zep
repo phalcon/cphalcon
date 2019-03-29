@@ -62,7 +62,8 @@ class Regex extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var matches, failed, message, value, label, replacePairs, code, pattern;
+        var matches, message, value, label, replacePairs, code, pattern;
+        bool failed;
 
         // Regular expression is set in the option 'pattern'
         // Check if the value match using preg_match in the PHP userland
@@ -80,7 +81,7 @@ class Regex extends Validator
             let failed = true;
         }
 
-        if failed === true {
+        if failed {
             let label = this->prepareLabel(validation, field),
                 message = this->prepareMessage(validation, field, "Regex"),
                 code = this->prepareCode(field);

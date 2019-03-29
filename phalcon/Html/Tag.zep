@@ -977,14 +977,15 @@ class Tag implements InjectionAwareInterface
      */
     public function javascript(string url, array parameters = []) -> string
     {
-        var local, service, output;
+        var service, output;
+        bool local;
 
         let local = (bool) Arr::get(parameters, "local", true);
 
         /**
          * URLs are generated through the "url" service
          */
-        if (local === true) {
+        if local {
             let service           = this->getService("url"),
                 parameters["src"] = service->getStatic(url);
         } else {
@@ -1397,7 +1398,8 @@ class Tag implements InjectionAwareInterface
      */
     public function stylesheet(string url, array parameters = []) -> string
     {
-        var local, service, output;
+        var service, output;
+        bool local;
 
         let local = (bool) Arr::get(parameters, "local", true);
 
@@ -1406,7 +1408,7 @@ class Tag implements InjectionAwareInterface
         /**
          * URLs are generated through the "url" service
          */
-        if (local === true) {
+        if local {
             let service            = this->getService("url"),
                 parameters["href"] = service->getStatic(url);
         } else {
