@@ -726,7 +726,7 @@ class Tag
         /**
          * URLs are generated through the "url" service
          */
-        if local === true {
+        if local {
             let params["src"] = self::getUrlService()->getStatic(params["src"]);
         }
 
@@ -1235,7 +1235,7 @@ class Tag
         /**
          * URLs are generated through the "url" service
          */
-        if local === true {
+        if local {
             let params["href"] = self::getUrlService()->getStatic(params["href"]);
         }
 

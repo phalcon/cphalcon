@@ -657,7 +657,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             /**
              * A primary key is mandatory in these cases
              */
-            if noPrimary === true {
+            if noPrimary {
                 throw new Exception("Source related to this model does not have a primary key defined");
             }
         }

@@ -250,7 +250,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // Check if the handler is new (hasn't been initialized).
             let handlerHash = spl_object_hash(handler);
-            let isNewHandler = isset this->handlerHashes[handlerHash] ? false : true;
+            let isNewHandler = !(isset this->handlerHashes[handlerHash]);
             if isNewHandler {
                 let this->handlerHashes[handlerHash] = true;
             }
@@ -348,7 +348,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             // and blog posts for 4.0, this change will happen.
             //
             // @see https://github.com/phalcon/cphalcon/pull/13112
-            if isNewHandler === true {
+            if isNewHandler {
                 if method_exists(handler, "initialize") {
                     try {
                         let this->isControllerInitialize = true;

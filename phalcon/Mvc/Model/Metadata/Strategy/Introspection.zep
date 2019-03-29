@@ -134,7 +134,7 @@ class Introspection implements StrategyInterface
             /**
              * To mark fields as primary keys
              */
-            if column->isPrimary() === true {
+            if column->isPrimary() {
                 let primaryKeys[] = fieldName;
             } else {
                 let nonPrimaryKeys[] = fieldName;
@@ -143,21 +143,21 @@ class Introspection implements StrategyInterface
             /**
              * To mark fields as numeric
              */
-            if column->isNumeric() === true {
+            if column->isNumeric() {
                 let numericTyped[fieldName] = true;
             }
 
             /**
              * To mark fields as not null
              */
-            if column->isNotNull() === true {
+            if column->isNotNull() {
                 let notNull[] = fieldName;
             }
 
             /**
              * To mark fields as identity columns
              */
-            if column->isAutoIncrement() === true {
+            if column->isAutoIncrement() {
                 let identityField = fieldName;
             }
 
@@ -175,7 +175,7 @@ class Introspection implements StrategyInterface
              * If column has default value or column is nullable and default value is null
              */
             let defaultValue = column->getDefault();
-            if defaultValue !== null || column->isNotNull() === false {
+            if defaultValue !== null || !column->isNotNull() {
                 if !column->isAutoIncrement() {
                     let defaultValues[fieldName] = defaultValue;
                 }

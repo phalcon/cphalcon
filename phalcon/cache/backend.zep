@@ -118,9 +118,10 @@ abstract class Backend implements BackendInterface
      */
     public function stop(bool stopBuffer = true) -> void
     {
-        if stopBuffer === true {
+        if stopBuffer {
             this->_frontend->stop();
         }
+
         let this->_started = false;
     }
 

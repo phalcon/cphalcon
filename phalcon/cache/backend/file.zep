@@ -109,7 +109,7 @@ class File extends Backend
 
         let cacheFile = cacheDir . prefixedKey;
 
-        if file_exists(cacheFile) === true {
+        if file_exists(cacheFile) {
 
             let frontend = this->_frontend;
 
@@ -260,7 +260,7 @@ class File extends Backend
 
         let isBuffering = frontend->isBuffering();
 
-        if stopBuffer === true {
+        if stopBuffer {
             frontend->stop();
         }
 

@@ -302,7 +302,7 @@ class Compiler implements InjectionAwareInterface
             /**
              * In extends mode we add an additional 'e' suffix to the file
              */
-            if extendsMode === true {
+            if extendsMode {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
             } else {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
@@ -353,7 +353,7 @@ class Compiler implements InjectionAwareInterface
                         let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
                     } else {
 
-                        if extendsMode === true {
+                        if extendsMode {
 
                             /**
                              * In extends mode we read the file that must contains a serialized array of blocks
@@ -2116,7 +2116,7 @@ class Compiler implements InjectionAwareInterface
                         }
                     }
 
-                    if extendsMode === true {
+                    if extendsMode {
                         let finalCompilation[name] = blockCompilation;
                     } else {
                         let finalCompilation .= blockCompilation;
@@ -2126,7 +2126,7 @@ class Compiler implements InjectionAwareInterface
                     /**
                      * Here the block is an already compiled text
                      */
-                    if extendsMode === true {
+                    if extendsMode {
                         let finalCompilation[] = block;
                     } else {
                         let finalCompilation .= block;
@@ -2137,7 +2137,7 @@ class Compiler implements InjectionAwareInterface
             return finalCompilation;
         }
 
-        if extendsMode === true {
+        if extendsMode {
             /**
              * In extends mode we return the template blocks instead of the compilation
              */
@@ -2765,7 +2765,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Resolve the statement list as normal
          */
-        if isStatementList === true {
+        if isStatementList {
             return this->statementList(statements);
         }
 

@@ -1270,7 +1270,7 @@ class View extends Injectable implements ViewInterface
             }
         }
 
-        if notExists === true {
+        if notExists {
             /**
              * Notify about not found views
              */

@@ -309,7 +309,7 @@ class Simple extends Injectable implements ViewBaseInterface
             /**
              * Check if the cache is started, the first time a cache is started we start the cache
              */
-            if cache->isStarted() === false {
+            if !cache->isStarted() {
 
                 let key = null, lifetime = null;
 
@@ -569,7 +569,8 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     final protected function internalRender(string! path, params)
     {
-        var eventsManager, notExists, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
+        var eventsManager, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
+        bool notExists;
 
         let eventsManager = this->eventsManager;
 
@@ -642,7 +643,7 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * Always throw an exception if the view does not exist
          */
-        if notExists === true {
+        if notExists {
             throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
         }
 

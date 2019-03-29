@@ -1142,7 +1142,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             let value = filter->sanitize(value, filters, noRecursive);
         }
 
-        if empty value && notAllowEmpty === true {
+        if empty value && notAllowEmpty {
             return defaultValue;
         }
 

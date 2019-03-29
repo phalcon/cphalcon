@@ -106,7 +106,7 @@ class Session extends FlashBase
 
         if typeof type == "string" {
             if fetch returnMessages, messages[type] {
-                if remove === true {
+                if remove {
                     unset(messages[type]);
                     session->set("_flashMessages", messages);
                 }
@@ -117,7 +117,7 @@ class Session extends FlashBase
             return [];
         }
 
-        if remove === true {
+        if remove {
             session->remove("_flashMessages");
         }
 

@@ -318,7 +318,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function __set(string property, value)
     {
         var lowerProperty, related, modelName, manager, lowerKey,
-            relation, referencedModel, key, item, dirtyState, haveRelation;
+            relation, referencedModel, key, item, dirtyState;
+        bool haveRelation;
 
         /**
          * Values are probably relationships if they are objects
@@ -371,7 +372,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
             }
 
-            if haveRelation === true {
+            if haveRelation {
                 return value;
             }
         }
@@ -2797,7 +2798,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Call 'onValidationFails' if the validation fails
          */
-        if error === true {
+        if error {
             if globals_get("orm.events") {
                 this->fireEvent("onValidationFails");
                 this->_cancelOperation();
@@ -3028,7 +3029,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Call validation fails event
          */
-        if error === true {
+        if error {
             if globals_get("orm.events") {
                 this->fireEvent("onValidationFails");
                 this->_cancelOperation();
@@ -3204,7 +3205,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * We check if the model have sequences
              */
             let sequenceName = null;
-            if connection->supportSequences() === true {
+            if connection->supportSequences() {
                 if method_exists(this, "getSequenceName") {
                     let sequenceName = this->{"getSequenceName"}();
                 } else {
@@ -3990,7 +3991,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             let isNull = true;
                         }
 
-                        if isNull === true {
+                        if isNull {
 
                             if !exists {
                                 /**
@@ -4017,7 +4018,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
                 }
 
-                if error === true {
+                if error {
                     if globals_get("orm.events") {
                         this->fireEvent("onValidationFails");
                         this->_cancelOperation();
@@ -4194,7 +4195,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function _postSave(bool success, bool exists) -> bool
     {
-        if success === true {
+        if success {
             if exists {
                 this->fireEvent("afterUpdate");
             } else {
