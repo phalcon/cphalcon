@@ -247,7 +247,7 @@ final class Registry extends Collection
      *
      * @see https://www.ietf.org/rfc/rfc4627.txt
      */
-    final public function toJson(int options = 74) -> string
+    final public function toJson(int options = 79) -> string
     {
         return parent::toJson(options);
     }

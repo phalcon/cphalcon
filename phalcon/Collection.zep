@@ -262,7 +262,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      *
      * @see https://www.ietf.org/rfc/rfc4627.txt
      */
-    public function toJson(int options = 74) -> string
+    public function toJson(int options = 79) -> string
     {
         return json_encode(this->data, options);
     }
