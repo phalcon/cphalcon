@@ -65,14 +65,10 @@ abstract class Adapter implements AdapterInterface
             let reader = this->getReader(),
                 parsedAnnotations = reader->parse(realClassName);
 
-            /**
-             * If the reader returns a
-             */
-            if typeof parsedAnnotations == "array" {
-                let classAnnotations = new Reflection(parsedAnnotations),
-                    this->annotations[realClassName] = classAnnotations;
-                    this->{"write"}(realClassName, classAnnotations);
-            }
+
+            let classAnnotations = new Reflection(parsedAnnotations),
+                this->annotations[realClassName] = classAnnotations;
+                this->{"write"}(realClassName, classAnnotations);
         }
 
         return classAnnotations;
