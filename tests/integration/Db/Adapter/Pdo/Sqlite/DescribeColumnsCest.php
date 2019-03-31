@@ -58,7 +58,6 @@ class DescribeColumnsCest
         return [
             0  => Column::__set_state([
                 'columnName'    => 'cedula',
-                'schemaName'    => null,
                 'type'          => 5,
                 'isNumeric'     => false,
                 'size'          => 15,
@@ -74,7 +73,6 @@ class DescribeColumnsCest
             ]),
             1  => Column::__set_state([
                 'columnName'    => 'tipo_documento_id',
-                'schemaName'    => null,
                 'type'          => 0,
                 'isNumeric'     => true,
                 'size'          => 3,
@@ -89,7 +87,6 @@ class DescribeColumnsCest
             ]),
             2  => Column::__set_state([
                 'columnName'    => 'nombres',
-                'schemaName'    => null,
                 'type'          => 2,
                 'isNumeric'     => false,
                 'size'          => 100,
@@ -104,7 +101,6 @@ class DescribeColumnsCest
             ]),
             3  => Column::__set_state([
                 'columnName'    => 'telefono',
-                'schemaName'    => null,
                 'type'          => 2,
                 'isNumeric'     => false,
                 'size'          => 20,
@@ -119,7 +115,6 @@ class DescribeColumnsCest
             ]),
             4  => Column::__set_state([
                 'columnName'    => 'direccion',
-                'schemaName'    => null,
                 'type'          => 2,
                 'isNumeric'     => false,
                 'size'          => 100,
@@ -134,7 +129,6 @@ class DescribeColumnsCest
             ]),
             5  => Column::__set_state([
                 'columnName'    => 'email',
-                'schemaName'    => null,
                 'type'          => 2,
                 'isNumeric'     => false,
                 'size'          => 50,
@@ -149,7 +143,6 @@ class DescribeColumnsCest
             ]),
             6  => Column::__set_state([
                 'columnName'    => 'fecha_nacimiento',
-                'schemaName'    => null,
                 'type'          => 1,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -164,7 +157,6 @@ class DescribeColumnsCest
             ]),
             7  => Column::__set_state([
                 'columnName'    => 'ciudad_id',
-                'schemaName'    => null,
                 'type'          => 0,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -179,7 +171,6 @@ class DescribeColumnsCest
             ]),
             8  => Column::__set_state([
                 'columnName'    => 'creado_at',
-                'schemaName'    => null,
                 'type'          => 1,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -194,7 +185,6 @@ class DescribeColumnsCest
             ]),
             9  => Column::__set_state([
                 'columnName'    => 'cupo',
-                'schemaName'    => null,
                 'type'          => 3,
                 'isNumeric'     => true,
                 'size'          => 16,
@@ -209,7 +199,6 @@ class DescribeColumnsCest
             ]),
             10 => Column::__set_state([
                 'columnName'    => 'estado',
-                'schemaName'    => null,
                 'type'          => 5,
                 'isNumeric'     => false,
                 'size'          => 1,

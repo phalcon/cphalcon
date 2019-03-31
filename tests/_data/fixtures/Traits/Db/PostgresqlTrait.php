@@ -84,7 +84,6 @@ trait PostgresqlTrait
         return [
             0  => [
                 '_columnName'    => 'field_primary',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -100,7 +99,6 @@ trait PostgresqlTrait
             ],
             1  => [
                 '_columnName'    => 'field_blob',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -116,7 +114,6 @@ trait PostgresqlTrait
             ],
             2  => [
                 '_columnName'    => 'field_bit',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIT,
                 '_isNumeric'     => false,
                 '_size'          => null,
@@ -132,7 +129,6 @@ trait PostgresqlTrait
             ],
             3  => [
                 '_columnName'    => 'field_bit_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIT,
                 '_isNumeric'     => false,
                 '_size'          => null,
@@ -148,7 +144,6 @@ trait PostgresqlTrait
             ],
             4  => [
                 '_columnName'    => 'field_bigint',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIGINTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -164,7 +159,6 @@ trait PostgresqlTrait
             ],
             5  => [
                 '_columnName'    => 'field_bigint_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_BIGINTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -180,7 +174,6 @@ trait PostgresqlTrait
             ],
             6  => [
                 '_columnName'    => 'field_boolean',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_BOOLEAN,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -196,7 +189,6 @@ trait PostgresqlTrait
             ],
             7  => [
                 '_columnName'    => 'field_boolean_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_BOOLEAN,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -212,7 +204,6 @@ trait PostgresqlTrait
             ],
             8  => [
                 '_columnName'    => 'field_char',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_CHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
@@ -228,7 +219,6 @@ trait PostgresqlTrait
             ],
             9  => [
                 '_columnName'    => 'field_char_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_CHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
@@ -244,7 +234,6 @@ trait PostgresqlTrait
             ],
             10 => [
                 '_columnName'    => 'field_decimal',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
                 '_isNumeric'     => true,
                 '_size'          => 10,
@@ -260,7 +249,6 @@ trait PostgresqlTrait
             ],
             11 => [
                 '_columnName'    => 'field_decimal_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
                 '_isNumeric'     => true,
                 '_size'          => 10,
@@ -276,7 +264,6 @@ trait PostgresqlTrait
             ],
             12 => [
                 '_columnName'    => 'field_enum',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -292,7 +279,6 @@ trait PostgresqlTrait
             ],
             13 => [
                 '_columnName'    => 'field_integer',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -308,7 +294,6 @@ trait PostgresqlTrait
             ],
             14 => [
                 '_columnName'    => 'field_integer_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -324,7 +309,6 @@ trait PostgresqlTrait
             ],
             15 => [
                 '_columnName'    => 'field_json',
-                '_schemaName'    => false,
                 '_type'          => Column::TYPE_JSON,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -340,7 +324,6 @@ trait PostgresqlTrait
             ],
             16 => [
                 '_columnName'    => 'field_float',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
                 '_isNumeric'     => true,
                 '_size'          => 10,
@@ -356,7 +339,6 @@ trait PostgresqlTrait
             ],
             17 => [
                 '_columnName'    => 'field_float_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_DECIMAL,
                 '_isNumeric'     => true,
                 '_size'          => 10,
@@ -372,7 +354,6 @@ trait PostgresqlTrait
             ],
             18 => [
                 '_columnName'    => 'field_date',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_DATE,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -388,7 +369,6 @@ trait PostgresqlTrait
             ],
             19 => [
                 '_columnName'    => 'field_date_default',
-                '_schemaName'    => false,
                 '_type'          => Column::TYPE_DATE,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -404,7 +384,6 @@ trait PostgresqlTrait
             ],
             20 => [
                 '_columnName'    => 'field_datetime',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -420,7 +399,6 @@ trait PostgresqlTrait
             ],
             21 => [
                 '_columnName'    => 'field_datetime_default',
-                '_schemaName'    => false,
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -436,7 +414,6 @@ trait PostgresqlTrait
             ],
             22 => [
                 '_columnName'    => 'field_time',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIME,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -452,7 +429,6 @@ trait PostgresqlTrait
             ],
             23 => [
                 '_columnName'    => 'field_time_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIME,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -468,7 +444,6 @@ trait PostgresqlTrait
             ],
             24 => [
                 '_columnName'    => 'field_timestamp',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -484,7 +459,6 @@ trait PostgresqlTrait
             ],
             25 => [
                 '_columnName'    => 'field_timestamp_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -500,7 +474,6 @@ trait PostgresqlTrait
             ],
             26 => [
                 '_columnName'    => 'field_mediumint',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -516,7 +489,6 @@ trait PostgresqlTrait
             ],
             27 => [
                 '_columnName'    => 'field_mediumint_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_INTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -532,7 +504,6 @@ trait PostgresqlTrait
             ],
             28 => [
                 '_columnName'    => 'field_smallint',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -548,7 +519,6 @@ trait PostgresqlTrait
             ],
             29 => [
                 '_columnName'    => 'field_smallint_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -564,7 +534,6 @@ trait PostgresqlTrait
             ],
             30 => [
                 '_columnName'    => 'field_tinyint',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -580,7 +549,6 @@ trait PostgresqlTrait
             ],
             31 => [
                 '_columnName'    => 'field_tinyint_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_SMALLINTEGER,
                 '_isNumeric'     => true,
                 '_size'          => 0,
@@ -596,7 +564,6 @@ trait PostgresqlTrait
             ],
             32 => [
                 '_columnName'    => 'field_longtext',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -612,7 +579,6 @@ trait PostgresqlTrait
             ],
             33 => [
                 '_columnName'    => 'field_mediumtext',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -628,7 +594,6 @@ trait PostgresqlTrait
             ],
             34 => [
                 '_columnName'    => 'field_tinytext',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -644,7 +609,6 @@ trait PostgresqlTrait
             ],
             35 => [
                 '_columnName'    => 'field_text',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
@@ -660,7 +624,6 @@ trait PostgresqlTrait
             ],
             36 => [
                 '_columnName'    => 'field_varchar',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
@@ -676,7 +639,6 @@ trait PostgresqlTrait
             ],
             37 => [
                 '_columnName'    => 'field_varchar_default',
-                '_schemaName'    => null,
                 '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
