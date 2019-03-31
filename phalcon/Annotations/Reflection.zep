@@ -72,19 +72,17 @@ class Reflection
      */
     public function getClassAnnotations() -> <Collection> | bool
     {
-        var annotations, reflectionClass, collection;
+        var reflectionClass;
 
-        let annotations = this->classAnnotations;
-        if typeof annotations != "object" {
+        if this->classAnnotations === null {
             if fetch reflectionClass, this->reflectionData["class"] {
-                let collection = new Collection(reflectionClass),
-                    this->classAnnotations = collection;
-                return collection;
+                let this->classAnnotations = new Collection(reflectionClass);
+            } else {
+                let this->classAnnotations = false;
             }
-            let this->classAnnotations = false;
-            return false;
         }
-        return annotations;
+
+        return this->classAnnotations;
     }
 
     /**
@@ -92,29 +90,27 @@ class Reflection
      */
     public function getMethodsAnnotations() -> <Collection[]> | bool
     {
-        var annotations, reflectionMethods,
-            collections, methodName, reflectionMethod;
+        var reflectionMethods, collections, methodName, reflectionMethod;
 
-        let annotations = this->methodAnnotations;
-        if typeof annotations != "object" {
-
+        if this->methodAnnotations === null {
             if fetch reflectionMethods, this->reflectionData["methods"] {
                 if count(reflectionMethods) {
-                    let collections = [];
+                    let this->methodAnnotations = [];
+
                     for methodName, reflectionMethod in reflectionMethods {
-                        let collections[methodName] = new Collection(
+                        let this->methodAnnotations[methodName] = new Collection(
                             reflectionMethod
                         );
                     }
-                    let this->methodAnnotations = collections;
-                    return collections;
+
+                    return this->methodAnnotations;
                 }
             }
 
             let this->methodAnnotations = false;
-            return false;
         }
-        return annotations;
+
+        return this->methodAnnotations;
     }
 
     /**
@@ -122,28 +118,27 @@ class Reflection
      */
     public function getPropertiesAnnotations() -> <Collection[]> | bool
     {
-        var annotations, reflectionProperties,
-            collections, property, reflectionProperty;
+        var reflectionProperties, property, reflectionProperty;
 
-        let annotations = this->propertyAnnotations;
-        if typeof annotations != "object" {
+        if this->propertyAnnotations === null {
             if fetch reflectionProperties, this->reflectionData["properties"] {
                 if count(reflectionProperties) {
-                    let collections = [];
+                    let this->propertyAnnotations = [];
+
                     for property, reflectionProperty in reflectionProperties {
-                        let collections[property] = new Collection(
+                        let this->propertyAnnotations[property] = new Collection(
                             reflectionProperty
                         );
                     }
-                    let this->propertyAnnotations = collections;
-                    return collections;
+
+                    return this->propertyAnnotations;
                 }
             }
+
             let this->propertyAnnotations = false;
-            return false;
         }
 
-        return annotations;
+        return this->propertyAnnotations;
     }
 
     /**

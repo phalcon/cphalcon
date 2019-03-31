@@ -24,7 +24,7 @@ use Phalcon\Annotations\ReaderInterface;
  */
 abstract class Adapter implements AdapterInterface
 {
-    protected annotations;
+    protected annotations = [];
 
     protected reader;
 
@@ -35,8 +35,7 @@ abstract class Adapter implements AdapterInterface
      */
     public function get(var className) -> <Reflection>
     {
-        var annotations, classAnnotations, parsedAnnotations, realClassName,
-            reader;
+        var classAnnotations, parsedAnnotations, realClassName, reader;
 
         /**
          * Get the class name if it's an object
@@ -47,11 +46,8 @@ abstract class Adapter implements AdapterInterface
             let realClassName = className;
         }
 
-        let annotations = this->annotations;
-        if typeof annotations == "array" {
-            if isset annotations[realClassName] {
-                return annotations[realClassName];
-            }
+        if isset this->annotations[realClassName] {
+            return this->annotations[realClassName];
         }
 
         /**
@@ -87,16 +83,12 @@ abstract class Adapter implements AdapterInterface
          */
         let classAnnotations = this->get(className);
 
-        /**
-         * A valid annotations reflection is an object
-         */
-        if typeof classAnnotations == "object" {
-            let methods = classAnnotations->getMethodsAnnotations();
-            if typeof methods == "array" {
-                for methodKey, method in methods {
-                    if !strcasecmp(methodKey, methodName) {
-                        return method;
-                    }
+        let methods = classAnnotations->getMethodsAnnotations();
+
+        if typeof methods == "array" {
+            for methodKey, method in methods {
+                if !strcasecmp(methodKey, methodName) {
+                    return method;
                 }
             }
         }
@@ -119,14 +111,7 @@ abstract class Adapter implements AdapterInterface
          */
         let classAnnotations = this->get(className);
 
-        /**
-         * A valid annotations reflection is an object
-         */
-        if typeof classAnnotations == "object" {
-            return classAnnotations->getMethodsAnnotations();
-        }
-
-        return [];
+        return classAnnotations->getMethodsAnnotations();
     }
 
     /**
@@ -141,22 +126,16 @@ abstract class Adapter implements AdapterInterface
          */
         let classAnnotations = this->get(className);
 
-        /**
-         * A valid annotations reflection is an object
-         */
-        if typeof classAnnotations == "object" {
-            let properties = classAnnotations->getPropertiesAnnotations();
-            if typeof properties == "array" {
-                if fetch property, properties[propertyName] {
-                    return property;
-                }
-            }
+        let properties = classAnnotations->getPropertiesAnnotations();
+
+        if !fetch property, properties[propertyName] {
+            /**
+             * Returns a collection anyways
+             */
+            return new Collection();
         }
 
-        /**
-         * Returns a collection anyways
-         */
-        return new Collection();
+        return property;
     }
 
     /**
@@ -171,14 +150,7 @@ abstract class Adapter implements AdapterInterface
          */
         let classAnnotations = this->get(className);
 
-        /**
-         * A valid annotations reflection is an object
-         */
-        if typeof classAnnotations == "object" {
-            return classAnnotations->getPropertiesAnnotations();
-        }
-
-        return [];
+        return classAnnotations->getPropertiesAnnotations();
     }
 
     /**
@@ -189,6 +161,7 @@ abstract class Adapter implements AdapterInterface
         if typeof this->reader != "object" {
             let this->reader = new Reader();
         }
+
         return this->reader;
     }
 
