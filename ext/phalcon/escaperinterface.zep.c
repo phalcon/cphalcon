@@ -34,19 +34,9 @@ ZEPHIR_INIT_CLASS(Phalcon_EscaperInterface) {
 }
 
 /**
- * Sets the encoding to be used by the escaper
+ * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
  */
-ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, setEncoding);
-
-/**
- * Returns the internal encoding used by the escaper
- */
-ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, getEncoding);
-
-/**
- * Sets the HTML quoting type for htmlspecialchars
- */
-ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, setHtmlQuoteType);
+ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeCss);
 
 /**
  * Escapes a HTML string
@@ -59,11 +49,6 @@ ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeHtml);
 ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeHtmlAttr);
 
 /**
- * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
- */
-ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeCss);
-
-/**
  * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
  */
 ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeJs);
@@ -72,4 +57,19 @@ ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeJs);
  * Escapes a URL. Internally uses rawurlencode
  */
 ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeUrl);
+
+/**
+ * Returns the internal encoding used by the escaper
+ */
+ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, getEncoding);
+
+/**
+ * Sets the encoding to be used by the escaper
+ */
+ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, setEncoding);
+
+/**
+ * Sets the HTML quoting type for htmlspecialchars
+ */
+ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, setHtmlQuoteType);
 

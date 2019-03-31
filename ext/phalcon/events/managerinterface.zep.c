@@ -64,12 +64,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, detachAll);
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
 
 /**
- * Check whether certain type of event has listeners
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, hasListeners);
-
-/**
  * Returns all the attached listeners of a certain type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, getListeners);
+
+/**
+ * Check whether certain type of event has listeners
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, hasListeners);
 

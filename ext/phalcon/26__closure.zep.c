@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/memory.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_26__closure) {
@@ -27,28 +27,22 @@ ZEPHIR_INIT_CLASS(phalcon_26__closure) {
 
 PHP_METHOD(phalcon_26__closure, __invoke) {
 
-	zend_bool _1;
-	zval *element, element_sub, _0, _2;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *matches, matches_sub, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&matches_sub);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &element);
+	zephir_fetch_params(1, 1, 0, &matches);
 
 
 
-	ZEPHIR_OBS_VAR(&_0);
-	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/validation.zep", 54 TSRMLS_CC);
-	_1 = Z_TYPE_P(&_0) != IS_ARRAY;
-	if (!(_1)) {
-		ZEPHIR_OBS_VAR(&_2);
-		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/validation.zep", 54 TSRMLS_CC);
-		_1 = !(zephir_instance_of_ev(&_2, phalcon_validation_combinedfieldsvalidator_ce TSRMLS_CC));
-	}
-	RETURN_MM_BOOL(_1);
+	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Http/Message/Uri.zep", 684 TSRMLS_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("urlencode", NULL, 0, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

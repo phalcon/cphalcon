@@ -12,11 +12,15 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/spl/spl_iterators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
+#include "kernel/string.h"
+#include "kernel/array.h"
 
 
 /**
@@ -28,70 +32,42 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Registry
+ * Phalcon\Collection
  *
- * A registry is a container for storing objects and values in the application space.
- * By storing the value in a registry, the same object is always available throughout
- * your application.
+ * Phalcon\Collection is a supercharged object oriented array. It implements
+ * ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
  *
- *<code>
- * $registry = new \Phalcon\Registry();
- *
- * // Set value
- * $registry->something = "something";
- * // or
- * $registry["something"] = "something";
- *
- * // Get value
- * $value = $registry->something;
- * // or
- * $value = $registry["something"];
- *
- * // Check if the key exists
- * $exists = isset($registry->something);
- * // or
- * $exists = isset($registry["something"]);
- *
- * // Unset
- * unset($registry->something);
- * // or
- * unset($registry["something"]);
- *</code>
- *
- * In addition to ArrayAccess, Phalcon\Registry also implements Countable
- * (count($registry) will return the number of elements in the registry),
- * Serializable and Iterator (you can iterate over the registry
- * using a foreach loop) interfaces. For PHP 5.4 and higher, JsonSerializable
- * interface is implemented.
- *
- * Phalcon\Registry is very fast (it is typically faster than any userspace
- * implementation of the registry); however, this comes at a price:
- * Phalcon\Registry is a final class and cannot be inherited from.
- *
- * Though Phalcon\Registry exposes methods like __get(), offsetGet(), count() etc,
- * it is not recommended to invoke them manually (these methods exist mainly to
- * match the interfaces the registry implements): $registry->__get("property")
- * is several times slower than $registry->property.
- *
- * Internally all the magic methods (and interfaces except JsonSerializable)
- * are implemented using object handlers or similar techniques: this allows
- * to bypass relatively slow method calls.
+ * It can be used in any part of the application that needs collection of data
+ * Such implementatins are for instance accessing globals `$_GET`, `$_POST` etc.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Registry) {
+ZEPHIR_INIT_CLASS(Phalcon_Collection) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Registry, phalcon, registry, phalcon_collection_ce, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Collection, phalcon, collection, phalcon_collection_method_entry, 0);
 
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_collection_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_collection_ce, SL("lowerKeys"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_collection_ce->create_object = zephir_init_properties_Phalcon_Collection;
+
+	zend_class_implements(phalcon_collection_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_collection_ce TSRMLS_CC, 1, spl_ce_Countable);
+	zend_class_implements(phalcon_collection_ce TSRMLS_CC, 1, zend_ce_aggregate);
+	zend_class_implements(phalcon_collection_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_collection_ce TSRMLS_CC, 1, zend_ce_serializable);
 	return SUCCESS;
 
 }
 
-/**
- * Constructor
- */
-PHP_METHOD(Phalcon_Registry, __construct) {
+PHP_METHOD(Phalcon_Collection, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data_param = NULL;
 	zval data;
 	zval *this_ptr = getThis();
@@ -109,7 +85,7 @@ PHP_METHOD(Phalcon_Registry, __construct) {
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "__construct", &_0, 0, &data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -118,10 +94,9 @@ PHP_METHOD(Phalcon_Registry, __construct) {
 /**
  * Magic getter to get an element from the collection
  */
-PHP_METHOD(Phalcon_Registry, __get) {
+PHP_METHOD(Phalcon_Collection, __get) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
 	zval element;
 	zval *this_ptr = getThis();
@@ -143,7 +118,7 @@ PHP_METHOD(Phalcon_Registry, __get) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &element);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -152,10 +127,9 @@ PHP_METHOD(Phalcon_Registry, __get) {
 /**
  * Magic isset to check whether an element exists or not
  */
-PHP_METHOD(Phalcon_Registry, __isset) {
+PHP_METHOD(Phalcon_Collection, __isset) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
 	zval element;
 	zval *this_ptr = getThis();
@@ -177,7 +151,7 @@ PHP_METHOD(Phalcon_Registry, __isset) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, &element);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &element);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -186,10 +160,9 @@ PHP_METHOD(Phalcon_Registry, __isset) {
 /**
  * Magic setter to assign values to an element
  */
-PHP_METHOD(Phalcon_Registry, __set) {
+PHP_METHOD(Phalcon_Collection, __set) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL, *value, value_sub;
 	zval element;
 	zval *this_ptr = getThis();
@@ -212,7 +185,7 @@ PHP_METHOD(Phalcon_Registry, __set) {
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "set", &_0, 0, &element, value);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, &element, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -221,10 +194,9 @@ PHP_METHOD(Phalcon_Registry, __set) {
 /**
  * Magic unset to remove an element from the collection
  */
-PHP_METHOD(Phalcon_Registry, __unset) {
+PHP_METHOD(Phalcon_Collection, __unset) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
 	zval element;
 	zval *this_ptr = getThis();
@@ -246,7 +218,7 @@ PHP_METHOD(Phalcon_Registry, __unset) {
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, &element);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "remove", NULL, 0, &element);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -255,17 +227,18 @@ PHP_METHOD(Phalcon_Registry, __unset) {
 /**
  * Clears the internal collection
  */
-PHP_METHOD(Phalcon_Registry, clear) {
+PHP_METHOD(Phalcon_Collection, clear) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
+	zval _0;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "clear", &_0, 0);
-	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_property_zval(this_ptr, SL("data"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -275,37 +248,37 @@ PHP_METHOD(Phalcon_Registry, clear) {
  *
  * @link https://php.net/manual/en/countable.count.php
  */
-PHP_METHOD(Phalcon_Registry, count) {
+PHP_METHOD(Phalcon_Collection, count) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
+	zval _0;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "count", &_0, 0);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	RETURN_LONG(zephir_fast_count_int(&_0 TSRMLS_CC));
 
 }
 
 /**
  * Get the element from the collection
  */
-PHP_METHOD(Phalcon_Registry, get) {
+PHP_METHOD(Phalcon_Collection, get) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool insensitive;
-	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, *insensitive_param = NULL, __$null, _1;
+	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, *insensitive_param = NULL, __$null, value, _1, _0$$3, _2$$4, _3$$4;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &element_param, &defaultValue, &insensitive_param);
@@ -331,13 +304,18 @@ PHP_METHOD(Phalcon_Registry, get) {
 	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
+	if (EXPECTED(insensitive)) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		zephir_fast_strtolower(&_0$$3, &element);
+		zephir_get_strval(&element, &_0$$3);
 	}
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue, &_1);
-	zephir_check_call_status();
+	zephir_read_property(&_1, this_ptr, SL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
+	if (EXPECTED(zephir_array_isset_fetch(&value, &_1, &element, 1 TSRMLS_CC))) {
+		zephir_read_property(&_2$$4, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch(&_3$$4, &_2$$4, &value, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 103 TSRMLS_CC);
+		RETURN_CTOR(&_3$$4);
+	}
+	RETVAL_ZVAL(defaultValue, 1, 0);
 	RETURN_MM();
 
 }
@@ -345,16 +323,16 @@ PHP_METHOD(Phalcon_Registry, get) {
 /**
  * Returns the iterator of the class
  */
-PHP_METHOD(Phalcon_Registry, getIterator) {
+PHP_METHOD(Phalcon_Collection, getIterator) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
 
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "getiterator", &_0, 0);
+	object_init_ex(return_value, zephir_get_internal_ce(SL("arrayiterator")));
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 65, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -363,16 +341,15 @@ PHP_METHOD(Phalcon_Registry, getIterator) {
 /**
  * Get the element from the collection
  */
-PHP_METHOD(Phalcon_Registry, has) {
+PHP_METHOD(Phalcon_Collection, has) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool insensitive;
-	zval *element_param = NULL, *insensitive_param = NULL, _1;
+	zval *element_param = NULL, *insensitive_param = NULL, _0$$3, _1;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
@@ -395,29 +372,32 @@ PHP_METHOD(Phalcon_Registry, has) {
 	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
+	if (EXPECTED(insensitive)) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		zephir_fast_strtolower(&_0$$3, &element);
+		zephir_get_strval(&element, &_0$$3);
 	}
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, &element, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_read_property(&_1, this_ptr, SL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_1, &element));
 
 }
 
 /**
  * Initialize internal array
  */
-PHP_METHOD(Phalcon_Registry, init) {
+PHP_METHOD(Phalcon_Collection, init) {
 
+	zend_string *_2;
+	zend_ulong _1;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *data_param = NULL;
+	zval *data_param = NULL, key, value, *_0;
 	zval data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &data_param);
@@ -430,8 +410,22 @@ PHP_METHOD(Phalcon_Registry, init) {
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "init", &_0, 0, &data);
-	zephir_check_call_status();
+	zephir_is_iterable(&data, 0, "phalcon/Collection.zep", 139);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _1, _2, _0)
+	{
+		ZEPHIR_INIT_NVAR(&key);
+		if (_2 != NULL) { 
+			ZVAL_STR_COPY(&key, _2);
+		} else {
+			ZVAL_LONG(&key, _1);
+		}
+		ZEPHIR_INIT_NVAR(&value);
+		ZVAL_COPY(&value, _0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_3, 0, &key, &value);
+		zephir_check_call_status();
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&value);
+	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -441,18 +435,12 @@ PHP_METHOD(Phalcon_Registry, init) {
  *
  * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
  */
-PHP_METHOD(Phalcon_Registry, jsonSerialize) {
+PHP_METHOD(Phalcon_Collection, jsonSerialize) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
 
 
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "jsonserialize", &_0, 0);
-	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_MEMBER(getThis(), "data");
 
 }
 
@@ -461,21 +449,25 @@ PHP_METHOD(Phalcon_Registry, jsonSerialize) {
  *
  * @link https://php.net/manual/en/arrayaccess.offsetexists.php
  */
-PHP_METHOD(Phalcon_Registry, offsetExists) {
+PHP_METHOD(Phalcon_Collection, offsetExists) {
 
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element, element_sub;
+	zval *element = NULL, element_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
 
+	ZEPHIR_SEPARATE_PARAM(element);
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, element);
+	zephir_get_strval(&_0, element);
+	ZEPHIR_CPY_WRT(element, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, element);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -486,21 +478,25 @@ PHP_METHOD(Phalcon_Registry, offsetExists) {
  *
  * @link https://php.net/manual/en/arrayaccess.offsetget.php
  */
-PHP_METHOD(Phalcon_Registry, offsetGet) {
+PHP_METHOD(Phalcon_Collection, offsetGet) {
 
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element, element_sub;
+	zval *element = NULL, element_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
 
+	ZEPHIR_SEPARATE_PARAM(element);
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, element);
+	zephir_get_strval(&_0, element);
+	ZEPHIR_CPY_WRT(element, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, element);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -511,22 +507,26 @@ PHP_METHOD(Phalcon_Registry, offsetGet) {
  *
  * @link https://php.net/manual/en/arrayaccess.offsetset.php
  */
-PHP_METHOD(Phalcon_Registry, offsetSet) {
+PHP_METHOD(Phalcon_Collection, offsetSet) {
 
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element, element_sub, *value, value_sub;
+	zval *element = NULL, element_sub, *value, value_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &value);
 
+	ZEPHIR_SEPARATE_PARAM(element);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "set", &_0, 0, element, value);
+	zephir_get_strval(&_0, element);
+	ZEPHIR_CPY_WRT(element, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, element, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -537,21 +537,25 @@ PHP_METHOD(Phalcon_Registry, offsetSet) {
  *
  * @link https://php.net/manual/en/arrayaccess.offsetunset.php
  */
-PHP_METHOD(Phalcon_Registry, offsetUnset) {
+PHP_METHOD(Phalcon_Collection, offsetUnset) {
 
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element, element_sub;
+	zval *element = NULL, element_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
 
+	ZEPHIR_SEPARATE_PARAM(element);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, element);
+	zephir_get_strval(&_0, element);
+	ZEPHIR_CPY_WRT(element, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "remove", NULL, 0, element);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -560,17 +564,21 @@ PHP_METHOD(Phalcon_Registry, offsetUnset) {
 /**
  * Delete the element from the collection
  */
-PHP_METHOD(Phalcon_Registry, remove) {
+PHP_METHOD(Phalcon_Collection, remove) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool insensitive;
-	zval *element_param = NULL, *insensitive_param = NULL, _1;
+	zval *element_param = NULL, *insensitive_param = NULL, data, lowerKeys, value, _0, _1, _2$$4;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&lowerKeys);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &element_param, &insensitive_param);
@@ -592,13 +600,24 @@ PHP_METHOD(Phalcon_Registry, remove) {
 	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, &element, &_1);
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&data, &_0);
+	zephir_read_property(&_0, this_ptr, SL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&lowerKeys, &_0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "has", NULL, 0, &element);
 	zephir_check_call_status();
+	if (zephir_is_true(&_1)) {
+		if (EXPECTED(insensitive)) {
+			ZEPHIR_INIT_VAR(&_2$$4);
+			zephir_fast_strtolower(&_2$$4, &element);
+			zephir_get_strval(&element, &_2$$4);
+		}
+		zephir_array_fetch(&value, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 215 TSRMLS_CC);
+		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
+		zephir_array_unset(&data, &value, PH_SEPARATE);
+	}
+	zephir_update_property_zval(this_ptr, SL("data"), &data);
+	zephir_update_property_zval(this_ptr, SL("lowerKeys"), &lowerKeys);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -608,16 +627,18 @@ PHP_METHOD(Phalcon_Registry, remove) {
  *
  * @link https://php.net/manual/en/serializable.serialize.php
  */
-PHP_METHOD(Phalcon_Registry, serialize) {
+PHP_METHOD(Phalcon_Collection, serialize) {
 
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "serialize", &_0, 0);
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 66, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -626,16 +647,16 @@ PHP_METHOD(Phalcon_Registry, serialize) {
 /**
  * Set an element in the collection
  */
-PHP_METHOD(Phalcon_Registry, set) {
+PHP_METHOD(Phalcon_Collection, set) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element_param = NULL, *value, value_sub;
+	zval *element_param = NULL, *value, value_sub, key, _0;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element_param, &value);
@@ -652,8 +673,11 @@ PHP_METHOD(Phalcon_Registry, set) {
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "set", &_0, 0, &element, value);
-	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_fast_strtolower(&_0, &element);
+	ZEPHIR_CPY_WRT(&key, &_0);
+	zephir_update_property_array(this_ptr, SL("data"), &element, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("lowerKeys"), &key, &element TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -661,18 +685,12 @@ PHP_METHOD(Phalcon_Registry, set) {
 /**
  * Returns the object in an array format
  */
-PHP_METHOD(Phalcon_Registry, toArray) {
+PHP_METHOD(Phalcon_Collection, toArray) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
 
 
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "toarray", &_0, 0);
-	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_MEMBER(getThis(), "data");
 
 }
 
@@ -685,17 +703,16 @@ PHP_METHOD(Phalcon_Registry, toArray) {
  *
  * @see https://www.ietf.org/rfc/rfc4627.txt
  */
-PHP_METHOD(Phalcon_Registry, toJson) {
+PHP_METHOD(Phalcon_Collection, toJson) {
 
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL, _1;
-	zend_long options, ZEPHIR_LAST_CALL_STATUS;
+	zval *options_param = NULL, _0, _1;
+	zend_long options;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options_param);
+	zephir_fetch_params(0, 0, 1, &options_param);
 
 	if (!options_param) {
 		options = 79;
@@ -704,10 +721,10 @@ PHP_METHOD(Phalcon_Registry, toJson) {
 	}
 
 
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, options);
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "tojson", &_0, 0, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_json_encode(return_value, &_0, zephir_get_intval(&_1) );
+	return;
 
 }
 
@@ -716,23 +733,61 @@ PHP_METHOD(Phalcon_Registry, toJson) {
  *
  * @link https://php.net/manual/en/serializable.unserialize.php
  */
-PHP_METHOD(Phalcon_Registry, unserialize) {
+PHP_METHOD(Phalcon_Collection, unserialize) {
 
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *serialized, serialized_sub;
+	zval *serialized = NULL, serialized_sub, data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&serialized_sub);
+	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &serialized);
 
+	ZEPHIR_SEPARATE_PARAM(serialized);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "unserialize", &_0, 0, serialized);
+	zephir_get_strval(&_0, serialized);
+	ZEPHIR_CPY_WRT(serialized, &_0);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 67, serialized);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Collection(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _2, _1$$3, _3$$4;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("lowerKeys"), &_1$$3);
+		}
+		zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_2) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_3$$4);
+			array_init(&_3$$4);
+			zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 

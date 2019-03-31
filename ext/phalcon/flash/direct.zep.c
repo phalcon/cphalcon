@@ -69,15 +69,15 @@ PHP_METHOD(Phalcon_Flash_Direct, message) {
  */
 PHP_METHOD(Phalcon_Flash_Direct, output) {
 
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *remove_param = NULL, message, messages, *_0$$3, _1$$3;
+	zephir_fcall_cache_entry *_2 = NULL;
+	zval *remove_param = NULL, message, messages, _0, *_1$$3;
 	zend_bool remove;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&messages);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &remove_param);
@@ -89,33 +89,16 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 	}
 
 
-	ZEPHIR_OBS_VAR(&messages);
-	zephir_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&messages, &_0);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "phalcon/flash/direct.zep", 43);
-		if (Z_TYPE_P(&messages) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _0$$3)
-			{
-				ZEPHIR_INIT_NVAR(&message);
-				ZVAL_COPY(&message, _0$$3);
-				zend_print_zval(&message, 0);
-			} ZEND_HASH_FOREACH_END();
-		} else {
-			ZEPHIR_CALL_METHOD(NULL, &messages, "rewind", NULL, 0);
-			zephir_check_call_status();
-			while (1) {
-				ZEPHIR_CALL_METHOD(&_1$$3, &messages, "valid", NULL, 0);
-				zephir_check_call_status();
-				if (!zend_is_true(&_1$$3)) {
-					break;
-				}
-				ZEPHIR_CALL_METHOD(&message, &messages, "current", NULL, 0);
-				zephir_check_call_status();
-					zend_print_zval(&message, 0);
-				ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
-				zephir_check_call_status();
-			}
-		}
+		zephir_is_iterable(&messages, 0, "phalcon/Flash/Direct.zep", 42);
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _1$$3)
+		{
+			ZEPHIR_INIT_NVAR(&message);
+			ZVAL_COPY(&message, _1$$3);
+			zend_print_zval(&message, 0);
+		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&message);
 	}
 	if (remove) {

@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Helper_Arr, set) {
 
 
 	if (Z_TYPE_P(index) == IS_NULL) {
-		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/helper/arr.zep", 50);
+		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Helper/Arr.zep", 50);
 	} else {
 		zephir_array_update_zval(&collection, index, value, PH_COPY | PH_SEPARATE);
 	}

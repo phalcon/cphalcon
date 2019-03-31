@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Engine, phalcon, mvc_view_engine, phalcon_di_injectable_ce, phalcon_mvc_view_engine_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("_view"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("view"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_view_engine_ce TSRMLS_CC, 1, phalcon_mvc_view_engineinterface_ce);
 	return SUCCESS;
@@ -50,23 +50,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
-	zval *view, view_sub, *dependencyInjector = NULL, dependencyInjector_sub, __$null;
+	zval *view, view_sub, *container = NULL, container_sub, __$null;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&view_sub);
-	ZVAL_UNDEF(&dependencyInjector_sub);
+	ZVAL_UNDEF(&container_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 1, 1, &view, &dependencyInjector);
+	zephir_fetch_params(0, 1, 1, &view, &container);
 
-	if (!dependencyInjector) {
-		dependencyInjector = &dependencyInjector_sub;
-		dependencyInjector = &__$null;
+	if (!container) {
+		container = &container_sub;
+		container = &__$null;
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_view"), view);
-	zephir_update_property_zval(this_ptr, SL("_dependencyInjector"), dependencyInjector);
+	zephir_update_property_zval(this_ptr, SL("view"), view);
+	zephir_update_property_zval(this_ptr, SL("container"), container);
 
 }
 
@@ -83,10 +83,22 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("_view"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getcontent", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
+
+}
+
+/**
+ * Returns the view component related to the adapter
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, getView) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "view");
 
 }
 
@@ -126,22 +138,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_view"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "partial", NULL, 0, &partialPath, params);
 	zephir_check_call_status();
 	RETURN_MM();
-
-}
-
-/**
- * Returns the view component related to the adapter
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine, getView) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_view");
 
 }
 

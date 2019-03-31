@@ -42,9 +42,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Inline, phalcon, assets_inline, phalcon_assets_inline_method_entry, 0);
 
 	/**
-	 * @var string
+	 * @var array | null
 	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("content"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -54,9 +54,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * @var array | null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_inline_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_assets_inline_ce TSRMLS_CC, 1, phalcon_assets_assetinterface_ce);
 	return SUCCESS;
@@ -65,12 +65,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
 /**
  */
-PHP_METHOD(Phalcon_Assets_Inline, getType) {
+PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER(getThis(), "attributes");
 
 }
 
@@ -96,12 +96,12 @@ PHP_METHOD(Phalcon_Assets_Inline, getFilter) {
 
 /**
  */
-PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
+PHP_METHOD(Phalcon_Assets_Inline, getType) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "attributes");
+	RETURN_MEMBER(getThis(), "type");
 
 }
 
@@ -153,23 +153,49 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 }
 
 /**
- * Sets the inline's type
+ * Gets the asset's key.
  */
-PHP_METHOD(Phalcon_Assets_Inline, setType) {
+PHP_METHOD(Phalcon_Assets_Inline, getAssetKey) {
 
-	zval *type_param = NULL;
-	zval type;
+	zval key, _0, _1;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &type_param);
 
-	zephir_get_strval(&type, type_param);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettype", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcontent", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&key);
+	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
+	zephir_md5(return_value, &key);
+	RETURN_MM();
+
+}
+
+/**
+ * Sets extra HTML attributes
+ */
+PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
+
+	zval *attributes_param = NULL;
+	zval attributes;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&attributes);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &attributes_param);
+
+	zephir_get_arrval(&attributes, attributes_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("type"), &type);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &attributes);
 	RETURN_THIS();
 
 }
@@ -201,50 +227,24 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 }
 
 /**
- * Sets extra HTML attributes
+ * Sets the inline's type
  */
-PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
+PHP_METHOD(Phalcon_Assets_Inline, setType) {
 
-	zval *attributes_param = NULL;
-	zval attributes;
+	zval *type_param = NULL;
+	zval type;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&attributes);
+	ZVAL_UNDEF(&type);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &attributes_param);
+	zephir_fetch_params(1, 1, 0, &type_param);
 
-	zephir_get_arrval(&attributes, attributes_param);
+	zephir_get_strval(&type, type_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("attributes"), &attributes);
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	RETURN_THIS();
-
-}
-
-/**
- * Gets the asset's key.
- */
-PHP_METHOD(Phalcon_Assets_Inline, getAssetKey) {
-
-	zval key, _0, _1;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettype", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcontent", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&key);
-	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
-	zephir_md5(return_value, &key);
-	RETURN_MM();
 
 }
 

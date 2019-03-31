@@ -65,40 +65,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon, db_index, phalcon_db_index_method_entry, 0);
 
 	/**
-	 * Index name
-	 *
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_db_index_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	/**
 	 * Index columns
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * Index name
+	 *
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_db_index_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Index type
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_db_index_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);
 	return SUCCESS;
-
-}
-
-/**
- * Index name
- */
-PHP_METHOD(Phalcon_Db_Index, getName) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -110,7 +98,19 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_columns");
+	RETURN_MEMBER(getThis(), "columns");
+
+}
+
+/**
+ * Index name
+ */
+PHP_METHOD(Phalcon_Db_Index, getName) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Db_Index, getType) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_type");
+	RETURN_MEMBER(getThis(), "type");
 
 }
 
@@ -162,9 +162,9 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_name"), &name);
-	zephir_update_property_zval(this_ptr, SL("_columns"), &columns);
-	zephir_update_property_zval(this_ptr, SL("_type"), &type);
+	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, SL("columns"), &columns);
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -191,17 +191,17 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 
 	ZEPHIR_OBS_VAR(&indexName);
-	if (!(zephir_array_isset_string_fetch(&indexName, &data, SL("_name"), 0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 86);
+	if (!(zephir_array_isset_string_fetch(&indexName, &data, SL("name"), 0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "name parameter is required", "phalcon/Db/Index.zep", 85);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&columns);
-	if (!(zephir_array_isset_string_fetch(&columns, &data, SL("_columns"), 0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 90);
+	if (!(zephir_array_isset_string_fetch(&columns, &data, SL("columns"), 0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "columns parameter is required", "phalcon/Db/Index.zep", 89);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&type);
-	if (!(zephir_array_isset_string_fetch(&type, &data, SL("_type"), 0))) {
+	if (!(zephir_array_isset_string_fetch(&type, &data, SL("type"), 0))) {
 		ZEPHIR_INIT_NVAR(&type);
 		ZVAL_STRING(&type, "");
 	}

@@ -34,12 +34,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_BehaviorInterface) {
 }
 
 /**
- * This method receives the notifications from the EventsManager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_BehaviorInterface, notify);
-
-/**
  * Calls a method when it's missing in the collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_BehaviorInterface, missingMethod);
+
+/**
+ * This method receives the notifications from the EventsManager
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_BehaviorInterface, notify);
 

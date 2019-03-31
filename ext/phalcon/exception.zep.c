@@ -12,6 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -29,10 +34,38 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_exception_get_default(TSRMLS_C), NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_exception_get_default(TSRMLS_C), phalcon_exception_method_entry, 0);
 
 	zend_class_implements(phalcon_exception_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("throwable")));
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
+
+	zval *service_param = NULL;
+	zval service;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&service);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &service_param);
+
+	if (UNEXPECTED(Z_TYPE_P(service_param) != IS_STRING && Z_TYPE_P(service_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(service_param) == IS_STRING)) {
+		zephir_get_strval(&service, service_param);
+	} else {
+		ZEPHIR_INIT_VAR(&service);
+		ZVAL_EMPTY_STRING(&service);
+	}
+
+
+	ZEPHIR_CONCAT_SV(return_value, "A dependency injection container is required to access ", &service);
+	RETURN_MM();
 
 }
 

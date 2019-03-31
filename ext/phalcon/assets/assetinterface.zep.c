@@ -34,29 +34,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_AssetInterface) {
 }
 
 /**
- * Sets the asset's type.
+ * Gets the asset's key.
  */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setType);
-
-/**
- * Gets the asset's type.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getType);
-
-/**
- * Sets if the asset must be filtered or not.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setFilter);
-
-/**
- * Gets if the asset must be filtered or not.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getFilter);
-
-/**
- * Sets extra HTML attributes.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getAssetKey);
 
 /**
  * Gets extra HTML attributes.
@@ -64,7 +44,27 @@ ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setAttributes);
 ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getAttributes);
 
 /**
- * Gets the asset's key.
+ * Gets if the asset must be filtered or not.
  */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getAssetKey);
+ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getFilter);
+
+/**
+ * Gets the asset's type.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getType);
+
+/**
+ * Sets extra HTML attributes.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setAttributes);
+
+/**
+ * Sets if the asset must be filtered or not.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setFilter);
+
+/**
+ * Sets the asset's type.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setType);
 

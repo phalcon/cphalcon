@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessage) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("messages"), message);
+	zephir_update_property_array_append(this_ptr, SL("messages"), message TSRMLS_CC);
 
 }
 
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 		_0 = Z_TYPE_P(messages) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/messages/messages.zep", 70);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/Messages/Messages.zep", 70);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&currentMessages);
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Messages_Messages, current) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("position"), PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/messages/messages.zep", 117 TSRMLS_CC);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Messages.zep", 117 TSRMLS_CC);
 	RETURN_CTOR(&_1);
 
 }
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Messages_Messages, current) {
 PHP_METHOD(Phalcon_Messages_Messages, filter) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *fieldName_param = NULL, filtered, messages, message, _0, *_1$$3, _2$$3, _3$$5, _4$$8;
+	zval *fieldName_param = NULL, filtered, messages, message, _0, *_1$$3, _2$$5;
 	zval fieldName;
 	zval *this_ptr = getThis();
 
@@ -228,9 +228,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$8);
+	ZVAL_UNDEF(&_2$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &fieldName_param);
@@ -252,42 +250,19 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&messages, &_0);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "phalcon/messages/messages.zep", 145);
-		if (Z_TYPE_P(&messages) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _1$$3)
-			{
-				ZEPHIR_INIT_NVAR(&message);
-				ZVAL_COPY(&message, _1$$3);
-				if ((zephir_method_exists_ex(&message, SL("getfield") TSRMLS_CC) == SUCCESS)) {
-					ZEPHIR_CALL_METHOD(&_3$$5, &message, "getfield", NULL, 0);
-					zephir_check_call_status();
-					if (ZEPHIR_IS_EQUAL(&fieldName, &_3$$5)) {
-						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 141);
-					}
+		zephir_is_iterable(&messages, 0, "phalcon/Messages/Messages.zep", 145);
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _1$$3)
+		{
+			ZEPHIR_INIT_NVAR(&message);
+			ZVAL_COPY(&message, _1$$3);
+			if ((zephir_method_exists_ex(&message, SL("getfield") TSRMLS_CC) == SUCCESS)) {
+				ZEPHIR_CALL_METHOD(&_2$$5, &message, "getfield", NULL, 0);
+				zephir_check_call_status();
+				if (ZEPHIR_IS_EQUAL(&fieldName, &_2$$5)) {
+					zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 141);
 				}
-			} ZEND_HASH_FOREACH_END();
-		} else {
-			ZEPHIR_CALL_METHOD(NULL, &messages, "rewind", NULL, 0);
-			zephir_check_call_status();
-			while (1) {
-				ZEPHIR_CALL_METHOD(&_2$$3, &messages, "valid", NULL, 0);
-				zephir_check_call_status();
-				if (!zend_is_true(&_2$$3)) {
-					break;
-				}
-				ZEPHIR_CALL_METHOD(&message, &messages, "current", NULL, 0);
-				zephir_check_call_status();
-					if ((zephir_method_exists_ex(&message, SL("getfield") TSRMLS_CC) == SUCCESS)) {
-						ZEPHIR_CALL_METHOD(&_4$$8, &message, "getfield", NULL, 0);
-						zephir_check_call_status();
-						if (ZEPHIR_IS_EQUAL(&fieldName, &_4$$8)) {
-							zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 141);
-						}
-					}
-				ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
-				zephir_check_call_status();
 			}
-		}
+		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&message);
 	}
 	RETURN_CCTOR(&filtered);
@@ -305,67 +280,38 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 
-	zend_bool _3$$3, _5$$6;
-	zval records, message, _0, *_1, _2, _4$$4, _6$$7;
+	zend_bool _2$$3;
+	zval records, message, _0, *_1, _3$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&records);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_3$$4);
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/messages/messages.zep", 172);
-	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
-		{
-			ZEPHIR_INIT_NVAR(&message);
-			ZVAL_COPY(&message, _1);
-			_3$$3 = Z_TYPE_P(&message) == IS_OBJECT;
-			if (_3$$3) {
-				_3$$3 = (zephir_method_exists_ex(&message, SL("jsonserialize") TSRMLS_CC) == SUCCESS);
-			}
-			if (_3$$3) {
-				ZEPHIR_CALL_METHOD(&_4$$4, &message, "jsonserialize", NULL, 0);
-				zephir_check_call_status();
-				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/messages/messages.zep", 166);
-			} else {
-				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 168);
-			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &_0, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&message, &_0, "current", NULL, 0);
-			zephir_check_call_status();
-				_5$$6 = Z_TYPE_P(&message) == IS_OBJECT;
-				if (_5$$6) {
-					_5$$6 = (zephir_method_exists_ex(&message, SL("jsonserialize") TSRMLS_CC) == SUCCESS);
-				}
-				if (_5$$6) {
-					ZEPHIR_CALL_METHOD(&_6$$7, &message, "jsonserialize", NULL, 0);
-					zephir_check_call_status();
-					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "phalcon/messages/messages.zep", 166);
-				} else {
-					zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 168);
-				}
-			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
-			zephir_check_call_status();
+	zephir_is_iterable(&_0, 0, "phalcon/Messages/Messages.zep", 172);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
+	{
+		ZEPHIR_INIT_NVAR(&message);
+		ZVAL_COPY(&message, _1);
+		_2$$3 = Z_TYPE_P(&message) == IS_OBJECT;
+		if (_2$$3) {
+			_2$$3 = (zephir_method_exists_ex(&message, SL("jsonserialize") TSRMLS_CC) == SUCCESS);
 		}
-	}
+		if (_2$$3) {
+			ZEPHIR_CALL_METHOD(&_3$$4, &message, "jsonserialize", NULL, 0);
+			zephir_check_call_status();
+			zephir_array_append(&records, &_3$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 166);
+		} else {
+			zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
+		}
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&message);
 	RETURN_CCTOR(&records);
 
@@ -479,10 +425,10 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
 
 
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/messages/messages.zep", 239);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/Messages/Messages.zep", 239);
 		return;
 	}
-	zephir_update_property_array(this_ptr, SL("messages"), index, message);
+	zephir_update_property_array(this_ptr, SL("messages"), index, message TSRMLS_CC);
 
 }
 
@@ -514,7 +460,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset) {
 		zephir_read_property(&_1$$3, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 301, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 362, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

@@ -74,11 +74,11 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "php://temp");
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "r+");
-	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 61, &_0, &_1);
+	ZVAL_STRING(&_1, "r+b");
+	ZEPHIR_CALL_FUNCTION(&tempResource, "fopen", NULL, 58, &_0, &_1);
 	zephir_check_call_status();
 	zephir_fwrite(NULL, &tempResource, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 243, &tempResource);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 253, &tempResource);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 0, &tempResource);
 	zephir_check_call_status();
@@ -116,14 +116,14 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 	zephir_get_strval(&filename, filename_param);
 	if (!mode_param) {
 		ZEPHIR_INIT_VAR(&mode);
-		ZVAL_STRING(&mode, "r");
+		ZVAL_STRING(&mode, "r+b");
 	} else {
 		zephir_get_strval(&mode, mode_param);
 	}
 
 
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 237, &filename, &mode);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 223, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -151,21 +151,21 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 
 
-	_0 = 1 != Z_TYPE_P(phpResource) == IS_RESOURCE;
+	_0 = Z_TYPE_P(phpResource) != IS_RESOURCE;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 63, phpResource);
+		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 60, phpResource);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "stream");
 		_0 = !ZEPHIR_IS_IDENTICAL(&_2, &_1);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "StreamFactory:createStreamFromResource() - invalid stream provbided", "phalcon/http/message/streamfactory.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid stream provided", "phalcon/Http/Message/StreamFactory.zep", 74);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&stream);
 	object_init_ex(&stream, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 237, phpResource);
+	ZEPHIR_CALL_METHOD(NULL, &stream, "__construct", NULL, 223, phpResource);
 	zephir_check_call_status();
 	RETURN_CCTOR(&stream);
 

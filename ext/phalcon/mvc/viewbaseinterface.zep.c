@@ -34,14 +34,39 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewBaseInterface) {
 }
 
 /**
- * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+ * Cache the actual view render to certain level
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setViewsDir);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, cache);
+
+/**
+ * Returns the cache instance used to cache
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getCache);
+
+/**
+ * Returns cached output from another view stage
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getContent);
+
+/**
+ * Returns parameters to views
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getParamsToView);
 
 /**
  * Gets views directory
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getViewsDir);
+
+/**
+ * Renders a partial view
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, partial);
+
+/**
+ * Externally sets the view content
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setContent);
 
 /**
  * Adds parameters to views (alias of setVar)
@@ -54,32 +79,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setParamToView);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setVar);
 
 /**
- * Returns parameters to views
+ * Sets views directory. Depending of your platform, always add a trailing slash or backslash
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getParamsToView);
-
-/**
- * Returns the cache instance used to cache
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getCache);
-
-/**
- * Cache the actual view render to certain level
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, cache);
-
-/**
- * Externally sets the view content
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setContent);
-
-/**
- * Returns cached output from another view stage
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getContent);
-
-/**
- * Renders a partial view
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, partial);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setViewsDir);
 

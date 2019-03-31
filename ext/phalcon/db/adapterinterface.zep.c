@@ -214,7 +214,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnDefinition);
 /**
  * Gets a list of columns
  *
- * @param	array columnList
+ * @param    array columnList
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnList);
 
@@ -281,8 +281,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getType);
 /**
  * Inserts data into a table using custom RDBMS SQL syntax
  *
- * @param 	array fields
- * @param 	array dataTypes
+ * @param     array fields
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 
@@ -303,8 +303,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
  * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
  * </code>
  *
- * @param 	array data
- * @param 	array dataTypes
+ * @param     array data
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insertAsDict);
 
@@ -395,10 +395,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, tableOptions);
 /**
  * Updates data on a table using custom RDBMS SQL syntax
  *
- * @param 	array fields
- * @param 	array values
- * @param 	string whereCondition
- * @param 	array dataTypes
+ * @param     array fields
+ * @param     array values
+ * @param     string whereCondition
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
 
@@ -420,9 +420,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
  * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
  * </code>
  *
- * @param 	array data
- * @param 	string whereCondition
- * @param 	array dataTypes
+ * @param     array data
+ * @param     string whereCondition
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, updateAsDict);
 

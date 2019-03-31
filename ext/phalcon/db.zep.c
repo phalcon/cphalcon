@@ -72,39 +72,39 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Db, phalcon, db, phalcon_db_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_LAZY"), 1);
-
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 2);
-
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NAMED"), 11);
-
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3);
 
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 4);
 
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 5);
-
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOUND"), 6);
-
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_COLUMN"), 7);
 
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASS"), 8);
 
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_INTO"), 9);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASSTYPE"), 262144);
+
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_COLUMN"), 7);
 
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_FUNC"), 10);
 
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_GROUP"), 65536);
 
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_UNIQUE"), 196608);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_INTO"), 9);
 
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_KEY_PAIR"), 12);
 
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASSTYPE"), 262144);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_LAZY"), 1);
+
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NAMED"), 11);
+
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3);
+
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 5);
+
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_PROPS_LATE"), 1048576);
 
 	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_SERIALIZE"), 524288);
 
-	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_PROPS_LATE"), 1048576);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_UNIQUE"), 196608);
 
 	return SUCCESS;
 

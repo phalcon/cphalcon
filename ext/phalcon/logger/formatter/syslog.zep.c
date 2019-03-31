@@ -62,11 +62,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 
 
 
-	ZEPHIR_CALL_METHOD(&context, item, "getcontext", NULL, 0);
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&message, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&type, item, "gettype", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&context, item, "getcontext", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, &message, &context);

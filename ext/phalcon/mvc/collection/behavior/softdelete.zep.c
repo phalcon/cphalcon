@@ -48,9 +48,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Behavior_SoftDelete) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior_SoftDelete, notify) {
 
-	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *model, model_sub, options, value, field, updateModel, message, _0$$3, _1$$3, _2$$6, _3$$7, *_4$$7, _5$$7;
+	zval *type_param = NULL, *model, model_sub, options, value, field, updateModel, message, _0$$3, _1$$3, _2$$6, _3$$7, *_4$$7;
 	zval type;
 	zval *this_ptr = getThis();
 
@@ -65,7 +65,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_SoftDelete, notify) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$6);
 	ZVAL_UNDEF(&_3$$7);
-	ZVAL_UNDEF(&_5$$7);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
@@ -87,12 +86,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_SoftDelete, notify) {
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&value);
 		if (!(zephir_array_isset_string_fetch(&value, &options, SL("value"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The option 'value' is required", "phalcon/mvc/collection/behavior/softdelete.zep", 41);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The option 'value' is required", "phalcon/Mvc/Collection/Behavior/SoftDelete.zep", 40);
 			return;
 		}
 		ZEPHIR_OBS_VAR(&field);
 		if (!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The option 'field' is required", "phalcon/mvc/collection/behavior/softdelete.zep", 48);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The option 'field' is required", "phalcon/Mvc/Collection/Behavior/SoftDelete.zep", 47);
 			return;
 		}
 		ZVAL_BOOL(&_0$$3, 1);
@@ -112,32 +111,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_SoftDelete, notify) {
 			if (!(zephir_is_true(&_2$$6))) {
 				ZEPHIR_CALL_METHOD(&_3$$7, &updateModel, "getmessages", NULL, 0);
 				zephir_check_call_status();
-				zephir_is_iterable(&_3$$7, 0, "phalcon/mvc/collection/behavior/softdelete.zep", 80);
-				if (Z_TYPE_P(&_3$$7) == IS_ARRAY) {
-					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3$$7), _4$$7)
-					{
-						ZEPHIR_INIT_NVAR(&message);
-						ZVAL_COPY(&message, _4$$7);
-						ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_6, 0, &message);
-						zephir_check_call_status();
-					} ZEND_HASH_FOREACH_END();
-				} else {
-					ZEPHIR_CALL_METHOD(NULL, &_3$$7, "rewind", NULL, 0);
+				zephir_is_iterable(&_3$$7, 0, "phalcon/Mvc/Collection/Behavior/SoftDelete.zep", 79);
+				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3$$7), _4$$7)
+				{
+					ZEPHIR_INIT_NVAR(&message);
+					ZVAL_COPY(&message, _4$$7);
+					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_5, 0, &message);
 					zephir_check_call_status();
-					while (1) {
-						ZEPHIR_CALL_METHOD(&_5$$7, &_3$$7, "valid", NULL, 0);
-						zephir_check_call_status();
-						if (!zend_is_true(&_5$$7)) {
-							break;
-						}
-						ZEPHIR_CALL_METHOD(&message, &_3$$7, "current", NULL, 0);
-						zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_7, 0, &message);
-							zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &_3$$7, "next", NULL, 0);
-						zephir_check_call_status();
-					}
-				}
+				} ZEND_HASH_FOREACH_END();
 				ZEPHIR_INIT_NVAR(&message);
 				RETURN_MM_BOOL(0);
 			}

@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Memory, phalcon, mvc_model_metadata_memory, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_memory_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_model_metadata_memory_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_metadata_memory_ce, SL("metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	phalcon_mvc_model_metadata_memory_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_MetaData_Memory;
 	return SUCCESS;
@@ -142,11 +142,11 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Memory(zend_class
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("_metaData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("_metaData"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("metaData"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

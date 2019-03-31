@@ -34,9 +34,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
 }
 
 /**
- * Gets the index name
+ * Restore a Phalcon\Db\Index object from export
  */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);
 
 /**
  * Gets the columns that corresponds the index
@@ -44,12 +44,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
 
 /**
+ * Gets the index name
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
+
+/**
  * Gets the index type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getType);
-
-/**
- * Restore a Phalcon\Db\Index object from export
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);
 
