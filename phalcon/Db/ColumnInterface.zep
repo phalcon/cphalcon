@@ -52,11 +52,6 @@ interface ColumnInterface
     public function getScale() -> int;
 
     /**
-     * Returns schema's table related to column
-     */
-    public function getSchemaName() -> string;
-
-    /**
      * Returns column size
      */
     public function getSize() -> int;

@@ -61,7 +61,6 @@ class IsAutoIncrementCest
                     0 => Column::__set_state(
                         [
                             'columnName'    => 'field_primary',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_INTEGER,
                             'isNumeric'     => true,
                             'size'          => 11,
@@ -79,7 +78,6 @@ class IsAutoIncrementCest
                     1 => Column::__set_state(
                         [
                             'columnName'    => 'field_bigint',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_BIGINTEGER,
                             'isNumeric'     => true,
                             'size'          => 20,
@@ -106,7 +104,6 @@ class IsAutoIncrementCest
                     Column::__set_state(
                         [
                             'columnName'    => 'field_primary',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_INTEGER,
                             'isNumeric'     => true,
                             'size'          => 0,
@@ -124,7 +121,6 @@ class IsAutoIncrementCest
                     Column::__set_state(
                         [
                             'columnName'    => 'field_bigint',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_BIGINTEGER,
                             'isNumeric'     => true,
                             'size'          => 0,

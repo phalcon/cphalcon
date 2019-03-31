@@ -273,13 +273,6 @@ class Column implements ColumnInterface
     protected scale = 0 { get };
 
     /**
-     * Schema which table related is
-     *
-     * @var string
-     */
-    protected schemaName { get };
-
-    /**
      * Integer column size
      *
      * @var int
