@@ -28,6 +28,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
 ## Fixed
 - Fixed `Phalcon\Image\Adapter\Imagick::_watermark`, `setImageAlpha()` fills the alpha channel with black before execution (replaced by `evaluateImage()`). Improved imagick compatibility. [#13911](https://github.com/phalcon/cphalcon/pull/13911)
 - Fixed Assets Manager hard reference to \Phalcon\Tag, should use DI [#12261](https://github.com/phalcon/cphalcon/issues/12261)
+- Fixed `Annotations\Reader::parse` to always return an array [#13923](https://github.com/phalcon/cphalcon/pull/13923)
 
 ## Changed
 - Refactored `Phalcon\Registry` to use the `Phalcon\Collection` class [#13893](https://github.com/phalcon/cphalcon/issues/13893)
