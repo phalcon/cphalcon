@@ -1,4 +1,4 @@
-# [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-XX-XX)
+# [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
 - Added `delimiter` and `enclosure` options to *Phalcon\Translate\Adapter\Csv* constructor
 - Added `Phalcon\Http\Message\*` namespace implementing PSR-7 and PSR-17. Introducing:
