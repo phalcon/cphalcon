@@ -87,16 +87,14 @@ class TagLocatorFactory implements LocatorFactoryInterface
      */
     private function getEscaper() -> <EscaperInterface>
     {
-        var container, escaper;
+        var container;
 
         let container = Di::getDefault();
 
-        if (true !== container->has("escaper")) {
-            let escaper = container->getService("escaper");
-        } else {
-            let escaper = new Escaper();
+        if !container->has("escaper") {
+            return new Escaper();
         }
 
-        return escaper;
+        return container->getService("escaper");
     }
 }
