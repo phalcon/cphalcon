@@ -57,34 +57,34 @@ class SoftDelete extends Behavior
         /**
          * If the record is already flagged as 'deleted' we don't delete it again
          */
-        if model->readAttribute(field) != value {
+        if model->readAttribute(field) == value {
+            return;
+        }
 
+        /**
+         * Clone the current model to make a clean new operation
+         */
+        let updateModel = clone model;
+
+        updateModel->writeAttribute(field, value);
+
+        /**
+         * Update the cloned model
+         */
+        if !updateModel->save() {
             /**
-             * Clone the current model to make a clean new operation
+             * Transfer the messages from the cloned model to the original model
              */
-            let updateModel = clone model;
-
-            updateModel->writeAttribute(field, value);
-
-            /**
-             * Update the cloned model
-             */
-            if !updateModel->save() {
-
-                /**
-                 * Transfer the messages from the cloned model to the original model
-                 */
-                for message in updateModel->getMessages() {
-                    model->appendMessage(message);
-                }
-
-                return false;
+            for message in updateModel->getMessages() {
+                model->appendMessage(message);
             }
 
-            /**
-             * Update the original model too
-             */
-            model->writeAttribute(field, value);
+            return false;
         }
+
+        /**
+         * Update the original model too
+         */
+        model->writeAttribute(field, value);
     }
 }
