@@ -1,6 +1,7 @@
 # [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events.
+- CLI Routes with bad classnames (eg. `MyApp\\Tasks\\`) now throw an exception instead of suppressing the error.
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
