@@ -47,10 +47,8 @@ class Service implements ServiceInterface
 
     /**
      * Phalcon\Di\Service
-     *
-     * @param mixed definition
      */
-    final public function __construct(definition, bool shared = false) -> void
+    final public function __construct(var definition, bool shared = false) -> void
     {
         let this->definition = definition,
             this->shared = shared;
@@ -161,15 +159,11 @@ class Service implements ServiceInterface
              * String definitions can be class names without implicit parameters
              */
             if class_exists(definition) {
-                if typeof parameters == "array" {
-                    if count(parameters) {
-                        let instance = create_instance_params(
-                            definition,
-                            parameters
-                        );
-                    } else {
-                        let instance = create_instance(definition);
-                    }
+                if typeof parameters == "array" && count(parameters) {
+                    let instance = create_instance_params(
+                        definition,
+                        parameters
+                    );
                 } else {
                     let instance = create_instance(definition);
                 }
@@ -241,10 +235,8 @@ class Service implements ServiceInterface
 
     /**
      * Set the service definition
-     *
-     * @param mixed definition
      */
-    public function setDefinition(definition) -> void
+    public function setDefinition(var definition) -> void
     {
         let this->definition = definition;
     }

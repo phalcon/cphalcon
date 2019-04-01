@@ -58,10 +58,8 @@ interface ServiceInterface
 
     /**
      * Set the service definition
-     *
-     * @param mixed definition
      */
-    public function setDefinition(definition);
+    public function setDefinition(var definition);
 
     /**
      * Changes a parameter in the definition without resolve the service
