@@ -44,7 +44,7 @@ class Route
     /**
      * Phalcon\Cli\Router\Route constructor
      *
-     * @param array paths
+     * @param array|string paths
      */
     public function __construct(string! pattern, paths = null) -> void
     {
@@ -191,8 +191,6 @@ class Route
 
     /**
      * Extracts parameters from a string
-     *
-     * @return array|bool
      */
     public function extractNamedParams(string! pattern) -> array | bool
     {
@@ -421,7 +419,7 @@ class Route
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      *
-     * @param array paths
+     * @param array|string paths
      */
     public function reConfigure(string! pattern, paths = null) -> void
     {
