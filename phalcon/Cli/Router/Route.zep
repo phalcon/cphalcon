@@ -27,7 +27,7 @@ class Route
 
     protected delimiter;
 
-    protected static delimiterPath;
+    protected static delimiterPath = self::DEFAULT_DELIMITER;
 
     protected description;
 
@@ -48,14 +48,10 @@ class Route
      */
     public function __construct(string! pattern, paths = null) -> void
     {
-        var routeId, uniqueId, delimiter;
+        var routeId, uniqueId;
 
         // Get the delimiter from the static member delimiterPath
-        let delimiter = self::delimiterPath;
-        if !delimiter {
-            let delimiter = self::DEFAULT_DELIMITER;
-        }
-        let this->delimiter = delimiter;
+        let this->delimiter = self::delimiterPath;
 
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
@@ -352,14 +348,7 @@ class Route
      */
     public static function getDelimiter() -> string
     {
-        var delimiter;
-
-        let delimiter = self::delimiterPath;
-        if !delimiter {
-            let delimiter = self::DEFAULT_DELIMITER;
-        }
-
-        return delimiter;
+        return self::delimiterPath;
     }
 
     /**
