@@ -106,8 +106,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function attributeReader(array! expr) -> string
     {
-        var exprCode, left, leftType, variable,
-            level, container, leftCode, right;
+        var exprCode, left, leftType, variable, level, leftCode, right;
 
         let exprCode = null;
 
@@ -129,8 +128,7 @@ class Compiler implements InjectionAwareInterface
                 /**
                  * Services registered in the dependency injector container are available always
                  */
-                let container = this->container;
-                if typeof container == "object" && container->has(variable) {
+                if typeof this->container == "object" && this->container->has(variable) {
                     let exprCode .= "$this->" . variable;
                 } else {
                     let exprCode .= "$" . variable;
