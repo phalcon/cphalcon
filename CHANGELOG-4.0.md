@@ -1,4 +1,9 @@
 # [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
+## Added
+- Added `Phalcon\Cli\Router\Route::setDescription()` to sets the route's description
+- Added `Phalcon\Cli\Router\Route::getDescription()` returns the route's description
+
+## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended.
 
 ## Changed

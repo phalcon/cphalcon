@@ -38,6 +38,11 @@ interface RouteInterface
     public static function getDelimiter() -> string;
 
     /**
+     * Returns the route's description
+     */
+    public function getDescription() -> string;
+
+    /**
      * Returns the route's name
      */
     public function getName() -> string;
@@ -73,7 +78,12 @@ interface RouteInterface
     public static function reset() -> void;
 
     /**
+     * Sets the route's description
+     */
+    public function setDescription(string! description) -> <Route>;
+
+    /**
      * Sets the route's name
      */
-    public function setName(string name) -> void;
+    public function setName(string name) -> <Route>;
 }

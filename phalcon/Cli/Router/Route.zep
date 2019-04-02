@@ -29,6 +29,8 @@ class Route
 
     protected static delimiterPath;
 
+    protected description;
+
     protected id;
 
     protected name;
@@ -348,6 +350,14 @@ class Route
     }
 
     /**
+     * Returns the route's description
+     */
+    public function getDescription() -> string
+    {
+        return this->description;
+    }
+
+    /**
      * Returns the route's name
      */
     public function getName() -> string
@@ -529,6 +539,15 @@ class Route
     public static function reset() -> void
     {
         let self::uniqueId = null;
+    }
+
+    /**
+     * Sets the route's description
+     */
+    public function setDescription(string! description) -> <Route>
+    {
+        let this->description = description;
+        return this;
     }
 
     /**
