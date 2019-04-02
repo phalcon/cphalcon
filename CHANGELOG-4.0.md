@@ -1,6 +1,9 @@
 # [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
 - Fixed `Mvc\Collection::isInitialized()` now works as intended.
 
+## Changed
+- Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events.
+
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
