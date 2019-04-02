@@ -74,27 +74,27 @@ class Factory extends BaseFactory
             );
         }
 
-        if fetch adapter, config["adapter"] {
-            let className = namespaceClass."\\".camelize(adapter);
-            if !strpos(filePath, ".") {
-                let filePath = filePath.".".lcfirst(adapter);
-            }
-
-            if className == "Phalcon\\Config\\Adapter\\Ini" {
-                if fetch mode, config["mode"] {
-                    return new {className}(filePath, mode);
-                }
-            } elseif className == "Phalcon\\Config\\Adapter\\Yaml" {
-                if fetch callbacks, config["callbacks"] {
-                    return new {className}(filePath, callbacks);
-                }
-            }
-
-            return new {className}(filePath);
+        if !fetch adapter, config["adapter"] {
+            throw new Exception(
+                "You must provide 'adapter' option in factory config parameter."
+            );
         }
 
-        throw new Exception(
-            "You must provide 'adapter' option in factory config parameter."
-        );
+        let className = namespaceClass . "\\" . camelize(adapter);
+        if !strpos(filePath, ".") {
+            let filePath = filePath . "." . lcfirst(adapter);
+        }
+
+        if className === \Phalcon\Config\Adapter\Ini::class {
+            if fetch mode, config["mode"] {
+                return new {className}(filePath, mode);
+            }
+        } elseif className === \Phalcon\Config\Adapter\Yaml::class {
+            if fetch callbacks, config["callbacks"] {
+                return new {className}(filePath, callbacks);
+            }
+        }
+
+        return new {className}(filePath);
     }
 }
