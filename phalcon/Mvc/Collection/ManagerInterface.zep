@@ -66,7 +66,7 @@ interface ManagerInterface
     /**
      * Check whether a model is already initialized
      */
-    public function isInitialized(string! modelName) -> bool;
+    public function isInitialized(string! className) -> bool;
 
     /**
      * Checks if a model is using implicit object ids
