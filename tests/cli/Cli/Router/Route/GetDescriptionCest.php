@@ -40,6 +40,5 @@ class GetDescriptionCest
         foreach ($router->getRoutes() as $route) {
             $I->assertEquals($routes[$route->getPattern()], $route->getDescription());
         }
-
     }
 }
