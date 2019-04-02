@@ -1,4 +1,7 @@
-# [3.4.3](https://github.com/phalcon/cphalcon/releases/tag/v3.4.3) (2018-02-24)
+# [3.4.4](https://github.com/phalcon/cphalcon/releases/tag/v3.4.4) (2019-XX-XX)
+- Generated Dialect Class referring to a PHP class can't be found [#13867](https://github.com/phalcon/cphalcon/pull/13867)
+
+# [3.4.3](https://github.com/phalcon/cphalcon/releases/tag/v3.4.3) (2019-02-24)
 - Provided PHP 7.3 support [#13847](https://github.com/phalcon/cphalcon/issues/13847)
 
 # [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-12-02)
