@@ -26,11 +26,7 @@ class GetDescriptionCest
     {
         $I->wantToTest('Phalcon\Cli\Router\Route - getDescription()');
 
-        $routes = [
-            'test' => 'test description',
-            'test1' => 'test description1',
-            'test2' => 'test description2',
-        ];
+        $routes = $this->getExampleRoutes();
 
         $router = new \Phalcon\Cli\Router(false);
         foreach ($routes as $pattern => $description) {
@@ -40,5 +36,14 @@ class GetDescriptionCest
         foreach ($router->getRoutes() as $route) {
             $I->assertEquals($routes[$route->getPattern()], $route->getDescription());
         }
+    }
+
+    private function getExampleRoutes(): array
+    {
+        return [
+            'test'  => 'test description',
+            'test1' => 'test description1',
+            'test2' => 'test description2',
+        ];
     }
 }
