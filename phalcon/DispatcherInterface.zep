@@ -26,10 +26,8 @@ interface DispatcherInterface
 
     /**
      * Forwards the execution flow to another controller/action
-     *
-     * @param array forward
      */
-    public function forward(forward) -> void;
+    public function forward(array forward) -> void;
 
     /**
      * Gets last dispatched action name
@@ -118,8 +116,6 @@ interface DispatcherInterface
 
     /**
      * Sets action params to be dispatched
-     *
-     * @param array params
      */
-    public function setParams(params) -> void;
+    public function setParams(array params) -> void;
 }
