@@ -21,10 +21,11 @@ use Phalcon\Http\Cookie\Exception;
  *
  * This class is a bag to manage the cookies.
  *
- * A cookies bag is automatically registered as part of the 'response' service in the DI.
- * By default, cookies are automatically encrypted before being sent to the client and are
- * decrypted when retrieved from the user. To set sign key used to generate a message
- * authentication code use `Phalcon\Http\Response\Cookies::setSignKey`.
+ * A cookies bag is automatically registered as part of the 'response' service
+ * in the DI. By default, cookies are automatically encrypted before being sent
+ * to the client and are decrypted when retrieved from the user. To set sign key
+ * used to generate a message authentication code use
+ * `Phalcon\Http\Response\Cookies::setSignKey()`.
  *
  * <code>
  * use Phalcon\Di;
@@ -167,7 +168,8 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     }
 
     /**
-     * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
+     * Check if a cookie is defined in the bag or exists in the _COOKIE
+     * superglobal
      */
     public function has(string! name) -> bool
     {
@@ -301,13 +303,18 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
             let container = this->container;
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("the 'response' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound(
+                        "the 'response' service"
+                    )
+                );
             }
 
             let response = container->getShared("response");
 
             /**
-             * Pass the cookies bag to the response so it can send the headers at the of the request
+             * Pass the cookies bag to the response so it can send the headers
+             * at the of the request
              */
             response->setCookies(this);
 

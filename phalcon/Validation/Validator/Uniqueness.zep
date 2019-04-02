@@ -116,7 +116,17 @@ class Uniqueness extends CombinedFieldsValidator
             }
 
             validation->appendMessage(
-                new Message(strtr(message, [":field": label]), field, "Uniqueness", this->getOption("code"))
+                new Message(
+                    strtr(
+                        message,
+                        [
+                            ":field": label
+                        ]
+                    ),
+                    field,
+                    "Uniqueness",
+                    this->getOption("code")
+                )
             );
             return false;
         }
@@ -175,7 +185,9 @@ class Uniqueness extends CombinedFieldsValidator
             // check validation getEntity() method
             let record = validation->getEntity();
             if empty record {
-                throw new Exception("Model of record must be set to property \"model\"");
+                throw new Exception(
+                    "Model of record must be set to property \"model\""
+                );
             }
         }
 
@@ -187,7 +199,9 @@ class Uniqueness extends CombinedFieldsValidator
         } elseif isDocument {
             let params = this->isUniquenessCollection(record, field, values);
         } else {
-            throw new Exception("The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection");
+            throw new Exception(
+                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
+            );
         }
 
         let className = get_class(record);
@@ -296,7 +310,11 @@ class Uniqueness extends CombinedFieldsValidator
             if except {
                 if typeof except == "array" && array_keys(except) !== range(0, count(except) - 1) {
                     for singleField, fieldExcept in except {
-                        let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
+                        let attribute = this->getColumnNameReal(
+                            record,
+                            this->getOption("attribute", singleField)
+                        );
+
                         if typeof fieldExcept == "array" {
                             for singleExcept in fieldExcept {
                                 let notInValues[] = "?" . index;
@@ -311,7 +329,11 @@ class Uniqueness extends CombinedFieldsValidator
                         }
                     }
                 } elseif count(field) == 1 {
-                    let attribute = this->getColumnNameReal(record, this->getOption("attribute", field[0]));
+                    let attribute = this->getColumnNameReal(
+                        record,
+                        this->getOption("attribute", field[0])
+                    );
+
                     if typeof except == "array" {
                         for singleExcept in except {
                             let notInValues[] = "?" . index;
@@ -326,7 +348,11 @@ class Uniqueness extends CombinedFieldsValidator
                     }
                 } elseif count(field) > 1 {
                     for singleField in field {
-                        let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
+                        let attribute = this->getColumnNameReal(
+                            record,
+                            this->getOption("attribute", singleField)
+                        );
+
                         if typeof except == "array" {
                             for singleExcept in except {
                                 let notInValues[] = "?" . index;
@@ -352,7 +378,11 @@ class Uniqueness extends CombinedFieldsValidator
 
             for primaryField in metaData->getPrimaryKeyAttributes(record) {
                 let params["conditions"][] = this->getColumnNameReal(record, primaryField) . " <> ?" . index;
-                let params["bind"][] = record->readAttribute(this->getColumnNameReal(record, primaryField));
+
+                let params["bind"][] = record->readAttribute(
+                    this->getColumnNameReal(record, primaryField)
+                );
+
                 let index++;
             }
         }

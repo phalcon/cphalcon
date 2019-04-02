@@ -197,7 +197,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // Throw an exception after 256 consecutive forwards
             if numberDispatches == 256 {
-                this->{"throwDispatchException"}("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
+                this->{"throwDispatchException"}(
+                    "Dispatcher has detected a cyclic routing causing stability problems",
+                    self::EXCEPTION_CYCLIC_ROUTING
+                );
+
                 break;
             }
 
@@ -716,7 +720,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     }
 
     /**
-     * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+     * Checks if the dispatch loop is finished or has more pendent
+     * controllers/tasks to dispatch
      */
     public function isFinished() -> bool
     {
@@ -926,10 +931,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     protected function toCamelCase(string input) -> string
     {
         var camelCaseInput;
+
         if !fetch camelCaseInput, this->camelCaseMap[input] {
-            let camelCaseInput = join("", array_map("ucfirst", preg_split("/[_-]+/", input)));
+            let camelCaseInput = join(
+                "",
+                array_map(
+                    "ucfirst",
+                    preg_split("/[_-]+/", input)
+                )
+            );
+
             let this->camelCaseMap[input] = camelCaseInput;
         }
+
         return camelCaseInput;
     }
 }

@@ -95,7 +95,9 @@ class Service implements ServiceInterface
 
         let definition = this->definition;
         if typeof definition != "array" {
-            throw new Exception("Definition must be an array to obtain its parameters");
+            throw new Exception(
+                "Definition must be an array to obtain its parameters"
+            );
         }
 
         /**
@@ -187,7 +189,10 @@ class Service implements ServiceInterface
                     }
 
                     if typeof parameters == "array" {
-                        let instance = call_user_func_array(definition, parameters);
+                        let instance = call_user_func_array(
+                            definition,
+                            parameters
+                        );
                     } else {
                         let instance = call_user_func(definition);
                     }
@@ -200,7 +205,11 @@ class Service implements ServiceInterface
                  */
                 if typeof definition == "array" {
                     let builder = new Builder(),
-                        instance = builder->build(container, definition, parameters);
+                        instance = builder->build(
+                            container,
+                            definition,
+                            parameters
+                        );
                 } else {
                     let found = false;
                 }
@@ -245,7 +254,9 @@ class Service implements ServiceInterface
 
         let definition = this->definition;
         if typeof definition != "array" {
-            throw new Exception("Definition must be an array to update its parameters");
+            throw new Exception(
+                "Definition must be an array to update its parameters"
+            );
         }
 
         /**

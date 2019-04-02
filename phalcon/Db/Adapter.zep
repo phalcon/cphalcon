@@ -170,7 +170,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter.");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter."
+            );
         }
 
         return this->{"execute"}(dialect->createSavepoint(name));
@@ -684,7 +686,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
          * A valid array with more than one element is required
          */
         if !count(values) {
-            throw new Exception("Unable to insert into " . table . " without data");
+            throw new Exception(
+                "Unable to insert into " . table . " without data"
+            );
         }
 
         let placeholders = [],
@@ -693,7 +697,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let bindDataTypes = [];
 
         /**
-         * Objects are casted using __toString, null values are converted to string "null", everything else is passed as "?"
+         * Objects are casted using __toString, null values are converted to
+         * string "null", everything else is passed as "?"
          */
         for position, value in values {
             if typeof value == "object" && value instanceof RawValue {
@@ -710,8 +715,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let insertValues[] = value;
                     if typeof dataTypes == "array" {
                         if !fetch bindType, dataTypes[position] {
-                            throw new Exception("Incomplete number of bind types");
+                            throw new Exception(
+                                "Incomplete number of bind types"
+                            );
                         }
+
                         let bindDataTypes[] = bindType;
                     }
                 }
@@ -860,7 +868,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter"
+            );
         }
 
         if !dialect->supportsReleaseSavePoints() {
@@ -880,7 +890,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter"
+            );
         }
 
         return this->{"execute"}(dialect->rollbackSavepoint(name));
@@ -909,11 +921,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
 
         if this->transactionLevel > 0 {
-            throw new Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
+            throw new Exception(
+                "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
+            );
         }
 
         if !this->dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter"
+            );
         }
 
         let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
@@ -929,7 +945,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Check whether the database system requires a sequence to produce auto-numeric values
+     * Check whether the database system requires a sequence to produce
+     * auto-numeric values
      */
     public function supportSequences() -> bool
     {
@@ -1021,12 +1038,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let bindDataTypes = [];
 
         /**
-         * Objects are casted using __toString, null values are converted to string 'null', everything else is passed as '?'
+         * Objects are casted using __toString, null values are converted to
+         * string 'null', everything else is passed as '?'
          */
         for position, value in values {
 
             if !fetch field, fields[position] {
-                throw new Exception("The number of values in the update is not the same as fields");
+                throw new Exception(
+                    "The number of values in the update is not the same as fields"
+                );
             }
 
             let escapedField = this->escapeIdentifier(field);
@@ -1043,8 +1063,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let updateValues[] = value;
                     if typeof dataTypes == "array" {
                         if !fetch bindType, dataTypes[position] {
-                            throw new Exception("Incomplete number of bind types");
+                            throw new Exception(
+                                "Incomplete number of bind types"
+                            );
                         }
+
                         let bindDataTypes[] = bindType;
                     }
                     let placeholders[] = escapedField . " = ?";
@@ -1075,7 +1098,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                 }
 
                 /**
-                 * If an index 'conditions' is present it contains string where conditions that are appended to the UPDATE sql
+                 * If an index 'conditions' is present it contains string where
+                 * conditions that are appended to the UPDATE sql
                  */
                 if fetch conditions, whereCondition["conditions"] {
                     let updateSql .= conditions;
@@ -1089,7 +1113,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                 }
 
                 /**
-                 * Bind types is how the bound parameters must be casted before be sent to the database system
+                 * Bind types is how the bound parameters must be casted before
+                 * be sent to the database system
                  */
                 if fetch whereTypes, whereCondition["bindTypes"] {
                     merge_append(bindDataTypes, whereTypes);
@@ -1149,7 +1174,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Check whether the database system requires an explicit value for identity columns
+     * Check whether the database system requires an explicit value for identity
+     * columns
      */
     public function useExplicitIdValue() -> bool
     {

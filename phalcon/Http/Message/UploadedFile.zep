@@ -219,7 +219,9 @@ class UploadedFile implements UploadedFileInterface
          * All together for early failure
          */
         if !(typeof targetPath === "string" && !empty(targetPath) && is_dir(dirname) && is_writable(dirname)) {
-            throw new Exception("Target folder is empty string, not a folder or not writable");
+            throw new Exception(
+            	"Target folder is empty string, not a folder or not writable"
+            );
         }
 
         /**
@@ -231,7 +233,9 @@ class UploadedFile implements UploadedFileInterface
             this->storeFile(targetPath);
         } else {
             if !move_uploaded_file(this->fileName, targetPath) {
-                throw new Exception("The file cannot be moved to the target folder");
+                throw new Exception(
+                	"The file cannot be moved to the target folder"
+                );
             }
         }
 

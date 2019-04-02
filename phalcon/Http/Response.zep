@@ -109,7 +109,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
             if typeof container != "object" {
-                        throw new Exception(Exception::containerServiceNotFound("the 'url' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound("the 'url' service")
+                );
             }
             let this->container = container;
         }
@@ -413,7 +415,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         if charset === null {
             this->setHeader("Content-Type", contentType);
         } else {
-            this->setHeader("Content-Type", contentType . "; charset=" . charset);
+            this->setHeader(
+                "Content-Type",
+                contentType . "; charset=" . charset
+            );
         }
 
         return this;
@@ -588,7 +593,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * The 'Last-Modified' header sets this info
          */
-        this->setHeader("Last-Modified", date->format("D, d M Y H:i:s") . " GMT");
+        this->setHeader(
+            "Last-Modified",
+            date->format("D, d M Y H:i:s") . " GMT"
+        );
+
         return this;
     }
 
@@ -705,7 +714,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             ];
 
             if !isset statusCodes[code] {
-                throw new Exception("Non-standard statuscode given without a message");
+                throw new Exception(
+                    "Non-standard statuscode given without a message"
+                );
             }
 
             let defaultMessage = statusCodes[code],

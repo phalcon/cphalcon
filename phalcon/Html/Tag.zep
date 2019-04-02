@@ -109,7 +109,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * <code>
-     * {{ button('Click Me) }}
+     * {{ button('Click Me') }}
      * </code>
      */
     public function button(string! name, array parameters = []) -> string
@@ -319,7 +319,9 @@ class Tag implements InjectionAwareInterface
 
         if !empty replace {
             if typeof replace !== "array" && typeof replace !== "string"{
-                throw new Exception("Parameter replace must be an array or a string");
+                throw new Exception(
+                    "Parameter replace must be an array or a string"
+                );
             }
 
             if typeof replace === "string" {
@@ -442,7 +444,8 @@ class Tag implements InjectionAwareInterface
      */
     public function getTitle(bool prepend = true, bool append = true) -> string
     {
-        var item, items, output, title, appendTitle, prependTitle, separator, escaper;
+        var item, items, output, title, appendTitle, prependTitle, separator,
+            escaper;
 
         let escaper   = this->getService("escaper"),
             items     = [],
@@ -504,8 +507,8 @@ class Tag implements InjectionAwareInterface
     }
 
     /**
-     * Every helper calls this function to check whether a component has a predefined
-     * value using `setAttribute` or value from $_POST
+     * Every helper calls this function to check whether a component has a
+     * predefined value using `setAttribute` or value from $_POST
      */
     public function getValue(string name, array parameters = []) -> var | null
     {
@@ -1191,7 +1194,9 @@ class Tag implements InjectionAwareInterface
          * First check the data passed. We only accept datasets or arrays
          */
         if typeof data !== "array" && data !== "object" {
-            throw new Exception("The dataset must be either an array or a ResultsetInterface");
+            throw new Exception(
+                "The dataset must be either an array or a ResultsetInterface"
+            );
         }
 
         /**
@@ -1202,7 +1207,9 @@ class Tag implements InjectionAwareInterface
             if typeof using === "array" && count(using) === 2 {
                 unset parameters["using"];
             } else {
-                throw new Exception("The 'using' parameter is not a valid array");
+                throw new Exception(
+                    "The 'using' parameter is not a valid array"
+                );
             }
         }
 
@@ -1270,7 +1277,9 @@ class Tag implements InjectionAwareInterface
     {
         if value !== null {
             if typeof value == "array" || typeof value == "object" {
-                throw new Exception("Only scalar values can be assigned to UI components");
+                throw new Exception(
+                    "Only scalar values can be assigned to UI components"
+                );
             }
         }
 
@@ -1506,7 +1515,11 @@ class Tag implements InjectionAwareInterface
             let container = this->getDI();
 
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("the '" . name . "' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound(
+                        "the '" . name . "' service"
+                    )
+                );
             }
 
             if ("escaper" === name) {
@@ -1701,15 +1714,16 @@ class Tag implements InjectionAwareInterface
      */
     private function renderSelectResultset(<ResulsetInterface> resultset, using, var value, string closeOption) -> string
     {
-        var escaper, option, output, optionValue, optionText, parameters, strOptionValue, strValue;
+        var escaper, option, output, optionValue, optionText, parameters,
+            strOptionValue, strValue;
 
         let escaper    = this->getService("escaper"),
             parameters = [],
             output     = "";
 
         /**
-         * This needs to be here because we don't want assignments inside the loop
-         * for things that will not change
+         * This needs to be here because we don't want assignments inside the
+         * loop for things that will not change
          */
         if typeof using === "array" {
             let optionValue = using[0],
@@ -1732,7 +1746,9 @@ class Tag implements InjectionAwareInterface
                         let optionValue = option[optionValue],
                             optionText  = option[optionText];
                     } else {
-                        throw new Exception("Resultset returned an invalid value");
+                        throw new Exception(
+                            "Resultset returned an invalid value"
+                        );
                     }
                 }
 

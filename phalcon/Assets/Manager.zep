@@ -105,7 +105,11 @@ class Manager implements InjectionAwareInterface
     */
     public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
     {
-        this->addAssetByType("css", new AssetCss(path, local, filter, attributes));
+        this->addAssetByType(
+            "css",
+            new AssetCss(path, local, filter, attributes)
+        );
+
         return this;
     }
 
@@ -146,7 +150,11 @@ class Manager implements InjectionAwareInterface
      */
     public function addInlineCss(string content, filter = true, var attributes = null) -> <Manager>
     {
-        this->addInlineCodeByType("css", new InlineCss(content, filter, attributes));
+        this->addInlineCodeByType(
+            "css",
+            new InlineCss(content, filter, attributes)
+        );
+
         return this;
     }
 
@@ -155,7 +163,11 @@ class Manager implements InjectionAwareInterface
      */
     public function addInlineJs(string content, filter = true, attributes = null) -> <Manager>
     {
-        this->addInlineCodeByType("js", new InlineJs(content, filter, attributes));
+        this->addInlineCodeByType(
+            "js",
+            new InlineJs(content, filter, attributes)
+        );
+
         return this;
     }
 
@@ -169,7 +181,11 @@ class Manager implements InjectionAwareInterface
      */
     public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
     {
-        this->addAssetByType("js", new AssetJs(path, local, filter, attributes));
+        this->addAssetByType(
+            "js",
+            new AssetJs(path, local, filter, attributes)
+        );
+
         return this;
     }
 
@@ -252,7 +268,8 @@ class Manager implements InjectionAwareInterface
         var collection;
 
         /**
-         * Check if the collection does not exist and create an implicit collection
+         * Check if the collection does not exist and create an implicit
+         * collection
          */
         if !fetch collection, this->collections["css"] {
             return new Collection();
@@ -277,7 +294,8 @@ class Manager implements InjectionAwareInterface
         var collection;
 
         /**
-         * Check if the collection does not exist and create an implicit collection
+         * Check if the collection does not exist and create an implicit
+         * collection
          */
         if !fetch collection, this->collections["js"] {
             return new Collection();
@@ -303,11 +321,12 @@ class Manager implements InjectionAwareInterface
     public function output(<Collection> collection, callback, type) -> string | null
     {
         var output, assets, filters, prefix, sourceBasePath = null,
-            targetBasePath = null, options, collectionSourcePath, completeSourcePath,
-            collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
-            asset, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
-            attributes, parameters, html, useImplicitOutput, content, mustFilter,
-            filter, filteredContent, typeCss, targetUri;
+            targetBasePath = null, options, collectionSourcePath,
+            completeSourcePath, collectionTargetPath, completeTargetPath,
+            filteredJoinedContent, join, asset, filterNeeded, local, sourcePath,
+            targetPath, path, prefixedPath, attributes, parameters, html,
+            useImplicitOutput, content, mustFilter, filter, filteredContent,
+            typeCss, targetUri;
 
         let useImplicitOutput = this->implicitOutput;
 
@@ -316,7 +335,10 @@ class Manager implements InjectionAwareInterface
         /**
          * Get the assets as an array
          */
-        let assets = this->collectionAssetsByType(collection->getAssets(), type);
+        let assets = this->collectionAssetsByType(
+            collection->getAssets(),
+            type
+        );
 
         /**
          * Get filters in the collection
@@ -343,12 +365,14 @@ class Manager implements InjectionAwareInterface
             if typeof options == "array" {
 
                 /**
-                 * The source base path is a global location where all assets are located
+                 * The source base path is a global location where all assets
+                 * are located
                  */
                 fetch sourceBasePath, options["sourceBasePath"];
 
                 /**
-                 * The target base path is a global location where all assets are written
+                 * The target base path is a global location where all assets
+                 * are written
                  */
                 fetch targetBasePath, options["targetBasePath"];
             }
@@ -399,11 +423,15 @@ class Manager implements InjectionAwareInterface
                 * We need a valid final target path
                 */
                 if !completeTargetPath {
-                    throw new Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
+                    throw new Exception(
+                        "Path '" . completeTargetPath . "' is not a valid target path (1)"
+                    );
                 }
 
                 if is_dir(completeTargetPath) {
-                    throw new Exception("Path '". completeTargetPath. "' is not a valid target path (2), is dir.");
+                    throw new Exception(
+                        "Path '" . completeTargetPath . "' is not a valid target path (2), is dir."
+                    );
                 }
             }
         }
@@ -422,7 +450,8 @@ class Manager implements InjectionAwareInterface
             let local = asset->getLocal();
 
             /**
-             * If the collection must not be joined we must print a HTML for each one
+             * If the collection must not be joined we must print a HTML for
+             * each one
              */
             if count(filters) {
                 if local {
@@ -430,14 +459,18 @@ class Manager implements InjectionAwareInterface
                     /**
                      * Get the complete path
                      */
-                    let sourcePath = asset->getRealSourcePath(completeSourcePath);
+                    let sourcePath = asset->getRealSourcePath(
+                        completeSourcePath
+                    );
 
                     /**
                      * We need a valid source path
                      */
                     if !sourcePath {
                         let sourcePath = asset->getPath();
-                        throw new Exception("Asset '". sourcePath. "' does not have a valid source path");
+                        throw new Exception(
+                            "Asset '" . sourcePath . "' does not have a valid source path"
+                        );
                     }
                 } else {
 
@@ -453,7 +486,8 @@ class Manager implements InjectionAwareInterface
                 }
 
                 /**
-                 * Get the target path, we need to write the filtered content to a file
+                 * Get the target path, we need to write the filtered content to
+                 * a file
                  */
                 let targetPath = asset->getRealTargetPath(completeTargetPath);
 
@@ -461,7 +495,9 @@ class Manager implements InjectionAwareInterface
                  * We need a valid final target path
                  */
                 if !targetPath {
-                    throw new Exception("Asset '". sourcePath. "' does not have a valid target path");
+                    throw new Exception(
+                        "Asset '" . sourcePath . "' does not have a valid target path"
+                    );
                 }
 
                 if local {
@@ -470,7 +506,9 @@ class Manager implements InjectionAwareInterface
                      * Make sure the target path is not the same source path
                      */
                     if targetPath == sourcePath {
-                        throw new Exception("Asset '". targetPath. "' have the same source and target paths");
+                        throw new Exception(
+                            "Asset '" . targetPath . "' have the same source and target paths"
+                        );
                     }
 
                     if file_exists(targetPath) {
@@ -554,7 +592,8 @@ class Manager implements InjectionAwareInterface
                         }
 
                         /**
-                         * Calls the method 'filter' which must return a filtered version of the content
+                         * Calls the method 'filter' which must return a
+                         * filtered version of the content
                          */
                         let filteredContent = filter->filter(content),
                             content = filteredContent;
@@ -583,8 +622,8 @@ class Manager implements InjectionAwareInterface
 
                 if !join {
                     /**
-                     * Write the file using file-put-contents. This respects the openbase-dir also
-                     * writes to streams
+                     * Write the file using file-put-contents. This respects the
+                     * openbase-dir also writes to streams
                      */
                     file_put_contents(targetPath, filteredContent);
                 }
@@ -646,8 +685,8 @@ class Manager implements InjectionAwareInterface
             if join == true {
 
                 /**
-                 * Write the file using file_put_contents. This respects the openbase-dir also
-                 * writes to streams
+                 * Write the file using file_put_contents. This respects the
+                 * openbase-dir also writes to streams
                  */
                 file_put_contents(completeTargetPath, filteredJoinedContent);
 
@@ -734,7 +773,8 @@ class Manager implements InjectionAwareInterface
      */
     public function outputInline(<Collection> collection, type) -> string
     {
-        var output, html, codes, filters, filter, code, attributes, content, join, joinedContent;
+        var output, html, codes, filters, filter, code, attributes, content,
+            join, joinedContent;
 
         let output = "",
             html = "",
@@ -758,7 +798,8 @@ class Manager implements InjectionAwareInterface
                     }
 
                     /**
-                     * Calls the method 'filter' which must return a filtered version of the content
+                     * Calls the method 'filter' which must return a filtered
+                     * version of the content
                      */
                     let content = filter->filter(content);
                 }

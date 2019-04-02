@@ -48,11 +48,15 @@ class Factory extends BaseFactory
         }
 
         if typeof config != "array" {
-            throw new Exception("Config must be array or Phalcon\\Config object");
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
         }
 
         if !fetch file, config["file"] {
-            throw new Exception("You must provide 'file' option in factory config parameter.");
+            throw new Exception(
+                "You must provide 'file' option in factory config parameter."
+            );
         }
 
         if fetch adapter, config["adapter"] {
@@ -69,6 +73,8 @@ class Factory extends BaseFactory
             return new {className}(file);
         }
 
-        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+        throw new Exception(
+            "You must provide 'adapter' option in factory config parameter."
+        );
     }
 }

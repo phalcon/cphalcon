@@ -102,7 +102,10 @@ class Callback extends Validator
             elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
                 return returnedValue->validate(validation, field);
             }
-            throw new Exception("Callback must return bool or Phalcon\\Validation\\Validator object");
+
+            throw new Exception(
+                "Callback must return bool or Phalcon\\Validation\\Validator object"
+            );
         }
 
         return true;

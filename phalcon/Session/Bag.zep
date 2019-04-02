@@ -17,8 +17,9 @@ use Phalcon\Di\InjectionAwareInterface;
 /**
  * Phalcon\Session\Bag
  *
- * This component helps to separate session data into "namespaces". Working by this way
- * you can easily create groups of session variables into the application
+ * This component helps to separate session data into "namespaces". Working by
+ * this way you can easily create groups of session variables into the
+ * application
  *
  * <code>
  * $user = new \Phalcon\Session\Bag("user");
@@ -50,7 +51,9 @@ class Bag extends Collection implements InjectionAwareInterface
             if typeof container != "object" {
                 let container = Di::getDefault();
                 if typeof container != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound("the 'session' service")
+                    );
                 }
             }
 

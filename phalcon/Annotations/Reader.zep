@@ -33,7 +33,7 @@ class Reader implements ReaderInterface
         let annotations = [];
 
         /**
-         * A ReflectionClass is used to obtain the class dockblock
+         * A ReflectionClass is used to obtain the class docblock
          */
         let reflection = new \ReflectionClass(className);
 
@@ -43,7 +43,11 @@ class Reader implements ReaderInterface
             /**
              * Read annotations from class
              */
-            let classAnnotations = phannot_parse_annotations(comment, reflection->getFileName(), reflection->getStartLine());
+            let classAnnotations = phannot_parse_annotations(
+                comment,
+                reflection->getFileName(),
+                reflection->getStartLine()
+            );
 
             /**
              * Append the class annotations to the annotations var
@@ -76,7 +80,12 @@ class Reader implements ReaderInterface
                     /**
                      * Read annotations from the docblock
                      */
-                    let propertyAnnotations = phannot_parse_annotations(comment, reflection->getFileName(), line);
+                    let propertyAnnotations = phannot_parse_annotations(
+                        comment,
+                        reflection->getFileName(),
+                        line
+                    );
+
                     if typeof propertyAnnotations == "array" {
                         let annotationsProperties[property->name] = propertyAnnotations;
                     }
@@ -107,7 +116,12 @@ class Reader implements ReaderInterface
                     /**
                      * Read annotations from class
                      */
-                    let methodAnnotations = phannot_parse_annotations(comment, method->getFileName(), method->getStartLine());
+                    let methodAnnotations = phannot_parse_annotations(
+                        comment,
+                        method->getFileName(),
+                        method->getStartLine()
+                    );
+
                     if typeof methodAnnotations == "array" {
                         let annotationsMethods[method->name] = methodAnnotations;
                     }

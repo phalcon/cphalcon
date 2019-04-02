@@ -464,7 +464,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the services related to the ORM")
+            );
         }
 
         /**
@@ -695,7 +697,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof referencedFields == "array" {
             if count(fields) != count(referencedFields) {
-                throw new Exception("Number of referenced fields are not the same");
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
             }
         }
 
@@ -775,7 +779,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof referencedFields == "array" {
             if count(fields) != count(referencedFields) {
-                throw new Exception("Number of referenced fields are not the same");
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
             }
         }
 
@@ -857,7 +863,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof referencedFields == "array" {
             if count(fields) != count(referencedFields) {
-                throw new Exception("Number of referenced fields are not the same");
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
             }
         }
 
@@ -925,8 +933,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
         var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, hasManyToMany, relation,
-            keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
+        var entityName, referencedEntity, hasManyToMany, relation, keyRelation,
+            relations, alias, lowerAlias, singleRelations, intermediateEntity;
 
         let entityName = get_class_lower(model),
             intermediateEntity = strtolower(intermediateModel),
@@ -939,20 +947,26 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         }
 
         /**
-         * Check if the number of fields are the same from the model to the intermediate model
+         * Check if the number of fields are the same from the model to the
+         * intermediate model
          */
         if typeof intermediateFields == "array" {
             if count(fields) != count(intermediateFields) {
-                throw new Exception("Number of referenced fields are not the same");
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
             }
         }
 
         /**
-         * Check if the number of fields are the same from the intermediate model to the referenced model
+         * Check if the number of fields are the same from the intermediate
+         * model to the referenced model
          */
         if typeof intermediateReferencedFields == "array" {
             if count(fields) != count(intermediateFields) {
-                throw new Exception("Number of referenced fields are not the same");
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
             }
         }
 
@@ -970,7 +984,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Set extended intermediate relation data
          */
-        relation->setIntermediateRelation(intermediateFields, intermediateModel, intermediateReferencedFields);
+        relation->setIntermediateRelation(
+            intermediateFields,
+            intermediateModel,
+            intermediateReferencedFields
+        );
 
         /**
          * Check an alias for the relation
@@ -1370,7 +1388,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Load the referenced model
          * Call the function in the model
          */
-        let records = call_user_func_array([this->load(referencedModel), retrieveMethod], arguments);
+        let records = call_user_func_array(
+            [
+                this->load(referencedModel),
+                retrieveMethod
+            ],
+            arguments
+        );
 
         /**
          * Store the result in the cache if it's reusable
@@ -1631,7 +1655,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the services related to the ORM")
+            );
         }
 
         /**
@@ -1674,7 +1700,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the services related to the ORM")
+            );
         }
 
         /**

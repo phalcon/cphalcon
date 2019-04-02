@@ -22,10 +22,11 @@ use Phalcon\Service\LocatorInterface;
 /**
  * Phalcon\Http\Request
  *
- * Encapsulates request information for easy and secure access from application controllers.
+ * Encapsulates request information for easy and secure access from application
+ * controllers.
  *
- * The request object is a simple value object that is passed between the dispatcher and controller classes.
- * It packages the HTTP request environment.
+ * The request object is a simple value object that is passed between the
+ * dispatcher and controller classes. It packages the HTTP request environment.
  *
  *<code>
  * use Phalcon\Http\Request;
@@ -36,9 +37,14 @@ use Phalcon\Service\LocatorInterface;
  *     echo "Request was made using POST and AJAX";
  * }
  *
- * $request->getServer("HTTP_HOST"); // Retrieve SERVER variables
- * $request->getMethod();            // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
- * $request->getLanguages();         // An array of languages the client accepts
+ * // Retrieve SERVER variables
+ * $request->getServer("HTTP_HOST");
+ *
+ * // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
+ * $request->getMethod();
+ *
+ * // An array of languages the client accepts
+ * $request->getLanguages();
  *</code>
  */
 class Request implements RequestInterface, InjectionAwareInterface
@@ -67,8 +73,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     private strictHostCheck = false;
 
     /**
-     * Gets a variable from the $_REQUEST superglobal applying filters if needed.
-     * If no parameters are given the $_REQUEST superglobal is returned
+     * Gets a variable from the $_REQUEST superglobal applying filters if
+     * needed. If no parameters are given the $_REQUEST superglobal is returned
      *
      *<code>
      * // Returns value from $_REQUEST["user_email"] without sanitizing
@@ -158,7 +164,8 @@ class Request implements RequestInterface, InjectionAwareInterface
         if typeof address == "string" {
             if memstr(address, ",") {
                 /**
-                 * The client address has multiples parts, only return the first part
+                 * The client address has multiples parts, only return the first
+                 * part
                  */
                 return explode(",", address)[0];
             }
@@ -241,7 +248,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let filters = [];
         }
 
-        return this->getQuery(name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getQuery(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -255,7 +268,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let filters = [];
         }
 
-        return this->getPost(name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getPost(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -269,7 +288,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let filters = [];
         }
 
-        return this->getPut(name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getPut(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -311,7 +336,12 @@ class Request implements RequestInterface, InjectionAwareInterface
         var name, value, authHeaders;
 
         array headers = [];
-        array contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true, "CONTENT_MD5": true];
+
+        array contentHeaders = [
+            "CONTENT_TYPE":   true,
+            "CONTENT_LENGTH": true,
+            "CONTENT_MD5":    true
+        ];
 
         for name, value in _SERVER {
             // Note: The starts_with uses case insensitive search here
@@ -410,8 +440,9 @@ class Request implements RequestInterface, InjectionAwareInterface
             }
 
             /**
-             * Host may contain only the ASCII letters 'a' through 'z' (in a case-insensitive manner),
-             * the digits '0' through '9', and the hyphen ('-') as per RFC 952/2181
+             * Host may contain only the ASCII letters 'a' through 'z'
+             * (in a case-insensitive manner), the digits '0' through '9', and
+             * the hyphen ('-') as per RFC 952/2181
              */
             if "" !== preg_replace("/[a-z0-9-]+\.?/", "", host) {
                 throw new \UnexpectedValueException("Invalid host " . host);
@@ -462,8 +493,8 @@ class Request implements RequestInterface, InjectionAwareInterface
      * If the X-HTTP-Method-Override header is set, and if the method is a POST,
      * then it is used to determine the "real" intended HTTP method.
      *
-     * The _method request parameter can also be used to determine the HTTP method,
-     * but only if setHttpMethodParameterOverride(true) has been called.
+     * The _method request parameter can also be used to determine the HTTP
+     * method, but only if setHttpMethodParameterOverride(true) has been called.
      *
      * The method is always an uppercased string.
      */
@@ -978,7 +1009,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks if the `Request::getHttpHost` method will be use strict validation of host name or not
+     * Checks if the `Request::getHttpHost` method will be use strict validation
+     * of host name or not
      */
     public function isStrictHostCheck() -> bool
     {
@@ -1049,14 +1081,18 @@ class Request implements RequestInterface, InjectionAwareInterface
         var filterLocator, sanitizer, localScope, scopeMethod;
 
         if count(filters) < 1 {
-            throw new Exception("Filters have not been defined for '" . name . "'");
+            throw new Exception(
+                "Filters have not been defined for '" . name . "'"
+            );
         }
 
         let filterLocator = this->getFilterLocatorService();
 
         for sanitizer in filters {
             if true !== filterLocator->has(sanitizer) {
-                throw new Exception("Sanitizer '" . sanitizer . "' does not exist in the filter locator");
+                throw new Exception(
+                    "Sanitizer '" . sanitizer . "' does not exist in the filter locator"
+                );
             }
         }
 
@@ -1132,7 +1168,9 @@ class Request implements RequestInterface, InjectionAwareInterface
             if typeof filter != "object" {
                 let container = <DiInterface> this->container;
                 if typeof container != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound("the 'filter' service")
+                    );
                 }
                 let filter = <LocatorInterface> container->getShared("filter");
 //                let filter = <FilterInterface> container->getShared("filter");
@@ -1340,7 +1378,9 @@ class Request implements RequestInterface, InjectionAwareInterface
         if typeof locator != "object" {
             let container = <DiInterface> this->container;
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound("the 'filter' service")
+                );
             }
             let locator             = <LocatorInterface> container->getShared("filter"),
                 this->filterLocator = locator;

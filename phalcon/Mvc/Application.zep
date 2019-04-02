@@ -24,8 +24,9 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 /**
  * Phalcon\Mvc\Application
  *
- * This component encapsulates all the complex operations behind instantiating every component
- * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
+ * This component encapsulates all the complex operations behind instantiating
+ * every component needed and integrating it with the rest to allow the MVC
+ * pattern to operate as desired.
  *
  *<code>
  * use Phalcon\Mvc\Application;
@@ -87,13 +88,16 @@ class Application extends BaseApplication
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("internal services"));
+            throw new Exception(
+                Exception::containerServiceNotFound("internal services")
+            );
         }
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
-         * Call boot event, this allow the developer to perform initialization actions
+         * Call boot event, this allow the developer to perform initialization
+         * actions
          */
         if typeof eventsManager == "object" {
             if eventsManager->fire("application:boot", this) === false {
@@ -124,7 +128,10 @@ class Application extends BaseApplication
                 /**
                  * Directly call the match callback
                  */
-                let possibleResponse = call_user_func_array(match, router->getParams());
+                let possibleResponse = call_user_func_array(
+                    match,
+                    router->getParams()
+                );
 
                 /**
                  * If the returned value is a string return it as body
@@ -199,7 +206,9 @@ class Application extends BaseApplication
                 if fetch path, module["path"] {
                     if !class_exists(className, false) {
                         if !file_exists(path) {
-                            throw new Exception("Module definition path '" . path . "' doesn't exist");
+                            throw new Exception(
+                                "Module definition path '" . path . "' doesn't exist"
+                            );
                         }
 
                         require path;

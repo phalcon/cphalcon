@@ -90,8 +90,9 @@ class Random
      * If $len is not specified, 16 is assumed. It may be larger in future.
      * The result may contain alphanumeric characters except 0, O, I and l.
      *
-     * It is similar to `Phalcon\Security\Random:base64` but has been modified to avoid both non-alphanumeric
-     * characters and letters which might look ambiguous when printed.
+     * It is similar to `Phalcon\Security\Random::base64()` but has been
+     * modified to avoid both non-alphanumeric characters and letters which
+     * might look ambiguous when printed.
      *
      *<code>
      * $random = new \Phalcon\Security\Random();
@@ -113,8 +114,10 @@ class Random
      *
      * If $len is not specified, 16 is assumed. It may be larger in future.
      *
-     * It is similar to `Phalcon\Security\Random:base58` but has been modified to provide the largest value that can
-     * safely be used in URLs without needing to take extra characters into consideration because it is [A-Za-z0-9].
+     * It is similar to `Phalcon\Security\Random::base58()` but has been
+     * modified to provide the largest value that can safely be used in URLs
+     * without needing to take extra characters into consideration because it is
+     * [A-Za-z0-9].
      *
      *<code>
      * $random = new \Phalcon\Security\Random();
@@ -231,7 +234,9 @@ class Random
                 fclose(handle);
 
                 if strlen(ret) != len {
-                    throw new Exception("Unexpected partial read from random device");
+                    throw new Exception(
+                        "Unexpected partial read from random device"
+                    );
                 }
 
                 return ret;
@@ -316,13 +321,15 @@ class Random
     /**
      * Generates a v4 random UUID (Universally Unique IDentifier)
      *
-     * The version 4 UUID is purely random (except the version). It doesn't contain meaningful
-     * information such as MAC address, time, etc. See RFC 4122 for details of UUID.
+     * The version 4 UUID is purely random (except the version). It doesn't
+     * contain meaningful information such as MAC address, time, etc. See RFC
+     * 4122 for details of UUID.
      *
-     * This algorithm sets the version number (4 bits) as well as two reserved bits.
-     * All other bits (the remaining 122 bits) are set using a random or pseudorandom data source.
-     * Version 4 UUIDs have the form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal
-     * digit and y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
+     * This algorithm sets the version number (4 bits) as well as two reserved
+     * bits. All other bits (the remaining 122 bits) are set using a random or
+     * pseudorandom data source. Version 4 UUIDs have the form
+     * xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal digit and
+     * y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
      *
      *<code>
      * $random = new \Phalcon\Security\Random();
@@ -337,7 +344,13 @@ class Random
     {
         var ary;
 
-        let ary = array_values(unpack("N1a/n1b/n1c/n1d/n1e/N1f", this->bytes(16)));
+        let ary = array_values(
+            unpack(
+                "N1a/n1b/n1c/n1d/n1e/N1f",
+                this->bytes(16)
+            )
+        );
+
         let ary[2] = (ary[2] & 0x0fff) | 0x4000,
             ary[3] = (ary[3] & 0x3fff) | 0x8000;
 
@@ -348,7 +361,8 @@ class Random
 
 
     /**
-     * Generates a random string based on the number ($base) of characters ($alphabet).
+     * Generates a random string based on the number ($base) of characters
+     * ($alphabet).
      *
      * If $n is not specified, 16 is assumed. It may be larger in future.
      *

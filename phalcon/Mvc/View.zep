@@ -1097,7 +1097,9 @@ class View extends Injectable implements ViewInterface
             for position, directory in viewsDir {
 
                 if typeof directory != "string" {
-                    throw new Exception("Views directory item must be a string");
+                    throw new Exception(
+                        "Views directory item must be a string"
+                    );
                 }
 
                 if substr(directory, -1) != directorySeparator {
@@ -1133,7 +1135,9 @@ class View extends Injectable implements ViewInterface
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the view cache services"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the view cache services")
+            );
         }
 
         let cacheService = "viewCache";
@@ -1280,7 +1284,9 @@ class View extends Injectable implements ViewInterface
             }
 
             if !silence {
-                throw new Exception("View '" . viewPath . "' was not found in any of the views directory");
+                throw new Exception(
+                    "View '" . viewPath . "' was not found in any of the views directory"
+                );
             }
         }
     }
@@ -1323,7 +1329,9 @@ class View extends Injectable implements ViewInterface
             } else {
 
                 if typeof di != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("application services"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound("application services")
+                    );
                 }
 
                 for extension, engineService in registeredEngines {
@@ -1346,7 +1354,9 @@ class View extends Injectable implements ViewInterface
                          * Engine can be a string representing a service in the DI
                          */
                         if typeof engineService != "string" {
-                            throw new Exception("Invalid template engine registration for extension: " . extension);
+                            throw new Exception(
+                                "Invalid template engine registration for extension: " . extension
+                            );
                         }
 
                         let engines[extension] = di->getShared(engineService, [this]);

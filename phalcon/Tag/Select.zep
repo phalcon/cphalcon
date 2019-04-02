@@ -96,7 +96,9 @@ abstract class Select
                 throw new Exception("The 'using' parameter is required");
             } else {
                 if typeof using != "array" && typeof using != "object" {
-                    throw new Exception("The 'using' parameter should be an array");
+                    throw new Exception(
+                        "The 'using' parameter should be an array"
+                    );
                 }
             }
         }
@@ -218,7 +220,9 @@ abstract class Select
                         let optionValue = option[usingZero];
                         let optionText = option[usingOne];
                     } else {
-                        throw new Exception("Resultset returned an invalid value");
+                        throw new Exception(
+                            "Resultset returned an invalid value"
+                        );
                     }
                 }
 

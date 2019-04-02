@@ -73,7 +73,9 @@ class Yaml extends Config
         }
 
         if yamlConfig === false {
-            throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
+            throw new Exception(
+                "Configuration file " . basename(filePath) . " can't be loaded"
+            );
         }
 
         parent::__construct(yamlConfig);

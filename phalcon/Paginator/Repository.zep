@@ -42,7 +42,10 @@ class Repository implements RepositoryInterface
         /**
          * A notice is shown if the property is not defined
          */
-        trigger_error("Access to undefined property " . get_class(this) . "::" . property);
+        trigger_error(
+            "Access to undefined property " . get_class(this) . "::" . property
+        );
+
         return null;
     }
 

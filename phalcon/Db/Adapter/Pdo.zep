@@ -333,10 +333,14 @@ abstract class Pdo extends Adapter
                 if !fetch value, params[placeMatch[1]] {
                     if isset placeMatch[2] {
                         if !fetch value, params[placeMatch[2]] {
-                            throw new Exception("Matched parameter wasn't found in parameters list");
+                            throw new Exception(
+                                "Matched parameter wasn't found in parameters list"
+                            );
                         }
                     } else {
-                        throw new Exception("Matched parameter wasn't found in parameters list");
+                        throw new Exception(
+                            "Matched parameter wasn't found in parameters list"
+                        );
                     }
                 }
 

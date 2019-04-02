@@ -51,7 +51,9 @@ class Postgresql extends PdoAdapter
     public function __construct(array! descriptor) -> void
     {
         if isset descriptor["charset"] {
-            trigger_error("Postgres does not allow the charset to be changed in the DSN.");
+            trigger_error(
+                "Postgres does not allow the charset to be changed in the DSN."
+            );
         }
 
         parent::__construct(descriptor);
@@ -455,7 +457,12 @@ class Postgresql extends PdoAdapter
              * Check if the column has default values
              */
             if typeof field[9] != "null" {
-                let definition["default"] = preg_replace("/^'|'?::[[:alnum:][:space:]]+$/", "", field[9]);
+                let definition["default"] = preg_replace(
+                    "/^'|'?::[[:alnum:][:space:]]+$/",
+                    "",
+                    field[9]
+                );
+
                 if strcasecmp(definition["default"], "null") == 0 {
                     let definition["default"] = null;
                 }
@@ -570,7 +577,13 @@ class Postgresql extends PdoAdapter
     {
         var sql,queries,query,exception;
 
-        let sql = this->dialect->modifyColumn(tableName, schemaName, column, currentColumn);
+        let sql = this->dialect->modifyColumn(
+            tableName,
+            schemaName,
+            column,
+            currentColumn
+        );
+
         let queries = explode(";",sql);
 
         if count(queries) > 1 {
@@ -598,7 +611,8 @@ class Postgresql extends PdoAdapter
     }
 
     /**
-     * Check whether the database system requires a sequence to produce auto-numeric values
+     * Check whether the database system requires a sequence to produce
+     * auto-numeric values
      */
     public function supportSequences() -> bool
     {
@@ -606,7 +620,8 @@ class Postgresql extends PdoAdapter
     }
 
     /**
-     * Check whether the database system requires an explicit value for identity columns
+     * Check whether the database system requires an explicit value for identity
+     * columns
      */
     public function useExplicitIdValue() -> bool
     {

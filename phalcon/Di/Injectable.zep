@@ -21,8 +21,8 @@ use Phalcon\Session\BagInterface;
 /**
  * Phalcon\Di\Injectable
  *
- * This class allows to access services in the services container by just only accessing a public property
- * with the same name of a registered service
+ * This class allows to access services in the services container by just only
+ * accessing a public property with the same name of a registered service
  *
  * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
@@ -76,7 +76,9 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("internal services"));
+                throw new Exception(
+                    Exception::containerServiceNotFound("internal services")
+                );
             }
         }
 

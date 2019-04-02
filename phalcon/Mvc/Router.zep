@@ -24,9 +24,9 @@ use Phalcon\Events\EventsAwareInterface;
  * Phalcon\Mvc\Router
  *
  * Phalcon\Mvc\Router is the standard framework router. Routing is the
- * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
- * decomposing it into parameters to determine which module, controller, and
- * action of that controller should receive the request
+ * process of taking a URI endpoint (that part of the URI which comes after the
+ * base URL) and decomposing it into parameters to determine which module,
+ * controller, and action of that controller should receive the request
  *
  * <code>
  * use Phalcon\Mvc\Router;
@@ -436,7 +436,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
-                        throw new Exception(Exception::containerServiceNotFound("the 'request' service"));
+                        throw new Exception(
+                            Exception::containerServiceNotFound("the 'request' service")
+                        );
                     }
 
                     let request = <RequestInterface> container->getShared("request");
@@ -463,7 +465,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
-                        throw new Exception(Exception::containerServiceNotFound("the 'request' service"));
+                        throw new Exception(
+                            Exception::containerServiceNotFound("the 'request' service")
+                        );
                     }
 
                     let request = <RequestInterface> container->getShared("request");
@@ -537,13 +541,22 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                      * Check first if the callback is callable
                      */
                     if !is_callable(beforeMatch) {
-                        throw new Exception("Before-Match callback is not callable in matched route");
+                        throw new Exception(
+                            "Before-Match callback is not callable in matched route"
+                        );
                     }
 
                     /**
                      * Check first if the callback is callable
                      */
-                    let routeFound = call_user_func_array(beforeMatch, [handledUri, route, this]);
+                    let routeFound = call_user_func_array(
+                        beforeMatch,
+                        [
+                            handledUri,
+                            route,
+                            this
+                        ]
+                    );
                 }
 
             } else {
@@ -587,7 +600,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                              */
                             if typeof converters == "array" {
                                 if fetch converter, converters[part] {
-                                    let parts[part] = call_user_func_array(converter, [matchPosition]);
+                                    let parts[part] = call_user_func_array(
+                                        converter,
+                                        [matchPosition]
+                                    );
+
                                     continue;
                                 }
                             }
@@ -603,7 +620,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                              */
                             if typeof converters == "array" {
                                 if fetch converter, converters[part] {
-                                    let parts[part] = call_user_func_array(converter, [position]);
+                                    let parts[part] = call_user_func_array(
+                                        converter,
+                                        [position]
+                                    );
                                 }
                             } else {
 
@@ -747,7 +767,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
         let groupRoutes = group->getRoutes();
         if !count(groupRoutes) {
-            throw new Exception("The group of routes does not contain any routes");
+            throw new Exception(
+                "The group of routes does not contain any routes"
+            );
         }
 
         /**
@@ -787,7 +809,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function notFound(var paths) -> <RouterInterface>
     {
         if typeof paths != "array" && typeof paths != "string" {
-            throw new Exception("The not-found paths must be an array or string");
+            throw new Exception(
+                "The not-found paths must be an array or string"
+            );
         }
         let this->notFoundPaths = paths;
         return this;

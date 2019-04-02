@@ -684,7 +684,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                     if method_exists(model, "metaData") {
                         let modelMetadata = model->{"metaData"}();
                         if typeof modelMetadata != "array" {
-                            throw new Exception("Invalid meta-data for model " . className);
+                            throw new Exception(
+                                "Invalid meta-data for model " . className
+                            );
                         }
                     } else {
 

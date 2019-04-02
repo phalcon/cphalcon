@@ -13,9 +13,10 @@ namespace Phalcon;
 /**
  * Phalcon\Acl
  *
- * This component allows to manage ACL lists. An access control list (ACL) is a list
- * of permissions attached to an object. An ACL specifies which users or system processes
- * are granted access to objects, as well as what operations are allowed on given objects.
+ * This component allows to manage ACL lists. An access control list (ACL) is a
+ * list of permissions attached to an object. An ACL specifies which users or
+ * system processes are granted access to objects, as well as what operations
+ * are allowed on given objects.
  *
  *<code>
  * use Phalcon\Acl;

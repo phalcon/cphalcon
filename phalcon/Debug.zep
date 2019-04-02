@@ -749,7 +749,8 @@ class Debug
                     }
 
                     /**
-                     * Print a non break space if the current line is a line break, this allows to show the html zebra properly
+                     * Print a non break space if the current line is a line
+                     * break, this allows to show the html zebra properly
                      */
                     if currentLine == "\n" || currentLine == "\r\n" {
                         let html .= "&nbsp;\n";

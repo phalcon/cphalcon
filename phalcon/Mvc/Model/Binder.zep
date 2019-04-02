@@ -61,7 +61,9 @@ class Binder implements BinderInterface
         let this->originalValues = [];
 
         if !(handler instanceof \Closure) && methodName === null {
-            throw new Exception("You must specify methodName for handler or pass Closure as handler");
+            throw new Exception(
+                "You must specify methodName for handler or pass Closure as handler"
+            );
         }
 
         let this->boundModels = [];
@@ -166,13 +168,17 @@ class Binder implements BinderInterface
                     } elseif handler instanceof BindableInterface {
                         let realClasses = handler->getModelName();
                     } else {
-                        throw new Exception("Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter");
+                        throw new Exception(
+                            "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter"
+                        );
                     }
                 }
 
                 if typeof realClasses == "array" {
                     if !fetch className, realClasses[paramKey] {
-                        throw new Exception("You should provide model class name for " . paramKey . " parameter");
+                        throw new Exception(
+                            "You should provide model class name for " . paramKey . " parameter"
+                        );
                     }
 
                     let boundModel = this->findBoundModel(paramValue, className);
@@ -180,7 +186,9 @@ class Binder implements BinderInterface
                     let className = realClasses;
                     let boundModel = this->findBoundModel(paramValue, className);
                 } else {
-                    throw new Exception("getModelName should return array or string");
+                    throw new Exception(
+                        "getModelName should return array or string"
+                    );
                 }
             } elseif is_subclass_of(className, "Phalcon\\Mvc\\Model") {
                 let boundModel = this->findBoundModel(paramValue, className);

@@ -118,7 +118,9 @@ class Reference implements ReferenceInterface
         if fetch referencedColumns, definition["referencedColumns"] {
             let this->referencedColumns = referencedColumns;
         } else {
-            throw new Exception("Referenced columns of the foreign key are required");
+            throw new Exception(
+                "Referenced columns of the foreign key are required"
+            );
         }
 
         if fetch schema, definition["schema"] {
@@ -138,7 +140,9 @@ class Reference implements ReferenceInterface
         }
 
         if count(columns) != count(referencedColumns) {
-            throw new Exception("Number of columns is not equals than the number of columns referenced");
+            throw new Exception(
+                "Number of columns is not equals than the number of columns referenced"
+            );
         }
     }
 

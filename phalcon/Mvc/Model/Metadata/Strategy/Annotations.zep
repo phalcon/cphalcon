@@ -36,7 +36,9 @@ class Annotations implements StrategyInterface
 
         let className = get_class(model), reflection = annotations->get(className);
         if typeof reflection != "object" {
-            throw new Exception("No annotations were found in class " . className);
+            throw new Exception(
+                "No annotations were found in class " . className
+            );
         }
 
         /**
@@ -44,7 +46,9 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
         if !count(propertiesAnnotations) {
-            throw new Exception("No properties with annotations were found in class " . className);
+            throw new Exception(
+                "No properties with annotations were found in class " . className
+            );
         }
 
         let orderedColumnMap = [],
@@ -97,11 +101,11 @@ class Annotations implements StrategyInterface
      */
     final public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {
-        var annotations, className, reflection, propertiesAnnotations;
-        var property, propAnnotations, columnAnnotation, columnName, feature;
-        var fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField,
-            notNull, attributes, defaultValues, defaultValue, emptyStringValues, skipOnInsert,
-            skipOnUpdate;
+        var annotations, className, reflection, propertiesAnnotations, property,
+            propAnnotations, columnAnnotation, columnName, feature, fieldTypes,
+            fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys,
+            identityField, notNull, attributes, defaultValues, defaultValue,
+            emptyStringValues, skipOnInsert, skipOnUpdate;
 
         if typeof container != "object" {
             throw new Exception("The dependency injector is invalid");
@@ -113,7 +117,9 @@ class Annotations implements StrategyInterface
             reflection = annotations->get(className);
 
         if typeof reflection != "object" {
-            throw new Exception("No annotations were found in class " . className);
+            throw new Exception(
+                "No annotations were found in class " . className
+            );
         }
 
         /**
@@ -122,7 +128,9 @@ class Annotations implements StrategyInterface
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
         if !count(propertiesAnnotations) {
-            throw new Exception("No properties with annotations were found in class " . className);
+            throw new Exception(
+                "No properties with annotations were found in class " . className
+            );
         }
 
         /**
@@ -144,7 +152,8 @@ class Annotations implements StrategyInterface
         for property, propAnnotations in propertiesAnnotations {
 
             /**
-             * All columns marked with the 'Column' annotation are considered columns
+             * All columns marked with the 'Column' annotation are considered
+             * columns
              */
             if !propAnnotations->has("Column") {
                 continue;
@@ -319,7 +328,8 @@ class Annotations implements StrategyInterface
             }
 
             /**
-             * All columns marked with the 'Primary' annotation are considered primary keys
+             * All columns marked with the 'Primary' annotation are considered
+             * primary keys
              */
             if propAnnotations->has("Primary") {
                 let primaryKeys[] = columnName;
@@ -328,7 +338,8 @@ class Annotations implements StrategyInterface
             }
 
             /**
-             * All columns marked with the 'Identity' annotation are considered the column identity
+             * All columns marked with the 'Identity' annotation are considered
+             * the column identity
              */
             if propAnnotations->has("Identity") {
                 let identityField = columnName;
@@ -363,7 +374,8 @@ class Annotations implements StrategyInterface
             }
 
             /**
-             * If column has default value or column is nullable and default value is null
+             * If column has default value or column is nullable and default
+             * value is null
              */
             let defaultValue = columnAnnotation->getNamedParameter("default");
             if defaultValue !== null || columnAnnotation->getNamedParameter("nullable") {

@@ -277,7 +277,9 @@ abstract class Adapter implements AdapterInterface
 
                 case Image::PRECISE:
                     if !width || !height {
-                        throw new Exception("width and height must be specified");
+                        throw new Exception(
+                            "width and height must be specified"
+                        );
                     }
                     let ratio = this->width / this->height;
 

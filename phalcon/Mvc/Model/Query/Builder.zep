@@ -596,11 +596,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let models = this->_models;
         if typeof models == "array" {
             if !count(models) {
-                throw new Exception("At least one model is required to build the query");
+                throw new Exception(
+                    "At least one model is required to build the query"
+                );
             }
         } else {
             if !models {
-                throw new Exception("At least one model is required to build the query");
+                throw new Exception(
+                    "At least one model is required to build the query"
+                );
             }
         }
 
@@ -609,11 +613,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         if is_numeric(conditions) {
 
             /**
-             * If the conditions is a single numeric field. We internally create a condition using the related primary key
+             * If the conditions is a single numeric field. We internally create
+             * a condition using the related primary key
              */
             if typeof models == "array" {
                 if count(models) > 1 {
-                    throw new Exception("Cannot build the query. Invalid condition");
+                    throw new Exception(
+                        "Cannot build the query. Invalid condition"
+                    );
                 }
                 let model = models[0];
             } else {
@@ -621,7 +628,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
 
             /**
-             * Get the models metadata service to obtain the column names, column map and primary key
+             * Get the models metadata service to obtain the column names,
+             * column map and primary key
              */
             let metaData = container->getShared("modelsMetadata"),
                 modelInstance = new {model}(null, container);
@@ -643,7 +651,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
                     if typeof columnMap == "array" {
                         if !fetch attributeField, columnMap[firstPrimaryKey] {
-                            throw new Exception("Column '" . firstPrimaryKey . "' isn't part of the column map");
+                            throw new Exception(
+                                "Column '" . firstPrimaryKey . "' isn't part of the column map"
+                            );
                         }
                     } else {
                         let attributeField = firstPrimaryKey;
@@ -658,7 +668,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * A primary key is mandatory in these cases
              */
             if noPrimary {
-                throw new Exception("Source related to this model does not have a primary key defined");
+                throw new Exception(
+                    "Source related to this model does not have a primary key defined"
+                );
             }
         }
 
@@ -930,7 +942,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
+            );
         }
 
         /**

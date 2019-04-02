@@ -57,9 +57,13 @@ class Gd extends Adapter
                     break;
                 default:
                     if this->mime {
-                        throw new Exception("Installed GD does not support " . this->mime . " images");
+                        throw new Exception(
+                            "Installed GD does not support " . this->mime . " images"
+                        );
                     } else {
-                        throw new Exception("Installed GD does not support such images");
+                        throw new Exception(
+                            "Installed GD does not support such images"
+                        );
                     }
                     break;
             }
@@ -68,7 +72,9 @@ class Gd extends Adapter
 
         } else {
             if !width || !height {
-                throw new Exception("Failed to create image from file " . this->file);
+                throw new Exception(
+                    "Failed to create image from file " . this->file
+                );
             }
 
             let this->image = imagecreatetruecolor(width, height);
@@ -102,7 +108,9 @@ class Gd extends Adapter
         }
 
         if !function_exists("gd_info") {
-            throw new Exception("GD is either not installed or not enabled, check your configuration");
+            throw new Exception(
+                "GD is either not installed or not enabled, check your configuration"
+            );
         }
 
         let version = null;
@@ -116,7 +124,9 @@ class Gd extends Adapter
         }
 
         if !version_compare(version, "2.0.1", ">=") {
-            throw new Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
+            throw new Exception(
+                "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version
+            );
         }
 
         let self::checked = true;
@@ -176,7 +186,14 @@ class Gd extends Adapter
                 let this->height = imagesy(image);
             }
         } else {
-            let rect = ["x": offsetX, "y": offsetY, "width": width, "height": height];
+            let rect = [
+                "x": offsetX,
+                "y": offsetY,
+
+                "width":  width,
+                "height": height
+            ];
+
             let image = imagecrop(this->image, rect);
             imagedestroy(this->image);
             let this->image = image;
@@ -371,7 +388,9 @@ class Gd extends Adapter
             return ob_get_clean();
         }
 
-        throw new Exception("Installed GD does not support '" . ext . "' images");
+        throw new Exception(
+            "Installed GD does not support '" . ext . "' images"
+        );
     }
 
     protected function processResize(int width, int height)
@@ -492,7 +511,9 @@ class Gd extends Adapter
             return true;
         }
 
-        throw new Exception("Installed GD does not support '" . ext . "' images");
+        throw new Exception(
+            "Installed GD does not support '" . ext . "' images"
+        );
     }
 
     protected function processSharpen(int amount)
@@ -549,7 +570,16 @@ class Gd extends Adapter
             let color = imagecolorallocatealpha(this->image, r, g, b, opacity);
             let angle = 0;
 
-            imagettftext(this->image, size, angle, offsetX, offsetY, color, fontfile, text);
+            imagettftext(
+                this->image,
+                size,
+                angle,
+                offsetX,
+                offsetY,
+                color,
+                fontfile,
+                text
+            );
         } else {
             let width  = (int) imagefontwidth(size) * strlen(text);
             let height = (int) imagefontheight(size);

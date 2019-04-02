@@ -129,7 +129,9 @@ class Di implements DiInterface
         /**
          * The method doesn't start with set/get throw an exception
          */
-        throw new Exception("Call to undefined method or service '" . method . "'");
+        throw new Exception(
+            "Call to undefined method or service '" . method . "'"
+        );
     }
 
     /**
@@ -187,7 +189,9 @@ class Di implements DiInterface
                 try {
                     let instance = service->resolve(parameters, this);
                 } catch ServiceResolutionException {
-                    throw new Exception("Service '" . name . "' cannot be resolved");
+                    throw new Exception(
+                        "Service '" . name . "' cannot be resolved"
+                    );
                 }
 
                 // If the service is shared then we'll cache the instance.
@@ -198,7 +202,9 @@ class Di implements DiInterface
 
                 // The DI also acts as builder for any class even if it isn't defined in the DI
                 if !class_exists(name) {
-                    throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+                    throw new Exception(
+                        "Service '" . name . "' wasn't found in the dependency injection container"
+                    );
                 }
 
                 if typeof parameters == "array" && count(parameters) {
@@ -259,7 +265,9 @@ class Di implements DiInterface
             return service->getDefinition();
         }
 
-        throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+        throw new Exception(
+            "Service '" . name . "' wasn't found in the dependency injection container"
+        );
     }
 
     /**
@@ -273,7 +281,9 @@ class Di implements DiInterface
             return service;
         }
 
-        throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+        throw new Exception(
+            "Service '" . name . "' wasn't found in the dependency injection container"
+        );
     }
 
     /**

@@ -289,7 +289,9 @@ class Form extends Injectable implements \Countable, \Iterator
             return element;
         }
 
-        throw new Exception("Element with ID=" . name . " is not part of the form");
+        throw new Exception(
+            "Element with ID=" . name . " is not part of the form"
+        );
     }
 
     /**
@@ -326,7 +328,9 @@ class Form extends Injectable implements \Countable, \Iterator
         var element, label;
 
         if !fetch element, this->elements[name] {
-            throw new Exception("Element with ID=" . name . " is not part of the form");
+            throw new Exception(
+                "Element with ID=" . name . " is not part of the form"
+            );
         }
 
         let label = element->getLabel();
@@ -676,7 +680,9 @@ class Form extends Injectable implements \Countable, \Iterator
             return element->label(attributes);
         }
 
-        throw new Exception("Element with ID=" . name . " is not part of the form");
+        throw new Exception(
+            "Element with ID=" . name . " is not part of the form"
+        );
     }
 
     /**
@@ -695,7 +701,9 @@ class Form extends Injectable implements \Countable, \Iterator
         var element;
 
         if !fetch element, this->elements[name] {
-            throw new Exception("Element with ID=" . name . " is not part of the form");
+            throw new Exception(
+                "Element with ID=" . name . " is not part of the form"
+            );
         }
 
         return element->render(attributes);

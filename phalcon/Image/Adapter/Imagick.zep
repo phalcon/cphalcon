@@ -52,11 +52,15 @@ class Imagick extends Adapter
             let this->realpath = realpath(this->file);
 
             if !this->image->readImage(this->realpath) {
-                 throw new Exception("Imagick::readImage ".this->file." failed");
+                 throw new Exception(
+                 	"Imagick::readImage " . this->file . " failed"
+                 );
             }
 
             if !this->image->getImageAlphaChannel() {
-                this->image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
+                this->image->setImageAlphaChannel(
+                	constant("Imagick::ALPHACHANNEL_SET")
+                );
             }
 
             if this->type == 1 {
@@ -68,7 +72,9 @@ class Imagick extends Adapter
             }
         } else {
             if !width || !height {
-                throw new Exception("Failed to create image from file " . this->file);
+                throw new Exception(
+                	"Failed to create image from file " . this->file
+                );
             }
 
             this->image->newImage(width, height, new \ImagickPixel("transparent"));
@@ -105,7 +111,9 @@ class Imagick extends Adapter
         }
 
         if !class_exists("imagick") {
-            throw new Exception("Imagick is not installed, or the extension is not loaded");
+            throw new Exception(
+            	"Imagick is not installed, or the extension is not loaded"
+            );
         }
 
         if defined("Imagick::IMAGICK_EXTNUM") {
@@ -154,7 +162,9 @@ class Imagick extends Adapter
         loop {
             background->newImage(this->width, this->height, pixel1);
             if !background->getImageAlphaChannel() {
-                background->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
+                background->setImageAlphaChannel(
+                	constant("Imagick::ALPHACHANNEL_SET")
+                );
             }
             background->setImageBackgroundColor(pixel2);
             background->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
@@ -240,7 +250,8 @@ class Imagick extends Adapter
     }
 
     /**
-     * This method scales the images using liquid rescaling method. Only support Imagick
+     * This method scales the images using liquid rescaling method. Only support
+     * Imagick
      *
      * @param int $width   new width
      * @param int $height  new height
@@ -283,7 +294,13 @@ class Imagick extends Adapter
 
         loop {
             this->image->setImageMatte(1);
-            let ret = this->image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
+
+            let ret = this->image->compositeImage(
+            	mask,
+            	constant("Imagick::COMPOSITE_DSTIN"),
+            	0,
+            	0
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
@@ -348,7 +365,11 @@ class Imagick extends Adapter
         let pseudo = fadeIn ? "gradient:black-transparent" : "gradient:transparent-black",
             fade = new \Imagick();
 
-        fade->newPseudoImage(reflection->getImageWidth(), reflection->getImageHeight(), pseudo);
+        fade->newPseudoImage(
+        	reflection->getImageWidth(),
+        	reflection->getImageHeight(),
+        	pseudo
+        );
 
         let opacity /= 100;
 
@@ -695,7 +716,12 @@ class Imagick extends Adapter
         this->image->setIteratorIndex(0);
 
         loop {
-            let ret = this->image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offsetX, offsetY);
+            let ret = this->image->compositeImage(
+            	watermark,
+            	constant("Imagick::COMPOSITE_OVER"),
+            	offsetX,
+            	offsetY
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");

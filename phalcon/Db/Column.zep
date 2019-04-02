@@ -376,7 +376,9 @@ class Column implements ColumnInterface
                     break;
 
                 default:
-                    throw new Exception("Column type does not support scale parameter");
+                    throw new Exception(
+                        "Column type does not support scale parameter"
+                    );
             }
         }
 
@@ -416,7 +418,9 @@ class Column implements ColumnInterface
                         break;
 
                     default:
-                        throw new Exception("Column type cannot be auto-increment");
+                        throw new Exception(
+                            "Column type cannot be auto-increment"
+                        );
                 }
             }
         }

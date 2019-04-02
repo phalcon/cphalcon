@@ -58,7 +58,9 @@ class Locator implements LocatorInterface
         var definition, service;
 
         if (true !== this->has(name)) {
-            throw new Exception("The service " . name . " has not been found in the locator");
+            throw new Exception(
+                "The service " . name . " has not been found in the locator"
+            );
         }
 
         if (true !== isset(this->services[name])) {
