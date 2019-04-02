@@ -250,9 +250,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Check whether a model is already initialized
      */
-    public function isInitialized(string! modelName) -> bool
+    public function isInitialized(string! className) -> bool
     {
-        return isset this->_initialized[strtolower(modelName)];
+        return isset this->_initialized[strtolower(className)];
     }
 
     /**
