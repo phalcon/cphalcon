@@ -61,6 +61,7 @@ use Phalcon\Config\Factory;
  *             "adapter"  => "array",
  *             "config"   => [
  *                 "property" => "value",
+ *             ],
  *         ],
  *     ],
  * );
@@ -73,7 +74,7 @@ class Grouped extends Config
      */
     public function __construct(array! arrayConfig, string! defaultAdapter = "php") -> void
     {
-        var configName, configInstance, configArray;
+        var configName, configInstance;
 
         parent::__construct([]);
 
@@ -98,8 +99,7 @@ class Grouped extends Config
                         "To use 'array' adapter you have to specify the 'config' as an array."
                     );
                 } else {
-                    let configArray    = configInstance["config"];
-                    let configInstance = new Config(configArray);
+                    let configInstance = new Config(configInstance["config"]);
                 }
             } else {
                 let configInstance = Factory::load(configInstance);

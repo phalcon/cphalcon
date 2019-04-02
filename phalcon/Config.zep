@@ -215,8 +215,7 @@ class Config implements \ArrayAccess, \Countable
     {
         let index = strval(index);
 
-        //unset(this->{index});
-        let this->{index} = null;
+        unset this->{index};
     }
 
     /**
@@ -284,17 +283,15 @@ class Config implements \ArrayAccess, \Countable
         var key, value, arrayConfig;
 
         let arrayConfig = [];
+
         for key, value in get_object_vars(this) {
-            if typeof value === "object" {
-                if method_exists(value, "toArray") {
-                    let arrayConfig[key] = value->toArray();
-                } else {
-                    let arrayConfig[key] = value;
-                }
-            } else {
-                let arrayConfig[key] = value;
+            if typeof value === "object" && method_exists(value, "toArray") {
+                let value = value->toArray();
             }
+
+            let arrayConfig[key] = value;
         }
+
         return arrayConfig;
     }
 
