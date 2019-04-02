@@ -1,3 +1,8 @@
+# [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
+## Changed
+- Refacted `Phalcon\Mvc\Collection\Behavior\SoftDelete` and `Phalcon\Mvc\Model\Behavior\SoftDelete`.
+
+
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
 - Added `delimiter` and `enclosure` options to *Phalcon\Translate\Adapter\Csv* constructor
