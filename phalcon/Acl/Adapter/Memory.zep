@@ -671,7 +671,10 @@ class Memory extends Adapter
             let reflectionParameters = reflectionFunction->getParameters();
             let parameterNumber = count(reflectionParameters);
 
-            // No parameters, just return haveAccess and call function without array
+            /**
+             * No parameters, just return haveAccess and call function without
+             * array
+             */
             if parameterNumber === 0 {
                 return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
             }
@@ -703,7 +706,10 @@ class Memory extends Adapter
                         continue;
                     }
 
-                    // This is some user defined class, check if his parameter is instance of it
+                    /**
+                     * This is some user defined class, check if his parameter
+                     * is instance of it
+                     */
                     if isset parameters[parameterToCheck] && typeof parameters[parameterToCheck] == "object" && !reflectionClass->isInstance(parameters[parameterToCheck]) {
                         throw new Exception(
                             "Your passed parameter doesn't have the same class as the parameter in defined function when check " . roleName . " can " . access . " " . componentName . ". Class passed: " . get_class(parameters[parameterToCheck])." , Class in defined function: " . reflectionClass->getName() . "."
@@ -712,7 +718,10 @@ class Memory extends Adapter
                 }
 
                 if isset parameters[parameterToCheck] {
-                    // We can't check type of ReflectionParameter in PHP 5.x so we just add it as it is
+                    /**
+                     * We can't check type of ReflectionParameter in PHP 5.x so
+                     * we just add it as it is
+                     */
                     let parametersForFunction[] = parameters[parameterToCheck];
                 }
             }
@@ -738,7 +747,10 @@ class Memory extends Adapter
                     return haveAccess == Acl::ALLOW && this->noArgumentsDefaultAction == Acl::ALLOW;
                 }
 
-                // Number of required parameters == 0 so call funcAccess without any arguments
+                /**
+                 * Number of required parameters == 0 so call funcAccess without
+                 * any arguments
+                 */
                 return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
             }
 

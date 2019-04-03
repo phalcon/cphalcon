@@ -164,8 +164,10 @@ class Di implements DiInterface
     {
         var service, eventsManager, isShared, instance = null;
 
-        // If the service is shared and it already has a cached instance then
-        // immediately return it without triggering events.
+        /**
+         * If the service is shared and it already has a cached instance then
+         * immediately return it without triggering events.
+         */
         if fetch service, this->services[name] {
             let isShared = service->isShared();
             if isShared && isset this->sharedInstances[name] {
@@ -226,7 +228,10 @@ class Di implements DiInterface
             }
         }
 
-        // Pass the DI to the instance if it implements \Phalcon\Di\InjectionAwareInterface
+        /**
+         * Pass the DI to the instance if it implements
+         * \Phalcon\Di\InjectionAwareInterface
+         */
         if typeof instance == "object" {
             if instance instanceof InjectionAwareInterface {
                 instance->setDI(this);

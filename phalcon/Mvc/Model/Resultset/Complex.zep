@@ -174,8 +174,10 @@ class Complex extends Resultset implements ResultsetInterface
 
                         } else {
 
-                            // Get the base instance
-                             // Assign the values to the attributes using a column map
+                            /**
+                             * Get the base instance. Assign the values to the
+                             * attributes using a column map
+                             */
                             let value = Model::cloneResultMap(
                                 column["instance"], rowModel, columnMap, dirtyState, keepSnapshots
                             );

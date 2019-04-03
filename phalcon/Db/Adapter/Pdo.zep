@@ -270,7 +270,10 @@ abstract class Pdo extends Adapter
             unset descriptor["dialectClass"];
         }
 
-        // Check if the developer has defined custom options or create one from scratch
+        /**
+         * Check if the developer has defined custom options or create one from
+         * scratch
+         */
         if fetch options, descriptor["options"] {
             unset descriptor["options"];
         } else {
@@ -289,9 +292,11 @@ abstract class Pdo extends Adapter
             unset descriptor["dsn"];
         }
 
-        // Start with the dsn defaults and then write over it with the descriptor.
-        // At this point the descriptor should be a valid DSN key-value map due to
-        // all other values having been removed.
+        /**
+         * Start with the dsn defaults and then write over it with the
+         * descriptor. At this point the descriptor should be a valid DSN
+         * key-value map due to all other values having been removed.
+         */
         let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
 
         for key, value in dsnAttributesMap {

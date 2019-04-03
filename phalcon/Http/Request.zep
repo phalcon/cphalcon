@@ -86,7 +86,14 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function get(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
     {
-        return this->getHelper(_REQUEST, name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getHelper(
+            _REQUEST,
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
 
@@ -146,7 +153,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
     /**
      * Gets most possible client IPv4 Address. This method searches in
-     * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+     * `$_SERVER["REMOTE_ADDR"]` and optionally in
+     * `$_SERVER["HTTP_X_FORWARDED_FOR"]`
      */
     public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
     {
@@ -353,8 +361,18 @@ class Request implements RequestInterface, InjectionAwareInterface
         for name, value in _SERVER {
             // Note: The starts_with uses case insensitive search here
             if starts_with(name, "HTTP_") {
-                let name = ucwords(strtolower(str_replace("_", " ", substr(name, 5)))),
-                    name = str_replace(" ", "-", name);
+                let name = ucwords(
+                    strtolower(
+                        str_replace(
+                            "_",
+                            " ",
+                            substr(name, 5)
+                        )
+                    )
+                );
+
+                let name = str_replace(" ", "-", name);
+
                 let headers[name] = value;
 
                 continue;
@@ -363,8 +381,14 @@ class Request implements RequestInterface, InjectionAwareInterface
             // The "CONTENT_" headers are not prefixed with "HTTP_".
             let name = strtoupper(name);
             if isset contentHeaders[name] {
-                let name = ucwords(strtolower(str_replace("_", " ", name))),
-                    name = str_replace(" ", "-", name);
+                let name = ucwords(
+                    strtolower(
+                        str_replace("_", " ", name)
+                    )
+                );
+
+                let name = str_replace(" ", "-", name);
+
                 let headers[name] = value;
             }
         }
@@ -761,11 +785,11 @@ class Request implements RequestInterface, InjectionAwareInterface
                     for file in smoothInput {
                         if onlySuccessful == false || file["error"] == UPLOAD_ERR_OK {
                             let dataFile = [
-                                "name": file["name"],
-                                "type": file["type"],
+                                "name":     file["name"],
+                                "type":     file["type"],
                                 "tmp_name": file["tmp_name"],
-                                "size": file["size"],
-                                "error": file["error"]
+                                "size":     file["size"],
+                                "error":    file["error"]
                             ];
 
                             if namedKeys == true {
@@ -1271,10 +1295,18 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final protected function getQualityHeader(string! serverIndex, string! name) -> array
     {
-        var returnedParts, part, headerParts, headerPart, split;
+        var returnedParts, parts, part, headerParts, headerPart, split;
 
         let returnedParts = [];
-        for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
+
+        let parts = preg_split(
+            "/,\\s*/",
+            this->getServer(serverIndex),
+            -1,
+            PREG_SPLIT_NO_EMPTY
+        );
+
+        for part in parts {
 
             let headerParts = [];
             for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {

@@ -69,7 +69,13 @@ class Dump
      */
     public function all() -> string
     {
-        return call_user_func_array([this, "variables"], func_get_args());
+        return call_user_func_array(
+            [
+                this,
+                "variables"
+            ],
+            func_get_args()
+        );
     }
 
     /**

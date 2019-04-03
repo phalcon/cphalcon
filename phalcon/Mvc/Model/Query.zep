@@ -1924,7 +1924,10 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let completeSource = source;
             }
 
-            // If an alias is defined for a model then the model cannot be referenced in the column list
+            /**
+             * If an alias is defined for a model then the model cannot be
+             * referenced in the column list
+             */
             if fetch alias, selectedModel["alias"] {
 
                 // Check if the alias was used before
