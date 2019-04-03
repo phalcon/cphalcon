@@ -3,6 +3,7 @@
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events.
+- `Phalcon\Translate\InterpolatorInterface` now only accepts placeholder arrays.
 
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
