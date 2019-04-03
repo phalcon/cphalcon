@@ -442,13 +442,17 @@ class Tag
      */
     public static function getTitle(bool prepend = true, bool append = true) -> string
     {
-        var items, output, title, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
+        var items, output, title, documentTitle, documentAppendTitle,
+            documentPrependTitle, documentTitleSeparator, escaper;
 
         let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
         let items = [];
         let output = "";
         let documentTitle = escaper->escapeHtml(self::documentTitle);
-        let documentTitleSeparator = escaper->escapeHtml(self::documentTitleSeparator);
+
+        let documentTitleSeparator = escaper->escapeHtml(
+            self::documentTitleSeparator
+        );
 
         if prepend {
             if typeof self::documentPrependTitle == "null" {
@@ -687,7 +691,11 @@ class Tag
      * Builds a SCRIPT[type="javascript"] tag
      *
      * <code>
-     * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false);
+     * echo Phalcon\Tag::javascriptInclude(
+     *     "http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js",
+     *     false
+     * );
+     *
      * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
      * </code>
      *
@@ -1026,7 +1034,9 @@ class Tag
     }
 
     /**
-     * Resets the request and internal values to avoid those fields will have any default value.
+     * Resets the request and internal values to avoid those fields will have
+     * any default value.
+     *
      * @deprecated Will be removed in 4.0.0
      */
     deprecated public static function resetInput() -> void
@@ -1200,7 +1210,11 @@ class Tag
      * Builds a LINK[rel="stylesheet"] tag
      *
      * <code>
-     * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+     * echo Phalcon\Tag::stylesheetLink(
+     *     "http://fonts.googleapis.com/css?family=Rosario",
+     *     false
+     * );
+     *
      * echo Phalcon\Tag::stylesheetLink("css/style.css");
      * </code>
      *
@@ -1247,7 +1261,9 @@ class Tag
          * URLs are generated through the "url" service
          */
         if local {
-            let params["href"] = self::getUrlService()->getStatic(params["href"]);
+            let params["href"] = self::getUrlService()->getStatic(
+                params["href"]
+            );
         }
 
         if !isset params["rel"] {

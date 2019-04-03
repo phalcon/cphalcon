@@ -63,7 +63,8 @@ class InclusionIn extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, domain, message, label, replacePairs, strict, fieldDomain, code;
+        var value, domain, message, label, replacePairs, strict, fieldDomain,
+            code;
 
         let value = validation->getValue(field);
 
@@ -101,7 +102,10 @@ class InclusionIn extends Validator
                 message = this->prepareMessage(validation, field, "InclusionIn"),
                 code = this->prepareCode(field);
 
-            let replacePairs = [":field": label, ":domain":  join(", ", domain)];
+            let replacePairs = [
+                ":field":  label,
+                ":domain": join(", ", domain)
+            ];
 
             validation->appendMessage(
                 new Message(

@@ -19,9 +19,9 @@ use Phalcon\Logger\Exception;
 /**
  * Phalcon\Logger
  *
- * This component offers logging capabilities for your application. The component
- * accepts multiple adapters, working also as a multiple logger. Phalcon\Logger
- * implements PSR-3.
+ * This component offers logging capabilities for your application. The
+ * component accepts multiple adapters, working also as a multiple logger.
+ * Phalcon\Logger implements PSR-3.
  *
  *<code>
  * use Phalcon\Logger;
@@ -198,7 +198,7 @@ class Logger implements LoggerInterface
          * this->excluded array
          */
         for name, _ in adapters {
-            if isset(registered[name]) {
+            if isset registered[name] {
                 let this->excluded[] = name;
             }
         }

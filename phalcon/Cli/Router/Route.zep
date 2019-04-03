@@ -84,7 +84,8 @@ class Route
     }
 
     /**
-     * Replaces placeholders from pattern returning a valid PCRE regular expression
+     * Replaces placeholders from pattern returning a valid PCRE regular
+     * expression
      */
     public function compilePattern(string! pattern) -> string
     {
@@ -98,7 +99,11 @@ class Route
 
             // Replace the delimiter part
             if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(":delimiter", this->delimiter, pattern);
+                let pattern = str_replace(
+                    ":delimiter",
+                    this->delimiter,
+                    pattern
+                );
             }
 
             // Replace the module part
@@ -128,13 +133,21 @@ class Route
             // Replace the params placeholder
             let part = this->delimiter . ":params";
             if memstr(pattern, part) {
-                let pattern = str_replace(part, "(" . this->delimiter . ".*)*", pattern);
+                let pattern = str_replace(
+                    part,
+                    "(" . this->delimiter . ".*)*",
+                    pattern
+                );
             }
 
             // Replace the int placeholder
             let part = this->delimiter . ":int";
             if memstr(pattern, part) {
-                let pattern = str_replace(part, this->delimiter . "([0-9]+)", pattern);
+                let pattern = str_replace(
+                    part,
+                    this->delimiter . "([0-9]+)",
+                    pattern
+                );
             }
         }
 
@@ -152,7 +165,8 @@ class Route
     }
 
     /**
-     * Adds a converter to perform an additional transformation for certain parameter
+     * Adds a converter to perform an additional transformation for certain
+     * parameter
      *
      * @param callable converter
      */
@@ -308,8 +322,6 @@ class Route
 
     /**
      * Returns the 'before match' callback if any
-     *
-     * @return mixed
      */
     public function getBeforeMatch() -> var
     {
@@ -484,7 +496,8 @@ class Route
         }
 
         /**
-         * If the route starts with '#' we assume that it is a regular expression
+         * If the route starts with '#' we assume that it is a regular
+         * expression
          */
         if !starts_with(pattern, "#") {
 
@@ -506,8 +519,13 @@ class Route
         } else {
             // Replace the delimiter part
             if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(":delimiter", this->delimiter, pattern);
+                let pattern = str_replace(
+                    ":delimiter",
+                    this->delimiter,
+                    pattern
+                );
             }
+
             let compiledPattern = pattern;
         }
 

@@ -38,7 +38,8 @@ interface AdapterInterface
     public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
 
     /**
-     * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
+     * Returns the number of affected rows by the last INSERT/UPDATE/DELETE
+     * reported by the database system
      */
     public function affectedRows() -> int;
 
@@ -59,8 +60,8 @@ interface AdapterInterface
     public function commit(bool nesting = true) -> bool;
 
     /**
-     * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
-     * Call it when you need to restore a database connection
+     * This method is automatically called in \Phalcon\Db\Adapter\Pdo
+     * constructor. Call it when you need to restore a database connection
      */
     public function connect(array descriptor = null) -> bool;
 
@@ -147,7 +148,8 @@ interface AdapterInterface
 
     /**
      * Sends SQL statements to the database server returning the success state.
-     * Use this method only when the SQL statement sent to the server doesn't return any rows
+     * Use this method only when the SQL statement sent to the server doesn't
+     * return any rows
      */
     public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> bool;
 
@@ -303,7 +305,8 @@ interface AdapterInterface
     public function isUnderTransaction() -> bool;
 
     /**
-     * Returns insert id for the auto_increment column inserted in the last SQL statement
+     * Returns insert id for the auto_increment column inserted in the last SQL
+     * statement
      *
      * @param string sequenceName
      * @return int
@@ -332,7 +335,8 @@ interface AdapterInterface
 
     /**
      * Sends SQL statements to the database server returning the success state.
-     * Use this method only when the SQL statement sent to the server return rows
+     * Use this method only when the SQL statement sent to the server returns
+     * rows
      */
     public function query(string! sqlStatement, var placeholders = null, var dataTypes = null) -> <ResultInterface> | bool;
 
@@ -362,7 +366,8 @@ interface AdapterInterface
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>;
 
     /**
-     * Check whether the database system requires a sequence to produce auto-numeric values
+     * Check whether the database system requires a sequence to produce
+     * auto-numeric values
      */
     public function supportSequences() -> bool;
 
@@ -411,7 +416,8 @@ interface AdapterInterface
     public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool;
 
     /**
-     * Check whether the database system requires an explicit value for identity columns
+     * Check whether the database system requires an explicit value for identity
+     * columns
      */
     public function useExplicitIdValue() -> bool;
 

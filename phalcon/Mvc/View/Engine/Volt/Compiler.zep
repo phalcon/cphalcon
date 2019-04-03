@@ -235,7 +235,8 @@ class Compiler implements InjectionAwareInterface
             }
 
             /**
-             * Compiled path is a directory where the compiled templates will be located
+             * Compiled path is a directory where the compiled templates will be
+             * located
              */
             if isset options["path"] || isset options["compiledPath"] {
                 if isset options["path"] {
@@ -319,7 +320,10 @@ class Compiler implements InjectionAwareInterface
                  * Create the virtual path replacing the directory separator by
                  * the compiled separator
                  */
-                let templateSepPath = prepare_virtual_path(realpath(templatePath), compiledSeparator);
+                let templateSepPath = prepare_virtual_path(
+                    realpath(templatePath),
+                    compiledSeparator
+                );
             } else {
                 let templateSepPath = templatePath;
             }
@@ -387,7 +391,11 @@ class Compiler implements InjectionAwareInterface
                      needs to be recompiled
                      */
                     if compare_mtime(templatePath, realCompiledPath) {
-                        let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                        let compilation = this->compileFile(
+                            templatePath,
+                            realCompiledPath,
+                            extendsMode
+                        );
                     } else {
 
                         if extendsMode {
@@ -416,7 +424,8 @@ class Compiler implements InjectionAwareInterface
                 } else {
 
                     /**
-                     * The file doesn't exist so we compile the php version for the first time
+                     * The file doesn't exist so we compile the php version for
+                     * the first time
                      */
                     let compilation = this->compileFile(
                         templatePath,
@@ -469,8 +478,12 @@ class Compiler implements InjectionAwareInterface
         let oldAutoescape = this->autoescape,
             this->autoescape = autoescape;
 
-        let compilation = this->statementList(statement["block_statements"], extendsMode),
-            this->autoescape = oldAutoescape;
+        let compilation = this->statementList(
+            statement["block_statements"],
+            extendsMode
+        );
+
+        let this->autoescape = oldAutoescape;
 
         return compilation;
     }
@@ -509,7 +522,10 @@ class Compiler implements InjectionAwareInterface
         /**
          * Get the code in the block
          */
-        let compilation .= this->statementList(statement["block_statements"], extendsMode);
+        let compilation .= this->statementList(
+            statement["block_statements"],
+            extendsMode
+        );
 
         /**
          * Check if the cache has a lifetime
@@ -963,7 +979,8 @@ class Compiler implements InjectionAwareInterface
                 if typeof compilation == "null" {
 
                     /**
-                     * Use file-get-contents to respect the openbase_dir directive
+                     * Use file-get-contents to respect the openbase_dir
+                     * directive
                      */
                     let compilation = file_get_contents(
                         subCompiler->getCompiledTemplatePath()
@@ -1580,7 +1597,8 @@ class Compiler implements InjectionAwareInterface
                     }
 
                     /**
-                     * Only string statuses means the extension process something
+                     * Only string statuses means the extension processes
+                     * something
                      */
                     if typeof status == "string" {
                         return status;
@@ -1619,7 +1637,8 @@ class Compiler implements InjectionAwareInterface
             let name = nameExpr["value"];
 
             /**
-             * Check if any of the registered extensions provide compilation for this function
+             * Check if any of the registered extensions provide compilation for
+             * this function
              */
             let extensions = this->extensions;
             if typeof extensions == "array" {
@@ -1955,7 +1974,12 @@ class Compiler implements InjectionAwareInterface
          */
         if typeof this->prefix == "object" {
             if this->prefix instanceof \Closure {
-                let this->prefix = call_user_func_array(this->prefix, [this]);
+                let this->prefix = call_user_func_array(
+                    this->prefix,
+                    [
+                        this
+                    ]
+                );
             }
         }
 
@@ -2323,7 +2347,8 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * Check if any of the registered extensions provide compilation for this filter
+         * Check if any of the registered extensions provide compilation for
+         * this filter
          */
         let extensions = this->extensions;
         if typeof extensions == "array" {
@@ -2616,7 +2641,8 @@ class Compiler implements InjectionAwareInterface
             }
 
             /**
-             * Check if extensions have implemented custom compilation for this statement
+             * Check if extensions have implemented custom compilation for this
+             * statement
              */
             if typeof extensions == "array" {
 
@@ -2653,7 +2679,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_SWITCH:
-                    let compilation .= this->compileSwitch(statement, extendsMode);
+                    let compilation .= this->compileSwitch(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_CASE:
@@ -2665,7 +2695,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_FOR:
-                    let compilation .= this->compileForeach(statement, extendsMode);
+                    let compilation .= this->compileForeach(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_SET:
@@ -2732,7 +2766,11 @@ class Compiler implements InjectionAwareInterface
                      * Perform a sub-compilation of the extended file
                      */
                     let subCompiler = clone this;
-                    let tempCompilation = subCompiler->compile(finalPath, extended);
+
+                    let tempCompilation = subCompiler->compile(
+                        finalPath,
+                        extended
+                    );
 
                     /**
                      * If the compilation doesn't return anything we include the
@@ -2754,7 +2792,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_CACHE:
-                    let compilation .= this->compileCache(statement, extendsMode);
+                    let compilation .= this->compileCache(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_DO:
@@ -2766,7 +2808,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_AUTOESCAPE:
-                    let compilation .= this->compileAutoEscape(statement, extendsMode);
+                    let compilation .= this->compileAutoEscape(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_CONTINUE:
@@ -2794,14 +2840,22 @@ class Compiler implements InjectionAwareInterface
                     /**
                      * Define a macro
                      */
-                    let compilation .= this->compileMacro(statement, extendsMode);
+                    let compilation .= this->compileMacro(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case 325:
                     /**
                      * "Call" statement
                      */
-                    let compilation .= this->compileCall(statement, extendsMode);
+                    let compilation .= this->compileCall(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case 358:

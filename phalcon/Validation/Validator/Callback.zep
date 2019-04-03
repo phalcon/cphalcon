@@ -79,9 +79,15 @@ class Callback extends Validator
             let returnedValue = call_user_func(callback, data);
             if typeof returnedValue == "boolean" {
                 if !returnedValue {
-                    let label = this->prepareLabel(validation, field),
-                        message = this->prepareMessage(validation, field, "Callback"),
-                        code = this->prepareCode(field);
+                    let label = this->prepareLabel(validation, field);
+
+                    let message = this->prepareMessage(
+                        validation,
+                        field,
+                        "Callback"
+                    );
+
+                    let code = this->prepareCode(field);
 
                     let replacePairs = [":field": label];
 

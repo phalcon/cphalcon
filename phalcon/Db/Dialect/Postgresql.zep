@@ -216,7 +216,10 @@ class Postgresql extends Dialect
 
                 let referenceSql = "CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
 
-                let referenceSql .= this->prepareTable(reference->getReferencedTable(), schemaName);
+                let referenceSql .= this->prepareTable(
+                    reference->getReferencedTable(),
+                    schemaName
+                );
 
                 let referenceSql .= " (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 

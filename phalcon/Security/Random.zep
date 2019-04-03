@@ -106,7 +106,11 @@ class Random
      */
     public function base58(int len = null) -> string
     {
-        return this->base("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz", 58, len);
+        return this->base(
+            "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
+            58,
+            len
+        );
     }
 
     /**
@@ -130,7 +134,11 @@ class Random
      */
     public function base62(int len = null) -> string
     {
-        return this->base("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 62, len);
+        return this->base(
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+            62,
+            len
+        );
     }
 
     /**
@@ -150,7 +158,9 @@ class Random
      */
     public function base64(int len = null) -> string
     {
-        return base64_encode(this->bytes(len));
+        return base64_encode(
+            this->bytes(len)
+        );
     }
 
     /**
@@ -159,9 +169,10 @@ class Random
      * If $len is not specified, 16 is assumed. It may be larger in future.
      * The length of the result string is usually greater of $len.
      *
-     * By default, padding is not generated because "=" may be used as a URL delimiter.
-     * The result may contain A-Z, a-z, 0-9, "-" and "_". "=" is also used if $padding is true.
-     * See RFC 3548 for the definition of URL-safe base64.
+     * By default, padding is not generated because "=" may be used as a URL
+     * delimiter. The result may contain A-Z, a-z, 0-9, "-" and "_". "=" is also
+     * used if $padding is true. See RFC 3548 for the definition of URL-safe
+     * base64.
      *
      *<code>
      * $random = new \Phalcon\Security\Random();
@@ -310,12 +321,22 @@ class Random
 
         do {
             let rnd = this->bytes(strlen(bin));
-            let rnd = substr_replace(rnd, chr(ord(substr(rnd, 0, 1)) & mask), 0, 1);
+
+            let rnd = substr_replace(
+                rnd,
+                chr(
+                    ord(substr(rnd, 0, 1)) & mask
+                ),
+                0,
+                1
+            );
         } while bin < rnd;
 
         let ret = unpack("H*", rnd);
 
-        return hexdec(array_shift(ret));
+        return hexdec(
+            array_shift(ret)
+        );
     }
 
     /**

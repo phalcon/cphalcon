@@ -39,7 +39,8 @@ abstract class Text
     }
 
     /**
-     * Concatenates strings using the separator only once without duplication in places concatenation
+     * Concatenates strings using the separator only once without duplication in
+     * places concatenation
      *
      * <code>
      * $str = Phalcon\Text::concat(
@@ -98,7 +99,11 @@ abstract class Text
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
      *
      * // Hello my name is a Zyxep
-     * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", "[", "]", "/");
+     * echo Phalcon\Text::dynamic(
+     *     "[Hi/Hello], my name is a [Zyxep/Mark]!",
+     *     "[", "]",
+     *     "/"
+     * );
      * </code>
      */
     public static function dynamic(string! text, string! leftDelimiter = "{", string! rightDelimiter = "}", string! separator = "|") -> string
@@ -106,7 +111,9 @@ abstract class Text
         var ldS, rdS, pattern, matches, match, words, word, sub;
 
         if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
-            throw new \RuntimeException("Syntax error in string \"" . text . "\"");
+            throw new \RuntimeException(
+                "Syntax error in string \"" . text . "\""
+            );
         }
 
         let ldS = preg_quote(leftDelimiter),
@@ -162,7 +169,8 @@ abstract class Text
     }
 
     /**
-     * Adds a number to a string or increment that number if it already is defined
+     * Adds a number to a string or increment that number if it already is
+     * defined
      *
      * <code>
      * echo Phalcon\Text::increment("a"); // "a_1"
@@ -185,7 +193,8 @@ abstract class Text
     }
 
     /**
-     * Lowercases a string, this function makes use of the mbstring extension if available
+     * Lowercases a string, this function makes use of the mbstring extension if
+     * available
      *
      * <code>
      * echo Phalcon\Text::lower("HELLO"); // hello
@@ -194,7 +203,8 @@ abstract class Text
     public static function lower(string! str, string! encoding = "UTF-8") -> string
     {
         /**
-         * 'lower' checks for the mbstring extension to make a correct lowercase transformation
+         * 'lower' checks for the mbstring extension to make a correct lowercase
+         * transformation
          */
         if function_exists("mb_strtolower") {
             return mb_strtolower(str, encoding);
@@ -217,7 +227,8 @@ abstract class Text
     }
 
     /**
-     * Generates a random string based on the given type. Type is one of the RANDOM_* constants
+     * Generates a random string based on the given type. Type is one of the
+     * RANDOM_* constants
      *
      * <code>
      * use Phalcon\Text;
@@ -255,7 +266,12 @@ abstract class Text
 
             default:
                 // Default type \Phalcon\Text::RANDOM_ALNUM
-                let pool = array_merge(range(0, 9), range("a", "z"), range("A", "Z"));
+                let pool = array_merge(
+                    range(0, 9),
+                    range("a", "z"),
+                    range("A", "Z")
+                );
+
                 break;
         }
 
@@ -308,7 +324,8 @@ abstract class Text
     }
 
     /**
-     * Uppercases a string, this function makes use of the mbstring extension if available
+     * Uppercases a string, this function makes use of the mbstring extension if
+     * available
      *
      * <code>
      * echo Phalcon\Text::upper("hello"); // HELLO
@@ -317,7 +334,8 @@ abstract class Text
     public static function upper(string! str, string! encoding = "UTF-8") -> string
     {
         /**
-         * 'upper' checks for the mbstring extension to make a correct lowercase transformation
+         * 'upper' checks for the mbstring extension to make a correct lowercase
+         * transformation
          */
         if function_exists("mb_strtoupper") {
             return mb_strtoupper(str, encoding);

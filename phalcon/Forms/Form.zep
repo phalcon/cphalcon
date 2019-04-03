@@ -237,18 +237,27 @@ class Form extends Injectable implements \Countable, \Iterator
         if typeof elements == "array" {
             if fields === null {
                 for element in elements {
-                    Tag::setDefault(element->getName(), element->getDefault());
+                    Tag::setDefault(
+                        element->getName(),
+                        element->getDefault()
+                    );
                 }
             } else {
                 if typeof fields == "array" {
                     for element in elements {
                         if in_array(element->getName(), fields) {
-                            Tag::setDefault(element->getName(), element->getDefault());
+                            Tag::setDefault(
+                                element->getName(),
+                                element->getDefault()
+                            );
                         }
                     }
                 } else {
                     if fetch element, elements[fields] {
-                        Tag::setDefault(element->getName(), element->getDefault());
+                        Tag::setDefault(
+                            element->getName(),
+                            element->getDefault()
+                        );
                     }
                 }
             }
@@ -390,7 +399,12 @@ class Form extends Injectable implements \Countable, \Iterator
                             let messagesByItem[fieldName] = [];
                         }
 
-                        let messagesByItem[fieldName][] = new Messages([elementMessage]);
+                        let messagesByItem[fieldName][] = new Messages(
+                            [
+                                elementMessage
+                            ]
+                        );
+
                         messages->next();
                 }
                 return messagesByItem;

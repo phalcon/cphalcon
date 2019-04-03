@@ -16,10 +16,11 @@ use Phalcon\Escaper\Exception;
 /**
  * Phalcon\Escaper
  *
- * Escapes different kinds of text securing them. By using this component you may
- * prevent XSS attacks.
+ * Escapes different kinds of text securing them. By using this component you
+ * may prevent XSS attacks.
  *
- * This component only works with UTF-8. The PREG extension needs to be compiled with UTF-8 support.
+ * This component only works with UTF-8. The PREG extension needs to be compiled
+ * with UTF-8 support.
  *
  *<code>
  * $escaper = new \Phalcon\Escaper();
@@ -46,8 +47,9 @@ class Escaper implements EscaperInterface
     protected htmlQuoteType = 3;
 
     /**
-     * Detect the character encoding of a string to be handled by an encoder
-     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
+     * Detect the character encoding of a string to be handled by an encoder.
+     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be
+     * detected by mb_detect_encoding()
      */
     final public function detectEncoding(string str) -> string | null
     {
@@ -85,7 +87,8 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
+     * Escape CSS strings by replacing non-alphanumeric chars by their
+     * hexadecimal escaped representation
      */
     public function escapeCss(string css) -> string
     {
@@ -97,7 +100,8 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
+     * Escape javascript strings by replacing non-alphanumeric chars by their
+     * hexadecimal escaped representation
      */
     public function escapeJs(string js) -> string
     {
@@ -113,7 +117,12 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtml(string text) -> string
     {
-        return htmlspecialchars(text, this->htmlQuoteType, this->encoding, this->doubleEncode);
+        return htmlspecialchars(
+            text,
+            this->htmlQuoteType,
+            this->encoding,
+            this->doubleEncode
+        );
     }
 
     /**
@@ -121,7 +130,12 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtmlAttr(string attribute) -> string
     {
-        return htmlspecialchars(attribute, ENT_QUOTES, this->encoding, this->doubleEncode);
+        return htmlspecialchars(
+            attribute,
+            ENT_QUOTES,
+            this->encoding,
+            this->doubleEncode
+        );
     }
 
     /**
@@ -153,10 +167,14 @@ class Escaper implements EscaperInterface
         }
 
         /**
-         * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
-         * the character).
+         * Convert to UTF-32 (4 byte characters, regardless of actual number of
+         * bytes in the character).
          */
-        return mb_convert_encoding(str, "UTF-32", this->detectEncoding(str));
+        return mb_convert_encoding(
+            str,
+            "UTF-32",
+            this->detectEncoding(str)
+        );
     }
 
     /**

@@ -25,19 +25,22 @@ use Phalcon\Di\ServiceProviderInterface;
 /**
  * Phalcon\Di
  *
- * Phalcon\Di is a component that implements Dependency Injection/Service Location
- * of services and it's itself a container for them.
+ * Phalcon\Di is a component that implements Dependency Injection/Service
+ * Location of services and it's itself a container for them.
  *
- * Since Phalcon is highly decoupled, Phalcon\Di is essential to integrate the different
- * components of the framework. The developer can also use this component to inject dependencies
- * and manage global instances of the different classes used in the application.
+ * Since Phalcon is highly decoupled, Phalcon\Di is essential to integrate the
+ * different components of the framework. The developer can also use this
+ * component to inject dependencies and manage global instances of the different
+ * classes used in the application.
  *
- * Basically, this component implements the `Inversion of Control` pattern. Applying this,
- * the objects do not receive their dependencies using setters or constructors, but requesting
- * a service dependency injector. This reduces the overall complexity, since there is only one
- * way to get the required dependencies within a component.
+ * Basically, this component implements the `Inversion of Control` pattern.
+ * Applying this, the objects do not receive their dependencies using setters or
+ * constructors, but requesting a service dependency injector. This reduces the
+ * overall complexity, since there is only one way to get the required
+ * dependencies within a component.
  *
- * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
+ * Additionally, this pattern increases testability in the code, thus making it
+ * less prone to errors.
  *
  *<code>
  * use Phalcon\Di;
@@ -103,7 +106,8 @@ class Di implements DiInterface
         var instance, possibleService, services, definition;
 
         /**
-         * If the magic method starts with "get" we try to get a service with that name
+         * If the magic method starts with "get" we try to get a service with
+         * that name
          */
         if starts_with(method, "get") {
             let services = this->services,
@@ -117,7 +121,8 @@ class Di implements DiInterface
         }
 
         /**
-         * If the magic method starts with "set" we try to set a service using that name
+         * If the magic method starts with "set" we try to set a service using
+         * that name
          */
         if starts_with(method, "set") {
             if fetch definition, arguments[0] {
@@ -170,7 +175,10 @@ class Di implements DiInterface
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
-        // Allows for custom creation of instances through the "di:beforeServiceResolve" event.
+        /**
+         * Allows for custom creation of instances through the
+         * "di:beforeServiceResolve" event.
+         */
         if typeof eventsManager == "object" {
             let instance = eventsManager->fire(
                 "di:beforeServiceResolve",
@@ -200,7 +208,10 @@ class Di implements DiInterface
                 }
             } else {
 
-                // The DI also acts as builder for any class even if it isn't defined in the DI
+                /**
+                 * The DI also acts as builder for any class even if it isn't
+                 * defined in the DI
+                 */
                 if !class_exists(name) {
                     throw new Exception(
                         "Service '" . name . "' wasn't found in the dependency injection container"
@@ -222,7 +233,10 @@ class Di implements DiInterface
             }
         }
 
-        // Allows for post creation instance configuration through the "di:afterServiceResolve" event.
+        /**
+         * Allows for post creation instance configuration through the
+         * "di:afterServiceResolve" event.
+         */
         if typeof eventsManager == "object" {
             eventsManager->fire(
                 "di:afterServiceResolve",
@@ -327,7 +341,11 @@ class Di implements DiInterface
         let services = config->toArray();
 
         for name, service in services {
-            this->set(name, service, isset service["shared"] && service["shared"]);
+            this->set(
+                name,
+                service,
+                isset service["shared"] && service["shared"]
+            );
         }
     }
 
@@ -515,7 +533,8 @@ class Di implements DiInterface
     }
 
     /**
-     * Set a default dependency injection container to be obtained into static methods
+     * Set a default dependency injection container to be obtained into static
+     * methods
      */
     public static function setDefault(<DiInterface> container) -> void
     {

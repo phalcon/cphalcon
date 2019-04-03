@@ -44,7 +44,8 @@ class Builder
         if typeof parameters == "array" {
 
             /**
-             * Build the instance overriding the definition constructor parameters
+             * Build the instance overriding the definition constructor
+             * parameters
              */
             if count(parameters) {
                 let instance = create_instance_params(className, parameters);
@@ -62,7 +63,10 @@ class Builder
                 /**
                  * Create the instance based on the parameters
                  */
-                let instance = create_instance_params(className, this->buildParameters(container, arguments));
+                let instance = create_instance_params(
+                	className,
+                	this->buildParameters(container, arguments)
+                );
 
             } else {
                 let instance = create_instance(className);
@@ -198,7 +202,11 @@ class Builder
                 /**
                  * Update the public property
                  */
-                let instance->{propertyName} = this->buildParameter(container, propertyPosition, propertyValue);
+                let instance->{propertyName} = this->buildParameter(
+                	container,
+                	propertyPosition,
+                	propertyValue
+                );
             }
         }
 
@@ -226,7 +234,8 @@ class Builder
         switch type {
 
             /**
-             * If the argument type is 'service', we obtain the service from the DI
+             * If the argument type is 'service', we obtain the service from the
+             * DI
              */
             case "service":
                 if !fetch name, argument["name"] {
@@ -277,7 +286,8 @@ class Builder
                 }
 
                 /**
-                 * The instance parameter does not have arguments for its constructor
+                 * The instance parameter does not have arguments for its
+                 * constructor
                  */
                 return container->get(name);
 

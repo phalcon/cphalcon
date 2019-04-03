@@ -59,7 +59,9 @@ class Gettext extends Adapter implements \ArrayAccess
     public function __construct(array! options) -> void
     {
         if (!function_exists("gettext")) {
-            throw new Exception("This class requires the gettext extension for PHP");
+            throw new Exception(
+                "This class requires the gettext extension for PHP"
+            );
         }
 
         parent::__construct(options);
@@ -80,7 +82,8 @@ class Gettext extends Adapter implements \ArrayAccess
 
     /**
      * The plural version of gettext().
-     * Some languages have more than one form for plural messages dependent on the count.
+     * Some languages have more than one form for plural messages dependent on
+     * the count.
      */
     public function nquery(string! msgid1, string! msgid2, int! count, placeholders = null, string! domain = null) -> string
     {

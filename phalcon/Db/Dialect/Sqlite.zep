@@ -109,9 +109,9 @@ class Sqlite extends Dialect
      */
     public function createTable(string! tableName, string! schemaName, array! definition) -> string
     {
-        var columns, table, temporary, options, createLines, columnLine, column,
-            indexes, index, indexName, indexType, references, reference, defaultValue,
-            referenceSql, onDelete, onUpdate, sql, hasPrimary;
+        var columns, table, temporary, options, createLines, columnLine,
+            column, indexes, index, indexName, indexType, references, reference,
+            defaultValue, referenceSql, onDelete, onUpdate, sql, hasPrimary;
 
         let table = this->prepareTable(tableName, schemaName);
 

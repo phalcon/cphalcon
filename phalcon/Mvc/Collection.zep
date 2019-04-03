@@ -509,7 +509,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let className = get_called_class();
         let collection = new {className}();
-        return static::getResultset(parameters, collection, collection->getConnection(), false);
+
+        return static::getResultset(
+            parameters,
+            collection,
+            collection->getConnection(),
+            false
+        );
     }
 
     /**
@@ -699,7 +705,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Returns one of the DIRTY_STATE_* constants telling if the document exists in the collection or not
+     * Returns one of the DIRTY_STATE_* constants telling if the document exists
+     * in the collection or not
      */
     public function getDirtyState() -> int
     {
@@ -753,7 +760,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Returns an array with reserved properties that cannot be part of the insert/update
+     * Returns an array with reserved properties that cannot be part of the
+     * insert/update
      */
     public function getReservedAttributes() -> array
     {
@@ -817,7 +825,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Check the dirty state of the current operation to update the current operation
+         * Check the dirty state of the current operation to update the current
+         * operation
          */
         let exists = this->exists(collection);
 
@@ -880,7 +889,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let container = Di::getDefault();
         if typeof container != "object" {
-            throw new Exception("The dependency injector container is not valid");
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
         }
 
         if container->has("serializer") {
@@ -1066,7 +1077,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let container = Di::getDefault();
         if typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("the services related to the ODM")
+                Exception::containerServiceNotFound(
+                    "the services related to the ODM"
+                )
             );
         }
 
@@ -1148,7 +1161,16 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->update(["_id": $this->_id], data, ["w": true]);
+        let status = collection->update(
+            [
+                "_id": $this->_id
+            ],
+            data,
+            [
+                "w": true
+            ]
+        );
+
         if typeof status == "array" {
             if fetch ok, status["ok"] {
                 if ok {

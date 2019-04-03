@@ -46,7 +46,8 @@ class Console extends BaseApplication
         let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
-         * Call boot event, this allow the developer to perform initialization actions
+         * Call boot event, this allows the developer to perform initialization
+         * actions
          */
         if typeof eventsManager == "object" {
             if eventsManager->fire("console:boot", this) === false {

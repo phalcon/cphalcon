@@ -86,7 +86,8 @@ class CreditCard extends Validator
     }
 
     /**
-     * is a simple checksum formula used to validate a variety of identification numbers
+     * is a simple checksum formula used to validate a variety of identification
+     * numbers
      */
     private function verifyByLuhnAlgorithm(string number) -> bool
     {

@@ -145,7 +145,8 @@ class Loader implements EventsAwareInterface
 
             for directory in directories {
                 /**
-                 * Add a trailing directory separator if the user forgot to do that
+                 * Add a trailing directory separator if the user forgot to do
+                 * that
                  */
                 let fixedDirectory = rtrim(directory, ds) . ds;
 
@@ -162,7 +163,8 @@ class Loader implements EventsAwareInterface
                     }
 
                     /**
-                     * This is probably a good path, let's check if the file exists
+                     * This is probably a good path, let's check if the file
+                     * exists
                      */
                     if call_user_func(fileCheckingCallback, filePath) {
 

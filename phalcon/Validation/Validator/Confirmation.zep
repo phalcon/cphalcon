@@ -63,7 +63,8 @@ class Confirmation extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var fieldWith, value, valueWith, message, label, labelWith, replacePairs, code;
+        var fieldWith, value, valueWith, message, label, labelWith,
+            replacePairs, code;
 
         let fieldWith = this->getOption("with");
 
@@ -75,9 +76,15 @@ class Confirmation extends Validator
             valueWith = validation->getValue(fieldWith);
 
         if !this->compare(value, valueWith) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Confirmation"),
-                code = this->prepareCode(field);
+            let label = this->prepareLabel(validation, field);
+
+            let message = this->prepareMessage(
+                validation,
+                field,
+                "Confirmation"
+            );
+
+            let code = this->prepareCode(field);
 
             let labelWith = this->getOption("labelWith");
             if typeof labelWith == "array" {

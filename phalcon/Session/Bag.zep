@@ -52,7 +52,9 @@ class Bag extends Collection implements InjectionAwareInterface
                 let container = Di::getDefault();
                 if typeof container != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound("the 'session' service")
+                        Exception::containerServiceNotFound(
+                            "the 'session' service"
+                        )
                     );
                 }
             }

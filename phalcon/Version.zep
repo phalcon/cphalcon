@@ -135,8 +135,9 @@ class Version
 
         if suffix != "" {
             /**
-             * A pre-release version should be denoted by appending a hyphen and a series
-             * of dot separated identifiers immediately following the patch version.
+             * A pre-release version should be denoted by appending a hyphen and
+             * a series of dot separated identifiers immediately following the
+             * patch version.
              */
             let result .= "-". suffix;
             if specialNumber != 0 {
@@ -195,7 +196,10 @@ class Version
                 break;
 
             case self::VERSION_SPECIAL:
-                let result = static::_getSpecial(version[self::VERSION_SPECIAL]);
+                let result = static::_getSpecial(
+                    version[self::VERSION_SPECIAL]
+                );
+
                 break;
 
             default:

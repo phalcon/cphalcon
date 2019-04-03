@@ -26,7 +26,8 @@ use Phalcon\Service\LocatorInterface;
  * Phalcon\Dispatcher
  *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
- * This class can't be instantiated directly, you can use it to create your own dispatchers.
+ * This class can't be instantiated directly, you can use it to create your own
+ * dispatchers.
  */
 abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {
@@ -120,8 +121,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     }
 
     /**
-     * Process the results of the router by calling into the appropriate controller action(s)
-     * including any routing data or injected parameters.
+     * Process the results of the router by calling into the appropriate
+     * controller action(s) including any routing data or injected parameters.
      *
      * @return object|false Returns the dispatched handler class (the Controller for Mvc dispatching or a Task
      *                      for CLI dispatching) or <tt>false</tt> if an exception occurred and the operation was
@@ -142,7 +143,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         let container = <DiInterface> this->container;
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound("related dispatching services"),
+                PhalconException::containerServiceNotFound(
+                    "related dispatching services"
+                ),
                 self::EXCEPTION_NO_DI
             );
             return false;
@@ -234,7 +237,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // If the service can be loaded we throw an exception
             if !hasService {
-                let status = this->{"throwDispatchException"}(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
+                let status = this->{"throwDispatchException"}(
+                    handlerClass . " handler class cannot be loaded",
+                    self::EXCEPTION_HANDLER_NOT_FOUND
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -245,7 +252,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // Handlers must be only objects
             if typeof handler !== "object" {
-                let status = this->{"throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
+                let status = this->{"throwDispatchException"}(
+                    "Invalid handler returned from the services container",
+                    self::EXCEPTION_INVALID_HANDLER
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -269,7 +280,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             // Check if the params is an array
             if typeof params != "array" {
                 // An invalid parameter variable was passed throw an exception
-                let status = this->{"throwDispatchException"}("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
+                let status = this->{"throwDispatchException"}(
+                    "Action parameters must be an Array",
+                    self::EXCEPTION_INVALID_PARAMS
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -291,7 +306,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 }
 
                 // Try to throw an exception when an action isn't defined on the object
-                let status = this->{"throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
+                let status = this->{"throwDispatchException"}(
+                    "Action '" . actionName . "' was not found on handler '" . handlerName . "'",
+                    self::EXCEPTION_ACTION_NOT_FOUND
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -426,7 +445,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             try {
                 // We update the latest value produced by the latest handler
-                let this->returnedValue = this->callActionMethod(handler, actionMethod, params);
+                let this->returnedValue = this->callActionMethod(
+                    handler,
+                    actionMethod,
+                    params
+                );
 
                 if this->finished === false {
                     continue;
@@ -474,7 +497,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 try {
                     eventsManager->fire("dispatch:afterDispatch", this, value);
                 } catch Exception, e {
-                    // Still check for finished here as we want to prioritize forwarding() calls
+                    /**
+                     * Still check for finished here as we want to prioritize
+                     * `forwarding()` calls
+                     */
                     if this->{"handleException"}(e) === false || this->finished === false {
                         continue;
                     }
@@ -596,7 +622,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      * {
      *     public function showAction(User $user)
      *     {
-     *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
+     *         // return array with $user
+     *         $boundModels = $this->dispatcher->getBoundModels();
      *     }
      * }
      * </code>
@@ -694,7 +721,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         let container = this->container;
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound("the 'filter' service"),
+                PhalconException::containerServiceNotFound(
+                    "the 'filter' service"
+                ),
                 self::EXCEPTION_NO_DI
             );
         }
@@ -912,17 +941,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      */
     protected function resolveEmptyProperties() -> void
     {
-        // If the current namespace is null we used the set in this->defaultNamespace
+        // If the current namespace is null we use the default namespace
         if !this->namespaceName {
             let this->namespaceName = this->defaultNamespace;
         }
 
-        // If the handler is null we use the set in this->defaultHandler
+        // If the handler is null we use the default handler
         if !this->handlerName {
             let this->handlerName = this->defaultHandler;
         }
 
-        // If the action is null we use the set in this->defaultAction
+        // If the action is null we use the default action
         if !this->actionName {
             let this->actionName = this->defaultAction;
         }

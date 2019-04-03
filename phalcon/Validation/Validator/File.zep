@@ -101,9 +101,10 @@ class File extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width,
-            height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes, code,
-            minResolutionArray, maxResolutionArray;
+        var value, message, label, replacePairs, types, byteUnits, unit,
+            maxSize, matches, bytes, mime, tmp, width, height, minResolution,
+            maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes,
+            code, minResolutionArray, maxResolutionArray;
 
         let value = validation->getValue(field),
             label = this->prepareLabel(validation, field),
@@ -127,8 +128,14 @@ class File extends Validator
         }
 
         if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-            let message = this->prepareMessage(validation, field, "FileEmpty", "messageEmpty"),
-                replacePairs = [":field": label];
+            let message = this->prepareMessage(
+                validation,
+                field,
+                "FileEmpty",
+                "messageEmpty"
+            );
+
+            let replacePairs = [":field": label];
 
             validation->appendMessage(
                 new Message(
@@ -143,8 +150,14 @@ class File extends Validator
         }
 
         if !isset value["name"] || !isset value["type"] || !isset value["size"] {
-            let message = this->prepareMessage(validation, field, "FileValid", "messageValid"),
-                replacePairs = [":field": label];
+            let message = this->prepareMessage(
+                validation,
+                field,
+                "FileValid",
+                "messageValid"
+            );
+
+            let replacePairs = [":field": label];
 
             validation->appendMessage(
                 new Message(
@@ -160,8 +173,19 @@ class File extends Validator
 
         if this->hasOption("maxSize") {
 
-            let byteUnits = ["B": 0, "K": 10, "M": 20, "G": 30, "T": 40, "KB": 10, "MB": 20, "GB": 30, "TB": 40],
-                maxSize = this->getOption("maxSize"),
+            let byteUnits = [
+                "B": 0,
+                "K": 10,
+                "M": 20,
+                "G": 30,
+                "T": 40,
+                "KB": 10,
+                "MB": 20,
+                "GB": 30,
+                "TB": 40
+            ],
+
+            let maxSize = this->getOption("maxSize"),
                 matches = null,
                 unit = "B";
 
@@ -169,7 +193,11 @@ class File extends Validator
                 let maxSize = maxSize[field];
             }
 
-            preg_match("/^([0-9]+(?:\\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
+            preg_match(
+                "/^([0-9]+(?:\\.[0-9]+)?)(" . implode("|", array_keys(byteUnits)) . ")?$/Di",
+                maxSize,
+                matches
+            );
 
             if isset matches[2] {
                 let unit = matches[2];
@@ -178,8 +206,14 @@ class File extends Validator
             let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
 
             if floatval(value["size"]) > floatval(bytes) {
-                let message = this->prepareMessage(validation, field, "FileSize", "messageSize"),
-                    replacePairs = [":field": label, ":max": maxSize];
+                let message = this->prepareMessage(
+                    validation,
+                    field,
+                    "FileSize",
+                    "messageSize"
+                );
+
+                let replacePairs = [":field": label, ":max": maxSize];
 
                 validation->appendMessage(
                     new Message(
@@ -203,7 +237,9 @@ class File extends Validator
             }
 
             if typeof types != "array" {
-                throw new \Phalcon\Validation\Exception("Option 'allowedTypes' must be an array");
+                throw new \Phalcon\Validation\Exception(
+                    "Option 'allowedTypes' must be an array"
+                );
             }
 
             if function_exists("finfo_open") {
@@ -216,8 +252,14 @@ class File extends Validator
             }
 
             if !in_array(mime, types) {
-                let message = this->prepareMessage(validation, field, "FileType", "messageType"),
-                    replacePairs = [":field": label, ":types": join(", ", types)];
+                let message = this->prepareMessage(
+                    validation,
+                    field,
+                    "FileType",
+                    "messageType"
+                );
+
+                let replacePairs = [":field": label, ":types": join(", ", types)];
 
                 validation->appendMessage(
                     new Message(

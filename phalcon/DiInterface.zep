@@ -86,7 +86,8 @@ interface DiInterface extends \ArrayAccess
     public function set(string! name, definition, bool shared = false) -> <ServiceInterface>;
 
     /**
-     * Set a default dependency injection container to be obtained into static methods
+     * Set a default dependency injection container to be obtained into static
+     * methods
      */
     public static function setDefault(<DiInterface> container) -> void;
 

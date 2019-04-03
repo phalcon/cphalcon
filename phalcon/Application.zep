@@ -139,5 +139,4 @@ abstract class Application extends Injectable implements EventsAwareInterface
 
         return this;
     }
-
 }

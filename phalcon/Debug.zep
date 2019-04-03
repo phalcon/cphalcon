@@ -198,7 +198,9 @@ class Debug
         /**
          * Escape the exception's message avoiding possible XSS injections?
          */
-        let escapedMessage = this->escapeString(exception->getMessage());
+        let escapedMessage = this->escapeString(
+            exception->getMessage()
+        );
 
         /**
          * CSS static sources to style the error presentation
@@ -419,8 +421,13 @@ class Debug
     protected function escapeString(var value) -> string
     {
         if typeof value == "string" {
-            return htmlentities(str_replace("\n", "\\n", value), ENT_COMPAT, "utf-8");
+            return htmlentities(
+                str_replace("\n", "\\n", value),
+                ENT_COMPAT,
+                "utf-8"
+            );
         }
+
         return value;
     }
 
@@ -504,13 +511,15 @@ class Debug
             let className = get_class(variable);
 
             /**
-             * Try to check for a "dump" method, this surely produces a better printable representation
+             * Try to check for a "dump" method, this surely produces a better
+             * printable representation
              */
             if method_exists(variable, "dump") {
                 let dumpedObject = variable->dump();
 
                 /**
-                 * dump() must return an array, generate a recursive representation using getArrayDump
+                 * dump() must return an array, generate a recursive
+                 * representation using `getArrayDump()`
                  */
                 return "Object(" . className  . ": " . this->getArrayDump(dumpedObject) . ")";
             } else {
@@ -548,11 +557,11 @@ class Debug
      */
     final protected function showTraceItem(int n, array! trace) -> string
     {
-        var className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
-            functionName, functionReflection, traceArgs, arguments, argument,
-            filez, line, showFiles, lines, numberLines, showFileFragment,
-            firstLine, lastLine, i, linePosition, currentLine,
-            classNameWithLink, functionNameWithLink;
+        var className, prepareInternalClass, preparedFunctionName, html,
+            classReflection, prepareUriClass, functionName, functionReflection,
+            traceArgs, arguments, argument, filez, line, showFiles, lines,
+            numberLines, showFileFragment, firstLine, lastLine, i, linePosition,
+            currentLine, classNameWithLink, functionNameWithLink;
 
         /**
          * Every trace in the backtrace have a unique number
@@ -562,7 +571,8 @@ class Debug
         if fetch className, trace["class"] {
 
             /**
-             * We assume that classes starting by Phalcon are framework's classes
+             * We assume that classes starting by Phalcon are framework's
+             * classes
              */
             if preg_match("/^Phalcon/", className) {
 
@@ -584,7 +594,11 @@ class Debug
                  */
                 if classReflection->isInternal() {
 
-                    let prepareInternalClass = str_replace("_", "-", strtolower(className));
+                    let prepareInternalClass = str_replace(
+                        "_",
+                        "-",
+                        strtolower(className)
+                    );
 
                     /**
                      * Generate a link to the official docs
@@ -625,7 +639,12 @@ class Debug
                     /**
                      * Prepare function's name according to the conventions in the docs
                      */
-                    let preparedFunctionName = str_replace("_", "-", functionName);
+                    let preparedFunctionName = str_replace(
+                        "_",
+                        "-",
+                        functionName
+                    );
+
                     let functionNameWithLink = "<a target='_new' href='https://secure.php.net/manual/en/function." . preparedFunctionName . ".php'>" . functionName . "</a>";
                 } else {
                     let functionNameWithLink = functionName;
@@ -659,7 +678,8 @@ class Debug
         }
 
         /**
-         * When "file" is present, it usually means the function is provided by the user
+         * When "file" is present, it usually means the function is provided by
+         * the user
          */
         if fetch filez, trace["file"] {
 
@@ -678,7 +698,8 @@ class Debug
             if showFiles {
 
                 /**
-                 * Open the file to an array using "file", this respects the openbase-dir directive
+                 * Open the file to an array using "file", this respects the
+                 * openbase-dir directive
                  */
                 let lines = file(filez);
 
@@ -686,7 +707,8 @@ class Debug
                 let showFileFragment = this->showFileFragment;
 
                 /**
-                 * File fragments just show a piece of the file where the exception is located
+                 * File fragments just show a piece of the file where the
+                 * exception is located
                  */
                 if showFileFragment {
                     /**
@@ -743,7 +765,11 @@ class Debug
                     if showFileFragment {
                         if i == firstLine {
                             if preg_match("#\\*\\/#", rtrim(currentLine)) {
-                                let currentLine = str_replace("* /", " ", currentLine);
+                                let currentLine = str_replace(
+                                    "* /",
+                                    " ",
+                                    currentLine
+                                );
                             }
                         }
                     }
@@ -759,7 +785,11 @@ class Debug
                          * Don't escape quotes
                          * We assume the file is utf-8 encoded, @TODO add an option for this
                          */
-                        let html .= htmlentities(str_replace("\t", "  ", currentLine), ENT_COMPAT, "UTF-8");
+                        let html .= htmlentities(
+                            str_replace("\t", "  ", currentLine),
+                            ENT_COMPAT,
+                            "UTF-8"
+                        );
                     }
 
                     let i++;

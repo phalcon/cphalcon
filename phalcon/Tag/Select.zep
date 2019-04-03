@@ -18,7 +18,8 @@ use Phalcon\Mvc\Model\ResulsetInterface;
 /**
  * Phalcon\Tag\Select
  *
- * Generates a SELECT html tag using a static array of values or a Phalcon\Mvc\Model resultset
+ * Generates a SELECT html tag using a static array of values or a
+ * Phalcon\Mvc\Model resultset
  */
 abstract class Select
 {
@@ -127,7 +128,11 @@ abstract class Select
                 /**
                  * Create the SELECT's option from an array
                  */
-                let code .= self::optionsFromArray(options, value, "</option>" . PHP_EOL);
+                let code .= self::optionsFromArray(
+                    options,
+                    value,
+                    "</option>" . PHP_EOL
+                );
             }
         }
 
@@ -230,7 +235,8 @@ abstract class Select
                 let optionText = escaper->escapeHtml(optionText);
 
                 /**
-                 * If the value is equal to the option's value we mark it as selected
+                 * If the value is equal to the option's value we mark it as
+                 * selected
                  */
                 if typeof value == "array" {
                     if in_array(optionValue, value) {

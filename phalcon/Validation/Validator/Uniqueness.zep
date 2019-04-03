@@ -155,7 +155,8 @@ class Uniqueness extends CombinedFieldsValidator
 
     protected function isUniqueness(<Validation> validation, var field) -> bool
     {
-        var values, convert, record, params, className, isModel, isDocument, singleField;
+        var values, convert, record, params, className, isModel, isDocument,
+            singleField;
 
         if typeof field != "array" {
             let singleField = field,
@@ -214,7 +215,8 @@ class Uniqueness extends CombinedFieldsValidator
      */
     protected function isUniquenessCollection(var record, array field, array values)
     {
-        var exceptConditions, fieldExcept, notInValues, value, singleField, params, except, singleExcept;
+        var exceptConditions, fieldExcept, notInValues, value, singleField,
+            params, except, singleExcept;
 
         let exceptConditions = [];
         let params = ["conditions" : []];
@@ -281,7 +283,8 @@ class Uniqueness extends CombinedFieldsValidator
     protected function isUniquenessModel(var record, array field, array values)
     {
         var index, params, attribute, metaData, primaryField, singleField,
-            fieldExcept, singleExcept, notInValues, exceptConditions, value, except;
+            fieldExcept, singleExcept, notInValues, exceptConditions, value,
+            except;
 
         let exceptConditions = [],
             index  = 0,

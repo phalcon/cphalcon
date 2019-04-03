@@ -21,9 +21,10 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 /**
  * Phalcon\Mvc\View
  *
- * Phalcon\Mvc\View is a class for working with the "view" portion of the model-view-controller pattern.
- * That is, it exists to help keep the view script separate from the model and controller scripts.
- * It provides a system of helpers, output filters, and variable escaping.
+ * Phalcon\Mvc\View is a class for working with the "view" portion of the
+ * model-view-controller pattern. That is, it exists to help keep the view
+ * script separate from the model and controller scripts. It provides a system
+ * of helpers, output filters, and variable escaping.
  *
  * <code>
  * use Phalcon\Mvc\View;
@@ -189,7 +190,8 @@ class View extends Injectable implements ViewInterface
             }
 
             /**
-             * Check if the user has defined a default cache level or use self::LEVEL_MAIN_LAYOUT as default
+             * Check if the user has defined a default cache level or use
+             * self::LEVEL_MAIN_LAYOUT as default
              */
             if fetch cacheLevel, cacheOptions["level"] {
                 let this->cacheLevel = cacheLevel;
@@ -202,7 +204,8 @@ class View extends Injectable implements ViewInterface
         } else {
 
             /**
-             * If 'options' isn't an array we enable the cache with default options
+             * If 'options' isn't an array we enable the cache with default
+             * options
              */
             if options {
                 let this->cacheLevel = self::LEVEL_MAIN_LAYOUT;
@@ -281,7 +284,9 @@ class View extends Injectable implements ViewInterface
             engines = this->registeredEngines;
 
         if empty engines {
-            let engines = [".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"];
+            let engines = [
+                ".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"
+            ];
 
             this->registerEngines(engines);
         }
@@ -580,7 +585,8 @@ class View extends Injectable implements ViewInterface
         var viewParams;
 
         /**
-         * If the developer pass an array of variables we create a new virtual symbol table
+         * If the developer pass an array of variables we create a new virtual
+         * symbol table
          */
         if typeof params == "array" {
 
@@ -598,10 +604,17 @@ class View extends Injectable implements ViewInterface
 
         /**
          * Partials are looked up under the partials directory
-         * We need to check if the engines are loaded first, this method could be called outside of 'render'
-         * Call engine render, this checks in every registered engine for the partial
+         * We need to check if the engines are loaded first, this method could
+         * be called outside of 'render'
+         * Call engine render, this checks in every registered engine for the
+         * partial
          */
-        this->engineRender(this->loadTemplateEngines(), this->partialsDir . partialPath, false, false);
+        this->engineRender(
+            this->loadTemplateEngines(),
+            this->partialsDir . partialPath,
+            false,
+            false
+        );
 
         /**
          * Now we need to restore the original view parameters
@@ -694,7 +707,8 @@ class View extends Injectable implements ViewInterface
         let this->currentRenderLevel = 0;
 
         /**
-         * If the view is disabled we simply update the buffer from any output produced in the controller
+         * If the view is disabled we simply update the buffer from any output
+         * produced in the controller
          */
         if this->disabled !== false {
             let this->content = ob_get_contents();
@@ -741,7 +755,8 @@ class View extends Injectable implements ViewInterface
         } else {
 
             /**
-             * The 'picked' view is an array, where the first element is controller and the second the action
+             * The 'picked' view is an array, where the first element is
+             * controller and the second the action
              */
             let renderView = pickView[0];
             if layoutName === null {
@@ -778,7 +793,8 @@ class View extends Injectable implements ViewInterface
         }
 
         /**
-         * Get the current content in the buffer maybe some output from the controller?
+         * Get the current content in the buffer maybe some output from the
+         * controller?
          */
         let this->content = ob_get_contents();
 
@@ -802,7 +818,14 @@ class View extends Injectable implements ViewInterface
             if renderLevel >= self::LEVEL_ACTION_VIEW {
                 if !isset disabledLevels[self::LEVEL_ACTION_VIEW] {
                     let this->currentRenderLevel = self::LEVEL_ACTION_VIEW;
-                    this->engineRender(engines, renderView, silence, mustClean, cache);
+
+                    this->engineRender(
+                        engines,
+                        renderView,
+                        silence,
+                        mustClean,
+                        cache
+                    );
                 }
             }
 
@@ -817,7 +840,13 @@ class View extends Injectable implements ViewInterface
 
                     let silence = false;
                     for templateBefore in templatesBefore {
-                        this->engineRender(engines, layoutsDir . templateBefore, silence, mustClean, cache);
+                        this->engineRender(
+                            engines,
+                            layoutsDir . templateBefore,
+                            silence,
+                            mustClean,
+                            cache
+                        );
                     }
                     let silence = true;
                 }
@@ -829,7 +858,13 @@ class View extends Injectable implements ViewInterface
             if renderLevel >= self::LEVEL_LAYOUT {
                 if !isset disabledLevels[self::LEVEL_LAYOUT] {
                     let this->currentRenderLevel = self::LEVEL_LAYOUT;
-                    this->engineRender(engines, layoutsDir . layoutName, silence, mustClean, cache);
+                    this->engineRender(
+                        engines,
+                        layoutsDir . layoutName,
+                        silence,
+                        mustClean,
+                        cache
+                    );
                 }
             }
 
@@ -844,7 +879,13 @@ class View extends Injectable implements ViewInterface
 
                     let silence = false;
                     for templateAfter in templatesAfter {
-                        this->engineRender(engines, layoutsDir . templateAfter, silence, mustClean, cache);
+                        this->engineRender(
+                            engines,
+                            layoutsDir . templateAfter,
+                            silence,
+                            mustClean,
+                            cache
+                        );
                     }
                     let silence = true;
                 }
@@ -856,7 +897,14 @@ class View extends Injectable implements ViewInterface
             if renderLevel >= self::LEVEL_MAIN_LAYOUT {
                 if !isset disabledLevels[self::LEVEL_MAIN_LAYOUT] {
                     let this->currentRenderLevel = self::LEVEL_MAIN_LAYOUT;
-                    this->engineRender(engines, this->mainView, silence, mustClean, cache);
+
+                    this->engineRender(
+                        engines,
+                        this->mainView,
+                        silence,
+                        mustClean,
+                        cache
+                    );
                 }
             }
 
@@ -901,7 +949,8 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Sets base path. Depending of your platform, always add a trailing slash or backslash
+     * Sets base path. Depending of your platform, always add a trailing slash
+     * or backslash
      *
      * <code>
      *     $view->setBasePath(__DIR__ . "/");
@@ -927,7 +976,8 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Change the layout to be used instead of using the name of the latest controller name
+     * Change the layout to be used instead of using the name of the latest
+     * controller name
      *
      * <code>
      * $this->view->setLayout("main");
@@ -954,7 +1004,8 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Sets default view name. Must be a file without extension in the views directory
+     * Sets default view name. Must be a file without extension in the views
+     * directory
      *
      * <code>
      * // Renders as main view views-dir/base.phtml
@@ -1205,7 +1256,8 @@ class View extends Injectable implements ViewInterface
                         let viewOptions = this->options;
 
                         /**
-                         * Check if the user has defined a different options to the default
+                         * Check if the user has defined a different options to
+                         * the default
                          */
                         if fetch cacheOptions, viewOptions["cache"] {
                             if typeof cacheOptions == "array" {
@@ -1232,7 +1284,8 @@ class View extends Injectable implements ViewInterface
                     }
 
                     /**
-                     * This method only returns true if the cache has not expired
+                     * This method only returns true if the cache has not
+                     * expired
                      */
                     if !cache->isFresh() {
                         return null;
@@ -1249,7 +1302,8 @@ class View extends Injectable implements ViewInterface
                 if file_exists(viewEnginePath) {
 
                     /**
-                     * Call beforeRenderView if there is an events manager available
+                     * Call beforeRenderView if there is an events manager
+                     * available
                      */
                     if typeof eventsManager == "object" {
                         let this->activeRenderPaths = [viewEnginePath];
@@ -1303,7 +1357,8 @@ class View extends Injectable implements ViewInterface
         return strlen(path) >= 1 && path[0] == '/';
     }
     /**
-     * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
+     * Loads registered template engines, if none is registered it will use
+     * Phalcon\Mvc\View\Engine\Php
      */
     protected function loadTemplateEngines() -> array
     {
@@ -1330,7 +1385,9 @@ class View extends Injectable implements ViewInterface
 
                 if typeof di != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound("application services")
+                        Exception::containerServiceNotFound(
+                            "application services"
+                        )
                     );
                 }
 
@@ -1342,8 +1399,15 @@ class View extends Injectable implements ViewInterface
                          * Engine can be a closure
                          */
                         if engineService instanceof \Closure {
-                            let engineService = \Closure::bind(engineService, di);
-                            let engines[extension] = call_user_func(engineService, this);
+                            let engineService = \Closure::bind(
+                                engineService,
+                                di
+                            );
+
+                            let engines[extension] = call_user_func(
+                                engineService,
+                                this
+                            );
                         } else {
                             let engines[extension] = engineService;
                         }
@@ -1359,7 +1423,10 @@ class View extends Injectable implements ViewInterface
                             );
                         }
 
-                        let engines[extension] = di->getShared(engineService, [this]);
+                        let engines[extension] = di->getShared(
+                            engineService,
+                            [this]
+                        );
                     }
                 }
             }

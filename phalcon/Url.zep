@@ -133,7 +133,9 @@ class Url implements UrlInterface, InjectionAwareInterface
                 let container = <DiInterface> this->container;
                 if typeof container != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound("the 'router' service")
+                        Exception::containerServiceNotFound(
+                            "the 'router' service"
+                        )
                     );
                 }
 
@@ -154,7 +156,11 @@ class Url implements UrlInterface, InjectionAwareInterface
             /**
              * Replace the patterns by its variables
              */
-            let uri = phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
+            let uri = phalcon_replace_paths(
+                route->getPattern(),
+                route->getReversedPaths(), 
+                uri
+            );
         }
 
         if local {

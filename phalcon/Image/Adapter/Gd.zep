@@ -212,15 +212,37 @@ class Gd extends Adapter
 
             if direction == \Phalcon\Image::HORIZONTAL {
                 let x = 0;
+
                 while x < this->width {
                     let x++;
-                    imagecopy(image, this->image, x, 0, this->width - x - 1, 0, 1, this->height);
+
+                    imagecopy(
+                        image,
+                        this->image,
+                        x,
+                        0,
+                        this->width - x - 1,
+                        0,
+                        1,
+                        this->height
+                    );
                 }
             } else {
                 let x = 0;
+
                 while x < this->height {
                     let x++;
-                    imagecopy(image, this->image, 0, x, 0, this->height - x - 1, this->width, 1);
+
+                    imagecopy(
+                        image,
+                        this->image,
+                        0,
+                        x,
+                        0,
+                        this->height - x - 1,
+                        this->width,
+                        1
+                    );
                 }
             }
 
@@ -262,7 +284,19 @@ class Gd extends Adapter
         if this->width != mask_width || this->height != mask_height {
             let tempImage = imagecreatetruecolor(this->width, this->height);
 
-            imagecopyresampled(tempImage, maskImage, 0, 0, 0, 0, this->width, this->height, mask_width, mask_height);
+            imagecopyresampled(
+                tempImage,
+                maskImage,
+                0,
+                0,
+                0,
+                0,
+                this->width,
+                this->height,
+                mask_width,
+                mask_height
+            );
+
             imagedestroy(maskImage);
 
             let maskImage = tempImage;
@@ -335,7 +369,16 @@ class Gd extends Adapter
 
         let reflection = this->processCreate(this->width, this->height + height);
 
-        imagecopy(reflection, this->image, 0, 0, 0, 0, this->width, this->height);
+        imagecopy(
+            reflection,
+            this->image,
+            0,
+            0,
+            0,
+            0,
+            this->width,
+            this->height
+        );
 
         let offset = 0;
         while height >= offset {
@@ -611,7 +654,14 @@ class Gd extends Adapter
 
         if opacity < 100 {
             let opacity = (int) round(abs((opacity * 127 / 100) - 127));
-            let color = imagecolorallocatealpha(overlay, 127, 127, 127, opacity);
+
+            let color = imagecolorallocatealpha(
+                overlay,
+                127,
+                127,
+                127,
+                opacity
+            );
 
             imagelayereffect(overlay, IMG_EFFECT_OVERLAY);
 

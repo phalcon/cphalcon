@@ -51,7 +51,10 @@ class Json extends AbstractFormatter
         var message;
 
         if typeof item->getContext() === "array" {
-            let message = this->interpolate(item->getMessage(), item->getContext());
+            let message = this->interpolate(
+                item->getMessage(),
+                item->getContext()
+            );
         } else {
             let message = item->getMessage();
         }

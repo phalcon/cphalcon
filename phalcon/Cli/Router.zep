@@ -353,7 +353,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             }
 
             /**
-             * Update the wasMatched property indicating if the route was matched
+             * Update the wasMatched property indicating if the route was
+             * matched
              */
             if routeFound {
                 let this->wasMatched = true;
@@ -447,8 +448,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     }
 
     /**
-     * Sets an array of default paths. If a route is missing a path the router will use the defined here
-     * This method must not be used to set a 404 route
+     * Sets an array of default paths. If a route is missing a path the router
+     * will use the defined here. This method must not be used to set a 404
+     * route
      *
      *<code>
      * $router->setDefaults(

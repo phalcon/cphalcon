@@ -18,7 +18,8 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
 /**
  * Phalcon\Flash\Session
  *
- * Temporarily stores the messages in session, then messages can be printed in the next request
+ * Temporarily stores the messages in session, then messages can be printed in
+ * the next request
  */
 class Session extends FlashBase
 {

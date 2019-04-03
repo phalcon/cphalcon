@@ -254,7 +254,8 @@ class Asset implements AssetInterface
             let completePath = basePath . targetPath;
 
             /**
-             * Get the real template path, the target path can optionally don't exist
+             * Get the real template path, the target path can optionally don't
+             * exist
              */
             if file_exists(completePath) {
                 return realpath(completePath);

@@ -68,7 +68,8 @@ interface DispatcherInterface
     public function hasParam(var param) -> bool;
 
     /**
-     * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+     * Checks if the dispatch loop is finished or has more pendent
+     * controllers/tasks to dispatch
      */
     public function isFinished() -> bool;
 

@@ -101,6 +101,9 @@ abstract class Adapter implements AdapterInterface
      */
     protected function replacePlaceholders(string! translation, placeholders = null) -> string
     {
-        return this->interpolator->{"replacePlaceholders"}(translation, placeholders);
+        return this->interpolator->{"replacePlaceholders"}(
+            translation,
+            placeholders
+        );
     }
 }

@@ -39,7 +39,8 @@ interface ModelInterface
     public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>;
 
     /**
-     * Allows to calculate the average value on a column matching the specified conditions
+     * Allows to calculate the average value on a column matching the specified
+     * conditions
      *
      * @param array parameters
      * @return double
@@ -76,8 +77,9 @@ interface ModelInterface
     public static function count(parameters = null) -> int;
 
     /**
-     * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
-     * Returning true on success or false otherwise.
+     * Inserts a model instance. If the instance already exists in the
+     * persistence it will throw an exception. Returning true on success or
+     * false otherwise.
      */
     public function create() -> bool;
 
@@ -99,18 +101,21 @@ interface ModelInterface
     public static function findFirst(parameters = null) -> <ModelInterface>;
 
     /**
-     * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+     * Fires an event, implicitly calls behaviors and listeners in the events
+     * manager are notified
      */
     public function fireEvent(string! eventName) -> bool;
 
     /**
-     * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-     * This method stops if one of the callbacks/listeners returns bool false
+     * Fires an event, implicitly calls behaviors and listeners in the events
+     * manager are notified. This method stops if one of the callbacks/listeners
+     * returns bool false
      */
     public function fireEventCancel(string! eventName) -> bool;
 
     /**
-     * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+     * Returns one of the DIRTY_STATE_* constants telling if the record exists
+     * in the database or not
      */
     public function getDirtyState() -> int;
 
@@ -168,7 +173,8 @@ interface ModelInterface
     public function getWriteConnectionService() -> string;
 
     /**
-     * Allows to get the maximum value of a column that match the specified conditions
+     * Allows to get the maximum value of a column that match the specified
+     * conditions
      *
      * @param array parameters
      * @return mixed
@@ -176,7 +182,8 @@ interface ModelInterface
     public static function maximum(parameters = null) -> var;
 
     /**
-     * Allows to get the minimum value of a column that match the specified conditions
+     * Allows to get the minimum value of a column that match the specified
+     * conditions
      *
      * @param array parameters
      * @return mixed
@@ -214,8 +221,8 @@ interface ModelInterface
     public function setReadConnectionService(string connectionService) -> void;
 
     /**
-     * Sets the record's snapshot data.
-     * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+     * Sets the record's snapshot data. This method is used internally to set
+     * snapshot data when the model was set up to keep snapshot data
      *
      * @param array columnMap
      */
@@ -250,8 +257,9 @@ interface ModelInterface
     public function validationHasFailed() -> bool;
 
     /**
-     * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
-     * Returning true on success or false otherwise.
+     * Updates a model instance. If the instance doesn't exist in the
+     * persistence it will throw an exception. Returning true on success or
+     * false otherwise.
      */
     public function update() -> bool;
 }
