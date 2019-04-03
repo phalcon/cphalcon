@@ -898,12 +898,19 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function listTables(string! schemaName = null) -> array
     {
-        var table, allTables;
+        var tables, table, allTables;
 
         let allTables = [];
-        for table in this->fetchAll(this->dialect->listTables(schemaName), Db::FETCH_NUM) {
+
+        let tables = this->fetchAll(
+            this->dialect->listTables(schemaName),
+            Db::FETCH_NUM
+        );
+
+        for table in tables {
             let allTables[] = table[0];
         }
+
         return allTables;
     }
 
@@ -918,12 +925,19 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function listViews(string! schemaName = null) -> array
     {
-        var table, allTables;
+        var tables, table, allTables;
 
         let allTables = [];
-        for table in this->fetchAll(this->dialect->listViews(schemaName), Db::FETCH_NUM) {
+
+        let tables = this->fetchAll(
+            this->dialect->listViews(schemaName),
+            Db::FETCH_NUM
+        );
+
+        for table in tables {
             let allTables[] = table[0];
         }
+
         return allTables;
     }
 

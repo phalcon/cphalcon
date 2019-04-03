@@ -92,7 +92,7 @@ class Sqlite extends PdoAdapter
      */
     public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, field, definition,
+        var columns, columnType, fields, field, definition,
             oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
 
         let oldColumn = null,
@@ -103,7 +103,12 @@ class Sqlite extends PdoAdapter
         /**
          * We're using FETCH_NUM to fetch the columns
          */
-        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
+        let fields = this->fetchAll(
+            this->dialect->describeColumns(table, schema),
+            Db::FETCH_NUM
+        );
+
+        for field in fields {
 
             /**
              * By default the bind types is two
@@ -111,7 +116,8 @@ class Sqlite extends PdoAdapter
             let definition = ["bindType": Column::BIND_PARAM_STR];
 
             /**
-             * By checking every column type we convert it to a Phalcon\Db\Column
+             * By checking every column type we convert it to a
+             * Phalcon\Db\Column
              */
             let columnType = field[2];
 
@@ -310,8 +316,8 @@ class Sqlite extends PdoAdapter
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
-        var indexes, index, keyName, indexObjects, name, columns, describeIndex,
-            indexSql;
+        var indexes, index, keyName, indexObjects, name, columns,
+            describeIndexes, describeIndex, indexSql;
 
         let indexes = [];
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
@@ -327,7 +333,12 @@ class Sqlite extends PdoAdapter
                 let columns = indexes[keyName]["columns"];
             }
 
-            for describeIndex in this->fetchAll(this->dialect->describeIndex(keyName), Db::FETCH_ASSOC) {
+            let describeIndexes = this->fetchAll(
+                this->dialect->describeIndex(keyName),
+                Db::FETCH_ASSOC
+            );
+
+            for describeIndex in describeIndexes {
                 let columns[] = describeIndex["name"];
             }
 
@@ -400,12 +411,15 @@ class Sqlite extends PdoAdapter
 
         let referenceObjects = [];
         for name, arrayReference in references {
-            let referenceObjects[name] = new Reference(name, [
-                "referencedSchema"  : arrayReference["referencedSchema"],
-                "referencedTable"   : arrayReference["referencedTable"],
-                "columns"           : arrayReference["columns"],
-                "referencedColumns" : arrayReference["referencedColumns"]
-            ]);
+            let referenceObjects[name] = new Reference(
+                name,
+                [
+                    "referencedSchema"  : arrayReference["referencedSchema"],
+                    "referencedTable"   : arrayReference["referencedTable"],
+                    "columns"           : arrayReference["columns"],
+                    "referencedColumns" : arrayReference["referencedColumns"]
+                ]
+            );
         }
 
         return referenceObjects;
