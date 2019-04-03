@@ -19,7 +19,8 @@ interface ReaderInterface
 {
 
     /**
-     * Reads annotations from the class dockblocks, its methods and/or properties
+     * Reads annotations from the class dockblocks, its methods and/or
+     * properties
      */
     public function parse(string className) -> array;
 

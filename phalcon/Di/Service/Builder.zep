@@ -64,8 +64,8 @@ class Builder
                  * Create the instance based on the parameters
                  */
                 let instance = create_instance_params(
-                	className,
-                	this->buildParameters(container, arguments)
+                    className,
+                    this->buildParameters(container, arguments)
                 );
 
             } else {
@@ -203,9 +203,9 @@ class Builder
                  * Update the public property
                  */
                 let instance->{propertyName} = this->buildParameter(
-                	container,
-                	propertyPosition,
-                	propertyValue
+                    container,
+                    propertyPosition,
+                    propertyValue
                 );
             }
         }

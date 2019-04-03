@@ -43,7 +43,8 @@ class Factory extends BaseFactory
 
     protected static function loadClass(string objectName, var config)
     {
-        var adapter, adapterName, adapters, className, element, key, logger, loggerName, name, type;
+        var adapter, adapterName, adapters, className, element, key, logger,
+            loggerName, name, type;
 
         if typeof config == "object" && config instanceof Config {
             let config = config->toArray();

@@ -432,13 +432,14 @@ class Security implements InjectionAwareInterface
             default:
 
                 /*
-                 * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or "$2y$",
-                 * a two digit cost parameter, "$", and 22 characters from the alphabet
-                 * "./0-9A-Za-z". Using characters outside of this range in the salt
-                 * will cause crypt() to return a zero-length string. The two digit cost
-                 * parameter is the base-2 logarithm of the iteration count for the
-                 * underlying Blowfish-based hashing algorithm and must be in
-                 * range 04-31, values outside this range will cause crypt() to fail.
+                 * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or
+                 * "$2y$", a two digit cost parameter, "$", and 22 characters
+                 * from the alphabet "./0-9A-Za-z". Using characters outside of
+                 * this range in the salt will cause `crypt()` to return a
+                 * zero-length string. The two digit cost parameter is the
+                 * base-2 logarithm of the iteration count for the underlying
+                 * Blowfish-based hashing algorithm and must be in range 04-31,
+                 * values outside this range will cause crypt() to fail.
                  */
 
                 let saltBytes = this->getSaltBytes(22);

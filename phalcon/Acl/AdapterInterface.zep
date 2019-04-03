@@ -23,7 +23,8 @@ interface AdapterInterface
     public function addInherit(string roleName, roleToInherit) -> bool;
 
     /**
-     * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
+     * Adds a role to the ACL list. Second parameter lets to inherit access data
+     * from other existing role
      */
     public function addRole(role, accessInherits = null) -> bool;
 
@@ -61,12 +62,14 @@ interface AdapterInterface
     public function getActiveAccess() -> string;
 
     /**
-     * Returns the role which the list is checking if it's allowed to certain component/access
+     * Returns the role which the list is checking if it's allowed to certain
+     * component/access
      */
     public function getActiveRole() -> string;
 
     /**
-     * Returns the component which the list is checking if some role can access it
+     * Returns the component which the list is checking if some role can access
+     * it
      */
     public function getActiveComponent() -> string;
 
@@ -106,7 +109,6 @@ interface AdapterInterface
      */
     public function isRole(string roleName) -> bool;
 
-
     /**
      * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
      */
@@ -114,7 +116,8 @@ interface AdapterInterface
 
     /**
      * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
-     * for no arguments provided in isAllowed action if there exists func for accessKey
+     * for no arguments provided in isAllowed action if there exists func for
+     * accessKey
      */
     public function setNoArgumentsDefaultAction(int defaultAccess) -> void;
 }

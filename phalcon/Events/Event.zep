@@ -13,7 +13,8 @@ namespace Phalcon\Events;
 /**
  * Phalcon\Events\Event
  *
- * This class offers contextual information of a fired event in the EventsManager
+ * This class offers contextual information of a fired event in the
+ * EventsManager
  */
 class Event implements EventInterface
 {

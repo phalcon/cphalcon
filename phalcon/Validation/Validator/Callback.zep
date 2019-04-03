@@ -104,8 +104,7 @@ class Callback extends Validator
                 }
 
                 return true;
-            }
-            elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
+            } elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
                 return returnedValue->validate(validation, field);
             }
 

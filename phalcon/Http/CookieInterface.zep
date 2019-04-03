@@ -48,7 +48,8 @@ interface CookieInterface
     public function getPath() -> string;
 
     /**
-     * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
+     * Returns whether the cookie must only be sent when the connection is
+     * secure (HTTPS)
      */
     public function getSecure() -> bool;
 
@@ -88,7 +89,8 @@ interface CookieInterface
     public function setPath(string! path) -> <CookieInterface>;
 
     /**
-     * Sets if the cookie must only be sent when the connection is secure (HTTPS)
+     * Sets if the cookie must only be sent when the connection is secure
+     * (HTTPS)
      */
     public function setSecure(bool secure) -> <CookieInterface>;
 

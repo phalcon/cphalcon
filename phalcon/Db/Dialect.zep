@@ -361,7 +361,8 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Transform an intermediate representation of a schema/table into a database system valid expression
+     * Transform an intermediate representation of a schema/table into a
+     * database system valid expression
      */
     final public function getSqlTable(var table, string escapeChar = null) -> string
     {
@@ -627,8 +628,17 @@ abstract class Dialect implements DialectInterface
     {
         var left, right;
 
-        let left  = this->getSqlExpression(expression["left"], escapeChar, bindCounts),
-            right = this->getSqlExpression(expression["right"], escapeChar, bindCounts);
+        let left  = this->getSqlExpression(
+            expression["left"],
+            escapeChar,
+            bindCounts
+        );
+
+        let right = this->getSqlExpression(
+            expression["right"],
+            escapeChar,
+            bindCounts
+        );
 
         return left . " " . expression["op"] . " " . right;
     }
@@ -663,8 +673,17 @@ abstract class Dialect implements DialectInterface
     {
         var left, right;
 
-        let left  = this->getSqlExpression(expression["left"], escapeChar, bindCounts),
-            right = this->getSqlExpression(expression["right"], escapeChar, bindCounts);
+        let left  = this->getSqlExpression(
+            expression["left"],
+            escapeChar,
+            bindCounts
+        );
+
+        let right = this->getSqlExpression(
+            expression["right"],
+            escapeChar,
+            bindCounts
+        );
 
         return "CAST(" . left . " AS " . right . ")";
     }
@@ -676,8 +695,17 @@ abstract class Dialect implements DialectInterface
     {
         var left, right;
 
-        let left  = this->getSqlExpression(expression["left"], escapeChar, bindCounts),
-            right = this->getSqlExpression(expression["right"], escapeChar, bindCounts);
+        let left  = this->getSqlExpression(
+            expression["left"],
+            escapeChar,
+            bindCounts
+        );
+
+        let right = this->getSqlExpression(
+            expression["right"],
+            escapeChar,
+            bindCounts
+        );
 
         return "CONVERT(" . left . " USING " . right . ")";
     }
@@ -782,7 +810,8 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var condition, join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
+        var condition, join, sql = "", joinCondition, joinTable, joinType = "",
+            joinConditionsArray;
 
         for join in expression {
 
@@ -792,13 +821,21 @@ abstract class Dialect implements DialectInterface
             if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {
 
                 if !isset joinConditionsArray[0] {
-                    let joinCondition = this->getSqlExpression(joinConditionsArray, escapeChar, bindCounts);
+                    let joinCondition = this->getSqlExpression(
+                        joinConditionsArray,
+                        escapeChar,
+                        bindCounts
+                    );
                 } else {
 
                     let joinCondition = [];
 
                     for condition in joinConditionsArray {
-                        let joinCondition[] = this->getSqlExpression(condition, escapeChar, bindCounts);
+                        let joinCondition[] = this->getSqlExpression(
+                            condition,
+                            escapeChar,
+                            bindCounts
+                        );
                     }
 
                     let joinCondition = join(" AND ", joinCondition);

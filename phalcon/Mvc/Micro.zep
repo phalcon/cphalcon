@@ -27,9 +27,10 @@ use Phalcon\Mvc\Micro\CollectionInterface;
 /**
  * Phalcon\Mvc\Micro
  *
- * With Phalcon you can create "Micro-Framework like" applications. By doing this, you only need to
- * write a minimal amount of code to create a PHP application. Micro applications are suitable
- * to small applications, APIs and prototypes in a practical way.
+ * With Phalcon you can create "Micro-Framework like" applications. By doing
+ * this, you only need to write a minimal amount of code to create a PHP
+ * application. Micro applications are suitable to small applications, APIs and
+ * prototypes in a practical way.
  *
  *<code>
  * $app = new \Phalcon\Mvc\Micro();
@@ -151,7 +152,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Sets a handler that will be called when an exception is thrown handling the route
+     * Sets a handler that will be called when an exception is thrown handling
+     * the route
      *
      * @param callable handler
      */
@@ -503,11 +505,17 @@ class Micro extends Injectable implements \ArrayAccess
                  */
                 if realHandler != null && realHandler instanceof LazyLoader {
                     let methodName = handler[1];
+
                     /**
                      * There is seg fault if we try set directly value of method
                      * to returnedValue
                      */
-                    let lazyReturned = realHandler->callMethod(methodName, params, modelBinder);
+                    let lazyReturned = realHandler->callMethod(
+                        methodName,
+                        params,
+                        modelBinder
+                    );
+
                     let returnedValue = lazyReturned;
                 } else {
                     let returnedValue = call_user_func_array(handler, params);

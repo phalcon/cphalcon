@@ -49,15 +49,17 @@ class Sqlite extends PdoAdapter
     public function __construct(array! descriptor) -> void
     {
         if isset descriptor["charset"] {
-            trigger_error("Sqlite does not allow the charset to be changed in the DSN.");
+            trigger_error(
+                "Sqlite does not allow the charset to be changed in the DSN."
+            );
         }
 
         parent::__construct(descriptor);
     }
 
     /**
-     * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
-     * Call it when you need to restore a database connection.
+     * This method is automatically called in Phalcon\Db\Adapter\Pdo
+     * constructor. Call it when you need to restore a database connection.
      */
     public function connect(array descriptor = null) -> bool
     {
@@ -114,12 +116,13 @@ class Sqlite extends PdoAdapter
             let columnType = field[2];
 
             /**
-             * The order of these IF statements matters. Since we are using memstr
-             * to figure out whether a particular string exists in the columnType
-             * we will end up with false positives if the order changes.
+             * The order of these IF statements matters. Since we are using
+             * memstr to figure out whether a particular string exists in the
+             * columnType we will end up with false positives if the order
+             * changes.
              *
-             * For instance if we have a `varchar` column and we check for `char`
-             * first, then that will match. Therefore we have firs the IF
+             * For instance if we have a `varchar` column and we check for
+             * `char` first, then that will match. Therefore we have firs the IF
              * statements that are "unique" and further down the ones that can
              * appear a substrings of the columnType above them.
              *
@@ -228,7 +231,8 @@ class Sqlite extends PdoAdapter
             }
 
             /**
-             * If the column type has a parentheses we try to get the column size from it
+             * If the column type has a parentheses we try to get the column
+             * size from it
              */
             if memstr(columnType, "(") {
                 let matches = null;
@@ -277,7 +281,11 @@ class Sqlite extends PdoAdapter
              * When field is empty default value is null
              */
             if strcasecmp(field[4], "null") != 0 && field[4] != "" {
-                let definition["default"] = preg_replace("/^'|'$/", "", field[4]);
+                let definition["default"] = preg_replace(
+                    "/^'|'$/",
+                    "",
+                    field[4]
+                );
             }
 
             /**
@@ -302,7 +310,8 @@ class Sqlite extends PdoAdapter
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
-        var indexes, index, keyName, indexObjects, name, columns, describeIndex, indexSql;
+        var indexes, index, keyName, indexObjects, name, columns, describeIndex,
+            indexSql;
 
         let indexes = [];
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
@@ -323,7 +332,10 @@ class Sqlite extends PdoAdapter
             }
 
             let indexes[keyName]["columns"] = columns;
-            let indexSql = this->fetchColumn(this->dialect->listIndexesSql(table, schema, keyName));
+
+            let indexSql = this->fetchColumn(
+                this->dialect->listIndexesSql(table, schema, keyName)
+            );
 
             if index["unique"] {
                 if preg_match("# UNIQUE #i", indexSql) {
@@ -338,7 +350,11 @@ class Sqlite extends PdoAdapter
 
         let indexObjects = [];
         for name, index in indexes {
-            let indexObjects[name] = new Index(name, index["columns"], index["type"]);
+            let indexObjects[name] = new Index(
+                name,
+                index["columns"],
+                index["type"]
+            );
         }
 
         return indexObjects;
@@ -385,9 +401,9 @@ class Sqlite extends PdoAdapter
         let referenceObjects = [];
         for name, arrayReference in references {
             let referenceObjects[name] = new Reference(name, [
-                "referencedSchema"    : arrayReference["referencedSchema"],
-                "referencedTable"    : arrayReference["referencedTable"],
-                "columns"            : arrayReference["columns"],
+                "referencedSchema"  : arrayReference["referencedSchema"],
+                "referencedTable"   : arrayReference["referencedTable"],
+                "columns"           : arrayReference["columns"],
                 "referencedColumns" : arrayReference["referencedColumns"]
             ]);
         }
@@ -396,7 +412,8 @@ class Sqlite extends PdoAdapter
     }
 
     /**
-     * Returns the default value to make the RBDM use the default value declared in the table definition
+     * Returns the default value to make the RBDM use the default value declared
+     * in the table definition
      *
      *<code>
      * // Inserting a new robot with a valid default value for the column 'year'
@@ -419,7 +436,8 @@ class Sqlite extends PdoAdapter
     }
 
     /**
-     * Check whether the database system requires an explicit value for identity columns
+     * Check whether the database system requires an explicit value for identity
+     * columns
      */
     public function useExplicitIdValue() -> bool
     {

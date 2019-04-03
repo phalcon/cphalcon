@@ -30,10 +30,11 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 /**
  * Phalcon\Mvc\Model\Manager
  *
- * This components controls the initialization of models, keeping record of relations
- * between the different models of the application.
+ * This components controls the initialization of models, keeping record of
+ * relations between the different models of the application.
  *
- * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\Di.
+ * A ModelsManager is injected to a model via a Dependency Injector/Services
+ * Container such as Phalcon\Di.
  *
  * <code>
  * use Phalcon\Di;
@@ -232,12 +233,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         }
 
         /**
-         * Update the last initialized model, so it can be used in modelsManager:afterInitialize
+         * Update the last initialized model, so it can be used in
+         * modelsManager:afterInitialize
          */
         let this->_lastInitialized = model;
 
         /**
-         * If an EventsManager is available we pass to it every initialized model
+         * If an EventsManager is available we pass to it every initialized
+         * model
          */
         let eventsManager = <EventsManagerInterface> this->eventsManager;
         if typeof eventsManager == "object" {
@@ -286,7 +289,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * The model doesn't exist throw an exception
          */
         if !class_exists(modelName) {
-            throw new Exception("Model '" . modelName . "' could not be loaded");
+            throw new Exception(
+                "Model '" . modelName . "' could not be loaded"
+            );
         }
 
         /**
@@ -465,7 +470,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let container = <DiInterface> this->container;
         if typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("the services related to the ORM")
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
             );
         }
 
@@ -486,7 +493,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnectionService(<ModelInterface> model) -> string
     {
-        return this->_getConnectionService(model, this->_readConnectionServices);
+        return this->_getConnectionService(
+            model,
+            this->_readConnectionServices
+        );
     }
 
     /**
@@ -494,7 +504,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getWriteConnectionService(<ModelInterface> model) -> string
     {
-        return this->_getConnectionService(model, this->_writeConnectionServices);
+        return this->_getConnectionService(
+            model,
+            this->_writeConnectionServices
+        );
     }
 
     /**
@@ -513,12 +526,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Receives events generated in the models and dispatches them to an events-manager if available
-     * Notify the behaviors that are listening in the model
+     * Receives events generated in the models and dispatches them to an
+     * events-manager if available. Notify the behaviors that are listening in
+     * the model
      */
     public function notifyEvent(string! eventName, <ModelInterface> model)
     {
-        var status, behavior, modelsBehaviors, eventsManager, customEventsManager;
+        var status, behavior, modelsBehaviors, eventsManager,
+            customEventsManager;
 
         let status = null;
 
@@ -763,7 +778,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, relation, keyRelation, relations,
+            alias, lowerAlias, singleRelations;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel);
@@ -1200,7 +1216,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                         }
                     } else {
                         if typeof value == "array" {
-                            let findParams[key] = array_merge(findParams[key], value);
+                            let findParams[key] = array_merge(
+                                findParams[key],
+                                value
+                            );
                         }
                     }
                     continue;
@@ -1231,7 +1250,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var placeholders, referencedModel, intermediateModel,
             intermediateFields, joinConditions, fields, builder, extraParameters,
             conditions, refPosition, field, referencedFields, findParams,
-            findArguments, retrieveMethod, uniqueKey, records, arguments, rows, firstRow;
+            findArguments, retrieveMethod, uniqueKey, records, arguments, rows,
+            firstRow;
         bool reusable;
 
         /**
@@ -1240,7 +1260,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let placeholders = [];
 
         /**
-         * Returns parameters that must be always used when the related records are obtained
+         * Returns parameters that must be always used when the related records
+         * are obtained
          */
         let extraParameters = relation->getParams();
 
@@ -1260,7 +1281,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 intermediateFields = relation->getIntermediateFields();
 
             /**
-             * Appends conditions created from the fields defined in the relation
+             * Appends conditions created from the fields defined in the
+             * relation
              */
             let fields = relation->getFields();
             if typeof fields != "array" {
@@ -1286,7 +1308,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              * We don't trust the user or the database so we use bound parameters
              * Create a query builder
              */
-            let builder = this->createBuilder(this->_mergeFindParameters(extraParameters, parameters));
+            let builder = this->createBuilder(
+                this->_mergeFindParameters(extraParameters, parameters)
+            );
 
             builder->from(referencedModel);
             builder->innerJoin(intermediateModel, join(" AND ", joinConditions));
@@ -1343,7 +1367,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let findArguments = this->_mergeFindParameters(findParams, parameters);
 
         if typeof extraParameters == "array" {
-            let findParams = this->_mergeFindParameters(extraParameters, findArguments);
+            let findParams = this->_mergeFindParameters(
+                extraParameters,
+                findArguments
+            );
         } else {
             let findParams = findArguments;
         }
@@ -1454,7 +1481,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * "relations" is an array with all the belongsTo relationships to that model
          * Perform the query
          */
-        return this->getRelationRecords(relations[0], method, record, parameters);
+        return this->getRelationRecords(
+            relations[0],
+            method,
+            record,
+            parameters
+        );
     }
 
     /**
@@ -1477,7 +1509,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * "relations" is an array with all the hasMany relationships to that model
          * Perform the query
          */
-        return this->getRelationRecords(relations[0], method, record, parameters);
+        return this->getRelationRecords(
+            relations[0],
+            method,
+            record,
+            parameters
+        );
     }
 
     /**
@@ -1500,7 +1537,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * "relations" is an array with all the belongsTo relationships to that model
          * Perform the query
          */
-        return this->getRelationRecords(relations[0], method, record, parameters);
+        return this->getRelationRecords(
+            relations[0],
+            method,
+            record,
+            parameters
+        );
     }
 
     /**
@@ -1656,15 +1698,22 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let container = this->container;
         if typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("the services related to the ORM")
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
             );
         }
 
         /**
          * Create a query
          */
-        let query = <QueryInterface> container->get("Phalcon\\Mvc\\Model\\Query", [phql, container]);
+        let query = <QueryInterface> container->get(
+            "Phalcon\\Mvc\\Model\\Query",
+            [phql, container]
+        );
+
         let this->_lastQuery = query;
+
         return query;
     }
 
@@ -1701,7 +1750,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let container = <DiInterface> this->container;
         if typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("the services related to the ORM")
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
             );
         }
 
@@ -1743,7 +1794,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if fetch namespaceName, this->_namespaceAliases[alias] {
             return namespaceName;
         }
-        throw new Exception("Namespace alias '" . alias . "' is not registered");
+
+        throw new Exception(
+            "Namespace alias '" . alias . "' is not registered"
+        );
     }
 
     /**

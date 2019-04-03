@@ -367,7 +367,10 @@ class Gd extends Adapter
             let stepping = 127 / height;
         }
 
-        let reflection = this->processCreate(this->width, this->height + height);
+        let reflection = this->processCreate(
+            this->width,
+            this->height + height
+        );
 
         imagecopy(
             reflection,
@@ -387,9 +390,13 @@ class Gd extends Adapter
             let dst_y = this->height + offset;
 
             if fadeIn {
-                let dst_opacity = (int) round(opacity + (stepping * (height - offset)));
+                let dst_opacity = (int) round(
+                    opacity + (stepping * (height - offset))
+                );
             } else {
-                let dst_opacity = (int) round(opacity + (stepping * offset));
+                let dst_opacity = (int) round(
+                    opacity + (stepping * offset)
+                );
             }
 
             let line = this->processCreate(this->width, 1);
@@ -653,7 +660,11 @@ class Gd extends Adapter
         let height = (int) imagesy(overlay);
 
         if opacity < 100 {
-            let opacity = (int) round(abs((opacity * 127 / 100) - 127));
+            let opacity = (int) round(
+                abs(
+                    (opacity * 127 / 100) - 127
+                )
+            );
 
             let color = imagecolorallocatealpha(
                 overlay,

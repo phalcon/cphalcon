@@ -149,7 +149,8 @@ abstract class Adapter implements AdapterInterface
 
 
     /**
-     * This method scales the images using liquid rescaling method. Only support Imagick
+     * This method scales the images using liquid rescaling method. Only support
+     * Imagick
      *
      * @param int $width   new width
      * @param int $height  new height

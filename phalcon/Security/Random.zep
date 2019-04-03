@@ -146,7 +146,7 @@ class Random
      *
      * If $len is not specified, 16 is assumed. It may be larger in future.
      * The length of the result string is usually greater of $len.
-     * Size formula: 4 * ($len / 3) and this need to be rounded up to a multiple of 4.
+     * Size formula: 4 * ($len / 3) rounded up to a multiple of 4.
      *
      *<code>
      * $random = new \Phalcon\Security\Random();
@@ -302,7 +302,10 @@ class Random
         }
 
         if function_exists("\\Sodium\\randombytes_uniform") {
-            // \Sodium\randombytes_uniform will return a random integer between 0 and len - 1
+            /**
+             * \Sodium\randombytes_uniform will return a random integer between
+             * 0 and len - 1
+             */
             return \\Sodium\\randombytes_uniform(len) + 1;
         }
 

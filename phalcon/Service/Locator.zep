@@ -83,7 +83,7 @@ class Locator implements LocatorInterface
      */
     public function has(string! name) -> bool
     {
-        return isset(this->mapper[name]);
+        return isset this->mapper[name];
     }
 
     /**
@@ -93,6 +93,6 @@ class Locator implements LocatorInterface
     {
         let this->mapper[name] = service;
 
-        unset(this->services[name]);
+        unset this->services[name];
     }
 }

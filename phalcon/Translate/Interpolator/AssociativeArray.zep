@@ -16,13 +16,17 @@ class AssociativeArray implements InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
-    */
+     */
     public function replacePlaceholders(string! translation, array placeholders = []) -> string
     {
         var key, value;
 
         for key, value in placeholders {
-            let translation = str_replace("%" . key . "%", value, translation);
+            let translation = str_replace(
+                "%" . key . "%",
+                value,
+                translation
+            );
         }
 
         return translation;

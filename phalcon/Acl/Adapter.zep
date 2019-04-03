@@ -34,7 +34,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     protected accessGranted = false;
 
     /**
-     * Role which the list is checking if it's allowed to certain component/access
+     * Role which the list is checking if it's allowed to certain
+     * component/access
      *
      * @var string
      */
@@ -55,6 +56,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Events manager
+     *
      * @var mixed
      */
     protected eventsManager;

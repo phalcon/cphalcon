@@ -65,7 +65,8 @@ interface ViewBaseInterface
     public function setVar(string! key, var value);
 
     /**
-     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+     * Sets views directory. Depending of your platform, always add a trailing
+     * slash or backslash
      */
     public function setViewsDir(string! viewsDir);
 

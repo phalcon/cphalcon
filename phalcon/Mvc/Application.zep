@@ -143,7 +143,8 @@ class Application extends BaseApplication
                 }
 
                 /**
-                 * If the returned string is a ResponseInterface use it as response
+                 * If the returned string is a ResponseInterface use it as
+                 * response
                  */
                 if typeof possibleResponse == "object" {
                     if possibleResponse instanceof ResponseInterface {
@@ -189,7 +190,8 @@ class Application extends BaseApplication
             }
 
             /**
-             * An array module definition contains a path to a module definition class
+             * An array module definition contains a path to a module definition
+             * class
              */
             if typeof module == "array" {
 
@@ -218,7 +220,8 @@ class Application extends BaseApplication
                 let moduleObject = <ModuleDefinitionInterface> container->get(className);
 
                 /**
-                 * 'registerAutoloaders' and 'registerServices' are automatically called
+                 * 'registerAutoloaders' and 'registerServices' are
+                 * automatically called
                  */
                 moduleObject->registerAutoloaders(container);
                 moduleObject->registerServices(container);
@@ -232,7 +235,12 @@ class Application extends BaseApplication
                     throw new Exception("Invalid module definition");
                 }
 
-                let moduleObject = call_user_func_array(module, [container]);
+                let moduleObject = call_user_func_array(
+                    module,
+                    [
+                        container
+                    ]
+                );
             }
 
             /**
@@ -317,7 +325,8 @@ class Application extends BaseApplication
                 }
 
                 /**
-                 * If the dispatcher returns an object we try to render the view in auto-rendering mode
+                 * If the dispatcher returns an object we try to render the view
+                 * in auto-rendering mode
                  */
                 if returnedResponse === false && implicitView === true {
                     if typeof controller == "object" {
@@ -332,12 +341,14 @@ class Application extends BaseApplication
                         }
 
                         /**
-                         * Check if the view process has been treated by the developer
+                         * Check if the view process has been treated by the
+                         * developer
                          */
                         if renderStatus !== false {
 
                             /**
-                             * Automatic render based on the latest controller executed
+                             * Automatic render based on the latest controller
+                             * executed
                              */
                             view->render(
                                 dispatcher->getControllerName(),
@@ -357,7 +368,8 @@ class Application extends BaseApplication
                 if returnedResponse === true {
 
                     /**
-                     * We don't need to create a response because there is one already created
+                     * We don't need to create a response because there is one
+                     * already created
                      */
                     let response = possibleResponse;
                 } else {
@@ -366,7 +378,8 @@ class Application extends BaseApplication
                     if implicitView === true {
 
                         /**
-                         * The content returned by the view is passed to the response service
+                         * The content returned by the view is passed to the
+                         * response service
                          */
                         response->setContent(view->getContent());
                     }

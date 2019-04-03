@@ -163,7 +163,10 @@ class Service implements ServiceInterface
             if class_exists(definition) {
                 if typeof parameters == "array" {
                     if count(parameters) {
-                        let instance = create_instance_params(definition, parameters);
+                        let instance = create_instance_params(
+                            definition,
+                            parameters
+                        );
                     } else {
                         let instance = create_instance(definition);
                     }
@@ -176,7 +179,8 @@ class Service implements ServiceInterface
         } else {
 
             /**
-             * Object definitions can be a Closure or an already resolved instance
+             * Object definitions can be a Closure or an already resolved
+             * instance
              */
             if typeof definition == "object" {
                 if definition instanceof \Closure {

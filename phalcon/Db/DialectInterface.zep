@@ -124,7 +124,8 @@ interface DialectInterface
     public function getCustomFunctions() -> array;
 
     /**
-     * Transforms an intermediate representation for an expression into a database system valid expression
+     * Transforms an intermediate representation for an expression into a
+     * database system valid expression
      */
     public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string;
 

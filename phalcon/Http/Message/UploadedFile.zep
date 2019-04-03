@@ -220,7 +220,7 @@ class UploadedFile implements UploadedFileInterface
          */
         if !(typeof targetPath === "string" && !empty(targetPath) && is_dir(dirname) && is_writable(dirname)) {
             throw new Exception(
-            	"Target folder is empty string, not a folder or not writable"
+                "Target folder is empty string, not a folder or not writable"
             );
         }
 
@@ -234,7 +234,7 @@ class UploadedFile implements UploadedFileInterface
         } else {
             if !move_uploaded_file(this->fileName, targetPath) {
                 throw new Exception(
-                	"The file cannot be moved to the target folder"
+                    "The file cannot be moved to the target folder"
                 );
             }
         }

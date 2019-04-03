@@ -104,7 +104,8 @@ class Ini extends Config
     }
 
     /**
-     * We have to cast values manually because parse_ini_file() has a poor implementation.
+     * We have to cast values manually because parse_ini_file() has a poor
+     * implementation.
      *
      * @param mixed ini The array casted by `parse_ini_file`
      */

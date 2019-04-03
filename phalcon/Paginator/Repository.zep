@@ -144,7 +144,13 @@ class Repository implements RepositoryInterface
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {
-        return isset this->properties[property] ? this->properties[property] : defaultValue;
+        var value;
+
+        if !fetch value, this->properties[property] {
+            return defaultValue;
+        }
+
+        return value;
     }
 
     /**

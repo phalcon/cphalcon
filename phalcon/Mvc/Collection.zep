@@ -75,7 +75,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         if typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("the services related to the ODM")
+                Exception::containerServiceNotFound(
+                    "the services related to the ODM"
+                )
             );
         }
 
@@ -104,7 +106,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         modelsManager->initialize(this);
 
         /**
-         * This allows the developer to execute initialization stuff every time an instance is created
+         * This allows the developer to execute initialization stuff every time
+         * an instance is created
          */
         if method_exists(this, "onConstruct") {
             this->{"onConstruct"}();
@@ -137,7 +140,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             throw new Exception("Method getSource() returns empty string");
         }
 
-        return connection->selectCollection(source)->aggregate(parameters, options);
+        return connection->selectCollection(source)->aggregate(
+            parameters,
+            options
+        );
     }
 
     /**
@@ -196,7 +202,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Check the dirty state of the current operation to update the current operation
+         * Check the dirty state of the current operation to update the current
+         * operation
          */
         let exists = false;
         let this->operationMade = self::OP_CREATE;
@@ -243,8 +250,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Creates a document based on the values in the attributes, if not found by criteria
-     * Preferred way to avoid duplication is to create index on attribute
+     * Creates a document based on the values in the attributes, if not found by
+     * criteria. Preferred way to avoid duplication is to create index o
+     * attribute
      *
      * <code>
      * $robot = new Robot();
@@ -278,7 +286,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Assume non-existence to fire beforeCreate events - no update does occur anyway
+         * Assume non-existence to fire beforeCreate events - no update does
+         * occur anyway
          */
         let exists = false;
 
@@ -329,7 +338,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
                 let this->_id = doc["_id"];
             }
         } else {
-            this->appendMessage( new Message("Document already exists") );
+            this->appendMessage(
+                new Message("Document already exists")
+            );
         }
 
         /**
@@ -426,7 +437,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Remove the instance
          */
-        let status = collection->remove(["_id": mongoId], ["w": true]);
+        let status = collection->remove(
+            [
+                "_id": mongoId
+            ],
+            [
+                "w": true
+            ]
+        );
+
         if typeof status != "array" {
             return false;
         }
@@ -923,7 +942,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+     * Sets the dirty state of the object using one of the DIRTY_STATE_*
+     * constants
      */
     public function setDirtyState(int dirtyState) -> <CollectionInterface>
     {

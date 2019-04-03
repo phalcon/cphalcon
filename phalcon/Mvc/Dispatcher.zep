@@ -20,9 +20,10 @@ use Phalcon\Dispatcher as BaseDispatcher;
 /**
  * Phalcon\Mvc\Dispatcher
  *
- * Dispatching is the process of taking the request object, extracting the module name,
- * controller name, action name, and optional parameters contained in it, and then
- * instantiating a controller and calling an action of that controller.
+ * Dispatching is the process of taking the request object, extracting the
+ * module name, controller name, action name, and optional parameters contained
+ * in it, and then instantiating a controller and calling an action of that
+ * controller.
  *
  *<code>
  * $di = new \Phalcon\Di();
@@ -122,7 +123,8 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     }
 
     /**
-     * Possible controller class name that will be located to dispatch the request
+     * Possible controller class name that will be located to dispatch the
+     * request
      */
     public function getControllerClass() -> string
     {

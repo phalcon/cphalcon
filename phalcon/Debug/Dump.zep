@@ -262,8 +262,14 @@ class Dump
                 for property in props {
                     property->setAccessible(true);
 
-                    let key = property->getName(),
-                        type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
+                    let key = property->getName();
+
+                    let type = implode(
+                        " ",
+                        \Reflection::getModifierNames(
+                            property->getModifiers()
+                        )
+                    );
 
                     let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
                     let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";

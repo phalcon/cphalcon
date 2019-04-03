@@ -16,10 +16,10 @@ use SplPriorityQueue;
 /**
  * Phalcon\Events\Manager
  *
- * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
- * the normal flow of operation. With the EventsManager the developer can create hooks or
- * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
- *
+ * Phalcon Events Manager, offers an easy way to intercept and manipulate, if
+ * needed, the normal flow of operation. With the EventsManager the developer
+ * can create hooks or plugins that will offer monitoring of data, manipulation,
+ * conditional execution and much more.
  */
 class Manager implements ManagerInterface
 {
@@ -81,8 +81,8 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Tells the event manager if it needs to collect all the responses returned by every
-     * registered listener in a single fire
+     * Tells the event manager if it needs to collect all the responses returned
+     * by every registered listener in a single fire
      */
     public function collectResponses(bool collect) -> void
     {
@@ -104,7 +104,10 @@ class Manager implements ManagerInterface
 
         if fetch priorityQueue, this->events[eventType] {
 
-            // SplPriorityQueue hasn't method for element deletion, so we need to rebuild queue
+            /**
+             * SplPriorityQueue doesn't have a method for element deletion so we
+             * need to rebuild queue
+             */
             let newPriorityQueue = new SplPriorityQueue();
             newPriorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
 
@@ -146,7 +149,8 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Fires an event in the events manager causing the active listeners to be notified about it
+     * Fires an event in the events manager causing the active listeners to be
+     * notified about it
      *
      *<code>
      * $eventsManager->fire("db", $connection);
@@ -342,7 +346,8 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Returns all the responses returned by every handler executed by the last 'fire' executed
+     * Returns all the responses returned by every handler executed by the last
+     * 'fire' executed
      */
     public function getResponses() -> array
     {
@@ -358,8 +363,8 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Check if the events manager is collecting all all the responses returned by every
-     * registered listener in a single fire
+     * Check if the events manager is collecting all all the responses returned
+     * by every registered listener in a single fire
      */
     public function isCollecting() -> bool
     {

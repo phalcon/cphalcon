@@ -20,8 +20,8 @@ use Phalcon\Http\Request\FileInterface;
 interface RequestInterface
 {
     /**
-     * Gets a variable from the $_REQUEST superglobal applying filters if needed.
-     * If no parameters are given the $_REQUEST superglobal is returned
+     * Gets a variable from the $_REQUEST superglobal applying filters if
+     * needed. If no parameters are given the $_REQUEST superglobal is returned
      *
      *<code>
      * // Returns value from $_REQUEST["user_email"] without sanitizing
@@ -34,38 +34,45 @@ interface RequestInterface
     public function get(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
 
     /**
-     * Gets an array with mime/types and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
+     * Gets an array with mime/types and their quality accepted by the
+     * browser/client from _SERVER["HTTP_ACCEPT"]
      */
     public function getAcceptableContent() -> array;
 
     /**
-     * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
+     * Gets auth info accepted by the browser/client from
+     * $_SERVER["PHP_AUTH_USER"]
      */
     public function getBasicAuth() -> array | null;
 
     /**
-     * Gets best mime/type accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
+     * Gets best mime/type accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT"]
      */
     public function getBestAccept() -> string;
 
     /**
-     * Gets best charset accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
+     * Gets best charset accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT_CHARSET"]
      */
     public function getBestCharset() -> string;
 
     /**
-     * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+     * Gets best language accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT_LANGUAGE"]
      */
     public function getBestLanguage() -> string;
 
     /**
      * Gets most possible client IPv4 Address. This method searches in
-     * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+     * $_SERVER["REMOTE_ADDR"] and optionally in
+     * $_SERVER["HTTP_X_FORWARDED_FOR"]
      */
     public function getClientAddress(bool trustForwardedHeader = false) -> string | bool;
 
     /**
-     * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
+     * Gets a charsets array and their quality accepted by the browser/client
+     * from _SERVER["HTTP_ACCEPT_CHARSET"]
      */
     public function getClientCharsets() -> array;
 
@@ -75,7 +82,8 @@ interface RequestInterface
     public function getContentType() -> string | null;
 
     /**
-     * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
+     * Gets auth info accepted by the browser/client from
+     * $_SERVER["PHP_AUTH_DIGEST"]
      */
     public function getDigestAuth() -> array;
 
@@ -147,7 +155,8 @@ interface RequestInterface
     public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool;
 
     /**
-     * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+     * Gets languages array and their quality accepted by the browser/client
+     * from _SERVER["HTTP_ACCEPT_LANGUAGE"]
      */
     public function getLanguages() -> array;
 
@@ -157,8 +166,8 @@ interface RequestInterface
      * If the X-HTTP-Method-Override header is set, and if the method is a POST,
      * then it is used to determine the "real" intended HTTP method.
      *
-     * The _method request parameter can also be used to determine the HTTP method,
-     * but only if setHttpMethodParameterOverride(true) has been called.
+     * The _method request parameter can also be used to determine the HTTP
+     * method, but only if setHttpMethodParameterOverride(true) has been called.
      *
      * The method is always an uppercased string.
      */
@@ -245,7 +254,8 @@ interface RequestInterface
     public function getServerName() -> string;
 
     /**
-     * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
+     * Gets attached files as Phalcon\Http\Request\FileInterface compatible
+     * instances
      */
     public function getUploadedFiles(bool onlySuccessful = false, bool namedKeys = false) -> <FileInterface[]>;
 
@@ -353,7 +363,8 @@ interface RequestInterface
     public function isSoap() -> bool;
 
     /**
-     * Checks whether HTTP method is TRACE. if $_SERVER["REQUEST_METHOD"] === "TRACE"
+     * Checks whether HTTP method is TRACE.
+     * if $_SERVER["REQUEST_METHOD"] === "TRACE"
      */
     public function isTrace() -> bool;
 }

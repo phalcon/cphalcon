@@ -98,9 +98,15 @@ class InclusionIn extends Validator
          * Check if the value is contained by the array
          */
         if !in_array(value, domain, strict) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "InclusionIn"),
-                code = this->prepareCode(field);
+            let label = this->prepareLabel(validation, field);
+
+            let message = this->prepareMessage(
+                validation,
+                field,
+                "InclusionIn"
+            );
+
+            let code = this->prepareCode(field);
 
             let replacePairs = [
                 ":field":  label,

@@ -53,13 +53,13 @@ class Imagick extends Adapter
 
             if !this->image->readImage(this->realpath) {
                  throw new Exception(
-                 	"Imagick::readImage " . this->file . " failed"
+                     "Imagick::readImage " . this->file . " failed"
                  );
             }
 
             if !this->image->getImageAlphaChannel() {
                 this->image->setImageAlphaChannel(
-                	constant("Imagick::ALPHACHANNEL_SET")
+                    constant("Imagick::ALPHACHANNEL_SET")
                 );
             }
 
@@ -73,7 +73,7 @@ class Imagick extends Adapter
         } else {
             if !width || !height {
                 throw new Exception(
-                	"Failed to create image from file " . this->file
+                    "Failed to create image from file " . this->file
                 );
             }
 
@@ -117,7 +117,7 @@ class Imagick extends Adapter
 
         if !class_exists("imagick") {
             throw new Exception(
-            	"Imagick is not installed, or the extension is not loaded"
+                "Imagick is not installed, or the extension is not loaded"
             );
         }
 
@@ -168,7 +168,7 @@ class Imagick extends Adapter
             background->newImage(this->width, this->height, pixel1);
             if !background->getImageAlphaChannel() {
                 background->setImageAlphaChannel(
-                	constant("Imagick::ALPHACHANNEL_SET")
+                    constant("Imagick::ALPHACHANNEL_SET")
                 );
             }
             background->setImageBackgroundColor(pixel2);
@@ -321,10 +321,10 @@ class Imagick extends Adapter
             this->image->setImageMatte(1);
 
             let ret = this->image->compositeImage(
-            	mask,
-            	constant("Imagick::COMPOSITE_DSTIN"),
-            	0,
-            	0
+                mask,
+                constant("Imagick::COMPOSITE_DSTIN"),
+                0,
+                0
             );
 
             if ret !== true {
@@ -391,9 +391,9 @@ class Imagick extends Adapter
             fade = new \Imagick();
 
         fade->newPseudoImage(
-        	reflection->getImageWidth(),
-        	reflection->getImageHeight(),
-        	pseudo
+            reflection->getImageWidth(),
+            reflection->getImageHeight(),
+            pseudo
         );
 
         let opacity /= 100;
@@ -503,7 +503,9 @@ class Imagick extends Adapter
             image->optimizeImageLayers();
         } else {
             if strcasecmp(extension, "jpg") === 0 || strcasecmp(extension, "jpeg") === 0 {
-                image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
+                image->setImageCompression(
+                    constant("Imagick::COMPRESSION_JPEG")
+                );
             }
             image->setImageCompressionQuality(quality);
         }
@@ -771,10 +773,10 @@ class Imagick extends Adapter
 
         loop {
             let ret = this->image->compositeImage(
-            	watermark,
-            	constant("Imagick::COMPOSITE_OVER"),
-            	offsetX,
-            	offsetY
+                watermark,
+                constant("Imagick::COMPOSITE_OVER"),
+                offsetX,
+                offsetY
             );
 
             if ret !== true {

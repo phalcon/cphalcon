@@ -84,18 +84,26 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
         if defaultRoutes {
 
-            // Two routes are added by default to match /:controller/:action and
-            // /:controller/:action/:params
+            /**
+             * Two routes are added by default to match /:controller/:action and
+             * /:controller/:action/:params
+             */
 
-            let routes[] = new Route("#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u", [
-                "controller": 1
-            ]);
+            let routes[] = new Route(
+                "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u",
+                [
+                    "controller": 1
+                ]
+            );
 
-            let routes[] = new Route("#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u", [
-                "controller": 1,
-                "action": 2,
-                "params": 3
-            ]);
+            let routes[] = new Route(
+                "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u",
+                [
+                    "controller": 1,
+                    "action":     2,
+                    "params":     3
+                ]
+            );
         }
 
         let this->routes = routes;
@@ -108,8 +116,19 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      * use Phalcon\Mvc\Router;
      *
      * $router->add("/about", "About::index");
-     * $router->add("/about", "About::index", ["GET", "POST"]);
-     * $router->add("/about", "About::index", ["GET", "POST"], Router::POSITION_FIRST);
+     *
+     * $router->add(
+     *     "/about",
+     *     "About::index",
+     *     ["GET", "POST"]
+     * );
+     *
+     * $router->add(
+     *     "/about",
+     *     "About::index",
+     *     ["GET", "POST"],
+     *     Router::POSITION_FIRST
+     * );
      *</code>
      */
     public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>
@@ -183,7 +202,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     }
 
     /**
-     * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+     * Adds a route to the router that only match if the HTTP method is PURGE
+     * (Squid and Varnish support)
      */
     public function addPurge(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
     {
@@ -385,12 +405,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      */
     public function handle(string! uri)
     {
-        var request, currentHostName, routeFound, parts,
-            params, matches, notFoundPaths,
-            vnamespace, module,  controller, action, paramsStr, strParams,
-            route, methods, container,
-            hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
-            paths, converters, part, position, matchPosition, converter, eventsManager;
+        var request, currentHostName, routeFound, parts, params, matches,
+            notFoundPaths, vnamespace, module,  controller, action, paramsStr,
+            strParams, route, methods, container, hostname, regexHostName,
+            matched, pattern, handledUri, beforeMatch, paths, converters, part,
+            position, matchPosition, converter, eventsManager;
 
         /**
          * Remove extra slashes in the route
@@ -437,7 +456,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
                         throw new Exception(
-                            Exception::containerServiceNotFound("the 'request' service")
+                            Exception::containerServiceNotFound(
+                                "the 'request' service"
+                            )
                         );
                     }
 
@@ -466,7 +487,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
                         throw new Exception(
-                            Exception::containerServiceNotFound("the 'request' service")
+                            Exception::containerServiceNotFound(
+                                "the 'request' service"
+                            )
                         );
                     }
 
@@ -488,7 +511,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 }
 
                 /**
-                 * Check if the hostname restriction is the same as the current in the route
+                 * Check if the hostname restriction is the same as the current
+                 * in the route
                  */
                 if memstr(hostname, "(") {
                     if !memstr(hostname, "#") {
@@ -628,7 +652,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                             } else {
 
                                 /**
-                                 * Remove the path if the parameter was not matched
+                                 * Remove the path if the parameter was not
+                                 * matched
                                  */
                                 if typeof position == "integer" {
                                     unset parts[part];
@@ -804,7 +829,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     }
 
     /**
-     * Set a group of paths to be returned when none of the defined routes are matched
+     * Set a group of paths to be returned when none of the defined routes are
+     * matched
      */
     public function notFound(var paths) -> <RouterInterface>
     {
@@ -863,8 +889,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     }
 
     /**
-     * Sets an array of default paths. If a route is missing a path the router will use the defined here
-     * This method must not be used to set a 404 route
+     * Sets an array of default paths. If a route is missing a path the router
+     * will use the defined here. This method must not be used to set a 404
+     * route
      *
      *<code>
      * $router->setDefaults(

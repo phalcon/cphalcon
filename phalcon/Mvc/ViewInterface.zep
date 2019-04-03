@@ -108,29 +108,34 @@ interface ViewInterface extends ViewBaseInterface
     public function reset();
 
     /**
-     * Sets base path. Depending of your platform, always add a trailing slash or backslash
+     * Sets base path. Depending of your platform, always add a trailing slash
+     * or backslash
      */
     public function setBasePath(string! basePath);
 
     /**
-     * Change the layout to be used instead of using the name of the latest controller name
+     * Change the layout to be used instead of using the name of the latest
+     * controller name
      */
     public function setLayout(string! layout);
 
     /**
      * Sets the layouts sub-directory. Must be a directory under the views
-     * directory. Depending of your platform, always add a trailing slash or backslash
+     * directory. Depending of your platform, always add a trailing slash or
+     * backslash
      */
     public function setLayoutsDir(string! layoutsDir);
 
     /**
-     * Sets default view name. Must be a file without extension in the views directory
+     * Sets default view name. Must be a file without extension in the views
+     * directory
      */
     public function setMainView(string! viewPath);
 
     /**
      * Sets a partials sub-directory. Must be a directory under the views
-     * directory. Depending of your platform, always add a trailing slash or backslash
+     * directory. Depending of your platform, always add a trailing slash or
+     * backslash
      */
     public function setPartialsDir(string! partialsDir);
 

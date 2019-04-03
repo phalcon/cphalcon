@@ -201,7 +201,8 @@ interface ModelInterface
     public function refresh() -> <ModelInterface>;
 
     /**
-     * Inserts or updates a model instance. Returning true on success or false otherwise.
+     * Inserts or updates a model instance. Returning true on success or false
+     * otherwise.
      */
     public function save() -> bool;
 
@@ -211,7 +212,8 @@ interface ModelInterface
     public function setConnectionService(string connectionService) -> void;
 
     /**
-     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+     * Sets the dirty state of the object using one of the DIRTY_STATE_*
+     * constants
      */
     public function setDirtyState(int dirtyState) -> <ModelInterface> | bool;
 

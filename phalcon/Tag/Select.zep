@@ -120,8 +120,12 @@ abstract class Select
             /**
              * Create the SELECT's option from a resultset
              */
-            let code .= self::optionsFromResultset(options, using, value, "</option>" . PHP_EOL);
-
+            let code .= self::optionsFromResultset(
+                options,
+                using,
+                value,
+                "</option>" . PHP_EOL
+            );
         } else {
             if typeof options == "array" {
 

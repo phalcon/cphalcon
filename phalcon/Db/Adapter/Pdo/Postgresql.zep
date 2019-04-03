@@ -60,8 +60,8 @@ class Postgresql extends PdoAdapter
     }
 
     /**
-     * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
-     * Call it when you need to restore a database connection.
+     * This method is automatically called in Phalcon\Db\Adapter\Pdo
+     * constructor. Call it when you need to restore a database connection.
      */
     public function connect(array descriptor = null) -> bool
     {
@@ -151,7 +151,8 @@ class Postgresql extends PdoAdapter
 
         /**
          * We're using FETCH_NUM to fetch the columns
-         * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null, 6: key, 7: extra, 8: position, 9 default
+         * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null,
+         * 6: key, 7: extra, 8: position, 9 default
          */
         for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
 
@@ -161,7 +162,8 @@ class Postgresql extends PdoAdapter
             let definition = ["bindType": Column::BIND_PARAM_STR];
 
             /**
-             * By checking every column type we convert it to a Phalcon\Db\Column
+             * By checking every column type we convert it to a
+             * Phalcon\Db\Column
              */
             let columnType = field[1],
                 charSize = field[2],
@@ -169,12 +171,13 @@ class Postgresql extends PdoAdapter
                 numericScale = field[4];
 
             /**
-             * The order of these IF statements matters. Since we are using memstr
-             * to figure out whether a particular string exists in the columnType
-             * we will end up with false positives if the order changes.
+             * The order of these IF statements matters. Since we are using
+             * memstr to figure out whether a particular string exists in the
+             * columnType we will end up with false positives if the order
+             * changes.
              *
-             * For instance if we have a `varchar` column and we check for `char`
-             * first, then that will match. Therefore we have firs the IF
+             * For instance if we have a `varchar` column and we check for
+             * `char` first, then that will match. Therefore we have firs the IF
              * statements that are "unique" and further down the ones that can
              * appear a substrings of the columnType above them.
              */
@@ -532,14 +535,17 @@ class Postgresql extends PdoAdapter
 
         let referenceObjects = [];
         for name, arrayReference in references {
-            let referenceObjects[name] = new Reference(name, [
-                "referencedSchema"  : arrayReference["referencedSchema"],
-                "referencedTable"   : arrayReference["referencedTable"],
-                "columns"           : arrayReference["columns"],
-                "referencedColumns" : arrayReference["referencedColumns"],
-                "onUpdate"          : arrayReference["onUpdate"],
-                "onDelete"          : arrayReference["onDelete"]
-            ]);
+            let referenceObjects[name] = new Reference(
+                name,
+                [
+                    "referencedSchema"  : arrayReference["referencedSchema"],
+                    "referencedTable"   : arrayReference["referencedTable"],
+                    "columns"           : arrayReference["columns"],
+                    "referencedColumns" : arrayReference["referencedColumns"],
+                    "onUpdate"          : arrayReference["onUpdate"],
+                    "onDelete"          : arrayReference["onDelete"]
+                ]
+            );
         }
 
         return referenceObjects;

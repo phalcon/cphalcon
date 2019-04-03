@@ -44,8 +44,8 @@ use Phalcon\Cache\FrontendInterface;
 /**
  * Phalcon\Mvc\Model
  *
- * Phalcon\Mvc\Model connects business objects and database tables to create
- * a persistable domain model where logic and data are presented in one wrapping.
+ * Phalcon\Mvc\Model connects business objects and database tables to create a
+ * persistable domain model where logic and data are presented in one wrapping.
  * It‘s an implementation of the object-relational mapping (ORM).
  *
  * A model represents the information (data) of the application and the rules to
@@ -151,6 +151,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if typeof modelsManager != "object" {
             let modelsManager = <ManagerInterface> container->getShared("modelsManager");
+
             if typeof modelsManager != "object" {
                 throw new Exception(
                     "The injected service 'modelsManager' is not valid"
@@ -206,7 +207,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Try to find a replacement for the missing method in a behavior/listener
+         * Try to find a replacement for the missing method in a
+         * behavior/listener
          */
         let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
         if status !== null {
@@ -242,7 +244,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 
     /**
-     * Magic method to get related records using the relation alias as a property
+     * Magic method to get related records using the relation alias as a
+     * property
      *
      * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
      */
@@ -257,7 +260,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Check if the property is a relationship
          */
-        let relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
+        let relation = <RelationInterface> manager->getRelationByAlias(
+            modelName,
+            lowerProperty
+        );
+
         if typeof relation == "object" {
 
             /*
@@ -269,7 +276,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Get the related records
              */
-            let result = manager->getRelationRecords(relation, null, this, null);
+            let result = manager->getRelationRecords(
+                relation,
+                null,
+                this,
+                null
+            );
 
             /**
              * Assign the result to the object
@@ -323,7 +335,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Check if the property is a relationship
          */
-        let relation = <RelationInterface> manager->getRelationByAlias(modelName, property);
+        let relation = <RelationInterface> manager->getRelationByAlias(
+            modelName,
+            property
+        );
+
         return typeof relation == "object";
     }
 
@@ -374,8 +390,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
                 } else {
                     let lowerKey = strtolower(key),
-                        this->{lowerKey} = item,
-                        relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
+                        this->{lowerKey} = item;
+
+                    let relation = <RelationInterface> manager->getRelationByAlias(
+                            modelName,
+                            lowerProperty
+                        );
 
                     if typeof relation == "object" {
                         let referencedModel = manager->load(
@@ -403,7 +423,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             return value;
         }
 
-        // Throw an exception if there is an attempt to set a non-public property.
+        /**
+         * Throw an exception if there is an attempt to set a non-public
+         * property.
+         */
         if property_exists(this, property) {
             let manager = this->getModelsManager();
             if !manager->isVisibleModelProperty(this, property) {
@@ -528,7 +551,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
     {
-        var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
+        var key, keyMapped, value, attribute, attributeField, metaData,
+            columnMap, dataMapped, disableAssignSetters;
 
         let disableAssignSetters = globals_get("orm.disable_assign_setters");
 
@@ -560,7 +584,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
             // Try to find case-insensitive key variant
             if !isset columnMap[attribute] && globals_get("orm.case_insensitive_column_map") {
-                let attribute = self::caseInsensitiveColumnMap(columnMap, attribute);
+                let attribute = self::caseInsensitiveColumnMap(
+                    columnMap,
+                    attribute
+                );
             }
 
             // Check if we need to rename the field
@@ -568,7 +595,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 if !fetch attributeField, columnMap[attribute] {
                     if !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
-                            "Column '" . attribute. "' doesn\'t make part of the column map"
+                            "Column '" . attribute. "' doesn't make part of the column map"
                         );
                     } else {
                         continue;
@@ -1028,7 +1055,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         for primaryKey in primaryKeys {
 
             /**
-             * Every column part of the primary key must be in the bind data types
+             * Every column part of the primary key must be in the bind data
+             * types
              */
             if !fetch bindType, bindDataTypes[primaryKey] {
                 throw new Exception(
@@ -1050,7 +1078,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
 
             /**
-             * If the attribute is currently set in the object add it to the conditions
+             * If the attribute is currently set in the object add it to the
+             * conditions
              */
             if !fetch value, this->{attributeField} {
                 throw new Exception(
@@ -1075,13 +1104,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              */
             if this->fireEventCancel("beforeDelete") === false {
                 return false;
-            } else {
-                /**
-                 * The operation can be skipped
-                 */
-                if this->_skipped === true {
-                    return true;
-                }
+            }
+
+            /**
+             * The operation can be skipped
+             */
+            if this->_skipped === true {
+                return true;
             }
         }
 
@@ -1191,9 +1220,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $myTransaction->begin();
      * $newRobot = new Robot();
      * $newRobot->setTransaction($myTransaction);
-     * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
      *
-     * $resultInsideTransaction = Robot::find(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
+     * $newRobot->save(
+     *     [
+     *         'name' => 'test',
+     *         'type' => 'mechanical',
+     *         'year' => 1944,
+     *     ]
+     * );
+     *
+     * $resultInsideTransaction = Robot::find(
+     *     [
+     *         'name' => 'test',
+     *         Model::TRANSACTION_INDEX => $myTransaction,
+     *     ]
+     * );
+     *
      * $resultOutsideTransaction = Robot::find(['name' => 'test']);
      *
      * foreach ($setInsideTransaction as $robot) {
@@ -1325,7 +1367,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let params = [];
         } elseif typeof parameters === "array" {
             let params = parameters;
-        } elseif (typeof parameters === "string" || true === is_numeric(parameters)) {
+        } elseif (typeof parameters === "string" || is_numeric(parameters)) {
             let params   = [];
             let params[] = parameters;
         } else {
@@ -1363,7 +1405,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Send a notification to the events manager
          */
-        return (<ManagerInterface> this->_modelsManager)->notifyEvent(eventName, this);
+        return (<ManagerInterface> this->_modelsManager)->notifyEvent(
+            eventName,
+            this
+        );
     }
 
     /**
@@ -1629,8 +1674,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * Query the relation by alias
          */
         let className = get_class(this),
-            manager = <ManagerInterface> this->_modelsManager,
-            relation = <RelationInterface> manager->getRelationByAlias(className, alias);
+            manager = <ManagerInterface> this->_modelsManager;
+
+        let relation = <RelationInterface> manager->getRelationByAlias(
+            className,
+            alias
+        );
+
         if typeof relation != "object" {
             throw new Exception(
                 "There is no defined relations for the model '" . className . "' using alias '" . alias . "'"
@@ -2034,8 +2084,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 "columns": fields,
                 "tables":  readConnection->escapeIdentifier(table),
                 "where":   uniqueKey
-            ]),
-            row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+            ]);
+
+        let row = readConnection->fetchOne(
+            tables,
+            \Phalcon\Db::FETCH_ASSOC,
+            uniqueParams,
+            this->_uniqueTypes
+        );
 
         /**
          * Get a column map if any
@@ -2171,7 +2227,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if exists {
             let success = this->_doLowUpdate(metaData, writeConnection, table);
         } else {
-            let success = this->_doLowInsert(metaData, writeConnection, table, identityField);
+            let success = this->_doLowInsert(
+                metaData,
+                writeConnection,
+                table,
+                identityField
+            );
         }
 
         /**
@@ -2236,7 +2297,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * If attributes is not the same as snapshot then save snapshot too
              */
             if snapshot != null && attributes != snapshot {
-                return serialize(["_attributes": attributes, "_snapshot": snapshot]);
+                return serialize(
+                    [
+                        "_attributes": attributes,
+                        "_snapshot":   snapshot
+                    ]
+                );
             }
         }
 
@@ -2313,7 +2379,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setConnectionService(string! connectionService) -> <ModelInterface>
     {
-        (<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
+        (<ManagerInterface> this->_modelsManager)->setConnectionService(
+            this,
+            connectionService
+        );
+
         return this;
     }
 
@@ -2347,7 +2417,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setReadConnectionService(string! connectionService) -> <ModelInterface>
     {
-        (<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
+        (<ManagerInterface> this->_modelsManager)->setReadConnectionService(
+            this,
+            connectionService
+        );
+
         return this;
     }
 
@@ -2525,7 +2599,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var disableEvents, columnRenaming, notNullValidations,
             exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
             lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-            updateSnapshotOnSave, disableAssignSetters, caseInsensitiveColumnMap;
+            updateSnapshotOnSave, disableAssignSetters,
+            caseInsensitiveColumnMap;
 
         /**
          * Enables/Disables globally the internal events
@@ -2592,7 +2667,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
-            globals_set("orm.case_insensitive_column_map", caseInsensitiveColumnMap);
+            globals_set(
+                "orm.case_insensitive_column_map",
+                caseInsensitiveColumnMap
+            );
         }
 
         if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
@@ -2609,7 +2687,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
     {
-        return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
+        return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(
+            this,
+            connectionService
+        );
     }
 
 
@@ -2682,7 +2763,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             if typeof columnMap == "array" {
                 // Try to find case-insensitive key variant
                 if !isset columnMap[attribute] && globals_get("orm.case_insensitive_column_map") {
-                    let attribute = self::caseInsensitiveColumnMap(columnMap, attribute);
+                    let attribute = self::caseInsensitiveColumnMap(
+                        columnMap,
+                        attribute
+                    );
                 }
 
                 if !fetch attributeField, columnMap[attribute] {
@@ -2789,7 +2873,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let manager = <ManagerInterface> this->_modelsManager;
 
         /**
-         * We check if some of the belongsTo relations act as virtual foreign key
+         * We check if some of the belongsTo relations act as virtual foreign
+         * key
          */
         let belongsTo = manager->getBelongsTo(this);
 
@@ -2826,7 +2911,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Load the referenced model if needed
              */
-            let referencedModel = manager->load(relation->getReferencedModel());
+            let referencedModel = manager->load(
+                relation->getReferencedModel()
+            );
 
             /**
              * Since relations can have multiple columns or a single one, we
@@ -2883,8 +2970,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
 
             /**
-             * We don't trust the actual values in the object and pass the values using bound parameters
-             * Let's make the checking
+             * We don't trust the actual values in the object and pass the
+             * values using bound parameters. Let's check
              */
             if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
 
@@ -2981,7 +3068,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Load a plain instance from the models manager
              */
-            let referencedModel = manager->load(relation->getReferencedModel());
+            let referencedModel = manager->load(
+                relation->getReferencedModel()
+            );
 
             let fields = relation->getFields(),
                 referencedFields = relation->getReferencedFields();
@@ -3225,7 +3314,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 if field != identityField {
 
                     /**
-                     * This isset checks that the property be defined in the model
+                     * This isset checks that the property be defined in the
+                     * model
                      */
                     if fetch value, this->{attributeField} {
 
@@ -3388,47 +3478,48 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
      protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
      {
-         var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field,
-             automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
-             snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType, newSnapshot, success;
-         bool useDynamicUpdate, changed;
+        var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager,
+            bindDataTypes, field, automaticAttributes, snapshotValue, uniqueKey,
+            uniqueParams, uniqueTypes, snapshot, nonPrimary, columnMap,
+            attributeField, value, primaryKeys, bindType, newSnapshot, success;
+        bool useDynamicUpdate, changed;
 
-         let bindSkip = Column::BIND_SKIP,
-             fields = [],
-             values = [],
-             bindTypes = [],
-             newSnapshot = [],
-             manager = <ManagerInterface> this->_modelsManager;
+        let bindSkip = Column::BIND_SKIP,
+            fields = [],
+            values = [],
+            bindTypes = [],
+            newSnapshot = [],
+            manager = <ManagerInterface> this->_modelsManager;
 
-         /**
-          * Check if the model must use dynamic update
-          */
-         let useDynamicUpdate = (bool) manager->isUsingDynamicUpdate(this);
+        /**
+         * Check if the model must use dynamic update
+         */
+        let useDynamicUpdate = (bool) manager->isUsingDynamicUpdate(this);
 
         let snapshot = this->_snapshot;
 
-         if useDynamicUpdate {
-             if typeof snapshot != "array" {
-                 let useDynamicUpdate = false;
-             }
-         }
+        if useDynamicUpdate {
+            if typeof snapshot != "array" {
+                let useDynamicUpdate = false;
+            }
+        }
 
-         let dataTypes = metaData->getDataTypes(this),
-            bindDataTypes = metaData->getBindTypes(this),
-             nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
-             automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+        let dataTypes = metaData->getDataTypes(this),
+           bindDataTypes = metaData->getBindTypes(this),
+            nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
+            automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
-         if globals_get("orm.column_renaming") {
-             let columnMap = metaData->getColumnMap(this);
-         } else {
-             let columnMap = null;
-         }
+        if globals_get("orm.column_renaming") {
+            let columnMap = metaData->getColumnMap(this);
+        } else {
+            let columnMap = null;
+        }
 
-         /**
-          * We only make the update based on the non-primary attributes, values
-          * in primary key attributes are ignored
-          */
-         for field in nonPrimary {
+        /**
+         * We only make the update based on the non-primary attributes, values
+         * in primary key attributes are ignored
+         */
+        for field in nonPrimary {
 
             /**
              * Check if the model has a column map
@@ -3443,175 +3534,184 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 let attributeField = field;
             }
 
-             if !isset automaticAttributes[attributeField] {
+            if !isset automaticAttributes[attributeField] {
 
-                 /**
-                  * Check a bind type for field to update
-                  */
-                 if !fetch bindType, bindDataTypes[field] {
-                     throw new Exception(
+                /**
+                 * Check a bind type for field to update
+                 */
+                if !fetch bindType, bindDataTypes[field] {
+                    throw new Exception(
                         "Column '" . field . "' have not defined a bind data type"
                     );
-                 }
+                }
 
 
-                 /**
-                  * Get the field's value
-                  * If a field isn't set we pass a null value
-                  */
-                 if fetch value, this->{attributeField} {
+                /**
+                 * Get the field's value
+                 * If a field isn't set we pass a null value
+                 */
+                if fetch value, this->{attributeField} {
 
-                     /**
-                      * When dynamic update is not used we pass every field to the update
-                      */
-                     if !useDynamicUpdate {
-                         let fields[] = field, values[] = value;
-                         let bindTypes[] = bindType;
-                     } else {
+                    /**
+                     * When dynamic update is not used we pass every field to the update
+                     */
+                    if !useDynamicUpdate {
+                        let fields[] = field, values[] = value;
+                        let bindTypes[] = bindType;
+                    } else {
 
-                         /**
-                          * If the field is not part of the snapshot we add them as changed
-                          */
-                         if !fetch snapshotValue, snapshot[attributeField] {
-                             let changed = true;
-                         } else {
-                             /**
-                              * See https://github.com/phalcon/cphalcon/issues/3247
-                              * Take a TEXT column with value '4' and replace it by
-                              * the value '4.0'. For PHP '4' and '4.0' are the same.
-                              * We can't use simple comparison...
-                              *
-                              * We must use the type of snapshotValue.
-                              */
-                             if value === null {
-                                 let changed = snapshotValue !== null;
-                             } else {
-                                 if snapshotValue === null {
-                                     let changed = true;
-                                 } else {
+                        /**
+                         * If the field is not part of the snapshot we add them as changed
+                         */
+                        if !fetch snapshotValue, snapshot[attributeField] {
+                            let changed = true;
+                        } else {
+                            /**
+                             * See https://github.com/phalcon/cphalcon/issues/3247
+                             * Take a TEXT column with value '4' and replace it by
+                             * the value '4.0'. For PHP '4' and '4.0' are the same.
+                             * We can't use simple comparison...
+                             *
+                             * We must use the type of snapshotValue.
+                             */
+                            if value === null {
+                                let changed = snapshotValue !== null;
+                            } else {
+                                if snapshotValue === null {
+                                    let changed = true;
+                                } else {
 
-                                     if !fetch dataType, dataTypes[field] {
-                                         throw new Exception(
-                                            "Column '" . field . "' have not defined a data type"
+                                    if !fetch dataType, dataTypes[field] {
+                                        throw new Exception(
+                                           "Column '" . field . "' have not defined a data type"
                                         );
-                                     }
+                                    }
 
-                                     switch dataType {
+                                    switch dataType {
 
-                                         case Column::TYPE_BOOLEAN:
-                                             let changed = (bool) snapshotValue !== (bool) value;
-                                             break;
+                                        case Column::TYPE_BOOLEAN:
+                                            let changed = (bool) snapshotValue !== (bool) value;
+                                            break;
 
-                                         case Column::TYPE_DECIMAL:
-                                         case Column::TYPE_FLOAT:
-                                             let changed = floatval(snapshotValue) !== floatval(value);
-                                             break;
+                                        case Column::TYPE_DECIMAL:
+                                        case Column::TYPE_FLOAT:
+                                            let changed = floatval(snapshotValue) !== floatval(value);
+                                            break;
 
-                                         case Column::TYPE_INTEGER:
-                                         case Column::TYPE_DATE:
-                                         case Column::TYPE_VARCHAR:
-                                         case Column::TYPE_DATETIME:
-                                         case Column::TYPE_CHAR:
-                                         case Column::TYPE_TEXT:
-                                         case Column::TYPE_VARCHAR:
-                                         case Column::TYPE_BIGINTEGER:
-                                             let changed = (string) snapshotValue !== (string) value;
-                                             break;
+                                        case Column::TYPE_INTEGER:
+                                        case Column::TYPE_DATE:
+                                        case Column::TYPE_VARCHAR:
+                                        case Column::TYPE_DATETIME:
+                                        case Column::TYPE_CHAR:
+                                        case Column::TYPE_TEXT:
+                                        case Column::TYPE_VARCHAR:
+                                        case Column::TYPE_BIGINTEGER:
+                                            let changed = (string) snapshotValue !== (string) value;
+                                            break;
 
-                                         /**
-                                          * Any other type is not really supported...
-                                          */
-                                         default:
-                                             let changed = value != snapshotValue;
-                                     }
-                                 }
-                             }
-                         }
+                                        /**
+                                         * Any other type is not really supported...
+                                         */
+                                        default:
+                                            let changed = value != snapshotValue;
+                                    }
+                                }
+                            }
+                        }
 
-                         /**
-                          * Only changed values are added to the SQL Update
-                          */
-                         if changed {
-                             let fields[] = field, values[] = value;
-                             let bindTypes[] = bindType;
-                         }
-                     }
-                    let newSnapshot[attributeField] = value;
+                        /**
+                         * Only changed values are added to the SQL Update
+                         */
+                        if changed {
+                            let fields[] = field, values[] = value;
+                            let bindTypes[] = bindType;
+                        }
+                    }
+                   let newSnapshot[attributeField] = value;
 
-                 } else {
-                     let newSnapshot[attributeField] = null;
-                     let fields[] = field, values[] = null, bindTypes[] = bindSkip;
-                 }
-             }
-         }
+                } else {
+                    let newSnapshot[attributeField] = null;
 
-         /**
-          * If there is no fields to update we return true
-          */
-         if !count(fields) {
-             if useDynamicUpdate {
-                 let this->_oldSnapshot = snapshot;
-             }
-             return true;
-         }
+                    let fields[] = field,
+                        values[] = null,
+                        bindTypes[] = bindSkip;
+                }
+            }
+        }
 
-         let uniqueKey = this->_uniqueKey,
-             uniqueParams = this->_uniqueParams,
-             uniqueTypes = this->_uniqueTypes;
+        /**
+         * If there is no fields to update we return true
+         */
+        if !count(fields) {
+            if useDynamicUpdate {
+                let this->_oldSnapshot = snapshot;
+            }
+            return true;
+        }
 
-         /**
-          * When unique params is null we need to rebuild the bind params
-          */
-         if typeof uniqueParams != "array" {
+        let uniqueKey = this->_uniqueKey,
+            uniqueParams = this->_uniqueParams,
+            uniqueTypes = this->_uniqueTypes;
 
-             let primaryKeys = metaData->getPrimaryKeyAttributes(this);
+        /**
+         * When unique params is null we need to rebuild the bind params
+         */
+        if typeof uniqueParams != "array" {
 
-             /**
-              * We can't create dynamic SQL without a primary key
-              */
-             if !count(primaryKeys) {
-                 throw new Exception(
+            let primaryKeys = metaData->getPrimaryKeyAttributes(this);
+
+            /**
+             * We can't create dynamic SQL without a primary key
+             */
+            if !count(primaryKeys) {
+                throw new Exception(
                     "A primary key must be defined in the model in order to perform the operation"
                 );
-             }
+            }
 
-             let uniqueParams = [];
-             for field in primaryKeys {
+            let uniqueParams = [];
+            for field in primaryKeys {
 
-                 /**
-                  * Check if the model has a column map
-                  */
-                 if typeof columnMap == "array" {
-                     if !fetch attributeField, columnMap[field] {
-                         throw new Exception(
-                            "Column '" . field . "' isn't part of the column map"
+                /**
+                 * Check if the model has a column map
+                 */
+                if typeof columnMap == "array" {
+                    if !fetch attributeField, columnMap[field] {
+                        throw new Exception(
+                           "Column '" . field . "' isn't part of the column map"
                         );
-                     }
-                 } else {
-                     let attributeField = field;
-                 }
+                    }
+                } else {
+                    let attributeField = field;
+                }
 
-                 if fetch value, this->{attributeField} {
-                     let newSnapshot[attributeField] = value;
-                     let uniqueParams[] = value;
-                 } else {
-                     let newSnapshot[attributeField] = null;
-                     let uniqueParams[] = null;
-                 }
-             }
-         }
+                if fetch value, this->{attributeField} {
+                    let newSnapshot[attributeField] = value;
+                    let uniqueParams[] = value;
+                } else {
+                    let newSnapshot[attributeField] = null;
+                    let uniqueParams[] = null;
+                }
+            }
+        }
 
-         /**
-          * We build the conditions as an array
-          * Perform the low level update
-          */
-         let success = connection->update(table, fields, values, [
-             "conditions" : uniqueKey,
-             "bind"         : uniqueParams,
-             "bindTypes"  : uniqueTypes
-         ], bindTypes);
+        /**
+         * We build the conditions as an array
+         * Perform the low level update
+         */
+        let success = connection->update(
+            table,
+            fields,
+            values,
+            [
+                "conditions" : uniqueKey,
+                "bind"       : uniqueParams,
+                "bindTypes"  : uniqueTypes
+            ],
+            bindTypes
+        );
 
-         if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
+        if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
             if typeof snapshot == "array" {
                 let this->_oldSnapshot = snapshot;
                 let this->_snapshot = array_merge(snapshot, newSnapshot);
@@ -3621,8 +3721,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
         }
 
-         return success;
-     }
+        return success;
+    }
 
     /**
      * Checks whether the current record already exists
@@ -3683,7 +3783,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 }
 
                 /**
-                 * If the primary key attribute is set append it to the conditions
+                 * If the primary key attribute is set append it to the
+                 * conditions
                  */
                 let value = null;
                 if fetch value, this->{attributeField} {
@@ -3713,7 +3814,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
 
             /**
-             * There are no primary key fields defined, assume the record does not exist
+             * There are no primary key fields defined, assume the record does
+             * not exist
              */
             if numberPrimary == numberEmpty {
                 return false;
@@ -3722,7 +3824,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let joinWhere = join(" AND ", wherePk);
 
             /**
-             * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
+             * The unique key is composed of 3 parts _uniqueKey, uniqueParams,
+             * uniqueTypes
              */
             let this->_uniqueKey = joinWhere,
                 this->_uniqueParams = uniqueParams,
@@ -3757,7 +3860,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Here we use a single COUNT(*) without PHQL to make the execution faster
+         * Here we use a single COUNT(*) without PHQL to make the execution
+         * faster
          */
         let num = connection->fetchOne(
             "SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
@@ -3794,15 +3898,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * Calling find/findFirst if the method starts with "get"
          */
         if starts_with(method, "get") {
-            let relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 3));
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                modelName,
+                substr(method, 3)
+            );
         }
 
         /**
          * Calling count if the method starts with "count"
          */
         elseif starts_with(method, "count") {
-            let queryMethod = "count",
-                relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
+            let queryMethod = "count";
+
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    substr(method, 5)
+                );
         }
 
         /**
@@ -4023,8 +4134,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function _preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
     {
-        var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
-            field, attributeField, value, emptyStringValues;
+        var notNull, columnMap, dataTypeNumeric, automaticAttributes,
+            defaultValues, field, attributeField, value, emptyStringValues;
         bool error, isNull;
 
         /**
@@ -4173,8 +4284,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             /**
                              * An implicit PresenceOf message is created
                              */
-                            let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
-                                error = true;
+                            let this->_errorMessages[] = new Message(
+                                attributeField . " is required",
+                                attributeField,
+                                "PresenceOf"
+                            );
+
+                            let error = true;
                         }
                     }
                 }
@@ -4280,7 +4396,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Try to get a relation with the same name
              */
-            let relation = <RelationInterface> manager->getRelationByAlias(className, name);
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                className,
+                name
+            );
+
             if typeof relation == "object" {
 
                 /**
@@ -4310,12 +4430,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
 
                     /**
-                     * If dynamic update is enabled, saving the record must not take any action
+                     * If dynamic update is enabled, saving the record must not
+                     * take any action
                      */
                     if !record->save() {
 
                         /**
-                         * Get the validation messages generated by the referenced model
+                         * Get the validation messages generated by the
+                         * referenced model
                          */
                         for message in record->getMessages() {
 
@@ -4342,8 +4464,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
 
                     /**
-                     * Read the attribute from the referenced model and assigns it to the current model
-                     * Assign it to the model
+                     * Read the attribute from the referenced model and assign
+                     * it to the current model
                      */
                     let this->{columns} = record->readAttribute(referencedFields);
                 }
@@ -4378,8 +4500,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var nesting, className, manager, relation, name, record, message,
             columns, referencedModel, referencedFields, relatedRecords, value,
-            recordAfter, intermediateModel, intermediateFields, intermediateValue,
-            intermediateModelName, intermediateReferencedFields;
+            recordAfter, intermediateModel, intermediateFields,
+            intermediateValue, intermediateModelName,
+            intermediateReferencedFields;
         bool isThrough;
 
         let nesting = false,
@@ -4391,7 +4514,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Try to get a relation with the same name
              */
-            let relation = <RelationInterface> manager->getRelationByAlias(className, name);
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                className,
+                name
+            );
+
             if typeof relation == "object" {
 
                 /**
@@ -4451,7 +4578,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 for recordAfter in relatedRecords {
 
                     /**
-                     * For non has-many-to-many relations just assign the local value in the referenced model
+                     * For non has-many-to-many relations just assign the local
+                     * value in the referenced model
                      */
                     if !isThrough {
 
@@ -4467,7 +4595,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     if !recordAfter->save() {
 
                         /**
-                         * Get the validation messages generated by the referenced model
+                         * Get the validation messages generated by the
+                         * referenced model
                          */
                         for message in recordAfter->getMessages() {
 
@@ -4498,22 +4627,32 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         /**
                          * Create a new instance of the intermediate model
                          */
-                        let intermediateModel = manager->load(intermediateModelName);
+                        let intermediateModel = manager->load(
+                            intermediateModelName
+                        );
 
                         /**
                          * Write value in the intermediate model
                          */
-                        intermediateModel->writeAttribute(intermediateFields, value);
+                        intermediateModel->writeAttribute(
+                            intermediateFields,
+                            value
+                        );
 
                         /**
                          * Get the value from the referenced model
                          */
-                        let intermediateValue = recordAfter->readAttribute(referencedFields);
+                        let intermediateValue = recordAfter->readAttribute(
+                            referencedFields
+                        );
 
                         /**
                          * Write the intermediate value in the intermediate model
                          */
-                        intermediateModel->writeAttribute(intermediateReferencedFields, intermediateValue);
+                        intermediateModel->writeAttribute(
+                            intermediateReferencedFields,
+                            intermediateValue
+                        );
 
                         /**
                          * Save the record and get messages
@@ -4529,9 +4668,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                                  * Set the related model
                                  */
                                 if typeof message == "object" {
-                                    message->setMetaData([
-                                        "model" : record
-                                    ]);
+                                    message->setMetaData(
+                                        [
+                                            "model": record
+                                        ]
+                                    );
                                 }
 
                                 /**
@@ -4595,7 +4736,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let keysAttributes[attribute] = true;
         }
 
-        this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
+        this->getModelsMetaData()->setEmptyStringAttributes(
+            this,
+            keysAttributes
+        );
     }
 
     /**
@@ -4715,7 +4859,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     }
 
     /**
-     * Setup an n-n relation between two models, through an intermediate relation
+     * Setup an n-n relation between two models, through an intermediate
+     * relation
      *
      *<code>
      *
@@ -4800,7 +4945,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function keepSnapshots(bool keepSnapshot) -> void
     {
-        (<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
+        (<ManagerInterface> this->_modelsManager)->keepSnapshots(
+            this,
+            keepSnapshot
+        );
     }
 
     /**
@@ -4808,7 +4956,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function setSchema(string! schema) -> <ModelInterface>
     {
-        return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
+        return (<ManagerInterface> this->_modelsManager)->setModelSchema(
+            this,
+            schema
+        );
     }
 
     /**
@@ -4873,7 +5024,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let keysAttributes[attribute] = null;
         }
 
-        this->getModelsMetaData()->setAutomaticCreateAttributes(this, keysAttributes);
+        this->getModelsMetaData()->setAutomaticCreateAttributes(
+            this,
+            keysAttributes
+        );
     }
 
     /**
@@ -4904,7 +5058,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let keysAttributes[attribute] = null;
         }
 
-        this->getModelsMetaData()->setAutomaticUpdateAttributes(this, keysAttributes);
+        this->getModelsMetaData()->setAutomaticUpdateAttributes(
+            this,
+            keysAttributes
+        );
     }
 
     /**
@@ -4925,7 +5082,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function useDynamicUpdate(bool dynamicUpdate) -> void
     {
-        (<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
+        (<ManagerInterface> this->_modelsManager)->useDynamicUpdate(
+            this,
+            dynamicUpdate
+        );
     }
 
     /**

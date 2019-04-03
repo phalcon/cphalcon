@@ -13,9 +13,10 @@ namespace Phalcon\Events;
 /**
  * Phalcon\Events\Manager
  *
- * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
- * the normal flow of operation. With the EventsManager the developer can create hooks or
- * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
+ * Phalcon Events Manager, offers an easy way to intercept and manipulate, if
+ * needed, the normal flow of operation. With the EventsManager the developer
+ * can create hooks or plugins that will offer monitoring of data, manipulation,
+ * conditional execution and much more.
  */
 interface ManagerInterface
 {
@@ -39,7 +40,8 @@ interface ManagerInterface
     public function detachAll(string! type = null) -> void;
 
     /**
-     * Fires an event in the events manager causing the active listeners to be notified about it
+     * Fires an event in the events manager causing the active listeners to be
+     * notified about it
      *
      * @param object source
      * @param mixed  data

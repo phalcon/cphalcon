@@ -180,7 +180,10 @@ class Console extends BaseApplication
         }
 
         if str {
-            let this->arguments = implode(Route::getDelimiter(), args);
+            let this->arguments = implode(
+                Route::getDelimiter(),
+                args
+            );
         } else {
             if count(args) {
                 let handleArgs["task"] = array_shift(args);

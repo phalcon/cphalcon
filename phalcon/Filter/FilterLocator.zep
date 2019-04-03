@@ -93,8 +93,8 @@ class FilterLocator extends Locator
              */
             for sanitizerKey, sanitizer in sanitizers {
                 /**
-                 *  If `sanitizer` is an array, that means that the sanitizerKey is
-                 *  the name of the sanitizer.
+                 * If `sanitizer` is an array, that means that the sanitizerKey
+                 * is the name of the sanitizer.
                  */
                  if typeof sanitizer === "array" {
                      let sanitizerName   = sanitizerKey,
@@ -105,14 +105,22 @@ class FilterLocator extends Locator
                  }
 
                 /**
-                 * Check if the value is an array of elements. If the noRecursive
+                 * Check if the value is an array of elements. If `noRecursive`
                  * has been defined it is a straight up; otherwise recursion is
                  * required
                  */
                 if typeof value === "array" && !noRecursive {
-                    let value = this->processArrayValues(value, sanitizerName, sanitizerParams);
+                    let value = this->processArrayValues(
+                        value,
+                        sanitizerName,
+                        sanitizerParams
+                    );
                 } else {
-                    let value = this->sanitizer(value, sanitizerName, sanitizerParams);
+                    let value = this->sanitizer(
+                        value,
+                        sanitizerName,
+                        sanitizerParams
+                    );
                 }
             }
 
@@ -120,7 +128,8 @@ class FilterLocator extends Locator
         }
 
         /**
-         * Apply a single sanitizer to the values. Check if the values are an array
+         * Apply a single sanitizer to the values. Check if the values are an
+         * array
          */
         if typeof value == "array" && !noRecursive {
             return this->processArrayValues(value, sanitizers);
@@ -138,7 +147,11 @@ class FilterLocator extends Locator
 
         let arrayValue = [];
         for itemKey, itemValue in values {
-            let arrayValue[itemKey] = this->sanitizer(itemValue, sanitizerName, sanitizerParams);
+            let arrayValue[itemKey] = this->sanitizer(
+                itemValue,
+                sanitizerName,
+                sanitizerParams
+            );
         }
 
         return arrayValue;

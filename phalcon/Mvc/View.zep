@@ -990,8 +990,9 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Sets the layouts sub-directory. Must be a directory under the views directory.
-     * Depending of your platform, always add a trailing slash or backslash
+     * Sets the layouts sub-directory. Must be a directory under the views
+     * directory. Depending of your platform, always add a trailing slash or
+     * backslash
      *
      *<code>
      * $view->setLayoutsDir("../common/layouts/");
@@ -1019,8 +1020,9 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Sets a partials sub-directory. Must be a directory under the views directory.
-     * Depending of your platform, always add a trailing slash or backslash
+     * Sets a partials sub-directory. Must be a directory under the views
+     * directory. Depending of your platform, always add a trailing slash or
+     * backslash
      *
      *<code>
      * $view->setPartialsDir("../common/partials/");
@@ -1245,8 +1247,8 @@ class View extends Injectable implements ViewInterface
                 if renderLevel >= cacheLevel {
 
                     /**
-                     * Check if the cache is started, the first time a cache is started we start the
-                     * cache
+                     * Check if the cache is started, the first time a cache is
+                     * started we start the cache
                      */
                     if !cache->isStarted() {
 
@@ -1315,7 +1317,8 @@ class View extends Injectable implements ViewInterface
                     engine->render(viewEnginePath, viewParams, mustClean);
 
                     /**
-                     * Call afterRenderView if there is an events manager available
+                     * Call afterRenderView if there is an events manager
+                     * available
                      */
                     let notExists = false;
                     if typeof eventsManager == "object" {

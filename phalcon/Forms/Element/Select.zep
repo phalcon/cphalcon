@@ -72,7 +72,10 @@ class Select extends Element
         /**
          * Merged passed attributes with previously defined ones
          */
-        return Select::selectField(this->prepareAttributes(attributes), this->optionsValues);
+        return Select::selectField(
+            this->prepareAttributes(attributes),
+            this->optionsValues
+        );
     }
 
     /**

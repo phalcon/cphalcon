@@ -35,7 +35,8 @@ abstract class Adapter implements AdapterInterface
      */
     public function get(var className) -> <Reflection>
     {
-        var annotations, classAnnotations, parsedAnnotations, realClassName, reader;
+        var annotations, classAnnotations, parsedAnnotations, realClassName,
+            reader;
 
         /**
          * Get the class name if it's an object

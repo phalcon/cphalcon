@@ -112,8 +112,14 @@ class File extends Validator
 
         // Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
         if _SERVER["REQUEST_METHOD"] == "POST" && empty _POST && empty _FILES && _SERVER["CONTENT_LENGTH"] > 0 || isset value["error"] && value["error"] === UPLOAD_ERR_INI_SIZE {
-            let message = this->prepareMessage(validation, field, "FileIniSize", "messageIniSize"),
-                replacePairs = [":field": label];
+            let message = this->prepareMessage(
+                validation,
+                field,
+                "FileIniSize",
+                "messageIniSize"
+            );
+
+            let replacePairs = [":field": label];
 
             validation->appendMessage(
                 new Message(
@@ -183,7 +189,7 @@ class File extends Validator
                 "MB": 20,
                 "GB": 30,
                 "TB": 40
-            ],
+            ];
 
             let maxSize = this->getOption("maxSize"),
                 matches = null,
@@ -259,7 +265,10 @@ class File extends Validator
                     "messageType"
                 );
 
-                let replacePairs = [":field": label, ":types": join(", ", types)];
+                let replacePairs = [
+                    ":field": label,
+                    ":types": join(", ", types)
+                ];
 
                 validation->appendMessage(
                     new Message(
@@ -293,8 +302,14 @@ class File extends Validator
             }
 
             if width < minWidth || height < minHeight {
-                let message = this->prepareMessage(validation, field, "FileMinResolution", "messageMinResolution"),
-                    replacePairs = [":field": label, ":min": minResolution];
+                let message = this->prepareMessage(
+                    validation,
+                    field,
+                    "FileMinResolution",
+                    "messageMinResolution"
+                );
+
+                let replacePairs = [":field": label, ":min": minResolution];
 
                 validation->appendMessage(
                     new Message(
@@ -319,9 +334,14 @@ class File extends Validator
                     maxHeight = maxResolutionArray[1];
 
                 if width > maxWidth || height > maxHeight {
-                    let message = this->prepareMessage(validation, field, "FileMaxResolution", "messageMaxResolution"),
-                        replacePairs = [":field": label, ":max": maxResolution];
+                    let message = this->prepareMessage(
+                        validation,
+                        field,
+                        "FileMaxResolution",
+                        "messageMaxResolution"
+                    );
 
+                    let replacePairs = [":field": label, ":max": maxResolution];
 
                     validation->appendMessage(
                         new Message(
