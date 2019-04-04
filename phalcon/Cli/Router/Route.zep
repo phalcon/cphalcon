@@ -452,6 +452,10 @@ class Route
                         // Extract the namespace from the namespaced class
                         let namespaceName = get_ns_class(taskName);
 
+                        if namespaceName === null || realClassName === null {
+                            throw new Exception("The route contains invalid paths");
+                        }
+
                         // Update the namespace
                         if namespaceName {
                             let routePaths["namespace"] = namespaceName;

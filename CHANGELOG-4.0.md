@@ -1,10 +1,13 @@
 # [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
-- Fixed `Mvc\Collection::isInitialized()` now works as intended.
-
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events.
 - `Phalcon\Translate\InterpolatorInterface` now only accepts placeholder arrays.
+- `Phalcon\Dispatcher::forward()` and `Phalcon\Dispatcher::setParams()` now require an array as a parameter.
+- CLI Routes with bad classnames (eg. `MyApp\\Tasks\\`) now throw an exception instead of suppressing the error.
+- Refacted `Phalcon\Mvc\Collection\Behavior\SoftDelete` and `Phalcon\Mvc\Model\Behavior\SoftDelete`.
 
+## Fixed
+- Fixed `Mvc\Collection::isInitialized()` now works as intended.
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added

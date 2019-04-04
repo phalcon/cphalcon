@@ -511,11 +511,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      * );
      * </code>
      *
-     * @param array forward
-     *
      * @throws \Phalcon\Exception
      */
-    public function forward(var forward) -> void
+    public function forward(array forward) -> void
     {
         var namespaceName, controllerName, params, actionName, taskName;
 
@@ -524,14 +522,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             // because it would allow the application to break out of the defined logic inside the dispatcher
             // which handles all dispatch exceptions.
             throw new PhalconException("Forwarding inside a controller's initialize() method is forbidden");
-        }
-
-        // @todo Remove in 4.0.x and ensure forward is of type "array"
-        if typeof forward !== "array" {
-            // Note: Important that we do not throw a "throwDispatchException" call here. This is important
-            // because it would allow the application to break out of the defined logic inside the dispatcher
-            // which handles all dispatch exceptions.
-            throw new PhalconException("Forward parameter must be an Array");
         }
 
         // Save current values as previous to ensure calls to getPrevious methods don't return <tt>null</tt>.
@@ -811,18 +801,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
     /**
      * Sets action params to be dispatched
-     *
-     * @param array params
      */
-    public function setParams(var params) -> void
+    public function setParams(array params) -> void
     {
-        // @todo Deprecate in 4.0 and replace with array params
-        if typeof params != "array" {
-            // Note: Important that we do not throw a "throwDispatchException" call here. This is important
-            // because it would allow the application to break out of the defined logic inside the dispatcher
-            // which handles all dispatch exceptions.
-            throw new PhalconException("Parameters must be an Array");
-        }
         let this->params = params;
     }
 
