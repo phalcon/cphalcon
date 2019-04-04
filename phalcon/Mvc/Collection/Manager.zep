@@ -201,9 +201,9 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     /**
      * Check whether a model is already initialized
      */
-    public function isInitialized(string! modelName) -> bool
+    public function isInitialized(string! className) -> bool
     {
-        return isset this->initialized[strtolower(modelName)];
+        return isset this->initialized[strtolower(className)];
     }
 
     /**
@@ -213,24 +213,23 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     {
         var className, initialized, eventsManager;
 
-        let className = get_class(model);
+        let className = get_class_lower(model);
         let initialized = this->initialized;
 
         /**
-        * Models are just initialized once per request
-        */
+         * Models are just initialized once per request
+         */
         if !isset initialized[className] {
-
             /**
-            * Call the 'initialize' method if it's implemented
-            */
+             * Call the 'initialize' method if it's implemented
+             */
             if method_exists(model, "initialize") {
                 model->{"initialize"}();
             }
 
             /**
-            * If an EventsManager is available we pass to it every initialized model
-            */
+             * If an EventsManager is available we pass to it every initialized model
+             */
             let eventsManager = this->eventsManager;
             if typeof eventsManager == "object" {
                 eventsManager->fire("collectionManager:afterInitialize", model);
