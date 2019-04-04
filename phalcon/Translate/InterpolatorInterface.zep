@@ -11,14 +11,14 @@
 namespace Phalcon\Translate;
 
 /**
- * Phalcon\Translate\AdapterInterface
+ * Phalcon\Translate\InterpolatorInterface
  *
- * Interface for Phalcon\Translate adapters
+ * Interface for Phalcon\Translate interpolators
  */
 interface InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
     */
-    public function replacePlaceholders(string! translation, placeholders = null) -> string;
+    public function replacePlaceholders(string! translation, array placeholders = []) -> string;
 }
