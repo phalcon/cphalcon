@@ -34,11 +34,11 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
     protected filter;
 
-    protected httpOnly = false;
+    protected httpOnly;
 
     protected name;
 
-    protected path = "/";
+    protected path;
 
     protected read = false;
 
@@ -67,7 +67,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         string path = "/",
         bool secure = null,
         string domain = null,
-        bool httpOnly = null
+        bool httpOnly = false
     ) {
         let this->name = name;
 
@@ -77,9 +77,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
         let this->expire = expire;
 
-        if path !== null {
-            let this->path = path;
-        }
+        let this->path = path;
 
         if secure !== null {
             let this->secure = secure;
@@ -89,9 +87,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             let this->domain = domain;
         }
 
-        if httpOnly !== null {
-            let this->httpOnly = httpOnly;
-        }
+        let this->httpOnly = httpOnly;
     }
 
     /**
