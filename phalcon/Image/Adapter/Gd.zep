@@ -117,7 +117,9 @@ class Gd extends Adapter
         if defined("GD_VERSION") {
             let version = GD_VERSION;
         } else {
-            let info = gd_info(), matches = null;
+            let info = gd_info(),
+                matches = null;
+
             if preg_match("/\\d+\\.\\d+(?:\\.\\d+)?/", info["GD Version"], matches) {
                 let version = matches[0];
             }
@@ -179,8 +181,10 @@ class Gd extends Adapter
 
         if version_compare(PHP_VERSION, "5.5.0") < 0 {
             let image = this->processCreate(width, height);
-            if (imagecopyresampled(image, this->image, 0, 0, offsetX, offsetY, width, height, width, height)) {
+
+            if imagecopyresampled(image, this->image, 0, 0, offsetX, offsetY, width, height, width, height) {
                 imagedestroy(this->image);
+
                 let this->image = image;
                 let this->width  = imagesx(image);
                 let this->height = imagesy(image);
@@ -195,7 +199,9 @@ class Gd extends Adapter
             ];
 
             let image = imagecrop(this->image, rect);
+
             imagedestroy(this->image);
+
             let this->image = image;
             let this->width  = imagesx(image);
             let this->height = imagesy(image);

@@ -949,12 +949,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      * Enable model binding during dispatch
      *
      * <code>
-     * $di->set('dispatcher', function() {
-     *     $dispatcher = new Dispatcher();
+     * $di->set(
+     *     'dispatcher',
+     *     function() {
+     *         $dispatcher = new Dispatcher();
      *
-     *     $dispatcher->setModelBinder(new Binder(), 'cache');
-     *     return $dispatcher;
-     * });
+     *         $dispatcher->setModelBinder(new Binder(), 'cache');
+     *
+     *         return $dispatcher;
+     *     }
+     * );
      * </code>
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
