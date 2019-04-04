@@ -80,10 +80,10 @@ interface RouteInterface
     /**
      * Sets the route's description
      */
-    public function setDescription(string! description) -> <Route>;
+    public function setDescription(string! description) -> <RouteInterface>;
 
     /**
      * Sets the route's name
      */
-    public function setName(string name) -> <Route>;
+    public function setName(string name) -> <RouteInterface>;
 }
