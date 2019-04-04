@@ -79,7 +79,7 @@ class Route
      *
      * @param callback callback
      */
-    public function beforeMatch(var callback) -> <Route>
+    public function beforeMatch(var callback) -> <RouteInterface>
     {
         let this->beforeMatch = callback;
         return this;
@@ -158,7 +158,7 @@ class Route
      *
      * @param callable converter
      */
-    public function convert(string! name, converter) -> <Route>
+    public function convert(string! name, converter) -> <RouteInterface>
     {
         let this->converters[name] = converter;
         return this;
@@ -548,7 +548,7 @@ class Route
     /**
      * Sets the route's description
      */
-    public function setDescription(string! description) -> <Route>
+    public function setDescription(string! description) -> <RouteInterface>
     {
         let this->description = description;
         return this;
@@ -566,7 +566,7 @@ class Route
      * )->setName("about");
      *</code>
      */
-    public function setName(string! name) -> <Route>
+    public function setName(string! name) -> <RouteInterface>
     {
         let this->name = name;
         return this;
