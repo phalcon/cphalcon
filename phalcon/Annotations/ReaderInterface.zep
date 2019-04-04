@@ -19,13 +19,13 @@ interface ReaderInterface
 {
 
     /**
-     * Reads annotations from the class dockblocks, its methods and/or
+     * Reads annotations from the class docblocks, its methods and/or
      * properties
      */
     public function parse(string className) -> array;
 
     /**
-     * Parses a raw doc block returning the annotations found
+     * Parses a raw docblock returning the annotations found
      */
     public static function parseDocBlock(string docBlock, file = null, line = null) -> array;
 }
