@@ -24,9 +24,9 @@ class RobotsExtended extends Robots
     /**
      * @param null $parameters
      *
-     * @return ModelInterface
+     * @return ModelInterface|false
      */
-    public static function findFirst($parameters = null): ModelInterface
+    public static function findFirst($parameters = null)
     {
         if (is_string($parameters)) {
             return parent::findFirstById($parameters);
