@@ -83,14 +83,12 @@ class Ini extends Config
         for section, directives in iniConfig {
             if typeof directives == "array" {
                 let sections = [];
-
                 for path, lastValue in directives {
                     let sections[] = this->parseIniString(
                         (string) path,
                         lastValue
                     );
                 }
-
                 if count(sections) {
                     let config[section] = call_user_func_array(
                         "array_replace_recursive",
@@ -114,37 +112,36 @@ class Ini extends Config
     protected function cast(var ini) -> bool | null | double | int | string
     {
         var key, val;
-
         if typeof ini == "array" {
-            for key, val in ini {
+            for key, val in ini{
                 let ini[key] = this->cast(val);
             }
         }
+        if typeof ini == "string" {
+            // Decode true
+            if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
+                return true;
+            }
 
-        // Decode true
-        if ini === "true" || ini === "yes" || strtolower(ini) === "on" {
-            return true;
-        }
+            // Decode false
+            if ini === "false" || ini === "no" || strtolower(ini) === "off"{
+                return false;
+            }
 
-        // Decode false
-        if ini === "false" || ini === "no" || strtolower(ini) === "off" {
-            return false;
-        }
+            // Decode null
+            if ini === "null" {
+                return null;
+            }
 
-        // Decode null
-        if ini === "null" {
-            return null;
-        }
-
-        // Decode float/int
-        if typeof ini == "string" && is_numeric(ini) {
-            if preg_match("/[.]+/", ini) {
-                return (double) ini;
-            } else {
-                return (int) ini;
+            // Decode float/int
+            if is_numeric(ini) {
+                if preg_match("/[.]+/", ini) {
+                    return (double) ini;
+                } else {
+                    return (int) ini;
+                }
             }
         }
-
         return ini;
     }
     
