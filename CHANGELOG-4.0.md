@@ -1,4 +1,8 @@
 # [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
+## Added
+- Added `Phalcon\Cli\Router\Route::setDescription()` to sets the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
+- Added `Phalcon\Cli\Router\Route::getDescription()` returns the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
+
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events.
 - `Phalcon\Translate\InterpolatorInterface` now only accepts placeholder arrays.
