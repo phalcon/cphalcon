@@ -16,6 +16,7 @@ use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsExtended;
 
 /**
  * Class FindFirstCest
@@ -50,6 +51,29 @@ class FindFirstCest
         $robot = Robots::findFirst(1);
         $class = Robots::class;
         $I->assertInstanceOf($class, $robot);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirst() - extended
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelFindFirstExtended(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - extended');
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $robot = RobotsExtended::findFirst(1);
+        $class = RobotsExtended::class;
+        $I->assertInstanceOf($class, $robot);
+        $I->assertEquals(1, $robot->id);
+
+        $robot = RobotsExtended::findFirst(0);
+        $I->assertFalse($robot);
     }
 
     /**
