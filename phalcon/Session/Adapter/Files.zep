@@ -55,7 +55,7 @@ class Files extends Noop
             let path = ini_get("session.save_path");
         }
 
-        if true !== is_writable(path) {
+        if !is_writable(path) {
             throw new Exception("The save_path [" . path . "]is not writeable");
         }
 
@@ -68,7 +68,7 @@ class Files extends Noop
 
         let name = this->path . this->getPrefixedName(id);
 
-        if (true === file_exists(name)) {
+        if file_exists(name) {
             unlink(name);
         }
 
@@ -82,7 +82,7 @@ class Files extends Noop
         let pattern = this->path . this->prefix . "*";
 
         for file in glob(pattern) {
-            if (true === file_exists(file) && filemtime(file) + maxlifetime < time()) {
+            if file_exists(file) && (filemtime(file) + maxlifetime < time()) {
                 unlink(file);
             }
         }
@@ -110,7 +110,7 @@ class Files extends Noop
         let name = this->path . this->getPrefixedName(id),
             data = "";
 
-        if true === file_exists(name) {
+        if file_exists(name) {
             let data = file_get_contents(name);
 
             if (false === data) {

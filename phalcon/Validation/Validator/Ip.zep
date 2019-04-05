@@ -77,7 +77,8 @@ class Ip extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, version, allowPrivate, allowReserved, allowEmpty, message, label, replacePairs, options;
+        var value, version, allowPrivate, allowReserved, allowEmpty, message,
+            label, replacePairs, options;
 
         let value = validation->getValue(field);
 
@@ -130,7 +131,15 @@ class Ip extends Validator
 
         if !filter_var(value, FILTER_VALIDATE_IP, options) {
             let replacePairs = [":field": label];
-            validation->appendMessage(new Message(strtr(message, replacePairs), field, "Ip"));
+
+            validation->appendMessage(
+                new Message(
+                    strtr(message, replacePairs),
+                    field,
+                    "Ip"
+                )
+            );
+
             return false;
     }
 

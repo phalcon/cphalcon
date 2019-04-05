@@ -202,7 +202,9 @@ class Memory extends Adapter
 
         let rolesNames = this->rolesNames;
         if !isset rolesNames[roleName] {
-            throw new Exception("Role '" . roleName . "' does not exist in the role list");
+            throw new Exception(
+                "Role '" . roleName . "' does not exist in the role list"
+            );
         }
 
         if !isset this->roleInherits[roleName] {
@@ -235,7 +237,9 @@ class Memory extends Adapter
              * Check if the role to inherit is valid
              */
             if !isset rolesNames[roleInheritName] {
-                throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
+                throw new Exception(
+                    "Role '" . roleInheritName . "' (to inherit) does not exist in the role list"
+                );
             }
 
             if roleName == roleInheritName {
@@ -258,7 +262,9 @@ class Memory extends Adapter
                     }
                     let usedRoleToInherits[checkRoleToInherit]=true;
                     if roleName == checkRoleToInherit {
-                        throw new Exception("Role '" . roleInheritName . "' (to inherit) is infinite loop ");
+                        throw new Exception(
+                            "Role '" . roleInheritName . "' (to inherit) is infinite loop "
+                        );
                     }
                     /**
                      * Push inherited roles
@@ -304,7 +310,9 @@ class Memory extends Adapter
             let roleName = role;
             let roleObject = new Role(role);
         } else {
-            throw new Exception("Role must be either an string or implement RoleInterface");
+            throw new Exception(
+                "Role must be either an string or implement RoleInterface"
+            );
         }
 
         if isset this->rolesNames[roleName] {
@@ -388,7 +396,9 @@ class Memory extends Adapter
         var accessName, accessKey, exists;
 
         if !isset this->componentsNames[componentName] {
-            throw new Exception("Component '" . componentName . "' does not exist in ACL");
+            throw new Exception(
+                "Component '" . componentName . "' does not exist in ACL"
+            );
         }
 
         if typeof accessList != "array" && typeof accessList != "string" {
@@ -438,10 +448,22 @@ class Memory extends Adapter
         var innerRoleName;
 
         if roleName != "*" {
-            this->allowOrDeny(roleName, componentName, access, Acl::ALLOW, func);
+            this->allowOrDeny(
+                roleName,
+                componentName,
+                access,
+                Acl::ALLOW,
+                func
+            );
         } else {
             for innerRoleName, _ in this->rolesNames {
-                this->allowOrDeny(innerRoleName, componentName, access, Acl::ALLOW, func);
+                this->allowOrDeny(
+                    innerRoleName,
+                    componentName,
+                    access,
+                    Acl::ALLOW,
+                    func
+                );
             }
         }
     }
@@ -474,7 +496,13 @@ class Memory extends Adapter
             this->allowOrDeny(roleName, componentName, access, Acl::DENY, func);
         } else {
             for innerRoleName, _ in this->rolesNames {
-                this->allowOrDeny(innerRoleName, componentName, access, Acl::DENY, func);
+                this->allowOrDeny(
+                    innerRoleName,
+                    componentName,
+                    access,
+                    Acl::DENY,
+                    func
+                );
             }
         }
     }
@@ -546,11 +574,11 @@ class Memory extends Adapter
      */
     public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
     {
-        var eventsManager, accessList, accessKey,
-            haveAccess = null, rolesNames,
-            funcAccess = null, componentObject = null, roleObject = null, funcList,
-            reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
-            numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,
+        var eventsManager, accessList, accessKey, haveAccess = null, rolesNames,
+            funcAccess = null, componentObject = null, roleObject = null,
+            funcList, reflectionFunction, reflectionParameters, parameterNumber,
+            parametersForFunction, numberOfRequiredParameters,
+            userParametersSizeShouldBe, reflectionClass, parameterToCheck,
             reflectionParameter, hasRole = false, hasComponent = false;
 
         if typeof roleName == "object" {
@@ -560,7 +588,9 @@ class Memory extends Adapter
             } elseif roleName instanceof RoleInterface {
                 let roleName = roleName->getName();
             } else {
-                throw new Exception("Object passed as roleName must implement Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface");
+                throw new Exception(
+                    "Object passed as roleName must implement Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface"
+                );
             }
         }
 
@@ -571,7 +601,9 @@ class Memory extends Adapter
             } elseif componentName instanceof ComponentInterface {
                 let componentName = componentName->getName();
             } else {
-                throw new Exception("Object passed as componentName must implement Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface");
+                throw new Exception(
+                    "Object passed as componentName must implement Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface"
+                );
             }
         }
 
@@ -623,7 +655,8 @@ class Memory extends Adapter
 
         if haveAccess == null {
             /**
-             * Change activeKey to most narrow if there was no access for any patterns found
+             * Change activeKey to most narrow if there was no access for any
+             * patterns found
              */
             let this->activeKey = roleName . "!" . componentName . "!" . access;
 
@@ -638,7 +671,10 @@ class Memory extends Adapter
             let reflectionParameters = reflectionFunction->getParameters();
             let parameterNumber = count(reflectionParameters);
 
-            // No parameters, just return haveAccess and call function without array
+            /**
+             * No parameters, just return haveAccess and call function without
+             * array
+             */
             if parameterNumber === 0 {
                 return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
             }
@@ -670,7 +706,10 @@ class Memory extends Adapter
                         continue;
                     }
 
-                    // This is some user defined class, check if his parameter is instance of it
+                    /**
+                     * This is some user defined class, check if his parameter
+                     * is instance of it
+                     */
                     if isset parameters[parameterToCheck] && typeof parameters[parameterToCheck] == "object" && !reflectionClass->isInstance(parameters[parameterToCheck]) {
                         throw new Exception(
                             "Your passed parameter doesn't have the same class as the parameter in defined function when check " . roleName . " can " . access . " " . componentName . ". Class passed: " . get_class(parameters[parameterToCheck])." , Class in defined function: " . reflectionClass->getName() . "."
@@ -679,7 +718,10 @@ class Memory extends Adapter
                 }
 
                 if isset parameters[parameterToCheck] {
-                    // We can't check type of ReflectionParameter in PHP 5.x so we just add it as it is
+                    /**
+                     * We can't check type of ReflectionParameter in PHP 5.x so
+                     * we just add it as it is
+                     */
                     let parametersForFunction[] = parameters[parameterToCheck];
                 }
             }
@@ -705,7 +747,10 @@ class Memory extends Adapter
                     return haveAccess == Acl::ALLOW && this->noArgumentsDefaultAction == Acl::ALLOW;
                 }
 
-                // Number of required parameters == 0 so call funcAccess without any arguments
+                /**
+                 * Number of required parameters == 0 so call funcAccess without
+                 * any arguments
+                 */
                 return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
             }
 
@@ -758,11 +803,15 @@ class Memory extends Adapter
         var accessList, accessName, accessKey;
 
         if !isset this->rolesNames[roleName] {
-            throw new Exception("Role '" . roleName . "' does not exist in ACL");
+            throw new Exception(
+                "Role '" . roleName . "' does not exist in ACL"
+            );
         }
 
         if !isset this->componentsNames[componentName] {
-            throw new Exception("Component '" . componentName . "' does not exist in ACL");
+            throw new Exception(
+                "Component '" . componentName . "' does not exist in ACL"
+            );
         }
 
         let accessList = this->accessList;
@@ -772,7 +821,9 @@ class Memory extends Adapter
             for accessName in access {
                 let accessKey = componentName . "!" . accessName;
                 if !isset accessList[accessKey] {
-                    throw new Exception("Access '" . accessName . "' does not exist in component '" . componentName . "'");
+                    throw new Exception(
+                        "Access '" . accessName . "' does not exist in component '" . componentName . "'"
+                    );
                 }
             }
 
@@ -790,7 +841,9 @@ class Memory extends Adapter
             if access != "*" {
                 let accessKey = componentName . "!" . access;
                 if !isset accessList[accessKey] {
-                    throw new Exception("Access '" . access . "' does not exist in component '" . componentName . "'");
+                    throw new Exception(
+                        "Access '" . access . "' does not exist in component '" . componentName . "'"
+                    );
                 }
             }
 
@@ -858,7 +911,8 @@ class Memory extends Adapter
 
                 let accessKey = checkRoleToInherit . "!" . componentName . "!" . access;
                 /**
-                 * Check if there is a direct combination in one of the inherited roles
+                 * Check if there is a direct combination in one of the
+                 * inherited roles
                  */
                 if isset accessList[accessKey] {
                     return accessKey;

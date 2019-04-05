@@ -20,8 +20,9 @@ use Phalcon\Mvc\Model\TransactionInterface;
 /**
  * Phalcon\Mvc\Model\Transaction\Manager
  *
- * A transaction acts on a single database connection. If you have multiple class-specific
- * databases, the transaction will not protect interaction among them.
+ * A transaction acts on a single database connection. If you have multiple
+ * class-specific databases, the transaction will not protect interaction among
+ * them.
  *
  * This class manages the objects that compose a transaction.
  * A transaction produces a unique connection that is passed to every
@@ -90,7 +91,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         let this->container = container;
 
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
+            );
         }
     }
 
@@ -167,7 +172,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
+            );
         }
 
         if this->number {
@@ -191,7 +200,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
+     * Check if the transaction manager is registering a shutdown function to
+     * clean up pendent transactions
      */
     public function getRollbackPendent() -> bool
     {
@@ -271,7 +281,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Set if the transaction manager must register a shutdown function to clean up pendent transactions
+     * Set if the transaction manager must register a shutdown function to clean
+     * up pendent transactions
      */
     public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>
     {

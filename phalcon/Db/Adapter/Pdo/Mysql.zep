@@ -53,12 +53,23 @@ class Mysql extends PdoAdapter
     {
         var foreignKeyCheck;
 
-        let foreignKeyCheck = this->{"prepare"}(this->dialect->getForeignKeyChecks());
+        let foreignKeyCheck = this->{"prepare"}(
+            this->dialect->getForeignKeyChecks()
+        );
+
         if !foreignKeyCheck->execute() {
-            throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
+            throw new Exception(
+                "DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1"
+            );
         }
 
-        return this->{"execute"}(this->dialect->addForeignKey(tableName, schemaName, reference));
+        return this->{"execute"}(
+            this->dialect->addForeignKey(
+                tableName,
+                schemaName,
+                reference
+            )
+        );
     }
 
     /**
@@ -94,17 +105,19 @@ class Mysql extends PdoAdapter
             let definition = ["bindType": Column::BIND_PARAM_STR];
 
             /**
-             * By checking every column type we convert it to a Phalcon\Db\Column
+             * By checking every column type we convert it to a
+             * Phalcon\Db\Column
              */
             let columnType = field[1];
 
             /**
-             * The order of these IF statements matters. Since we are using memstr
-             * to figure out whether a particular string exists in the columnType
-             * we will end up with false positives if the order changes.
+             * The order of these IF statements matters. Since we are using
+             * memstr to figure out whether a particular string exists in the
+             * columnType we will end up with false positives if the order
+             * changes.
              *
-             * For instance if we have a `varchar` column and we check for `char`
-             * first, then that will match. Therefore we have firs the IF
+             * For instance if we have a `varchar` column and we check for
+             * `char` first, then that will match. Therefore we have firs the IF
              * statements that are "unique" and further down the ones that can
              * appear a substrings of the columnType above them.
              */
@@ -328,7 +341,8 @@ class Mysql extends PdoAdapter
             }
 
             /**
-             * If the column type has a parentheses we try to get the column size from it
+             * If the column type has a parentheses we try to get the column
+             * size from it
              */
             if memstr(columnType, "(") {
                 let matches = null;
@@ -443,7 +457,11 @@ class Mysql extends PdoAdapter
 
         let indexObjects = [];
         for name, index in indexes {
-            let indexObjects[name] = new Index(name, index["columns"], index["type"]);
+            let indexObjects[name] = new Index(
+                name,
+                index["columns"],
+                index["type"]
+            );
         }
 
         return indexObjects;
@@ -467,7 +485,7 @@ class Mysql extends PdoAdapter
 
         let references = [];
 
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema),Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
 
             let constraintName = reference[2];
             if !isset references[constraintName] {
@@ -502,14 +520,17 @@ class Mysql extends PdoAdapter
 
         let referenceObjects = [];
         for name, arrayReference in references {
-            let referenceObjects[name] = new Reference(name, [
-                "referencedSchema"  : arrayReference["referencedSchema"],
-                "referencedTable"   : arrayReference["referencedTable"],
-                "columns"           : arrayReference["columns"],
-                "referencedColumns" : arrayReference["referencedColumns"],
-                "onUpdate"          : arrayReference["onUpdate"],
-                "onDelete"          : arrayReference["onDelete"]
-            ]);
+            let referenceObjects[name] = new Reference(
+                name,
+                [
+                    "referencedSchema"  : arrayReference["referencedSchema"],
+                    "referencedTable"   : arrayReference["referencedTable"],
+                    "columns"           : arrayReference["columns"],
+                    "referencedColumns" : arrayReference["referencedColumns"],
+                    "onUpdate"          : arrayReference["onUpdate"],
+                    "onDelete"          : arrayReference["onDelete"]
+                ]
+            );
         }
 
         return referenceObjects;

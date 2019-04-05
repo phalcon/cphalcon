@@ -129,7 +129,12 @@ class Simple extends Resultset
                 /**
                  * Other kinds of hydrations
                  */
-                let activeRow = Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
+                let activeRow = Model::cloneResultMapHydrate(
+                    row,
+                    columnMap,
+                    hydrateMode
+                );
+
                 break;
         }
 
@@ -138,9 +143,10 @@ class Simple extends Resultset
     }
 
     /**
-     * Returns a complete resultset as an array, if the resultset has a big number of rows
-     * it could consume more memory than currently it does. Export the resultset to an array
-     * couldn't be faster with a large number of records
+     * Returns a complete resultset as an array, if the resultset has a big
+     * number of rows it could consume more memory than currently it does.
+     * Export the resultset to an array couldn't be faster with a large number
+     * of records
      */
     public function toArray(bool renameColumns = true) -> array
     {
@@ -188,13 +194,17 @@ class Simple extends Resultset
                          * Check if the key is part of the column map
                          */
                         if !fetch renamedKey, columnMap[key] {
-                            throw new Exception("Column '" . key . "' is not part of the column map");
+                            throw new Exception(
+                                "Column '" . key . "' is not part of the column map"
+                            );
                         }
 
                         if typeof renamedKey == "array" {
 
                             if !fetch renamedKey, renamedKey[0] {
-                                throw new Exception("Column '" . key . "' is not part of the column map");
+                                throw new Exception(
+                                    "Column '" . key . "' is not part of the column map"
+                                );
                             }
                         }
 
@@ -222,7 +232,9 @@ class Simple extends Resultset
         var container, serializer;
         let container = Di::getDefault();
         if typeof container != "object" {
-            throw new Exception("The dependency injector container is not valid");
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
         }
         if container->has("serializer") {
             let serializer = <FrontendInterface> container->getShared("serializer");
@@ -249,14 +261,17 @@ class Simple extends Resultset
     }
 
     /**
-     * Unserializing a resultset will allow to only works on the rows present in the saved state
+     * Unserializing a resultset will allow to only works on the rows present in
+     * the saved state
      */
     public function unserialize(var data) -> void
     {
         var resultset, keepSnapshots, container, serializer;
         let container = Di::getDefault();
         if typeof container != "object" {
-            throw new Exception("The dependency injector container is not valid");
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
         }
         if container->has("serializer") {
             let serializer = <FrontendInterface> container->getShared("serializer");

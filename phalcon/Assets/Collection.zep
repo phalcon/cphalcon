@@ -122,7 +122,9 @@ class Collection implements \Countable, \Iterator
             let collectionAttributes = this->attributes;
         }
 
-        this->add(new AssetCss(path, collectionLocal, filter, collectionAttributes));
+        this->add(
+            new AssetCss(path, collectionLocal, filter, collectionAttributes)
+        );
 
         return this;
     }
@@ -159,7 +161,12 @@ class Collection implements \Countable, \Iterator
             let collectionAttributes = this->attributes;
         }
 
-        let this->codes[] = new InlineCss(content, filter, collectionAttributes);
+        let this->codes[] = new InlineCss(
+            content,
+            filter,
+            collectionAttributes
+        );
+
         return this;
     }
 
@@ -202,7 +209,9 @@ class Collection implements \Countable, \Iterator
             let collectionAttributes = this->attributes;
         }
 
-        this->add(new AssetJs(path, collectionLocal, filter, collectionAttributes));
+        this->add(
+            new AssetJs(path, collectionLocal, filter, collectionAttributes)
+        );
 
         return this;
     }
@@ -224,7 +233,8 @@ class Collection implements \Countable, \Iterator
     }
 
     /**
-     * Returns the complete location where the joined/filtered collection must be written
+     * Returns the complete location where the joined/filtered collection must
+     * be written
      */
     public function getRealTargetPath(string! basePath) -> string
     {
@@ -238,7 +248,8 @@ class Collection implements \Countable, \Iterator
         let completePath = basePath . targetPath;
 
         /**
-         * Get the real template path, the target path can optionally don't exist
+         * Get the real template path, the target path can optionally don't
+         * exist
          */
         if file_exists(completePath) {
             return realPath(completePath);
@@ -271,7 +282,8 @@ class Collection implements \Countable, \Iterator
     }
 
     /**
-     * Sets if all filtered assets in the collection must be joined in a single result file
+     * Sets if all filtered assets in the collection must be joined in a single
+     * result file
      */
     public function join(bool join) -> <Collection>
     {

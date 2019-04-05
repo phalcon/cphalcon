@@ -357,7 +357,8 @@ class ServerRequest implements ServerRequestInterface
     }
 
     /**
-     * Return an instance with the specified header appended with the given value.
+     * Return an instance with the specified header appended with the given
+     * value.
      *
      * Existing values for the specified header will be maintained. The new
      * value(s) will be appended to the existing list. If the header did not
@@ -849,7 +850,9 @@ class ServerRequest implements ServerRequestInterface
         }
 
         if typeof body !== "string" && typeof body !== "resource" {
-            throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+            throw new \InvalidArgumentException(
+                "Invalid stream passed as a parameter"
+            );
         }
 
         return new Stream(body, mode);
@@ -912,7 +915,9 @@ class ServerRequest implements ServerRequestInterface
         ];
 
         if !(!empty(method) && typeof method === "string" && isset methods[method]) {
-            throw new \InvalidArgumentException("Invalid or unsupported method " . method);
+            throw new \InvalidArgumentException(
+                "Invalid or unsupported method " . method
+            );
         }
 
         return method;
@@ -937,7 +942,9 @@ class ServerRequest implements ServerRequestInterface
         }
 
         if !isset protocols[protocol] {
-            throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+            throw new \InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
         }
 
         return protocol;
@@ -955,7 +962,9 @@ class ServerRequest implements ServerRequestInterface
         } elseif typeof uri === "string" || null === uri {
             let localUri = new Uri(uri);
         } else {
-            throw new \InvalidArgumentException("Invalid uri passed as a parameter");
+            throw new \InvalidArgumentException(
+                "Invalid uri passed as a parameter"
+            );
         }
 
         return localUri;

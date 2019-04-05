@@ -42,12 +42,19 @@ class Validation extends Injectable implements ValidationInterface
     public function __construct(array validators = null) -> void
     {
         if count(validators) {
-            let this->validators = array_filter(validators, function(var element) {
-                return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
-            });
-            let this->combinedFieldsValidators = array_filter(validators, function(var element) {
-                return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
-            });
+            let this->validators = array_filter(
+                validators,
+                function(var element) {
+                    return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
+                }
+            );
+
+            let this->combinedFieldsValidators = array_filter(
+                validators,
+                function(var element) {
+                    return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
+                }
+            );
         }
 
         this->setDefaultMessages();
@@ -81,7 +88,9 @@ class Validation extends Injectable implements ValidationInterface
             let this->validators[] = [field, validator];
         }
         else {
-            throw new Exception("Field must be passed as array of fields or string");
+            throw new Exception(
+                "Field must be passed as array of fields or string"
+            );
         }
         return this;
     }
@@ -281,7 +290,11 @@ class Validation extends Injectable implements ValidationInterface
                 if typeof container != "object" {
                     let container = Di::getDefault();
                     if typeof container != "object" {
-                        throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                        throw new Exception(
+                            Exception::containerServiceNotFound(
+                                "the 'filter' service"
+                            )
+                        );
                     }
                 }
 
@@ -418,7 +431,9 @@ class Validation extends Injectable implements ValidationInterface
             let this->filters[field] = filters;
         }
         else {
-            throw new Exception("Field must be passed as array of fields or string.");
+            throw new Exception(
+                "Field must be passed as array of fields or string."
+            );
         }
         return this;
     }
@@ -439,7 +454,8 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function validate(var data = null, var entity = null) -> <Messages>
     {
-        var validators, messages, scope, field, validator, status, combinedFieldsValidators;
+        var validators, messages, scope, field, validator, status,
+            combinedFieldsValidators;
 
         let validators = this->validators;
         let combinedFieldsValidators = this->combinedFieldsValidators;
@@ -496,7 +512,8 @@ class Validation extends Injectable implements ValidationInterface
             }
 
             /**
-             * Call internal validations, if it returns true, then skip the current validator
+             * Call internal validations, if it returns true, then skip the
+             * current validator
              */
             if this->preChecking(field, validator) {
                 continue;
@@ -525,7 +542,8 @@ class Validation extends Injectable implements ValidationInterface
             }
 
             /**
-             * Call internal validations, if it returns true, then skip the current validator
+             * Call internal validations, if it returns true, then skip the
+             * current validator
              */
             if this->preChecking(field, validator) {
                 continue;

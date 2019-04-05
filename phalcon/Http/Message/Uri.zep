@@ -56,8 +56,8 @@ class Uri implements UriInterface
      * Retrieve the port component of the URI.
      *
      * If a port is present, and it is non-standard for the current scheme,
-     * this method MUST return it as an integer. If the port is the standard port
-     * used with the current scheme, this method SHOULD return null.
+     * this method MUST return it as an integer. If the port is the standard
+     * port used with the current scheme, this method SHOULD return null.
      *
      * If no port is present, and no scheme is present, this method MUST return
      * a null value.
@@ -174,10 +174,10 @@ class Uri implements UriInterface
          * The path can be concatenated without delimiters. But there are two
          * cases where the path has to be adjusted to make the URI reference
          * valid as PHP does not allow to throw an exception in __toString():
-         *   - If the path is rootless and an authority is present, the path MUST
-         *     be prefixed by "/".
-         *   - If the path is starting with more than one "/" and no authority is
-         *     present, the starting slashes MUST be reduced to one.
+         *   - If the path is rootless and an authority is present, the path
+         *     MUST be prefixed by "/".
+         *   - If the path is starting with more than one "/" and no authority
+         *     is present, the starting slashes MUST be reduced to one.
          */
         if "" !== path {
             if "//" === substr(path, 0, 2) && "" === authority {
@@ -214,8 +214,8 @@ class Uri implements UriInterface
         var authority, userInfo;
 
         /**
-         * If no authority information is present, this method MUST return an empty
-         * string.
+         * If no authority information is present, this method MUST return an
+         * empty string.
          */
         if "" === this->host {
             return "";
@@ -310,9 +310,9 @@ class Uri implements UriInterface
      * three syntaxes.
      *
      * If an HTTP path is intended to be host-relative rather than path-relative
-     * then it must begin with a slash ("/"). HTTP paths not starting with a slash
-     * are assumed to be relative to some base path known to the application or
-     * consumer.
+     * then it must begin with a slash ("/"). HTTP paths not starting with a
+     * slash are assumed to be relative to some base path known to the
+     * application or consumer.
      *
      * Users can provide both encoded and decoded path characters.
      * Implementations ensure the correct encoding as outlined in getPath().
@@ -377,7 +377,9 @@ class Uri implements UriInterface
         }
 
         if null !== port && (port < 1 || port > 65535) {
-            throw new \InvalidArgumentException( "Method expects valid port (1-65535)");
+            throw new \InvalidArgumentException(
+                "Method expects valid port (1-65535)"
+            );
         }
 
         return this->cloneInstance(port, "port");
@@ -689,7 +691,9 @@ class Uri implements UriInterface
         let urlParts = parse_url(encoded);
 
         if !urlParts {
-            throw new \InvalidArgumentException("The source URI string appears to be malformed");
+            throw new \InvalidArgumentException(
+                "The source URI string appears to be malformed"
+            );
         }
 
         for key, value in urlParts {

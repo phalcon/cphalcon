@@ -48,7 +48,9 @@ abstract class Element implements ElementInterface
         let name = trim(name);
 
         if empty name {
-            throw new \InvalidArgumentException("Form element name is required");
+            throw new \InvalidArgumentException(
+                "Form element name is required"
+            );
         }
 
         let this->name = name;
@@ -103,7 +105,10 @@ abstract class Element implements ElementInterface
         if merge {
             let currentValidators = this->validators;
             if typeof currentValidators == "array" {
-                let mergedValidators = array_merge(currentValidators, validators);
+                let mergedValidators = array_merge(
+                    currentValidators,
+                    validators
+                );
             }
         }
         else {
@@ -269,7 +274,8 @@ abstract class Element implements ElementInterface
         }
 
         /**
-         * Assign the default value if there is no form available or Phalcon\Tag returns null
+         * Assign the default value if there is no form available or
+         * Phalcon\Tag returns null
          */
         if typeof value == "null" {
             let value = this->value;
@@ -352,7 +358,10 @@ abstract class Element implements ElementInterface
          */
         let defaultAttributes = this->attributes;
         if typeof defaultAttributes == "array" {
-            let mergedAttributes = array_merge(defaultAttributes, widgetAttributes);
+            let mergedAttributes = array_merge(
+                defaultAttributes,
+                widgetAttributes
+            );
         } else {
             let mergedAttributes = widgetAttributes;
         }

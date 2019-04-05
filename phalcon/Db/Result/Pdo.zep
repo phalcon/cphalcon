@@ -88,7 +88,8 @@ class Pdo implements ResultInterface
     }
 
     /**
-     * Moves internal resultset cursor to another position letting us to fetch a certain row
+     * Moves internal resultset cursor to another position letting us to fetch a
+     * certain row
      *
      *<code>
      * $result = $connection->query(
@@ -113,12 +114,17 @@ class Pdo implements ResultInterface
             bindParams = this->bindParams;
 
         /**
-         * PDO doesn't support scrollable cursors, so we need to re-execute the statement
+         * PDO doesn't support scrollable cursors, so we need to re-execute the
+         * statement
          */
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
             if typeof statement == "object" {
-                let statement = connection->executePrepared(statement, bindParams, this->bindTypes);
+                let statement = connection->executePrepared(
+                    statement,
+                    bindParams,
+                    this->bindTypes
+                );
             }
         } else {
             let statement = pdo->query(sqlStatement);
@@ -134,8 +140,9 @@ class Pdo implements ResultInterface
     }
 
     /**
-     * Allows to execute the statement again. Some database systems don't support scrollable cursors,
-     * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
+     * Allows to execute the statement again. Some database systems don't
+     * support scrollable cursors. So, as cursors are forward only, we need to
+     * execute the cursor again to fetch rows from the begining
      */
     public function execute() -> bool
     {
@@ -143,8 +150,9 @@ class Pdo implements ResultInterface
     }
 
     /**
-     * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     * Fetches an array/object of strings that corresponds to the fetched row,
+     * or FALSE if there are no more rows. This method is affected by the active
+     * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
      *<code>
      * $result = $connection->query("SELECT * FROM robots ORDER BY name");
@@ -160,12 +168,17 @@ class Pdo implements ResultInterface
      */
     public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
     {
-        return this->pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
+        return this->pdoStatement->$fetch(
+            fetchStyle,
+            cursorOrientation,
+            cursorOffset
+        );
     }
 
     /**
      * Returns an array of arrays containing all the records in the result
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     * This method is affected by the active fetch flag set using
+     * `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
      *<code>
      * $result = $connection->query(
@@ -184,7 +197,11 @@ class Pdo implements ResultInterface
         if typeof fetchStyle == "integer" {
 
             if fetchStyle == Db::FETCH_CLASS {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
+                return pdoStatement->fetchAll(
+                    fetchStyle,
+                    fetchArgument,
+                    ctorArgs
+                );
             }
 
             if fetchStyle == Db::FETCH_COLUMN {
@@ -202,8 +219,9 @@ class Pdo implements ResultInterface
     }
 
     /**
-     * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
-     * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+     * Returns an array of strings that corresponds to the fetched row, or FALSE
+     * if there are no more rows. This method is affected by the active fetch
+     * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
      *<code>
      * $result = $connection->query("SELECT * FROM robots ORDER BY name");
@@ -253,7 +271,7 @@ class Pdo implements ResultInterface
                 type = connection->getType();
 
             /**
-             * MySQL library properly returns the number of records PostgreSQL too
+             * MySQL and PostgreSQL properly returns the number of records
              */
             if type == "mysql" || type == "pgsql" {
                 let pdoStatement = this->pdoStatement,
@@ -273,7 +291,8 @@ class Pdo implements ResultInterface
                 let sqlStatement = this->sqlStatement;
 
                 /**
-                 * If the sql_statement starts with SELECT COUNT(*) we don't make the count
+                 * If the sql_statement starts with SELECT COUNT(*) we don't
+                 * make the count
                  */
                 if !starts_with(sqlStatement, "SELECT COUNT(*) ") {
 

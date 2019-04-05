@@ -58,7 +58,9 @@ class Locator implements LocatorInterface
         var definition, service;
 
         if (true !== this->has(name)) {
-            throw new Exception("The service " . name . " has not been found in the locator");
+            throw new Exception(
+                "The service " . name . " has not been found in the locator"
+            );
         }
 
         if (true !== isset(this->services[name])) {
@@ -81,7 +83,7 @@ class Locator implements LocatorInterface
      */
     public function has(string! name) -> bool
     {
-        return isset(this->mapper[name]);
+        return isset this->mapper[name];
     }
 
     /**
@@ -91,6 +93,6 @@ class Locator implements LocatorInterface
     {
         let this->mapper[name] = service;
 
-        unset(this->services[name]);
+        unset this->services[name];
     }
 }

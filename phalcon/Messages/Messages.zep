@@ -86,7 +86,8 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
         } else {
 
             /**
-             * A collection of messages is iterated and appended one-by-one to the current list
+             * A collection of messages is iterated and appended one-by-one to
+             * the current list
              */
             //for message in iterator(messages) {
             //    this->appendMessage(message);
@@ -129,7 +130,8 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
         if typeof messages == "array" {
 
             /**
-             * A collection of messages is iterated and appended one-by-one to the current list
+             * A collection of messages is iterated and appended one-by-one to
+             * the current list
              */
             for message in messages {
 

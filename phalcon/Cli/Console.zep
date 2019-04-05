@@ -38,13 +38,16 @@ class Console extends BaseApplication
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("internal services"));
+            throw new Exception(
+                Exception::containerServiceNotFound("internal services")
+            );
         }
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
-         * Call boot event, this allow the developer to perform initialization actions
+         * Call boot event, this allows the developer to perform initialization
+         * actions
          */
         if typeof eventsManager == "object" {
             if eventsManager->fire("console:boot", this) === false {
@@ -78,7 +81,9 @@ class Console extends BaseApplication
 
             let modules = this->modules;
             if !isset modules[moduleName] {
-                throw new Exception("Module '" . moduleName . "' isn't registered in the console container");
+                throw new Exception(
+                    "Module '" . moduleName . "' isn't registered in the console container"
+                );
             }
 
             let module = modules[moduleName];
@@ -93,7 +98,9 @@ class Console extends BaseApplication
             if fetch path, module["path"] {
                 if !class_exists(className, false) {
                     if !file_exists(path) {
-                        throw new Exception("Module definition path '" . path . "' doesn't exist");
+                        throw new Exception(
+                            "Module definition path '" . path . "' doesn't exist"
+                        );
                     }
 
                     require path;
@@ -113,7 +120,7 @@ class Console extends BaseApplication
 
         }
 
-        let dispatcher = <\Phalcon\Cli\Dispatcher> container->getShared("dispatcher");
+        let dispatcher = <Dispatcher> container->getShared("dispatcher");
 
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setTaskName(router->getTaskName());
@@ -173,7 +180,10 @@ class Console extends BaseApplication
         }
 
         if str {
-            let this->arguments = implode(Route::getDelimiter(), args);
+            let this->arguments = implode(
+                Route::getDelimiter(),
+                args
+            );
         } else {
             if count(args) {
                 let handleArgs["task"] = array_shift(args);

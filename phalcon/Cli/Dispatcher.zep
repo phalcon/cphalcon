@@ -19,9 +19,9 @@ use Phalcon\Service\LocatorInterface;
 /**
  * Phalcon\Cli\Dispatcher
  *
- * Dispatching is the process of taking the command-line arguments, extracting the module name,
- * task name, action name, and optional parameters contained in it, and then
- * instantiating a task and calling an action on it.
+ * Dispatching is the process of taking the command-line arguments, extracting
+ * the module name, task name, action name, and optional parameters contained in
+ * it, and then instantiating a task and calling an action on it.
  *
  * <code>
  * use Phalcon\Di;

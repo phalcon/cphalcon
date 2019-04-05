@@ -43,22 +43,29 @@ class Factory extends BaseFactory
 
     protected static function loadClass(string objectName, var config)
     {
-        var adapter, adapterName, adapters, className, element, key, logger, loggerName, name, type;
+        var adapter, adapterName, adapters, className, element, key, logger,
+            loggerName, name, type;
 
         if typeof config == "object" && config instanceof Config {
             let config = config->toArray();
         }
 
         if typeof config != "array" {
-            throw new Exception("Config must be array or Phalcon\\Config object");
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
         }
 
         if !fetch loggerName, config["name"] {
-            throw new Exception("You must provide the 'name' option in factory config parameter.");
+            throw new Exception(
+                "You must provide the 'name' option in factory config parameter."
+            );
         }
 
         if !fetch adapters, config["adapters"] {
-            throw new Exception("You must provide the 'adapters' option in factory config parameter.");
+            throw new Exception(
+                "You must provide the 'adapters' option in factory config parameter."
+            );
         }
 
         /**
@@ -66,11 +73,15 @@ class Factory extends BaseFactory
          */
         for adapter in adapters {
             if !fetch name, adapter["name"] {
-                throw new Exception("The adapters section of your configuration is missing the 'name' option");
+                throw new Exception(
+                    "The adapters section of your configuration is missing the 'name' option"
+                );
             }
 
             if !fetch type, adapter["adapter"] {
-                throw new Exception("The adapters section of your configuration is missing the 'adapter' option");
+                throw new Exception(
+                    "The adapters section of your configuration is missing the 'adapter' option"
+                );
             }
         }
 

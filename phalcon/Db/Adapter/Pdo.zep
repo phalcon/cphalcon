@@ -20,7 +20,8 @@ use Phalcon\Events\ManagerInterface;
 /**
  * Phalcon\Db\Adapter\Pdo
  *
- * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
+ * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect
+ * to a database
  *
  * <code>
  * use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -61,7 +62,8 @@ abstract class Pdo extends Adapter
     }
 
     /**
-     * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE executed in the database system
+     * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE
+     * executed in the database system
      *
      *<code>
      * $connection->execute(
@@ -207,8 +209,8 @@ abstract class Pdo extends Adapter
     }
 
     /**
-     * Closes the active connection returning success. Phalcon automatically closes and destroys
-     * active connections when the request ends
+     * Closes the active connection returning success. Phalcon automatically
+     * closes and destroys active connections when the request ends
      */
     public function close() -> bool
     {
@@ -221,7 +223,8 @@ abstract class Pdo extends Adapter
     }
 
     /**
-     * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
+     * This method is automatically called in \Phalcon\Db\Adapter\Pdo
+     * constructor.
      *
      * Call it when you need to restore a database connection.
      *
@@ -245,8 +248,8 @@ abstract class Pdo extends Adapter
      */
     public function connect(array descriptor = null) -> bool
     {
-        var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap,
-            options, key, value;
+        var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw,
+            dsnAttributesMap, options, key, value;
 
         if empty descriptor {
             let descriptor = (array) this->descriptor;
@@ -267,7 +270,10 @@ abstract class Pdo extends Adapter
             unset descriptor["dialectClass"];
         }
 
-        // Check if the developer has defined custom options or create one from scratch
+        /**
+         * Check if the developer has defined custom options or create one from
+         * scratch
+         */
         if fetch options, descriptor["options"] {
             unset descriptor["options"];
         } else {
@@ -286,9 +292,11 @@ abstract class Pdo extends Adapter
             unset descriptor["dsn"];
         }
 
-        // Start with the dsn defaults and then write over it with the descriptor.
-        // At this point the descriptor should be a valid DSN key-value map due to
-        // all other values having been removed.
+        /**
+         * Start with the dsn defaults and then write over it with the
+         * descriptor. At this point the descriptor should be a valid DSN
+         * key-value map due to all other values having been removed.
+         */
         let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
 
         for key, value in dsnAttributesMap {
@@ -299,7 +307,12 @@ abstract class Pdo extends Adapter
         let dsnAttributes = join(";", dsnParts);
 
         // Create the connection using PDO
-        let this->pdo = new \Pdo(this->type . ":" . dsnAttributes, username, password, options);
+        let this->pdo = new \Pdo(
+            this->type . ":" . dsnAttributes,
+            username,
+            password,
+            options
+        );
 
         return true;
     }
@@ -333,10 +346,14 @@ abstract class Pdo extends Adapter
                 if !fetch value, params[placeMatch[1]] {
                     if isset placeMatch[2] {
                         if !fetch value, params[placeMatch[2]] {
-                            throw new Exception("Matched parameter wasn't found in parameters list");
+                            throw new Exception(
+                                "Matched parameter wasn't found in parameters list"
+                            );
                         }
                     } else {
-                        throw new Exception("Matched parameter wasn't found in parameters list");
+                        throw new Exception(
+                            "Matched parameter wasn't found in parameters list"
+                        );
                     }
                 }
 
@@ -355,7 +372,8 @@ abstract class Pdo extends Adapter
     }
 
     /**
-     * Escapes a value to avoid SQL injections according to the active charset in the connection
+     * Escapes a value to avoid SQL injections according to the active charset
+     * in the connection
      *
      *<code>
      * $escapedStr = $connection->escapeString("some dangerous value");
@@ -368,7 +386,8 @@ abstract class Pdo extends Adapter
 
     /**
      * Sends SQL statements to the database server returning the success state.
-     * Use this method only when the SQL statement sent to the server doesn't return any rows
+     * Use this method only when the SQL statement sent to the server doesn't
+     * return any rows
      *
      *<code>
      * // Inserting data
@@ -411,8 +430,13 @@ abstract class Pdo extends Adapter
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
             if typeof statement == "object" {
-                let newStatement = this->executePrepared(statement, bindParams, bindTypes),
-                    affectedRows = newStatement->rowCount();
+                let newStatement = this->executePrepared(
+                    statement,
+                    bindParams,
+                    bindTypes
+                );
+
+                let affectedRows = newStatement->rowCount();
             }
         } else {
             let affectedRows = pdo->exec(sqlStatement);
@@ -432,7 +456,8 @@ abstract class Pdo extends Adapter
     }
 
     /**
-     * Executes a prepared statement binding. This function uses integer indexes starting from zero
+     * Executes a prepared statement binding. This function uses integer indexes
+     * starting from zero
      *
      *<code>
      * use Phalcon\Db\Column;
@@ -523,9 +548,16 @@ abstract class Pdo extends Adapter
                 } else {
                     for position, itemValue in castValue {
                         if type == Column::BIND_SKIP {
-                            statement->bindValue(parameter . position, itemValue);
+                            statement->bindValue(
+                                parameter . position,
+                                itemValue
+                            );
                         } else {
-                            statement->bindValue(parameter . position, itemValue, type);
+                            statement->bindValue(
+                                parameter . position,
+                                itemValue,
+                                type
+                            );
                         }
                     }
                 }
@@ -593,7 +625,8 @@ abstract class Pdo extends Adapter
     }
 
     /**
-     * Returns the insert id for the auto_increment/serial column inserted in the latest executed SQL statement
+     * Returns the insert id for the auto_increment/serial column inserted in
+     * the latest executed SQL statement
      *
      *<code>
      * // Inserting a new robot
@@ -653,7 +686,8 @@ abstract class Pdo extends Adapter
 
     /**
      * Sends SQL statements to the database server returning the success state.
-     * Use this method only when the SQL statement sent to the server is returning rows
+     * Use this method only when the SQL statement sent to the server is
+     * returning rows
      *
      *<code>
      * // Querying data
@@ -710,7 +744,14 @@ abstract class Pdo extends Adapter
             if typeof eventsManager == "object" {
                 eventsManager->fire("db:afterQuery", this);
             }
-            return new ResultPdo(this, statement, sqlStatement, bindParams, bindTypes);
+
+            return new ResultPdo(
+                this,
+                statement,
+                sqlStatement,
+                bindParams,
+                bindTypes
+            );
         }
 
         return statement;

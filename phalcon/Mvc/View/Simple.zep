@@ -225,7 +225,8 @@ class Simple extends Injectable implements ViewBaseInterface
         ob_start();
 
         /**
-         * If the developer pass an array of variables we create a new virtual symbol table
+         * If the developer pass an array of variables we create a new virtual
+         * symbol table
          */
         if typeof params == "array" {
 
@@ -307,14 +308,16 @@ class Simple extends Injectable implements ViewBaseInterface
         if typeof cache == "object" {
 
             /**
-             * Check if the cache is started, the first time a cache is started we start the cache
+             * Check if the cache is started, the first time a cache is started
+             * we start the cache
              */
             if !cache->isStarted() {
 
                 let key = null, lifetime = null;
 
                 /**
-                 * Check if the user has defined a different options to the default
+                 * Check if the user has defined a different options to the
+                 * default
                  */
                 let cacheOptions = this->cacheOptions;
                 if typeof cacheOptions == "array" {
@@ -455,7 +458,8 @@ class Simple extends Injectable implements ViewBaseInterface
     }
 
     /**
-     * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+     * Sets views directory. Depending of your platform, always add a trailing
+     * slash or backslash
      */
     public function setViewsDir(string! viewsDir)
     {
@@ -471,7 +475,9 @@ class Simple extends Injectable implements ViewBaseInterface
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the view cache services"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the view cache services")
+            );
         }
 
         let cacheService = "viewCache";
@@ -524,7 +530,11 @@ class Simple extends Injectable implements ViewBaseInterface
             } else {
 
                 if typeof di != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("the application services"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the application services"
+                        )
+                    );
                 }
 
                 for extension, engineService in registeredEngines {
@@ -546,7 +556,9 @@ class Simple extends Injectable implements ViewBaseInterface
                         if typeof engineService == "string" {
                             let engineObject = di->getShared(engineService, [this]);
                         } else {
-                            throw new Exception("Invalid template engine registration for extension: " . extension);
+                            throw new Exception(
+                                "Invalid template engine registration for extension: " . extension
+                            );
                         }
                     }
 
@@ -644,7 +656,9 @@ class Simple extends Injectable implements ViewBaseInterface
          * Always throw an exception if the view does not exist
          */
         if notExists {
-            throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
+            throw new Exception(
+                "View '" . viewsDirPath . "' was not found in the views directory"
+            );
         }
 
         /**

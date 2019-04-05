@@ -130,7 +130,9 @@ class Mysql extends Dialect
             referenceSql, onDelete, onUpdate, defaultValue;
 
         if !fetch columns, definition["columns"] {
-            throw new Exception("The index 'columns' is required in the definition array");
+            throw new Exception(
+                "The index 'columns' is required in the definition array"
+            );
         }
 
         let table = this->prepareTable(tableName, schemaName);
@@ -255,7 +257,9 @@ class Mysql extends Dialect
         var viewSql;
 
         if !fetch viewSql, definition["sql"] {
-            throw new Exception("The index 'sql' is required in the definition array");
+            throw new Exception(
+                "The index 'sql' is required in the definition array"
+            );
         }
 
         return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
@@ -547,7 +551,9 @@ class Mysql extends Dialect
 
             default:
                 if empty columnSql {
-                    throw new Exception("Unrecognized MySQL data type at column " . column->getName());
+                    throw new Exception(
+                        "Unrecognized MySQL data type at column " . column->getName()
+                    );
                 }
 
                 let typeValues = column->getTypeValues();

@@ -127,7 +127,11 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ORM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ORM"
+                )
+            );
         }
 
         /**
@@ -286,7 +290,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      */
     public function notifyEvent(string! eventName, <CollectionInterface> model)
     {
-        var behavior, behaviors, modelsBehaviors, eventsManager, status = null, customEventsManager;
+        var behavior, behaviors, modelsBehaviors, eventsManager, status = null,
+            customEventsManager;
 
         let behaviors = this->behaviors;
         if typeof behaviors == "array" {

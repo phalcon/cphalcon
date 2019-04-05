@@ -75,7 +75,8 @@ class StringLength extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var isSetMin, isSetMax, value, length, message, minimum, maximum, label, replacePairs, code;
+        var isSetMin, isSetMax, value, length, message, minimum, maximum, label,
+            replacePairs, code;
 
         // At least one of 'min' or 'max' must be set
         let isSetMin = this->hasOption("min"),
@@ -106,8 +107,17 @@ class StringLength extends Validator
                 let maximum = maximum[field];
             }
             if length > maximum {
-                let message = this->prepareMessage(validation, field, "TooLong", "messageMaximum"),
-                    replacePairs = [":field": label, ":max":  maximum];
+                let message = this->prepareMessage(
+                    validation,
+                    field,
+                    "TooLong",
+                    "messageMaximum"
+                );
+
+                let replacePairs = [
+                    ":field": label,
+                    ":max":   maximum
+                ];
 
                 validation->appendMessage(
                     new Message(
@@ -132,8 +142,17 @@ class StringLength extends Validator
                 let minimum = minimum[field];
             }
             if length < minimum {
-                let message = this->prepareMessage(validation, field, "TooShort", "messageMinimum"),
-                    replacePairs = [":field": label, ":min":  minimum];
+                let message = this->prepareMessage(
+                    validation,
+                    field,
+                    "TooShort",
+                    "messageMinimum"
+                );
+
+                let replacePairs = [
+                    ":field": label,
+                    ":min":   minimum
+                ];
 
                 validation->appendMessage(
                     new Message(

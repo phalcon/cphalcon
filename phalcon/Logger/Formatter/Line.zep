@@ -67,7 +67,14 @@ class Line extends AbstractFormatter
          * Check if the format has the %date% placeholder
          */
         if memstr(format, "%date%") {
-            let format = str_replace("%date%", date(this->dateFormat, item->getTime()), format);
+            let format = str_replace(
+                "%date%",
+                date(
+                    this->dateFormat,
+                    item->getTime()
+                ),
+                format
+            );
         }
 
         /**
@@ -80,7 +87,10 @@ class Line extends AbstractFormatter
         let format = str_replace("%message%", item->getMessage(), format) . PHP_EOL;
 
         if typeof item->getContext() === "array" {
-            return this->interpolate(format, item->getContext());
+            return this->interpolate(
+                format,
+                item->getContext()
+            );
         }
 
         return format;

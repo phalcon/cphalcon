@@ -83,15 +83,17 @@ class Annotations extends Router
      */
     public function handle(string! uri)
     {
-        var annotationsService, handlers, controllerSuffix,
-            scope, prefix, container, handler, controllerName,
-            lowerControllerName, namespaceName, moduleName, sufixed, handlerAnnotations,
-            classAnnotations, annotations, annotation, methodAnnotations, method,
-            collection;
+        var annotationsService, handlers, controllerSuffix, scope, prefix,
+            container, handler, controllerName, lowerControllerName,
+            namespaceName, moduleName, sufixed, handlerAnnotations,
+            classAnnotations, annotations, annotation, methodAnnotations,
+            method, collection;
 
         let container = <DiInterface> this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the 'annotations' service"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'annotations' service")
+            );
         }
 
         let annotationsService = container->getShared("annotations");
@@ -167,7 +169,10 @@ class Annotations extends Router
                 let annotations = classAnnotations->getAnnotations();
                 if typeof annotations == "array" {
                     for annotation in annotations {
-                        this->processControllerAnnotation(controllerName, annotation);
+                        this->processControllerAnnotation(
+                            controllerName,
+                            annotation
+                        );
                     }
                 }
             }
@@ -182,7 +187,13 @@ class Annotations extends Router
                 for method, collection in methodAnnotations {
                     if typeof collection == "object" {
                         for annotation in collection->getAnnotations() {
-                            this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
+                            this->processActionAnnotation(
+                                moduleName,
+                                namespaceName,
+                                lowerControllerName,
+                                method,
+                                annotation
+                            );
                         }
                     }
                 }

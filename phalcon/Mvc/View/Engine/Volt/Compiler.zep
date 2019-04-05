@@ -128,7 +128,8 @@ class Compiler implements InjectionAwareInterface
             } else {
 
                 /**
-                 * Services registered in the dependency injector container are available always
+                 * Services registered in the dependency injector container are
+                 * available always
                  */
                 let container = this->container;
                 if typeof container == "object" && container->has(variable) {
@@ -172,12 +173,13 @@ class Compiler implements InjectionAwareInterface
      */
     public function compile(string! templatePath, bool extendsMode = false)
     {
-        var blocksCode, compilation, compileAlways, compiledExtension, compiledPath,
-            compiledSeparator, compiledTemplatePath, optionKey, options, prefix,
-            realCompiledPath, stat, templateSepPath;
+        var blocksCode, compilation, compileAlways, compiledExtension,
+            compiledPath, compiledSeparator, compiledTemplatePath, optionKey,
+            options, prefix, realCompiledPath, stat, templateSepPath;
 
         /**
-         * Re-initialize some properties already initialized when the object is cloned
+         * Re-initialize some properties already initialized when the object is
+         * cloned
          */
         let this->extended = false;
         let this->extendedBlocks = false;
@@ -206,11 +208,19 @@ class Compiler implements InjectionAwareInterface
                     let optionKey = "always";
                 } else {
                     let optionKey = "compileAlways";
-                    trigger_error("The 'compileAlways' option is deprecated. Use 'always' instead.", E_USER_DEPRECATED);
+
+                    trigger_error(
+                        "The 'compileAlways' option is deprecated. Use 'always' instead.",
+                        E_USER_DEPRECATED
+                    );
                 }
+
                 let compileAlways = options[optionKey];
+
                 if typeof compileAlways != "boolean" {
-                    throw new Exception("'" . optionKey . "' must be a bool value");
+                    throw new Exception(
+                        "'" . optionKey . "' must be a bool value"
+                    );
                 }
             }
 
@@ -225,19 +235,26 @@ class Compiler implements InjectionAwareInterface
             }
 
             /**
-             * Compiled path is a directory where the compiled templates will be located
+             * Compiled path is a directory where the compiled templates will be
+             * located
              */
             if isset options["path"] || isset options["compiledPath"] {
                 if isset options["path"] {
                     let optionKey = "path";
                 } else {
                     let optionKey = "compiledPath";
-                    trigger_error("The 'compiledPath' option is deprecated. Use 'path' instead.", E_USER_DEPRECATED);
+
+                    trigger_error(
+                        "The 'compiledPath' option is deprecated. Use 'path' instead.",
+                        E_USER_DEPRECATED
+                    );
                 }
                 let compiledPath = options[optionKey];
                 if typeof compiledPath != "string" {
                     if typeof compiledPath != "object" {
-                        throw new Exception("'" . optionKey . "' must be a string or a closure");
+                        throw new Exception(
+                            "'" . optionKey . "' must be a string or a closure"
+                        );
                     }
                 }
             }
@@ -250,7 +267,11 @@ class Compiler implements InjectionAwareInterface
                     let optionKey = "separator";
                 } else {
                     let optionKey = "compiledSeparator";
-                    trigger_error("The 'compiledSeparator' option is deprecated. Use 'separator' instead.", E_USER_DEPRECATED);
+
+                    trigger_error(
+                        "The 'compiledSeparator' option is deprecated. Use 'separator' instead.",
+                        E_USER_DEPRECATED
+                    );
                 }
                 let compiledPath = options[optionKey];
                 if typeof compiledSeparator != "string" {
@@ -266,7 +287,11 @@ class Compiler implements InjectionAwareInterface
                     let optionKey = "extension";
                 } else {
                     let optionKey = "compiledExtension";
-                    trigger_error("The 'compiledExtension' option is deprecated. Use 'extension' instead.", E_USER_DEPRECATED);
+
+                    trigger_error(
+                        "The 'compiledExtension' option is deprecated. Use 'extension' instead.",
+                        E_USER_DEPRECATED
+                    );
                 }
                 let compiledPath = options[optionKey];
                 if typeof compiledExtension != "string" {
@@ -292,9 +317,13 @@ class Compiler implements InjectionAwareInterface
              */
             if !empty compiledPath {
                 /**
-                 * Create the virtual path replacing the directory separator by the compiled separator
+                 * Create the virtual path replacing the directory separator by
+                 * the compiled separator
                  */
-                let templateSepPath = prepare_virtual_path(realpath(templatePath), compiledSeparator);
+                let templateSepPath = prepare_virtual_path(
+                    realpath(templatePath),
+                    compiledSeparator
+                );
             } else {
                 let templateSepPath = templatePath;
             }
@@ -317,16 +346,23 @@ class Compiler implements InjectionAwareInterface
 
                 if compiledPath instanceof \Closure {
 
-                    let compiledTemplatePath = call_user_func_array(compiledPath, [templatePath, options, extendsMode]);
+                    let compiledTemplatePath = call_user_func_array(
+                        compiledPath,
+                        [templatePath, options, extendsMode]
+                    );
 
                     /**
                      * The closure must return a valid path
                      */
                     if typeof compiledTemplatePath != "string" {
-                        throw new Exception("compiledPath closure didn't return a valid string");
+                        throw new Exception(
+                            "compiledPath closure didn't return a valid string"
+                        );
                     }
                 } else {
-                    throw new Exception("compiledPath must be a string or a closure");
+                    throw new Exception(
+                        "compiledPath must be a string or a closure"
+                    );
                 }
             }
         }
@@ -341,26 +377,38 @@ class Compiler implements InjectionAwareInterface
             /**
              * Compile always must be used only in the development stage
              */
-            let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+            let compilation = this->compileFile(
+                templatePath,
+                realCompiledPath,
+                extendsMode
+            );
         } else {
             if stat === true {
                 if file_exists(compiledTemplatePath) {
 
                     /**
-                     * Compare modification timestamps to check if the file needs to be recompiled
+                     * Compare modification timestamps to check if the file
+                     needs to be recompiled
                      */
                     if compare_mtime(templatePath, realCompiledPath) {
-                        let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                        let compilation = this->compileFile(
+                            templatePath,
+                            realCompiledPath,
+                            extendsMode
+                        );
                     } else {
 
                         if extendsMode {
 
                             /**
-                             * In extends mode we read the file that must contains a serialized array of blocks
+                             * In extends mode we read the file that must
+                             contains a serialized array of blocks
                              */
                             let blocksCode = file_get_contents(realCompiledPath);
                             if blocksCode === false {
-                                throw new Exception("Extends compilation file " . realCompiledPath . " could not be opened");
+                                throw new Exception(
+                                    "Extends compilation file " . realCompiledPath . " could not be opened"
+                                );
                             }
 
                             /**
@@ -376,9 +424,14 @@ class Compiler implements InjectionAwareInterface
                 } else {
 
                     /**
-                     * The file doesn't exist so we compile the php version for the first time
+                     * The file doesn't exist so we compile the php version for
+                     * the first time
                      */
-                    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                    let compilation = this->compileFile(
+                        templatePath,
+                        realCompiledPath,
+                        extendsMode
+                    );
                 }
             } else {
 
@@ -387,9 +440,14 @@ class Compiler implements InjectionAwareInterface
                  */
                 if !file_exists(realCompiledPath) {
                     /**
-                     * The file doesn't exist so we compile the php version for the first time
+                     * The file doesn't exist so we compile the php version for
+                     * the first time
                      */
-                    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+                    let compilation = this->compileFile(
+                        templatePath,
+                        realCompiledPath,
+                        extendsMode
+                    );
                 }
 
             }
@@ -420,8 +478,12 @@ class Compiler implements InjectionAwareInterface
         let oldAutoescape = this->autoescape,
             this->autoescape = autoescape;
 
-        let compilation = this->statementList(statement["block_statements"], extendsMode),
-            this->autoescape = oldAutoescape;
+        let compilation = this->statementList(
+            statement["block_statements"],
+            extendsMode
+        );
+
+        let this->autoescape = oldAutoescape;
 
         return compilation;
     }
@@ -460,7 +522,10 @@ class Compiler implements InjectionAwareInterface
         /**
          * Get the code in the block
          */
-        let compilation .= this->statementList(statement["block_statements"], extendsMode);
+        let compilation .= this->statementList(
+            statement["block_statements"],
+            extendsMode
+        );
 
         /**
          * Check if the cache has a lifetime
@@ -560,7 +625,8 @@ class Compiler implements InjectionAwareInterface
             if name["type"] == PHVOLT_T_IDENTIFIER {
 
                 /**
-                 * super() is a function however the return of this function must be output as it is
+                 * super() is a function however the return of this function
+                 * must be output as it is
                  */
                 if name["value"] == "super" {
                     return exprCode;
@@ -602,7 +668,10 @@ class Compiler implements InjectionAwareInterface
      * Compiles a template into a file forcing the destination path
      *
      *<code>
-     * $compiler->compileFile("views/layouts/main.volt", "views/layouts/main.volt.php");
+     * $compiler->compileFile(
+     *     "views/layouts/main.volt",
+     *     "views/layouts/main.volt.php"
+     * );
      *</code>
      *
      * @return string|array
@@ -612,7 +681,9 @@ class Compiler implements InjectionAwareInterface
         var viewCode, compilation, finalCompilation;
 
         if path == compiledPath {
-            throw new Exception("Template path and compilation template path cannot be the same");
+            throw new Exception(
+                "Template path and compilation template path cannot be the same"
+            );
         }
 
         /**
@@ -623,11 +694,14 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * Always use file_get_contents instead of read the file directly, this respect the open_basedir directive
+         * Always use file_get_contents instead of read the file directly, this
+         * respect the open_basedir directive
          */
         let viewCode = file_get_contents(path);
         if viewCode === false {
-            throw new Exception("Template file " . path . " could not be opened");
+            throw new Exception(
+                "Template file " . path . " could not be opened"
+            );
         }
 
         let this->currentPath = path;
@@ -883,7 +957,8 @@ class Compiler implements InjectionAwareInterface
         if pathExpr["type"] == 260 {
 
             /**
-             * Static compilation cannot be performed if the user passed extra parameters
+             * Static compilation cannot be performed if the user passed extra
+             * parameters
              */
             if !isset statement["params"]  {
 
@@ -904,9 +979,12 @@ class Compiler implements InjectionAwareInterface
                 if typeof compilation == "null" {
 
                     /**
-                     * Use file-get-contents to respect the openbase_dir directive
+                     * Use file-get-contents to respect the openbase_dir
+                     * directive
                      */
-                    let compilation = file_get_contents(subCompiler->getCompiledTemplatePath());
+                    let compilation = file_get_contents(
+                        subCompiler->getCompiledTemplatePath()
+                    );
                 }
 
                 return compilation;
@@ -934,7 +1012,8 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileMacro(array! statement, bool extendsMode) -> string
     {
-        var code, name, defaultValue, macroName, parameters, position, parameter, variableName, blockStatements;
+        var code, name, defaultValue, macroName, parameters, position,
+            parameter, variableName, blockStatements;
 
         /**
          * A valid name is required
@@ -1128,9 +1207,10 @@ class Compiler implements InjectionAwareInterface
             let lines = this->statementList(caseClauses, extendsMode);
 
             /**
-             * Any output (including whitespace) between a switch statement and the first case will result in
-             * a syntax error. This is the responsibility of the user. However, we can clear empty lines
-             * and whitespaces here to reduce the number of errors.
+             * Any output (including whitespace) between a switch statement and
+             * the first case will result in a syntax error. This is the
+             * responsibility of the user. However, we can clear empty lines and
+             * whitespaces here to reduce the number of errors.
              *
              * http://php.net/control-structures.alternative-syntax
              */
@@ -1144,7 +1224,11 @@ class Compiler implements InjectionAwareInterface
                  *
                  * g - global search, - is implicit with preg_replace(), you don't need to include it.
                  */
-                let lines = preg_replace("/(*ANYCRLF)^\h+|\h+$|(\h){2,}/mu", "", lines);
+                let lines = preg_replace(
+                    "/(*ANYCRLF)^\h+|\h+$|(\h){2,}/mu",
+                    "",
+                    lines
+                );
              }
 
             let compilation .= lines;
@@ -1160,13 +1244,14 @@ class Compiler implements InjectionAwareInterface
      */
     final public function expression(array! expr) -> string
     {
-        var exprCode, extensions, items, singleExpr, singleExprCode, name,
-            left, leftCode, right, rightCode, type, startCode, endCode, start, end;
+        var exprCode, extensions, items, singleExpr, singleExprCode, name, left,
+            leftCode, right, rightCode, type, startCode, endCode, start, end;
 
         let exprCode = null, this->exprLevel++;
 
         /**
-         * Check if any of the registered extensions provide compilation for this expression
+         * Check if any of the registered extensions provide compilation for
+         * this expression
          */
         let extensions = this->extensions;
 
@@ -1470,7 +1555,9 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 default:
-                    throw new Exception("Unknown expression " . type . " in " . expr["file"] . " on line " . expr["line"]);
+                    throw new Exception(
+                        "Unknown expression " . type . " in " . expr["file"] . " on line " . expr["line"]
+                    );
             }
 
             break;
@@ -1501,13 +1588,17 @@ class Compiler implements InjectionAwareInterface
                 if method_exists(extension, name) {
 
                     if typeof arguments == "array" {
-                        let status = call_user_func_array([extension, name], arguments);
+                        let status = call_user_func_array(
+                            [extension, name],
+                            arguments
+                        );
                     } else {
                         let status = call_user_func([extension, name]);
                     }
 
                     /**
-                     * Only string statuses means the extension process something
+                     * Only string statuses means the extension processes
+                     * something
                      */
                     if typeof status == "string" {
                         return status;
@@ -1546,7 +1637,8 @@ class Compiler implements InjectionAwareInterface
             let name = nameExpr["value"];
 
             /**
-             * Check if any of the registered extensions provide compilation for this function
+             * Check if any of the registered extensions provide compilation for
+             * this function
              */
             let extensions = this->extensions;
             if typeof extensions == "array" {
@@ -1575,12 +1667,16 @@ class Compiler implements InjectionAwareInterface
                     }
 
                     /**
-                     * Execute the function closure returning the compiled definition
+                     * Execute the function closure returning the compiled
+                     * definition
                      */
                     if typeof definition == "object" {
 
                         if definition instanceof \Closure {
-                            return call_user_func_array(definition, [arguments, funcArguments]);
+                            return call_user_func_array(
+                                definition,
+                                [arguments, funcArguments]
+                            );
                         }
                     }
 
@@ -1598,7 +1694,8 @@ class Compiler implements InjectionAwareInterface
             }
 
             /**
-             * This function includes views of volt or others template engines dynamically
+             * This function includes views of volt or others template engines
+             * dynamically
              */
             if name == "partial" {
                 return "$this->partial(" . arguments . ")";
@@ -1859,12 +1956,14 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Return a unique prefix to be used as prefix for compiled variables and contexts
+     * Return a unique prefix to be used as prefix for compiled variables and
+     * contexts
      */
     public function getUniquePrefix() -> string
     {
         /**
-         * If the unique prefix is not set we use a hash using the modified Berstein algotithm
+         * If the unique prefix is not set we use a hash using the modified
+         * Berstein algotithm
          */
         if !this->prefix {
             let this->prefix = unique_path_key(this->currentPath);
@@ -1875,7 +1974,12 @@ class Compiler implements InjectionAwareInterface
          */
         if typeof this->prefix == "object" {
             if this->prefix instanceof \Closure {
-                let this->prefix = call_user_func_array(this->prefix, [this]);
+                let this->prefix = call_user_func_array(
+                    this->prefix,
+                    [
+                        this
+                    ]
+                );
             }
         }
 
@@ -2108,7 +2212,8 @@ class Compiler implements InjectionAwareInterface
                     } else {
                         if typeof block == "array" {
                             /**
-                             * The block is not set local only in the extended template
+                             * The block is not set local only in the extended
+                             * template
                              */
                             let blockCompilation = this->statementList(block);
                         } else {
@@ -2139,7 +2244,8 @@ class Compiler implements InjectionAwareInterface
 
         if extendsMode {
             /**
-             * In extends mode we return the template blocks instead of the compilation
+             * In extends mode we return the template blocks instead of the
+             * compilation
              */
             return this->blocks;
         }
@@ -2197,7 +2303,9 @@ class Compiler implements InjectionAwareInterface
                 /**
                  * Unknown filter throw an exception
                  */
-                throw new Exception("Unknown filter type in " . filter["file"] . " on line " . filter["line"]);
+                throw new Exception(
+                    "Unknown filter type in " . filter["file"] . " on line " . filter["line"]
+                );
             }
 
             let functionName = filter["name"],
@@ -2239,7 +2347,8 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * Check if any of the registered extensions provide compilation for this filter
+         * Check if any of the registered extensions provide compilation for
+         * this filter
          */
         let extensions = this->extensions;
         if typeof extensions == "array" {
@@ -2272,7 +2381,10 @@ class Compiler implements InjectionAwareInterface
                  */
                 if typeof definition == "object" {
                     if definition instanceof \Closure {
-                        return call_user_func_array(definition, [arguments, funcArguments]);
+                        return call_user_func_array(
+                            definition,
+                            [arguments, funcArguments]
+                        );
                     }
                 }
 
@@ -2300,21 +2412,22 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * "escape_css" filter uses the escaper component to filter css
+         * "escape_css" filter uses the escaper component to filter CSS
          */
         if name == "escape_css" {
             return "$this->escaper->escapeCss(" . arguments . ")";
         }
 
         /**
-         * "escape_js" filter uses the escaper component to escape javascript
+         * "escape_js" filter uses the escaper component to escape JavaScript
          */
         if name == "escape_js" {
             return "$this->escaper->escapeJs(" . arguments . ")";
         }
 
         /**
-         * "escape_attr" filter uses the escaper component to escape html attributes
+         * "escape_attr" filter uses the escaper component to escape HTML
+         * attributes
          */
         if name == "escape_attr" {
             return "$this->escaper->escapeHtmlAttr(" . arguments . ")";
@@ -2391,14 +2504,16 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * "lower"/"lowercase" calls the "strtolower" function or "mb_strtolower" if the mbstring extension is loaded
+         * "lower"/"lowercase" calls the "strtolower" function or
+         * "mb_strtolower" if the mbstring extension is loaded
          */
         if name == "lower" || name == "lowercase" {
             return "Phalcon\\Text::lower(" . arguments . ")";
         }
 
         /**
-         * "upper"/"uppercase" calls the "strtoupper" function or "mb_strtoupper" if the mbstring extension is loaded
+         * "upper"/"uppercase" calls the "strtoupper" function or
+         * "mb_strtoupper" if the mbstring extension is loaded
          */
         if name == "upper" || name == "uppercase" {
             return "Phalcon\\Text::upper(" . arguments . ")";
@@ -2461,7 +2576,8 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * This function uses mbstring or iconv to convert strings from one charset to another
+         * This function uses mbstring or iconv to convert strings from one
+         * charset to another
          */
         if name == "convert_encoding" {
             return "$this->convertEncoding(" . arguments . ")";
@@ -2470,7 +2586,9 @@ class Compiler implements InjectionAwareInterface
         /**
          * Unknown filter throw an exception
          */
-        throw new Exception("Unknown filter \"" . name . "\" in " . filter["file"] . " on line " . filter["line"]);
+        throw new Exception(
+            "Unknown filter \"" . name . "\" in " . filter["file"] . " on line " . filter["line"]
+        );
     }
 
     /**
@@ -2516,11 +2634,15 @@ class Compiler implements InjectionAwareInterface
              * Check if the statement is valid
              */
             if !isset statement["type"] {
-                throw new Exception("Invalid statement in " . statement["file"] . " on line " . statement["line"], statement);
+                throw new Exception(
+                    "Invalid statement in " . statement["file"] . " on line " . statement["line"],
+                    statement
+                );
             }
 
             /**
-             * Check if extensions have implemented custom compilation for this statement
+             * Check if extensions have implemented custom compilation for this
+             * statement
              */
             if typeof extensions == "array" {
 
@@ -2557,7 +2679,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_SWITCH:
-                    let compilation .= this->compileSwitch(statement, extendsMode);
+                    let compilation .= this->compileSwitch(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_CASE:
@@ -2569,7 +2695,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_FOR:
-                    let compilation .= this->compileForeach(statement, extendsMode);
+                    let compilation .= this->compileForeach(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_SET:
@@ -2605,14 +2735,18 @@ class Compiler implements InjectionAwareInterface
                         }
 
                         /**
-                         * In extends mode we add the block statements to the blocks variable
+                         * In extends mode we add the block statements to the
+                         * blocks variable
                          */
                         let blocks[blockName] = blockStatements;
                         let this->blocks = blocks;
 
                     } else {
                         if typeof blockStatements == "array" {
-                            let compilation .= this->statementList(blockStatements, extendsMode);
+                            let compilation .= this->statementList(
+                                blockStatements,
+                                extendsMode
+                            );
                         }
                     }
                     break;
@@ -2632,13 +2766,20 @@ class Compiler implements InjectionAwareInterface
                      * Perform a sub-compilation of the extended file
                      */
                     let subCompiler = clone this;
-                    let tempCompilation = subCompiler->compile(finalPath, extended);
+
+                    let tempCompilation = subCompiler->compile(
+                        finalPath,
+                        extended
+                    );
 
                     /**
-                     * If the compilation doesn't return anything we include the compiled path
+                     * If the compilation doesn't return anything we include the
+                     * compiled path
                      */
                     if typeof tempCompilation == "null" {
-                        let tempCompilation = file_get_contents(subCompiler->getCompiledTemplatePath());
+                        let tempCompilation = file_get_contents(
+                            subCompiler->getCompiledTemplatePath()
+                        );
                     }
 
                     let this->extended = true;
@@ -2651,7 +2792,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_CACHE:
-                    let compilation .= this->compileCache(statement, extendsMode);
+                    let compilation .= this->compileCache(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_DO:
@@ -2663,7 +2808,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_AUTOESCAPE:
-                    let compilation .= this->compileAutoEscape(statement, extendsMode);
+                    let compilation .= this->compileAutoEscape(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case PHVOLT_T_CONTINUE:
@@ -2691,14 +2840,22 @@ class Compiler implements InjectionAwareInterface
                     /**
                      * Define a macro
                      */
-                    let compilation .= this->compileMacro(statement, extendsMode);
+                    let compilation .= this->compileMacro(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case 325:
                     /**
                      * "Call" statement
                      */
-                    let compilation .= this->compileCall(statement, extendsMode);
+                    let compilation .= this->compileCall(
+                        statement,
+                        extendsMode
+                    );
+
                     break;
 
                 case 358:
@@ -2708,7 +2865,9 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 default:
-                    throw new Exception("Unknown statement " . type . " in " . statement["file"] . " on line " . statement["line"]);
+                    throw new Exception(
+                        "Unknown statement " . type . " in " . statement["file"] . " on line " . statement["line"]
+                    );
 
             }
         }
@@ -2750,7 +2909,8 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * If all elements in the statement list are arrays we resolve this as a statementList
+         * If all elements in the statement list are arrays we resolve this as a
+         * statementList
          */
         let isStatementList = true;
         if !isset statements["type"] {

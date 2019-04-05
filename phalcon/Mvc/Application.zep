@@ -24,8 +24,9 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 /**
  * Phalcon\Mvc\Application
  *
- * This component encapsulates all the complex operations behind instantiating every component
- * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
+ * This component encapsulates all the complex operations behind instantiating
+ * every component needed and integrating it with the rest to allow the MVC
+ * pattern to operate as desired.
  *
  *<code>
  * use Phalcon\Mvc\Application;
@@ -87,13 +88,16 @@ class Application extends BaseApplication
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("internal services"));
+            throw new Exception(
+                Exception::containerServiceNotFound("internal services")
+            );
         }
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
-         * Call boot event, this allow the developer to perform initialization actions
+         * Call boot event, this allow the developer to perform initialization
+         * actions
          */
         if typeof eventsManager == "object" {
             if eventsManager->fire("application:boot", this) === false {
@@ -124,7 +128,10 @@ class Application extends BaseApplication
                 /**
                  * Directly call the match callback
                  */
-                let possibleResponse = call_user_func_array(match, router->getParams());
+                let possibleResponse = call_user_func_array(
+                    match,
+                    router->getParams()
+                );
 
                 /**
                  * If the returned value is a string return it as body
@@ -136,7 +143,8 @@ class Application extends BaseApplication
                 }
 
                 /**
-                 * If the returned string is a ResponseInterface use it as response
+                 * If the returned string is a ResponseInterface use it as
+                 * response
                  */
                 if typeof possibleResponse == "object" {
                     if possibleResponse instanceof ResponseInterface {
@@ -182,7 +190,8 @@ class Application extends BaseApplication
             }
 
             /**
-             * An array module definition contains a path to a module definition class
+             * An array module definition contains a path to a module definition
+             * class
              */
             if typeof module == "array" {
 
@@ -199,7 +208,9 @@ class Application extends BaseApplication
                 if fetch path, module["path"] {
                     if !class_exists(className, false) {
                         if !file_exists(path) {
-                            throw new Exception("Module definition path '" . path . "' doesn't exist");
+                            throw new Exception(
+                                "Module definition path '" . path . "' doesn't exist"
+                            );
                         }
 
                         require path;
@@ -209,7 +220,8 @@ class Application extends BaseApplication
                 let moduleObject = <ModuleDefinitionInterface> container->get(className);
 
                 /**
-                 * 'registerAutoloaders' and 'registerServices' are automatically called
+                 * 'registerAutoloaders' and 'registerServices' are
+                 * automatically called
                  */
                 moduleObject->registerAutoloaders(container);
                 moduleObject->registerServices(container);
@@ -223,7 +235,12 @@ class Application extends BaseApplication
                     throw new Exception("Invalid module definition");
                 }
 
-                let moduleObject = call_user_func_array(module, [container]);
+                let moduleObject = call_user_func_array(
+                    module,
+                    [
+                        container
+                    ]
+                );
             }
 
             /**
@@ -308,7 +325,8 @@ class Application extends BaseApplication
                 }
 
                 /**
-                 * If the dispatcher returns an object we try to render the view in auto-rendering mode
+                 * If the dispatcher returns an object we try to render the view
+                 * in auto-rendering mode
                  */
                 if returnedResponse === false && implicitView === true {
                     if typeof controller == "object" {
@@ -323,12 +341,14 @@ class Application extends BaseApplication
                         }
 
                         /**
-                         * Check if the view process has been treated by the developer
+                         * Check if the view process has been treated by the
+                         * developer
                          */
                         if renderStatus !== false {
 
                             /**
-                             * Automatic render based on the latest controller executed
+                             * Automatic render based on the latest controller
+                             * executed
                              */
                             view->render(
                                 dispatcher->getControllerName(),
@@ -348,7 +368,8 @@ class Application extends BaseApplication
                 if returnedResponse === true {
 
                     /**
-                     * We don't need to create a response because there is one already created
+                     * We don't need to create a response because there is one
+                     * already created
                      */
                     let response = possibleResponse;
                 } else {
@@ -357,7 +378,8 @@ class Application extends BaseApplication
                     if implicitView === true {
 
                         /**
-                         * The content returned by the view is passed to the response service
+                         * The content returned by the view is passed to the
+                         * response service
                          */
                         response->setContent(view->getContent());
                     }

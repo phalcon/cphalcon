@@ -52,11 +52,15 @@ class Imagick extends Adapter
             let this->realpath = realpath(this->file);
 
             if !this->image->readImage(this->realpath) {
-                 throw new Exception("Imagick::readImage ".this->file." failed");
+                 throw new Exception(
+                     "Imagick::readImage " . this->file . " failed"
+                 );
             }
 
             if !this->image->getImageAlphaChannel() {
-                this->image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
+                this->image->setImageAlphaChannel(
+                    constant("Imagick::ALPHACHANNEL_SET")
+                );
             }
 
             if this->type == 1 {
@@ -68,10 +72,17 @@ class Imagick extends Adapter
             }
         } else {
             if !width || !height {
-                throw new Exception("Failed to create image from file " . this->file);
+                throw new Exception(
+                    "Failed to create image from file " . this->file
+                );
             }
 
-            this->image->newImage(width, height, new \ImagickPixel("transparent"));
+            this->image->newImage(
+                width,
+                height,
+                new \ImagickPixel("transparent")
+            );
+
             this->image->setFormat("png");
             this->image->setImageFormat("png");
 
@@ -105,7 +116,9 @@ class Imagick extends Adapter
         }
 
         if !class_exists("imagick") {
-            throw new Exception("Imagick is not installed, or the extension is not loaded");
+            throw new Exception(
+                "Imagick is not installed, or the extension is not loaded"
+            );
         }
 
         if defined("Imagick::IMAGICK_EXTNUM") {
@@ -154,12 +167,28 @@ class Imagick extends Adapter
         loop {
             background->newImage(this->width, this->height, pixel1);
             if !background->getImageAlphaChannel() {
-                background->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
+                background->setImageAlphaChannel(
+                    constant("Imagick::ALPHACHANNEL_SET")
+                );
             }
             background->setImageBackgroundColor(pixel2);
-            background->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
-            background->setColorspace(this->image->getColorspace());
-            let ret = background->compositeImage(this->image, constant("Imagick::COMPOSITE_DISSOLVE"), 0, 0);
+
+            background->evaluateImage(
+                constant("Imagick::EVALUATE_MULTIPLY"),
+                opacity,
+                constant("Imagick::CHANNEL_ALPHA")
+            );
+
+            background->setColorspace(
+                this->image->getColorspace()
+            );
+
+            let ret = background->compositeImage(
+                this->image,
+                constant("Imagick::COMPOSITE_DISSOLVE"),
+                0,
+                0
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
@@ -240,7 +269,8 @@ class Imagick extends Adapter
     }
 
     /**
-     * This method scales the images using liquid rescaling method. Only support Imagick
+     * This method scales the images using liquid rescaling method. Only support
+     * Imagick
      *
      * @param int $width   new width
      * @param int $height  new height
@@ -255,7 +285,13 @@ class Imagick extends Adapter
         image->setIteratorIndex(0);
 
         loop {
-            let ret = image->liquidRescaleImage(width, height, deltaX, rigidity);
+            let ret = image->liquidRescaleImage(
+                width,
+                height,
+                deltaX,
+                rigidity
+            );
+
             if ret !== true {
                 throw new Exception("Imagick::liquidRescale failed");
             }
@@ -283,7 +319,13 @@ class Imagick extends Adapter
 
         loop {
             this->image->setImageMatte(1);
-            let ret = this->image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
+
+            let ret = this->image->compositeImage(
+                mask,
+                constant("Imagick::COMPOSITE_DSTIN"),
+                0,
+                0
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
@@ -348,19 +390,34 @@ class Imagick extends Adapter
         let pseudo = fadeIn ? "gradient:black-transparent" : "gradient:transparent-black",
             fade = new \Imagick();
 
-        fade->newPseudoImage(reflection->getImageWidth(), reflection->getImageHeight(), pseudo);
+        fade->newPseudoImage(
+            reflection->getImageWidth(),
+            reflection->getImageHeight(),
+            pseudo
+        );
 
         let opacity /= 100;
 
         reflection->setIteratorIndex(0);
 
         loop {
-            let ret = reflection->compositeImage(fade, constant("Imagick::COMPOSITE_DSTOUT"), 0, 0);
+            let ret = reflection->compositeImage(
+                fade,
+                constant("Imagick::COMPOSITE_DSTOUT"),
+                0,
+                0
+            );
+
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
-            reflection->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
+            reflection->evaluateImage(
+                constant("Imagick::EVALUATE_MULTIPLY"),
+                opacity,
+                constant("Imagick::CHANNEL_ALPHA")
+            );
+
             if reflection->nextImage() === false {
                 break;
             }
@@ -379,7 +436,13 @@ class Imagick extends Adapter
             image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
             image->setColorspace(this->image->getColorspace());
             image->setImageDelay(this->image->getImageDelay());
-            let ret = image->compositeImage(this->image, constant("Imagick::COMPOSITE_SRC"), 0, 0);
+
+            let ret = image->compositeImage(
+                this->image,
+                constant("Imagick::COMPOSITE_SRC"),
+                0,
+                0
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
@@ -394,7 +457,12 @@ class Imagick extends Adapter
         reflection->setIteratorIndex(0);
 
         loop {
-            let ret = image->compositeImage(reflection, constant("Imagick::COMPOSITE_OVER"), 0, this->height);
+            let ret = image->compositeImage(
+                reflection,
+                constant("Imagick::COMPOSITE_OVER"),
+                0,
+                this->height
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
@@ -435,7 +503,9 @@ class Imagick extends Adapter
             image->optimizeImageLayers();
         } else {
             if strcasecmp(extension, "jpg") === 0 || strcasecmp(extension, "jpeg") === 0 {
-                image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
+                image->setImageCompression(
+                    constant("Imagick::COMPRESSION_JPEG")
+                );
             }
             image->setImageCompressionQuality(quality);
         }
@@ -510,7 +580,9 @@ class Imagick extends Adapter
             return;
         } else {
             if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
-                this->image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
+                this->image->setImageCompression(
+                    constant("Imagick::COMPRESSION_JPEG")
+                );
             }
 
             if quality >= 0 {
@@ -592,20 +664,20 @@ class Imagick extends Adapter
                     let y = (int) offsetY;
                     if offsetX {
                         if y < 0 {
-                            let offsetX    = 0,
+                            let offsetX = 0,
                                 offsetY = y * -1,
                                 gravity = constant("Imagick::GRAVITY_SOUTHEAST");
                         } else {
-                            let offsetX    = 0,
+                            let offsetX = 0,
                                 gravity = constant("Imagick::GRAVITY_NORTHEAST");
                         }
                     } else {
                         if y < 0 {
-                            let offsetX    = 0,
+                            let offsetX = 0,
                                 offsetY = y * -1,
                                 gravity = constant("Imagick::GRAVITY_SOUTH");
                         } else {
-                            let offsetX    = 0,
+                            let offsetX = 0,
                                 gravity = constant("Imagick::GRAVITY_NORTH");
                         }
                     }
@@ -618,20 +690,20 @@ class Imagick extends Adapter
                     if typeof offsetY == "boolean" {
                         if offsetY {
                             if x < 0 {
-                                let offsetX    = x * -1,
+                                let offsetX = x * -1,
                                     offsetY = 0,
                                     gravity = constant("Imagick::GRAVITY_SOUTHEAST");
                             } else {
-                                let offsetY    = 0,
+                                let offsetY = 0,
                                     gravity = constant("Imagick::GRAVITY_SOUTH");
                             }
                         } else {
                             if x < 0 {
-                                let offsetX    = x * -1,
+                                let offsetX = x * -1,
                                     offsetY = 0,
                                     gravity = constant("Imagick::GRAVITY_EAST");
                             } else {
-                                let offsetY    = 0,
+                                let offsetY = 0,
                                     gravity = constant("Imagick::GRAVITY_WEST");
                             }
                         }
@@ -642,7 +714,7 @@ class Imagick extends Adapter
 
                             if x < 0 {
                                 if y < 0 {
-                                    let offsetX    = x * -1,
+                                    let offsetX = x * -1,
                                         offsetY = y * -1,
                                         gravity = constant("Imagick::GRAVITY_SOUTHEAST");
                                 } else {
@@ -651,11 +723,11 @@ class Imagick extends Adapter
                                 }
                             } else {
                                 if y < 0 {
-                                    let offsetX    = 0,
+                                    let offsetX = 0,
                                         offsetY = y * -1,
                                         gravity = constant("Imagick::GRAVITY_SOUTHWEST");
                                 } else {
-                                    let offsetX    = 0,
+                                    let offsetX = 0,
                                         gravity = constant("Imagick::GRAVITY_NORTHWEST");
                                 }
                             }
@@ -690,12 +762,22 @@ class Imagick extends Adapter
             watermark = new \Imagick();
 
         watermark->readImageBlob(image->render());
-        watermark->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
+
+        watermark->evaluateImage(
+            constant("Imagick::EVALUATE_MULTIPLY"),
+            opacity,
+            constant("Imagick::CHANNEL_ALPHA")
+        );
 
         this->image->setIteratorIndex(0);
 
         loop {
-            let ret = this->image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offsetX, offsetY);
+            let ret = this->image->compositeImage(
+                watermark,
+                constant("Imagick::COMPOSITE_OVER"),
+                offsetX,
+                offsetY
+            );
 
             if ret !== true {
                 throw new Exception("Imagick::compositeImage failed");

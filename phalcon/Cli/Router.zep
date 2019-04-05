@@ -83,15 +83,21 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             // Two routes are added by default to match
             // /:task/:action and /:task/:action/:params
 
-            let routes[] = new Route("#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", [
-                "task": 1
-            ]);
+            let routes[] = new Route(
+                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#",
+                [
+                    "task": 1
+                ]
+            );
 
-            let routes[] = new Route("#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#", [
-                "task": 1,
-                "action": 2,
-                "params": 3
-            ]);
+            let routes[] = new Route(
+                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
+                [
+                    "task": 1,
+                    "action": 2,
+                    "params": 3
+                ]
+            );
         }
 
         let this->routes = routes;
@@ -261,13 +267,22 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                          * Check first if the callback is callable
                          */
                         if !is_callable(beforeMatch) {
-                            throw new Exception("Before-Match callback is not callable in matched route");
+                            throw new Exception(
+                                "Before-Match callback is not callable in matched route"
+                            );
                         }
 
                         /**
                          * Check first if the callback is callable
                          */
-                        let routeFound = call_user_func_array(beforeMatch, [arguments, route, this]);
+                        let routeFound = call_user_func_array(
+                            beforeMatch,
+                            [
+                                arguments,
+                                route,
+                                this
+                            ]
+                        );
                     }
                 }
 
@@ -297,7 +312,11 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                                  */
                                 if typeof converters == "array" {
                                     if fetch converter, converters[part] {
-                                        let parts[part] = call_user_func_array(converter, [matchPosition]);
+                                        let parts[part] = call_user_func_array(
+                                            converter,
+                                            [matchPosition]
+                                        );
+
                                         continue;
                                     }
                                 }
@@ -313,7 +332,10 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                                  */
                                 if typeof converters == "array" {
                                     if fetch converter, converters[part] {
-                                        let parts[part] = call_user_func_array(converter, [position]);
+                                        let parts[part] = call_user_func_array(
+                                            converter,
+                                            [position]
+                                        );
                                     }
                                 }
                             }
@@ -331,7 +353,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             }
 
             /**
-             * Update the wasMatched property indicating if the route was matched
+             * Update the wasMatched property indicating if the route was
+             * matched
              */
             if routeFound {
                 let this->wasMatched = true;
@@ -425,8 +448,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     }
 
     /**
-     * Sets an array of default paths. If a route is missing a path the router will use the defined here
-     * This method must not be used to set a 404 route
+     * Sets an array of default paths. If a route is missing a path the router
+     * will use the defined here. This method must not be used to set a 404
+     * route
      *
      *<code>
      * $router->setDefaults(

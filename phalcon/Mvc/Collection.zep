@@ -74,7 +74,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ODM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ODM"
+                )
+            );
         }
 
         let this->container = container;
@@ -85,7 +89,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         if typeof modelsManager != "object" {
             let modelsManager = container->getShared("collectionManager");
             if typeof modelsManager != "object" {
-                throw new Exception("The injected service 'modelsManager' is not valid");
+                throw new Exception(
+                    "The injected service 'modelsManager' is not valid"
+                );
             }
         }
 
@@ -100,7 +106,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         modelsManager->initialize(this);
 
         /**
-         * This allows the developer to execute initialization stuff every time an instance is created
+         * This allows the developer to execute initialization stuff every time
+         * an instance is created
          */
         if method_exists(this, "onConstruct") {
             this->{"onConstruct"}();
@@ -133,7 +140,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             throw new Exception("Method getSource() returns empty string");
         }
 
-        return connection->selectCollection(source)->aggregate(parameters, options);
+        return connection->selectCollection(source)->aggregate(
+            parameters,
+            options
+        );
     }
 
     /**
@@ -192,7 +202,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Check the dirty state of the current operation to update the current operation
+         * Check the dirty state of the current operation to update the current
+         * operation
          */
         let exists = false;
         let this->operationMade = self::OP_CREATE;
@@ -239,8 +250,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Creates a document based on the values in the attributes, if not found by criteria
-     * Preferred way to avoid duplication is to create index on attribute
+     * Creates a document based on the values in the attributes, if not found by
+     * criteria. Preferred way to avoid duplication is to create index o
+     * attribute
      *
      * <code>
      * $robot = new Robot();
@@ -263,7 +275,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             success, status, doc, collection;
 
         if empty criteria {
-            throw new Exception("Criteria parameter must be array with one or more attributes of the model");
+            throw new Exception(
+                "Criteria parameter must be array with one or more attributes of the model"
+            );
         }
 
         /**
@@ -272,7 +286,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Assume non-existence to fire beforeCreate events - no update does occur anyway
+         * Assume non-existence to fire beforeCreate events - no update does
+         * occur anyway
          */
         let exists = false;
 
@@ -298,7 +313,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let data = this->toArray();
 
         if array_diff_key( keys, data ) {
-            throw new Exception("Criteria parameter must be array with one or more attributes of the model");
+            throw new Exception(
+                "Criteria parameter must be array with one or more attributes of the model"
+            );
         }
 
         let query = array_intersect_key( data, keys );
@@ -321,7 +338,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
                 let this->_id = doc["_id"];
             }
         } else {
-            this->appendMessage( new Message("Document already exists") );
+            this->appendMessage(
+                new Message("Document already exists")
+            );
         }
 
         /**
@@ -371,7 +390,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             collection, mongoId, success, ok;
 
         if !fetch id, this->_id {
-            throw new Exception("The document cannot be deleted because it doesn't exist");
+            throw new Exception(
+                "The document cannot be deleted because it doesn't exist"
+            );
         }
 
         let disableEvents = self::disableEvents;
@@ -416,7 +437,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Remove the instance
          */
-        let status = collection->remove(["_id": mongoId], ["w": true]);
+        let status = collection->remove(
+            [
+                "_id": mongoId
+            ],
+            [
+                "w": true
+            ]
+        );
+
         if typeof status != "array" {
             return false;
         }
@@ -499,7 +528,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let className = get_called_class();
         let collection = new {className}();
-        return static::getResultset(parameters, collection, collection->getConnection(), false);
+
+        return static::getResultset(
+            parameters,
+            collection,
+            collection->getConnection(),
+            false
+        );
     }
 
     /**
@@ -689,7 +724,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Returns one of the DIRTY_STATE_* constants telling if the document exists in the collection or not
+     * Returns one of the DIRTY_STATE_* constants telling if the document exists
+     * in the collection or not
      */
     public function getDirtyState() -> int
     {
@@ -743,7 +779,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Returns an array with reserved properties that cannot be part of the insert/update
+     * Returns an array with reserved properties that cannot be part of the
+     * insert/update
      */
     public function getReservedAttributes() -> array
     {
@@ -807,7 +844,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Check the dirty state of the current operation to update the current operation
+         * Check the dirty state of the current operation to update the current
+         * operation
          */
         let exists = this->exists(collection);
 
@@ -870,7 +908,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let container = Di::getDefault();
         if typeof container != "object" {
-            throw new Exception("The dependency injector container is not valid");
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
         }
 
         if container->has("serializer") {
@@ -902,7 +942,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+     * Sets the dirty state of the object using one of the DIRTY_STATE_*
+     * constants
      */
     public function setDirtyState(int dirtyState) -> <CollectionInterface>
     {
@@ -988,7 +1029,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let initial = ["summatory": []];
 
         /**
-         * Uses a javascript hash to group the results, however this is slow with larger datasets
+         * Uses a javascript hash to group the results, however this is slow
+         * with larger datasets
          */
         let reduce = "function (curr, result) { if (typeof result.summatory[curr." . field . "] === \"undefined\") { result.summatory[curr." . field . "] = 1; } else { result.summatory[curr." . field . "]++; } }";
 
@@ -1054,7 +1096,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let container = Di::getDefault();
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ODM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ODM"
+                )
+            );
         }
 
         /**
@@ -1073,7 +1119,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              */
             let manager = container->getShared("collectionManager");
             if typeof manager != "object" {
-                throw new Exception("The injected service 'collectionManager' is not valid");
+                throw new Exception(
+                    "The injected service 'collectionManager' is not valid"
+                );
             }
 
             /**
@@ -1100,12 +1148,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let collection = this->prepareCU();
 
         /**
-         * Check the dirty state of the current operation to update the current operation
+         * Check the dirty state of the current operation to update the current
+         * operation
          */
         let exists = this->exists(collection);
 
         if !exists {
-            throw new Exception("The document cannot be updated because it doesn't exist");
+            throw new Exception(
+                "The document cannot be updated because it doesn't exist"
+            );
         }
 
         let this->operationMade = self::OP_UPDATE;
@@ -1130,7 +1181,16 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->update(["_id": $this->_id], data, ["w": true]);
+        let status = collection->update(
+            [
+                "_id": $this->_id
+            ],
+            data,
+            [
+                "w": true
+            ]
+        );
+
         if typeof status == "array" {
             if fetch ok, status["ok"] {
                 if ok {
@@ -1595,7 +1655,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the services related to the ODM"));
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the services related to the ODM"
+                )
+            );
         }
 
         let source = this->getSource();

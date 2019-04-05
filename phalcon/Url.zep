@@ -118,7 +118,9 @@ class Url implements UrlInterface, InjectionAwareInterface
         if typeof uri == "array" {
 
             if !fetch routeName, uri["for"] {
-                throw new Exception("It's necessary to define the route name with the parameter 'for'");
+                throw new Exception(
+                    "It's necessary to define the route name with the parameter 'for'"
+                );
             }
 
             let router = <RouterInterface> this->router;
@@ -130,7 +132,11 @@ class Url implements UrlInterface, InjectionAwareInterface
 
                 let container = <DiInterface> this->container;
                 if typeof container != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("the 'router' service"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the 'router' service"
+                        )
+                    );
                 }
 
                 let router = <RouterInterface> container->getShared("router"),
@@ -142,13 +148,19 @@ class Url implements UrlInterface, InjectionAwareInterface
              */
             let route = <RouteInterface> router->getRouteByName(routeName);
             if typeof route != "object" {
-                throw new Exception("Cannot obtain a route using the name '" . routeName . "'");
+                throw new Exception(
+                    "Cannot obtain a route using the name '" . routeName . "'"
+                );
             }
 
             /**
              * Replace the patterns by its variables
              */
-            let uri = phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
+            let uri = phalcon_replace_paths(
+                route->getPattern(),
+                route->getReversedPaths(), 
+                uri
+            );
         }
 
         if local {

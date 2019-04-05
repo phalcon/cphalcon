@@ -176,9 +176,13 @@ class QueryBuilder extends Adapter
             }
 
             if !hasHaving {
-                totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS [rowcount]"]);
+                totalBuilder->groupBy(null)->columns(
+                    [
+                        "COUNT(DISTINCT " . groupColumn . ") AS [rowcount]"
+                    ]
+                );
             } else {
-                totalBuilder->columns(["DISTINCT ".groupColumn]);
+                totalBuilder->columns(["DISTINCT " . groupColumn]);
             }
         }
 
@@ -207,8 +211,14 @@ class QueryBuilder extends Adapter
             let model = new {modelClass}();
             let dbService = model->getReadConnectionService();
             let db = totalBuilder->getDI()->get(dbService);
-            let row = db->fetchOne("SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1", Db::FETCH_ASSOC, sql["bind"]),
-                rowcount = row ? intval(row["rowcount"]) : 0,
+
+            let row = db->fetchOne(
+                "SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1",
+                Db::FETCH_ASSOC,
+                sql["bind"]
+            );
+
+            let rowcount = row ? intval(row["rowcount"]) : 0,
                 totalPages = intval(ceil(rowcount / limit));
         } else {
             let result = totalQuery->execute(),
@@ -225,11 +235,11 @@ class QueryBuilder extends Adapter
 
         return this->getRepository([
             RepositoryInterface::PROPERTY_ITEMS         : items,
-            RepositoryInterface::PROPERTY_TOTAL_ITEMS     : rowcount,
+            RepositoryInterface::PROPERTY_TOTAL_ITEMS   : rowcount,
             RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
-            RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
+            RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
             RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
-            RepositoryInterface::PROPERTY_CURRENT_PAGE     : numberPage,
+            RepositoryInterface::PROPERTY_CURRENT_PAGE  : numberPage,
             RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
             RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
         ]);

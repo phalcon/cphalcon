@@ -22,10 +22,11 @@ use Phalcon\Service\LocatorInterface;
 /**
  * Phalcon\Http\Request
  *
- * Encapsulates request information for easy and secure access from application controllers.
+ * Encapsulates request information for easy and secure access from application
+ * controllers.
  *
- * The request object is a simple value object that is passed between the dispatcher and controller classes.
- * It packages the HTTP request environment.
+ * The request object is a simple value object that is passed between the
+ * dispatcher and controller classes. It packages the HTTP request environment.
  *
  *<code>
  * use Phalcon\Http\Request;
@@ -36,9 +37,14 @@ use Phalcon\Service\LocatorInterface;
  *     echo "Request was made using POST and AJAX";
  * }
  *
- * $request->getServer("HTTP_HOST"); // Retrieve SERVER variables
- * $request->getMethod();            // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
- * $request->getLanguages();         // An array of languages the client accepts
+ * // Retrieve SERVER variables
+ * $request->getServer("HTTP_HOST");
+ *
+ * // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
+ * $request->getMethod();
+ *
+ * // An array of languages the client accepts
+ * $request->getLanguages();
  *</code>
  */
 class Request implements RequestInterface, InjectionAwareInterface
@@ -67,8 +73,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     private strictHostCheck = false;
 
     /**
-     * Gets a variable from the $_REQUEST superglobal applying filters if needed.
-     * If no parameters are given the $_REQUEST superglobal is returned
+     * Gets a variable from the $_REQUEST superglobal applying filters if
+     * needed. If no parameters are given the $_REQUEST superglobal is returned
      *
      *<code>
      * // Returns value from $_REQUEST["user_email"] without sanitizing
@@ -80,12 +86,20 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function get(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
     {
-        return this->getHelper(_REQUEST, name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getHelper(
+            _REQUEST,
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
 
     /**
-     * Gets an array with mime/types and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
+     * Gets an array with mime/types and their quality accepted by the
+     * browser/client from _SERVER["HTTP_ACCEPT"]
      */
     public function getAcceptableContent() -> array
     {
@@ -93,7 +107,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
+     * Gets auth info accepted by the browser/client from
+     * $_SERVER["PHP_AUTH_USER"]
      */
     public function getBasicAuth() -> array | null
     {
@@ -110,7 +125,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets best mime/type accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
+     * Gets best mime/type accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT"]
      */
     public function getBestAccept() -> string
     {
@@ -118,7 +134,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets best charset accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
+     * Gets best charset accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT_CHARSET"]
      */
     public function getBestCharset() -> string
     {
@@ -126,7 +143,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+     * Gets best language accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT_LANGUAGE"]
      */
     public function getBestLanguage() -> string
     {
@@ -135,7 +153,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
     /**
      * Gets most possible client IPv4 Address. This method searches in
-     * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+     * `$_SERVER["REMOTE_ADDR"]` and optionally in
+     * `$_SERVER["HTTP_X_FORWARDED_FOR"]`
      */
     public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
     {
@@ -158,7 +177,8 @@ class Request implements RequestInterface, InjectionAwareInterface
         if typeof address == "string" {
             if memstr(address, ",") {
                 /**
-                 * The client address has multiples parts, only return the first part
+                 * The client address has multiples parts, only return the first
+                 * part
                  */
                 return explode(",", address)[0];
             }
@@ -169,7 +189,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
+     * Gets a charsets array and their quality accepted by the browser/client
+     * from _SERVER["HTTP_ACCEPT_CHARSET"]
      */
     public function getClientCharsets() -> array
     {
@@ -207,7 +228,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
+     * Gets auth info accepted by the browser/client from
+     * $_SERVER["PHP_AUTH_DIGEST"]
      */
     public function getDigestAuth() -> array
     {
@@ -241,7 +263,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let filters = [];
         }
 
-        return this->getQuery(name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getQuery(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -255,7 +283,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let filters = [];
         }
 
-        return this->getPost(name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getPost(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -269,7 +303,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let filters = [];
         }
 
-        return this->getPut(name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getPut(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -311,13 +351,28 @@ class Request implements RequestInterface, InjectionAwareInterface
         var name, value, authHeaders;
 
         array headers = [];
-        array contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true, "CONTENT_MD5": true];
+
+        array contentHeaders = [
+            "CONTENT_TYPE":   true,
+            "CONTENT_LENGTH": true,
+            "CONTENT_MD5":    true
+        ];
 
         for name, value in _SERVER {
             // Note: The starts_with uses case insensitive search here
             if starts_with(name, "HTTP_") {
-                let name = ucwords(strtolower(str_replace("_", " ", substr(name, 5)))),
-                    name = str_replace(" ", "-", name);
+                let name = ucwords(
+                    strtolower(
+                        str_replace(
+                            "_",
+                            " ",
+                            substr(name, 5)
+                        )
+                    )
+                );
+
+                let name = str_replace(" ", "-", name);
+
                 let headers[name] = value;
 
                 continue;
@@ -326,8 +381,14 @@ class Request implements RequestInterface, InjectionAwareInterface
             // The "CONTENT_" headers are not prefixed with "HTTP_".
             let name = strtoupper(name);
             if isset contentHeaders[name] {
-                let name = ucwords(strtolower(str_replace("_", " ", name))),
-                    name = str_replace(" ", "-", name);
+                let name = ucwords(
+                    strtolower(
+                        str_replace("_", " ", name)
+                    )
+                );
+
+                let name = str_replace(" ", "-", name);
+
                 let headers[name] = value;
             }
         }
@@ -410,8 +471,9 @@ class Request implements RequestInterface, InjectionAwareInterface
             }
 
             /**
-             * Host may contain only the ASCII letters 'a' through 'z' (in a case-insensitive manner),
-             * the digits '0' through '9', and the hyphen ('-') as per RFC 952/2181
+             * Host may contain only the ASCII letters 'a' through 'z'
+             * (in a case-insensitive manner), the digits '0' through '9', and
+             * the hyphen ('-') as per RFC 952/2181
              */
             if "" !== preg_replace("/[a-z0-9-]+\.?/", "", host) {
                 throw new \UnexpectedValueException("Invalid host " . host);
@@ -449,7 +511,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+     * Gets languages array and their quality accepted by the browser/client
+     * from _SERVER["HTTP_ACCEPT_LANGUAGE"]
      */
     public function getLanguages() -> array
     {
@@ -462,8 +525,8 @@ class Request implements RequestInterface, InjectionAwareInterface
      * If the X-HTTP-Method-Override header is set, and if the method is a POST,
      * then it is used to determine the "real" intended HTTP method.
      *
-     * The _method request parameter can also be used to determine the HTTP method,
-     * but only if setHttpMethodParameterOverride(true) has been called.
+     * The _method request parameter can also be used to determine the HTTP
+     * method, but only if setHttpMethodParameterOverride(true) has been called.
      *
      * The method is always an uppercased string.
      */
@@ -536,7 +599,14 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getPost(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
     {
-        return this->getHelper(_POST, name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getHelper(
+            _POST,
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -571,7 +641,14 @@ class Request implements RequestInterface, InjectionAwareInterface
             let this->putCache = put;
         }
 
-        return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getHelper(
+            put,
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -591,7 +668,14 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getQuery(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
     {
-        return this->getHelper(_GET, name, filters, defaultValue, notAllowEmpty, noRecursive);
+        return this->getHelper(
+            _GET,
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 
     /**
@@ -701,17 +785,23 @@ class Request implements RequestInterface, InjectionAwareInterface
                     for file in smoothInput {
                         if onlySuccessful == false || file["error"] == UPLOAD_ERR_OK {
                             let dataFile = [
-                                "name": file["name"],
-                                "type": file["type"],
+                                "name":     file["name"],
+                                "type":     file["type"],
                                 "tmp_name": file["tmp_name"],
-                                "size": file["size"],
-                                "error": file["error"]
+                                "size":     file["size"],
+                                "error":    file["error"]
                             ];
 
                             if namedKeys == true {
-                                let files[file["key"]] = new File(dataFile, file["key"]);
+                                let files[file["key"]] = new File(
+                                    dataFile,
+                                    file["key"]
+                                );
                             } else {
-                                let files[] = new File(dataFile, file["key"]);
+                                let files[] = new File(
+                                    dataFile,
+                                    file["key"]
+                                );
                             }
                         }
                     }
@@ -791,7 +881,10 @@ class Request implements RequestInterface, InjectionAwareInterface
                 }
 
                 if typeof error == "array" {
-                    let numberFiles += this->hasFileHelper(error, onlySuccessful);
+                    let numberFiles += this->hasFileHelper(
+                        error,
+                        onlySuccessful
+                    );
                 }
             }
         }
@@ -864,7 +957,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+     * Checks whether HTTP method is CONNECT.
+     * if _SERVER["REQUEST_METHOD"]==="CONNECT"
      */
     public function isConnect() -> bool
     {
@@ -872,7 +966,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is DELETE. if _SERVER["REQUEST_METHOD"]==="DELETE"
+     * Checks whether HTTP method is DELETE.
+     * if _SERVER["REQUEST_METHOD"]==="DELETE"
      */
     public function isDelete() -> bool
     {
@@ -880,7 +975,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is GET. if _SERVER["REQUEST_METHOD"]==="GET"
+     * Checks whether HTTP method is GET.
+     * if _SERVER["REQUEST_METHOD"]==="GET"
      */
     public function isGet() -> bool
     {
@@ -888,7 +984,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is HEAD. if _SERVER["REQUEST_METHOD"]==="HEAD"
+     * Checks whether HTTP method is HEAD.
+     * if _SERVER["REQUEST_METHOD"]==="HEAD"
      */
     public function isHead() -> bool
     {
@@ -930,7 +1027,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is OPTIONS. if _SERVER["REQUEST_METHOD"]==="OPTIONS"
+     * Checks whether HTTP method is OPTIONS.
+     * if _SERVER["REQUEST_METHOD"]==="OPTIONS"
      */
     public function isOptions() -> bool
     {
@@ -938,7 +1036,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is PATCH. if _SERVER["REQUEST_METHOD"]==="PATCH"
+     * Checks whether HTTP method is PATCH.
+     * if _SERVER["REQUEST_METHOD"]==="PATCH"
      */
     public function isPatch() -> bool
     {
@@ -946,7 +1045,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]==="POST"
+     * Checks whether HTTP method is POST.
+     * if _SERVER["REQUEST_METHOD"]==="POST"
      */
     public function isPost() -> bool
     {
@@ -954,7 +1054,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is PUT. if _SERVER["REQUEST_METHOD"]==="PUT"
+     * Checks whether HTTP method is PUT.
+     * if _SERVER["REQUEST_METHOD"]==="PUT"
      */
     public function isPut() -> bool
     {
@@ -962,7 +1063,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+     * Checks whether HTTP method is PURGE (Squid and Varnish support).
+     * if _SERVER["REQUEST_METHOD"]==="PURGE"
      */
     public function isPurge() -> bool
     {
@@ -978,7 +1080,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks if the `Request::getHttpHost` method will be use strict validation of host name or not
+     * Checks if the `Request::getHttpHost` method will be use strict validation
+     * of host name or not
      */
     public function isStrictHostCheck() -> bool
     {
@@ -1004,7 +1107,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+     * Checks whether HTTP method is TRACE.
+     * if _SERVER["REQUEST_METHOD"]==="TRACE"
      */
     public function isTrace() -> bool
     {
@@ -1042,21 +1146,26 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets automatic sanitizers/filters for a particular field and for particular methods
+     * Sets automatic sanitizers/filters for a particular field and for
+     * particular methods
      */
     public function setParameterFilters(string! name, array filters = [], array scope = []) -> <RequestInterface>
     {
         var filterLocator, sanitizer, localScope, scopeMethod;
 
         if count(filters) < 1 {
-            throw new Exception("Filters have not been defined for '" . name . "'");
+            throw new Exception(
+                "Filters have not been defined for '" . name . "'"
+            );
         }
 
         let filterLocator = this->getFilterLocatorService();
 
         for sanitizer in filters {
             if true !== filterLocator->has(sanitizer) {
-                throw new Exception("Sanitizer '" . sanitizer . "' does not exist in the filter locator");
+                throw new Exception(
+                    "Sanitizer '" . sanitizer . "' does not exist in the filter locator"
+                );
             }
         }
 
@@ -1074,7 +1183,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets if the `Request::getHttpHost` method must be use strict validation of host name or not
+     * Sets if the `Request::getHttpHost` method must be use strict validation
+     * of host name or not
      */
     public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
     {
@@ -1132,7 +1242,11 @@ class Request implements RequestInterface, InjectionAwareInterface
             if typeof filter != "object" {
                 let container = <DiInterface> this->container;
                 if typeof container != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the 'filter' service"
+                        )
+                    );
                 }
                 let filter = <LocatorInterface> container->getShared("filter");
 //                let filter = <FilterInterface> container->getShared("filter");
@@ -1181,10 +1295,18 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final protected function getQualityHeader(string! serverIndex, string! name) -> array
     {
-        var returnedParts, part, headerParts, headerPart, split;
+        var returnedParts, parts, part, headerParts, headerPart, split;
 
         let returnedParts = [];
-        for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
+
+        let parts = preg_split(
+            "/,\\s*/",
+            this->getServer(serverIndex),
+            -1,
+            PREG_SPLIT_NO_EMPTY
+        );
+
+        for part in parts {
 
             let headerParts = [];
             for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
@@ -1212,7 +1334,8 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     protected function resolveAuthorizationHeaders() -> array
     {
-        var resolved, eventsManager, hasEventsManager, container, exploded, digest, authHeader = null;
+        var resolved, eventsManager, hasEventsManager, container, exploded,
+            digest, authHeader = null;
         array headers = [];
 
         let container = <DiInterface> this->getDI();
@@ -1249,7 +1372,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 
             if authHeader {
                 if stripos(authHeader, "basic ") === 0 {
-                    let exploded = explode(":", base64_decode(substr(authHeader, 6)), 2);
+                    let exploded = explode(
+                        ":",
+                        base64_decode(
+                            substr(authHeader, 6)
+                        ),
+                        2
+                    );
+
                     if count(exploded) == 2 {
                         let headers["Php-Auth-User"] = exploded[0],
                             headers["Php-Auth-Pw"]   = exploded[1];
@@ -1340,9 +1470,11 @@ class Request implements RequestInterface, InjectionAwareInterface
         if typeof locator != "object" {
             let container = <DiInterface> this->container;
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound("the 'filter' service")
+                );
             }
-            let locator             = <LocatorInterface> container->getShared("filter"),
+            let locator = <LocatorInterface> container->getShared("filter"),
                 this->filterLocator = locator;
         }
 

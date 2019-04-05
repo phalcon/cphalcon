@@ -15,9 +15,10 @@ use Phalcon\Config\Exception;
 /**
  * Phalcon\Config
  *
- * Phalcon\Config is designed to simplify the access to, and the use of, configuration data within applications.
- * It provides a nested object property based user interface for accessing this configuration data within
- * application code.
+ * Phalcon\Config is designed to simplify the access to, and the use of,
+ * configuration data within applications. It provides a nested object property
+ * based user interface for accessing this configuration data within application
+ * code.
  *
  *<code>
  * $config = new \Phalcon\Config(
@@ -83,8 +84,9 @@ class Config implements \ArrayAccess, \Countable
     }
 
     /**
-     * Gets an attribute from the configuration, if the attribute isn't defined returns null
-     * If the value is exactly null or is not defined the default value will be used instead
+     * Gets an attribute from the configuration, if the attribute isn't defined
+     * returns null. If the value is exactly null or is not defined the default
+     * value will be used instead
      *
      *<code>
      * echo $config->get("controllersDir", "../app/controllers/");
@@ -324,7 +326,10 @@ class Config implements \ArrayAccess, \Countable
             if is_numeric(key) {
                 let key = strval(key);
                 while instance->offsetExists(key) {
-                    // increment the number afterwards, because "number" starts at one not zero.
+                    /**
+                     * Increment the number afterwards, because "number" starts
+                     * at one not zero.
+                     */
                     let key = strval(number);
                     let number++;
                 }

@@ -18,7 +18,8 @@ namespace Phalcon\Cli\Router;
 interface RouteInterface
 {
     /**
-     * Replaces placeholders from pattern returning a valid PCRE regular expression
+     * Replaces placeholders from pattern returning a valid PCRE regular
+     * expression
      */
     public function compilePattern(string! pattern) -> string;
 

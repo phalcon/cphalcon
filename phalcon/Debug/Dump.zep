@@ -69,7 +69,13 @@ class Dump
      */
     public function all() -> string
     {
-        return call_user_func_array([this, "variables"], func_get_args());
+        return call_user_func_array(
+            [
+                this,
+                "variables"
+            ],
+            func_get_args()
+        );
     }
 
     /**
@@ -123,7 +129,10 @@ class Dump
      */
     public function toJson(var variable) -> string
     {
-        return json_encode(variable, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        return json_encode(
+            variable,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
     }
 
     /**
@@ -259,8 +268,14 @@ class Dump
                 for property in props {
                     property->setAccessible(true);
 
-                    let key = property->getName(),
-                        type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
+                    let key = property->getName();
+
+                    let type = implode(
+                        " ",
+                        \Reflection::getModifierNames(
+                            property->getModifiers()
+                        )
+                    );
 
                     let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
                     let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";

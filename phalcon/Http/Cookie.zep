@@ -184,7 +184,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
+     * Returns whether the cookie must only be sent when the connection is
+     * secure (HTTPS)
      */
     public function getSecure() -> bool
     {
@@ -216,7 +217,11 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
                     let container = <DiInterface> this->container;
                     if typeof container != "object" {
-                        throw new Exception(Exception::containerServiceNotFound("the 'filter' and 'crypt' services"));
+                        throw new Exception(
+                            Exception::containerServiceNotFound(
+                                "the 'filter' and 'crypt' services"
+                            )
+                        );
                     }
 
                     let crypt = <CryptInterface> container->getShared("crypt");
@@ -234,7 +239,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                         /**
                          * Decrypt the value also decoding it with base64
                          */
-                        let decryptedValue = crypt->decryptBase64(value, signKey);
+                        let decryptedValue = crypt->decryptBase64(
+                            value,
+                            signKey
+                        );
                     } else {
                         /**
                          * Decrypt the value also decoding it with base64
@@ -257,7 +265,11 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                         if container === null {
                             let container = <DiInterface> this->container;
                             if typeof container != "object" {
-                                throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                                throw new Exception(
+                                    Exception::containerServiceNotFound(
+                                        "the 'filter' service"
+                                    )
+                                );
                             }
                         }
 
@@ -289,9 +301,11 @@ class Cookie implements CookieInterface, InjectionAwareInterface
     }
 
     /**
-     * Reads the cookie-related info from the SESSION to restore the cookie as it was set.
+     * Reads the cookie-related info from the SESSION to restore the cookie as
+     * it was set.
      *
-     * This method is automatically called internally so normally you don't need to call it.
+     * This method is automatically called internally so normally you don't
+     * need to call it.
      */
     public function restore() -> <CookieInterface>
     {
@@ -359,7 +373,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         let container = this->container;
 
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("the 'session' service"));
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'session' service")
+            );
         }
 
         let definition = [];
@@ -399,7 +415,11 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             if !empty value {
 
                 if typeof container != "object" {
-                    throw new Exception(Exception::containerServiceNotFound("the 'filter' service"));
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the 'filter' service"
+                        )
+                    );
                 }
 
                 let crypt = <CryptInterface> container->getShared("crypt");
@@ -415,9 +435,14 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                  */
                 let signKey = this->signKey;
                 if typeof signKey === "string" {
-                    let encryptValue = crypt->encryptBase64((string) value, signKey);
+                    let encryptValue = crypt->encryptBase64(
+                        (string) value,
+                        signKey
+                    );
                 } else {
-                    let encryptValue = crypt->encryptBase64((string) value);
+                    let encryptValue = crypt->encryptBase64(
+                        (string) value
+                    );
                 }
             } else {
                 let encryptValue = value;

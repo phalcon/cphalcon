@@ -67,7 +67,8 @@ interface RouterInterface
     public function addPost(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
-     * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+     * Adds a route to the router that only match if the HTTP method is PURGE
+     * (Squid and Varnish support)
      */
     public function addPurge(string! pattern, var paths = null) -> <RouteInterface>;
 

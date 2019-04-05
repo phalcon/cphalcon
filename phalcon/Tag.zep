@@ -294,7 +294,9 @@ class Tag
         if replace {
 
             if typeof replace != "array" && typeof replace != "string"{
-                throw new Exception("Parameter replace must be an array or a string");
+                throw new Exception(
+                    "Parameter replace must be an array or a string"
+                );
             }
             if typeof replace == "array" {
                 for search in replace {
@@ -408,7 +410,9 @@ class Tag
             let container = self::getDI();
 
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("the 'escaper' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound("the 'escaper' service")
+                );
             }
 
             let escaper = <EscaperInterface> container->getShared("escaper"),
@@ -438,13 +442,17 @@ class Tag
      */
     public static function getTitle(bool prepend = true, bool append = true) -> string
     {
-        var items, output, title, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
+        var items, output, title, documentTitle, documentAppendTitle,
+            documentPrependTitle, documentTitleSeparator, escaper;
 
         let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
         let items = [];
         let output = "";
         let documentTitle = escaper->escapeHtml(self::documentTitle);
-        let documentTitleSeparator = escaper->escapeHtml(self::documentTitleSeparator);
+
+        let documentTitleSeparator = escaper->escapeHtml(
+            self::documentTitleSeparator
+        );
 
         if prepend {
             if typeof self::documentPrependTitle == "null" {
@@ -519,7 +527,9 @@ class Tag
             let container = self::getDI();
 
             if typeof container != "object" {
-                throw new Exception(Exception::containerServiceNotFound("the 'url' service"));
+                throw new Exception(
+                    Exception::containerServiceNotFound("the 'url' service")
+                );
             }
 
             let url = <UrlInterface> container->getShared("url"),
@@ -529,8 +539,8 @@ class Tag
     }
 
     /**
-     * Every helper calls this function to check whether a component has a predefined
-     * value using Phalcon\Tag::setDefault or value from $_POST
+     * Every helper calls this function to check whether a component has a
+     * predefined value using Phalcon\Tag::setDefault() or value from $_POST
      *
      * @param string name
      * @return mixed
@@ -557,7 +567,8 @@ class Tag
     }
 
     /**
-     * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
+     * Check if a helper has a default value set using Phalcon\Tag::setDefault()
+     * or value from $_POST
      *
      * @param string name
      */
@@ -680,7 +691,11 @@ class Tag
      * Builds a SCRIPT[type="javascript"] tag
      *
      * <code>
-     * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false);
+     * echo Phalcon\Tag::javascriptInclude(
+     *     "http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js",
+     *     false
+     * );
+     *
      * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
      * </code>
      *
@@ -979,7 +994,9 @@ class Tag
         for key, value in attrs {
             if typeof key == "string" && value !== null {
                 if typeof value == "array" || typeof value == "resource" {
-                    throw new Exception("Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered");
+                    throw new Exception(
+                        "Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
+                    );
                 }
                 if escaper {
                     let escaped = escaper->escapeHtmlAttr(value);
@@ -1017,7 +1034,9 @@ class Tag
     }
 
     /**
-     * Resets the request and internal values to avoid those fields will have any default value.
+     * Resets the request and internal values to avoid those fields will have
+     * any default value.
+     *
      * @deprecated Will be removed in 4.0.0
      */
     deprecated public static function resetInput() -> void
@@ -1111,7 +1130,9 @@ class Tag
     {
         if value !== null {
             if typeof value == "array" || typeof value == "object" {
-                throw new Exception("Only scalar values can be assigned to UI components");
+                throw new Exception(
+                    "Only scalar values can be assigned to UI components"
+                );
             }
         }
         let self::displayValues[id] = value;
@@ -1189,7 +1210,11 @@ class Tag
      * Builds a LINK[rel="stylesheet"] tag
      *
      * <code>
-     * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+     * echo Phalcon\Tag::stylesheetLink(
+     *     "http://fonts.googleapis.com/css?family=Rosario",
+     *     false
+     * );
+     *
      * echo Phalcon\Tag::stylesheetLink("css/style.css");
      * </code>
      *
@@ -1236,7 +1261,9 @@ class Tag
          * URLs are generated through the "url" service
          */
         if local {
-            let params["href"] = self::getUrlService()->getStatic(params["href"]);
+            let params["href"] = self::getUrlService()->getStatic(
+                params["href"]
+            );
         }
 
         if !isset params["rel"] {

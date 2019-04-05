@@ -71,7 +71,9 @@ class Ini extends Config
 
         let iniConfig = parse_ini_file(filePath, true, mode);
         if iniConfig === false {
-            throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
+            throw new Exception(
+                "Configuration file " . basename(filePath) . " can't be loaded"
+            );
         }
 
         var config, section, sections, directives, path, lastValue;
@@ -82,10 +84,16 @@ class Ini extends Config
             if typeof directives == "array" {
                 let sections = [];
                 for path, lastValue in directives {
-                    let sections[] = this->parseIniString((string)path, lastValue);
+                    let sections[] = this->parseIniString(
+                        (string) path,
+                        lastValue
+                    );
                 }
                 if count(sections) {
-                    let config[section] = call_user_func_array("array_replace_recursive", sections);
+                    let config[section] = call_user_func_array(
+                        "array_replace_recursive",
+                        sections
+                    );
                 }
             } else {
                 let config[section] = this->cast(directives);
@@ -96,7 +104,8 @@ class Ini extends Config
     }
 
     /**
-     * We have to cast values manually because parse_ini_file() has a poor implementation.
+     * We have to cast values manually because parse_ini_file() has a poor
+     * implementation.
      *
      * @param mixed ini The array casted by `parse_ini_file`
      */
@@ -159,13 +168,17 @@ class Ini extends Config
         let pos = strpos(path, ".");
 
         if pos === false {
-            return [path: value];
+            return [
+                path: value
+            ];
         }
 
         let key = substr(path, 0, pos);
         let path = substr(path, pos + 1);
 
-        return [key: this->parseIniString(path, value)];
+        return [
+            key: this->parseIniString(path, value)
+        ];
     }
     
 }

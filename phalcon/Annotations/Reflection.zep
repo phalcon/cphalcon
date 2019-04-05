@@ -102,7 +102,9 @@ class Reflection
                 if count(reflectionMethods) {
                     let collections = [];
                     for methodName, reflectionMethod in reflectionMethods {
-                        let collections[methodName] = new Collection(reflectionMethod);
+                        let collections[methodName] = new Collection(
+                            reflectionMethod
+                        );
                     }
                     let this->methodAnnotations = collections;
                     return collections;
@@ -129,7 +131,9 @@ class Reflection
                 if count(reflectionProperties) {
                     let collections = [];
                     for property, reflectionProperty in reflectionProperties {
-                        let collections[property] = new Collection(reflectionProperty);
+                        let collections[property] = new Collection(
+                            reflectionProperty
+                        );
                     }
                     let this->propertyAnnotations = collections;
                     return collections;
@@ -143,7 +147,8 @@ class Reflection
     }
 
     /**
-     * Returns the raw parsing intermediate definitions used to construct the reflection
+     * Returns the raw parsing intermediate definitions used to construct the
+     * reflection
      */
     public function getReflectionData() -> array
     {

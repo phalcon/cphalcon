@@ -178,16 +178,21 @@ class Asset implements AssetInterface
              * Check first if the file is readable
              */
             if !file_exists(completePath) {
-                throw new Exception("Asset's content for '" . completePath . "' cannot be read");
+                throw new Exception(
+                    "Asset's content for '" . completePath . "' cannot be read"
+                );
             }
         }
 
         /**
-         * Use file_get_contents to respect the openbase_dir. Access urls must be enabled
+         * Use file_get_contents to respect the openbase_dir. Access URLs must
+         * be enabled
          */
         let content = file_get_contents(completePath);
         if content === false {
-            throw new Exception("Asset's content for '" . completePath . "' cannot be read");
+            throw new Exception(
+                "Asset's content for '" . completePath . "' cannot be read"
+            );
         }
 
         return content;
@@ -249,7 +254,8 @@ class Asset implements AssetInterface
             let completePath = basePath . targetPath;
 
             /**
-             * Get the real template path, the target path can optionally don't exist
+             * Get the real template path, the target path can optionally don't
+             * exist
              */
             if file_exists(completePath) {
                 return realpath(completePath);

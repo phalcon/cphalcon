@@ -162,7 +162,12 @@ class Crypt implements CryptInterface
         let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
 
         if mode == "cbc" || mode == "ecb" {
-            let decrypted = this->cryptUnpadText(decrypted, mode, blockSize, this->padding);
+            let decrypted = this->cryptUnpadText(
+                decrypted,
+                mode,
+                blockSize,
+                this->padding
+            );
         }
 
         return decrypted;
@@ -176,9 +181,18 @@ class Crypt implements CryptInterface
     public function decryptBase64(string! text, key = null, bool! safe = false) -> string
     {
         if safe == true {
-            return this->decrypt(base64_decode(strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)), key);
+            return this->decrypt(
+                base64_decode(
+                    strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)
+                ),
+                key
+            );
         }
-        return this->decrypt(base64_decode(text), key);
+
+        return this->decrypt(
+            base64_decode(text),
+            key
+        );
     }
 
     /**
@@ -193,7 +207,8 @@ class Crypt implements CryptInterface
      */
     public function encrypt(string! text, string! key = null) -> string
     {
-        var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType, padded, encrypted;
+        var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType,
+            padded, encrypted;
 
         if likely empty key {
             let encryptKey = this->key;
@@ -206,7 +221,13 @@ class Crypt implements CryptInterface
         }
 
         let cipher = this->cipher;
-        let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
+
+        let mode = strtolower(
+            substr(
+                cipher,
+                strrpos(cipher, "-") - strlen(cipher)
+            )
+        );
 
         this->assertCipherIsAvailable(cipher);
 
@@ -214,7 +235,13 @@ class Crypt implements CryptInterface
         if likely ivLength > 0 {
             let blockSize = ivLength;
         } else {
-            let blockSize = this->getIvLength(str_ireplace("-" . mode, "", cipher));
+            let blockSize = this->getIvLength(
+                str_ireplace(
+                    "-" . mode,
+                    "",
+                    cipher
+                )
+            );
         }
 
         let iv = openssl_random_pseudo_bytes(ivLength);
@@ -343,7 +370,8 @@ class Crypt implements CryptInterface
     /**
      * Sets the encryption key.
      *
-     * The `$key' should have been previously generated in a cryptographically safe way.
+     * The `$key' should have been previously generated in a cryptographically
+     * safe way.
      *
      * Bad key:
      * "le password"
@@ -518,7 +546,8 @@ class Crypt implements CryptInterface
     /**
      * Removes a padding from a text.
      *
-     * If the function detects that the text was not padded, it will return it unmodified.
+     * If the function detects that the text was not padded, it will return it
+     * unmodified.
      *
      * @param string text Message to be unpadded
      * @param string mode Encryption mode; unpadding is applied only in CBC or ECB mode

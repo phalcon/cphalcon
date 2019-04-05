@@ -24,16 +24,20 @@ abstract class Factory implements FactoryInterface
         }
 
         if typeof config != "array" {
-            throw new Exception("Config must be array or Phalcon\\Config object");
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
         }
 
         if fetch adapter, config["adapter"] {
             unset config["adapter"];
-            let className = namespaceClass."\\".adapter;
+            let className = namespaceClass . "\\" . adapter;
 
             return new {className}(config);
         }
 
-        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+        throw new Exception(
+            "You must provide 'adapter' option in factory config parameter."
+        );
     }
 }

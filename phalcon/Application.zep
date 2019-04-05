@@ -71,7 +71,9 @@ abstract class Application extends Injectable implements EventsAwareInterface
         var module;
 
         if !fetch module, this->modules[name] {
-            throw new Exception("Module '" . name . "' isn't registered in the application container");
+            throw new Exception(
+                "Module '" . name . "' isn't registered in the application container"
+            );
         }
 
         return module;
@@ -137,5 +139,4 @@ abstract class Application extends Injectable implements EventsAwareInterface
 
         return this;
     }
-
 }

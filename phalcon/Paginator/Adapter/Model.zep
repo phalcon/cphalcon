@@ -17,7 +17,8 @@ use Phalcon\Paginator\RepositoryInterface;
 /**
  * Phalcon\Paginator\Adapter\Model
  *
- * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base.
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a
+ * base.
  *
  * <code>
  * use Phalcon\Paginator\Adapter\Model;

@@ -16,7 +16,8 @@ use Phalcon\Annotations\Exception;
 /**
  * Phalcon\Annotations\Collection
  *
- * Represents a collection of annotations. This class allows to traverse a group of annotations easily
+ * Represents a collection of annotations. This class allows to traverse a group
+ * of annotations easily
  *
  *<code>
  * //Traverse annotations
@@ -97,7 +98,9 @@ class Collection implements \Iterator, \Countable
             }
         }
 
-        throw new Exception("Collection doesn't have an annotation called '" . name . "'");
+        throw new Exception(
+            "Collection doesn't have an annotation called '" . name . "'"
+        );
     }
 
     /**

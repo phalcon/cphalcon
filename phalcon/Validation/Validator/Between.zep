@@ -87,7 +87,11 @@ class Between extends Validator
                 message = this->prepareMessage(validation, field, "Between"),
                 code = this->prepareCode(field);
 
-            let replacePairs = [":field": label, ":min": minimum, ":max": maximum];
+            let replacePairs = [
+                ":field": label,
+                ":min":   minimum,
+                ":max":   maximum
+            ];
 
             validation->appendMessage(
                 new Message(

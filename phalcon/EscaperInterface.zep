@@ -18,7 +18,8 @@ namespace Phalcon;
 interface EscaperInterface
 {
     /**
-     * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
+     * Escape CSS strings by replacing non-alphanumeric chars by their
+     * hexadecimal representation
      */
     public function escapeCss(string css) -> string;
 
@@ -33,7 +34,8 @@ interface EscaperInterface
     public function escapeHtmlAttr(string text) -> string;
 
     /**
-     * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
+     * Escape Javascript strings by replacing non-alphanumeric chars by their
+     * hexadecimal representation
      */
     public function escapeJs(string js) -> string;
 

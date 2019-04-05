@@ -15,7 +15,8 @@ use Phalcon\Factory\Exception;
 use Phalcon\Config;
 
 /**
- * Loads Config Adapter class using 'adapter' option, if no extension is provided it will be added to filePath
+ * Loads Config Adapter class using 'adapter' option, if no extension is
+ * provided it will be added to filePath
  *
  *<code>
  * use Phalcon\Config\Factory;
@@ -46,7 +47,9 @@ class Factory extends BaseFactory
             let extension = substr(strrchr(config, "."), 1);
 
             if empty extension {
-                throw new Exception("You need to provide extension in file path");
+                throw new Exception(
+                    "You need to provide extension in file path"
+                );
             }
 
             let config = [
@@ -60,11 +63,15 @@ class Factory extends BaseFactory
         }
 
         if typeof config != "array" {
-            throw new Exception("Config must be array or Phalcon\\Config object");
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
         }
 
         if !fetch filePath, config["filePath"] {
-            throw new Exception("You must provide 'filePath' option in factory config parameter.");
+            throw new Exception(
+                "You must provide 'filePath' option in factory config parameter."
+            );
         }
 
         if fetch adapter, config["adapter"] {
@@ -86,6 +93,8 @@ class Factory extends BaseFactory
             return new {className}(filePath);
         }
 
-        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+        throw new Exception(
+            "You must provide 'adapter' option in factory config parameter."
+        );
     }
 }

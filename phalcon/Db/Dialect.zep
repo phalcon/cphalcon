@@ -187,7 +187,11 @@ abstract class Dialect implements DialectInterface
         /**
          * Resolve column expressions
          */
-        let column = this->getSqlExpression(columnExpression, escapeChar, bindCounts);
+        let column = this->getSqlExpression(
+            columnExpression,
+            escapeChar,
+            bindCounts
+        );
 
         /**
          * Escape alias and concatenate to value SQL
@@ -217,13 +221,21 @@ abstract class Dialect implements DialectInterface
              * Resolve scalar column expressions
              */
             case "scalar":
-                return this->getSqlExpressionScalar(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionScalar(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve object expressions
              */
             case "object":
-                return this->getSqlExpressionObject(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionObject(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve qualified expressions
@@ -260,13 +272,21 @@ abstract class Dialect implements DialectInterface
              * Resolve binary operations expressions
              */
             case "binary-op":
-                return this->getSqlExpressionBinaryOperations(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionBinaryOperations(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve unary operations expressions
              */
             case "unary-op":
-                return this->getSqlExpressionUnaryOperations(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionUnaryOperations(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve parentheses
@@ -278,13 +298,21 @@ abstract class Dialect implements DialectInterface
              * Resolve function calls
              */
             case "functionCall":
-                return this->getSqlExpressionFunctionCall(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionFunctionCall(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve lists
              */
             case "list":
-                return this->getSqlExpressionList(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionList(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve *
@@ -302,16 +330,28 @@ abstract class Dialect implements DialectInterface
              * Resolve CAST of values
              */
             case "cast":
-                return this->getSqlExpressionCastValue(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionCastValue(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             /**
              * Resolve CONVERT of values encodings
              */
             case "convert":
-                return this->getSqlExpressionConvertValue(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionConvertValue(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
 
             case "case":
-                return this->getSqlExpressionCase(expression, escapeChar, bindCounts);
+                return this->getSqlExpressionCase(
+                    expression,
+                    escapeChar,
+                    bindCounts
+                );
         }
 
         /**
@@ -321,7 +361,8 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Transform an intermediate representation of a schema/table into a database system valid expression
+     * Transform an intermediate representation of a schema/table into a
+     * database system valid expression
      */
     final public function getSqlTable(var table, string escapeChar = null) -> string
     {
@@ -344,7 +385,12 @@ abstract class Dialect implements DialectInterface
              */
             fetch aliasName, table[2];
 
-            return this->prepareTable(tableName, schemaName, aliasName, escapeChar);
+            return this->prepareTable(
+                tableName,
+                schemaName,
+                aliasName,
+                escapeChar
+            );
         }
 
         return this->escape(table, escapeChar);
@@ -411,11 +457,15 @@ abstract class Dialect implements DialectInterface
             groupBy, having, orderBy, limit, forUpdate, bindCounts;
 
         if !fetch tables, definition["tables"] {
-            throw new Exception("The index 'tables' is required in the definition array");
+            throw new Exception(
+                "The index 'tables' is required in the definition array"
+            );
         }
 
         if !fetch columns, definition["columns"] {
-            throw new Exception("The index 'columns' is required in the definition array");
+            throw new Exception(
+                "The index 'columns' is required in the definition array"
+            );
         }
 
         if fetch distinct, definition["distinct"] {
@@ -483,7 +533,14 @@ abstract class Dialect implements DialectInterface
          * Resolve LIMIT
          */
         if fetch limit, definition["limit"] && limit {
-            let sql = this->getSqlExpressionLimit(["sql": sql, "value": limit], escapeChar, bindCounts);
+            let sql = this->getSqlExpressionLimit(
+                [
+                    "sql":   sql,
+                    "value": limit
+                ],
+                escapeChar,
+                bindCounts
+            );
         }
 
         /**
@@ -571,8 +628,17 @@ abstract class Dialect implements DialectInterface
     {
         var left, right;
 
-        let left  = this->getSqlExpression(expression["left"], escapeChar, bindCounts),
-            right = this->getSqlExpression(expression["right"], escapeChar, bindCounts);
+        let left  = this->getSqlExpression(
+            expression["left"],
+            escapeChar,
+            bindCounts
+        );
+
+        let right = this->getSqlExpression(
+            expression["right"],
+            escapeChar,
+            bindCounts
+        );
 
         return left . " " . expression["op"] . " " . right;
     }
@@ -607,8 +673,17 @@ abstract class Dialect implements DialectInterface
     {
         var left, right;
 
-        let left  = this->getSqlExpression(expression["left"], escapeChar, bindCounts),
-            right = this->getSqlExpression(expression["right"], escapeChar, bindCounts);
+        let left  = this->getSqlExpression(
+            expression["left"],
+            escapeChar,
+            bindCounts
+        );
+
+        let right = this->getSqlExpression(
+            expression["right"],
+            escapeChar,
+            bindCounts
+        );
 
         return "CAST(" . left . " AS " . right . ")";
     }
@@ -620,8 +695,17 @@ abstract class Dialect implements DialectInterface
     {
         var left, right;
 
-        let left  = this->getSqlExpression(expression["left"], escapeChar, bindCounts),
-            right = this->getSqlExpression(expression["right"], escapeChar, bindCounts);
+        let left  = this->getSqlExpression(
+            expression["left"],
+            escapeChar,
+            bindCounts
+        );
+
+        let right = this->getSqlExpression(
+            expression["right"],
+            escapeChar,
+            bindCounts
+        );
 
         return "CONVERT(" . left . " USING " . right . ")";
     }
@@ -697,7 +781,11 @@ abstract class Dialect implements DialectInterface
                     throw new Exception("Invalid SQL-GROUP-BY expression");
                 }
 
-                let fields[] = this->getSqlExpression(field, escapeChar, bindCounts);
+                let fields[] = this->getSqlExpression(
+                    field,
+                    escapeChar,
+                    bindCounts
+                );
             }
 
             let fields = join(", ", fields);
@@ -722,7 +810,8 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var condition, join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
+        var condition, join, sql = "", joinCondition, joinTable, joinType = "",
+            joinConditionsArray;
 
         for join in expression {
 
@@ -732,13 +821,21 @@ abstract class Dialect implements DialectInterface
             if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {
 
                 if !isset joinConditionsArray[0] {
-                    let joinCondition = this->getSqlExpression(joinConditionsArray, escapeChar, bindCounts);
+                    let joinCondition = this->getSqlExpression(
+                        joinConditionsArray,
+                        escapeChar,
+                        bindCounts
+                    );
                 } else {
 
                     let joinCondition = [];
 
                     for condition in joinConditionsArray {
-                        let joinCondition[] = this->getSqlExpression(condition, escapeChar, bindCounts);
+                        let joinCondition[] = this->getSqlExpression(
+                            condition,
+                            escapeChar,
+                            bindCounts
+                        );
                     }
 
                     let joinCondition = join(" AND ", joinCondition);
@@ -858,7 +955,11 @@ abstract class Dialect implements DialectInterface
                     throw new Exception("Invalid SQL-ORDER-BY expression");
                 }
 
-                let fieldSql = this->getSqlExpression(field[0], escapeChar, bindCounts);
+                let fieldSql = this->getSqlExpression(
+                    field[0],
+                    escapeChar,
+                    bindCounts
+                );
 
                 /**
                  * In the numeric 1 position could be a ASC/DESC clause

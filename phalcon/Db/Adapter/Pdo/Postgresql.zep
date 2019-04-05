@@ -51,15 +51,17 @@ class Postgresql extends PdoAdapter
     public function __construct(array! descriptor) -> void
     {
         if isset descriptor["charset"] {
-            trigger_error("Postgres does not allow the charset to be changed in the DSN.");
+            trigger_error(
+                "Postgres does not allow the charset to be changed in the DSN."
+            );
         }
 
         parent::__construct(descriptor);
     }
 
     /**
-     * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
-     * Call it when you need to restore a database connection.
+     * This method is automatically called in Phalcon\Db\Adapter\Pdo
+     * constructor. Call it when you need to restore a database connection.
      */
     public function connect(array descriptor = null) -> bool
     {
@@ -142,16 +144,22 @@ class Postgresql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, field, definition,
+        var columns, columnType, fields, field, definition,
             oldColumn, columnName, charSize, numericSize, numericScale;
 
         let oldColumn = null, columns = [];
 
         /**
          * We're using FETCH_NUM to fetch the columns
-         * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null, 6: key, 7: extra, 8: position, 9 default
+         * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null,
+         * 6: key, 7: extra, 8: position, 9 default
          */
-        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
+        let fields = this->fetchAll(
+            this->dialect->describeColumns(table, schema),
+            Db::FETCH_NUM
+        );
+
+        for field in fields {
 
             /**
              * By default the bind types is two
@@ -159,7 +167,8 @@ class Postgresql extends PdoAdapter
             let definition = ["bindType": Column::BIND_PARAM_STR];
 
             /**
-             * By checking every column type we convert it to a Phalcon\Db\Column
+             * By checking every column type we convert it to a
+             * Phalcon\Db\Column
              */
             let columnType = field[1],
                 charSize = field[2],
@@ -167,12 +176,13 @@ class Postgresql extends PdoAdapter
                 numericScale = field[4];
 
             /**
-             * The order of these IF statements matters. Since we are using memstr
-             * to figure out whether a particular string exists in the columnType
-             * we will end up with false positives if the order changes.
+             * The order of these IF statements matters. Since we are using
+             * memstr to figure out whether a particular string exists in the
+             * columnType we will end up with false positives if the order
+             * changes.
              *
-             * For instance if we have a `varchar` column and we check for `char`
-             * first, then that will match. Therefore we have firs the IF
+             * For instance if we have a `varchar` column and we check for
+             * `char` first, then that will match. Therefore we have firs the IF
              * statements that are "unique" and further down the ones that can
              * appear a substrings of the columnType above them.
              */
@@ -455,7 +465,12 @@ class Postgresql extends PdoAdapter
              * Check if the column has default values
              */
             if typeof field[9] != "null" {
-                let definition["default"] = preg_replace("/^'|'?::[[:alnum:][:space:]]+$/", "", field[9]);
+                let definition["default"] = preg_replace(
+                    "/^'|'?::[[:alnum:][:space:]]+$/",
+                    "",
+                    field[9]
+                );
+
                 if strcasecmp(definition["default"], "null") == 0 {
                     let definition["default"] = null;
                 }
@@ -525,14 +540,17 @@ class Postgresql extends PdoAdapter
 
         let referenceObjects = [];
         for name, arrayReference in references {
-            let referenceObjects[name] = new Reference(name, [
-                "referencedSchema"  : arrayReference["referencedSchema"],
-                "referencedTable"   : arrayReference["referencedTable"],
-                "columns"           : arrayReference["columns"],
-                "referencedColumns" : arrayReference["referencedColumns"],
-                "onUpdate"          : arrayReference["onUpdate"],
-                "onDelete"          : arrayReference["onDelete"]
-            ]);
+            let referenceObjects[name] = new Reference(
+                name,
+                [
+                    "referencedSchema"  : arrayReference["referencedSchema"],
+                    "referencedTable"   : arrayReference["referencedTable"],
+                    "columns"           : arrayReference["columns"],
+                    "referencedColumns" : arrayReference["referencedColumns"],
+                    "onUpdate"          : arrayReference["onUpdate"],
+                    "onDelete"          : arrayReference["onDelete"]
+                ]
+            );
         }
 
         return referenceObjects;
@@ -570,7 +588,13 @@ class Postgresql extends PdoAdapter
     {
         var sql,queries,query,exception;
 
-        let sql = this->dialect->modifyColumn(tableName, schemaName, column, currentColumn);
+        let sql = this->dialect->modifyColumn(
+            tableName,
+            schemaName,
+            column,
+            currentColumn
+        );
+
         let queries = explode(";",sql);
 
         if count(queries) > 1 {
@@ -598,7 +622,8 @@ class Postgresql extends PdoAdapter
     }
 
     /**
-     * Check whether the database system requires a sequence to produce auto-numeric values
+     * Check whether the database system requires a sequence to produce
+     * auto-numeric values
      */
     public function supportSequences() -> bool
     {
@@ -606,7 +631,8 @@ class Postgresql extends PdoAdapter
     }
 
     /**
-     * Check whether the database system requires an explicit value for identity columns
+     * Check whether the database system requires an explicit value for identity
+     * columns
      */
     public function useExplicitIdValue() -> bool
     {

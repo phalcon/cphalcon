@@ -26,7 +26,8 @@ use Phalcon\Service\LocatorInterface;
  * Phalcon\Dispatcher
  *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
- * This class can't be instantiated directly, you can use it to create your own dispatchers.
+ * This class can't be instantiated directly, you can use it to create your own
+ * dispatchers.
  */
 abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {
@@ -120,8 +121,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     }
 
     /**
-     * Process the results of the router by calling into the appropriate controller action(s)
-     * including any routing data or injected parameters.
+     * Process the results of the router by calling into the appropriate
+     * controller action(s) including any routing data or injected parameters.
      *
      * @return object|false Returns the dispatched handler class (the Controller for Mvc dispatching or a Task
      *                      for CLI dispatching) or <tt>false</tt> if an exception occurred and the operation was
@@ -142,7 +143,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         let container = <DiInterface> this->container;
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound("related dispatching services"),
+                PhalconException::containerServiceNotFound(
+                    "related dispatching services"
+                ),
                 self::EXCEPTION_NO_DI
             );
             return false;
@@ -162,14 +165,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             } catch Exception, e {
                 // Exception occurred in beforeDispatchLoop.
 
-                // The user can optionally forward now in the `dispatch:beforeException` event or
-                // return <tt>false</tt> to handle the exception and prevent it from bubbling. In
-                // the event the user does forward but does or does not return false, we assume the forward
-                // takes precedence. The returning false intuitively makes more sense when inside the
-                // dispatch loop and technically we are not here. Therefore, returning false only impacts
-                // whether non-forwarded exceptions are silently handled or bubbled up the stack. Note that
-                // this behavior is slightly different than other subsequent events handled inside the
-                // dispatch loop.
+                /**
+                 * The user can optionally forward now in the
+                 * `dispatch:beforeException` event or return <tt>false</tt> to
+                 * handle the exception and prevent it from bubbling. In the
+                 * event the user does forward but does or does not return
+                 * false, we assume the forward takes precedence. The returning
+                 * false intuitively makes more sense when inside the dispatch
+                 * loop and technically we are not here. Therefore, returning
+                 * false only impacts whether non-forwarded exceptions are
+                 * silently handled or bubbled up the stack. Note that this
+                 * behavior is slightly different than other subsequent events
+                 * handled inside the dispatch loop.
+                 */
 
                 let status = this->{"handleException"}(e);
                 if this->finished !== false {
@@ -197,7 +205,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // Throw an exception after 256 consecutive forwards
             if numberDispatches == 256 {
-                this->{"throwDispatchException"}("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
+                this->{"throwDispatchException"}(
+                    "Dispatcher has detected a cyclic routing causing stability problems",
+                    self::EXCEPTION_CYCLIC_ROUTING
+                );
+
                 break;
             }
 
@@ -221,16 +233,26 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             let handlerClass = this->getHandlerClass();
 
-            // Handlers are retrieved as shared instances from the Service Container
+            /**
+             * Handlers are retrieved as shared instances from the Service
+             * Container
+             */
             let hasService = (bool) container->has(handlerClass);
             if !hasService {
-                // DI doesn't have a service with that name, try to load it using an autoloader
+                /**
+                 * DI doesn't have a service with that name, try to load it
+                 * using an autoloader
+                 */
                 let hasService = (bool) class_exists(handlerClass);
             }
 
             // If the service can be loaded we throw an exception
             if !hasService {
-                let status = this->{"throwDispatchException"}(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
+                let status = this->{"throwDispatchException"}(
+                    handlerClass . " handler class cannot be loaded",
+                    self::EXCEPTION_HANDLER_NOT_FOUND
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -241,7 +263,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             // Handlers must be only objects
             if typeof handler !== "object" {
-                let status = this->{"throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
+                let status = this->{"throwDispatchException"}(
+                    "Invalid handler returned from the services container",
+                    self::EXCEPTION_INVALID_HANDLER
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -262,10 +288,18 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             let actionName = this->actionName;
             let params = this->params;
 
-            // Check if the params is an array
+            /**
+             * Check if the params is an array
+             */
             if typeof params != "array" {
-                // An invalid parameter variable was passed throw an exception
-                let status = this->{"throwDispatchException"}("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
+                /**
+                 * An invalid parameter variable was passed throw an exception
+                 */
+                let status = this->{"throwDispatchException"}(
+                    "Action parameters must be an Array",
+                    self::EXCEPTION_INVALID_PARAMS
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -286,8 +320,15 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     }
                 }
 
-                // Try to throw an exception when an action isn't defined on the object
-                let status = this->{"throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
+                /**
+                 * Try to throw an exception when an action isn't defined on the
+                 * object
+                 */
+                let status = this->{"throwDispatchException"}(
+                    "Action '" . actionName . "' was not found on handler '" . handlerName . "'",
+                    self::EXCEPTION_ACTION_NOT_FOUND
+                );
+
                 if status === false && this->finished === false {
                     continue;
                 }
@@ -295,13 +336,18 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 break;
             }
 
-            // In order to ensure that the initialize() gets called we'll destroy the current handlerClass
-            // from the DI container in the event that an error occurs and we continue out of this block. This
-            // is necessary because there is a disjoin between retrieval of the instance and the execution
-            // of the initialize() event. From a coding perspective, it would have made more sense to probably
-            // put the initialize() prior to the beforeExecuteRoute which would have solved this. However, for
-            // posterity, and to remain consistency, we'll ensure the default and documented behavior works correctly.
-
+            /**
+             * In order to ensure that the `initialize()` gets called we'll
+             * destroy the current handlerClass from the DI container in the
+             * event that an error occurs and we continue out of this block.
+             * This is necessary because there is a disjoin between retrieval of
+             * the instance and the execution of the `initialize()` event. From
+             * a coding perspective, it would have made more sense to probably
+             * put the `initialize()` prior to the beforeExecuteRoute which
+             * would have solved this. However, for posterity, and to remain
+             * consistency, we'll ensure the default and documented behavior
+             * works correctly.
+             */
             if hasEventsManager {
                 try {
                     // Calling "dispatch:beforeExecuteRoute" event
@@ -336,18 +382,24 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 }
             }
 
-            // Call the "initialize" method just once per request
-            //
-            // Note: The `dispatch:afterInitialize` event is called regardless of the presence of an `initialize`
-            //       method. The naming is poor; however, the intent is for a more global "constructor is ready
-            //       to go" or similarly "__onConstruct()" methodology.
-            //
-            // Note: In Phalcon 4.0, the initialize() and `dispatch:afterInitialize` event will be handled
-            // prior to the `beforeExecuteRoute` event/method blocks. This was a bug in the original design
-            // that was not able to change due to widespread implementation. With proper documentation change
-            // and blog posts for 4.0, this change will happen.
-            //
-            // @see https://github.com/phalcon/cphalcon/pull/13112
+            /**
+             * Call the "initialize" method just once per request
+             *
+             *
+             * Note: The `dispatch:afterInitialize` event is called regardless
+             *       of the presence of an `initialize()` method. The naming is
+             *       poor; however, the intent is for a more global "constructor
+             *       is ready to go" or similarly "__onConstruct()" methodology.
+             *
+             * Note: In Phalcon 4.0, the `initialize()` and
+             * `dispatch:afterInitialize` event will be handled prior to the
+             * `beforeExecuteRoute` event/method blocks. This was a bug in the
+             * original design that was not able to change due to widespread
+             * implementation. With proper documentation change and blog posts
+             * for 4.0, this change will happen.
+             *
+             * @see https://github.com/phalcon/cphalcon/pull/13112
+             */
             if isNewHandler {
                 if method_exists(handler, "initialize") {
                     try {
@@ -357,10 +409,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     } catch Exception, e {
                         let this->isControllerInitialize = false;
 
-                        // If this is a dispatch exception (e.g. From forwarding) ensure we don't handle this twice. In
-                        // order to ensure this doesn't happen all other exceptions thrown outside this method
-                        // in this class should not call "throwDispatchException" but instead throw a normal Exception.
-
+                        /**
+                         * If this is a dispatch exception (e.g. From
+                         * forwarding) ensure we don't handle this twice. In
+                         * order to ensure this doesn't happen all other
+                         * exceptions thrown outside this method in this class
+                         * should not call "throwDispatchException" but instead
+                         * throw a normal Exception.
+                         */
                         if this->{"handleException"}(e) === false || this->finished === false {
                             continue;
                         }
@@ -371,7 +427,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
                 let this->isControllerInitialize = false;
 
-                // Calling "dispatch:afterInitialize" event
+                /**
+                 * Calling "dispatch:afterInitialize" event
+                 */
                 if eventsManager {
                     try {
                         if eventsManager->fire("dispatch:afterInitialize", this) === false || this->finished === false {
@@ -390,39 +448,61 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             if this->modelBinding {
                 let modelBinder = this->modelBinder;
                 let bindCacheKey = "_PHMB_" . handlerClass . "_" . actionMethod;
-                let params = modelBinder->bindToHandler(handler, params, bindCacheKey, actionMethod);
+ 
+                let params = modelBinder->bindToHandler(
+                    handler,
+                    params,
+                    bindCacheKey,
+                    actionMethod
+                );
             }
 
-            // Calling afterBinding
+            /**
+             * Calling afterBinding
+             */
             if hasEventsManager {
                 if eventsManager->fire("dispatch:afterBinding", this) === false {
                     continue;
                 }
 
-                // Check if the user made a forward in the listener
+                /**
+                 * Check if the user made a forward in the listener
+                 */
                 if this->finished === false {
                     continue;
                 }
             }
 
-            // Calling afterBinding as callback and event
+            /**
+             * Calling afterBinding as callback and event
+             */
             if method_exists(handler, "afterBinding") {
                 if handler->afterBinding(this) === false {
                     continue;
                 }
 
-                // Check if the user made a forward in the listener
+                /**
+                 * Check if the user made a forward in the listener
+                 */
                 if this->finished === false {
                     continue;
                 }
             }
 
-            // Save the current handler
+            /**
+             * Save the current handler
+             */
             let this->lastHandler = handler;
 
             try {
-                // We update the latest value produced by the latest handler
-                let this->returnedValue = this->callActionMethod(handler, actionMethod, params);
+                /**
+                 * We update the latest value produced by the latest handler
+                 */
+                let this->returnedValue = this->callActionMethod(
+                    handler,
+                    actionMethod,
+                    params
+                );
 
                 if this->finished === false {
                     continue;
@@ -435,7 +515,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 throw e;
             }
 
-            // Calling "dispatch:afterExecuteRoute" event
+            /**
+             * Calling "dispatch:afterExecuteRoute" event
+             */
             if hasEventsManager {
                 try {
                     if eventsManager->fire("dispatch:afterExecuteRoute", this, value) === false || this->finished === false {
@@ -450,7 +532,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 }
             }
 
-            // Calling "afterExecuteRoute" as direct method
+            /**
+             * Calling "afterExecuteRoute" as direct method
+             */
             if method_exists(handler, "afterExecuteRoute") {
                 try {
                     if handler->afterExecuteRoute(this, value) === false || this->finished === false {
@@ -470,7 +554,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 try {
                     eventsManager->fire("dispatch:afterDispatch", this, value);
                 } catch Exception, e {
-                    // Still check for finished here as we want to prioritize forwarding() calls
+                    /**
+                     * Still check for finished here as we want to prioritize
+                     * `forwarding()` calls
+                     */
                     if this->{"handleException"}(e) === false || this->finished === false {
                         continue;
                     }
@@ -518,13 +605,21 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         var namespaceName, controllerName, params, actionName, taskName;
 
         if this->isControllerInitialize === true {
-            // Note: Important that we do not throw a "throwDispatchException" call here. This is important
-            // because it would allow the application to break out of the defined logic inside the dispatcher
-            // which handles all dispatch exceptions.
-            throw new PhalconException("Forwarding inside a controller's initialize() method is forbidden");
+            /**
+             * Note: Important that we do not throw a "throwDispatchException"
+             * call here. This is important because it would allow the
+             * application to break out of the defined logic inside the
+             * dispatcher which handles all dispatch exceptions.
+             */
+            throw new PhalconException(
+                "Forwarding inside a controller's initialize() method is forbidden"
+            );
         }
 
-        // Save current values as previous to ensure calls to getPrevious methods don't return <tt>null</tt>.
+        /**
+         * Save current values as previous to ensure calls to getPrevious
+         * methods don't return null.
+         */
         let this->previousNamespaceName = this->namespaceName,
             this->previousHandlerName = this->handlerName,
             this->previousActionName = this->actionName;
@@ -577,10 +672,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     public function getActiveMethod() -> string
     {
         var activeMethodName;
+
         if !fetch activeMethodName, this->activeMethodMap[this->actionName] {
-            let activeMethodName = lcfirst(this->toCamelCase(this->actionName));
+            let activeMethodName = lcfirst(
+                this->toCamelCase(
+                    this->actionName
+                )
+            );
+
             let this->activeMethodMap[this->actionName] = activeMethodName;
         }
+
         return activeMethodName . this->actionSuffix;
     }
 
@@ -592,7 +694,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      * {
      *     public function showAction(User $user)
      *     {
-     *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
+     *         // return array with $user
+     *         $boundModels = $this->dispatcher->getBoundModels();
      *     }
      * }
      * </code>
@@ -690,7 +793,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         let container = this->container;
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound("the 'filter' service"),
+                PhalconException::containerServiceNotFound(
+                    "the 'filter' service"
+                ),
                 self::EXCEPTION_NO_DI
             );
         }
@@ -716,7 +821,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     }
 
     /**
-     * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+     * Checks if the dispatch loop is finished or has more pendent
+     * controllers/tasks to dispatch
      */
     public function isFinished() -> bool
     {
@@ -779,11 +885,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
         // Create the complete controller class name prepending the namespace
         if namespaceName {
-            if ends_with(namespaceName, "\\") {
-                let handlerClass = namespaceName . camelizedClass . handlerSuffix;
-            } else {
-                let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
+            if !ends_with(namespaceName, "\\") {
+                let namespaceName .= "\\";
             }
+
+            let handlerClass = namespaceName . camelizedClass . handlerSuffix;
         } else {
             let handlerClass = camelizedClass . handlerSuffix;
         }
@@ -843,12 +949,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      * Enable model binding during dispatch
      *
      * <code>
-     * $di->set('dispatcher', function() {
-     *     $dispatcher = new Dispatcher();
+     * $di->set(
+     *     'dispatcher',
+     *     function() {
+     *         $dispatcher = new Dispatcher();
      *
-     *     $dispatcher->setModelBinder(new Binder(), 'cache');
-     *     return $dispatcher;
-     * });
+     *         $dispatcher->setModelBinder(new Binder(), 'cache');
+     *
+     *         return $dispatcher;
+     *     }
+     * );
      * </code>
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
@@ -907,17 +1017,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      */
     protected function resolveEmptyProperties() -> void
     {
-        // If the current namespace is null we used the set in this->defaultNamespace
+        // If the current namespace is null we use the default namespace
         if !this->namespaceName {
             let this->namespaceName = this->defaultNamespace;
         }
 
-        // If the handler is null we use the set in this->defaultHandler
+        // If the handler is null we use the default handler
         if !this->handlerName {
             let this->handlerName = this->defaultHandler;
         }
 
-        // If the action is null we use the set in this->defaultAction
+        // If the action is null we use the default action
         if !this->actionName {
             let this->actionName = this->defaultAction;
         }
@@ -926,10 +1036,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     protected function toCamelCase(string input) -> string
     {
         var camelCaseInput;
+
         if !fetch camelCaseInput, this->camelCaseMap[input] {
-            let camelCaseInput = join("", array_map("ucfirst", preg_split("/[_-]+/", input)));
+            let camelCaseInput = join(
+                "",
+                array_map(
+                    "ucfirst",
+                    preg_split("/[_-]+/", input)
+                )
+            );
+
             let this->camelCaseMap[input] = camelCaseInput;
         }
+
         return camelCaseInput;
     }
 }

@@ -57,7 +57,8 @@ interface CollectionInterface
     public static function findFirst(array parameters = null) -> array;
 
     /**
-     * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+     * Fires an event, implicitly calls behaviors and listeners in the events
+     * manager are notified
      */
     public function fireEvent(string! eventName) -> bool;
 
@@ -75,9 +76,8 @@ interface CollectionInterface
     public function getConnection();
 
     /**
-     * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-     *
-     * @return int
+     * Returns one of the DIRTY_STATE_* constants telling if the record exists
+     * in the database or not
      */
     public function getDirtyState() -> int;
 
@@ -94,7 +94,8 @@ interface CollectionInterface
     public function getMessages() -> <MessageInterface[]>;
 
     /**
-     * Returns an array with reserved properties that cannot be part of the insert/update
+     * Returns an array with reserved properties that cannot be part of the
+     * insert/update
      */
     public function getReservedAttributes() -> array;
 
@@ -114,9 +115,10 @@ interface CollectionInterface
     public function setConnectionService(string! connectionService);
 
     /**
-     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+     * Sets the dirty state of the object using one of the DIRTY_STATE_*
+     * constants
      */
-    public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\CollectionInterface>;
+    public function setDirtyState(int dirtyState) -> <CollectionInterface>;
 
     /**
      * Sets a value for the _id property, creates a MongoId object if needed

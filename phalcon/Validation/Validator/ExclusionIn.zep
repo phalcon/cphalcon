@@ -69,7 +69,8 @@ class ExclusionIn extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, domain, message, label, replacePairs, strict, fieldDomain, code;
+        var value, domain, message, label, replacePairs, strict, fieldDomain,
+            code;
 
         let value = validation->getValue(field);
 
@@ -104,11 +105,20 @@ class ExclusionIn extends Validator
          * Check if the value is contained by the array
          */
         if in_array(value, domain, strict) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "ExclusionIn"),
-                code = this->prepareCode(field);
+            let label = this->prepareLabel(validation, field);
 
-            let replacePairs = [":field": label, ":domain":  join(", ", domain)];
+            let message = this->prepareMessage(
+                validation,
+                field,
+                "ExclusionIn"
+            );
+
+            let code = this->prepareCode(field);
+
+            let replacePairs = [
+                ":field":  label,
+                ":domain": join(", ", domain)
+            ];
 
             validation->appendMessage(
                 new Message(

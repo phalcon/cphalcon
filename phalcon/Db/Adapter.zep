@@ -133,7 +133,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool
     {
-        return this->{"execute"}(this->dialect->addColumn(tableName, schemaName, column));
+        return this->{"execute"}(
+            this->dialect->addColumn(
+                tableName,
+                schemaName,
+                column
+            )
+        );
     }
 
     /**
@@ -141,7 +147,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
     {
-        return this->{"execute"}(this->dialect->addForeignKey(tableName, schemaName, reference));
+        return this->{"execute"}(
+            this->dialect->addForeignKey(
+                tableName,
+                schemaName,
+                reference
+            )
+        );
     }
 
     /**
@@ -149,7 +161,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool
     {
-        return this->{"execute"}(this->dialect->addIndex(tableName, schemaName, index));
+        return this->{"execute"}(
+            this->dialect->addIndex(
+                tableName,
+                schemaName,
+                index
+            )
+        );
     }
 
     /**
@@ -157,7 +175,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool
     {
-        return this->{"execute"}(this->dialect->addPrimaryKey(tableName, schemaName, index));
+        return this->{"execute"}(
+            this->dialect->addPrimaryKey(
+                tableName,
+                schemaName,
+                index
+            )
+        );
     }
 
     /**
@@ -170,10 +194,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter.");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter."
+            );
         }
 
-        return this->{"execute"}(dialect->createSavepoint(name));
+        return this->{"execute"}(
+            dialect->createSavepoint(name)
+        );
     }
 
     /**
@@ -191,7 +219,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             throw new Exception("The table must contain at least one column");
         }
 
-        return this->{"execute"}(this->dialect->createTable(tableName, schemaName, definition));
+        return this->{"execute"}(
+            this->dialect->createTable(
+                tableName,
+                schemaName,
+                definition
+            )
+        );
     }
 
     /**
@@ -203,7 +237,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             throw new Exception("The table must contain at least one column");
         }
 
-        return this->{"execute"}(this->dialect->createView(viewName, definition, schemaName));
+        return this->{"execute"}(
+            this->dialect->createView(
+                viewName,
+                definition,
+                schemaName
+            )
+        );
     }
 
     /**
@@ -300,7 +340,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let references = [];
 
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema),Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
 
             let constraintName = reference[2];
             if !isset references[constraintName] {
@@ -328,12 +368,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let referenceObjects = [];
         for name, arrayReference in references {
-            let referenceObjects[name] = new Reference(name, [
-                "referencedSchema"  : arrayReference["referencedSchema"],
-                "referencedTable"   : arrayReference["referencedTable"],
-                "columns"           : arrayReference["columns"],
-                "referencedColumns" : arrayReference["referencedColumns"]
-            ]);
+            let referenceObjects[name] = new Reference(
+                name,
+                [
+                    "referencedSchema"  : arrayReference["referencedSchema"],
+                    "referencedTable"   : arrayReference["referencedTable"],
+                    "columns"           : arrayReference["columns"],
+                    "referencedColumns" : arrayReference["referencedColumns"]
+                ]
+            );
         }
 
         return referenceObjects;
@@ -344,7 +387,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool
     {
-        return this->{"execute"}(this->dialect->dropColumn(tableName, schemaName, columnName));
+        return this->{"execute"}(
+            this->dialect->dropColumn(
+                tableName,
+                schemaName,
+                columnName
+            )
+        );
     }
 
     /**
@@ -352,7 +401,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> bool
     {
-        return this->{"execute"}(this->dialect->dropForeignKey(tableName, schemaName, referenceName));
+        return this->{"execute"}(
+            this->dialect->dropForeignKey(
+                tableName,
+                schemaName,
+                referenceName
+            )
+        );
     }
 
     /**
@@ -360,7 +415,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropIndex(string! tableName, string! schemaName, indexName) -> bool
     {
-        return this->{"execute"}(this->dialect->dropIndex(tableName, schemaName, indexName));
+        return this->{"execute"}(
+            this->dialect->dropIndex(
+                tableName,
+                schemaName,
+                indexName
+            )
+        );
     }
 
     /**
@@ -368,7 +429,12 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropPrimaryKey(string! tableName, string! schemaName) -> bool
     {
-        return this->{"execute"}(this->dialect->dropPrimaryKey(tableName, schemaName));
+        return this->{"execute"}(
+            this->dialect->dropPrimaryKey(
+                tableName,
+                schemaName
+            )
+        );
     }
 
     /**
@@ -376,7 +442,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropTable(string! tableName, string! schemaName = null, bool ifExists = true) -> bool
     {
-        return this->{"execute"}(this->dialect->dropTable(tableName, schemaName, ifExists));
+        return this->{"execute"}(
+            this->dialect->dropTable(
+                tableName,
+                schemaName,
+                ifExists
+            )
+        );
     }
 
     /**
@@ -384,7 +456,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function dropView(string! viewName, string! schemaName = null, bool ifExists = true) -> bool
     {
-        return this->{"execute"}(this->dialect->dropView(viewName, schemaName, ifExists));
+        return this->{"execute"}(
+            this->dialect->dropView(
+                viewName,
+                schemaName,
+                ifExists
+            )
+        );
     }
 
     /**
@@ -578,7 +656,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns the default value to make the RBDM use the default value declared in the table definition
+     * Returns the default value to make the RBDM use the default value declared
+     * in the table definition
      *
      *<code>
      * // Inserting a new robot with a valid default value for the column 'year'
@@ -684,7 +763,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
          * A valid array with more than one element is required
          */
         if !count(values) {
-            throw new Exception("Unable to insert into " . table . " without data");
+            throw new Exception(
+                "Unable to insert into " . table . " without data"
+            );
         }
 
         let placeholders = [],
@@ -693,7 +774,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let bindDataTypes = [];
 
         /**
-         * Objects are casted using __toString, null values are converted to string "null", everything else is passed as "?"
+         * Objects are casted using __toString, null values are converted to
+         * string "null", everything else is passed as "?"
          */
         for position, value in values {
             if typeof value == "object" && value instanceof RawValue {
@@ -710,8 +792,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let insertValues[] = value;
                     if typeof dataTypes == "array" {
                         if !fetch bindType, dataTypes[position] {
-                            throw new Exception("Incomplete number of bind types");
+                            throw new Exception(
+                                "Incomplete number of bind types"
+                            );
                         }
+
                         let bindDataTypes[] = bindType;
                     }
                 }
@@ -813,12 +898,19 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function listTables(string! schemaName = null) -> array
     {
-        var table, allTables;
+        var tables, table, allTables;
 
         let allTables = [];
-        for table in this->fetchAll(this->dialect->listTables(schemaName), Db::FETCH_NUM) {
+
+        let tables = this->fetchAll(
+            this->dialect->listTables(schemaName),
+            Db::FETCH_NUM
+        );
+
+        for table in tables {
             let allTables[] = table[0];
         }
+
         return allTables;
     }
 
@@ -833,12 +925,19 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function listViews(string! schemaName = null) -> array
     {
-        var table, allTables;
+        var tables, table, allTables;
 
         let allTables = [];
-        for table in this->fetchAll(this->dialect->listViews(schemaName), Db::FETCH_NUM) {
+
+        let tables = this->fetchAll(
+            this->dialect->listViews(schemaName),
+            Db::FETCH_NUM
+        );
+
+        for table in tables {
             let allTables[] = table[0];
         }
+
         return allTables;
     }
 
@@ -847,7 +946,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
-        return this->{"execute"}(this->dialect->modifyColumn(tableName, schemaName, column, currentColumn));
+        return this->{"execute"}(
+            this->dialect->modifyColumn(
+                tableName,
+                schemaName,
+                column,
+                currentColumn
+            )
+        );
     }
 
     /**
@@ -860,14 +966,18 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter"
+            );
         }
 
         if !dialect->supportsReleaseSavePoints() {
             return false;
         }
 
-        return this->{"execute"}(dialect->releaseSavepoint(name));
+        return this->{"execute"}(
+            dialect->releaseSavepoint(name)
+        );
     }
 
     /**
@@ -880,10 +990,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if !dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter"
+            );
         }
 
-        return this->{"execute"}(dialect->rollbackSavepoint(name));
+        return this->{"execute"}(
+            dialect->rollbackSavepoint(name)
+        );
     }
 
     /**
@@ -909,11 +1023,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
 
         if this->transactionLevel > 0 {
-            throw new Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
+            throw new Exception(
+                "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
+            );
         }
 
         if !this->dialect->supportsSavePoints() {
-            throw new Exception("Savepoints are not supported by this database adapter");
+            throw new Exception(
+                "Savepoints are not supported by this database adapter"
+            );
         }
 
         let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
@@ -929,7 +1047,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Check whether the database system requires a sequence to produce auto-numeric values
+     * Check whether the database system requires a sequence to produce
+     * auto-numeric values
      */
     public function supportSequences() -> bool
     {
@@ -1021,12 +1140,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let bindDataTypes = [];
 
         /**
-         * Objects are casted using __toString, null values are converted to string 'null', everything else is passed as '?'
+         * Objects are casted using __toString, null values are converted to
+         * string 'null', everything else is passed as '?'
          */
         for position, value in values {
 
             if !fetch field, fields[position] {
-                throw new Exception("The number of values in the update is not the same as fields");
+                throw new Exception(
+                    "The number of values in the update is not the same as fields"
+                );
             }
 
             let escapedField = this->escapeIdentifier(field);
@@ -1043,8 +1165,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let updateValues[] = value;
                     if typeof dataTypes == "array" {
                         if !fetch bindType, dataTypes[position] {
-                            throw new Exception("Incomplete number of bind types");
+                            throw new Exception(
+                                "Incomplete number of bind types"
+                            );
                         }
+
                         let bindDataTypes[] = bindType;
                     }
                     let placeholders[] = escapedField . " = ?";
@@ -1075,21 +1200,24 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                 }
 
                 /**
-                 * If an index 'conditions' is present it contains string where conditions that are appended to the UPDATE sql
+                 * If an index 'conditions' is present it contains string where
+                 * conditions that are appended to the UPDATE sql
                  */
                 if fetch conditions, whereCondition["conditions"] {
                     let updateSql .= conditions;
                 }
 
                 /**
-                 * Bound parameters are arbitrary values that are passed by separate
+                 * Bound parameters are arbitrary values that are passed
+                 * separately
                  */
                 if fetch whereBind, whereCondition["bind"] {
                     merge_append(updateValues, whereBind);
                 }
 
                 /**
-                 * Bind types is how the bound parameters must be casted before be sent to the database system
+                 * Bind types is how the bound parameters must be casted before
+                 * be sent to the database system
                  */
                 if fetch whereTypes, whereCondition["bindTypes"] {
                     merge_append(bindDataTypes, whereTypes);
@@ -1149,7 +1277,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Check whether the database system requires an explicit value for identity columns
+     * Check whether the database system requires an explicit value for identity
+     * columns
      */
     public function useExplicitIdValue() -> bool
     {

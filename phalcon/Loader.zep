@@ -17,7 +17,8 @@ use Phalcon\Events\EventsAwareInterface;
 /**
  * Phalcon\Loader
  *
- * This component helps to load your project classes automatically based on some conventions
+ * This component helps to load your project classes automatically based on some
+ * conventions
  *
  *<code>
  * use Phalcon\Loader;
@@ -144,7 +145,8 @@ class Loader implements EventsAwareInterface
 
             for directory in directories {
                 /**
-                 * Add a trailing directory separator if the user forgot to do that
+                 * Add a trailing directory separator if the user forgot to do
+                 * that
                  */
                 let fixedDirectory = rtrim(directory, ds) . ds;
 
@@ -161,7 +163,8 @@ class Loader implements EventsAwareInterface
                     }
 
                     /**
-                     * This is probably a good path, let's check if the file exists
+                     * This is probably a good path, let's check if the file
+                     * exists
                      */
                     if call_user_func(fileCheckingCallback, filePath) {
 
@@ -401,8 +404,8 @@ class Loader implements EventsAwareInterface
     }
 
     /**
-     * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
-     * have functions
+     * Registers files that are "non-classes" hence need a "require". This is
+     * very useful for including files that only have functions
      */
     public function registerFiles(array! files, bool merge = false) -> <Loader>
     {
@@ -430,7 +433,10 @@ class Loader implements EventsAwareInterface
                     let this->namespaces[name] = [];
                 }
 
-                let this->namespaces[name] = array_merge(this->namespaces[name], paths);
+                let this->namespaces[name] = array_merge(
+                    this->namespaces[name],
+                    paths
+                );
             }
         } else {
             let this->namespaces = preparedNamespaces;
@@ -448,7 +454,8 @@ class Loader implements EventsAwareInterface
     }
 
     /**
-     * Sets an array of file extensions that the loader must try in each attempt to locate the file
+     * Sets an array of file extensions that the loader must try in each attempt
+     * to locate the file
      */
     public function setExtensions(array! extensions) -> <Loader>
     {
@@ -480,7 +487,9 @@ class Loader implements EventsAwareInterface
                 return true;
             };
         } else {
-            throw new Exception("The 'callback' parameter must be either a callable or NULL.");
+            throw new Exception(
+                "The 'callback' parameter must be either a callable or NULL."
+            );
         }
 
         return this;

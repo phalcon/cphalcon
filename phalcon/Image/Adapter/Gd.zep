@@ -57,9 +57,13 @@ class Gd extends Adapter
                     break;
                 default:
                     if this->mime {
-                        throw new Exception("Installed GD does not support " . this->mime . " images");
+                        throw new Exception(
+                            "Installed GD does not support " . this->mime . " images"
+                        );
                     } else {
-                        throw new Exception("Installed GD does not support such images");
+                        throw new Exception(
+                            "Installed GD does not support such images"
+                        );
                     }
                     break;
             }
@@ -68,7 +72,9 @@ class Gd extends Adapter
 
         } else {
             if !width || !height {
-                throw new Exception("Failed to create image from file " . this->file);
+                throw new Exception(
+                    "Failed to create image from file " . this->file
+                );
             }
 
             let this->image = imagecreatetruecolor(width, height);
@@ -102,21 +108,27 @@ class Gd extends Adapter
         }
 
         if !function_exists("gd_info") {
-            throw new Exception("GD is either not installed or not enabled, check your configuration");
+            throw new Exception(
+                "GD is either not installed or not enabled, check your configuration"
+            );
         }
 
         let version = null;
         if defined("GD_VERSION") {
             let version = GD_VERSION;
         } else {
-            let info = gd_info(), matches = null;
+            let info = gd_info(),
+                matches = null;
+
             if preg_match("/\\d+\\.\\d+(?:\\.\\d+)?/", info["GD Version"], matches) {
                 let version = matches[0];
             }
         }
 
         if !version_compare(version, "2.0.1", ">=") {
-            throw new Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
+            throw new Exception(
+                "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version
+            );
         }
 
         let self::checked = true;
@@ -169,16 +181,27 @@ class Gd extends Adapter
 
         if version_compare(PHP_VERSION, "5.5.0") < 0 {
             let image = this->processCreate(width, height);
-            if (imagecopyresampled(image, this->image, 0, 0, offsetX, offsetY, width, height, width, height)) {
+
+            if imagecopyresampled(image, this->image, 0, 0, offsetX, offsetY, width, height, width, height) {
                 imagedestroy(this->image);
+
                 let this->image = image;
                 let this->width  = imagesx(image);
                 let this->height = imagesy(image);
             }
         } else {
-            let rect = ["x": offsetX, "y": offsetY, "width": width, "height": height];
+            let rect = [
+                "x": offsetX,
+                "y": offsetY,
+
+                "width":  width,
+                "height": height
+            ];
+
             let image = imagecrop(this->image, rect);
+
             imagedestroy(this->image);
+
             let this->image = image;
             let this->width  = imagesx(image);
             let this->height = imagesy(image);
@@ -195,15 +218,37 @@ class Gd extends Adapter
 
             if direction == \Phalcon\Image::HORIZONTAL {
                 let x = 0;
+
                 while x < this->width {
                     let x++;
-                    imagecopy(image, this->image, x, 0, this->width - x - 1, 0, 1, this->height);
+
+                    imagecopy(
+                        image,
+                        this->image,
+                        x,
+                        0,
+                        this->width - x - 1,
+                        0,
+                        1,
+                        this->height
+                    );
                 }
             } else {
                 let x = 0;
+
                 while x < this->height {
                     let x++;
-                    imagecopy(image, this->image, 0, x, 0, this->height - x - 1, this->width, 1);
+
+                    imagecopy(
+                        image,
+                        this->image,
+                        0,
+                        x,
+                        0,
+                        this->height - x - 1,
+                        this->width,
+                        1
+                    );
                 }
             }
 
@@ -245,7 +290,19 @@ class Gd extends Adapter
         if this->width != mask_width || this->height != mask_height {
             let tempImage = imagecreatetruecolor(this->width, this->height);
 
-            imagecopyresampled(tempImage, maskImage, 0, 0, 0, 0, this->width, this->height, mask_width, mask_height);
+            imagecopyresampled(
+                tempImage,
+                maskImage,
+                0,
+                0,
+                0,
+                0,
+                this->width,
+                this->height,
+                mask_width,
+                mask_height
+            );
+
             imagedestroy(maskImage);
 
             let maskImage = tempImage;
@@ -316,9 +373,21 @@ class Gd extends Adapter
             let stepping = 127 / height;
         }
 
-        let reflection = this->processCreate(this->width, this->height + height);
+        let reflection = this->processCreate(
+            this->width,
+            this->height + height
+        );
 
-        imagecopy(reflection, this->image, 0, 0, 0, 0, this->width, this->height);
+        imagecopy(
+            reflection,
+            this->image,
+            0,
+            0,
+            0,
+            0,
+            this->width,
+            this->height
+        );
 
         let offset = 0;
         while height >= offset {
@@ -327,9 +396,13 @@ class Gd extends Adapter
             let dst_y = this->height + offset;
 
             if fadeIn {
-                let dst_opacity = (int) round(opacity + (stepping * (height - offset)));
+                let dst_opacity = (int) round(
+                    opacity + (stepping * (height - offset))
+                );
             } else {
-                let dst_opacity = (int) round(opacity + (stepping * offset));
+                let dst_opacity = (int) round(
+                    opacity + (stepping * offset)
+                );
             }
 
             let line = this->processCreate(this->width, 1);
@@ -371,7 +444,9 @@ class Gd extends Adapter
             return ob_get_clean();
         }
 
-        throw new Exception("Installed GD does not support '" . ext . "' images");
+        throw new Exception(
+            "Installed GD does not support '" . ext . "' images"
+        );
     }
 
     protected function processResize(int width, int height)
@@ -492,7 +567,9 @@ class Gd extends Adapter
             return true;
         }
 
-        throw new Exception("Installed GD does not support '" . ext . "' images");
+        throw new Exception(
+            "Installed GD does not support '" . ext . "' images"
+        );
     }
 
     protected function processSharpen(int amount)
@@ -549,7 +626,16 @@ class Gd extends Adapter
             let color = imagecolorallocatealpha(this->image, r, g, b, opacity);
             let angle = 0;
 
-            imagettftext(this->image, size, angle, offsetX, offsetY, color, fontfile, text);
+            imagettftext(
+                this->image,
+                size,
+                angle,
+                offsetX,
+                offsetY,
+                color,
+                fontfile,
+                text
+            );
         } else {
             let width  = (int) imagefontwidth(size) * strlen(text);
             let height = (int) imagefontheight(size);
@@ -580,8 +666,19 @@ class Gd extends Adapter
         let height = (int) imagesy(overlay);
 
         if opacity < 100 {
-            let opacity = (int) round(abs((opacity * 127 / 100) - 127));
-            let color = imagecolorallocatealpha(overlay, 127, 127, 127, opacity);
+            let opacity = (int) round(
+                abs(
+                    (opacity * 127 / 100) - 127
+                )
+            );
+
+            let color = imagecolorallocatealpha(
+                overlay,
+                127,
+                127,
+                127,
+                opacity
+            );
 
             imagelayereffect(overlay, IMG_EFFECT_OVERLAY);
 

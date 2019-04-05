@@ -149,7 +149,8 @@ abstract class Adapter implements AdapterInterface
 
 
     /**
-     * This method scales the images using liquid rescaling method. Only support Imagick
+     * This method scales the images using liquid rescaling method. Only support
+     * Imagick
      *
      * @param int $width   new width
      * @param int $height  new height
@@ -277,7 +278,9 @@ abstract class Adapter implements AdapterInterface
 
                 case Image::PRECISE:
                     if !width || !height {
-                        throw new Exception("width and height must be specified");
+                        throw new Exception(
+                            "width and height must be specified"
+                        );
                     }
                     let ratio = this->width / this->height;
 

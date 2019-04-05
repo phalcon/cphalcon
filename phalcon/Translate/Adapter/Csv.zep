@@ -85,7 +85,9 @@ class Csv extends Adapter implements \ArrayAccess
         let fileHandler = fopen(file, "rb");
 
         if typeof fileHandler !== "resource" {
-            throw new Exception("Error opening translation file '" . file . "'");
+            throw new Exception(
+                "Error opening translation file '" . file . "'"
+            );
         }
 
         loop {

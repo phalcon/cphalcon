@@ -27,9 +27,10 @@ use Phalcon\Mvc\Micro\CollectionInterface;
 /**
  * Phalcon\Mvc\Micro
  *
- * With Phalcon you can create "Micro-Framework like" applications. By doing this, you only need to
- * write a minimal amount of code to create a PHP application. Micro applications are suitable
- * to small applications, APIs and prototypes in a practical way.
+ * With Phalcon you can create "Micro-Framework like" applications. By doing
+ * this, you only need to write a minimal amount of code to create a PHP
+ * application. Micro applications are suitable to small applications, APIs and
+ * prototypes in a practical way.
  *
  *<code>
  * $app = new \Phalcon\Mvc\Micro();
@@ -151,7 +152,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Sets a handler that will be called when an exception is thrown handling the route
+     * Sets a handler that will be called when an exception is thrown handling
+     * the route
      *
      * @param callable handler
      */
@@ -331,13 +333,16 @@ class Micro extends Injectable implements \ArrayAccess
     {
         var container, eventsManager, status = null, router, matchedRoute,
             handler, beforeHandlers, params, returnedValue, e, errorHandler,
-            afterHandlers, notFoundHandler, finishHandlers, finish, before, after,
-            response, modelBinder, bindCacheKey, routeName, realHandler = null, methodName, lazyReturned,
-            afterBindingHandlers, afterBinding;
+            afterHandlers, notFoundHandler, finishHandlers, finish, before,
+            after, response, modelBinder, bindCacheKey, routeName,
+            realHandler = null, methodName, lazyReturned, afterBindingHandlers,
+            afterBinding;
 
         let container = this->container;
         if typeof container != "object" {
-            throw new Exception(Exception::containerServiceNotFound("micro services"));
+            throw new Exception(
+                Exception::containerServiceNotFound("micro services")
+            );
         }
 
         try {
@@ -371,7 +376,9 @@ class Micro extends Injectable implements \ArrayAccess
             if typeof matchedRoute == "object" {
 
                 if !fetch handler, this->handlers[matchedRoute->getRouteId()] {
-                    throw new Exception("Matched route doesn't have an associated handler");
+                    throw new Exception(
+                        "Matched route doesn't have an associated handler"
+                    );
                 }
 
                 /**
@@ -421,7 +428,9 @@ class Micro extends Injectable implements \ArrayAccess
                         }
 
                         if !is_callable(before) {
-                            throw new Exception("'before' handler is not callable");
+                            throw new Exception(
+                                "'before' handler is not callable"
+                            );
                         }
 
                         /**
@@ -460,7 +469,12 @@ class Micro extends Injectable implements \ArrayAccess
                         } else {
                             let bindCacheKey = "_PHMB_" . matchedRoute->getPattern();
                         }
-                        let params = modelBinder->bindToHandler(handler, params, bindCacheKey);
+
+                        let params = modelBinder->bindToHandler(
+                            handler,
+                            params,
+                            bindCacheKey
+                        );
                     }
                 }
 
@@ -475,19 +489,33 @@ class Micro extends Injectable implements \ArrayAccess
                     if realHandler instanceof Controller && modelBinder != null {
                         let methodName = handler[1];
                         let bindCacheKey = "_PHMB_" . get_class(realHandler) . "_" . methodName;
-                        let params = modelBinder->bindToHandler(realHandler, params, bindCacheKey, methodName);
+
+                        let params = modelBinder->bindToHandler(
+                            realHandler,
+                            params,
+                            bindCacheKey,
+                            methodName
+                        );
                     }
                 }
 
                 /**
-                 * Instead of double call_user_func_array when lazy loading we will just call method
+                 * Instead of double call_user_func_array when lazy loading we
+                 * will just call method
                  */
                 if realHandler != null && realHandler instanceof LazyLoader {
                     let methodName = handler[1];
+
                     /**
-                     * There is seg fault if we try set directly value of method to returnedValue
+                     * There is seg fault if we try set directly value of method
+                     * to returnedValue
                      */
-                    let lazyReturned = realHandler->callMethod(methodName, params, modelBinder);
+                    let lazyReturned = realHandler->callMethod(
+                        methodName,
+                        params,
+                        modelBinder
+                    );
+
                     let returnedValue = lazyReturned;
                 } else {
                     let returnedValue = call_user_func_array(handler, params);
@@ -530,7 +558,9 @@ class Micro extends Injectable implements \ArrayAccess
                         }
 
                         if !is_callable(afterBinding) {
-                            throw new Exception("'afterBinding' handler is not callable");
+                            throw new Exception(
+                                "'afterBinding' handler is not callable"
+                            );
                         }
 
                         /**
@@ -595,7 +625,9 @@ class Micro extends Injectable implements \ArrayAccess
                         }
 
                         if !is_callable(after) {
-                            throw new Exception("One of the 'after' handlers is not callable");
+                            throw new Exception(
+                                "One of the 'after' handlers is not callable"
+                            );
                         }
 
                         let status = call_user_func(after);
@@ -626,7 +658,9 @@ class Micro extends Injectable implements \ArrayAccess
                  */
                 let notFoundHandler = this->notFoundHandler;
                 if !is_callable(notFoundHandler) {
-                    throw new Exception("Not-Found handler is not callable or is not defined");
+                    throw new Exception(
+                        "Not-Found handler is not callable or is not defined"
+                    );
                 }
 
                 /**
@@ -678,7 +712,9 @@ class Micro extends Injectable implements \ArrayAccess
                     }
 
                     if !is_callable(finish) {
-                        throw new Exception("One of the 'finish' handlers is not callable");
+                        throw new Exception(
+                            "One of the 'finish' handlers is not callable"
+                        );
                     }
 
                     if params === null {
@@ -742,12 +778,15 @@ class Micro extends Injectable implements \ArrayAccess
 
 
         /**
-         * Check if a response handler is defined, else use default response handler
+         * Check if a response handler is defined, else use default response
+         * handler
          */
         if this->responseHandler {
 
             if !is_callable(this->responseHandler) {
-                throw new Exception("Response handler is not callable or is not defined");
+                throw new Exception(
+                    "Response handler is not callable or is not defined"
+                );
             }
 
             let returnedValue = call_user_func(this->responseHandler);
@@ -755,7 +794,8 @@ class Micro extends Injectable implements \ArrayAccess
         } else {
 
             /**
-             * Check if the returned value is a string and take it as response body
+             * Check if the returned value is a string and take it as response
+             * body
              */
             if typeof returnedValue == "string" {
                 let response = <ResponseInterface> container->getShared("response");
@@ -896,7 +936,9 @@ class Micro extends Injectable implements \ArrayAccess
             for handler in handlers {
 
                 if typeof handler != "array" {
-                    throw new Exception("One of the registered handlers is invalid");
+                    throw new Exception(
+                        "One of the registered handlers is invalid"
+                    );
                 }
 
                 let methods    = handler[0];
@@ -938,7 +980,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Sets a handler that will be called when the router doesn't match any of the defined routes
+     * Sets a handler that will be called when the router doesn't match any of
+     * the defined routes
      *
      * @param callable handler
      */
@@ -949,7 +992,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Check if a service is registered in the internal services container using the array syntax
+     * Check if a service is registered in the internal services container using
+     * the array syntax
      */
     public function offsetExists(var alias) -> bool
     {
@@ -957,7 +1001,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Allows to obtain a shared service in the internal services container using the array syntax
+     * Allows to obtain a shared service in the internal services container
+     * using the array syntax
      *
      *<code>
      * var_dump(
@@ -973,7 +1018,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Allows to register a shared service in the internal services container using the array syntax
+     * Allows to register a shared service in the internal services container
+     * using the array syntax
      *
      *<code>
      *    $app["request"] = new \Phalcon\Http\Request();
@@ -985,7 +1031,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Removes a service from the internal services container using the array syntax
+     * Removes a service from the internal services container using the array
+     * syntax
      */
     public function offsetUnset(var alias) -> void
     {
@@ -1172,7 +1219,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Appends a custom 'reponse' handler to be called insted of the default reponse handler
+     * Appends a custom 'reponse' handler to be called insted of the default
+     * response handler
      *
      * @param callable handler
      */
@@ -1199,7 +1247,8 @@ class Micro extends Injectable implements \ArrayAccess
     }
 
     /**
-     * Stops the middleware execution avoiding than other middlewares be executed
+     * Stops the middleware execution avoiding than other middlewares be
+     * executed
      */
     public function stop()
     {

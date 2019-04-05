@@ -16,7 +16,8 @@ use Phalcon\Di\InjectionAwareInterface;
 /**
  * Phalcon\Flash
  *
- * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
+ * Shows HTML notifications related to different circumstances. Classes can be
+ * stylized using CSS
  *
  *<code>
  * $flash->success("The record was successfully deleted");
@@ -207,7 +208,8 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     }
 
     /**
-     * Set whether the output must be implicitly flushed to the output or returned as string
+     * Set whether the output must be implicitly flushed to the output or
+     * returned as string
      */
     public function setImplicitFlush(bool implicitFlush) -> <FlashInterface>
     {
@@ -276,7 +278,8 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             }
 
             /**
-             * We return the message as string if the implicitFlush is turned off
+             * We return the message as a string if the implicitFlush is turned
+             * off
              */
             if !implicitFlush {
                 return content;
@@ -294,7 +297,8 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             let htmlMessage = this->prepareHtmlMessage(type, preparedMsg);
 
             /**
-             * We return the message as string if the implicit_flush is turned off
+             * We return the message as a string if the implicitFlush is turned
+             * off
              */
             if implicitFlush {
                 echo htmlMessage;
@@ -350,8 +354,8 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     }
 
     /**
-     * Prepares the HTML output for the message. If automaticHtml is not set then
-     * the original message is returned
+     * Prepares the HTML output for the message. If automaticHtml is not set
+     * then the original message is returned
      */
     private function prepareHtmlMessage(string type, string message) -> string
     {
@@ -371,7 +375,17 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
                 let cssClasses = "";
             }
 
-            return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->getTemplate(cssClasses));
+            return str_replace(
+                [
+                    "%cssClass%",
+                    "%message%"
+                ],
+                [
+                    cssClasses,
+                    message
+                ],
+                this->getTemplate(cssClasses)
+            );
         } else {
             return message;
         }
