@@ -30,7 +30,6 @@ use Phalcon\Mvc\View\Engine\Volt\Exception;
  */
 class Compiler implements InjectionAwareInterface
 {
-    protected arrayHelpers;
     protected autoescape = false;
     protected blockLevel = 0;
     protected blocks;
@@ -107,8 +106,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function attributeReader(array! expr) -> string
     {
-        var exprCode, left, leftType, variable,
-            level, container, leftCode, right;
+        var exprCode, left, leftType, variable, level, leftCode, right;
 
         let exprCode = null;
 
@@ -131,8 +129,7 @@ class Compiler implements InjectionAwareInterface
                  * Services registered in the dependency injector container are
                  * available always
                  */
-                let container = this->container;
-                if typeof container == "object" && container->has(variable) {
+                if typeof this->container == "object" && this->container->has(variable) {
                     let exprCode .= "$this->" . variable;
                 } else {
                     let exprCode .= "$" . variable;
@@ -1616,7 +1613,7 @@ class Compiler implements InjectionAwareInterface
         var code, funcArguments, arguments, nameExpr,
             nameType, name, extensions, functions, definition,
             extendedBlocks, block, currentBlock, exprLevel, escapedCode,
-            method, arrayHelpers, className;
+            method, arrayHelpers;
 
         let code = null;
 
@@ -1739,40 +1736,35 @@ class Compiler implements InjectionAwareInterface
                 return "''";
             }
 
-            let method = lcfirst(camelize(name)),
-                className = "Phalcon\\Tag";
+            let method = lcfirst(camelize(name));
+
+            let arrayHelpers = [
+                "link_to": true,
+                "image": true,
+                "form": true,
+                "submit_button": true,
+                "radio_field": true,
+                "check_field": true,
+                "file_field": true,
+                "hidden_field": true,
+                "password_field": true,
+                "text_area": true,
+                "text_field": true,
+                "email_field": true,
+                "date_field": true,
+                "tel_field": true,
+                "numeric_field": true,
+                "image_input": true
+            ];
 
             /**
              * Check if it's a method in Phalcon\Tag
              */
-            if method_exists(className, method) {
-
-                let arrayHelpers = this->arrayHelpers;
-                if typeof arrayHelpers != "array" {
-                    let arrayHelpers = [
-                        "link_to": true,
-                        "image": true,
-                        "form": true,
-                        "submit_button": true,
-                        "radio_field": true,
-                        "check_field": true,
-                        "file_field": true,
-                        "hidden_field": true,
-                        "password_field": true,
-                        "text_area": true,
-                        "text_field": true,
-                        "email_field": true,
-                        "date_field": true,
-                        "tel_field": true,
-                        "numeric_field": true,
-                        "image_input": true
-                    ];
-                    let this->arrayHelpers = arrayHelpers;
-                }
-
+            if method_exists("Phalcon\\Tag", method) {
                 if isset arrayHelpers[name] {
                     return "$this->tag->" . method . "([" . arguments . "])";
                 }
+
                 return "$this->tag->" . method . "(" . arguments . ")";
             }
 
@@ -1780,57 +1772,52 @@ class Compiler implements InjectionAwareInterface
              * The code below will be activated when Html\Tag is enabled
              */
             /**
-            let className = "Phalcon\\Html\\Tag";
+            let arrayHelpers = [
+                "button_submit"         : true.
+                "element"               : true.
+                "element_close"         : true.
+                "end_form"              : true.
+                "form"                  : true.
+                "friendly_title"        : true.
+                "get_doc_type"          : true.
+                "get_title"             : true.
+                "get_title_separator"   : true.
+                "image"                 : true.
+                "input_checkbox"        : true.
+                "input_color"           : true.
+                "input_date"            : true.
+                "input_date_time"       : true.
+                "input_date_time_local" : true.
+                "input_email"           : true.
+                "input_file"            : true.
+                "input_hidden"          : true.
+                "input_image"           : true.
+                "input_month"           : true.
+                "input_numeric"         : true.
+                "input_password"        : true.
+                "input_radio"           : true.
+                "input_range"           : true.
+                "input_search"          : true.
+                "input_tel"             : true.
+                "input_text"            : true.
+                "input_time"            : true.
+                "input_url"             : true.
+                "input_week"            : true.
+                "javascript"            : true.
+                "link"                  : true.
+                "prepend_title"         : true.
+                "render_title"          : true.
+                "select"                : true.
+                "stylesheet"            : true.
+                "submit"                : true.
+                "text_area"             : true.
+            ];
 
-            if method_exists(className, method) {
-                let arrayHelpers = this->arrayHelpers;
-                if typeof arrayHelpers != "array" {
-                    let arrayHelpers = [
-                        "button_submit"         : true.
-                        "element"               : true.
-                        "element_close"         : true.
-                        "end_form"              : true.
-                        "form"                  : true.
-                        "friendly_title"        : true.
-                        "get_doc_type"          : true.
-                        "get_title"             : true.
-                        "get_title_separator"   : true.
-                        "image"                 : true.
-                        "input_checkbox"        : true.
-                        "input_color"           : true.
-                        "input_date"            : true.
-                        "input_date_time"       : true.
-                        "input_date_time_local" : true.
-                        "input_email"           : true.
-                        "input_file"            : true.
-                        "input_hidden"          : true.
-                        "input_image"           : true.
-                        "input_month"           : true.
-                        "input_numeric"         : true.
-                        "input_password"        : true.
-                        "input_radio"           : true.
-                        "input_range"           : true.
-                        "input_search"          : true.
-                        "input_tel"             : true.
-                        "input_text"            : true.
-                        "input_time"            : true.
-                        "input_url"             : true.
-                        "input_week"            : true.
-                        "javascript"            : true.
-                        "link"                  : true.
-                        "prepend_title"         : true.
-                        "render_title"          : true.
-                        "select"                : true.
-                        "stylesheet"            : true.
-                        "submit"                : true.
-                        "text_area"             : true.
-                    ];
-                    let this->arrayHelpers = arrayHelpers;
-                }
-
+            if method_exists("Phalcon\\Html\\Tag", method) {
                 if isset arrayHelpers[name] {
                     return "$this->tag->" . method . "([" . arguments . "])";
                 }
+
                 return "$this->tag->" . method . "(" . arguments . ")";
             }
             */
