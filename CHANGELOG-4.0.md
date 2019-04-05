@@ -9,6 +9,9 @@
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended.
 
+## Removed
+- Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)
+
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
 - Added `delimiter` and `enclosure` options to *Phalcon\Translate\Adapter\Csv* constructor
