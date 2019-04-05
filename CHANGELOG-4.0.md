@@ -12,6 +12,7 @@
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended.
+- Update docblocks to show that we can no longer assign properties via `save()` in models (as per #12317). [#13945](https://github.com/phalcon/cphalcon/pull/13945)
 
 ## Removed
 - Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)

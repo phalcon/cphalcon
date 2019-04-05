@@ -576,10 +576,12 @@ abstract class Resultset
                 }
             }
 
+            record->assign(data);
+
             /**
              * Try to update the record
              */
-            if !record->save(data) {
+            if !record->save() {
 
                 /**
                  * Get the messages from the record that produce the error

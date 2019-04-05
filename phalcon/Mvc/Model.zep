@@ -1218,16 +1218,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
      * $myTransaction->begin();
+     *
      * $newRobot = new Robot();
      * $newRobot->setTransaction($myTransaction);
      *
-     * $newRobot->save(
+     * $newRobot->assign(
      *     [
      *         'name' => 'test',
      *         'type' => 'mechanical',
      *         'year' => 1944,
      *     ]
      * );
+     *
+     * $newRobot->save();
      *
      * $resultInsideTransaction = Robot::find(
      *     [
@@ -1258,11 +1261,25 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *  // add a new robots
      * $firstNewRobot = new Robot();
      * $firstNewRobot->setTransaction($myTransaction1);
-     * $firstNewRobot->save(['name' => 'first-transaction-robot', 'type' => 'mechanical', 'year' => 1944]);
+     * $firstNewRobot->assign(
+     *     [
+     *         'name' => 'first-transaction-robot',
+     *         'type' => 'mechanical',
+     *         'year' => 1944,
+     *     ]
+     * );
+     * $firstNewRobot->save();
      *
      * $secondNewRobot = new Robot();
      * $secondNewRobot->setTransaction($myTransaction2);
-     * $secondNewRobot->save(['name' => 'second-transaction-robot', 'type' => 'fictional', 'year' => 1984]);
+     * $secondNewRobot->assign(
+     *     [
+     *         'name' => 'second-transaction-robot',
+     *         'type' => 'fictional',
+     *         'year' => 1984,
+     *     ]
+     * );
+     * $secondNewRobot->save();
      *
      * // this transaction will find the robot.
      * $resultInFirstTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
@@ -1345,7 +1362,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $myTransaction->begin();
      * $newRobot = new Robot();
      * $newRobot->setTransaction($myTransaction);
-     * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+     * $newRobot->assign(
+     *     [
+     *         'name' => 'test',
+     *         'type' => 'mechanical',
+     *         'year' => 1944,
+     *     ]
+     * );
+     * $newRobot->save();
      *
      * $findsARobot = Robot::findFirst(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
      * $doesNotFindARobot = Robot::findFirst(['name' => 'test']);
