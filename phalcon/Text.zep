@@ -10,6 +10,8 @@
 
 namespace Phalcon;
 
+use Phalcon\Helper\Str;
+
 /**
  * Phalcon\Text
  *
@@ -33,9 +35,9 @@ abstract class Text
      * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
      * </code>
      */
-    public static function camelize(string! str, var delimiter = null) -> string
+    public static function camelize(string! text, var delimiter = null) -> string
     {
-        return str->camelize(delimiter);
+        return Str::camelize(text, delimiter);
     }
 
     /**
@@ -63,26 +65,11 @@ abstract class Text
     //public static function concat(string! separator, string! a, string! b) -> string
     public static function concat() -> string
     {
-        /**
-         * TODO:
-         * Remove after solve https://github.com/phalcon/zephir/issues/938,
-         * and also replace line 214 to 213
-         */
-        var separator, a, b;
-        let separator = func_get_arg(0),
-            a = func_get_arg(1),
-            b = func_get_arg(2);
-        //END
+        var args;
 
-        var c;
+        let args = func_get_args();
 
-        if func_num_args() > 3 {
-            for c in array_slice(func_get_args(), 3) {
-                let b = rtrim(b, separator) . separator . ltrim(c, separator);
-            }
-        }
-
-        return rtrim(a, separator) . separator . ltrim(b, separator);
+        return call_user_func_array("\\Phalcon\\Helper\\Str::concat", args);
     }
 
     /**
@@ -106,39 +93,14 @@ abstract class Text
      * );
      * </code>
      */
-    public static function dynamic(string! text, string! leftDelimiter = "{", string! rightDelimiter = "}", string! separator = "|") -> string
+    public static function dynamic(
+        string! text,
+        string! leftDelimiter = "{",
+        string! rightDelimiter = "}",
+        string! separator = "|"
+    ) -> string
     {
-        var ldS, rdS, pattern, matches, match, words, word, sub;
-
-        if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
-            throw new \RuntimeException(
-                "Syntax error in string \"" . text . "\""
-            );
-        }
-
-        let ldS = preg_quote(leftDelimiter),
-            rdS = preg_quote(rightDelimiter),
-            pattern = "/" . ldS . "([^" . ldS . rdS . "]+)" . rdS . "/",
-            matches = [];
-
-        if !preg_match_all(pattern, text, matches, 2) {
-            return text;
-        }
-
-        if typeof matches == "array" {
-            for match in matches {
-                if !isset match[0] || !isset match[1] {
-                    continue;
-                }
-
-                let words = explode(separator, match[1]),
-                    word = words[array_rand(words)],
-                    sub = preg_quote(match[0], separator),
-                    text = preg_replace("/" . sub . "/", word, text, 1);
-            }
-        }
-
-        return text;
+        return Str::dynamic(text, leftDelimiter, rightDelimiter, separator);
     }
 
     /**
@@ -150,9 +112,9 @@ abstract class Text
      * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
      * </code>
      */
-    public static function endsWith(string str, string end, bool ignoreCase = true) -> bool
+    public static function endsWith(string text, string end, bool ignoreCase = true) -> bool
     {
-        return ends_with(str, end, ignoreCase);
+        return Str::endsWith(text, end, ignoreCase);
     }
 
     /**
@@ -165,7 +127,7 @@ abstract class Text
      */
     public static function humanize(string! text) -> string
     {
-        return preg_replace("#[_-]+#", " ", trim(text));
+        return Str::humanize(text);
     }
 
     /**
@@ -177,19 +139,9 @@ abstract class Text
      * echo Phalcon\Text::increment("a_1"); // "a_2"
      * </code>
      */
-    public static function increment(string str, string separator = "_") -> string
+    public static function increment(string text, string separator = "_") -> string
     {
-        var parts, number;
-
-        let parts = explode(separator, str);
-
-        if fetch number, parts[1] {
-            let number++;
-        } else {
-            let number = 1;
-        }
-
-        return parts[0] . separator. number;
+        return Str::increment(text, separator);
     }
 
     /**
@@ -200,16 +152,9 @@ abstract class Text
      * echo Phalcon\Text::lower("HELLO"); // hello
      * </code>
      */
-    public static function lower(string! str, string! encoding = "UTF-8") -> string
+    public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
-        /**
-         * 'lower' checks for the mbstring extension to make a correct lowercase
-         * transformation
-         */
-        if function_exists("mb_strtolower") {
-            return mb_strtolower(str, encoding);
-        }
-        return strtolower(str);
+        return Str::lower(text, encoding);
     }
 
     /**
@@ -221,9 +166,9 @@ abstract class Text
      * echo Phalcon\Text::startsWith("Hello", "he"); // true
      * </code>
      */
-    public static function startsWith(string str, string start, bool ignoreCase = true) -> bool
+    public static function startsWith(string text, string start, bool ignoreCase = true) -> bool
     {
-        return starts_with(str, start, ignoreCase);
+        return Str::startsWith(text, start, ignoreCase);
     }
 
     /**
@@ -239,49 +184,7 @@ abstract class Text
      */
     public static function random(int type = 0, long length = 8) -> string
     {
-        var pool, str = "";
-        int end;
-
-        switch type {
-
-            case Text::RANDOM_ALPHA:
-                let pool = array_merge(range("a", "z"), range("A", "Z"));
-                break;
-
-            case Text::RANDOM_HEXDEC:
-                let pool = array_merge(range(0, 9), range("a", "f"));
-                break;
-
-            case Text::RANDOM_NUMERIC:
-                let pool = range(0, 9);
-                break;
-
-            case Text::RANDOM_NOZERO:
-                let pool = range(1, 9);
-                break;
-
-            case Text::RANDOM_DISTINCT:
-                let pool = str_split("2345679ACDEFHJKLMNPRSTUVWXYZ");
-                break;
-
-            default:
-                // Default type \Phalcon\Text::RANDOM_ALNUM
-                let pool = array_merge(
-                    range(0, 9),
-                    range("a", "z"),
-                    range("A", "Z")
-                );
-
-                break;
-        }
-
-        let end = count(pool) - 1;
-
-        while strlen(str) < length {
-            let str .= pool[mt_rand(0, end)];
-        }
-
-        return str;
+        return Str::random(type, length);
     }
 
     /**
@@ -292,9 +195,9 @@ abstract class Text
      * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
      * </code>
      */
-    public static function reduceSlashes(string str) -> string
+    public static function reduceSlashes(string! text) -> string
     {
-        return preg_replace("#(?<!:)//+#", "/", str);
+        return Str::reduceSlashes(text);
     }
 
     /**
@@ -305,9 +208,9 @@ abstract class Text
      * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
      * </code>
      */
-    public static function uncamelize(string! str, var delimiter = null) -> string
+    public static function uncamelize(string! text, var delimiter = null) -> string
     {
-        return str->uncamelize(delimiter);
+        return Str::uncamelize(text, delimiter);
     }
 
     /**
@@ -320,7 +223,7 @@ abstract class Text
      */
     public static function underscore(string! text) -> string
     {
-        return preg_replace("#\s+#", "_", trim(text));
+        return Str::underscore(text);
     }
 
     /**
@@ -331,15 +234,8 @@ abstract class Text
      * echo Phalcon\Text::upper("hello"); // HELLO
      * </code>
      */
-    public static function upper(string! str, string! encoding = "UTF-8") -> string
+    public static function upper(string! text, string! encoding = "UTF-8") -> string
     {
-        /**
-         * 'upper' checks for the mbstring extension to make a correct lowercase
-         * transformation
-         */
-        if function_exists("mb_strtoupper") {
-            return mb_strtoupper(str, encoding);
-        }
-        return strtoupper(str);
+        return Str::upper(text, encoding);
     }
 }
