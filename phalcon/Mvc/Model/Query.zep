@@ -2516,7 +2516,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * This function parses the PHQL statement
          */
         let phql = this->phql,
-            ast = phql_parsephql(phql);
+            ast = phql_parse_phql(phql);
 
         let irPhql = null, uniqueId = null;
 
