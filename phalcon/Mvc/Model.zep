@@ -80,54 +80,47 @@ use Phalcon\Cache\FrontendInterface;
  */
 abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
+    const DIRTY_STATE_DETACHED   = 2;
+    const DIRTY_STATE_PERSISTENT = 0;
+    const DIRTY_STATE_TRANSIENT  = 1;
+    const OP_CREATE = 1;
+    const OP_DELETE = 3;
+    const OP_NONE   = 0;
+    const OP_UPDATE = 2;
+    const TRANSACTION_INDEX = "transaction";
+
     protected container;
 
-    protected _dirtyState = 1;
+    protected dirtyState = 1;
 
-    protected _errorMessages = [];
+    protected errorMessages = [];
 
-    protected _modelsManager;
+    protected modelsManager;
 
-    protected _modelsMetaData;
+    protected modelsMetaData;
 
-    protected _related;
+    protected related;
 
-    protected _operationMade = 0;
+    protected operationMade = 0;
 
-    protected _oldSnapshot = [];
+    protected oldSnapshot = [];
 
-    protected _skipped;
+    protected skipped;
 
-    protected _snapshot;
+    protected snapshot;
 
-    protected _transaction { get };
+    protected transaction { get };
 
-    protected _uniqueKey;
+    protected uniqueKey;
 
-    protected _uniqueParams;
+    protected uniqueParams;
 
-    protected _uniqueTypes;
-
-    const DIRTY_STATE_DETACHED = 2;
-
-    const DIRTY_STATE_PERSISTENT = 0;
-
-    const DIRTY_STATE_TRANSIENT = 1;
-
-    const OP_CREATE = 1;
-
-    const OP_DELETE = 3;
-
-    const OP_NONE = 0;
-
-    const OP_UPDATE = 2;
-
-    const TRANSACTION_INDEX = "transaction";
+    protected uniqueTypes;
 
     /**
      * Phalcon\Mvc\Model constructor
      */
-    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
+    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null) -> void
     {
         /**
          * We use a default DI if the user doesn't define one
@@ -162,7 +155,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Update the models-manager
          */
-        let this->_modelsManager = modelsManager;
+        let this->modelsManager = modelsManager;
 
         /**
          * The manager always initializes the object
@@ -210,7 +203,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * Try to find a replacement for the missing method in a
          * behavior/listener
          */
-        let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
+        let status = (<ManagerInterface> this->modelsManager)->missingMethod(this, method, arguments);
         if status !== null {
             return status;
         }
@@ -296,7 +289,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 /**
                  * We store relationship objects in the related bag
                  */
-                let this->_related[lowerProperty] = result;
+                let this->related[lowerProperty] = result;
             }
 
             return result;
@@ -359,14 +352,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if typeof value == "object" {
             if value instanceof ModelInterface {
-                let dirtyState = this->_dirtyState;
+                let dirtyState = this->dirtyState;
                 if (value->getDirtyState() != dirtyState) {
                     let dirtyState = self::DIRTY_STATE_TRANSIENT;
                 }
                 let lowerProperty = strtolower(property),
                     this->{lowerProperty} = value,
-                    this->_related[lowerProperty] = value,
-                    this->_dirtyState = dirtyState;
+                    this->related[lowerProperty] = value,
+                    this->dirtyState = dirtyState;
                 return value;
             }
         }
@@ -409,8 +402,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
 
             if count(related) > 0 {
-                let this->_related[lowerProperty] = related,
-                    this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+                let this->related[lowerProperty] = related,
+                    this->dirtyState = self::DIRTY_STATE_TRANSIENT;
             }
 
             if haveRelation {
@@ -469,7 +462,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function addBehavior(<BehaviorInterface> behavior) -> void
     {
-        (<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
+        (<ManagerInterface> this->modelsManager)->addBehavior(this, behavior);
     }
 
     /**
@@ -496,7 +489,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function appendMessage(<MessageInterface> message) -> <ModelInterface>
     {
-        let this->_errorMessages[] = message;
+        let this->errorMessages[] = message;
         return this;
     }
 
@@ -972,7 +965,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * If the record already exists we must throw an exception
          */
         if this->_exists(metaData, this->getReadConnection()) {
-            let this->_errorMessages = [
+            let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
                     null,
@@ -1015,8 +1008,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Operation made is OP_DELETE
          */
-        let this->_operationMade = self::OP_DELETE,
-            this->_errorMessages = [];
+        let this->operationMade = self::OP_DELETE,
+            this->errorMessages = [];
 
         /**
          * Check if deleting the record violates a virtual foreign key
@@ -1097,7 +1090,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         if globals_get("orm.events") {
 
-            let this->_skipped = false;
+            let this->skipped = false;
 
             /**
              * Fire the beforeDelete event
@@ -1109,7 +1102,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * The operation can be skipped
              */
-            if this->_skipped === true {
+            if this->skipped === true {
                 return true;
             }
         }
@@ -1152,7 +1145,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Force perform the record existence checking again
          */
-        let this->_dirtyState = self::DIRTY_STATE_DETACHED;
+        let this->dirtyState = self::DIRTY_STATE_DETACHED;
 
         return success;
     }
@@ -1405,7 +1398,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Send a notification to the events manager
          */
-        return (<ManagerInterface> this->_modelsManager)->notifyEvent(
+        return (<ManagerInterface> this->modelsManager)->notifyEvent(
             eventName,
             this
         );
@@ -1430,11 +1423,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Send a notification to the events manager
          */
-        if (<ManagerInterface> this->_modelsManager)->notifyEvent(eventName, this) === false {
-            return false;
-        }
-
-        return true;
+        return (<ManagerInterface> this->modelsManager)->notifyEvent(
+            eventName,
+            this
+        );
     }
 
     /**
@@ -1455,7 +1447,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var metaData, changed, name, snapshot,
             columnMap, allAttributes, value;
 
-        let snapshot = this->_snapshot;
+        let snapshot = this->snapshot;
         if typeof snapshot != "array" {
             throw new Exception(
                 "The record doesn't have a valid data snapshot"
@@ -1523,7 +1515,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getDirtyState() -> int
     {
-        return this->_dirtyState;
+        return this->dirtyState;
     }
 
     /**
@@ -1539,7 +1531,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getEventsManager() -> <EventsManagerInterface>
     {
-        return this->_modelsManager->getCustomEventsManager(this);
+        return this->modelsManager->getCustomEventsManager(this);
     }
 
     /**
@@ -1571,7 +1563,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         if typeof filter == "string" && !empty filter {
             let filtered = [];
-            for message in this->_errorMessages {
+            for message in this->errorMessages {
                 if message->getField() == filter {
                     let filtered[] = message;
                 }
@@ -1579,7 +1571,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             return filtered;
         }
 
-        return this->_errorMessages;
+        return this->errorMessages;
     }
 
     /**
@@ -1587,7 +1579,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getModelsManager() -> <ManagerInterface>
     {
-        return this->_modelsManager;
+        return this->modelsManager;
     }
 
     /**
@@ -1597,7 +1589,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var metaData, container;
 
-        let metaData = this->_modelsMetaData;
+        let metaData = this->modelsMetaData;
         if typeof metaData != "object" {
 
             let container = <DiInterface> this->container;
@@ -1615,7 +1607,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Update the models-metadata property
              */
-            let this->_modelsMetaData = metaData;
+            let this->modelsMetaData = metaData;
         }
         return metaData;
     }
@@ -1626,7 +1618,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getOperationMade() -> int
     {
-        return this->_operationMade;
+        return this->operationMade;
     }
 
     /**
@@ -1634,7 +1626,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getOldSnapshotData() -> array
     {
-        return this->_oldSnapshot;
+        return this->oldSnapshot;
     }
 
     /**
@@ -1644,12 +1636,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var transaction;
 
-        let transaction = <TransactionInterface> this->_transaction;
+        let transaction = <TransactionInterface> this->transaction;
         if typeof transaction == "object" {
             return transaction->getConnection();
         }
 
-        return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
+        return (<ManagerInterface> this->modelsManager)->getReadConnection(this);
     }
 
     /**
@@ -1658,7 +1650,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getReadConnectionService() -> string
     {
-        return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
+        return (<ManagerInterface> this->modelsManager)->getReadConnectionService(this);
     }
 
     /**
@@ -1674,7 +1666,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * Query the relation by alias
          */
         let className = get_class(this),
-            manager = <ManagerInterface> this->_modelsManager;
+            manager = <ManagerInterface> this->modelsManager;
 
         let relation = <RelationInterface> manager->getRelationByAlias(
             className,
@@ -1695,7 +1687,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
-        return isset this->_related[relationshipAlias];
+        return isset this->related[relationshipAlias];
     }
 
     /**
@@ -1703,7 +1695,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getSchema() -> string
     {
-        return (<ManagerInterface> this->_modelsManager)->getModelSchema(this);
+        return (<ManagerInterface> this->modelsManager)->getModelSchema(this);
     }
 
     /**
@@ -1711,7 +1703,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getSnapshotData() -> array
     {
-        return this->_snapshot;
+        return this->snapshot;
     }
 
     /**
@@ -1719,7 +1711,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getSource() -> string
     {
-        return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
+        return (<ManagerInterface> this->modelsManager)->getModelSource(this);
     }
 
 
@@ -1744,8 +1736,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var updated, name, snapshot,
             oldSnapshot, value;
 
-        let snapshot = this->_snapshot;
-        let oldSnapshot = this->_oldSnapshot;
+        let snapshot = this->snapshot;
+        let oldSnapshot = this->oldSnapshot;
 
         if !globals_get("orm.update_snapshot_on_save") {
             throw new Exception(
@@ -1762,7 +1754,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Dirty state must be DIRTY_PERSISTENT to make the checking
          */
-        if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+        if this->dirtyState != self::DIRTY_STATE_PERSISTENT {
             throw new Exception(
                 "Change checking cannot be performed because the object has not been persisted or is deleted"
             );
@@ -1796,12 +1788,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var transaction;
 
-        let transaction = <TransactionInterface> this->_transaction;
+        let transaction = <TransactionInterface> this->transaction;
         if typeof transaction == "object" {
             return transaction->getConnection();
         }
 
-        return (<ManagerInterface> this->_modelsManager)->getWriteConnection(this);
+        return (<ManagerInterface> this->modelsManager)->getWriteConnection(this);
     }
 
     /**
@@ -1810,7 +1802,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getWriteConnectionService() -> string
     {
-        return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
+        return (<ManagerInterface> this->modelsManager)->getWriteConnectionService(this);
     }
 
     /**
@@ -1861,7 +1853,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function hasSnapshotData() -> bool
     {
         var snapshot;
-        let snapshot = this->_snapshot;
+        let snapshot = this->snapshot;
 
         return typeof snapshot == "array";
     }
@@ -2027,7 +2019,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var metaData, readConnection, schema, source, table, uniqueKey, tables,
             uniqueParams, dialect, row, fields, attribute, manager, columnMap;
 
-        if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+        if this->dirtyState != self::DIRTY_STATE_PERSISTENT {
             throw new Exception(
                 "The record cannot be refreshed because it does not exist or is deleted"
             );
@@ -2035,7 +2027,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         let metaData = this->getModelsMetaData(),
             readConnection = this->getReadConnection(),
-            manager = <ManagerInterface> this->_modelsManager;
+            manager = <ManagerInterface> this->modelsManager;
 
         let schema = this->getSchema(),
             source = this->getSource();
@@ -2046,7 +2038,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let table = source;
         }
 
-        let uniqueKey = this->_uniqueKey;
+        let uniqueKey = this->uniqueKey;
         if !uniqueKey {
 
             /**
@@ -2058,10 +2050,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 );
             }
 
-            let uniqueKey = this->_uniqueKey;
+            let uniqueKey = this->uniqueKey;
         }
 
-        let uniqueParams = this->_uniqueParams;
+        let uniqueParams = this->uniqueParams;
         if typeof uniqueParams != "array" {
             throw new Exception(
                 "The record cannot be refreshed because it does not exist or is deleted"
@@ -2090,7 +2082,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             tables,
             \Phalcon\Db::FETCH_ASSOC,
             uniqueParams,
-            this->_uniqueTypes
+            this->uniqueTypes
         );
 
         /**
@@ -2153,7 +2145,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Save related records in belongsTo relationships
          */
-        let related = this->_related;
+        let related = this->related;
         if typeof related == "array" {
             if this->_preSaveRelatedRecords(writeConnection, related) === false {
                 return false;
@@ -2180,15 +2172,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let exists = this->_exists(metaData, readConnection, table);
 
         if exists {
-            let this->_operationMade = self::OP_UPDATE;
+            let this->operationMade = self::OP_UPDATE;
         } else {
-            let this->_operationMade = self::OP_CREATE;
+            let this->operationMade = self::OP_CREATE;
         }
 
         /**
          * Clean the messages
          */
-        let this->_errorMessages = [];
+        let this->errorMessages = [];
 
         /**
          * Query the identity field
@@ -2239,7 +2231,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * Change the dirty state to persistent
          */
         if success {
-            let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
         if typeof related == "array" {
@@ -2292,7 +2284,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             manager = <ManagerInterface> this->getModelsManager();
 
         if manager->isKeepingSnapshots(this) {
-            let snapshot = this->_snapshot;
+            let snapshot = this->snapshot;
             /**
              * If attributes is not the same as snapshot then save snapshot too
              */
@@ -2300,7 +2292,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 return serialize(
                     [
                         "_attributes": attributes,
-                        "_snapshot":   snapshot
+                        "snapshot":   snapshot
                     ]
                 );
             }
@@ -2349,19 +2341,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Update the models manager
              */
-            let this->_modelsManager = manager;
+            let this->modelsManager = manager;
 
             /**
              * Try to initialize the model
              */
             manager->initialize(this);
             if manager->isKeepingSnapshots(this) {
-                if fetch snapshot, attributes["_snapshot"] {
-                    let this->_snapshot = snapshot;
+                if fetch snapshot, attributes["snapshot"] {
+                    let this->snapshot = snapshot;
                     let attributes = attributes["_attributes"];
                 }
                 else {
-                    let this->_snapshot = attributes;
+                    let this->snapshot = attributes;
                 }
             }
 
@@ -2379,7 +2371,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setConnectionService(string! connectionService) -> <ModelInterface>
     {
-        (<ManagerInterface> this->_modelsManager)->setConnectionService(
+        (<ManagerInterface> this->modelsManager)->setConnectionService(
             this,
             connectionService
         );
@@ -2392,7 +2384,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
     {
-        let this->_dirtyState = dirtyState;
+        let this->dirtyState = dirtyState;
         return this;
     }
 
@@ -2409,7 +2401,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setEventsManager(<EventsManagerInterface> eventsManager)
     {
-        this->_modelsManager->setCustomEventsManager(this, eventsManager);
+        this->modelsManager->setCustomEventsManager(this, eventsManager);
     }
 
     /**
@@ -2417,7 +2409,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setReadConnectionService(string! connectionService) -> <ModelInterface>
     {
-        (<ManagerInterface> this->_modelsManager)->setReadConnectionService(
+        (<ManagerInterface> this->modelsManager)->setReadConnectionService(
             this,
             connectionService
         );
@@ -2477,7 +2469,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let snapshot = data;
         }
 
-        let this->_oldSnapshot = snapshot;
+        let this->oldSnapshot = snapshot;
     }
 
     /**
@@ -2543,7 +2535,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
 
-        let this->_snapshot = snapshot;
+        let this->snapshot = snapshot;
     }
 
     /**
@@ -2587,7 +2579,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
     {
-        let this->_transaction = transaction;
+        let this->transaction = transaction;
         return this;
     }
 
@@ -2687,7 +2679,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
     {
-        return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(
+        return (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
             this,
             connectionService
         );
@@ -2699,7 +2691,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function skipOperation(bool skip) -> void
     {
-        let this->_skipped = skip;
+        let this->skipped = skip;
     }
 
     /**
@@ -2819,12 +2811,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * We don't check if the record exists if the record is already checked
          */
-        if this->_dirtyState {
+        if this->dirtyState {
 
             let metaData = this->getModelsMetaData();
 
             if !this->_exists(metaData, this->getReadConnection()) {
-                let this->_errorMessages = [
+                let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
                         null,
@@ -2849,7 +2841,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $robot->writeAttribute("name", "Rosey");
      *</code>
      */
-    public function writeAttribute(string! attribute, var value)
+    public function writeAttribute(string! attribute, var value) -> void
     {
         let this->{attribute} = value;
     }
@@ -2870,7 +2862,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Get the models manager
          */
-        let manager = <ManagerInterface> this->_modelsManager;
+        let manager = <ManagerInterface> this->modelsManager;
 
         /**
          * We check if some of the belongsTo relations act as virtual foreign
@@ -3027,7 +3019,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Get the models manager
          */
-        let manager = <ManagerInterface> this->_modelsManager;
+        let manager = <ManagerInterface> this->modelsManager;
 
         /**
          * We check if some of the hasOne/hasMany relations is a foreign key
@@ -3138,7 +3130,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Get the models manager
          */
-        let manager = <ManagerInterface> this->_modelsManager;
+        let manager = <ManagerInterface> this->modelsManager;
 
         /**
          * We check if some of the hasOne/hasMany relations is a foreign key
@@ -3270,7 +3262,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         bool useExplicitIdentity;
 
         let bindSkip = Column::BIND_SKIP;
-        let manager = <ManagerInterface> this->_modelsManager;
+        let manager = <ManagerInterface> this->modelsManager;
 
         let fields = [],
             values = [],
@@ -3457,14 +3449,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let snapshot[attributeField] = lastInsertedId;
 
             /**
-             * Since the primary key was modified, we delete the _uniqueParams
+             * Since the primary key was modified, we delete the uniqueParams
              * to force any future update to re-build the primary key
              */
-            let this->_uniqueParams = null;
+            let this->uniqueParams = null;
         }
 
         if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
-            let this->_snapshot = snapshot;
+            let this->snapshot = snapshot;
         }
 
 
@@ -3489,14 +3481,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             values = [],
             bindTypes = [],
             newSnapshot = [],
-            manager = <ManagerInterface> this->_modelsManager;
+            manager = <ManagerInterface> this->modelsManager;
 
         /**
          * Check if the model must use dynamic update
          */
         let useDynamicUpdate = (bool) manager->isUsingDynamicUpdate(this);
 
-        let snapshot = this->_snapshot;
+        let snapshot = this->snapshot;
 
         if useDynamicUpdate {
             if typeof snapshot != "array" {
@@ -3644,14 +3636,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if !count(fields) {
             if useDynamicUpdate {
-                let this->_oldSnapshot = snapshot;
+                let this->oldSnapshot = snapshot;
             }
             return true;
         }
 
-        let uniqueKey = this->_uniqueKey,
-            uniqueParams = this->_uniqueParams,
-            uniqueTypes = this->_uniqueTypes;
+        let uniqueKey = this->uniqueKey,
+            uniqueParams = this->uniqueParams,
+            uniqueTypes = this->uniqueTypes;
 
         /**
          * When unique params is null we need to rebuild the bind params
@@ -3713,11 +3705,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
             if typeof snapshot == "array" {
-                let this->_oldSnapshot = snapshot;
-                let this->_snapshot = array_merge(snapshot, newSnapshot);
+                let this->oldSnapshot = snapshot;
+                let this->snapshot = array_merge(snapshot, newSnapshot);
             } else {
-                let this->_oldSnapshot = [];
-                let this->_snapshot = newSnapshot;
+                let this->oldSnapshot = [];
+                let this->snapshot = newSnapshot;
             }
         }
 
@@ -3742,7 +3734,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Builds a unique primary key condition
          */
-        let uniqueKey = this->_uniqueKey;
+        let uniqueKey = this->uniqueKey;
         if uniqueKey === null {
 
             let primaryKeys = metaData->getPrimaryKeyAttributes(this),
@@ -3824,32 +3816,32 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let joinWhere = join(" AND ", wherePk);
 
             /**
-             * The unique key is composed of 3 parts _uniqueKey, uniqueParams,
+             * The unique key is composed of 3 parts uniqueKey, uniqueParams,
              * uniqueTypes
              */
-            let this->_uniqueKey = joinWhere,
-                this->_uniqueParams = uniqueParams,
-                this->_uniqueTypes = uniqueTypes,
+            let this->uniqueKey = joinWhere,
+                this->uniqueParams = uniqueParams,
+                this->uniqueTypes = uniqueTypes,
                 uniqueKey = joinWhere;
         }
 
         /**
          * If we already know if the record exists we don't check it
          */
-        if !this->_dirtyState {
+        if !this->dirtyState {
             return true;
         }
 
         if uniqueKey === null {
-            let uniqueKey = this->_uniqueKey;
+            let uniqueKey = this->uniqueKey;
         }
 
         if uniqueParams === null {
-            let uniqueParams = this->_uniqueParams;
+            let uniqueParams = this->uniqueParams;
         }
 
         if uniqueTypes === null {
-            let uniqueTypes = this->_uniqueTypes;
+            let uniqueTypes = this->uniqueTypes;
         }
 
         let schema = this->getSchema(), source = this->getSource();
@@ -3870,10 +3862,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             uniqueTypes
         );
         if num["rowcount"] {
-            let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
             return true;
         } else {
-            let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+            let this->dirtyState = self::DIRTY_STATE_TRANSIENT;
         }
 
         return false;
@@ -3889,7 +3881,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var manager, relation, queryMethod, extraArgs;
 
-        let manager = <ManagerInterface> this->_modelsManager;
+        let manager = <ManagerInterface> this->modelsManager;
 
         let relation = false,
             queryMethod = null;
@@ -4284,7 +4276,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             /**
                              * An implicit PresenceOf message is created
                              */
-                            let this->_errorMessages[] = new Message(
+                            let this->errorMessages[] = new Message(
                                 attributeField . " is required",
                                 attributeField,
                                 "PresenceOf"
@@ -4344,7 +4336,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 return false;
             }
 
-            let this->_skipped = false;
+            let this->skipped = false;
 
             /**
              * The operation can be skipped here
@@ -4362,7 +4354,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Always return true if the operation is skipped
              */
-            if this->_skipped === true {
+            if this->skipped === true {
                 return true;
             }
 
@@ -4747,7 +4739,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function _cancelOperation()
     {
-        if this->_operationMade == self::OP_DELETE {
+        if this->operationMade == self::OP_DELETE {
             this->fireEvent("notDeleted");
         } else {
             this->fireEvent("notSaved");
@@ -4770,7 +4762,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
-        return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
+        return (<ManagerInterface> this->modelsManager)->addBelongsTo(
             this,
             fields,
             referenceModel,
@@ -4849,7 +4841,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
-        return (<ManagerInterface> this->_modelsManager)->addHasMany(
+        return (<ManagerInterface> this->modelsManager)->addHasMany(
             this,
             fields,
             referenceModel,
@@ -4890,7 +4882,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
         string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
-        return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
+        return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
             this,
             fields,
             intermediateModel,
@@ -4918,7 +4910,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
-        return (<ManagerInterface> this->_modelsManager)->addHasOne(
+        return (<ManagerInterface> this->modelsManager)->addHasOne(
             this,
             fields,
             referenceModel,
@@ -4945,7 +4937,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function keepSnapshots(bool keepSnapshot) -> void
     {
-        (<ManagerInterface> this->_modelsManager)->keepSnapshots(
+        (<ManagerInterface> this->modelsManager)->keepSnapshots(
             this,
             keepSnapshot
         );
@@ -4956,10 +4948,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function setSchema(string! schema) -> <ModelInterface>
     {
-        return (<ManagerInterface> this->_modelsManager)->setModelSchema(
+        (<ManagerInterface> this->modelsManager)->setModelSchema(
             this,
             schema
         );
+
+        return this;
     }
 
     /**
@@ -4967,7 +4961,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function setSource(string! source) -> <ModelInterface>
     {
-        (<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
+        (<ManagerInterface> this->modelsManager)->setModelSource(this, source);
         return this;
     }
 
@@ -5082,7 +5076,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function useDynamicUpdate(bool dynamicUpdate) -> void
     {
-        (<ManagerInterface> this->_modelsManager)->useDynamicUpdate(
+        (<ManagerInterface> this->modelsManager)->useDynamicUpdate(
             this,
             dynamicUpdate
         );
@@ -5179,7 +5173,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function validationHasFailed() -> bool
     {
-        return count(this->_errorMessages) > 0;
+        return count(this->errorMessages) > 0;
     }
 
     /**

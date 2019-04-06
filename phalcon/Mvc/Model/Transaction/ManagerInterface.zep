@@ -22,7 +22,7 @@ interface ManagerInterface
     /**
      * Remove all the transactions from the manager
      */
-    public function collectTransactions();
+    public function collectTransactions() -> void;
 
     /**
      * Commits active transactions within the manager
@@ -52,23 +52,23 @@ interface ManagerInterface
     /**
      * Notifies the manager about a committed transaction
      */
-    public function notifyCommit(<TransactionInterface> transaction);
+    public function notifyCommit(<TransactionInterface> transaction) -> void;
 
     /**
      * Notifies the manager about a rollbacked transaction
      */
-    public function notifyRollback(<TransactionInterface> transaction);
+    public function notifyRollback(<TransactionInterface> transaction) -> void;
 
     /**
      * Rollbacks active transactions within the manager
      * Collect will remove transaction from the manager
      */
-    public function rollback(bool collect = false);
+    public function rollback(bool collect = false) -> void;
 
     /**
      * Rollbacks active transactions within the manager
      */
-    public function rollbackPendent();
+    public function rollbackPendent() -> void;
 
     /**
      * Sets the database service used to run the isolated transactions

@@ -82,7 +82,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Transaction\Manager constructor
      */
-    public function __construct(<DiInterface> container = null)
+    public function __construct(<DiInterface> container = null) -> void
     {
         if !container {
             let container = \Phalcon\Di::getDefault();
@@ -102,7 +102,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Remove all the transactions from the manager
      */
-    public function collectTransactions()
+    public function collectTransactions() -> void
     {
         var transactions;
 
@@ -219,7 +219,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Notifies the manager about a committed transaction
      */
-    public function notifyCommit(<TransactionInterface> transaction)
+    public function notifyCommit(<TransactionInterface> transaction) -> void
     {
         this->collectTransaction(transaction);
     }
@@ -227,7 +227,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Notifies the manager about a rollbacked transaction
      */
-    public function notifyRollback(<TransactionInterface> transaction)
+    public function notifyRollback(<TransactionInterface> transaction) -> void
     {
         this->collectTransaction(transaction);
     }
@@ -236,7 +236,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      * Rollbacks active transactions within the manager
      * Collect will remove the transaction from the manager
      */
-    public function rollback(bool collect = true)
+    public function rollback(bool collect = true) -> void
     {
         var transactions, transaction, connection;
 
@@ -258,7 +258,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Rollbacks active transactions within the manager
      */
-    public function rollbackPendent()
+    public function rollbackPendent() -> void
     {
         this->rollback();
     }
@@ -293,7 +293,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Removes transactions from the TransactionManager
      */
-    protected function collectTransaction(<TransactionInterface> transaction)
+    protected function collectTransaction(<TransactionInterface> transaction) -> void
     {
         var transactions, newTransactions, managedTransaction;
 

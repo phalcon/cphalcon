@@ -29,7 +29,7 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
      *
      * @param Message[] validationMessages
      */
-    public function __construct(<Model> model, array! validationMessages)
+    public function __construct(<Model> model, array! validationMessages) -> void
     {
         var messageStr, message;
 
