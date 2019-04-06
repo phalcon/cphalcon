@@ -1383,7 +1383,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * @param string|array parameters
      */
-    public static function findFirst(var parameters = null) -> <ModelInterface>
+    public static function findFirst(var parameters = null) -> <ModelInterface> | bool
     {
         var params, query;
 

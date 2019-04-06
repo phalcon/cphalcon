@@ -98,7 +98,7 @@ interface ModelInterface
      *
      * @param array parameters
      */
-    public static function findFirst(parameters = null) -> <ModelInterface>;
+    public static function findFirst(parameters = null) -> <ModelInterface> | bool;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events
