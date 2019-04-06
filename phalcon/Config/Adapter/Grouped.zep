@@ -74,7 +74,7 @@ class Grouped extends Config
      */
     public function __construct(array! arrayConfig, string! defaultAdapter = "php") -> void
     {
-        var configName, configInstance;
+        var configName, configInstance, configArray;
 
         parent::__construct([]);
 
@@ -99,7 +99,8 @@ class Grouped extends Config
                         "To use 'array' adapter you have to specify the 'config' as an array."
                     );
                 } else {
-                    let configInstance = new Config(configInstance["config"]);
+                    let configArray = configInstance["config"];
+                    let configInstance = new Config(configArray);
                 }
             } else {
                 let configInstance = Factory::load(configInstance);
