@@ -77,10 +77,8 @@ class Security implements InjectionAwareInterface
         string cryptedHash;
         int i, sum, cryptedLength, passwordLength;
 
-        if maxPassLength {
-            if maxPassLength > 0 && strlen(password) > maxPassLength {
-                return false;
-            }
+        if maxPassLength > 0 && strlen(password) > maxPassLength {
+            return false;
         }
 
         let cryptedHash = (string) crypt(password, passwordHash);
