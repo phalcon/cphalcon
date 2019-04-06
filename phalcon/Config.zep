@@ -215,7 +215,8 @@ class Config implements \ArrayAccess, \Countable
     {
         let index = strval(index);
 
-        unset this->{index};
+        //unset(this->{index});
+        let this->{index} = null;
     }
 
     /**

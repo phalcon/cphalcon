@@ -85,11 +85,11 @@ class Factory extends BaseFactory
             let filePath = filePath . "." . lcfirst(adapter);
         }
 
-        if className === \Phalcon\Config\Adapter\Ini::class {
+        if className === "Phalcon\\Config\\Adapter\\Ini" {
             if fetch mode, config["mode"] {
                 return new {className}(filePath, mode);
             }
-        } elseif className === \Phalcon\Config\Adapter\Yaml::class {
+        } elseif className === "Phalcon\\Config\\Adapter\\Yaml" {
             if fetch callbacks, config["callbacks"] {
                 return new {className}(filePath, callbacks);
             }
