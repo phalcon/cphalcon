@@ -1741,7 +1741,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns the table name mapped in the model
      */
-    public function getSource() -> string
+    final public function getSource() -> string
     {
         return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
     }
@@ -4737,7 +4737,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated UPDATE statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4782,7 +4781,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup a reverse 1-1 or n-1 relation between two models
      *
      *<code>
-     *
      * class RobotsParts extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4861,7 +4859,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup a 1-n relation between two models
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4887,7 +4884,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * relation
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4930,7 +4926,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup a 1-1 relation between two models
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4955,7 +4950,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets if the model must keep the original record snapshot in memory
      *
      *<code>
-     *
      * use Phalcon\Mvc\Model;
      *
      * class Robots extends Model
@@ -5000,7 +4994,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated INSERT/UPDATE statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5025,7 +5018,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated INSERT statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5059,7 +5051,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated UPDATE statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5092,7 +5083,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets if a model must use dynamic update instead of the all-field update
      *
      *<code>
-     *
      * use Phalcon\Mvc\Model;
      *
      * class Robots extends Model

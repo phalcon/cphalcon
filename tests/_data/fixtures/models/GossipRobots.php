@@ -18,9 +18,9 @@ class GossipRobots extends Model
 
     public $trace;
 
-    public function getSource(): string
+    public function initialize()
     {
-        return 'robots';
+        $this->setSource("robots");
     }
 
     public function beforeValidation()

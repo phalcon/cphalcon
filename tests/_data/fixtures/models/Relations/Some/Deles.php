@@ -15,11 +15,6 @@ use Phalcon\Mvc\Model;
 
 class Deles extends Model
 {
-    public function getSource(): string
-    {
-        return 'parts';
-    }
-
     public function columnMap()
     {
         return [
@@ -30,6 +25,8 @@ class Deles extends Model
 
     public function initialize()
     {
+        $this->setSource("parts");
+
         $this->hasMany('code', RobottersDeles::class, 'delesCode', [
             'foreignKey' => [
                 'message' => 'Deles cannot be deleted because is referenced by a Robotter',

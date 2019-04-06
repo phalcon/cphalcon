@@ -17,6 +17,8 @@ class RelationsRobotsParts extends Model
 {
     public function initialize()
     {
+        $this->setSource("robots_parts");
+
         $this->belongsTo('parts_id', RelationsParts::class, 'id', [
             'foreignKey' => true,
         ]);
@@ -25,10 +27,5 @@ class RelationsRobotsParts extends Model
                 'message' => 'The robot code does not exist',
             ],
         ]);
-    }
-
-    public function getSource(): string
-    {
-        return 'robots_parts';
     }
 }

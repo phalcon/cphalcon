@@ -17,15 +17,12 @@ class RelationsParts extends Model
 {
     public function initialize()
     {
+        $this->setSource("parts");
+
         $this->hasMany('id', RelationsRobotsParts::class, 'parts_id', [
             'foreignKey' => [
                 'message' => 'Parts cannot be deleted because is referenced by a Robot',
             ],
         ]);
-    }
-
-    public function getSource(): string
-    {
-        return 'parts';
     }
 }
