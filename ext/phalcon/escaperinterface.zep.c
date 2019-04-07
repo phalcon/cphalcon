@@ -34,7 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_EscaperInterface) {
 }
 
 /**
- * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal representation
+ * Escape CSS strings by replacing non-alphanumeric chars by their
+ * hexadecimal representation
  */
 ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeCss);
 
@@ -49,7 +50,8 @@ ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeHtml);
 ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeHtmlAttr);
 
 /**
- * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
+ * Escape Javascript strings by replacing non-alphanumeric chars by their
+ * hexadecimal representation
  */
 ZEPHIR_DOC_METHOD(Phalcon_EscaperInterface, escapeJs);
 

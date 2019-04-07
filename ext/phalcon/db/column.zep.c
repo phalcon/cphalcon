@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 				zephir_update_property_zval(this_ptr, SL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 379);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 381);
 			return;
 		} while(0);
 
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 419);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 423);
 				return;
 			} while(0);
 
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	if (!(zephir_array_isset_string_fetch(&columnName, &data, SL("columnName"), 0))) {
 		ZEPHIR_OBS_NVAR(&columnName);
 		if (!(zephir_array_isset_string_fetch(&columnName, &data, SL("name"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/Db/Column.zep", 459);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/Db/Column.zep", 463);
 			return;
 		}
 	}
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&scale, &data, SL("scale"), 1)) {
-		zephir_array_fetch_string(&_1$$12, &definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Column.zep", 493 TSRMLS_CC);
+		zephir_array_fetch_string(&_1$$12, &definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Column.zep", 497 TSRMLS_CC);
 		do {
 			if (ZEPHIR_IS_LONG(&_1$$12, 0) || ZEPHIR_IS_LONG(&_1$$12, 7) || ZEPHIR_IS_LONG(&_1$$12, 3) || ZEPHIR_IS_LONG(&_1$$12, 9) || ZEPHIR_IS_LONG(&_1$$12, 14)) {
 				zephir_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);

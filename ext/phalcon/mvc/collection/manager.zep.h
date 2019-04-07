@@ -83,9 +83,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_collection_manager_i
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_collection_manager_isinitialized, 0, 1, _IS_BOOL, NULL, 0)
 #endif
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
 #else
-	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, className)
 #endif
 ZEND_END_ARG_INFO()
 

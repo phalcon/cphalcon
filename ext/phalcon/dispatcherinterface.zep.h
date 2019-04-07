@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_dispatcherinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_DispatcherInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_forward, 0, 0, 1)
-	ZEND_ARG_INFO(0, forward)
+	ZEND_ARG_ARRAY_INFO(0, forward, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -117,7 +117,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setparam, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setparams, 0, 0, 1)
-	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_ARRAY_INFO(0, params, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_dispatcherinterface_method_entry) {

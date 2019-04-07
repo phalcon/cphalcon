@@ -248,10 +248,10 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 
 
 	ZVAL_LONG(&_0, error);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstream", NULL, 254, stream, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstream", NULL, 253, stream, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, error);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkerror", NULL, 255, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkerror", NULL, 254, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, size);
@@ -300,13 +300,13 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
 	zephir_read_property(&_0, this_ptr, SL("error"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UPLOAD_ERR_OK");
-	ZEPHIR_CALL_FUNCTION(&_2, "constant", NULL, 256, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "constant", NULL, 255, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_IDENTICAL(&_0, &_2)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_http_message_exception_ce);
 		zephir_read_property(&_5$$3, this_ptr, SL("error"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "geterrordescription", NULL, 257, &_5$$3);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "geterrordescription", NULL, 256, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 1, &_4$$3);
 		zephir_check_call_status();
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
 		ZEPHIR_INIT_VAR(&_8$$5);
 		object_init_ex(&_8$$5, phalcon_http_message_stream_ce);
 		zephir_read_property(&_9$$5, this_ptr, SL("fileName"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 223, &_9$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 222, &_9$$5);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("stream"), &_8$$5);
 	}
@@ -402,14 +402,14 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UPLOAD_ERR_OK");
-	ZEPHIR_CALL_FUNCTION(&_2, "constant", NULL, 256, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "constant", NULL, 255, &_1);
 	zephir_check_call_status();
 	zephir_read_property(&_3, this_ptr, SL("error"), PH_NOISY_CC | PH_READONLY);
 	if (!ZEPHIR_IS_IDENTICAL(&_2, &_3)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		object_init_ex(&_4$$4, phalcon_http_message_exception_ce);
 		zephir_read_property(&_6$$4, this_ptr, SL("error"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "geterrordescription", NULL, 257, &_6$$4);
+		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "geterrordescription", NULL, 256, &_6$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 1, &_5$$4);
 		zephir_check_call_status();
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&dirname, "dirname", NULL, 258, targetPath);
+	ZEPHIR_CALL_FUNCTION(&dirname, "dirname", NULL, 257, targetPath);
 	zephir_check_call_status();
 	_7 = Z_TYPE_P(targetPath) == IS_STRING;
 	if (_7) {
@@ -431,17 +431,17 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 	}
 	_10 = _8;
 	if (_10) {
-		ZEPHIR_CALL_FUNCTION(&_11, "is_writable", NULL, 259, &dirname);
+		ZEPHIR_CALL_FUNCTION(&_11, "is_writable", NULL, 258, &dirname);
 		zephir_check_call_status();
 		_10 = zephir_is_true(&_11);
 	}
 	if (!(_10)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "Target folder is empty string, not a folder or not writable", "phalcon/Http/Message/UploadedFile.zep", 222);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "Target folder is empty string, not a folder or not writable", "phalcon/Http/Message/UploadedFile.zep", 224);
 		return;
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "PHP_SAPI");
-	ZEPHIR_CALL_FUNCTION(&sapi, "constant", NULL, 256, &_1);
+	ZEPHIR_CALL_FUNCTION(&sapi, "constant", NULL, 255, &_1);
 	zephir_check_call_status();
 	_12 = ZEPHIR_IS_EMPTY(&sapi);
 	if (!(_12)) {
@@ -454,14 +454,14 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 		_14 = zephir_start_with_str(&sapi, SL("cli"));
 	}
 	if (_14) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "storefile", NULL, 260, targetPath);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "storefile", NULL, 259, targetPath);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property(&_15$$7, this_ptr, SL("fileName"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_16$$7, "move_uploaded_file", NULL, 261, &_15$$7, targetPath);
+		ZEPHIR_CALL_FUNCTION(&_16$$7, "move_uploaded_file", NULL, 260, &_15$$7, targetPath);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_16$$7))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "The file cannot be moved to the target folder", "phalcon/Http/Message/UploadedFile.zep", 234);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "The file cannot be moved to the target folder", "phalcon/Http/Message/UploadedFile.zep", 238);
 			return;
 		}
 	}
@@ -498,17 +498,17 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkError) {
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "UPLOAD_ERR_OK");
-	ZEPHIR_CALL_FUNCTION(&_3, "constant", NULL, 256, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "constant", NULL, 255, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "UPLOAD_ERR_EXTENSION");
-	ZEPHIR_CALL_FUNCTION(&_4, "constant", NULL, 256, &_2);
+	ZEPHIR_CALL_FUNCTION(&_4, "constant", NULL, 255, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, error);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 262, &_5, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 261, &_5, &_3, &_4);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "Invalid 'error'. Must be one of the UPLOAD_ERR_* constants", "phalcon/Http/Message/UploadedFile.zep", 249);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "Invalid 'error'. Must be one of the UPLOAD_ERR_* constants", "phalcon/Http/Message/UploadedFile.zep", 253);
 		return;
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_5);
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "UPLOAD_ERR_OK");
-	ZEPHIR_CALL_FUNCTION(&_1, "constant", NULL, 256, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "constant", NULL, 255, &_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG_IDENTICAL(&_1, error)) {
 		do {
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 			if (_2$$3 == (1 == Z_TYPE_P(stream) == IS_RESOURCE)) {
 				ZEPHIR_INIT_VAR(&_3$$5);
 				object_init_ex(&_3$$5, phalcon_http_message_stream_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 223, stream);
+				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 222, stream);
 				zephir_check_call_status();
 				zephir_update_property_zval(this_ptr, SL("stream"), &_3$$5);
 				break;
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 				zephir_update_property_zval(this_ptr, SL("stream"), stream);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "Invalid stream or file passed", "phalcon/Http/Message/UploadedFile.zep", 272);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_ce, "Invalid stream or file passed", "phalcon/Http/Message/UploadedFile.zep", 276);
 			return;
 		} while(0);
 
@@ -599,56 +599,56 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getErrorDescription) {
 	do {
 		ZEPHIR_INIT_VAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_OK");
-		ZEPHIR_CALL_FUNCTION(&_1, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_1, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_1, error)) {
 			RETURN_MM_STRING("There is no error, the file uploaded with success.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_INI_SIZE");
-		ZEPHIR_CALL_FUNCTION(&_2, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_2, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_2, error)) {
 			RETURN_MM_STRING("The uploaded file exceeds the upload_max_filesize directive in php.ini.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_FORM_SIZE");
-		ZEPHIR_CALL_FUNCTION(&_3, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_3, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_3, error)) {
 			RETURN_MM_STRING("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_PARTIAL");
-		ZEPHIR_CALL_FUNCTION(&_4, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_4, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_4, error)) {
 			RETURN_MM_STRING("The uploaded file was only partially uploaded.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_NO_FILE");
-		ZEPHIR_CALL_FUNCTION(&_5, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_5, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_5, error)) {
 			RETURN_MM_STRING("No file was uploaded.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_NO_TMP_DIR");
-		ZEPHIR_CALL_FUNCTION(&_6, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_6, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_6, error)) {
 			RETURN_MM_STRING("Missing a temporary folder.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_CANT_WRITE");
-		ZEPHIR_CALL_FUNCTION(&_7, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_7, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_7, error)) {
 			RETURN_MM_STRING("Failed to write file to disk.");
 		}
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "UPLOAD_ERR_EXTENSION");
-		ZEPHIR_CALL_FUNCTION(&_8, "constant", NULL, 256, &_0);
+		ZEPHIR_CALL_FUNCTION(&_8, "constant", NULL, 255, &_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&_8, error)) {
 			RETURN_MM_STRING("A PHP extension stopped the file upload.");

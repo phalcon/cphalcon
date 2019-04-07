@@ -31,7 +31,8 @@
 /**
  * Phalcon\Paginator\Adapter\Model
  *
- * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base.
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a
+ * base.
  *
  * <code>
  * use Phalcon\Paginator\Adapter\Model;
@@ -88,19 +89,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	zephir_read_property(&_1, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_1);
 	ZEPHIR_OBS_VAR(&items);
-	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/Model.zep", 49 TSRMLS_CC);
+	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/Model.zep", 50 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	if (Z_TYPE_P(&items) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/Model.zep", 53);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/Model.zep", 54);
 		return;
 	}
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
 	if (show <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/Paginator/Adapter/Model.zep", 63);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/Paginator/Adapter/Model.zep", 64);
 		return;
 	}
 	n = zephir_fast_count_int(&items TSRMLS_CC);
@@ -133,7 +134,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 			}
 			ZEPHIR_CALL_METHOD(&_6$$11, &items, "current", &_7, 0);
 			zephir_check_call_status();
-			zephir_array_append(&pageItems, &_6$$11, PH_SEPARATE, "phalcon/Paginator/Adapter/Model.zep", 90);
+			zephir_array_append(&pageItems, &_6$$11, PH_SEPARATE, "phalcon/Paginator/Adapter/Model.zep", 91);
 			if (i >= show) {
 				break;
 			}

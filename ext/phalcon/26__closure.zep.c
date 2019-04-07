@@ -39,7 +39,7 @@ PHP_METHOD(phalcon_26__closure, __invoke) {
 
 
 
-	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Http/Message/Uri.zep", 684 TSRMLS_CC);
+	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Http/Message/Uri.zep", 686 TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_FUNCTION("urlencode", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();

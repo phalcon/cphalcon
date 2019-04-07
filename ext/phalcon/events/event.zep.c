@@ -30,7 +30,8 @@
 /**
  * Phalcon\Events\Event
  *
- * This class offers contextual information of a fired event in the EventsManager
+ * This class offers contextual information of a fired event in the
+ * EventsManager
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
@@ -277,7 +278,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 	zephir_read_property(&_0, this_ptr, SL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 128);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 129);
 		return;
 	}
 	if (1) {

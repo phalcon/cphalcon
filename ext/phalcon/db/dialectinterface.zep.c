@@ -134,7 +134,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnList);
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getCustomFunctions);
 
 /**
- * Transforms an intermediate representation for an expression into a database system valid expression
+ * Transforms an intermediate representation for an expression into a
+ * database system valid expression
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getSqlExpression);
 

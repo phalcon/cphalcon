@@ -100,7 +100,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, reset);
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
 
 /**
- * Set a default dependency injection container to be obtained into static methods
+ * Set a default dependency injection container to be obtained into static
+ * methods
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setDefault);
 

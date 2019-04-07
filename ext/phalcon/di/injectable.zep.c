@@ -33,8 +33,8 @@
 /**
  * Phalcon\Di\Injectable
  *
- * This class allows to access services in the services container by just only accessing a public property
- * with the same name of a registered service
+ * This class allows to access services in the services container by just only
+ * accessing a public property with the same name of a registered service
  *
  * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 1, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 79 TSRMLS_CC);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 81 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

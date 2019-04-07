@@ -482,12 +482,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 
-	zend_string *_8$$4;
-	zend_ulong _7$$4;
+	zend_string *_9$$4;
+	zend_ulong _8$$4;
 	zend_object_iterator *_5;
 	zval keys, conditions, _2, _4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *prefix_param = NULL, collection, key, item, items, value, _3, _0$$3, *_6$$4;
+	zval *prefix_param = NULL, collection, key, item, items, value, _3, _0$$3, *_6$$4, _7$$4;
 	zval prefix, _1$$3;
 	zval *this_ptr = getThis();
 
@@ -500,6 +500,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&keys);
 	ZVAL_UNDEF(&conditions);
 	ZVAL_UNDEF(&_2);
@@ -551,20 +552,41 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 			ZEPHIR_ITERATOR_COPY(&item, _5);
 		}
 		zephir_is_iterable(&item, 0, "phalcon/cache/backend/mongo.zep", 303);
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&item), _7$$4, _8$$4, _6$$4)
-		{
-			ZEPHIR_INIT_NVAR(&key);
-			if (_8$$4 != NULL) { 
-				ZVAL_STR_COPY(&key, _8$$4);
-			} else {
-				ZVAL_LONG(&key, _7$$4);
+		if (Z_TYPE_P(&item) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&item), _8$$4, _9$$4, _6$$4)
+			{
+				ZEPHIR_INIT_NVAR(&key);
+				if (_9$$4 != NULL) { 
+					ZVAL_STR_COPY(&key, _9$$4);
+				} else {
+					ZVAL_LONG(&key, _8$$4);
+				}
+				ZEPHIR_INIT_NVAR(&value);
+				ZVAL_COPY(&value, _6$$4);
+				if (ZEPHIR_IS_STRING(&key, "key")) {
+					zephir_array_append(&keys, &value, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 300);
+				}
+			} ZEND_HASH_FOREACH_END();
+		} else {
+			ZEPHIR_CALL_METHOD(NULL, &item, "rewind", NULL, 0);
+			zephir_check_call_status();
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_7$$4, &item, "valid", NULL, 0);
+				zephir_check_call_status();
+				if (!zend_is_true(&_7$$4)) {
+					break;
+				}
+				ZEPHIR_CALL_METHOD(&key, &item, "key", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&value, &item, "current", NULL, 0);
+				zephir_check_call_status();
+					if (ZEPHIR_IS_STRING(&key, "key")) {
+						zephir_array_append(&keys, &value, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 300);
+					}
+				ZEPHIR_CALL_METHOD(NULL, &item, "next", NULL, 0);
+				zephir_check_call_status();
 			}
-			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _6$$4);
-			if (ZEPHIR_IS_STRING(&key, "key")) {
-				zephir_array_append(&keys, &value, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 300);
-			}
-		} ZEND_HASH_FOREACH_END();
+		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
 	}

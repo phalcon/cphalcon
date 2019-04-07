@@ -911,7 +911,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 				continue;
 			}
 		}
-		ZEPHIR_CALL_METHOD(&_6$$3, &record, "save", NULL, 0, data);
+		ZEPHIR_CALL_METHOD(NULL, &record, "assign", NULL, 0, data);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_6$$3, &record, "save", NULL, 0);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_6$$3))) {
 			ZEPHIR_CALL_METHOD(&_7$$8, &record, "getmessages", NULL, 0);

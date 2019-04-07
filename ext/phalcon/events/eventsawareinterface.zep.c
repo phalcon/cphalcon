@@ -23,7 +23,8 @@
 /**
  * Phalcon\Events\EventsAwareInterface
  *
- * This interface must for those classes that accept an EventsManager and dispatch events
+ * This interface must for those classes that accept an EventsManager and
+ * dispatch events
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface) {
 

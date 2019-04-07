@@ -41,12 +41,12 @@ PHP_METHOD(phalcon_28__closure, __invoke) {
 
 
 	ZEPHIR_OBS_VAR(&_0);
-	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Validation.zep", 46 TSRMLS_CC);
+	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Validation.zep", 48 TSRMLS_CC);
 	_1 = Z_TYPE_P(&_0) != IS_ARRAY;
 	if (!(_1)) {
 		ZEPHIR_OBS_VAR(&_2);
-		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Validation.zep", 46 TSRMLS_CC);
-		_1 = !(zephir_is_instance_of(&_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC));
+		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Validation.zep", 48 TSRMLS_CC);
+		_1 = !(zephir_instance_of_ev(&_2, phalcon_validation_combinedfieldsvalidator_ce TSRMLS_CC));
 	}
 	RETURN_MM_BOOL(_1);
 

@@ -25,7 +25,8 @@
 /**
  * Phalcon\Validation\Exception
  *
- * Exceptions thrown in Phalcon\Validation\Validator\* classes will use this class
+ * Exceptions thrown in Phalcon\Validation\Validator\* classes will use this
+ * class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Exception) {
 

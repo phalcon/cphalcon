@@ -56,7 +56,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, domain)
 #endif
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 1)
+	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 0)
 #else
 	ZEND_ARG_INFO(0, httpOnly)
 #endif
