@@ -32,27 +32,27 @@ class GroupCest
     {
         $I->wantToTest('Helper\Arr - group()');
         $collection =  [
-            ['name' => 'Mashrafe', 'age' => 34],
-            ['name' => 'Sakib',    'age' => 31],
-            ['name' => 'Tamim',    'age' => 29],
+            ['name' => 'Paul',  'age' => 34],
+            ['name' => 'Peter', 'age' => 31],
+            ['name' => 'John',  'age' => 29],
         ];
 
         $expected = [
             34 => [
                 [
-                    'name' => 'Mashrafe',
+                    'name' => 'Paul',
                     'age' => 34,
                 ],
             ],
             31 => [
                 [
-                    'name' => 'Sakib',
+                    'name' => 'Peter',
                     'age' => 31,
                 ],
             ],
             29 => [
                 [
-                    'name' => 'Tamim',
+                    'name' => 'John',
                     'age' => 29,
                 ],
             ],
@@ -75,11 +75,11 @@ class GroupCest
 
         $peter = new \stdClass();
         $peter->name = 'Peter';
-        $peter->age = '25';
+        $peter->age = 34;
 
         $paul = new \stdClass();
         $paul->name = 'Paul';
-        $paul->age = '25';
+        $paul->age = 31;
 
         $collection = [
             'peter' => $peter,

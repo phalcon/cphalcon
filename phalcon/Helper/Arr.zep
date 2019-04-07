@@ -124,7 +124,7 @@ class Arr
             if (typeof method !== "string" && is_callable(method)) || function_exists(method) {
                 let key             = call_user_func(method, element),
                     filtered[key][] = element;
-            } elseif typeof method === "object" {
+            } elseif typeof element === "object" {
                 let key             = element->{method},
                     filtered[key][] = element;
             } elseif isset element[method] {
