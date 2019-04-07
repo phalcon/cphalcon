@@ -304,16 +304,6 @@ class Arr
     }
 
     /**
-     * Returns all elements in an array except for the first one.
-     *
-     * @param array $collection
-     */
-    final public static function tail(array! collection) -> array
-    {
-        return count(collection) > 1 ? array_slice(collection, 1) : collection;
-    }
-
-    /**
      * Returns true if the provided function returns true for all elements of
      * the collection, false otherwise.
      *
