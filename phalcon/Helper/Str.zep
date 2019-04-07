@@ -75,7 +75,7 @@ class Str
         }
 
         let separator = Arr::first(arguments),
-            arguments = Arr::tail(arguments),
+            arguments = Arr::sliceRight(arguments),
             first     = Arr::first(arguments),
             last      = Arr::last(arguments),
             prefix    = "",
