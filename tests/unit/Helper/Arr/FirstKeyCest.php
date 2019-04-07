@@ -16,52 +16,52 @@ use Phalcon\Helper\Arr;
 use UnitTester;
 
 /**
- * Class LastCest
+ * Class FirstKeyCest
  */
-class LastCest
+class FirstKeyCest
 {
     /**
-     * Tests Phalcon\Helper\Arr :: last()
+     * Tests Phalcon\Helper\Arr :: firstKey()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @since  2019-04-07
      */
-    public function helperArrLast(UnitTester $I)
+    public function helperArrFirstKey(UnitTester $I)
     {
-        $I->wantToTest('Helper\Arr - last()');
+        $I->wantToTest('Helper\Arr - firstKey()');
         $collection = [
-            'Phalcon',
-            'Framework',
+            1 => 'Phalcon',
+            3 => 'Framework',
         ];
 
-        $expected = 'Framework';
-        $actual   = Arr::last($collection);
+        $expected = 1;
+        $actual   = Arr::firstKey($collection);
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Helper\Arr :: last() - function
+     * Tests Phalcon\Helper\Arr :: firstKey() - function
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @since  2019-04-07
      */
-    public function helperArrLastFunction(UnitTester $I)
+    public function helperArrFirstKeyFunction(UnitTester $I)
     {
-        $I->wantToTest('Helper\Arr - last() - function');
+        $I->wantToTest('Helper\Arr - firstKey() - function');
         $collection = [
-            'Phalcon',
-            'Framework',
+            1 => 'Phalcon',
+            3 => 'Framework',
         ];
 
-        $expected = 'Phalcon';
-        $actual   = Arr::last(
+        $expected = 3;
+        $actual   = Arr::firstKey(
             $collection,
             function ($element) {
-                return strlen($element) < 8;
+                return strlen($element) > 8;
             }
         );
         $I->assertEquals($expected, $actual);

@@ -40,4 +40,30 @@ class FirstCest
         $actual   = Arr::first($collection);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Helper\Arr :: first() - function
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-06
+     */
+    public function helperArrFirstFunction(UnitTester $I)
+    {
+        $I->wantToTest('Helper\Arr - first() - function');
+        $collection = [
+            'Phalcon',
+            'Framework',
+        ];
+
+        $expected = 'Framework';
+        $actual   = Arr::first(
+            $collection,
+            function ($element) {
+                return strlen($element) > 8;
+            }
+        );
+        $I->assertEquals($expected, $actual);
+    }
 }

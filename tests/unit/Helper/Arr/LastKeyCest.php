@@ -16,9 +16,9 @@ use Phalcon\Helper\Arr;
 use UnitTester;
 
 /**
- * Class LastCest
+ * Class LastKeyCest
  */
-class LastCest
+class LastKeyCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: last()
@@ -32,12 +32,12 @@ class LastCest
     {
         $I->wantToTest('Helper\Arr - last()');
         $collection = [
-            'Phalcon',
-            'Framework',
+            1 => 'Phalcon',
+            3 => 'Framework',
         ];
 
-        $expected = 'Framework';
-        $actual   = Arr::last($collection);
+        $expected = 3;
+        $actual   = Arr::lastKey($collection);
         $I->assertEquals($expected, $actual);
     }
 
@@ -53,12 +53,12 @@ class LastCest
     {
         $I->wantToTest('Helper\Arr - last() - function');
         $collection = [
-            'Phalcon',
-            'Framework',
+            1 => 'Phalcon',
+            3 => 'Framework',
         ];
 
-        $expected = 'Phalcon';
-        $actual   = Arr::last(
+        $expected = 1;
+        $actual   = Arr::lastKey(
             $collection,
             function ($element) {
                 return strlen($element) < 8;
