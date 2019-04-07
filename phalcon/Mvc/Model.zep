@@ -4983,7 +4983,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the table name to which model should be mapped
      */
-    protected function setSource(string! source) -> <ModelInterface>
+    final protected function setSource(string! source) -> <ModelInterface>
     {
         (<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
         return this;

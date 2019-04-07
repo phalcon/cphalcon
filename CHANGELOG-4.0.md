@@ -10,7 +10,7 @@
 - `Phalcon\Dispatcher::forward()` and `Phalcon\Dispatcher::setParams()` now require an array as a parameter. [#13935](https://github.com/phalcon/cphalcon/pull/13935)
 - CLI Routes with bad class names (eg. `MyApp\\Tasks\\`) now throw an exception instead of suppressing the error. [#13936](https://github.com/phalcon/cphalcon/pull/13936)
 - Refactored `Phalcon\Mvc\Collection\Behavior\SoftDelete` and `Phalcon\Mvc\Model\Behavior\SoftDelete`. [#13930](https://github.com/phalcon/cphalcon/pull/13930)
-- `Phalcon\Mvc\Model::getSource()` is now `final`. [#13950](https://github.com/phalcon/cphalcon/pull/13950)
+- `Phalcon\Mvc\Model::getSource()` and `setSource()` are now `final`. [#13950](https://github.com/phalcon/cphalcon/pull/13950)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
