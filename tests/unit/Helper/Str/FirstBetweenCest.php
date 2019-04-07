@@ -16,25 +16,25 @@ use Phalcon\Helper\Str;
 use UnitTester;
 
 /**
- * Class FirstStringBetweenCest
+ * Class FirstBetweenCest
  */
-class FirstStringBetweenCest
+class FirstBetweenCest
 {
     /**
-     * Tests Phalcon\Helper\Str :: firstStringBetween()
+     * Tests Phalcon\Helper\Str :: firstBetween()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function helperStrFirstStringBetween(UnitTester $I)
+    public function helperStrFirstBetween(UnitTester $I)
     {
-        $I->wantToTest('Helper\Str - firstStringBetween()');
+        $I->wantToTest('Helper\Str - firstBetween()');
 
         $source   = 'This is a [custom] string';
         $expected = 'custom';
-        $actual   = Str::firstStringBetween($source, '[', ']');
+        $actual   = Str::firstBetween($source, '[', ']');
         $I->assertEquals($expected, $actual);
     }
 }

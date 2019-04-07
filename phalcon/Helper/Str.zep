@@ -237,7 +237,7 @@ class Str
      *
      * @return string
      */
-    final public static function firstStringBetween(
+    final public static function firstBetween(
         string! haystack,
         string! start,
         string! end
