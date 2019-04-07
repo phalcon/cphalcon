@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Version.zep", 131 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&result);
 	ZEPHIR_CONCAT_VSVSV(&result, &major, ".", &medium, ".", &minor);
-	ZEPHIR_CALL_STATIC(&suffix, "_getspecial", &_0, 507, &special);
+	ZEPHIR_CALL_STATIC(&suffix, "_getspecial", &_0, 504, &special);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(&suffix, "")) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -260,15 +260,15 @@ PHP_METHOD(Phalcon_Version, getId) {
 	ZEPHIR_CALL_STATIC(&version, "_getversion", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&major);
-	zephir_array_fetch_long(&major, &version, 0, PH_NOISY, "phalcon/Version.zep", 164 TSRMLS_CC);
+	zephir_array_fetch_long(&major, &version, 0, PH_NOISY, "phalcon/Version.zep", 165 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&medium);
-	zephir_array_fetch_long(&medium, &version, 1, PH_NOISY, "phalcon/Version.zep", 165 TSRMLS_CC);
+	zephir_array_fetch_long(&medium, &version, 1, PH_NOISY, "phalcon/Version.zep", 166 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&minor);
-	zephir_array_fetch_long(&minor, &version, 2, PH_NOISY, "phalcon/Version.zep", 166 TSRMLS_CC);
+	zephir_array_fetch_long(&minor, &version, 2, PH_NOISY, "phalcon/Version.zep", 167 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&special);
-	zephir_array_fetch_long(&special, &version, 3, PH_NOISY, "phalcon/Version.zep", 167 TSRMLS_CC);
+	zephir_array_fetch_long(&special, &version, 3, PH_NOISY, "phalcon/Version.zep", 168 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(&specialNumber);
-	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Version.zep", 168 TSRMLS_CC);
+	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Version.zep", 169 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
 	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", NULL, 133, &_0, &medium);
@@ -314,12 +314,12 @@ PHP_METHOD(Phalcon_Version, getPart) {
 	do {
 		if (part == 0 || part == 1 || part == 2 || part == 4) {
 			ZEPHIR_OBS_VAR(&result);
-			zephir_array_fetch_long(&result, &version, part, PH_NOISY, "phalcon/Version.zep", 194 TSRMLS_CC);
+			zephir_array_fetch_long(&result, &version, part, PH_NOISY, "phalcon/Version.zep", 195 TSRMLS_CC);
 			break;
 		}
 		if (part == 3) {
-			zephir_array_fetch_long(&_1$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Version.zep", 198 TSRMLS_CC);
-			ZEPHIR_CALL_STATIC(&result, "_getspecial", &_0, 507, &_1$$4);
+			zephir_array_fetch_long(&_1$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Version.zep", 201 TSRMLS_CC);
+			ZEPHIR_CALL_STATIC(&result, "_getspecial", &_0, 504, &_1$$4);
 			zephir_check_call_status();
 			break;
 		}

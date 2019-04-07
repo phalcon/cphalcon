@@ -34,7 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface) {
 }
 
 /**
- * Replaces placeholders from pattern returning a valid PCRE regular expression
+ * Replaces placeholders from pattern returning a valid PCRE regular
+ * expression
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, compilePattern);
 
@@ -52,6 +53,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getCompiledPattern);
  * Get routing delimiter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDelimiter);
+
+/**
+ * Returns the route's description
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDescription);
 
 /**
  * Returns the route's name
@@ -87,6 +93,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reConfigure);
  * Resets the internal route id generator
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reset);
+
+/**
+ * Sets the route's description
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, setDescription);
 
 /**
  * Sets the route's name

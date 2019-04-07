@@ -390,7 +390,8 @@ PHP_METHOD(Phalcon_Image_Adapter, flip) {
 }
 
 /**
- * This method scales the images using liquid rescaling method. Only support Imagick
+ * This method scales the images using liquid rescaling method. Only support
+ * Imagick
  *
  * @param int $width   new width
  * @param int $height  new height
@@ -666,7 +667,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 			_0$$3 = !height;
 		}
 		if (_0$$3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 239);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 240);
 			return;
 		}
 	} else {
@@ -676,7 +677,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 				_1$$6 = !height;
 			}
 			if (_1$$6) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 247);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 248);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_2$$6);
@@ -697,7 +698,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 				_5$$8 = !height;
 			}
 			if (_5$$8) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 256);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 257);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_6$$8);
@@ -715,7 +716,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 		do {
 			if (master == 2) {
 				if (!(width)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width must be specified", "phalcon/Image/Adapter.zep", 266);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width must be specified", "phalcon/Image/Adapter.zep", 267);
 					return;
 				}
 				zephir_read_property(&_9$$10, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
@@ -725,7 +726,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 			}
 			if (master == 3) {
 				if (!(height)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "height must be specified", "phalcon/Image/Adapter.zep", 273);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "height must be specified", "phalcon/Image/Adapter.zep", 274);
 					return;
 				}
 				zephir_read_property(&_11$$12, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
@@ -739,7 +740,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 					_13$$14 = !height;
 				}
 				if (_13$$14) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 280);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter.zep", 283);
 					return;
 				}
 				zephir_read_property(&_14$$14, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
@@ -1013,9 +1014,9 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	ZVAL_STRING(&_11, "hexdec");
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 74, &_11, &_10);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_12, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter.zep", 385 TSRMLS_CC);
-	zephir_array_fetch_long(&_13, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter.zep", 385 TSRMLS_CC);
-	zephir_array_fetch_long(&_14, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter.zep", 385 TSRMLS_CC);
+	zephir_array_fetch_long(&_12, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter.zep", 388 TSRMLS_CC);
+	zephir_array_fetch_long(&_13, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter.zep", 388 TSRMLS_CC);
+	zephir_array_fetch_long(&_14, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter.zep", 388 TSRMLS_CC);
 	ZVAL_LONG(&_9, opacity);
 	ZVAL_LONG(&_15, size);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processtext", NULL, 0, &text, offsetX, offsetY, &_9, &_12, &_13, &_14, &_15, &fontfile);

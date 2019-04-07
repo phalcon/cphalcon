@@ -30,7 +30,8 @@
 /**
  * Phalcon\Cache\Backend
  *
- * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
+ * This class implements common functionality for backend adapters. A backend
+ * cache adapter may extend this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 

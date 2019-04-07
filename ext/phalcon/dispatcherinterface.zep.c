@@ -42,8 +42,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, dispatch);
 
 /**
  * Forwards the execution flow to another controller/action
- *
- * @param array forward
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, forward);
 
@@ -86,7 +84,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getReturnedValue);
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, hasParam);
 
 /**
- * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+ * Checks if the dispatch loop is finished or has more pendent
+ * controllers/tasks to dispatch
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, isFinished);
 
@@ -134,8 +133,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParam);
 
 /**
  * Sets action params to be dispatched
- *
- * @param array params
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParams);
 

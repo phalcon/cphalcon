@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
 			ZEPHIR_CALL_FUNCTION(&_13$$17, "array_values", NULL, 113, &modelClass);
 			zephir_check_call_status();
-			zephir_array_fetch_long(&_14$$17, &_13$$17, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 204 TSRMLS_CC);
+			zephir_array_fetch_long(&_14$$17, &_13$$17, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 208 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&modelClass, &_14$$17);
 		}
 		ZEPHIR_INIT_VAR(&model);
@@ -329,15 +329,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&db, &_17$$16, "get", NULL, 0, &dbService);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_18$$16, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 210 TSRMLS_CC);
+		zephir_array_fetch_string(&_18$$16, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 216 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_19$$16);
 		ZEPHIR_CONCAT_SVS(&_19$$16, "SELECT COUNT(*) as \"rowcount\" FROM (", &_18$$16, ") as T1");
-		zephir_array_fetch_string(&_20$$16, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 210 TSRMLS_CC);
+		zephir_array_fetch_string(&_20$$16, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 219 TSRMLS_CC);
 		ZVAL_LONG(&_21$$16, 2);
 		ZEPHIR_CALL_METHOD(&row, &db, "fetchone", NULL, 0, &_19$$16, &_21$$16, &_20$$16);
 		zephir_check_call_status();
 		if (zephir_is_true(&row)) {
-			zephir_array_fetch_string(&_22$$16, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 211 TSRMLS_CC);
+			zephir_array_fetch_string(&_22$$16, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 221 TSRMLS_CC);
 			ZVAL_LONG(&rowcount, zephir_get_intval(&_22$$16));
 		} else {
 			ZVAL_LONG(&rowcount, 0);

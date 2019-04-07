@@ -64,7 +64,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getPath);
 
 /**
- * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
+ * Returns whether the cookie must only be sent when the connection is
+ * secure (HTTPS)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getSecure);
 
@@ -104,7 +105,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setHttpOnly);
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setPath);
 
 /**
- * Sets if the cookie must only be sent when the connection is secure (HTTPS)
+ * Sets if the cookie must only be sent when the connection is secure
+ * (HTTPS)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setSecure);
 

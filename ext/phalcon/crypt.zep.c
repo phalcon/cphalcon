@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_CPY_WRT(&encryptKey, &key);
 	}
 	if (ZEPHIR_IS_EMPTY(&encryptKey)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/Crypt.zep", 205);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/Crypt.zep", 220);
 		return;
 	}
 	zephir_read_property(&_0, this_ptr, SL("cipher"), PH_NOISY_CC | PH_READONLY);
@@ -821,7 +821,8 @@ PHP_METHOD(Phalcon_Crypt, setHashAlgo) {
 /**
  * Sets the encryption key.
  *
- * The `$key' should have been previously generated in a cryptographically safe way.
+ * The `$key' should have been previously generated in a cryptographically
+ * safe way.
  *
  * Bad key:
  * "le password"
@@ -959,7 +960,7 @@ PHP_METHOD(Phalcon_Crypt, assertCipherIsAvailable) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 401 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 429 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1011,7 +1012,7 @@ PHP_METHOD(Phalcon_Crypt, assertHashAlgorithmAvailable) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 422 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 450 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1049,7 +1050,7 @@ PHP_METHOD(Phalcon_Crypt, getIvLength) {
 
 
 	if (!((zephir_function_exists_ex(SL("openssl_cipher_iv_length") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 434);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 462);
 		return;
 	}
 	ZEPHIR_RETURN_CALL_FUNCTION("openssl_cipher_iv_length", NULL, 134, &cipher);
@@ -1075,7 +1076,7 @@ PHP_METHOD(Phalcon_Crypt, initializeAvailableCiphers) {
 	ZEPHIR_MM_GROW();
 
 	if (!((zephir_function_exists_ex(SL("openssl_get_cipher_methods") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 448);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 476);
 		return;
 	}
 	ZEPHIR_CALL_FUNCTION(&_0, "openssl_get_cipher_methods", NULL, 135, &__$true);
@@ -1160,7 +1161,7 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 	if (_0) {
 		paddingSize = (blockSize - (zephir_safe_mod_long_long(zephir_fast_strlen_ev(&text), blockSize TSRMLS_CC)));
 		if (paddingSize >= 256) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/Crypt.zep", 468);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/Crypt.zep", 496);
 			return;
 		}
 		do {
@@ -1257,7 +1258,7 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 		RETURN_CTOR(&text);
 	}
 	if (paddingSize > blockSize) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Invalid padding size", "phalcon/Crypt.zep", 512);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Invalid padding size", "phalcon/Crypt.zep", 540);
 		return;
 	}
 	ZVAL_LONG(&_23, 0);
@@ -1272,7 +1273,8 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 /**
  * Removes a padding from a text.
  *
- * If the function detects that the text was not padded, it will return it unmodified.
+ * If the function detects that the text was not padded, it will return it
+ * unmodified.
  *
  * @param string text Message to be unpadded
  * @param string mode Encryption mode; unpadding is applied only in CBC or ECB mode
