@@ -16,10 +16,9 @@ use Phalcon\Db\Column;
 
 class Products extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'le_products';
+        $this->setSource("le_products");
     }
 
     public function metaData()
