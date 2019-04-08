@@ -32,9 +32,9 @@ class UncamelizeCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-04-06
      */
-    public function textUncamelize(UnitTester $I, Example $item)
+    public function helperStrUncamelize(UnitTester $I, Example $item)
     {
-        $I->wantToTest('Text - uncamelize()');
+        $I->wantToTest('Helper\Str - uncamelize()');
         $value     = $item[0];
         $expected  = $item[1];
         $delimiter = $item[2];

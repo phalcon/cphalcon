@@ -28,9 +28,9 @@ class UnderscoreCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textUnderscore(UnitTester $I)
+    public function helperStrUnderscore(UnitTester $I)
     {
-        $I->wantToTest('Text - underscore()');
+        $I->wantToTest('Helper\Str - underscore()');
         $expected = 'start_a_horse';
         $actual   = Str::underscore('start a horse');
         $I->assertEquals($expected, $actual);

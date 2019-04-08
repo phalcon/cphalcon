@@ -28,9 +28,9 @@ class UpperCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textUpper(UnitTester $I)
+    public function helperStrUpper(UnitTester $I)
     {
-        $I->wantToTest('Text - upper()');
+        $I->wantToTest('Helper\Str - upper()');
         $expected = 'HELLO';
         $actual   = Str::upper('hello');
         $I->assertEquals($expected, $actual);
@@ -52,9 +52,9 @@ class UpperCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06
      */
-    public function textUpperMultiBytesEncoding(UnitTester $I)
+    public function helperStrUpperMultiBytesEncoding(UnitTester $I)
     {
-        $I->wantToTest('Text - upper() - multi byte encoding');
+        $I->wantToTest('Helper\Str - upper() - multi byte encoding');
         $expected = 'ПРИВЕТ МИР!';
         $actual   = Str::upper('ПРИВЕТ МИР!');
         $I->assertEquals($expected, $actual);

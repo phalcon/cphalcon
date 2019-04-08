@@ -28,9 +28,9 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textIncrementSimpleString(UnitTester $I)
+    public function helperStrIncrementSimpleString(UnitTester $I)
     {
-        $I->wantToTest('Text - increment() - string');
+        $I->wantToTest('Helper\Str - increment() - string');
         $source   = 'file';
         $expected = 'file_1';
         $actual   = Str::increment($source);
@@ -45,9 +45,9 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textIncrementAlreadyIncremented(UnitTester $I)
+    public function helperStrIncrementAlreadyIncremented(UnitTester $I)
     {
-        $I->wantToTest('Text - increment() - already incremented string');
+        $I->wantToTest('Helper\Str - increment() - already incremented string');
         $source   = 'file_1';
         $expected = 'file_2';
         $actual   = Str::increment($source);
@@ -62,9 +62,9 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textIncrementAlreadyIncrementedTwice(UnitTester $I)
+    public function helperStrIncrementAlreadyIncrementedTwice(UnitTester $I)
     {
-        $I->wantToTest('Text - increment() - already incremented string twice');
+        $I->wantToTest('Helper\Str - increment() - already incremented string twice');
         $source   = 'file_2';
         $expected = 'file_3';
         $actual   = Str::increment($source);
@@ -79,9 +79,9 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textIncrementStringWithUnderscore(UnitTester $I)
+    public function helperStrIncrementStringWithUnderscore(UnitTester $I)
     {
-        $I->wantToTest('Text - increment() - string with underscore');
+        $I->wantToTest('Helper\Str - increment() - string with underscore');
         $source   = 'file_';
         $expected = 'file_1';
         $actual   = Str::increment($source);
@@ -96,9 +96,9 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textIncrementStringWithSpace(UnitTester $I)
+    public function helperStrIncrementStringWithSpace(UnitTester $I)
     {
-        $I->wantToTest('Text - increment() - string with a space at the end');
+        $I->wantToTest('Helper\Str - increment() - string with a space at the end');
         $source   = 'file ';
         $expected = 'file _1';
         $actual   = Str::increment($source);
@@ -113,9 +113,9 @@ class IncrementCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textIncrementStringWithDifferentSeparator(UnitTester $I)
+    public function helperStrIncrementStringWithDifferentSeparator(UnitTester $I)
     {
-        $I->wantToTest('Text - increment() - string with different separator');
+        $I->wantToTest('Helper\Str - increment() - string with different separator');
         $source   = 'file';
         $expected = 'file-1';
         $actual   = Str::increment($source, '-');

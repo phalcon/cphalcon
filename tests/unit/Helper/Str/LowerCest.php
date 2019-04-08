@@ -28,9 +28,9 @@ class LowerCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textLower(UnitTester $I)
+    public function helperStrLower(UnitTester $I)
     {
-        $I->wantToTest('Text - lower()');
+        $I->wantToTest('Helper\Str - lower()');
         $expected = 'hello';
         $actual   = Str::lower('hello');
         $I->assertEquals($expected, $actual);
@@ -52,9 +52,9 @@ class LowerCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06
      */
-    public function textLowerMultiBytesEncoding(UnitTester $I)
+    public function helperStrLowerMultiBytesEncoding(UnitTester $I)
     {
-        $I->wantToTest('Text - lower() - multi byte encoding');
+        $I->wantToTest('Helper\Str - lower() - multi byte encoding');
         $expected = 'привет мир!';
         $actual   = Str::lower('привет мир!');
         $I->assertEquals($expected, $actual);

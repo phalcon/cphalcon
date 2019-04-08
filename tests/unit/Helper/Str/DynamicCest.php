@@ -28,9 +28,9 @@ class DynamicCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function textDynamic(UnitTester $I)
+    public function helperStrDynamic(UnitTester $I)
     {
-        $I->wantToTest('Text - dynamic()');
+        $I->wantToTest('Helper\Str - dynamic()');
         $actual = Str::dynamic('{Hi|Hello}, my name is a Bob!');
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
@@ -48,9 +48,9 @@ class DynamicCest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function textDynamicCustomDelimiter(UnitTester $I)
+    public function helperStrDynamicCustomDelimiter(UnitTester $I)
     {
-        $I->wantToTest('Text - dynamic() - custom delimiter');
+        $I->wantToTest('Helper\Str - dynamic() - custom delimiter');
         $actual = Str::dynamic('(Hi|Hello), my name is a Bob!', '(', ')');
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
@@ -69,9 +69,9 @@ class DynamicCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-27
      */
-    public function textDynamicCustomSeparator(UnitTester $I)
+    public function helperStrDynamicCustomSeparator(UnitTester $I)
     {
-        $I->wantToTest('Text - dynamic() - custom separator');
+        $I->wantToTest('Helper\Str - dynamic() - custom separator');
         $actual = Str::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);

@@ -32,9 +32,9 @@ class CamelizeCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-04-06
      */
-    public function textCamelize(UnitTester $I, Example $item)
+    public function helperStrCamelize(UnitTester $I, Example $item)
     {
-        $I->wantToTest('Text - camelize()');
+        $I->wantToTest('Helper\Str - camelize()');
         $value     = $item[0];
         $expected  = $item[1];
         $delimiter = $item[2];
