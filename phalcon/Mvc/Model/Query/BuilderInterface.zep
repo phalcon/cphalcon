@@ -105,7 +105,7 @@ interface BuilderInterface
     /**
      * Returns the GROUP BY clause
      */
-    public function getGroupBy() -> string;
+    public function getGroupBy() -> array;
 
     /**
      * Returns the HAVING condition clause
@@ -154,9 +154,11 @@ interface BuilderInterface
     public function getWhere();
 
     /**
-     * Sets a LIMIT clause
+     * Sets a GROUP BY clause
+     *
+     * @param string|array group
      */
-    public function groupBy(string group) -> <BuilderInterface>;
+    public function groupBy(var group) -> <BuilderInterface>;
 
     /**
      * Sets a HAVING condition clause
