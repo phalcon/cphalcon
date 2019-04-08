@@ -57,6 +57,7 @@ class Str
      * );
      *
      * echo $str;   // /tmp/folder_1/folder_2/folder_3/
+     * echo $str;
      * </code>
      *
      * @param string separator
@@ -101,6 +102,10 @@ class Str
     /**
      * Retuns number of vowels in provided string. Uses a regular expression
      * to count the number of vowels (A, E, I, O, U) in a string.
+     *
+     * @param string $string
+     *
+     * @return int
      */
     final public static function countVowels(string! text) -> int
     {
@@ -115,6 +120,11 @@ class Str
      * Decapitalizes the first letter of the sring and then adds it with rest
      * of the string. Omit the upperRest parameter to keep the rest of the
      * string intact, or set it to true to convert to uppercase.
+     *
+     * @param string $string
+     * @param bool   $upperRest
+     *
+     * @return string
      */
     final public static function decapitalize(
         string! text,
@@ -230,6 +240,12 @@ class Str
     /**
      * Returns the first string there is between the strings from the
      * parameter start and end.
+     *
+     * @param string $text
+     * @param string $start
+     * @param string $end
+     *
+     * @return string
      */
     final public static function firstBetween(
         string! text,
@@ -261,6 +277,11 @@ class Str
 
     /**
      * Lets you determine whether or not a string includes another string.
+     *
+     * @param string $needle
+     * @param string $haystack
+     *
+     * @return bool
      */
     final public static function includes(string! needle, string! haystack) -> bool
     {
@@ -300,6 +321,11 @@ class Str
     /**
      * Compare two strings and returns true if both strings are anagram,
      * false otherwise.
+     *
+     * @param string $first
+     * @param string $second
+     *
+     * @return bool
      */
     final public static function isAnagram(string! first, string! second) -> bool
     {
@@ -308,6 +334,10 @@ class Str
 
     /**
      * Returns true if the given string is lower case, false otherwise.
+     *
+     * @param string text
+     *
+     * @return bool
      */
     final public static function isLower(string! text, string! encoding = "UTF-8") ->  bool
     {
@@ -320,6 +350,10 @@ class Str
 
     /**
      * Returns true if the given string is a palindrome, false otherwise.
+     *
+     * @param string $text
+     *
+     * @return bool
      */
     final public static function isPalindrome(string! text) -> bool
     {
@@ -328,6 +362,10 @@ class Str
 
     /**
      * Returns true if the given string is upper case, false otherwise.
+     *
+     * @param string text
+     *
+     * @return bool
      */
     final public static function isUpper(string! text, string! encoding = "UTF-8") -> bool
     {
